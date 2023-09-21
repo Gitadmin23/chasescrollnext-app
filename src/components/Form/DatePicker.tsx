@@ -19,7 +19,7 @@ function DatePicker(props: Props) {
         setValue("phone", user?.data?.mobilePhone?.value)
         setValue("gender", user?.data?.gender?.value)
         setValue("dob", user?.dob) 
-    },[user])
+    },[setValue, user])
 
     const handleChange =(item: any)=> {
         setValue("dob", (Number(new Date(item).getMonth()+1)+"".length > 1 ? "0"+(Number(new Date(item).getMonth()+1)) :(Number(new Date(item).getMonth()+1)))+"/"+(new Date(item).getDate())+"/"+new Date(item).getFullYear())
