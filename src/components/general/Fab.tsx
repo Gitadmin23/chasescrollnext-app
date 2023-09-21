@@ -15,7 +15,7 @@ function Fab({ items }: { items: IList[] }) {
     <div className='relative'>
         {/* MENU ITEMS */}
         {items.map((item, index) => (
-            <Tooltip label={item.title}>
+            <Tooltip key={index.toString()} label={item.title}>
                 <motion.div 
                 onClick={() => item.action()}
                 animate={{ translateY: rotateX === 0 ? 0:-52 * (index+1), }}
