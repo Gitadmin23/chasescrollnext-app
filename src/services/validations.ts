@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import moment from 'moment';
 
 const signUpValidation = z.object({
     username: z.string().nonempty('username cannot be empty').min(3),
@@ -8,6 +9,7 @@ const signUpValidation = z.object({
     dob: z.string().nonempty(),
     password: z.string().nonempty(),
     confirmPassword: z.string().nonempty(),
+    phone: z.string().nonempty(),
 }).refine(({ password, confirmPassword }) => {
     if (confirmPassword !== password) {
         return false
@@ -17,6 +19,17 @@ const signUpValidation = z.object({
 }, {
     message: 'password do not match',
     path: ['confirmPassword'],
+})
+.refine(({ dob }) => {
+    const ageLimit = moment().subtract(18, 'years');
+    if (moment(dob).isAfter(ageLimit)) {
+        return false;
+    } else {
+        return true;
+    }
+}, {
+    message: 'You must be upto 18 to register',
+    path: ['dob']
 })
 
 const signInValidation = z.object({
@@ -36,9 +49,29 @@ const reportSchema = z.object({
     description: z.string().nonempty(),
 });
 
+const forgotPasswordEmailValidation = z.object({
+    email: z.string().nonempty().email(),
+});
+
+const resetValidation = z.object({
+    password: z.string().nonempty(),
+    confirmPassword: z.string().nonempty(),
+}).refine(({ password, confirmPassword }) => {
+    if (confirmPassword !== password) {
+        return false
+    } else {
+        return true
+    }
+}, {
+    message: 'password do not match',
+    path: ['confirmPassword'],
+});
+
 export {
     signUpValidation,
     signInValidation,
     personinforSchema,
     reportSchema,
+    forgotPasswordEmailValidation,
+    resetValidation
 }

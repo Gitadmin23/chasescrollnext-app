@@ -3,18 +3,16 @@ import { Text, TextProps, Heading } from '@chakra-ui/react'
 
 interface IProps {
     children: any;
-    fontFamily: 'Rubik-Regular' | 'Rubik-Medium' | 'Rubik-Light' | 'DM-Bold' | 'DM-Medium' | 'DM-Regular';
-    size: string;
+    fontFamily?: 'Rubik-Regular' | 'Rubik-Medium' | 'Rubik-Light' | 'DM-Bold' | 'DM-Medium' | 'DM-Regular';
     isHeader?: boolean;
 }
 
 
-function ChakraText({children, fontFamily = 'Rubik-Regular', size='16px', isHeader = false, ...rest}: IProps & TextProps) {
+function CustomText({children, fontFamily = 'Rubik-Regular', isHeader = false, ...rest}: IProps & TextProps) {
     if (isHeader) {
         return (
             <Heading
                 fontFamily={fontFamily}
-                size={size}
                 {...rest}
             >
                 {children}
@@ -24,7 +22,6 @@ function ChakraText({children, fontFamily = 'Rubik-Regular', size='16px', isHead
   return (
    <Text
     fontFamily={fontFamily}
-    size={size}
     {...rest}
    >
     {children}
@@ -32,4 +29,4 @@ function ChakraText({children, fontFamily = 'Rubik-Regular', size='16px', isHead
   )
 }
 
-export default ChakraText
+export default CustomText

@@ -15,10 +15,10 @@ export function Providers({
   return (
     <QueryClientProvider client={queryClient}>
       <CacheProvider>
-      <ChakraProvider theme={theme}>
-        {children}
-      </ChakraProvider>
-    </CacheProvider>
+        <ChakraProvider theme={theme}>
+          {children}
+        </ChakraProvider>
+      </CacheProvider>
     </QueryClientProvider>
   )
 }
