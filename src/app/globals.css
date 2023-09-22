@@ -33,3 +33,7 @@
   src: url(../../public//fonts/Rubik-Light.ttf);
 }
 
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
