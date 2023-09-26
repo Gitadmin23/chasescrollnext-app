@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, Box, Grid, HStack, VStack } from '@chakra-ui/react'
+import { Avatar, Box, Flex, Grid, HStack, VStack } from '@chakra-ui/react'
 import React, { ReactNode } from 'react'
 import Image from 'next/image';
 import CustomText from '@/components/general/Text';
@@ -11,7 +11,8 @@ import { THEME } from '@/theme';
 import { usePathname } from 'next/navigation'
 import Link from 'next/link';
 import ThreadCard from '@/components/home/ThreadCard';
-const items = [1,2,3,4,5,6,7,8,2,3,4,5,6,7];
+import Sidebar from './sidebar';
+const items = [1, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7];
 type IRoute = {
     icon: ReactNode;
     text: string;
@@ -76,111 +77,167 @@ function Layout({ children }: {
             text: 'Profile'
         }
     ];
-    
-  return (
-    <Grid width='100%' backgroundColor={'whitesmoke'} height={"100vh"} overflow={"hidden"}>
 
-        {/* NAVBAR SECTION */}
-        <HStack position={"absolute"} zIndex={"30"} top={"0px"} width='100%' height='80px' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} backgroundColor={'white'} alignItems='center' justifyContent={'space-between'} paddingX={['20px', '40px']}>
+    return (
+
+        <Box className='w-full h-screen'>
+            <Grid h="100vh" w={"full"} overflowY={"hidden"} >
+                <Box width="full" position={"absolute"} zIndex={"30"} top={"0px"} >
+                    {/* NAVBAR SECTION */}
+                    <HStack position={"absolute"} zIndex={"30"} top={"0px"} width='100%' height='80px' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} backgroundColor={'white'} alignItems='center' justifyContent={'space-between'} paddingX={['20px', '40px']}>
 
 
-            <HStack justifyContent={'center'}>
-                <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
-                <CustomText fontFamily={'DM-Regular'} fontSize='lg' display={['none', 'inline']} color='brand.chasescrollBlue'>Chasescroll</CustomText>
-            </HStack>
-            
-            {/* LARGE SCREEN ICONS */}
-            <HStack display={['none', 'flex']}>
-                <CustomText>DanDolla</CustomText>
+                        <HStack justifyContent={'center'}>
+                            <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
+                            <CustomText fontFamily={'DM-Regular'} fontSize='lg' display={['none', 'inline']} color='brand.chasescrollBlue'>Chasescroll</CustomText>
+                        </HStack>
 
-                <Link href='/dashboard/profile/hdhdsjhahj'>
-                    <Avatar name='Daniel Eanuel' size='md' marginX='10px' />
-                </Link>
-                
-                <Link href='/dashboard/notification'>
-                    <FiBell color={THEME.COLORS.chasescrollBlue}fontSize='30px' />
-                </Link>
-            </HStack>
+                        {/* LARGE SCREEN ICONS */}
+                        <HStack display={['none', 'flex']}>
+                            <CustomText>DanDolla</CustomText>
 
-            {/* SMALL SCREEN ICONS */}
-            <HStack display={['flex', 'none']}>
-                <Link href="/dashboard/chats">
-                    <FiPlusSquare color={THEME.COLORS.chasescrollBlue}fontSize='30px' />
-                </Link>
+                            <Link href='/dashboard/profile/hdhdsjhahj'>
+                                <Avatar name='Daniel Eanuel' size='md' marginX='10px' />
+                            </Link>
 
-                <Link href='/dashboard/notification'>
-                    <FiBell color={THEME.COLORS.chasescrollBlue}fontSize='30px' marginLeft='10px' marginRight='10px' />
-                </Link>
+                            <Link href='/dashboard/notification'>
+                                <FiBell color={THEME.COLORS.chasescrollBlue} fontSize='30px' />
+                            </Link>
+                        </HStack>
 
-                <Link href='/dashboard/chats'>
-                    <FiMessageCircle color={THEME.COLORS.chasescrollBlue}fontSize='30px' />
-                </Link>
+                        {/* SMALL SCREEN ICONS */}
+                        <HStack display={['flex', 'none']}>
+                            <Link href="/dashboard/chats">
+                                <FiPlusSquare color={THEME.COLORS.chasescrollBlue} fontSize='30px' />
+                            </Link>
 
-                <Link href='/dashboard/profile/hdhdsjhahj'>
-                    <Avatar name='Daniel Eanuel' size='md' marginX='10px' />
-                </Link>
-            </HStack>
-            
-        </HStack>
+                            <Link href='/dashboard/notification'>
+                                <FiBell color={THEME.COLORS.chasescrollBlue} fontSize='30px' marginLeft='10px' marginRight='10px' />
+                            </Link>
 
-        {/* MAIN SECTION */}
+                            <Link href='/dashboard/chats'>
+                                <FiMessageCircle color={THEME.COLORS.chasescrollBlue} fontSize='30px' />
+                            </Link>
 
-        <HStack flex='1' width='100%' paddingTop={"80px"} overflowY={"auto"} spacing={0} height={"full"} alignItems={'flex-start'} >
+                            <Link href='/dashboard/profile/hdhdsjhahj'>
+                                <Avatar name='Daniel Eanuel' size='md' marginX='10px' />
+                            </Link>
+                        </HStack>
 
-            <VStack display={['none', 'flex']} flex='0.3' height='100%' bg='white' borderRightWidth={1} borderRightColor={'lightgrey'}>
-                <VStack flex={0.8} width='100%' paddingTop={'40px'}>
-                    {routes.map((item, index) => (
-                        <MenuItem {...item} active={pathname.includes(item.text.toLowerCase()) ? true:false} key={index.toString()} />
-                    ))}
-                </VStack>
-                <HStack paddingX={['20px', '40px']} flex={0.2} width='100%'>
-                    <FiPower fontSize='25px' color="grey"  />
-                    <CustomText fontSize={'20px'} color='grey' >Logout</CustomText>
-                </HStack>
-            </VStack>
+                    </HStack>
+                </Box>
+                <Flex w="full" h="full" pt={"80px"} overflowY={"hidden"} bg={"brand.black"} >
+                    <Box width={"fit-content"} >
+                        <Sidebar />
+                    </Box>
+                    {children}
+                </Flex>
+            </Grid>
+        </Box>
 
-            <VStack alignItems={'flex-start'} flex={1} height={"100%"}  overflow='auto'  >
-            {children}
-            </VStack>
+        // <Grid width='100%' backgroundColor={'whitesmoke'} height={"100vh"} overflow={"hidden"}>
 
-        </HStack>
+        //     {/* NAVBAR SECTION */}
+        //     <HStack position={"absolute"} zIndex={"30"} top={"0px"} width='100%' height='80px' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} backgroundColor={'white'} alignItems='center' justifyContent={'space-between'} paddingX={['20px', '40px']}>
 
-        {/* BOTTOM TAB */}
-        <HStack paddingX='20px' justifyContent={'space-evenly'} width='100%' height='70px' bg='white' borderTopWidth={1} borderTopColor={'lightgrey'} display={['flex', 'flex', 'none', 'none']}>
 
-            <Link href='/dashboard/home'>
-                <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('home') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('home') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                    <FiHome size='20px'  />
-                </VStack>
-            </Link>
+        //         <HStack justifyContent={'center'}>
+        //             <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
+        //             <CustomText fontFamily={'DM-Regular'} fontSize='lg' display={['none', 'inline']} color='brand.chasescrollBlue'>Chasescroll</CustomText>
+        //         </HStack>
 
-            <Link href='/dashboard/explore'>
-                <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('explore') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('explore') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                    <FiSearch size='20px' />
-                </VStack>
-            </Link>
+        //         {/* LARGE SCREEN ICONS */}
+        //         <HStack display={['none', 'flex']}>
+        //             <CustomText>DanDolla</CustomText>
 
-            <Link href='/dashboard/events'>
-                <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('events') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('events') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                    <FiCalendar size='20px' />
-                </VStack>
-            </Link>
+        //             <Link href='/dashboard/profile/hdhdsjhahj'>
+        //                 <Avatar name='Daniel Eanuel' size='md' marginX='10px' />
+        //             </Link>
 
-            <Link href='/dashboard/community'>
-                <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('community') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('community') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                    <FiUsers size='20px' />
-                </VStack>
-            </Link>
+        //             <Link href='/dashboard/notification'>
+        //                 <FiBell color={THEME.COLORS.chasescrollBlue}fontSize='30px' />
+        //             </Link>
+        //         </HStack>
 
-            <Link href='/dashboard/profile/hfhdjd'>
-                <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('profile') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('profile') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                    <Avatar name='daniel emmanuel' size='sm' />
-                </VStack>
-            </Link>
-        </HStack>
+        //         {/* SMALL SCREEN ICONS */}
+        //         <HStack display={['flex', 'none']}>
+        //             <Link href="/dashboard/chats">
+        //                 <FiPlusSquare color={THEME.COLORS.chasescrollBlue}fontSize='30px' />
+        //             </Link>
 
-    </Grid>
-  )
+        //             <Link href='/dashboard/notification'>
+        //                 <FiBell color={THEME.COLORS.chasescrollBlue}fontSize='30px' marginLeft='10px' marginRight='10px' />
+        //             </Link>
+
+        //             <Link href='/dashboard/chats'>
+        //                 <FiMessageCircle color={THEME.COLORS.chasescrollBlue}fontSize='30px' />
+        //             </Link>
+
+        //             <Link href='/dashboard/profile/hdhdsjhahj'>
+        //                 <Avatar name='Daniel Eanuel' size='md' marginX='10px' />
+        //             </Link>
+        //         </HStack>
+
+        //     </HStack>
+
+        //     {/* MAIN SECTION */}
+
+        //     <HStack flex='1' width='100%' paddingTop={"80px"} overflowY={"auto"} spacing={0} height={"full"} alignItems={'flex-start'} >
+
+        //         <VStack display={['none', 'flex']} flex='0.3' height='100%' bg='white' borderRightWidth={1} borderRightColor={'lightgrey'}>
+        //             <VStack flex={0.8} width='100%' paddingTop={'40px'}>
+        //                 {routes.map((item, index) => (
+        //                     <MenuItem {...item} active={pathname.includes(item.text.toLowerCase()) ? true:false} key={index.toString()} />
+        //                 ))}
+        //             </VStack>
+        //             <HStack paddingX={['20px', '40px']} flex={0.2} width='100%'>
+        //                 <FiPower fontSize='25px' color="grey"  />
+        //                 <CustomText fontSize={'20px'} color='grey' >Logout</CustomText>
+        //             </HStack>
+        //         </VStack>
+
+        //         <VStack alignItems={'flex-start'} flex={1} height={"100%"}  overflow='auto'  >
+        //         {children}
+        //         </VStack>
+
+        //     </HStack>
+
+        //     {/* BOTTOM TAB */}
+        //     <HStack paddingX='20px' justifyContent={'space-evenly'} width='100%' height='70px' bg='white' borderTopWidth={1} borderTopColor={'lightgrey'} display={['flex', 'flex', 'none', 'none']}>
+
+        //         <Link href='/dashboard/home'>
+        //             <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('home') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('home') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
+        //                 <FiHome size='20px'  />
+        //             </VStack>
+        //         </Link>
+
+        //         <Link href='/dashboard/explore'>
+        //             <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('explore') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('explore') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
+        //                 <FiSearch size='20px' />
+        //             </VStack>
+        //         </Link>
+
+        //         <Link href='/dashboard/events'>
+        //             <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('events') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('events') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
+        //                 <FiCalendar size='20px' />
+        //             </VStack>
+        //         </Link>
+
+        //         <Link href='/dashboard/community'>
+        //             <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('community') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('community') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
+        //                 <FiUsers size='20px' />
+        //             </VStack>
+        //         </Link>
+
+        //         <Link href='/dashboard/profile/hfhdjd'>
+        //             <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('profile') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('profile') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
+        //                 <Avatar name='daniel emmanuel' size='sm' />
+        //             </VStack>
+        //         </Link>
+        //     </HStack>
+
+        // </Grid>
+    )
 }
 
 export default Layout

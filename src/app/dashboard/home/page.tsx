@@ -10,11 +10,11 @@ const items = [1,2,3,4,5,6,7,8,2,3,4,5,6,7];
 
 function Home() {
   return (
-    <VStack bg='red∂' flex='1' width='100%' height='100vh' overflowY='scroll'>
+    <Box width="full" h={"full"} overflowY={"auto"} >
       { items.map((item, i) => (
         <ThreadCard key={i.toString()} />
       ))}
-    </VStack>
+    </Box>
   )
 }
 
