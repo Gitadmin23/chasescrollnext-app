@@ -49,7 +49,7 @@ function VerifyAccount() {
       <CustomText color='brand.chasescrollBlue' fontSize='xl' marginY='10px'>Verify Email</CustomText>
 
       <VStack width={['100%', '100%', '25%', '25%']}>
-            <CustomText fontSize={'md'} fontFamily={'Rubik-Regular'} textAlign={'center'}>
+            <CustomText fontSize={'md'} fontFamily={'Satoshi-Regular'} textAlign={'center'}>
                 A six digits code has been sent to your email for verification.
             </CustomText>
 
