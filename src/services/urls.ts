@@ -3,5 +3,13 @@ export const URLS = {
     SIGNUP: '/auth/signup',
     SEND_VERIFICATION_EMAIL: '/chasescroll/verification/send-email',
     VERIFY_TOKEN: '/chasescroll/verification/verify-token',
-    RESET_PASSWORD: '/chasescroll/verification/change-password'
+    RESET_PASSWORD: '/chasescroll/verification/change-password',
+    GET_POSTS: '/feed/get-user-and-friends-posts',
+    GET_USER_DETAILS: '/user/publicprofile',
+    GET_USER_PRIVATE_PROFILE: '/user/privateprofile',
+    GET_POST_BY_ID: '/feed/get-post',
+    LIKE_POST: '/feed/like-post',
+    CREATE_POST: '/feed/create-post',
+    UPLOAD_VIDEO: '/resource-api/upload-video',
+    UPLOAD_IMAGE: '/resource-api/upload-image',
 }

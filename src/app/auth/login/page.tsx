@@ -12,9 +12,14 @@ import { useMutation } from 'react-query';
 import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls'
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useDetails } from '@/global-state/useUserDetails';
 
 function Login() {
     const toast = useToast();
+    const router = useRouter();
+    const { setAll } = useDetails((state) => state);
+
     const { mutate, isLoading } = useMutation({
         mutationFn: (data) => httpService.post(`${URLS.LOGIN}`, data),
         onError: (error) => {
@@ -37,6 +42,17 @@ function Login() {
                 position: 'top-right',
             });
             console.log(data.data);
+            localStorage.setItem('token', data?.data?.access_token);
+            localStorage.setItem('refresh_token', data?.data?.refresh_token);
+            localStorage.setItem('user_id', data?.data?.user_id);
+            localStorage.setItem('expires_in', data?.data?.expires_in);
+            setAll({
+                firstName: data?.data?.firstName,
+                lastName: data?.data?.firstName,
+                username: data?.data?.user_name,
+                userId: data?.data?.user_id,
+            })
+            router.push('/dashboard')
         }
     });
     const { renderForm } = useForm({

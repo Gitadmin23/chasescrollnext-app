@@ -42,6 +42,7 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
               data-date="DD MMMM YYYY"
               lang='pt_BR'
               disabled={disable}
+              fontFamily={'Satoshi-Light'}
               // value={value? value: ""}
               type={isPassword ? (showPassword ? 'text' : 'password') : type}
             />

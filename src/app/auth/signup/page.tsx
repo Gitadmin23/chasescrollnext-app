@@ -12,6 +12,7 @@ import { useMutation } from 'react-query';
 import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link';
 
 function Signup() {
     const [email, setEmail] = React.useState('');
@@ -111,14 +112,23 @@ function Signup() {
                 <Checkbox colorScheme='blue' size='md' isChecked={terms} onChange={() =>setTerms(prev => !prev)} />
              
 
-                <CustomText fontSize={'sm'} fontFamily={'Rubik-Regular'} marginLeft='0px'>
+                <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'} marginLeft='0px'>
                   I accept the
                     <span style={{ color: THEME.COLORS.chasescrollBlue }}> terms of service </span>
                     as well as the <span style={{ color: THEME.COLORS.chasescrollBlue }}> privacy policy </span>
                 </CustomText>
             </HStack>
 
-            <CustomButton type='submit' text='Create Account' isLoading={isLoading || sendVerificatinEmail.isLoading} color='white' width='100%' borderRadius='10px' />
+            <CustomButton type='submit' variant={'outline'} text='Create Account' isLoading={isLoading || sendVerificatinEmail.isLoading} color='black' width='100%' borderRadius='10px'  backgroundColor={THEME.COLORS.chasescrollButtonBlue} fontFamily={'Satoshi-Regular'} />
+
+            <HStack>
+                <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'} marginLeft='0px'>
+                  Already have an account ? 
+                </CustomText>
+                <Link href="/auth/login">
+                  <CustomText color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} decoration={'underline'} cursor='pointer'>Log in</CustomText>
+                </Link>
+            </HStack>
       </VStack>
     </VStack>
   )

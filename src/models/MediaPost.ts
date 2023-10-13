@@ -45,7 +45,7 @@ export interface IMediaContent {
     sourceId: string;
     text: string;
     timeInMilliseconds: number;
-    type: string;
+    type: 'WITH_IMAGE' | 'MULTIPLE_PICTURE' | 'NO_IMAGE_POST' | 'WITH_VIDEO_POST' | 'WITH_FILE';
     videoLength: number;
     viewCount: number;
     viewStatus: string;
