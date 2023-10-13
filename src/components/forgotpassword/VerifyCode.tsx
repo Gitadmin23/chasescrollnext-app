@@ -49,7 +49,7 @@ function VerifyCode({ next }: {
 
   return (
     <VStack width='100%'>
-      <CustomText fontSize={'md'} fontFamily={'Rubik-Regular'} textAlign={'center'}>
+      <CustomText fontSize={'md'} fontFamily={'Satoshi-Regular'} textAlign={'center'}>
                 A six digits code has been sent to your email for verification.
             </CustomText>
 

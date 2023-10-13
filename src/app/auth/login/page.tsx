@@ -74,12 +74,12 @@ function Login() {
 
             <HStack justifyContent={'space-between'} spacing={0} width='100%' marginY='20px'>
                 <Link href='/auth/forgotpassword'>
-                    <CustomText color='brand.chasescrollBlue' fontSize={'sm'} fontFamily={'Rubik-Regular'} textAlign={'left'}>
+                    <CustomText color='brand.chasescrollBlue' fontSize={'sm'} fontFamily={'Satoshi-Regular'} textAlign={'left'}>
                         Forgot password ?
                     </CustomText>
                 </Link>
 
-                <CustomText fontSize={'sm'} fontFamily={'Rubik-Regular'}>
+                <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'}>
                     Dont have an account ? 
                     <Link href='/auth/signup'>
                         <span style={{ color: THEME.COLORS.chasescrollBlue }}> Sign up</span>
