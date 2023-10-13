@@ -3,12 +3,12 @@ import { Text, TextProps, Heading } from '@chakra-ui/react'
 
 interface IProps {
     children: any;
-    fontFamily?: 'Rubik-Regular' | 'Rubik-Medium' | 'Rubik-Light' | 'DM-Bold' | 'DM-Medium' | 'DM-Regular';
+    fontFamily?: 'Satoshi-Regular' | 'Satoshi-Medium' | 'Satoshi-Light' | 'Satoshi-Bold' | 'DM-Medium' | 'DM-Regular';
     isHeader?: boolean;
 }
 
 
-function CustomText({children, fontFamily = 'Rubik-Regular', isHeader = false, ...rest}: IProps & TextProps) {
+function CustomText({children, fontFamily = 'Satoshi-Regular', isHeader = false, ...rest}: IProps & TextProps) {
     if (isHeader) {
         return (
             <Heading

@@ -1,17 +1,119 @@
 /* eslint-disable react/display-name */
-import { IMediaPost } from '@/models/MediaPost';
-import { VStack } from '@chakra-ui/react';
+import { IMediaContent, IMediaPost } from '@/models/MediaPost';
+import { Avatar, HStack, VStack, Box, Spinner, Menu, MenuList, MenuButton, MenuItem } from '@chakra-ui/react';
+import { FiMoreHorizontal, FiHeart, FiMessageSquare, FiShare2 } from 'react-icons/fi'
 import React from 'react'
+import CustomText from '../general/Text';
+import Image from 'next/image'
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import httpService from '@/utils/httpService';
+import { URLS } from '@/services/urls';
+import moment from 'moment';
+import Link from 'next/link';
+import { useDetails } from '@/global-state/useUserDetails';
 
 interface IProps {
-    post?: IMediaPost;
+    post?: IMediaContent;
 }
 
 const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
+  const queryClient = useQueryClient();
+  const { userId } = useDetails((state) => state)
+  const [post, setPost] = React.useState<IMediaContent>(props.post as IMediaContent);
+
+  const { isLoading, isError } = useQuery([`getPostById-${post?.id}`, post?.id], () => httpService.get(`${URLS.GET_POST_BY_ID}/${post?.id}`), 
+  {
+    onSuccess: (data) => {
+      setPost(data?.data);
+    }
+  });
+
+  // MUTATIONS
+  const likeMutation = useMutation({
+    mutationFn: () => httpService.post(`${URLS.LIKE_POST}/${post?.id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries([`getPostById-${post?.id}`])
+    },
+    onError: () =>{}
+  });
     
     return (
-      <VStack width={'100%'} height={'400px'} bg='white' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='1px' borderColor={'lightgrey'}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni maiores debitis natus eos. Adipisci, exercitationem voluptas eius maxime est officia possimus impedit explicabo odio ex nulla commodi fugit dolorum reiciendis culpa nesciunt mollitia distinctio facere tenetur! Expedita, atque ratione voluptates doloribus ipsum esse magnam illum optio iste quaerat unde aliquid in odio, cum veniam aspernatur repellendus vero, deleniti quos odit sequi? Ut temporibus voluptatibus eveniet, adipisci tempore corporis iure. Iure eaque provident magnam minus assumenda? Illum quasi dolore mollitia corrupti sit molestiae consequatur, possimus ratione in fuga nobis reiciendis laboriosam, molestias sunt laudantium vero ad consequuntur. At molestiae vitae, nam ducimus velit similique veniam reiciendis rem in deleniti molestias mollitia maiores assumenda. Molestiae nulla officia inventore magnam dolore voluptatum provident, qui odit natus dolorum tenetur necessitatibus cupiditate, perspiciatis neque hic ratione, harum tempore ipsam. Assumenda sapiente itaque laborum nam, recusandae temporibus quasi ullam, velit harum eaque excepturi quod rem distinctio vero sed perferendis fugit debitis ex perspiciatis quia voluptates? Laborum neque placeat odio. Natus nesciunt debitis at tenetur incidunt porro possimus distinctio, aut, est atque laudantium blanditiis minus modi laboriosam iusto! Quia ut incidunt alias aliquam, natus blanditiis vero provident nesciunt doloribus quo atque minima eum iusto suscipit, magnam voluptas mollitia facere quasi pariatur illo, molestiae eos laudantium itaque asperiores. Eius obcaecati harum, vel debitis odio consectetur. Eaque nostrum, provident autem fugit iste nisi doloribus magnam quisquam? Animi quidem quae, iste eaque obcaecati nesciunt vel repellendus numquam odio eveniet distinctio eos magni voluptatum alias doloremque qui necessitatibus similique laudantium, consequuntur ipsum officia reiciendis, libero provident. Quidem fugit ducimus ratione qui ex voluptate, accusamus possimus animi. Facere exercitationem non, reiciendis laboriosam dolor eveniet eligendi aspernatur aut quas, autem aliquam deleniti provident assumenda blanditiis illo molestias tempore. Repellat officiis rerum doloribus eveniet temporibus? Reiciendis quidem, provident labore repellat optio nemo hic eius.
+      <VStack alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='white' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='1px' borderColor={'lightgrey'} color='black' padding='20px'>
+           
+           {/* HEADER SECTION */}
+           <HStack width='100%' height='100px' justifyContent={'space-between'} alignItems={'center'}>
+              <HStack>
+                <Avatar name="daniel Emmanuel" size='md' />
+
+                <VStack spacing={0} alignItems={'flex-start'}>
+                  <CustomText fontSize='lg' fontFamily={'DM-Medium'}>{post?.user?.username}</CustomText>
+                  {/* <CustomText fontSize='md' fontFamily={'DM-Regular'}>o2 Areana London</CustomText> */}
+                  <CustomText fontSize='xs' fontFamily={'Satoshi-Light'} color='grey'>{moment(post?.timeInMilliseconds).fromNow()}</CustomText>
+                </VStack>
+              </HStack>
+              <Menu>
+                <MenuButton>
+                  <FiMoreHorizontal color="blue" fontSize={25} />
+                </MenuButton>
+                <MenuList>
+                  { userId === post?.user?.userId && (
+                    <MenuItem color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
+                      <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Delete</CustomText>
+                    </MenuItem>
+                  )}
+                  <MenuItem color={'grey'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
+                    <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Share Post</CustomText>
+                  </MenuItem>
+                  <MenuItem color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
+                    <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Report Post</CustomText>
+                  </MenuItem>
+                  <MenuItem color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
+                    <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Report User</CustomText>
+                  </MenuItem>
+                  <MenuItem color={'red'} width={'100%'} >
+                    <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Cancel</CustomText>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+           </HStack>
+
+           {/* BODY SECTION */}
+           <CustomText fontFamily={'Satoshi-Regular'} fontSize='md' color='brand.chasescrollButtonBlue'>
+            {post?.text}
+           </CustomText>
+
+           { post?.type === 'WITH_IMAGE' || post?.type === 'MULTIPLE_PICTURE' && (
+            <Box width='100%' height={'200px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'}></Box>
+           )}
+
+           {/* FOOTER SECTION */}
+           <HStack justifyContent={'space-between'} alignItems={'center'} width='100%' height={'50px'} bg='white'>
+              <VStack onClick={() => likeMutation.mutate()} cursor={'pointer'}>
+                {!likeMutation.isLoading && (
+                  <>
+                    <FiHeart color={post?.likeStatus === 'LIKED' ? 'red':'grey'} fontSize={15} />
+                    <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color={post?.likeStatus === 'LIKED' ? 'red':'grey'}>{post?.likeCount} Likes</CustomText>
+                  </>
+                )}
+                {
+                  likeMutation.isLoading && (
+                    <Spinner size='xs' colorScheme='blue' />
+                  )
+                }
+              </VStack>
+
+              <Link href={`/dashboard/home/comment/${post?.id}`}>
+                <VStack>
+                  <FiMessageSquare color='black' fontSize={15} />
+                  <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>{post?.commentCount} Comments</CustomText>
+                </VStack>
+              </Link>
+
+              <VStack>
+                <FiShare2 color='black' fontSize={15} />
+                <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>Share</CustomText>
+              </VStack>
+           </HStack>
       </VStack>
     );
   });

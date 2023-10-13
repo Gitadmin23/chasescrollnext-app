@@ -12,12 +12,12 @@ function Login() {
     <VStack width='100%' height='100vh' justifyContent={'center'}  padding={['20px', '20px', '0px', '0px']}>
       <Image src='/assets/svg/sign-in-illustration.svg' width={250} height={250} alt='chasescroll logo' />
 
-      <CustomText fontFamily={'DM-Medium'} fontSize={'2xl'} marginTop={'20px'} textAlign='center' >Discover fun and unique events in your location.</CustomText>
+      <CustomText fontFamily={'Satoshi-Medium'} fontSize={'2xl'} marginTop={'20px'} textAlign='center' >Discover fun and unique events in your location.</CustomText>
 
       <VStack width={['100%', '100%', '20%', '20%']} paddingY='20px'>
 
-        <Link href='/auth/signup' style={{ width: '100%' }}>
-          <CustomButton text='Sign up' isLoading={false} backgroundColor={THEME.COLORS.chasescrollBlue} borderRadius='10px' width='100%' />
+        <Link href='/auth/signup' style={{ width: '100%', backgroundColor: THEME.COLORS.chasescrollButtonBlue, borderRadius: '10px' }}>
+          <CustomButton text='Sign up' isLoading={false} variant={'solid'} backgroundColor={THEME.COLORS.chasescrollButtonBlue} color='white' borderRadius='10px' width='100%' />
         </Link>
 
         <HStack width='100%' marginY='20px'>
@@ -26,10 +26,10 @@ function Login() {
           <Divider orientation='horizontal' borderWidth={1} borderColor={'black'} />
         </HStack>
 
-        <CustomButton text='Continue with Google' isLoading={false} backgroundColor={'#D0D5DD'} borderRadius='10px' borderWidth={'1px'} borderColor={'#D0D5DD'} color='black' width='100%' icon={<Image src='/assets/svg/googlelogo.svg' alt='google logo' width={20} height={20} />} />
+        <CustomButton variant={'outline'} text='Continue with Google' isLoading={false} backgroundColor={'#D0D5DD'} borderRadius='10px' borderWidth={'1px'} borderColor={'#D0D5DD'} color='black' width='100%' icon={<Image src='/assets/svg/googlelogo.svg' alt='google logo' width={20} height={20} />} fontFamily={'Satoshi-Regular'} />
 
 
-        <CustomText fontFamily={'Rubik-Regular'} fontSize={'sm'} marginTop={'20px'}>Already have an account ? 
+        <CustomText fontFamily={'Satoshi-Regular'} fontSize={'sm'} marginTop={'20px'}>Already have an account ? 
           <Link href='/auth/login'>
             <span style={{ color: THEME.COLORS.chasescrollBlue }} > Login</span>
           </Link>
