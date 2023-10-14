@@ -6,7 +6,7 @@ export type IComment = {
     data: string;
     id: string;
     likeCount: number;
-    likeSatus: 'LIKED'|'NOT_LIKED';
+    likeStatus: 'LIKED'|'NOT_LIKED';
     postID: string;
     subComments: {
         content: Array<PaginatedResponse<Subcomment>>,
@@ -22,7 +22,7 @@ export type Subcomment = {
     commentID: string;
     id: string;
     likeCount: number;
-    likeSatus: 'LIKED'|'NOT_LIKED';
+    likeStatus: 'LIKED'|'NOT_LIKED';
     postID: string;
     subComments: {
         content: Array<PaginatedResponse<IComment>>,
