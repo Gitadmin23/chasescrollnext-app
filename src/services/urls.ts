@@ -20,6 +20,7 @@ export const URLS = {
     CREATE_SUB_COMMENT: '/feed/add-sub-comment',
     LIKE_SUB_COMMENT: '/feed/like-sub-comment',
     DELETE_SUB_COMMENT: '/feed/remove-sub-comment',
+    CREATE_REPORT: '/report/report'
 }
 
 export const RESOURCE_BASE_URL = process.env.NEXT_PUBLIC_AWS_BASE_URL;
