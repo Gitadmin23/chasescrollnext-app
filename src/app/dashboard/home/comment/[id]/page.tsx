@@ -36,7 +36,7 @@ function Comment() {
   const addComment = useMutation({
     mutationFn: (data: any) => httpService.post('/feed/add-comment', data),
     onSuccess: () => {
-      queryClient.invalidateQueries(['getComments']);
+      queryClient.invalidateQueries([`getComments-${postId}`]);
       setCommentInput("");
       toast({
         title: 'Success',
@@ -55,7 +55,7 @@ function Comment() {
   }, [commentInput, addComment, postId]);
 
   const handleKeyDown = React.useCallback(async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'enter') {
+    if (e.key === 'Enter') {
       if (commentInput === "" || addComment.isLoading) return;
       addComment.mutate({ postID: postId, comment: commentInput });
     }

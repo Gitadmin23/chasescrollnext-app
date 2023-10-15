@@ -26,7 +26,7 @@ const MenuItem = ({
         <Link href={route} style={{ width: '100%' }}>
             <HStack paddingX={['20px', '40px']} color={active ? 'brand.chasescrollBlue' : 'grey'} width='100%' height='80px' alignItems={'center'}>
                 {icon}
-                <CustomText fontSize={'18px'}>{text}</CustomText>
+                <CustomText fontFamily={'Satoshi-Medium'} fontSize={'16px'}>{text}</CustomText>
             </HStack>
         </Link>
     )
@@ -77,7 +77,7 @@ function Sidebar() {
             </VStack>
             <HStack paddingX={['20px', '40px']} flex={0.2} width='100%'>
                 <FiPower fontSize='25px' color="grey"  />
-                <CustomText fontSize={'20px'} color='grey' >Logout</CustomText>
+                <CustomText fontFamily={'Satoshi-Medium'} fontSize={'16px'} color='grey' >Logout</CustomText>
             </HStack>
         </VStack>
 

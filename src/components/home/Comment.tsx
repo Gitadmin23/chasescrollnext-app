@@ -80,6 +80,8 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
 
     const toast = useToast();
     const { userId: myId } = useDetails((state) => state);
+    console.log('myId', myId);
+    console.log(`userId - ${userId}`)
     const queryClient = useQueryClient();
 
     // mutate
@@ -94,7 +96,7 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
                 isClosable: true,
                 duration: 5000,
             });
-            queryClient.invalidateQueries([`getComments-${postID}`]);
+            queryClient.invalidateQueries([`getSubcomments-${id}`]);
             setReply('');
         },
         onError: (error) => {
@@ -159,21 +161,21 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
     }, [reply, id, createSubComment])
     return (
         <>
-            <HStack width='100%' justifyContent={'space-between'} alignItems={'center'}>
+            <HStack width='100%' justifyContent={'space-between'} alignItems={'center'} marginBottom={'20px'}>
 
-                <HStack>
-                    <Avatar size='md' src={`${RESOURCE_BASE_URL}${value}`} name={username} />
+                <HStack flex={1}>
+                    <Avatar size='md' src={`${RESOURCE_BASE_URL}/${value}`} name={username} />
 
-                    <VStack alignItems={'flex-start'}>
-                        <VStack spacing={0}>
-                            <CustomText fontFamily={'Satoshi-Medium'} color='brand.chasescrollButtonBlue'>{username}</CustomText>
-                            <CustomText fontFamily={'Satoshi-Regular'}>{comment}</CustomText>
+                    <VStack alignItems={'flex-start'} width={'70%'}>
+                        <VStack spacing={0} alignItems={'flex-start'}>
+                            <CustomText fontFamily={'Satoshi-Light'} color='brand.chasescrollButtonBlue'>{username[0].toUpperCase()}{username.substring(1)}</CustomText>
+                            <CustomText fontFamily={'Satoshi-Medium'}>{comment}</CustomText>
                         </VStack>
 
-                        <HStack spacing={10} fontSize={'14px'}>
-                            <CustomText>{Moment(timeInMilliseconds).fromNow()}</CustomText>
-                            <CustomText >{likeCount} like</CustomText>
-                            <CustomText cursor={'pointer'} onClick={() => setShowReplies(prev => !prev)}>{subComments.length > 0 ? (`${subComments.length}`):null} Reply</CustomText>
+                        <HStack spacing={10} fontSize={'14px'} width={'60%'}>
+                            <CustomText flex={1} fontFamily={'Satoshi-Regular'} >{Moment(timeInMilliseconds).fromNow()}</CustomText>
+                            <CustomText flex={1} fontFamily={'Satoshi-Regular'} >{likeCount} like</CustomText>
+                            <CustomText flex={1} fontFamily={'Satoshi-Regular'} cursor={'pointer'} color={showReplies ? 'brand.chasescrollButtonBlue':'black'} onClick={() => setShowReplies(prev => !prev)}>{subComments.length > 0 ? (`${subComments.length}`):null} Reply</CustomText>
                             {myId === userId && (
                                 <CustomText cursor={'pointer'} color={'red'} onClick={() => deleteComment.mutate()}>Delete</CustomText>
                             )}
@@ -191,7 +193,7 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
 
                             { createSubComment.isLoading && <Spinner color='blue' colorScheme='blue' size='sm' /> }
                         </HStack>
-                        <Box width='100%' paddingLeft='70px' marginTop={'20px'} height={'200px'} overflowY={'auto'}>
+                        <Box width='100%' paddingLeft='70px' marginTop={'20px'} maxHeight={'200px'} overflowY={'auto'} paddingRight={'20px'}>
                             {
                                 !isLoading && isError && (
                                     <VStack width='100%' height={'50px'} justifyContent={'center'} alignItems={'center'}>
