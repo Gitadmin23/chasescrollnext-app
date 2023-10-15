@@ -7,16 +7,18 @@ import CustomText from '../general/Text';
 import Image from 'next/image'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import httpService from '@/utils/httpService';
-import { URLS } from '@/services/urls';
+import { RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import moment from 'moment';
 import Link from 'next/link';
 import { useDetails } from '@/global-state/useUserDetails';
+import ReportUserModal from '../modals/Home/ReportModal';
 
 interface IProps {
     post?: IMediaContent;
 }
 
 const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
+  const [showReportModal, setShowReportModal] = React.useState(false);
   const queryClient = useQueryClient();
   const { userId } = useDetails((state) => state)
   const [post, setPost] = React.useState<IMediaContent>(props.post as IMediaContent);
@@ -39,6 +41,9 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
     
     return (
       <VStack alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='white' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='1px' borderColor={'lightgrey'} color='black' padding='20px'>
+
+        {/* MODALS SECTION */}
+        <ReportUserModal typeID={post?.id} REPORT_TYPE='REPORT_USER' isOpen={showReportModal} onClose={() => setShowReportModal(false)} />
            
            {/* HEADER SECTION */}
            <HStack width='100%' height='100px' justifyContent={'space-between'} alignItems={'center'}>
@@ -61,13 +66,13 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
                       <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Delete</CustomText>
                     </MenuItem>
                   )}
-                  <MenuItem color={'grey'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
+                  {/* <MenuItem color={'grey'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
                     <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Share Post</CustomText>
-                  </MenuItem>
-                  <MenuItem color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
+                  </MenuItem> */}
+                  {/* <MenuItem color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
                     <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Report Post</CustomText>
-                  </MenuItem>
-                  <MenuItem color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
+                  </MenuItem> */}
+                  <MenuItem onClick={() => setShowReportModal(true)} color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
                     <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Report User</CustomText>
                   </MenuItem>
                   <MenuItem color={'red'} width={'100%'} >
@@ -83,7 +88,9 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
            </CustomText>
 
            { post?.type === 'WITH_IMAGE' || post?.type === 'MULTIPLE_PICTURE' && (
-            <Box width='100%' height={'200px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'}></Box>
+            <Box width='100%' height={'200px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'}>
+              <Image src={`${RESOURCE_BASE_URL}/${post?.mediaRef}`} alt='image'style={{ width: '100%', height: '100%' }}  />
+            </Box>
            )}
 
            {/* FOOTER SECTION */}
