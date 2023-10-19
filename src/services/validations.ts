@@ -67,11 +67,17 @@ const resetValidation = z.object({
     path: ['confirmPassword'],
 });
 
+const communitySchema = z.object({
+    name: z.string().nonempty(),
+    description: z.string().nonempty(),
+})
+
 export {
     signUpValidation,
     signInValidation,
     personinforSchema,
     reportSchema,
     forgotPasswordEmailValidation,
-    resetValidation
+    resetValidation,
+    communitySchema
 }

@@ -56,7 +56,7 @@ function Layout({ children }: {
         onSuccess: (data) => {
             console.log(data?.data);
             setAll({
-                userId: data?.data?.id,
+                userId: data?.data?.userId,
                 firstName: data?.data?.firstName,
                 lastName: data?.data?.lastName,
                 email: data?.data?.email,
@@ -157,11 +157,15 @@ function Layout({ children }: {
 
                     </HStack>
                 </Box>
-                <Flex flex={1} w="full" h="full" pt={"80px"} overflowY={"hidden"} bg={"brand.black"} >
+
+                
+                <Flex flex={1} w="full" h="100%" pt={"80px"} overflowY={"hidden"} bg={"whitesmoke"} >
                     <Box width={"fit-content"} >
                         <Sidebar />
                     </Box>
-                    {children}
+                    <Box flex={1}>
+                        {children}
+                    </Box>
                 </Flex>
                     {/* BOTTOM TAB */}
             <HStack paddingX='20px' justifyContent={'space-evenly'} width='100%' height='70px' bg='white' borderTopWidth={1} borderTopColor={'lightgrey'} display={['flex', 'flex', 'none', 'none']}>

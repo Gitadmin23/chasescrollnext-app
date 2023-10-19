@@ -105,7 +105,7 @@ function Home() {
     <VStack width="full" h={"full"} overflowY={"auto"} alignItems={'flex-start'} >
       {/* MODAL */}
       <CreateMediaPost isOpen={showModal} onClose={() => setShowModal(false)} />
-      <VStack width={['100%', '100%', '45%', '45%']} height='100%' bg='white' paddingX='20px' paddingTop='20px' overflowY={'hidden'}>
+      <VStack width={['100%', '100%', '45%', '45%']} height='100%' paddingX='20px' paddingTop='20px' overflowY={'hidden'}>
 
         {/* TEXTBOX */}
         <VStack alignItems={'flex-start'} width='100%' height='150px' bg='whitesmoke' borderWidth={1} borderColor={'lightgrey'} borderRadius={'10px'} padding='10px'>

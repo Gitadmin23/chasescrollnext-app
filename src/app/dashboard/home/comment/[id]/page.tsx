@@ -64,7 +64,7 @@ function Comment() {
   return (
     <VStack width={'100%'} height={'100%'} padding='20px' bg='whitesmoke'>
       {/* HEADER */}
-      <HStack width={'100%'} spacing={10}>
+      <HStack width={'100%'} spacing={[3, 10]}>
           <FiChevronLeft fontSize='25px' color='black' onClick={() => router.back()} />
           <HStack width={'100%'}>
             <Avatar name={`${firstName} ${lastName}`} size='md' />
@@ -79,7 +79,7 @@ function Comment() {
       </HStack>
 
       {/* CCOMMENTS */}
-     <Box width={'100%'} height={'100%'} overflowX={'hidden'} overflowY={'auto'} marginTop={'30px'} paddingX={'65px'}>
+     <Box width={'100%'} height={'100%'} overflowX={'hidden'} overflowY={'auto'} marginTop={'30px'} paddingX={['0px','65px']}>
       { isLoading && (
         <Flex flexDir={'column'} width={'100%'} height='50px' justifyContent={'center'} alignItems={'center'}>
           <Spinner colorScheme='blue' size='lg' />
