@@ -33,7 +33,7 @@ function Requests() {
         onError: () => {},
     });
   return (
-    <VStack width='100%' height='100%' alignItems={'center'} paddingTop={'20px'}>
+    <VStack width='100%' height='100%' alignItems={'center'}>
         {
             !isLoading && isError && (
                 <HStack paddingX='20px' width='100%' height='100%' justifyContent={'center'} alignItems={'center'}>

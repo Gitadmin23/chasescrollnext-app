@@ -56,6 +56,7 @@ function Layout({ children }: {
         onSuccess: (data) => { 
             setAll({
                 userId: data?.data?.userId,
+                userId: data?.data?.userId,
                 firstName: data?.data?.firstName,
                 lastName: data?.data?.lastName,
                 email: data?.data?.email,
@@ -157,15 +158,13 @@ function Layout({ children }: {
                         </HStack>
                     )}
                 </Box>
-
-                
-                <Flex flex={1} w="full" h="100%" pt={"80px"} overflowY={"hidden"} bg={"white"} >
-                    <Box width={"fit-content"} >
-                        <Sidebar />
-                    </Box>
-                    <Box flex={1}>
-                        {children}
-                    </Box>
+                <Flex flex={1} w="full" h="full" pt={!pathname?.includes("create_event") ? "80px": "0px"} pb={["70px", "70px", "0px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
+                    {!pathname?.includes("create_event") && (
+                        <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']}>
+                            <Sidebar />
+                        </Box>
+                    )}
+                    {children}
                 </Flex>
                 {/* BOTTOM TAB */}
                 <HStack paddingX='20px' position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg='white' borderTopWidth={1} borderTopColor={'lightgrey'} display={['flex', 'flex', 'flex', 'none']}>
