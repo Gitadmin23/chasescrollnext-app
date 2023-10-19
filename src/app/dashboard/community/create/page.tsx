@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import { Modal, ModalOverlay, ModalContent, ModalBody, useToast, Box, HStack, VStack, Switch, Image, Button } from '@chakra-ui/react';
 import React, { useRef } from 'react'
 import { FiFolderPlus, FiX } from 'react-icons/fi';

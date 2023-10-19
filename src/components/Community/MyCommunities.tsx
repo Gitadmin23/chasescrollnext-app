@@ -36,7 +36,7 @@ function MyCommunities() {
         onError: () => {},
     });
   return (
-    <VStack width='100%' height='100%' alignItems={'center'} paddingTop={'20px'}>
+    <VStack width='100%' height='100%' alignItems={'center'}>
         {
             !isLoading && isError && (
                 <HStack paddingX='20px' width='100%' height='100%' justifyContent={'center'} alignItems={'center'}>
@@ -45,7 +45,7 @@ function MyCommunities() {
             )
         }
         { isLoading && (
-            <Spinner size='md' color='brand.chasescrollButtonBlue'  />
+            <Spinner size='md' color='brand.chasescrollButtonBlue' />
         )}
         { !isLoading && !isError && communites.length < 1 && (
             <HStack paddingX='20px' width='100%' height='100%' justifyContent={'center'} alignItems={'center'}>
@@ -54,11 +54,9 @@ function MyCommunities() {
         )}
         { !isLoading && !isError && communites.length > 0 && (
             <Box paddingX='20px' width='100%' height='100%' overflowX={'hidden'} overflowY={'auto'} >
-               <VStack width={'100%'} alignItems={'center'} paddingY='50px'>
                { communites.map((item, index) => (
                 <CommunityCard key={index.toString()} community={item} hasJoined={true} />
                ))}
-               </VStack>
             </Box>
         )}
     </VStack>

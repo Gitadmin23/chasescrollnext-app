@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import CommunityTab from '@/components/Community/CommunityTab';
 import FindCommunity from '@/components/Community/FindCommunity';

@@ -41,6 +41,13 @@ export const URLS = {
 }
 
 export const IMAGE_URL = process.env.NEXT_PUBLIC_RESOURCE_URL;
+    CREATE_REPORT: '/report/report',
+    JOINED_GROUPS: '/group/joined-groups',
+    FIND_GROUPS: '/group/find-groups',
+    GROUP_GROUP: '/group/group',
+    GET_GROUP_REQUESTS: '/group/get-requests',
+    CREATE_COMMUNITY: '/group/create-group',
+}
 
 export const RESOURCE_BASE_URL = process.env.NEXT_PUBLIC_RESOURCE_URL;
 export const RESOURCE_BASE_URL = process.env.NEXT_PUBLIC_RESOURCE_URL;
