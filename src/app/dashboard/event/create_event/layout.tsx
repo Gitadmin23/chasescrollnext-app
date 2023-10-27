@@ -17,7 +17,7 @@ function Layout({ children }: {
                     <Text fontWeight={"bold"} fontSize={"20px"} >Create Events</Text>
                 </Flex>
             </Box>
-            <Box flex={1} >
+            <Box flex={1} pb={["16","16","16","16","0px"]} >
                 {children}
             </Box>
         </Box>

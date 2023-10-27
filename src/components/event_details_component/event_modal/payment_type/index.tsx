@@ -5,6 +5,7 @@ import { Box, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
 import { BsChevronLeft } from 'react-icons/bs' 
 import PayStackBtn from '../paystack_btn'
+import StripeBtn from '../stripe_btn'
 
 interface Props { 
     click: any
@@ -39,9 +40,7 @@ function PaymentType(props: Props) {
                 <Text fontSize={"20px"} fontWeight={"bold"} textAlign={"center"} >Payment Options</Text>
             </Flex> 
             {currency !== "NGN" && (
-                <Flex as={"button"} justifyContent={"start"} px={"4"} mt={"6"} borderColor={"#D0D4EB"} borderWidth={"1px"} gap={"3"} py={"8"} bg={"#F4F5FA"} rounded={"lg"} alignItems={"center"} >
-                    <StripeLogo />
-                </Flex>
+                <StripeBtn />
             )}
             {currency === "NGN" && (
                 <PayStackBtn selectedCategory={selectedCategory} datainfo={data} ticketCount={ticketCount} close={()=> close} />

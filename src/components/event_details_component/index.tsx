@@ -85,7 +85,7 @@ function EventDetails(props: Props) {
                 <Box height={"350px"} position={"relative"} width={"full"} rounded={"16px"} roundedTopRight={"none"} >
 
                     <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={dataInfo?.currentPicUrl} width={"full"} height={"full"} src={IMAGE_URL + dataInfo?.currentPicUrl} />
-                    <Box width={"fit-content"} h={"40px"} px={"2"} display={"flex"} flexDirection={"row"} alignItems={"center"} justifyContent={"center"} rounded={"md"} bg={"#101828B2"} position={"absolute"} bottom={"4"} right={"4"} gap={"3"} > 
+                    <Box width={"fit-content"} h={"40px"} px={"2"} display={"flex"} flexDirection={"row"} alignItems={"center"} justifyContent={"center"} rounded={"md"} bg={"#101828D2"} position={"absolute"} bottom={"4"} right={"4"} gap={"4"} > 
                         <LuShare2 size={24} color="white" />
                         <SaveOrUnsaveBtn indetail={true} event={dataInfo} size='24' />
                     </Box>

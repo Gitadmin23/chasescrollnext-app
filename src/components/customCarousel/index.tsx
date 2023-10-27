@@ -48,7 +48,7 @@ export function CustomCarousel(props: any) {
         }, props.interval);}
       }, 500);
     }
-  }, [props.slides, props.autoplay, props.interval, slideCurrent]);
+  }, [props.slides]);
   useEffect(()=>{ 
     if(slideCurrent === -1){
       setTimeout(() => {
