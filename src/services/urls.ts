@@ -39,6 +39,27 @@ export const URLS = {
     PAST_EVENT: "/events/get-past-events",
     SAVED_EVENT: "/events/get-saved-events?typeID="
 }
+    CREATE_REPORT: '/report/report',
+    REMOVE_FRIEND: '/user/remove-friend/',
+    ADD_FRIEND: '/user/send-friend-request',
+    BLOCK_USER: '/user/block',
+    GET_SUGGESTED_FRIENDS: "/user/suggest-connections",
+    JOIN_GROUP: "/group/join-group",
+    LEAVE_GROUP: "/group/leave-group",
+    EVENT_TYPE: "/events/get-event-types",
+    JOINED_EVENT: "/events/joined-events/",
+    All_EVENT: "/events/events",
+    CREATE_TICKET: "/events/create-ticket",
+    GET_EVENTS_TYPES: "/events/get-event-types",
+    CREATE_DRAFT: "/events/create-draft",
+    UPDATE_DRAFT: "/events/update-draft",
+    CREATE_EVENT_FROM_DRAFT: "/events/create-event-from-draft",
+    GET_DRAFT: "/events/drafts",
+    PAST_EVENT: "/events/get-past-events",
+    SAVED_EVENT: "/events/get-saved-events?typeID="
+}
+
+export const IMAGE_URL = process.env.NEXT_PUBLIC_RESOURCE_URL;
 
 export const IMAGE_URL = process.env.NEXT_PUBLIC_RESOURCE_URL;
 
