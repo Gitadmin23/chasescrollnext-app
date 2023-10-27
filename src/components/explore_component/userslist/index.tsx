@@ -15,10 +15,10 @@ function UserList(props: Props) {
     return (
         <LoadingAnimation loading={isLoading} refeching={isRefetching} >
             <Flex flexWrap={"wrap"} py={"8"} gap={"4"} p={"4"} justifyContent={"center"} width={"full"} >
-                {results?.filter((item: any) => !BlockedUser.includes(item?.userId))?.map((suggestion: any, i: number) => {
-                    if (results?.length === i + 1) {
+                {results?.filter((item: any) => !BlockedUser.includes(item?.userId))?.map((suggestion: any, index: number) => {
+                    if (results?.length === index + 1) {
                         return (
-                            <Box ref={ref} width={"fit-content"} >
+                            <Box key={index} ref={ref} width={"fit-content"} >
                                 <UserExploreCard
                                     key={suggestion.id}
                                     userId={suggestion?.userId}
@@ -32,7 +32,7 @@ function UserList(props: Props) {
                         )
                     } else {
                         return (
-                            <Box ref={ref} width={"fit-content"} >
+                            <Box key={index} ref={ref} width={"fit-content"} >
                                 <UserExploreCard
                                     key={suggestion.id}
                                     userId={suggestion?.userId}

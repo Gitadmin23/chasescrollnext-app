@@ -48,8 +48,8 @@ export function CustomCarousel(props: any) {
         }, props.interval);}
       }, 500);
     }
-  }, [props.slides]);
-  useEffect(()=>{
+  }, [props.slides, props.autoplay, props.interval, slideCurrent]);
+  useEffect(()=>{ 
     if(slideCurrent === -1){
       setTimeout(() => {
         //slideRight();

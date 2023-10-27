@@ -79,7 +79,7 @@ function InfiniteScrollerComponent(props: Props) {
           }
         });
         if (post) intObserver.current.observe(post);
-       }, [isLoading, hasNextPage, setSize, isRefetching]);
+       }, [isLoading, hasNextPage, setSize, isRefetching, refetch, limit]);
 
     return {
         data,

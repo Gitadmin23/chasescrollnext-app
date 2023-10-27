@@ -43,7 +43,7 @@ function SelectEventPage(props: Props) {
                 setShowPage(item?.name)
             } 
         })
-    }, [pathname])
+    }, [pathname, tablist])
     
     const clickHandler =(name: string, route: string)=> {
         router.push(route)
@@ -59,9 +59,9 @@ function SelectEventPage(props: Props) {
             </Box>
             {showSelector && ( 
                 <HStack flexDirection={"column"} zIndex={"30"} position={"absolute"} shadow={"md"} width={"230px"} p={"2"} top={"35px"} bg={"white"} >
-                    {tablist?.map((item: any) => {
+                    {tablist?.map((item: any, index: number) => {
                         return (
-                            <Box onClick={()=> clickHandler(item?.name, item?.route)} width={"full"} rounded={"md"} as='button' display={"flex"} justifyContent={"center"} color={showPage === item?.name ? "white" : "black"} bg={showPage === item?.name ? "brand.chasescrollBlue" : "white"} roundedTopRight={"none"} py={"2"} fontSize={"sm"} fontWeight={"semibold"} >
+                            <Box key={index} onClick={()=> clickHandler(item?.name, item?.route)} width={"full"} rounded={"md"} as='button' display={"flex"} justifyContent={"center"} color={showPage === item?.name ? "white" : "black"} bg={showPage === item?.name ? "brand.chasescrollBlue" : "white"} roundedTopRight={"none"} py={"2"} fontSize={"sm"} fontWeight={"semibold"} >
                                 {item?.name}
                             </Box>
                         )

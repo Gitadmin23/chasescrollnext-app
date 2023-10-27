@@ -44,7 +44,7 @@ function SelectLocation(props: Props) {
      }else if(eventdata?.location?.link){
         setSelectType("Online Location")
      }
-    }, [])
+    }, [eventdata?.location?.link, eventdata?.location?.locationDetails])
 
     return (
         <Box width={"full"}>
