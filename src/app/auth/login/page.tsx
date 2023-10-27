@@ -40,8 +40,7 @@ function Login() {
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
-            });
-            console.log(data.data);
+            }); 
             localStorage.setItem('token', data?.data?.access_token);
             localStorage.setItem('refresh_token', data?.data?.refresh_token);
             localStorage.setItem('user_id', data?.data?.user_id);

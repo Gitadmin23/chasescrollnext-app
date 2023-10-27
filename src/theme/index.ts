@@ -1,4 +1,10 @@
 import { extendTheme } from '@chakra-ui/react';
+import { DM_Sans } from 'next/font/google'
+ 
+const dm_sans = DM_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export const THEME = {
     COLORS: {
@@ -43,5 +49,9 @@ export const theme = extendTheme({
             chasescrollBrown: "#7A6969",
             chasescrollG: "#98929214"
         }
-    }
+    },
+    fonts: {
+        heading: dm_sans.style.fontFamily,
+        body: dm_sans.style.fontFamily,
+    },
 })

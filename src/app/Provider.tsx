@@ -7,15 +7,15 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 
 const queryClient = new QueryClient();
 
-export function Providers({ 
-    children 
-  }: { 
-  children: React.ReactNode 
-  }) {
+export function Providers({
+  children
+}: {
+  children: React.ReactNode
+}) {
   return (
     <QueryClientProvider client={queryClient}>
       <CacheProvider>
-        <ChakraProvider theme={theme}>
+        <ChakraProvider theme={theme}>  
           {children}
         </ChakraProvider>
       </CacheProvider>
