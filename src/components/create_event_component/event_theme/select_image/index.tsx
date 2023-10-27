@@ -9,7 +9,7 @@ interface Props { }
 function SelectImage(props: Props) {
     const { } = props
 
-    const { eventdata, updateImage } = useEventStore((state) => state);
+    const { eventdata, updateImage, image } = useEventStore((state) => state);
     const [selectedImageFile, setSelectedImageFile] = React.useState('');
 
     const handleImageChange = (e: any) => {
@@ -27,8 +27,7 @@ function SelectImage(props: Props) {
         } else {
             console.log('Error')
         }
-    }
-
+    } 
 
     return (
         <Flex width={"full"} flexDirection={"column"} gap={"4"} alignItems={"center"} >

@@ -41,7 +41,7 @@ function PayStackBtn(props: Props) {
 
 	const initializePayment: any = usePaystackPayment(config);
 
-    const payWithPaystack = useMutation({
+    const createTicket = useMutation({
         mutationFn: (data: any) => httpService.post(URLS.CREATE_TICKET, data),
         onSuccess: (data: any) => { 
             console.log(data); 
@@ -132,16 +132,16 @@ function PayStackBtn(props: Props) {
     }, [orderCode]);
 
     const clickHandler = React.useCallback(() => {
-        payWithPaystack.mutate({
+        createTicket.mutate({
             eventID: datainfo?.id ,
             ticketType: selectedCategory,
             numberOfTickets: ticketCount
         })
-    }, [payWithPaystack]) 
+    }, [createTicket]) 
 
     return (
-        <Flex onClick={clickHandler} as={"button"} width={"full"} justifyContent={(payWithPaystack?.isLoading || payStackMutation?.isLoading) ? "center":"start"} px={"4"} mt={"6"} borderColor={"#D0D4EB"} borderWidth={"1px"} gap={"3"} py={"8"} bg={"#F4F5FA"} rounded={"lg"} alignItems={"center"} >
-            <LoadingAnimation fix_height={true} loading={(payWithPaystack?.isLoading || payStackMutation?.isLoading)} > 
+        <Flex onClick={clickHandler} as={"button"} width={"full"} justifyContent={(createTicket?.isLoading || payStackMutation?.isLoading) ? "center":"start"} px={"4"} mt={"6"} borderColor={"#D0D4EB"} borderWidth={"1px"} gap={"3"} py={"8"} bg={"#F4F5FA"} rounded={"lg"} alignItems={"center"} >
+            <LoadingAnimation fix_height={true} loading={(createTicket?.isLoading || payStackMutation?.isLoading)} > 
                 <PayStackLogo />
             </LoadingAnimation>
         </Flex>
