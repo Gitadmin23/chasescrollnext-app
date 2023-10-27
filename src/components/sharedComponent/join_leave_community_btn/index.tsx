@@ -81,7 +81,7 @@ function JoinOrLeaveCommunityBtn(props: Props) {
         } else {
             LeaveCommunity.mutate()
         }
-    }, [data, LeaveCommunity, JoinCommunity])
+    }, [data, LeaveCommunity, JoinCommunity, joined, user_index])
 
     return (
         <Button onClick={handleCommunity} disabled={JoinCommunity.isLoading || LeaveCommunity.isLoading} width={"120px"} color={"white"} rounded={"md"} fontSize={"sm"} bg={joined !== "NOT_CONNECTED"  ? "brand.chasescrollRed" : "brand.chasescrollBlue"} >

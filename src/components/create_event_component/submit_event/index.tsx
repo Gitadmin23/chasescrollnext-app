@@ -192,7 +192,7 @@ function SubmitEvent() {
         } else {
             createEventFromDraft.mutate(eventdata)
         }
-    }, [saveToDraft, uploadImage])
+    }, [saveToDraft, uploadImage, createEventFromDraft])
 
     return (
         <Flex alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} my={"4"} >

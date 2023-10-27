@@ -19,13 +19,13 @@ function ExploreCommunity(props: Props) {
                 {results?.map((community: any, i: number) => {
                     if (results?.length === i + 1) {
                         return (
-                            <Box ref={ref} width={"full"}>
+                            <Box ref={ref} key={i} width={"full"}>
                                 <CommunityCard data={community} />
                             </Box>
                         )
                     } else {
                         return (
-                            <Box width={"full"}>
+                            <Box key={i} width={"full"}>
                                 <CommunityCard data={community} />
                             </Box>
                         )

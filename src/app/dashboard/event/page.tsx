@@ -57,7 +57,7 @@ function Events() {
         },
       ],
     })
-  }, [])
+  }, [updateEvent])
 
   return (
     <Box width={"full"}>

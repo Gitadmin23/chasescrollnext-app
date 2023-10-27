@@ -86,8 +86,8 @@ function EventTheme() {
                                 onChange={handleChange}
                                 value={eventdata?.eventType}
                                 placeholder='Select Event Type' >
-                                {types?.map((type: any) => (
-                                    <option value={type}>
+                                {types?.map((type: any, index: number) => (
+                                    <option key={index} value={type}>
                                         {type.split("_").join(" ")}
                                     </option>
                                 ))}

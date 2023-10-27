@@ -78,12 +78,12 @@ function AddOrRemoveUserBtn(props: Props) {
     const handleadd = React.useCallback(() => {
         setLoading(user_index)
         addfriend.mutate({ toUserID: user_index })
-    }, [])
+    }, [addfriend, user_index])
 
     const handleRemove = React.useCallback(() => {
         setLoading(user_index)
         unfriend.mutate()
-    }, [])
+    }, [unfriend, user_index])
 
     const clickHandler = () => {
         if (name === "Pending" || name === "Disconnected") {

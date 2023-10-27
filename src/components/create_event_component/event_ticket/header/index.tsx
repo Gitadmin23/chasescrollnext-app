@@ -30,7 +30,7 @@ function EventTicketHeader(props: Props) {
 
     React.useEffect(() => {
         setIsFree(eventdata?.productTypeData[0]?.ticketType === "Free" ? true : false)
-    }, [])
+    }, [eventdata?.productTypeData])
 
     return (
         <Flex gap={"2"} className=' w-full flex lg:flex-row gap-2 ' >
