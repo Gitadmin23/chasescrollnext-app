@@ -8,12 +8,14 @@ interface IProps {
     backgroundColor?: string;
     color?: string;
     borderRadius?: string;
-    width?: string;
+    width?: any;
+    fontSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
     height? : string;
     shadow?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none';
-    isLoading: boolean;
+    isLoading?: boolean;
     variant?: 'solid' | 'outline' | 'ghost' | 'link';
     icon?: ReactNode;
+    disable?: boolean
 }
 
 function CustomButton({
@@ -21,21 +23,26 @@ function CustomButton({
     text,
     backgroundColor = THEME.COLORS.chasescrollButtonBlue,
     color = 'white',
-    borderRadius = '20px',
-    width = '120px',
+    borderRadius = '12px',
+    width = 'full',
     height = '45px',
     shadow = 'none',
+    fontSize = "md",
     isLoading = false,
     icon = undefined,
     variant = 'solid',
+    disable = false,
     ...rest
 }: IProps & ButtonProps) {
   return (
     <ChakraButton
-      //  {...rest}
+       {...rest}
+        isDisabled={isLoading || disable} 
+        loadingText='Loading'
         width={width}
         height={height}
         color={color}
+        fontSize={fontSize}
         borderRadius={borderRadius}
         type={type}
         isLoading={isLoading}

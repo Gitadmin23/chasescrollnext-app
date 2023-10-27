@@ -47,9 +47,9 @@ function Sidebar() {
             text: 'Explore'
         },
         {
-            route: '/dashboard/events',
+            route: '/dashboard/event',
             icon: <FiCalendar fontSize='30px' />,
-            text: 'Events'
+            text: 'Event'
         },
         {
             route: '/dashboard/chats',
@@ -69,7 +69,7 @@ function Sidebar() {
     ];
 
     return ( 
-        <VStack display={['none', 'flex']} width={"300px"} height='100%' paddingBottom={"40px"} bg='white' overflowY={"auto"} borderRightWidth={1} borderRightColor={'lightgrey'}>
+        <VStack display={['none', 'none', 'flex', 'flex']} width={"300px"} height='100%' paddingBottom={"40px"} bg='white' overflowY={"auto"} borderRightWidth={1} borderRightColor={'lightgrey'}>
             <VStack flex={0.8} width='100%' paddingTop={'40px'}>
                 {routes.map((item, index) => (
                     <MenuItem {...item} active={pathname.includes(item.text.toLowerCase()) ? true:false} key={index.toString()} />
