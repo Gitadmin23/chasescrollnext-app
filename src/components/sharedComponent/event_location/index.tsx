@@ -31,19 +31,19 @@ function EventLocationDetail(props: Props) {
     return (
         <>
             {!indetail && (
-                <Flex gap={"1"} color={"brand.chasescrollBlue"} alignItems={"center"} >
-                    {!noicon && ( 
-                        <MdLocationPin size={iconsize ? iconsize : "20px"} />
+                <Flex gap={"1"} alignItems={"center"} >
+                    {!noicon && (  
+                        <LocationIcon style={{width: iconsize ? iconsize : "20px"}} /> 
                     )}
-                    <Text fontWeight={fontWeight ? fontWeight : "semibold"} color={color ? color : "gray.600"} fontSize={fontsize ? fontsize : "sm"} >
+                    <Text fontWeight={fontWeight ? fontWeight : "semibold"} color={color ? color : "brand.chasescrollBlue"} fontSize={fontsize ? fontsize : "sm"} >
                         {location?.locationDetails && (
-                            <p>{location.locationDetails?.length >= (length ? length : 17) ? location.locationDetails.slice(0, (length ? length : 17)) + "..." : location.locationDetails}</p>
+                            <p>{location?.locationDetails?.length >= (length ? length : 17) ? location?.locationDetails.slice(0, (length ? length : 17)) + "..." : location?.locationDetails}</p>
                         )}
                         {(location?.toBeAnnounced && !location?.locationDetails) && (
                             <p>To Be Announced</p>
                         )}
-                        {(location.link) && (
-                            <a href={location.link} target="_blank" className=' font-bold text-sm text-chasescrollBlue ' >Join Online</a>
+                        {(location?.link) && (
+                            <a href={location?.link} style={{color: color ? color : "#5D70F9", fontSize:fontsize ? fontsize : "sm", fontWeight: fontWeight ? fontWeight : "semibold" }} target="_blank" className=' font-bold text-sm text-chasescrollBlue ' >Join Online</a>
                         )}
                     </Text>
                 </Flex>
@@ -56,13 +56,13 @@ function EventLocationDetail(props: Props) {
                         <Box>
                             <Text fontWeight={"semibold"} color={color ? color : "gray.600"} fontSize={fontsize ? fontsize : "sm"} >
                                 {location?.locationDetails && (
-                                    <p>{location.locationDetails?.length >= (length ? length : 17) ? location.locationDetails.slice(0, (length ? length : 17)) + "..." : location.locationDetails}</p>
+                                    <p>{location?.locationDetails?.length >= (length ? length : 17) ? location?.locationDetails.slice(0, (length ? length : 17)) + "..." : location?.locationDetails}</p>
                                 )}
                                 {(location?.toBeAnnounced && !location?.locationDetails) && (
                                     <p>To Be Announced</p>
                                 )}
-                                {(location.link) && (
-                                    <a href={location.link} target="_blank" className=' font-bold text-sm text-chasescrollBlue ' >Join Online</a>
+                                {(location?.link) && (
+                                    <a href={location?.link} target="_blank" className=' font-bold text-sm text-chasescrollBlue ' >Join Online</a>
                                 )}
                             </Text>
                         </Box>

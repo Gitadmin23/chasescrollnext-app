@@ -8,12 +8,17 @@ import { useMutation } from 'react-query';
 
 interface Props {
     data: any,
-    
+    width?: any,
+    font?: string,
+    height?: string
 }
 
 function JoinOrLeaveCommunityBtn(props: Props) {
     const {
-        data
+        data,
+        width,
+        font,
+        height
     } = props
     
     const toast = useToast()
@@ -42,8 +47,8 @@ function JoinOrLeaveCommunityBtn(props: Props) {
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
-            }); 
-            setJoined("NOT_CONNECTED")
+            });
+            setJoined("CONNECTED") 
         }
     });
 
@@ -68,7 +73,7 @@ function JoinOrLeaveCommunityBtn(props: Props) {
                 duration: 5000,
                 position: 'top-right',
             });
-            setJoined("CONNECTED")
+            setJoined("NOT_CONNECTED")
         }
     }); 
 
@@ -84,7 +89,7 @@ function JoinOrLeaveCommunityBtn(props: Props) {
     }, [data, LeaveCommunity, JoinCommunity, joined, user_index])
 
     return (
-        <Button onClick={handleCommunity} disabled={JoinCommunity.isLoading || LeaveCommunity.isLoading} width={"120px"} color={"white"} rounded={"md"} fontSize={"sm"} bg={joined !== "NOT_CONNECTED"  ? "brand.chasescrollRed" : "brand.chasescrollBlue"} >
+        <Button onClick={handleCommunity} disabled={JoinCommunity.isLoading || LeaveCommunity.isLoading} width={width ? width : "120px"} height={height ? height : "45pc"} color={"white"} rounded={"md"} fontSize={font ? font : "sm"} bg={joined !== "NOT_CONNECTED"  ? "brand.chasescrollRed" : "brand.chasescrollBlue"} >
             {JoinCommunity.isLoading || LeaveCommunity.isLoading ? "Loading..." : joined === "NOT_CONNECTED" ? "Join" : "Leave"}
         </Button>
     )
