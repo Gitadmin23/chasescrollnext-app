@@ -1,5 +1,4 @@
-import moment from "moment"
-import momentTz from "moment-timezone"
+import moment from "moment" 
 
 export function dateFormat(date: any) {
     return  moment(date).format("ddd, MMMM Do YYYY")

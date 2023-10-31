@@ -38,7 +38,7 @@ function UserExploreCard(props: Props) {
             <Text color={"brand.chasescrollGrey"} fontWeight={"semibold"} textAlign={"center"} fontSize={"xs"} >
             {mutuals} Mutual Connection{mutuals === 1 ? "" : "s"}
             </Text>
-            <AddOrRemoveUserBtn name={(isFriend === "FRIEND_REQUEST_RECIEVED" || isFriend === "FRIEND_REQUEST_SENT" || isFriend === "CONNECTED" || isFriend === "CONNECTFriend") ? isFriend === "FRIEND_REQUEST_SENT" ? "Pending" : isFriend === "CONNECTFriend" ? "Disconnected": "Disconnected": "Connect"} setJoinStatus={setisFriend} user_index={userId} />
+            <AddOrRemoveUserBtn name={(isFriend === "FRIEND_REQUEST_RECIEVED" || isFriend === "FRIEND_REQUEST_SENT" || isFriend === "CONNECTED" || isFriend === "CONNECTFriend") ? isFriend === "FRIEND_REQUEST_SENT" ? "Pending" : isFriend === "CONNECTFriend" ? "Disconnect": "Disconnect": "Connect"} setJoinStatus={setisFriend} user_index={userId} />
         </Flex>
     )
 }

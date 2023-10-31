@@ -37,10 +37,13 @@ export const URLS = {
     CREATE_EVENT_FROM_DRAFT: "/events/create-event-from-draft",
     GET_DRAFT: "/events/drafts",
     PAST_EVENT: "/events/get-past-events",
-    SAVED_EVENT: "/events/get-saved-events?typeID="
+    SAVED_EVENT: "/events/get-saved-events?typeID=",
+    PAY_STRIPE: "/payments/payWithStripe",
+    GET_TICKET: "/events/get-users-tickets?userID="
 }
 
 export const IMAGE_URL = process.env.NEXT_PUBLIC_RESOURCE_URL;
 
-export const RESOURCE_BASE_URL = process.env.NEXT_PUBLIC_RESOURCE_URL;
+export const RESOURCE_BASE_URL = process.env.NEXT_PUBLIC_AWS_BASE_URL;
 
+export const WEBSITE_URL = process.env.NEXT_PUBLIC_WEBSITE_DOMAIN;

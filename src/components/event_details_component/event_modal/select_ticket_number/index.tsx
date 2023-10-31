@@ -113,7 +113,7 @@ function SelectTicketNumber(props: Props) {
                     </Box>
                 </Flex>
                 <Box width={"full"} pt={"7"} display={"flex"} flexDirection={"column"} gap={"3"} fontWeight={"medium"} fontSize={"sm"} px={"5"} >
-                    <Text >VIP Ticket  [2]</Text>
+                    <Text >VIP Ticket  [{numbOfTicket}]</Text>
                     <Flex justifyContent={"space-between"} >
                         <Text>Ticket Price</Text>
                         <Text>{formatNumber(price, data?.currency === "USD" ? "$" : "₦")}</Text>
