@@ -43,7 +43,7 @@ export type ICommunity = {
         favorites: string,
         imgSrc: string,
         isPublic: boolean,
-        oin_settings: 'AUTO',
+        join_settings: 'AUTO',
         memberCount: number,
         name: string,
         password: string,

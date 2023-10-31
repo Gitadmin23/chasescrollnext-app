@@ -40,7 +40,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   });
     
     return (
-      <VStack alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='white' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='1px' borderColor={'lightgrey'} color='black' padding='20px'>
+      <VStack alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='lg' borderColor={'lightgrey'} color='black' padding='20px'>
 
         {/* MODALS SECTION */}
         <ReportUserModal typeID={post?.id} REPORT_TYPE='REPORT_USER' isOpen={showReportModal} onClose={() => setShowReportModal(false)} />
@@ -94,7 +94,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
            )}
 
            {/* FOOTER SECTION */}
-           <HStack justifyContent={'space-between'} alignItems={'center'} width='100%' height={'50px'} bg='white'>
+           <HStack justifyContent={'space-between'} alignItems={'center'} width='100%' height={'50px'} bg='whitesmoke'>
               <VStack onClick={() => likeMutation.mutate()} cursor={'pointer'}>
                 {!likeMutation.isLoading && (
                   <>

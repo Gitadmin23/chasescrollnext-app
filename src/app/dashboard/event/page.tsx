@@ -57,7 +57,7 @@ function Events() {
         },
       ],
     })
-  }, [updateEvent])
+  }, [])
 
   return (
     <Box width={"full"}>
@@ -66,5 +66,6 @@ function Events() {
     </Box>
   )
 }
+
 
 export default Events

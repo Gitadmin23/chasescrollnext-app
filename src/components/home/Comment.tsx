@@ -161,7 +161,7 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
     }, [reply, id, createSubComment])
     return (
         <>
-            <HStack width='100%' justifyContent={'space-between'} alignItems={'center'} marginBottom={'20px'}>
+            <HStack width='100%' justifyContent={'space-between'} alignItems={'center'} marginBottom={'20px'} marginRight={['20px', '20px']}>
 
                 <HStack flex={1}>
                     <Avatar size='md' src={`${RESOURCE_BASE_URL}/${value}`} name={username} />
@@ -172,7 +172,7 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
                             <CustomText fontFamily={'Satoshi-Medium'}>{comment}</CustomText>
                         </VStack>
 
-                        <HStack spacing={10} fontSize={'14px'} width={'60%'}>
+                        <HStack spacing={10} fontSize={'14px'} width={['100%','60%']}>
                             <CustomText flex={1} fontFamily={'Satoshi-Regular'} >{Moment(timeInMilliseconds).fromNow()}</CustomText>
                             <CustomText flex={1} fontFamily={'Satoshi-Regular'} >{likeCount} like</CustomText>
                             <CustomText flex={1} fontFamily={'Satoshi-Regular'} cursor={'pointer'} color={showReplies ? 'brand.chasescrollButtonBlue':'black'} onClick={() => setShowReplies(prev => !prev)}>{subComments.length > 0 ? (`${subComments.length}`):null} Reply</CustomText>
@@ -187,13 +187,13 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
             </HStack>
             {
                 showReplies && (
-                    <VStack width={'60%'} marginTop='20px'>
-                        <HStack width='100%' paddingLeft='70px' alignItems={'center'}>
+                    <VStack width={['100%','60%']} marginTop='20px'>
+                        <HStack width='100%' paddingLeft={['20px', '70px']}  alignItems={'center'}>
                             <Input fontFamily={'Satoshi-Regular'} value={`${reply}`} onChange={(e) => setReply(e.target.value)} onKeyDown={handleKeyDown} width={'70%'} height={'40px'} borderRadius={10} bg='white' />
 
                             { createSubComment.isLoading && <Spinner color='blue' colorScheme='blue' size='sm' /> }
                         </HStack>
-                        <Box width='100%' paddingLeft='70px' marginTop={'20px'} maxHeight={'200px'} overflowY={'auto'} paddingRight={'20px'}>
+                        <Box width='100%' paddingLeft={['20px', '70px']} marginTop={'20px'} maxHeight={'200px'} overflowY={'auto'} paddingRight={'20px'}>
                             {
                                 !isLoading && isError && (
                                     <VStack width='100%' height={'50px'} justifyContent={'center'} alignItems={'center'}>
