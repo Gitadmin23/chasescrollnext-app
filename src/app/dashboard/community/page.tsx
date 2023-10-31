@@ -7,9 +7,7 @@ import Requests from '@/components/Community/Requests';
 import CustomText from '@/components/general/Text';
 import { THEME } from '@/theme';
 import { Box, HStack, VStack } from '@chakra-ui/react'
-import React from 'react'
-import { FiPlusSquare } from 'react-icons/fi';
-import { useRouter } from 'next/navigation'
+import React from 'react' 
 import { FiPlusSquare } from 'react-icons/fi';
 import { useRouter } from 'next/navigation'
 
@@ -25,7 +23,7 @@ function Community() {
   }, [])
 
   const switchPages = React.useCallback(() => {
-    switch(activeTab) {
+    switch (activeTab) {
       case 1: {
         return <MyCommunities />
       }
@@ -40,61 +38,63 @@ function Community() {
       }
     }
   }, [activeTab])
-  const [activeTab, setActiveTab] = React.useState(1);
-  const [showModal, setShowModal] = React.useState(false);
+  // const [activeTab, setActiveTab] = React.useState(1);
+  // const [showModal, setShowModal] = React.useState(false);
 
-  const router = useRouter();
+  // const router = useRouter();
 
-  // function
-  const handleTabChange = React.useCallback((tab: number) => {
-    setActiveTab(tab);
-  }, [])
+  // // function
+  // const handleTabChange = React.useCallback((tab: number) => {
+  //   setActiveTab(tab);
+  // }, [])
 
-  const switchPages = React.useCallback(() => {
-    switch(activeTab) {
-      case 1: {
-        return <MyCommunities />
-      }
-      case 2: {
-        return <FindCommunity />
-      }
-      case 3: {
-        return <Requests />
-      }
-      default: {
-        return <MyCommunities />
-      }
-    }
-  }, [activeTab])
+  // const switchPages = React.useCallback(() => {
+  //   switch (activeTab) {
+  //     case 1: {
+  //       return <MyCommunities />
+  //     }
+  //     case 2: {
+  //       return <FindCommunity />
+  //     }
+  //     case 3: {
+  //       return <Requests />
+  //     }
+  //     default: {
+  //       return <MyCommunities />
+  //     }
+  //   }
+  // }, [activeTab])
   return (
-    <VStack width='100%' height='100vh' spacing={0}>
+    <> 
+      <VStack width='100%' height='100vh' spacing={0}>
 
-      <CommunityTab activeTab={activeTab} setActiveTab={handleTabChange} showModal={() => setShowModal(true)}  />
+        <CommunityTab activeTab={activeTab} setActiveTab={handleTabChange} showModal={() => setShowModal(true)} />
 
-      {/* SMALL SCREEN CREATE COMMUNITY BUTTON */}
-      <HStack onClick={() => router.push('community/create')} display={['flex', 'none']} width='100%' height='50px' justifyContent={'center'} alignItems={'center'}>
-        <FiPlusSquare size='20' color={THEME.COLORS.chasescrollButtonBlue} />
-        <CustomText fontFamily={'Satoshi-Medium'} fontSize={'16px'}>Create community</CustomText>
-      </HStack>
+        {/* SMALL SCREEN CREATE COMMUNITY BUTTON */}
+        <HStack onClick={() => router.push('community/create')} display={['flex', 'none']} width='100%' height='50px' justifyContent={'center'} alignItems={'center'}>
+          <FiPlusSquare size='20' color={THEME.COLORS.chasescrollButtonBlue} />
+          <CustomText fontFamily={'Satoshi-Medium'} fontSize={'16px'}>Create community</CustomText>
+        </HStack>
 
-      <Box width='100%' flex={1} overflowY={'auto'} >
-        {switchPages()}
-      </Box>
-    </VStack>
-    <VStack width='100%' height='100vh' spacing={0}>
+        <Box width='100%' flex={1} overflowY={'auto'} >
+          {switchPages()}
+        </Box>
+      </VStack>
+      <VStack width='100%' height='100vh' spacing={0}>
 
-      <CommunityTab activeTab={activeTab} setActiveTab={handleTabChange} showModal={() => setShowModal(true)}  />
+        <CommunityTab activeTab={activeTab} setActiveTab={handleTabChange} showModal={() => setShowModal(true)} />
 
-      {/* SMALL SCREEN CREATE COMMUNITY BUTTON */}
-      <HStack onClick={() => router.push('community/create')} display={['flex', 'none']} width='100%' height='50px' justifyContent={'center'} alignItems={'center'}>
-        <FiPlusSquare size='20' color={THEME.COLORS.chasescrollButtonBlue} />
-        <CustomText fontFamily={'Satoshi-Medium'} fontSize={'16px'}>Create community</CustomText>
-      </HStack>
+        {/* SMALL SCREEN CREATE COMMUNITY BUTTON */}
+        <HStack onClick={() => router.push('community/create')} display={['flex', 'none']} width='100%' height='50px' justifyContent={'center'} alignItems={'center'}>
+          <FiPlusSquare size='20' color={THEME.COLORS.chasescrollButtonBlue} />
+          <CustomText fontFamily={'Satoshi-Medium'} fontSize={'16px'}>Create community</CustomText>
+        </HStack>
 
-      <Box width='100%' flex={1} overflowY={'auto'} >
-        {switchPages()}
-      </Box>
-    </VStack>
+        <Box width='100%' flex={1} overflowY={'auto'} >
+          {switchPages()}
+        </Box>
+      </VStack>
+    </>
   )
 }
 
