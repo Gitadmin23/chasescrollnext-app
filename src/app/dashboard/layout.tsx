@@ -159,7 +159,7 @@ function Layout({ children }: {
                 </Box>
 
                 
-                <Flex flex={1} w="full" h="100%" pt={"80px"} overflowY={"hidden"} bg={"whitesmoke"} >
+                <Flex flex={1} w="full" h="100%" pt={"80px"} overflowY={"hidden"} bg={"white"} >
                     <Box width={"fit-content"} >
                         <Sidebar />
                     </Box>

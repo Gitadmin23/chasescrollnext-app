@@ -23,7 +23,7 @@ function Home() {
   const [newIttem, setNew] = React.useState<IMediaContent[]>([]);
   const [showModal, setShowModal] = React.useState(false);
 
-  const { firstName, lastName, userId } = useDetails((state) => state);
+  const { firstName, lastName, userId, username } = useDetails((state) => state);
 
   const intObserver = React.useRef<IntersectionObserver>();
   const toast = useToast();
@@ -108,10 +108,10 @@ function Home() {
       <VStack width={['100%', '100%', '45%', '45%']} height='100%' paddingX='20px' paddingTop='20px' overflowY={'hidden'}>
 
         {/* TEXTBOX */}
-        <VStack alignItems={'flex-start'} width='100%' height='150px' bg='whitesmoke' borderWidth={1} borderColor={'lightgrey'} borderRadius={'10px'} padding='10px'>
+        <VStack alignItems={'flex-start'} width='100%' height='150px' bg='whitesmoke' borderWidth={0} shadow={'md'} borderColor={'lightgrey'} borderRadius={'10px'} padding='10px'>
           <HStack width='100%' height={'90px'}>
             <Avatar name={`${firstName} ${lastName}`} />
-            <Textarea resize={'none'} bg='white' value={post} onChange={(e) => setPost(e.target.value)}></Textarea>
+            <Textarea bg='whitesmoke' borderWidth={'0px'} placeholder={`What's on your mind @${username}`} resize={'none'} value={post} onChange={(e) => setPost(e.target.value)}></Textarea>
             { !createPostMutation.isLoading && <FiSend onClick={() => handlePostCreation()} size={25} color={THEME.COLORS.chasescrollButtonBlue} /> }
             { createPostMutation.isLoading && <Spinner size={'sm'} color={THEME.COLORS.chasescrollButtonBlue} /> }
           </HStack>

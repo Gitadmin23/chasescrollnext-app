@@ -1,0 +1,66 @@
+import React, { useState } from 'react'
+
+import { Upload } from "@aws-sdk/lib-storage";
+import { S3Client } from "@aws-sdk/client-s3";
+
+const cred = {
+    accessKeyId: 'AKIA6I6LF3LQ4YD4GL5H',
+    secretAccessKey: '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'
+}
+
+const AWSHook = () => {
+    const [loading, setLoading] = useState(false)
+    const [uploadedFile, setUploadedFile] = useState([]);
+
+    const fileUploadHandler = (files) => {
+        setLoading(true);
+        console.time('upload');
+
+        const uploadPromises = Array.from(files).map((file) => {
+
+            const params = {
+                Bucket: 'chasescroll-videos',
+                Key: file.name,
+                Body: file,
+                ContentType: 'application/octet-stream',
+            };
+
+            return new Promise((resolve, reject) => {
+                const upload = new Upload({
+                    client: new S3Client({
+                        region: 'eu-west-2',
+                        credentials: cred,
+                    },),
+                    leavePartsOnError: false,
+                    params: params,
+                });
+
+                // upload.on("httpUploadProgress", (progres) => console.log(progres))
+
+                upload.done()
+                    .then(
+                        (data) => resolve(data),
+                        (error) => reject(error)
+                    );
+            });
+        });
+
+        Promise.all(uploadPromises)
+            .then((results) => {
+                let urls = results.map((r) => ({ file: r.Key, url: r.Location }));
+
+                setUploadedFile([...urls, ...uploadedFile]);
+                setLoading(false);
+                console.timeEnd('upload');
+            })
+            .catch((error) => {
+                console.error('Error uploading files:', error);
+                setLoading(false);
+            });
+    };
+
+
+    return ({ loading, uploadedFile, fileUploadHandler })
+}
+
+export default AWSHook
