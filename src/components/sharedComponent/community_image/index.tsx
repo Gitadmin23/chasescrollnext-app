@@ -4,7 +4,7 @@ import React from 'react'
 
 interface Props {
     data: any,
-    size: number,
+    size: any,
     font?: string
 }
 

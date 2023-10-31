@@ -3,13 +3,14 @@ import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
 import { Box, Flex } from '@chakra-ui/react'
 import React from 'react'
 import PeopleCard from '../other_components/people_card'
+import useSearchStore from '@/global-state/useSearchData'
 
 interface Props { }
 
 function ExploreUser(props: Props) {
     const { } = props
 
-    const searchValue = ""
+    const searchValue = useSearchStore((state) => state.search);
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/user/search-users?searchText=${searchValue}`, limit: 10, filter: "userId" })
 
     return (
@@ -19,13 +20,13 @@ function ExploreUser(props: Props) {
                     if (results.length === i + 1) {
                         return (
                             <Box key={person?.userId} width={"full"} ref={ref} >
-                                <PeopleCard  person={person}/> 
+                                <PeopleCard search={true} person={person}/> 
                             </Box>
                         )
                     } else {
                         return (
                             <Box key={person?.userId} width={"full"}>
-                                <PeopleCard person={person}/> 
+                                <PeopleCard search={true} person={person}/> 
                             </Box>
                         )
                     }

@@ -3,13 +3,18 @@ import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
 import { Box, Flex } from '@chakra-ui/react'
 import React from 'react'
 import ExploreEventCard from '../../sharedComponent/event_card'
+import useSearchStore from '@/global-state/useSearchData'
 
-interface Props { }
+interface Props { 
+    searchbar?: boolean
+}
 
 function ExploreEvent(props: Props) {
-    const { } = props
+    const { 
+        searchbar
+    } = props
  
-    const searchValue = ""
+    const searchValue = useSearchStore((state) => state.search);
 
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/events/events?eventName=${searchValue}`, limit: 10, filter: "id" })
  
@@ -21,13 +26,13 @@ function ExploreEvent(props: Props) {
                         if (results.length === i + 1) {
                             return ( 
                                 <Box key={event?.userId} width={"full"} ref={ref} >
-                                    <ExploreEventCard event={event} />
+                                    <ExploreEventCard searchbar={searchbar} event={event} />
                                 </Box>
                             )
                         } else {
                             return (
                                 <Box key={event?.userId} width={"full"}  >
-                                    <ExploreEventCard event={event} />
+                                    <ExploreEventCard searchbar={searchbar} event={event} />
                                 </Box>
                             )
                         }

@@ -74,7 +74,9 @@ function SaveOrUnsaveBtn(props: Props) {
         }
     });
 
-    const handleSave = React.useCallback(() => {
+    const handleSave = React.useCallback((event: any) => {
+
+        event.stopPropagation();
         if (isSaved) {
             deletedSavedEvent.mutate({
                 eventID: event.id,
@@ -91,7 +93,7 @@ function SaveOrUnsaveBtn(props: Props) {
     }, [event, deletedSavedEvent, saveEvent, user_index, isSaved])
 
     return (
-        <Box as='button'  onClick={handleSave} width={size ? size+"px" : "18px"} display={"flex"} justifyContent={"center"} alignItems={"center"} disabled={saveEvent.isLoading || deletedSavedEvent.isLoading} >
+        <Box as='button' onClick={handleSave} width={size ? size+"px" : "18px"} display={"flex"} justifyContent={"center"} alignItems={"center"} disabled={saveEvent.isLoading || deletedSavedEvent.isLoading} >
             {(saveEvent.isLoading || deletedSavedEvent.isLoading) && <Spinner size='sm' color="brand.chasesccrollButtonBlue" />}
             {(!saveEvent.isLoading && !deletedSavedEvent.isLoading) && (
                 <span className='text-2xl'>
