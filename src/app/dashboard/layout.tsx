@@ -50,16 +50,11 @@ function Layout({ children }: {
     const pathname = usePathname();
     const router = useRouter();
     const { username, lastName, firstName, userId, setAll } = useDetails((state) => state);
-    const { username, lastName, firstName, userId, setAll } = useDetails((state) => state);
 
     const { isLoading, mutate, isError } = useMutation({
         mutationFn: (data: string) => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`),
         onSuccess: (data) => { 
-        mutationFn: (data: string) => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`),
-        onSuccess: (data) => { 
             setAll({
-                userId: data?.data?.userId,
-                userId: data?.data?.userId,
                 userId: data?.data?.userId,
                 firstName: data?.data?.firstName,
                 lastName: data?.data?.lastName,
@@ -73,11 +68,8 @@ function Layout({ children }: {
     React.useEffect(() => {
         const Id = localStorage.getItem('userId'); 
         
-        const Id = localStorage.getItem('userId'); 
-        
         if (userId === null) {
             router.push('/auth')
-        } else {
         } else {
             mutate(Id as string);
         }
@@ -95,7 +87,6 @@ function Layout({ children }: {
             text: 'Explore'
         },
         {
-            route: '/dashboard/event',
             route: '/dashboard/event',
             icon: <FiCalendar fontSize='30px' />,
             text: 'Events'
@@ -125,13 +116,7 @@ function Layout({ children }: {
                     {/* NAVBAR SECTION */}
                     {!pathname?.includes("create_event") && (
                         <HStack position={"absolute"} zIndex={"30"} top={"0px"} width='100%' height='80px' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} backgroundColor={'white'} alignItems='center' justifyContent={'space-between'} paddingX={['20px', '40px']}>
-                    {!pathname?.includes("create_event") && (
-                        <HStack position={"absolute"} zIndex={"30"} top={"0px"} width='100%' height='80px' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} backgroundColor={'white'} alignItems='center' justifyContent={'space-between'} paddingX={['20px', '40px']}>
 
-                            <HStack justifyContent={'center'}>
-                                <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
-                                <CustomText fontFamily={'Satoshi-Regular'} fontSize='lg' display={['none', 'inline']} color='brand.chasescrollBlue'>Chasescroll</CustomText>
-                            </HStack>
                             <HStack justifyContent={'center'}>
                                 <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
                                 <CustomText fontFamily={'Satoshi-Regular'} fontSize='lg' display={['none', 'inline']} color='brand.chasescrollBlue'>Chasescroll</CustomText>
@@ -140,21 +125,11 @@ function Layout({ children }: {
                             {/* LARGE SCREEN ICONS */}
                             <HStack display={['none', 'flex']}>
                                 <CustomText>{username}</CustomText>
-                            {/* LARGE SCREEN ICONS */}
-                            <HStack display={['none', 'flex']}>
-                                <CustomText>{username}</CustomText>
 
                                 <Link href='/dashboard/profile/hdhdsjhahj'>
                                     <Avatar name='Daniel Eanuel' size='md' marginX='10px' />
                                 </Link>
-                                <Link href='/dashboard/profile/hdhdsjhahj'>
-                                    <Avatar name='Daniel Eanuel' size='md' marginX='10px' />
-                                </Link>
 
-                                <Link href='/dashboard/notification'>
-                                    <FiBell color={THEME.COLORS.chasescrollBlue} fontSize='30px' />
-                                </Link>
-                            </HStack>
                                 <Link href='/dashboard/notification'>
                                     <FiBell color={THEME.COLORS.chasescrollBlue} fontSize='30px' />
                                 </Link>
@@ -165,22 +140,11 @@ function Layout({ children }: {
                                 <Link href="/dashboard/chats">
                                     <FiPlusSquare color={THEME.COLORS.chasescrollBlue} fontSize='30px' />
                                 </Link>
-                            {/* SMALL SCREEN ICONS */}
-                            <HStack display={['flex', 'none']}>
-                                <Link href="/dashboard/chats">
-                                    <FiPlusSquare color={THEME.COLORS.chasescrollBlue} fontSize='30px' />
-                                </Link>
 
                                 <Link href='/dashboard/notification'>
                                     <FiBell color={THEME.COLORS.chasescrollBlue} fontSize='30px' marginLeft='10px' marginRight='10px' />
                                 </Link>
-                                <Link href='/dashboard/notification'>
-                                    <FiBell color={THEME.COLORS.chasescrollBlue} fontSize='30px' marginLeft='10px' marginRight='10px' />
-                                </Link>
 
-                                <Link href='/dashboard/chats'>
-                                    <FiMessageCircle color={THEME.COLORS.chasescrollBlue} fontSize='30px' />
-                                </Link>
                                 <Link href='/dashboard/chats'>
                                     <FiMessageCircle color={THEME.COLORS.chasescrollBlue} fontSize='30px' />
                                 </Link>
@@ -189,25 +153,10 @@ function Layout({ children }: {
                                     <Avatar name={`${firstName} ${lastName}`} size='md' marginX='10px' />
                                 </Link>
                             </HStack>
-                                <Link href={`/dashboard/profile/${userId}`}>
-                                    <Avatar name={`${firstName} ${lastName}`} size='md' marginX='10px' />
-                                </Link>
-                            </HStack>
 
-                        </HStack>
-                    )}
                         </HStack>
                     )}
                 </Box>
-
-                
-                <Flex flex={1} w="full" h="100%" pt={"80px"} overflowY={"hidden"} bg={"white"} >
-                    <Box width={"fit-content"} >
-                        <Sidebar />
-                    </Box>
-                    <Box flex={1}>
-                        {children}
-                    </Box>
                 <Flex flex={1} w="full" h="full" pt={!pathname?.includes("create_event") ? "80px": "0px"} pb={["70px", "70px", "0px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
                     {!pathname?.includes("create_event") && (
                         <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']}>
@@ -218,14 +167,7 @@ function Layout({ children }: {
                 </Flex>
                 {/* BOTTOM TAB */}
                 <HStack paddingX='20px' position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg='white' borderTopWidth={1} borderTopColor={'lightgrey'} display={['flex', 'flex', 'flex', 'none']}>
-                {/* BOTTOM TAB */}
-                <HStack paddingX='20px' position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg='white' borderTopWidth={1} borderTopColor={'lightgrey'} display={['flex', 'flex', 'flex', 'none']}>
 
-                    <Link href='/dashboard/home'>
-                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('home') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('home') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                            <FiHome size='20px' />
-                        </VStack>
-                    </Link>
                     <Link href='/dashboard/home'>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('home') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('home') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
                             <FiHome size='20px' />
@@ -237,17 +179,7 @@ function Layout({ children }: {
                             <FiSearch size='20px' />
                         </VStack>
                     </Link>
-                    <Link href='/dashboard/explore'>
-                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('explore') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('explore') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                            <FiSearch size='20px' />
-                        </VStack>
-                    </Link>
 
-                    <Link href='/dashboard/event'>
-                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('events') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('events') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                            <FiCalendar size='20px' />
-                        </VStack>
-                    </Link>
                     <Link href='/dashboard/event'>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('events') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('events') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
                             <FiCalendar size='20px' />
@@ -259,18 +191,7 @@ function Layout({ children }: {
                             <FiUsers size='20px' />
                         </VStack>
                     </Link>
-                    <Link href='/dashboard/community'>
-                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('community') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('community') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                            <FiUsers size='20px' />
-                        </VStack>
-                    </Link>
 
-                    <Link href='/dashboard/profile/hfhdjd'>
-                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('profile') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('profile') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                            <Avatar name='daniel emmanuel' size='sm' />
-                        </VStack>
-                    </Link>
-                </HStack>
                     <Link href='/dashboard/profile/hfhdjd'>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('profile') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('profile') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
                             <Avatar name='daniel emmanuel' size='sm' />
