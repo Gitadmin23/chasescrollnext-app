@@ -15,8 +15,8 @@ function EventDate(props: Props) {
     } = props
 
     return (
-        <Box display={"flex"} flexDirection={"column"} borderBottomWidth={"1px"} roundedBottom={"lg"} px={"2"} alignItems={"center"} pb={"2"} >
-            <Text fontSize={"sm"} fontWeight={"semibold"} >{name}</Text>
+        <Box display={"flex"} flexDirection={"column"} borderBottomWidth={"1px"} roundedBottom={"lg"} px={"2"} alignItems={"start"} pb={"2"} >
+            <Text fontSize={"sm"} ml={"3"} fontWeight={"semibold"} >{name}</Text>
             <Flex width={"full"} gap={"3"} mt={"3"} alignItems={"center"} >
                 <BlueCalendarIcon />
                 <Box>

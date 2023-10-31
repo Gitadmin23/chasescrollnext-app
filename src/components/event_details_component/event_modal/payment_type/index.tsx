@@ -40,7 +40,7 @@ function PaymentType(props: Props) {
                 <Text fontSize={"20px"} fontWeight={"bold"} textAlign={"center"} >Payment Options</Text>
             </Flex> 
             {currency !== "NGN" && (
-                <StripeBtn />
+                <StripeBtn selectedCategory={selectedCategory} datainfo={data} ticketCount={ticketCount} close={()=> close} />
             )}
             {currency === "NGN" && (
                 <PayStackBtn selectedCategory={selectedCategory} datainfo={data} ticketCount={ticketCount} close={()=> close} />

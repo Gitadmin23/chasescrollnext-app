@@ -20,12 +20,12 @@ function EventHeader(props: Props) {
 
     return (
         <Flex mt={"12"} justifyContent={"space-between"} alignItems={"center"}>
-            <Box>
+            {/* <Box> */}
                 <Text fontSize={"24px"} fontWeight={"bold"} >{name}</Text>
-                <Text fontSize={"20px"} fontWeight={"medium"} color={"brand.chasescrollBlue"} > 
+                <Text fontSize={"20px"} fontWeight={"semibold"} color={"brand.chasescrollBlue"} > 
                     <EventPrice minPrice={minPrice} maxPrice={maxPrice} currency={currency} />
                 </Text>
-            </Box>
+            {/* </Box> */}
         </Flex>
     )
 }

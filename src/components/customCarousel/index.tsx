@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import PropTypes from 'prop-types';
 import './styles/styles.scss';
+import { Box, Flex } from '@chakra-ui/react';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 // const isEqual = require("react-fast-compare");
 
@@ -186,14 +188,14 @@ export function CustomCarousel(props: any) {
                       {slides.map((slider: any, index: any) => (
                                 <div className={slider.class} key={index}>
                                     <div className={sliderClass('left')} onClick={slideLeft}>
-                                        <div>
-                                            <i className="fa fa-arrow-left"></i>
-                                        </div>
+                                        <Flex justifyContent={"center"} alignItems={"center"} borderWidth={"1px"} borderColor={"#5D70F9"} width={"40px"} height={"40px"} rounded={"lg"} >
+                                          <IoIosArrowBack color={"#5D70F9"} size={"25px"} />
+                                        </Flex>
                                     </div>
                                     <div className={sliderClass('right')} onClick={slideRight} ref={nextRef}>
-                                        <div >
-                                            <i className="fa fa-arrow-right"></i>
-                                        </div>
+                                        <Flex justifyContent={"center"} alignItems={"center"} borderWidth={"1px"} borderColor={"#5D70F9"} width={"40px"} height={"40px"} rounded={"lg"} >
+                                            <IoIosArrowForward color={"#5D70F9"} size={"25px"} />
+                                        </Flex>
                                     </div>
 
                                     <div className="slider-single-content">

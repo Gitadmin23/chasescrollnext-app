@@ -17,6 +17,7 @@ import SelectTicketNumber from './event_modal/select_ticket_number'
 import RefundPolicy from './event_modal/refund_policy'
 import PaymentMethod from './event_modal/payment_method'
 import GetEventTicket from './get_event_ticket'
+import ShareEvent from '../sharedComponent/share_event'
 
 interface Props {
     banner: any,
@@ -69,12 +70,10 @@ function EventDetails(props: Props) {
         maxPrice,
         username,
         dataInfo,
-        ticketBought,
-        getData
     } = props
 
-    const [selectedCategory, setSelectedCategory] = useState({} as any) 
-    const router = useRouter()
+    const [selectedCategory, setSelectedCategory] = useState({} as any)
+    const router = useRouter() 
 
     return (
         <HStack width={"full"} display={"flex"} flexDirection={"column"} position={"relative"} paddingBottom={"12"} >
@@ -85,8 +84,8 @@ function EventDetails(props: Props) {
                 <Box height={"350px"} position={"relative"} width={"full"} rounded={"16px"} roundedTopRight={"none"} >
 
                     <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={dataInfo?.currentPicUrl} width={"full"} height={"full"} src={IMAGE_URL + dataInfo?.currentPicUrl} />
-                    <Box width={"fit-content"} h={"40px"} px={"2"} display={"flex"} flexDirection={"row"} alignItems={"center"} justifyContent={"center"} rounded={"md"} bg={"#101828D2"} position={"absolute"} bottom={"4"} right={"4"} gap={"4"} > 
-                        <LuShare2 size={24} color="white" />
+                    <Box width={"fit-content"} h={"40px"} px={"2"} display={"flex"} flexDirection={"row"} alignItems={"center"} justifyContent={"center"} rounded={"md"} bg={"#101828D2"} position={"absolute"} bottom={"4"} right={"4"} gap={"4"} >
+                        {/* <LuShare2 size={24} color="white" /> */}
                         <SaveOrUnsaveBtn indetail={true} event={dataInfo} size='24' />
                     </Box>
                 </Box>
@@ -94,18 +93,25 @@ function EventDetails(props: Props) {
             <Box width={"full"} px={"6"}>
                 <EventHeader name={eventName} maxPrice={maxPrice} minPrice={minPrice} currency={currency} />
                 <EventCreator isOrganizer={isOrganizer} convener={convener} username={username} data={dataInfo} />
+                <Flex py={"3"} justifyContent={"end"} >
+                    <ShareEvent id={dataInfo?.id} />
+                </Flex>
                 <Grid templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} py={"3"} gap={6}>
                     <EventDate name='Event Start date and time' date={timeAndDate} />
                     <EventDate name='Event End date and time' date={endtimeAndDate} />
-                    <EventUserOption isOrganizer={isOrganizer} ticket={price} currency={currency} selectedticket={selectedCategory} setCategory={setSelectedCategory} />
-                </Grid>
+                    <EventUserOption isOrganizer={isOrganizer} isBought={isBought} ticket={price} currency={currency} selectedticket={selectedCategory} setCategory={setSelectedCategory} />
+                </Grid> 
                 <OtherEventInfo name={'About this event'} data={about} />
+                <Grid templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} py={"3"} gap={6}>
+
                 <EventLocationDetail location={location} locationType={locationType} indetail={true} />
+                    <GetEventTicket ticket={price} setSelectedTicket={setSelectedCategory} data={dataInfo} selectedTicket={selectedCategory} isBought={isBought} isFree={isFree} />
+                </Grid>
                 <OtherEventInfo name={'Venue Details'} data={location?.address} />
-                <Flex width={"full"} justifyContent={"center"} py="6" > 
-                    <GetEventTicket data={dataInfo} selectedTicket={selectedCategory} isBought={isBought} isFree={isFree} />
-                </Flex>
-            </Box> 
+                {/* <Flex width={"full"} justifyContent={"center"} py="6" >
+                    <GetEventTicket ticket={price} setSelectedTicket={setSelectedCategory} data={dataInfo} selectedTicket={selectedCategory} isBought={isBought} isFree={isFree} />
+                </Flex> */}
+            </Box>
         </HStack>
     )
 }
