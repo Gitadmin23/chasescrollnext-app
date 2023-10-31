@@ -165,6 +165,15 @@ function Layout({ children }: {
                         </Box>
                     )}
                     {children}
+
+                
+                <Flex flex={1} w="full" h="100%" pt={"80px"} overflowY={"hidden"} bg={"white"} >
+                    <Box width={"fit-content"} >
+                        <Sidebar />
+                    </Box>
+                    <Box flex={1}>
+                        {children}
+                    </Box>
                 </Flex>
                 {/* BOTTOM TAB */}
                 <HStack paddingX='20px' position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg='white' borderTopWidth={1} borderTopColor={'lightgrey'} display={['flex', 'flex', 'flex', 'none']}>
