@@ -39,7 +39,12 @@ export const URLS = {
     PAST_EVENT: "/events/get-past-events",
     SAVED_EVENT: "/events/get-saved-events?typeID=",
     PAY_STRIPE: "/payments/payWithStripe",
-    GET_TICKET: "/events/get-users-tickets?userID="
+    GET_TICKET: "/events/get-users-tickets?userID=",
+    CREATE_COMMUNITY: "/group/create-group",
+    FIND_GROUPS: "/group/group",
+    JOINED_GROUPS: "/group/group",
+    GET_GROUP_REQUESTS: "",
+    GET_GROUP_MESSAGES: ""
 }
 
 export const IMAGE_URL = process.env.NEXT_PUBLIC_RESOURCE_URL;

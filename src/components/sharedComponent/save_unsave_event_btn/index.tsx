@@ -90,7 +90,7 @@ function SaveOrUnsaveBtn(props: Props) {
                 type: 'EVENT'
             })
         }
-    }, [event, deletedSavedEvent, saveEvent, user_index, isSaved])
+    }, [deletedSavedEvent, saveEvent, user_index, isSaved])
 
     return (
         <Box as='button' onClick={handleSave} width={size ? size+"px" : "18px"} display={"flex"} justifyContent={"center"} alignItems={"center"} disabled={saveEvent.isLoading || deletedSavedEvent.isLoading} >

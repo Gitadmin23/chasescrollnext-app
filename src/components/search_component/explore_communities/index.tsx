@@ -6,7 +6,7 @@ import CommunityCard from '../other_components/community_card'
 import useSearchStore from '@/global-state/useSearchData'
 
 interface Props { 
-    searchbar: boolean
+    searchbar?: boolean
 }
 
 function ExploreCommunity(props: Props) {

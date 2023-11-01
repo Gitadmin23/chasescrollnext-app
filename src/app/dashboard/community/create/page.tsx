@@ -18,9 +18,9 @@ function CreateCommunity() {
     const [isPublic, setIsPublic] = React.useState(true);
     const obj = React.useRef<{ name: string, description: string } | null>(null);
 
-    const { userId, email,  } = useDetails((state) => state);
+    const { userId, email, } = useDetails((state) => state);
     const queryClient = useQueryClient();
-    const fileReader = React.useRef(new FileReader());
+    const fileReader: any = React.useRef(new FileReader());
     const inputRef = useRef<HTMLInputElement>();
     const toast = useToast();
     const router = useRouter();
@@ -91,12 +91,12 @@ function CreateCommunity() {
         },
     });
 
-    
+
 
     React.useEffect(() => {
-         fileReader.current.onload = () => {
-            setUrl(fileReader.current.result as string);
-            console.log(`URL -> ${fileReader.current.result}`)
+        fileReader.current.onload = () => {
+            setUrl(fileReader?.current.result as string);
+            console.log(`URL -> ${fileReader?.current.result}`)
         }
     }, [fileReader])
 
@@ -116,32 +116,32 @@ function CreateCommunity() {
             return;
         }
         setFile(image);
-        fileReader.current.readAsDataURL(image);
+        fileReader?.current.readAsDataURL(image);
     }
 
     const handleSubmit = (data: any) => {
         const dd = data;
         console.log(data);
-            if (url === '') {
-                toast({
-                    title: 'warning',
-                    description: 'You must select an image',
-                    isClosable: true,
-                    position: 'top-right',
-                    duration: 5000,
-                    status: 'warning',
-                });
-                return
-            }
-            obj.current = data;
-            const formData = new FormData();
-            formData.append('file', file as any);
-            uploadImage.mutate(formData);
+        if (url === '') {
+            toast({
+                title: 'warning',
+                description: 'You must select an image',
+                isClosable: true,
+                position: 'top-right',
+                duration: 5000,
+                status: 'warning',
+            });
+            return
+        }
+        obj.current = data;
+        const formData = new FormData();
+        formData.append('file', file as any);
+        uploadImage.mutate(formData);
     }
-  return renderForm(
-            <VStack width='100%' height='100%' overflow={'hidden'} padding={['20px', '0px']} >
+    return renderForm(
+        <VStack width='100%' height='100%' overflow={'hidden'} padding={['20px', '0px']} >
 
-                <VStack width={['100%', '40%']}>
+            <VStack width={['100%', '40%']}>
 
                 <input hidden type='file' accept='image/*' ref={inputRef as any} onChange={(e) => handleFilePicked(e.target.files as FileList)} />
                 <HStack width='100%' height={'60px'} justifyContent={'flex-start'} alignItems={'center'}>
@@ -149,7 +149,7 @@ function CreateCommunity() {
                 </HStack>
 
                 <Box cursor={'pointer'} onClick={() => inputRef.current?.click()} width='100%' height="200px" borderWidth='2px' borderColor='grey' borderRadius={'20px'} borderStyle={'dashed'} overflow={'hidden'} bg='grey' >
-                    { url === '' && file === null && (
+                    {url === '' && file === null && (
                         <VStack width='100%' height='100%' justifyContent={'center'} alignItems={'center'}>
                             <Image src='/assets/svg/folder-cloud.svg' alt='icon' width={50} height={50} />
                             <CustomText fontFamily={'Satoshi-Regular'} color='white' fontSize={'md'}>Upload image here</CustomText>
@@ -163,7 +163,7 @@ function CreateCommunity() {
                 </Box>
 
                 <VStack marginY={'20px'} width='100%' spacing={5} >
-                    <CustomInput name='name'  placeholder='Community name' type='text' isPassword={false} />
+                    <CustomInput name='name' placeholder='Community name' type='text' isPassword={false} />
                     <CustomInput name='description' placeholder='Community Description' type='text' isPassword={false} />
                 </VStack>
 
@@ -176,16 +176,16 @@ function CreateCommunity() {
 
                     <HStack spacing={6} alignItems={'center'} marginTop={'10px'}>
                         <CustomText>Public</CustomText>
-                        <Switch isChecked={isPublic} onChange={() => setIsPublic(prev => !prev)}  />
+                        <Switch isChecked={isPublic} onChange={() => setIsPublic(prev => !prev)} />
                     </HStack>
                 </VStack>
 
                 <Button type='submit' marginTop={'20px'} variant={'solid'} bg={'brand.chasescrollButtonBlue'} isLoading={uploadImage.isLoading || createCommunity.isLoading} width='100%' borderRadius={'10px'} color='white' > Submit</Button>
 
-                </VStack>
-
             </VStack>
-  )
+
+        </VStack>
+    )
 }
 
 export default CreateCommunity
