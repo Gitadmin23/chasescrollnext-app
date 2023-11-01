@@ -16,6 +16,7 @@ import { useDetails } from '@/global-state/useUserDetails';
 import { useMutation } from 'react-query';
 import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
+import SearchBar from '@/components/explore_component/searchbar';
 const items = [1, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7];
 type IRoute = {
     icon: ReactNode;
@@ -53,7 +54,7 @@ function Layout({ children }: {
 
     const { isLoading, mutate, isError } = useMutation({
         mutationFn: (data: string) => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`),
-        onSuccess: (data) => { 
+        onSuccess: (data) => {
             setAll({
                 userId: data?.data?.userId,
                 firstName: data?.data?.firstName,
@@ -66,8 +67,8 @@ function Layout({ children }: {
     });
 
     React.useEffect(() => {
-        const Id = localStorage.getItem('userId'); 
-        
+        const Id = localStorage.getItem('userId');
+
         if (userId === null) {
             router.push('/auth')
         } else {
@@ -117,11 +118,15 @@ function Layout({ children }: {
                     {!pathname?.includes("create_event") && (
                         <HStack position={"absolute"} zIndex={"30"} top={"0px"} width='100%' height='80px' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} backgroundColor={'white'} alignItems='center' justifyContent={'space-between'} paddingX={['20px', '40px']}>
 
-                            <HStack justifyContent={'center'}>
-                                <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
-                                <CustomText fontFamily={'Satoshi-Regular'} fontSize='lg' display={['none', 'inline']} color='brand.chasescrollBlue'>Chasescroll</CustomText>
-                            </HStack>
-
+                            <Flex alignItems={"center"} gap={"12"} >
+                                <HStack justifyContent={'center'}>
+                                    <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
+                                    <CustomText fontFamily={'Satoshi-Regular'} fontSize='lg' display={['none', 'inline']} color='#12299C'>Chasescroll</CustomText>
+                                </HStack>
+                                <Box display={["none", "none", "block"]} >
+                                    <SearchBar />
+                                </Box>
+                            </Flex>
                             {/* LARGE SCREEN ICONS */}
                             <HStack display={['none', 'flex']}>
                                 <CustomText>{username}</CustomText>
@@ -157,7 +162,7 @@ function Layout({ children }: {
                         </HStack>
                     )}
                 </Box>
-                <Flex flex={1} w="full" h="full" pt={!pathname?.includes("create_event") ? "80px": "0px"} pb={["70px", "70px", "0px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
+                <Flex flex={1} w="full" h="full" pt={!pathname?.includes("create_event") ? "80px" : "0px"} pb={["70px", "70px", "0px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
                     {!pathname?.includes("create_event") && (
                         <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']}>
                             <Sidebar />

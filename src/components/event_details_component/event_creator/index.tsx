@@ -1,6 +1,8 @@
+import AddOrRemoveUserBtn from '@/components/sharedComponent/add_remove_user_btn';
 import UserImage from '@/components/sharedComponent/userimage'
+import { MessageIcon } from '@/components/svg';
 import { Box, Flex, Text } from '@chakra-ui/react'
-import React from 'react'
+import React, { useState } from 'react'
 import { TbMessage } from "react-icons/tb";
 
 interface Props {
@@ -17,9 +19,11 @@ function EventCreator(props: Props) {
         username,
         isOrganizer
     } = props
- 
+
+    const [isFriend, setisFriend] = useState(data?.createdBy?.joinStatus)
+
     return (
-        <Flex width={"full"} justifyContent={"space-between"}  mt={"5"} pb={"2"} alignItems={"center"} >
+        <Flex width={"full"} roundedBottom={"lg"} borderBottomWidth={"1px"} justifyContent={"space-between"} mt={"5"} pb={"2"} alignItems={"center"} >
             <Flex alignItems={"center"} gap={"2"} >
                 <UserImage size={58} data={data?.createdBy} />
                 <Box>
@@ -29,12 +33,12 @@ function EventCreator(props: Props) {
             </Flex>
 
             {!isOrganizer && (
-                <div className=' flex items-center gap-2' >
-                    {/* <AddFriends data={dataInfo} userBy={userBy} /> */}
+                <Flex alignItems={"center"} gap={"2"} >
+                    <AddOrRemoveUserBtn icon={true} name={(isFriend === "FRIEND_REQUEST_RECIEVED" || isFriend === "FRIEND_REQUEST_SENT" || isFriend === "CONNECTED" || isFriend === "CONNECTFriend") ? isFriend === "FRIEND_REQUEST_SENT" ? "Pending" : isFriend === "CONNECTFriend" ? "Disconnect" : "Disconnect" : "Connect"} setJoinStatus={setisFriend} user_index={data?.createdBy?.userId} />
                     <button className="p-2">
-                        <TbMessage size={"30px"} />
+                        <MessageIcon />
                     </button>
-                </div>
+                </Flex>
             )}
         </Flex>
     )

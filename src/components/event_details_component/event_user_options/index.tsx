@@ -7,7 +7,8 @@ interface Props {
     currency: any, 
     ticket: any, 
     selectedticket: any,
-    setCategory: any
+    setCategory: any,
+    isBought: boolean
 }
 
 function EventUserOption(props: Props) {
@@ -16,18 +17,19 @@ function EventUserOption(props: Props) {
         currency, 
         ticket,
         selectedticket,
-        setCategory
+        setCategory,
+        isBought
     } = props
 
     return (
-        <Box>
+        <Box my={"auto"} >
             {isOrganizer && (
                 <Flex flexDirection={["column", "column", "row"]} width={"full"} justifyContent={"center"} alignItems={"center"} gap={"3"} >
                     <Button bg={"brand.chasescrollBlue"} height={"49px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} >My Dashboard</Button>
                     <Button _disabled={{opacity: "0.4"}} bg={"brand.chasescrollBlue"} height={"49px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} >Edit Event</Button>
                 </Flex>
             )}
-            {!isOrganizer && (
+            {(!isOrganizer || !isBought) && (
                 <SelectTicket ticket={ticket} selectedticket={selectedticket} currency={currency} setCategory={setCategory} />
             )}
         </Box>

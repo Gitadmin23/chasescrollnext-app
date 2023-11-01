@@ -1,4 +1,5 @@
 'use client'
+import EventCarousel from '@/components/event_component/carousel';
 import EventCategory from '@/components/event_component/event_category';
 import EventListing from '@/components/event_component/event_listing';
 import SelectEventPage from '@/components/event_component/select_event_page';
@@ -60,8 +61,9 @@ function Events() {
   }, [])
 
   return (
-    <Box width={"full"}>
+    <Box width={"full"}> 
       <EventCategory />
+      <EventCarousel />
       <EventListing />
     </Box>
   )
