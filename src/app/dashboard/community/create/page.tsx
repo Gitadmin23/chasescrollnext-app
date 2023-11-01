@@ -20,7 +20,7 @@ function CreateCommunity() {
 
     const { userId, email, } = useDetails((state) => state);
     const queryClient = useQueryClient();
-    const fileReader: any = React.useRef(new FileReader());
+    // const fileReader: any = React.useRef(new FileReader());
     const inputRef = useRef<HTMLInputElement>();
     const toast = useToast();
     const router = useRouter();
@@ -93,12 +93,14 @@ function CreateCommunity() {
 
 
 
-    React.useEffect(() => {
-        fileReader.current.onload = () => {
-            setUrl(fileReader?.current.result as string);
-            console.log(`URL -> ${fileReader?.current.result}`)
-        }
-    }, [fileReader])
+    // React.useEffect(() => {
+    //     if(fileReader) {
+    //         fileReader.current.onload = () => {
+    //             setUrl(fileReader?.current.result as string);
+    //             console.log(`URL -> ${fileReader?.current.result}`)
+    //         }
+    //     }
+    // }, [fileReader])
 
     // functitons
     const handleFilePicked = (file: FileList) => {
@@ -116,7 +118,7 @@ function CreateCommunity() {
             return;
         }
         setFile(image);
-        fileReader?.current.readAsDataURL(image);
+        // fileReader?.current.readAsDataURL(image);
     }
 
     const handleSubmit = (data: any) => {
