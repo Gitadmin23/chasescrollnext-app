@@ -96,7 +96,7 @@ function StripeBtn(props: Props) {
             ticketType: selectedCategory,
             numberOfTickets: ticketCount
         })
-    }, [createTicket])
+    }, [createTicket, selectedCategory, ticketCount, datainfo?.id])
 
     return (
         <LoadingAnimation loading={createTicket?.isLoading || stripeRequest?.isLoading} >
