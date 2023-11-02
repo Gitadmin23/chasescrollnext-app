@@ -14,7 +14,7 @@ const SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({ community: comm 
     const [community, setCommunity] = React.useState(comm);
     const { setAll, activeCommunity } = useCommunityPageState((state) => state);
     return (
-        <HStack bg={ activeCommunity?.id === comm?.id ? '#EAEAFC66':'white'} onClick={() => setAll({ activeCommunity: comm })} ref={ref} paddingX='10px' width='100%' height='60px' borderRadius={activeCommunity?.id === comm?.id ?'8px':'0px'} alignItems={'center'} justifyContent={'space-between'} borderBottomWidth={activeCommunity?.id === comm?.id ?'0px':'1px'} borderBottomColor={'lightgrey'}>
+        <HStack bg={ activeCommunity?.id === comm?.id ? '#EAEAFC66':'white'} onClick={() => setAll({ activeCommunity: comm, pageNumber: 0, messages: [], hasNext: false })} ref={ref} paddingX='10px' width='100%' height='60px' borderRadius={activeCommunity?.id === comm?.id ?'8px':'0px'} alignItems={'center'} justifyContent={'space-between'} borderBottomWidth={activeCommunity?.id === comm?.id ?'0px':'1px'} borderBottomColor={'lightgrey'}>
 
             <HStack>
                 <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>

@@ -25,7 +25,7 @@ function Community() {
   const switchPages = React.useCallback(() => {
     switch (activeTab) {
       case 1: {
-        return <MyCommunities />
+        return <CommunityChat />
       }
       case 2: {
         return <FindCommunity />
