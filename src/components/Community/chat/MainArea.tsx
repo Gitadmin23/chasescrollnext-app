@@ -1,4 +1,3 @@
-import { useCommunityPageState } from '@/app/dashboard/community/chat/state'
 import CustomText from '@/components/general/Text';
 import { Box, Spinner, VStack } from '@chakra-ui/react';
 import React from 'react'
@@ -13,6 +12,7 @@ import { uniqBy } from 'lodash';
 import { useDetails } from '@/global-state/useUserDetails';
 import MessageCard from './MessageCard';
 import { IComment } from '@/models/Comment';
+import { useCommunityPageState } from '@/components/Chat/state';
 
 function MainArea() {
     const [posts, setPosts] = React.useState<IMediaContent[]>([]);
@@ -33,7 +33,7 @@ function MainArea() {
         enabled: activeCommunity !== null,
         onSuccess: (data) => {
             const item: PaginatedResponse<IMediaContent> = data.data;
-            if (item?.content.length > 0) {
+            if (item?.content?.length > 0) {
                 if (item.content[0].sourceId !== activeCommunity?.id) {
                     setAll({ messages: item.content });
                 } else {
@@ -44,8 +44,6 @@ function MainArea() {
                     } else {
                         setAll({ messages: uniqBy(item?.content, 'id'),  hasNext: item.last ? false:true });
                     }
-                   
-                    // console.log(messages);
                 }
             }
           
@@ -83,9 +81,11 @@ function MainArea() {
         )
     }
   return (
-    <VStack width='100%' height="100%" overflow={'hidden'} borderRadius={'20px'} spacing={0} className='chat-area' bgImg={require('../../../../public/assets/images/chat-bg.png')}>
+    <VStack width='100%' height="100%" overflow={'hidden'} borderRadius={'20px'} spacing={0} className='chat-area'>
+
         <CommunityChatHeader />
-        <Box flex={1} width='100%' height={'100%'} overflowX={'hidden'}   overflowY={'auto'}>
+
+        <Box width='100%' height={'100%'} overflowX={'hidden'}   overflowY={'auto'}>
             <VStack spacing={6} paddingX={['10px', '30px']} paddingY='40px' alignItems={'flex-start'} width={'100%'} height={'100%'}>
             {activeCommunity !== null && messages.length > 0 && messages.map((item, index) => {
                 return (
@@ -108,6 +108,7 @@ function MainArea() {
             }
             </VStack>
         </Box>
+
         <TextArea />
     </VStack>
   )

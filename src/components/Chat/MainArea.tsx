@@ -1,7 +1,7 @@
-import { useCommunityPageState } from '@/app/dashboard/community/chat/state'
 import CustomText from '@/components/general/Text';
 import { Box, VStack } from '@chakra-ui/react';
 import React from 'react'
+import { useCommunityPageState } from './state';
 
 function MainArea() {
     const { activeCommunity } = useCommunityPageState((state) => state);

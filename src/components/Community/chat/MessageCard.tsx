@@ -9,10 +9,11 @@ import React from 'react'
 import { FiHeart, FiMessageSquare } from 'react-icons/fi'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import moment from 'moment';
-import { useCommunityPageState } from '@/app/dashboard/community/chat/state';
 import { IoMdCloudDownload } from 'react-icons/io';
 import { THEME } from '@/theme';
 import { IoHeart } from 'react-icons/io5';
+import { useCommunityPageState } from '@/components/Chat/state';
+import LinkExtractor, { handleLinks } from '@/components/general/LinkExtractor';
 
 interface IProps {
     message: IMediaContent;
@@ -125,7 +126,9 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                     </>
                 )}
                 <Box padding='5px' width='100%'>
-                    <CustomText width={'100%'} textOverflow={'clip'} color={'black'} fontFamily={'Satoshi-Regular'} fontSize={'md'}>{post?.text}</CustomText>
+                    {/* <LinkExtractor text={post?.text} /> */}
+                    {handleLinks(post?.text)}
+                    {/* <CustomText width={'100%'} textOverflow={'clip'} color={'black'} fontFamily={'Satoshi-Regular'} fontSize={'md'}>{post?.text}</CustomText> */}
                 </Box>
                 <HStack>
                     <CustomText fontFamily={'DM-Regular'} fontSize='12px'>{post?.commentCount} <CustomText color='brand.chasescrollButtonBlue' display={'inline'}>Reply</CustomText> </CustomText>

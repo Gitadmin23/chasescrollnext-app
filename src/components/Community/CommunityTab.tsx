@@ -32,15 +32,12 @@ const Tab = ({ title, isActive, onChange, index }: {
 function CommunityTab({ activeTab, setActiveTab, showModal }: IProps) {
     const router = useRouter();
   return (
-    <HStack width='100%' height='60px' alignItems={'center'}  paddingY={'5px'} paddingLeft={'20px'} borderBottomWidth='0.8px' borderBottomColor={'lightgrey'}>
+    <HStack width='100%' height='60px' alignItems={'center'}  paddingY={'5px'} paddingX={'5px'} borderBottomWidth='0.8px' borderBottomColor={'lightgrey'}>
         <HStack flex={1} height='100%' borderRadius={'20px'} justifyContent={'flex-start'}>
             { TAB_TITLES.map((item, index) => (
                 <Tab index={index+1} title={item} key={index.toString()} isActive={activeTab === index + 1} onChange={setActiveTab}  />
             ))}
         </HStack>
-        {/* <VStack onClick={() => router.push('community/create')} display={['none', 'flex']} width='100px' height={'100%'} justifyContent={'center'} alignItems={'center'}>
-            <FiPlusSquare size='30px' color={THEME.COLORS.chasescrollButtonBlue} />
-        </VStack> */}
     </HStack>
   )
 }

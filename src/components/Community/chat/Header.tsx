@@ -1,4 +1,4 @@
-import { useCommunityPageState } from '@/app/dashboard/community/chat/state';
+import { useCommunityPageState } from '@/components/Chat/state';
 import CustomText from '@/components/general/Text'
 import { RESOURCE_BASE_URL } from '@/services/urls';
 import { THEME } from '@/theme';
@@ -15,17 +15,18 @@ import { Avatar, HStack, VStack,  Menu,
   Box
  } from '@chakra-ui/react'
 import React from 'react'
-import { FiPlusSquare } from 'react-icons/fi';
+import { FiPlusSquare, FiX } from 'react-icons/fi';
 import { IoMdInformationCircleOutline } from 'react-icons/io'
 
 
 function CommunityChatHeader() {
-  const { activeCommunity } = useCommunityPageState((state) => state);
+  const { activeCommunity, setAll } = useCommunityPageState((state) => state);
 
   return (
-   <HStack width='100%' height={'70px'} bg='white' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingX={'20px'} justifyContent={'space-between'}>
+   <HStack width='100%' height={'80px'} bg='white' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingX={'20px'} justifyContent={'space-between'}>
 
     <HStack>
+      <FiX fontSize="25px" onClick={() => setAll({ activeCommunity: null, activeMessageId: ''})} />
           <Box width='45px' height='45px' borderRadius={'36px 0px 36px 36px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>
                     { activeCommunity?.data.imgSrc === null && (
                         <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>

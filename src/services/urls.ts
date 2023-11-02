@@ -44,7 +44,7 @@ export const URLS = {
     FIND_GROUPS: "/group/group",
     JOINED_GROUPS: "/group/group",
     GET_GROUP_REQUESTS: "",
-    GET_GROUP_MESSAGES: ""
+    GET_GROUP_MESSAGES: "/feed/get-all-group-posts"
 }
 
 export const IMAGE_URL = process.env.NEXT_PUBLIC_RESOURCE_URL;

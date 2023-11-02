@@ -87,13 +87,19 @@ function Sidebar() {
 
     {/* CHATS */}
     {
-        !isLoading && !isError && communitiies.length > 0 && communitiies.map((item, index) => {
-            if (index === communitiies.length - 1) {
-                return <SidebarCard ref={lastChildRef} key={index.toString()} community={item} />
-            } else {
-                return <SidebarCard key={index.toString()} community={item} />
-            }
-        })
+        !isLoading && !isError && communitiies.length > 0 && (
+            <Box width={'100%'} height={'100%'} overflowY={'auto'} paddingBottom={'100px'}>
+            {
+                 !isLoading && !isError && communitiies.length > 0 && communitiies.map((item, index) => {
+                     if (index === communitiies.length - 1) {
+                         return <SidebarCard ref={lastChildRef} key={index.toString()} community={item} />
+                     } else {
+                         return <SidebarCard key={index.toString()} community={item} />
+                     }
+                 })
+             }
+            </Box>
+        )
     }
 
     {
