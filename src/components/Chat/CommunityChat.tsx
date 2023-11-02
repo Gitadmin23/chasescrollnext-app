@@ -99,7 +99,7 @@ const createComment = useMutation({
               <DrawerHeader borderBottomWidth={'1px'} borderBottomColor={'lightgrey'}>
                 <HStack justifyContent={'space-between'}>
                   <CustomText>Replies</CustomText>
-                  <FiX fontSize='25px' color={THEME.COLORS.chasescrollButtonBlue} />
+                  <FiX fontSize='25px' color={THEME.COLORS.chasescrollButtonBlue} onClick={() => setAll({ drawerOpen: false })} />
                 </HStack>
               </DrawerHeader>
 
@@ -151,12 +151,35 @@ const createComment = useMutation({
             </DrawerContent>
           </Drawer>
         {/* END OF DRAWER */}
-        <Box width={'30%'} height={'100%'} borderRightColor={'lightgrey'} borderRightWidth={activeCommunity !== null ?'1px':'0px'} >
-            <Sidebar />
-        </Box>
-        <VStack flex={1} height='90%' bg='white' borderWidth={activeCommunity !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeCommunity !== null ? '0px':'20px'}>
-            <MainArea />
-        </VStack>
+
+        {/* BIG SCCREEN */}
+        <HStack width='100%' height='100%' display={['none', 'flex']} spacing={0}>
+
+          <Box width={'30%'} height={'100%'} borderRightColor={'lightgrey'} borderRightWidth={activeCommunity !== null ?'1px':'0px'} >
+              <Sidebar />
+          </Box>
+
+          <VStack flex={1} height='80%' bg='white' borderWidth={activeCommunity !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeCommunity !== null ? '0px':'20px'}>
+                <MainArea />
+          </VStack>
+
+        </HStack>
+        
+        {/* SMALL SCREEN */}
+        <HStack flex={1} width='100%' height='100%' display={['flex', 'none']} alignItems={'flex-start'}>
+          { activeCommunity === null && (
+            <Box width={'100%'} height={'100%'} borderRightColor={'lightgrey'} borderRightWidth={activeCommunity !== null ?'1px':'0px'} >
+              <Sidebar />
+          </Box>
+          )}
+        {
+          activeCommunity !== null && (
+            <VStack spacing={0} flex={1} height='82%' bg='white' borderWidth={activeCommunity !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeCommunity !== null ? '0px':'20px'}>
+                <MainArea />
+            </VStack>
+          )
+        }
+        </HStack>
     </HStack>
   )
 }

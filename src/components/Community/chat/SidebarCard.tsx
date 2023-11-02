@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import { useCommunityPageState } from '@/app/dashboard/community/chat/state';
+import { useCommunityPageState } from '@/components/Chat/state';
 import CustomText from '@/components/general/Text'
 import { ICommunity } from '@/models/Communitty'
 import { RESOURCE_BASE_URL } from '@/services/urls';

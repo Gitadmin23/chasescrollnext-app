@@ -1,4 +1,3 @@
-import { useCommunityPageState } from '@/app/dashboard/community/chat/state';
 import { useDetails } from '@/global-state/useUserDetails';
 import { URLS } from '@/services/urls';
 import { THEME } from '@/theme';
@@ -27,6 +26,7 @@ import CustomText from '@/components/general/Text';
 import AWSHook from '../../../hooks/awsHook'
 import { IoReturnDownBackOutline } from 'react-icons/io5';
 import MediaBox from './MediaBox';
+import { useCommunityPageState } from '@/components/Chat/state';
 
 const IMAGE_FORM = ['jpeg', 'jpg', 'png', 'svg'];
 const VIDEO_FORM = ['mp4'];
@@ -38,6 +38,7 @@ function TextArea() {
   const [showEmoji, setShowEmoi] = React.useState(false);
   const [files, setFiles] = React.useState<Array<{ file: string, url: string }>>([]);
   const toast = useToast();
+  const { username } = useDetails((state) => state)
 
   const { fileUploadHandler, loading, uploadedFile, reset, deleteFile } = AWSHook();
   const ref = React.useRef<HTMLInputElement>();
@@ -170,7 +171,10 @@ function TextArea() {
       <input ref={ref as any} onChange={(e) => handleFilePic(e.target.files as FileList)} hidden type='file' accept={accept()} />
         <VStack ref={containerRef as any} width={'100%'} height='100%' borderWidth={'1px'} bg='white' borderColor={THEME.COLORS.chasescrollButtonBlue} borderRadius={'10px'} paddingX='8px' paddingY='8px'>
 
-            <Input value={text} onChange={(e) => setText(e.target.value)} width='100%' height='100%' placeholder='Type your message' borderWidth={'0px'} padding='0px' outline={'none'} _focus={{ outlineColor: 'transparent'}} />
+            <textarea value={text} onChange={(e) => setText(e.target.value)} style={{
+              width: '100%', height: 'auto', backgroundColor: 'transparent',
+              outline: 'none', resize: 'none',
+            }} placeholder={`Say something @${username}`} />
 
             { uploadedFile.length > 0 &&
               <Box width={'100%'} height={'100px'} display={'inline-block'} whiteSpace={'nowrap'}>
