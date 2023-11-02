@@ -1,6 +1,7 @@
 import { useCommunityPageState } from '@/app/dashboard/community/chat/state';
 import CustomText from '@/components/general/Text'
 import { RESOURCE_BASE_URL } from '@/services/urls';
+import { THEME } from '@/theme';
 import { Avatar, HStack, VStack,  Menu,
   MenuButton,
   MenuList,
@@ -14,6 +15,7 @@ import { Avatar, HStack, VStack,  Menu,
   Box
  } from '@chakra-ui/react'
 import React from 'react'
+import { FiPlusSquare } from 'react-icons/fi';
 import { IoMdInformationCircleOutline } from 'react-icons/io'
 
 
@@ -21,7 +23,7 @@ function CommunityChatHeader() {
   const { activeCommunity } = useCommunityPageState((state) => state);
 
   return (
-   <HStack width='100%' height={'100px'} bg='white' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingX={'20px'} justifyContent={'space-between'}>
+   <HStack width='100%' height={'70px'} bg='white' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingX={'20px'} justifyContent={'space-between'}>
 
     <HStack>
           <Box width='45px' height='45px' borderRadius={'36px 0px 36px 36px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>
@@ -42,16 +44,19 @@ function CommunityChatHeader() {
         </VStack>
     </HStack>
 
-   <Menu>
-      <MenuButton>
-        <IoMdInformationCircleOutline color='grey' fontSize='25px' />
-      </MenuButton>
-      <MenuList padding='0px'>
-        <MenuItem height={'50px'}>Group information</MenuItem>
-        <MenuItem height={'50px'} color={'red'}>Report community</MenuItem>
-        <MenuItem height={'50px'} color='red' >Exit community</MenuItem>
-      </MenuList>
-   </Menu>
+   <HStack>
+    <FiPlusSquare cursor='pointer' fontSize={'25px'} color={THEME.COLORS.chasescrollButtonBlue} />
+    <Menu>
+        <MenuButton>
+          <IoMdInformationCircleOutline color='grey' fontSize='25px' />
+        </MenuButton>
+        <MenuList padding='0px'>
+          <MenuItem height={'50px'}>Group information</MenuItem>
+          <MenuItem height={'50px'} color={'red'}>Report community</MenuItem>
+          <MenuItem height={'50px'} color='red' >Exit community</MenuItem>
+        </MenuList>
+    </Menu>
+   </HStack>
 
    </HStack>
   )

@@ -10,9 +10,9 @@ const cred = {
 
 const AWSHook = () => {
     const [loading, setLoading] = useState(false)
-    const [uploadedFile, setUploadedFile] = useState([]);
+    const [uploadedFile, setUploadedFile] = useState<Array<{file: string, url: string}>>([]);
 
-    const fileUploadHandler = (files) => {
+    const fileUploadHandler = (files:FileList) => {
         setLoading(true);
         console.time('upload');
 
@@ -47,7 +47,7 @@ const AWSHook = () => {
 
         Promise.all(uploadPromises)
             .then((results) => {
-                let urls = results.map((r) => ({ file: r.Key, url: r.Location }));
+                let urls = results.map((r: any) => ({ file: r.Key, url: r.Location }));
 
                 setUploadedFile([...urls, ...uploadedFile]);
                 setLoading(false);
@@ -59,8 +59,16 @@ const AWSHook = () => {
             });
     };
 
+    const reset = () => {
+        setUploadedFile([]);
+    }
 
-    return ({ loading, uploadedFile, fileUploadHandler })
+    const deleteFile = (index: number) => {
+        setUploadedFile(prev => prev.filter((_, i) => index !== i));
+    }
+
+
+    return ({ loading, uploadedFile, fileUploadHandler, reset, deleteFile })
 }
 
 export default AWSHook

@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import CustomText from '@/components/general/Text';
 import { useDetails } from '@/global-state/useUserDetails';
 import { IMediaContent } from '@/models/MediaPost'
@@ -8,16 +9,22 @@ import React from 'react'
 import { FiHeart, FiMessageSquare } from 'react-icons/fi'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import moment from 'moment';
+import { useCommunityPageState } from '@/app/dashboard/community/chat/state';
+import { IoMdCloudDownload } from 'react-icons/io';
+import { THEME } from '@/theme';
+import { IoHeart } from 'react-icons/io5';
 
 interface IProps {
     message: IMediaContent;
+    id: string|undefined;
 }
 
-function MessageCard({ message }: IProps) {
+const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = undefined }, ref) => {
     const [post, setPost] = React.useState(message);
     const [shoowSubmenu, setShowSubmenu] = React.useState(false);
 
     const queryClient = useQueryClient();
+    const { setAll } = useCommunityPageState((state) => state)
     // query
     const { isLoading } = useQuery([`getSinglePost-${post.id}`, message?.id], () => httpService.get(`${URLS.GET_POST_BY_ID}/${message.id}`), {
         onSuccess: (data) => {
@@ -48,8 +55,23 @@ function MessageCard({ message }: IProps) {
             <CustomText>Loading...</CustomText>
         )
     }
+
+    const downloadFile = (url: string) => {
+        const name = url.split('amazonaws.com/')[1]
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = name;
+        anchor.click();
+      };
+
+      const FileExtentions = (url: string) => {
+        const __format__ = url.split('.');
+        const format = __format__[__format__.length - 1];
+        return format.toUpperCase();
+      }
+    
   return (
-    <HStack onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'center'} alignSelf={post?.user.userId === myId ? 'flex-end':'flex-start'} flexDirection={self ? 'row':'row-reverse'}>
+    <HStack id={id} ref={ref} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'center'} alignSelf={post?.user.userId === myId ? 'flex-end':'flex-start'} flexDirection={self ? 'row':'row-reverse'}>
        
        <HStack width='100%' justifyContent={'space-between'} flexDirection={self ? 'row':'row-reverse'}>
             {/* <HStack>
@@ -64,25 +86,44 @@ function MessageCard({ message }: IProps) {
             { shoowSubmenu && (
                 <HStack bg="white" borderRadius={'10px'} padding='5px' spacing={3} shadow={'md'}>
                     { likeMutation.isLoading && <Spinner /> }
-                        { !likeMutation.isLoading && <FiHeart onClick={() => likeMutation.mutate()} cursor='pointer' fontSize='20px' color={post?.likeStatus === 'LIKED' ? 'red':'grey'} width={'20px'} height={'20px'} />}
-                    <Image src='/assets/images/message.png' alt='message' width={'20px'} height={'20px'} />
+                        { !likeMutation.isLoading && <IoHeart onClick={() => likeMutation.mutate()} cursor='pointer' fontSize='20px' color={post?.likeStatus === 'LIKED' ? 'red':'grey'} width={'20px'} height={'20px'} />}
+                    <Image src='/assets/images/message.png' alt='message' width={'20px'} height={'20px'} onClick={() => setAll({ activeMessageId: post.id, commentHasNext: false, commentPage: 0, comments: [], drawerOpen: true })} />
                     {/* <Image src='/assets/images/smile.png' alt='smile' width={'20px'} height={'20px'} /> */}
                     {/* <Image src='/asstes/forward.png' alt='forward' /> */}
                 </HStack>
             )}
 
             <VStack spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'}  bg={ self ? '':''}>
-                {post.mediaRef !== null && (
-                    <>
-                        { !post.mediaRef.includes('mp4') && (
-                            <Image src={`${RESOURCE_BASE_URL}${post?.mediaRef}`} alt='img' width={'100%'} height={'150px'} borderRadius={'20px'} />
-                        )}
-                    </>
-                )}
                 <HStack>
                     <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{post?.user?.username}</CustomText>
                     <CustomText fontFamily={'DM-Medium'} fontSize={'12px'}>{moment(post?.timeInMilliseconds).format('HH:MM')}</CustomText>
                 </HStack>
+                {post.mediaRef !== null && (
+                    <>
+                        { post.type === 'WITH_IMAGE' && (
+                            <Image src={`${post?.mediaRef}`} alt='img' width={'100%'} height={'150px'} objectFit={'cover'} borderRadius={'20px'} />
+                        )}
+                        {
+                            post.type === 'WITH_VIDEO_POST' && (
+                                <video controls width={'100%'} height={'150px'} style={{ borderRadius: '20px' }}>
+                                    <source src={post.mediaRef}  />
+                                </video>
+                            )
+                        }
+                        {
+                            post.type === 'WITH_FILE' && (
+                                <HStack width='100%' height={'100px'} >
+                                    <Box flex='0.2' onClick={() => downloadFile(post.mediaRef)}>
+                                        <IoMdCloudDownload color={THEME.COLORS.chasescrollButtonBlue} fontSize='40px' />
+                                    </Box>
+                                    <Box width='100%'>
+                                        <CustomText width='80%' color="brand.chasescrollButtonBlue" fontFamily={'DM-Bold'} fontSize={'16px'}>{FileExtentions(post.mediaRef)}</CustomText>
+                                    </Box>
+                                </HStack>
+                            )
+                        }
+                    </>
+                )}
                 <Box padding='5px' width='100%'>
                     <CustomText width={'100%'} textOverflow={'clip'} color={'black'} fontFamily={'Satoshi-Regular'} fontSize={'md'}>{post?.text}</CustomText>
                 </Box>
@@ -109,6 +150,6 @@ function MessageCard({ message }: IProps) {
         
     </HStack>
   )
-}
+});
 
 export default MessageCard
