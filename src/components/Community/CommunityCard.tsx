@@ -8,7 +8,7 @@ import Link from 'next/link'
 
 interface IProps {
     community: ICommunity;
-    hasJoined: boolean;
+    hasJoined?: boolean;
 }
 
 function CommunityCard({ community, hasJoined }: IProps) {

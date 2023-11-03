@@ -52,14 +52,14 @@ function SelectTicket(props: Props) {
                     status: "error",
                     title: "Error",
                     description: "minimum ticket can't be greater than total number of ticket",
-                    position:"top-right"
+                    position: "top-right"
                 })
             } else {
                 toast({
                     status: "error",
                     title: "Error",
                     description: "maximum ticket can't be greater than total number of ticket",
-                    position:"top-right"
+                    position: "top-right"
                 })
             }
         }
@@ -88,7 +88,7 @@ function SelectTicket(props: Props) {
             ticketType: "",
             minTicketBuy: null,
             maxTicketBuy: null
-        } 
+        }
         updateEvent({
             ...eventdata,
             productTypeData: myArr
@@ -100,45 +100,47 @@ function SelectTicket(props: Props) {
             {eventdata.productTypeData?.map((item: any, index: number) => {
                 return (
                     <Flex width={"full"} flexDirection={"column"} border={"1px solid #E2E8F0"} roundedBottom={"3xl"} roundedTopLeft={"3xl"} p={"6"} gap={"4"} key={index + item} >
-                        <Flex width={"full"} flexDir={["column", "column", "row"]} gap={"3"} >
-                            <Box width={"full"}>
-                                <label className="block text-gray-700 font-medium mb-2">
-                                    Enter Ticket Name
-                                </label>
-                                <Flex >
-                                    <Input
-                                        h={"45px"}
-                                        type="text"
-                                        border={"1px solid #E2E8F0"} 
-                                        focusBorderColor={"#E2E8F0"} 
-                                        placeholder="Enter Name"
-                                        disabled={eventdata.productTypeData[index]?.ticketType === "Free" ? true : false}
-                                        value={eventdata.productTypeData[index]?.ticketType}
-                                        name="ticketType"
-                                        onChange={e => handleChange(index, "ticketType", e.target.value)}
-                                    />
-                                </Flex>
-                            </Box>
-                            <Box width={"full"} >
-                                <label className="block text-gray-700 font-medium mb-2">
-                                    Enter Price
-                                </label>
-                                <Flex gap={"2"} >
-                                    <Input
-                                        h={"45px"}
-                                        type="number"
-                                        width={"full"}
-                                        border={"1px solid #E2E8F0"}                                
-                                        focusBorderColor={"#E2E8F0"} 
-                                        placeholder="Enter amount"
-                                        value={eventdata.productTypeData[index]?.ticketPrice}
-                                        disabled={eventdata.productTypeData[index]?.ticketType === "Free" ? true : false}
-                                        name="ticketPrice"
-                                        onChange={e => handleChange(index, "ticketPrice", e.target.value)}
-                                    />
-                                </Flex>
-                            </Box>
-                        </Flex>
+                        {eventdata.productTypeData[0]?.ticketType !== "Free" &&
+                            <Flex width={"full"} flexDir={["column", "column", "row"]} gap={"3"} >
+                                <Box width={"full"}>
+                                    <label className="block text-gray-700 font-medium mb-2">
+                                        Enter Ticket Name
+                                    </label>
+                                    <Flex >
+                                        <Input
+                                            h={"45px"}
+                                            type="text"
+                                            border={"1px solid #E2E8F0"}
+                                            focusBorderColor={"#E2E8F0"}
+                                            placeholder="Enter Name"
+                                            disabled={eventdata.productTypeData[index]?.ticketType === "Free" ? true : false}
+                                            value={eventdata.productTypeData[index]?.ticketType}
+                                            name="ticketType"
+                                            onChange={e => handleChange(index, "ticketType", e.target.value)}
+                                        />
+                                    </Flex>
+                                </Box>
+                                <Box width={"full"} >
+                                    <label className="block text-gray-700 font-medium mb-2">
+                                        Enter Price
+                                    </label>
+                                    <Flex gap={"2"} >
+                                        <Input
+                                            h={"45px"}
+                                            type="number"
+                                            width={"full"}
+                                            border={"1px solid #E2E8F0"}
+                                            focusBorderColor={"#E2E8F0"}
+                                            placeholder="Enter amount"
+                                            value={eventdata.productTypeData[index]?.ticketPrice}
+                                            disabled={eventdata.productTypeData[index]?.ticketType === "Free" ? true : false}
+                                            name="ticketPrice"
+                                            onChange={e => handleChange(index, "ticketPrice", e.target.value)}
+                                        />
+                                    </Flex>
+                                </Box>
+                            </Flex>
+                        }
                         <Box width={"full"} >
                             <label className="block text-gray-700 font-medium mb-2">
                                 Indicate total number of tickets available to be sold for your
@@ -147,8 +149,8 @@ function SelectTicket(props: Props) {
                             <Input
                                 h={"45px"}
                                 type="number"
-                                border={"1px solid #E2E8F0"} 
-                                focusBorderColor={"#E2E8F0"} 
+                                border={"1px solid #E2E8F0"}
+                                focusBorderColor={"#E2E8F0"}
                                 placeholder=" Type in available quantity"
                                 // value={eventdata.totalTicketAvailable}
                                 value={eventdata.productTypeData[index]?.totalNumberOfTickets}
@@ -166,8 +168,8 @@ function SelectTicket(props: Props) {
                             <Input
                                 h={"45px"}
                                 type="number"
-                                border={"1px solid #E2E8F0"} 
-                                focusBorderColor={"#E2E8F0"} 
+                                border={"1px solid #E2E8F0"}
+                                focusBorderColor={"#E2E8F0"}
                                 placeholder="Type in minimum no of Tickets"
                                 value={eventdata.productTypeData[index]?.minTicketBuy}
                                 name="minTicketBuy"
@@ -175,8 +177,8 @@ function SelectTicket(props: Props) {
                             <Input
                                 h={"45px"}
                                 type="number"
-                                border={"1px solid #E2E8F0"}  
-                                focusBorderColor={"#E2E8F0"} 
+                                border={"1px solid #E2E8F0"}
+                                focusBorderColor={"#E2E8F0"}
                                 placeholder="Type in maximum no. of Tickets"
                                 value={eventdata.productTypeData[index]?.maxTicketBuy}
                                 name="maxTicketBuy"
@@ -185,7 +187,7 @@ function SelectTicket(props: Props) {
                         {eventdata.productTypeData[index]?.ticketType && (
                             <>
                                 {index !== 0 && (
-                                    <CustomButton onClick={() => HandleDeleteTicket(eventdata.productTypeData[index]?.ticketType)} backgroundColor={"brand.chasescrollRed"} width={"fit-content"} text='Remove Ticket' /> 
+                                    <CustomButton onClick={() => HandleDeleteTicket(eventdata.productTypeData[index]?.ticketType)} backgroundColor={"brand.chasescrollRed"} width={"fit-content"} text='Remove Ticket' />
                                 )}
                             </>
                         )}
@@ -200,8 +202,8 @@ function SelectTicket(props: Props) {
             )}
             <Select
                 h={"45px"}
-                border={"1px solid #E2E8F0"} 
-                focusBorderColor={"#E2E8F0"} 
+                border={"1px solid #E2E8F0"}
+                focusBorderColor={"#E2E8F0"}
                 placeholder="Type in maximum no. of Tickets"
                 value={eventdata.currency}
                 name="currency"

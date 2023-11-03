@@ -30,10 +30,10 @@ function EventCategory(props: Props) {
         <Flex pb={"8"} flexDirection={"column"} overflowX={"hidden"} >
             <Box width={"full"} overflowX={"auto"} >
                 <Flex gap={"4"} width={"fit-content"} py={"4"} >
-                    <Button width={"235px"} height={"45px"} fontWeight={"semibold"} bg={type === "All Event" ? "brand.chasescrollBlue" : "#98929214"} color={type === "All Event" ? "white" : ""} >All Event</Button>
+                    <Button width={"150px"} height={"45px"} fontSize={"sm"} fontWeight={"semibold"} bg={type === "All Event" ? "brand.chasescrollBlue" : "#98929214"} color={type === "All Event" ? "white" : ""} >All Event</Button>
                     {data?.map((item: any) => {
                         return (
-                            <Button key={item} width={"235px"} height={"45px"} fontWeight={"semibold"} bg={type === item ? "brand.chasescrollBlue" : "#98929214"} color={type === item ? "white" : ""} >{item?.split("_")?.join(" ")}</Button>
+                            <Button key={item} width={"180px"} height={"45px"} fontSize={"sm"} fontWeight={"semibold"} bg={type === item ? "brand.chasescrollBlue" : "#98929214"} borderColor={"brand.chasescrollBlue"} borderWidth={"1px"} color={type === item ? "white" : "brand.chasescrollBlue"} >{item?.split("_")?.join(" ")}</Button>
                         )
                     })}
                 </Flex>

@@ -32,8 +32,12 @@ function EventLocationDetail(props: Props) {
         <>
             {!indetail && (
                 <Flex gap={"1"} alignItems={"center"} >
-                    {!noicon && (  
-                        <LocationIcon style={{width: iconsize ? iconsize : "20px"}} /> 
+                    {!noicon && (
+                        <Box width={"fit-content"} >
+                            <Box width={iconsize ? iconsize : "20px"} display={"flex"} justifyContent={"center"} alignItems={"center"} >
+                                <LocationIcon style={{ width: iconsize ? iconsize : "20px" }} />
+                            </Box>
+                        </Box>
                     )}
                     <Text fontWeight={fontWeight ? fontWeight : "semibold"} color={color ? color : "brand.chasescrollBlue"} fontSize={fontsize ? fontsize : "sm"} >
                         {location?.locationDetails && (
@@ -43,13 +47,13 @@ function EventLocationDetail(props: Props) {
                             <p>To Be Announced</p>
                         )}
                         {(location?.link) && (
-                            <a href={location?.link} style={{color: color ? color : "#5D70F9", fontSize:fontsize ? fontsize : "sm", fontWeight: fontWeight ? fontWeight : "semibold" }} target="_blank" className=' font-bold text-sm text-chasescrollBlue ' >Join Online</a>
+                            <a href={location?.link} style={{ color: color ? color : "#5D70F9", fontSize: fontsize ? fontsize : "sm", fontWeight: fontWeight ? fontWeight : "semibold" }} target="_blank" className=' font-bold text-sm text-chasescrollBlue ' >Join Online</a>
                         )}
                     </Text>
                 </Flex>
             )}
             {indetail && (
-                <Box display={"flex"} flexDirection={"column"} borderBottomWidth={"1px"} roundedBottom={"lg"}  py={"2"} >
+                <Box display={"flex"} flexDirection={"column"} borderBottomWidth={"1px"} roundedBottom={"lg"} py={"2"} >
                     <Text fontSize={"sm"} fontWeight={"semibold"} >{"Event location"}</Text>
                     <Flex width={"full"} gap={"3"} mt={"3"} alignItems={"center"} >
                         <LocationIcon className="" />
