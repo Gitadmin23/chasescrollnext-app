@@ -1,5 +1,3 @@
-import { Chat } from '@/models/Chat';
-import { ChatMessage } from '@/models/ChatMessage';
 import { IComment } from '@/models/Comment';
 import { ICommunity } from '@/models/Communitty';
 import { IEvent } from '@/models/Events';
@@ -7,8 +5,8 @@ import { IMediaContent } from '@/models/MediaPost';
 import { create } from 'zustand';
 
 type ICommunityPageState = {
-    activeChat: Chat | null;
-    messages: ChatMessage[] | [];
+    activeCommunity: ICommunity | null;
+    messages: IMediaContent[] | [];
     pageNumber: number;
     hasNext: boolean;
     drawerOpen: boolean;
@@ -23,8 +21,8 @@ type ICommunityPageState = {
     setAll: (data: Partial<ICommunityPageState>) => void
 }
 
-export const useChatPageState = create<ICommunityPageState>((set) => ({
-    activeChat: null,
+export const useCommunityPageState = create<ICommunityPageState>((set) => ({
+    activeCommunity: null,
     drawerOpen: false,
     messages: [],
     pageNumber: 0,

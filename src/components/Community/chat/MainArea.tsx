@@ -12,7 +12,7 @@ import { uniqBy } from 'lodash';
 import { useDetails } from '@/global-state/useUserDetails';
 import MessageCard from './MessageCard';
 import { IComment } from '@/models/Comment';
-import { useCommunityPageState } from '@/components/Chat/state';
+import { useCommunityPageState } from '@/components/Community/chat/state';
 import { FiCalendar } from 'react-icons/fi';
 import { THEME } from '@/theme';
 import EventCard from './EventCard';

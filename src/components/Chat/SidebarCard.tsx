@@ -1,21 +1,39 @@
+/* eslint-disable react/display-name */
 import CustomText from '@/components/general/Text'
-import { Avatar, HStack, VStack } from '@chakra-ui/react'
+import { useDetails } from '@/global-state/useUserDetails'
+import { Chat } from '@/models/Chat'
+import { IMAGE_URL, URLS } from '@/services/urls'
+import httpService from '@/utils/httpService'
+import { Avatar, Box, HStack, VStack, Image } from '@chakra-ui/react'
 import React from 'react'
+import { useQuery } from 'react-query'
 
 interface IProps {
-    
+    chat: Chat
 }
 
-function SidebarCard() {
+const  SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({chat}, ref) => {
+    
   return (
-   <HStack width='100%' height='100px' borderRadius={'0px'} alignItems={'center'} justifyContent={'space-between'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'}>
+   <HStack ref={ref} width='100%' height='100px' borderRadius={'0px'} alignItems={'center'} justifyContent={'space-between'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'}>
 
     <HStack>
-        <Avatar name='daniel ema' size={'sm'} />
+            <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+                    { chat?.otherUser?.data.imgMain.value === null && (
+                        <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                            <CustomText fontFamily={'DM-Regular'}>{chat?.otherUser.username[0].toUpperCase()}</CustomText>
+                        </VStack>
+                    )}
+                    {
+                        chat?.otherUser?.data.imgMain.value && (
+                            <Image src={`${IMAGE_URL}${chat?.otherUser?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                        )
+                    }
+                </Box>
 
         <VStack alignItems={'flex-start'}>
-            <CustomText fontFamily={'Satoshi-Regular'} fontSize={'18px'}>Otuekong Archibong</CustomText>
-            <CustomText fontFamily={'Satoshi-Light'} fontSize={'14px'}>what ahppened to you yesterday</CustomText>
+            <CustomText fontFamily={'DM-Medium'} fontSize={'14px'}>{chat?.type === 'GROUP' ? chat?.name: `${chat?.otherUser.firstName} ${chat?.otherUser.lastName}`}</CustomText>
+            <CustomText fontFamily={'Satoshi-Light'} fontSize={'14px'}>{chat.lastMessage && chat.lastMessage}</CustomText>
         </VStack>
     </HStack>
 
@@ -28,6 +46,6 @@ function SidebarCard() {
    
    </HStack>
   )
-}
+})
 
 export default SidebarCard
