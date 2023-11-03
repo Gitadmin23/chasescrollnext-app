@@ -16,7 +16,7 @@ function Layout({ children }: {
             {(!pathname?.includes("details") && !pathname?.includes("create_event")) && (
                 <Flex width={"full"} justifyContent={"space-between"} pb={"8"} alignItems={"center"}  >
                     <SelectEventPage />
-                    <Flex onClick={()=> route.push("/dashboard/event/create_event")} as={"button"} width={"fit-content"} fontWeight={"semibold"} border={"1px solid #3C41F0"} px={"10px"} color={"brand.chasescrollBlue"} fontSize={"12px"} height={"25px"} rounded={"32px"}  alignItems={"center"} gap={"2"} > 
+                    <Flex onClick={()=> route.replace("/dashboard/event/create_event")} as={"button"} width={"fit-content"} fontWeight={"semibold"} border={"1px solid #3C41F0"} px={"10px"} color={"brand.chasescrollBlue"} fontSize={"12px"} height={"25px"} rounded={"32px"}  alignItems={"center"} gap={"2"} > 
                         Create Event
                     </Flex>
                 </Flex>

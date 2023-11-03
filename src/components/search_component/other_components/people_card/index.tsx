@@ -5,13 +5,21 @@ import React from 'react'
 
 interface Props {
     person: any,
-    search: boolean
+    index?: any,
+    search?: boolean,
+    profile?: boolean,
+    connects?: boolean,
+    request?: boolean
 }
 
 function PeopleCard(props: Props) {
     const {
         person,
-        search
+        index,
+        search,
+        profile,
+        request,
+        connects
     } = props  
 
 	const [isFriend, setisFriend] = React.useState(person?.joinStatus)
@@ -23,11 +31,11 @@ function PeopleCard(props: Props) {
                     <UserImage fontWeight={"semibold"} border={search ? "1px": "5px"} data={person} size={search ? "32px":50} font={search ? "[16px]" : '[30px]'}  />
                 </Box>
                 <Box>
-                    <Text fontSize={search? "14px" :"20px"} fontWeight={"medium"} >{(person?.firstName+" "+person?.lastName)?.length > 15 ? (person?.firstName+" "+person?.lastName)?.slice(0, 15)+"...": (person?.firstName+" "+person?.lastName)}</Text>
-                    <Text fontSize={search? "10px" :"sm"} fontWeight={search? "medium" :"semibold"} color={"brand.chasescrollTextGrey2"} >{person?.username?.length > 15 ? person?.username?.slice(0, 15)+"...": person?.username}</Text>
+                    <Text fontSize={request ? "15px" : search? "14px" :"15px"} fontWeight={"medium"} >{(person?.firstName+" "+person?.lastName)?.length > 15 ? (person?.firstName+" "+person?.lastName)?.slice(0, 15)+"...": (person?.firstName+" "+person?.lastName)}</Text>
+                    <Text fontSize={search? "10px" :"sm"} fontWeight={search? "medium" :"semibold"} color={"brand.chasescrollTextGrey2"} >@{person?.username?.length > 15 ? person?.username?.slice(0, 15)+"...": person?.username}</Text>
                 </Box>
             </Flex> 
-            <AddOrRemoveUserBtn search={search} width={search ? "85px" : '160px'} name={isFriend === "FRIEND_REQUEST_SENT" ? "Pending" : isFriend === "CONNECTED" ? "Disconnected": "Connect"} setJoinStatus={setisFriend} user_index={person?.userId} />
+            <AddOrRemoveUserBtn index={index} connects={connects} request={request} profile={profile} search={search} width={search ? "85px" : '120px'} name={isFriend === "FRIEND_REQUEST_SENT" ? "Pending" : isFriend === "CONNECTED" ? "Disconnect": "Connect"} setJoinStatus={setisFriend} user_index={person?.userId} />
         </Flex>
     )
 }

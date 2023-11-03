@@ -1,12 +1,13 @@
 import CustomText from '@/components/general/Text';
-import { HStack, VStack } from '@chakra-ui/react';
-import Link from 'next/link';
+import { CalendarIcon, HomeIcon, MessageIcon, ProfileIcon2, SearchIcon, UsersIcon } from '@/components/svg';
+import { useDetails } from '@/global-state/useUserDetails';
+import { Box, Flex, HStack, Link, VStack } from '@chakra-ui/react'; 
 import { usePathname } from 'next/navigation';
 import React, { ReactNode } from 'react'
 import { FiHome, FiSearch, FiCalendar, FiMessageCircle, FiUsers, FiUser, FiPower } from 'react-icons/fi';
 
 type IRoute = {
-    icon: ReactNode;
+    icon: any;
     text: string;
     route: string;
 }
@@ -23,47 +24,48 @@ const MenuItem = ({
     route: string;
 }) => {
     return (
-        <Link href={route} style={{ width: '100%' }}>
-            <HStack paddingX={['20px', '40px']} color={active ? 'brand.chasescrollBlue' : 'grey'} width='100%' height='80px' alignItems={'center'}>
+        <Link href={route} style={{ width: '100%', textDecoration: "none" }}  >
+            <Flex paddingX={['20px', '40px']} gap={"4"} _hover={{backgroundColor: "#F8FAFC"}} color={active ? 'brand.chasescrollBlue' : 'grey'} width='100%' height='70px' alignItems={'center'}>
                 {icon}
-                <CustomText fontFamily={'Satoshi-Medium'} fontSize={'16px'}>{text}</CustomText>
-            </HStack>
+                <CustomText fontFamily={'DM-Bold'} fontSize={'16px'}>{text}</CustomText>
+            </Flex>
         </Link>
     )
 }
 
 function Sidebar() { 
     const pathname = usePathname();
+    const { userId: user_index } = useDetails((state) => state);
 
     const routes: IRoute[] = [
         {
             route: '/dashboard/home',
-            icon: <FiHome fontSize='30px' />,
+            icon: <HomeIcon />,
             text: 'Home'
         },
         {
             route: '/dashboard/explore',
-            icon: <FiSearch fontSize='30px' />,
+            icon: <SearchIcon />,
             text: 'Explore'
         },
         {
             route: '/dashboard/event',
-            icon: <FiCalendar fontSize='30px' />,
+            icon: <CalendarIcon />,
             text: 'Event'
         },
         {
             route: '/dashboard/chats',
-            icon: <FiMessageCircle fontSize='30px' />,
+            icon: <MessageIcon />,
             text: 'Chats'
         },
         {
             route: '/dashboard/community',
-            icon: <FiUsers fontSize='30px' />,
+            icon: <UsersIcon />,
             text: 'Community'
         },
         {
-            route: '/dashboard/profile/fhfhhd',
-            icon: <FiUser fontSize='30px' />,
+            route: '/dashboard/profile/' + user_index,
+            icon: <ProfileIcon2 />,
             text: 'Profile'
         }
     ];
@@ -75,10 +77,10 @@ function Sidebar() {
                     <MenuItem {...item} active={pathname.includes(item.text.toLowerCase()) ? true:false} key={index.toString()} />
                 ))}
             </VStack>
-            <HStack paddingX={['20px', '40px']} flex={0.2} width='100%'>
+            <Flex paddingX={['20px', '40px']} gap={"4"} flex={0.2} width='100%' alignItems={"center"} mt={"30px"}  height='70px'>
                 <FiPower fontSize='25px' color="grey"  />
-                <CustomText fontFamily={'Satoshi-Medium'} fontSize={'16px'} color='grey' >Logout</CustomText>
-            </HStack>
+                <CustomText fontFamily={'DM-Bold'} fontSize={'16px'} color='grey' >Logout</CustomText>
+            </Flex>
         </VStack>
 
     )

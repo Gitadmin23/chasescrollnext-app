@@ -44,7 +44,12 @@ export const URLS = {
     FIND_GROUPS: "/group/group",
     JOINED_GROUPS: "/group/group",
     GET_GROUP_REQUESTS: "",
-    GET_GROUP_MESSAGES: "/feed/get-all-group-posts"
+    GET_GROUP_MESSAGES: "/feed/get-all-group-posts", 
+    GET_USER_CONNECTION_LIST: "/user/get-users-connections/", 
+    GET_JOINED_GROUPS: "/group/joined-groups",
+    ACCEPT_USER: "/user/accept-friend-request",
+    REJECT_USER: "/user/reject-friend-request",
+    FRIEND_REQUEST: "/user/friend-requests"
 }
 
 export const IMAGE_URL = process.env.NEXT_PUBLIC_RESOURCE_URL;

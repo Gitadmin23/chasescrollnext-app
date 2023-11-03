@@ -12,21 +12,28 @@ import {
 
 interface Props {
     id: any,
-    click: any
+    click: any,
+    isprofile?: boolean
 }
 
 function SendMessage(props: Props) {
     const {
         id,
-        click
+        click,
+        isprofile
     } = props
 
-    const url_link = WEBSITE_URL+"/event/details/"+ id
+    const url_link = WEBSITE_URL+(isprofile ? "/dashboard/profile/" : "/dashboard/event/details/")+ id
 
     return (
         <Flex width={"full"} justifyContent={"center"} pb={"7"} px={"8"} flexDir={"column"} >
-            <Text color={"#121212CC"} mt={"4"} lineHeight={"18px"} textAlign={"center"} >Spread the word about our upcoming event by sharing a custom link with your friends and colleagues.</Text>
-            <Text mb={"1"} mt={"6"} fontWeight={"semibold"} fontSize={"sm"} color={"#667085"} >Event link</Text>
+            <Text color={"#121212CC"} mt={"4"} lineHeight={"18px"} textAlign={"center"} >
+                {isprofile ?
+                    " Let your friends and connections discover your interests, Connect and inspire with your unique profile today."
+                    : "Spread the word about our upcoming event by sharing a custom link with your friends and colleagues."
+                }
+            </Text>
+            <Text mb={"1"} mt={"6"} fontWeight={"semibold"} fontSize={"sm"} color={"#667085"} >{isprofile ? "Profile link": "Event link"}</Text>
             <CopyButtton text={url_link} />
             <Text py={"5"} textAlign={"center"} >or</Text>
             <Flex width={"full"} justifyContent={"space-evenly"}>

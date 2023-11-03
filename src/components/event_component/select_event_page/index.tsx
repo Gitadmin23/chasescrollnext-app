@@ -46,7 +46,7 @@ function SelectEventPage(props: Props) {
     }, [pathname, tablist])
     
     const clickHandler =(name: string, route: string)=> {
-        router.push(route)
+        router.replace(route)
         setShowSelector(false)
         setShowPage(name)
     }
