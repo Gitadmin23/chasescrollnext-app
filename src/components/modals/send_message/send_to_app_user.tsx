@@ -30,9 +30,10 @@ const UserCard = (props: IUser & { checked: boolean, handleCheck: (e: string) =>
     )
 }
 
-function SendMesageModal({ onClose, id }: { 
+function SendMesageModal({ onClose, id, isprofile }: { 
     onClose: () => void,
-    id: string
+    id: string,
+    isprofile?: boolean
 }) {
 
     const [search, setSearch] = React.useState('');
@@ -59,7 +60,7 @@ function SendMesageModal({ onClose, id }: {
         onSuccess: (data) => {
             const chat = data?.data as Chat;
             const obj = {
-                message: `${WEBSITE_URL}event/${id}`,
+                message: `${WEBSITE_URL}${isprofile ? "/dashboard/profile/" : "/dashboard/event/details/"}${id}`,
                 chatID: chat?.id,
             }
             sendMessage.mutate(obj)

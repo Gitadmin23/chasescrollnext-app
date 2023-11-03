@@ -25,13 +25,13 @@ function ExploreEvent(props: Props) {
                     {results?.map((event: any, i: number) => {
                         if (results.length === i + 1) {
                             return ( 
-                                <Box key={event?.userId} width={"full"} ref={ref} >
+                                <Box key={event?.userId} width={"full"} borderBottomWidth={searchbar ? "1px" : "0px"} ref={ref} >
                                     <ExploreEventCard searchbar={searchbar} event={event} />
                                 </Box>
                             )
                         } else {
                             return (
-                                <Box key={event?.userId} width={"full"}  >
+                                <Box key={event?.userId} width={"full"} borderBottomWidth={searchbar ? "1px" : "0px"}  >
                                     <ExploreEventCard searchbar={searchbar} event={event} />
                                 </Box>
                             )

@@ -1,20 +1,27 @@
-'use client'
-import ExploreEventCard from '@/components/sharedComponent/event_card'
-import LoadingAnimation from '@/components/sharedComponent/loading_animation'
-import { useDetails } from '@/global-state/useUserDetails'
-import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
-import { URLS } from '@/services/urls'
-import { Box, Flex, HStack } from '@chakra-ui/react'
+"use client"
+import { useDetails } from '@/global-state/useUserDetails';
+import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent';
+import { URLS } from '@/services/urls';
+import { HStack, Flex, Box } from '@chakra-ui/react'; 
 import React from 'react'
+import ExploreEventCard from '../event_card';
+import LoadingAnimation from '../loading_animation';
+import { boolean } from 'zod';
 
-interface Props { }
+interface Props {
+    user_index: any,
+    myevent?: boolean,
+    profile?: boolean
+}
 
-function Draft(props: Props) {
-    const { } = props
- 
-    const { userId } = useDetails((state) => state);
-    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.GET_DRAFT+"?createdBy="+userId, limit: 10, filter: "id" })
-  
+function GetEventById(props: Props) {
+    const {
+        user_index,
+        myevent,
+        profile
+    } = props 
+
+    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.JOINED_EVENT + user_index, limit: 10, filter: "id" })
 
     return (
         <HStack height={"fit-content"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"}  >
@@ -26,13 +33,13 @@ function Draft(props: Props) {
                                 if (results.length === i + 1) {
                                     return (
                                         <Box key={event?.userId} width={"full"} ref={ref} >
-                                            <ExploreEventCard draft={true} event={event} />
+                                            <ExploreEventCard my_event={myevent} profile={profile} event={event} />
                                         </Box>
                                     )
                                 } else {
                                     return (
                                         <Box key={event?.userId} width={"full"}  >
-                                            <ExploreEventCard draft={true} event={event} />
+                                            <ExploreEventCard my_event={myevent} profile={profile} event={event} />
                                         </Box>
                                     )
                                 }
@@ -45,4 +52,4 @@ function Draft(props: Props) {
     )
 }
 
-export default Draft
+export default GetEventById
