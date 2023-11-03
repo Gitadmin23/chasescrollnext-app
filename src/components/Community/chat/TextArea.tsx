@@ -220,10 +220,12 @@ function TextArea() {
                 <HStack alignItems={'center'} >
 
                    <Popover placement='top' size={''}>
-                       <Box>
-                       { !loading && <Image onClick={() => ref.current?.click()} src='/assets/images/add.png' alt='smile' width={'30px'} height={'30px'} /> }
-                        { loading && <Spinner size='md' />}
-                       </Box>
+                       <PopoverTrigger>
+                        <Box>
+                        { !loading && <Image onClick={() => ref.current?.click()} src='/assets/images/Add.png' alt='smile' width={'30px'} height={'30px'} /> }
+                          { loading && <Spinner size='md' />}
+                        </Box>
+                       </PopoverTrigger>
                       <PopoverContent width='200px' height='70px'>
                         <PopoverArrow />
                         <PopoverBody>
@@ -238,7 +240,9 @@ function TextArea() {
                    </Popover>
 
                     <Popover placement='top'>
-                      <Image src='/assets/images/smiley.svg' alt='smile' width={'30px'} height={'30px'} />
+                      <PopoverTrigger>
+                        <Image src='/assets/images/Smiley.svg' alt='smile' width={'30px'} height={'30px'} />
+                      </PopoverTrigger>
                       <Portal containerRef={containerRef as any}>
                         <PopoverContent position={'absolute'}>
                           <PopoverArrow />
