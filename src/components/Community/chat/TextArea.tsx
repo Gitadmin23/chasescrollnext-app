@@ -26,7 +26,7 @@ import CustomText from '@/components/general/Text';
 import AWSHook from '../../../hooks/awsHook'
 import { IoReturnDownBackOutline } from 'react-icons/io5';
 import MediaBox from './MediaBox';
-import { useCommunityPageState } from '@/components/Chat/state';
+import { useCommunityPageState } from '@/components/Community/chat/state';
 
 const IMAGE_FORM = ['jpeg', 'jpg', 'png', 'svg'];
 const VIDEO_FORM = ['mp4'];
@@ -221,7 +221,7 @@ function TextArea() {
 
                    <Popover placement='top' size={''}>
                        <Box>
-                       { !loading && <Image src='/assets/images/add.png' alt='smile' width={'30px'} height={'30px'} /> }
+                       { !loading && <Image onClick={() => ref.current?.click()} src='/assets/images/add.png' alt='smile' width={'30px'} height={'30px'} /> }
                         { loading && <Spinner size='md' />}
                        </Box>
                       <PopoverContent width='200px' height='70px'>
@@ -252,7 +252,7 @@ function TextArea() {
 
                 </HStack>
 
-                { !createPost.isLoading && <Image src='/assets/images/send.svg' alt='smile' width={'30px'} height={'30px'} /> }
+                { !createPost.isLoading && <Image onClick={() => submit()} src='/assets/images/send.svg' alt='smile' width={'30px'} height={'30px'} /> }
                 { createPost.isLoading && <Spinner size='sm' />}
 
             </HStack>

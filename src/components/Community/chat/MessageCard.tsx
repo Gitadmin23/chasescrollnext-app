@@ -12,7 +12,7 @@ import moment from 'moment';
 import { IoMdCloudDownload } from 'react-icons/io';
 import { THEME } from '@/theme';
 import { IoHeart } from 'react-icons/io5';
-import { useCommunityPageState } from '@/components/Chat/state';
+import { useCommunityPageState } from '@/components/Community/chat/state';
 import LinkExtractor, { handleLinks } from '@/components/general/LinkExtractor';
 
 interface IProps {

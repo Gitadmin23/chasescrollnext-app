@@ -5,7 +5,7 @@ import CustomText from '@/components/general/Text';
 import { useMutation } from 'react-query';
 import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
-import { useCommunityPageState } from '@/components/Chat/state';
+import { useCommunityPageState } from '@/components/Community/chat/state';
 
 
 interface IProps {

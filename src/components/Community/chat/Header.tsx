@@ -1,4 +1,4 @@
-import { useCommunityPageState } from '@/components/Chat/state';
+import { useCommunityPageState } from '@/components/Community/chat/state';
 import CustomText from '@/components/general/Text'
 import ReportCommunityModal from '@/components/modals/community/ReportCommunityModal';
 import { useDetails } from '@/global-state/useUserDetails';

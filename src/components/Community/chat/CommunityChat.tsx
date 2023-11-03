@@ -12,7 +12,7 @@ import { Box, HStack, VStack,  Drawer,
   Textarea,
   Spinner, Image } from '@chakra-ui/react';
 import React from 'react'
-import { useCommunityPageState } from '../../Chat/state';
+import { useCommunityPageState } from './state';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
@@ -140,7 +140,7 @@ const createComment = useMutation({
                         <HStack>
                         <Image src='/assets/images/smiley.svg' alt='smile' width={'30px'} height={'30px'} />
                         </HStack>
-                        { !createComment.isLoading && <Image src='/assets/images/send.svg' alt='smile' width={'30px'} height={'30px'} /> }
+                        { !createComment.isLoading && <Image onClick={() => handleCreateComment()} src='/assets/images/send.svg' alt='smile' width={'30px'} height={'30px'} /> }
                         { createComment.isLoading && <Spinner /> }
                       </HStack>
                   </VStack>

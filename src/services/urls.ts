@@ -52,7 +52,8 @@ export const URLS = {
     FRIEND_REQUEST: "/user/friend-requests",
     GET_SAVED_EVENTS: '/events/get-saved-eventts',
     GET_GROUP_BY_ID: '/group/group',
-    GET_GROUP_MEMBERS: '/group/get-group-members'
+    GET_GROUP_MEMBERS: '/group/get-group-members',
+    GET_CHATS: '/chat/chat'
 
 }
 
