@@ -49,8 +49,7 @@ export const URLS = {
     GET_JOINED_GROUPS: "/group/joined-groups",
     ACCEPT_USER: "/user/accept-friend-request",
     REJECT_USER: "/user/reject-friend-request",
-    FRIEND_REQUEST: "/user/friend-requests"
-    GET_GROUP_MESSAGES: "/feed/get-all-group-posts",
+    FRIEND_REQUEST: "/user/friend-requests",
     GET_SAVED_EVENTS: '/events/get-saved-eventts',
     GET_GROUP_BY_ID: '/group/group',
     GET_GROUP_MEMBERS: '/group/get-group-members'
