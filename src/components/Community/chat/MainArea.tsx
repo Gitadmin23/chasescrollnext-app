@@ -1,5 +1,5 @@
 import CustomText from '@/components/general/Text';
-import { Box, Spinner, VStack } from '@chakra-ui/react';
+import { Box, HStack, Spinner, VStack, Image } from '@chakra-ui/react';
 import React from 'react'
 import CommunityChatHeader from './Header';
 import TextArea from './TextArea';
@@ -13,6 +13,9 @@ import { useDetails } from '@/global-state/useUserDetails';
 import MessageCard from './MessageCard';
 import { IComment } from '@/models/Comment';
 import { useCommunityPageState } from '@/components/Chat/state';
+import { FiCalendar } from 'react-icons/fi';
+import { THEME } from '@/theme';
+import EventCard from './EventCard';
 
 function MainArea() {
     const [posts, setPosts] = React.useState<IMediaContent[]>([]);
@@ -22,7 +25,7 @@ function MainArea() {
 
 
     const { userId: myId } = useDetails((state) => state)
-    const { activeCommunity, setAll, messages, pageNumber, hasNext, activeMessageId, commentHasNext, commentPage, comments } = useCommunityPageState((state) => state);
+    const { activeCommunity, setAll, messages, pageNumber, hasNext, activeMessageId, commentHasNext, commentPage, comments, showEvents } = useCommunityPageState((state) => state);
     // queries
     const { isLoading, } = useQuery(['getMessages', activeCommunity?.id, pageNumber], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
         params: {
@@ -63,6 +66,7 @@ function MainArea() {
         if (post) intObserver.current.observe(post);
        }, [isLoading, setAll, pageNumber, hasNext]);
 
+       const arr = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7];
 
        React.useEffect(() => {
         if (posts?.length !== len) {
@@ -81,11 +85,34 @@ function MainArea() {
         )
     }
   return (
-    <VStack width='100%' height="100%" overflow={'hidden'} borderRadius={'20px'} spacing={0} className='chat-area'>
+    <VStack width='100%' height="100%" overflow={'hidden'} borderRadius={'20px'} spacing={0} className='chat-area' alignItems={'flex-start'}>
 
         <CommunityChatHeader />
+        {
+            showEvents && (
+                <HStack width='100%' maxWidth={'100%'} height={'75px'} bg='white' >
+                    <Box paddingLeft='20px'  height='100%' overflowX={'auto'} whiteSpace={'break-spaces'}>
+                        {arr.map((item, i) => (
+                            <EventCard key={i.toString()} />
+                        ))}
+                    </Box>
+                </HStack>
+            )
+        }
 
         <Box width='100%' height={'100%'} overflowX={'hidden'}   overflowY={'auto'}>
+
+            {/* GROUP DESCRIPTION HEADER */}
+            <HStack width={'100%'} height={'40px'}  justifyContent={'flex-start'} paddingX={'30px'}>
+                <Box>
+                    <Image src='/assets/images/note-add.png' alt='logo' width={'30px'} height={'30px'} />
+                    {/* <FiCalendar fontSize='20px' color={THEME.COLORS.chasescrollButtonBlue} /> */}
+                </Box>
+                <HStack justifyContent={'center'} flex="1" >
+                    <CustomText textAlign={'center'} width={'60%'} fontFamily={'DM-Regular'} fontSize={'15px'}>{activeCommunity?.data?.description}</CustomText>
+                </HStack>
+            </HStack>
+
             <VStack spacing={6} paddingX={['10px', '30px']} paddingY='40px' alignItems={'flex-start'} width={'100%'} height={'100%'}>
             {activeCommunity !== null && messages.length > 0 && messages.map((item, index) => {
                 return (
@@ -102,7 +129,6 @@ function MainArea() {
                 isLoading && (
                     <VStack width='100%' height='50px' justifyContent={'center'} alignItems={'center'}>
                         <Spinner size={'sm'} />
-                        
                     </VStack>
                 )
             }

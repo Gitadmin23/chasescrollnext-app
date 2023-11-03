@@ -1,5 +1,6 @@
 import { IComment } from '@/models/Comment';
 import { ICommunity } from '@/models/Communitty';
+import { IEvent } from '@/models/Events';
 import { IMediaContent } from '@/models/MediaPost';
 import { create } from 'zustand';
 
@@ -13,6 +14,10 @@ type ICommunityPageState = {
     commentHasNext: boolean;
     commentPage: number;
     comments: IComment[];
+    events: IEvent[];
+    eventHasNext: boolean;
+    eventPageNumber: number;
+    showEvents: boolean;
     setAll: (data: Partial<ICommunityPageState>) => void
 }
 
@@ -26,5 +31,9 @@ export const useCommunityPageState = create<ICommunityPageState>((set) => ({
     commentHasNext: false,
     commentPage: 0,
     comments: [],
+    events: [],
+    eventHasNext: false,
+    eventPageNumber: 0,
+    showEvents: false,
     setAll: (data) => set((state) => ({ ...state, ...data })),
 }))

@@ -1,3 +1,5 @@
+import { IUser } from "./User";
+
 export type ICommunity = {
     active: boolean;
     createdOn: number;
@@ -49,4 +51,15 @@ export type ICommunity = {
         password: string,
         picUrls: Array<string>,
     }
+}
+
+export type ICommunityMember = {
+    active: boolean;
+    createdOn: number;
+    eventFunnel: boolean;
+    groupID: string;
+    id: string;
+    muteCommunity: boolean;
+    role: 'USER'|'ADMIN';
+    user: IUser,
 }

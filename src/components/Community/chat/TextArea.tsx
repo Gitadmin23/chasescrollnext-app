@@ -169,7 +169,7 @@ function TextArea() {
   return (
     <VStack width='100%' height={'auto'} maxH={'200px'} bg='transparent' paddingY='10px' paddingX="10px" position={'relative'}>
       <input ref={ref as any} onChange={(e) => handleFilePic(e.target.files as FileList)} hidden type='file' accept={accept()} />
-        <VStack ref={containerRef as any} width={'100%'} height='100%' borderWidth={'1px'} bg='white' borderColor={THEME.COLORS.chasescrollButtonBlue} borderRadius={'10px'} paddingX='8px' paddingY='8px'>
+        <VStack ref={containerRef as any} width={'100%'} height='100%' borderWidth={'1px'} bg='white' borderColor={'#D0D4EB'} borderRadius={'10px'} paddingX='8px' paddingY='8px'>
 
             <textarea value={text} onChange={(e) => setText(e.target.value)} style={{
               width: '100%', height: 'auto', backgroundColor: 'transparent',
@@ -221,7 +221,7 @@ function TextArea() {
 
                    <Popover placement='top' size={''}>
                        <Box>
-                       { !loading && <FiPlusCircle color={THEME.COLORS.chasescrollBlue} size={'25px'} /> }
+                       { !loading && <Image src='/assets/images/add.png' alt='smile' width={'30px'} height={'30px'} /> }
                         { loading && <Spinner size='md' />}
                        </Box>
                       <PopoverContent width='200px' height='70px'>
@@ -238,7 +238,7 @@ function TextArea() {
                    </Popover>
 
                     <Popover placement='top'>
-                        <FiSmile onClick={() => setShowEmoi(prev => !prev)} color={THEME.COLORS.chasescrollBlue} size={'25px'} />
+                      <Image src='/assets/images/smiley.svg' alt='smile' width={'30px'} height={'30px'} />
                       <Portal containerRef={containerRef as any}>
                         <PopoverContent position={'absolute'}>
                           <PopoverArrow />
@@ -252,7 +252,7 @@ function TextArea() {
 
                 </HStack>
 
-                { !createPost.isLoading && <FiSend onClick={submit} color={THEME.COLORS.chasescrollBlue} size={'25px'} /> }
+                { !createPost.isLoading && <Image src='/assets/images/send.svg' alt='smile' width={'30px'} height={'30px'} /> }
                 { createPost.isLoading && <Spinner size='sm' />}
 
             </HStack>

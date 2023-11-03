@@ -1,7 +1,12 @@
 import { useCommunityPageState } from '@/components/Chat/state';
 import CustomText from '@/components/general/Text'
-import { RESOURCE_BASE_URL } from '@/services/urls';
+import ReportCommunityModal from '@/components/modals/community/ReportCommunityModal';
+import { useDetails } from '@/global-state/useUserDetails';
+import { IEvent } from '@/models/Events';
+import { PaginatedResponse } from '@/models/PaginatedResponse';
+import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import { THEME } from '@/theme';
+import httpService from '@/utils/httpService';
 import { Avatar, HStack, VStack,  Menu,
   MenuButton,
   MenuList,
@@ -12,21 +17,82 @@ import { Avatar, HStack, VStack,  Menu,
   MenuDivider,
   Button,
   Image,
-  Box
+  Box,
+  Spinner,
+  useToast,
+  Link
  } from '@chakra-ui/react'
+import { uniqBy } from 'lodash';
 import React from 'react'
-import { FiPlusSquare, FiX } from 'react-icons/fi';
+import { FiCalendar, FiPlusSquare, FiX } from 'react-icons/fi';
 import { IoMdInformationCircleOutline } from 'react-icons/io'
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 
 function CommunityChatHeader() {
-  const { activeCommunity, setAll } = useCommunityPageState((state) => state);
+  const { activeCommunity, setAll, events, eventHasNext, eventPageNumber, showEvents } = useCommunityPageState((state) => state);
+  const { userId } = useDetails((state) => state);
+  const [showModal, setShowModal] = React.useState(false);
+  const queryClient = useQueryClient();
+  const toast = useToast();
+
+  const getCommunityEventts = useQuery(['getCommunityEvents', activeCommunity?.id], () => httpService.get(`${URLS.GET_SAVED_EVENTS}`, {
+    params: {
+      page: 0,
+      typeID: activeCommunity?.id,
+    }
+  }), {
+    enabled: activeCommunity !== null,
+    onSuccess: (data) => {
+      const item: PaginatedResponse<IEvent> = data.data;
+      if (item.content?.length > 0) {
+        if (events.length > 0) {
+          const arr = [...events, ...item.content];
+          setAll({ events: uniqBy(arr, 'id'), eventHasNext: item.last ? false:true})
+        }else {
+          setAll({ events: item.content,  eventHasNext: item.last ? false:true })
+        }
+      }
+    },
+    onError: () => {}
+  })
+
+  const self = userId === activeCommunity?.creator.userId;
+
+  const leaveGroup = useMutation({
+    mutationFn: () => httpService.delete(`${URLS.LEAVE_GROUP}`, {
+      params: {
+        groupID: activeCommunity?.id,
+        userID: userId
+      }
+    }),
+    onSuccess: () => {
+      toast({
+        title: 'Success',
+        description: 'Successfully left the group',
+        status: 'success',
+        position: 'top-right',
+        duration: 5000,
+      })
+      queryClient.invalidateQueries(['getJoinedGroups']);
+      setAll({ activeCommunity: null, pageNumber: 0, hasNext: false, messages: [] })
+    },
+    onError: () => {
+      toast({
+        title: 'Error'
+      })
+    }
+  });
+
 
   return (
    <HStack width='100%' height={'80px'} bg='white' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingX={'20px'} justifyContent={'space-between'}>
 
+    {/* {MODAL} */}
+    <ReportCommunityModal isOpen={showModal} onClose={() => setShowModal(false)} typeID={activeCommunity?.id as string} REPORT_TYPE='REPORT_COMMUNITY' />
     <HStack>
-      <FiX fontSize="25px" onClick={() => setAll({ activeCommunity: null, activeMessageId: ''})} />
+          
+
           <Box width='45px' height='45px' borderRadius={'36px 0px 36px 36px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>
                     { activeCommunity?.data.imgSrc === null && (
                         <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
@@ -35,7 +101,7 @@ function CommunityChatHeader() {
                     )}
                     {
                         activeCommunity?.data.imgSrc && (
-                            <Image src={`${RESOURCE_BASE_URL}${activeCommunity.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                            <Image src={`${IMAGE_URL}${activeCommunity.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
                         )
                     }
             </Box>
@@ -46,15 +112,40 @@ function CommunityChatHeader() {
     </HStack>
 
    <HStack>
-    <FiPlusSquare cursor='pointer' fontSize={'25px'} color={THEME.COLORS.chasescrollButtonBlue} />
+    { events.length < 1 && (
+      <Box onClick={() => setAll({ showEvents: !showEvents })} cursor='pointer' position={'relative'} marginRight={'70px'} >
+
+        <Image src='/assets/images/note-add.png' alt='logo' width={'30px'} height={'30px'} />
+
+
+        <VStack justifyContent={'center'} alignItems={'center'}  zIndex={'10'} position={'absolute'} top='-15px' right='-15px' bg='white' width='30px' height='30px' borderRadius={'15px'} shadow={'lg'}>
+          <CustomText fontFamily={'DM-Bold'} fontSize={'14px'} color='red'>{events.length}</CustomText>
+        </VStack>
+
+      </Box>
+    )}
+    { self && <FiPlusSquare cursor='pointer' fontSize={'25px'} color={THEME.COLORS.chasescrollButtonBlue} /> }
     <Menu>
         <MenuButton>
           <IoMdInformationCircleOutline color='grey' fontSize='25px' />
         </MenuButton>
         <MenuList padding='0px'>
-          <MenuItem height={'50px'}>Group information</MenuItem>
-          <MenuItem height={'50px'} color={'red'}>Report community</MenuItem>
-          <MenuItem height={'50px'} color='red' >Exit community</MenuItem>
+          <Link 
+            href={`/dashboard/community/info/${activeCommunity?.id}`}
+          >
+            <MenuItem height={'50px'}>Group information</MenuItem>
+          </Link>
+          {
+            !self && (
+              <MenuItem height={'50px'} color={'red'} onClick={() => setShowModal(true)}>Report community</MenuItem>
+            )
+          }
+          { !self &&  (
+            <MenuItem height={'50px'} color='red' onClick={() => leaveGroup.mutate()} >
+            { leaveGroup.isLoading && <Spinner /> }
+            { !leaveGroup.isLoading && 'Exit community' }
+          </MenuItem>
+          )}
         </MenuList>
     </Menu>
    </HStack>

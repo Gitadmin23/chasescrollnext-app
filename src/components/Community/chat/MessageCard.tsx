@@ -72,9 +72,9 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
       }
     
   return (
-    <HStack id={id} ref={ref} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'center'} alignSelf={post?.user.userId === myId ? 'flex-end':'flex-start'} flexDirection={self ? 'row':'row-reverse'}>
+    <HStack id={id} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.user.userId === myId ? 'flex-end':'flex-start'} flexDirection={self ? 'row':'row-reverse'}  borderRadius='20px'>
        
-       <HStack width='100%' justifyContent={'space-between'} flexDirection={self ? 'row':'row-reverse'}>
+       <HStack  position={'relative'}  width='100%' justifyContent={'space-between'} alignItems={'flex-start'} flexDirection={self ? 'row':'row-reverse'}>
             {/* <HStack>
                 { likeMutation.isLoading && <Spinner /> }
                 { !likeMutation.isLoading && <FiHeart onClick={() => likeMutation.mutate()} cursor='pointer' fontSize='20px' color={post?.likeStatus === 'LIKED' ? 'red':'grey'} />}
@@ -85,7 +85,7 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
             </HStack> */}
 
             { shoowSubmenu && (
-                <HStack bg="white" borderRadius={'10px'} padding='5px' spacing={3} shadow={'md'}>
+                <HStack bg="white" borderRadius={'10px'} padding='5px' spacing={3} shadow={'md'} >
                     { likeMutation.isLoading && <Spinner /> }
                         { !likeMutation.isLoading && <IoHeart onClick={() => likeMutation.mutate()} cursor='pointer' fontSize='20px' color={post?.likeStatus === 'LIKED' ? 'red':'grey'} width={'20px'} height={'20px'} />}
                     <Image src='/assets/images/message.png' alt='message' width={'20px'} height={'20px'} onClick={() => setAll({ activeMessageId: post.id, commentHasNext: false, commentPage: 0, comments: [], drawerOpen: true })} />
@@ -94,9 +94,9 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                 </HStack>
             )}
 
-            <VStack spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'}  bg={ self ? '':''}>
+            <VStack borderRadius='10px 20px 20px 0px' bg={shoowSubmenu ? 'lightgrey':'transparent'} padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
                 <HStack>
-                    <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{post?.user?.username}</CustomText>
+                    <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{post?.user?.username[0].toUpperCase()}{post?.user?.username.substring(1, post?.user?.username.length)}</CustomText>
                     <CustomText fontFamily={'DM-Medium'} fontSize={'12px'}>{moment(post?.timeInMilliseconds).format('HH:MM')}</CustomText>
                 </HStack>
                 {post.mediaRef !== null && (
@@ -131,11 +131,13 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                     {/* <CustomText width={'100%'} textOverflow={'clip'} color={'black'} fontFamily={'Satoshi-Regular'} fontSize={'md'}>{post?.text}</CustomText> */}
                 </Box>
                 <HStack>
-                    <CustomText fontFamily={'DM-Regular'} fontSize='12px'>{post?.commentCount} <CustomText color='brand.chasescrollButtonBlue' display={'inline'}>Reply</CustomText> </CustomText>
+                    <CustomText cursor='pointer' fontFamily={'DM-Regular'} fontSize='12px'>{post?.commentCount} <CustomText color='brand.chasescrollButtonBlue' display={'inline'} onClick={() => setAll({ activeMessageId: post.id, commentHasNext: false, commentPage: 0, comments: [], drawerOpen: true })}>Reply</CustomText> </CustomText>
+
+                    <CustomText cursor='pointer' fontFamily={'DM-Regular'} fontSize='12px'>{post?.likeCount} <CustomText color='brand.chasescrollButtonBlue' display={'inline'}>Likes</CustomText> </CustomText>
                 </HStack>
             </VStack>
-            
-            <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>
+
+            <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
                     { post?.user.data.imgMain.value === null && (
                         <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
                             <CustomText fontFamily={'DM-Regular'}>{post.user.username[0].toUpperCase()}</CustomText>
@@ -147,7 +149,11 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                         )
                     }
                 </Box>
+            
+            
        </HStack>
+
+      
 
        
         
