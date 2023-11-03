@@ -10,9 +10,9 @@ import { Box, HStack, VStack,  Drawer,
   DrawerContent,
   DrawerCloseButton,
   Textarea,
-  Spinner, } from '@chakra-ui/react';
+  Spinner, Image } from '@chakra-ui/react';
 import React from 'react'
-import { useCommunityPageState } from './state';
+import { useCommunityPageState } from '../../Chat/state';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
@@ -91,7 +91,8 @@ const createComment = useMutation({
    }
 
   return (
-    <HStack width={'100%'} height='100%' spacing={0} padding='5px' alignItems={'flex-start'}>
+    <HStack flex={1} height='100%' spacing={0} padding='5px' alignItems={'flex-start'}>
+
         {/* DRAWER */}
           <Drawer isOpen={drawerOpen} onClose={() => setAll({ drawerOpen: false })} placement='right' size={'md'}>
             <DrawerOverlay />
@@ -137,9 +138,9 @@ const createComment = useMutation({
                       <textarea value={comment} onChange={(e) => setComment(e.target.value)} style={{ height: '50px', width: '100%', resize: 'none', backgroundColor:'transparent', outline: 'none', padding: '5px' }} />
                       <HStack justifyContent={'space-between'} width='100%'>
                         <HStack>
-                          <FiSmile fontSize='30px' />
+                        <Image src='/assets/images/smiley.svg' alt='smile' width={'30px'} height={'30px'} />
                         </HStack>
-                        { !createComment.isLoading && <FiSend onClick={handleCreateComment} fontSize='30px' color={THEME.COLORS.chasescrollButtonBlue} /> }
+                        { !createComment.isLoading && <Image src='/assets/images/send.svg' alt='smile' width={'30px'} height={'30px'} /> }
                         { createComment.isLoading && <Spinner /> }
                       </HStack>
                   </VStack>
@@ -152,16 +153,23 @@ const createComment = useMutation({
           </Drawer>
         {/* END OF DRAWER */}
 
-        {/* BIG SCCREEN */}
-        <HStack width='100%' height='100%' display={['none', 'flex']} spacing={0}>
+        {/* BIG SCREEN */}
+        <HStack width='100%' height='100%' display={['none', 'flex']} spacing={0} alignItems={'flex-start'}>
 
-          <Box width={'30%'} height={'100%'} borderRightColor={'lightgrey'} borderRightWidth={activeCommunity !== null ?'1px':'0px'} >
-              <Sidebar />
+          <Box width='30%' height='100%' borderRightColor={'lightgrey'} borderRightWidth={activeCommunity !== null ?'1px':'0px'} >
+            <Sidebar />
+          </Box>
+          <Box flex={1} height='90%' bg='white' borderWidth={activeCommunity !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeCommunity !== null ? '0px':'20px'}>
+            <MainArea />
           </Box>
 
-          <VStack flex={1} height='80%' bg='white' borderWidth={activeCommunity !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeCommunity !== null ? '0px':'20px'}>
-                <MainArea />
-          </VStack>
+            {/* <Box  width={'20%'} height={'100%'} borderRightColor={'lightgrey'} borderRightWidth={activeCommunity !== null ?'1px':'0px'} >
+                <Sidebar />
+            </Box>
+
+            <VStack alignItems={'flex-start'} width={'100%'} overflow={'hidden'} height='90%' bg='white' borderWidth={activeCommunity !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeCommunity !== null ? '0px':'20px'}>
+                  <MainArea />
+            </VStack> */}
 
         </HStack>
         

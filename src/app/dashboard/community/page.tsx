@@ -10,7 +10,7 @@ import { Box, HStack, VStack } from '@chakra-ui/react'
 import React from 'react' 
 import { FiPlusSquare } from 'react-icons/fi';
 import { useRouter } from 'next/navigation'
-import CommunityChat from '@/components/Chat/CommunityChat';
+import CommunityChat from '@/components/Community/chat/CommunityChat';
 
 function Community() {
   const [activeTab, setActiveTab] = React.useState(1);
@@ -40,9 +40,10 @@ function Community() {
 
         <CommunityTab activeTab={activeTab} setActiveTab={handleTabChange} showModal={() => setShowModal(true)} />
 
-        <Box width='100%' flex={1} overflowY={'auto'} >
+        <Box flex={1} height='100%' width='100%' overflowY={'scroll'} >
           {switchPages()}
         </Box>
+
       </VStack>
     </>
   )

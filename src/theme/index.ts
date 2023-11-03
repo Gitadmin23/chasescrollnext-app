@@ -24,7 +24,8 @@ export const THEME = {
         chasescrollTextGrey2: "#667085",
         chasescrollButtonBlue: "#3C41F0",
         chasescrollBrown: "#7A6969",
-        chasescrollG: "#98929214"
+        chasescrollG: "#98929214",
+        borderColor: '#D0D4EB',
     }
 }
 

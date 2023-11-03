@@ -2,7 +2,7 @@
 import { useCommunityPageState } from '@/components/Chat/state';
 import CustomText from '@/components/general/Text'
 import { ICommunity } from '@/models/Communitty'
-import { RESOURCE_BASE_URL } from '@/services/urls';
+import { IMAGE_URL, RESOURCE_BASE_URL } from '@/services/urls';
 import { Avatar, HStack, Image, VStack, Box } from '@chakra-ui/react'
 import React from 'react'
 
@@ -14,18 +14,18 @@ const SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({ community: comm 
     const [community, setCommunity] = React.useState(comm);
     const { setAll, activeCommunity } = useCommunityPageState((state) => state);
     return (
-        <HStack bg={ activeCommunity?.id === comm?.id ? '#EAEAFC66':'white'} onClick={() => setAll({ activeCommunity: comm, pageNumber: 0, messages: [], hasNext: false })} ref={ref} paddingX='10px' width='100%' height='60px' borderRadius={activeCommunity?.id === comm?.id ?'8px':'0px'} alignItems={'center'} justifyContent={'space-between'} borderBottomWidth={activeCommunity?.id === comm?.id ?'0px':'1px'} borderBottomColor={'lightgrey'}>
+        <HStack bg={ activeCommunity?.id === comm?.id ? '#EAEAFC66':'white'} onClick={() => setAll({ activeCommunity: comm, pageNumber: 0, messages: [], hasNext: false })} ref={ref} paddingX='10px' width='100%' height='60px' borderRadius={activeCommunity?.id === comm?.id ?'8px':'8px'} alignItems={'center'} justifyContent={'space-between'} borderBottomWidth={activeCommunity?.id === comm?.id ?'1px':'1px'} borderBottomColor={'lightgrey'} >
 
             <HStack>
-                <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>
-                    { comm?.data.imgSrc === null && (
+                <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+                    { comm?.data?.imgSrc === null && (
                         <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
                             <CustomText fontFamily={'DM-Regular'}>{comm.data.name[0].toUpperCase()}</CustomText>
                         </VStack>
                     )}
                     {
-                        comm?.data.imgSrc && (
-                            <Image src={`${RESOURCE_BASE_URL}${comm.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                        comm?.data?.imgSrc && (
+                            <Image src={`${IMAGE_URL}${comm.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
                         )
                     }
                 </Box>

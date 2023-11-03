@@ -34,7 +34,6 @@ function Sidebar() {
         }
     }), {
         onSuccess: (data) => {
-            console.log(data.data);
             const response: PaginatedResponse<ICommunity> = data.data;
             setLast(response.last);
             setCommunities(response.content);
@@ -81,7 +80,7 @@ function Sidebar() {
             <InputLeftElement>
                 <Image src="/assets/images/search-icon.png" width={'20px'} height={'20px'} alt='image' />
             </InputLeftElement>
-            <Input width='100%' height={'45px'} placeholder='search message' borderRadius={'12px'} borderWidth={'1px'} borderColor={'lightgrey'} bg='whitesmoke' />
+            <Input value={search} onChange={(e) => setSearch(e.target.value)} width='100%' height={'45px'} placeholder='search message' borderRadius={'12px'} borderWidth={'1px'} borderColor={'lightgrey'} bg='whitesmoke' />
         </InputGroup>
     </VStack>
 
