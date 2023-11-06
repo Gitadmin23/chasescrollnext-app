@@ -6,7 +6,8 @@ interface Props {
     icon: any,
     count: string,
     name: string,
-    link: string
+    link: string,
+    index?: string
 }
 
 function HeaderLayout(props: Props) {
@@ -14,19 +15,20 @@ function HeaderLayout(props: Props) {
         icon,
         count,
         name,
-        link
+        link,
+        index
     } = props
 
     const router = useRouter() 
-    const pathname = usePathname();
-
+    const pathname = usePathname(); 
+ 
     return (
-        <Flex as={"button"} onClick={()=> router.replace(link)} color={pathname?.includes(name.toLocaleLowerCase()) ? "brand.chasescrollBlue" : "#B1B5C3"} justifyContent={"center"} alignItems={"center"} flexDirection={"column"} >
-            <Text fontSize={"20px"} fontWeight={"medium"} color={pathname?.includes(name.toLocaleLowerCase()) ? "brand.chasescrollBlue" : "black"} >{count ? count : 0}</Text>
+        <Flex as={"button"} onClick={()=> router.replace(link)} color={(pathname?.includes(name.toLocaleLowerCase()) || (pathname === "/dashboard/profile/"+index)) ? "brand.chasescrollBlue" : "#B1B5C3"} justifyContent={"center"} alignItems={"center"} flexDirection={"column"} >
+            <Text fontSize={["160x", "20px"]} fontWeight={"medium"} color={(pathname?.includes(name.toLocaleLowerCase()) || (pathname === "/dashboard/profile/"+index)) ? "brand.chasescrollBlue" : "black"} >{count ? count : 0}</Text>
             <Box display={"flex"} justifyContent={"center"} alignItems={"center"} width={"24px"} height={"24px"} >
                 {icon}
             </Box>
-            <Text >{name}</Text>
+            <Text fontSize={["sm", "16px"]} >{name}</Text>
         </Flex>
     )
 }

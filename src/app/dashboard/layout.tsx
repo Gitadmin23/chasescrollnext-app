@@ -162,7 +162,7 @@ function Layout({ children }: {
                         </HStack>
                     )}
                 </Box>
-                <Flex flex={1} w="full" h="full" pt={!pathname?.includes("create_event") ? "80px" : "0px"} pb={["70px", "70px", "0px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
+                <Flex flex={1} w="full" h="full" pt={!pathname?.includes("create_event") ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
                     {!pathname?.includes("create_event") && (
                         <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']}>
                             <Sidebar />

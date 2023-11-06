@@ -51,10 +51,13 @@ function ProfileImage(props: Props) {
     }
 
     return (
-        <LoadingAnimation loading={isLoading} > 
+        <LoadingAnimation loading={isLoading} >
             <Box position={"relative"} bg={"gray.500"} height={"442px"} >
                 {data?.data?.imgMain?.value && (
-                    <Image objectFit={"cover"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={IMAGE_URL + data?.data?.imgMain?.value} alt='profile' />
+                    <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={IMAGE_URL + data?.data?.imgMain?.value} alt='profile' />
+                )}  
+                {data?.data?.imgMain?.value && (
+                    <Box />
                 )}
                 <Box position={"relative"} zIndex={"10"} width={"fit-content"} pt={"8"} ml={"auto"} mr={"9"} >
                     <Flex as={"button"} onClick={() => clickHandler()} bgColor={"#FFFFFF66"} width={"32px"} rounded={"full"} height={"32px"} justifyContent={"center"} alignItems={"center"} >

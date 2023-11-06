@@ -74,7 +74,7 @@ function Sidebar() {
         <VStack display={['none', 'none', 'flex', 'flex']} width={"300px"} height='100%' paddingBottom={"40px"} bg='white' overflowY={"auto"} borderRightWidth={1} borderRightColor={'lightgrey'}>
             <VStack flex={0.8} width='100%' paddingTop={'40px'}>
                 {routes.map((item, index) => (
-                    <MenuItem {...item} active={pathname.includes(item.text.toLowerCase()) ? true:false} key={index.toString()} />
+                    <MenuItem {...item} active={pathname.includes(item.route.toLowerCase()) ? true:false} key={index.toString()} />
                 ))}
             </VStack>
             <Flex paddingX={['20px', '40px']} gap={"4"} flex={0.2} width='100%' alignItems={"center"} mt={"30px"}  height='70px'>

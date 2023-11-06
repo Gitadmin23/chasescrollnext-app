@@ -9,7 +9,7 @@ function Network({ params }: { params: { slug: string } }) {
     const [tab, setTab] = useState(false)
 
     return (
-        <Flex flexDirection={"column"} alignItems={"center"} width={"full"} py={"4"} >
+        <Flex flexDirection={"column"} alignItems={"center"} width={"full"} >
             <Flex bg={"#EFEFF0"} p={"1"} rounded={"md"} >
                 <Button onClick={()=> setTab(false)} _hover={{}} width={"150px"} height={"43px"} bgColor={!tab ? "white" : "#EFEFF0"} color={!tab ? "brand.chasescrollBlue" : "gray.400"} >
                     Connects

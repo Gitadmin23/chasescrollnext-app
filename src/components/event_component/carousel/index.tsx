@@ -44,7 +44,7 @@ function EventCarousel(props: Props) {
                         data?.map((item: any, index: any) => {
                             return (
                                 <>
-                                    <Box key={index} role='button' bg={"white"} rounded={"32px"} roundedTopRight={"0px"} width={"full"} height={["fit-content", "fit-content", "fit-content"]} p={"3"} >
+                                    <Box onClick={()=> router.replace("/dashboard/event/details/" + item?.id)}  key={index} role='button' bg={"white"} rounded={"32px"} roundedTopRight={"0px"} width={"full"} height={["fit-content", "fit-content", "fit-content"]} p={"3"} >
                                         <Box position={"relative"} width={"full"} >
                                             <Image style={{ borderTopRightRadius: "0px", borderRadius: "32px" }} objectFit="cover" alt={item?.currentPicUrl} width={"full"} height={["256px", "256px", "350px"]} src={IMAGE_URL + item?.currentPicUrl} />
                                             <Box color={"#121212"} zIndex={"10"} roundedBottom={"8px"} roundedTopLeft={"8px"} alignItems={"center"} justifyContent={"center"} display={"flex"} flexDirection={"column"} fontWeight={"semibold"} position={"absolute"} bottom={"10px"} left={"10px"} width={["36px", "36px", "57px"]} height={["36px", "36px", "51px"]} bgColor={"white"} >
