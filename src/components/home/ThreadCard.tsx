@@ -15,6 +15,7 @@ import ReportUserModal from '../modals/Home/ReportModal';
 
 interface IProps {
     post?: IMediaContent;
+    id?: string
 }
 
 const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
@@ -40,7 +41,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   });
     
     return (
-      <VStack alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='lg' borderColor={'lightgrey'} color='black' padding='20px'>
+      <VStack id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='lg' borderColor={'lightgrey'} color='black' padding='20px'>
 
         {/* MODALS SECTION */}
         <ReportUserModal typeID={post?.id} REPORT_TYPE='REPORT_USER' isOpen={showReportModal} onClose={() => setShowReportModal(false)} />

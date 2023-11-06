@@ -16,18 +16,25 @@ function ProfileComponent(props: Props) {
         user_index
     } = props
 
-
+    const [open, setOpen] = React.useState(false)
+    const [postId, setPostId] = React.useState("")
     const { results, isLoading, ref, isRefetching, data } = InfiniteScrollerComponent({ url: URLS.GET_MEDIA_POST + user_index, limit: 10, filter: "id" })
+
+    const clickHandler =(item: string)=> {
+        setPostId(item)
+        setOpen(true)
+    }
 
     return (
         <Flex width={"full"} justifyContent={"center"} py={"6"} px={"6"} >
             <Grid width={"full"} templateColumns={['repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)', 'repeat(4, 1fr)']} gap={6} >
                 {results.filter((item: any) => item?.joinStatus !== "SELF")?.map((item: {
                     type: string,
-                    mediaRef: string
+                    mediaRef: string,
+                    id: string
                 }, index: number) => {
                     return (
-                        <GridItem as={"button"} key={index} width={"full"} height={"200px"} rounded={"24px"} roundedTopRight={"none"} bgColor={"gray.300"}  >
+                        <GridItem onClick={()=> clickHandler(item?.id)} as={"button"} key={index} width={"full"} height={"200px"} rounded={"24px"} roundedTopRight={"none"} bgColor={"gray.300"}  >
                             {item?.type === "WITH_IMAGE" && (
                                 <Image src={item?.mediaRef} alt={item?.mediaRef} rounded={"24px"} roundedTopRight={"none"} shadow={"lg"} width={"full"} height={"full"} objectFit={"cover"} />
                             )} 
@@ -47,7 +54,7 @@ function ProfileComponent(props: Props) {
                     )
                 })}
             </Grid>
-            <PostThreads user_index={user_index} />
+            <PostThreads post_index={postId} open={open} setOpen={setOpen} user_index={user_index} />
         </Flex>
     )
 }
