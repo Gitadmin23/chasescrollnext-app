@@ -20,7 +20,7 @@ function CommunityCard(props: Props) {
         <Flex width={"full"} borderBottomWidth={searchbar ? "1px" : "0px"} justifyContent={"space-between"} alignItems={"center"} py={"2"} >
             <Flex gap={searchbar ? "3": "6"} width={"full"}  alignItems={"center"}  >
                 <Box width={"fit-content"} >
-                    <CommunityImage data={data} size={searchbar?  "50px" : 20} font={searchbar ? "16px": "30px"} />
+                    <CommunityImage data={data} size={searchbar?  "50px" : "70px"} font={searchbar ? "16px": "30px"} />
                 </Box>
                 <Box mt={searchbar ? "0px": "-6px"} >
                     <Text fontSize={searchbar ? "14px" :["16px", "16px"]} fontWeight={"medium"} >{data.data.name}</Text>

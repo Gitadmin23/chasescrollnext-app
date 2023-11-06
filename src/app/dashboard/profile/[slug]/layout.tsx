@@ -10,7 +10,7 @@ function Layout({ params, children }: { params: { slug: string }, children: Reac
         <Box width={"full"} overflowY={"auto"} > 
             <ProfileImage user_index={params.slug} /> 
             <ProfileHeader user_index={params.slug} />
-            <Box width={"full"} >
+            <Box width={"full"} py={"6"} >
                 {children}
             </Box>
         </Box>

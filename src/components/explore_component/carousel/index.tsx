@@ -30,14 +30,14 @@ function ExploreCarousel(props: Props) {
     }) 
 
     return (
-        <Box width={"full"} position={"relative"} height={["256px", "256px", "480px"]} >
+        <Box width={"full"} position={"relative"} height={["300px", "300px", "480px"]} >
             {(!isLoading && !isRefetching) && ( 
                 <CustomCarousel 
                     slides={
                         data?.map((item: any, index: any)=> {
                             return(  
                                 <> 
-                                    <Box key={index} role='button'  width={"full"} height={["224px", "224px", "420px"]} className="flex h-56 lg:h-80 flex-col pb-0 w-full relative rounded-[32px]"> 
+                                    <Box onClick={()=> router.replace("/dashboard/event/details/" + item?.id)} key={index} role='button'  width={"full"} height={["224px", "224px", "420px"]} className="flex h-56 lg:h-80 flex-col pb-0 w-full relative rounded-[32px]"> 
                                         <Image style={{borderTopLeftRadius: "32px" }} objectFit="cover" alt={item?.currentPicUrl} width={"full"} height={"full"} src={IMAGE_URL + item?.currentPicUrl} />
                                         <Flex roundedBottom={"32px"} height={"50px"} bg={"brand.chasescrollBlue"} alignItems={"center"} fontWeight={"bold"} fontSize={["16px", "16px", "18px"]} color={"white"} py={"4"} justifyContent={"center"} >
                                             <Text>{item?.eventName}</Text>

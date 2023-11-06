@@ -32,9 +32,9 @@ function ConnectedUser(props: Props) {
     })
 
     return (
-        <Flex width={"400px"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} >
+        <Flex width={["full", "450px"]} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} >
             <LoadingAnimation length={data?.length} loading={isLoading} refeching={isRefetching} >
-                {data?.map((person: any, i: number) => {
+                {data?.filter((item: any)=> item?.joinStatus !== "SELF")?.map((person: any, i: number) => {
                     return (
                         <Box key={i} width={"full"}>
                             <PeopleCard connects={true} person={person} />
