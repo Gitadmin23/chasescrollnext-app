@@ -61,6 +61,8 @@ function AddOrRemoveUserBtn(props: Props) {
             });
             setLoading("0")
             setJoinStatus("pending")
+			queryClient.invalidateQueries(['/user/friend-requests'])
+			queryClient.invalidateQueries(['get-joined-network'])
         }
     });
 
@@ -92,6 +94,8 @@ function AddOrRemoveUserBtn(props: Props) {
             });
             setLoading("0")
             setJoinStatus("pending")
+			queryClient.invalidateQueries(['/user/friend-requests'])
+			queryClient.invalidateQueries(['get-joined-network'])
         }
     });
 
@@ -163,17 +167,17 @@ function AddOrRemoveUserBtn(props: Props) {
     const handleaccept = React.useCallback(() => {
         setLoading(index)
         acceptuser.mutate({ friendRequestID: index })
-    }, [addfriend, user_index])
+    }, [acceptuser, user_index])
 
     const handleRemove = React.useCallback(() => {
         setLoading(user_index)
-        rejectuser.mutate()
+        unfriend.mutate()
     }, [unfriend, user_index])
 
     const handleReject = React.useCallback(() => {
         setLoadingRejected(index)
         rejectuser.mutate()
-    }, [unfriend, user_index])
+    }, [rejectuser, user_index])
 
 
     const clickHandler = (event: any) => {

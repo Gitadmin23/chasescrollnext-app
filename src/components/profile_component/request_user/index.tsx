@@ -12,7 +12,7 @@ function RequestUser(props: Props) {
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.FRIEND_REQUEST, limit: 10, filter: "userId" })
 
     return (
-        <Flex width={"400px"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} >
+        <Flex width={["full", "450px"]} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} >
             <LoadingAnimation length={results?.length} loading={isLoading} refeching={isRefetching} >
                 {results?.map((person: any, i: number) => {
                     if (results.length === i + 1) {

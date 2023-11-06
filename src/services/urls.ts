@@ -53,8 +53,8 @@ export const URLS = {
     GET_SAVED_EVENTS: '/events/get-saved-eventts',
     GET_GROUP_BY_ID: '/group/group',
     GET_GROUP_MEMBERS: '/group/get-group-members',
-    GET_CHATS: '/chat/chat'
-
+    GET_CHATS: '/chat/chat',
+    GET_MEDIA_POST : "/feed/get-users-media-posts?userID="
 }
 
 export const IMAGE_URL = process.env.NEXT_PUBLIC_RESOURCE_URL;

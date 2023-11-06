@@ -100,7 +100,7 @@ function ExploreEventCard(props: Props) {
                     )}
                     <Flex alignItems={"center"} width={"full"} pb={"2"} gap={"3"} justifyContent={"space-between"} >
                         <EventLocationDetail iconsize={searchbar ? "16px" : "20px"} fontWeight={"medium"} fontsize={searchbar ? "13px" : page ? "14px" : "16px"} color={"rgba(18, 18, 18, 0.80)"} location={event?.location} locationType={event?.locationType} length={20} />
-                        {(!draft && !my_event && profile) && (
+                        {(!draft && !my_event && !profile) && (
                             <Flex alignItems={"center"} gap={"3"} >
                                 <ShareEvent size='18px' id={event?.id} />
                                 <SaveOrUnsaveBtn event={event} />
