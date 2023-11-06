@@ -37,14 +37,14 @@ function PostThreads(props: Props) {
                     {results.map((item: any, i: number) => {
                         if (i === results.length - 1) {
                             return (
-                                <Box ref={item?.id === post_index ? itemRef : null}>
-                                    <ThreadCard id={post_index} ref={ref} key={i.toString()} post={item} />
+                                <Box  key={i.toString()}  ref={item?.id === post_index ? itemRef : null}>
+                                    <ThreadCard id={post_index} ref={ref}post={item} />
                                 </Box>
                             )
                         }
                         return (
-                            <Box ref={item?.id === post_index ? itemRef : null}>
-                                <ThreadCard key={i.toString()} post={item} />
+                            <Box  key={i.toString()} ref={item?.id === post_index ? itemRef : null}>
+                                <ThreadCard  post={item} />
                             </Box>
                         )
                     })}
