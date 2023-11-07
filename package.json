@@ -29,6 +29,7 @@
     "firebase": "^10.4.0",
     "format-number": "^3.0.0",
     "framer-motion": "^10.16.4",
+    "iconsax-react": "^0.0.8",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",

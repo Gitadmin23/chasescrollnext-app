@@ -13,6 +13,8 @@ import { PaginatedResponse } from '@/models/PaginatedResponse'
 import useDebounce from '@/hooks/useDebounce'
 import { useChatPageState } from './state'
 import { useRouter } from 'next/navigation';
+import { SearchNormal1 } from 'iconsax-react'
+
 
 const ARRAY = [1,2,3,4,5,6,7,8,9,10];
 
@@ -81,14 +83,16 @@ function Sidebar() {
             <Button height={25} borderRadius={15} bg='brand.chasescrollButtonBlue' color='white' fontFamily={'Satoshi-Light'} variant={'solid'} fontSize='12px' width='30px' >5 New</Button>
         </HStack>
 
-        <Button onClick={() => router.push('/dashboard/chats/create')} variant={'outline'} height={'30px'} borderWidth={'0px'} borderRadius={'20px'} outlineColor={'brand.chasescrollButtonBlue'} color='brand.chasescrollButtonBlue'>Create Group</Button>
+        <Button onClick={() => router.push('/dashboard/chats/create')} variant={'unstyled'} width='120px' height={'30px'} borderWidth={'1px'} borderRadius={'20px'} borderColor={'brand.chasescrollButtonBlue'} color='brand.chasescrollButtonBlue' >
+            Create Group
+        </Button>
 
         </HStack>
 
         {/* SEARCH BAR */}
         <InputGroup>
             <InputLeftElement>
-                <IoMdSearch fontSize='30px' color={THEME.COLORS.chasescrollButtonBlue} />
+                <SearchNormal1 size='25px' color={THEME.COLORS.chasescrollButtonBlue} />
             </InputLeftElement>
             <Input width='100%' height={'45px'} placeholder='search message' borderRadius={'10'} borderWidth={'1px'} borderColor={'lightgrey'} bg='whitesmoke' />
         </InputGroup>
@@ -119,7 +123,7 @@ function Sidebar() {
         )
     }
 
-{
+    {
         !isLoading && isError && (
             <HStack width={'100%'} height='50px' justifyContent={'center'} alignItems={'center'}>
                 <CustomText fontFamily={'Satoshi-Medium'} fontSize={'18'} textAlign={'center'}>You have not joined any group</CustomText>

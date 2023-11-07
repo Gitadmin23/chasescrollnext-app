@@ -1,35 +1,38 @@
 /* eslint-disable react/display-name */
 import { IMediaContent, IMediaPost } from '@/models/MediaPost';
-import { Avatar, HStack, VStack, Box, Spinner, Menu, MenuList, MenuButton, MenuItem } from '@chakra-ui/react';
+import { Avatar, HStack, VStack, Box, Spinner, Menu, MenuList, MenuButton, MenuItem, Image } from '@chakra-ui/react';
 import { FiMoreHorizontal, FiHeart, FiMessageSquare, FiShare2 } from 'react-icons/fi'
 import React from 'react'
 import CustomText from '../general/Text';
-import Image from 'next/image'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import httpService from '@/utils/httpService';
-import { RESOURCE_BASE_URL, URLS } from '@/services/urls';
+import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import moment from 'moment';
 import Link from 'next/link';
 import { useDetails } from '@/global-state/useUserDetails';
 import ReportUserModal from '../modals/Home/ReportModal';
+import LikeUserModal from '../modals/Home/LikeUsers';
+
+import { Heart, MessageAdd, Share, DocumentDownload } from 'iconsax-react';
 
 interface IProps {
-    post?: IMediaContent;
-    id?: string
+  post?: IMediaContent;
+  id?: string
 }
 
 const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   const [showReportModal, setShowReportModal] = React.useState(false);
+  const [showlikes, setShowLikes] = React.useState(false);
   const queryClient = useQueryClient();
   const { userId } = useDetails((state) => state)
   const [post, setPost] = React.useState<IMediaContent>(props.post as IMediaContent);
 
-  const { isLoading, isError } = useQuery([`getPostById-${post?.id}`, post?.id], () => httpService.get(`${URLS.GET_POST_BY_ID}/${post?.id}`), 
-  {
-    onSuccess: (data) => {
-      setPost(data?.data);
-    }
-  });
+  const { isLoading, isError } = useQuery([`getPostById-${post?.id}`, post?.id], () => httpService.get(`${URLS.GET_POST_BY_ID}/${post?.id}`),
+    {
+      onSuccess: (data) => {
+        setPost(data?.data);
+      }
+    });
 
   // MUTATIONS
   const likeMutation = useMutation({
@@ -37,92 +40,116 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
     onSuccess: () => {
       queryClient.invalidateQueries([`getPostById-${post?.id}`])
     },
-    onError: () =>{}
+    onError: () => { }
   });
-    
-    return (
-      <VStack id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='lg' borderColor={'lightgrey'} color='black' padding='20px'>
 
-        {/* MODALS SECTION */}
-        <ReportUserModal typeID={post?.id} REPORT_TYPE='REPORT_USER' isOpen={showReportModal} onClose={() => setShowReportModal(false)} />
-           
-           {/* HEADER SECTION */}
-           <HStack width='100%' height='100px' justifyContent={'space-between'} alignItems={'center'}>
-              <HStack>
-                <Avatar name="daniel Emmanuel" size='md' />
+  return (
+    <VStack id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='lg' borderColor={'lightgrey'} color='black' padding='20px'>
 
-                <VStack spacing={0} alignItems={'flex-start'}>
-                  <CustomText fontSize='lg' fontFamily={'DM-Medium'}>{post?.user?.username}</CustomText>
-                  {/* <CustomText fontSize='md' fontFamily={'DM-Regular'}>o2 Areana London</CustomText> */}
-                  <CustomText fontSize='xs' fontFamily={'Satoshi-Light'} color='grey'>{moment(post?.timeInMilliseconds).fromNow()}</CustomText>
-                </VStack>
-              </HStack>
-              <Menu>
-                <MenuButton>
-                  <FiMoreHorizontal color="blue" fontSize={25} />
-                </MenuButton>
-                <MenuList>
-                  { userId === post?.user?.userId && (
-                    <MenuItem color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
-                      <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Delete</CustomText>
-                    </MenuItem>
-                  )}
-                  {/* <MenuItem color={'grey'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
+      {/* MODALS SECTION */}
+      <ReportUserModal typeID={post?.id} REPORT_TYPE='REPORT_USER' isOpen={showReportModal} onClose={() => setShowReportModal(false)} />
+      <LikeUserModal typeID={post?.id} isOpen={showlikes} onClose={() => setShowLikes(false)} />
+
+      {/* HEADER SECTION */}
+      <HStack width='100%' height='100px' justifyContent={'space-between'} alignItems={'center'}>
+        <HStack>
+
+          <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+            {post?.user?.data.imgMain.value === null && (
+              <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                <CustomText fontFamily={'DM-Regular'}>{post?.user?.username[0].toUpperCase()}</CustomText>
+              </VStack>
+            )}
+            {
+              post?.user?.data.imgMain.value && (
+                <Image src={`${IMAGE_URL}${post?.user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+              )
+            }
+          </Box>
+
+          <VStack spacing={0} alignItems={'flex-start'}>
+            <CustomText fontSize='lg' fontFamily={'DM-Medium'}>{post?.user?.username}</CustomText>
+            {/* <CustomText fontSize='md' fontFamily={'DM-Regular'}>o2 Areana London</CustomText> */}
+            <CustomText fontSize='xs' fontFamily={'Satoshi-Light'} color='grey'>{moment(post?.timeInMilliseconds).fromNow()}</CustomText>
+          </VStack>
+        </HStack>
+        <Menu>
+          <MenuButton>
+            <FiMoreHorizontal color="blue" fontSize={25} />
+          </MenuButton>
+          <MenuList>
+            {userId === post?.user?.userId && (
+              <MenuItem color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
+                <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Delete</CustomText>
+              </MenuItem>
+            )}
+            {/* <MenuItem color={'grey'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
                     <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Share Post</CustomText>
                   </MenuItem> */}
-                  {/* <MenuItem color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
+            {/* <MenuItem color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
                     <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Report Post</CustomText>
                   </MenuItem> */}
-                  <MenuItem onClick={() => setShowReportModal(true)} color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
-                    <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Report User</CustomText>
-                  </MenuItem>
-                  <MenuItem color={'red'} width={'100%'} >
-                    <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Cancel</CustomText>
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-           </HStack>
+            <MenuItem onClick={() => setShowReportModal(true)} color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
+              <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Report User</CustomText>
+            </MenuItem>
+            <MenuItem color={'red'} width={'100%'} >
+              <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Cancel</CustomText>
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </HStack>
 
-           {/* BODY SECTION */}
-           <CustomText fontFamily={'Satoshi-Regular'} fontSize='md' color='brand.chasescrollButtonBlue'>
-            {post?.text}
-           </CustomText>
+      {/* BODY SECTION */}
+      <CustomText fontFamily={'Satoshi-Regular'} fontSize='md' color='brand.chasescrollButtonBlue'>
+        {post?.text}
+      </CustomText>
 
-           { post?.type === 'WITH_IMAGE' || post?.type === 'MULTIPLE_PICTURE' && (
-            <Box width='100%' height={'200px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'}>
-              <Image src={`${RESOURCE_BASE_URL}/${post?.mediaRef}`} alt='image'style={{ width: '100%', height: '100%' }}  />
-            </Box>
-           )}
+      {post?.type === 'WITH_IMAGE' || post?.type === 'MULTIPLE_PICTURE' && (
+        <Box width='100%' height={'200px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'}>
+          <Image src={`${IMAGE_URL}${post?.mediaRef}`} alt='image' style={{ width: '100%', height: '100%' }} />
+        </Box>
+      )}
 
-           {/* FOOTER SECTION */}
-           <HStack justifyContent={'space-between'} alignItems={'center'} width='100%' height={'50px'} bg='whitesmoke'>
-              <VStack onClick={() => likeMutation.mutate()} cursor={'pointer'}>
-                {!likeMutation.isLoading && (
-                  <>
-                    <FiHeart color={post?.likeStatus === 'LIKED' ? 'red':'grey'} fontSize={15} />
-                    <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color={post?.likeStatus === 'LIKED' ? 'red':'grey'}>{post?.likeCount} Likes</CustomText>
-                  </>
-                )}
-                {
-                  likeMutation.isLoading && (
-                    <Spinner size='xs' colorScheme='blue' />
-                  )
-                }
-              </VStack>
+      {post?.type === 'WITH_VIDEO_POST' && (
+        <Box width='100%' height={'200px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'}>
+          <video controls width={'100%'} height='100%'>
+            <source  type='video/mp4' src={`${IMAGE_URL}${post.mediaRef}`} />
+          </video>
+        </Box>
+      )}
 
-              <Link href={`/dashboard/home/comment/${post?.id}`}>
-                <VStack>
-                  <FiMessageSquare color='black' fontSize={15} />
-                  <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>{post?.commentCount} Comments</CustomText>
-                </VStack>
-              </Link>
+      {/* FOOTER SECTION */}
+      <HStack justifyContent={'space-between'} alignItems={'center'} width='100%' height={'50px'} bg='whitesmoke'>
+        <VStack  cursor={'pointer'}>
+          {!likeMutation.isLoading && (
+            <>
+              <Heart onClick={() => likeMutation.mutate()} color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'} size={'25px'} variant={post?.likeStatus === 'LIKED' ? 'Bold': 'Outline'} />
+              {/* <FiHeart onClick={() => likeMutation.mutate()} color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'} fontSize={15} /> */}
+              <CustomText onClick={() => setShowLikes(true)} fontFamily={'Satoshi-Light'} fontSize='xs' color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'}>{post?.likeCount} Likes</CustomText>
+            </>
+          )}
+          {
+            likeMutation.isLoading && (
+              <Spinner size='xs' colorScheme='blue' />
+            )
+          }
+        </VStack>
 
-              <VStack>
-                <FiShare2 color='black' fontSize={15} />
-                <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>Share</CustomText>
-              </VStack>
-           </HStack>
-      </VStack>
-    );
-  });
+        <Link href={`/dashboard/home/comment/${post?.id}`}>
+          <VStack>
+            <MessageAdd color='grey' size={'25px'} variant='Outline' />
+            {/* <FiMessageSquare color='black' fontSize={15} /> */}
+            <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>{post?.commentCount} Comments</CustomText>
+          </VStack>
+        </Link>
+
+        <VStack>
+          <Share color='grey' size={'25px'} variant='Bold' />
+          {/* <FiShare2 color='black' fontSize={15} /> */}
+          <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>Share</CustomText>
+        </VStack>
+      </HStack>
+    </VStack>
+  );
+});
 export default ThreadCard

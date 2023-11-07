@@ -13,6 +13,7 @@ import { uniqBy } from 'lodash';
 import { PaginatedResponse } from '@/models/PaginatedResponse'
 import useDebounce from '@/hooks/useDebounce'
 import Link from 'next/link'
+import { SearchNormal1 } from 'iconsax-react'
 
 
 function Sidebar() {
@@ -70,7 +71,7 @@ function Sidebar() {
         </HStack>
 
         <Link href='/dashboard/community/create'>
-            <Button variant={'unstyled'}   height={'23px'} width='100px' borderRadius={'20px'} borderWidth={'1px'} borderColor={'brand.chasescrollButtonBlue'} fontSize='12px' color='brand.chasescrollButtonBlue' fontFamily={'DM-Regular'}>New Community</Button>
+            <Button variant={'unstyled'}   height={'30px'} width='150px' borderRadius={'20px'} borderWidth={'1px'} borderColor={'brand.chasescrollButtonBlue'} color='brand.chasescrollButtonBlue' fontFamily={'DM-Regular'}>New Community</Button>
         </Link>
 
         </HStack>
@@ -78,7 +79,7 @@ function Sidebar() {
         {/* SEARCH BAR */}
         <InputGroup>
             <InputLeftElement>
-                <Image src="/assets/images/search-icon.png" width={'20px'} height={'20px'} alt='image' />
+                <SearchNormal1 size='25px' color={THEME.COLORS.chasescrollButtonBlue} />
             </InputLeftElement>
             <Input value={search} onChange={(e) => setSearch(e.target.value)} width='100%' height={'45px'} placeholder='search message' borderRadius={'12px'} borderWidth={'1px'} borderColor={'lightgrey'} bg='whitesmoke' />
         </InputGroup>

@@ -31,6 +31,7 @@ import { useChatPageState } from './state';
 import moment from 'moment';
 import ReportUserModal from '../modals/chat/ReportUser';
 import ReportGroupChatModal from '../modals/chat/ReportGroupChat';
+import { CloseCircle } from 'iconsax-react'
 
 
 function ChatSectionHeader() {
@@ -79,7 +80,9 @@ function ChatSectionHeader() {
     <ReportGroupChatModal isOpen={showReportGroup} onClose={() => setShowReportGroup(false)} typeID={activeChat?.id as string} REPORT_TYPE='REPORT_COMMUNITY' />
 
     <HStack> 
-
+          <Box display={['block', 'none']}>
+            <CloseCircle onClick={() => setAll({ activeChat: null })} color='grey' size='30px' variant='Outline' />
+          </Box>
          {activeChat?.type === 'ONE_TO_ONE' && (
             <Link href={`/dashboard/profile/${activeChat?.otherUser.userId}`}>
                  <Box width='45px' height='45px' borderRadius={'36px 0px 36px 36px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>

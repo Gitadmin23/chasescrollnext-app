@@ -72,7 +72,7 @@ const lastChildRef = React.useCallback((post: any) => {
         )
     }
   return (
-    <VStack width='100%' height='100%' bg='whitesmoke'>
+    <VStack width='100%' height='100%' flex={1} bg='whitesmoke'>
       
       <ChatSectionHeader />
 

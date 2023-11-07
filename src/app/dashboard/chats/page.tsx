@@ -1,18 +1,41 @@
 'use client';
 import MainArea from '@/components/Chat/MainArea';
 import Sidebar from '@/components/Chat/Sidebar';
+import { useChatPageState } from '@/components/Chat/state';
 import { Box, HStack, VStack } from '@chakra-ui/react';
 import React from 'react'
 
 function Chat() {
+  const { activeChat } = useChatPageState((state) => state)
   return (
     <HStack width={'100%'} height='100%' spacing={0} padding='5px'>
-        <Box width={'30%'} height={'100%'} >
+        {/* BIG SCREEN */}
+        <HStack width='100%' height='100%' display={['none', 'flex']} spacing={0} alignItems={'flex-start'}>
+
+          <Box width='30%' height='100%' borderRightColor={'lightgrey'} borderRightWidth={activeChat !== null ?'1px':'0px'} >
             <Sidebar />
-        </Box>
-        <VStack flex={1} height='100%' bg='white' borderWidth={1} borderColor='brand.chasescrollButtonBlue' borderRadius={'20px'} overflow='hidden'>
+          </Box>
+          <Box flex={1} height='100%' bg='white' borderWidth={activeChat !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeChat !== null ? '0px':'20px'}>
             <MainArea />
-        </VStack>
+          </Box>
+
+        </HStack>
+        
+        {/* SMALL SCREEN */}
+        <HStack flex={1} width='100%' height='100%' display={['flex', 'none']} alignItems={'flex-start'}>
+          { activeChat === null && (
+            <Box width={'100%'} height={'100%'} borderRightColor={'lightgrey'} borderRightWidth={activeChat !== null ?'1px':'0px'} >
+              <Sidebar />
+          </Box>
+          )}
+        {
+          activeChat !== null && (
+            <VStack spacing={0} flex={1} height='100%' bg='white' borderWidth={activeChat !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeChat !== null ? '0px':'20px'}>
+                <MainArea />
+            </VStack>
+          )
+        }
+        </HStack>
     </HStack>
   )
 }
