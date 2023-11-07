@@ -5,14 +5,17 @@ import ThreadCard from '@/components/home/ThreadCard';
 import CreateMediaPost from '@/components/modals/CreateMediaPost';
 import { useDetails } from '@/global-state/useUserDetails';
 import { IMediaContent, IMediaPost } from '@/models/MediaPost';
-import { URLS } from '@/services/urls';
+import { IMAGE_URL, URLS } from '@/services/urls';
 import { THEME } from '@/theme'
 import httpService from '@/utils/httpService';
-import { Avatar, Box, Flex, HStack, Spinner, Textarea, VStack, useToast } from '@chakra-ui/react'
+import { Avatar, Box, Flex, HStack, Spinner, Textarea, VStack, useToast, Image } from '@chakra-ui/react'
 import lodash, { uniq } from 'lodash';
 import React from 'react'
 import { FiSend, FiImage } from 'react-icons/fi';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { Heart, MessageAdd, Share, DocumentDownload, Send2, Image as ImgIcon } from 'iconsax-react';
+import { IUser } from '@/models/User';
+
 
 
 function Home() {
@@ -25,9 +28,18 @@ function Home() {
 
   const { firstName, lastName, userId, username } = useDetails((state) => state);
 
+  const [user, setUser] = React.useState<IUser | null>(null);
+
   const intObserver = React.useRef<IntersectionObserver>();
   const toast = useToast();
   const queryClient = useQueryClient();
+
+  const getUser = useQuery(['getPosts', userId], () => httpService.get(`${URLS.GET_USER_DETAILS}/${userId}`, {
+  }), {
+    onSuccess: (data) => {
+      setUser(data.data);
+    },
+  });
 
   const { isLoading, isError, refetch } = useQuery(['getPosts', page], () => httpService.get(`${URLS.GET_POSTS}`, {
     params: {
@@ -110,15 +122,28 @@ function Home() {
         {/* TEXTBOX */}
         <VStack alignItems={'flex-start'} width='100%' height='150px' bg='whitesmoke' borderWidth={0} shadow={'md'} borderColor={'lightgrey'} borderRadius={'10px'} padding='10px'>
           <HStack width='100%' height={'90px'}>
-            <Avatar name={`${firstName} ${lastName}`} />
+
+            <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+            {user?.data.imgMain.value === null && (
+              <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                <CustomText fontFamily={'DM-Regular'}>{user?.username[0].toUpperCase()}</CustomText>
+              </VStack>
+            )}
+            {
+              user?.data.imgMain.value && (
+                <Image src={`${IMAGE_URL}${user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+              )
+            }
+            </Box>
+
             <Textarea bg='whitesmoke' borderWidth={'0px'} placeholder={`What's on your mind @${username}`} resize={'none'} value={post} onChange={(e) => setPost(e.target.value)}></Textarea>
-            { !createPostMutation.isLoading && <FiSend onClick={() => handlePostCreation()} size={25} color={THEME.COLORS.chasescrollButtonBlue} /> }
+            { !createPostMutation.isLoading && <Send2 onClick={() => handlePostCreation()} size={'30px'} color={THEME.COLORS.chasescrollButtonBlue} /> }
             { createPostMutation.isLoading && <Spinner size={'sm'} color={THEME.COLORS.chasescrollButtonBlue} /> }
           </HStack>
 
           <HStack>
-            <FiImage size={25} color={THEME.COLORS.chasescrollButtonBlue} />
-            <CustomText onClick={() => setShowModal(true)} fontFamily={'Satoshi-Light'} fontSize={'sm'} cursor='pointer' color='brand.chasescrollButtonBlue'>Add Photos /Video in your post</CustomText>
+            <ImgIcon size={25} color={THEME.COLORS.chasescrollButtonBlue} />
+            <CustomText onClick={() => setShowModal(true)} fontFamily={'DM-Regular'} fontSize={'sm'} cursor='pointer' color='brand.chasescrollButtonBlue'>Add Photos /Video in your post</CustomText>
           </HStack>
         </VStack>
         {

@@ -72,6 +72,10 @@ const communitySchema = z.object({
     description: z.string().nonempty(),
 })
 
+const groupChatSchema = z.object({
+    name: z.string().nonempty(),
+})
+
 export {
     signUpValidation,
     signInValidation,
@@ -79,5 +83,6 @@ export {
     reportSchema,
     forgotPasswordEmailValidation,
     resetValidation,
-    communitySchema
+    communitySchema,
+    groupChatSchema,
 }

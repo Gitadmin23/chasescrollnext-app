@@ -59,6 +59,9 @@ export const URLS = {
     CHAT_MESSGAE: '/chat/message',
     CHAT_NEW_MESSAGE_COUNT: 'chat/new_message_count',
     LEAVE_CHAT: '/chat/leave-chat',
+    GET_POST_LIKES: '/feed/post-likes',
+    CHECK_UER_ONLINE_STATUS: '/auth/check-online',
+    GET_USER_FRIENDS: '/user/get-users-connections'
     //GET_MEDIA_POST : "/feed/get-users-media-posts?userID="
 }
 

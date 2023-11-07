@@ -16,7 +16,7 @@ interface IProps {
 const  SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({chat}, ref) => {
     const { setAll, activeChat } = useChatPageState((state) => state);
   return (
-   <HStack onClick={() => setAll({ activeChat: chat, messages: [], pageNumber: 0, hasNext: false })} ref={ref} width='100%' height='100px' borderRadius={'0px'} alignItems={'center'} justifyContent={'space-between'} bg={ activeChat?.id === chat?.id ? '#EAEAFC66':'white'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingRight={'10px'} cursor={'pointer'}>
+   <HStack onClick={() => setAll({ activeChat: chat, messages: [], pageNumber: 0, hasNext: false })} ref={ref} width='100%' height='60px' borderRadius={'8px'} alignItems={'center'} justifyContent={'space-between'} bg={ activeChat?.id === chat?.id ? '#EAEAFC66':'white'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingRight={'10px'} cursor={'pointer'}>
 
     <HStack>
             <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
