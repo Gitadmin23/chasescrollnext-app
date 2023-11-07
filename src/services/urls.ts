@@ -58,7 +58,8 @@ export const URLS = {
     GET_NOTIFICATIONS: '/notifications/notification',
     CHAT_MESSGAE: '/chat/message',
     CHAT_NEW_MESSAGE_COUNT: 'chat/new_message_count',
-    LEAVE_CHAT: '/chat/leave-chat'
+    LEAVE_CHAT: '/chat/leave-chat',
+    GET_MEDIA_POST : "/feed/get-users-media-posts?userID="
 }
 
 export const IMAGE_URL = process.env.NEXT_PUBLIC_RESOURCE_URL;
