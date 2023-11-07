@@ -79,6 +79,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
         const format = __format__[__format__.length - 1];
         return format.toUpperCase();
       }
+
     
   return (
     <HStack id={id} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.createdBy.userId === myId ? 'flex-end':'flex-start'} flexDirection={self ? 'row':'row-reverse'}  borderRadius='20px'>
