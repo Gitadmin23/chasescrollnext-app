@@ -10,7 +10,7 @@ export type ChatMessage = {
     lastModifiedBy: IUser;
     lastModifiedDate: number;
     media: string;
-    mediaType: 'PICTURE'|'VIDEO';
+    mediaType: 'PICTURE'|'VIDEO'|'DOCUMENT';
     message: string;
     multipleMedia: string[];
     reactList: any[];

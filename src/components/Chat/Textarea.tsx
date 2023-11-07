@@ -14,19 +14,15 @@ import { HStack, Input, Spinner, VStack, Popover,
   Divider,
   Image,
   Box,
-  Button,
-  Portal,
   useToast
  } from '@chakra-ui/react'
 import React from 'react'
-import { FiSend, FiSmile, FiPlusCircle } from 'react-icons/fi';
 import { useMutation, useQueryClient } from 'react-query';
 import EmojiPicker from 'emoji-picker-react';
 import CustomText from '@/components/general/Text';
-import { IoReturnDownBackOutline } from 'react-icons/io5';
-import { useCommunityPageState } from '@/components/Community/chat/state';
+import MediaBox from '../Community/chat/MediaBox';
 import AWSHook from '@/hooks/awsHook';
-import MediaBox from './MediaBox';
+import { useChatPageState } from './state';
 
 const IMAGE_FORM = ['jpeg', 'jpg', 'png', 'svg'];
 const VIDEO_FORM = ['mp4'];
@@ -44,11 +40,11 @@ function TextArea() {
   const ref = React.useRef<HTMLInputElement>();
   const containerRef = React.useRef<HTMLDivElement>();
   const queryClient = useQueryClient();
-  const { activeCommunity } = useCommunityPageState((state) => state);
+  const { activeChat } = useChatPageState((state) => state);
   const { userId } = useDetails((state) => state);
 
   const createPost   = useMutation({
-    mutationFn: (data: any) => httpService.post(`${URLS.CREATE_POST}`, data),
+    mutationFn: (data: any) => httpService.post(`${URLS.CHAT_MESSGAE}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries(['getMessages']);
       setText('');
@@ -105,7 +101,7 @@ function TextArea() {
 
 
   const submit = () => {
-    if (text === '' || loading) {
+    if (text === '' && uploadedFile.length < 1 || loading) {
       toast({
         title: 'Warning',
         description: text === '' ? 'You have to type in a message' : 'image uploaing',
@@ -116,10 +112,8 @@ function TextArea() {
     }
     if (uploadedFile.length < 1) {
       createPost.mutate({
-        text,
-        type: 'NO_IMAGE_POST',
-        isGroupFeed: true,
-        sourceId: activeCommunity?.id
+        message: text,
+        chatID: activeChat?.id
       })
     } else {
       const file = uploadedFile[0];
@@ -129,39 +123,32 @@ function TextArea() {
       console.log(format);
       if (IMAGE_FORM.includes(format.toLowerCase())) {
         createPost.mutate({
-          text,
-          type: 'WITH_IMAGE',
-          isGroupFeed: true,
-          sourceId: activeCommunity?.id,
-          mediaRef: file.url,
+          message: text,
+          mediaType: 'PICTURE',
+          chatID: activeChat?.id,
+          media: file.url,
           multipleMediaRef: files.map((item) => item.url),
         });
       } else if (VIDEO_FORM.includes(format.toLowerCase())) {
         createPost.mutate({
-          text,
-          type: 'WITH_VIDEO_POST',
-          isGroupFeed: true,
-          sourceId: activeCommunity?.id,
-          mediaRef: file.url,
-          multipleMediaRef: files.map((item) => item.url),
+            message: text,
+            mediaType: 'VIDEO',
+            chatID: activeChat?.id,
+            media: file.url,
+            multipleMediaRef: files.map((item) => item.url),
         });
       } else if (DOC_FORM.includes(format.toLowerCase())) {
         createPost.mutate({
-          text,
-          type: 'WITH_FILE',
-          isGroupFeed: true,
-          sourceId: activeCommunity?.id,
-          mediaRef: file.url,
-          multipleMediaRef: files.map((item) => item.url),
+            message: text,
+            mediaType: 'DOCUMENT',
+            chatID: activeChat?.id,
+            media: file.url,
+            multipleMediaRef: files.map((item) => item.url),
         });
       } else {
         createPost.mutate({
-          text,
-          type: 'WITH_FILE',
-          isGroupFeed: true,
-          sourceId: activeCommunity?.id,
-          mediaRef: file.url,
-          multipleMediaRef: files.map((item) => item.url),
+            message: text,
+            chatID: activeChat?.id
         });
       }
     }

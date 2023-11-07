@@ -1,14 +1,9 @@
 'use client'
 
 import CommunityTab from '@/components/Community/CommunityTab';
-import FindCommunity from '@/components/Community/FindCommunity';
-import MyCommunities from '@/components/Community/MyCommunities';
 import Requests from '@/components/Community/Requests';
-import CustomText from '@/components/general/Text';
-import { THEME } from '@/theme';
 import { Box, HStack, VStack } from '@chakra-ui/react'
 import React from 'react' 
-import { FiPlusSquare } from 'react-icons/fi';
 import { useRouter } from 'next/navigation'
 import CommunityChat from '@/components/Community/chat/CommunityChat';
 

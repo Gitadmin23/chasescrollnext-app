@@ -17,6 +17,7 @@ import { useMutation } from 'react-query';
 import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
 import SearchBar from '@/components/explore_component/searchbar';
+import NotificationBar from '@/components/navbar/notification';
 const items = [1, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7];
 type IRoute = {
     icon: ReactNode;
@@ -135,9 +136,7 @@ function Layout({ children }: {
                                     <Avatar name='Daniel Eanuel' size='md' marginX='10px' />
                                 </Link>
 
-                                <Link href='/dashboard/notification'>
-                                    <FiBell color={THEME.COLORS.chasescrollBlue} fontSize='30px' />
-                                </Link>
+                                <NotificationBar />
                             </HStack>
 
                             {/* SMALL SCREEN ICONS */}

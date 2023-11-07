@@ -7,21 +7,22 @@ import httpService from '@/utils/httpService'
 import { Avatar, Box, HStack, VStack, Image } from '@chakra-ui/react'
 import React from 'react'
 import { useQuery } from 'react-query'
+import { useChatPageState } from './state'
 
 interface IProps {
     chat: Chat
 }
 
 const  SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({chat}, ref) => {
-    
+    const { setAll, activeChat } = useChatPageState((state) => state);
   return (
-   <HStack ref={ref} width='100%' height='100px' borderRadius={'0px'} alignItems={'center'} justifyContent={'space-between'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'}>
+   <HStack onClick={() => setAll({ activeChat: chat, messages: [], pageNumber: 0, hasNext: false })} ref={ref} width='100%' height='100px' borderRadius={'0px'} alignItems={'center'} justifyContent={'space-between'} bg={ activeChat?.id === chat?.id ? '#EAEAFC66':'white'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingRight={'10px'} cursor={'pointer'}>
 
     <HStack>
             <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
                     { chat?.otherUser?.data.imgMain.value === null && (
-                        <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                            <CustomText fontFamily={'DM-Regular'}>{chat?.otherUser.username[0].toUpperCase()}</CustomText>
+                        <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
+                            <CustomText fontFamily={'DM-Bold'} color='brand.chasescrollButtonBlue'>{chat?.otherUser.firstName[0].toUpperCase()} {chat?.otherUser.lastName[0].toUpperCase()}</CustomText>
                         </VStack>
                     )}
                     {
@@ -31,7 +32,7 @@ const  SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({chat}, ref) => {
                     }
                 </Box>
 
-        <VStack alignItems={'flex-start'}>
+        <VStack alignItems={'flex-start'} spacing={0}>
             <CustomText fontFamily={'DM-Medium'} fontSize={'14px'}>{chat?.type === 'GROUP' ? chat?.name: `${chat?.otherUser.firstName} ${chat?.otherUser.lastName}`}</CustomText>
             <CustomText fontFamily={'Satoshi-Light'} fontSize={'14px'}>{chat.lastMessage && chat.lastMessage}</CustomText>
         </VStack>
