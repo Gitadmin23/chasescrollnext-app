@@ -6,7 +6,7 @@ import { IEvent } from '@/models/Events';
 import { IMediaContent } from '@/models/MediaPost';
 import { create } from 'zustand';
 
-type ICommunityPageState = {
+type IChatPageState = {
     activeChat: Chat | null;
     messages: ChatMessage[] | [];
     pageNumber: number;
@@ -20,10 +20,11 @@ type ICommunityPageState = {
     eventHasNext: boolean;
     eventPageNumber: number;
     showEvents: boolean;
-    setAll: (data: Partial<ICommunityPageState>) => void
+    showEmoji: boolean;
+    setAll: (data: Partial<IChatPageState>) => void
 }
 
-export const useChatPageState = create<ICommunityPageState>((set) => ({
+export const useChatPageState = create<IChatPageState>((set) => ({
     activeChat: null,
     drawerOpen: false,
     messages: [],
@@ -37,5 +38,6 @@ export const useChatPageState = create<ICommunityPageState>((set) => ({
     eventHasNext: false,
     eventPageNumber: 0,
     showEvents: false,
+    showEmoji: false,
     setAll: (data) => set((state) => ({ ...state, ...data })),
 }))

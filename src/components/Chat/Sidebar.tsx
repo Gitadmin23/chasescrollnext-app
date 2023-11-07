@@ -31,7 +31,6 @@ function Sidebar() {
     const {} = useChatPageState((state) => state);
     const { isLoading, isError, }= useQuery(['getChats', userId], () => httpService.get(`${URLS.GET_CHATS}`, {
         params: {
-            chatID: userId,
             page: 0,
             searchText: debounceValue,
             size: 20,

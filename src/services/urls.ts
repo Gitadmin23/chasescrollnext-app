@@ -54,7 +54,11 @@ export const URLS = {
     GET_GROUP_BY_ID: '/group/group',
     GET_GROUP_MEMBERS: '/group/get-group-members',
     GET_CHATS: '/chat/chat',
-    GET_MEDIA_POST : "/feed/get-users-media-posts?userID="
+    GET_MEDIA_POST : "/feed/get-users-media-posts?userID=",
+    GET_NOTIFICATIONS: '/notifications/notification',
+    CHAT_MESSGAE: '/chat/message',
+    CHAT_NEW_MESSAGE_COUNT: 'chat/new_message_count',
+    LEAVE_CHAT: '/chat/leave-chat'
 }
 
 export const IMAGE_URL = process.env.NEXT_PUBLIC_RESOURCE_URL;
