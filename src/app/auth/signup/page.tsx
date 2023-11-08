@@ -119,13 +119,13 @@ function Signup() {
                 </CustomText>
             </HStack>
 
-            <CustomButton type='submit' variant={'outline'} text='Create Account' isLoading={isLoading || sendVerificatinEmail.isLoading} color='black' width='100%' borderRadius='10px'  backgroundColor={THEME.COLORS.chasescrollButtonBlue} fontFamily={'Satoshi-Regular'} />
+            <CustomButton type='submit' disable={terms === false} variant={'outline'} text='Create Account' isLoading={isLoading || sendVerificatinEmail.isLoading} color='white' width='100%' borderRadius='10px'  backgroundColor={THEME.COLORS.chasescrollButtonBlue} fontFamily={'Satoshi-Regular'} />
 
             <HStack>
                 <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'} marginLeft='0px'>
                   Already have an account ? 
                 </CustomText>
-                <Link href="/auth/login">
+                <Link href="/auth">
                   <CustomText color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} decoration={'underline'} cursor='pointer'>Log in</CustomText>
                 </Link>
             </HStack>

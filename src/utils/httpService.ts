@@ -9,7 +9,7 @@ httpService.interceptors.request.use(async(config) => {
     if (config.data instanceof FormData) {
         console.log('ITS FORMDATA');
         config.headers['Content-Type'] = 'multipart/form-data'
-        if (token === null) {
+        if (token === null || token === undefined) {
             return config;
         }
         config.headers['authorization'] = `Bearer ${token}`;
@@ -17,7 +17,7 @@ httpService.interceptors.request.use(async(config) => {
         return config;
     } else {
         config.headers['Content-Type'] = 'application/json';
-        if (token === null) {
+        if (token === null || token === undefined) {
             return config;
         }
         config.headers['authorization'] = `Bearer ${token}`;

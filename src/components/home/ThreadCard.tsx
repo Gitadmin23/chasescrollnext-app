@@ -44,7 +44,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   });
 
   return (
-    <VStack id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='lg' borderColor={'lightgrey'} color='black' padding='20px'>
+    <VStack id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='white' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='lg' borderColor={'lightgrey'} color='black' padding='20px'>
 
       {/* MODALS SECTION */}
       <ReportUserModal typeID={post?.id} REPORT_TYPE='REPORT_USER' isOpen={showReportModal} onClose={() => setShowReportModal(false)} />
@@ -111,15 +111,15 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       )}
 
       {post?.type === 'WITH_VIDEO_POST' && (
-        <Box width='100%' height={'200px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'}>
-          <video controls width={'100%'} height='100%'>
+        <Box width='100%' height={'200px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} overflow={'hidden'}>
+          <video controls width={'100%'} height='200px'>
             <source  type='video/mp4' src={`${IMAGE_URL}${post.mediaRef}`} />
           </video>
         </Box>
       )}
 
       {/* FOOTER SECTION */}
-      <HStack justifyContent={'space-between'} alignItems={'center'} width='100%' height={'50px'} bg='whitesmoke'>
+      <HStack justifyContent={'space-between'} alignItems={'center'} width='100%' height={'50px'} bg='white'>
         <VStack  cursor={'pointer'}>
           {!likeMutation.isLoading && (
             <>
