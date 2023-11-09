@@ -137,10 +137,10 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                 </HStack>
             </VStack>
 
-            <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+            <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
                     { post?.user.data.imgMain.value === null && (
                         <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                            <CustomText fontFamily={'DM-Regular'}>{post.user.username[0].toUpperCase()}</CustomText>
+                            <CustomText fontSize={'10px'} fontFamily={'DM-Regular'}>{post.user.username[0].toUpperCase()}</CustomText>
                         </VStack>
                     )}
                     {

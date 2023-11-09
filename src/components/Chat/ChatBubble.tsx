@@ -87,7 +87,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
        <HStack  position={'relative'}  width='100%' justifyContent={'space-between'} alignItems={'flex-start'} flexDirection={self ? 'row':'row-reverse'}>
            
 
-            <VStack borderRadius='10px 20px 20px 0px'  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
+            <VStack borderRadius='10px 20px 20px 0px'  bg={self ? 'white':'brand.chasescrrollButtonBlue'}  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
                
                 {post.media !== null && (
                     <>
@@ -96,9 +96,11 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                         )}
                         {
                             post.mediaType === 'VIDEO' && (
-                                <video controls width={'100%'} height={'150px'} style={{ borderRadius: '20px' }}>
-                                    <source src={post.media}  />
-                                </video>
+                                <Box width='100%' height='100%' maxH={'150px'} overflow={'hidden'}>
+                                    <video controls width={'100%'} height={'100%'} style={{ borderRadius: '20px', maxHeight: '150px' }}>
+                                        <source src={post.media}  />
+                                    </video>
+                                </Box>
                             )
                         }
                         {
@@ -115,7 +117,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                         }
                     </>
                 )}
-                <Box padding='5px' width='100%' bg={self ? 'white':'brand.chasescrrollButtonBlue'} borderRadius={'12px 12px 12px 0px'}>
+                <Box padding='5px' width='100%' borderRadius={'12px 12px 12px 0px'}>
                     {handleLinks(post?.message)}
                 </Box>
                 <HStack>
@@ -133,7 +135,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                
             </VStack>
 
-            <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+            <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
                     { post?.createdBy.data.imgMain.value === null && (
                         <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
                             <CustomText fontFamily={'DM-Regular'}>{post?.createdBy.username[0].toUpperCase()}</CustomText>
