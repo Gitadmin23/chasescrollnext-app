@@ -31,7 +31,7 @@ import { useChatPageState } from './state';
 import moment from 'moment';
 import ReportUserModal from '../modals/chat/ReportUser';
 import ReportGroupChatModal from '../modals/chat/ReportGroupChat';
-import { CloseCircle } from 'iconsax-react'
+import { CloseCircle, ArrowLeft2 } from 'iconsax-react'
 
 
 function ChatSectionHeader() {
@@ -71,7 +71,7 @@ function ChatSectionHeader() {
 
 
   return (
-   <HStack width='100%' height={'80px'} bg='white' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingX={'20px'} justifyContent={'space-between'}>
+   <HStack width='100%' height={['80px','80px']} bg='white' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingX={'0px'} justifyContent={'space-between'}>
 
     {/* {MODAL} */}
 
@@ -81,14 +81,14 @@ function ChatSectionHeader() {
 
     <HStack> 
           <Box display={['block', 'none']}>
-            <CloseCircle onClick={() => setAll({ activeChat: null })} color='grey' size='30px' variant='Outline' />
+            <ArrowLeft2 onClick={() => setAll({ activeChat: null })} color='grey' size='20px' variant='Outline' />
           </Box>
          {activeChat?.type === 'ONE_TO_ONE' && (
             <Link href={`/dashboard/profile/${activeChat?.otherUser.userId}`}>
-                 <Box width='45px' height='45px' borderRadius={'36px 0px 36px 36px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>
+                 <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>
                     { activeChat.otherUser.data.imgMain.value === null && (
-                        <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                            <CustomText fontFamily={'DM-Bold'} color={'brand.chasescrollButtonBlue'} >{activeChat.otherUser.firstName[0].toUpperCase()} {activeChat.otherUser.firstName[0].toUpperCase()}</CustomText>
+                        <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'} spacing={0}>
+                            <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color={'brand.chasescrollButtonBlue'} >{activeChat.otherUser.firstName[0].toUpperCase()} {activeChat.otherUser.firstName[0].toUpperCase()}</CustomText>
                         </VStack>
                     )}
                     {

@@ -14,6 +14,7 @@ import ReportUserModal from '../modals/Home/ReportModal';
 import LikeUserModal from '../modals/Home/LikeUsers';
 
 import { Heart, MessageAdd, Share, DocumentDownload } from 'iconsax-react';
+import VideoPlayer from '../general/VideoPlayer';
 
 interface IProps {
   post?: IMediaContent;
@@ -44,7 +45,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   });
 
   return (
-    <VStack id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='white' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='lg' borderColor={'lightgrey'} color='black' padding='20px'>
+    <VStack id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='white' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='md'  boxShadow={'lg'} borderColor={'lightgrey'} color='black' padding='20px'>
 
       {/* MODALS SECTION */}
       <ReportUserModal typeID={post?.id} REPORT_TYPE='REPORT_USER' isOpen={showReportModal} onClose={() => setShowReportModal(false)} />
@@ -54,6 +55,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       <HStack width='100%' height='100px' justifyContent={'space-between'} alignItems={'center'}>
         <HStack>
 
+          <Link href={`/dashboard/profile/${post.user.userId}`}>
           <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
             {post?.user?.data.imgMain.value === null && (
               <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
@@ -66,9 +68,12 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
               )
             }
           </Box>
+          </Link>
 
           <VStack spacing={0} alignItems={'flex-start'}>
-            <CustomText fontSize='lg' fontFamily={'DM-Medium'}>{post?.user?.username}</CustomText>
+            <Link  href={`/dashboard/profile/${post.user.userId}`}>
+              <CustomText fontSize='lg' fontFamily={'DM-Medium'}>{post?.user?.username}</CustomText>
+            </Link>
             {/* <CustomText fontSize='md' fontFamily={'DM-Regular'}>o2 Areana London</CustomText> */}
             <CustomText fontSize='xs' fontFamily={'Satoshi-Light'} color='grey'>{moment(post?.timeInMilliseconds).fromNow()}</CustomText>
           </VStack>
@@ -106,15 +111,19 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
 
       {post?.type === 'WITH_IMAGE' || post?.type === 'MULTIPLE_PICTURE' && (
         <Box width='100%' height={'200px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'}>
-          <Image src={`${IMAGE_URL}${post?.mediaRef}`} alt='image' style={{ width: '100%', height: '100%' }} />
+         { post.mediaRef.startsWith('https://') &&  <Image src={`${post?.mediaRef}`} alt='image' style={{ width: '100%', height: '100%' }} />}
+         { !post.mediaRef.startsWith('https://') &&  <Image src={`${IMAGE_URL}${post?.mediaRef}`} alt='image' style={{ width: '100%', height: '100%' }} />}
         </Box>
       )}
 
       {post?.type === 'WITH_VIDEO_POST' && (
-        <Box width='100%' height={'200px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} overflow={'hidden'}>
-          <video controls width={'100%'} height='200px'>
+        <Box width='100%' maxHeight={'250px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} overflow={'hidden'}>
+          { post.mediaRef.startsWith('https://') && <VideoPlayer src={`${post.mediaRef}`} measureType='px' /> }
+          { !post.mediaRef.startsWith('https://') && <VideoPlayer src={`${IMAGE_URL}${post.mediaRef}`} measureType='px' />}
+          <VideoPlayer src={`${IMAGE_URL}${post.mediaRef}`} measureType='px' />
+          {/* <video controls width={'100%'} style={{ maxHeight: '250px'}}>
             <source  type='video/mp4' src={`${IMAGE_URL}${post.mediaRef}`} />
-          </video>
+          </video> */}
         </Box>
       )}
 

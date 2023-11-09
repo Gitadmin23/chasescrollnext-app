@@ -9,7 +9,12 @@ export default function Home() {
  const router = useRouter();
   
  React.useEffect(() => {
-  router.push('/auth')
+  const token = localStorage.getItem('token');
+  if (token !== null) {
+    router.push('/dashboard/home')
+  } else {
+    router.push('/auth');
+  }
  }, [router]);
   return (
     <VStack width='100%' height='100vh' justifyContent={'center'} alignItems={'center'} >

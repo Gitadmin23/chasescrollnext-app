@@ -21,8 +21,8 @@ const  SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({chat}, ref) => {
     <HStack>
             <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
                     { chat?.otherUser?.data.imgMain.value === null && (
-                        <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
-                            <CustomText fontFamily={'DM-Bold'} color='brand.chasescrollButtonBlue'>{chat?.otherUser.firstName[0].toUpperCase()} {chat?.otherUser.lastName[0].toUpperCase()}</CustomText>
+                        <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} spacing={0} alignItems={'center'}>
+                            <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color='brand.chasescrollButtonBlue'>{chat?.otherUser.firstName[0].toUpperCase()} {chat?.otherUser.lastName[0].toUpperCase()}</CustomText>
                         </VStack>
                     )}
                     {
@@ -33,8 +33,8 @@ const  SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({chat}, ref) => {
                 </Box>
 
         <VStack alignItems={'flex-start'} spacing={0}>
-            <CustomText fontFamily={'DM-Medium'} fontSize={'14px'}>{chat?.type === 'GROUP' ? chat?.name: `${chat?.otherUser.firstName} ${chat?.otherUser.lastName}`}</CustomText>
-            <CustomText fontFamily={'Satoshi-Light'} fontSize={'14px'}>{chat.lastMessage && chat.lastMessage}</CustomText>
+            <CustomText fontFamily={'DM-Medium'} fontSize={['12px','14px']}>{chat?.type === 'GROUP' ? chat?.name: `${chat?.otherUser.firstName} ${chat?.otherUser.lastName}`}</CustomText>
+            <CustomText fontFamily={'Satoshi-Light'} fontSize={'14px'}>{chat.lastMessage && chat.lastMessage.length > 10 ? chat.lastMessage.substring(0, 10) + '...':chat.lastMessage}</CustomText>
         </VStack>
     </HStack>
 

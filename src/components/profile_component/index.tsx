@@ -36,7 +36,14 @@ function ProfileComponent(props: Props) {
                     return (
                         <GridItem onClick={()=> clickHandler(item?.id)} as={"button"} key={index} width={"full"} height={"200px"} rounded={"24px"} roundedTopRight={"none"} bgColor={"gray.300"}  >
                             {item?.type === "WITH_IMAGE" && (
-                                <Image src={item?.mediaRef} alt={item?.mediaRef} rounded={"24px"} roundedTopRight={"none"} shadow={"lg"} width={"full"} height={"full"} objectFit={"cover"} />
+                                <>
+                                    { item?.mediaRef.startsWith('https://') && (
+                                        <Image src={`${item?.mediaRef}`} alt={item?.mediaRef} rounded={"24px"} roundedTopRight={"none"} shadow={"lg"} width={"full"} height={"full"} objectFit={"cover"} />
+                                    )}
+                                    { !item?.mediaRef.startsWith('https://') && (
+                                        <Image src={`${IMAGE_URL}${item?.mediaRef}`} alt={item?.mediaRef} rounded={"24px"} roundedTopRight={"none"} shadow={"lg"} width={"full"} height={"full"} objectFit={"cover"} />
+                                    )}
+                                </>
                             )} 
                             {item.type === 'WITH_VIDEO_POST' && item?.mediaRef &&
                                 <video

@@ -60,7 +60,7 @@ function Sidebar() {
         if (post) intObserver.current.observe(post);
        }, [isLoading, last, setPage]);
   return (
-   <VStack width='100%' height={'100%'} paddingX={'10px'} spacing={0} alignItems={'flex-start'} >
+   <VStack width='100%' height={'100%'} spacing={0} alignItems={'flex-start'} >
 
     <VStack width={'100%'} paddingX={'10px'} borderBottomWidth={'1px'} paddingBottom={'20px'} borderBottomColor={'lightgrey'}>
         <HStack width={'100%'} height={'60px'} justifyContent={'space-between'}>
@@ -88,7 +88,7 @@ function Sidebar() {
     {/* CHATS */}
     {
         !isLoading && !isError && communitiies.length > 0 && (
-            <Box width={'100%'} height={'100%'} overflowY={'auto'} paddingBottom={'100px'}>
+            <Box width={'100%'} height={'100%'}  overflowY={'auto'} paddingBottom={'300px'}>
             {
                  !isLoading && !isError && communitiies.length > 0 && communitiies.map((item, index) => {
                      if (index === communitiies.length - 1) {

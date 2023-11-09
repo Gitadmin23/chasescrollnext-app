@@ -18,7 +18,8 @@ import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
 import SearchBar from '@/components/explore_component/searchbar';
 import NotificationBar from '@/components/navbar/notification';
-const items = [1, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7];
+import { Notification, Message, AddSquare, SearchNormal1, Calendar, People, Home } from 'iconsax-react'
+import { HomeIcon, UsersIcon } from '@/components/svg';
 type IRoute = {
     icon: ReactNode;
     text: string;
@@ -75,7 +76,11 @@ function Layout({ children }: {
         } else {
             mutate(Id as string);
         }
-    }, [mutate, router, userId])
+    }, [mutate, router, userId]);
+
+    const logout = () => {
+        
+    }
 
     const routes: IRoute[] = [
         {
@@ -132,8 +137,20 @@ function Layout({ children }: {
                             <HStack display={['none', 'flex']}>
                                 <CustomText>{username}</CustomText>
 
-                                <Link href='/dashboard/profile/hdhdsjhahj'>
-                                    <Avatar name='Daniel Eanuel' size='md' marginX='10px' />
+                                <Link href={`/dashboard/profile/${userId}`}>
+                                    <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+                                        {(
+                                            <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
+                                                <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color='brand.chasescrollButtonBlue'>{firstName[0]?.toUpperCase()} {lastName[0]?.toUpperCase()}</CustomText>
+                                            </VStack>
+                                        )}
+                                        {/* {
+                                            chat?.otherUser?.data.imgMain.value && (
+                                                <Image src={`${IMAGE_URL}${chat?.otherUser?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                                            )
+                                        } */}
+                                    </Box>
+                                    {/* <Avatar name={`${firstName} ${lastName}`} size='md' marginX='10px' /> */}
                                 </Link>
 
                                 <NotificationBar />
@@ -142,19 +159,29 @@ function Layout({ children }: {
                             {/* SMALL SCREEN ICONS */}
                             <HStack display={['flex', 'none']}>
                                 <Link href="/dashboard/chats">
-                                    <FiPlusSquare color={THEME.COLORS.chasescrollBlue} fontSize='30px' />
+                                    <AddSquare variant='Outline' color={THEME.COLORS.chasescrollBlue} size='30px' />
                                 </Link>
 
-                                <Link href='/dashboard/notification'>
-                                    <FiBell color={THEME.COLORS.chasescrollBlue} fontSize='30px' marginLeft='10px' marginRight='10px' />
-                                </Link>
+                                <NotificationBar />
 
                                 <Link href='/dashboard/chats'>
-                                    <FiMessageCircle color={THEME.COLORS.chasescrollBlue} fontSize='30px' />
+                                    <Message color={THEME.COLORS.chasescrollBlue} size='30px' variant='Outline' />
                                 </Link>
 
                                 <Link href={`/dashboard/profile/${userId}`}>
-                                    <Avatar name={`${firstName} ${lastName}`} size='md' marginX='10px' />
+                                    <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+                                        {(
+                                            <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
+                                                <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color='brand.chasescrollButtonBlue'>{firstName[0]?.toUpperCase()} {lastName[0]?.toUpperCase()}</CustomText>
+                                            </VStack>
+                                        )}
+                                        {/* {
+                                            chat?.otherUser?.data.imgMain.value && (
+                                                <Image src={`${IMAGE_URL}${chat?.otherUser?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                                            )
+                                        } */}
+                                    </Box>
+                                    {/* <Avatar name={`${firstName} ${lastName}`} size='md' marginX='10px' /> */}
                                 </Link>
                             </HStack>
 
@@ -174,31 +201,43 @@ function Layout({ children }: {
 
                     <Link href='/dashboard/home'>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('home') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('home') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                            <FiHome size='20px' />
+                            <HomeIcon />
                         </VStack>
                     </Link>
 
                     <Link href='/dashboard/explore'>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('explore') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('explore') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                            <FiSearch size='20px' />
+                            <SearchNormal1 size='20px' />
                         </VStack>
                     </Link>
 
                     <Link href='/dashboard/event'>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('events') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('events') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                            <FiCalendar size='20px' />
+                            <Calendar size='20px' />
                         </VStack>
                     </Link>
 
                     <Link href='/dashboard/community'>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('community') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('community') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                            <FiUsers size='20px' />
+                            {/* <People size='20px' /> */}
+                            <UsersIcon />
                         </VStack>
                     </Link>
 
-                    <Link href='/dashboard/profile/hfhdjd'>
+                    <Link href={`/dashboard/profile/${userId}`}>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('profile') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('profile') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                            <Avatar name='daniel emmanuel' size='sm' />
+                        <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+                                        {(
+                                            <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
+                                                <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color='brand.chasescrollButtonBlue'>{firstName[0]?.toUpperCase()} {lastName[0]?.toUpperCase()}</CustomText>
+                                            </VStack>
+                                        )}
+                                        {/* {
+                                            chat?.otherUser?.data.imgMain.value && (
+                                                <Image src={`${IMAGE_URL}${chat?.otherUser?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                                            )
+                                        } */}
+                        </Box>
                         </VStack>
                     </Link>
                 </HStack>

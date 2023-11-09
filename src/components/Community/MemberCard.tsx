@@ -27,9 +27,9 @@ function MemberCard({
                         )
                     }
                 </Box>
-                <VStack>
-                    <CustomText>{member?.user?.firstName} {member?.user?.lastName}</CustomText>
-                    <CustomText>{member?.user?.data?.about?.value || ''}</CustomText>
+                <VStack alignItems={'flex-start'} spacing={0}>
+                    <CustomText fontSize={'14px'}>{member?.user?.firstName} {member?.user?.lastName}</CustomText>
+                    <CustomText fontSize={'12px'}>{member?.user?.data?.about?.value?.length > 10 ? member?.user?.data?.about?.value.substring(1, 10) + '...':member?.user?.data?.about?.value || ''}</CustomText>
                 </VStack>
         </HStack>
         { member.role === 'ADMIN' && <CustomText color={THEME.COLORS.chasescrollButtonBlue} fontFamily={'DM-Medium'} fontSize={'12px'}>Admin</CustomText>}

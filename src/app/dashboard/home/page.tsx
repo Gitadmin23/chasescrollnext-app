@@ -117,13 +117,14 @@ function Home() {
     <VStack width="full" h={"full"} overflowY={"auto"} alignItems={'flex-start'} >
       {/* MODAL */}
       <CreateMediaPost isOpen={showModal} onClose={() => setShowModal(false)} />
-      <VStack width={['100%', '100%', '45%', '45%']} height='100%' paddingX='20px' paddingTop='20px' overflowY={'hidden'}>
+
+      <VStack width={['100%', '100%', '35%', '35%']} height='180px' paddingX='20px' paddingTop='20px' overflowY={'hidden'}>
 
         {/* TEXTBOX */}
-        <VStack alignItems={'flex-start'} width='100%' height='150px' bg='whitesmoke' borderWidth={0} shadow={'md'} borderColor={'lightgrey'} borderRadius={'10px'} padding='10px'>
+        <VStack alignItems={'flex-start'} justifyContent={'flex-start'} width='100%' height='150px' bg='whitesmoke' borderWidth={0} shadow={'md'} borderColor={'lightgrey'} borderRadius={'10px'} padding='10px'>
           <HStack width='100%' height={'90px'}>
 
-            <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+            <Box  width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
             {user?.data.imgMain.value === null && (
               <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
                 <CustomText fontFamily={'DM-Regular'}>{user?.username[0].toUpperCase()}</CustomText>
@@ -136,7 +137,7 @@ function Home() {
             }
             </Box>
 
-            <Textarea bg='whitesmoke' borderWidth={'0px'} placeholder={`What's on your mind @${username}`} resize={'none'} value={post} onChange={(e) => setPost(e.target.value)}></Textarea>
+            <Textarea bg='whitesmoke' borderWidth={'0px'} flex={'1'} width='100%'  placeholder={`What's on your mind @${username}`} resize={'none'} value={post} onChange={(e) => setPost(e.target.value)}></Textarea>
             { !createPostMutation.isLoading && <Send2 onClick={() => handlePostCreation()} size={'30px'} color={THEME.COLORS.chasescrollButtonBlue} /> }
             { createPostMutation.isLoading && <Spinner size={'sm'} color={THEME.COLORS.chasescrollButtonBlue} /> }
           </HStack>
@@ -146,28 +147,35 @@ function Home() {
             <CustomText onClick={() => setShowModal(true)} fontFamily={'DM-Regular'} fontSize={'sm'} cursor='pointer' color='brand.chasescrollButtonBlue'>Add Photos /Video in your post</CustomText>
           </HStack>
         </VStack>
-        {
-          !isLoading && isError && (
-            <VStack width={'100%'} height={'100px'} justifyItems={'center'}>
-              <CustomText>An error occured please retry</CustomText>
-              <CustomButton isLoading={isLoading} text='Retry' onClick={() => refetch()} backgroundColor={THEME.COLORS.chasescrollButtonBlue} />
-            </VStack>
-          )
-        }
-        <Box width='full' height={['100%', '80%']} overflowY={'auto'}>
+       
+      </VStack>
+
+          <Box flex='1' width={'full'} height={'full'} overflow={'auto'} paddingX='20px' paddingTop='20px'>
+
           {
-            newIttem.map((item, i) => (
-              <ThreadCard post={item} key={i.toString()} />
-            ))
+            !isLoading && isError && (
+              <VStack width={'30%'} height={'100px'} justifyItems={'center'}>
+                <CustomText>An error occured please retry</CustomText>
+                <CustomButton isLoading={isLoading} text='Retry' onClick={() => refetch()} backgroundColor={THEME.COLORS.chasescrollButtonBlue} />
+              </VStack>
+            )
           }
-          {posts.map((item, i) => {
-            if (i === posts.length - 1) {
-              return <ThreadCard ref={lastChildRef} key={i.toString()} post={item} />
+          <VStack width={['100%', '100%', '35%', '35%']} height={['100%', '80%']}>
+            {
+              newIttem.map((item, i) => (
+                <ThreadCard post={item} key={i.toString()} />
+              ))
             }
-            return (<ThreadCard key={i.toString()} post={item} />)
-          })}
-        </Box>
-      C</VStack>
+            {posts.map((item, i) => {
+              if (i === posts.length - 1) {
+                return <ThreadCard ref={lastChildRef} key={i.toString()} post={item} />
+              }
+              return (<ThreadCard key={i.toString()} post={item} />)
+            })}
+          </VStack>
+
+          </Box>
+
     </VStack>
   )
 }

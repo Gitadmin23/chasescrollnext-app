@@ -16,6 +16,7 @@ import MemberCard from '@/components/Community/MemberCard';
 import { IMediaContent } from '@/models/MediaPost';
 import { FILE_FORMATS } from '@/utils/acceptedMediatypes';
 import { useDetails } from '@/global-state/useUserDetails';
+import { uniqBy } from 'lodash';
 
 
 function CommunityInfo() {
@@ -52,7 +53,7 @@ function CommunityInfo() {
   onSuccess: (data) => {
     const item: PaginatedResponse<IMediaContent> = data.data;
     console.log(item);
-    setPosts(item.content);
+    setPosts(uniqBy(item.content, 'id'));
   }
   });
 
@@ -65,7 +66,7 @@ function CommunityInfo() {
   enabled: id !== null,
   onSuccess: (data) => {
     const item: PaginatedResponse<ICommunityMember> = data.data;
-    setMembers(prev => [...prev, ...item.content]);
+    setMembers(prev => uniqBy([...prev, ...item.content], 'id'));
   }
   });
 
@@ -148,9 +149,7 @@ function CommunityInfo() {
             </InputGroup>
 
           <HStack>
-            <SettingsChip icon={<FiBell color={THEME.COLORS.chasescrollButtonBlue} />} text='Mute' action={() => {}} />
             <SettingsChip icon={<FiLogIn color={THEME.COLORS.chasescrollButtonBlue} />} text='Exit' action={() => {}} />
-            <SettingsChip icon={<FiLink color={THEME.COLORS.chasescrollButtonBlue} />} text='Links' action={() => {}} />
             <SettingsChip icon={<FiSettings color={THEME.COLORS.chasescrollButtonBlue} />} text='Settings' action={() => {}} />
           </HStack>
 
@@ -205,7 +204,7 @@ function CommunityInfo() {
               <VStack width={['100%', '35%']} height={'100%'} >
 
                     {/* header */}
-                    <HStack width='100%' height='70px' bg='#F1F2F9'>
+                    <HStack overflow={'hidden'} width='100%' height='50px' bg='#F1F2F9' borderRadius={'25px'}>
                       <VStack onClick={() => setMediaTab(1)} color={mediaTab === 1 ? 'white':'black'} height='100%' justifyContent={'center'} bg={mediaTab === 1 ? THEME.COLORS.chasescrollButtonBlue:'transparent'} flex='1'>
                         <CustomText>Media</CustomText>
                       </VStack>
@@ -219,21 +218,24 @@ function CommunityInfo() {
 
                   {mediaTab === 1 && (
                       <Grid width='100$' flex='1' templateColumns='repeat(3, 1fr)' gap={2}>
-                        {media().map((item, index) => {
-                          const __format__ = item.mediaRef.split('.');
-                          const format = __format__[__format__.length -1];
+                        {media().length > 0 && media().map((item, index) => {
+                          if (item.mediaRef !== null && item.mediaRef.length > 6) {
+                            const __format__ = item.mediaRef?.split('.');
+                          const format = __format__[__format__?.length -1];
                           if (FILE_FORMATS.IMAGE_FORM.includes(format)) {
                             return <GridItem  borderRadius={'5px'} overflow='hidden' width='100%' marginBottom='20px' height={'120px'} key={index.toString()}>
-                              <Image src={item.mediaRef} alt='image'  />
+                              { item.mediaRef.startsWith('https://') && <Image src={item.mediaRef} alt='image'  /> }
+                              { !item.mediaRef.startsWith('https://') && <Image src={`${IMAGE_URL}${item.mediaRef}`} alt='image'  /> }
                             </GridItem>
                           }
 
                           if (FILE_FORMATS.VIDEO_FORM.includes(format)) {
-                            return <GridItem  borderRadius={'5px'} overflow='hidden' width='100%' height={'125px'}  key={index.toString()}>
-                            <video controls>
+                            return <GridItem  borderRadius={'5px'} maxH={'150px'} overflow='hidden' width='100%' height={'125px'}  key={index.toString()}>
+                            <video controls style={{ width: '100%', height: '100%', maxHeight: '150px' }}>
                               <source type='video/mp4' src={item.mediaRef} />
                             </video>
                           </GridItem>
+                          }
                           }
                         })}
                       </Grid>
@@ -242,7 +244,9 @@ function CommunityInfo() {
                   {mediaTab === 2 && (
                       <Grid width='100$' flex='1' templateColumns='repeat(3, 1fr)' gap={2}>
                         {files().map((item, index) => {
-                          const __format__ = item.mediaRef.split('.');
+                          console.log(item.mediaRef);
+                          if (item?.mediaRef !== null && item?.mediaRef.length > 6) {
+                            const __format__ = item.mediaRef.split('.');
                           const format = __format__[__format__.length -1];
                             return (
                               <GridItem bg='whitesmoke'  borderRadius={'5px'} overflow='hidden' width='100%' marginBottom='20px' height={'120px'} key={index.toString()}>
@@ -252,7 +256,7 @@ function CommunityInfo() {
                               </VStack>
                             </GridItem>
                             )
-                          
+                          }
                         })}
                       </Grid>
                     )}
