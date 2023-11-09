@@ -1,8 +1,8 @@
 import CustomText from '@/components/general/Text';
 import { CalendarIcon, HomeIcon, MessageIcon, ProfileIcon2, SearchIcon, UsersIcon } from '@/components/svg';
 import { useDetails } from '@/global-state/useUserDetails';
-import { Box, Flex, HStack, Link, VStack } from '@chakra-ui/react'; 
-import { usePathname } from 'next/navigation';
+import { Box, Button, Flex, HStack, Link, Modal, ModalBody, ModalContent, ModalOverlay, VStack } from '@chakra-ui/react'; 
+import { usePathname, useRouter } from 'next/navigation';
 import React, { ReactNode } from 'react'
 import { FiHome, FiSearch, FiCalendar, FiMessageCircle, FiUsers, FiUser, FiPower } from 'react-icons/fi';
 
@@ -34,8 +34,16 @@ const MenuItem = ({
 }
 
 function Sidebar() { 
+    const [showModal, setShowModal] = React.useState(false);
     const pathname = usePathname();
-    const { userId: user_index } = useDetails((state) => state);
+    const router = useRouter();
+    const { userId: user_index, setAll } = useDetails((state) => state);
+
+    const logout = () => {
+        setAll({ userId: '', dob: '', email: '', username:'', firstName: '', lastName: '', publicProfile: ''});
+        localStorage.clear();
+        router.push('/auth');
+    }
 
     const routes: IRoute[] = [
         {
@@ -72,12 +80,29 @@ function Sidebar() {
 
     return ( 
         <VStack display={['none', 'none', 'flex', 'flex']} width={"300px"} height='100%' paddingBottom={"40px"} bg='white' overflowY={"auto"} borderRightWidth={1} borderRightColor={'lightgrey'}>
+
+            {/* MODAL */}
+            <Modal isOpen={showModal} onClose={() => setShowModal(false)} isCentered size='md' closeOnOverlayClick={false} closeOnEsc={false}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalBody>
+                        <VStack width={'100%'} height={'100px'}>
+                            <CustomText fontFamily={'DM-Medium'} fontSize={'18px'}>Are you sure you want to logout?</CustomText>
+                            <HStack justifyContent={'center'} width={'100%'} height='50px'>
+                                <Button variant={'unstyled'} width='100px' height={'40px'} color='brand.chasescrollButtonBlue' onClick={() => setShowModal(false)} >Cancel</Button>
+                                <Button variant={'solid'} bg='red' width='100px' height={'40px'} color='white' onClick={logout} >Log out</Button>
+                            </HStack>
+                        </VStack>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
+
             <VStack flex={0.8} width='100%' paddingTop={'40px'}>
                 {routes.map((item, index) => (
                     <MenuItem {...item} active={pathname.includes(item.route.toLowerCase()) ? true:false} key={index.toString()} />
                 ))}
-            </VStack>
-            <Flex paddingX={['20px', '40px']} gap={"4"} flex={0.2} width='100%' alignItems={"center"} mt={"30px"}  height='70px'>
+            M</VStack>
+            <Flex cursor={'pointer'} onClick={() => setShowModal(true)} paddingX={['20px', '40px']} gap={"4"} flex={0.2} width='100%' alignItems={"center"} mt={"30px"}  height='70px'>
                 <FiPower fontSize='25px' color="grey"  />
                 <CustomText fontFamily={'DM-Bold'} fontSize={'16px'} color='grey' >Logout</CustomText>
             </Flex>

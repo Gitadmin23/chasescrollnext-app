@@ -19,6 +19,7 @@ import { URLS } from '@/services/urls';
 import SearchBar from '@/components/explore_component/searchbar';
 import NotificationBar from '@/components/navbar/notification';
 import { Notification, Message, AddSquare, SearchNormal1, Calendar, People, Home } from 'iconsax-react'
+import { HomeIcon, UsersIcon } from '@/components/svg';
 type IRoute = {
     icon: ReactNode;
     text: string;
@@ -75,7 +76,11 @@ function Layout({ children }: {
         } else {
             mutate(Id as string);
         }
-    }, [mutate, router, userId])
+    }, [mutate, router, userId]);
+
+    const logout = () => {
+        
+    }
 
     const routes: IRoute[] = [
         {
@@ -132,8 +137,20 @@ function Layout({ children }: {
                             <HStack display={['none', 'flex']}>
                                 <CustomText>{username}</CustomText>
 
-                                <Link href='/dashboard/profile/hdhdsjhahj'>
-                                    <Avatar name='Daniel Eanuel' size='md' marginX='10px' />
+                                <Link href={`/dashboard/profile/${userId}`}>
+                                    <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+                                        {(
+                                            <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
+                                                <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color='brand.chasescrollButtonBlue'>{firstName[0]?.toUpperCase()} {lastName[0]?.toUpperCase()}</CustomText>
+                                            </VStack>
+                                        )}
+                                        {/* {
+                                            chat?.otherUser?.data.imgMain.value && (
+                                                <Image src={`${IMAGE_URL}${chat?.otherUser?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                                            )
+                                        } */}
+                                    </Box>
+                                    {/* <Avatar name={`${firstName} ${lastName}`} size='md' marginX='10px' /> */}
                                 </Link>
 
                                 <NotificationBar />
@@ -145,9 +162,7 @@ function Layout({ children }: {
                                     <AddSquare variant='Outline' color={THEME.COLORS.chasescrollBlue} size='30px' />
                                 </Link>
 
-                                <Link href='/dashboard/notification'>
-                                    <Notification color={THEME.COLORS.chasescrollBlue} size='30px' variant='Outline' />
-                                </Link>
+                                <NotificationBar />
 
                                 <Link href='/dashboard/chats'>
                                     <Message color={THEME.COLORS.chasescrollBlue} size='30px' variant='Outline' />
@@ -186,7 +201,7 @@ function Layout({ children }: {
 
                     <Link href='/dashboard/home'>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('home') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('home') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                            <FiHome size='20px' />
+                            <HomeIcon />
                         </VStack>
                     </Link>
 
@@ -204,7 +219,8 @@ function Layout({ children }: {
 
                     <Link href='/dashboard/community'>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname.includes('community') ? 'brand.chasescrollBlue' : 'white'} color={pathname.includes('community') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                            <People size='20px' />
+                            {/* <People size='20px' /> */}
+                            <UsersIcon />
                         </VStack>
                     </Link>
 

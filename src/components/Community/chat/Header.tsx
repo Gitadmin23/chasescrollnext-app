@@ -28,6 +28,7 @@ import { FiCalendar, FiPlusSquare, FiX } from 'react-icons/fi';
 import { IoMdInformationCircleOutline } from 'react-icons/io'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { ArrowLeft2 } from 'iconsax-react'
+import AddEventsModal from '@/components/modals/community/AddEventsModal';
 
 
 
@@ -89,7 +90,6 @@ function CommunityChatHeader() {
 
   return (
    <HStack width='100%' height={'100px'} bg='white' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingX={'0px'} justifyContent={'space-between'}>
-
     <Box display={['block', 'hidden']}>
       <ArrowLeft2 size={'20px'} variant='Outline' onClick={() => setAll({ activeCommunity: null })} />
     </Box>
@@ -129,7 +129,6 @@ function CommunityChatHeader() {
 
       </Box>
     )}
-    { self && <FiPlusSquare cursor='pointer' fontSize={'25px'} color={THEME.COLORS.chasescrollButtonBlue} /> }
     <Menu>
         <MenuButton>
           <IoMdInformationCircleOutline color='grey' fontSize='25px' />

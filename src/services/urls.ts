@@ -62,7 +62,8 @@ export const URLS = {
     GET_POST_LIKES: '/feed/post-likes',
     CHECK_UER_ONLINE_STATUS: '/auth/check-online',
     GET_USER_FRIENDS: '/user/get-users-connections',
-    SIGN_IN_WTIH_CREDENTIALS: '/auth/signinWithCredentials'
+    SIGN_IN_WTIH_CREDENTIALS: '/auth/signinWithCredentials',
+    GET_EVENTS: '/events/events'
     //GET_MEDIA_POST : "/feed/get-users-media-posts?userID="
 }
 

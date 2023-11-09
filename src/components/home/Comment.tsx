@@ -8,6 +8,7 @@ import Moment from 'moment';
 import { RESOURCE_BASE_URL, URLS } from '@/services/urls'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import httpService from '@/utils/httpService'
+import { Heart } from 'iconsax-react'
 
 function SubCommentBox({ comment, id, commentID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data: { imgMain: { value } } } }: Subcomment) {
     const [isLiked, setIsLiked] = React.useState(likeStatus);
@@ -46,7 +47,7 @@ function SubCommentBox({ comment, id, commentID, timeInMilliseconds, likeCount, 
             <HStack width='100%' justifyContent={'space-between'} alignItems={'center'} marginBottom={'20px'}>
 
                 <HStack>
-                    <Avatar size='md' src={`${RESOURCE_BASE_URL}${value}`} name={username} />
+                    <Avatar alignSelf={'flex-start'} size='md' src={`${RESOURCE_BASE_URL}${value}`} name={username} />
 
                     <VStack alignItems={'flex-start'}>
                         <VStack alignItems={'flex-start'} spacing={0}>
@@ -64,7 +65,7 @@ function SubCommentBox({ comment, id, commentID, timeInMilliseconds, likeCount, 
                     </VStack>
                 </HStack>
 
-                <FiHeart cursor={'pointer'} onClick={() => likeComment.mutate()} fontSize='20px' color={likeStatus === 'LIKED' ? 'red' : 'black'} />
+                <Heart variant='Bold' cursor={'pointer'} style={{ alignSelf: 'flex-end' }} onClick={() => likeComment.mutate()} fontSize='20px' color={likeStatus === 'LIKED' ? 'red' : 'black'} />
             </HStack>
         
         </>
@@ -77,6 +78,7 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
     const [reply, setReply] = React.useState('');
     const [page, setPage] = React.useState(0);
     const [liked, setLiked] = React.useState(likeStatus);
+    const [showMore, setShowMore] = React.useState(false);
 
     const toast = useToast();
     const { userId: myId } = useDetails((state) => state);
@@ -163,13 +165,20 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
         <>
             <HStack width='100%' justifyContent={'space-between'} alignItems={'center'} marginBottom={'20px'} marginRight={['20px', '20px']}>
 
-                <HStack flex={1}>
-                    <Avatar size='md' src={`${RESOURCE_BASE_URL}/${value}`} name={username} />
+                <HStack flex={1} alignItems={'flex-start'}>
+                    <Avatar size='md' alignSelf={'flex-start'} src={`${RESOURCE_BASE_URL}/${value}`} name={username} />
 
                     <VStack alignItems={'flex-start'} width={'70%'}>
                         <VStack spacing={0} alignItems={'flex-start'}>
                             <CustomText fontFamily={'Satoshi-Light'} color='brand.chasescrollButtonBlue'>{username[0].toUpperCase()}{username.substring(1)}</CustomText>
-                            <CustomText fontFamily={'Satoshi-Medium'}>{comment}</CustomText>
+                            <VStack>
+                                <CustomText fontFamily={'Satoshi-Medium'}>{comment.length > 20 ? comment.substring(0, 20) + '...':comment}</CustomText>
+                                { comment.length > 20 && (
+                                    <>
+                                        {showMore ? <CustomText color={'brand.chasescrollButtonBlue'} fontSize={'12px'} fontFamily={'DM-Regular'} >Show Less</CustomText> : <CustomText>Show More</CustomText>}
+                                    </>
+                                )}
+                            </VStack>
                         </VStack>
 
                         <HStack spacing={10} fontSize={'14px'} width={['100%','60%']}>
@@ -183,7 +192,7 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
                     </VStack>
                 </HStack>
 
-                <FiHeart cursor={'pointer'} onClick={() => likeComment.mutate()} fontSize='20px' color={likeStatus === 'LIKED' ? 'red' : 'black'} />
+                <Heart cursor={'pointer'} style={{ alignSelf: 'flex-end'}} onClick={() => likeComment.mutate()} size='20px' variant='Bold' color={likeStatus === 'LIKED' ? 'red' : 'black'} />
             </HStack>
             {
                 showReplies && (

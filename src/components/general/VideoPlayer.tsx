@@ -1,6 +1,6 @@
 import { Box, HStack, VStack } from '@chakra-ui/react';
 import React, { useRef } from 'react'
-import { Play, Pause, Maximize2 } from 'iconsax-react'
+import { Play, Pause, Maximize2, VolumeSlash, VolumeHigh } from 'iconsax-react'
 import { THEME } from '@/theme';
 
 function VideoPlayer({
@@ -12,6 +12,7 @@ function VideoPlayer({
     measureType: 'px'|'%'
 }) {
     const [isPlaying, setIsPlaying] = React.useState(false);
+    const [isMuted, setIsMuted] = React.useState(true);
     const [showControl, setShowControl] = React.useState(false);
     const [heightt, setHeight]= React.useState(0);
     const [wiidth, setWidth] = React.useState(0);
@@ -23,6 +24,7 @@ function VideoPlayer({
     React.useEffect(() => {
         const observer = new IntersectionObserver(([entry]) => {
           if (entry.isIntersecting) {
+            (videoRef.current as HTMLVideoElement).muted = true;
             // (videoRef.current as HTMLVideoElement).currentTime = 0;
             setIsPlaying(true);
             videoRef.current?.play();
@@ -44,6 +46,16 @@ function VideoPlayer({
           }
         };
       }, [videoRef]);
+
+      const hanldeMute = () => {
+        if (!isMuted  ) {
+          setIsMuted(true);
+          (videoRef.current as HTMLVideoElement).muted = true;
+        } else {
+          setIsMuted(false);
+          (videoRef.current as HTMLVideoElement).muted = false;
+        }
+      }
       
 
     React.useEffect(() => {
@@ -96,8 +108,14 @@ function VideoPlayer({
                     { isPlaying && <Pause size='20px' variant='Linear' color={THEME.COLORS.chasescrollButtonBlue}  />}
                 </HStack>
 
-                <HStack onClick={handlePlayPause} cursor={'pointer'}  justifyContent='center' alignItems={'center'} width={'30px'} height={'30px'} borderRadius={'15px'} bg='white'>
-                     <Maximize2 onClick={handleDoubleClick} size='20px' variant='Linear' color={THEME.COLORS.chasescrollButtonBlue} />
+                <HStack>
+                  <HStack marginRight={'10px'} cursor={'pointer'}  justifyContent='center' alignItems={'center'} width={'30px'} height={'30px'} borderRadius={'15px'} bg='white'>
+                      { isMuted && <VolumeSlash size='20px' variant='Linear' color={THEME.COLORS.chasescrollButtonBlue} onClick={hanldeMute} /> }
+                      { !isMuted && <VolumeHigh size='20px' variant='Linear' color={THEME.COLORS.chasescrollButtonBlue} onClick={hanldeMute} />}                  
+                  </HStack>
+                  <HStack onClick={handlePlayPause} cursor={'pointer'}  justifyContent='center' alignItems={'center'} width={'30px'} height={'30px'} borderRadius={'15px'} bg='white'>
+                      <Maximize2 onClick={handleDoubleClick} size='20px' variant='Linear' color={THEME.COLORS.chasescrollButtonBlue} />
+                  </HStack>
                 </HStack>
             </HStack>
         )

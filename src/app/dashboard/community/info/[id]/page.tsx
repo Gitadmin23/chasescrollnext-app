@@ -219,20 +219,23 @@ function CommunityInfo() {
                   {mediaTab === 1 && (
                       <Grid width='100$' flex='1' templateColumns='repeat(3, 1fr)' gap={2}>
                         {media().length > 0 && media().map((item, index) => {
-                          const __format__ = item.mediaRef?.split('.');
+                          if (item.mediaRef !== null && item.mediaRef.length > 6) {
+                            const __format__ = item.mediaRef?.split('.');
                           const format = __format__[__format__?.length -1];
                           if (FILE_FORMATS.IMAGE_FORM.includes(format)) {
                             return <GridItem  borderRadius={'5px'} overflow='hidden' width='100%' marginBottom='20px' height={'120px'} key={index.toString()}>
-                              <Image src={item.mediaRef} alt='image'  />
+                              { item.mediaRef.startsWith('https://') && <Image src={item.mediaRef} alt='image'  /> }
+                              { !item.mediaRef.startsWith('https://') && <Image src={`${IMAGE_URL}${item.mediaRef}`} alt='image'  /> }
                             </GridItem>
                           }
 
                           if (FILE_FORMATS.VIDEO_FORM.includes(format)) {
-                            return <GridItem  borderRadius={'5px'} overflow='hidden' width='100%' height={'125px'}  key={index.toString()}>
-                            <video controls>
+                            return <GridItem  borderRadius={'5px'} maxH={'150px'} overflow='hidden' width='100%' height={'125px'}  key={index.toString()}>
+                            <video controls style={{ width: '100%', height: '100%', maxHeight: '150px' }}>
                               <source type='video/mp4' src={item.mediaRef} />
                             </video>
                           </GridItem>
+                          }
                           }
                         })}
                       </Grid>
@@ -241,7 +244,9 @@ function CommunityInfo() {
                   {mediaTab === 2 && (
                       <Grid width='100$' flex='1' templateColumns='repeat(3, 1fr)' gap={2}>
                         {files().map((item, index) => {
-                          const __format__ = item.mediaRef.split('.');
+                          console.log(item.mediaRef);
+                          if (item?.mediaRef !== null && item?.mediaRef.length > 6) {
+                            const __format__ = item.mediaRef.split('.');
                           const format = __format__[__format__.length -1];
                             return (
                               <GridItem bg='whitesmoke'  borderRadius={'5px'} overflow='hidden' width='100%' marginBottom='20px' height={'120px'} key={index.toString()}>
@@ -251,7 +256,7 @@ function CommunityInfo() {
                               </VStack>
                             </GridItem>
                             )
-                          
+                          }
                         })}
                       </Grid>
                     )}

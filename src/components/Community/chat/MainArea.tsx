@@ -16,9 +16,11 @@ import { useCommunityPageState } from '@/components/Community/chat/state';
 import { FiCalendar } from 'react-icons/fi';
 import { THEME } from '@/theme';
 import EventCard from './EventCard';
+import AddEventsModal from '@/components/modals/community/AddEventsModal';
 
 function MainArea() {
     const [posts, setPosts] = React.useState<IMediaContent[]>([]);
+    const [showEventModal, setShowEventModal] = React.useState(false);
     const [len, setLen] = React.useState(posts?.length);
 
      const intObserver = React.useRef<IntersectionObserver>();
@@ -86,6 +88,8 @@ function MainArea() {
     }
   return (
     <VStack width='100%' height="100%" overflow={'hidden'} borderRadius={'20px'} spacing={0} className='chat-area' alignItems={'flex-start'}>
+         {/* MODALS */}
+        <AddEventsModal isOpen={showEventModal} onClose={() => setShowEventModal(false)} />
 
         <CommunityChatHeader />
         {
@@ -104,10 +108,14 @@ function MainArea() {
 
             {/* GROUP DESCRIPTION HEADER */}
             <HStack width={'100%'} height={'40px'}  justifyContent={'flex-start'} paddingX={'30px'}>
-                <Box>
-                    <Image src='/assets/images/note-add.png' alt='logo' width={'30px'} height={'30px'} />
-                    {/* <FiCalendar fontSize='20px' color={THEME.COLORS.chasescrollButtonBlue} /> */}
-                </Box>
+                {
+                    activeCommunity.creator.userId === myId && (
+                        <Box>
+                            <Image onClick={() => setShowEventModal(true)} src='/assets/images/note-add.png' alt='logo' width={'30px'} height={'30px'} />
+                            {/* <FiCalendar fontSize='20px' color={THEME.COLORS.chasescrollButtonBlue} /> */}
+                        </Box>
+                    )
+                }
                 <HStack justifyContent={'center'} flex="1" >
                     <CustomText textAlign={'center'} width={'60%'} fontFamily={'DM-Regular'} fontSize={'15px'}>{activeCommunity?.data?.description}</CustomText>
                 </HStack>
