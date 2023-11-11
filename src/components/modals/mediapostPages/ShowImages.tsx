@@ -51,7 +51,7 @@ function ShowImages({ files, setImage, handleStage, stage, setEmpty }: {files: F
     onSuccess: (data) => {
       const obj = {
         text: value,
-        type: files[0].type.startsWith('image') ? 'WITH_IMAGE' : 'WITH_VIDEO',
+        type: files[0].type.startsWith('image') ? 'WITH_IMAGE' : 'WITH_VIDEO_POST',
         isGroupFeed: false,
         mediaRef: data.data?.fileName,
         multipleMediaRef: [
@@ -136,7 +136,7 @@ const handlePrev = React.useCallback(() => {
 }, [handleStage, setEmpty, stage]);
 
 const handleChange = (e: string) => {
-  if (value.length < 100) {
+  if (value.length < 60000) {
     setValue(e);
   }
 }
@@ -197,7 +197,7 @@ const handleChange = (e: string) => {
               <Textarea value={value} borderWidth={0} placeholder='Write something about  your post' onChange={(e) =>handleChange(e.target.value)} />
 
               <HStack width={'100%'} justifyContent={'flex-end'}>
-                <CustomText fontFamily={'Satoshi-Light'} fontSize={'ms'}>{value.length}/100</CustomText>
+                <CustomText fontFamily={'Satoshi-Light'} fontSize={'ms'}>{value.length}/60000</CustomText>
               </HStack>
 
             </VStack>
