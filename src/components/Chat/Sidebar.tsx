@@ -14,6 +14,7 @@ import useDebounce from '@/hooks/useDebounce'
 import { useChatPageState } from './state'
 import { useRouter } from 'next/navigation';
 import { SearchNormal1 } from 'iconsax-react'
+import { IUser } from '@/models/User'
 
 
 const ARRAY = [1,2,3,4,5,6,7,8,9,10];
@@ -31,6 +32,13 @@ function Sidebar() {
     const debounceValue = useDebounce(search);
     const { userId } = useDetails((state) => state);
     const {} = useChatPageState((state) => state);
+    const onlineUsers = useQuery(['onlineUser', userId], () => httpService.get(`${URLS.ONLINE_USERS}`), {
+        onSuccess: (data) => {
+            const item: PaginatedResponse<IUser> = data.data;
+            console.log(item);
+        },
+        onError: (error) => {},
+    })
     const { isLoading, isError, }= useQuery(['getChats', userId], () => httpService.get(`${URLS.GET_CHATS}`, {
         params: {
             page: 0,
