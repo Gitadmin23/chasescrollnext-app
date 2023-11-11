@@ -13,8 +13,8 @@ function SavedEvent(props: Props) {
     const { } = props
 
     const { userId: user_index } = useDetails((state) => state);
-    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.SAVED_EVENT + user_index, limit: 10, filter: "id" })
-
+    const { data ,results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.SAVED_EVENT + user_index, limit: 10, filter: "id" })
+ 
     return (
         <HStack height={"fit-content"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"}  >
             <Box width={["full", "full", "600px"]} px={"6"} position={"relative"} >

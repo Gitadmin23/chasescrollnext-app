@@ -1,16 +1,16 @@
 import { StripeLogo } from '@/components/svg'
-import { Flex, Text, useToast } from '@chakra-ui/react'
+import { Flex, useToast } from '@chakra-ui/react'
 import React from 'react'
-import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useMutation } from 'react-query';
 import httpService from '@/utils/httpService';
-import { URLS } from '@/services/urls'; 
-import CheckoutForm from './CheckoutForm';
+import { URLS } from '@/services/urls';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
+import StripePopup from './stripe_popup';
+import CheckoutForm from './CheckoutForm';
+import { Elements } from '@stripe/react-stripe-js';
 
-interface Props {
-    close: any,
+interface Props { 
     selectedCategory: {
         ticketType: string
     },
@@ -21,14 +21,14 @@ interface Props {
 }
 
 function StripeBtn(props: Props) {
-    const {
-        close,
+    const { 
         selectedCategory,
         ticketCount,
         datainfo
     } = props
 
     const STRIPE_KEY: any = process.env.NEXT_PUBLIC_STRIPE_KEY;
+    // const [stripePromise, setStripePromise] = React?.useState(() => loadStripe(STRIPE_KEY))
 
     const stripePromise = loadStripe(STRIPE_KEY);
 
@@ -39,7 +39,7 @@ function StripeBtn(props: Props) {
 
     const createTicket = useMutation({
         mutationFn: (data: any) => httpService.post(URLS.CREATE_TICKET, data),
-        onSuccess: (data: any) => { 
+        onSuccess: (data: any) => {
             toast({
                 title: 'Success',
                 description: "Ticket Created",
@@ -49,18 +49,17 @@ function StripeBtn(props: Props) {
                 position: 'top-right',
             });
 
-            if (data?.data?.content?.orderTotal > 0) {
-                setconfigData({
-                    ...configData,
-                    email: data?.data?.content?.email,
-                    amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
-                    reference: data?.data?.content?.orderCode
-                });
-                stripeRequest.mutate(data?.data)
+            if (data?.data?.content?.orderTotal > 0) { 
+                setconfigData({  
+                    amount: data?.data?.content?.orderTotal, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+                    reference: data?.data?.content?.orderId
+                }); 
+                
+                stripeRequest.mutate(data?.data?.content?.orderId)
             }
 
         },
-        onError: (error) => { 
+        onError: () => {
             toast({
                 title: 'Error',
                 description: "Error Creating Ticket",
@@ -73,12 +72,13 @@ function StripeBtn(props: Props) {
     });
 
     const stripeRequest = useMutation({
-        mutationFn: (data: any) => httpService.post(URLS.PAY_STRIPE + "?orderId=" + data?.content?.orderId, {}),
-        onSuccess: (data: any) => {  
+        mutationFn: (data: any) => httpService.post(URLS.PAY_STRIPE + "?orderId=" + data),
+        
+        onSuccess: (data: any) => {   
             setClientSecret(data?.data?.gatewayReferenceID)
             setOpen(true)
         },
-        onError: (error) => { 
+        onError: () => {
             toast({
                 title: 'Error',
                 description: "Error On Stripe Request",
@@ -96,7 +96,7 @@ function StripeBtn(props: Props) {
             ticketType: selectedCategory,
             numberOfTickets: ticketCount
         })
-    }, [createTicket, selectedCategory, ticketCount, datainfo?.id])
+    }, [createTicket]) 
 
     return (
         <LoadingAnimation loading={createTicket?.isLoading || stripeRequest?.isLoading} >
@@ -105,21 +105,8 @@ function StripeBtn(props: Props) {
                     <StripeLogo />
                 </Flex>
             )}
-            {open && (
-                <Flex width={"full"} alignItems={"center"} justifyContent={"center"} p={"4"} flexDirection={"column"} >
-                     
-                    {clientSecret?.length !== 0 && (
-                        <div className="flex flex-col gap-8 py-8">
-                            <>
-                                {clientSecret && stripePromise && (
-                                    <Elements stripe={stripePromise} options={{ clientSecret }} >
-                                        <CheckoutForm config={configData} closeModal={() => close} />
-                                    </Elements>
-                                )}
-                            </>
-                        </div>
-                    )}
-                </Flex>
+            {open && ( 
+                <StripePopup index={datainfo?.id} stripePromise={stripePromise} clientSecret={clientSecret} configData={configData} />
             )}
         </LoadingAnimation>
     )

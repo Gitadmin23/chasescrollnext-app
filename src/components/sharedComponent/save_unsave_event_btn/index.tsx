@@ -20,7 +20,7 @@ function SaveOrUnsaveBtn(props: Props) {
  
     const { userId: user_index } = useDetails((state) => state);
     const [isSaved, setIsSaved] = React.useState(event.isSaved)
-    const toast = useToast()
+    const toast = useToast() 
 
     // save event
     const saveEvent = useMutation({
@@ -36,6 +36,8 @@ function SaveOrUnsaveBtn(props: Props) {
             });
         },
         onSuccess: (data: AxiosResponse<any>) => {
+            console.log(data);
+            
             toast({
                 title: 'Success',
                 description: data.data?.message,
@@ -74,9 +76,9 @@ function SaveOrUnsaveBtn(props: Props) {
         }
     });
 
-    const handleSave = React.useCallback((event: any) => {
+    const handleSave = React.useCallback((e: any) => {
 
-        event.stopPropagation();
+        e.stopPropagation();
         if (isSaved) {
             deletedSavedEvent.mutate({
                 eventID: event.id,
@@ -90,7 +92,7 @@ function SaveOrUnsaveBtn(props: Props) {
                 type: 'EVENT'
             })
         }
-    }, [deletedSavedEvent, saveEvent, user_index, isSaved])
+    }, [deletedSavedEvent, saveEvent])
 
     return (
         <Box as='button' onClick={handleSave} width={size ? size+"px" : "18px"} display={"flex"} justifyContent={"center"} alignItems={"center"} disabled={saveEvent.isLoading || deletedSavedEvent.isLoading} >
