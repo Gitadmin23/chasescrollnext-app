@@ -47,17 +47,9 @@ function LoginPage({ session }: {
   const { setAll } = useDetails((state) => state);
   const { data: sessionData, update } = useSession();
 
-  React.useEffect(() => {
-    console.log(sessionData);
-    if  (sessionData) {
-        // signOut()
-        // .then()
-        // .catch()
-    }
-  }, [sessionData])
 
   const handleSignIn = async (event: any) => {
-    if (sessionData) {
+    if (sessionData !== null) {
         const id: string = (sessionData as any)['idToken'];
         signinWithGoogle.mutate(id);
     } else {

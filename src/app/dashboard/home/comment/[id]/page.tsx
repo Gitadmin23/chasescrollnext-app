@@ -21,12 +21,12 @@ function Comment() {
 
   const { firstName, lastName, userId, username } = useDetails((state) => state)
   const params = useParams();
-  const { id: postId } = params;
+  const post = params;
   const queryClient = useQueryClient();
   const toast = useToast();
 
 
-  const { isLoading } = useQuery([`getComments-${postId}`, postId], () => httpService.get(`${URLS.GET_ALL_COMMENTS}?postID=${postId}`), {
+  const { isLoading } = useQuery([`getComments-${post?.postId}`, post?.postId], () => httpService.get(`${URLS.GET_ALL_COMMENTS}?postID=${post?.postId}`), {
     onSuccess: (data) => {
       console.log(data?.data?.ccontent);
       setUserComments(data?.data?.content);
@@ -36,7 +36,7 @@ function Comment() {
   const addComment = useMutation({
     mutationFn: (data: any) => httpService.post('/feed/add-comment', data),
     onSuccess: () => {
-      queryClient.invalidateQueries([`getComments-${postId}`]);
+      queryClient.invalidateQueries([`getComments-${post?.postId}`]);
       setCommentInput("");
       toast({
         title: 'Success',
@@ -51,15 +51,15 @@ function Comment() {
 
   const addCommentNew = React.useCallback(async () => {
     if (commentInput === "" || addComment.isLoading) return;
-    addComment.mutate({ postID: postId, comment: commentInput });
-  }, [commentInput, addComment, postId]);
+    addComment.mutate({ postID: post?.postId, comment: commentInput });
+  }, [commentInput, addComment, post?.postId]);
 
   const handleKeyDown = React.useCallback(async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       if (commentInput === "" || addComment.isLoading) return;
-      addComment.mutate({ postID: postId, comment: commentInput });
+      addComment.mutate({ postID: post?.postId, comment: commentInput });
     }
-  }, [commentInput, addComment, postId]);
+  }, [commentInput, addComment, post?.postId]);
   
   return (
     <VStack width={'100%'} height={'100%'} padding='20px' bg='whitesmoke'>

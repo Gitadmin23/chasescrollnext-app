@@ -13,7 +13,7 @@ import { useMutation, useQuery } from 'react-query';
 import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
 import { CustomInput } from '@/components/Form/CustomInput';
-import { signIn, useSession, signOut, } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { Session,  } from 'next-auth';
 
 
@@ -30,9 +30,7 @@ const LINK2 = [
 const exclude = ['Events', 'Sign up', 'Community', 'Sign up']
 
 
-function LoginPage({ session }: {
-    session: Session | null
-}) {
+function LoginPage() {
   const [showModal, setShowModal] = React.useState(false)
   const [Loading, setLoading] = React.useState(false)
   const [FirstName, setFirstName] = React.useState("")
@@ -47,17 +45,8 @@ function LoginPage({ session }: {
   const { setAll } = useDetails((state) => state);
   const { data: sessionData, update } = useSession();
 
-  React.useEffect(() => {
-    console.log(sessionData);
-    if  (sessionData) {
-        // signOut()
-        // .then()
-        // .catch()
-    }
-  }, [sessionData])
-
   const handleSignIn = async (event: any) => {
-    if (sessionData) {
+    if (sessionData !== null) {
         const id: string = (sessionData as any)['idToken'];
         signinWithGoogle.mutate(id);
     } else {

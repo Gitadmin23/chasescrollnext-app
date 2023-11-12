@@ -25,31 +25,31 @@ function CommunityInfo() {
   const [posts, setPosts] = React.useState<IMediaContent[]>([])
   const [search, setSearch] = React.useState('');
   const [mediaTab, setMediaTab] = React.useState(1);
-  const { id } = useParams();
+  const page = useParams();
   const router = useRouter();
   const { userId } = useDetails((state)=> state)
 
   const admin = userId === details?.creator?.userId;
 
   // query
-  const community = useQuery(['getCommunity', id], () => httpService.get(`${URLS.GET_GROUP_BY_ID}`, {
+  const community = useQuery(['getCommunity', page?.id], () => httpService.get(`${URLS.GET_GROUP_BY_ID}`, {
     params: {
-      groupID: id,
+      groupID: page?.id,
     }
   }), {
-  enabled: id !== null,
+  enabled: page?.id !== null,
   onSuccess: (data) => {
     const item: PaginatedResponse<ICommunity> = data.data;
     setDetails(item.content[0]);
   }
   });
 
-  const mediaposts = useQuery(['getMediaPosts', id], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
+  const mediaposts = useQuery(['getMediaPosts', page?.id], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
     params: {
-      groupID: id,
+      groupID: page?.id,
     }
   }), {
-  enabled: id !== null,
+  enabled: page?.id !== null,
   onSuccess: (data) => {
     const item: PaginatedResponse<IMediaContent> = data.data;
     console.log(item);
@@ -57,13 +57,13 @@ function CommunityInfo() {
   }
   });
 
-  const communityMembers = useQuery(['getCommunityMembers', id], () => httpService.get(`${URLS.GET_GROUP_MEMBERS}`, {
+  const communityMembers = useQuery(['getCommunityMembers', page?.id], () => httpService.get(`${URLS.GET_GROUP_MEMBERS}`, {
     params: {
-      groupID: id,
+      groupID: page?.id,
       page: 0,
     }
   }), {
-  enabled: id !== null,
+  enabled: page?.id !== null,
   onSuccess: (data) => {
     const item: PaginatedResponse<ICommunityMember> = data.data;
     setMembers(prev => uniqBy([...prev, ...item.content], 'id'));

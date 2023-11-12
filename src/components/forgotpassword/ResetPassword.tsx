@@ -50,7 +50,7 @@ function ResetPassword() {
         },
         validationSchema: resetValidation,
         submit: (data) => {
-            const token = params.get('token');
+            const token = params?.get('token');
             mutate({ password: data.password, token });
         }
     });
