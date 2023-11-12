@@ -1,5 +1,6 @@
 import ExploreEventCard from '@/components/sharedComponent/event_card'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
+import useSearchStore from '@/global-state/useSearchData'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
 import { Box, Flex, Grid, GridItem, Text } from '@chakra-ui/react'
 import React from 'react'
@@ -7,15 +8,14 @@ import React from 'react'
 interface Props { }
 
 function EventListing(props: Props) {
-    const { } = props
+    const { } = props 
+    const { event_category } = useSearchStore((state) => state);
 
-    const eventCategory = ""
-
-    const { results, isLoading, ref, refetch, isRefetching } = InfiniteScrollerComponent({ url: `/events/events${eventCategory ? "?eventType=" + eventCategory : ""}`, limit: 10, filter: "id", newdata: eventCategory })
+    const { results, isLoading, ref, refetch, isRefetching } = InfiniteScrollerComponent({ url: `/events/events${event_category ? "?eventType=" + event_category : ""}`, limit: 10, filter: "id", newdata: event_category })
 
     return (
-        <Flex width={"full"} justifyContent={"center"} py={"8"} px={"6px"} flexDirection={"column"} alignItems={"center"} >
-            <Text fontWeight={"semibold"} fontSize={"20px"} mt={"15px"} mb={"10px"} mr={"auto"} ml={"12px"} >Trending</Text>
+        <Flex width={"full"} justifyContent={"center"} mt={!event_category ? "8" : ""} py={"8"} px={"6px"} flexDirection={"column"} alignItems={"center"} >
+            <Text fontWeight={"semibold"} textAlign={!event_category ? "left" : "center"} fontSize={"20px"} mt={"15px"} mb={"10px"} mr={!event_category ? "auto": ""} ml={!event_category ? "12px" : ""} >{!event_category ? "Trending" : event_category?.split("_")?.join(" ")}</Text>
             <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
                 <Grid width={["fit", "fit", "auto", "auto", "auto"]}  templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)','repeat(2, 1fr)','repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(3, 1fr)']} gap={5}>
                     {results?.map((event: any, i: number) => {

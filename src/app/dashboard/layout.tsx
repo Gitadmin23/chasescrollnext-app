@@ -95,7 +95,7 @@ function Layout({ children }: {
     }, [router, setAll]);
 
     const logout = () => {
-        
+
     }
 
     const routes: IRoute[] = [
@@ -148,35 +148,37 @@ function Layout({ children }: {
                                     <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
                                     <CustomText fontFamily={'Satoshi-Regular'} fontSize='lg' display={['none', 'inline']} color='#12299C'>Chasescroll</CustomText>
                                 </HStack>
-                                <Box display={["none", "none", "block"]} >
-                                    <SearchBar />
-                                </Box>
+                                {userId && (
+                                    <Box display={["none", "none", "block"]} >
+                                        <SearchBar />
+                                    </Box>
+                                )}
                             </Flex>
                             {/* LARGE SCREEN ICONS */}
-                            <HStack display={['none', 'flex']}>
-                                <CustomText>{username}</CustomText>
 
-                                <Link href={`/dashboard/profile/${userId}`}>
-                                    <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-                                        { user === null || user?.data.imgMain.value === null && (
-                                            <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
-                                                <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color='brand.chasescrollButtonBlue'>{firstName[0]?.toUpperCase()} {lastName[0]?.toUpperCase()}</CustomText>
-                                            </VStack>
-                                        )}
-                                        {
-                                            user?.data.imgMain.value !== null && (
-                                                <>
-                                                    { user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
-                                                    { !user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${IMAGE_URL}${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
-                                                </>
+                            {userId && (
+                                <HStack display={['none', 'flex']}>
+                                    <CustomText>{username}</CustomText>
+
+                                    <Link href={`/dashboard/profile/${userId}`}>
+                                        <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+                                            {(
+                                                <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
+                                                    <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color='brand.chasescrollButtonBlue'>{firstName[0]?.toUpperCase()} {lastName[0]?.toUpperCase()}</CustomText>
+                                                </VStack>
+                                            )}
+                                            {/* {
+                                            chat?.otherUser?.data.imgMain.value && (
+                                                <Image src={`${IMAGE_URL}${chat?.otherUser?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
                                             )
-                                        }
-                                    </Box>
-                                    {/* <Avatar name={`${firstName} ${lastName}`} size='md' marginX='10px' /> */}
-                                </Link>
+                                        } */}
+                                        </Box>
+                                        {/* <Avatar name={`${firstName} ${lastName}`} size='md' marginX='10px' /> */}
+                                    </Link>
 
-                                <NotificationBar />
-                            </HStack>
+                                    <NotificationBar />
+                                </HStack>
+                            )}
 
                             {/* SMALL SCREEN ICONS */}
                             <HStack display={['flex', 'none']}>
@@ -203,7 +205,7 @@ function Layout({ children }: {
                                             )
                                         } */}
                                     </Box>
-                                    {/* <Avatar name={`${firstName} ${lastName}`} size='md' marginX='10px' /> */} 
+                                    {/* <Avatar name={`${firstName} ${lastName}`} size='md' marginX='10px' /> */}
                                 </Link>
                             </HStack>
 
@@ -211,7 +213,7 @@ function Layout({ children }: {
                     )}
                 </Box>
                 <Flex flex={1} w="full" h="full" pt={!pathname?.includes("create_event") ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
-                    {!pathname?.includes("create_event") && (
+                    {(!pathname?.includes("create_event")) && (
                         <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']}>
                             <Sidebar />
                         </Box>
@@ -220,7 +222,6 @@ function Layout({ children }: {
                 </Flex>
                 {/* BOTTOM TAB */}
                 <HStack paddingX='20px' position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg='white' borderTopWidth={1} borderTopColor={'lightgrey'} display={['flex', 'flex', 'flex', 'none']}>
-
                     <Link href='/dashboard/home'>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('home') ? 'brand.chasescrollBlue' : 'white'} color={pathname?.includes('home') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
                             <HomeIcon />

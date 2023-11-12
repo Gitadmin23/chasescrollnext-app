@@ -159,11 +159,13 @@ function AddOrRemoveUserBtn(props: Props) {
     });
 
     const handleadd = React.useCallback(() => {
+ 
         setLoading(user_index)
         addfriend.mutate({ toUserID: user_index })
     }, [addfriend, user_index])
 
-    const handleaccept = React.useCallback(() => {
+    const handleaccept = React.useCallback((event: any) => {
+        event.stopPropagation();
         setLoading(index)
         acceptuser.mutate({ friendRequestID: index })
     }, [acceptuser, user_index])
@@ -173,7 +175,8 @@ function AddOrRemoveUserBtn(props: Props) {
         unfriend.mutate()
     }, [unfriend, user_index])
 
-    const handleReject = React.useCallback(() => {
+    const handleReject = React.useCallback((event: any) => {
+        event.stopPropagation();
         setLoadingRejected(index)
         rejectuser.mutate()
     }, [rejectuser, user_index])
@@ -186,7 +189,8 @@ function AddOrRemoveUserBtn(props: Props) {
         } else {
             handleadd()
         }
-    }
+    } 
+    
 
     return (
         <>
@@ -218,10 +222,10 @@ function AddOrRemoveUserBtn(props: Props) {
             )}
             {request && (
                 <Flex gap={"3"} fontSize={"sm"} >
-                    <Button isDisabled={loading === index ? true : false} onClick={() => handleaccept()} fontSize={"sm"} width={"100px"} bgColor={"brand.chasescrollBlue"} color={'white'} height={"40px"} >
+                    <Button isDisabled={loading === index ? true : false} onClick={(e) => handleaccept(e)} fontSize={"sm"} width={"100px"} bgColor={"brand.chasescrollBlue"} color={'white'} height={"40px"} >
                         {(loading === index) ? "Loading..." : "Accept"}
                     </Button>
-                    <Button isDisabled={loadingRejected === index ? true : false} onClick={() => handleReject()} fontSize={"sm"} width={"100px"} bgColor={"#FCE7F3"} height={"40px"} color={"#DD2B2C"} >
+                    <Button isDisabled={loadingRejected === index ? true : false} onClick={(e) => handleReject(e)} fontSize={"sm"} width={"100px"} bgColor={"#FCE7F3"} height={"40px"} color={"#DD2B2C"} >
                         {(loadingRejected === index) ? "Loading..." : "Decline"}
                     </Button>
                 </Flex>

@@ -9,8 +9,8 @@ interface Props {}
 
 function RequestUser(props: Props) {
     const {} = props
-    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.FRIEND_REQUEST, limit: 10, filter: "userId" })
-
+    const { data, results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.FRIEND_REQUEST, limit: 10, filter: "id" })
+ 
     return (
         <Flex width={["full", "450px"]} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} >
             <LoadingAnimation length={results?.length} loading={isLoading} refeching={isRefetching} >

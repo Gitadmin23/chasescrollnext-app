@@ -25,7 +25,7 @@ function ProfileImage(props: Props) {
     const toast = useToast()
     const [data, setData] = React.useState([] as any)
     const [showModal, setShowModal] = React.useState(false)
-    const [isFriend, setisFriend] = useState(data?.joinStatus)
+    const [isFriend, setisFriend] = useState(null)
     const router = useRouter()
 
     const { userId } = useDetails((state) => state);
@@ -42,6 +42,7 @@ function ProfileImage(props: Props) {
             console.log(data?.data);
 
             setData(data?.data);
+            setisFriend(data?.data?.joinStatus)
         }
     })
 
@@ -51,7 +52,11 @@ function ProfileImage(props: Props) {
         } else {
             setShowModal((prev) => !prev)
         }
-    }
+    } 
+
+    console.log(isFriend);
+    
+    
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -110,7 +115,15 @@ function ProfileImage(props: Props) {
 
                     {userId !== user_index && (
                         <Flex bgColor={"#FFF"} color={"black"} py={"1"} gap={"3"} rounded={"full"} px={"4"} alignItems={"center"} justifyContent={"center"}>
-                            <AddOrRemoveUserBtn profile={true} icon={true} name={(isFriend === "FRIEND_REQUEST_RECIEVED" || isFriend === "FRIEND_REQUEST_SENT" || isFriend === "CONNECTED" || isFriend === "CONNECTFriend") ? isFriend === "FRIEND_REQUEST_SENT" ? "Pending" : isFriend === "CONNECTFriend" ? "Disconnect" : "Disconnect" : "Connect"} setJoinStatus={setisFriend} user_index={userId} />
+                            {isFriend && (
+                                <AddOrRemoveUserBtn profile={true} icon={true} name={
+                                    (isFriend === "CONNECTED" || isFriend === "CONNECTFriend") ? 
+                                        (isFriend === "FRIEND_REQUEST_RECIEVED" || isFriend === "FRIEND_REQUEST_SENT") ? "Pending" : 
+                                            isFriend === "CONNECTFriend" ? "Disconnect" : 
+                                                "Disconnect" : 
+                                                    "Connect"} 
+                                    setJoinStatus={setisFriend} user_index={user_index} />
+                            )}
                             <ChatBtn profile={data} userId={user_index} />
                         </Flex>
                     )}

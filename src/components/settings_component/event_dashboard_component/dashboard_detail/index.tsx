@@ -6,7 +6,9 @@ import { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useQuery } from 'react-query'
-import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { VictoryArea, VictoryChart, VictoryPie, VictoryTheme } from "victory";
+
+import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Line } from 'recharts';
 // import { AreaChart, Area } from 'recharts';
 
 interface Props {
@@ -110,7 +112,7 @@ function DashboardDetail(props: Props) {
                                     <Bar dataKey="totalRefund" fill="#E90303" background={{ fill: '#eee' }} />
                                     <Bar dataKey="totalPendingSales" fill="#DB9E00" background={{ fill: '#eee' }} /> */}
                     </BarChart>
-                </ResponsiveContainer>
+                </ResponsiveContainer> 
             </Box>
         </Flex>
     )

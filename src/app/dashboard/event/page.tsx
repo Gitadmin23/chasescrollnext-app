@@ -4,6 +4,7 @@ import EventCategory from '@/components/event_component/event_category';
 import EventListing from '@/components/event_component/event_listing';
 import SelectEventPage from '@/components/event_component/select_event_page';
 import useEventStore from '@/global-state/useCreateEventState';
+import useSearchStore from '@/global-state/useSearchData';
 import { Box, Flex, HStack, VStack } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { BiMessageSquareAdd } from "react-icons/bi";
@@ -12,6 +13,8 @@ function Events() {
 
 
   const { eventdata, image, tab, updateEvent, changeTab } = useEventStore((state) => state);
+
+  const { event_category } = useSearchStore((state) => state);
 
   useEffect(() => { 
     updateEvent({
@@ -63,7 +66,9 @@ function Events() {
   return (
     <Box width={"full"}> 
       <EventCategory />
-      <EventCarousel />
+      {!event_category && (
+        <EventCarousel />
+      )}
       <EventListing />
     </Box>
   )
