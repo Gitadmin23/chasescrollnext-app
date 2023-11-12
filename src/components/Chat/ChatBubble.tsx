@@ -17,6 +17,7 @@ import LinkExtractor, { handleLinks } from '@/components/general/LinkExtractor';
 import { ChatMessage } from '@/models/ChatMessage';
 import { useChatPageState } from './state';
 import { PaginatedResponse } from '@/models/PaginatedResponse';
+import { useImageModalState } from '../general/ImageModal/imageModalState';
 
 interface IProps {
     message: ChatMessage;
@@ -28,7 +29,8 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
     const [shoowSubmenu, setShowSubmenu] = React.useState(false);
 
     const queryClient = useQueryClient();
-    const { setAll, activeChat } = useChatPageState((state) => state)
+    const { setAll, activeChat } = useChatPageState((state) => state);
+    const { setAll: setImageModal  } = useImageModalState((state) => state)
     // query
     const { isLoading } = useQuery([`getSingleChat-${post.id}`, message?.id], () => httpService.get(`${URLS.CHAT_MESSGAE}`, {
         params: {
@@ -80,7 +82,9 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
         return format.toUpperCase();
       }
 
-    
+      const handleImageClick = () => {
+        setImageModal({ images: [post.media, ...post?.multipleMedia], isOpen: true })
+      }
   return (
     <HStack id={id} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.createdBy.userId === myId ? 'flex-end':'flex-start'} flexDirection={self ? 'row':'row-reverse'}  borderRadius='20px'>
        
@@ -92,7 +96,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                 {post.media !== null && (
                     <>
                         { post.mediaType === 'PICTURE' && (
-                            <Image src={`${post?.media}`} alt='img' width={'100%'} height={'150px'} objectFit={'cover'} borderRadius={'20px'} />
+                            <Image onClick={handleImageClick} src={`${post?.media}`} alt='img' width={'100%'} height={'150px'} objectFit={'cover'} borderRadius={'20px'} />
                         )}
                         {
                             post.mediaType === 'VIDEO' && (
@@ -122,7 +126,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                 </Box>
                 <HStack>
                     { !self && (
-                        <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{post?.createdBy?.username[0].toUpperCase()}{post?.createdBy?.username.substring(1, post?.createdBy?.username.length)}</CustomText>
+                        <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{post?.createdBy?.username[0]?.toUpperCase()}{post?.createdBy?.username.substring(1, post?.createdBy?.username.length)}</CustomText>
                     )}
                     <CustomText fontFamily={'DM-Medium'} fontSize={'12px'}>{moment(post?.createdDate).format('HH:MM')}</CustomText>
                    {!self && (

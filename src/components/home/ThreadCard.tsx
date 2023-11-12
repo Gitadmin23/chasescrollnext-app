@@ -15,6 +15,8 @@ import LikeUserModal from '../modals/Home/LikeUsers';
 
 import { Heart, MessageAdd, Share, DocumentDownload } from 'iconsax-react';
 import VideoPlayer from '../general/VideoPlayer';
+import ImageModal from '../general/ImageModal';
+import { useImageModalState } from '../general/ImageModal/imageModalState';
 
 interface IProps {
   post?: IMediaContent;
@@ -25,7 +27,8 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   const [showReportModal, setShowReportModal] = React.useState(false);
   const [showlikes, setShowLikes] = React.useState(false);
   const queryClient = useQueryClient();
-  const { userId } = useDetails((state) => state)
+  const { userId } = useDetails((state) => state);
+  const { setAll } = useImageModalState((state) => state)
   const [post, setPost] = React.useState<IMediaContent>(props.post as IMediaContent);
 
   const { isLoading, isError } = useQuery([`getPostById-${post?.id}`, post?.id], () => httpService.get(`${URLS.GET_POST_BY_ID}/${post?.id}`),
@@ -43,6 +46,10 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
     },
     onError: () => { }
   });
+
+  const handleImageClick = () => {
+    setAll({ images: [post.mediaRef, ...post.multipleMediaRef], isOpen: true })
+  }
 
   return (
     <VStack id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='white' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='md'  boxShadow={'lg'} borderColor={'lightgrey'} color='black' padding='20px'>
@@ -110,7 +117,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       </CustomText>
 
       {post?.type === 'WITH_IMAGE' || post?.type === 'MULTIPLE_PICTURE' && (
-        <Box width='100%' height={'200px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'}>
+        <Box onClick={handleImageClick} width='100%' height={'200px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'}>
          { post.mediaRef.startsWith('https://') &&  <Image src={`${post?.mediaRef}`} alt='image' style={{ width: '100%', height: '100%' }} />}
          { !post.mediaRef.startsWith('https://') &&  <Image src={`${IMAGE_URL}${post?.mediaRef}`} alt='image' style={{ width: '100%', height: '100%' }} />}
         </Box>

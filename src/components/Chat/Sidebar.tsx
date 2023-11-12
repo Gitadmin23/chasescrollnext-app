@@ -69,7 +69,7 @@ function Sidebar() {
     <VStack width={'100%'} paddingX={'10px'}>
 
         {/* ONLINE USERS */}
-        <VStack width='100%' height={'120px'} paddingBottom={'10px'} alignItems={'flex-start'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingTop={'10px'}>
+        {/* <VStack width='100%' height={'120px'} paddingBottom={'10px'} alignItems={'flex-start'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingTop={'10px'}>
 
             <Box width='100%' height={'100%'} overflowX={'auto'} display={'inline-block'} whiteSpace={'nowrap'} paddingTop={'10px'} >
                 { ARRAY.map((item, index) => (
@@ -82,7 +82,7 @@ function Sidebar() {
                 ))}
             </Box>
             <CustomText fontFamily={'Satoshi-Medium'} fontSize={'14px'}>Users Online</CustomText>
-        </VStack>
+        </VStack> */}
 
         <HStack width={'100%'} height={'60px'} justifyContent={'space-between'}>
 

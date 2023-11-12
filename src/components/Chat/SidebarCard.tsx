@@ -20,14 +20,14 @@ const  SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({chat}, ref) => {
 
     <HStack>
             <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-                    { chat?.otherUser?.data.imgMain.value === null && (
+                    { chat?.otherUser?.data?.imgMain?.value === null && (
                         <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} spacing={0} alignItems={'center'}>
                             <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color='brand.chasescrollButtonBlue'>{chat?.otherUser.firstName[0].toUpperCase()} {chat?.otherUser.lastName[0].toUpperCase()}</CustomText>
                         </VStack>
                     )}
                     {
-                        chat?.otherUser?.data.imgMain.value && (
-                            <Image src={`${IMAGE_URL}${chat?.otherUser?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                        chat?.otherUser?.data?.imgMain?.value && (
+                            <Image src={`${IMAGE_URL}${chat?.otherUser?.data?.imgMain?.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
                         )
                     }
                 </Box>
