@@ -28,6 +28,7 @@ function EditProfile() {
 
     const { renderForm, setValue, formState: { isDirty,  } } = useForm({
         defaultValues: {
+            mobilePhone: user?.data?.mobilePhone?.value,
             gender: user?.data.gender,
             dob: user?.dob,
         },
@@ -35,6 +36,7 @@ function EditProfile() {
         submit: (data: {
             gender: string,
             dob: string,
+            mobilePhone: string
         }) => {
             if (isLoading) {
                 return;
@@ -46,6 +48,9 @@ function EditProfile() {
                     "data": {
                         gender: {
                             value: data.gender,
+                        },
+                        mobilePhone: {
+                            value: data.mobilePhone,
                         }
                     }
                 }
@@ -59,6 +64,7 @@ function EditProfile() {
             setUser(data.data);
             setValue('dob', data?.data?.dob);
             setValue('gender', data?.data?.data.gender.value);
+            setValue('mobilePhone', data?.data?.data?.mobilePhone.value);
             setShowEmail(data?.data.showEmail);
         },
         onError: (error) => {
@@ -118,6 +124,11 @@ function EditProfile() {
 
             
             <VStack width={'100%'} height={'100%'} alignItems={'center'} spacing={6}>
+
+                <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
+                    <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Phone</CustomText>
+                    <CustomInput name='mobilePhone' isPassword={false} type='text' placeholder='' />
+                </VStack>
 
 
                 <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>

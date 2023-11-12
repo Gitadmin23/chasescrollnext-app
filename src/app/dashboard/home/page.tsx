@@ -15,6 +15,7 @@ import { FiSend, FiImage } from 'react-icons/fi';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Heart, MessageAdd, Share, DocumentDownload, Send2, Image as ImgIcon } from 'iconsax-react';
 import { IUser } from '@/models/User';
+import ImageModal from '@/components/general/ImageModal';
 
 
 

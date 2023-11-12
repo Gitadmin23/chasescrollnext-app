@@ -86,14 +86,14 @@ function ChatSectionHeader() {
          {activeChat?.type === 'ONE_TO_ONE' && (
             <Link href={`/dashboard/profile/${activeChat?.otherUser.userId}`}>
                  <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>
-                    { activeChat.otherUser.data.imgMain.value === null && (
+                    { activeChat?.otherUser?.data?.imgMain?.value === null && (
                         <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'} spacing={0}>
-                            <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color={'brand.chasescrollButtonBlue'} >{activeChat.otherUser.firstName[0].toUpperCase()} {activeChat.otherUser.firstName[0].toUpperCase()}</CustomText>
+                            <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color={'brand.chasescrollButtonBlue'} >{activeChat?.otherUser.firstName[0].toUpperCase()} {activeChat.otherUser.firstName[0].toUpperCase()}</CustomText>
                         </VStack>
                     )}
                     {
-                        activeChat.otherUser.data.imgMain.value && (
-                            <Image src={`${IMAGE_URL}${activeChat.otherUser.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                        activeChat?.otherUser?.data?.imgMain.value && (
+                            <Image src={`${IMAGE_URL}${activeChat?.otherUser?.data?.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
                         )
                     }
                 </Box>
@@ -101,22 +101,25 @@ function ChatSectionHeader() {
          )}
           {activeChat?.type === 'GROUP' && (
              <Box width='45px' height='45px' borderRadius={'36px 0px 36px 36px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>
-                    { activeChat.image === null && (
+                    { activeChat?.image === null && (
                         <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
                             <CustomText fontFamily={'DM-Regular'}>{activeChat.name.toUpperCase()}</CustomText>
                         </VStack>
                     )}
                     {
-                        activeChat.image && (
-                            <Image src={`${IMAGE_URL}${activeChat.image}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                        activeChat?.image && (
+                            <>
+                              { activeChat?.image.startsWith('https://') &&  <Image src={`${activeChat.image}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                              { !activeChat?.image.startsWith('https://') && <Image src={`${IMAGE_URL}${activeChat.image}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                            </>
                         )
                     }
             </Box>
          )}
         <VStack alignItems={'flex-start'} spacing={0}>
             {activeChat?.type === 'ONE_TO_ONE' && (
-               <Link href={`/dashboard/profile/${activeChat?.otherUser.userId}`}>
-                 <CustomText fontFamily={'DM-Medium'} fontSize={'16px'} color='brand.chasescrollButtonBlue'>{activeChat?.otherUser.firstName} {activeChat.otherUser.lastName}</CustomText>
+               <Link href={`/dashboard/profile/${activeChat?.otherUser?.userId}`}>
+                 <CustomText fontFamily={'DM-Medium'} fontSize={'16px'} color='brand.chasescrollButtonBlue'>{activeChat?.otherUser.firstName} {activeChat?.otherUser?.lastName}</CustomText>
                </Link>
             )}
             { activeChat?.type === 'GROUP' && (

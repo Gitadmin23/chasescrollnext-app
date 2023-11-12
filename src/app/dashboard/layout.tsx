@@ -19,6 +19,7 @@ import SearchBar from '@/components/explore_component/searchbar';
 import NotificationBar from '@/components/navbar/notification';
 import { Notification, Message, AddSquare, SearchNormal1, Calendar, People, Home } from 'iconsax-react'
 import { HomeIcon, UsersIcon } from '@/components/svg';
+import ImageModal from '@/components/general/ImageModal';
 type IRoute = {
     icon: ReactNode;
     text: string;
@@ -133,6 +134,9 @@ function Layout({ children }: {
     return (
 
         <Box className='w-full h-screen'>
+            {/* MODALS */}
+            <ImageModal />
+            
             <Grid h="100vh" w={"full"} overflowY={"hidden"} >
                 <Box width="full" position={"absolute"} zIndex={"30"} top={"0px"} >
                     {/* NAVBAR SECTION */}

@@ -14,6 +14,7 @@ import { THEME } from '@/theme';
 import { IoHeart } from 'react-icons/io5';
 import { useCommunityPageState } from '@/components/Community/chat/state';
 import LinkExtractor, { handleLinks } from '@/components/general/LinkExtractor';
+import { useImageModalState } from '@/components/general/ImageModal/imageModalState';
 
 interface IProps {
     message: IMediaContent;
@@ -26,6 +27,7 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
 
     const queryClient = useQueryClient();
     const { setAll } = useCommunityPageState((state) => state)
+    const { setAll: setImageModal } = useImageModalState((state) => state)
     // query
     const { isLoading } = useQuery([`getSinglePost-${post.id}`, message?.id], () => httpService.get(`${URLS.GET_POST_BY_ID}/${message.id}`), {
         onSuccess: (data) => {
@@ -70,6 +72,10 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
         const format = __format__[__format__.length - 1];
         return format.toUpperCase();
       }
+
+      const handleImageClick = () => {
+        setImageModal({ images: [post.mediaRef, post.mediaRef, post.mediaRef, ...post.multipleMediaRef], isOpen: true })
+      }
     
   return (
     <HStack id={id} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.user.userId === myId ? 'flex-end':'flex-start'} flexDirection={self ? 'row':'row-reverse'}  borderRadius='20px'>
@@ -102,7 +108,7 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                 {post.mediaRef !== null && (
                     <>
                         { post.type === 'WITH_IMAGE' && (
-                            <Image src={`${post?.mediaRef}`} alt='img' width={'100%'} height={'150px'} objectFit={'cover'} borderRadius={'20px'} />
+                            <Image onClick={handleImageClick} src={`${post?.mediaRef}`} alt='img' width={'100%'} height={'150px'} objectFit={'cover'} borderRadius={'20px'} />
                         )}
                         {
                             post.type === 'WITH_VIDEO_POST' && (

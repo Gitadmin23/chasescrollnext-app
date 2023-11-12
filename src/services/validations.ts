@@ -85,6 +85,7 @@ const editProfileSchema = z.object({
 });
 
 const editPersonalInfoSchema = z.object({
+    mobilePhone: z.string().min(10),
     gender: z.string().nonempty(),
     dob: z.string().nonempty(),
 });
