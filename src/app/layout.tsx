@@ -1,17 +1,20 @@
 import type { Metadata } from 'next' 
 import { Providers } from './Provider'
 import './globals.css'; 
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
 export const metadata: Metadata = {
   title: 'Chasescroll',
   description: 'Making your events great!',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const session = await getServerSession(authOptions);
   return (
     // <Providers>
     <html lang="en">
@@ -22,7 +25,7 @@ export default function RootLayout({
         <link rel="manifest" href="/favicon_io/site.webmanifest" /> 
       </head>
       <body>
-        <Providers>
+        <Providers session={session}>
           {children}
         </Providers>
       </body>

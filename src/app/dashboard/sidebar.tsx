@@ -5,6 +5,7 @@ import { Box, Button, Flex, HStack, Link, Modal, ModalBody, ModalContent, ModalO
 import { usePathname, useRouter } from 'next/navigation';
 import React, { ReactNode } from 'react'
 import { FiHome, FiSearch, FiCalendar, FiMessageCircle, FiUsers, FiUser, FiPower } from 'react-icons/fi';
+import { useSession , signOut } from 'next-auth/react'
 
 type IRoute = {
     icon: any;
@@ -39,9 +40,10 @@ function Sidebar() {
     const router = useRouter();
     const { userId: user_index, setAll } = useDetails((state) => state);
 
-    const logout = () => {
+    const logout = async () => {
         setAll({ userId: '', dob: '', email: '', username:'', firstName: '', lastName: '', publicProfile: ''});
         localStorage.clear();
+        await signOut();
         router.push('/auth');
     }
 
@@ -99,7 +101,7 @@ function Sidebar() {
 
             <VStack flex={0.8} width='100%' paddingTop={'40px'}>
                 {routes.map((item, index) => (
-                    <MenuItem {...item} active={pathname.includes(item.route.toLowerCase()) ? true:false} key={index.toString()} />
+                    <MenuItem {...item} active={pathname?.includes(item.route.toLowerCase()) ? true:false} key={index.toString()} />
                 ))}
             M</VStack>
             <Flex cursor={'pointer'} onClick={() => setShowModal(true)} paddingX={['20px', '40px']} gap={"4"} flex={0.2} width='100%' alignItems={"center"} mt={"30px"}  height='70px'>
