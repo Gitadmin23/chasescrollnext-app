@@ -69,6 +69,8 @@ export const URLS = {
     GET_TRANSACTIONS: "/payments/transactions",
     UPDATE_EVENT: "events/update-event",
     ONLINE_USERS: '/auth/check-connections-onlines',
+    CHANGE_PASSWORD: '/chasescroll/verification/reset-password',
+    UPDATE_PROFILE: '/user/update-profile'
     //GET_MEDIA_POST : "/feed/get-users-media-posts?userID="
 }
 
