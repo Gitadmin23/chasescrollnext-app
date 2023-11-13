@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { Text, TextProps, Heading } from '@chakra-ui/react'
 

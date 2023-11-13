@@ -21,12 +21,15 @@ function ShareLayout({
 
   React.useEffect(() => {
     const userId = localStorage.getItem('user_id');
-    if (!userId || userId === '') {
-      setAll({ type: type as any, typeID: typeID as any });
-      sessionStorage.setItem('type', type as string);
-      sessionStorage.setItem('typeID', typeID as string);
-      router.push(`/share/auth/login?type=${type}&typeID=${typeID}`)
+    if (type === 'PROFILE') {
+      if (!userId || userId === '') {
+        setAll({ type: type as any, typeID: typeID as any });
+        sessionStorage.setItem('type', type as string);
+        sessionStorage.setItem('typeID', typeID as string);
+        router.push(`/share/auth/login?type=${type}&typeID=${typeID}`)
+      }
     }
+    
   }, [router, setAll, type, typeID, query])
   return (
     <VStack width={'100%'} height={'100vh'} alignItems={'center'}>

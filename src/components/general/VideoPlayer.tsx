@@ -1,3 +1,4 @@
+'use client';
 import { Box, HStack, VStack } from '@chakra-ui/react';
 import React, { useRef } from 'react'
 import { Play, Pause, Maximize2, VolumeSlash, VolumeHigh } from 'iconsax-react'
