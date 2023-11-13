@@ -18,10 +18,12 @@ import VideoPlayer from '../general/VideoPlayer';
 import ImageModal from '../general/ImageModal';
 import { useImageModalState } from '../general/ImageModal/imageModalState';
 import ShareEvent from '../sharedComponent/share_event';
+import { useRouter } from 'next/navigation';
 
 interface IProps {
   post?: IMediaContent;
-  id?: string
+  id?: string;
+  shared?: boolean;
 }
 
 const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
@@ -31,6 +33,8 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   const { userId } = useDetails((state) => state);
   const { setAll } = useImageModalState((state) => state)
   const [post, setPost] = React.useState<IMediaContent>(props.post as IMediaContent);
+
+  const router = useRouter();
 
   const { isLoading, isError } = useQuery([`getPostById-${post?.id}`, post?.id], () => httpService.get(`${URLS.GET_POST_BY_ID}/${post?.id}`),
     {
@@ -47,6 +51,28 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
     },
     onError: () => { }
   });
+
+  const handleJoin = () => {
+    const userId = localStorage.getItem('user_id');
+    if (props.shared && !userId || userId === '') {
+      const type = sessionStorage.getItem('type');
+      const typeID =sessionStorage.getItem('typeID');
+      router.push(`/share/auth/login?type=${type}&typeID=${typeID}`)
+    } else {
+      likeMutation.mutate()
+    }
+  }
+
+  const handleComment = () => {
+    const userId = localStorage.getItem('user_id');
+    if (props.shared && !userId || userId === '') {
+      const type = sessionStorage.getItem('type');
+      const typeID =sessionStorage.getItem('typeID');
+      router.push(`/share/auth/login?type=${type}&typeID=${typeID}`)
+    } else {
+      router.push(`/dashboard/home/comment/${post?.id}`);
+    }
+  }
 
   const handleImageClick = () => {
     setAll({ images: [post.mediaRef, ...post.multipleMediaRef], isOpen: true })
@@ -152,13 +178,22 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
           }
         </VStack>
 
-        <Link href={`/dashboard/home/comment/${post?.id}`}>
+        {!props.shared && (
+          <Link href={`/dashboard/home/comment/${post?.id}`}>
           <VStack>
             <MessageAdd color='grey' size={'25px'} variant='Outline' />
             {/* <FiMessageSquare color='black' fontSize={15} /> */}
             <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>{post?.commentCount} Comments</CustomText>
           </VStack>
         </Link>
+        )}
+         {!props.shared && (
+          <VStack onClick={handleComment}>
+            <MessageAdd color='grey' size={'25px'} variant='Outline' />
+            {/* <FiMessageSquare color='black' fontSize={15} /> */}
+            <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>{post?.commentCount} Comments</CustomText>
+          </VStack>
+        )}
 
         <VStack>
         <ShareEvent id={post.id} type='POST' />

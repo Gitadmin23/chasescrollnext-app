@@ -20,6 +20,7 @@ import { useDetails } from '@/global-state/useUserDetails';
 import { uniqBy } from 'lodash';
 import ShareEvent from '@/components/sharedComponent/share_event';
 import { useSearchParams } from 'next/navigation'
+import { useShareState } from '../state';
 
 
 function ShareCommunity() {
@@ -36,6 +37,7 @@ function ShareCommunity() {
 
   const admin = userId === details?.creator?.userId;
   const toast = useToast();
+  const { setAll } = useShareState((state) => state)
 
   // query
   const community = useQuery(['getCommunity', typeID], () => httpService.get(`${URLS.GET_GROUP_BY_ID}`, {
@@ -75,6 +77,25 @@ function ShareCommunity() {
       });
     }
   })
+
+  const handleJoin = () => {
+    const userId = localStorage.getItem('user_id');
+    if (!userId || userId === '') {
+      toast({
+        title: 'Warning',
+        description: 'You have to login to continue',
+        status: 'warning',
+        duration: 4000,
+        position: 'top-right',
+      });
+      setAll({ type: type as any, typeID: typeID as any });
+      sessionStorage.setItem('type', type as string);
+      sessionStorage.setItem('typeID', typeID as string);
+      router.push(`/share/auth/login?type=${type}&typeID=${typeID}`)
+    } else {
+      joinGroup.mutate()
+    }
+  }
 
   const mediaposts = useQuery(['getMediaPosts', typeID], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
     params: {
@@ -231,7 +252,7 @@ function ShareCommunity() {
               <VStack width={['100%', '25%']} height={'100%'} >
 
                     {/* header */}
-                    <Button width='100%' height='40px' borderRadius='20px' isLoading={joinGroup.isLoading} type='button' variant={'solid'} bg='brand.chasescrollButtonBlue' color='white' onClick={() => joinGroup.mutate()}>Join Community</Button>
+                    <Button width='100%' height='40px' borderRadius='20px' isLoading={joinGroup.isLoading} type='button' variant={'solid'} bg='brand.chasescrollButtonBlue' color='white' onClick={handleJoin}>Join Community</Button>
      
 
             </VStack>
