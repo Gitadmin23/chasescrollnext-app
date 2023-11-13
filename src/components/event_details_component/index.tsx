@@ -97,7 +97,7 @@ function EventDetails(props: Props) {
                 <EventHeader name={eventName} maxPrice={maxPrice} minPrice={minPrice} currency={currency} />
                 <EventCreator isOrganizer={isOrganizer} convener={convener} username={username} data={dataInfo} />
                 <Flex py={"3"} justifyContent={"end"} >
-                    <ShareEvent id={dataInfo?.id} />
+                    <ShareEvent id={dataInfo?.id} type="EVENT" />
                 </Flex>
                 <Grid templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} py={"3"} gap={6}>
                     <EventDate name='Event Start date and time' date={timeAndDate} />
