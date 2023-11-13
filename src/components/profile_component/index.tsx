@@ -8,7 +8,7 @@ import { IMAGE_URL, URLS } from '@/services/urls'
 import PostThreads from './post_component'
 
 interface Props {
-    user_index: string
+    user_index: string| number
 }
 
 function ProfileComponent(props: Props) {

@@ -8,7 +8,7 @@ import React, { useEffect, useRef } from 'react'
 interface Props {
     open: boolean,
     setOpen: any,
-    user_index: string,
+    user_index: string | number,
     post_index: string
 }
 
