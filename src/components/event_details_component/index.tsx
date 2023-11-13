@@ -1,3 +1,4 @@
+"use client"
 import { IMAGE_URL } from '@/services/urls'
 import { Box, Button, Flex, Grid, HStack, Image, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'

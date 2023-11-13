@@ -1,3 +1,4 @@
+"use client"
 import GetProfile from '@/app/dashboard/profile/get_profile'
 import React from 'react'
 

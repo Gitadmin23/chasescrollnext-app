@@ -1,3 +1,4 @@
+"use client"
 import GetEventData from '@/app/dashboard/event/details/getdata'
 import React from 'react'
 
