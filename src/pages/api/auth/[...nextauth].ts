@@ -14,26 +14,27 @@ export const authOptions: AuthOptions = {
     //     signIn: '/auth'
     // },
     callbacks: {
-       async session({ token, user }) {
-        console.log(token);
-        console.log(user);
-        return {
-            ...token,
-            ...user,
-        } as any
-       },
-        async redirect({url, baseUrl}) {
-            console.log(`URL - ${url}`);
-            console.log(`BASE - ${baseUrl}`);
-            return url.startsWith(baseUrl) ? url:baseUrl
-        },
-        async jwt({token, user}) {
-            if (user) {
-                console.log(user);
-              token.idToken = (user as User).id
-            }
-            return token;
-          },
+    //    async session({ token, user, session }) {
+    //     console.log(token);
+    //     console.log(session);
+    //     return {
+    //         ...token,
+    //         ...user,
+    //     } as any
+    //    },
+    //     async redirect({url, baseUrl}) {
+    //         console.log(`URL - ${url}`);
+    //         console.log(`BASE - ${baseUrl}`);
+    //         return url.startsWith(baseUrl) ? url:baseUrl
+    //     },
+    //     async jwt({token, user}) {
+    //         if (user) {
+    //             console.log(user);
+    //           token.idToken = (user as User).id
+
+    //         }
+    //         return token;
+    //       },
     }
 }
 

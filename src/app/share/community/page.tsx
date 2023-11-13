@@ -1,6 +1,8 @@
 import React from 'react'
 
-function ShareCommunity() {
+function ShareCommunity({typeID}: {
+  typeID: string
+}) {
   return (
     <div>ShareCommunity</div>
   )

@@ -1,13 +1,11 @@
 import React from 'react'
 
-interface Props {}
-
-function Page(props: Props) {
-    const {} = props
-
-    return (
-        "heell"
-    )
+function ShareProfile({typeID}: {
+    typeID: string
+  }) {
+  return (
+    <div>ShareProfile</div>
+  )
 }
 
-export default Page
+export default ShareProfile

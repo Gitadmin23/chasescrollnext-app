@@ -15,6 +15,7 @@ import { URLS } from '@/services/urls';
 import { CustomInput } from '@/components/Form/CustomInput';
 import { signIn, useSession } from 'next-auth/react'
 import { Session,  } from 'next-auth';
+import { useShareState } from '../../state';
 
 
 
@@ -44,6 +45,7 @@ function LoginPage() {
   const router = useRouter();
   const { setAll } = useDetails((state) => state);
   const { data: sessionData, update } = useSession();
+  const { type, typeID } = useShareState((state) => state)
 
   const handleSignIn = async (event: any) => {
     if (sessionData !== null) {
@@ -152,7 +154,9 @@ function LoginPage() {
         username: data?.data?.user_name,
         userId: data?.data?.user_id,
       })
-      router.push('/dashboard');
+      const typee = sessionStorage.getItem('type');
+      const typeIDD = sessionStorage.getItem('typeID');
+      router.push(`/share?type=${typee}&typeID=${typeIDD}`);
     }
   });
 
@@ -202,7 +206,7 @@ function LoginPage() {
             username: checkData.user_name,
             userId: checkData.user_id,
           })
-          router.push('/dashboard');
+          router.push(`/share?type=${type}&typeID=${typeID}`);
           // navigate("/explore")
         } else {
           toast({

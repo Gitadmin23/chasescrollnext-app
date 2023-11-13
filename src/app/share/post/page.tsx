@@ -1,6 +1,8 @@
 import React from 'react'
 
-function SharePost() {
+function SharePost({typeID}: {
+  typeID: string
+}) {
   return (
     <div>SharePost</div>
   )

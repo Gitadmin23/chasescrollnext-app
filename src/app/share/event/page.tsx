@@ -1,6 +1,8 @@
 import React from 'react'
 
-function ShareEvent() {
+function ShareEvent({typeID}: {
+  typeID: string
+}) {
   return (
     <div>ShareEvent</div>
   )
