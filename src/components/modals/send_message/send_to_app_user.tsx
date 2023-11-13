@@ -1,6 +1,7 @@
 import { ShareType } from '@/app/share/page';
 import CustomButton from '@/components/general/Button';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
+import UserImage from '@/components/sharedComponent/userimage';
 import { useDetails } from '@/global-state/useUserDetails';
 import useDebounce from '@/hooks/useDebounce';
 import { Chat } from '@/models/Chat';
@@ -19,6 +20,7 @@ const UserCard = (props: IUser & { checked: boolean, handleCheck: (e: string) =>
     return (
         <HStack width='100%' height={'60px'} justifyContent={'space-between'} paddingX='20px'>
             <HStack>
+                <UserImage data={props} size={"40px"} border={"2px"} font={"20px"}  />
                 {/* <Avatar src={`${CONFIG.RESOURCE_URL}${imgMain}`} size='sm' name={`${firstName} ${lastName}`} /> */}
                 <VStack alignItems={'flex-start'} spacing={0}>
                     <Heading fontSize={'16px'} color='black'>{firstName || ''} {lastName || ''}</Heading>

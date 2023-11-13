@@ -187,7 +187,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
           </VStack>
         </Link>
         )}
-         {!props.shared && (
+         {props.shared && (
           <VStack onClick={handleComment}>
             <MessageAdd color='grey' size={'25px'} variant='Outline' />
             {/* <FiMessageSquare color='black' fontSize={15} /> */}
