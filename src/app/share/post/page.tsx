@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { useSearchParams } from 'next/navigation'
 import { VStack, Box, Spinner } from '@chakra-ui/react'
