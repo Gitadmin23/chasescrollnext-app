@@ -3,7 +3,7 @@ import { Box } from '@chakra-ui/react'
 import React from 'react'
 
 interface Props {
-    profile_index: string
+    profile_index: any
 }
 
 function GetProfile(props: Props) {
