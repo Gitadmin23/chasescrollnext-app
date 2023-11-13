@@ -18,6 +18,7 @@ import useStripeStore from '@/global-state/useStripeState'
 import { BsChevronLeft } from 'react-icons/bs'
 import useModalStore from '@/global-state/useModalSwitch'
 import { setConfig } from 'next/config'
+import { useRouter } from 'next/navigation'
 
 interface Props {
     isBought: any,
@@ -54,11 +55,16 @@ function GetEventTicket(props: Props) {
     const { userId: user_index } = useDetails((state) => state);
     const toast = useToast()
 
-    const clickHandler = (event: any) => {
+    const router = useRouter()
 
+    const clickHandler = (event: any) => {
         event.stopPropagation();
-        setModalTab(carousel ? 6 : isBought ? 5 : 1)
-        setShowModal(true)
+        if(!user_index){
+            router.push("/share/auth/login?type=EVENT&typeID="+data?.id)
+        } else {
+            setModalTab(carousel ? 6 : isBought ? 5 : 1)
+            setShowModal(true)
+        }
     }
  
     const { } = useQuery(['event_ticket' + data?.id], () => httpService.get(URLS.GET_TICKET + user_index + "&eventID=" + data?.id), {

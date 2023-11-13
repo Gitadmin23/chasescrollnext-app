@@ -40,7 +40,7 @@ function RefundPolicy(props: Props) {
                     <Text color={"#10182880"} >By clicking this box, you hereby accept the <span style={{ color: "#5D70F9", fontWeight: "bold" }} >Chasescroll refund policy</span></Text>
                 </Flex>
             </Box> 
-            <CustomButton disable={!checked} onClick={()=> setModalTab(modalTab +1)} text='View Ticket' width={["full", "full"]} mt={"4"} />
+            <CustomButton disable={!checked} onClick={()=> setModalTab(modalTab +1)} text='Buy Ticket' width={["full", "full"]} mt={"4"} />
         </Box>
     )
 }
