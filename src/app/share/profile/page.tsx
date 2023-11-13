@@ -1,13 +1,10 @@
 import React from 'react'
+import { useSearchParams } from 'next/navigation'
 
-interface Props {}
-
-function Page(props: Props) {
-    const {} = props
-
-    return (
-        "heell"
-    )
+function ShareProfile() {
+  return (
+    <div>ShareProfile</div>
+  )
 }
 
-export default Page
+export default ShareProfile

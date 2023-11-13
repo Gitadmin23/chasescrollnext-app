@@ -30,9 +30,7 @@ const LINK2 = [
 const exclude = ['Events', 'Sign up', 'Community', 'Sign up']
 
 
-function LoginPage({ session }: {
-    session: Session | null
-}) {
+function LoginPage() {
   const [showModal, setShowModal] = React.useState(false)
   const [Loading, setLoading] = React.useState(false)
   const [FirstName, setFirstName] = React.useState("")
@@ -50,10 +48,12 @@ function LoginPage({ session }: {
 
   const handleSignIn = async (event: any) => {
     if (sessionData !== null) {
-        const id: string = (sessionData as any)['idToken'];
+        // signOut();
+        console.log(sessionData)
+        const id: string = (sessionData as any).idToken;
         signinWithGoogle.mutate(id);
     } else {
-        const result = await signIn('google'); // 'google' corresponds to the provider name in your NextAuth configuration
+        const result = await signIn('google'); 
     }
   };
 
@@ -80,7 +80,7 @@ function LoginPage({ session }: {
       console.log(error);
       toast({
         title: 'Erroor',
-        description: error,
+        description: 'An error occured, please try again',
         status: 'error',
       })
     }

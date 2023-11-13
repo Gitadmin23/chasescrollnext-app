@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSearchParams } from 'next/navigation'
 
 function ShareEvent() {
   return (
