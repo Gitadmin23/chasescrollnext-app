@@ -23,7 +23,7 @@ function SendMessage(props: Props) {
         isprofile
     } = props
 
-    const url_link = WEBSITE_URL+(isprofile ? "/dashboard/profile/" : "/dashboard/event/details/")+ id
+    const url_link = WEBSITE_URL+(isprofile ? "/share/profile/" : "/share/event/")+ id
 
     return (
         <Flex width={"full"} justifyContent={"center"} pb={"7"} px={"8"} flexDir={"column"} >
