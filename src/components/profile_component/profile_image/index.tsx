@@ -88,7 +88,7 @@ function ProfileImage(props: Props) {
                                 <BlockBtn isprofile={true} user_index={user_index} />
                             </Flex>
                             <Flex width={"full"} justifyContent={"center"} borderBottomWidth={"1px"} py={"2"} >
-                                <ShareEvent isprofile={true} istext={true} id={user_index} />
+                                <ShareEvent type='PROFILE' isprofile={true} istext={true} id={user_index} />
                             </Flex>
                             <Flex onClick={() => setShowModal((prev) => !prev)} color={"#E90303"} as={"button"} width={"full"} justifyContent={"center"} borderBottomWidth={"0px"} py={"2"} >
                                 <Text>Cancel</Text>
@@ -109,7 +109,7 @@ function ProfileImage(props: Props) {
                     </Box>
                     {userId === user_index && ( 
                         <Flex bgColor={"#FFF"} color={"black"} py={"1"} gap={"3"} rounded={"full"} px={"4"} alignItems={"center"} justifyContent={"center"} >
-                            <ShareEvent isprofile={true} id={user_index} />
+                            <ShareEvent type='PROFILE' isprofile={true} id={user_index} />
                         </Flex>
                     )}
 
