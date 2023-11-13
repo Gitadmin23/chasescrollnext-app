@@ -1,11 +1,11 @@
 
 'use client';
 import CustomText from '@/components/general/Text'
-import { Box, HStack, Spinner, VStack, InputGroup, InputLeftElement, Input, Image, Grid, GridItem } from '@chakra-ui/react'
+import { Box, HStack, Spinner, VStack, InputGroup, InputLeftElement, Input, Image, Grid, GridItem, Button, useToast } from '@chakra-ui/react'
 import React from 'react'
 import { FiBell, FiChevronLeft, FiDownloadCloud, FiEdit2, FiLink, FiLogIn, FiSettings } from 'react-icons/fi'
 import { useParams, useRouter } from 'next/navigation'
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import httpService from '@/utils/httpService';
 import { IMAGE_URL, URLS } from '@/services/urls';
 import { PaginatedResponse } from '@/models/PaginatedResponse';
@@ -35,6 +35,7 @@ function ShareCommunity() {
   const { userId } = useDetails((state)=> state)
 
   const admin = userId === details?.creator?.userId;
+  const toast = useToast();
 
   // query
   const community = useQuery(['getCommunity', typeID], () => httpService.get(`${URLS.GET_GROUP_BY_ID}`, {
@@ -49,6 +50,32 @@ function ShareCommunity() {
   }
   });
 
+  const joinGroup = useMutation({
+    mutationFn: () => httpService.post(`${URLS.JOIN_GROUP}`, {
+      groupID: typeID,
+      joinID: userId
+    }),
+    onSuccess: (data) => {
+      toast({
+        title: 'Success',
+        description: 'You have joined the group',
+        status: 'success',
+        duration: 4000,
+        position: 'top-right',
+      });
+      router.push(`/dashboard/community?activeID=${typeID}`)
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Error',
+        description: 'An Error occured while you where trying to join the community',
+        status: 'error',
+        duration: 4000,
+        position: 'top-right',
+      });
+    }
+  })
+
   const mediaposts = useQuery(['getMediaPosts', typeID], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
     params: {
       groupID: typeID,
@@ -57,7 +84,6 @@ function ShareCommunity() {
   enabled: typeID !== null || typeID !== undefined,
   onSuccess: (data) => {
     const item: PaginatedResponse<IMediaContent> = data.data;
-    console.log(item);
     setPosts(uniqBy(item.content, 'id'));
   }
   });
@@ -205,18 +231,8 @@ function ShareCommunity() {
               <VStack width={['100%', '25%']} height={'100%'} >
 
                     {/* header */}
-                    <HStack overflow={'hidden'} width='100%' height='50px' bg='#F1F2F9' borderRadius={'25px'}>
-                      <VStack onClick={() => setMediaTab(1)} color={mediaTab === 1 ? 'white':'black'} height='100%' justifyContent={'center'} bg={mediaTab === 1 ? THEME.COLORS.chasescrollButtonBlue:'transparent'} flex='1'>
-                        <CustomText>Join Community</CustomText>
-                      </VStack>
-
-                      {/* <VStack onClick={() => setMediaTab(2)} color={mediaTab === 2 ? 'white':'black'} height='100%' justifyContent={'center'} bg={mediaTab === 2 ? THEME.COLORS.chasescrollButtonBlue:'transparent'} flex='1'>
-                        <CustomText>Files</CustomText>
-                      </VStack> */}
-                    </HStack>
-
-                  
-
+                    <Button width='100%' height='40px' borderRadius='20px' isLoading={joinGroup.isLoading} type='button' variant={'solid'} bg='brand.chasescrollButtonBlue' color='white' onClick={() => joinGroup.mutate()}>Join Community</Button>
+     
 
             </VStack>
 
