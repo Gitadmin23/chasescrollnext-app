@@ -17,6 +17,7 @@ import { Heart, MessageAdd, Share, DocumentDownload } from 'iconsax-react';
 import VideoPlayer from '../general/VideoPlayer';
 import ImageModal from '../general/ImageModal';
 import { useImageModalState } from '../general/ImageModal/imageModalState';
+import ShareEvent from '../sharedComponent/share_event';
 
 interface IProps {
   post?: IMediaContent;
@@ -160,7 +161,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
         </Link>
 
         <VStack>
-          <Share color='grey' size={'25px'} variant='Bold' />
+        <ShareEvent id={post.id} type='POST' />
           {/* <FiShare2 color='black' fontSize={15} /> */}
           <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>Share</CustomText>
         </VStack>

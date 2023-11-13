@@ -30,7 +30,7 @@ function ShareLayout({
   }, [router, setAll, type, typeID, query])
   return (
     <VStack width={'100%'} height={'100vh'} alignItems={'center'}>
-      <Box width={['100%', '100%']}  height='100%' bg='red' overflowY={'auto'}>
+      <Box width={['100%', '100%']}  height='100%' overflowY={'auto'}>
         { children }
       </Box>
     </VStack>

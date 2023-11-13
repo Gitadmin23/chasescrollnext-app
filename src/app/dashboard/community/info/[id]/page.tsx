@@ -17,6 +17,7 @@ import { IMediaContent } from '@/models/MediaPost';
 import { FILE_FORMATS } from '@/utils/acceptedMediatypes';
 import { useDetails } from '@/global-state/useUserDetails';
 import { uniqBy } from 'lodash';
+import ShareEvent from '@/components/sharedComponent/share_event';
 
 
 function CommunityInfo() {
@@ -52,7 +53,6 @@ function CommunityInfo() {
   enabled: page?.id !== null,
   onSuccess: (data) => {
     const item: PaginatedResponse<IMediaContent> = data.data;
-    console.log(item);
     setPosts(uniqBy(item.content, 'id'));
   }
   });
@@ -150,6 +150,7 @@ function CommunityInfo() {
 
           <HStack>
             <SettingsChip icon={<FiLogIn color={THEME.COLORS.chasescrollButtonBlue} />} text='Exit' action={() => {}} />
+            <SettingsChip icon={<ShareEvent type='COMMUNITY' id={page?.id} />} text='Share' action={() => {}} />
             <SettingsChip icon={<FiSettings color={THEME.COLORS.chasescrollButtonBlue} />} text='Settings' action={() => {}} />
           </HStack>
 

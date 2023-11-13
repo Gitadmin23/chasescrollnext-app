@@ -1,3 +1,4 @@
+import { ShareType } from '@/app/share/page';
 import CustomButton from '@/components/general/Button';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 import { useDetails } from '@/global-state/useUserDetails';
@@ -30,10 +31,11 @@ const UserCard = (props: IUser & { checked: boolean, handleCheck: (e: string) =>
     )
 }
 
-function SendMesageModal({ onClose, id, isprofile }: { 
+function SendMesageModal({ onClose, id, isprofile, type }: { 
     onClose: () => void,
     id: string,
-    isprofile?: boolean
+    isprofile?: boolean,
+    type: ShareType
 }) {
 
     const [search, setSearch] = React.useState('');
@@ -50,8 +52,7 @@ function SendMesageModal({ onClose, id, isprofile }: {
         }
     }), {
         onSuccess: (data) => {
-            setUsers(data?.data);
-            console.log(data?.data);
+            setUsers(data?.data.content);
         }
     });
 
@@ -60,7 +61,7 @@ function SendMesageModal({ onClose, id, isprofile }: {
         onSuccess: (data) => {
             const chat = data?.data as Chat;
             const obj = {
-                message: `${WEBSITE_URL}${isprofile ? "/dashboard/profile/" : "/dashboard/event/details/"}${id}`,
+                message: `${WEBSITE_URL}/share?type=${type}&typeID=${id}`,
                 chatID: chat?.id,
             }
             sendMessage.mutate(obj)

@@ -10,7 +10,7 @@ import ShareProfile from './profile/page';
 type queryTypes = {
   typeID: string;
 }
-type itemType = 'PROFILE'|'POST'|'COMMUNITY'|'EVENT';
+export type ShareType = 'PROFILE'|'POST'|'COMMUNITY'|'EVENT';
 
 
 function Share() {
@@ -31,7 +31,7 @@ function Share() {
   }
 
   const handleType = React.useCallback(() => {
-    switch(type as itemType) {
+    switch(type as ShareType) {
       case 'COMMUNITY': {
         return <ShareCommunity />
       }

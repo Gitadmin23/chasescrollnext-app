@@ -5,12 +5,14 @@ import ModalLayout from '../modal_layout'
 import SendMessage from '@/components/modals/send_message'
 import SendMesageModal from '@/components/modals/send_message/send_to_app_user'
 import { MessageIcon, ShareIcon } from '@/components/svg'
+import { ShareType } from '@/app/share/page'
 
 interface Props {
     id: any,
     size?: string,
     isprofile?: boolean,
-    istext?: boolean
+    istext?: boolean,
+    type: ShareType
 }
 
 function ShareEvent(props: Props) {
@@ -51,10 +53,10 @@ function ShareEvent(props: Props) {
             )}
             <ModalLayout open={open} close={CloseModal} title={tab === 1 ? "Share" : "Share with friends"} >
                 {tab === 1 && (
-                    <SendMessage isprofile={isprofile} id={id} click={setTab} />
+                    <SendMessage isprofile={isprofile} type={props.type} id={id} click={setTab} />
                 )}
                 {tab === 2 && (
-                    <SendMesageModal isprofile={isprofile} id={id} onClose={CloseModal} />
+                    <SendMesageModal type={props.type} isprofile={isprofile} id={id} onClose={CloseModal} />
                 )}
             </ModalLayout>
         </Box>

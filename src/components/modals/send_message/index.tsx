@@ -1,3 +1,4 @@
+import { ShareType } from '@/app/share/page';
 import CopyButtton from '@/components/sharedComponent/copy_btn';
 import { WEBSITE_URL } from '@/services/urls';
 import { Box, Flex, Image, Text } from '@chakra-ui/react'
@@ -13,7 +14,8 @@ import {
 interface Props {
     id: any,
     click: any,
-    isprofile?: boolean
+    isprofile?: boolean;
+    type?: ShareType
 }
 
 function SendMessage(props: Props) {
@@ -23,7 +25,7 @@ function SendMessage(props: Props) {
         isprofile
     } = props
 
-    const url_link = WEBSITE_URL+(isprofile ? "/share/profile/" : "/share/event/")+ id
+    const url_link = `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`
 
     return (
         <Flex width={"full"} justifyContent={"center"} pb={"7"} px={"8"} flexDir={"column"} >
