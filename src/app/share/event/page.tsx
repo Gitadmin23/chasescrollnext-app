@@ -1,8 +1,7 @@
 import React from 'react'
+import { useSearchParams } from 'next/navigation'
 
-function ShareEvent({typeID}: {
-  typeID: string
-}) {
+function ShareEvent() {
   return (
     <div>ShareEvent</div>
   )

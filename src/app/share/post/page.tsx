@@ -1,8 +1,8 @@
 import React from 'react'
+import { useSearchParams } from 'next/navigation'
 
-function SharePost({typeID}: {
-  typeID: string
-}) {
+
+function SharePost() {
   return (
     <div>SharePost</div>
   )

@@ -33,16 +33,16 @@ function Share() {
   const handleType = React.useCallback(() => {
     switch(type as itemType) {
       case 'COMMUNITY': {
-        return <ShareCommunity typeID={typeID as string} />
+        return <ShareCommunity />
       }
       case 'EVENT': {
-        return <ShareEvent typeID={typeID as string} />
+        return <ShareEvent />
       }
       case 'POST': {
-        return <SharePost typeID={typeID as string} />
+        return <SharePost />
       }
       case 'PROFILE': {
-        return <ShareProfile typeID={typeID as string} />
+        return <ShareProfile />
       }
       default: {
         return <Box width='100%' height='100%'></Box>

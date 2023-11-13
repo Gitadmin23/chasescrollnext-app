@@ -1,8 +1,7 @@
 import React from 'react'
+import { useSearchParams } from 'next/navigation'
 
-function ShareProfile({typeID}: {
-    typeID: string
-  }) {
+function ShareProfile() {
   return (
     <div>ShareProfile</div>
   )
