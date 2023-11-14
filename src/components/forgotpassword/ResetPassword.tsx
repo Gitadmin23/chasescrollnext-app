@@ -40,7 +40,7 @@ function ResetPassword() {
                 duration: 5000,
                 position: 'top-right',
             });
-            router.push('/auth/login');
+            router.push('/auth');
         }
     });
     const { renderForm } = useForm({

@@ -31,6 +31,7 @@ function EditProfile() {
             mobilePhone: user?.data?.mobilePhone?.value,
             gender: user?.data.gender,
             dob: user?.dob,
+            email: user?.email
         },
         validationSchema: editPersonalInfoSchema,
         submit: (data: {
@@ -65,6 +66,7 @@ function EditProfile() {
             setValue('dob', data?.data?.dob);
             setValue('gender', data?.data?.data.gender.value);
             setValue('mobilePhone', data?.data?.data?.mobilePhone.value);
+            setValue('email', data?.data?.email);
             setShowEmail(data?.data.showEmail);
         },
         onError: (error) => {
@@ -125,6 +127,11 @@ function EditProfile() {
             
             <VStack width={'100%'} height={'100%'} alignItems={'center'} spacing={6}>
 
+            <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
+                    <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Email</CustomText>
+                    <CustomInput name='email' isPassword={false} disable type='text' placeholder='' />
+                </VStack>
+
                 <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
                     <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Phone</CustomText>
                     <CustomInput name='mobilePhone' isPassword={false} type='text' placeholder='' />
@@ -138,7 +145,7 @@ function EditProfile() {
 
                 <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
                     <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Date of birth</CustomText>
-                    <CustomInput name='dob' isPassword={false} type='date' placeholder='' />
+                    <CustomInput name='dob' isPassword={false} type='date' placeholder='' disable />
                 </VStack>
 
                 <HStack width={'100%'} justifyContent={'space-between'}>

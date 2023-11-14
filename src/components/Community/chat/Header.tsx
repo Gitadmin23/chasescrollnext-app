@@ -87,10 +87,34 @@ function CommunityChatHeader() {
     }
   });
 
+  const deleteGroup = useMutation({
+    mutationFn: () => httpService.delete(`${URLS.DELETE_GROUP}`, {
+      params: {
+        typeID: activeCommunity?.id,
+      }
+    }),
+    onSuccess: () => {
+      toast({
+        title: 'Success',
+        description: 'Successfully deleted the group',
+        status: 'success',
+        position: 'top-right',
+        duration: 5000,
+      })
+      queryClient.invalidateQueries(['getJoinedGroups']);
+      setAll({ activeCommunity: null, pageNumber: 0, hasNext: false, messages: [] })
+    },
+    onError: () => {
+      toast({
+        title: 'Error'
+      })
+    }
+  });
+
 
   return (
-   <HStack width='100%' height={'100px'} bg='white' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingX={'0px'} justifyContent={'space-between'}>
-    <Box display={['block', 'hidden']}>
+   <HStack width='100%' height={'100px'} bg='white' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingX={['0px', '20px']} justifyContent={'space-between'}>
+    <Box display={['block', 'none']}>
       <ArrowLeft2 size={'20px'} variant='Outline' onClick={() => setAll({ activeCommunity: null })} />
     </Box>
     {/* {MODAL} */}
@@ -98,26 +122,30 @@ function CommunityChatHeader() {
     <HStack flex='1' justifyContent={'flex-start'}>
           
 
-          <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>
-                    { activeCommunity?.data.imgSrc === null && (
-                        <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                            <CustomText fontFamily={'DM-Regular'}>{activeCommunity.data.name[0].toUpperCase()}</CustomText>
-                        </VStack>
-                    )}
-                    {
-                        activeCommunity?.data.imgSrc && (
-                            <Image src={`${IMAGE_URL}${activeCommunity.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
-                        )
-                    }
-            </Box>
+         <Link  href={`/dashboard/community/info/${activeCommunity?.id}`}>
+            <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>
+                      { activeCommunity?.data.imgSrc === null && (
+                          <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                              <CustomText fontFamily={'DM-Regular'}>{activeCommunity.data.name[0].toUpperCase()}</CustomText>
+                          </VStack>
+                      )}
+                      {
+                          activeCommunity?.data.imgSrc && (
+                              <Image src={`${IMAGE_URL}${activeCommunity.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                          )
+                      }
+              </Box>
+         </Link>
         <VStack alignItems={'flex-start'} spacing={0}>
-            <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{activeCommunity?.data.name}</CustomText>
+            <Link  href={`/dashboard/community/info/${activeCommunity?.id}`}>
+              <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{activeCommunity?.data.name}</CustomText>
+            </Link>
             <CustomText fontFamily={'DM-Regular'} fontSize={'12px'}>{activeCommunity?.data.memberCount} Members</CustomText>
         </VStack>
     </HStack>
 
    <HStack>
-    { events.length < 1 && (
+    { events.length > 0 && (
       <Box onClick={() => setAll({ showEvents: !showEvents })} cursor='pointer' position={'relative'} marginRight={'10px'} >
 
         <Image src='/assets/images/note-add.png' alt='logo' width={'30px'} height={'30px'} />
@@ -148,6 +176,12 @@ function CommunityChatHeader() {
             <MenuItem height={'50px'} color='red' onClick={() => leaveGroup.mutate()} >
             { leaveGroup.isLoading && <Spinner /> }
             { !leaveGroup.isLoading && 'Exit community' }
+          </MenuItem>
+          )}
+          { self &&  (
+            <MenuItem height={'50px'} color='red' onClick={() => deleteGroup.mutate()} >
+            { deleteGroup.isLoading && <Spinner /> }
+            { !deleteGroup.isLoading && 'Delete community' }
           </MenuItem>
           )}
         </MenuList>

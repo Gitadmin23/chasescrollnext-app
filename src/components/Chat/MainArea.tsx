@@ -28,6 +28,7 @@ function MainArea() {
     }
 }), {
     enabled: activeChat !== null,
+    refetchInterval: 1000,
     onSuccess: (data) => {
         const item: PaginatedResponse<ChatMessage> = data.data;
         if (item?.content?.length > 0) {
@@ -43,7 +44,6 @@ function MainArea() {
                 }
             }
         }
-      
     },
     onError: (error: any) => {}
 });

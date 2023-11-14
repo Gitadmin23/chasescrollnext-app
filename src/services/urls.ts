@@ -72,6 +72,11 @@ export const URLS = {
     CHANGE_PASSWORD: '/chasescroll/verification/reset-password',
     UPDATE_PROFILE: '/user/update-profile',
     GET_SINGLE_POST: '/feed/get-post',
+    DELETE_POST: '/feed/remove-post',
+    GET_MESSAGE_COUNT: '/chat/new_message_count',
+    GET_PUBLIC_PROIFLE: '/user/publicprofile',
+    DELETE_ACCOUNT: '/auth/user',
+    DELETE_GROUP: '/group/group'
     //GET_MEDIA_POST : "/feed/get-users-media-posts?userID="
 }
 

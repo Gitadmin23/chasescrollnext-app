@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import { IMediaContent, IMediaPost } from '@/models/MediaPost';
-import { Avatar, HStack, VStack, Box, Spinner, Menu, MenuList, MenuButton, MenuItem, Image } from '@chakra-ui/react';
+import { Avatar, HStack, VStack, Box, Spinner, Menu, MenuList, MenuButton, MenuItem, Image, useToast } from '@chakra-ui/react';
 import { FiMoreHorizontal, FiHeart, FiMessageSquare, FiShare2 } from 'react-icons/fi'
 import React from 'react'
 import CustomText from '../general/Text';
@@ -35,6 +35,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   const [post, setPost] = React.useState<IMediaContent>(props.post as IMediaContent);
 
   const router = useRouter();
+  const toast = useToast();
 
   const { isLoading, isError } = useQuery([`getPostById-${post?.id}`, post?.id], () => httpService.get(`${URLS.GET_POST_BY_ID}/${post?.id}`),
     {
@@ -50,6 +51,32 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       queryClient.invalidateQueries([`getPostById-${post?.id}`])
     },
     onError: () => { }
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: () => httpService.delete(`${URLS.DELETE_POST}/${post?.id}`),
+    onSuccess: () => {
+      toast({
+        title: 'Success',
+        description: 'Post deleted',
+        status: 'success',
+        position: 'top-right',
+        duration: 4000,
+        isClosable: true
+      });
+      queryClient.invalidateQueries(['getPostss'])
+      queryClient.invalidateQueries([`getPostById-${post?.id}`]);
+    },
+    onError: () => {
+      toast({
+        title: 'Error',
+        description: 'An error occured while trying to delete post',
+        status: 'error',
+        position: 'top-right',
+        duration: 4000,
+        isClosable: true
+      });
+     }
   });
 
   const handleJoin = () => {
@@ -116,10 +143,11 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
           <MenuButton>
             <FiMoreHorizontal color="blue" fontSize={25} />
           </MenuButton>
-          <MenuList>
+          <MenuList zIndex={10} bg='white'>
             {userId === post?.user?.userId && (
-              <MenuItem color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
-                <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Delete</CustomText>
+              <MenuItem onClick={() => deleteMutation.isLoading ? null : deleteMutation.mutate()} color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
+               { !deleteMutation.isLoading && <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Delete Post</CustomText>}
+               { deleteMutation.isLoading && <Spinner size='sm' /> }
               </MenuItem>
             )}
             {/* <MenuItem color={'grey'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
@@ -187,6 +215,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
           </VStack>
         </Link>
         )}
+
          {props.shared && (
           <VStack onClick={handleComment}>
             <MessageAdd color='grey' size={'25px'} variant='Outline' />

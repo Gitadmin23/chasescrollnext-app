@@ -107,10 +107,10 @@ function ShowImages({ files, setImage, handleStage, stage, setEmpty }: {files: F
 
 const handleNext = React.useCallback(() => {
   if (stage === 3) {
-    if (files[0].size > 15000000) {
+    if (files[0].size > 256000) {
       toast({
         title: 'Warniing',
-        description: 'File size must be less than or equal to 15MB',
+        description: 'File size must be less than or equal to 250MB',
         position: 'top-right',
         status: 'warning',
         duration: 5000,

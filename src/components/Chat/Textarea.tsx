@@ -47,6 +47,7 @@ function TextArea() {
     mutationFn: (data: any) => httpService.post(`${URLS.CHAT_MESSGAE}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries(['getMessages']);
+      queryClient.invalidateQueries(['getChats']);
       setText('');
       setFiles([]);
       reset();

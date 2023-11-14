@@ -8,6 +8,7 @@ import { Avatar, Box, HStack, VStack, Image } from '@chakra-ui/react'
 import React from 'react'
 import { useQuery } from 'react-query'
 import { useChatPageState } from './state'
+import moment from 'moment'
 
 interface IProps {
     chat: Chat
@@ -15,6 +16,18 @@ interface IProps {
 
 const  SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({chat}, ref) => {
     const { setAll, activeChat } = useChatPageState((state) => state);
+    const [count, setCount] = React.useState(0);
+
+    const { isLoading } = useQuery(['getChat', chat?.id], () => httpService.get(`${URLS.GET_MESSAGE_COUNT}`, {
+        params: {
+            chatID: chat?.id
+        }
+    }), {
+        onSuccess: (data) => {
+            console.log(" Message count" + data.data);
+            setCount(data.data);
+        }
+    })
   return (
    <HStack onClick={() => setAll({ activeChat: chat, messages: [], pageNumber: 0, hasNext: false })} ref={ref} width='100%' height='60px' borderRadius={'8px'} alignItems={'center'} justifyContent={'space-between'} bg={ activeChat?.id === chat?.id ? '#EAEAFC66':'white'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingRight={'10px'} cursor={'pointer'}>
 
@@ -39,10 +52,12 @@ const  SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({chat}, ref) => {
     </HStack>
 
     <VStack alignItems={'flex-end'}>
-        <CustomText fontFamily={'Satoshi-Light'} fontSize={'12px'}>10:27PM</CustomText>
-        <VStack width='20px' height='20px' borderRadius={'10px'} justifyContent={'center'} alignItems={'center'} bg='brand.chasescrollButtonBlue' color='white'>
-            <CustomText fontSize={'10px'} color='white' fontFamily={'Satoshi-Regular'}>5</CustomText>
-        </VStack>
+        <CustomText fontFamily={'Satoshi-Light'} fontSize={'12px'}>{moment(chat?.lastModifiedDate).fromNow()}</CustomText>
+        { isLoading && count > 0 && (
+            <VStack width='20px' height='20px' borderRadius={'10px'} justifyContent={'center'} alignItems={'center'} bg='brand.chasescrollButtonBlue' color='white'>
+                <CustomText fontSize={'10px'} color='white' fontFamily={'Satoshi-Regular'}>5</CustomText>
+            </VStack>
+        )}
     </VStack>
    
    </HStack>
