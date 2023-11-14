@@ -1,8 +1,9 @@
 import React from 'react'
-import { Modal, ModalOverlay, ModalBody, ModalContent } from '@chakra-ui/react';
+import { Modal, ModalOverlay, ModalBody, ModalContent, useToast } from '@chakra-ui/react';
 import SelectImages from './mediapostPages/SelectImages';
 import ShowImages from './mediapostPages/ShowImages';
 import Success from './mediapostPages/Success';
+import AWSHook from '@/hooks/awsHook';
 
 interface IProps {
     isOpen: boolean;
@@ -12,9 +13,23 @@ interface IProps {
 function CreateMediaPost({isOpen, onClose}:IProps) {
     const [stage, setStage] = React.useState(1);
     const [files, setFiles] = React.useState<File[]>([]);
+    const { uploadedFile, loading, fileUploadHandler } = AWSHook();
+    const toast = useToast();
 
     const handleImagePicked = React.useCallback((Files: FileList, goNext?: boolean) => {
         console.log(Files)
+        const file = Files[0];
+        if (file.size > 256000) {
+            toast({
+                title: 'Error',
+                description: 'File size too large',
+                position: 'top-right',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
+            return;
+        }
         if (goNext) {
             const arrs: File[] = [];
             for (let i = 0; i < Files.length; i++) {
@@ -64,7 +79,7 @@ function CreateMediaPost({isOpen, onClose}:IProps) {
         onClose()
         }} closeOnEsc={true} closeOnOverlayClick={true} size='md' isCentered>
         <ModalOverlay />
-        <ModalContent width={'100%'} height={'600px'} bg='white' padding='0px' overflow={'hidden'} borderRadius={'10px'}>
+        <ModalContent width={'auto'} height={'auto'} bg='white' padding='0px' overflow={'hidden'} borderRadius={'20px'}>
             <ModalBody width='100%' height='100%' padding='0px' overflow={'hidden'}>
                 {handleSwitch()}
             </ModalBody>

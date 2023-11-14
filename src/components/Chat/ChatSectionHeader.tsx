@@ -71,7 +71,7 @@ function ChatSectionHeader() {
 
 
   return (
-   <HStack width='100%' height={['80px','80px']} bg='white' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingX={'0px'} justifyContent={'space-between'}>
+   <HStack width='100%' height={['80px','80px']} bg='white' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingX={['0px', '20px']} justifyContent={'space-between'}>
 
     {/* {MODAL} */}
 
@@ -80,7 +80,7 @@ function ChatSectionHeader() {
     <ReportGroupChatModal isOpen={showReportGroup} onClose={() => setShowReportGroup(false)} typeID={activeChat?.id as string} REPORT_TYPE='REPORT_COMMUNITY' />
 
     <HStack> 
-          <Box display={['block', 'none']}>
+          <Box display={['block', 'none']} paddingX={['0px', '20px']}>
             <ArrowLeft2 onClick={() => setAll({ activeChat: null })} color='grey' size='20px' variant='Outline' />
           </Box>
          {activeChat?.type === 'ONE_TO_ONE' && (

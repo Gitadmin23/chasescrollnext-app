@@ -35,14 +35,14 @@ function Home() {
   const toast = useToast();
   const queryClient = useQueryClient();
 
-  const getUser = useQuery(['getPosts', userId], () => httpService.get(`${URLS.GET_USER_DETAILS}/${userId}`, {
+  const getUser = useQuery(['getUserDets', userId], () => httpService.get(`${URLS.GET_USER_DETAILS}/${userId}`, {
   }), {
     onSuccess: (data) => {
       setUser(data.data);
     },
   });
 
-  const { isLoading, isError, refetch } = useQuery(['getPosts', page], () => httpService.get(`${URLS.GET_POSTS}`, {
+  const { isLoading, isError, refetch } = useQuery(['getPostss', page], () => httpService.get(`${URLS.GET_POSTS}`, {
     params: {
       page,
     }
@@ -119,7 +119,7 @@ function Home() {
       {/* MODAL */}
       <CreateMediaPost isOpen={showModal} onClose={() => setShowModal(false)} />
 
-      <VStack width={['100%', '100%', '35%', '35%']} height='180px'  paddingTop='20px' paddingLeft={'20px'} overflowY={'hidden'}>
+      <VStack width={['100%', '100%', '35%', '35%']} height='180px'  paddingTop='20px' paddingLeft={'20px'} paddingRight={['20px', '0px']} overflowY={'hidden'}>
 
         {/* TEXTBOX */}
         <VStack alignItems={'flex-start'} justifyContent={'flex-start'} width='100%' height='150px' bg='whitesmoke' borderWidth={0} shadow={'md'} borderColor={'lightgrey'} borderRadius={'10px'} padding='10px'>

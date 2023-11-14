@@ -65,7 +65,7 @@ function SubCommentBox({ comment, id, commentID, timeInMilliseconds, likeCount, 
                     </VStack>
                 </HStack>
 
-                <Heart variant='Bold' cursor={'pointer'} style={{ alignSelf: 'flex-end' }} onClick={() => likeComment.mutate()} fontSize='20px' color={likeStatus === 'LIKED' ? 'red' : 'black'} />
+                <Heart variant={likeStatus === 'LIKED' ? 'Bold':'Outline'} cursor={'pointer'} style={{ alignSelf: 'flex-end' }} onClick={() => likeComment.mutate()} fontSize='20px' color={likeStatus === 'LIKED' ? 'red' : 'black'} />
             </HStack>
         
         </>
@@ -192,7 +192,7 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
                     </VStack>
                 </HStack>
 
-                <Heart cursor={'pointer'} style={{ alignSelf: 'flex-end'}} onClick={() => likeComment.mutate()} size='20px' variant='Bold' color={likeStatus === 'LIKED' ? 'red' : 'black'} />
+                <Heart cursor={'pointer'} style={{ alignSelf: 'flex-end'}} onClick={() => likeComment.mutate()} size='20px' variant={likeStatus === 'LIKED' ? 'Bold':'Outline'} color={likeStatus === 'LIKED' ? 'red' : 'black'} />
             </HStack>
             {
                 showReplies && (

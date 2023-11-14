@@ -88,7 +88,6 @@ function Sidebar() {
 
         <HStack alignItems={'center'}>
             <CustomText fontFamily={'DM-Medium'} fontSize={'3xl'}>Chats</CustomText>
-            <Button height={25} borderRadius={15} bg='brand.chasescrollButtonBlue' color='white' fontFamily={'Satoshi-Light'} variant={'solid'} fontSize='12px' width='30px' >5 New</Button>
         </HStack>
 
         <Button onClick={() => router.push('/dashboard/chats/create')} variant={'unstyled'} width='120px' height={'30px'} borderWidth={'1px'} borderRadius={'20px'} borderColor={'brand.chasescrollButtonBlue'} color='brand.chasescrollButtonBlue' >
@@ -111,7 +110,14 @@ function Sidebar() {
         !isLoading && !isError && chats.length > 0 && (
             <Box width={'100%'} height={'100%'} overflowY={'auto'} paddingBottom={'100px'}>
             {
-                 !isLoading && !isError && chats.length > 0 && chats.map((item, index) => {
+                 !isLoading && !isError && chats.length > 0 && chats.sort((a: Chat, b: Chat) => {
+                    if (a.lastModifiedDate > b.lastModifiedDate) {
+                        return -1
+                    } else {
+                        return 1
+                    }
+                    return 0
+                 }).map((item, index) => {
                      if (index === chats.length - 1) {
                          return <SidebarCard ref={lastChildRef} key={index.toString()} chat={item} />
                      } else {
