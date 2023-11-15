@@ -21,7 +21,7 @@ function ProfileImage(props: Props) {
     const {
         user_index
     } = props
- 
+
     const toast = useToast()
     const [data, setData] = React.useState([] as any)
     const [showModal, setShowModal] = React.useState(false)
@@ -52,9 +52,9 @@ function ProfileImage(props: Props) {
         } else {
             setShowModal((prev) => !prev)
         }
-    }  
+    }
     console.log(data);
-    
+
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -62,7 +62,7 @@ function ProfileImage(props: Props) {
                 {(data?.data?.imgMain?.value && userId !== user_index) && (
                     <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={IMAGE_URL + (userId === user_index ? user?.data?.imgMain?.value : data?.data?.imgMain?.value)} alt='profile' />
                 )}
-                {(user?.data?.imgMain?.value  && userId === user_index) && (
+                {(user?.data?.imgMain?.value && userId === user_index) && (
                     <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={IMAGE_URL + user?.data?.imgMain?.value} alt='profile' />
                 )}
                 {data?.data?.imgMain?.value && (
@@ -110,14 +110,14 @@ function ProfileImage(props: Props) {
                             <Text fontSize={"sm"} >{data?.email}</Text>
                         )}
                         <Text fontSize={"sm"} >Phone : {data?.data?.mobilePhone?.value}</Text>
-                        {/* {data?.data?.about?.value && ( */}
+                        {data?.data?.about?.value && (
                             <Text fontSize={"sm"} >Bio : {data?.data?.about?.value}</Text>
-                        {/* )} */}
-                        {/* {data?.data?.webAddress?.value && ( */}
-                            <Text fontSize={"sm"} >Website : {data?.data?.webAddress?.value ?? ""}</Text> 
-                        {/* )}  */}
+                        )}
+                        {data?.data?.webAddress?.value && (
+                            <Text fontSize={"sm"} >Website : {data?.data?.webAddress?.value ?? ""}</Text>
+                        )}
                     </Box>
-                    {userId === user_index && ( 
+                    {userId === user_index && (
                         <Flex bgColor={"#FFF"} color={"black"} py={"1"} gap={"3"} rounded={"full"} px={"4"} alignItems={"center"} justifyContent={"center"} >
                             <ShareEvent type='PROFILE' isprofile={true} id={user_index} />
                         </Flex>
@@ -127,11 +127,11 @@ function ProfileImage(props: Props) {
                         <Flex bgColor={"#FFF"} color={"black"} py={"1"} gap={"3"} rounded={"full"} px={"4"} alignItems={"center"} justifyContent={"center"}>
                             {isFriend && (
                                 <AddOrRemoveUserBtn profile={true} icon={true} name={
-                                    (isFriend === "CONNECTED" || isFriend === "CONNECTFriend") ? 
-                                        (isFriend === "FRIEND_REQUEST_RECIEVED" || isFriend === "FRIEND_REQUEST_SENT") ? "Pending" : 
-                                            isFriend === "CONNECTFriend" ? "Disconnect" : 
-                                                "Disconnect" : 
-                                                    "Connect"} 
+                                    (isFriend === "CONNECTED" || isFriend === "CONNECTFriend") ?
+                                        (isFriend === "FRIEND_REQUEST_RECIEVED" || isFriend === "FRIEND_REQUEST_SENT") ? "Pending" :
+                                            isFriend === "CONNECTFriend" ? "Disconnect" :
+                                                "Disconnect" :
+                                        "Connect"}
                                     setJoinStatus={setisFriend} user_index={user_index} />
                             )}
                             <ChatBtn profile={data} userId={user_index} />
