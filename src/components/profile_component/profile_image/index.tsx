@@ -38,8 +38,7 @@ function ProfileImage(props: Props) {
                 title: error.response?.data,
             });
         },
-        onSuccess: (data) => {
-            console.log(data?.data);
+        onSuccess: (data) => { 
 
             setData(data?.data);
             setisFriend(data?.data?.joinStatus)
@@ -52,8 +51,7 @@ function ProfileImage(props: Props) {
         } else {
             setShowModal((prev) => !prev)
         }
-    }
-    console.log(data);
+    } 
 
 
     return (
