@@ -61,7 +61,7 @@ function BlockedUsersComponent() {
             <Flex _hover={{ backgroundColor: "#f1f2ff" }} px={"2"} width={"full"} justifyContent={"space-between"} alignItems={"center"} py={"4"} borderBottomWidth={"1px"} >
                 <Flex width={["60vw", "fit-content"]} gap={"2"} alignItems={"center"} >
                     <Box>
-                        <UserImage fontWeight={"semibold"} border={"3px"} data={person?.blockObject} size={50} font={'[30px]'} />
+                        <UserImage fontWeight={"semibold"} image={person?.blockObject?.data?.imgMain?.value} border={"3px"} data={person?.blockObject} size={50} font={'[30px]'} />
                     </Box>
                     <Box>
                         <Text fontSize={"15px"} fontWeight={"medium"} >{(person?.blockObject?.firstName + " " + person?.blockObject?.lastName)?.length > 15 ? (person?.blockObject?.firstName + " " + person?.blockObject?.lastName)?.slice(0, 15) + "..." : (person?.blockObject?.firstName + " " + person?.blockObject?.lastName)}</Text>
