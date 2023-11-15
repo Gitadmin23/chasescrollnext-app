@@ -20,6 +20,7 @@ import NotificationBar from '@/components/navbar/notification';
 import { Notification, Message, AddSquare, SearchNormal1, Calendar, People, Home } from 'iconsax-react'
 import { HomeIcon, UsersIcon } from '@/components/svg';
 import ImageModal from '@/components/general/ImageModal';
+import UserImage from '@/components/sharedComponent/userimage';
 type IRoute = {
     icon: ReactNode;
     text: string;
@@ -158,25 +159,10 @@ function Layout({ children }: {
 
                             {userId && (
                                 <HStack display={['none', 'flex']}>
-                                    <CustomText>{username}</CustomText>
+                                    <CustomText fontWeight={"bold"} >{username}</CustomText>
 
                                     <Link href={`/dashboard/profile/${userId}`}>
-                                        <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-                                            { user?.data.imgMain.value === null && (
-                                                <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
-                                                    <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color='brand.chasescrollButtonBlue'>{firstName[0]?.toUpperCase()} {lastName[0]?.toUpperCase()}</CustomText>
-                                                </VStack>
-                                            )}
-                                            {
-                                                user?.data.imgMain.value !== null && (
-                                                    <>
-                                                        { user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
-                                                        { !user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${IMAGE_URL}${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
-                                                    </>
-                                                )
-                                            }
-                                        </Box>
-                                        {/* <Avatar name={`${firstName} ${lastName}`} size='md' marginX='10px' /> */}
+                                        <UserImage data={user} image={user?.data?.imgMain?.value} size={["40px"]} font={["15px"]} />
                                     </Link>
 
                                     <NotificationBar />

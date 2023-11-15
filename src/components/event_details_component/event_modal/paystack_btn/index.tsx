@@ -80,6 +80,7 @@ function PayStackBtn(props: Props) {
                 duration: 5000,
                 position: 'top-right',
             });
+            
 			queryClient.invalidateQueries(['all-events-details'+datainfo.id]) 
 		},
 		onError: (error: any) => { 
