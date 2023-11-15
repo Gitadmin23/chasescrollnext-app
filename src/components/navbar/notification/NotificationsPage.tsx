@@ -9,7 +9,7 @@ import { URLS } from '@/services/urls'
 import httpService from '@/utils/httpService'
 import { Box, Flex, Select, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import NotificationCard from './NotificationCard'
 import CustomText from '@/components/general/Text'
 
@@ -30,6 +30,17 @@ function NotificationPage(props: Props) {
             const item: PaginatedResponse<INotification> = data.data;
             console.log(item);
             setNotificatioons(item.content);
+            const ids = item.content.map((item) => item.id);
+            console.log(ids)
+            markAsRead.mutate(ids);
+        },
+        onError: () => {}
+    })
+
+    const markAsRead = useMutation({
+        mutationFn: (data: string[]) => httpService.put(`${URLS.MARK_NOTIFICATIONS_AS_READ}?notificationIDs=${data}&read=true`),
+        onSuccess: (data) => {
+            console.log(data.data);
         },
         onError: () => {}
     })

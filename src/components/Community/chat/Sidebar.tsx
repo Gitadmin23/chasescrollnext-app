@@ -37,6 +37,7 @@ function Sidebar() {
     }), {
         onSuccess: (data) => {
             const response: PaginatedResponse<ICommunity> = data.data;
+            console.log(response.content[0]);
             setLast(response.last);
             setCommunities(response.content);
         },
