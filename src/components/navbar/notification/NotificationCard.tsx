@@ -4,12 +4,44 @@ import { Avatar, Box, HStack, VStack, Image } from '@chakra-ui/react'
 import React from 'react'
 import moment from 'moment';
 import { IMAGE_URL } from '@/services/urls';
+import { useRouter } from 'next/navigation';
+import { useDetails } from '@/global-state/useUserDetails';
 
 function NotificationCard({ notification }: {
     notification: INotification
 }) {
+  const router = useRouter();
+  const { userId } = useDetails((state) => state)
+
+  const handleClick = () => {
+    switch(notification.type) {
+      case 'CHAT': {
+          router.push(`/dashboard/chats?activeID=${notification.typeID}`);
+          break;
+      }
+      case 'EVENT': {
+        router.push(`/dashboard/event/details/${notification.typeID}`);
+        break;
+      }
+      case 'FRIEND_REQUEST': {
+        router.push(`/dashboard/profile/${userId}/network?tab=request`);
+        break;
+      }
+      case 'GROUP_REQUEST': {
+        router.push(`/dashboard/community?tab=request`);
+        break;
+      }
+      case 'GROUP': {
+        router.push(`/dashboard/community?activeID=${notification.typeID}`);
+        break;
+      }
+      default:{
+        break;
+      }
+    }
+  }
   return (
-    <HStack alignItems={'center'} spacing={0} justifyContent={'space-between'} width='100%' height={'auto'} paddingY={'10px'} borderBottomWidth={'1px'} borderBottomColor='lightgrey' paddingX='10px'>
+    <HStack onClick={handleClick} alignItems={'center'} spacing={0} justifyContent={'space-between'} width='100%' height={'auto'} paddingY={'10px'} borderBottomWidth={'1px'} borderBottomColor='lightgrey' paddingX='10px'>
         <Box width='32px' height='32px' borderRadius={'36px 0px 36px 36px'} borderWidth={'1px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
           {notification?.recieverID?.data?.imgMain?.value === null && (
             <VStack color='brand.chasescrollButtonBlue' justifyContent={'center'} alignItems='center'>

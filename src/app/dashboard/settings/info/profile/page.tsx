@@ -9,12 +9,13 @@ import { editProfileSchema } from '@/services/validations'
 import { CustomInput } from '@/components/Form/CustomInput'
 import Link from 'next/link';
 import { useDetails } from '@/global-state/useUserDetails';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import httpService from '@/utils/httpService';
 import { IMAGE_URL, URLS } from '@/services/urls';
 import { IUser } from '@/models/User';
 import AWSHook from '@/hooks/awsHook';
 import { useRouter } from 'next/navigation'
+import { isValid } from 'zod';
 
 function EditProfile() {
     const [user, setUser] = React.useState<IUser | null>(null);
@@ -22,6 +23,7 @@ function EditProfile() {
     const [showEmail, setShowEmail] = React.useState(false);
     const { userId, firstName, lastName, username } = useDetails((state) => state);
     const { uploadedFile, fileUploadHandler, loading } = AWSHook();
+    const queryClient = useQueryClient();
 
     const ref = React.useRef<HTMLInputElement>(null);
     const router = useRouter();
@@ -43,17 +45,8 @@ function EditProfile() {
             website: string,
             aboutme: string
         }) => {
-            if (loading || isLoading || !isDirty) {
+            if (loading || isLoading || !isValid) {
                 return;
-            } else if (!isDirty) {
-                toast({
-                    title: 'Warning',
-                    description: 'You have to make changes first',
-                    status: 'warning',
-                    position: 'top-right',
-                    duration: 3000,
-                    isClosable: true,
-                })
             }
             else {
                 const dataOb = {
@@ -81,6 +74,7 @@ function EditProfile() {
 
     const { isLoading, isError } = useQuery(['getUserDetails', userId], () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`), {
         onSuccess: (data) => {
+            console.log(data.data);
             setUser(data.data);
             setValue('firstName', data?.data?.firstName);
             setValue('lastName', data?.data?.lastName);
@@ -112,6 +106,7 @@ function EditProfile() {
                 isClosable: true,
                 duration: 3000,
             });
+            queryClient.invalidateQueries(['getUserDetails'])
         },
         onError: (error: any) => {
             toast({

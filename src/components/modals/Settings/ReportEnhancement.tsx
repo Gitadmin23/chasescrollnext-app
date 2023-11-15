@@ -17,7 +17,7 @@ interface IProps {
 const REPORT_OPTIONS = [
     'UI',
     'Functionality',
-    'Suport',
+    'Support',
 ]
 
 function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {

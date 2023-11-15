@@ -26,7 +26,8 @@ function Sidebar() {
     const toast = useToast();
     const debounceValue = useDebounce(search);
     const  { userId } = useDetails((state) => state);
-    const { isLoading, isError, } = useQuery(['getJoinedGroups', debounceValue], () => httpService.get(`${URLS.JOINED_GROUPS}`, {
+    console.log(userId);
+    const { isLoading, isError, } = useQuery(['getJoinedGroups', debounceValue, userId], () => httpService.get(`${URLS.JOINED_GROUPS}`, {
         params: {
             page: 0,
             searchText: debounceValue,
@@ -67,7 +68,7 @@ function Sidebar() {
 
         <HStack alignItems={'center'}>
             <CustomText fontFamily={'DM-Medium'} fontSize={'20px'}>Community</CustomText>
-            <Button height={'16px'} width='42px' borderRadius={15} bg='#5D70F9' color='white' fontFamily={'Satoshi-Light'} variant={'solid'} fontSize='12px' >5 New</Button>
+            {/* <Button height={'16px'} width='42px' borderRadius={15} bg='#5D70F9' color='white' fontFamily={'Satoshi-Light'} variant={'solid'} fontSize='12px' >5 New</Button> */}
         </HStack>
 
         <Link href='/dashboard/community/create'>

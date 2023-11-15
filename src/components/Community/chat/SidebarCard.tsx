@@ -25,7 +25,11 @@ const SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({ community: comm 
                     )}
                     {
                         comm?.data?.imgSrc && (
-                            <Image src={`${IMAGE_URL}${comm.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                            <>
+                                { comm?.data.imgSrc.startsWith('https://') && <Image src={`${comm.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+
+                                { !comm?.data.imgSrc.startsWith('https://') && <Image src={`${IMAGE_URL}${comm.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                            </>
                         )
                     }
                 </Box>
