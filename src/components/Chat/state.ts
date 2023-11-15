@@ -21,6 +21,7 @@ type IChatPageState = {
     eventPageNumber: number;
     showEvents: boolean;
     showEmoji: boolean;
+    chatsIds: string[];
     setAll: (data: Partial<IChatPageState>) => void
 }
 
@@ -39,5 +40,6 @@ export const useChatPageState = create<IChatPageState>((set) => ({
     eventPageNumber: 0,
     showEvents: false,
     showEmoji: false,
+    chatsIds: [],
     setAll: (data) => set((state) => ({ ...state, ...data })),
 }))

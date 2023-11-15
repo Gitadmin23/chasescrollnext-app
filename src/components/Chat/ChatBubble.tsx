@@ -2,7 +2,7 @@
 import CustomText from '@/components/general/Text';
 import { useDetails } from '@/global-state/useUserDetails';
 import { IMediaContent } from '@/models/MediaPost'
-import { RESOURCE_BASE_URL, URLS } from '@/services/urls';
+import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import { Avatar, HStack, VStack, Image, Box, Spinner } from '@chakra-ui/react';
 import React from 'react'
@@ -91,7 +91,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
        <HStack  position={'relative'}  width='100%' justifyContent={'space-between'} alignItems={'flex-start'} flexDirection={self ? 'row':'row-reverse'}>
            
 
-            <VStack borderRadius='10px 20px 20px 0px'  bg={self ? 'white':'brand.chasescrrollButtonBlue'}  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
+            <VStack borderRadius='10px 20px 20px 0px'  bg={self ? 'white':'brand.chasescrollButtonBlue'}  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
                
                 {post.media !== null && (
                     <>
@@ -122,17 +122,17 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                     </>
                 )}
                 <Box padding='5px' width='100%' borderRadius={'12px 12px 12px 0px'}>
-                    {handleLinks(post?.message)}
+                    <CustomText color={self ? 'black':'white'} fontFamily={'DM-Regular'} fontSize={'14px'}>{handleLinks(post?.message)}</CustomText>
                 </Box>
                 <HStack>
-                    { !self && (
+                    {/* { !self && (
                         <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{post?.createdBy?.username[0]?.toUpperCase()}{post?.createdBy?.username.substring(1, post?.createdBy?.username.length)}</CustomText>
-                    )}
-                    <CustomText fontFamily={'DM-Medium'} fontSize={'12px'}>{moment(post?.createdDate).format('HH:MM')}</CustomText>
+                    )} */}
+                    <CustomText color={self ? 'black':'white'} fontFamily={'DM-Medium'} fontSize={'12px'}>{moment(post?.createdDate).format('HH:MM')}</CustomText>
                    {!self && (
-                     <HStack>
-                        <FiCheck fontSize='16px' color={THEME.COLORS.chasescrollButtonBlue} />
-                        <FiCheck fontSize='16px' color={THEME.COLORS.chasescrollButtonBlue} />
+                     <HStack spacing={0}>
+                        <FiCheck fontSize='16px' color={'white'} />
+                        <FiCheck fontSize='16px' color={'white'} />
                     </HStack>   
                    )}
                 </HStack>
@@ -147,7 +147,11 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                     )}
                     {
                         post?.createdBy.data.imgMain.value && (
-                            <Image src={`${RESOURCE_BASE_URL}${post?.createdBy.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                           <>
+                            { post?.createdBy.data.imgMain.value.startsWith('https://') &&  <Image src={`${post?.createdBy.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+
+                            { !post?.createdBy.data.imgMain.value.startsWith('https://') &&  <Image src={`${IMAGE_URL}${post?.createdBy.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                           </>
                         )
                     }
                 </Box>

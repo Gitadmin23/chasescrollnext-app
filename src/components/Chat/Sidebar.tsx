@@ -1,13 +1,13 @@
 import CustomText from '@/components/general/Text'
-import { HStack, VStack, Button, InputGroup, InputLeftElement, Input, Box, Avatar, useToast } from '@chakra-ui/react'
+import { HStack, VStack, Button, InputGroup, InputLeftElement, Input, Box, Avatar, useToast, Spinner, Image } from '@chakra-ui/react'
 import { IoMdSearch } from 'react-icons/io'
 import React from 'react'
 import { THEME } from '@/theme'
 import SidebarCard from './SidebarCard'
 import { useDetails } from '@/global-state/useUserDetails'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import httpService from '@/utils/httpService'
-import { URLS } from '@/services/urls'
+import { IMAGE_URL, URLS } from '@/services/urls'
 import { Chat } from '@/models/Chat'
 import { PaginatedResponse } from '@/models/PaginatedResponse'
 import useDebounce from '@/hooks/useDebounce'
@@ -15,12 +15,69 @@ import { useChatPageState } from './state'
 import { useRouter } from 'next/navigation';
 import { SearchNormal1 } from 'iconsax-react'
 import { IUser } from '@/models/User'
+import { uniq } from 'lodash'
 
 
-const ARRAY = [1,2,3,4,5,6,7,8,9,10];
+const ARRAY = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+const OnlineUser = ({ id }: { id: string }) => {
+    const { setAll } = useChatPageState((state) => state)
+    const [user, setUser] = React.useState<IUser|null>(null);
+    const { isLoading, isError } =  useQuery(['getOnlineUserProfile', id], () => httpService.get(`${URLS.GET_PUBLIC_PROIFLE}/${id}`), {
+        onSuccess: (data) => {
+            setUser(data?.data);
+            console.log(data.data);
+        },
+        onError: () => {},
+    })
+
+    // mutations
+    const createChat = useMutation({
+        mutationFn: () => httpService.post(`${URLS.CREATE_CHAT}`, {
+            "type": "ONE_TO_ONE",
+            // "typeID": user?.userId,
+            users: [
+                user?.userId
+            ]
+          }),
+          onSuccess: (data) => {
+            setAll({ activeChat: data?.data, messages: [], pageNumber: 0, activeMessageId: undefined });
+          },
+          onError: () => {}
+    });
+
+    return (
+        <Box onClick={() => createChat.isLoading ? null: createChat.mutate()} cursor='pointer' display={'inline-block'} width={'45px'} height='45px' position={'relative'} borderRadius={'20px'} marginRight={'20px'} >
+            <Box width={'10px'} height={'10px'} borderRadius={'5px'} bg='brand.chasescrollButtonBlue' position={'absolute'} right='0px' top="-5px" />
+            { isLoading && (
+                <HStack justifyContent={'center'} alignItems={'center'} width='45px' height='45px' borderRadius='36px 0px 36px 36px' borderWidth={'2px'} borderColor={THEME.COLORS.borderColor}>
+                    <Spinner />
+                </HStack>
+            ) }
+             { !isLoading && (
+                <HStack spacing={0} justifyContent={'center'} alignItems={'center'} width='45px' height='45px' borderRadius='36px 0px 36px 36px' borderWidth={'2px'} borderColor={THEME.COLORS.borderColor}>
+                    { user?.data.imgMain.value === null && (
+                        <>
+                            <CustomText fontFamily={'DM-Bold'} fontSize={['12px', '14px']}>{user?.firstName[0].toUpperCase()}</CustomText>
+                            <CustomText fontFamily={'DM-Bold'} fontSize={['12px', '14px']}>{user?.lastName[0].toUpperCase()}</CustomText>  
+                        </>
+                    )}
+                    { user?.data.imgMain.value !== null && (
+                        <>
+                            { user?.data.imgMain.value.startsWith('https://') && <Image alt='profilie' src={user?.data.imgMain.value} width='100%' height='100%' /> }
+                            { !user?.data.imgMain.value.startsWith('https://') && <Image alt='profilie' src={`${IMAGE_URL} + ${user?.data.imgMain.value}`} width='100%' height='100%' /> }
+                            <CustomText>{user?.lastName[0].toUpperCase()}</CustomText>  
+                        </>
+                    )}
+                </HStack>
+            ) }
+        </Box>
+    )
+}
 
 function Sidebar() {
     const [chats, setChats] = React.useState<Chat[]>([])
+    const [onlineUsers, setOnlineUsers] = React.useState<string[]>([])
     const [search, setSearch] = React.useState('');
     const [last, setLast] = React.useState(false);
     const [page, setPage] = React.useState(0);
@@ -31,15 +88,17 @@ function Sidebar() {
     const toast = useToast();
     const debounceValue = useDebounce(search);
     const { userId } = useDetails((state) => state);
-    const {} = useChatPageState((state) => state);
-    const onlineUsers = useQuery(['onlineUser', userId], () => httpService.get(`${URLS.ONLINE_USERS}`), {
+    const { setAll, chatsIds } = useChatPageState((state) => state);
+    const getonlineUsers = useQuery(['onlineUser', userId], () => httpService.get(`${URLS.ONLINE_USERS}`), {
+        
         onSuccess: (data) => {
-            const item: PaginatedResponse<IUser> = data.data;
+            const item: string[] = data.data;
             console.log(item);
+            setOnlineUsers(prev =>  uniq(item.filter((item) => !chatsIds.includes(item)) ));
         },
-        onError: (error) => {},
+        onError: (error) => { },
     })
-    const { isLoading, isError, }= useQuery(['getChats', userId], () => httpService.get(`${URLS.GET_CHATS}`, {
+    const { isLoading, isError, } = useQuery(['getChats', userId], () => httpService.get(`${URLS.GET_CHATS}`, {
         params: {
             page: 0,
             searchText: debounceValue,
@@ -50,6 +109,8 @@ function Sidebar() {
             const item: PaginatedResponse<Chat> = data.data;
             setLast(item.last);
             setChats(item.content);
+            console.log(item.content[0]);
+            //setAll({ chatsIds: item.content.map((itemm) => itemm?.otherUser?.userId )});
         }
     })
 
@@ -57,96 +118,95 @@ function Sidebar() {
         if (isLoading) return;
         if (intObserver.current) intObserver.current.disconnect();
         intObserver.current = new IntersectionObserver((posts) => {
-          if (posts[0].isIntersecting && last) {
-            setPage(prev => prev + 1); 
-          }
+            if (posts[0].isIntersecting && last) {
+                setPage(prev => prev + 1);
+            }
         });
         if (post) intObserver.current.observe(post);
-       }, [isLoading, last, setPage]);
-  return (
-   <VStack width='100%' height={'100%'} paddingX={'0px'}>
+    }, [isLoading, last, setPage]);
+    return (
+        <VStack width='100%' height={'100%'} paddingX={'0px'}>
 
-    <VStack width={'100%'} paddingX={'10px'}>
+            <VStack width={'100%'} paddingX={'10px'}>
 
-        {/* ONLINE USERS */}
-        {/* <VStack width='100%' height={'120px'} paddingBottom={'10px'} alignItems={'flex-start'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingTop={'10px'}>
+                {/* ONLINE USERS */}
+                {
+                    !getonlineUsers.isLoading && !getonlineUsers.isError && onlineUsers.length > 0 && (
+                        <VStack width='100%' height={'120px'} paddingBottom={'10px'} alignItems={'flex-start'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingTop={'10px'}>
 
-            <Box width='100%' height={'100%'} overflowX={'auto'} display={'inline-block'} whiteSpace={'nowrap'} paddingTop={'10px'} >
-                { ARRAY.map((item, index) => (
-                    <Box display={'inline-block'} width={'45px'} height='45px' position={'relative'}  borderRadius={'20px'}  marginRight={'20px'} key={index.toString()}>
-                        <Box width={'10px'} height={'10px'} borderRadius={'5px'} bg='brand.chasescrollButtonBlue' position={'absolute'} right='0px' top="-5px" />
-                        <Box width='45px' height='45px' borderRadius='36px 0px 36px 36px' borderWidth={'2px'} borderColor={THEME.COLORS.borderColor}>
+                            <Box width='100%' height={'100%'} overflowX={'auto'} display={'inline-block'} whiteSpace={'nowrap'} paddingTop={'10px'} >
+                                {onlineUsers.map((item, index) => (
+                                    <OnlineUser id={item} key={index.toString()} />
+                                ))}
+                            </Box>
+                            <CustomText fontFamily={'Satoshi-Medium'} fontSize={'14px'}>Users Online</CustomText>
+                        </VStack>
+                    )
+                }
 
-                        </Box>
-                    </Box>
-                ))}
-            </Box>
-            <CustomText fontFamily={'Satoshi-Medium'} fontSize={'14px'}>Users Online</CustomText>
-        </VStack> */}
+                <HStack width={'100%'} height={'60px'} justifyContent={'space-between'}>
 
-        <HStack width={'100%'} height={'60px'} justifyContent={'space-between'}>
+                    <HStack alignItems={'center'}>
+                        <CustomText fontFamily={'DM-Medium'} fontSize={'3xl'}>Chats</CustomText>
+                    </HStack>
 
-        <HStack alignItems={'center'}>
-            <CustomText fontFamily={'DM-Medium'} fontSize={'3xl'}>Chats</CustomText>
-        </HStack>
+                    <Button onClick={() => router.push('/dashboard/chats/create')} variant={'unstyled'} width='120px' height={'30px'} borderWidth={'1px'} borderRadius={'20px'} borderColor={'brand.chasescrollButtonBlue'} color='brand.chasescrollButtonBlue' >
+                        Create Group
+                    </Button>
 
-        <Button onClick={() => router.push('/dashboard/chats/create')} variant={'unstyled'} width='120px' height={'30px'} borderWidth={'1px'} borderRadius={'20px'} borderColor={'brand.chasescrollButtonBlue'} color='brand.chasescrollButtonBlue' >
-            Create Group
-        </Button>
+                </HStack>
 
-        </HStack>
+                {/* SEARCH BAR */}
+                <InputGroup>
+                    <InputLeftElement>
+                        <SearchNormal1 size='25px' color={THEME.COLORS.chasescrollButtonBlue} />
+                    </InputLeftElement>
+                    <Input width='100%' height={'45px'} placeholder='search message' borderRadius={'10'} borderWidth={'1px'} borderColor={'lightgrey'} bg='whitesmoke' />
+                </InputGroup>
+            </VStack>
 
-        {/* SEARCH BAR */}
-        <InputGroup>
-            <InputLeftElement>
-                <SearchNormal1 size='25px' color={THEME.COLORS.chasescrollButtonBlue} />
-            </InputLeftElement>
-            <Input width='100%' height={'45px'} placeholder='search message' borderRadius={'10'} borderWidth={'1px'} borderColor={'lightgrey'} bg='whitesmoke' />
-        </InputGroup>
-    </VStack>
-
-      {/* CHATS */}
-      {
-        !isLoading && !isError && chats.length > 0 && (
-            <Box width={'100%'} height={'100%'} overflowY={'auto'} paddingBottom={'100px'}>
+            {/* CHATS */}
             {
-                 !isLoading && !isError && chats.length > 0 && chats.sort((a: Chat, b: Chat) => {
-                    if (a.lastModifiedDate > b.lastModifiedDate) {
-                        return -1
-                    } else {
-                        return 1
-                    }
-                    return 0
-                 }).map((item, index) => {
-                     if (index === chats.length - 1) {
-                         return <SidebarCard ref={lastChildRef} key={index.toString()} chat={item} />
-                     } else {
-                         return <SidebarCard key={index.toString()} chat={item} />
-                     }
-                 })
-             }
-            </Box>
-        )
-    }
+                !isLoading && !isError && chats.length > 0 && (
+                    <Box width={'100%'} height={'100%'} overflowY={'auto'} paddingBottom={'100px'}>
+                        {
+                            !isLoading && !isError && chats.length > 0 && chats.sort((a: Chat, b: Chat) => {
+                                if (a.lastModifiedDate > b.lastModifiedDate) {
+                                    return -1
+                                } else {
+                                    return 1
+                                }
+                                return 0
+                            }).map((item, index) => {
+                                if (index === chats.length - 1) {
+                                    return <SidebarCard ref={lastChildRef} key={index.toString()} chat={item} />
+                                } else {
+                                    return <SidebarCard key={index.toString()} chat={item} />
+                                }
+                            })
+                        }
+                    </Box>
+                )
+            }
 
-    {
-        !isLoading && !isError && chats.length < 1 && (
-            <HStack width={'100%'} height='50px' justifyContent={'center'} alignItems={'center'}>
-                <CustomText fontFamily={'Satoshi-Medium'} fontSize={'18'} textAlign={'center'}>You have not joined any group</CustomText>
-            </HStack>
-        )
-    }
+            {
+                !isLoading && !isError && chats.length < 1 && (
+                    <HStack width={'100%'} height='50px' justifyContent={'center'} alignItems={'center'}>
+                        <CustomText fontFamily={'Satoshi-Medium'} fontSize={'18'} textAlign={'center'}>You have not joined any group</CustomText>
+                    </HStack>
+                )
+            }
 
-    {
-        !isLoading && isError && (
-            <HStack width={'100%'} height='50px' justifyContent={'center'} alignItems={'center'}>
-                <CustomText fontFamily={'Satoshi-Medium'} fontSize={'18'} textAlign={'center'}>You have not joined any group</CustomText>
-            </HStack>
-        )
-    }
+            {
+                !isLoading && isError && (
+                    <HStack width={'100%'} height='50px' justifyContent={'center'} alignItems={'center'}>
+                        <CustomText fontFamily={'Satoshi-Medium'} fontSize={'18'} textAlign={'center'}>You have not joined any group</CustomText>
+                    </HStack>
+                )
+            }
 
-   </VStack>
-  )
+        </VStack>
+    )
 }
 
 export default Sidebar

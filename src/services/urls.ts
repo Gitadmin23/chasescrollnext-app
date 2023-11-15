@@ -76,7 +76,8 @@ export const URLS = {
     GET_MESSAGE_COUNT: '/chat/new_message_count',
     GET_PUBLIC_PROIFLE: '/user/publicprofile',
     DELETE_ACCOUNT: '/auth/user',
-    DELETE_GROUP: '/group/group'
+    DELETE_GROUP: '/group/group',
+    CREATE_CHAT: '/chat/chat'
     //GET_MEDIA_POST : "/feed/get-users-media-posts?userID="
 }
 

@@ -172,7 +172,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       </CustomText>
 
       {post?.type === 'WITH_IMAGE' || post?.type === 'MULTIPLE_PICTURE' && (
-        <Box onClick={handleImageClick} width='100%' height={'200px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'}>
+        <Box onClick={handleImageClick} width='100%' height={'200px'} maxHeight={'250px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'}>
          { post.mediaRef.startsWith('https://') &&  <Image src={`${post?.mediaRef}`} alt='image' style={{ width: '100%', height: '100%' }} />}
          { !post.mediaRef.startsWith('https://') &&  <Image src={`${IMAGE_URL}${post?.mediaRef}`} alt='image' style={{ width: '100%', height: '100%' }} />}
         </Box>
