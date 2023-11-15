@@ -36,7 +36,7 @@ function EventCategory(props: Props) {
         <Flex pb={"8"} flexDirection={"column"} overflowX={"hidden"} >
             <Box width={"full"} overflowX={"auto"} >
                 <Flex gap={"4"} width={"fit-content"} py={"4"} >
-                    <Button onClick={()=> setEventCategory("All Event")} width={"150px"} height={"45px"} fontSize={"sm"} fontWeight={"semibold"} bg={!event_category ? "brand.chasescrollBlue" : "#98929214"} color={!event_category ? "white" : ""} >All Event</Button>
+                    <Button onClick={()=> setEventCategory("")} width={"150px"} height={"45px"} fontSize={"sm"} fontWeight={"semibold"} bg={!event_category ? "brand.chasescrollBlue" : "#98929214"} color={!event_category ? "white" : ""} >All Event</Button>
                     {data?.map((item: any) => {
                         return (
                             <Button onClick={()=> clickHandler(item)} key={item} width={"180px"} height={"45px"} fontSize={"sm"} fontWeight={"semibold"} bg={event_category === item ? "brand.chasescrollBlue" : "#98929214"} borderColor={"brand.chasescrollBlue"} borderWidth={"1px"} color={event_category === item ? "white" : "brand.chasescrollBlue"} >{item?.split("_")?.join(" ")}</Button>

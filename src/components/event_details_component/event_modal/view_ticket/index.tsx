@@ -47,7 +47,7 @@ function ViewTicket(props: Props) {
                 <Text fontSize={"20px"} fontWeight={"bold"} textAlign={"center"} >Ticket Details</Text>
             </Flex>
             <Flex alignItems={"center"} gap={"4"} py={"2"} borderBottom={"1px solid #E2E8F0"}  >
-                <EventImage width={"150x"} height={"110px"} data={datainfo?.event} />
+                <EventImage width={"150px"} height={"110px"} data={datainfo?.event} />
                 <Box>
                     <Text fontSize={"17px"} fontWeight={"bold"} >{datainfo?.event?.eventName}</Text>
                     <EventLocationDetail location={datainfo?.event?.location} fontWeight={"medium"} color={"brand.chasescrollBlue"} fontsize='sm' noicon={true} locationType={datainfo?.locationType} />
@@ -85,7 +85,7 @@ function ViewTicket(props: Props) {
                 </Flex>
                 <Flex p={"4"} flexBasis={"50%"} width={"full"} flexDirection={"column"} gap={"4"} fontSize={"xs"} >
 
-                    <UserImage size={58} data={datainfo?.createdBy} />
+                    <UserImage size={58} image={datainfo?.createdBy?.data?.imgMain?.value} data={datainfo?.createdBy} />
                     <Flex flexDirection={"column"} gap={"2"} >
                         <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Name</Text>
                         <Text color={"brand.chasescrollTextGrey"} >{userName}</Text>

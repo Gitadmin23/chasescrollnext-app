@@ -1,9 +1,9 @@
 import CustomButton from '@/components/general/Button'
 import AddOrRemoveUserBtn from '@/components/sharedComponent/add_remove_user_btn'
 import UserImage from '@/components/sharedComponent/userimage'
-import { URLS } from '@/services/urls'
+import useSearchStore from '@/global-state/useSearchData' 
 import httpService from '@/utils/httpService'
-import { Box, Flex, Text, border, useToast } from '@chakra-ui/react'
+import { Box, Flex, Text, useToast } from '@chakra-ui/react'
 import { AxiosError, AxiosResponse } from 'axios'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -33,6 +33,8 @@ function PeopleCard(props: Props) {
     } = props
 
     const [isFriend, setisFriend] = React.useState(person?.joinStatus)
+
+    const { setSearchValue } = useSearchStore((state) => state);
     const router = useRouter()
     const toast = useToast()
     // const [loading, setLoading] = React.useState("")
@@ -72,13 +74,17 @@ function PeopleCard(props: Props) {
         refundUser.mutate()
     }, [refundUser])
 
-
+    const submit =()=> {
+        setSearchValue("")
+        router.replace("/dashboard/profile/" + person?.userId)
+    }
+    
 
     return (
-        <Flex as={"button"} onClick={() => router.replace("/dashboard/profile/" + person?.userId)} _hover={{ backgroundColor: "#f1f2ff" }} px={"2"} width={"full"} justifyContent={"space-between"} alignItems={"center"} py={"4"} borderBottomWidth={"1px"} >
+        <Flex as={"button"} onClick={() => submit()} _hover={{ backgroundColor: "#f1f2ff" }} px={"2"} width={"full"} justifyContent={"space-between"} alignItems={"center"} py={"4"} borderBottomWidth={"1px"} >
             <Flex width={["60vw", "fit-content"]} gap={"2"} alignItems={"center"} >
-                <Box>
-                    <UserImage fontWeight={"semibold"} border={search ? "1px" : "3px"} data={person} size={search ? "32px" : 50} font={search ? "[16px]" : '[30px]'} />
+                <Box> 
+                    <UserImage fontWeight={"semibold"} border={search ? "1px" : "3px"} data={person} image={person?.data?.imgMain?.value} size={search ? "32px" : 50} font={search ? "[16px]" : '[30px]'} />
                 </Box>
                 <Box>
                     <Text fontSize={request ? "14px" : search ? "14px" : "15px"} fontWeight={"medium"} >{(person?.firstName + " " + person?.lastName)?.length > 15 ? (person?.firstName + " " + person?.lastName)?.slice(0, 15) + "..." : (person?.firstName + " " + person?.lastName)}</Text>
