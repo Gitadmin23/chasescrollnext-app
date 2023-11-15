@@ -85,7 +85,7 @@ function ViewTicket(props: Props) {
                 </Flex>
                 <Flex p={"4"} flexBasis={"50%"} width={"full"} flexDirection={"column"} gap={"4"} fontSize={"xs"} >
 
-                    <UserImage size={58} data={datainfo?.createdBy} />
+                    <UserImage size={58} image={datainfo?.createdBy?.data?.imgMain?.value} data={datainfo?.createdBy} />
                     <Flex flexDirection={"column"} gap={"2"} >
                         <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Name</Text>
                         <Text color={"brand.chasescrollTextGrey"} >{userName}</Text>
