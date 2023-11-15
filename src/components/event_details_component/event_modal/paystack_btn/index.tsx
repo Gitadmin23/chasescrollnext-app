@@ -26,9 +26,7 @@ function PayStackBtn(props: Props) {
 
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY; 
 
-    const queryClient = useQueryClient()  
-	const [orderCode, setOrderCode] = useState("")
-    const [clientKey, setClientKey] = useState("")
+    const queryClient = useQueryClient()   
     const toast = useToast()
     const [config, setConfig] = useState({
         email: "",
@@ -56,7 +54,7 @@ function PayStackBtn(props: Props) {
                 email: data?.data?.content?.email,
                 amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
                 reference: data?.data?.content?.orderCode
-            });
+            }); 
         },
         onError: (error) => { 
             console.log(error);
@@ -82,12 +80,7 @@ function PayStackBtn(props: Props) {
                 duration: 5000,
                 position: 'top-right',
             });
-			queryClient.invalidateQueries(['all-events-details'+datainfo.id])
-			// getData() 
-			// toast.success('Payment verified');
-			// setLoading(false)  
-			// closeModal()
-            // close(false)
+			queryClient.invalidateQueries(['all-events-details'+datainfo.id]) 
 		},
 		onError: (error: any) => { 
             toast({
@@ -102,9 +95,7 @@ function PayStackBtn(props: Props) {
 	}); 
 
 
-	const onSuccess = (reference: any) => { 
-		// setOrderCode(reference?.reference) 
-        
+	const onSuccess = (reference: any) => {  
         payStackMutation.mutate(reference?.reference);
 	};  
 	
@@ -118,15 +109,7 @@ function PayStackBtn(props: Props) {
 		if(config?.reference?.length !== 0) {  
 			initializePayment(onSuccess, onClose)
 		} 
-	}, [config, clientKey])
- 
-	// React.useEffect(()=> { 
-    //     if (orderCode) {
-    //         console.log(`Making paystack payment`); 
-    //         payStackMutation.mutate(orderCode);
-    //         return;
-    //     } 
-    // }, [orderCode]);
+	}, [config]) 
 
     const clickHandler = React.useCallback(() => {
         createTicket.mutate({

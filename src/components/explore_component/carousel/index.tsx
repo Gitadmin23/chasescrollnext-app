@@ -1,5 +1,6 @@
 import { CustomCarousel } from '@/components/customCarousel';
 import GetEventTicket from '@/components/event_details_component/get_event_ticket';
+import BlurredImage from '@/components/sharedComponent/blurred_image';
 import EventLocationDetail from '@/components/sharedComponent/event_location';
 import EventPrice from '@/components/sharedComponent/event_price';
 import InterestedUsers from '@/components/sharedComponent/interested_users';
@@ -45,7 +46,9 @@ function ExploreCarousel(props: Props) {
                                 <>  
                                     <Box onClick={()=> router.replace("/dashboard/event/details/" + item?.id)}  key={index} role='button' bg={"white"} rounded={"32px"} roundedTopRight={"0px"} width={"full"} height={["fit-content", "fit-content", "fit-content"]} p={"3"} >
                                         <Box position={"relative"} width={"full"} >
-                                            <Image style={{ borderTopRightRadius: "0px", borderRadius: "32px" }} objectFit="cover" alt={item?.currentPicUrl} width={"full"} height={["256px", "256px", "350px"]} src={IMAGE_URL + item?.currentPicUrl} />
+
+                                            <BlurredImage height={["256px", "256px", "350px"]} image={item?.currentPicUrl} />
+                                            {/* <Image style={{ borderTopRightRadius: "0px", borderRadius: "32px" }} objectFit="cover" alt={item?.currentPicUrl} width={"full"} height={["256px", "256px", "350px"]} src={IMAGE_URL + item?.currentPicUrl} /> */}
                                             <Box color={"#121212"} zIndex={"10"} roundedBottom={"8px"} roundedTopLeft={"8px"} alignItems={"center"} justifyContent={"center"} display={"flex"} flexDirection={"column"} fontWeight={"semibold"} position={"absolute"} bottom={"10px"} left={"10px"} width={["36px", "36px", "57px"]} height={["36px", "36px", "51px"]} bgColor={"white"} >
                                                 <Text fontSize={["20px", "20px", "24px"]} >{moment(item?.startDate).format("D")}</Text>
                                                 <Text fontSize={["11px", "11px", "13px"]} mt={"-8px"} >{moment(item?.startDate).format("MMM")}</Text>

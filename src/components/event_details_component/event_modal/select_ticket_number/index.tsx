@@ -20,6 +20,7 @@ interface Props {
         totalNumberOfTickets: number,
         ticketCount: number,
         ticketType: string,
+        ticketsSold: number
     },
     numbOfTicket: any, 
     setNumberOfTicket: any,
@@ -63,8 +64,7 @@ function SelectTicketNumber(props: Props) {
             queryClient.invalidateQueries(['all-events-details'+data.id]) 
             close(false)
         },
-        onError: (error) => { 
-            console.log(error);
+        onError: (error) => {  
             toast({
                 title: 'Error',
                 description: "Error Creating Ticket",
@@ -89,6 +89,36 @@ function SelectTicketNumber(props: Props) {
         }
     }
 
+    const addticket =()=> {
+
+    if ((selectedTicket?.totalNumberOfTickets - selectedTicket?.ticketsSold) <= numbOfTicket) {
+        
+        toast({
+            title: 'Error',
+            description: numbOfTicket + " Ticket is Remaining for this Event",
+            status: 'error',
+            isClosable: true,
+            duration: 5000,
+            position: 'top-right',
+        });  
+      } else {
+        if (selectedTicket?.maxTicketBuy === numbOfTicket) {
+
+            toast({
+                title: 'Error',
+                description: "Limit of Ticket is " + numbOfTicket,
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });  
+        } else {
+            setNumberOfTicket((prev: any) => prev + 1)
+        }
+      }
+
+    } 
+
 
     return (
         <Box width={"full"} bg={"white"} px={"8"} py={"10"} >
@@ -104,11 +134,11 @@ function SelectTicketNumber(props: Props) {
                     Number of Tickets
                 </Text>
                 <Flex gap={"5"} alignItems={"center"} py={"1"}  >
-                    <Box onClick={() => setNumberOfTicket((prev: any) => prev - 1)} as='button' >
+                    <Box disabled={numbOfTicket === 1} onClick={() => setNumberOfTicket((prev: any) => prev - 1)} as='button' >
                         <SubtractIcon />
                     </Box>
                     {numbOfTicket}
-                    <Box onClick={() => setNumberOfTicket((prev: any) => prev + 1)} as='button' >
+                    <Box onClick={() => addticket()} as='button' >
                         <AddIcon />
                     </Box>
                 </Flex>

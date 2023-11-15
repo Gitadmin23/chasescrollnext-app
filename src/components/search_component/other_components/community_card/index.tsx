@@ -1,6 +1,8 @@
 import CommunityImage from '@/components/sharedComponent/community_image'
 import JoinOrLeaveCommunityBtn from '@/components/sharedComponent/join_leave_community_btn'
+import useSearchStore from '@/global-state/useSearchData'
 import { Box, Flex, Text } from '@chakra-ui/react' 
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 interface Props {
@@ -15,6 +17,14 @@ function CommunityCard(props: Props) {
         searchbar,
         profile
     } = props
+
+    const router = useRouter()
+    
+    const { setSearchValue } = useSearchStore((state) => state);
+    const submit =()=> {
+        setSearchValue("")
+        router.replace("/dashboard/profile/")
+    }
 
     return (
         <Flex width={"full"} borderBottomWidth={searchbar ? "1px" : "0px"} justifyContent={"space-between"} alignItems={"center"} py={"2"} >

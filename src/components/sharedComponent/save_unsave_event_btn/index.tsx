@@ -35,9 +35,7 @@ function SaveOrUnsaveBtn(props: Props) {
                 position: 'top-right',
             });
         },
-        onSuccess: (data: AxiosResponse<any>) => {
-            console.log(data);
-            
+        onSuccess: (data: AxiosResponse<any>) => { 
             toast({
                 title: 'Success',
                 description: data.data?.message,

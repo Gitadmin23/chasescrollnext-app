@@ -47,7 +47,7 @@ function ViewTicket(props: Props) {
                 <Text fontSize={"20px"} fontWeight={"bold"} textAlign={"center"} >Ticket Details</Text>
             </Flex>
             <Flex alignItems={"center"} gap={"4"} py={"2"} borderBottom={"1px solid #E2E8F0"}  >
-                <EventImage width={"150x"} height={"110px"} data={datainfo?.event} />
+                <EventImage width={"150px"} height={"110px"} data={datainfo?.event} />
                 <Box>
                     <Text fontSize={"17px"} fontWeight={"bold"} >{datainfo?.event?.eventName}</Text>
                     <EventLocationDetail location={datainfo?.event?.location} fontWeight={"medium"} color={"brand.chasescrollBlue"} fontsize='sm' noicon={true} locationType={datainfo?.locationType} />
