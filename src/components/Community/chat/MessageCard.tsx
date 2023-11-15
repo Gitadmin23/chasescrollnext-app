@@ -2,7 +2,7 @@
 import CustomText from '@/components/general/Text';
 import { useDetails } from '@/global-state/useUserDetails';
 import { IMediaContent } from '@/models/MediaPost'
-import { RESOURCE_BASE_URL, URLS } from '@/services/urls';
+import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import { Avatar, HStack, VStack, Image, Box, Spinner } from '@chakra-ui/react';
 import React from 'react'
@@ -102,8 +102,12 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
 
             <VStack borderRadius='10px 20px 20px 0px' bg={shoowSubmenu ? 'lightgrey':'transparent'} padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
                 <HStack>
-                    <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{post?.user?.username[0].toUpperCase()}{post?.user?.username.substring(1, post?.user?.username.length)}</CustomText>
-                    <CustomText fontFamily={'DM-Medium'} fontSize={'12px'}>{moment(post?.timeInMilliseconds).format('HH:MM')}</CustomText>
+                    <CustomText fontFamily={'DM-Bold'} fontSize={'16px'} color='brand.chasescrollButtonBlue'>
+                        <span>{post?.user?.firstName[0].toUpperCase()}{post?.user?.firstName.substring(1, post?.user?.firstName.length)}</span>
+                        <span> </span>
+                        <span>{post?.user?.lastName[0].toUpperCase()}{post?.user?.lastName.substring(1, post?.user?.lastName.length)}</span>
+                    </CustomText>
+                    <CustomText fontFamily={'DM-Bold'} fontSize={'14px'}>{moment(post?.timeInMilliseconds).format('HH:MM')}</CustomText>
                 </HStack>
                 {post.mediaRef !== null && (
                     <>
@@ -133,7 +137,7 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                 )}
                 <Box padding='5px' width='100%'>
                     {/* <LinkExtractor text={post?.text} /> */}
-                    {handleLinks(post?.text)}
+                    <CustomText fontFamily={'DM-Regular'} fontSize={'14px'}>{handleLinks(post?.text)}</CustomText>
                     {/* <CustomText width={'100%'} textOverflow={'clip'} color={'black'} fontFamily={'Satoshi-Regular'} fontSize={'md'}>{post?.text}</CustomText> */}
                 </Box>
                 <HStack>
@@ -151,7 +155,11 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                     )}
                     {
                         post?.user.data.imgMain.value && (
-                            <Image src={`${RESOURCE_BASE_URL}${post?.user.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                            <>
+                                { post?.user.data.imgMain.value.startsWith('https://') && <Image src={`${post?.user.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+
+                                { !post?.user.data.imgMain.value.startsWith('https://') && <Image src={`${IMAGE_URL}${post?.user.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                            </>
                         )
                     }
                 </Box>

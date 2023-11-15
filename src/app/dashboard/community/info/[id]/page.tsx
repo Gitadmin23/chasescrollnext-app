@@ -1,10 +1,10 @@
 'use client';
 import CustomText from '@/components/general/Text'
-import { Box, HStack, Spinner, VStack, InputGroup, InputLeftElement, Input, Image, Grid, GridItem } from '@chakra-ui/react'
+import { Box, HStack, Spinner, VStack, InputGroup, InputLeftElement, Input, Image, Grid, GridItem, useToast } from '@chakra-ui/react'
 import React from 'react'
-import { FiBell, FiChevronLeft, FiDownloadCloud, FiEdit2, FiLink, FiLogIn, FiSettings } from 'react-icons/fi'
+import { FiBell, FiChevronLeft, FiDownloadCloud, FiEdit2, FiLink, FiLogIn, FiSettings, FiTrash2 } from 'react-icons/fi'
 import { useParams, useRouter } from 'next/navigation'
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import httpService from '@/utils/httpService';
 import { IMAGE_URL, URLS } from '@/services/urls';
 import { PaginatedResponse } from '@/models/PaginatedResponse';
@@ -18,6 +18,7 @@ import { FILE_FORMATS } from '@/utils/acceptedMediatypes';
 import { useDetails } from '@/global-state/useUserDetails';
 import { uniqBy } from 'lodash';
 import ShareEvent from '@/components/sharedComponent/share_event';
+import { useCommunityPageState } from '@/components/Community/chat/state';
 
 
 function CommunityInfo() {
@@ -28,7 +29,11 @@ function CommunityInfo() {
   const [mediaTab, setMediaTab] = React.useState(1);
   const page = useParams();
   const router = useRouter();
-  const { userId } = useDetails((state)=> state)
+  const toast = useToast();
+  const { userId } = useDetails((state)=> state);
+  const queryClient = useQueryClient();
+
+  const { setAll } = useCommunityPageState((state) => state);
 
   const admin = userId === details?.creator?.userId;
 
@@ -68,6 +73,57 @@ function CommunityInfo() {
     const item: PaginatedResponse<ICommunityMember> = data.data;
     setMembers(prev => uniqBy([...prev, ...item.content], 'id'));
   }
+  });
+
+  const leaveGroup = useMutation({
+    mutationFn: () => httpService.delete(`${URLS.LEAVE_GROUP}`, {
+      params: {
+        groupID: details?.id,
+        userID: userId
+      }
+    }),
+    onSuccess: () => {
+      toast({
+        title: 'Success',
+        description: 'Successfully left the group',
+        status: 'success',
+        position: 'top-right',
+        duration: 5000,
+      })
+      queryClient.invalidateQueries(['getJoinedGroups']);
+      setAll({ activeCommunity: null, pageNumber: 0, hasNext: false, messages: [] })
+      router.back();
+    },
+    onError: () => {
+      toast({
+        title: 'Error'
+      })
+    }
+  });
+
+  const deleteGroup = useMutation({
+    mutationFn: () => httpService.delete(`${URLS.DELETE_GROUP}/${details?.id}`, {
+      params: {
+        typeID: details?.id,
+      }
+    }),
+    onSuccess: () => {
+      toast({
+        title: 'Success',
+        description: 'Successfully deleted the group',
+        status: 'success',
+        position: 'top-right',
+        duration: 5000,
+      })
+      queryClient.invalidateQueries(['getJoinedGroups']);
+      setAll({ activeCommunity: null, pageNumber: 0, hasNext: false, messages: [] });
+      router.back();
+    },
+    onError: () => {
+      toast({
+        title: 'Error'
+      })
+    }
   });
 
   const admins = () => {
@@ -133,7 +189,11 @@ function CommunityInfo() {
                     )}
                     {
                         details?.data?.imgSrc && (
-                            <Image src={`${IMAGE_URL}${details.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                            <>
+                              { details?.data?.imgSrc.startsWith('https://') && <Image src={`${details.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+
+                              { !details?.data?.imgSrc.startsWith('https://') && <Image src={`${IMAGE_URL}${details.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                            </>
                         )
                     }
             </Box>
@@ -149,7 +209,8 @@ function CommunityInfo() {
             </InputGroup>
 
           <HStack>
-            <SettingsChip icon={<FiLogIn color={THEME.COLORS.chasescrollButtonBlue} />} text='Exit' action={() => {}} />
+            { !admin && <SettingsChip  icon={<FiLogIn color={THEME.COLORS.chasescrollButtonBlue} />} text='Exit' action={() => leaveGroup.mutate()} isLoading={leaveGroup.isLoading} /> }
+            { admin && <SettingsChip icon={<FiTrash2 color={THEME.COLORS.chasescrollButtonBlue} />} text='Delete' action={() =>deleteGroup.mutate()} isLoading={deleteGroup.isLoading} /> }
             <SettingsChip icon={<ShareEvent type='COMMUNITY' id={page?.id} />} text='Share' action={() => {}} />
             <SettingsChip icon={<FiSettings color={THEME.COLORS.chasescrollButtonBlue} />} text='Settings' action={() => {}} />
           </HStack>

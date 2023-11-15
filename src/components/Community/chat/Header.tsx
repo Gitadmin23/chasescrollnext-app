@@ -88,10 +88,7 @@ function CommunityChatHeader() {
   });
 
   const deleteGroup = useMutation({
-    mutationFn: () => httpService.delete(`${URLS.DELETE_GROUP}`, {
-      params: {
-        typeID: activeCommunity?.id,
-      }
+    mutationFn: () => httpService.delete(`${URLS.DELETE_GROUP}/${activeCommunity?.id}`, {
     }),
     onSuccess: () => {
       toast({

@@ -25,7 +25,6 @@ function Requests() {
         }
     }), {
         onSuccess: (data) => {
-            console.log(data.data);
             const contents: PaginatedResponse<ICommunity> = data.data;
             setIsLastPage(contents.last);
             //setCommunites(contents.content);
@@ -33,7 +32,7 @@ function Requests() {
         onError: () => {},
     });
   return (
-    <VStack width='100%' height='100%' alignItems={'center'}>
+    <VStack width='100%' height='100%'  alignItems={'center'} paddingTop={'20px'}>
         {
             !isLoading && isError && (
                 <HStack paddingX='20px' width='100%' height='100%' justifyContent={'center'} alignItems={'center'}>

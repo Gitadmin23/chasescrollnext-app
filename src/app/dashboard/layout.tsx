@@ -162,16 +162,19 @@ function Layout({ children }: {
 
                                     <Link href={`/dashboard/profile/${userId}`}>
                                         <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-                                            {(
+                                            { user?.data.imgMain.value === null && (
                                                 <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
                                                     <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color='brand.chasescrollButtonBlue'>{firstName[0]?.toUpperCase()} {lastName[0]?.toUpperCase()}</CustomText>
                                                 </VStack>
                                             )}
-                                            {/* {
-                                            chat?.otherUser?.data.imgMain.value && (
-                                                <Image src={`${IMAGE_URL}${chat?.otherUser?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
-                                            )
-                                        } */}
+                                            {
+                                                user?.data.imgMain.value !== null && (
+                                                    <>
+                                                        { user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
+                                                        { !user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${IMAGE_URL}${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
+                                                    </>
+                                                )
+                                            }
                                         </Box>
                                         {/* <Avatar name={`${firstName} ${lastName}`} size='md' marginX='10px' /> */}
                                     </Link>
@@ -194,16 +197,19 @@ function Layout({ children }: {
 
                                 <Link href={userId ? `/dashboard/profile/${userId}` : ""}>
                                     <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-                                        {(
+                                        { user?.data.imgMain.value === null && (
                                             <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
                                                 <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color='brand.chasescrollButtonBlue'>{firstName[0]?.toUpperCase()} {lastName[0]?.toUpperCase()}</CustomText>
                                             </VStack>
                                         )}
-                                        {/* {
-                                            chat?.otherUser?.data.imgMain.value && (
-                                                <Image src={`${IMAGE_URL}${chat?.otherUser?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                                        {
+                                            user?.data.imgMain.value !== null && (
+                                                <>
+                                                    { user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
+                                                    { !user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${IMAGE_URL}${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
+                                                </>
                                             )
-                                        } */}
+                                        }
                                     </Box>
                                     {/* <Avatar name={`${firstName} ${lastName}`} size='md' marginX='10px' /> */}
                                 </Link>

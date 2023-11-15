@@ -12,7 +12,7 @@ import { Chat } from '@/models/Chat'
 import { PaginatedResponse } from '@/models/PaginatedResponse'
 import useDebounce from '@/hooks/useDebounce'
 import { useChatPageState } from './state'
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { SearchNormal1 } from 'iconsax-react'
 import { IUser } from '@/models/User'
 import { uniq } from 'lodash'
@@ -83,6 +83,8 @@ function Sidebar() {
     const [page, setPage] = React.useState(0);
 
     const intObserver = React.useRef<IntersectionObserver>();
+    const query = useSearchParams();
+
 
     const router = useRouter();
     const toast = useToast();
@@ -112,7 +114,17 @@ function Sidebar() {
             console.log(item.content[0]);
             //setAll({ chatsIds: item.content.map((itemm) => itemm?.otherUser?.userId )});
         }
-    })
+    });
+
+    React.useEffect(() => {
+        const activeID = query?.get('activeID');
+        if (activeID && chats.length > 0) {
+            const activeChat = chats.filter((item) => item.id === activeID);
+            if (activeChat.length > 0) {
+                setAll({ activeChat: activeChat[0] })
+            }
+        }
+    }, [chats, query, setAll])
 
     const lastChildRef = React.useCallback((post: any) => {
         if (isLoading) return;
@@ -150,9 +162,9 @@ function Sidebar() {
                         <CustomText fontFamily={'DM-Medium'} fontSize={'3xl'}>Chats</CustomText>
                     </HStack>
 
-                    <Button onClick={() => router.push('/dashboard/chats/create')} variant={'unstyled'} width='120px' height={'30px'} borderWidth={'1px'} borderRadius={'20px'} borderColor={'brand.chasescrollButtonBlue'} color='brand.chasescrollButtonBlue' >
+                    {/* <Button onClick={() => router.push('/dashboard/chats/create')} variant={'unstyled'} width='120px' height={'30px'} borderWidth={'1px'} borderRadius={'20px'} borderColor={'brand.chasescrollButtonBlue'} color='brand.chasescrollButtonBlue' >
                         Create Group
-                    </Button>
+                    </Button> */}
 
                 </HStack>
 

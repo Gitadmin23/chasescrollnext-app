@@ -4,11 +4,22 @@ import RequestUser from '@/components/profile_component/request_user'
 import { useDetails } from '@/global-state/useUserDetails'
 import { Box, Button, Flex } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import { useSearchParams } from 'next/navigation';
 
 function Network({ params }: { params: { slug: string } }) {
 
     const [tab, setTab] = useState(false)
     const { userId } = useDetails((state) => state);
+    const query = useSearchParams();
+
+    React.useEffect(() => {
+        const tab = query?.get('tab');
+        if (tab) {
+            if (tab === 'request') {
+                setTab(true);
+            }
+        }
+    }, [query])
 
     return (
         <Flex flexDirection={"column"} alignItems={"center"} width={"full"} >

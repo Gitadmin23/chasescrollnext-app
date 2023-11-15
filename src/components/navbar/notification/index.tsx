@@ -28,7 +28,7 @@ function NotificationBar(props: Props) {
         <Box width={"auto"} position={"relative"} borderRadius={'10px'} >
              <Box position={'relative'}>
                 <Notification color={THEME.COLORS.chasescrollBlue} size='30px' variant='Outline' onClick={() => setActive(prev => !prev)} />
-                <CustomText position={'absolute'} top='-10px' right='0'>3</CustomText>
+                {/* <CustomText position={'absolute'} top='-10px' right='0'></CustomText> */}
              </Box>
             {active && (
                 <Box width={"380px"} left={['-270px','-350px']} borderRadius={'10px'} height={'300px'} maxHeight={'500px'} zIndex={"20"} position={"absolute"} mt={"2"} >

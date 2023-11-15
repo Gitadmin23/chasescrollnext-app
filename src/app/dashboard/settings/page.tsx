@@ -26,12 +26,6 @@ function Settings(props: Props) {
         icon?: any
     }[] = [
         { 
-            type: "Edit Profile",
-            route: "/edit-profile",
-            icon: <EventCalenderIcon />,
-            action: null as any,
-        },
-        { 
             type: "Payment",
             route: "/payment",
             icon: <PaymentIcon />,
@@ -55,7 +49,7 @@ function Settings(props: Props) {
             // id: nanoid(),
             type: "Edit Profile",
             route: "/info/profile",
-            icon: <ProfileCircle />,
+            icon: <EventCalenderIcon />,
             action: null as any,
         },
         {
