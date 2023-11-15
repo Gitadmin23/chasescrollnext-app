@@ -19,7 +19,7 @@ export default function ModalLayout({ open, close, children, size, bg, rounded, 
     return (
         <Modal onClose={close} scrollBehavior={scrollBehavior ? scrollBehavior : "inside"} size={size ? size : "md"} isOpen={open} isCentered>
             <ModalOverlay />
-            <ModalContent backgroundColor={bg ? bg : "#fff"} rounded={rounded ? "0px" : "6px"} padding="0px" margin="16px" w="full"  h={scrollBehavior ? "full" : "auto"}  >
+            <ModalContent backgroundColor={bg ? bg : "#fff"} maxHeight={"90vh"} rounded={rounded ? "0px" : "6px"} padding="0px" margin="16px" w="full"  h={scrollBehavior ? "full" : "auto"}  >
                 {title && (
                     <>
                         <ModalHeader textAlign={"center"} >{title}</ModalHeader>

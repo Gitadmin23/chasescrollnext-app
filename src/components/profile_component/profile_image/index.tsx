@@ -105,16 +105,17 @@ function ProfileImage(props: Props) {
                 </Box>
                 <Flex zIndex={"20"} width={"full"} bottom={"0px"} insetX={"0px"} bg={"#00000099"} px={["6", "6", "9"]} height={"150px"} justifyContent={"space-between"} position={"absolute"} alignItems={"center"} >
                     <Box color={"white"} >
-                        <Text fontSize={"24px"} fontWeight={"bold"} >{data?.firstName + " " + data?.lastName}</Text>
+                        <Text fontSize={"22px"} fontWeight={"bold"} >{data?.firstName + " " + data?.lastName}</Text>
                         {data?.showEmail && (
                             <Text fontSize={"sm"} >{data?.email}</Text>
                         )}
-                        {data?.data?.about?.value && (
-                            <Text fontSize={"sm"} >Bio - {data?.data?.about?.value}</Text>
-                        )}
-                        {data?.data?.webAddress?.value && (
-                            <Text fontSize={"sm"} >Website - {data?.data?.webAddress?.value ?? ""}</Text> 
-                        )} 
+                        <Text fontSize={"sm"} >Phone : {data?.data?.mobilePhone?.value}</Text>
+                        {/* {data?.data?.about?.value && ( */}
+                            <Text fontSize={"sm"} >Bio : {data?.data?.about?.value}</Text>
+                        {/* )} */}
+                        {/* {data?.data?.webAddress?.value && ( */}
+                            <Text fontSize={"sm"} >Website : {data?.data?.webAddress?.value ?? ""}</Text> 
+                        {/* )}  */}
                     </Box>
                     {userId === user_index && ( 
                         <Flex bgColor={"#FFF"} color={"black"} py={"1"} gap={"3"} rounded={"full"} px={"4"} alignItems={"center"} justifyContent={"center"} >
