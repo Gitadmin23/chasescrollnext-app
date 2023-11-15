@@ -13,8 +13,7 @@ interface Props {
 }
 
 function ChatBtn(props: Props) {
-    const { 
-        profile,
+    const {  
         userId
     } = props
 
@@ -37,25 +36,7 @@ function ChatBtn(props: Props) {
             // sendMessage.mutate(obj)
         }
 
-    });
-
-    // const { isLoading: createChatLoading, mutate } = useMutation({
-    //     mutationFn: () => httpService.post('/chat/chat', {
-    //         image: `${profile?.data?.imgMain?.value}`,
-    //         name: profile?.username,
-    //         type: 'ONE_TO_ONE',
-    //         typeID: userId,
-    //         users: [
-    //             userId,
-    //         ]
-    //     }),
-    //     onSuccess: (data) => {
-    //         // navigate(`/message?messageId=${data.data.id}`);
-    //     },
-    //     onError: (errror) => {
-    //         // toast.error('An error occured whilw trying to initiate chat');
-    //     }
-    // })
+    }); 
 
     return (
         <Box as='button' onClick={()=> mutate()} > 
