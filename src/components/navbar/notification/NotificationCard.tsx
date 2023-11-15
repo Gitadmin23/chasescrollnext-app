@@ -11,7 +11,8 @@ function NotificationCard({ notification }: {
     notification: INotification
 }) {
   const router = useRouter();
-  const { userId } = useDetails((state) => state)
+  const { userId } = useDetails((state) => state);
+  console.log(notification?.recieverID);
 
   const handleClick = () => {
     switch(notification.type) {
@@ -41,15 +42,19 @@ function NotificationCard({ notification }: {
     }
   }
   return (
-    <HStack onClick={handleClick} alignItems={'center'} spacing={0} justifyContent={'space-between'} width='100%' height={'auto'} paddingY={'10px'} borderBottomWidth={'1px'} borderBottomColor='lightgrey' paddingX='10px'>
+    <HStack bg={notification.status === 'READ' ? 'lightgrey':'white'} onClick={handleClick} alignItems={'center'} spacing={0} justifyContent={'space-between'} width='100%' height={'auto'} paddingY={'10px'} borderBottomWidth={'1px'} borderBottomColor='lightgrey' paddingX='10px'>
         <Box width='32px' height='32px' borderRadius={'36px 0px 36px 36px'} borderWidth={'1px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-          {notification?.recieverID?.data?.imgMain?.value === null && (
-            <VStack color='brand.chasescrollButtonBlue' justifyContent={'center'} alignItems='center'>
-              <CustomText color='brand.chasescrollButtonBlue' fontSize={'18px'} fontFamily={'DM-Bold'}>{notification.recieverID.firstName[0].toUpperCase()} {notification.recieverID.lastName[0].toUpperCase()}</CustomText>
+          {!notification?.recieverID?.data?.imgMain?.value && (
+            <VStack width='100%' height='100%' color='red' bg='red' justifyContent={'center'} alignItems='center'>
+              <CustomText color='red' fontSize={'18px'} fontFamily={'DM-Bold'}>{notification?.recieverID?.firstName[0].toUpperCase()} {notification?.recieverID?.lastName[0].toUpperCase()}</CustomText>
             </VStack>
           )}
-          {notification?.recieverID?.data?.imgMain?.value !== null && (
-            <Image alt='img' src={`${IMAGE_URL}${notification?.recieverID?.data?.imgMain?.value}`} width='100%' height={'100%'} objectFit={'cover'} />
+          {notification?.recieverID?.data?.imgMain?.value && (
+            <>
+              { notification?.recieverID?.data.imgMain.value.startsWith('https://') && <Image alt='img' src={`${notification?.recieverID?.data?.imgMain?.value}`} width='100%' height={'100%'} objectFit={'cover'} /> }
+
+              { !notification?.recieverID?.data.imgMain.value.startsWith('https://') && <Image alt='img' src={`${IMAGE_URL}${notification?.recieverID?.data?.imgMain?.value}`} width='100%' height={'100%'} objectFit={'cover'} /> }
+            </>
           )}
         </Box>
         <VStack alignItems={'flex-start'} spacing={0} flex={1} paddingX='10px'>

@@ -77,7 +77,8 @@ export const URLS = {
     GET_PUBLIC_PROIFLE: '/user/publicprofile',
     DELETE_ACCOUNT: '/auth/user',
     DELETE_GROUP: '/group/group',
-    CREATE_CHAT: '/chat/chat'
+    CREATE_CHAT: '/chat/chat',
+    MARK_NOTIFICATIONS_AS_READ: '/notifications/read-notification'
     //GET_MEDIA_POST : "/feed/get-users-media-posts?userID="
 }
 
