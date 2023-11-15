@@ -23,6 +23,7 @@ import useModalStore from '@/global-state/useModalSwitch'
 import StripePopup from './event_modal/stripe_btn/stripe_popup'
 import useStripeStore from '@/global-state/useStripeState'
 import { loadStripe } from '@stripe/stripe-js'
+import BlurredImage from '../sharedComponent/blurred_image'
 
 interface Props {
     banner: any,
@@ -85,8 +86,8 @@ function EventDetails(props: Props) {
                     <BsChevronLeft color={"black"} size={"25px"} />
                 </Box>
                 <Box height={"350px"} position={"relative"} width={"full"} rounded={"16px"} roundedTopRight={"none"} >
-
-                    <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={dataInfo?.currentPicUrl} width={"full"} height={"full"} src={IMAGE_URL + dataInfo?.currentPicUrl} />
+                    <BlurredImage height={"350px"} image={dataInfo?.currentPicUrl} />
+                    {/* <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={dataInfo?.currentPicUrl} width={"full"} height={"full"} src={IMAGE_URL + dataInfo?.currentPicUrl} /> */}
                     <Box width={"fit-content"} h={"40px"} px={"2"} display={"flex"} flexDirection={"row"} alignItems={"center"} justifyContent={"center"} rounded={"md"} bg={"#101828D2"} position={"absolute"} bottom={"4"} right={"4"} gap={"4"} >
                         {/* <LuShare2 size={24} color="white" /> */}
                         <SaveOrUnsaveBtn indetail={true} event={dataInfo} size='24' />

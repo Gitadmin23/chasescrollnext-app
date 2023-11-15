@@ -24,7 +24,7 @@ function SelectTicket(props: Props) {
         setCategory(item)
         setShowModal(false)
     } 
-    
+
     return (
         <Flex gap={"3"} position={"relative"} alignItems={"center"} justifyContent={"end"} pl={"5"}  >
             <Flex onClick={() => setShowModal(true)} as={"button"} borderColor={"brand.chasescrollBlue"} rounded={"lg"} borderWidth={"1px"} height={"49px"} width={"full"} justifyContent={"center"} alignItems={"center"} >
@@ -41,11 +41,11 @@ function SelectTicket(props: Props) {
             {showModal && (
                 <Box width={"full"} pl={"5"} borderWidth={"0px"} zIndex={"30"} top={"60px"} position={"absolute"} rounded={"lg"} >
                     <Flex gap={"3"} flexDirection={"column"} shadow={"lg"} width={"full"} borderColor={"#D0D4EB"} padding={"4"} borderBottomWidth={"0px"} bg={"white"} rounded={"lg"}>
-                        {ticket?.filter((item: any) => item?.ticketType )?.map((item: any, index: number) => {
+                        {ticket?.filter((item: any) => item?.ticketType)?.map((item: any, index: number) => { 
                             return (
-                                <Button disabled={item?.totalNumberOfTickets === item?.ticketsSold ? true : false} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                     {item?.totalNumberOfTickets === item?.ticketsSold ?
-                                        item?.ticketType + " Sold Out" :
+                                        "Sold Out" :
                                         item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
                                     }
                                 </Button>

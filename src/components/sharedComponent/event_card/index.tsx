@@ -11,6 +11,7 @@ import DeleteEvent from '../delete_event'
 import useEventStore from '@/global-state/useCreateEventState'
 import InterestedUsers from '../interested_users'
 import ShareEvent from '../share_event'
+import useSearchStore from '@/global-state/useSearchData'
 
 interface Props {
     event: any,
@@ -39,6 +40,7 @@ function ExploreEventCard(props: Props) {
 
     const router = useRouter()
     const { updateEvent } = useEventStore((state) => state);
+    const { setSearchValue } = useSearchStore((state) => state); 
 
     const clickHandler = () => {
         if (draft) {
@@ -75,13 +77,14 @@ function ExploreEventCard(props: Props) {
         } else {
             router.replace("/dashboard/event/details/" + event?.id)
         }
+        setSearchValue("")
     }
 
     return (
         <Box boxShadow={page ? "md" : "none"} as='button' onClick={() => clickHandler()} py={searchbar ? "2" : ["6", "6", "4"]} px={["6", "6", "4"]} roundedBottom={"32px"} flex={"1"} roundedTopLeft={"32px"} borderColor={"brand.chasescrollPalePurple"} borderBottomWidth={searchbar ? " ": "1px"} maxWidth={["400px", "400px", "full"]} width={"full"} >
             <Flex flexDirection={["column", "column", page ? "column" : "row"]} width={"full"} flex={"1"} alignItems={"center"} justifyContent={"space-between"} >
                 <Box width={["full", "full", "fit-content"]} >
-                    <EventImage date={date} data={event} searchbar={searchbar} width={searchbar ? "90px" : ["full", "full", page ? "full" : "230px"]} height={searchbar ? "80px" : ["230px", "230px", page ? "220px" : "150px"]} />
+                    <EventImage date={date} data={event} searchbar={searchbar} width={searchbar ? "90px" : ["full", "full", page ? "full" : "230px"]} height={searchbar ? "80px" : ["230px", "230px", page ? "220px" :my_event ? "180px" :"150px"]} />
                 </Box>
                 <Box width={searchbar ? "full" : ["full", "full", page ? "full" : "250px"]} mt={["10px", "10px", page ? "10px" : "0px", page ? "10px" : "0px"]} ml={["0px", "0px", page ? "0px" : "10px", page ? "0px" : "10px"]} >
                     <Flex fontWeight={"semibold"} width={"full"} justifyContent={"space-between"} borderBottomColor={"#D0D4EB"} borderBottom={search ? "1px" : "0px"} pb={"1"} >
@@ -102,7 +105,7 @@ function ExploreEventCard(props: Props) {
                             </Text>
                         </Flex>
                     )}
-                    <Flex alignItems={"center"} width={"full"} pb={"2"} gap={"3"} justifyContent={"space-between"} >
+                    <Flex alignItems={"center"} width={"full"} pb={"1"} gap={"3"} justifyContent={"space-between"} >
                         <EventLocationDetail iconsize={searchbar ? "16px" : "20px"} fontWeight={"medium"} fontsize={searchbar ? "13px" : page ? "14px" : "16px"} color={"rgba(18, 18, 18, 0.80)"} location={event?.location} locationType={event?.locationType} length={20} />
                         {(!draft && !my_event && !profile) && (
                             <Flex alignItems={"center"} gap={"3"} >
@@ -117,6 +120,21 @@ function ExploreEventCard(props: Props) {
                     {page && (
                         <InterestedUsers fontSize={14} event={event} border={"2px"} size={"28px"} />
                     )}
+
+                    {my_event && (
+                        <Flex justifyContent={"space-between"} gap={"3"} flexDirection={"column"} width={"full"} >
+                            <Flex gap={"2"} fontSize={"sm"} alignItems={"center"} >
+                                <Text>Category:</Text>
+                                <Text color={"brand.chasescrollBlue"} fontWeight={"bold"}  >
+                                    {event?.eventType?.replace("_", " ")}
+                                </Text>
+                            </Flex>
+
+                            <Flex rounded={"md"} px={"2"} py={"1"} width={"fit-content"} bgColor={"brand.chasescrollBgBlue"} color={"brand.chasescrollBlue"}  gap={"2"} fontSize={"sm"} alignItems={"center"} >
+                                {event?.isOrganizer ? "Organizer" : "Attending"}
+                            </Flex>
+                        </Flex>
+                    )} 
                 </Box>
             </Flex>
         </Box>

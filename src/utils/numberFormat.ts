@@ -6,7 +6,7 @@ export const formatNumber = (number: any, prefix = "₦") => {
     return prefix+" ****"
   } else {
     return(
-      formatter({ prefix })(number % 1 !== 0 ? number.toFixed(2) : number)
+      formatter({ prefix })(number % 1 !== 0 ? number?.toFixed(2) : number)
     )
   }
 }
