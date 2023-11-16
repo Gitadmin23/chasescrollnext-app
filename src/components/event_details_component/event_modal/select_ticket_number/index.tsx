@@ -22,7 +22,7 @@ interface Props {
         ticketType: string,
         ticketsSold: number
     },
-    numbOfTicket: any, 
+    numbOfTicket: any,
     setNumberOfTicket: any,
     next: any,
     close: any
@@ -33,18 +33,17 @@ function SelectTicketNumber(props: Props) {
         data,
         selectedTicket,
         next,
-        numbOfTicket, 
+        numbOfTicket,
         setNumberOfTicket,
         close
     } = props
 
-    const serviceFee = 1.77 
+    const serviceFee = 1.77
 
     let price = selectedTicket?.ticketPrice * numbOfTicket
     let service = price * 0.025
 
-
-    const queryClient = useQueryClient()   
+    const queryClient = useQueryClient()
     const toast = useToast()
     let usdtotal = ((((selectedTicket?.ticketPrice * numbOfTicket) * 1.025) + 0.39) / (1 - 0.059))
     let nairatotal = ((((selectedTicket?.ticketPrice * numbOfTicket) * 1.025) + 100) / (1 - 0.039))
@@ -52,7 +51,7 @@ function SelectTicketNumber(props: Props) {
 
     const createTicket = useMutation({
         mutationFn: (data: any) => httpService.post(URLS.CREATE_TICKET, data),
-        onSuccess: (data: any) => {  
+        onSuccess: (data: any) => {
             toast({
                 title: 'Success',
                 description: "Ticket Created",
@@ -60,11 +59,11 @@ function SelectTicketNumber(props: Props) {
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
-            });  
-            queryClient.invalidateQueries(['all-events-details'+data.id]) 
+            });
+            queryClient.invalidateQueries(['all-events-details' + data.id])
             close(false)
         },
-        onError: (error) => {  
+        onError: (error) => {
             toast({
                 title: 'Error',
                 description: "Error Creating Ticket",
@@ -72,53 +71,55 @@ function SelectTicketNumber(props: Props) {
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
-            });  
+            });
         },
     });
 
 
     const clickHandler = () => {
-        if (selectedTicket?.ticketType === "Free") { 
+        if (selectedTicket?.ticketType === "Free") {
             createTicket.mutate({
-                eventID: data?.id ,
+                eventID: data?.id,
                 ticketType: selectedTicket?.ticketType,
                 numberOfTickets: numbOfTicket
             })
         } else {
-            next(2) 
+            next(2)
         }
     }
 
-    const addticket =()=> {
+    const addticket = () => {
 
-    if ((selectedTicket?.totalNumberOfTickets - selectedTicket?.ticketsSold) <= numbOfTicket) {
-        
-        toast({
-            title: 'Error',
-            description: numbOfTicket + " Ticket is Remaining for this Event",
-            status: 'error',
-            isClosable: true,
-            duration: 5000,
-            position: 'top-right',
-        });  
-      } else {
-        if (selectedTicket?.maxTicketBuy === numbOfTicket) {
+        if ((selectedTicket?.totalNumberOfTickets - selectedTicket?.ticketsSold) <= numbOfTicket) {
 
             toast({
                 title: 'Error',
-                description: "Limit of Ticket is " + numbOfTicket,
+                description: numbOfTicket + " Ticket is Remaining for this Event",
                 status: 'error',
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
-            });  
+            });
         } else {
-            setNumberOfTicket((prev: any) => prev + 1)
+            if (selectedTicket?.maxTicketBuy === numbOfTicket) {
+
+                toast({
+                    title: 'Error',
+                    description: "Limit of Ticket is " + numbOfTicket,
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+            } else {
+                setNumberOfTicket((prev: any) => prev + 1)
+            }
         }
-      }
+    }
 
-    } 
-
+    React.useEffect(() => {
+        setNumberOfTicket(selectedTicket?.minTicketBuy)
+    }, [])
 
     return (
         <Box width={"full"} bg={"white"} px={"8"} py={"10"} >
@@ -134,7 +135,7 @@ function SelectTicketNumber(props: Props) {
                     Number of Tickets
                 </Text>
                 <Flex gap={"5"} alignItems={"center"} py={"1"}  >
-                    <Box disabled={numbOfTicket === 1} onClick={() => setNumberOfTicket((prev: any) => prev - 1)} as='button' >
+                    <Box disabled={numbOfTicket === selectedTicket?.minTicketBuy} onClick={() => setNumberOfTicket((prev: any) => prev - 1)} as='button' >
                         <SubtractIcon />
                     </Box>
                     {numbOfTicket}
@@ -160,7 +161,7 @@ function SelectTicketNumber(props: Props) {
                         <Text>Total</Text>
                         <Text>{selectedTicket?.ticketType === "Free" ? data?.currency === "USD" ? "$0" : "₦0" : formatNumber((data?.currency === "USD" ? usdtotal : (nairatotal < 2500 ? nairatotalnew : nairatotal)), data?.currency === "USD" ? "$" : "₦")}</Text>
                     </Flex>
-                    <CustomButton isLoading={createTicket?.isLoading} onClick={clickHandler} text='Pay now' width={["full", "full"]}  /> 
+                    <CustomButton isLoading={createTicket?.isLoading} onClick={clickHandler} text='Pay now' width={["full", "full"]} />
                 </Box>
             </Flex>
         </Box>

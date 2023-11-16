@@ -11,7 +11,7 @@ import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import Router from 'next/router';
 import React, { useState } from 'react'
-import { useQuery } from 'react-query';
+import { focusManager, useQuery } from 'react-query';
 
 interface Props { }
 
@@ -22,6 +22,7 @@ function EventCarousel(props: Props) {
     const [data, setData] = React.useState([] as any)
     const router = useRouter()
 
+    focusManager.setFocused(false)
     // react query
     const { isLoading, isRefetching } = useQuery(['get-events-for-carousel'], () => httpService.get('/events/events'), {
         onError: (error: any) => {

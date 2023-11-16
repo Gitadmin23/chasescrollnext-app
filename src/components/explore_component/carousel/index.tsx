@@ -10,7 +10,7 @@ import { Box, Flex, Image, useToast, Text } from '@chakra-ui/react';
 import moment from 'moment';
 import { useRouter } from 'next/navigation'; 
 import React, { useState } from 'react'
-import { useQuery } from 'react-query';
+import { focusManager, useQuery } from 'react-query';
 
 interface Props { }
 
@@ -21,6 +21,7 @@ function ExploreCarousel(props: Props) {
     const [data, setData] = React.useState([] as any)
     const router = useRouter()
 
+    focusManager.setFocused(false)
     // react query
     const { isLoading, isRefetching } = useQuery(['get-top-events'], () => httpService.get('/events/get-top-events'), {
         onError: (error: any) => {

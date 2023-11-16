@@ -12,7 +12,12 @@ import { URLS } from '@/services/urls';
 import { useDetails } from '@/global-state/useUserDetails';
 import { useRouter } from 'next/navigation'
 
-function CreateCommunity() {
+interface IProps {
+    create?: boolean,
+    setTab?: any
+}
+
+function CreateCommunity({create, setTab}: IProps) {
     const [file, setFile] = React.useState<File | null>(null);
     const [url, setUrl] = React.useState('');
     const [isPublic, setIsPublic] = React.useState(true);
@@ -34,6 +39,7 @@ function CreateCommunity() {
         mutationFn: (data: any) => httpService.post(`${URLS.CREATE_COMMUNITY}`, data),
         onSuccess: (data) => {
             queryClient.invalidateQueries(['getMyCommunities']);
+            queryClient.invalidateQueries([`/group/group?creatorID=${userId}`]);
             toast({
                 title: 'success',
                 description: 'Community created',
@@ -44,7 +50,11 @@ function CreateCommunity() {
             });
             setUrl('');
             setFile(null);
-            router.back()
+            if(create){
+                setTab(0)
+            } else {
+                router.back()
+            }
         },
         onError: (error) => {
             toast({
@@ -144,6 +154,15 @@ function CreateCommunity() {
         formData.append('file', file as any);
         uploadImage.mutate(formData);
     }
+
+    const clickHandler =()=> {
+        if(create){
+            setTab(0)
+        } else {
+            router.back()
+        }
+    }
+
     return renderForm(
         <VStack width='100%' height='100%' overflow={'hidden'} padding={['20px', '0px']} >
 
@@ -151,7 +170,7 @@ function CreateCommunity() {
 
                 <input hidden type='file' accept='image/*' ref={inputRef as any} onChange={(e) => handleFilePicked(e.target.files as FileList)} />
                 <HStack width='100%' height={'60px'} justifyContent={'flex-start'} alignItems={'center'}>
-                    <FiX fontSize={'25px'} onClick={() => router.back()} />
+                    <FiX fontSize={'25px'} onClick={() => clickHandler()} />
                 </HStack>
 
                 <Box cursor={'pointer'} onClick={() => inputRef.current?.click()} width='100%' height="200px" borderWidth='2px' borderColor='grey' borderRadius={'20px'} borderStyle={'dashed'} overflow={'hidden'} bg='grey' >

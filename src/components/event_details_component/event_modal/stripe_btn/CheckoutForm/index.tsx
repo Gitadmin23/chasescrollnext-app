@@ -98,6 +98,7 @@ export default function InjectedCheckoutForm(props: IProps) {
       // e.preventDefault();
 
       if (!stripe || !elements) {
+        
         // Stripe.js has not yet loaded.
         // Make sure to disable form submission until Stripe.js has loaded.
         return;
@@ -130,7 +131,7 @@ export default function InjectedCheckoutForm(props: IProps) {
       //     setMessage("An unexpected error occured.");
       //   }
  
-    };
+    }; 
 
     return (
       <>

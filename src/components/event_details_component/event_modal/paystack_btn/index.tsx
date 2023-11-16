@@ -6,6 +6,7 @@ import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query';
 import { usePaystackPayment } from 'react-paystack'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
+import useModalStore from '@/global-state/useModalSwitch';
 
 interface Props {  
     selectedCategory: {
@@ -25,6 +26,8 @@ function PayStackBtn(props: Props) {
     } = props   
 
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY; 
+
+    const { setShowModal  } = useModalStore((state) => state);
 
     const queryClient = useQueryClient()   
     const toast = useToast()
@@ -80,8 +83,8 @@ function PayStackBtn(props: Props) {
                 duration: 5000,
                 position: 'top-right',
             });
-            
 			queryClient.invalidateQueries(['all-events-details'+datainfo.id]) 
+            setShowModal(false)
 		},
 		onError: (error: any) => { 
             toast({

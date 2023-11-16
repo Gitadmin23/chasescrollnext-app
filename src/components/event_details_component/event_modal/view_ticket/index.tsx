@@ -1,3 +1,4 @@
+import CustomButton from '@/components/general/Button'
 import EventLocationDetail from '@/components/sharedComponent/event_location'
 import EventPrice from '@/components/sharedComponent/event_price'
 import EventImage from '@/components/sharedComponent/eventimage'
@@ -9,6 +10,7 @@ import { Box, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
 import Barcode from "react-barcode"
 import { BsChevronLeft } from 'react-icons/bs'
+import { useReactToPrint } from "react-to-print";
 
 interface Props {
     userName: any, 
@@ -36,6 +38,11 @@ function ViewTicket(props: Props) {
         currency,
         datainfo, 
     } = props 
+
+    const componentRef: any = React.useRef();  
+    const handlePrint = useReactToPrint({ 
+      content: () => componentRef.current
+    }); 
 
     return (
         <Flex p={"6"} shadow={"lg"} flexDirection={"column"} bg={"white"} roundedTop={"md"} width={"full"} alignItems={"center"} justifyContent={"center"} gap={"2"} >
@@ -100,7 +107,7 @@ function ViewTicket(props: Props) {
                     </Flex>
                 </Flex>
             </Flex>
-            <Flex width={"full"} flexDirection={"column"} alignItems={"center"} >
+            <Flex width={"full"} flexDirection={"column"} mb={"3"} alignItems={"center"} >
                 <Barcode
                     value={`Powered by Chasescroll`}
                     width={1}
@@ -111,8 +118,11 @@ function ViewTicket(props: Props) {
                 <Text alignItems={"center"} fontSize={"sm"} >© Chasescroll Llc</Text>
                 <Text alignItems={"center"} fontSize={"xs"} >creating unforgettable memories…</Text>
             </Flex> 
+
+            <CustomButton onClick={handlePrint}  text='Download Ticket' />
+            
         </Flex>
     )
-}
+}  
 
 export default ViewTicket

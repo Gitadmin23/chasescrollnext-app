@@ -1,8 +1,7 @@
 import { Box, Button, Flex } from '@chakra-ui/react'
 import React from 'react'
 import SelectTicket from '../select_ticket'
-import { useRouter } from 'next/navigation'
-import useEventStore from '@/global-state/useCreateEventState'
+import { useRouter } from 'next/navigation' 
 
 interface Props {
     isOrganizer: boolean,
@@ -25,38 +24,10 @@ function EventUserOption(props: Props) {
         event
     } = props
 
-    const router = useRouter()
-    const { updateEvent } = useEventStore((state) => state);
+    const router = useRouter() 
 
-    const clickHandler = () => {
-        updateEvent({
-            id: event?.id,
-            picUrls: event?.picUrls,
-            eventType: event?.eventType,
-            eventName: event?.eventName,
-            eventDescription: event?.eventDescription,
-            joinSetting: event?.joinSetting,
-            locationType: event?.locationType,
-            currency: event?.currency,
-            currentPicUrl: event?.currentPicUrl,
-            eventFunnelGroupID: event?.eventFunnelGroupID,
-            mediaType: event?.mediaType,
-            currentVideoUrl: event?.currentVideoUrl,
-            isPublic: event?.isPublic,
-            isExclusive: event?.isExclusive,
-            mask: event?.mask,
-            attendeesVisibility: event?.attendeesVisibility,
-            minPrice: event?.minPrice,
-            maxPrice: event?.maxPrice,
-            startTime: event?.startTime,
-            endTime: event?.endTime,
-            startDate: event?.startDate,
-            endDate: event?.endDate,
-            // expirationDate: "",
-            location: event?.location,
-            productTypeData: event?.productTypeData,
-        })
-        router.replace("/dashboard/event/edit_event")
+    const clickHandler = () => { 
+        router.replace("/dashboard/event/edit_event/"+event?.id)
     }
 
     return (

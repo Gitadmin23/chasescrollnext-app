@@ -17,7 +17,7 @@ function ExploreCommunity(props: Props) {
     // const { search, setSearchValue } = useSearchStore((state) => state);
     const searchValue = useSearchStore((state) => state.search);
 
-    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/group/find-groups?searchText=${searchValue}`, limit: 10, filter: "userId" })
+    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/group/find-groups?searchText=${searchValue}`, limit: 10, filter: "id" })
 
     return (
         <Box borderWidth={"0px"} width={"full"} p={"3"} >
