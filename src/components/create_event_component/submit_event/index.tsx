@@ -45,21 +45,7 @@ function SubmitEvent() {
         } else {
             return false
         }
-    }
-
-    const getValidationTicket = () => {
-        if (!eventdata?.productTypeData[0].totalNumberOfTickets) {
-            true
-        } else if (!eventdata?.productTypeData[0].ticketType) {
-            true
-        } else if (!eventdata?.productTypeData[0].minTicketBuy) {
-            true
-        } else if (!eventdata?.productTypeData[0].maxTicketBuy) {
-            true
-        } else {
-            return false
-        }
-    }
+    } 
 
     const getValidationAll = () => {
         if (tab === 0) {
@@ -69,8 +55,30 @@ function SubmitEvent() {
         } else {
             return getValidationTicket()
         }
-    }
+    } 
 
+    const getValidationTicket: any =()=> { 
+        
+        return eventdata?.productTypeData?.every((item:any, index: number) => {
+
+        if(!item.totalNumberOfTickets){
+            return true
+         } else if(!item.ticketType){
+             return true
+         } else if(!item.minTicketBuy){
+             return true
+         } else if(!item.maxTicketBuy){
+             return true
+         } else if(item.maxTicketBuy <= item.minTicketBuy){
+             return true
+         }  else if(eventdata?.productTypeData?.length === index+1) {
+             return false
+         } else {
+            return true
+         }
+        }) 
+    } 
+    
     // Upload Image
     const uploadImage = useMutation({
         mutationFn: (data: any) => httpService.post(URLS.UPLOAD_IMAGE + "/" + user_index, data,
@@ -106,7 +114,7 @@ function SubmitEvent() {
             toast({
                 title: 'Error',
                 description: error?.response?.data?.message,
-                status: 'success',
+                status: 'error',
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
@@ -133,7 +141,7 @@ function SubmitEvent() {
             toast({
                 title: 'Error',
                 description: error?.response?.data?.message,
-                status: 'success',
+                status: 'error',
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
@@ -160,7 +168,7 @@ function SubmitEvent() {
             toast({
                 title: 'Error',
                 description: error?.response?.data?.message,
-                status: 'success',
+                status: 'error',
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
@@ -175,28 +183,24 @@ function SubmitEvent() {
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
-            });
+            });  
         }
-    });
-
-
+    }); 
 
     // Edit Event
-    const editEventFromDraft = useMutation({
+    const updateUserEvent = useMutation({
         mutationFn: (data: any) => httpService.put(URLS.UPDATE_EVENT, data),
         onError: (error: AxiosError<any, any>) => {
             toast({
                 title: 'Error',
                 description: error?.response?.data?.message,
-                status: 'success',
+                status: 'error',
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
             });
         },
-        onSuccess: (data: AxiosResponse<any>) => {
-            console.log(data);
-            console.log(eventdata);
+        onSuccess: (data: AxiosResponse<any>) => { 
             
             router.push("/dashboard/event")
             toast({
@@ -206,13 +210,13 @@ function SubmitEvent() {
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
-            });
+            }); 
         }
     });
 
     const handleClick = React.useCallback(() => {
         if (tab === 0) {
-            if (pathname?.includes("edit")) {
+            if (pathname?.includes("edit_event")) {
                 changeTab(1)
             } else {
                 if (image) {
@@ -224,24 +228,23 @@ function SubmitEvent() {
                 }
             }
         } else if (tab === 1) {
-            if (pathname?.includes("edit")) {
+            if (pathname?.includes("edit_event")) {
                 changeTab(2)
             } else {
                 saveToDraft.mutate(eventdata)
             }
         } else { 
-            if (pathname?.includes("edit")) {
-                editEventFromDraft.mutate(eventdata)
+            if (pathname?.includes("edit_event")) {
+                updateUserEvent.mutate(eventdata)
             } else {
                 createEventFromDraft.mutate(eventdata)
             } 
-            changeTab(0)
         }
     }, [saveToDraft, uploadImage, createEventFromDraft])
 
     return (
         <Flex alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} my={"4"} >
-            <CustomButton isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || editEventFromDraft?.isLoading} onClick={handleClick} disable={getValidationAll()} _disabled={{ color: "#F04F4F", cursor: "not-allowed" }} width={"400px"} backgroundColor={"transparent"}
+            <CustomButton isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} disable={getValidationAll()} _disabled={{ color: "#F04F4F", cursor: "not-allowed" }} width={"400px"} backgroundColor={"transparent"}
                 color={"brand.chasescrollBlue"} text='Continue' />
         </Flex>
     )

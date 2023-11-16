@@ -36,6 +36,14 @@ function SelectLocation(props: Props) {
         }
     }
 
+    const changeHandler =(item: any)=> { 
+        updateEvent({
+            ...eventdata,
+            locationType: item
+        })
+        setSelectType(item)
+    }
+
     React.useEffect(()=> {
      if(eventdata?.location?.link && eventdata?.location?.locationDetails){
         setSelectType("Hybrid Location")
@@ -62,7 +70,8 @@ function SelectLocation(props: Props) {
                                     h={"45px"}
                                     color={"brand.chasescrollDarkBlue"}
                                     fontSize={"sm"}
-                                    onChange={(e) => setSelectType(e.target.value)}
+                                    name='locationType'
+                                    onChange={(e) => changeHandler(e.target.value)}
                                     value={selectType} >
                                     <option value="">add location</option>
                                     <option>Physical Location</option>

@@ -31,7 +31,7 @@ function SelectImage(props: Props) {
 
     return (
         <Flex width={"full"} flexDirection={"column"} gap={"4"} alignItems={"center"} >
-            <Flex as={"button"} width={["full", "361px"]} height={"228px"} border={"1px dashed #D0D4EB"} rounded={"2xl"} justifyContent={"center"} alignItems={"center"} >
+            <Flex as={"button"} width={["full", "361px"]} height={"228px"} border={"1px dashed #D0D4EB"} roundedBottom={"32px"} roundedTopLeft={"32px"} justifyContent={"center"} alignItems={"center"} >
                 {(!selectedImageFile && !eventdata?.currentPicUrl) && (
                     <label role='button' style={{ width: "100%", display: "grid", height: "100%", placeItems: "center", gap: "16px" }} >
                         <Box width={"full"} >

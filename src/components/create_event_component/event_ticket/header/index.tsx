@@ -15,11 +15,11 @@ function EventTicketHeader(props: Props) {
         updateEvent({
             ...eventdata,
             productTypeData: [{
-                totalNumberOfTickets: eventdata.productTypeData[0].totalNumberOfTickets,
+                totalNumberOfTickets: "",
                 ticketPrice: price,
                 ticketType: name,
-                minTicketBuy: eventdata.productTypeData[0].totalNumberOfTickets,
-                maxTicketBuy: eventdata.productTypeData[0].totalNumberOfTickets
+                minTicketBuy: "",
+                maxTicketBuy: ""
             }]
         })
     }

@@ -11,8 +11,13 @@ import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
 import { useDetails } from '@/global-state/useUserDetails';
 import { useRouter } from 'next/navigation'
+ 
+interface Props {
+    create?: boolean,
+    setTab?: any
+}
 
-function CreateCommunity() {
+function CreateCommunityComponent({create, setTab}: Props) {
     const [file, setFile] = React.useState<File | null>(null);
     const [url, setUrl] = React.useState('');
     const [isPublic, setIsPublic] = React.useState(true);
@@ -20,7 +25,7 @@ function CreateCommunity() {
 
     const { userId, email, } = useDetails((state) => state);
     const queryClient = useQueryClient();
-    let fileReader = React.useRef<FileReader | null>(null);
+    let fileReader = React.useRef<FileReader|null>(null);
     const inputRef = useRef<HTMLInputElement>();
     const toast = useToast();
     const router = useRouter();
@@ -45,7 +50,11 @@ function CreateCommunity() {
             });
             setUrl('');
             setFile(null);
-            router.back()
+            if(create){
+                setTab(0)
+            } else {
+                router.back()
+            }
         },
         onError: (error) => {
             toast({
@@ -99,7 +108,7 @@ function CreateCommunity() {
 
 
     React.useEffect(() => {
-        if (fileReader !== null) {
+        if(fileReader !== null) {
             (fileReader.current as FileReader).onload = () => {
                 setUrl(fileReader?.current?.result as string);
                 console.log(`URL -> ${fileReader?.current?.result}`)
@@ -146,8 +155,12 @@ function CreateCommunity() {
         uploadImage.mutate(formData);
     }
 
-    const clickHandler = () => {
-        router.back()
+    const clickHandler =()=> {
+        if(create){
+            setTab(0)
+        } else {
+            router.back()
+        }
     }
 
     return renderForm(
@@ -200,4 +213,4 @@ function CreateCommunity() {
     )
 }
 
-export default CreateCommunity
+export default CreateCommunityComponent

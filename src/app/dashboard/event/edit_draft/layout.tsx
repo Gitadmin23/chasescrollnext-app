@@ -4,17 +4,17 @@ import React, { ReactNode } from 'react'
 import { BsChevronLeft } from 'react-icons/bs'
 
 function Layout({ children }: {
-    children: ReactNode
+    children: ReactNode, 
 }) {
 
     return (
         <Box width={"full"} position={"relative"} overflowY={"auto"} >
             <Box width={"full"} top={"0px"} zIndex={"50"} position={"sticky"} >
                 <Flex height={"30px"} width={"full"} alignItems={"center"} justifyContent={"center"} position={"relative"} >
-                    <Link href='/dashboard/event' display={"flex"} px={"3"} height={"full"} left={"0px"} justifyContent={"center"} alignItems={"center"} position={"absolute"} zIndex={"10"} >
+                    <Link href={'/dashboard/event/draft'} display={"flex"} px={"3"} height={"full"} left={"0px"} justifyContent={"center"} alignItems={"center"} position={"absolute"} zIndex={"10"} >
                         <BsChevronLeft size={"25px"} />
                     </Link>
-                    <Text fontWeight={"bold"} fontSize={"20px"} >Edit Events</Text>
+                    <Text fontWeight={"bold"} fontSize={"20px"} >Edit Events Draft</Text>
                 </Flex>
             </Box>
             <Box flex={1} pb={["16","16","16","16","0px"]} >

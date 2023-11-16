@@ -12,7 +12,11 @@ interface Props { }
 function CreateEvent(props: Props) {
     const { } = props
  
-    const { tab } = useEventStore((state) => state); 
+    const { tab, changeTab } = useEventStore((state) => state); 
+
+    React.useEffect(()=> {
+        changeTab(0)
+    }, [])
 
     return (
         <Box width={"full"} >
