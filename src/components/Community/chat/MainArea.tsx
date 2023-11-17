@@ -27,7 +27,7 @@ function MainArea() {
 
 
     const { userId: myId } = useDetails((state) => state)
-    const { activeCommunity, setAll, messages, pageNumber, hasNext, activeMessageId, commentHasNext, commentPage, comments, showEvents } = useCommunityPageState((state) => state);
+    const { activeCommunity, setAll, messages, pageNumber, hasNext, activeMessageId, commentHasNext, commentPage, comments, showEvents, events } = useCommunityPageState((state) => state);
     // queries
     const { isLoading, } = useQuery(['getMessages', activeCommunity?.id, pageNumber], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
         params: {
@@ -95,9 +95,9 @@ function MainArea() {
         {
             showEvents && (
                 <HStack width='100%' maxWidth={'100%'} height={'75px'} bg='white' >
-                    <Box paddingLeft='20px'  height='100%' overflowX={'auto'} whiteSpace={'break-spaces'}>
-                        {arr.map((item, i) => (
-                            <EventCard key={i.toString()} />
+                    <Box paddingLeft='20px' width='100%'  height='100%' overflowX={'auto'} display={'inline-block'} whiteSpace={'break-spaces'}>
+                        {events.map((item, i) => (
+                            <EventCard event={item} key={i.toString()} />
                         ))}
                     </Box>
                 </HStack>

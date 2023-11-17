@@ -1,8 +1,8 @@
 'use client';
 import CustomText from '@/components/general/Text'
-import { Box, HStack, Spinner, VStack, InputGroup, InputLeftElement, Input, Image, Grid, GridItem, useToast } from '@chakra-ui/react'
+import { Box, HStack, Spinner, VStack, InputGroup, InputLeftElement, Input, Image, Grid, GridItem, useToast, Modal, ModalOverlay, ModalContent, ModalBody, Button, ModalCloseButton } from '@chakra-ui/react'
 import React from 'react'
-import { FiBell, FiChevronLeft, FiDownloadCloud, FiEdit2, FiLink, FiLogIn, FiSettings, FiTrash2 } from 'react-icons/fi'
+import { FiBell, FiCamera, FiChevronLeft, FiDownloadCloud, FiEdit2, FiImage, FiLink, FiLogIn, FiSettings, FiTrash2 } from 'react-icons/fi'
 import { useParams, useRouter } from 'next/navigation'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import httpService from '@/utils/httpService';
@@ -19,6 +19,8 @@ import { useDetails } from '@/global-state/useUserDetails';
 import { uniqBy } from 'lodash';
 import ShareEvent from '@/components/sharedComponent/share_event';
 import { useCommunityPageState } from '@/components/Community/chat/state';
+import { IoCamera } from 'react-icons/io5';
+import AWSHook from '@/hooks/awsHook';
 
 
 function CommunityInfo() {
@@ -27,15 +29,26 @@ function CommunityInfo() {
   const [posts, setPosts] = React.useState<IMediaContent[]>([])
   const [search, setSearch] = React.useState('');
   const [mediaTab, setMediaTab] = React.useState(1);
+  const [showModal, setShowModal] = React.useState(false);
+  const [img, setImg] = React.useState('');
+  const [name, setName] = React.useState('');
   const page = useParams();
   const router = useRouter();
   const toast = useToast();
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const { userId } = useDetails((state)=> state);
   const queryClient = useQueryClient();
+  const { uploadedFile, loading, fileUploadHandler } = AWSHook();
 
   const { setAll } = useCommunityPageState((state) => state);
 
   const admin = userId === details?.creator?.userId;
+
+  React.useEffect(() => {
+    if (!loading && uploadedFile.length > 0) {
+      setImg(uploadedFile[0].url);
+    }
+  }, [uploadedFile, loading])
 
   // query
   const community = useQuery(['getCommunity', page?.id], () => httpService.get(`${URLS.GET_GROUP_BY_ID}`, {
@@ -73,6 +86,25 @@ function CommunityInfo() {
     const item: PaginatedResponse<ICommunityMember> = data.data;
     setMembers(prev => uniqBy([...prev, ...item.content], 'id'));
   }
+  });
+
+  const updateGroup = useMutation({
+    mutationFn: (data: any) => httpService.put(`${URLS.UPDATE_GROUP}`, data),
+    onSuccess: () => {
+      toast({
+        title: 'Success',
+        description: 'Successfully left the group',
+        status: 'success',
+        position: 'top-right',
+        duration: 5000,
+      })
+      queryClient.invalidateQueries(['getCommunity']);
+    },
+    onError: () => {
+      toast({
+        title: 'Error'
+      })
+    }
   });
 
   const leaveGroup = useMutation({
@@ -152,6 +184,35 @@ function CommunityInfo() {
     })
   }
 
+  const handleUpdateGroup = async () => {
+    const image = img !== '' ? img: details?.data.imgSrc;
+    if (name === '') {
+      toast({
+        title: 'Warning',
+        description: 'Name cannot be empty',
+        status: 'warning',
+        position: 'top-right',
+        duration: 5000,
+      })
+      return;
+    } else if (img === '' || details?.data.imgSrc === null) {
+      toast({
+        title: 'Warning',
+        description: 'You must upload an image',
+        status: 'warning',
+        position: 'top-right',
+        duration: 5000,
+      })
+      return;
+    }
+    updateGroup.mutate({
+      groupData: {
+        imgSrc: image,
+        name,
+      }
+    })
+  }
+
   if (community.isLoading || communityMembers.isLoading ) {
     return (
       <VStack width='100%' height={'100%'} justifyContent={'center'} alignItems={'center'}>
@@ -165,6 +226,53 @@ function CommunityInfo() {
   return (
     <Box overflowY='auto' width='100%' height='100%' bg='white' paddingTop='40px' paddingBottom={'100px'}>
 
+      <input type='file' ref={inputRef} onChange={(e) => fileUploadHandler(e.target.files as FileList)} accept='image/png, image/jpeg, image/jpg, video/mp4' hidden  />
+
+        {/* MODAL */}
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)} isCentered>
+          <ModalOverlay />
+          <ModalContent width={'320px'} height='400px'>
+            <ModalCloseButton />
+            <ModalBody>
+              <VStack width='100%' height='100%' alignItems={'center'} justifyContent={'center'} marginBottom={'20px'}>
+
+                  <Box width='97px' height={'97px'} position={'relative'} borderRadius={'999px 0px 999px 999px'} borderWidth={'3px'} borderColor={'#3C41F0'} overflow={'hidden'}>
+                      { img === '' && (
+                        <>
+                          { details?.data?.imgSrc === null && (
+                            <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                                <CustomText fontFamily={'DM-Regular'}>{details.data.name[0].toUpperCase()}</CustomText>
+                            </VStack>
+                          )}
+                          {
+                              details?.data?.imgSrc && (
+                                  <>
+                                    { details?.data?.imgSrc.startsWith('https://') && <Image src={`${details.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+
+                                    { !details?.data?.imgSrc.startsWith('https://') && <Image src={`${IMAGE_URL}${details.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                                  </>
+                              )
+                          }
+                        </>
+                      )}
+                      { img !== '' && (
+                        <Image src={`${img}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                      )}
+                      <VStack onClick={() => inputRef.current?.click()} width='100%' height={'100%'} position={'absolute'} bg='#0000003b' bottom='0px' left='0px' justifyContent={'center'} alignItems={'center'}>
+                        { !loading && <IoCamera size='25px' color='white' /> }
+                        { loading && <Spinner /> }
+                      </VStack>
+                </Box>
+
+                <Input value={name} onChange={(e) => setName(e.target.value)}  />
+
+                <Button width='100%' height='30px' variant={'solid'} isLoading={updateGroup.isLoading} onClick={handleUpdateGroup} >Save</Button>
+
+              </VStack>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+
         <VStack width='100%'>
 
 
@@ -177,7 +285,10 @@ function CommunityInfo() {
               <FiChevronLeft color='black' fontSize='20px' onClick={() => router.back()} />
               <CustomText fontFamily={'DM-Bold'} fontSize={'16px'}>Community Info</CustomText>
               <Box>
-                {admin && <FiEdit2 color='black' fontSize='20px' />}
+                {admin && <FiEdit2 color='black' fontSize='20px' onClick={() => {
+                  setName(details?.data.name);
+                  setShowModal(true);
+                }} />}
               </Box>
             </HStack>
 

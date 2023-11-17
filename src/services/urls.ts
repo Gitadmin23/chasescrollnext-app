@@ -50,7 +50,7 @@ export const URLS = {
     ACCEPT_USER: "/user/accept-friend-request",
     REJECT_USER: "/user/reject-friend-request",
     FRIEND_REQUEST: "/user/friend-requests",
-    GET_SAVED_EVENTS: '/events/get-saved-eventts',
+    GET_SAVED_EVENTS: '/events/get-saved-events',
     GET_GROUP_BY_ID: '/group/group',
     GET_GROUP_MEMBERS: '/group/get-group-members',
     GET_CHATS: '/chat/chat',
@@ -78,7 +78,10 @@ export const URLS = {
     DELETE_ACCOUNT: '/auth/user',
     DELETE_GROUP: '/group/group',
     CREATE_CHAT: '/chat/chat',
-    MARK_NOTIFICATIONS_AS_READ: '/notifications/read-notification'
+    MARK_NOTIFICATIONS_AS_READ: '/notifications/read-notification',
+    SAVE_EVENT: '/events/save-event',
+    GET_USER_FEED_DATA: '/feed/get-user-feed-data',
+    UPDATE_GROUP: '/group/update-group',
     //GET_MEDIA_POST : "/feed/get-users-media-posts?userID="
 }
 

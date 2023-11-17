@@ -51,7 +51,7 @@ interface Props {
     ticketInfo: any, 
 }
 
-function EventDetails(props: Props) {
+function EventDetails(props: any) {
     const { 
         banner,
         eventID,
