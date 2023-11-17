@@ -3,37 +3,57 @@ import { INotification } from '@/models/Notifications'
 import { Avatar, Box, HStack, VStack, Image } from '@chakra-ui/react'
 import React from 'react'
 import moment from 'moment';
-import { IMAGE_URL } from '@/services/urls';
+import { IMAGE_URL, URLS } from '@/services/urls';
 import { useRouter } from 'next/navigation';
 import { useDetails } from '@/global-state/useUserDetails';
+import { useMutation, useQueryClient } from 'react-query';
+import httpService from '@/utils/httpService';
+import { User } from 'iconsax-react';
 
 function NotificationCard({ notification }: {
     notification: INotification
 }) {
   const router = useRouter();
   const { userId } = useDetails((state) => state);
-  console.log(notification?.recieverID);
+  const queryClient = useQueryClient();
+
+  console.log(notification.createdBy);
+
+
+  const markAsRead = useMutation({
+    mutationFn: (data: string[]) => httpService.put(`${URLS.MARK_NOTIFICATIONS_AS_READ}?notificationIDs=${data}&read=true`),
+    onSuccess: (data) => {
+        console.log(data.data);
+        queryClient.invalidateQueries(['getNotifications']);
+    },
+    onError: () => {}
+})
 
   const handleClick = () => {
     switch(notification.type) {
       case 'CHAT': {
           router.push(`/dashboard/chats?activeID=${notification.typeID}`);
+          markAsRead.mutate([notification.id]);
           break;
       }
       case 'EVENT': {
         router.push(`/dashboard/event/details/${notification.typeID}`);
+        markAsRead.mutate([notification.id]);
         break;
       }
       case 'FRIEND_REQUEST': {
         router.push(`/dashboard/profile/${userId}/network?tab=request`);
+        markAsRead.mutate([notification.id]);
         break;
       }
       case 'GROUP_REQUEST': {
         router.push(`/dashboard/community?tab=request`);
+        markAsRead.mutate([notification.id]);
         break;
       }
       case 'GROUP': {
         router.push(`/dashboard/community?activeID=${notification.typeID}`);
+        markAsRead.mutate([notification.id]);
         break;
       }
       default:{
@@ -42,20 +62,27 @@ function NotificationCard({ notification }: {
     }
   }
   return (
-    <HStack bg={notification.status === 'READ' ? 'lightgrey':'white'} onClick={handleClick} alignItems={'center'} spacing={0} justifyContent={'space-between'} width='100%' height={'auto'} paddingY={'10px'} borderBottomWidth={'1px'} borderBottomColor='lightgrey' paddingX='10px'>
+    <HStack bg={'white'} onClick={handleClick} alignItems={'center'} spacing={0} justifyContent={'space-between'} width='100%' height={'auto'} paddingY={'10px'} borderBottomWidth={'1px'} borderBottomColor='lightgrey' paddingX='10px'>
         <Box width='32px' height='32px' borderRadius={'36px 0px 36px 36px'} borderWidth={'1px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-          {!notification?.recieverID?.data?.imgMain?.value && (
-            <VStack width='100%' height='100%' color='red' bg='red' justifyContent={'center'} alignItems='center'>
-              <CustomText color='red' fontSize={'18px'} fontFamily={'DM-Bold'}>{notification?.recieverID?.firstName[0].toUpperCase()} {notification?.recieverID?.lastName[0].toUpperCase()}</CustomText>
+          { notification?.createdBy?.data !== null && !notification?.createdBy?.data?.imgMain?.value === null && (
+            <VStack width='100%' height='100%' color='red' justifyContent={'center'} alignItems='center'>
+              <CustomText color='red' fontSize={'18px'} fontFamily={'DM-Bold'}>{notification?.createdBy?.firstName[0].toUpperCase()} {notification?.createdBy?.lastName[0].toUpperCase()}</CustomText>
             </VStack>
           )}
-          {notification?.recieverID?.data?.imgMain?.value && (
+          { notification?.createdBy?.data !== null && notification?.createdBy?.data?.imgMain?.value !== null && (
             <>
-              { notification?.recieverID?.data.imgMain.value.startsWith('https://') && <Image alt='img' src={`${notification?.recieverID?.data?.imgMain?.value}`} width='100%' height={'100%'} objectFit={'cover'} /> }
+              { notification?.createdBy?.data.imgMain.value.startsWith('https://') && <Image alt='img' src={`${notification?.createdBy?.data?.imgMain?.value}`} width='100%' height={'100%'} objectFit={'cover'} /> }
 
-              { !notification?.recieverID?.data.imgMain.value.startsWith('https://') && <Image alt='img' src={`${IMAGE_URL}${notification?.recieverID?.data?.imgMain?.value}`} width='100%' height={'100%'} objectFit={'cover'} /> }
+              { !notification?.createdBy?.data.imgMain.value.startsWith('https://') && <Image alt='img' src={`${IMAGE_URL}${notification?.createdBy?.data?.imgMain?.value}`} width='100%' height={'100%'} objectFit={'cover'} /> }
             </>
           )}
+          {
+            notification.createdBy.data === null && (
+              <VStack width='100%' height={'100%'} justifyContent={'center'} alignItems={'center'}>
+                <User size={'20px'} variant='Outline' />
+              </VStack>
+            )
+          }
         </Box>
         <VStack alignItems={'flex-start'} spacing={0} flex={1} paddingX='10px'>
             <CustomText fontSize={'14px'} fontFamily={'DM-Medium'} color='brand.chasescrollButtonBlue'>{notification.title}</CustomText>

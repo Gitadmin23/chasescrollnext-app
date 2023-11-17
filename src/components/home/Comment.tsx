@@ -1,16 +1,18 @@
-import { Avatar, Box, Button, HStack, Input, Spinner, VStack, useToast } from '@chakra-ui/react'
+import { Avatar, Box, Button, HStack, Input, Spinner, VStack, useToast, Image } from '@chakra-ui/react'
 import React from 'react'
 import CustomText from '../general/Text'
 import { FiHeart } from 'react-icons/fi'
 import { IComment, Subcomment } from '@/models/Comment'
 import { useDetails } from '@/global-state/useUserDetails'
 import Moment from 'moment';
-import { RESOURCE_BASE_URL, URLS } from '@/services/urls'
+import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import httpService from '@/utils/httpService'
 import { Heart } from 'iconsax-react'
+import { handleLinks } from '../general/LinkExtractor'
+import { THEME } from '@/theme'
 
-function SubCommentBox({ comment, id, commentID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data: { imgMain: { value } } } }: Subcomment) {
+function SubCommentBox({ comment, id, commentID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data } }: Subcomment) {
     const [isLiked, setIsLiked] = React.useState(likeStatus);
     const { userId: myId } = useDetails((state) => state);
     const queryClient = useQueryClient();
@@ -47,7 +49,28 @@ function SubCommentBox({ comment, id, commentID, timeInMilliseconds, likeCount, 
             <HStack width='100%' justifyContent={'space-between'} alignItems={'center'} marginBottom={'20px'}>
 
                 <HStack>
-                    <Avatar alignSelf={'flex-start'} size='md' src={`${RESOURCE_BASE_URL}${value}`} name={username} />
+
+                <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+                            { data === null && (
+                            <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                                <CustomText fontFamily={'DM-Regular'}>{username ? username[0].toUpperCase(): 'USER'}</CustomText>
+                            </VStack>
+                            )}
+                            { data?.imgMain.value === null && (
+                            <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                                <CustomText fontFamily={'DM-Regular'}>{username[0].toUpperCase()}</CustomText>
+                            </VStack>
+                            )}
+                            {
+                            data.imgMain.value && (
+                                <>
+                                { data?.imgMain?.value.startsWith('https://') && <Image src={`${data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+
+                                { !data?.imgMain?.value.startsWith('https://') && <Image src={`${IMAGE_URL}${data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                                </>
+                            )
+                            }
+                    </Box>
 
                     <VStack alignItems={'flex-start'}>
                         <VStack alignItems={'flex-start'} spacing={0}>
@@ -72,7 +95,7 @@ function SubCommentBox({ comment, id, commentID, timeInMilliseconds, likeCount, 
     )
 }
 
-function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data: { imgMain: { value } } } }: IComment) {
+function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data } }: IComment) {
     const [showReplies, setShowReplies] = React.useState(false);
     const [subComments, setSubComments] = React.useState<Subcomment[]>([]);
     const [reply, setReply] = React.useState('');
@@ -166,18 +189,39 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
             <HStack width='100%' justifyContent={'space-between'} alignItems={'center'} marginBottom={'20px'} marginRight={['20px', '20px']}>
 
                 <HStack flex={1} alignItems={'flex-start'}>
-                    <Avatar size='md' alignSelf={'flex-start'} src={`${RESOURCE_BASE_URL}/${value}`} name={username} />
+
+                     <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+                            { data === null && (
+                            <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                                <CustomText fontFamily={'DM-Regular'}>{username ? username[0].toUpperCase(): 'USER'}</CustomText>
+                            </VStack>
+                            )}
+                            { data?.imgMain.value === null && (
+                            <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                                <CustomText fontFamily={'DM-Regular'}>{username[0].toUpperCase()}</CustomText>
+                            </VStack>
+                            )}
+                            {
+                            data.imgMain.value && (
+                                <>
+                                { data?.imgMain?.value.startsWith('https://') && <Image src={`${data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+
+                                { !data?.imgMain?.value.startsWith('https://') && <Image src={`${IMAGE_URL}${data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                                </>
+                            )
+                            }
+                    </Box>
 
                     <VStack alignItems={'flex-start'} width={'70%'}>
                         <VStack spacing={0} alignItems={'flex-start'}>
                             <CustomText fontFamily={'Satoshi-Light'} color='brand.chasescrollButtonBlue'>{username[0].toUpperCase()}{username.substring(1)}</CustomText>
                             <VStack>
-                                <CustomText fontFamily={'Satoshi-Medium'}>{comment.length > 20 ? comment.substring(0, 20) + '...':comment}</CustomText>
-                                { comment.length > 20 && (
-                                    <>
-                                        {showMore ? <CustomText color={'brand.chasescrollButtonBlue'} fontSize={'12px'} fontFamily={'DM-Regular'} >Show Less</CustomText> : <CustomText>Show More</CustomText>}
-                                    </>
-                                )}
+
+                                <CustomText fontFamily={'Satoshi-Medium'}>
+                                { showMore ? handleLinks(comment) : comment.length > 30 ? comment.slice(0, 30) + '...' : comment}
+                                <br />
+                                    <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowMore(!showMore)} >{showMore ? 'Show Less' : 'Show More'}</span>
+                                </CustomText>
                             </VStack>
                         </VStack>
 

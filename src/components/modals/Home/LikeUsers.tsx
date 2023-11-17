@@ -83,14 +83,14 @@ if (isLoading) {
                         users.length > 0 && users.map((item, index) => (
                             <HStack width='100%' height='60px' key={index.toString()} borderBottom={'1px'} borderBottomColor={'lightgrey'}>
                                  <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={index === users.length - 1 ? '0px':'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-                                        { item?.data.imgMain.value === null && (
+                                        { item?.data?.imgMain?.value === null && (
                                             <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
                                                 <CustomText fontFamily={'DM-Regular'}>{item.firstName[0].toUpperCase()} {item.lastName[0].toUpperCase()}</CustomText>
                                             </VStack>
                                         )}
                                         {
-                                            item.data.imgMain.value && (
-                                                <Image src={`${IMAGE_URL}${item.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                                            item?.data?.imgMain?.value && (
+                                                <Image src={`${IMAGE_URL}${item?.data?.imgMain?.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
                                             )
                                         }
                                 </Box>

@@ -19,6 +19,8 @@ import ImageModal from '../general/ImageModal';
 import { useImageModalState } from '../general/ImageModal/imageModalState';
 import ShareEvent from '../sharedComponent/share_event';
 import { useRouter } from 'next/navigation';
+import { handleLinks } from '../general/LinkExtractor';
+import { THEME } from '@/theme';
 
 interface IProps {
   post?: IMediaContent;
@@ -29,6 +31,7 @@ interface IProps {
 const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   const [showReportModal, setShowReportModal] = React.useState(false);
   const [showlikes, setShowLikes] = React.useState(false);
+  const [showAll, setShowAll] = React.useState(false);
   const queryClient = useQueryClient();
   const { userId } = useDetails((state) => state);
   const { setAll } = useImageModalState((state) => state)
@@ -36,6 +39,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
 
   const router = useRouter();
   const toast = useToast();
+  console.log(post.user);
 
   const { isLoading, isError } = useQuery([`getPostById-${post?.id}`, post?.id], () => httpService.get(`${URLS.GET_POST_BY_ID}/${post?.id}`),
     {
@@ -125,7 +129,11 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
             )}
             {
               post?.user?.data.imgMain.value && (
-                <Image src={`${IMAGE_URL}${post?.user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                <>
+                  { post?.user?.data?.imgMain?.value.startsWith('https://') && <Image src={`${post?.user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+
+                  { !post?.user?.data?.imgMain?.value.startsWith('https://') && <Image src={`${IMAGE_URL}${post?.user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                </>
               )
             }
           </Box>
@@ -167,8 +175,9 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       </HStack>
 
       {/* BODY SECTION */}
-      <CustomText fontFamily={'Satoshi-Regular'} fontSize='md' color='brand.chasescrollButtonBlue'>
-        {post?.text}
+      <CustomText fontFamily={'Satoshi-Regular'} fontSize='md' color='black'>
+        { showAll ? handleLinks(post?.text) : post?.text.length > 30 ? post?.text.slice(0, 30) + '...' : post?.text}
+        <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
       </CustomText>
 
       {post?.type === 'WITH_IMAGE' || post?.type === 'MULTIPLE_PICTURE' && (
