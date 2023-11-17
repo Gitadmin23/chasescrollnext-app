@@ -94,7 +94,7 @@ function EventDetails(props: Props) {
                     </Box>
                 </Box>
             </Flex>
-            <Box width={"full"} px={"6"}>
+            <Box width={"full"} px={["0px", "6"]}>
                 <EventHeader name={eventName} maxPrice={maxPrice} minPrice={minPrice} currency={currency} />
                 <EventCreator isOrganizer={isOrganizer} convener={convener} username={username} data={dataInfo} />
                 <Flex py={"3"} justifyContent={"end"} >
