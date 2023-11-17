@@ -73,19 +73,19 @@ if (isLoading) {
 
                 <Box width='100%' height="300px" overflowY={'auto'}>
                     {
-                        users.length < 1 && (
+                        users?.length < 1 && (
                             <VStack width='100%' height={'100%'} justifyContent={'center'} alignItems={'center'}>
                                 <CustomText>No user has liked this post.</CustomText>
                             </VStack>
                         )
                     }
                     {
-                        users.length > 0 && users.map((item, index) => (
+                        users?.length > 0 && users.map((item, index) => (
                             <HStack width='100%' height='60px' key={index.toString()} borderBottom={'1px'} borderBottomColor={'lightgrey'}>
                                  <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={index === users.length - 1 ? '0px':'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
                                         { item?.data?.imgMain?.value === null && (
                                             <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                                                <CustomText fontFamily={'DM-Regular'}>{item.firstName[0].toUpperCase()} {item.lastName[0].toUpperCase()}</CustomText>
+                                                <CustomText fontFamily={'DM-Regular'}>{item?.firstName[0].toUpperCase()} {item?.lastName[0].toUpperCase()}</CustomText>
                                             </VStack>
                                         )}
                                         {

@@ -14,19 +14,47 @@ import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
 import { CustomInput } from '@/components/Form/CustomInput';
 import { signIn, useSession, signOut, } from 'next-auth/react'
-import { Session, } from 'next-auth'; 
+import { Session, } from 'next-auth';
 
 
 
 const LINK2 = [
-  { name: 'Sign up', link: '/auth/signup', isExternal: false },
-  { name: 'About Us', link: 'https://chasescroll.com/about', isExternal: true },
-  { name: 'Events', link: 'https://chasescroll.com', isExternal: true },
-  { name: 'Community', link: 'https://chasescroll.com', isExternal: true },
-  { name: 'Terms and condition', link: 'https://chasescroll.com/terms', isExternal: true },
-  { name: 'Help', link: 'https://chasescroll.com', isExternal: true },
+  {
+    name: "Sign in",
+    link: "/",
+    isExternal: false
+  },
+  {
+    name: "Sign up",
+    link: "/sign-up",
+    isExternal: true
+  },
+  {
+    name: "Home",
+    link: "https://chasescroll.com/",
+    isExternal: true
+  },
+  {
+    name: "About us",
+    link: "https://chasescroll.com/about",
+    isExternal: true
+  },
+  {
+    name: "Policy",
+    link: "https://chasescroll.com/privacy-poilcy",
+    isExternal: true
+  },
+  {
+    name: "Terms and conditions",
+    link: "https://chasescroll.com/terms",
+    isExternal: true
+  },
+  {
+    name: "Contact us",
+    link: "https://chasescroll.com/contact",
+    isExternal: true
+  },
 ]
-
 const exclude = ['Events', 'Sign up', 'Community', 'Sign up']
 
 
@@ -44,7 +72,7 @@ function LoginPage() {
 
   const toast = useToast();
   const router = useRouter();
-  const { setAll } = useDetails((state) => state); 
+  const { setAll } = useDetails((state) => state);
   const { data: sessionData, update } = useSession();
 
 
@@ -148,8 +176,8 @@ function LoginPage() {
         position: 'top-right',
       });
 
-      if (data?.data?.message === "This email is not verified") { 
-        router.push('/auth/verify-account?email=' + values?.username); 
+      if (data?.data?.message === "This email is not verified") {
+        router.push('/auth/verify-account?email=' + values?.username);
       } else {
 
         localStorage.setItem('token', data?.data?.access_token);
@@ -236,149 +264,90 @@ function LoginPage() {
     },
     validationSchema: signInValidation,
     submit: (data: any) => mutate(data)
-  }); 
+  });
 
   return renderForm(
-    <VStack width='100%' height='100vh' overflow={'hidden'} alignItems={'flex-start'} justifyContent={['flex-start', 'center']} bg='white' paddingX={['0px', '150px',]} spacing={0} position={'relative'}>
+    <Flex flexDir={"column"} gap={"10"} alignItems={"center"} justifyContent={"space-between"} pt={"16"} pb={["16px", "16px", "0px"]} width={"full"} >
+      <Flex flexDir={["column", "column", "row"]} gap={["10", "10", "4"]} alignItems={"center"} justifyContent={"space-between"} width={"full"} maxWidth={"5xl"} >
+        <Flex px={"4"} flexDir={"column"} alignItems={"center"} width={"full"} gap={"12"} >
+          <Box width={"full"} maxWidth={"sm"} height={"80"} >
+            <Image src='/assets/svg/sign-in-illustration-2.svg' width={"full"} alt='chasescroll logo' />
+          </Box>
+          <Flex width={"full"} maxWidth={"400px"} flexDirection={"column"} gap={"2"} >
+            <CustomText textAlign={'center'} fontSize={['24px', "30px"]} color="#163AB7" fontFamily={'DM-Bold'} fontWeight={'500'}>Your Well tailored virtual Community.</CustomText>
+            <CustomText textAlign={'center'} fontFamily={'DM-Regular'} fontSize={'24px'}>An efficient ecosystem for event management.</CustomText>
+          </Flex>
+          <Flex gap={"5"} justifyContent={"center"} flexWrap={"wrap"} >
+            <Box as='button' >
+              <Image alt='google-btn' src="/assets/images/play-store.png" width='100%' height={'100%'} objectFit={'contain'} />
+            </Box>
+            <Box as='button' >
+              <Image alt='google-btn' src="/assets/images/apple-store.png" width='100%' height={'100%'} objectFit={'contain'} />
+            </Box>
+          </Flex>
+        </Flex>
 
+        <Flex gap={"4"} flexDir={"column"} width={"full"} alignItems={"center"} p={"4"} >
+          <Flex flexDirection={"column"} gap={"8"} borderWidth={"1px"} roundedTopLeft={"3xl"} roundedBottom={"3xl"} p={"6"} width={"full"} maxWidth={"463px"} >
 
-      <Box width={'100%'} height={'100%'} flex='1' overflowX={'hidden'} overflowY={'auto'} padding={['10px', '0px']}>
+            <CustomText textAlign={'center'} fontSize={['2xl', "4xl"]} color={"brand.chasescrollDarkBlue"} fontFamily={'DM-Bold'} fontWeight={'700'}>Chasescroll</CustomText>
+            <CustomText textAlign={'center'} fontWeight={"400"} fontFamily={'DM-Regular'} fontSize={'md'}>An efficient ecosystem for event management.</CustomText>
+            <Flex width={"full"} gap={"4"} flexDir={"column"} >
+              <CustomInput name='username' isPassword={false} type='text' placeholder='Enter your Email' />
+              <CustomInput name='password' isPassword type='password' placeholder='Enter your password' />
 
-        <HStack flex='1' width={'100%'} height='100%' justifyContent={'center'}>
-
-          <Flex direction={['column', 'row']} width={['100%', '80%']} height={'100%'}>
-
-            {/* LEFT SECTIOON */}
-            <VStack flex='1' paddingTop={['30px', '0px']} width={['100%', '50%']} height={['100%']} alignItems={'center'} justifyContent={'center'} spacing={0}>
-              <Image src='/assets/svg/sign-in-illustration.svg' width={407} height={338} alt='chasescroll logo' />
-              <CustomText marginTop={'20px'} textAlign={'center'} width={['100%', '60%']} fontSize={'28px'} color="#163AB7" fontFamily={'DM-Bold'} fontWeight={'400'}>Your Well tailored virtual Community.</CustomText>
-              <CustomText textAlign={'center'} width={['100%', '60%']} fontFamily={'DM-Regular'} fontSize={'24px'}>An efficient ecosystem for event management.</CustomText>
-
-              <HStack height={'50px'} overflow={'hidden'} width='70%' marginTop={'20px'}>
-
-                <Box flex='1' width='131px' height={'100%'}>
-                  <Image alt='google-btn' src="/assets/images/play-store.png" width='100%' height={'100%'} objectFit={'contain'} />
-                </Box>
-
-                <Box flex='1' width='131px' height={'100%'}>
-                  <Image alt='google-btn' src="/assets/images/apple-store.png" width='100%' height={'100%'} objectFit={'contain'} />
-                </Box>
-
-              </HStack>
-            </VStack>
-
-            {/* RIGHT SECTION */}
-            <VStack flex='1' paddingBottom={['30px', '0px']} width={['100%', '50%']} marginTop={['30px', '0px']} height={['100%']} justifyContent={'center'} alignItems={'center'} spacing={6}>
-
-              <VStack width={['100%', '463px']} height='374px' borderWidth={'0.2px'} borderRadius={'24px 0px 24px 24px'} borderColor={'grey'} paddingTop={'30px'} paddingX='20px'>
-                <CustomText fontSize={'44px'} fontFamily={'DM-Bold'} fontWeight={'700'} color='#163AB7'>Chasescroll</CustomText>
-
-                <CustomInput name='username' isPassword={false} type='text' placeholder='Enter your Email' />
-                <CustomInput name='password' isPassword type='password' placeholder='Enter your password' />
-
-                <HStack justifyContent={'space-between'} spacing={0} width='100%' marginY='20px'>
-                  <Link href='/auth/forgotpassword'>
-                    <CustomText color='brand.chasescrollBlue' fontSize={'sm'} fontFamily={'Satoshi-Regular'} textAlign={'left'}>
-                      Forgot password ?
-                    </CustomText>
-                  </Link>
-
-                  <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'}>
-                    Dont have an account ?
-                    <Link href='/auth/signup'>
-                      <span style={{ color: THEME.COLORS.chasescrollBlue }}> Sign up</span>
-                    </Link>
+              <HStack justifyContent={'space-between'} spacing={0} width='100%' marginY='0px'>
+                <Link href='/auth/forgotpassword'>
+                  <CustomText color='brand.chasescrollBlue' fontSize={'sm'} fontFamily={'Satoshi-Regular'} textAlign={'left'}>
+                    Forgot password ?
                   </CustomText>
-                </HStack>
+                </Link>
 
-                <CustomButton type='submit' text='Login' isLoading={isLoading} color='white' width='100%' borderRadius='10px' />
+                <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'}>
+                  Dont have an account ?
+                  <Link href='/auth/signup'>
+                    <span style={{ color: THEME.COLORS.chasescrollBlue }}> Sign up</span>
+                  </Link>
+                </CustomText>
+              </HStack>
 
-              </VStack>
+              <CustomButton type='submit' text='Login' isLoading={isLoading} color='white' width='100%' borderRadius='10px' />
 
-              <Button onClick={handleSignIn} width={['100%', '294px']} height={'40px'} borderRadius={'8px'} bg='#1018280D' padding='8px 16px 8px 16px'>
-                <Image alt='google' src='/assets/svg/googlelogo.svg' />
-                <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color='black' fontWeight={'700'}>Sign in with Google</CustomText>
-              </Button>
-
-              <CustomText fontFamily={'DM-Medium'} color='grey' textAlign={'center'} fontSize={'16px'}>Create a page for events, Community and Business.</CustomText>
-
-            </VStack>
-
+            </Flex>
           </Flex>
 
-        </HStack>
+          <Button onClick={handleSignIn} width={['100%', '294px']} height={'40px'} borderRadius={'8px'} bg='#1018280D' padding='8px 16px 8px 16px'>
+            <Image alt='google' src='/assets/svg/googlelogo.svg' />
+            <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color='black' fontWeight={'700'}>Sign in with Google</CustomText>
+          </Button>
 
+          <CustomText fontFamily={'DM-Medium'} color='grey' textAlign={'center'} fontSize={'16px'}>Create a page for events, Community and Business.</CustomText>
+
+        </Flex>
+      </Flex>
+      <Box width={"full"} display={["none", "none", "flex"]} flexDirection={"column"} gap={"4"} pb={"4"} >
+        <Box width={"full"} borderWidth={"1px"} />
+        <Flex gap={"4"} justifyContent={"center"} alignItems={"center"} fontSize={"sm"} textAlign={"center"} color={"brand.chasescrollTextGrey"} >
+          {LINK2.map((item, index) => {
+            if (item.isExternal) {
+              return (
+                <CustomText fontFamily={'DM-Regular'} color={item.name === "Sign in" ?  "brand.chasescrollBlue" :"brand.chasescrollTextGrey"} _hover={{color:"brand.chasescrollBlue"}} key={index.toString()}>
+                  <a key={index.toString()} href={item.link}>{item.name}</a>
+                </CustomText>
+              )
+            } else {
+              return (
+                <CustomText  fontFamily={'DM-Regular'} color={item.name === "Sign in" ?  "brand.chasescrollBlue" :"brand.chasescrollTextGrey"} _hover={{color:"brand.chasescrollBlue"}} key={index.toString()}>
+                  <Link href={`/${item.link}`} key={index.toString()}>
+                    {item.name}
+                  </Link>
+                </CustomText>
+              )
+            }
+          })}
+        </Flex>
       </Box>
-
-      <HStack display={['none', 'flex']} width={'100%'} height={'100px'} borderTop={'1px'} borderTopColor={'lightgrey'} alignItems={'center'} justifyContent={'center'}>
-        {LINK2.map((item, index) => {
-          if (item.isExternal) {
-            return (
-              <CustomText fontFamily={'DM-Regular'} fontSize={'16px'} marginX={'10px'} display={{ sm: exclude.includes(item.name) ? 'none' : 'inline', lg: 'inline' }} key={index.toString()}>
-                <a key={index.toString()} href={item.link}>{item.name}</a>
-              </CustomText>
-            )
-          } else {
-            return (
-              <CustomText display={{ sm: exclude.includes(item.name) ? 'none' : 'inline', lg: 'inline-block' }} fontFamily={'DM-Regular'} fontSize={'16px'} marginX={'10px'} key={index.toString()}>
-                <Link href={`/${item.link}`} key={index.toString()}>
-                  {item.name}
-                </Link>
-              </CustomText>
-            )
-          }
-        })}
-      </HStack>
-
-      <HStack display={['flex', 'none']} width={'100%'} height={'100px'} borderTop={'1px'} borderTopColor={'lightgrey'} alignItems={'center'} justifyContent={'center'}>
-        {LINK2.filter((item) => !exclude.includes(item.name)).map((item, index) => {
-          if (item.isExternal) {
-            return (
-              <CustomText fontFamily={'DM-Regular'} fontSize={'16px'} marginX={'10px'} display={{ sm: exclude.includes(item.name) ? 'none' : 'inline', lg: 'inline' }} key={index.toString()}>
-                <a key={index.toString()} href={item.link}>{item.name}</a>
-              </CustomText>
-            )
-          } else {
-            return (
-              <CustomText display={{ sm: exclude.includes(item.name) ? 'none' : 'inline', lg: 'inline-block' }} fontFamily={'DM-Regular'} fontSize={'16px'} marginX={'10px'} key={index.toString()}>
-                <Link href={`/${item.link}`} key={index.toString()}>
-                  {item.name}
-                </Link>
-              </CustomText>
-            )
-          }
-        })}
-      </HStack>
-      {
-        showModal && (
-          <Box position={'absolute'} width='100%' height={'100vh'} bg='#0000007f' bottom='0px' left={'0px'} justifyContent={'center'} alignItems={'center'}>
-
-            <div className=" w-[500px] bg-white rounded-lg " >
-              <div className=" w-full bg-white rounded-lg flex flex-col gap-4 px-6 py-5" >
-                <p className=" font-semibold text-xl " >Add User Information To Continue</p>
-                <div className=" w-full flex flex-col gap-2 mt-6 " >
-                  <p>First Name</p>
-                  <Input onChange={(e) => setFirstName(e?.target?.value)} />
-                </div>
-                <div className=" w-full flex flex-col gap-2  " >
-                  <p>Last Name</p>
-                  <Input onChange={(e) => setLastName(e?.target?.value)} />
-                </div>
-                <div className=" w-full flex flex-col gap-2  " >
-                  <p>Username</p>
-                  <Input onChange={(e) => setUserName(e?.target?.value)} />
-                  {CheckUsername &&
-                    <p className=" text-sm text-chasescrollRed -mt-1 " >{CheckUsername}</p>
-                  }
-                </div>
-                <button disabled={(!FirstName || !LastName || UserName?.length < 3 || CheckUsername) ? true : false} onClick={() => clickHandler()} className=" w-full h-[45px] bg-chasescrollBlue text-white disabled:opacity-25 rounded-md mt-6 font-semibold " >{Loading ? "Loading..." : "Update Information"}</button>
-              </div>
-            </div>
-
-          </Box>
-        )
-      }
-    </VStack>
+    </Flex>
   )
 }
 

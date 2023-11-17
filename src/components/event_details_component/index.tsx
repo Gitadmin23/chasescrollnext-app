@@ -85,8 +85,8 @@ function EventDetails(props: any) {
                 <Box as='button' display={"flex"} onClick={() => router.back()} px={"3"} mt={"20px"} ml={"-30px"} justifyContent={"center"} alignItems={"center"} zIndex={"20"} >
                     <BsChevronLeft color={"black"} size={"25px"} />
                 </Box>
-                <Box height={"350px"} position={"relative"} width={"full"} rounded={"16px"} roundedTopRight={"none"} >
-                    <BlurredImage height={"350px"} image={dataInfo?.currentPicUrl} />
+                <Box height={["230px", "230px", "350px"]} position={"relative"} width={"full"} rounded={"16px"} roundedTopRight={"none"} >
+                    <BlurredImage height={["230px", "230px", "350px"]} image={dataInfo?.currentPicUrl} />
                     {/* <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={dataInfo?.currentPicUrl} width={"full"} height={"full"} src={IMAGE_URL + dataInfo?.currentPicUrl} /> */}
                     <Box width={"fit-content"} h={"40px"} px={"2"} display={"flex"} flexDirection={"row"} alignItems={"center"} justifyContent={"center"} rounded={"md"} bg={"#101828D2"} position={"absolute"} bottom={"4"} right={"4"} gap={"4"} >
                         {/* <LuShare2 size={24} color="white" /> */}
@@ -94,7 +94,7 @@ function EventDetails(props: any) {
                     </Box>
                 </Box>
             </Flex>
-            <Box width={"full"} px={"6"}>
+            <Box width={"full"} px={["0px", "6"]}>
                 <EventHeader name={eventName} maxPrice={maxPrice} minPrice={minPrice} currency={currency} />
                 <EventCreator isOrganizer={isOrganizer} convener={convener} username={username} data={dataInfo} />
                 <Flex py={"3"} justifyContent={"end"} >
