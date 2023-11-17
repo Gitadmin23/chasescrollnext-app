@@ -27,7 +27,8 @@ function Home() {
   const [newIttem, setNew] = React.useState<IMediaContent[]>([]);
   const [showModal, setShowModal] = React.useState(false);
 
-  const { firstName, lastName, userId, username } = useDetails((state) => state);
+  const { firstName, lastName, userId, username, user: Details } = useDetails((state) => state);
+  console.log(Details);
 
   const [user, setUser] = React.useState<IUser | null>(null);
 
@@ -35,10 +36,11 @@ function Home() {
   const toast = useToast();
   const queryClient = useQueryClient();
 
-  const getUser = useQuery(['getUserDets', userId], () => httpService.get(`${URLS.GET_USER_DETAILS}/${userId}`, {
+  const getUser = useQuery(['getUserDets', userId], () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`, {
   }), {
     onSuccess: (data) => {
       setUser(data.data);
+      console.log(data.data);
     },
   });
 
@@ -119,26 +121,30 @@ function Home() {
       {/* MODAL */}
       <CreateMediaPost isOpen={showModal} onClose={() => setShowModal(false)} />
 
-      <VStack width={['100%', '100%', '35%', '35%']} height='180px'  paddingTop='20px' paddingLeft={'20px'} paddingRight={['20px', '0px']} overflowY={'hidden'}>
+      <VStack width={['100%', '100%', '40%', '40%']} height='180px'  paddingTop='20px' paddingLeft={'20px'} paddingRight={['20px', '0px']} overflowY={'hidden'}>
 
         {/* TEXTBOX */}
         <VStack alignItems={'flex-start'} justifyContent={'flex-start'} width='100%' height='150px' bg='whitesmoke' borderWidth={0} shadow={'md'} borderColor={'lightgrey'} borderRadius={'10px'} padding='10px'>
           <HStack width='100%' height={'90px'}>
 
             <Box  width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-            {user?.data.imgMain.value === null && (
+            {Details?.data.imgMain.value === null && (
               <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                <CustomText fontFamily={'DM-Regular'}>{user?.username[0].toUpperCase()}</CustomText>
+                <CustomText fontFamily={'DM-Regular'}>{Details?.username[0].toUpperCase()}</CustomText>
               </VStack>
             )}
             {
-              user?.data.imgMain.value && (
-                <Image src={`${IMAGE_URL}${user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+              Details?.data.imgMain.value !== null && (
+                <>
+                  { Details?.data?.imgMain?.value.startsWith('https://') && <Image src={`${Details?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+
+                  { !Details?.data?.imgMain?.value.startsWith('https://') && <Image src={`${IMAGE_URL}${Details?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                </>
               )
             }
             </Box>
 
-            <Textarea bg='whitesmoke' borderWidth={'0px'} flex={'1'} width='100%'  placeholder={`What's on your mind @${username}`} resize={'none'} value={post} onChange={(e) => setPost(e.target.value)}></Textarea>
+            <Textarea bg='whitesmoke' borderWidth={'0px'} fontFamily={'DM-Regular'} fontSize={'14px'} flex={'1'} width='100%'  placeholder={`What's on your mind @${username}`} resize={'none'} value={post} onChange={(e) => setPost(e.target.value)}></Textarea>
             { !createPostMutation.isLoading && <Send2 onClick={() => handlePostCreation()} size={'30px'} color={THEME.COLORS.chasescrollButtonBlue} /> }
             { createPostMutation.isLoading && <Spinner size={'sm'} color={THEME.COLORS.chasescrollButtonBlue} /> }
           </HStack>
@@ -151,7 +157,7 @@ function Home() {
        
       </VStack>
 
-          <Box flex='1' width={'full'} height={'full'} overflow={'auto'} paddingX='20px' paddingTop='20px'>
+          <Box flex='1' width={'full'} height={'full'} overflow={'auto'} paddingX='20px' paddingTop='0px'>
 
           {
             !isLoading && isError && (
@@ -161,7 +167,7 @@ function Home() {
               </VStack>
             )
           }
-          <VStack width={['100%', '100%', '35%', '35%']} height={['100%', '80%']}>
+          <VStack width={['100%', '100%', '40%', '40%']} height={['100%', '80%']}>
             {
               newIttem.map((item, i) => (
                 <ThreadCard post={item} key={i.toString()} />

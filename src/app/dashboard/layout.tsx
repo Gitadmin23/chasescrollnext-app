@@ -159,13 +159,14 @@ function Layout({ children }: {
 
                             {userId && (
                                 <HStack display={['none', 'flex']}>
-                                    <CustomText fontWeight={"bold"} >{username}</CustomText>
+                                    {/* <CustomText fontWeight={"bold"} >{username}</CustomText> */}
+                                    <NotificationBar />
 
                                     <Link href={`/dashboard/profile/${userId}`}>
                                         <UserImage data={user} image={user?.data?.imgMain?.value} size={["40px"]} font={["15px"]} />
                                     </Link>
 
-                                    <NotificationBar />
+                                    
                                 </HStack>
                             )}
 
@@ -175,11 +176,11 @@ function Layout({ children }: {
                                     <AddSquare variant='Outline' color={THEME.COLORS.chasescrollBlue} size='30px' />
                                 </Link>
 
-                                <NotificationBar />
-
                                 <Link href='/dashboard/chats'>
                                     <Message color={THEME.COLORS.chasescrollBlue} size='30px' variant='Outline' />
                                 </Link>
+
+                                <NotificationBar />
 
                                 <Link href={userId ? `/dashboard/profile/${userId}` : ""}>
                                     <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>

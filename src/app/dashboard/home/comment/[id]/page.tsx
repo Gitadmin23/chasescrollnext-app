@@ -1,14 +1,14 @@
 'use client';
 import React from 'react'
 import {useParams} from 'next/navigation';
-import { Avatar, Box, Flex, HStack, Input, InputGroup, InputRightElement, Spinner, Textarea, VStack, useToast } from '@chakra-ui/react';
+import { Avatar, Box, Flex, HStack, Input, InputGroup, InputRightElement, Spinner, Textarea, VStack, useToast, Image } from '@chakra-ui/react';
 import { FiChevronLeft } from 'react-icons/fi'
 import { useDetails } from '@/global-state/useUserDetails';
 import { THEME } from '@/theme';
 import CustomText from '@/components/general/Text';
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import httpService from '@/utils/httpService';
-import { URLS } from '@/services/urls';
+import { IMAGE_URL, URLS } from '@/services/urls';
 import CommentBox from '@/components/home/Comment';
 import { useRouter } from 'next/navigation';
 import { IComment } from '@/models/Comment';
@@ -19,7 +19,7 @@ function Comment() {
   const router = useRouter();
 
 
-  const { firstName, lastName, userId, username } = useDetails((state) => state)
+  const { firstName, lastName, userId, username, user } = useDetails((state) => state)
   const params = useParams();
   const post = params;
   const queryClient = useQueryClient();
@@ -69,7 +69,24 @@ function Comment() {
       <HStack width={'100%'} spacing={[3, 10]}>
           <FiChevronLeft fontSize='25px' color='black' onClick={() => router.back()} />
           <HStack width={'100%'}>
-            <Avatar name={`${firstName} ${lastName}`} size='md' />
+
+          <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+            {user?.data.imgMain.value === null && (
+              <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                <CustomText fontFamily={'DM-Regular'}>{user?.username[0].toUpperCase()}</CustomText>
+              </VStack>
+            )}
+            {
+              user?.data.imgMain.value && (
+                <>
+                  { user?.data?.imgMain?.value.startsWith('https://') && <Image src={`${user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+
+                  { !user?.data?.imgMain?.value.startsWith('https://') && <Image src={`${IMAGE_URL}${user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                </>
+              )
+            }
+          </Box>
+
             <InputGroup>
               <InputRightElement>
                { !addComment.isLoading &&  <CustomText cursor='pointer' fontFamily={'Satoshi-Medium'} marginRight={'20px'} onClick={addCommentNew} color={THEME.COLORS.chasescrollButtonBlue}>Send</CustomText> }
@@ -88,7 +105,7 @@ function Comment() {
           <CustomText>Loading Comments</CustomText>
         </Flex>
       )}
-      { !isLoading && userComments.length > 0 && userComments.map((item, index) => (
+      { !isLoading && userComments.length > 0 && userComments.filter((item) => item.user.data !== null).map((item, index) => (
         <CommentBox {...item} key={index.toString()} />
       ))}
      </Box>

@@ -7,43 +7,26 @@ import { INotification } from '@/models/Notifications'
 import { PaginatedResponse } from '@/models/PaginatedResponse'
 import { URLS } from '@/services/urls'
 import httpService from '@/utils/httpService'
-import { Box, Flex, Select, VStack } from '@chakra-ui/react'
+import { Box, Flex, HStack, Select, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import NotificationCard from './NotificationCard'
 import CustomText from '@/components/general/Text'
+import { useNotification } from '@/global-state/useNotification'
+import { stat } from 'fs'
+import { ArrowRight2 } from 'iconsax-react'
 
-interface Props {}
+interface Props {
+    isLoading: boolean;
+}
 
-function NotificationPage(props: Props) {
-    const [notifications, setNotificatioons] = React.useState<INotification[]>([]);
+function NotificationPage({ isLoading }: Props) {
+    // const [notifications, setNotificatioons] = React.useState<INotification[]>([]);
     const[page, setPage] = React.useState(0);
     const [status, setStatus] =React.useState('UNREAD');
+    const [currentPage, setCurrentPage] = React.useState(0);
 
-    const {isLoading, isError } = useQuery(['getNotifications', page,status], () => httpService.get(`${URLS.GET_NOTIFICATIONS}`, {
-        params: {
-            page,
-            status: status,
-        }
-    }), {
-        onSuccess: (data) => {
-            const item: PaginatedResponse<INotification> = data.data;
-            console.log(item);
-            setNotificatioons(item.content);
-            const ids = item.content.map((item) => item.id);
-            console.log(ids)
-            markAsRead.mutate(ids);
-        },
-        onError: () => {}
-    })
-
-    const markAsRead = useMutation({
-        mutationFn: (data: string[]) => httpService.put(`${URLS.MARK_NOTIFICATIONS_AS_READ}?notificationIDs=${data}&read=true`),
-        onSuccess: (data) => {
-            console.log(data.data);
-        },
-        onError: () => {}
-    })
+    const { setAllCount, notifications } = useNotification((state) => state);
 
     const menus = [
         'READ',
@@ -53,12 +36,22 @@ function NotificationPage(props: Props) {
     return (
         <VStack width={"full"} height={'100%'} bg={"white"} shadow={"lg"} roundedBottom={"lg"} maxHeight={"450px"} overflowX={"hidden"} overflowY={"auto"} justifyContent={"center"} > 
 
-       <Box paddingX='10px' marginTop={'10px'} width='100%'>
-        <Select value={status} onChange={(e) => setStatus(e.target.value)} width={'100%'} height={'42px'} bg='#3C41F0' color='white'>
-                {menus.map((item, index) => (
-                    <option key={index.toString()} value={item}>{item}</option>
-                ))}
-            </Select>
+       <Box  marginTop={'10px'} width='100%'>
+        <HStack cursor={'ppinter'} onClick={() => setCurrentPage(prev => prev === 0 ?1:0)} paddingX='10px' borderBottomWidth={'0.8px'} borderBottomColor={'lightgrey'} width='100%' height={'30px'} justifyContent='space-between'>
+           { currentPage === 0 && (
+            <>
+                <CustomText fontFamily={'DM-Bold'} fontSize={'16px'} color='black'>New</CustomText>
+                <ArrowRight2 size='20px' variant='Outline' color='black' />
+            </>
+           )}
+           { currentPage === 1 && (
+            <>
+                <CustomText fontFamily={'DM-Bold'} fontSize={'16px'} color='black'>Read</CustomText>
+                <ArrowRight2 size='25px' variant='Outline' color='black' />
+            </>
+           )}
+        </HStack>
+     
        </Box>
 
         <Box flex={1} width='100%' height='100%' overflowY={'auto'}>
@@ -68,7 +61,12 @@ function NotificationPage(props: Props) {
                 </VStack>
             )}
             {
-                !isLoading && notifications.length > 0 && notifications.map((item, index) => (
+                !isLoading && notifications.length > 0 && currentPage === 1 && notifications.filter((item) => item.status === 'UNREAD').map((item, index) => (
+                    <NotificationCard notification={item} key={index.toString()}  />
+                ))
+            }
+             {
+                !isLoading && notifications.length > 0 && currentPage === 0 && notifications.filter((item) => item.status === 'READ').map((item, index) => (
                     <NotificationCard notification={item} key={index.toString()}  />
                 ))
             }
