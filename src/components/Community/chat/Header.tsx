@@ -48,6 +48,7 @@ function CommunityChatHeader() {
     enabled: activeCommunity !== null,
     onSuccess: (data) => {
       const item: PaginatedResponse<IEvent> = data.data;
+      console.log(item);
       if (item.content?.length > 0) {
         if (events.length > 0) {
           const arr = [...events, ...item.content];

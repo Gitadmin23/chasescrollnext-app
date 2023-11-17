@@ -1,7 +1,8 @@
 import CustomText from '@/components/general/Text'
 import { IEvent } from '@/models/Events'
+import { IMAGE_URL } from '@/services/urls'
 import { THEME } from '@/theme'
-import { Box, HStack, VStack } from '@chakra-ui/react'
+import { Box, HStack, VStack, Image } from '@chakra-ui/react'
 import React from 'react'
 import { FiMapPin } from 'react-icons/fi'
 
@@ -10,11 +11,14 @@ function EventCard({
 }: { event?: IEvent }) {
   return (
     <VStack display={'inline-block'} whiteSpace={'nowrap'} marginBottom={'20px'} marginRight={'20px'} width={'82px'} height='73px' borderRadius={'8px 0px 8px 8px'} borderWidth={'0.8px'} borderColor={'lightblue'} padding='2px'>
-        <Box width='100%' height='60%' bg='lightgrey' borderRadius={'5px'}></Box>
-        <CustomText fontFamily={'DM-Medium'} color='black' fontSize={'8px'}>Libero interdum</CustomText>
+        <Box width='100%' height='60%' bg='lightgrey' borderRadius={'5px'}>
+          <Image alt='om' src={`${IMAGE_URL}${event?.currentPicUrl}`} width='100%' height='100%' objectFit={'cover'} />
+        </Box>
+
+        <CustomText fontFamily={'DM-Medium'} color='black' fontSize={'8px'}>{event?.eventName}</CustomText>
         <HStack>
             <FiMapPin color={THEME.COLORS.chasescrollButtonBlue} fontSize='7px'  />
-            <CustomText color={THEME.COLORS.chasescrollButtonBlue} fontSize='8px'>Island house</CustomText>
+            <CustomText color={THEME.COLORS.chasescrollButtonBlue} fontSize='8px'>{event?.location.address}</CustomText>
         </HStack>
     </VStack>
   )
