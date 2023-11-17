@@ -15,6 +15,7 @@ import { URLS } from '@/services/urls';
 import { CustomInput } from '@/components/Form/CustomInput';
 import { signIn, useSession, signOut, } from 'next-auth/react'
 import { Session, } from 'next-auth';
+import httpServiceGoogle from '@/utils/httpServiceGoogle';
 
 
 
@@ -88,7 +89,7 @@ function LoginPage() {
   };
 
   const signinWithGoogle = useMutation({
-    mutationFn: (data: string) => httpService.get(`${URLS.SIGN_IN_WTIH_CREDENTIALS}`, {
+    mutationFn: (data: string) => httpServiceGoogle.get(`${URLS.SIGN_IN_WTIH_CREDENTIALS}`, {
       headers: {
         Authorization: `Bearer ${data}`,
       }
@@ -155,7 +156,7 @@ function LoginPage() {
   })
 
   const { data, mutate, isLoading } = useMutation({
-    mutationFn: (info) => httpService.post(`${URLS.LOGIN}`, info),
+    mutationFn: (info) => httpServiceGoogle.post(`${URLS.LOGIN}`, info),
     onError: (error) => {
       toast({
         title: 'An error occured',

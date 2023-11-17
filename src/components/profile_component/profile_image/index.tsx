@@ -56,19 +56,13 @@ function ProfileImage(props: Props) {
 
     return (
         <LoadingAnimation loading={isLoading} >
-            <Box position={"relative"} bg={"rred"} height={"442px"} >
+            <Box position={"relative"} bg={""} height={"442px"} >
                 { data?.data === null && (
                     <Box width='full' height='full' bg='brand.chascrollButtonBlue' position={"absolute"} zIndex={"10"} inset={"0px"}></Box>
                 )}
-                {(data?.data?.imgMain?.value && userId !== user_index) && (
-                    <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={(userId === user_index ? user?.data?.imgMain?.value : data?.data?.imgMain?.value)} alt='profile' />
-                )}
-                {(user?.data?.imgMain?.value && userId === user_index) && (
-                    <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={ user?.data?.imgMain?.value} alt='profile' />
-                )}
                 {data?.data?.imgMain?.value && (
-                    <Box />
-                )}
+                    <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={IMAGE_URL + (userId === user_index ? user?.data?.imgMain?.value : data?.data?.imgMain?.value)} alt='profile' />
+                )} 
                 <Box position={"relative"} zIndex={"10"} width={"fit-content"} pt={"8"} ml={"auto"} mr={"9"} >
                     {userId !== user_index && (
                         <Flex as={"button"} onClick={() => clickHandler()} bgColor={"#00000099"} width={"32px"} rounded={"full"} height={"32px"} justifyContent={"center"} alignItems={"center"} >
