@@ -76,7 +76,7 @@ function PeopleCard(props: Props) {
 
     const submit =()=> {
         setSearchValue("")
-        router.replace("/dashboard/profile/" + person?.userId)
+        router.push("/dashboard/profile/" + person?.userId)
     }
     
 

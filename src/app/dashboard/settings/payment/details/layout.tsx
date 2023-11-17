@@ -24,7 +24,7 @@ function Layout({ children }: { children: ReactNode }) {
     return (
         <Flex flexDirection={"column"} height={"full"} width={"full"} overflowY={"auto"} >
             <Flex justifyContent={"space-between"} py={"36px"} px={["6", "59px"]} width={"full"} alignItems={"center"} >
-                <Flex onClick={()=> router.replace("/dashboard/settings/payment")} as={"button"} gap={"3"} width={"fit-content"} alignItems={"center"}  >
+                <Flex onClick={()=> router.push("/dashboard/settings/payment")} as={"button"} gap={"3"} width={"fit-content"} alignItems={"center"}  >
                     <IoIosArrowBack size="24px" />
                     <Flex gap={"2"} justifyContent={"start"} alignItems={"center"} >
                         <Box width={"46px"} height={"46px"} rounded={"full"} bg={"gray.200"} />

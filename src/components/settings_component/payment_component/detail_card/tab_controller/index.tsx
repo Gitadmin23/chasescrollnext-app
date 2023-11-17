@@ -37,7 +37,7 @@ function TabController(props: Props) {
 
     const clickHandler =(item: any)=> {
         if(item === 0){ 
-            router.replace("/dashboard/event")
+            router.push("/dashboard/event")
         } else {
             setTab(item)
         }

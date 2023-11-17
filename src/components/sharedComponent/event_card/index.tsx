@@ -71,11 +71,11 @@ function ExploreEventCard(props: Props) {
             //     location: event?.location,
             //     productTypeData: event?.productTypeData,
             // })
-            router.replace("/dashboard/event/edit_draft/"+event?.id)
+            router.push("/dashboard/event/edit_draft/"+event?.id)
         } else if(dashboard){
-            router.replace("/dashboard/settings/event-dashboard/" + event?.id)
+            router.push("/dashboard/settings/event-dashboard/" + event?.id)
         } else {
-            router.replace("/dashboard/event/details/" + event?.id)
+            router.push("/dashboard/event/details/" + event?.id)
         }
         setSearchValue("")
     }

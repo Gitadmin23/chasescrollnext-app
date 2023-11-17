@@ -32,7 +32,7 @@ function ChatBtn(props: Props) {
                 message: `${WEBSITE_URL}/share?type=ONE_TO_ONE&typeID=${userId}`,
                 chatID: chat?.id,
             }
-            router.replace(`/dashboard/chats?activeID=${obj?.chatID}`)
+            router.push(`/dashboard/chats?activeID=${obj?.chatID}`)
             // sendMessage.mutate(obj)
         }
 

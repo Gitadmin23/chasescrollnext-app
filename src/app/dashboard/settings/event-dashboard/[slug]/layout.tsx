@@ -77,7 +77,7 @@ function Layout({ children, params }: {
             <LoadingAnimation loading={isLoading} >
                 <Box width={["full", "full", "600px"]} px={"6"} py={"10"} position={"relative"} >
                     <Flex alignItems={"center"} gap={"4"} width={"full"} justifyContent={"center"} paddingBottom={"6"}>
-                        <Box onClick={() => router.replace(pathname?.includes("refund")  ? "/dashboard/settings/event-dashboard/"+params?.slug : "/dashboard/settings/event-dashboard")} as='button' position={"absolute"} zIndex={"10"} left={"0px"} width={"fit-content"} >
+                        <Box onClick={() => router.push(pathname?.includes("refund")  ? "/dashboard/settings/event-dashboard/"+params?.slug : "/dashboard/settings/event-dashboard")} as='button' position={"absolute"} zIndex={"10"} left={"0px"} width={"fit-content"} >
                             <BsChevronLeft color={"black"} size={"25px"} />
                         </Box>
                         <Text textAlign={"center"} fontSize={"2xl"} fontWeight={"bold"} >{pathname?.includes("refund") ? "Refund" : data?.eventName}</Text>
