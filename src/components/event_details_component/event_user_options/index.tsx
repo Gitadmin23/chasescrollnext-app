@@ -27,7 +27,7 @@ function EventUserOption(props: Props) {
     const router = useRouter() 
 
     const clickHandler = () => { 
-        router.replace("/dashboard/event/edit_event/"+event?.id)
+        router.push("/dashboard/event/edit_event/"+event?.id)
     }
 
     return (

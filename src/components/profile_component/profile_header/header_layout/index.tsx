@@ -23,7 +23,7 @@ function HeaderLayout(props: Props) {
     const pathname = usePathname(); 
  
     return (
-        <Flex as={"button"} onClick={()=> router.replace(link)} color={(pathname?.includes(name.toLocaleLowerCase()) || (pathname === "/dashboard/profile/"+index)) ? "brand.chasescrollBlue" : "#B1B5C3"} justifyContent={"center"} alignItems={"center"} flexDirection={"column"} >
+        <Flex as={"button"} onClick={()=> router.push(link)} color={(pathname?.includes(name.toLocaleLowerCase()) || (pathname === "/dashboard/profile/"+index)) ? "brand.chasescrollBlue" : "#B1B5C3"} justifyContent={"center"} alignItems={"center"} flexDirection={"column"} >
             <Text fontSize={["160x", "20px"]} fontWeight={"medium"} color={(pathname?.includes(name.toLocaleLowerCase()) || (pathname === "/dashboard/profile/"+index)) ? "brand.chasescrollBlue" : "black"} >{count ? count : 0}</Text>
             <Box display={"flex"} justifyContent={"center"} alignItems={"center"} width={"24px"} height={"24px"} >
                 {icon}

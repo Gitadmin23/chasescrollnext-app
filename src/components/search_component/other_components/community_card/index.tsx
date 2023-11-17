@@ -25,7 +25,7 @@ function CommunityCard(props: Props) {
     const { setSearchValue } = useSearchStore((state) => state);
     const submit =()=> {
         setSearchValue("")
-        router.replace("/dashboard/profile/")
+        router.push("/dashboard/profile/")
     }
 
     return (

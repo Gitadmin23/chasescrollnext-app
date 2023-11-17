@@ -117,7 +117,7 @@ function Settings(props: Props) {
         route?: any
     })=> {
         if(item?.type !== "Support & Help") {
-            router.replace("/dashboard/settings"+item?.route)
+            router.push("/dashboard/settings"+item?.route)
         }
     }
 

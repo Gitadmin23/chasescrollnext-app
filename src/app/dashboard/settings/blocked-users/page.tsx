@@ -16,7 +16,7 @@ function BlockedUsers(props: Props) {
         <Flex flexDirection={"column"} height={"auto"} width={"full"} overflowY={"auto"} >
             <Flex justifyContent={"space-between"} py={"36px"} px={["6", "59px"]} width={"full"} alignItems={"center"} >
 
-                <Flex onClick={() => router.replace("/dashboard/settings")} as={"button"} alignItems={"center"} fontWeight={"700"} fontSize={"20px"} gap={"3"} >
+                <Flex onClick={() => router.push("/dashboard/settings")} as={"button"} alignItems={"center"} fontWeight={"700"} fontSize={"20px"} gap={"3"} >
                     <IoIosArrowBack size="24px" />
                     <Text>Blocked Users</Text>
                 </Flex>

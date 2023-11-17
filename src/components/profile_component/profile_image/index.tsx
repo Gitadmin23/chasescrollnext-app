@@ -38,7 +38,7 @@ function ProfileImage(props: Props) {
                 title: error.response?.data,
             });
         },
-        onSuccess: (data) => { 
+        onSuccess: (data) => {
 
             setData(data?.data);
             setisFriend(data?.data?.joinStatus)
@@ -47,11 +47,11 @@ function ProfileImage(props: Props) {
 
     const clickHandler = () => {
         if (userId === user_index) {
-            router.replace("/dashboard/settings")
+            router.push("/dashboard/settings")
         } else {
             setShowModal((prev) => !prev)
         }
-    } 
+    }
 
 
     return (
@@ -104,10 +104,14 @@ function ProfileImage(props: Props) {
                 <Flex zIndex={"20"} width={"full"} bottom={"0px"} insetX={"0px"} bg={"#00000099"} px={["6", "6", "9"]} height={"150px"} justifyContent={"space-between"} position={"absolute"} alignItems={"center"} >
                     <Box color={"white"} >
                         <Text fontSize={"22px"} fontWeight={"bold"} >{data?.firstName + " " + data?.lastName}</Text>
+                        
+                        <Text fontSize={"sm"} >{data?.username}</Text>
                         {data?.showEmail && (
                             <Text fontSize={"sm"} >{data?.email}</Text>
                         )}
-                        <Text fontSize={"sm"} >Phone : {data?.data?.mobilePhone?.value}</Text>
+                        {data?.data?.mobilePhone?.value && (
+                            <Text fontSize={"sm"} >Phone : {data?.data?.mobilePhone?.value}</Text>
+                        )}
                         {data?.data?.about?.value && (
                             <Text fontSize={"sm"} >Bio : {data?.data?.about?.value}</Text>
                         )}

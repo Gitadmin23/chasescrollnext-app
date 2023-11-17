@@ -45,7 +45,7 @@ function ExploreCarousel(props: Props) {
                         data?.map((item: any, index: any)=> {
                             return(  
                                 <>  
-                                    <Box onClick={()=> router.replace("/dashboard/event/details/" + item?.id)}  key={index} role='button' bg={"white"} rounded={"32px"} roundedTopRight={"0px"} width={"full"} height={["fit-content", "fit-content", "fit-content"]} p={"3"} >
+                                    <Box onClick={()=> router.push("/dashboard/event/details/" + item?.id)}  key={index} role='button' bg={"white"} rounded={"32px"} roundedTopRight={"0px"} width={"full"} height={["fit-content", "fit-content", "fit-content"]} p={"3"} >
                                         <Box position={"relative"} width={"full"} >
 
                                             <BlurredImage height={["256px", "256px", "350px"]} image={item?.currentPicUrl} />
