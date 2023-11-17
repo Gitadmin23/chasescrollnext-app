@@ -12,7 +12,7 @@ function Layout({ children }: {
     const route = useRouter()
 
     return (
-        <Box width={"full"} px={"8"} py={"8"} overflowX={"hidden"} >
+        <Box width={"full"} px={["5", "8"]} py={"8"} overflowX={"hidden"} >
             {(!pathname?.includes("details") && !pathname?.includes("create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft")) && (
                 <Flex width={"full"} justifyContent={"space-between"} pb={"8"} alignItems={"center"}  >
                     <SelectEventPage />

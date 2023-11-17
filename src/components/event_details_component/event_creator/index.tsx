@@ -30,7 +30,7 @@ function EventCreator(props: Props) {
                     <UserImage size={58} image={data?.createdBy?.data?.imgMain?.value} data={data?.createdBy} />
                 </Box>
                 <Box>
-                    <Text fontWeight={"medium"} >{convener}</Text>
+                    <Text fontWeight={"medium"} >{convener?.length > 10 ? convener?.slice(0, 10)+"...": convener}</Text>
                     <Text fontSize={"sm"} >{username}</Text>
                 </Box>
             </Flex>
