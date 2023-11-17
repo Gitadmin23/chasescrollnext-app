@@ -14,8 +14,7 @@ import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
 import { CustomInput } from '@/components/Form/CustomInput';
 import { signIn, useSession, signOut, } from 'next-auth/react'
-import { Session, } from 'next-auth';
-import useFormData from '@/global-state/useFormData';
+import { Session, } from 'next-auth'; 
 
 
 
@@ -45,8 +44,7 @@ function LoginPage() {
 
   const toast = useToast();
   const router = useRouter();
-  const { setAll } = useDetails((state) => state);
-  const { data: formvalue } = useFormData((state) => state);
+  const { setAll } = useDetails((state) => state); 
   const { data: sessionData, update } = useSession();
 
 
