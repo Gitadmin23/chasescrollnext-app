@@ -45,7 +45,7 @@ function SubmitEvent() {
         } else {
             return false
         }
-    } 
+    }
 
     const getValidationAll = () => {
         if (tab === 0) {
@@ -55,30 +55,30 @@ function SubmitEvent() {
         } else {
             return getValidationTicket()
         }
-    } 
+    }
 
-    const getValidationTicket: any =()=> { 
-        
-        return eventdata?.productTypeData?.every((item:any, index: number) => {
+    const getValidationTicket: any = () => {
 
-        if(!item.totalNumberOfTickets){
-            return true
-         } else if(!item.ticketType){
-             return true
-         } else if(!item.minTicketBuy){
-             return true
-         } else if(!item.maxTicketBuy){
-             return true
-         } else if(item.maxTicketBuy <= item.minTicketBuy){
-             return true
-         }  else if(eventdata?.productTypeData?.length === index+1) {
-             return false
-         } else {
-            return true
-         }
-        }) 
-    } 
-    
+        return eventdata?.productTypeData?.every((item: any, index: number) => {
+
+            if (!item.totalNumberOfTickets) {
+                return true
+            } else if (!item.ticketType) {
+                return true
+            } else if (!item.minTicketBuy) {
+                return true
+            } else if (!item.maxTicketBuy) {
+                return true
+            } else if (item.maxTicketBuy <= item.minTicketBuy) {
+                return true
+            } else if (eventdata?.productTypeData?.length === index + 1) {
+                return false
+            } else {
+                return true
+            }
+        })
+    }
+
     // Upload Image
     const uploadImage = useMutation({
         mutationFn: (data: any) => httpService.post(URLS.UPLOAD_IMAGE + "/" + user_index, data,
@@ -183,9 +183,9 @@ function SubmitEvent() {
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
-            });  
+            });
         }
-    }); 
+    });
 
     // Edit Event
     const updateUserEvent = useMutation({
@@ -200,8 +200,8 @@ function SubmitEvent() {
                 position: 'top-right',
             });
         },
-        onSuccess: (data: AxiosResponse<any>) => { 
-            
+        onSuccess: (data: AxiosResponse<any>) => {
+
             router.push("/dashboard/event")
             toast({
                 title: 'Success',
@@ -210,9 +210,28 @@ function SubmitEvent() {
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
-            }); 
+            });
         }
     });
+
+
+    function clean(obj: any) {
+        for (var propName in obj) {
+            if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+                delete obj[propName];
+            }
+            if (obj[propName] === "location") { 
+                for (var propName in obj?.location) {
+                    if (obj?.location[propName] === null || obj?.location[propName] === undefined || obj?.location[propName] === "") {
+                        delete obj?.location[propName];
+                    }
+                }
+            }
+        }
+        return obj
+
+    }
+
 
     const handleClick = React.useCallback(() => {
         if (tab === 0) {
@@ -233,12 +252,16 @@ function SubmitEvent() {
             } else {
                 saveToDraft.mutate(eventdata)
             }
-        } else { 
+        } else {
             if (pathname?.includes("edit_event")) {
-                updateUserEvent.mutate(eventdata)
+
+
+                // console.log(eventdata);
+                // console.log(clean(eventdata));
+                updateUserEvent.mutate(clean(eventdata))
             } else {
                 createEventFromDraft.mutate(eventdata)
-            } 
+            }
         }
     }, [saveToDraft, uploadImage, createEventFromDraft])
 

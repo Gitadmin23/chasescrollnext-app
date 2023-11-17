@@ -18,7 +18,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
     focusManager.setFocused(false)
     const { tab, updateEvent, changeTab } = useEventStore((state) => state);
     const toast = useToast()
-    const { isLoading, isRefetching } = useQuery(['all-events-details' +  params?.slug,], () => httpService.get(URLS.All_EVENT + "?id=" +  params?.slug), {
+    const { isLoading } = useQuery(['all-events-details' + params?.slug,], () => httpService.get(URLS.All_EVENT + "?id=" + params?.slug), {
         onError: (error: any) => {
             toast({
                 status: "error",
@@ -61,7 +61,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
     })
 
 
-    React.useEffect(()=> {
+    React.useEffect(() => {
         changeTab(0)
     }, [])
 

@@ -30,9 +30,7 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
         locationType:null,
         currency: "USD",
         currentPicUrl:null,
-        eventFunnelGroupID:null,
-        mediaType:null,
-        currentVideoUrl:null,
+        eventFunnelGroupID:null, 
         isPublic: true,
         isExclusive: false,
         mask: false,
@@ -44,12 +42,7 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
         startDate:null,
         endDate:null,
         // expirationDate:null,
-        location: {
-            link:null,
-            address:null,
-            locationDetails:null,
-            latlng:null,
-            placeIds:null,
+        location: { 
             toBeAnnounced: false
         },
         productTypeData: [

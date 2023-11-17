@@ -11,10 +11,11 @@ import { useQuery } from 'react-query'
 import { URLS } from '@/services/urls'
 import { useDetails } from '@/global-state/useUserDetails'
 import ViewTicket from '../event_modal/view_ticket'
-import SelectTicketType from '../event_modal/select_ticket_type' 
-import useStripeStore from '@/global-state/useStripeState' 
-import useModalStore from '@/global-state/useModalSwitch' 
+import SelectTicketType from '../event_modal/select_ticket_type'
+import useStripeStore from '@/global-state/useStripeState'
+import useModalStore from '@/global-state/useModalSwitch'
 import { useRouter } from 'next/navigation'
+import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 
 interface Props {
     isBought: any,
@@ -40,8 +41,8 @@ function GetEventTicket(props: Props) {
     const STRIPE_KEY: any = process.env.NEXT_PUBLIC_STRIPE_KEY;
     // const [stripePromise, setStripePromise] = React?.useState(() => loadStripe(STRIPE_KEY))
 
-    const { showModal, setShowModal } = useModalStore((state) => state); 
-    const { setModalTab, modalTab } = useStripeStore((state) => state); 
+    const { showModal, setShowModal } = useModalStore((state) => state);
+    const { setModalTab, modalTab } = useStripeStore((state) => state);
 
     // const [modalTab, setModalTab] = useState(1)
     const [numbOfTicket, setNumberOfTicket] = React.useState(1)
@@ -55,15 +56,15 @@ function GetEventTicket(props: Props) {
 
     const clickHandler = (event: any) => {
         event.stopPropagation();
-        if(!user_index){
-            router.push("/share/auth/login?type=EVENT&typeID="+data?.id)
+        if (!user_index) {
+            router.push("/share/auth/login?type=EVENT&typeID=" + data?.id)
         } else {
             setModalTab(carousel ? 6 : isBought ? 5 : 1)
             setShowModal(true)
         }
     }
- 
-    const { } = useQuery(['event_ticket' + data?.id], () => httpService.get(URLS.GET_TICKET + user_index + "&eventID=" + data?.id), {
+
+    const { isLoading } = useQuery(['event_ticket' + data?.id], () => httpService.get(URLS.GET_TICKET + user_index + "&eventID=" + data?.id), {
         onError: (error: any) => {
             toast({
                 status: "error",
@@ -75,7 +76,7 @@ function GetEventTicket(props: Props) {
             setTicketLenght(data?.data?.content?.length)
             setTicketDetails(data?.data?.content[0]);
         }
-    }) 
+    })
 
     return (
         <>
@@ -101,25 +102,27 @@ function GetEventTicket(props: Props) {
                     <PaymentType data={data} ticketCount={numbOfTicket} currency={data?.currency} selectedCategory={selectedTicket?.ticketType} click={setModalTab} />
                 )}
                 {modalTab === 5 && (
-                    <ViewTicket
-                        userName={ticketDetails?.createdBy?.firstName + " " + ticketDetails?.createdBy?.lastName}
-                        date={ticketDetails?.event?.startDate}
-                        time={ticketDetails?.event?.startDate}
-                        ticketFee={ticketDetails?.ticketType === "Free"
-                            ? "Free"
-                            : ticketDetails?.boughtPrice
-                        }
-                        click={setShowModal}
-                        orderId={ticketDetails?.id}
-                        length={ticketLenght}
-                        currency={ticketDetails?.event?.currency}
-                        location={ticketDetails?.event?.locationDetails}
-                        datainfo={ticketDetails} />
+                    <LoadingAnimation loading={isLoading} >
+                        <ViewTicket
+                            userName={ticketDetails?.createdBy?.firstName + " " + ticketDetails?.createdBy?.lastName}
+                            date={ticketDetails?.event?.startDate}
+                            time={ticketDetails?.event?.startDate}
+                            ticketFee={ticketDetails?.ticketType === "Free"
+                                ? "Free"
+                                : ticketDetails?.boughtPrice
+                            }
+                            click={setShowModal}
+                            orderId={ticketDetails?.id}
+                            length={ticketLenght}
+                            currency={ticketDetails?.event?.currency}
+                            location={ticketDetails?.event?.locationDetails}
+                            datainfo={ticketDetails} />
+                    </LoadingAnimation>
                 )}
                 {modalTab === 6 && (
                     <SelectTicketType ticket={ticket} setSelectedTicket={setSelectedTicket} currency={data?.currency} click={setModalTab} />
-                )} 
-            </ModalLayout> 
+                )}
+            </ModalLayout>
         </>
     )
 }
