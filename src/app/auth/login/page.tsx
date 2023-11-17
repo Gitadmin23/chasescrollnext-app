@@ -40,7 +40,8 @@ function Login() {
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
-            }); 
+            });  
+            
             localStorage.setItem('token', data?.data?.access_token);
             localStorage.setItem('refresh_token', data?.data?.refresh_token);
             localStorage.setItem('user_id', data?.data?.user_id);
@@ -51,7 +52,7 @@ function Login() {
                 username: data?.data?.user_name,
                 userId: data?.data?.user_id,
             })
-            router.push('/dashboard')
+            // router.push('/dashboard')
         }
     });
     const { renderForm } = useForm({
