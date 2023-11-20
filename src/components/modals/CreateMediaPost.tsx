@@ -7,10 +7,11 @@ import AWSHook from '@/hooks/awsHook';
 
 interface IProps {
     isOpen: boolean;
-    onClose: () => void
+    onClose: () => void;
+    mutate: () => void;
 }
 
-function CreateMediaPost({isOpen, onClose}:IProps) {
+function CreateMediaPost({isOpen, onClose, mutate}:IProps) {
     const [stage, setStage] = React.useState(1);
     const [files, setFiles] = React.useState<File[]>([]);
     const { uploadedFile, loading, fileUploadHandler } = AWSHook();
@@ -60,13 +61,13 @@ function CreateMediaPost({isOpen, onClose}:IProps) {
                 return <SelectImages setImage={handleImagePicked} />
             }
             case 2: {
-                return <ShowImages setEmpty={emptyFiles} stage={stage}  handleStage={handleSetStage} files={files as any} setImage={handleImagePicked} />
+                return <ShowImages mutate={mutate} setEmpty={emptyFiles} stage={stage}  handleStage={handleSetStage} files={files as any} setImage={handleImagePicked} />
             }
             case 4: {
                 return <Success onClose={onClose} />
             }
             default: {
-                return <ShowImages setEmpty={emptyFiles} stage={stage} handleStage={handleSetStage} files={files as any} setImage={handleImagePicked} />
+                return <ShowImages mutate={mutate}  setEmpty={emptyFiles} stage={stage} handleStage={handleSetStage} files={files as any} setImage={handleImagePicked} />
             }
         }
     }, [stage, handleImagePicked, emptyFiles, handleSetStage, files, onClose]);

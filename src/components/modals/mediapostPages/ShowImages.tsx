@@ -10,7 +10,7 @@ import { FiChevronLeft, FiPlus } from 'react-icons/fi'
 import { useMutation } from 'react-query'
 import { useQueryClient } from 'react-query';
 
-const FileView = ({ file }: { file: File}) => {
+const FileView = ({ file}: { file: File, }) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [url, setUrl] = React.useState('');
   const fileReader = new FileReader();
@@ -38,7 +38,7 @@ const FileView = ({ file }: { file: File}) => {
   )
 }
 
-function ShowImages({ files, setImage, handleStage, stage, setEmpty }: {files: File[], setImage: (files: FileList, go?: boolean) => void, handleStage: (page: number) => void, stage: number, setEmpty: () => void}) {
+function ShowImages({ files, setImage, handleStage, stage, setEmpty, mutate }: {files: File[], setImage: (files: FileList, go?: boolean) => void, handleStage: (page: number) => void, stage: number, setEmpty: () => void, mutate: () => void}) {
   const [url, setUrl] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
   const inputRef = React.useRef<HTMLInputElement>();
@@ -54,11 +54,13 @@ function ShowImages({ files, setImage, handleStage, stage, setEmpty }: {files: F
         text: value,
         type: files[0].type.startsWith('image') ? 'WITH_IMAGE' : 'WITH_VIDEO_POST',
         isGroupFeed: false,
+        sourceId: userId,
         mediaRef: data.data?.fileName,
         multipleMediaRef: [
           data.data?.fileName,
         ]
       }
+      console.log(obj)
       createPost.mutate(obj);
     },
     onError: (error: any) => {
@@ -78,6 +80,7 @@ function ShowImages({ files, setImage, handleStage, stage, setEmpty }: {files: F
     onSuccess: (data) => {
       handleStage(4);
       queryClient.invalidateQueries(['getPosts']);
+      mutate();
     },
     onError: (error: any) => {
       console.log(error);
