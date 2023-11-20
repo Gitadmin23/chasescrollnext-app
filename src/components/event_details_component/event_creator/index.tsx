@@ -22,7 +22,7 @@ function EventCreator(props: Props) {
     } = props
 
     const [isFriend, setisFriend] = useState(data?.createdBy?.joinStatus) 
-    
+ 
     return (
         <Flex width={"full"} roundedBottom={"lg"} borderBottomWidth={"1px"} justifyContent={"space-between"} mt={"5"} pb={"2"} alignItems={"center"} >
             <Flex alignItems={"center"} gap={"2"} >

@@ -4,6 +4,7 @@ import BlockBtn from '../../sharedComponent/blockbtn'
 import UserImage from '@/components/sharedComponent/userimage'
 import AddOrRemoveUserBtn from '../../sharedComponent/add_remove_user_btn'
 import { useRouter } from 'next/navigation'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
 
 interface Props {
     mutuals?: number,
@@ -36,7 +37,7 @@ function UserExploreCard(props: Props) {
             <Flex alignItems={"center"} width={"full"} gap={["1", "1", "2"]} flexDirection={"column"} >
                 <UserImage data={data} size={20} image={data?.data?.imgMain?.value} />
             </Flex>
-            <Text fontWeight={"bold"} textAlign={"center"} fontSize={"sm"} >{(firstName+" "+lastName).length > 14 ? (firstName+" "+lastName).slice(0, 14)+"...": (firstName+" "+lastName)}</Text>
+            <Text fontWeight={"bold"} textAlign={"center"} fontSize={"sm"} >{(firstName+" "+lastName).length > 14 ? (capitalizeFLetter(firstName)+" "+capitalizeFLetter(lastName)).slice(0, 14)+"...": (capitalizeFLetter(firstName)+" "+capitalizeFLetter(lastName))}</Text>
             <Text color={"brand.chasescrollGrey"} fontWeight={"semibold"} textAlign={"center"} fontSize={"xs"} >
             {mutuals} Mutual Connection{mutuals === 1 ? "" : "s"}
             </Text>

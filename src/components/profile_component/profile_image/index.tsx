@@ -6,6 +6,7 @@ import ShareEvent from '@/components/sharedComponent/share_event';
 import UserImage from '@/components/sharedComponent/userimage';
 import { useDetails } from '@/global-state/useUserDetails';
 import { IMAGE_URL, URLS } from '@/services/urls';
+import { capitalizeFLetter } from '@/utils/capitalLetter';
 import httpService from '@/utils/httpService';
 import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation';
@@ -53,14 +54,18 @@ function ProfileImage(props: Props) {
         }
     }
 
+    console.log(userId);
+    console.log(user_index);
+    
+
 
     return (
         <LoadingAnimation loading={isLoading} >
-            <Box position={"relative"} bg={""} height={"442px"} >
+            <Box position={"relative"} bg={"gray.400"} height={"442px"} >
                 { data?.data === null && (
                     <Box width='full' height='full' bg='brand.chascrollButtonBlue' position={"absolute"} zIndex={"10"} inset={"0px"}></Box>
                 )}
-                {data?.data?.imgMain?.value && (
+                {(data?.data?.imgMain?.value || (userId === user_index && user?.data?.imgMain?.value)) && (
                     <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={IMAGE_URL + (userId === user_index ? user?.data?.imgMain?.value : data?.data?.imgMain?.value)} alt='profile' />
                 )} 
                 <Box position={"relative"} zIndex={"10"} width={"fit-content"} pt={"8"} ml={"auto"} mr={"9"} >
@@ -100,17 +105,17 @@ function ProfileImage(props: Props) {
                 </Box>
                 <Flex zIndex={"20"} width={"full"} bottom={"0px"} insetX={"0px"} bg={"#00000099"} px={["6", "6", "9"]} height={"150px"} justifyContent={"space-between"} position={"absolute"} alignItems={"center"} >
                     <Box color={"white"} >
-                        <Text fontSize={"22px"} fontWeight={"bold"} >{data?.firstName + " " + data?.lastName}</Text>
+                        <Text fontSize={"22px"} fontWeight={"bold"} >{capitalizeFLetter(data?.firstName) + " " + capitalizeFLetter(data?.lastName)}</Text>
                         
                         <Text fontSize={"sm"} >{data?.username}</Text>
                         {data?.showEmail && (
                             <Text fontSize={"sm"} >{data?.email}</Text>
                         )}
-                        {data?.data?.mobilePhone?.value && (
+                        {(data?.data?.mobilePhone?.value && data?.showEmail)&& (
                             <Text fontSize={"sm"} >Phone : {data?.data?.mobilePhone?.value}</Text>
                         )}
                         {data?.data?.about?.value && (
-                            <Text fontSize={"sm"} >Bio : {data?.data?.about?.value}</Text>
+                            <Text fontSize={"sm"} >Bio : {data?.data?.about?.value?.length > 18 ? data?.data?.about?.value?.splice(0, 18) : data?.data?.about?.value}</Text>
                         )}
                         {data?.data?.webAddress?.value && (
                             <Text fontSize={"sm"} >Website : {data?.data?.webAddress?.value ?? ""}</Text>

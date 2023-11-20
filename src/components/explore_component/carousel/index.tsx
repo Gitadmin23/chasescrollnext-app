@@ -4,11 +4,13 @@ import BlurredImage from '@/components/sharedComponent/blurred_image';
 import EventLocationDetail from '@/components/sharedComponent/event_location';
 import EventPrice from '@/components/sharedComponent/event_price';
 import InterestedUsers from '@/components/sharedComponent/interested_users';
+import SaveOrUnsaveBtn from '@/components/sharedComponent/save_unsave_event_btn';
+import ShareEvent from '@/components/sharedComponent/share_event';
 import { IMAGE_URL } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import { Box, Flex, Image, useToast, Text } from '@chakra-ui/react';
 import moment from 'moment';
-import { useRouter } from 'next/navigation'; 
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { focusManager, useQuery } from 'react-query';
 
@@ -31,21 +33,19 @@ function ExploreCarousel(props: Props) {
             });
         },
         onSuccess: (data) => {
-            setData(data.data.content); 
+            setData(data.data.content);
         }
-    }) 
-
-    const [selectedTicket, setSelectedTicket] = useState({} as any)
+    })
 
     return (
         <Box width={"full"} position={"relative"} height={["380px", "380px", "480px"]} pb={"10"} >
-            {(!isLoading && !isRefetching) && ( 
-                <CustomCarousel 
+            {(!isLoading && !isRefetching) && (
+                <CustomCarousel
                     slides={
-                        data?.map((item: any, index: any)=> {
-                            return(  
-                                <>  
-                                    <Box onClick={()=> router.push("/dashboard/event/details/" + item?.id)}  key={index} role='button' bg={"white"} rounded={"32px"} roundedTopRight={"0px"} width={"full"} height={["fit-content", "fit-content", "fit-content"]} p={"3"} >
+                        data?.map((item: any, index: any) => {
+                            return (
+                                <>
+                                    <Box onClick={() => router.push("/dashboard/event/details/" + item?.id)} key={index} role='button' bg={"white"} rounded={"32px"} roundedTopRight={"0px"} width={"full"} height={["fit-content", "fit-content", "fit-content"]} p={"3"} >
                                         <Box position={"relative"} width={"full"} >
 
                                             <BlurredImage height={["256px", "256px", "350px"]} image={item?.currentPicUrl} />
@@ -57,17 +57,19 @@ function ExploreCarousel(props: Props) {
                                         </Box>
                                         <Box width={"full"} pb={"10px"} px={"1"} >
                                             <Flex color={"#121212"} fontSize={"20px"} bg={"white"} alignItems={"center"} justifyContent={"space-between"} fontWeight={"medium"} pt={"3"}  >
-                                                <Text >{item?.eventName}</Text>
-                                                <EventPrice maxPrice={item?.maxPrice} currency={item?.currency} />
+                                                <Text >{item?.eventName}</Text> 
+                                                <EventPrice minPrice={item?.minPrice} maxPrice={item?.maxPrice} currency={item?.currency} />
+                                                {/* <EventPrice maxPrice={item?.maxPrice} currency={item?.currency} /> */}
                                             </Flex>
                                             <Flex alignItems={"center"} width={"full"} py={"2"} gap={"3"} justifyContent={"space-between"} >
                                                 <Box display={"flex"} flexDirection={"column"} gap={"2"} >
                                                     <EventLocationDetail fontWeight={"medium"} fontsize={"16px"} color={"rgba(18, 18, 18, 0.80)"} location={item?.location} locationType={item?.locationType} length={20} />
                                                     <InterestedUsers fontSize={16} event={item} border={"2px"} size={"32px"} />
                                                 </Box>
-                                                <Box display={["none", "none", "block", "block"]} >
-                                                    <GetEventTicket isBought={item?.isBought} isFree={item?.isFree} selectedTicket={selectedTicket} ticket={item?.productTypeData} setSelectedTicket={setSelectedTicket} carousel={true} data={item} />
-                                                </Box>
+                                                <Flex alignItems={"center"} gap={"3"} >
+                                                    <ShareEvent type="EVENT" size='18px' id={item?.id} />
+                                                    <SaveOrUnsaveBtn event={item} />
+                                                </Flex>
                                             </Flex>
                                         </Box>
                                     </Box>
@@ -75,7 +77,7 @@ function ExploreCarousel(props: Props) {
                             )
                         })
                     }
-                    autoplay={true} interval={5000} 
+                    autoplay={true} interval={5000}
                 />
             )}
         </Box>

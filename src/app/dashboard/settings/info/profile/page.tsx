@@ -149,7 +149,7 @@ function EditProfile() {
                 <VStack width='100%' height={'100%'} alignItems={'center'}>
 
 
-                    <VStack width={['100%', '25%']} height='100%'>
+                    <VStack maxWidth={['100%', '800px']} height='100%'>
 
 
                         {/* HEADER */}

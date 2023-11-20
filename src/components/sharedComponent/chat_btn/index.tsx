@@ -39,7 +39,7 @@ function ChatBtn(props: Props) {
     }); 
 
     return (
-        <Box as='button' onClick={()=> mutate()} > 
+        <Box as='button' disabled={chatCreationLoading} onClick={()=> mutate()} > 
             {chatCreationLoading && <Spinner colorScheme="black" />}
             {!chatCreationLoading && 
             <MessageIcon />}

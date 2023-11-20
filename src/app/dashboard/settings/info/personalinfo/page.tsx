@@ -1,7 +1,7 @@
 'use client';
 import { Box, Button, Checkbox, HStack, Select, Spinner, Switch, VStack, useToast } from '@chakra-ui/react'
 import React from 'react'
-import {ArrowLeft2, ArrowRight2, Camera } from 'iconsax-react'
+import { ArrowLeft2, ArrowRight2, Camera } from 'iconsax-react'
 import CustomText from '@/components/general/Text'
 import { THEME } from '@/theme'
 import { useForm } from '@/hooks/useForm'
@@ -26,7 +26,7 @@ function EditProfile() {
     const router = useRouter();
 
 
-    const { renderForm, setValue, formState: { isDirty,  } } = useForm({
+    const { renderForm, setValue, formState: { isDirty, } } = useForm({
         defaultValues: {
             mobilePhone: user?.data?.mobilePhone?.value,
             gender: user?.data.gender,
@@ -112,54 +112,54 @@ function EditProfile() {
             </VStack>
         )
     }
-  return renderForm(
-    <VStack width={'100%'} height={'100%s'}>
-        <input hidden type='file' accept='image/*' />
-        <Box overflowY='auto' width={['100%', '25%']} height={'100%'}  paddingY='20px' paddingX={['20px', '0px']}>
+    return renderForm(
+        <VStack width={'100%'} height={'100%s'}>
+            <input hidden type='file' accept='image/*' />
+            <Box overflowY='auto' maxWidth={['100%', '600px']} height={'100%'} paddingY='20px' paddingX={['20px', '0px']}>
 
-            {/* HEADER */}
-            <HStack width={'100%'} height={'50px'} justifyContent={'space-between'}>
-                <ArrowLeft2 size={'30px'} color='black' onClick={() => router.back()} />
-                <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Edit Personal Information</CustomText>
-                <Box></Box>
-            </HStack>
-
-            
-            <VStack width={'100%'} height={'100%'} alignItems={'center'} spacing={6}>
-
-            <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
-                    <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Email</CustomText>
-                    <CustomInput name='email' isPassword={false} disable type='text' placeholder='' />
-                </VStack>
-
-                <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
-                    <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Phone</CustomText>
-                    <CustomInput name='mobilePhone' isPassword={false} type='text' placeholder='' />
-                </VStack>
-
-
-                <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
-                    <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Gender</CustomText>
-                    <CustomSelect name='gender' option={['Male', 'Female']} isPassword={false} type='text' placeholder='' />
-                </VStack>
-
-                <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
-                    <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Date of birth</CustomText>
-                    <CustomInput name='dob' isPassword={false} type='date' placeholder='' disable />
-                </VStack>
-
-                <HStack width={'100%'} justifyContent={'space-between'}>
-                        <CustomText fontFamily={'DM-Regular'} fontSize={'16px'} color='brand.chasescrollButtonBlue'>Show Email</CustomText>
-                        <Switch isChecked={showEmail} onChange={() => setShowEmail(prev => !prev)} />
+                {/* HEADER */}
+                <HStack width={'100%'} height={'50px'} justifyContent={'space-between'}>
+                    <ArrowLeft2 size={'30px'} color='black' onClick={() => router.back()} />
+                    <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Edit Personal Information</CustomText>
+                    <Box></Box>
                 </HStack>
 
-                <Button type='submit' isLoading={editProfile.isLoading} borderWidth={'0px'} variant={'outline'}  width='99%' outlineColor={'brand.chasescrollButtonBlue'} color='brand.chasescrollButtonBlue'>Save Changes</Button>
+
+                <VStack width={'100%'} height={'100%'} alignItems={'center'} spacing={6}>
+
+                    <VStack mt={"6"} alignItems={'flex-start'} width={'100%'} spacing={0}>
+                        <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Email</CustomText>
+                        <CustomInput name='email' isPassword={false} disable type='text' placeholder='' />
+                    </VStack>
+
+                    <HStack width={'100%'} justifyContent={'space-between'}>
+                        <CustomText fontFamily={'DM-Regular'} fontSize={'12px'} color='brand.chasescrollButtonBlue'>Show Email</CustomText>
+                        <Switch isChecked={showEmail} onChange={() => setShowEmail(prev => !prev)} />
+                    </HStack>
+
+                    <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
+                        <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Phone</CustomText>
+                        <CustomInput name='mobilePhone' isPassword={false} type='text' placeholder='' />
+                    </VStack>
 
 
-            </VStack>
-        </Box>
-    </VStack>
-  )
+                    <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
+                        <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Gender</CustomText>
+                        <CustomSelect name='gender' option={['Male', 'Female']} isPassword={false} type='text' placeholder='' />
+                    </VStack>
+
+                    <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
+                        <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Date of birth</CustomText>
+                        <CustomInput name='dob' isPassword={false} type='date' placeholder='' disable />
+                    </VStack>
+
+                    <Button type='submit' isLoading={editProfile.isLoading} borderWidth={'0px'} variant={'outline'} width='99%' outlineColor={'brand.chasescrollButtonBlue'} color='brand.chasescrollButtonBlue'>Save Changes</Button>
+
+
+                </VStack>
+            </Box>
+        </VStack>
+    )
 }
 
 export default EditProfile
