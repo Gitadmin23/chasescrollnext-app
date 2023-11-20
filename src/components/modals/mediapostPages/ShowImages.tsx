@@ -2,6 +2,7 @@ import CustomText from '@/components/general/Text'
 import { useDetails } from '@/global-state/useUserDetails'
 import { URLS } from '@/services/urls'
 import { THEME } from '@/theme'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
 import httpService from '@/utils/httpService'
 import { Avatar, Box, Flex, HStack, Image, Input, Spinner, Textarea, VStack, useToast } from '@chakra-ui/react'
 import React from 'react'
@@ -191,7 +192,7 @@ const handleChange = (e: string) => {
 
               <HStack>
                 <Avatar name={`${firstName} ${lastName}`} size={'md'} />
-                <CustomText>{firstName} {lastName}</CustomText>
+                <CustomText>{capitalizeFLetter(firstName)} {capitalizeFLetter(lastName)}</CustomText>
               </HStack>
 
               <Textarea value={value} borderWidth={0} placeholder='Write something about  your post' onChange={(e) =>handleChange(e.target.value)} />
