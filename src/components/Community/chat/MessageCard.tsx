@@ -24,6 +24,7 @@ interface IProps {
 const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = undefined }, ref) => {
     const [post, setPost] = React.useState(message);
     const [shoowSubmenu, setShowSubmenu] = React.useState(false);
+    const [showMore, setShowMore] = React.useState(false)
 
     const queryClient = useQueryClient();
     const { setAll } = useCommunityPageState((state) => state)
@@ -137,7 +138,12 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                 )}
                 <Box padding='5px' width='100%'>
                     {/* <LinkExtractor text={post?.text} /> */}
-                    <CustomText fontFamily={'DM-Regular'} fontSize={'14px'}>{handleLinks(post?.text)}</CustomText>
+                    <CustomText fontFamily={'DM-Regular'} fontSize='14px' color='black'>
+                        { showMore ? handleLinks(post?.text) : post?.text.length > 500 ? post?.text.slice(0,500) + '...' : post?.text}
+                        { post?.text.length > 500 && (
+                        <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowMore(!showMore)} >{showMore ? 'Show Less' : 'Show More'}</span>
+                        )}
+                    </CustomText>
                     {/* <CustomText width={'100%'} textOverflow={'clip'} color={'black'} fontFamily={'Satoshi-Regular'} fontSize={'md'}>{post?.text}</CustomText> */}
                 </Box>
                 <HStack>
