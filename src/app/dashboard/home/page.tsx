@@ -119,7 +119,7 @@ function Home() {
   return (
     <VStack width="full" h={"full"} overflowY={"auto"} alignItems={'flex-start'} >
       {/* MODAL */}
-      <CreateMediaPost isOpen={showModal} onClose={() => setShowModal(false)} />
+      <CreateMediaPost mutate={mutate} isOpen={showModal} onClose={() => setShowModal(false)} />
 
       <VStack width={['100%', '100%', '40%', '40%']} height='180px'  paddingTop='20px' paddingLeft={'20px'} paddingRight={['20px', '0px']} overflowY={'hidden'}>
 
