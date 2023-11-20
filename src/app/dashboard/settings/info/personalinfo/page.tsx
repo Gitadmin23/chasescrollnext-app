@@ -115,7 +115,13 @@ function EditProfile() {
     return renderForm(
         <VStack width={'100%'} height={'100%s'}>
             <input hidden type='file' accept='image/*' />
-            <Box overflowY='auto' maxWidth={['100%', '600px']} height={'100%'} paddingY='20px' paddingX={['20px', '0px']}>
+            <Box overflowY='auto' width={['100%', '100%']} height={'100%'} paddingY='20px' paddingX={['20px', '0px']}>
+
+                <VStack width='100%' height='100%' alignItems={'center'}>
+
+
+                    <VStack width={['100%', '30%']} height='100%'>
+
 
                 {/* HEADER */}
                 <HStack width={'100%'} height={'50px'} justifyContent={'space-between'}>
@@ -157,6 +163,11 @@ function EditProfile() {
 
 
                 </VStack>
+
+                    </VStack>
+
+                </VStack>
+
             </Box>
         </VStack>
     )
