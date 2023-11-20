@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import { IMediaContent, IMediaPost } from '@/models/MediaPost';
-import { Avatar, HStack, VStack, Box, Spinner, Menu, MenuList, MenuButton, MenuItem, Image, useToast } from '@chakra-ui/react';
+import { Avatar, HStack, VStack, Box, Spinner, Menu, MenuList, MenuButton, MenuItem, Image, useToast, Flex } from '@chakra-ui/react';
 import { FiMoreHorizontal, FiHeart, FiMessageSquare, FiShare2 } from 'react-icons/fi'
 import React from 'react'
 import CustomText from '../general/Text';
@@ -110,21 +110,21 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   }
 
   return (
-    <VStack id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='white' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='md'  boxShadow={'lg'} borderColor={'lightgrey'} color='black' padding='20px'>
+    <Flex direction={'column'} id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='white' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='md'  boxShadow={'lg'} borderColor={'lightgrey'} color='black' padding='20px'>
 
       {/* MODALS SECTION */}
       <ReportUserModal typeID={post?.id} REPORT_TYPE='REPORT_USER' isOpen={showReportModal} onClose={() => setShowReportModal(false)} />
       <LikeUserModal typeID={post?.id} isOpen={showlikes} onClose={() => setShowLikes(false)} />
 
       {/* HEADER SECTION */}
-      <HStack width='100%' height='100px' justifyContent={'space-between'} alignItems={'center'}>
+      <HStack width='100%' height='60px' justifyContent={'space-between'} alignItems={'center'}>
         <HStack>
 
           <Link href={`/dashboard/profile/${post.user.userId}`}>
           <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
             {post?.user?.data.imgMain.value === null && (
               <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                <CustomText fontFamily={'DM-Regular'}>{post?.user?.username[0].toUpperCase()}</CustomText>
+                <CustomText fontFamily={'DM-Regular'} >{post?.user?.username[0].toUpperCase()}</CustomText>
               </VStack>
             )}
             {
@@ -141,7 +141,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
 
           <VStack spacing={0} alignItems={'flex-start'}>
             <Link  href={`/dashboard/profile/${post.user.userId}`}>
-              <CustomText fontSize='lg' fontFamily={'DM-Medium'}>{post?.user?.username}</CustomText>
+              <CustomText fontSize={'14px'} fontFamily={'DM-Medium'}>{post?.user?.username[0].toUpperCase()}{post?.user.username.substring(1)}</CustomText>
             </Link>
             {/* <CustomText fontSize='md' fontFamily={'DM-Regular'}>o2 Areana London</CustomText> */}
             <CustomText fontSize='xs' fontFamily={'Satoshi-Light'} color='grey'>{moment(post?.timeInMilliseconds).fromNow()}</CustomText>
@@ -175,9 +175,11 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       </HStack>
 
       {/* BODY SECTION */}
-      <CustomText fontFamily={'Satoshi-Regular'} fontSize='md' color='black'>
+      <CustomText fontFamily={'Satoshi-Regular'}  color='black' fontSize={'16px'}>
         { showAll ? handleLinks(post?.text) : post?.text.length > 30 ? post?.text.slice(0, 30) + '...' : post?.text}
-        <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
+        { post?.text.length > 30 && (
+          <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
+        )}
       </CustomText>
 
       {post?.type === 'WITH_IMAGE' || post?.type === 'MULTIPLE_PICTURE' && (
@@ -199,7 +201,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       )}
 
       {/* FOOTER SECTION */}
-      <HStack justifyContent={'space-between'} alignItems={'center'} width='100%' height={'50px'} bg='white'>
+      <HStack justifyContent={'space-between'} alignItems={'center'} width='100%' height={'50px'} bg='white' marginTop={'20px'}>
         <VStack  cursor={'pointer'}>
           {!likeMutation.isLoading && (
             <>
@@ -239,7 +241,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
           <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>Share</CustomText>
         </VStack>
       </HStack>
-    </VStack>
+    </Flex>
   );
 });
 export default ThreadCard

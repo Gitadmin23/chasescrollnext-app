@@ -27,6 +27,8 @@ interface IProps {
 const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = undefined }, ref) => {
     const [post, setPost] = React.useState(message);
     const [shoowSubmenu, setShowSubmenu] = React.useState(false);
+    const [showAll, setShowAll] = React.useState(false);
+
 
     const queryClient = useQueryClient();
     const { setAll, activeChat } = useChatPageState((state) => state);
@@ -122,7 +124,12 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                     </>
                 )}
                 <Box padding='5px' width='100%' borderRadius={'12px 12px 12px 0px'}>
-                    <CustomText color={self ? 'black':'white'} fontFamily={'DM-Regular'} fontSize={'14px'}>{handleLinks(post?.message)}</CustomText>
+                        <CustomText color={self ? 'black':'white'} fontFamily={'DM-Regular'} fontSize={'14px'} >
+                            { showAll ? handleLinks(post?.message) : post?.message.length > 500 ? post?.message.slice(0, 500) + '...' : post?.message}
+                            { post?.message.length > 500 && (
+                            <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
+                            )}
+                        </CustomText>
                 </Box>
                 <HStack>
                     {/* { !self && (

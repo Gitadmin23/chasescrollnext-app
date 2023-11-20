@@ -14,7 +14,7 @@ import NotificationCard from './NotificationCard'
 import CustomText from '@/components/general/Text'
 import { useNotification } from '@/global-state/useNotification'
 import { stat } from 'fs'
-import { ArrowRight2 } from 'iconsax-react'
+import { ArrowLeft2, ArrowRight2 } from 'iconsax-react'
 
 interface Props {
     isLoading: boolean;
@@ -46,8 +46,10 @@ function NotificationPage({ isLoading }: Props) {
            )}
            { currentPage === 1 && (
             <>
-                <CustomText fontFamily={'DM-Bold'} fontSize={'16px'} color='black'>Read</CustomText>
-                <ArrowRight2 size='25px' variant='Outline' color='black' />
+                <HStack>
+                    <ArrowLeft2 size='25px' variant='Outline' color='black' />
+                    <CustomText fontFamily={'DM-Bold'} fontSize={'16px'} color='black'>Show Read</CustomText>
+                </HStack>
             </>
            )}
         </HStack>
@@ -61,14 +63,34 @@ function NotificationPage({ isLoading }: Props) {
                 </VStack>
             )}
             {
-                !isLoading && notifications.length > 0 && currentPage === 1 && notifications.filter((item) => item.status === 'UNREAD').map((item, index) => (
+                !isLoading &&  currentPage === 1 &&  notifications.filter((item) => item.status === 'UNREAD').length > 0 && (
+                    <>
+                        {
+                             notifications.filter((item) => item.status === 'UNREAD').map((item, index) => (
+                                <NotificationCard notification={item} key={index.toString()}  />
+                            ))
+                        }
+                    </>
+                )
+            }
+             {
+                !isLoading && currentPage === 0 && notifications.filter((item) => item.status === 'READ').length > 0 && notifications.filter((item) => item.status === 'READ').map((item, index) => (
                     <NotificationCard notification={item} key={index.toString()}  />
                 ))
             }
-             {
-                !isLoading && notifications.length > 0 && currentPage === 0 && notifications.filter((item) => item.status === 'READ').map((item, index) => (
-                    <NotificationCard notification={item} key={index.toString()}  />
-                ))
+            {/* {
+                !isLoading && currentPage === 0 && notifications.filter((item) => item.status === 'READ').length < 1 && (
+                    <VStack alignItems={'center'} width={'100%'} height={'70px'}>
+                        No new notifications
+                    </VStack>
+                )
+            } */}
+            {
+                !isLoading && currentPage === 1 && notifications.filter((item) => item.status === 'UNREAD').length < 1 && (
+                    <VStack alignItems={'center'} width={'100%'} height={'70px'}>
+                        No new notifications
+                    </VStack>
+                )
             }
             {
                 !isLoading && notifications.length < 1 && (

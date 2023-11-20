@@ -220,7 +220,9 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
                                 <CustomText fontFamily={'Satoshi-Medium'}>
                                 { showMore ? handleLinks(comment) : comment.length > 30 ? comment.slice(0, 30) + '...' : comment}
                                 <br />
+                                { comment.length > 30 && (
                                     <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowMore(!showMore)} >{showMore ? 'Show Less' : 'Show More'}</span>
+                                )}
                                 </CustomText>
                             </VStack>
                         </VStack>

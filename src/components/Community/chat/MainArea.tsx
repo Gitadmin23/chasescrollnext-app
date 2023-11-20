@@ -17,6 +17,7 @@ import { FiCalendar } from 'react-icons/fi';
 import { THEME } from '@/theme';
 import EventCard from './EventCard';
 import AddEventsModal from '@/components/modals/community/AddEventsModal';
+import Link from 'next/link';
 
 function MainArea() {
     const [posts, setPosts] = React.useState<IMediaContent[]>([]);
@@ -97,7 +98,9 @@ function MainArea() {
                 <HStack width='100%' maxWidth={'100%'} height={'75px'} bg='white' >
                     <Box paddingLeft='20px' width='100%'  height='100%' overflowX={'auto'} display={'inline-block'} whiteSpace={'break-spaces'}>
                         {events.map((item, i) => (
-                            <EventCard event={item} key={i.toString()} />
+                            <Link href={`/dashboard/event/details/${item.id}`} key={i.toString()}>
+                                <EventCard event={item}  />
+                            </Link>
                         ))}
                     </Box>
                 </HStack>
@@ -117,7 +120,7 @@ function MainArea() {
                     )
                 }
                 <HStack justifyContent={'center'} flex="1" >
-                    <CustomText textAlign={'center'} width={'60%'} fontFamily={'DM-Regular'} fontSize={'15px'}>{activeCommunity?.data?.description}</CustomText>
+                    <CustomText textAlign={'center'} width={'60%'} fontFamily={'DM-Regular'} fontSize={'15px'}> </CustomText>
                 </HStack>
             </HStack>
 
