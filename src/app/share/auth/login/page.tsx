@@ -7,7 +7,7 @@ import { THEME } from '@/theme';
 import Link from 'next/link';
 import { useForm } from '@/hooks/useForm';
 import { signInValidation } from '@/services/validations';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useDetails } from '@/global-state/useUserDetails';
 import { useMutation, useQuery } from 'react-query';
 import httpService from '@/utils/httpService';
@@ -45,7 +45,8 @@ function LoginPage() {
   const router = useRouter();
   const { setAll } = useDetails((state) => state);
   const { data: sessionData, update } = useSession();
-  const { type, typeID } = useShareState((state) => state)
+  const { type, typeID, setAll: seType } = useShareState((state) => state);
+  const query = useSearchParams();
 
   const handleSignIn = async (event: any) => {
     if (sessionData !== null) {
@@ -55,6 +56,15 @@ function LoginPage() {
         const result = await signIn('google'); // 'google' corresponds to the provider name in your NextAuth configuration
     }
   };
+
+  React.useEffect(() => {
+    const type = query?.get('type');
+    const typeID = query?.get('typeID');
+
+    if (type && typeID) {
+      seType({ type, typeID });
+    }
+  }, [query, seType, setAll])
 
   const signinWithGoogle = useMutation({
     mutationFn: (data: string) => httpService.get(`${URLS.SIGN_IN_WTIH_CREDENTIALS}`, {
@@ -156,7 +166,7 @@ function LoginPage() {
       })
       const typee = sessionStorage.getItem('type');
       const typeIDD = sessionStorage.getItem('typeID');
-      router.push(`/share?type=${typee}&typeID=${typeIDD}`);
+      router.push(`/share?type=${type}&typeID=${typeID}`);
     }
   });
 
