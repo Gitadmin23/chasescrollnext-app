@@ -166,7 +166,7 @@ const handleChange = (e: string) => {
             }
         </HStack>
 
-        <Flex width='100%'  bg='lightgrey' borderRadius='0px' position={'relative'}>
+        <Flex minWidth='300px' maxWidth={'350px'} height={'250px'}  bg='red' borderRadius='0px' position={'relative'}>
 
           { isLoading && (
             <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'} >
@@ -175,9 +175,9 @@ const handleChange = (e: string) => {
           )}
 
           { !isLoading && url !== '' && (
-            <VStack width={'100%'} zIndex={1} height='100%' overflow={'hidden'}>
+            <VStack width={'100%'} zIndex={1} height='300px' overflow={'hidden'}>
               {files[0].type.startsWith('video') && (
-                <video controls width={'100%'} height={'100%'}>
+                <video controls width={'100%'} height={'300px'}>
                   <source src={url} type='video/mp4' />
                 </video>
               )}
@@ -191,7 +191,7 @@ const handleChange = (e: string) => {
     
         {
           stage === 3 &&  (
-            <VStack alignItems='flex-start' width='100%' height='250px' paddingX='20px' bg='white' justifyContent={'center'} fontFamily={'Satoshi-Regular'}>
+            <VStack alignItems='flex-start' width='100%' height='250px' paddingX='20px' paddingTop={'20px'} bg='white' justifyContent={'center'} fontFamily={'Satoshi-Regular'}>
 
               <HStack>
                 <Avatar name={`${firstName} ${lastName}`} size={'md'} />
