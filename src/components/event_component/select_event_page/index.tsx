@@ -12,33 +12,35 @@ function SelectEventPage(props: Props) {
     const pathname = usePathname();
     const router = useRouter();
 
-    const tablist = [
-        {
-            name: "All Event",
-            route: "/dashboard/event"
-        },
-        {
-            name: "My Events",
-            route: "/dashboard/event/my_event"
-        },
-        {
-            name: "Past Events",
-            route: "/dashboard/event/past_event"
-        },
-        {
-            name: "Saved Events",
-            route: "/dashboard/event/saved_event"
-        },
-        {
-            name: "Draft",
-            route: "/dashboard/event/draft"
-        }
-    ]
+    const tablist = React.useCallback(() => {
+        return [
+            {
+                name: "All Event",
+                route: "/dashboard/event"
+            },
+            {
+                name: "My Events",
+                route: "/dashboard/event/my_event"
+            },
+            {
+                name: "Past Events",
+                route: "/dashboard/event/past_event"
+            },
+            {
+                name: "Saved Events",
+                route: "/dashboard/event/saved_event"
+            },
+            {
+                name: "Draft",
+                route: "/dashboard/event/draft"
+            }
+        ]
+    }, [])
     const [showPage, setShowPage] = React.useState("All Event")
     const [showSelector, setShowSelector] = React.useState(false)
 
     React.useEffect(() => {
-        tablist?.map((item: any) => {
+        tablist()?.map((item: any) => {
             if(pathname?.includes(item?.route)){
                 setShowPage(item?.name)
             } 
@@ -59,7 +61,7 @@ function SelectEventPage(props: Props) {
             </Box>
             {showSelector && ( 
                 <HStack flexDirection={"column"} zIndex={"30"} position={"absolute"} shadow={"md"} width={"230px"} p={"2"} top={"35px"} bg={"white"} >
-                    {tablist?.map((item: any, index: number) => {
+                    {tablist()?.map((item: any, index: number) => {
                         return (
                             <Box key={index} onClick={()=> clickHandler(item?.name, item?.route)} width={"full"} rounded={"md"} as='button' display={"flex"} justifyContent={"center"} color={showPage === item?.name ? "white" : "black"} bg={showPage === item?.name ? "brand.chasescrollBlue" : "white"} roundedTopRight={"none"} py={"2"} fontSize={"sm"} fontWeight={"semibold"} >
                                 {item?.name}

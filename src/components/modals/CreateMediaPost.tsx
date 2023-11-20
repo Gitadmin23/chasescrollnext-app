@@ -64,13 +64,13 @@ function CreateMediaPost({isOpen, onClose, mutate}:IProps) {
                 return <ShowImages mutate={mutate} setEmpty={emptyFiles} stage={stage}  handleStage={handleSetStage} files={files as any} setImage={handleImagePicked} />
             }
             case 4: {
-                return <Success onClose={onClose} />
+                return <Success onClose={onClose} handleStage={handleSetStage} />
             }
             default: {
                 return <ShowImages mutate={mutate}  setEmpty={emptyFiles} stage={stage} handleStage={handleSetStage} files={files as any} setImage={handleImagePicked} />
             }
         }
-    }, [stage, handleImagePicked, emptyFiles, handleSetStage, files, onClose]);
+    }, [stage, handleImagePicked, mutate, emptyFiles, handleSetStage, files, onClose]);
 
 
   return (

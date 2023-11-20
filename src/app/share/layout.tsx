@@ -17,6 +17,7 @@ function ShareLayout({
   const query = useSearchParams();
   const type = query?.get('type');
   const typeID = query?.get('typeID');
+  const eventName = query?.get('eventName');
   const { setAll } = useShareState((state) => state);
 
   React.useEffect(() => {
@@ -26,11 +27,12 @@ function ShareLayout({
         setAll({ type: type as any, typeID: typeID as any });
         sessionStorage.setItem('type', type as string);
         sessionStorage.setItem('typeID', typeID as string);
-        router.push(`/share/auth/login?type=${type}&typeID=${typeID}`)
+        sessionStorage.setItem('eventName', eventName as string);
+        router.push(`/share/auth/login?type=${type}&typeID=${typeID}&eventName=${eventName}`)
       }
     }
     
-  }, [router, setAll, type, typeID, query])
+  }, [router, setAll, type, typeID, query, eventName])
   return (
     <VStack width={'100%'} height={'100vh'} alignItems={'center'}>
       <Box width={['100%', '100%']}  height='100%' overflowY={'auto'}>

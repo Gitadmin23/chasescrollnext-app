@@ -48,11 +48,11 @@ function EditProfile() {
                     "showEmail": showEmail,
                     "data": {
                         gender: {
-                            objectPublic: true,
+                            // objectPublic: true,
                             value: data.gender,
                         },
                         mobilePhone: {
-                            objectPublic: true,
+                            // objectPublic: true,
                             value: data.mobilePhone,
                         }
                     }

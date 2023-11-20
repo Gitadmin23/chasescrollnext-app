@@ -77,16 +77,16 @@ const groupChatSchema = z.object({
 })
 
 const editProfileSchema = z.object({
-    firstName: z.string().nonempty().min(3),
-    lastName: z.string().nonempty().min(3),
-    username: z.string().nonempty().min(3),
-    website: z.string().nonempty(),
-    aboutme: z.string().nonempty().min(3),
+    firstName: z.string().nonempty("Your firstname is required").min(3),
+    lastName: z.string().nonempty("Your lastname is required").min(3),
+    username: z.string().nonempty("Your username cannot be blank").min(3),
+    website: z.string(),
+    aboutme: z.string(),
 });
 
 const editPersonalInfoSchema = z.object({
     mobilePhone: z.string().min(10),
-    gender: z.string().nonempty(),
+    gender: z.string().nonempty("Your gender is require"),
     dob: z.string().nonempty(),
     email: z.string(),
 });

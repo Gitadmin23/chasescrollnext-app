@@ -13,7 +13,8 @@ interface Props {
     size?: string,
     isprofile?: boolean,
     istext?: boolean,
-    type: ShareType
+    type: ShareType,
+    eventName?: string
 }
 
 function ShareEvent(props: Props) {
@@ -21,7 +22,8 @@ function ShareEvent(props: Props) {
         id,
         size,
         isprofile,
-        istext
+        istext,
+        eventName
     } = props
 
     const [open, setOpen] = useState(false)
@@ -54,7 +56,7 @@ function ShareEvent(props: Props) {
             )}
             <ModalLayout open={open} close={CloseModal} title={tab === 1 ? "Share" : "Share with friends"} >
                 {tab === 1 && (
-                    <SendMessage isprofile={isprofile} type={props.type} id={id} click={setTab} />
+                    <SendMessage isprofile={isprofile} type={props.type} id={id} click={setTab} eventName={eventName} />
                 )}
                 {tab === 2 && (
                     <SendMesageModal type={props.type} isprofile={isprofile} id={id} onClose={CloseModal} />

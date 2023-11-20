@@ -16,18 +16,37 @@ interface Props {
     click: any,
     isprofile?: boolean;
     type?: ShareType
+    eventName?: string,
 }
 
 function SendMessage(props: Props) {
     const {
         id,
         click,
-        isprofile
+        isprofile,
+        eventName
     } = props
 
-    const url_link = `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`;
+    const url_link = eventName ? `${WEBSITE_URL}/share?eventName=${eventName}&type=${props.type}&typeID=${id}`: `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`;
 
     const handleType = () => {
+        switch(props.type) {
+            case 'COMMUNITY': {
+                return 'Share community'
+            }
+            case 'POST': {
+                return 'Share post'
+            }
+            case 'PROFILE': {
+                return 'Share profile'
+            }
+            case 'EVENT': {
+                return 'Spread the word about our upcoming event by sharing a custom link with your friends and colleagues.'
+            }
+        }
+    }
+
+    const handle = () => {
         switch(props.type) {
             case 'COMMUNITY': {
                 return 'Share community'
