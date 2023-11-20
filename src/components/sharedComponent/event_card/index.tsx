@@ -43,34 +43,7 @@ function ExploreEventCard(props: Props) {
     const { setSearchValue } = useSearchStore((state) => state); 
 
     const clickHandler = () => {
-        if (draft) {
-            // updateEvent({
-            //     id: event?.id,
-            //     picUrls: event?.picUrls,
-            //     eventType: event?.eventType,
-            //     eventName: event?.eventName,
-            //     eventDescription: event?.eventDescription,
-            //     joinSetting: event?.joinSetting,
-            //     locationType: event?.locationType,
-            //     currency: event?.currency,
-            //     currentPicUrl: event?.currentPicUrl,
-            //     eventFunnelGroupID: event?.eventFunnelGroupID,
-            //     mediaType: event?.mediaType,
-            //     currentVideoUrl: event?.currentVideoUrl,
-            //     isPublic: event?.isPublic,
-            //     isExclusive: event?.isExclusive,
-            //     mask: event?.mask,
-            //     attendeesVisibility: event?.attendeesVisibility,
-            //     minPrice: event?.minPrice,
-            //     maxPrice: event?.maxPrice,
-            //     startTime: event?.startTime,
-            //     endTime: event?.endTime,
-            //     startDate: event?.startDate,
-            //     endDate: event?.endDate,
-            //     // expirationDate: "",
-            //     location: event?.location,
-            //     productTypeData: event?.productTypeData,
-            // })
+        if (draft) { 
             router.push("/dashboard/event/edit_draft/"+event?.id)
         } else if(dashboard){
             router.push("/dashboard/settings/event-dashboard/" + event?.id)

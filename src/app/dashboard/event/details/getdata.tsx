@@ -1,6 +1,7 @@
 import EventDetails from '@/components/event_details_component'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation' 
 import { URLS } from '@/services/urls'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
 import httpService from '@/utils/httpService'
 import { Box, useToast } from '@chakra-ui/react' 
 import React from 'react'
@@ -47,7 +48,7 @@ focusManager.setFocused(false)
                     endtimeAndDate={data?.endDate}
                     location={data?.location}
                     locationType={data?.locationType}
-                    convener={data?.createdBy?.firstName + " " + data?.createdBy?.lastName}
+                    convener={capitalizeFLetter(data?.createdBy?.firstName) + " " + capitalizeFLetter(data?.createdBy?.lastName)}
                     username={data?.createdBy?.username}
                     userBy={data?.createdBy?.userId}
                     ticketInfo={data?.productTypeData}
