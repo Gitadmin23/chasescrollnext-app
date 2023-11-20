@@ -54,11 +54,6 @@ function ProfileImage(props: Props) {
         }
     }
 
-    console.log(userId);
-    console.log(user_index);
-    
-
-
     return (
         <LoadingAnimation loading={isLoading} >
             <Box position={"relative"} bg={"gray.400"} height={"442px"} >
@@ -66,7 +61,14 @@ function ProfileImage(props: Props) {
                     <Box width='full' height='full' bg='brand.chascrollButtonBlue' position={"absolute"} zIndex={"10"} inset={"0px"}></Box>
                 )}
                 {(data?.data?.imgMain?.value || (userId === user_index && user?.data?.imgMain?.value)) && (
-                    <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={IMAGE_URL + (userId === user_index ? user?.data?.imgMain?.value : data?.data?.imgMain?.value)} alt='profile' />
+                    <>
+                        { data?.data?.imgMain?.value?.startsWith('https://') || user?.data?.imgMain?.value?.startsWith('https://') && (
+                            <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={(userId === user_index ? user?.data?.imgMain?.value : data?.data?.imgMain?.value)} alt='profile' />
+                        )}
+                        { !data?.data?.imgMain?.value?.startsWith('https://') || !user?.data?.imgMain?.value?.startsWith('https://') && (
+                            <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={IMAGE_URL + (userId === user_index ? user?.data?.imgMain?.value : data?.data?.imgMain?.value)} alt='profile' />
+                        )}
+                    </>
                 )} 
                 <Box position={"relative"} zIndex={"10"} width={"fit-content"} pt={"8"} ml={"auto"} mr={"9"} >
                     {userId !== user_index && (
