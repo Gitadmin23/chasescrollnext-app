@@ -57,12 +57,15 @@ function EditProfile() {
                     "username": data.username,
                     "data": {
                         "imgMain": {
+                            objectPublic: true,
                             "value": pic?.url
                         },
                         "webAddress": {
+                            objectPublic: true,
                             "value": data.website
                         },
                         "about": {
+                            objectPublic: true,
                             "value": data.aboutme
                         },
                     }
