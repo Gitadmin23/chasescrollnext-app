@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import React, { ReactNode } from 'react'
 import { FiHome, FiSearch, FiCalendar, FiMessageCircle, FiUsers, FiUser, FiPower } from 'react-icons/fi';
 import { useSession , signOut } from 'next-auth/react'
+import { Warning2 } from 'iconsax-react'
 
 type IRoute = {
     icon: any;
@@ -84,16 +85,19 @@ function Sidebar() {
         <VStack display={['none', 'none', 'flex', 'flex']} width={"300px"} height='100%' paddingBottom={"40px"} bg='white' overflowY={"auto"} borderRightWidth={1} borderRightColor={'lightgrey'}>
 
             {/* MODAL */}
-            <Modal isOpen={showModal} onClose={() => setShowModal(false)} isCentered size='md' closeOnOverlayClick={false} closeOnEsc={false}>
+            <Modal isOpen={showModal} onClose={() => setShowModal(false)} isCentered size='sm' closeOnOverlayClick={false} closeOnEsc={false}>
                 <ModalOverlay />
-                <ModalContent>
-                    <ModalBody>
-                        <VStack width={'100%'} height={'100px'}>
+                <ModalContent height={'300px'} borderRadius={'30px'}>
+                    <ModalBody width={'100%'} height={'100%'} borderRadius={'20px'}>
+                        <VStack width={'100%'} height={'100%'} justifyContent={'center'} spacing={6}>
+                            <VStack width='60px' height={'60px'} borderRadius={'30px'} justifyContent={'center'} bg='#df26263b'>
+                                <Warning2 color='red' size='30px' variant='Outline' />
+                            </VStack>
                             <CustomText fontFamily={'DM-Medium'} fontSize={'18px'}>Are you sure you want to logout?</CustomText>
-                            <HStack justifyContent={'center'} width={'100%'} height='50px'>
-                                <Button variant={'unstyled'} width='100px' height={'40px'} color='brand.chasescrollButtonBlue' onClick={() => setShowModal(false)} >Cancel</Button>
-                                <Button variant={'solid'} bg='red' width='100px' height={'40px'} color='white' onClick={logout} >Log out</Button>
-                            </HStack>
+                            <VStack justifyContent={'center'} width={'100%'} >
+                                <Button variant={'outline'} outlineColor={'brand.chasescrollButtonBlue'} borderWidth={'0px'} width='100%' height={'32px'} color='brand.chasescrollButtonBlue' onClick={() => setShowModal(false)} >Cancel</Button>
+                                <Button variant={'solid'} bg='red' width='100%' height={'40px'} color='white' onClick={logout} >Log out</Button>
+                            </VStack>
                         </VStack>
                     </ModalBody>
                 </ModalContent>

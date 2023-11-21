@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, Box, Flex, Grid, HStack, VStack, useToast, Image } from '@chakra-ui/react'
+import { Avatar, Box, Flex, Grid, HStack, VStack, useToast, Image, Button, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react'
 import React, { ReactNode } from 'react'
 import CustomText from '@/components/general/Text';
 import '../globals.css'
@@ -17,10 +17,11 @@ import httpService from '@/utils/httpService';
 import { IMAGE_URL, URLS } from '@/services/urls';
 import SearchBar from '@/components/explore_component/searchbar';
 import NotificationBar from '@/components/navbar/notification';
-import { Notification, Message, AddSquare, SearchNormal1, Calendar, People, Home } from 'iconsax-react'
+import { Notification, Message, AddSquare, SearchNormal1, Calendar, People, Home, LogoutCurve, Warning2 } from 'iconsax-react'
 import { HomeIcon, UsersIcon } from '@/components/svg';
 import ImageModal from '@/components/general/ImageModal';
 import UserImage from '@/components/sharedComponent/userimage';
+import { signOut } from 'next-auth/react';
 type IRoute = {
     icon: ReactNode;
     text: string;
@@ -55,6 +56,8 @@ function Layout({ children }: {
     const pathname = usePathname();
     const router = useRouter();
     const toast = useToast();
+    const [showModal, setShowModal] = React.useState(false);
+
 
     const { username, lastName, firstName, userId, setAll, user } = useDetails((state) => state);
 
@@ -95,9 +98,6 @@ function Layout({ children }: {
         }
     }, [router, setAll]);
 
-    const logout = () => {
-
-    }
 
     const routes: IRoute[] = [
         {
@@ -132,11 +132,36 @@ function Layout({ children }: {
         }
     ];
 
+    const logout = async () => {
+        setAll({ userId: '', dob: '', email: '', username:'', firstName: '', lastName: '', publicProfile: ''});
+        localStorage.clear();
+        await signOut();
+        router.push('/auth');
+    }
+
     return (
 
         <Box className='w-full h-screen'>
             {/* MODALS */}
             <ImageModal />
+             {/* MODAL */}
+             <Modal isOpen={showModal} onClose={() => setShowModal(false)} isCentered size='sm' closeOnOverlayClick={false} closeOnEsc={false}>
+                <ModalOverlay />
+                <ModalContent height={'300px'} borderRadius={'30px'}>
+                    <ModalBody width={'100%'} height={'100%'} borderRadius={'20px'}>
+                        <VStack width={'100%'} height={'100%'} justifyContent={'center'} spacing={6}>
+                            <VStack width='60px' height={'60px'} borderRadius={'30px'} justifyContent={'center'} bg='#df26263b'>
+                                <Warning2 color='red' size='30px' variant='Outline' />
+                            </VStack>
+                            <CustomText fontFamily={'DM-Medium'} fontSize={'18px'}>Are you sure you want to logout?</CustomText>
+                            <VStack justifyContent={'center'} width={'100%'} spacing={4} height={'120px'} >
+                                <Button variant={'outline'} outlineColor={'brand.chasescrollButtonBlue'} borderWidth={'0px'} width='100%' height={'32px'} color='brand.chasescrollButtonBlue' onClick={() => setShowModal(false)} >Cancel</Button>
+                                <Button variant={'solid'} bg='red' width='100%' height={'40px'} color='white' onClick={logout} >Log out</Button>
+                            </VStack>
+                        </VStack>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
             
             <Grid h="100vh" w={"full"} overflowY={"hidden"} >
                 <Box width="full" position={"absolute"} zIndex={"30"} top={"0px"} >
@@ -172,9 +197,7 @@ function Layout({ children }: {
 
                             {/* SMALL SCREEN ICONS */}
                             <HStack display={['flex', 'none']}>
-                                <Link href="/dashboard/chats">
-                                    <AddSquare variant='Outline' color={THEME.COLORS.chasescrollBlue} size='30px' />
-                                </Link>
+                               
 
                                 <Link href='/dashboard/chats'>
                                     <Message color={THEME.COLORS.chasescrollBlue} size='30px' variant='Outline' />
@@ -182,24 +205,7 @@ function Layout({ children }: {
 
                                 <NotificationBar />
 
-                                <Link href={userId ? `/dashboard/profile/${userId}` : ""}>
-                                    <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-                                        { user?.data.imgMain.value === null && (
-                                            <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
-                                                <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color='brand.chasescrollButtonBlue'>{firstName[0]?.toUpperCase()} {lastName[0]?.toUpperCase()}</CustomText>
-                                            </VStack>
-                                        )}
-                                        {
-                                            user?.data.imgMain.value !== null && (
-                                                <>
-                                                    { user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
-                                                    { !user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${IMAGE_URL}${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
-                                                </>
-                                            )
-                                        }
-                                    </Box>
-                                    {/* <Avatar name={`${firstName} ${lastName}`} size='md' marginX='10px' /> */}
-                                </Link>
+                                <LogoutCurve onClick={() => setShowModal(true)} color='red' size={'30px'} variant='Outline' />
                             </HStack>
 
                         </HStack>
