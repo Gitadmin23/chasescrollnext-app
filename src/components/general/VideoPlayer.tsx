@@ -43,7 +43,7 @@ function VideoPlayer({
       
         return () => {
           if (videoRef.current) {
-            observer.unobserve(videoRef.current);
+            observer.unobserve(videoRef?.current);
           }
         };
       }, [videoRef]);
@@ -100,7 +100,7 @@ function VideoPlayer({
    <Box ref={boxRef as any} onDoubleClick={handleDoubleClick} onMouseOver={() => setShowControl(true)} onMouseOut={() => setShowControl(false)} width={'100%'} height={'100%'} maxH={'250px'} overflow={'hidden'} position={'relative'}>
      <video ref={videoRef as any} style={{ width: '100%', height: '100%', maxHeight: '250px',}} onEnded={() => {
       setIsPlaying(false);
-      videoRef.current.pause();
+      videoRef?.current?.pause();
      }}>
         <source type='video/mp4' src={src} />
     </video>

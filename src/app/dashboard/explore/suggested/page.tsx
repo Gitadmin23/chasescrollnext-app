@@ -25,7 +25,7 @@ function Suggested(props: Props) {
                 </Flex>
             </Box>
         </VStack>
-    )
+    );
 }
 
 export default Suggested
