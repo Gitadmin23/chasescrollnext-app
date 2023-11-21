@@ -55,12 +55,12 @@ function NotificationBar(props: Props) {
                 {/* <CustomText position={'absolute'} top='-10px' right='0'></CustomText> */}
              </Box>
             {active && (
-                <Box width={"380px"} left={['-270px','-350px']} borderRadius={'10px'} height={'300px'} maxHeight={'500px'} zIndex={"20"} position={"absolute"} mt={"2"} >
+                <Box width={"380px"} left={['-270px','-350px']} borderRadius={'10px'} height={'300px'} maxHeight={'500px'} zIndex={"2000"} position={"absolute"} mt={"2"} >
                     <NotificationPage isLoading={isLoading} />
                 </Box>
             )} 
             {active && (
-                <Box onClick={()=> setActive(false)} bgColor={"black"} opacity={"0.3"} zIndex={"10"} position={"fixed"} inset={"0px"} />
+                <Box onClick={()=> setActive(false)} bgColor={"black"} opacity={"0.3"} zIndex={"1000"} position={"fixed"} inset={"0px"} />
             )}
         </Box>
     )
