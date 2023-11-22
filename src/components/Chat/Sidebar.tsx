@@ -35,7 +35,7 @@ const OnlineUser = ({ id }: { id: string }) => {
     const createChat = useMutation({
         mutationFn: () => httpService.post(`${URLS.CREATE_CHAT}`, {
             "type": "ONE_TO_ONE",
-            // "typeID": user?.userId,
+            "typeID": user?.userId,
             users: [
                 user?.userId
             ]

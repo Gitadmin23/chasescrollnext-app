@@ -22,6 +22,7 @@ function ChatBtn(props: Props) {
     const { isLoading: chatCreationLoading, mutate } = useMutation({
         mutationFn: () => httpService.post(`/chat/chat`, {
             type: 'ONE_TO_ONE',
+            typeID: userId,
             users: [
                 userId,
             ]
