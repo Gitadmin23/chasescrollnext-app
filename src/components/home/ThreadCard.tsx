@@ -21,6 +21,7 @@ import ShareEvent from '../sharedComponent/share_event';
 import { useRouter } from 'next/navigation';
 import { handleLinks } from '../general/LinkExtractor';
 import { THEME } from '@/theme';
+import { formatTimeAgo } from '@/utils/helpers';
 
 interface IProps {
   post?: IMediaContent;
@@ -148,7 +149,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
               <CustomText fontSize={'14px'} fontFamily={'DM-Medium'}>{post?.user?.username[0].toUpperCase()}{post?.user.username.substring(1)}</CustomText>
             </Link>
             {/* <CustomText fontSize='md' fontFamily={'DM-Regular'}>o2 Areana London</CustomText> */}
-            <CustomText fontSize='xs' fontFamily={'Satoshi-Light'} color='grey'>{moment(post?.timeInMilliseconds).fromNow()}</CustomText>
+            <CustomText fontSize='xs' fontFamily={'Satoshi-Light'} color='grey'>{formatTimeAgo(post?.timeInMilliseconds)}</CustomText>
           </VStack>
         </HStack>
         <Menu>
