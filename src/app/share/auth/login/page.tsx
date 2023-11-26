@@ -166,7 +166,11 @@ function LoginPage() {
       })
       const typee = sessionStorage.getItem('type');
       const typeIDD = sessionStorage.getItem('typeID');
-      router.push(`/share?type=${type}&typeID=${typeID}`);
+      if(type === "EVENT"){
+        router.push(`/dashboard/event/details/${typeID}`);
+      }   else { 
+        router.push(`/share?type=${type}&typeID=${typeID}`);
+      }
     }
   });
 
@@ -216,7 +220,11 @@ function LoginPage() {
             username: checkData.user_name,
             userId: checkData.user_id,
           })
-          router.push(`/share?type=${type}&typeID=${typeID}`);
+          if(type === "EVENT"){
+            router.push(`/dashboard/event/details/${typeID}`);
+          }   else { 
+            router.push(`/share?type=${type}&typeID=${typeID}`);
+          }
           // navigate("/explore")
         } else {
           toast({
@@ -277,11 +285,11 @@ function LoginPage() {
                 <CustomInput name='password' isPassword type='password' placeholder='Enter your password' />
 
                 <HStack justifyContent={'space-between'} spacing={0} width='100%' marginY='20px'>
-                  <Link href='/auth/forgotpassword'>
+                  {/* <Link href='/auth/forgotpassword'>
                     <CustomText color='brand.chasescrollBlue' fontSize={'sm'} fontFamily={'Satoshi-Regular'} textAlign={'left'}>
-                      {/* Forgot password ? */}
+                      Forgot password ?
                     </CustomText>
-                  </Link>
+                  </Link> */}
 
                   <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'}>
                     Dont have an account ?
