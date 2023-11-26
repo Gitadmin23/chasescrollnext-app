@@ -146,7 +146,7 @@ const handleChange = (e: string) => {
 }
 
   return (
-    <VStack width='100%' height='600px'>
+    <VStack width='100%' height='auto'>
         <input hidden type='file' accept="image/*, video/*" ref={inputRef as any} onChange={(e) => handlePick(e.target.files as FileList)} />
 
         <HStack width='100%' height='50px' bg='white' justifyContent={'space-between'} paddingX='10px' alignItems={'center'} paddingTop={'10px'}>
@@ -166,7 +166,7 @@ const handleChange = (e: string) => {
             }
         </HStack>
 
-        <Flex minWidth='300px' maxWidth={'350px'} height={'250px'}  bg='red' borderRadius='0px' position={'relative'}>
+        <Flex minWidth='300px' maxWidth={'350px'} height={'auto'}  borderRadius='0px' position={'relative'}>
 
           { isLoading && (
             <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'} >
