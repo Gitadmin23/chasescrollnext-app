@@ -268,7 +268,7 @@ function LoginPage() {
   });
 
   return renderForm(
-    <Flex flexDir={"column"} gap={"10"} alignItems={"center"} justifyContent={"space-between"} pt={"16"} pb={["16px", "16px", "0px"]} width={"full"} >
+    <Flex flexDir={"column"} gap={"10"} alignItems={"center"} justifyContent={"space-between"} pt={"16"} pb={["16px", "16px", "0px"]} width={"full"} height={"100vh"} >
       <Flex flexDir={["column", "column", "row"]} gap={["10", "10", "4"]} alignItems={"center"} justifyContent={"space-between"} width={"full"} maxWidth={"5xl"} >
         <Flex px={"4"} flexDir={"column"} alignItems={"center"} width={"full"} gap={"12"} >
           <Box width={"full"} maxWidth={"sm"} height={"80"} >
@@ -326,7 +326,7 @@ function LoginPage() {
 
         </Flex>
       </Flex>
-      <Box width={"full"} display={["none", "none", "flex"]} flexDirection={"column"} gap={"4"} pb={"4"} >
+      <Box width={"full"} display={["none", "none", "flex"]} mt={"auto"} flexDirection={"column"} gap={"4"} pb={"4"} >
         <Box width={"full"} borderWidth={"1px"} />
         <Flex gap={"4"} justifyContent={"center"} alignItems={"center"} fontSize={"sm"} textAlign={"center"} color={"brand.chasescrollTextGrey"} >
           {LINK2.map((item, index) => {

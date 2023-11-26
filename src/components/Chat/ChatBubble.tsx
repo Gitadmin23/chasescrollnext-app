@@ -18,6 +18,7 @@ import { ChatMessage } from '@/models/ChatMessage';
 import { useChatPageState } from './state';
 import { PaginatedResponse } from '@/models/PaginatedResponse';
 import { useImageModalState } from '../general/ImageModal/imageModalState';
+import UserImage from '../sharedComponent/userimage';
 
 interface IProps {
     message: ChatMessage;
@@ -93,7 +94,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
        <HStack  position={'relative'}  width='100%' justifyContent={'space-between'} alignItems={'flex-start'} flexDirection={self ? 'row':'row-reverse'}>
            
 
-            <VStack borderRadius='10px 20px 20px 0px'  bg={self ? 'white':'brand.chasescrollButtonBlue'}  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
+            <VStack borderRadius='10px 20px 20px 0px'  bg={self ? 'white':'brand.chasescrollButtonBlue'}  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={'300px'} minW={'100px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
                
                 {post.media !== null && (
                     <>
@@ -123,7 +124,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                         }
                     </>
                 )}
-                <Box padding='5px' width='100%' borderRadius={'12px 12px 12px 0px'}>
+                <Box padding='5px' width="100%" borderRadius={'12px 12px 12px 0px'}>
                         <CustomText color={self ? 'black':'white'} fontFamily={'DM-Regular'} fontSize={'14px'} >
                             { showAll ? handleLinks(post?.message) : post?.message.length > 500 ? post?.message.slice(0, 500) + '...' : post?.message}
                             { post?.message.length > 500 && (
@@ -146,7 +147,10 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                
             </VStack>
 
-            <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+            <Box width={"fit-content"} >
+              <UserImage size={"32px"} font={"13px"} border={"2px"} fontWeight={"medium"} data={post?.createdBy} image={post?.createdBy?.data?.imgMain?.value} />
+            </Box>
+            {/* <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
                     { post?.createdBy?.data?.imgMain?.value === null && (
                         <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
                             <CustomText fontFamily={'DM-Regular'}>{post?.createdBy?.username[0].toUpperCase() || 'none'}</CustomText>
@@ -161,7 +165,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                            </>
                         )
                     }
-                </Box>
+                </Box> */}
             
             
        </HStack>
