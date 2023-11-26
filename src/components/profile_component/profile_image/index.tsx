@@ -2,6 +2,7 @@ import AddOrRemoveUserBtn from '@/components/sharedComponent/add_remove_user_btn
 import BlockBtn from '@/components/sharedComponent/blockbtn';
 import ChatBtn from '@/components/sharedComponent/chat_btn';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
+import ModalLayout from '@/components/sharedComponent/modal_layout';
 import ShareEvent from '@/components/sharedComponent/share_event';
 import UserImage from '@/components/sharedComponent/userimage';
 import { useDetails } from '@/global-state/useUserDetails';
@@ -9,6 +10,7 @@ import { IMAGE_URL, URLS } from '@/services/urls';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
 import httpService from '@/utils/httpService';
 import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react'
+import { fstat } from 'fs';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { IoMdSettings } from 'react-icons/io';
@@ -27,6 +29,7 @@ function ProfileImage(props: Props) {
     const [data, setData] = React.useState([] as any)
     const [showModal, setShowModal] = React.useState(false)
     const [isFriend, setisFriend] = useState(null)
+    const [open, setOpen] = useState(false)
     const router = useRouter()
 
     const { userId, user } = useDetails((state) => state);
@@ -51,6 +54,14 @@ function ProfileImage(props: Props) {
             router.push("/dashboard/settings")
         } else {
             setShowModal((prev) => !prev)
+        }
+    }
+
+    const clickMore =()=>{
+        if(data?.data?.about?.value?.length > 18){
+            setOpen(true)
+        } else {
+            setOpen(false)
         }
     }
 
@@ -117,7 +128,7 @@ function ProfileImage(props: Props) {
                             <Text fontSize={"sm"} >Phone : {data?.data?.mobilePhone?.value}</Text>
                         )}
                         {data?.data?.about?.value && (
-                            <Text fontSize={"sm"} >Bio : {data?.data?.about?.value?.length > 18 ? data?.data?.about?.value?.splice(0, 18) : data?.data?.about?.value}</Text>
+                            <Text onClick={()=> clickMore()} as={data?.data?.about?.value?.length > 18 ? "button" : "text"} fontSize={"sm"} >Bio : {data?.data?.about?.value?.length > 18 ? data?.data?.about?.value?.slice(0, 18)+"...more" : data?.data?.about?.value}</Text>
                         )}
                         {data?.data?.webAddress?.value && (
                             <Text fontSize={"sm"} >Website : {data?.data?.webAddress?.value ?? ""}</Text>
@@ -143,6 +154,11 @@ function ProfileImage(props: Props) {
                             <ChatBtn profile={data} userId={user_index} />
                         </Flex>
                     )}
+                    <ModalLayout open={open} close={setOpen} title={userId === user_index ? "About Me" : (capitalizeFLetter(data?.firstName) + " " + capitalizeFLetter(data?.lastName))}>
+                        <Box px={"6"} pb={"6"} >
+                            <Text>{data?.data?.about?.value}</Text>
+                        </Box>
+                    </ModalLayout>
                 </Flex>
             </Box>
         </LoadingAnimation>

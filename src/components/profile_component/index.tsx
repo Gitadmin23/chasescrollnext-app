@@ -53,10 +53,10 @@ function ProfileComponent(props: Props) {
                                         style={{ width: "100%", height: "100%", borderRadius: "24px", borderTopRightRadius: "0px" }}
                                         className="rounded-b-[32px] rounded-tl-24px w-[170px] h-[170px] object-cover cursor-pointer z-0"
                                         // alt="media from user post" 
-                                        controls
+                                        controls={false}
                                         autoPlay={false}
                                     >
-                                        <source src={`${IMAGE_URL}${item?.mediaRef}`} type="video/mp4" />
+                                        <source src={item?.mediaRef.startsWith('https://') ? item?.mediaRef : `${IMAGE_URL}${item?.mediaRef}`} type="video/mp4" />
                                     </video>
                                 }
                             </GridItem>
