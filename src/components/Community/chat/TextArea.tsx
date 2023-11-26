@@ -167,7 +167,7 @@ function TextArea() {
     }
   }
   return (
-    <VStack width='100%' height={'auto'} maxH={'230px'} bg='transparent' paddingY='10px' paddingX="10px" position={'relative'}>
+    <VStack width='100%' height={'auto'} maxH={'230px'} bg='transparent' paddingY='10px'mb={"10px"} paddingX="10px" position={'relative'}>
       <input ref={ref as any} onChange={(e) => handleFilePic(e.target.files as FileList)} hidden type='file' accept={accept()} />
         <VStack ref={containerRef as any} width={'100%'} height='100%' borderWidth={'1px'} bg='white' borderColor={'#D0D4EB'} borderRadius={'10px'} paddingX='8px' paddingY='8px' position={'relative'}>
 
@@ -244,7 +244,7 @@ function TextArea() {
                    <Popover placement='top' size={''}>
                        <PopoverTrigger>
                         <Box>
-                        { !loading && <Image onClick={() => ref.current?.click()} src='/assets/images/Add.png' alt='smile' width={'30px'} height={'30px'} /> }
+                        { !loading && <Image onClick={() => ref.current?.click()} src='/assets/images/Add.png' alt='smile' width={'24px'} height={'24px'} /> }
                           { loading && <Spinner size='md' />}
                         </Box>
                        </PopoverTrigger>
@@ -261,11 +261,11 @@ function TextArea() {
                       </PopoverContent>
                    </Popover>
 
-                   <Image src='/assets/images/Smiley.svg' alt='smile' width={'30px'} height={'30px'} onClick={() => setShowEmoi(prev => !prev)} />
+                   <Image src='/assets/images/Smiley.svg' alt='smile' width={'24px'} height={'24px'} onClick={() => setShowEmoi(prev => !prev)} />
 
                 </HStack>
 
-                { !createPost.isLoading && <Image onClick={() => submit()} src='/assets/images/send.svg' alt='smile' width={'30px'} height={'30px'} /> }
+                { !createPost.isLoading && <Image onClick={() => submit()} src='/assets/images/send.svg' alt='smile' width={'24px'} height={'24px'} /> }
                 { createPost.isLoading && <Spinner size='sm' />}
 
             </HStack>
