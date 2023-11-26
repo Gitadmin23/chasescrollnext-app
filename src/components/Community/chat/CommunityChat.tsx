@@ -94,7 +94,7 @@ const createComment = useMutation({
     <HStack flex={1} height='100%' spacing={0} padding='5px' alignItems={'flex-start'}>
 
         {/* DRAWER */}
-          <Drawer isOpen={drawerOpen} onClose={() => setAll({ drawerOpen: false })} placement='right' size={'md'}>
+          <Drawer isOpen={drawerOpen} onClose={() => setAll({ drawerOpen: false })} placement='right' size={"xs"}>
             <DrawerOverlay />
             <DrawerContent>
               <DrawerHeader borderBottomWidth={'1px'} borderBottomColor={'lightgrey'}>
@@ -136,11 +136,11 @@ const createComment = useMutation({
 
                   <VStack width={'100%'} height={'100px'} borderWidth={'1px'} borderColor={THEME.COLORS.chasescrollButtonBlue} borderRadius={'10px'} paddingX='10px'>
                       <textarea value={comment} onChange={(e) => setComment(e.target.value)} style={{ height: '50px', width: '100%', resize: 'none', backgroundColor:'transparent', outline: 'none', padding: '5px' }} />
-                      <HStack justifyContent={'space-between'} width='100%'>
+                      <HStack  mt={"2"} alignItems={"center"} justifyContent={'space-between'} width='100%'>
                         <HStack>
-                        <Image src='/assets/images/smiley.svg' alt='smile' width={'30px'} height={'30px'} />
+                        <Image src='/assets/images/Smiley.svg'  alt='smile' width={'24px'} height={'24px'} />
                         </HStack>
-                        { !createComment.isLoading && <Image onClick={() => handleCreateComment()} src='/assets/images/send.svg' alt='smile' width={'30px'} height={'30px'} /> }
+                        { !createComment.isLoading && <Image onClick={() => handleCreateComment()} src='/assets/images/send.svg' alt='smile' width={'24px'} height={'24px'} /> }
                         { createComment.isLoading && <Spinner /> }
                       </HStack>
                   </VStack>

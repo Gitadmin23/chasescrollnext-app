@@ -16,11 +16,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { SearchNormal1 } from 'iconsax-react'
 import { IUser } from '@/models/User'
 import { uniq } from 'lodash'
+import UserImage from '../sharedComponent/userimage'
 
 
 const ARRAY = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const OnlineUser = ({ id }: { id: string }) => {
+const OnlineUser = ({ id, index }: { id: string, index: number }) => {
     const { setAll } = useChatPageState((state) => state)
     const [user, setUser] = React.useState<IUser|null>(null);
     const { isLoading, isError } =  useQuery(['getOnlineUserProfile', id], () => httpService.get(`${URLS.GET_PUBLIC_PROIFLE}/${id}`), {
@@ -47,28 +48,16 @@ const OnlineUser = ({ id }: { id: string }) => {
     });
 
     return (
-        <Box onClick={() => createChat.isLoading ? null: createChat.mutate()} cursor='pointer' display={'inline-block'} width={'45px'} height='45px' position={'relative'} borderRadius={'20px'} marginRight={'20px'} >
-            <Box width={'10px'} height={'10px'} borderRadius={'5px'} bg='brand.chasescrollButtonBlue' position={'absolute'} right='0px' top="-5px" />
+        <Box onClick={() => createChat.isLoading ? null: createChat.mutate()} cursor='pointer' display={'inline-block'} width={'45px'} height='45px' position={'relative'}  ml={index === 0 ? "0px" : "-10px"}   marginRight={'20px'} >
+            <Box width={'10px'} height={'10px'} borderRadius={'5px'} bg='brand.chasescrollButtonBlue' position={'absolute'} right='0px' top="-2px" />
             { isLoading && (
-                <HStack justifyContent={'center'} alignItems={'center'} width='45px' height='45px' borderRadius='36px 0px 36px 36px' borderWidth={'2px'} borderColor={THEME.COLORS.borderColor}>
+                <HStack justifyContent={'center'} alignItems={'center'} width='45px' height='45px' >
                     <Spinner />
                 </HStack>
             ) }
              { !isLoading && (
-                <HStack spacing={0} justifyContent={'center'} alignItems={'center'} width='45px' height='45px' borderRadius='36px 0px 36px 36px' borderWidth={'2px'} borderColor={THEME.COLORS.borderColor}>
-                    { user?.data.imgMain.value === null && (
-                        <>
-                            <CustomText fontFamily={'DM-Bold'} fontSize={['12px', '14px']}>{user?.firstName[0].toUpperCase()}</CustomText>
-                            <CustomText fontFamily={'DM-Bold'} fontSize={['12px', '14px']}>{user?.lastName[0].toUpperCase()}</CustomText>  
-                        </>
-                    )}
-                    { user?.data.imgMain.value !== null && (
-                        <>
-                            { user?.data.imgMain.value.startsWith('https://') && <Image alt='profilie' src={user?.data.imgMain.value} width='100%' height='100%' /> }
-                            { !user?.data.imgMain.value.startsWith('https://') && <Image alt='profilie' src={`${IMAGE_URL} + ${user?.data.imgMain.value}`} width='100%' height='100%' /> }
-                            <CustomText>{user?.lastName[0].toUpperCase()}</CustomText>  
-                        </>
-                    )}
+                <HStack spacing={0} justifyContent={'center'} alignItems={'center'} width='45px' height='45px' >
+                    <UserImage size={"40px"} border={"2px"} font={"16px"} data={user} image={user?.data?.imgMain?.value} />
                 </HStack>
             ) }
         </Box>
@@ -99,7 +88,8 @@ function Sidebar() {
             setOnlineUsers(prev =>  uniq(item.filter((item) => !chatsIds.includes(item)) ));
         },
         onError: (error) => { },
-    })
+    }) 
+    
     const { isLoading, isError, } = useQuery(['getChats', userId], () => httpService.get(`${URLS.GET_CHATS}`, {
         params: {
             page: 0,
@@ -148,7 +138,7 @@ function Sidebar() {
 
                             <Box width='100%' height={'100%'} overflowX={'auto'} display={'inline-block'} whiteSpace={'nowrap'} paddingTop={'10px'} >
                                 {onlineUsers.map((item, index) => (
-                                    <OnlineUser id={item} key={index.toString()} />
+                                    <OnlineUser id={item} index={index} key={index.toString()} /> 
                                 ))}
                             </Box>
                             <CustomText fontFamily={'Satoshi-Medium'} fontSize={'14px'}>Users Online</CustomText>
