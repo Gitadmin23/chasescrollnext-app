@@ -1,15 +1,18 @@
+"use client"
 import EventDetails from '@/components/event_details_component'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation' 
 import { URLS } from '@/services/urls'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import httpService from '@/utils/httpService'
-import { Box, useToast } from '@chakra-ui/react' 
+import { Box, useToast } from '@chakra-ui/react'  
 import React from 'react'
 import { useQuery, focusManager } from 'react-query'
 
 interface Props {
     event_index: any
 }
+
+  
 function GetEventData(props: Props) {
     const {
         event_index
@@ -29,9 +32,7 @@ focusManager.setFocused(false)
         onSuccess: (data: any) => { 
             setData(data?.data?.content[0]); 
         }
-    })
-
-    // console.log(data);
+    }) 
 
     return (
         <Box width={"full"}  >

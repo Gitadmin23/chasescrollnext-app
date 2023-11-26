@@ -268,7 +268,7 @@ function SubmitEvent() {
     return (
         <Flex alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} my={"4"} >
             <CustomButton isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} disable={getValidationAll()} _disabled={{ color: "#F04F4F", cursor: "not-allowed" }} width={"400px"} backgroundColor={"transparent"}
-                color={"brand.chasescrollBlue"} text='Continue' />
+                color={"brand.chasescrollBlue"} text={tab === 2 ? 'Submit' :'Continue'} />
         </Flex>
     )
 }
