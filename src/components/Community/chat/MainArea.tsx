@@ -20,15 +20,19 @@ import AddEventsModal from '@/components/modals/community/AddEventsModal';
 import Link from 'next/link';
 
 function MainArea() {
+    const { activeCommunity, setAll, messages, pageNumber, hasNext, activeMessageId, commentHasNext, commentPage, comments, showEvents, events } = useCommunityPageState((state) => state);
+    
     const [posts, setPosts] = React.useState<IMediaContent[]>([]);
     const [showEventModal, setShowEventModal] = React.useState(false);
-    const [len, setLen] = React.useState(posts?.length);
+    const [len, setLen] = React.useState(messages?.length);
+
+    
 
      const intObserver = React.useRef<IntersectionObserver>();
 
 
     const { userId: myId } = useDetails((state) => state)
-    const { activeCommunity, setAll, messages, pageNumber, hasNext, activeMessageId, commentHasNext, commentPage, comments, showEvents, events } = useCommunityPageState((state) => state);
+   
     // queries
     const { isLoading, } = useQuery(['getMessages', activeCommunity?.id, pageNumber], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
         params: {
@@ -57,6 +61,13 @@ function MainArea() {
         onError: (error: any) => {}
     });
 
+    React.useEffect(() => {
+        if (messages?.length !== len) {
+            setLen(messages?.length);
+            document.querySelector('#lastMsg')?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messages, len])
+
     const lastChildRef = React.useCallback((post: any) => {
         if (isLoading) return;
         if (intObserver.current) intObserver.current.disconnect();
@@ -69,14 +80,13 @@ function MainArea() {
         if (post) intObserver.current.observe(post);
        }, [isLoading, setAll, pageNumber, hasNext]);
 
-       const arr = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7];
 
        React.useEffect(() => {
-        if (posts?.length !== len) {
-            setLen(posts?.length);
+        if (messages?.length !== len) {
+            setLen(messages?.length);
             document.querySelector('#lastMsg')?.scrollIntoView({ behavior: 'smooth' });
         }
-       }, [posts, len])
+       }, [messages, len])
 
     if (activeCommunity === null) {
         return (
