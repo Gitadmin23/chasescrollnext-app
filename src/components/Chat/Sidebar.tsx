@@ -136,11 +136,12 @@ function Sidebar() {
                     !getonlineUsers.isLoading && !getonlineUsers.isError && onlineUsers.length > 0 && (
                         <VStack width='100%' height={'120px'} paddingBottom={'10px'} alignItems={'flex-start'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingTop={'10px'}>
 
-                            <Box width='100%' height={'100%'} overflowX={'auto'} display={'inline-block'} whiteSpace={'nowrap'} paddingTop={'10px'} >
-                                {onlineUsers.map((item, index) => (
+                            <Box width='100%' height={'100%'} overflowX={'auto'} overflowY={'hidden'} display={'inline'} whiteSpace={'nowrap'} paddingTop={'10px'} >
+                                {onlineUsers.slice(0).map((item, index) => (
                                     <OnlineUser id={item} index={index} key={index.toString()} /> 
                                 ))}
                             </Box>
+                            
                             <CustomText fontFamily={'Satoshi-Medium'} fontSize={'14px'}>Users Online</CustomText>
                         </VStack>
                     )
