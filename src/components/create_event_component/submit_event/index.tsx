@@ -69,9 +69,11 @@ function SubmitEvent() {
                 return true
             } else if (!item.maxTicketBuy) {
                 return true
-            } else if (item.maxTicketBuy <= item.minTicketBuy) {
-                return true
-            } else if (eventdata?.productTypeData?.length === index + 1) {
+            } 
+            // else if (item.maxTicketBuy <= item.minTicketBuy) {
+            //     return true
+            // } 
+            else if (eventdata?.productTypeData?.length === index + 1) {
                 return false
             } else {
                 return true

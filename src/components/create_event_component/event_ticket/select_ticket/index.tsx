@@ -128,6 +128,7 @@ function SelectTicket(props: Props) {
                                         <Input
                                             h={"45px"}
                                             type="number"
+                                            onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                             width={"full"}
                                             border={"1px solid #E2E8F0"}
                                             focusBorderColor={"#E2E8F0"}
@@ -149,6 +150,7 @@ function SelectTicket(props: Props) {
                             <Input
                                 h={"45px"}
                                 type="number"
+                                onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                 border={"1px solid #E2E8F0"}
                                 focusBorderColor={"#E2E8F0"}
                                 placeholder=" Type in available quantity"
@@ -168,6 +170,7 @@ function SelectTicket(props: Props) {
                             <Input
                                 h={"45px"}
                                 type="number"
+                                onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                 border={"1px solid #E2E8F0"}
                                 focusBorderColor={"#E2E8F0"}
                                 placeholder="Type in minimum no of Tickets"
@@ -177,6 +180,7 @@ function SelectTicket(props: Props) {
                             <Input
                                 h={"45px"}
                                 type="number"
+                                onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                 border={"1px solid #E2E8F0"}
                                 focusBorderColor={"#E2E8F0"}
                                 placeholder="Type in maximum no. of Tickets"

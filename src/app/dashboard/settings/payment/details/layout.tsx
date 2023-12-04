@@ -10,7 +10,7 @@ import { IoIosArrowBack } from 'react-icons/io'
 
 function Layout({ children }: { children: ReactNode }) {
 
-    const { firstName, lastName, username, user } = useDetails((state) => state);
+    const { firstName, lastName, user } = useDetails((state) => state);
     const router = useRouter()
 
     const { currency, setCurrency } = useSettingsStore((state) => state);
