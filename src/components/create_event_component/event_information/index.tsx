@@ -34,7 +34,7 @@ function EventInformation() {
                    <SelectDate data={eventdata?.endDate} name={"End"} />
                 </Flex>
                 <SelectLocation /> 
-                <SubmitEvent />
+                <SubmitEvent type={""} />
             </Flex> 
         </Flex>
     )

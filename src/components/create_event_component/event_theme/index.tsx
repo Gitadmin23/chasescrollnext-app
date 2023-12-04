@@ -154,7 +154,7 @@ function EventTheme() {
                                 />
                             </label>
                         </Flex> 
-                        <SubmitTheme />
+                        <SubmitTheme type={""}/>
                     </Flex>
                 </Flex> 
             </Flex>

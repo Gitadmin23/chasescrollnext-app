@@ -9,7 +9,15 @@ import { usePathname, useRouter } from 'next/navigation';
 import React from 'react'
 import { useMutation } from 'react-query';
 
-function SubmitEvent() {
+interface Iprops {
+    type: any
+}
+
+function SubmitEvent(props: Iprops) {
+
+    const {
+        type
+    } = props
 
     const { eventdata, image, tab, updateEvent, changeTab } = useEventStore((state) => state);
     const { userId: user_index } = useDetails((state) => state);
@@ -69,12 +77,20 @@ function SubmitEvent() {
                 return true
             } else if (!item.maxTicketBuy) {
                 return true
-            } 
-            // else if (item.maxTicketBuy <= item.minTicketBuy) {
-            //     return true
-            // } 
-            else if (eventdata?.productTypeData?.length === index + 1) {
+            } else if (eventdata?.productTypeData?.length === index + 1) {
                 return false
+            } else {
+                return true
+            }
+        })
+    }
+
+
+
+    const getValidationTicketNotification: any = () => {
+        return eventdata?.productTypeData?.every((item: any) => {
+            if (type !== "Free") {
+                return (Number(item.ticketPrice) === 0 || !item.ticketPrice) ? false : true
             } else {
                 return true
             }
@@ -222,7 +238,7 @@ function SubmitEvent() {
             if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
                 delete obj[propName];
             }
-            if (obj[propName] === "location") { 
+            if (obj[propName] === "location") {
                 for (var propName in obj?.location) {
                     if (obj?.location[propName] === null || obj?.location[propName] === undefined || obj?.location[propName] === "") {
                         delete obj?.location[propName];
@@ -255,14 +271,19 @@ function SubmitEvent() {
                 saveToDraft.mutate(eventdata)
             }
         } else {
-            if (pathname?.includes("edit_event")) {
-
-
-                // console.log(eventdata);
-                // console.log(clean(eventdata));
-                updateUserEvent.mutate(clean(eventdata))
+            if (getValidationTicketNotification() === false) {
+                toast({
+                    status: "error",
+                    title: "Error",
+                    description: "minimum ticket Price can't be less than zero ",
+                    position: "top-right"
+                })
             } else {
-                createEventFromDraft.mutate(eventdata)
+                if (pathname?.includes("edit_event")) {
+                    updateUserEvent.mutate(clean(eventdata))
+                } else {
+                    createEventFromDraft.mutate(eventdata)
+                }
             }
         }
     }, [saveToDraft, uploadImage, createEventFromDraft])
@@ -270,7 +291,7 @@ function SubmitEvent() {
     return (
         <Flex alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} my={"4"} >
             <CustomButton isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} disable={getValidationAll()} _disabled={{ color: "#F04F4F", cursor: "not-allowed" }} width={"400px"} backgroundColor={"transparent"}
-                color={"brand.chasescrollBlue"} text={tab === 2 ? 'Submit' :'Continue'} />
+                color={"brand.chasescrollBlue"} text={tab === 2 ? 'Submit' : 'Continue'} />
         </Flex>
     )
 }

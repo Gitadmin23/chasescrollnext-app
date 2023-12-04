@@ -166,7 +166,7 @@ function Layout({ children }: {
             <Grid h="100vh" w={"full"} overflowY={"hidden"} >
                 <Box width="full" position={"absolute"} zIndex={"30"} top={"0px"} >
                     {/* NAVBAR SECTION */}
-                    {!pathname?.includes("create_event") && (
+                    {(!pathname?.includes("create_event")  || !pathname?.includes("edit_draft") || !pathname?.includes("edit_event")) && (
                         <HStack position={"absolute"} zIndex={"30"} top={"0px"} width='100%' height='80px' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} backgroundColor={'white'} alignItems='center' justifyContent={'space-between'} paddingX={['20px', '40px']}>
 
                             <Flex alignItems={"center"} gap={"12"} >
@@ -211,8 +211,8 @@ function Layout({ children }: {
                         </HStack>
                     )}
                 </Box>
-                <Flex flex={1} w="full" h="full" pt={!pathname?.includes("create_event") ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
-                    {(!pathname?.includes("create_event")) && (
+                <Flex flex={1} w="full" h="full" pt={(!pathname?.includes("create_event")  || !pathname?.includes("edit_draft") || !pathname?.includes("edit_event")) ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
+                    {(!pathname?.includes("create_event") || !pathname?.includes("edit_draft") || !pathname?.includes("edit_event")) && (
                         <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']}>
                             <Sidebar />
                         </Box>

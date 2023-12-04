@@ -49,7 +49,7 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
             // first is always standard
             {
                 totalNumberOfTickets:null,
-                ticketPrice:null,
+                ticketPrice: null,
                 ticketType: "Regular",
                 minTicketBuy:null,
                 maxTicketBuy:null

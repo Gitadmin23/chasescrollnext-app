@@ -83,7 +83,7 @@ function EventDetails(props: Props) {
 
     return (
         <Box width={"full"} display={"flex"} flexDirection={"column"} pt={["6", "6", "0"]} position={"relative"} paddingBottom={"12"} >
-            <Flex width={"full"} alignItems={"center"} justifyContent={"center"} >
+            <Flex width={"full"} alignItems={"start"} justifyContent={"center"} >
                 <Box as='button' display={"flex"} onClick={() => router.back()} px={"3"} mt={"20px"} ml={"-30px"} justifyContent={"center"} alignItems={"center"} zIndex={"20"} >
                     <BsChevronLeft color={"black"} size={"25px"} />
                 </Box>

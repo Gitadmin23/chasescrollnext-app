@@ -65,7 +65,7 @@ function EventLocationDetail(props: Props) {
                         <Box>
                             <Text textAlign={"left"} fontWeight={"semibold"} color={color ? color : "gray.600"} fontSize={fontsize ? fontsize : "sm"} >
                                 {location?.locationDetails && (
-                                    <p>{location?.locationDetails?.length >= (length ? length : 17) ? location?.locationDetails.slice(0, (length ? length : 17)) + "..." : location?.locationDetails}</p>
+                                    <p>{location?.locationDetails?.length >= (length ? length : 350) ? location?.locationDetails.slice(0, (length ? length : 350)) + "..." : location?.locationDetails}</p>
                                 )}
                                 {(location?.toBeAnnounced && !location?.locationDetails) && (
                                     <p>To Be Announced</p>

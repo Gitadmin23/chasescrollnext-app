@@ -2,26 +2,35 @@ import useEventStore from '@/global-state/useCreateEventState';
 import { Checkbox, Flex } from '@chakra-ui/react';
 import React, { useState } from 'react'
 
-interface Props { }
+interface Props {
+    type?: any
+}
 
 function EventTicketHeader(props: Props) {
-    const { } = props
+    const { 
+        type
+    } = props
 
     const { eventdata, updateEvent } = useEventStore((state) => state);
     const [isFree, setIsFree] = useState(false)
 
 
     const HandleDeleteAllTicket = (name: any, price: any) => {
-        updateEvent({
-            ...eventdata,
-            productTypeData: [{
-                totalNumberOfTickets: "",
-                ticketPrice: price,
-                ticketType: name,
-                minTicketBuy: "",
-                maxTicketBuy: ""
-            }]
-        })
+        if(!eventdata?.isBought){
+            if(price === 0){
+                type("Free")
+            }
+            updateEvent({
+                ...eventdata,
+                productTypeData: [{
+                    totalNumberOfTickets: "",
+                    ticketPrice: price,
+                    ticketType: name,
+                    minTicketBuy: "",
+                    maxTicketBuy: ""
+                }]
+            })
+        }
     }
 
     const toggleStatus = () => {
@@ -29,14 +38,19 @@ function EventTicketHeader(props: Props) {
     }
 
     React.useEffect(() => {
-        setIsFree(eventdata?.productTypeData[0]?.ticketType === "Free" ? true : false)
+        setIsFree(eventdata?.productTypeData[0]?.ticketPrice === 0 ? true : false)
+        if(eventdata?.productTypeData[0]?.ticketPrice === 0 ){
+            type("Free")
+        } else {
+            type("Regular")
+        }
     }, [eventdata?.productTypeData])
 
     return (
         <Flex gap={"2"} className=' w-full flex lg:flex-row gap-2 ' >
             <label
                 role='button'
-                onClick={() => HandleDeleteAllTicket("", null)}
+                onClick={() => HandleDeleteAllTicket("", 100)}
                 style={{ color: !isFree ? "#5D70F9" : "#667085", border: "1px solid #E2E8F0", width: "100%", padding: "4px", display: "flex", justifyContent: "center", alignItems: "center", gap: "8px", backgroundColor: !isFree ? "#F7F8FF" : "", height: "45px", borderRadius: "8px" }}
                 htmlFor="isPaid"  >
                 <Checkbox
@@ -51,7 +65,7 @@ function EventTicketHeader(props: Props) {
             </label>
             <label
                 role='button'
-                onClick={() => HandleDeleteAllTicket("Free", 0)}
+                onClick={() => HandleDeleteAllTicket("", 0)}
                 style={{ color: isFree ? "#5D70F9" : "#667085", border: "1px solid #E2E8F0", width: "100%", padding: "4px", display: "flex", justifyContent: "center", alignItems: "center", gap: "8px", backgroundColor: isFree ? "#F7F8FF" : "", height: "45px", borderRadius: "8px" }}
                 htmlFor="isFree" >
                 <Checkbox

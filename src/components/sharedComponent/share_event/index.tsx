@@ -50,8 +50,9 @@ function ShareEvent(props: Props) {
                 <Text onClick={(e: any) => clickHandler(e)} as={"button"} >Share</Text>
             )}
             {!isprofile && (
-                <Box onClick={(e: any) => clickHandler(e)} as='button' >
+                <Box onClick={(e: any) => clickHandler(e)} as='button' display={"flex"} alignItems={"center"} flexDir={"column"} >
                     <ShareIcon width={size ? size : "24px"} color={"#3C41F0"} />
+                    <Text color={"#3C41F0"} fontSize={"9px"} fontWeight={"semibold"} >share</Text>
                 </Box>
             )}
             <ModalLayout open={open} close={CloseModal} title={tab === 1 ? "Share" : "Share with friends"} >
