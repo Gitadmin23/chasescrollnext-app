@@ -15,15 +15,12 @@ function NotificationCard({ notification }: {
 }) {
   const router = useRouter();
   const { userId } = useDetails((state) => state);
-  const queryClient = useQueryClient();
-
-  console.log(notification.createdBy);
+  const queryClient = useQueryClient(); 
 
 
   const markAsRead = useMutation({
     mutationFn: (data: string[]) => httpService.put(`${URLS.MARK_NOTIFICATIONS_AS_READ}?notificationIDs=${data}&read=true`),
-    onSuccess: (data) => {
-        console.log(data.data);
+    onSuccess: (data) => { 
         queryClient.invalidateQueries(['getNotifications']);
     },
     onError: () => {}
