@@ -77,7 +77,11 @@ function LoginPage() {
   const { setAll } = useDetails((state) => state);
   const { data: sessionData, update } = useSession();
 
-  
+
+  React.useEffect(() => {
+    localStorage.clear()
+  }, []);
+
 
 
   const handleSignIn = async (event: any) => {
@@ -135,10 +139,10 @@ function LoginPage() {
         signinWithGoogle.mutate(token?.token?.token?.token?.idToken);
       }
     }
-   
+
   }, [sessionData])
 
-  const handleGoogleSignIn = async() => {
+  const handleGoogleSignIn = async () => {
     const token: any = sessionData;
     if (token && token.token?.token.token.idToken) {
       signinWithGoogle.mutate(token.token?.token.token.idToken);
@@ -162,7 +166,7 @@ function LoginPage() {
           lastName: checkData.firstName,
           username: checkData.user_name,
           userId: checkData.user_id,
-        }) 
+        })
       }
     }
   }, [checkData, router, setAll]);
@@ -297,6 +301,15 @@ function LoginPage() {
     submit: (data: any) => mutate(data)
   });
 
+  const comingSoon = () => {
+    toast({
+      title: 'Info',
+      description: 'Coming Soon',
+      status: "info",
+      position: 'top-right',
+    })
+  }
+
   return renderForm(
     <Flex flexDir={"column"} gap={"10"} alignItems={"center"} justifyContent={"space-between"} pt={"16"} pb={["16px", "16px", "0px"]} width={"full"} height={"100vh"} >
       <Flex flexDir={["column", "column", "row"]} gap={["10", "10", "4"]} alignItems={"center"} justifyContent={"space-between"} width={"full"} maxWidth={"5xl"} >
@@ -309,10 +322,10 @@ function LoginPage() {
             <CustomText textAlign={'center'} fontFamily={'DM-Regular'} fontSize={'24px'}>An efficient ecosystem for event management.</CustomText>
           </Flex>
           <Flex gap={"5"} justifyContent={"center"} flexWrap={"wrap"} >
-            <Box as='button' >
+            <Box as='button' type='button' onClick={comingSoon}  >
               <Image alt='google-btn' src="/assets/images/play-store.png" width='100%' height={'100%'} objectFit={'contain'} />
             </Box>
-            <Box as='button' >
+            <Box as='button' type='button' onClick={comingSoon} >
               <Image alt='google-btn' src="/assets/images/apple-store.png" width='100%' height={'100%'} objectFit={'contain'} />
             </Box>
           </Flex>
@@ -362,13 +375,13 @@ function LoginPage() {
           {LINK2.map((item, index) => {
             if (item.isExternal) {
               return (
-                <CustomText fontFamily={'DM-Regular'} color={item.name === "Sign in" ?  "brand.chasescrollBlue" :"brand.chasescrollTextGrey"} _hover={{color:"brand.chasescrollBlue"}} key={index.toString()}>
+                <CustomText fontFamily={'DM-Regular'} color={item.name === "Sign in" ? "brand.chasescrollBlue" : "brand.chasescrollTextGrey"} _hover={{ color: "brand.chasescrollBlue" }} key={index.toString()}>
                   <a key={index.toString()} href={item.link}>{item.name}</a>
                 </CustomText>
               )
             } else {
               return (
-                <CustomText  fontFamily={'DM-Regular'} color={item.name === "Sign in" ?  "brand.chasescrollBlue" :"brand.chasescrollTextGrey"} _hover={{color:"brand.chasescrollBlue"}} key={index.toString()}>
+                <CustomText fontFamily={'DM-Regular'} color={item.name === "Sign in" ? "brand.chasescrollBlue" : "brand.chasescrollTextGrey"} _hover={{ color: "brand.chasescrollBlue" }} key={index.toString()}>
                   <Link href={`/${item.link}`} key={index.toString()}>
                     {item.name}
                   </Link>

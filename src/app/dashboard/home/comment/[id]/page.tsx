@@ -23,14 +23,11 @@ function Comment() {
   const params = useParams();
   const post = params;
   const queryClient = useQueryClient();
-  const toast = useToast();
-
-  console.log(post);
+  const toast = useToast(); 
 
 
   const { isLoading } = useQuery([`getComments-${post?.id}`, post?.id], () => httpService.get(`${URLS.GET_ALL_COMMENTS}?postID=${post?.id}`), {
-    onSuccess: (data) => {
-      console.log(data?.data?.ccontent);
+    onSuccess: (data) => { 
       setUserComments(data?.data?.content);
     }
   });

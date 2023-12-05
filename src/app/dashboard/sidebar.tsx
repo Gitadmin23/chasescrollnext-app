@@ -107,7 +107,7 @@ function Sidebar() {
                 {routes.map((item, index) => (
                     <MenuItem {...item} active={pathname?.includes(item.route.toLowerCase()) ? true:false} key={index.toString()} />
                 ))}
-            M</VStack>
+            </VStack>
             <Flex cursor={'pointer'} onClick={() => setShowModal(true)} paddingX={['20px', '40px']} gap={"4"} flex={0.2} width='100%' alignItems={"center"} mt={"30px"}  height='70px'>
                 <FiPower fontSize='25px' color="grey"  />
                 <CustomText fontFamily={'DM-Bold'} fontSize={'16px'} color='grey' >Logout</CustomText>

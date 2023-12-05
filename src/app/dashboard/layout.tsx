@@ -22,6 +22,7 @@ import { HomeIcon, UsersIcon } from '@/components/svg';
 import ImageModal from '@/components/general/ImageModal';
 import UserImage from '@/components/sharedComponent/userimage';
 import { signOut } from 'next-auth/react';
+import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 type IRoute = {
     icon: ReactNode;
     text: string;
@@ -61,10 +62,9 @@ function Layout({ children }: {
 
     const { username, lastName, firstName, userId, setAll, user } = useDetails((state) => state);
 
-    const getUserDetails = useQuery(['getDetails', id], () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`), {
-        enabled: id !== null,
-        onSuccess: (data) => {
-            console.log(data.data);
+    const {isLoading} = useQuery(['getDetails', id], () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`), {
+        // enabled: id !== null,
+        onSuccess: (data) => { 
             setAll({
                 user: data?.data,
                 userId: data?.data?.userId,
@@ -75,8 +75,7 @@ function Layout({ children }: {
                 username: data?.data?.username,
             });
         },
-        onError: (error) => {
-            console.log(error);
+        onError: (error) => { 
             toast({
                 title: 'Error',
                 description: 'An error occured while updating your profile',
@@ -84,7 +83,8 @@ function Layout({ children }: {
                 position: 'top-right',
                 isClosable: true,
                 duration: 3000,
-            });
+            }); 
+            router.push('/auth');
         },
     });
 
@@ -207,7 +207,9 @@ function Layout({ children }: {
                             <Sidebar />
                         </Box>
                     )}
-                    {children}
+                    <LoadingAnimation loading={isLoading || !firstName} > 
+                        {children}
+                    </LoadingAnimation>
                 </Flex>
                 {/* BOTTOM TAB */}
                 <HStack paddingX='20px' position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg='white' borderTopWidth={1} borderTopColor={'lightgrey'} display={['flex', 'flex', 'flex', 'none']}>

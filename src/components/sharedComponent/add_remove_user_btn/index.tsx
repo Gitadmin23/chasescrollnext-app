@@ -61,6 +61,7 @@ function AddOrRemoveUserBtn(props: Props) {
             });
             setLoading("0")
             setJoinStatus("pending")
+            queryClient.invalidateQueries([URLS.GET_USER_CONNECTION_LIST + user_index])  
 			queryClient.invalidateQueries(['/user/friend-requests'])
 			queryClient.invalidateQueries(['get-joined-network'])
         }
@@ -81,8 +82,6 @@ function AddOrRemoveUserBtn(props: Props) {
         },
         onSuccess: (data: AxiosResponse<any>) => {
 
-			queryClient.invalidateQueries(['/user/friend-requests'])
-			queryClient.invalidateQueries(['get-joined-network'])
             toast({
                 title: 'Success',
                 description: data.data?.message,
@@ -93,8 +92,7 @@ function AddOrRemoveUserBtn(props: Props) {
             });
             setLoading("0")
             setJoinStatus("pending")
-			queryClient.invalidateQueries(['/user/friend-requests'])
-			queryClient.invalidateQueries(['get-joined-network'])
+			queryClient.invalidateQueries([URLS.FRIEND_REQUEST]) 
         }
     });
 
@@ -111,10 +109,9 @@ function AddOrRemoveUserBtn(props: Props) {
                 position: 'top-right',
             });
         },
-        onSuccess: (data: AxiosResponse<any>) => {
+        onSuccess: (data: AxiosResponse<any>) => { 
 
-			queryClient.invalidateQueries(['/user/friend-requests'])
-			queryClient.invalidateQueries(['get-joined-network'])
+			queryClient.invalidateQueries([URLS.FRIEND_REQUEST]) 
             toast({
                 title: 'Success',
                 description: data.data?.message,
@@ -149,6 +146,9 @@ function AddOrRemoveUserBtn(props: Props) {
                 duration: 5000,
                 position: 'top-right',
             });
+            queryClient.invalidateQueries([URLS.GET_USER_CONNECTION_LIST + user_index])  
+			queryClient.invalidateQueries(['/user/friend-requests'])
+			queryClient.invalidateQueries(['get-joined-network'])
             setLoading("0")
             if (data?.data?.message === "Public profile auto friend") {
                 setJoinStatus("CONNECTED")
