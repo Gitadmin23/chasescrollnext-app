@@ -61,8 +61,9 @@ function Signup() {
             position: 'top-right',
         });
         },
-        onSuccess:(data) => {
-            sendVerificatinEmail.mutate(email);
+        onSuccess:(data) => { 
+          router.push('/auth/verify-account');
+            // sendVerificatinEmail.mutate(email);
         }
     });
     const { renderForm } = useForm({
