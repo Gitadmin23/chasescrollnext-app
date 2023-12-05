@@ -197,18 +197,18 @@ function AddOrRemoveUserBtn(props: Props) {
             {!request && (
                 <>
                     {!icon && (
-                        <Flex disabled={loading === user_index ? true : false} px={profile ? "4" : "0px"} justifyContent={"center"} alignItems={"center"} as={"button"} onClick={clickHandler} _hover={{ backgroundColor: "#5D70F9", color: "white" }} width={width ? width : "full"} rounded={"8px"} height={search ? "35px" : "43px"} bg={name === "Pending" ? "#fff3e7" : name === "Disconnect" ? "brand.chasescrollRed" : "white"} borderColor={(name === "Pending" || name === "Disconnect") ? "" : "brand.chasescrollBlue"} borderWidth={(name === "Pending" || name === "Disconnect") ? "0px" : "1px"} color={name === "Pending" ? "#f78b26" : name === "Disconnect" ? "white" : "brand.chasescrollBlue"} fontSize={search ? "11px" : "sm"} fontWeight={"semibold"}  >
+                        <Flex disabled={loading === user_index ? true : false} px={profile ? "4" : "0px"} _disabled={{cursor: "none"}} justifyContent={"center"} alignItems={"center"} as={"button"} onClick={clickHandler} _hover={{ backgroundColor: "#5D70F9", color: "white" }} width={width ? width : "full"} rounded={"8px"} height={search ? "35px" : "43px"} bg={name === "Pending" ? "#fff3e7" : name === "Disconnect" ? "brand.chasescrollRed" : "white"} borderColor={(name === "Pending" || name === "Disconnect") ? "" : "brand.chasescrollBlue"} borderWidth={(name === "Pending" || name === "Disconnect") ? "0px" : "1px"} color={name === "Pending" ? "#f78b26" : name === "Disconnect" ? "white" : "brand.chasescrollBlue"} fontSize={search ? "11px" : "sm"} fontWeight={"semibold"}  >
                             {(loading === user_index) ? "Loading..." : name}
                         </Flex>
                     )}
                     {(icon && name !== "Connect") ? (
-                        <Flex disabled={loading === user_index ? true : false} as={"button"} justifyContent={"center"} px={"3"} alignItems={"center"} _hover={{ backgroundColor: "white" }} width={width ? width : "full"} rounded={"8px"} height={search ? "35px" : "43px"} bg={name === "Pending" ? "#fff" : name === "Disconnect" ? "white" : "white"} borderColor={(name === "Pending" || name === "Disconnect") ? "" : "white"} borderWidth={(name === "Pending" || name === "Disconnect") ? "0px" : "0px"} color={name === "Pending" ? "#f78b26" : name === "Disconnect" ? "brand.chasescrollBlue" : "brand.chasescrollBlue"} fontSize={search ? "11px" : "sm"} fontWeight={"semibold"}  >
+                        <Flex disabled={loading === user_index ? true : false} _disabled={{cursor: "none"}} as={"button"} justifyContent={"center"} px={"3"} alignItems={"center"} _hover={{ backgroundColor: "white" }} width={width ? width : "full"} rounded={"8px"} height={search ? "35px" : "43px"} bg={name === "Pending" ? "#fff" : name === "Disconnect" ? "white" : "white"} borderColor={(name === "Pending" || name === "Disconnect") ? "" : "white"} borderWidth={(name === "Pending" || name === "Disconnect") ? "0px" : "0px"} color={name === "Pending" ? "#f78b26" : name === "Disconnect" ? "brand.chasescrollBlue" : "brand.chasescrollBlue"} fontSize={search ? "11px" : "sm"} fontWeight={"semibold"}  >
                             {(loading === user_index) ? "Loading..." : name === "Disconnect" ? "Connected" : name}
                         </Flex>
                     ) : (
                         <>
                             {icon && (
-                                <Flex disabled={loading === user_index ? true : false} as={"button"} onClick={clickHandler}>
+                                <Flex disabled={loading === user_index ? true : false} as={"button"} _disabled={{cursor: "none"}} onClick={clickHandler}>
                                     {(loading === user_index) ? (
                                         <Spinner size={"sm"} />
                                     ) :
