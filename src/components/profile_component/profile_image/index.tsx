@@ -57,8 +57,8 @@ function ProfileImage(props: Props) {
         }
     }
 
-    const clickMore =()=>{
-        if(data?.data?.about?.value?.length > 18){
+    const clickMore = () => {
+        if (data?.data?.about?.value?.length > 18) {
             setOpen(true)
         } else {
             setOpen(false)
@@ -68,19 +68,15 @@ function ProfileImage(props: Props) {
     return (
         <LoadingAnimation loading={isLoading} >
             <Box position={"relative"} bg={"gray.400"} height={"442px"} >
-                { data?.data === null && (
+                {data?.data === null && (
                     <Box width='full' height='full' bg='brand.chascrollButtonBlue' position={"absolute"} zIndex={"10"} inset={"0px"}></Box>
                 )}
                 {(data?.data?.imgMain?.value || (userId === user_index && user?.data?.imgMain?.value)) && (
                     <>
-                        { data?.data?.imgMain?.value?.startsWith('https://') || user?.data?.imgMain?.value?.startsWith('https://') && (
-                            <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={(userId === user_index ? user?.data?.imgMain?.value : data?.data?.imgMain?.value)} alt='profile' />
-                        )}
-                        { !data?.data?.imgMain?.value?.startsWith('https://') || !user?.data?.imgMain?.value?.startsWith('https://') && (
-                            <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={IMAGE_URL + (userId === user_index ? user?.data?.imgMain?.value : data?.data?.imgMain?.value)} alt='profile' />
-                        )}
+                        <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={( data?.data?.imgMain?.value?.includes('http') ?  data?.data?.imgMain?.value:(IMAGE_URL + data?.data?.imgMain?.value))} alt='profile' />
+
                     </>
-                )} 
+                )}
                 <Box position={"relative"} zIndex={"10"} width={"fit-content"} pt={"8"} ml={"auto"} mr={"9"} >
                     {userId !== user_index && (
                         <Flex as={"button"} onClick={() => clickHandler()} bgColor={"#00000099"} width={"32px"} rounded={"full"} height={"32px"} justifyContent={"center"} alignItems={"center"} >
@@ -114,21 +110,21 @@ function ProfileImage(props: Props) {
                     )}
                 </Box>
                 <Box position={"absolute"} bottom={"170px"} left={"8"} zIndex={"20"} >
-                    <UserImage data={data} image={userId === user_index ? user?.data?.imgMain?.value : data?.data?.imgMain?.value} size={["120px", "150px"]} font={["30px", '60px']} />
+                    <UserImage data={data} image={data?.data?.imgMain?.value} size={["120px", "150px"]} font={["30px", '60px']} />
                 </Box>
                 <Flex zIndex={"20"} width={"full"} bottom={"0px"} insetX={"0px"} bg={"#00000099"} px={["6", "6", "9"]} height={"150px"} justifyContent={"space-between"} position={"absolute"} alignItems={"center"} >
                     <Box color={"white"} >
                         <Text fontSize={"22px"} fontWeight={"bold"} >{capitalizeFLetter(data?.firstName) + " " + capitalizeFLetter(data?.lastName)}</Text>
-                        
+
                         <Text fontSize={"sm"} >{data?.username}</Text>
                         {data?.showEmail && (
                             <Text fontSize={"sm"} >{data?.email}</Text>
                         )}
-                        {(data?.data?.mobilePhone?.value && data?.showEmail)&& (
+                        {(data?.data?.mobilePhone?.value && data?.showEmail) && (
                             <Text fontSize={"sm"} >Phone : {data?.data?.mobilePhone?.value}</Text>
                         )}
                         {data?.data?.about?.value && (
-                            <Text onClick={()=> clickMore()} as={data?.data?.about?.value?.length > 18 ? "button" : "text"} fontSize={"sm"} >Bio : {data?.data?.about?.value?.length > 18 ? data?.data?.about?.value?.slice(0, 18)+"...more" : data?.data?.about?.value}</Text>
+                            <Text onClick={() => clickMore()} as={data?.data?.about?.value?.length > 18 ? "button" : "text"} fontSize={"sm"} >Bio : {data?.data?.about?.value?.length > 18 ? data?.data?.about?.value?.slice(0, 18) + "...more" : data?.data?.about?.value}</Text>
                         )}
                         {data?.data?.webAddress?.value && (
                             <Text fontSize={"sm"} >Website : {data?.data?.webAddress?.value ?? ""}</Text>
