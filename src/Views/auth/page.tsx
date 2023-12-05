@@ -113,7 +113,7 @@ function LoginPage() {
           username: data?.data?.user_name,
           userId: data?.data?.user_id,
         })
-        router.push('/dashboard');
+        router.push('/dashboard/home')
       }
       setCheckData(data?.data)
     },
@@ -162,8 +162,7 @@ function LoginPage() {
           lastName: checkData.firstName,
           username: checkData.user_name,
           userId: checkData.user_id,
-        })
-        // router.push('/dashboard');
+        }) 
       }
     }
   }, [checkData, router, setAll]);
@@ -209,7 +208,7 @@ function LoginPage() {
       });
 
       if (data?.data?.message === "This email is not verified") {
-        router.push('/auth/verify-account?email=' + values?.username);
+        router.push('/auth/verify-account');
       } else {
 
         localStorage.setItem('token', data?.data?.access_token);
@@ -222,7 +221,7 @@ function LoginPage() {
           username: data?.data?.user_name,
           userId: data?.data?.user_id,
         })
-        router.push('/dashboard');
+        router.push('/dashboard/home')
       }
 
     }
@@ -275,7 +274,7 @@ function LoginPage() {
           username: checkData.user_name,
           userId: checkData.user_id,
         })
-        router.push('/dashboard');
+        router.push('/dashboard/home')
         // navigate("/explore")
       } else {
         toast({
