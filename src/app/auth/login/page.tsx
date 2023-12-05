@@ -52,7 +52,7 @@ function Login() {
                 username: data?.data?.user_name,
                 userId: data?.data?.user_id,
             })
-            // router.push('/dashboard')
+            router.push('/dashboard/home')
         }
     });
     const { renderForm } = useForm({
