@@ -9,10 +9,11 @@ type props = {
     rounded?: boolean,
     children: React.ReactNode,
     title?: string,
+    titlecolor?: string,
     scrollBehavior?: "outside" | "inside"
 }
 
-export default function ModalLayout({ open, close, children, size, bg, rounded, title, scrollBehavior }: props) {
+export default function ModalLayout({ open, close, children, size, bg, rounded, title, scrollBehavior, titlecolor }: props) {
 
     // const [size, setSize] = React.useState("md") 
 
@@ -22,8 +23,8 @@ export default function ModalLayout({ open, close, children, size, bg, rounded, 
             <ModalContent backgroundColor={bg ? bg : "#fff"} maxHeight={"90vh"} rounded={rounded ? "0px" : "6px"} padding="0px" margin="16px" w="full"  h={scrollBehavior ? "full" : "auto"}  >
                 {title && (
                     <>
-                        <ModalHeader textAlign={"center"} >{title}</ModalHeader>
-                        <ModalCloseButton />
+                        <ModalHeader zIndex={20} color={titlecolor ? titlecolor : "black"} textAlign={"center"} >{title}</ModalHeader>
+                        <ModalCloseButton zIndex={20} />
                     </>
                 )}
                 <ModalBody backgroundColor={bg ? bg : "#fff"} borderRadius={rounded ? "0px" : "8px"} margin="0px" padding="0px" h={scrollBehavior ? "full" : "auto"} w="full" >

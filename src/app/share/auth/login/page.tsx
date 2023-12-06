@@ -19,7 +19,6 @@ import { useShareState } from '../../state';
 import httpServiceGoogle from '@/utils/httpServiceGoogle';
 
 
-
 const LINK2 = [
   { name: 'Sign up', link: '/auth/signup', isExternal: false },
   { name: 'About Us', link: 'https://chasescroll.com/about', isExternal: true },
@@ -45,19 +44,21 @@ function LoginPage() {
   const toast = useToast();
   const router = useRouter();
   const { setAll } = useDetails((state) => state);
-  const { data: sessionData, update } = useSession();
+  const { data: sessionData, update} = useSession();
   const { type, typeID, setAll: seType } = useShareState((state) => state);
   const query = useSearchParams();
 
 
   const handleGoogleSignIn = async () => {
-    const token: any = sessionData;
+    const token: any = sessionData; 
+    
     if (token && token.token?.token.token.idToken) {
       signinWithGoogle.mutate(token.token?.token.token.idToken);
     } else {
-      const dets = await signIn('google');
+      const dets = await signIn('google'); 
+      
       setCheckData(true);
-    }
+    } 
   }
 
   // const handleSignIn = async (event: any) => {
@@ -71,16 +72,16 @@ function LoginPage() {
 
 
 
-  // React.useEffect(() => {
-  //   const token: any = sessionData;
-  //   // console.log(token.token?.token.token.accessToken);
-  //   if (sessionData !== null) {
-  //     if (token.token?.token?.token?.idToken) {
-  //       signinWithGoogle.mutate(token?.token?.token?.token?.idToken);
-  //     }
-  //   }
+  React.useEffect(() => {
+    const token: any = sessionData;
+    // console.log(token.token?.token.token.accessToken);
+    if (sessionData !== null) {
+      if (token.token?.token?.token?.idToken) {
+        signinWithGoogle.mutate(token?.token?.token?.token?.idToken);
+      }
+    }
 
-  // }, [sessionData])
+  }, [sessionData])
 
   React.useEffect(() => {
     const type = query?.get('type');

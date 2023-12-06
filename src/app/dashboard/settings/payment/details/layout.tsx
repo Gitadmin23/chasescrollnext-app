@@ -45,21 +45,7 @@ function Layout({ children }: { children: ReactNode }) {
                         colorScheme="green"
                         onChange={(e) => toggleCurrency(e.target.checked)}
                         isChecked={currency === "USD" ? true : false}
-                        h="28px"
-                    // sx={{
-                    //     '.chakra-switch__track::after': {
-                    //         content: currency === "USD" ? '"USD"' : '"NGM"',
-                    //         color: currency === "USD" ? 'white' : 'black',
-                    //         display: 'block',
-                    //         position: 'absolute',
-                    //         transform: 'translate(-50%,-50%)',
-                    //         top: "14px", // calc half of height
-                    //         left: currency === "USD" ? '28%' : '70%',
-                    //         fontWeight: 'bold',
-                    //         fontSize: '2xs',
-                    //     },
-                    // }}
-                    // {...restProps}
+                        h="28px" 
                     />
                 </Flex>
             </Flex>

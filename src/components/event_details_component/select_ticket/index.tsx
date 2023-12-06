@@ -1,5 +1,8 @@
+import { useDetails } from '@/global-state/useUserDetails'
 import { formatNumber } from '@/utils/numberFormat'
 import { Box, Button, Flex, Text } from '@chakra-ui/react'
+import { useRouter } from 'next/navigation'
+import router from 'next/router'
 import React from 'react'
 import { LiaAngleDownSolid } from 'react-icons/lia'
 
@@ -7,7 +10,8 @@ interface Props {
     ticket: any,
     selectedticket: any
     currency: any,
-    setCategory: any
+    setCategory: any,
+    data?: any
 }
 
 function SelectTicket(props: Props) {
@@ -15,14 +19,23 @@ function SelectTicket(props: Props) {
         ticket,
         selectedticket,
         currency,
-        setCategory
+        setCategory,
+        data
     } = props
 
     const [showModal, setShowModal] = React.useState(false)
+    const { userId: user_index } = useDetails((state) => state); 
+
+    const router = useRouter()
 
     const clickHandler = (item: any) => {
+
+        if (!user_index) {
+            router.push("/share/auth/login?type=EVENT&typeID=" + data?.id)
+        } else { 
         setCategory(item)
         setShowModal(false)
+        }
     } 
 
     return (

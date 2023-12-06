@@ -41,7 +41,7 @@ function EventUserOption(props: Props) {
             {!isBought && (
                 <>
                     {(!isOrganizer) && (
-                        <SelectTicket ticket={ticket} selectedticket={selectedticket} currency={currency} setCategory={setCategory} />
+                        <SelectTicket data={event} ticket={ticket} selectedticket={selectedticket} currency={currency} setCategory={setCategory} />
                     )}
                 </>
             )}
