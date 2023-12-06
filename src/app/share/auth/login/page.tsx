@@ -49,14 +49,38 @@ function LoginPage() {
   const { type, typeID, setAll: seType } = useShareState((state) => state);
   const query = useSearchParams();
 
-  const handleSignIn = async (event: any) => {
-    if (sessionData !== null) {
-      const id: string = (sessionData as any)['idToken'];
-      signinWithGoogle.mutate(id);
+
+  const handleGoogleSignIn = async () => {
+    const token: any = sessionData;
+    if (token && token.token?.token.token.idToken) {
+      signinWithGoogle.mutate(token.token?.token.token.idToken);
     } else {
-      const result = await signIn('google'); // 'google' corresponds to the provider name in your NextAuth configuration
+      const dets = await signIn('google');
+      setCheckData(true);
     }
-  };
+  }
+
+  // const handleSignIn = async (event: any) => {
+  //   if (sessionData !== null) {
+  //     const id: string = (sessionData as any)['idToken'];
+  //     signinWithGoogle.mutate(id);
+  //   } else {
+  //     const result = await signIn('google'); // 'google' corresponds to the provider name in your NextAuth configuration
+  //   }
+  // };
+
+
+
+  // React.useEffect(() => {
+  //   const token: any = sessionData;
+  //   // console.log(token.token?.token.token.accessToken);
+  //   if (sessionData !== null) {
+  //     if (token.token?.token?.token?.idToken) {
+  //       signinWithGoogle.mutate(token?.token?.token?.token?.idToken);
+  //     }
+  //   }
+
+  // }, [sessionData])
 
   React.useEffect(() => {
     const type = query?.get('type');
@@ -75,8 +99,8 @@ function LoginPage() {
         Authorization: `Bearer ${data}`,
       }
     }),
-    onSuccess: (data) => {
-      console.log(data.data);
+    onSuccess: (data) => { 
+      
       localStorage.setItem('token', data?.data?.access_token);
       toast({
         title: 'Success',
@@ -108,32 +132,32 @@ function LoginPage() {
     onError: (error: any) => {
       console.log(error);
       toast({
-        title: 'Erroor',
+        title: 'Error',
         description: 'An error occured, please try again',
         status: 'error',
       })
     }
   }) 
 
-  React.useEffect(() => {
-    if (checkData?.user_id) {
-      if (!checkData?.firstName) {
-        setShowModal(true)
-      } else {
-        localStorage.setItem('token', checkData.access_token);
-        localStorage.setItem('refresh_token', checkData.refresh_token);
-        localStorage.setItem('user_id', checkData.user_id);
-        localStorage.setItem('expires_in', checkData.expires_in);
-        setAll({
-          firstName: checkData.firstName,
-          lastName: checkData.firstName,
-          username: checkData.user_name,
-          userId: checkData.user_id,
-        })
-        router.push('/share');
-      }
-    }
-  }, [checkData, router, setAll]);
+  // React.useEffect(() => {
+  //   if (checkData?.user_id) {
+  //     if (!checkData?.firstName) {
+  //       setShowModal(true)
+  //     } else {
+  //       localStorage.setItem('token', checkData.access_token);
+  //       localStorage.setItem('refresh_token', checkData.refresh_token);
+  //       localStorage.setItem('user_id', checkData.user_id);
+  //       localStorage.setItem('expires_in', checkData.expires_in);
+  //       setAll({
+  //         firstName: checkData.firstName,
+  //         lastName: checkData.firstName,
+  //         username: checkData.user_name,
+  //         userId: checkData.user_id,
+  //       })
+  //       router.push('/share');
+  //     }
+  //   }
+  // }, [checkData, router, setAll]);
 
   const checkUserName = useQuery(['username' + UserName], () => httpService.get('/auth/username-check?username=' + UserName), {
     onError: (error: any) => {
@@ -248,7 +272,7 @@ function LoginPage() {
         // navigate("/explore")
       } else {
         toast({
-          title: 'Erroor',
+          title: 'Error',
           description: 'Something wetn wrong',
           status: 'error',
         })
@@ -323,7 +347,7 @@ function LoginPage() {
 
               </VStack>
 
-              <Button onClick={handleSignIn} width={['100%', '294px']} height={'40px'} borderRadius={'8px'} bg='#1018280D' padding='8px 16px 8px 16px'>
+              <Button onClick={handleGoogleSignIn} width={['100%', '294px']} height={'40px'} borderRadius={'8px'} bg='#1018280D' padding='8px 16px 8px 16px'>
                 <Image alt='google' src='/assets/svg/googlelogo.svg' />
                 <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color='black' fontWeight={'700'}>Sign in with Google</CustomText>
               </Button>
