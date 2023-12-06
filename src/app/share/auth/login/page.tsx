@@ -19,6 +19,7 @@ import { useShareState } from '../../state';
 import httpServiceGoogle from '@/utils/httpServiceGoogle';
 
 
+
 const LINK2 = [
   { name: 'Sign up', link: '/auth/signup', isExternal: false },
   { name: 'About Us', link: 'https://chasescroll.com/about', isExternal: true },
@@ -44,34 +45,29 @@ function LoginPage() {
   const toast = useToast();
   const router = useRouter();
   const { setAll } = useDetails((state) => state);
-  const { data: sessionData, update} = useSession();
+  const { data: sessionData, update } = useSession();
   const { type, typeID, setAll: seType } = useShareState((state) => state);
   const query = useSearchParams();
 
-
   const handleGoogleSignIn = async () => {
-    const token: any = sessionData; 
-    
+    const token: any = sessionData;
     if (token && token.token?.token.token.idToken) {
       signinWithGoogle.mutate(token.token?.token.token.idToken);
     } else {
-      const dets = await signIn('google'); 
-      
+      const dets = await signIn('google');
       setCheckData(true);
-    } 
+    }
   }
 
-  // const handleSignIn = async (event: any) => {
-  //   if (sessionData !== null) {
-  //     const id: string = (sessionData as any)['idToken'];
-  //     signinWithGoogle.mutate(id);
-  //   } else {
-  //     const result = await signIn('google'); // 'google' corresponds to the provider name in your NextAuth configuration
-  //   }
-  // };
+  React.useEffect(() => {
+    const type = query?.get('type');
+    const typeID = query?.get('typeID');
 
-
-
+    if (type && typeID) {
+      seType({ type, typeID });
+    }
+  }, [query, seType, setAll])
+ 
   React.useEffect(() => {
     const token: any = sessionData;
     // console.log(token.token?.token.token.accessToken);
@@ -83,25 +79,14 @@ function LoginPage() {
 
   }, [sessionData])
 
-  React.useEffect(() => {
-    const type = query?.get('type');
-    const typeID = query?.get('typeID');
-
-    if (type && typeID) {
-      seType({ type, typeID });
-    }
-  }, [query, seType, setAll])
-
-
-
   const signinWithGoogle = useMutation({
     mutationFn: (data: string) => httpServiceGoogle.get(`${URLS.SIGN_IN_WTIH_CREDENTIALS}`, {
       headers: {
         Authorization: `Bearer ${data}`,
       }
     }),
-    onSuccess: (data) => { 
-      
+    onSuccess: (data) => {
+      console.log(data.data);
       localStorage.setItem('token', data?.data?.access_token);
       toast({
         title: 'Success',
@@ -133,7 +118,7 @@ function LoginPage() {
     onError: (error: any) => {
       console.log(error);
       toast({
-        title: 'Error',
+        title: 'Erroor',
         description: 'An error occured, please try again',
         status: 'error',
       })
@@ -273,7 +258,7 @@ function LoginPage() {
         // navigate("/explore")
       } else {
         toast({
-          title: 'Error',
+          title: 'Erroor',
           description: 'Something wetn wrong',
           status: 'error',
         })
