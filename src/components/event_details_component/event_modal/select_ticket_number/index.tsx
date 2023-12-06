@@ -77,7 +77,7 @@ function SelectTicketNumber(props: Props) {
 
 
     const clickHandler = () => {
-        if (selectedTicket?.ticketType === "Free") {
+        if (price === 0) {
             createTicket.mutate({
                 eventID: data?.id,
                 ticketType: selectedTicket?.ticketType,
