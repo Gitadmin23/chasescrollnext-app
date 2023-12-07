@@ -80,8 +80,8 @@ const editProfileSchema = z.object({
     firstName: z.string().nonempty("Your firstname is required").min(3),
     lastName: z.string().nonempty("Your lastname is required").min(3),
     username: z.string().nonempty("Your username cannot be blank").min(3),
-    website: z.string(),
-    aboutme: z.string(),
+    website: z.string().min(0),
+    aboutme: z.string().min(0),
 });
 
 const editPersonalInfoSchema = z.object({
