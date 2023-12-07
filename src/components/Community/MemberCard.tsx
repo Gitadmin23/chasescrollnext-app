@@ -23,7 +23,11 @@ function MemberCard({
                     )}
                     {
                         member?.user.data?.imgMain.value && (
-                            <Image src={`${IMAGE_URL}${member?.user.data?.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                            <>
+                                {member?.user.data?.imgMain.value.startsWith('https://') && <Image src={`${member?.user.data?.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+
+                                { !member?.user.data?.imgMain.value.startsWith('https://') && <Image src={`${IMAGE_URL}${member?.user.data?.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                            </>
                         )
                     }
                 </Box>
