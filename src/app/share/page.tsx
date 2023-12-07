@@ -1,8 +1,9 @@
-"use client"
+
 import React from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Box, useToast } from '@chakra-ui/react';
 import ShareCommunity from './community/page';
+// import ShareEvent from './event/[slug]/page';
 // import ShareEvent from './event/[slug]/page';
 import SharePost from './post/page';
 import ShareProfile from './profile/page';
@@ -10,6 +11,7 @@ import ShareProfile from './profile/page';
 type queryTypes = {
   typeID: string;
 }
+
 
 export type ShareType = 'PROFILE'|'POST'|'COMMUNITY'|'EVENT';
 
@@ -35,6 +37,9 @@ function Share() {
       case 'COMMUNITY': {
         return <ShareCommunity />
       }
+      // case 'EVENT': {
+      //   return <ShareEvent />
+      // }
       // case 'EVENT': {
       //   return <ShareEvent />
       // }

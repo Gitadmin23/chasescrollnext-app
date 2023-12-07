@@ -59,7 +59,7 @@ function NotificationCard({ notification }: {
     }
   }
   return (
-    <HStack bg={'white'} onClick={handleClick} alignItems={'center'} spacing={0} justifyContent={'space-between'} width='100%' height={'auto'} paddingY={'10px'} borderBottomWidth={'1px'} borderBottomColor='lightgrey' paddingX='10px'>
+    <HStack onClick={handleClick} alignItems={'center'} spacing={0} justifyContent={'space-between'} width='100%' height={'auto'} paddingY={'10px'} borderBottomWidth={'1px'} borderBottomColor='lightgrey' paddingX='10px' bg={notification.status === "UNREAD" ? '#E5EBF4':'white'}>
         <Box width='32px' height='32px' borderRadius={'36px 0px 36px 36px'} borderWidth={'1px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
           { notification?.createdBy?.data !== null && !notification?.createdBy?.data?.imgMain?.value === null && (
             <VStack width='100%' height='100%' color='red' justifyContent={'center'} alignItems='center'>
@@ -81,9 +81,9 @@ function NotificationCard({ notification }: {
             )
           }
         </Box>
-        <VStack alignItems={'flex-start'} spacing={0} flex={1} paddingX='10px'>
+        <VStack alignItems={'flex-start'} spacing={0} width='70%' flexWrap={'wrap'} paddingX='10px'>
             <CustomText fontSize={'14px'} fontFamily={'DM-Medium'} color='brand.chasescrollButtonBlue'>{notification.title}</CustomText>
-            <CustomText fontSize={'14px'} fontFamily={'DM-Regular'} width='100%'>{notification.message}</CustomText>
+            <CustomText fontSize={'14px'} fontFamily={'DM-Regular'} width='100%'>{notification.message.length > 50 ? notification.message.substring(0, 50)+'...':notification.message}</CustomText>
         </VStack>
         <CustomText fontSize={'12px'} fontFamily={'DM-Regular'}>{moment(notification.createdDate).fromNow(false)}</CustomText>
     </HStack>
