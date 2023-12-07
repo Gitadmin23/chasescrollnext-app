@@ -99,7 +99,8 @@ function SendMessage(props: Props) {
                 </Box>
             )}
             <Text py={"5"} textAlign={"center"} >via</Text>
-            <Flex width={"full"} pb={"5"}  justifyContent={"center" } >
+           {props.type === "EVENT" && (
+             <Flex width={"full"} pb={"5"}  justifyContent={"center" } >
                 <Flex onClick={()=> click(3)} as={"button"} alignItems={"center"} w={"80%"} justifyContent={"center" }  py={"2"} borderWidth={"1px"} rounded={"32px"} borderColor={"#C4C4C475"} gap={"1"} color={"#121212CC"} >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g id="vuesax/linear/scan">
@@ -116,6 +117,7 @@ function SendMessage(props: Props) {
                     <Text>Get  QR Code</Text>
                 </Flex>
             </Flex>
+           )}
             <Flex width={"full"} justifyContent={"space-evenly"}>
                 <WhatsappShareButton
                     url={url_link}>
