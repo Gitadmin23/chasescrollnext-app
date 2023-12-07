@@ -107,8 +107,8 @@ function LoginPage() {
           username: data?.data?.user_name,
           userId: data?.data?.user_id,
         })
-        if (type === "EVENT") {
-          router.push(`/dashboard/event/details/${typeID}`);
+        if (query?.get('type') === "EVENT") {
+          router.push(`/dashboard/event/details/${query?.get('typeID')}`);
         } else {
           router.push(`/share?type=${type}&typeID=${typeID}`);
         }
@@ -118,7 +118,7 @@ function LoginPage() {
     onError: (error: any) => {
       console.log(error);
       toast({
-        title: 'Erroor',
+        title: 'Error',
         description: 'An error occured, please try again',
         status: 'error',
       })
