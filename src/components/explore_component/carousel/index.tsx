@@ -67,7 +67,7 @@ function ExploreCarousel(props: Props) {
                                                     <InterestedUsers fontSize={16} event={item} border={"2px"} size={"32px"} />
                                                 </Box>
                                                 <Flex alignItems={"center"} gap={"3"} >
-                                                    <ShareEvent type="EVENT" size='18px' id={item?.id} />
+                                                    <ShareEvent data={item} type="EVENT" size='18px' id={item?.id} />
                                                     <SaveOrUnsaveBtn event={item} />
                                                 </Flex>
                                             </Flex>

@@ -6,16 +6,11 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 
 export default function Home() {
-//  const router = useRouter();
+ const router = useRouter();
   
-//  React.useEffect(() => {
-//   const token = localStorage.getItem('token');
-//   if (token !== null) {
-//     router.push('/dashboard/home')
-//   } else {
-//     router.push('/auth');
-//   }
-//  }, [router]);
+ React.useEffect(() => {  
+  router.push('/auth');
+ }, [router]);
   return (
     <VStack width='100%' height='100vh' justifyContent={'center'} alignItems={'center'} >
       <Image src='/assets/images/chasescroll-logo.png' width={200} height={200} alt='logo' />

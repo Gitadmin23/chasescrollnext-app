@@ -114,20 +114,7 @@ function SendMesageModal({ onClose, id, isprofile, type }: {
                 <Input value={search} onChange={(e) => setSearch(e.target.value)} borderWidth={'0px'} borderRadius={'10px'} />
             </InputGroup>
 
-            <Box width='100%' height='220px' overflowY='auto'>
-                {/* {
-                    isLoading && (
-                        <VStack width='100%' justifyContent={'center'} alignItems={'center'}>
-                            <Spinner size='md' colorScheme='blue' />
-                        </VStack>
-                    )
-                }
-                {!isLoading && !isError && users.length > 0 &&
-                    {
-                    !isLoading && isError && (
-                <Text> An error occured while getting your friends list.</Text>
-                )
-                } */}
+            <Box width='100%' height='220px' overflowY='auto'> 
                 <LoadingAnimation loading={isLoading} >
                     {users.map((item, index) => (
                         <UserCard {...item} checked={userIds.includes(item.userId)} handleCheck={(e) => handleCheck(e)} key={index.toString()} />

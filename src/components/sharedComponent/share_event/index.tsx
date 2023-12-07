@@ -7,6 +7,7 @@ import SendMessage from '@/components/modals/send_message'
 import SendMesageModal from '@/components/modals/send_message/send_to_app_user'
 import { MessageIcon, ShareIcon } from '@/components/svg'
 import { ShareType } from '@/app/share/page'
+import Qr_code from '@/components/modals/send_message/Qr_code';
 
 interface Props {
     id: any,
@@ -14,7 +15,8 @@ interface Props {
     isprofile?: boolean,
     istext?: boolean,
     type: ShareType,
-    eventName?: string
+    eventName?: string,
+    data?: any
 }
 
 function ShareEvent(props: Props) {
@@ -23,7 +25,8 @@ function ShareEvent(props: Props) {
         size,
         isprofile,
         istext,
-        eventName
+        eventName,
+        data
     } = props
 
     const [open, setOpen] = useState(false)
@@ -55,12 +58,15 @@ function ShareEvent(props: Props) {
                     <Text color={"#3C41F0"} fontSize={"9px"} fontWeight={"semibold"} >share</Text>
                 </Box>
             )}
-            <ModalLayout open={open} close={CloseModal} title={tab === 1 ? "Share" : "Share with friends"} >
+            <ModalLayout open={open} close={CloseModal} titlecolor={tab === 3 ? "white" : "black"} title={tab === 1 ? "Share" : tab === 2 ? "Share with friends" : ""} >
                 {tab === 1 && (
-                    <SendMessage isprofile={isprofile} type={props.type} id={id} click={setTab} eventName={eventName} />
+                    <SendMessage data={data} isprofile={isprofile} type={props.type} id={id} click={setTab} eventName={eventName} />
                 )}
                 {tab === 2 && (
                     <SendMesageModal type={props.type} isprofile={isprofile} id={id} onClose={CloseModal} />
+                )}
+                {tab === 3 && ( 
+                    <Qr_code data={data} close={CloseModal} id={id} />
                 )}
             </ModalLayout>
         </Box>

@@ -29,7 +29,11 @@ function EventCategory(props: Props) {
     })
 
     const clickHandler =(item: string)=> {
-        setEventCategory(item)
+        if(item === "All Event"){
+            setEventCategory("")
+        } else {
+            setEventCategory(item)
+        }
     }
 
     return (
@@ -37,7 +41,7 @@ function EventCategory(props: Props) {
             <Box width={"full"} overflowX={"auto"} >
                 <Flex gap={"4"} width={"fit-content"} py={"4"} >
 
-                    <Button onClick={()=> setEventCategory("All Event")} width={"150px"} height={"45px"} fontSize={"sm"} fontWeight={"semibold"} bg={!event_category ? "brand.chasescrollBlue" : "#98929214"} color={!event_category ? "white" : ""} >All Event</Button>
+                    <Button onClick={()=> clickHandler("")} width={"150px"} height={"45px"} fontSize={"sm"} fontWeight={"semibold"} bg={!event_category ? "brand.chasescrollBlue" : "#98929214"} color={!event_category ? "white" : ""} >All Event</Button>
                     {data?.sort((a: string, b: string) => {
                         if (a > b) {
                             return 1
