@@ -39,10 +39,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   const [post, setPost] = React.useState<IMediaContent>(props.post as IMediaContent);
 
   const router = useRouter();
-  const toast = useToast(); 
-
-  if (post.type === 'WITH_IMAGE') { 
-  }
+  const toast = useToast();
 
   const { isLoading, isError } = useQuery([`getPostById-${post?.id}`, post?.id], () => httpService.get(`${URLS.GET_POST_BY_ID}/${post?.id}`),
     {
