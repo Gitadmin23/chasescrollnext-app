@@ -43,7 +43,7 @@ function Qr_code(props: Props) {
                         </HStack>
                     </Flex>
                     <Flex  zIndex={20} justifyContent={"center"} roundedTop={"6px"} pt={"4"} color={"white"} width={"full"} >
-                        <Text fontWeight={"semibold"} >Event Name: {data?.eventName}</Text>
+                        <Text fontWeight={"semibold"} >Event Name: {data?.eventName?.length >= 16 ? data?.eventName?.slice(0, 16)+"..." : data?.eventName}</Text>
                     </Flex>
                     <Flex justifyContent={"center"} flex={1} width={"full"} pt={"6"} > 
                         <Box  zIndex={20} width={"60%"} shadow={"lg"} bg={"white"} p={"3"} rounded={"md"} >
