@@ -19,9 +19,7 @@ function DashboardRefund(props: Props) {
     // const [eventUser, setEventUser] = React.useState([] as any)
     
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: '/events/get-event-members/'+index, limit: 10, filter: "id" })
-    
-    console.log(results);
-    
+     
 
     return (
         <Flex width={"full"} flexDirection={"column"} > 
