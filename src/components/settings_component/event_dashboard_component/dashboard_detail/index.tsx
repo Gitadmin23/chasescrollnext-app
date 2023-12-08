@@ -1,5 +1,5 @@
 'use client'
-import { formatNumberWithK } from '@/utils/formatNumberWithK'
+import { formatNumberWithK, numberFormat, numberFormatDollar, numberFormatNaire } from '@/utils/formatNumberWithK'
 import httpService from '@/utils/httpService'
 import { Box, Flex, Text } from '@chakra-ui/react'
 import { AxiosError } from 'axios'
@@ -34,8 +34,27 @@ function DashboardDetail(props: Props) {
         },
         onSuccess: (data) => {
             setHistory(data.data);
+
+            console.log(data?.data);
+            
         }
     })
+
+
+    const DataFormater = (number: number) => {
+        if(number > 1000000000){
+          return (number/1000000000).toString() + 'B';
+        }else if(number > 1000000){
+          return (number/1000000).toString() + 'M';
+        }else if(number > 1000){
+          return (number/1000).toString() + 'K';
+        }else{
+          return number.toString();
+        }
+      }
+
+      console.log(history?.qtyActiveSold);
+      
 
     return (
         <Flex width={"full"} flexDirection={"column"} >
@@ -71,11 +90,11 @@ function DashboardDetail(props: Props) {
                         </Box>
                         <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={"black"} >
                             <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Sold</Text>
-                            <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{history?.currency === "USD" ? "$" : "₦" + formatNumberWithK(history?.totalActiveSales ? history?.totalActiveSales : 0)}</Text>
+                            <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{history?.currency === "USD" ? "$" : "₦"}{formatNumberWithK(history?.totalActiveSales)}</Text>
                         </Box>
                         <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={"black"} >
                             <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Cancelled</Text>
-                            <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{history?.currency === "USD" ? "$" : "₦" + formatNumberWithK(history?.totalRefunds ? history?.totalRefunds : 0)}</Text>
+                            <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{history?.currency === "USD" ? "$" : "₦"}{formatNumberWithK(history?.totalRefunds)}</Text>
                         </Box>
                         <Box pt={"3px"} px={"4"} >
                             <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Available</Text>
@@ -89,8 +108,7 @@ function DashboardDetail(props: Props) {
 
                 <ResponsiveContainer width="100%" height={500}>
                     <BarChart
-                        width={500}
-                        height={300}
+                        width={930} height={440}
                         margin={{
                             top: 20,
                             right: 30,
@@ -99,15 +117,16 @@ function DashboardDetail(props: Props) {
                         }}
                         data={history.tickets}
                     >
-                        <XAxis dataKey="ticketType" />
+                        <XAxis tickFormatter={DataFormater} dataKey="ticketType" />
                         <YAxis />
-                        <Tooltip />
+                        <Tooltip formatter={numberFormat}  />
                         <Legend />
                         <CartesianGrid strokeDasharray="3 3" />
 
-                        <Bar dataKey="totalActiveSales" stackId="a" fill="#B7B00E" />
-                        <Bar dataKey="totalRefund" stackId="a" fill="#E90303" />
-                        <Bar dataKey="totalNumberOfAvailableTickets" fill="#ffc658" />
+                        <Bar name='Active Ticket Sold' dataKey="qtyActiveSold" stackId="a" fill="#B7B00E" />
+                        <Bar name='Pending Ticket Sold' dataKey="qtyPendingSold" stackId="a" fill="#ffc658" />
+                        <Bar name='Available Tickets' dataKey="totalNumberOfAvailableTickets" fill="#5D70F9" />
+                        {/* <Bar dataKey="totalRefund" stackId="a" fill="#E90303" /> */}
                         {/* <Bar dataKey="totalActiveSales" fill="#B7B00E" background={{ fill: '#eee' }} />
                                     <Bar dataKey="totalRefund" fill="#E90303" background={{ fill: '#eee' }} />
                                     <Bar dataKey="totalPendingSales" fill="#DB9E00" background={{ fill: '#eee' }} /> */}

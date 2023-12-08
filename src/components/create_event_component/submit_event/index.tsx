@@ -117,10 +117,14 @@ function SubmitEvent(props: Iprops) {
         },
         onSuccess: (data: any) => {
             let newObj: any = { ...eventdata, picUrls: [data?.data?.fileName], currentPicUrl: data?.data?.fileName }
-            if (image && !eventdata?.currentPicUrl) {
-                createDraft.mutate(newObj)
-            } else if (image && eventdata?.currentPicUrl) {
-                saveToDraft.mutate(newObj)
+            if(pathname?.includes("edit_event")){
+                updateUserEvent?.mutate(newObj)
+            } else {
+                if (image && !eventdata?.currentPicUrl) {
+                    createDraft.mutate(newObj)
+                } else if (image && eventdata?.currentPicUrl) {
+                    saveToDraft.mutate(newObj)
+                }
             }
         }
     });
@@ -279,8 +283,14 @@ function SubmitEvent(props: Iprops) {
                     position: "top-right"
                 })
             } else {
-                if (pathname?.includes("edit_event")) {
-                    updateUserEvent.mutate(clean(eventdata))
+                if (pathname?.includes("edit_event")) { 
+                    if(image) {
+                        const fd = new FormData();
+                        fd.append("file", image);
+                        uploadImage.mutate(fd)
+                    } else {
+                        // updateUserEvent.mutate(clean(eventdata))
+                    }
                 } else {
                     createEventFromDraft.mutate(eventdata)
                 }
@@ -291,7 +301,7 @@ function SubmitEvent(props: Iprops) {
     return (
         <Flex alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} my={"4"} >
             <CustomButton isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} disable={getValidationAll()} _disabled={{ color: "#F04F4F", cursor: "not-allowed" }} width={"400px"} backgroundColor={"transparent"}
-                color={"brand.chasescrollBlue"} text={tab === 2 ? 'Submit' : 'Continue'} />
+                color={"brand.chasescrollBlue"} text={pathname?.includes("edit_event") && tab === 2 ? "Update Event" :tab === 2 ? 'Submit' : 'Continue'} />
         </Flex>
     )
 }

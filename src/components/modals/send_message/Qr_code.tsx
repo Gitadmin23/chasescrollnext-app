@@ -31,7 +31,7 @@ function Qr_code(props: Props) {
             <Box onClick={() => close(false)} as='button' width={"25px"} zIndex={30} position={"absolute"} top={"5"} right={"2"} >
                 <IoClose size={"25px"} color="white" />
             </Box>
-            <Flex height={"450px"} ref={componentRef} flexDir={"column"} alignItems={"center"} width={"full"} roundedTop={"6px"} >
+            <Flex height={["450px"]} ref={componentRef} flexDir={"column"} alignItems={"center"} width={"full"} roundedTop={"6px"} >
 
                 <Box height={"300px"} roundedTop={"6px"} width={"full"} roundedBottom={"full"} zIndex={10} style={{ background: "#5D70F9" }} />
 
@@ -46,7 +46,7 @@ function Qr_code(props: Props) {
                         <Text fontWeight={"semibold"} >Event Name: {data?.eventName?.length >= 16 ? data?.eventName?.slice(0, 16)+"..." : data?.eventName}</Text>
                     </Flex>
                     <Flex justifyContent={"center"} flex={1} width={"full"} pt={"6"} > 
-                        <Box  zIndex={20} width={"60%"} shadow={"lg"} bg={"white"} p={"3"} rounded={"md"} >
+                        <Box  zIndex={20} width={["80%", "60%"]} shadow={"lg"} bg={"white"} p={"3"} rounded={"md"} >
                             <QRCode
                                 style={{ height: "auto", maxWidth: "100%", width: "100%", zIndex: 20 }}
                                 value={`${WEBSITE_URL}/event/${id}`}

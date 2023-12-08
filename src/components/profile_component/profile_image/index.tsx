@@ -73,7 +73,7 @@ function ProfileImage(props: Props) {
                 )}
                 {(data?.data?.imgMain?.value || (userId === user_index && user?.data?.imgMain?.value)) && (
                     <>
-                        <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={( data?.data?.imgMain?.value?.includes('http') ?  data?.data?.imgMain?.value:(IMAGE_URL + data?.data?.imgMain?.value))} alt='profile' />
+                        <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={(data?.data?.imgMain?.value?.includes('http') ? data?.data?.imgMain?.value : (IMAGE_URL + data?.data?.imgMain?.value))} alt='profile' />
 
                     </>
                 )}
@@ -124,7 +124,12 @@ function ProfileImage(props: Props) {
                             <Text fontSize={"sm"} >Phone : {data?.data?.mobilePhone?.value}</Text>
                         )}
                         {data?.data?.about?.value && (
-                            <Text onClick={() => clickMore()} as={data?.data?.about?.value?.length > 18 ? "button" : "text"} fontSize={"sm"} >Bio : {data?.data?.about?.value?.length > 18 ? data?.data?.about?.value?.slice(0, 18) + "...more" : data?.data?.about?.value}</Text>
+                            <>
+                                {data?.data?.about?.value?.length > 18 ? (
+                                    <Text display={"flex"} onClick={() => clickMore()} as={data?.data?.about?.value?.length > 18 ? "button" : "text"} fontSize={"sm"} >Bio : {data?.data?.about?.value?.slice(0, 18)+"..."}<Text color={"brand.chasescrollBlue"} fontWeight={"semibold"} >more</Text></Text>
+                                ) :
+                                    <Text onClick={() => clickMore()} as={data?.data?.about?.value?.length > 18 ? "button" : "text"} fontSize={"sm"} >Bio : {data?.data?.about?.value}</Text>}
+                            </>
                         )}
                         {data?.data?.webAddress?.value && (
                             <Text fontSize={"sm"} >Website : {data?.data?.webAddress?.value ?? ""}</Text>

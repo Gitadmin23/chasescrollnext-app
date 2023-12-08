@@ -60,6 +60,8 @@ function SelectTicketNumber(props: Props) {
                 duration: 5000,
                 position: 'top-right',
             });
+            
+            queryClient.invalidateQueries(['event_ticket' + data?.id])
             queryClient.invalidateQueries(['all-events-details' + data.id])
             close(false)
         },
