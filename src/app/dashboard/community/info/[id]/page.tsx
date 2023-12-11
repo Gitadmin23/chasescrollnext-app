@@ -335,6 +335,7 @@ function CommunityInfo() {
                   <CustomText fontFamily={'DM-Light'} color={THEME.COLORS.chasescrollButtonBlue} >Members</CustomText>
                 </HStack>  
 
+
             <Box overflowY='hidden' width='100%' height={'100%'} paddingBottom='20px' borderRadius={'32px'}>
 
             <Box marginTop={'20px'} width='100%' height={'100%'}  paddingX='10px' overflowY='scroll' >
