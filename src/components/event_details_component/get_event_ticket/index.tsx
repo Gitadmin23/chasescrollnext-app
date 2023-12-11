@@ -59,7 +59,7 @@ function GetEventTicket(props: Props) {
         if (!selectedTicket?.ticketType) {
             toast({
                 status: "error",
-                title: "Select Ticket Type",
+                title: "Please Select Ticket Type",
                 position: 'top-right',
             });
         } else {
