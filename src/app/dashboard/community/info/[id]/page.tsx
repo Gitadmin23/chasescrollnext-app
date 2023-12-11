@@ -347,7 +347,18 @@ function CommunityInfo() {
                       return item;
                     }
                   }
-                }).map((item, index) => (
+                })
+                .sort((a, b) => {
+                  if (a.user.firstName.toLowerCase() < b.user.firstName.toLowerCase()) {
+                    return -1;
+                  }
+                  if (a.user.firstName.toLowerCase() > b.user.firstName.toLowerCase()) {
+                    return 1;
+                  }
+                  return 0;
+                
+                })
+                .map((item, index) => (
                   <MemberCard member={item} key={index.toString()} isAdmin />
                 ))}
                 {users().length > 0 && users().filter((item) => {
@@ -358,7 +369,18 @@ function CommunityInfo() {
                       return item;
                     }
                   }
-                }).map((item, index) => (
+                })
+                .sort((a, b) => {
+                  if (a.user.firstName.toLowerCase() < b.user.firstName.toLowerCase()) {
+                    return -1;
+                  }
+                  if (a.user.firstName.toLowerCase() > b.user.firstName.toLowerCase()) {
+                    return 1;
+                  }
+                  return 0;
+                
+                })
+                .map((item, index) => (
                   <MemberCard member={item} key={index.toString()} isAdmin={false} />
                 ))}
 
