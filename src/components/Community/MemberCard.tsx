@@ -5,6 +5,7 @@ import React from 'react'
 import CustomText from '../general/Text';
 import { IMAGE_URL } from '@/services/urls';
 import { THEME } from '@/theme';
+import Link from 'next/link'
 
 interface IProps {
     member: ICommunityMember,
@@ -33,7 +34,9 @@ const MemberCard = React.forwardRef<HTMLDivElement, IProps>(({member, isAdmin}, 
                     }
                 </Box>
                 <VStack alignItems={'flex-start'} spacing={0}>
-                    <CustomText fontSize={'14px'}>{member?.user?.firstName} {member?.user?.lastName}</CustomText>
+                    <Link href={`/dashboard/profile/${member.user.userId}`}>
+                        <CustomText fontSize={'14px'}>{member?.user?.firstName} {member?.user?.lastName}</CustomText>
+                    </Link>
                     <CustomText fontSize={'12px'}>{member?.user?.data?.about?.value?.length > 10 ? member?.user?.data?.about?.value.substring(1, 10) + '...':member?.user?.data?.about?.value || ''}</CustomText>
                 </VStack>
         </HStack>
