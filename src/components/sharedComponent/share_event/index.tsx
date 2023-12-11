@@ -16,7 +16,8 @@ interface Props {
     istext?: boolean,
     type: ShareType,
     eventName?: string,
-    data?: any
+    data?: any;
+    showText?: boolean;
 }
 
 function ShareEvent(props: Props) {
@@ -26,7 +27,8 @@ function ShareEvent(props: Props) {
         isprofile,
         istext,
         eventName,
-        data
+        data,
+        showText = true
     } = props
 
     const [open, setOpen] = useState(false)
@@ -55,7 +57,7 @@ function ShareEvent(props: Props) {
             {!isprofile && (
                 <Box onClick={(e: any) => clickHandler(e)} as='button' display={"flex"} alignItems={"center"} flexDir={"column"} >
                     <ShareIcon width={size ? size : "24px"} color={"#3C41F0"} />
-                    <Text color={"#3C41F0"} fontSize={"9px"} fontWeight={"semibold"} >share</Text>
+                    { showText && <Text color={"#3C41F0"} fontSize={"9px"} fontWeight={"semibold"} >share</Text>}
                 </Box>
             )}
             <ModalLayout open={open} close={CloseModal} titlecolor={tab === 3 ? "white" : "black"} title={tab === 1 ? "Share" : tab === 2 ? "Share with friends" : ""} >
