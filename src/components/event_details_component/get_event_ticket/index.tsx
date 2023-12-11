@@ -56,11 +56,18 @@ function GetEventTicket(props: Props) {
 
     const clickHandler = (event: any) => {
         event.stopPropagation();
-        if (!user_index) {
-            router.push("/share/auth/login?type=EVENT&typeID=" + data?.id)
+        if (!selectedTicket?.ticketType) {
+            toast({
+                status: "error",
+                title: "Select Ticket Type",
+            });
         } else {
-            setModalTab(carousel ? 6 : isBought ? 5 : 1)
-            setShowModal(true)
+            if (!user_index) {
+                router.push("/share/auth/login?type=EVENT&typeID=" + data?.id)
+            } else {
+                setModalTab(carousel ? 6 : isBought ? 5 : 1)
+                setShowModal(true)
+            }
         }
     }
 
@@ -81,7 +88,7 @@ function GetEventTicket(props: Props) {
     return (
         <>
             {!carousel && (
-                <CustomButton my={"auto"} onClick={clickHandler} disable={(selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "full"]} />
+                <CustomButton my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "full"]} />
             )}
             {carousel && (
                 <Box >
