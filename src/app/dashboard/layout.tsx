@@ -23,6 +23,7 @@ import ImageModal from '@/components/general/ImageModal';
 import UserImage from '@/components/sharedComponent/userimage';
 import { signOut } from 'next-auth/react';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
+import DashboardNavbar from '@/components/sharedComponent/dashboard_navbar';
 type IRoute = {
     icon: ReactNode;
     text: string;
@@ -168,44 +169,7 @@ function Layout({ children }: {
             </Modal>
 
             <Grid h="100vh" w={"full"} overflowY={"hidden"} >
-                <Box width="full" position={"absolute"} zIndex={"30"} top={"0px"} >
-                    {/* NAVBAR SECTION */}
-                    {(!pathname?.includes("create_event") || !pathname?.includes("edit_draft") || !pathname?.includes("edit_event")) && (
-                        <HStack position={"absolute"} zIndex={"30"} top={"0px"} width='100%' height='80px' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} backgroundColor={'white'} alignItems='center' justifyContent={'space-between'} paddingX={['20px', '40px']}>
-
-                            <Flex alignItems={"center"} gap={"12"} >
-                                <HStack role="button" onClick={() => router.push("/dashboard/home")} justifyContent={'center'}>
-                                    <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
-                                    <CustomText fontFamily={'Satoshi-Regular'} fontSize='lg' display={['none', 'inline']} color='#12299C'>Chasescroll</CustomText>
-                                </HStack>
-                                {userId && (
-                                    <Box display={["none", "none", "block"]} >
-                                        <SearchBar />
-                                    </Box>
-                                )}
-                            </Flex>
-                            {/* LARGE SCREEN ICONS */}
-
-                            {userId && (
-                                <HStack display={['none', 'flex']}>
-                                    {/* <CustomText fontWeight={"bold"} >{username}</CustomText> */}
-                                    <NotificationBar />
-
-                                </HStack>
-                            )}
-
-                            {/* SMALL SCREEN ICONS */}
-                            <HStack display={['flex', 'none']}>
-                                <Link href='/dashboard/chats'>
-                                    <Message color={THEME.COLORS.chasescrollBlue} size='30px' variant='Outline' />
-                                </Link>
-                                <NotificationBar />
-                                <LogoutCurve onClick={() => setShowModal(true)} color='red' size={'30px'} variant='Outline' />
-                            </HStack>
-
-                        </HStack>
-                    )}
-                </Box>
+                <DashboardNavbar pathname={pathname} userId={userId} openmodal={setShowModal} />
                 <Flex flex={1} w="full" h="full" pt={(!pathname?.includes("create_event") || !pathname?.includes("edit_draft") || !pathname?.includes("edit_event")) ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
                     {(!pathname?.includes("create_event") || !pathname?.includes("edit_draft") || !pathname?.includes("edit_event")) && (
                         <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']}>
