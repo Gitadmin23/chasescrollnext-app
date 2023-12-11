@@ -349,6 +349,78 @@ function CommunityInfo() {
 
           </VStack>
 
+          <VStack width='100%' height="auto" overflowY='auto' marginTop={'30px'}  paddingTop='20px' paddingX={['20px', '0px']}>
+
+
+              <VStack width={['100%', '100%']} height={'100%'} >
+
+                    {/* header */}
+                    <HStack overflow={'hidden'} width='100%' height='40px' bg='#F1F2F9' borderRadius={'25px'}>
+                      <VStack onClick={() => setMediaTab(1)} color={mediaTab === 1 ? 'white':'black'} height='100%' justifyContent={'center'} bg={mediaTab === 1 ? THEME.COLORS.chasescrollButtonBlue:'transparent'} flex='1'>
+                        <CustomText>Media</CustomText>
+                      </VStack>
+
+                      <VStack onClick={() => setMediaTab(2)} color={mediaTab === 2 ? 'white':'black'} height='100%' justifyContent={'center'} bg={mediaTab === 2 ? THEME.COLORS.chasescrollButtonBlue:'transparent'} flex='1'>
+                        <CustomText>Files</CustomText>
+                      </VStack>
+                    </HStack>
+
+                  <Box width='100%' overflowY={'auto'} maxHeight={'350px'}>
+
+                  {media().length > 0 && mediaTab === 1 && (
+                      <Grid width='100$' flex='1' templateColumns='repeat(3, 1fr)' gap={2}>
+                        {media().length > 0 && media().map((item, index) => {
+                          if (item.mediaRef !== null && item.mediaRef.length > 6) {
+                            const __format__ = item.mediaRef?.split('.');
+                          const format = __format__[__format__?.length -1];
+                          if (FILE_FORMATS.IMAGE_FORM.includes(format)) {
+                            return <GridItem  borderRadius={'5px'} overflow='hidden' width='100%' marginBottom='20px' height={'120px'} key={index.toString()}>
+                              { item.mediaRef.startsWith('https://') && <Image src={item.mediaRef} alt='image'  /> }
+                              { !item.mediaRef.startsWith('https://') && <Image src={`${IMAGE_URL}${item.mediaRef}`} alt='image'  /> }
+                            </GridItem>
+                          }
+
+                          if (FILE_FORMATS.VIDEO_FORM.includes(format)) {
+                            return <GridItem  borderRadius={'5px'} maxH={'150px'} overflow='hidden' width='100%' height={'125px'}  key={index.toString()}>
+                            <video controls style={{ width: '100%', height: '100%', maxHeight: '150px' }}>
+                              <source type='video/mp4' src={item.mediaRef} />
+                            </video>
+                          </GridItem>
+                          }
+                          }
+                        })}
+                      </Grid>
+                    )}
+
+                  {files().length > 0 && mediaTab === 2 && (
+                      <Grid width='100$' flex='1' templateColumns='repeat(3, 1fr)' gap={2}>
+                        {files().map((item, index) => {
+                          console.log(item.mediaRef);
+                          if (item?.mediaRef !== null && item?.mediaRef.length > 6) {
+                            const __format__ = item.mediaRef.split('.');
+                          const format = __format__[__format__.length -1];
+                            return (
+                              <GridItem bg='whitesmoke'  borderRadius={'5px'} overflow='hidden' width='100%' marginBottom='20px' height={'120px'} key={index.toString()}>
+                              <VStack justifyContent={'center'} width={'100%'} height='100%'>
+                                <FiDownloadCloud fontSize='25px' />
+                                <CustomText fontFamily={'DM-Bold'} fontSize={'30px'}>{format.toUpperCase()}</CustomText>
+                              </VStack>
+                            </GridItem>
+                            )
+                          }
+                        })}
+                      </Grid>
+                    )}
+
+
+                  </Box>
+
+
+            </VStack>
+
+
+        </VStack>
+
           {/* MEMBERS */}
           <Box width='100%' height={'330px'}  position={'relative'} zIndex={'10'}  marginTop={'30px'}  borderWidth={'1px'} borderRadius={'32px'} borderColor={'#D0D4EB'}>
 
@@ -410,11 +482,13 @@ function CommunityInfo() {
                       </>
                     ))}
 
-                    </Box>
 
                     { communityMembers.isLoading && <HStack width='100%' height='20px' justifyContent={'center'} alignItems={'center'}>
                       <Spinner />
                     </HStack>}
+
+                    </Box>
+
 
             </Box>
           </Box>
@@ -425,77 +499,7 @@ function CommunityInfo() {
 
         </VStack>
 
-        <VStack width='100%' height="auto" overflowY='auto' marginTop={'30px'}  paddingTop='20px' paddingX={['20px', '0px']}>
-
-
-              <VStack width={['100%', '35%']} height={'100%'} >
-
-                    {/* header */}
-                    <HStack overflow={'hidden'} width='100%' height='50px' bg='#F1F2F9' borderRadius={'25px'}>
-                      <VStack onClick={() => setMediaTab(1)} color={mediaTab === 1 ? 'white':'black'} height='100%' justifyContent={'center'} bg={mediaTab === 1 ? THEME.COLORS.chasescrollButtonBlue:'transparent'} flex='1'>
-                        <CustomText>Media</CustomText>
-                      </VStack>
-
-                      <VStack onClick={() => setMediaTab(2)} color={mediaTab === 2 ? 'white':'black'} height='100%' justifyContent={'center'} bg={mediaTab === 2 ? THEME.COLORS.chasescrollButtonBlue:'transparent'} flex='1'>
-                        <CustomText>Files</CustomText>
-                      </VStack>
-                    </HStack>
-
-                  <Box width='100%' overflowY={'auto'} height={'350px'}>
-
-                  {mediaTab === 1 && (
-                      <Grid width='100$' flex='1' templateColumns='repeat(3, 1fr)' gap={2}>
-                        {media().length > 0 && media().map((item, index) => {
-                          if (item.mediaRef !== null && item.mediaRef.length > 6) {
-                            const __format__ = item.mediaRef?.split('.');
-                          const format = __format__[__format__?.length -1];
-                          if (FILE_FORMATS.IMAGE_FORM.includes(format)) {
-                            return <GridItem  borderRadius={'5px'} overflow='hidden' width='100%' marginBottom='20px' height={'120px'} key={index.toString()}>
-                              { item.mediaRef.startsWith('https://') && <Image src={item.mediaRef} alt='image'  /> }
-                              { !item.mediaRef.startsWith('https://') && <Image src={`${IMAGE_URL}${item.mediaRef}`} alt='image'  /> }
-                            </GridItem>
-                          }
-
-                          if (FILE_FORMATS.VIDEO_FORM.includes(format)) {
-                            return <GridItem  borderRadius={'5px'} maxH={'150px'} overflow='hidden' width='100%' height={'125px'}  key={index.toString()}>
-                            <video controls style={{ width: '100%', height: '100%', maxHeight: '150px' }}>
-                              <source type='video/mp4' src={item.mediaRef} />
-                            </video>
-                          </GridItem>
-                          }
-                          }
-                        })}
-                      </Grid>
-                    )}
-
-                  {mediaTab === 2 && (
-                      <Grid width='100$' flex='1' templateColumns='repeat(3, 1fr)' gap={2}>
-                        {files().map((item, index) => {
-                          console.log(item.mediaRef);
-                          if (item?.mediaRef !== null && item?.mediaRef.length > 6) {
-                            const __format__ = item.mediaRef.split('.');
-                          const format = __format__[__format__.length -1];
-                            return (
-                              <GridItem bg='whitesmoke'  borderRadius={'5px'} overflow='hidden' width='100%' marginBottom='20px' height={'120px'} key={index.toString()}>
-                              <VStack justifyContent={'center'} width={'100%'} height='100%'>
-                                <FiDownloadCloud fontSize='25px' />
-                                <CustomText fontFamily={'DM-Bold'} fontSize={'30px'}>{format.toUpperCase()}</CustomText>
-                              </VStack>
-                            </GridItem>
-                            )
-                          }
-                        })}
-                      </Grid>
-                    )}
-
-
-                  </Box>
-
-
-            </VStack>
-
-
-        </VStack>
+        
 
         
     </Box>
