@@ -310,7 +310,7 @@ function CommunityInfo() {
             </Box>
 
             <CustomText fontFamily={'DM-Bold'} fontSize={'18px'} color="brand.chasescrollButtonBlue" textAlign={'center'}>{details?.data?.name}</CustomText>
-            <CustomText textAlign={'center'} fontFamily={'DM-Light'} fontSize={'14px'} color={'black'}>{members.length} Members</CustomText>
+            <CustomText textAlign={'center'} fontFamily={'DM-Light'} fontSize={'14px'} color={'black'}>{details?.data.memberCount} Members</CustomText>
 
             <InputGroup>
                     <InputLeftElement>
