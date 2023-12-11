@@ -84,7 +84,7 @@ function CommunityInfo() {
   }
   });
 
-  const communityMembers = useQuery(['getCommunityMembers', page?.id], () => httpService.get(`${URLS.GET_GROUP_MEMBERS}`, {
+  const communityMembers = useQuery(['getCommunityMembers', page?.id, pageP], () => httpService.get(`${URLS.GET_GROUP_MEMBERS}`, {
     params: {
       groupID: page?.id,
       page: pageP,
@@ -411,6 +411,10 @@ function CommunityInfo() {
                     ))}
 
                     </Box>
+
+                    { communityMembers.isLoading && <HStack width='100%' height='20px' justifyContent={'center'} alignItems={'center'}>
+                      <Spinner />
+                    </HStack>}
 
             </Box>
           </Box>
