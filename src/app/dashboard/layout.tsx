@@ -116,6 +116,11 @@ function Layout({ children }: {
             text: 'Events'
         },
         {
+            route: '/dashboard/report',
+            icon: <FiMessageCircle fontSize='30px' />,
+            text: 'Dashboard'
+        },
+        {
             route: '/dashboard/chats',
             icon: <FiMessageCircle fontSize='30px' />,
             text: 'Chats'

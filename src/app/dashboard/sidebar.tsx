@@ -1,5 +1,5 @@
 import CustomText from '@/components/general/Text';
-import { CalendarIcon, HomeIcon, MessageIcon, ProfileIcon2, SearchIcon, UsersIcon } from '@/components/svg';
+import { CalendarIcon, HomeIcon, MessageIcon, ProfileIcon2, SearchIcon, UsersIcon, DashboardIcon } from '@/components/svg';
 import { useDetails } from '@/global-state/useUserDetails';
 import { Box, Button, Flex, HStack, Link, Modal, ModalBody, ModalContent, ModalOverlay, VStack } from '@chakra-ui/react'; 
 import { usePathname, useRouter } from 'next/navigation';
@@ -64,6 +64,11 @@ function Sidebar() {
             icon: <CalendarIcon />,
             text: 'Event'
         },
+        // {
+        //     route: '/dashboard/report',
+        //     icon: <DashboardIcon />,
+        //     text: 'Dashboard'
+        // },
         {
             route: '/dashboard/chats',
             icon: <MessageIcon />,
