@@ -349,7 +349,7 @@ function CommunityInfo() {
 
           </VStack>
 
-          <VStack width='100%' height="auto" overflowY='auto' marginTop={'30px'}  paddingTop='20px' paddingX={['20px', '0px']}>
+          <VStack width='100%' height="auto" overflowY='auto' marginTop={'0px'}  paddingTop='20px' paddingX={['20px', '0px']}>
 
 
               <VStack width={['100%', '100%']} height={'100%'} >
@@ -483,8 +483,8 @@ function CommunityInfo() {
                     ))}
 
 
-                    { communityMembers.isLoading && <HStack width='100%' height='20px' justifyContent={'center'} alignItems={'center'}>
-                      <Spinner />
+                    { communityMembers.isLoading && <HStack width='100%' height='40px' justifyContent={'center'} alignItems={'center'}>
+                      <Spinner size='md' />
                     </HStack>}
 
                     </Box>
