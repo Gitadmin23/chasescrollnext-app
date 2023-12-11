@@ -21,17 +21,24 @@ import ShareEvent from '@/components/sharedComponent/share_event';
 import { useCommunityPageState } from '@/components/Community/chat/state';
 import { IoCamera } from 'react-icons/io5';
 import AWSHook from '@/hooks/awsHook';
+import { MessageIcon, ShareIcon } from '@/components/svg'
 
 
 function CommunityInfo() {
   const [details, setDetails] = React.useState<ICommunity|null>(null);
   const [members, setMembers] = React.useState<ICommunityMember[]>([]);
-  const [posts, setPosts] = React.useState<IMediaContent[]>([])
+  const [hasNextPage, setHasNextPage] = React.useState(false);
+  const [newIttem, setNew] = React.useState<IMediaContent[]>([]);
+  const [posts, setPosts] = React.useState<IMediaContent[]>([]);
   const [search, setSearch] = React.useState('');
   const [mediaTab, setMediaTab] = React.useState(1);
   const [showModal, setShowModal] = React.useState(false);
   const [img, setImg] = React.useState('');
   const [name, setName] = React.useState('');
+  const [pageP, setPage] = React.useState(0);
+
+
+
   const page = useParams();
   const router = useRouter();
   const toast = useToast();
@@ -39,6 +46,8 @@ function CommunityInfo() {
   const { userId } = useDetails((state)=> state);
   const queryClient = useQueryClient();
   const { uploadedFile, loading, fileUploadHandler } = AWSHook();
+  const intObserver = React.useRef<IntersectionObserver>();
+
 
   const { setAll } = useCommunityPageState((state) => state);
 
@@ -78,15 +87,27 @@ function CommunityInfo() {
   const communityMembers = useQuery(['getCommunityMembers', page?.id], () => httpService.get(`${URLS.GET_GROUP_MEMBERS}`, {
     params: {
       groupID: page?.id,
-      page: 0,
+      page: pageP,
     }
   }), {
   enabled: page?.id !== null,
   onSuccess: (data) => {
     const item: PaginatedResponse<ICommunityMember> = data.data;
     setMembers(prev => uniqBy([...prev, ...item.content], 'id'));
+    setHasNextPage(data.data.last ? false:true);
   }
   });
+
+  const lastChildRef = React.useCallback((post: any) => {
+    if (communityMembers.isLoading) return;
+    if (intObserver.current) intObserver.current.disconnect();
+    intObserver.current = new IntersectionObserver((posts) => {
+      if (posts[0].isIntersecting && hasNextPage) {
+        setPage(prev => prev + 1); 
+      }
+    });
+    if (post) intObserver.current.observe(post);
+   }, [communityMembers.isLoading, hasNextPage, setPage]);
 
   const updateGroup = useMutation({
     mutationFn: (data: any) => httpService.put(`${URLS.UPDATE_GROUP}`, data),
@@ -322,7 +343,7 @@ function CommunityInfo() {
           <HStack>
             { !admin && <SettingsChip  icon={<FiLogIn color={THEME.COLORS.chasescrollButtonBlue} />} text='Exit' action={() => leaveGroup.mutate()} isLoading={leaveGroup.isLoading} /> }
             { admin && <SettingsChip icon={<FiTrash2 color={THEME.COLORS.chasescrollButtonBlue} />} text='Delete' action={() =>deleteGroup.mutate()} isLoading={deleteGroup.isLoading} /> }
-            <SettingsChip icon={<ShareEvent type='COMMUNITY' id={page?.id} />} text='Share' action={() => {}} />
+            <SettingsChip icon={<ShareEvent showText={false} type='COMMUNITY' id={page?.id} />} text='Share' action={() => {}} />
             <SettingsChip icon={<FiSettings color={THEME.COLORS.chasescrollButtonBlue} />} text='Settings' action={() => {}} />
           </HStack>
 
@@ -384,7 +405,9 @@ function CommunityInfo() {
 
                     })
                     .map((item, index) => (
-                      <MemberCard member={item} key={index.toString()} isAdmin={false} />
+                      <>
+                        { index === users().length - 1 ? <MemberCard ref={lastChildRef} member={item} key={index.toString()} isAdmin={false} /> : <MemberCard member={item} key={index.toString()} isAdmin={false} /> }
+                      </>
                     ))}
 
                     </Box>

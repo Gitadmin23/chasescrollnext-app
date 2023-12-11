@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { ICommunityMember } from '@/models/Communitty'
 import { Box, HStack, VStack, Image } from '@chakra-ui/react'
 import React from 'react'
@@ -5,15 +6,15 @@ import CustomText from '../general/Text';
 import { IMAGE_URL } from '@/services/urls';
 import { THEME } from '@/theme';
 
-function MemberCard({
-    member,
-    isAdmin = false,
-}: {
+interface IProps {
     member: ICommunityMember,
     isAdmin: boolean;
-}) {
+}
+
+const MemberCard = React.forwardRef<HTMLDivElement, IProps>(({member, isAdmin}, ref) => {
+  
   return (
-    <HStack width={'100%'} height='60px' borderBottomWidth={'0.8px'} borderBottomColor={'lightgray'} justifyContent={'space-between'}>
+    <HStack ref={ref} width={'100%'} height='60px' borderBottomWidth={'0.8px'} borderBottomColor={'lightgray'} justifyContent={'space-between'}>
         <HStack>
                 <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
                     { member?.user.data?.imgMain.value === null && (
@@ -39,6 +40,6 @@ function MemberCard({
         { member.role === 'ADMIN' && <CustomText color={THEME.COLORS.chasescrollButtonBlue} fontFamily={'DM-Medium'} fontSize={'12px'}>Admin</CustomText>}
     </HStack>
   )
-}
+})
 
 export default MemberCard
