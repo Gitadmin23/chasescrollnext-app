@@ -60,6 +60,7 @@ function GetEventTicket(props: Props) {
             toast({
                 status: "error",
                 title: "Select Ticket Type",
+                position: 'top-right',
             });
         } else {
             if (!user_index) {
@@ -76,6 +77,7 @@ function GetEventTicket(props: Props) {
             toast({
                 status: "error",
                 title: error.response?.data,
+                position: 'top-right',
             });
         },
         onSuccess: (data) => {
