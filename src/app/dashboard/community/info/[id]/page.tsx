@@ -335,56 +335,60 @@ function CommunityInfo() {
                   <CustomText fontFamily={'DM-Light'} color={THEME.COLORS.chasescrollButtonBlue} >Members</CustomText>
                 </HStack>  
 
-            <Box paddingY={'30px'} width='100%' height={'100%'}  paddingX='10px' overflowY='scroll'>
+            <Box overflowY='hidden' width='100%' height={'100%'} paddingBottom='20px' borderRadius={'32px'}>
 
-              
+            <Box marginTop={'20px'} width='100%' height={'100%'}  paddingX='10px' overflowY='scroll' >
 
-                {admins().length > 0 && admins().filter((item) => {
-                  if (search === '') {
-                    return item;
-                  } else {
-                    if (item.user.firstName.toLowerCase().includes(search.toLowerCase()) || item.user.lastName.toLowerCase().includes(search.toLowerCase()) || item.user.username.toLowerCase().includes(search.toLowerCase())) {
-                      return item;
-                    }
-                  }
-                })
-                .sort((a, b) => {
-                  if (a.user.firstName.toLowerCase() < b.user.firstName.toLowerCase()) {
-                    return -1;
-                  }
-                  if (a.user.firstName.toLowerCase() > b.user.firstName.toLowerCase()) {
-                    return 1;
-                  }
-                  return 0;
-                
-                })
-                .map((item, index) => (
-                  <MemberCard member={item} key={index.toString()} isAdmin />
-                ))}
-                {users().length > 0 && users().filter((item) => {
-                  if (search === '') {
-                    return item;
-                  } else {
-                    if (item.user.firstName.toLowerCase().includes(search.toLowerCase()) || item.user.lastName.toLowerCase().includes(search.toLowerCase()) || item.user.username.toLowerCase().includes(search.toLowerCase())) {
-                      return item;
-                    }
-                  }
-                })
-                .sort((a, b) => {
-                  if (a.user.firstName.toLowerCase() < b.user.firstName.toLowerCase()) {
-                    return -1;
-                  }
-                  if (a.user.firstName.toLowerCase() > b.user.firstName.toLowerCase()) {
-                    return 1;
-                  }
-                  return 0;
-                
-                })
-                .map((item, index) => (
-                  <MemberCard member={item} key={index.toString()} isAdmin={false} />
-                ))}
+                                  
 
-              </Box>
+                    {admins().length > 0 && admins().filter((item) => {
+                      if (search === '') {
+                        return item;
+                      } else {
+                        if (item.user.firstName.toLowerCase().includes(search.toLowerCase()) || item.user.lastName.toLowerCase().includes(search.toLowerCase()) || item.user.username.toLowerCase().includes(search.toLowerCase())) {
+                          return item;
+                        }
+                      }
+                    })
+                    .sort((a, b) => {
+                      if (a.user.firstName.toLowerCase() < b.user.firstName.toLowerCase()) {
+                        return -1;
+                      }
+                      if (a.user.firstName.toLowerCase() > b.user.firstName.toLowerCase()) {
+                        return 1;
+                      }
+                      return 0;
+
+                    })
+                    .map((item, index) => (
+                      <MemberCard member={item} key={index.toString()} isAdmin />
+                    ))}
+                    {users().length > 0 && users().filter((item) => {
+                      if (search === '') {
+                        return item;
+                      } else {
+                        if (item.user.firstName.toLowerCase().includes(search.toLowerCase()) || item.user.lastName.toLowerCase().includes(search.toLowerCase()) || item.user.username.toLowerCase().includes(search.toLowerCase())) {
+                          return item;
+                        }
+                      }
+                    })
+                    .sort((a, b) => {
+                      if (a.user.firstName.toLowerCase() < b.user.firstName.toLowerCase()) {
+                        return -1;
+                      }
+                      if (a.user.firstName.toLowerCase() > b.user.firstName.toLowerCase()) {
+                        return 1;
+                      }
+                      return 0;
+
+                    })
+                    .map((item, index) => (
+                      <MemberCard member={item} key={index.toString()} isAdmin={false} />
+                    ))}
+
+                    </Box>
+
+            </Box>
           </Box>
 
           
