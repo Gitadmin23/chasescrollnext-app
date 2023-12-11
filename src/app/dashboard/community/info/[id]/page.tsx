@@ -234,7 +234,7 @@ function CommunityInfo() {
     })
   }
 
-  if (community.isLoading || communityMembers.isLoading ) {
+  if (community.isLoading ) {
     return (
       <VStack width='100%' height={'100%'} justifyContent={'center'} alignItems={'center'}>
         <Spinner />
