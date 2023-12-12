@@ -83,6 +83,7 @@ export const URLS = {
     SAVE_EVENT: '/events/save-event',
     GET_USER_FEED_DATA: '/feed/get-user-feed-data',
     UPDATE_GROUP: '/group/update-group',
+    GET_SUB_COMMENT_COUNT: '/feed/get-sub-comment-count',
     //GET_MEDIA_POST : "/feed/get-users-media-posts?userID="
 }
 

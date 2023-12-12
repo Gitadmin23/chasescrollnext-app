@@ -13,7 +13,7 @@ function Report() {
     <Box width='100%' height={'100%'} paddingX={['10px', '50px']} >
         
         <HStack width={'100%'} height={'100%'} justifyContent={'center'}>
-           <VStack width={['100%', '50%']} height={'100%'} >
+           <VStack width={['100%', '50%']} height={'100%'} bg='red' >
 
                  {/* HEADER SECTION */}
                 <HStack width='70%' height='40px' alignItems={'center'} justifyContent={'space-between'} >

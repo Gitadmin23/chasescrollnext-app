@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { Avatar, Box, Button, HStack, Input, Spinner, VStack, useToast, Image } from '@chakra-ui/react'
 import React from 'react'
 import CustomText from '../general/Text'
@@ -11,8 +12,10 @@ import httpService from '@/utils/httpService'
 import { Heart } from 'iconsax-react'
 import { handleLinks } from '../general/LinkExtractor'
 import { THEME } from '@/theme'
+import { error } from 'console'
+import _ from 'lodash'
 
-function SubCommentBox({ comment, id, commentID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data } }: Subcomment) {
+const SubCommentBox = React.forwardRef<HTMLDivElement, Subcomment>(({ comment, id, commentID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data } },ref) => {
     const [isLiked, setIsLiked] = React.useState(likeStatus);
     const { userId: myId } = useDetails((state) => state);
     const queryClient = useQueryClient();
@@ -45,7 +48,7 @@ function SubCommentBox({ comment, id, commentID, timeInMilliseconds, likeCount, 
     });
 
     return (
-        <>
+        <div ref={ref}>
             <HStack width='100%' justifyContent={'space-between'} alignItems={'center'} marginBottom={'20px'}>
 
                 <HStack>
@@ -91,23 +94,35 @@ function SubCommentBox({ comment, id, commentID, timeInMilliseconds, likeCount, 
                 <Heart variant={likeStatus === 'LIKED' ? 'Bold':'Outline'} cursor={'pointer'} style={{ alignSelf: 'flex-end' }} onClick={() => likeComment.mutate()} fontSize='20px' color={likeStatus === 'LIKED' ? 'red' : 'black'} />
             </HStack>
         
-        </>
+        </div>
     )
-}
+})
 
-function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data } }: IComment) {
+const CommentBox = React.forwardRef<HTMLDivElement, IComment>(({ comment, id, postID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data } }, ref) => {
     const [showReplies, setShowReplies] = React.useState(false);
     const [subComments, setSubComments] = React.useState<Subcomment[]>([]);
     const [reply, setReply] = React.useState('');
     const [page, setPage] = React.useState(0);
     const [liked, setLiked] = React.useState(likeStatus);
     const [showMore, setShowMore] = React.useState(false);
+    const [hasNextPage, setHasNextPage] = React.useState(false);
 
     const toast = useToast();
+    const intObserver = React.useRef<IntersectionObserver>();
+
     const { userId: myId } = useDetails((state) => state);
     console.log('myId', myId);
     console.log(`userId - ${userId}`)
     const queryClient = useQueryClient();
+
+    const getSubCount = useQuery([`getSubCount-${id}`, id], () => httpService.get(`${URLS.GET_SUB_COMMENT_COUNT}/${id}`), {
+        onSuccess: (data) => {
+            console.log(data.data);
+        },
+        onError:(error) => {
+            console.log(error)
+        }
+    })
 
     // mutate
     const createSubComment = useMutation({
@@ -169,14 +184,26 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
     }), {
         enabled: true,
         onSuccess: (data) => {
-            setSubComments(data?.data?.content);
+            setSubComments(_.uniq([ ...subComments, ...data?.data?.content]));
+            setHasNextPage(data.data.last ? false:true);
         },
         onError: (erroor: any) => {}
     });
 
+    const lastChildRef = React.useCallback((post: any) => {
+        if (isLoading) return;
+        if (intObserver.current) intObserver.current.disconnect();
+        intObserver.current = new IntersectionObserver((posts) => {
+          if (posts[0].isIntersecting && hasNextPage) {
+            setPage(prev => prev + 1); 
+          }
+        });
+        if (post) intObserver.current.observe(post);
+       }, [isLoading, hasNextPage, setPage]);
+
     const handleKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
         console.log(e.key);
-        if (e.key === 'Enter' && reply.length > 3) {
+        if (e.key === 'Enter' && reply.length > 0) {
             const obj = {
                 commentID: id,
                 comment: reply
@@ -186,7 +213,7 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
     }, [reply, id, createSubComment])
     return (
         <>
-            <HStack width='100%' justifyContent={'space-between'} alignItems={'center'} marginBottom={'20px'} marginRight={['20px', '20px']}>
+            <HStack ref={ref} width='100%' justifyContent={'space-between'} alignItems={'center'} marginBottom={'20px'} marginRight={['20px', '20px']}>
 
                 <HStack flex={1} alignItems={'flex-start'}>
 
@@ -264,23 +291,25 @@ function CommentBox({ comment, id, postID, timeInMilliseconds, likeCount, likeSt
                                     </VStack>
                                 )
                             }
+                            { !isError && subComments.length > 0 && subComments.map((item, index) => (
+                                <>
+                                    { index === subComments.length - 1 ? <SubCommentBox ref={lastChildRef} {...item} key={index.toString()} />:<SubCommentBox {...item} key={index.toString()} /> }
+                                </>
+                            ))}
                             {
                                 isLoading && (
                                     <VStack width='100%' height={'50px'} justifyContent={'center'} alignItems={'center'}>
-                                        <Spinner color='blue' colorScheme='blue' size={'md'} />
+                                        <Spinner color='blue' colorScheme='blue' size={'sm'} />
                                         <CustomText fontFamily={'Satoshi-Regular'}>Loading subcomments</CustomText>
                                     </VStack>
                                 )
                             }
-                            { !isLoading && !isError && subComments.length > 0 && subComments.map((item, index) => (
-                                <SubCommentBox {...item} key={index.toString()} />
-                            ))}
                         </Box>
                     </VStack>
                 )
             }
         </>
     )
-}
+})
 
 export default CommentBox
