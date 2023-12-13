@@ -24,6 +24,7 @@ import StripePopup from './event_modal/stripe_btn/stripe_popup'
 import useStripeStore from '@/global-state/useStripeState'
 import { loadStripe } from '@stripe/stripe-js'
 import BlurredImage from '../sharedComponent/blurred_image'
+import { useDetails } from '@/global-state/useUserDetails'
 
 interface Props {
     dynamic?: boolean
@@ -81,10 +82,20 @@ function EventDetails(props: Props) {
     const [selectedCategory, setSelectedCategory] = useState({} as any)
     const router = useRouter()
 
+    const { userId, email } = useDetails((state) => state);
+
+    const clickHander =()=> {
+        if(!email && !userId){
+            router.push("/")
+        } else {
+            router.back()
+        }
+    }
+
     return (
         <Box width={"full"} display={"flex"} flexDirection={"column"} pt={["6", "6", "0"]} position={"relative"} paddingBottom={"12"} >
             <Flex width={"full"} alignItems={"start"} justifyContent={"center"} >
-                <Box as='button' display={"flex"} onClick={() => router.back()} px={"3"} mt={"20px"} ml={"-30px"} justifyContent={"center"} alignItems={"center"} zIndex={"20"} >
+                <Box as='button' display={"flex"} onClick={() => clickHander()} px={"3"} mt={"20px"} ml={(!email && !userId) ? "0px" : "-30px"} justifyContent={"center"} alignItems={"center"} zIndex={"20"} >
                     <BsChevronLeft color={"black"} size={"25px"} />
                 </Box>
 

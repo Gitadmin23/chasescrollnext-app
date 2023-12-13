@@ -63,9 +63,9 @@ function Layout({ children }: {
 
     const { username, lastName, firstName, userId, setAll, user } = useDetails((state) => state);
 
-    const {isLoading} = useQuery(['getDetails', id], () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`), {
+    const { isLoading } = useQuery(['getDetails', id], () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`), {
         // enabled: id !== null,
-        onSuccess: (data) => { 
+        onSuccess: (data) => {
             setAll({
                 user: data?.data,
                 userId: data?.data?.userId,
@@ -76,7 +76,7 @@ function Layout({ children }: {
                 username: data?.data?.username,
             });
         },
-        onError: (error) => { 
+        onError: (error) => {
             toast({
                 title: 'Error',
                 description: 'An error occured while updating your profile',
@@ -84,7 +84,7 @@ function Layout({ children }: {
                 position: 'top-right',
                 isClosable: true,
                 duration: 3000,
-            }); 
+            });
             router.push('/auth');
         },
     });
@@ -169,14 +169,16 @@ function Layout({ children }: {
             </Modal>
 
             <Grid h="100vh" w={"full"} overflowY={"hidden"} >
-                <DashboardNavbar pathname={pathname} userId={userId} openmodal={setShowModal} />
+                <Flex w={"full"} position={"sticky"} zIndex={"30"} top={"0px"} >
+                    <DashboardNavbar pathname={pathname} userId={userId} openmodal={setShowModal} />
+                </Flex>
                 <Flex flex={1} w="full" h="full" pt={(!pathname?.includes("create_event") || !pathname?.includes("edit_draft") || !pathname?.includes("edit_event")) ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
                     {(!pathname?.includes("create_event") || !pathname?.includes("edit_draft") || !pathname?.includes("edit_event")) && (
                         <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']}>
                             <Sidebar />
                         </Box>
                     )}
-                    <LoadingAnimation loading={isLoading || !firstName} > 
+                    <LoadingAnimation loading={isLoading || !firstName} >
                         {children}
                     </LoadingAnimation>
                 </Flex>

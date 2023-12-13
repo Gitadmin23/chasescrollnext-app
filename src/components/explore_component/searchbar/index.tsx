@@ -4,10 +4,14 @@ import { InputGroup, InputLeftElement, Input, Box } from '@chakra-ui/react'
 import React from 'react'
 import { IoSearchOutline } from 'react-icons/io5'
 
-interface Props { }
+interface Props { 
+    home?: boolean
+}
 
 function SearchBar(props: Props) {
-    const { } = props
+    const { 
+        home
+    } = props
 
     const { search, setSearchValue } = useSearchStore((state) => state);
     const [value, setValue] = React.useState("")
@@ -22,7 +26,7 @@ function SearchBar(props: Props) {
             </InputGroup>
             {search && (
                 <Box width={"full"} zIndex={"20"} position={"absolute"} mt={"2"} >
-                    <SearchComponent />
+                    <SearchComponent home={home} />
                 </Box>
             )} 
             {search && (
