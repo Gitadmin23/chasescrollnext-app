@@ -65,7 +65,7 @@ function Terms(props: Props) {
             <span className=" font-bold text-lg " >4 Chasescroll Rules for Users</span><br />
             Accessing the Chasescroll site means that you have accepted the following terms and conditions;
             <br />
-            4.1.1 You may download and use the Chasescroll application ("Chasescroll app") only for your own use. You must read these Terms and Conditions; and by clicking on the "I Accept" button while installing, downloading, and/or using the Site/App. You agree to the terms and conditions of this Agreement.
+            {`4.1.1 You may download and use the Chasescroll application ("Chasescroll app") only for your own use. You must read these Terms and Conditions; and by clicking on the "I Accept" button while installing, downloading, and/or using the Site/App. You agree to the terms and conditions of this Agreement.`}
             <br />
             4.1.2 Accessing, downloading, installing, using or copying of the Chasescroll app by you or a third-party on your behalf indicates your agreement to be bound by these Terms and Conditions. If you do not agree to these Terms and Conditions, do not access, download, install, use, or copy the Chasescroll app. In the absence of this Agreement, you have no rights.
             <br />
@@ -101,7 +101,7 @@ function Terms(props: Props) {
             <br />
             6 User Submissions
             <br />
-            11.1 You agree that you are above 18 years old. You agree to share your number for verification and checking your favorites from contacts purposes. You agree that any material, information, or other communication relating to the Site/App, including all data and other things embodied therein, that you transmit will be considered non-confidential ("Communications").
+            {`11.1 You agree that you are above 18 years old. You agree to share your number for verification and checking your favorites from contacts purposes. You agree that any material, information, or other communication relating to the Site/App, including all data and other things embodied therein, that you transmit will be considered non-confidential ("Communications").`}
             <br />
             11.2 Chasescroll will have no confidentiality obligations with respect to the Communications. You agree that Chasescroll and its designees will be free to copy, modify, create derivative works, publicly display, disclose, distribute, license and sublicense through multiple tiers of distribution and incorporate and otherwise use the Communications, including derivative works thereto, for any and all commercial or non-commercial purposes without compensation or other obligation and that Chasescroll is the sole and exclusive owner of any and all such modifications and derivative works.
             <br />

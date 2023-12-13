@@ -23,7 +23,7 @@ const Header = ({ data }: any) => {
         const words = item.title.split(" ");
         const subtext = item.text.split(" "); 
         return (
-          <div className=" w-full relative " >
+          <div key={index} className=" w-full relative " >
             <div className=" flex flex-col lg:flex-row justify-between gap-y-4 items-center lg:items-center lg:py-4 w-full">
               <div className="w-full max-w-[648px] flex flex-col gap-9 text-center lg:text-left items-center lg:items-start ">
                 <h1 className=" text-3xl lg:text-[54px] font-bold leading-[126.7%] ">

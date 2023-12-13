@@ -31,7 +31,7 @@ const Footer = () => {
           text: string,
           text1: string
         }, index: number) => (
-          <div className="rounded-xl w-full relative">
+          <div key={index} className="rounded-xl w-full relative">
             <img
               data-aos="fade-up"
               src={item.img}
