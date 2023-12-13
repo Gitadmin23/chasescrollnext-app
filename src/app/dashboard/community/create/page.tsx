@@ -151,9 +151,11 @@ function CreateCommunity() {
     }
 
     return renderForm(
-        <VStack width='100%' height='100%' overflow={'hidden'} padding={['20px', '0px']} >
+        <Box width='100%' height='100%' overflowX={'hidden'} overflowY={'auto'} >
 
-            <VStack width={['100%', '40%']}>
+            <VStack width='100%' height='100%'  paddingX={['20px', '0px']} paddingBottom={'50px'}>
+
+            <VStack width={['100%', '40%']} height={'auto'} marginBottom={'20px'}>
 
                 <input hidden type='file' accept='image/*' ref={inputRef as any} onChange={(e) => handleFilePicked(e.target.files as FileList)} />
                 <HStack width='100%' height={'60px'} justifyContent={'flex-start'} alignItems={'center'}>
@@ -194,9 +196,11 @@ function CreateCommunity() {
 
                 <Button type='submit' marginTop={'20px'} variant={'solid'} bg={'brand.chasescrollButtonBlue'} isLoading={uploadImage.isLoading || createCommunity.isLoading} width='100%' borderRadius={'10px'} color='white' > Submit</Button>
 
+                </VStack>
+
             </VStack>
 
-        </VStack>
+        </Box>
     )
 }
 
