@@ -56,7 +56,10 @@ function GetEventTicket(props: Props) {
 
     const clickHandler = (event: any) => {
         event.stopPropagation();
-        if (!selectedTicket?.ticketType) {
+        if(isBought){ 
+            setModalTab(carousel ? 6 : isBought ? 5 : 1)
+            setShowModal(true)        
+        } else if (!selectedTicket?.ticketType) {
             toast({
                 status: "error",
                 title: "Please Select Ticket Type",
