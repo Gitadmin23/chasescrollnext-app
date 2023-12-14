@@ -21,6 +21,11 @@ import httpServiceGoogle from '@/utils/httpServiceGoogle';
 
 const LINK2 = [
   {
+    name: "Events",
+    link: "/",
+    isExternal: true
+  },
+  {
     name: "Sign in",
     link: "/",
     isExternal: false
