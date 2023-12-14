@@ -3,11 +3,12 @@ import SearchBar from '@/components/explore_component/searchbar'
 import CustomText from '@/components/general/Text'
 import NotificationBar from '@/components/navbar/notification'
 import { THEME } from '@/theme'
-import { Box, Flex, HStack, Image, Link, Text } from '@chakra-ui/react'
+import { Box, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerOverlay, Flex, HStack, Image, Link, Text, useDisclosure } from '@chakra-ui/react'
 import { Message, LogoutCurve } from 'iconsax-react'
 import { useRouter } from 'next/navigation'
 import router from 'next/router'
 import React, { useEffect, useState } from 'react'
+import { Icon } from "@iconify/react"; 
 
 interface Props {
     pathname: string | null,
@@ -30,10 +31,12 @@ function DashboardNavbar(props: Props) {
         router.push(item)
     }
 
-    const [pathname, setPathname] = useState(window.location.pathname+"")
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [pathname, setPathname] = useState(window.location.pathname + "")
 
     useEffect(() => {
-        setPathname(window.location.pathname+"")
+        setPathname(window.location.pathname + "")
     }, [router])
 
     return (
@@ -73,23 +76,110 @@ function DashboardNavbar(props: Props) {
                             <NotificationBar />
                             <LogoutCurve onClick={() => openmodal(true)} color='red' size={'30px'} variant='Outline' />
                         </HStack>
-                    )} 
+                    )}
 
                     {home && (
-                        <Flex alignItems={"center"} gap={"7"} >
+                        <Flex display={['none', "none", "none", "none", 'flex']} alignItems={"center"} gap={"7"} >
                             <Text as={"button"} onClick={() => clickHandler("/")} color={pathname === "/" ? "brand.chasescrollBlue" : "black"} >Event</Text>
                             <Text as={"button"} onClick={() => clickHandler("/home")} color={pathname === "/home" ? "brand.chasescrollBlue" : "black"} >Home</Text>
                             <Text as={"button"} onClick={() => clickHandler("/home/about")} color={pathname === "/home/about" ? "brand.chasescrollBlue" : "black"} >About us</Text>
-                            {/* <Text as={"button"} onClick={() => clickHandler("/home/privacy_poilcy")} color={pathname === "/home/privacy_poilcy" ? "brand.chasescrollBlue" : "black"} >Policy</Text>
-                            <Text as={"button"} onClick={() => clickHandler("/home/terms")} color={pathname === "/home/terms" ? "brand.chasescrollBlue" : "black"} >Terms & Condition</Text>
-                            <Text as={"button"} onClick={() => clickHandler("/home/contact")} color={pathname === "/home/contact" ? "brand.chasescrollBlue" : "black"} >Contact us</Text> */}
-                            <Flex ml={"6"} gap={"5"}> 
+                            <Flex ml={"6"} gap={"5"}>
                                 <ButtonGroup white ctaText="Login" url={"/auth"} />
                                 <ButtonGroup blue ctaText="Get Started" url={"h/auth/signup"} />
                             </Flex>
                         </Flex>
                     )}
 
+                    {home && (
+                        <Flex onClick={()=> onOpen()} as={"button"} display={['flex', 'flex','flex','flex','none']}> 
+                            <Icon className="text-2xl" icon="mdi:hamburger-menu" />
+                        </Flex>
+                    )}
+
+                    <Drawer
+                        isOpen={isOpen}
+                        placement='right'
+                        size={"sm"}
+                        onClose={onClose}
+                    >
+                        <DrawerOverlay />
+                        <DrawerContent bg={"white"} >
+                            <DrawerCloseButton />
+
+                            <DrawerBody >
+
+                                <Flex pt={"20"} flexDir={"column"} alignItems={"center"} justifyContent={"start"} w={"full"} gap={"8"} fontSize={"lg"} >
+
+                                    <Text as={"button"} onClick={() => clickHandler("/")} color={pathname === "/" ? "brand.chasescrollBlue" : "black"} >Event</Text>
+                                    <Text as={"button"} onClick={() => clickHandler("/home")} color={pathname === "/home" ? "brand.chasescrollBlue" : "black"} >Home</Text>
+                                    <Text as={"button"} onClick={() => clickHandler("/home/about")} color={pathname === "/home/about" ? "brand.chasescrollBlue" : "black"} >About us</Text>
+                                    <Text as={"button"} onClick={() => clickHandler("/home/privacy_poilcy")} color={pathname === "/home/privacy_poilcy" ? "brand.chasescrollBlue" : "black"} >Policy</Text>
+                                    <Text as={"button"} onClick={() => clickHandler("/home/terms")} color={pathname === "/home/terms" ? "brand.chasescrollBlue" : "black"} >Terms & Condition</Text>
+                                    <Text as={"button"} onClick={() => clickHandler("/home/contact")} color={pathname === "/home/contact" ? "brand.chasescrollBlue" : "black"} >Contact us</Text>
+                                </Flex>
+                                {/* <ul className="mt-20 flex flex-col items-center justify-start w-full gap-8 text-lg">
+
+                                    <div role="button"
+                                        onClick={onClose}>
+
+                                        <CustomLink path="/" transparent={false} isScrolled={false}>
+                                            Event
+                                        </CustomLink>
+                                    </div>
+                                    <div role="button"
+                                        onClick={onClose}>
+
+                                        <CustomLink path="/home" transparent={false} isScrolled={false}>
+                                            Home
+                                        </CustomLink>
+                                    </div>
+                                    <div role="button"
+                                        onClick={onClose}>
+
+                                        <CustomLink
+                                            path="/home/about"
+                                            transparent={false}
+                                            isScrolled={false}
+                                        >
+                                            About us
+                                        </CustomLink>
+                                    </div>
+                                    <div role="button"
+                                        onClick={onClose}>
+                                        <CustomLink path="/home/privacy_poilcy"
+                                            onClick={onClose} transparent={false} isScrolled={false}>
+                                            Policy
+                                        </CustomLink>
+                                    </div>
+                                    <div role="button"
+                                        onClick={onClose}>
+                                        <CustomLink path="/home/terms"
+                                            onClick={onClose} transparent={false} isScrolled={false}>
+                                            Terms & Condition
+                                        </CustomLink>
+                                    </div>
+                                    <div role="button"
+                                        onClick={onClose}>
+                                        <CustomLink
+                                            path="/home/contact"
+                                            onClick={onClose}
+                                            transparent={false}
+                                            isScrolled={false}
+                                        >
+                                            Contact us
+                                        </CustomLink>
+                                    </div>
+                                </ul> */}
+                            </DrawerBody>
+
+                            <DrawerFooter gap={"5"} >
+                                <ButtonGroup white
+                                    onClick={onClose} ctaText="Login" url={"https://app.chasescroll.com/auth"} />
+                                <ButtonGroup blue
+                                    onClick={onClose} ctaText="Get Started" url={"https://app.chasescroll.com/auth/signup"} />
+                            </DrawerFooter>
+                        </DrawerContent>
+                    </Drawer>
                 </HStack>
             )}
         </Box>
