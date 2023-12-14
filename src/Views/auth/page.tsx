@@ -32,27 +32,27 @@ const LINK2 = [
   },
   {
     name: "Home",
-    link: "https://chasescroll.com/",
+    link: "/home",
     isExternal: true
   },
   {
     name: "About us",
-    link: "https://chasescroll.com/about",
+    link: "/home/about",
     isExternal: true
   },
   {
     name: "Policy",
-    link: "https://chasescroll.com/privacy-poilcy",
+    link: "/home/privacy-poilcy",
     isExternal: true
   },
   {
     name: "Terms and conditions",
-    link: "https://chasescroll.com/terms",
+    link: "/home/terms",
     isExternal: true
   },
   {
     name: "Contact us",
-    link: "https://chasescroll.com/contact",
+    link: "/home/contact",
     isExternal: true
   },
 ]
