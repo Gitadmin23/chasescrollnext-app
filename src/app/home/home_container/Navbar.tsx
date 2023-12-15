@@ -110,7 +110,7 @@ const Navbar = () => {
         </div>
         <div className="hidden lg:flex gap-4">
           <ButtonGroup white ctaText="Login" url={"/auth"} />
-          <ButtonGroup blue ctaText="Get Started" url={"h/auth/signup"} />
+          <ButtonGroup blue ctaText="Get Started" url={"/auth/signup"} />
         </div>
         {/* Hamburger Menu */}
         <div className="flex lg:hidden">
@@ -197,9 +197,9 @@ const Navbar = () => {
 
               <DrawerFooter gap={"5"} >
                 <ButtonGroup white
-                  onClick={onClose} ctaText="Login" url={"https://app.chasescroll.com/auth"} />
+                  onClick={onClose} ctaText="Login" url={"/auth"} />
                 <ButtonGroup blue
-                  onClick={onClose} ctaText="Get Started" url={"https://app.chasescroll.com/auth/signup"} />
+                  onClick={onClose} ctaText="Get Started" url={"/auth/signup"} />
               </DrawerFooter>
             </DrawerContent>
           </Drawer>

@@ -85,7 +85,7 @@ function DashboardNavbar(props: Props) {
                             <Text as={"button"} onClick={() => clickHandler("/home/about")} color={pathname === "/home/about" ? "brand.chasescrollBlue" : "black"} >About us</Text>
                             <Flex ml={"6"} gap={"5"}>
                                 <ButtonGroup white ctaText="Login" url={"/auth"} />
-                                <ButtonGroup blue ctaText="Get Started" url={"h/auth/signup"} />
+                                <ButtonGroup blue ctaText="Get Started" url={"/auth/signup"} />
                             </Flex>
                         </Flex>
                     )}
@@ -174,9 +174,9 @@ function DashboardNavbar(props: Props) {
 
                             <DrawerFooter gap={"5"} >
                                 <ButtonGroup white
-                                    onClick={onClose} ctaText="Login" url={"https://app.chasescroll.com/auth"} />
+                                    onClick={onClose} ctaText="Login" url={"/auth"} />
                                 <ButtonGroup blue
-                                    onClick={onClose} ctaText="Get Started" url={"https://app.chasescroll.com/auth/signup"} />
+                                    onClick={onClose} ctaText="Get Started" url={"/auth/signup"} />
                             </DrawerFooter>
                         </DrawerContent>
                     </Drawer>
