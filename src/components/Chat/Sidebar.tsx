@@ -84,13 +84,12 @@ function Sidebar() {
         
         onSuccess: (data) => {
             const item: string[] = data.data;
-            console.log(item);
             setOnlineUsers(prev =>  uniq(item.filter((item) => !chatsIds.includes(item)) ));
         },
         onError: (error) => { },
     }) 
     
-    const { isLoading, isError, } = useQuery(['getChats', userId], () => httpService.get(`${URLS.GET_CHATS}`, {
+    const { isLoading, isError, } = useQuery(['getChats', userId, debounceValue], () => httpService.get(`${URLS.GET_CHATS}`, {
         params: {
             page: 0,
             searchText: debounceValue,
@@ -163,7 +162,7 @@ function Sidebar() {
                     <InputLeftElement>
                         <SearchNormal1 size='25px' color={THEME.COLORS.chasescrollButtonBlue} />
                     </InputLeftElement>
-                    <Input width='100%' height={'45px'} placeholder='search message' borderRadius={'10'} borderWidth={'1px'} borderColor={'lightgrey'} bg='whitesmoke' />
+                    <Input value={search} onChange={(e) => setSearch(e.target.value)} width='100%' height={'45px'} placeholder='search message' borderRadius={'10'} borderWidth={'1px'} borderColor={'lightgrey'} bg='whitesmoke' />
                 </InputGroup>
             </VStack>
 
