@@ -169,7 +169,7 @@ function Layout({ children }: {
             </Modal>
 
             <Grid h="100vh" w={"full"} overflowY={"hidden"} >
-                <Flex w={"full"} position={"sticky"} zIndex={"30"} top={"0px"} >
+                <Flex w={"full"} position={"absolute"} zIndex={"30"} top={"0px"} >
                     <DashboardNavbar pathname={pathname} userId={userId} openmodal={setShowModal} />
                 </Flex>
                 <Flex flex={1} w="full" h="full" pt={(!pathname?.includes("create_event") || !pathname?.includes("edit_draft") || !pathname?.includes("edit_event")) ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
