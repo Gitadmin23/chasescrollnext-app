@@ -11,11 +11,13 @@ import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
 import { useDetails } from '@/global-state/useUserDetails';
 import { useRouter } from 'next/navigation'
+import PromotionCreationModal from '@/components/modals/promotions/CreatePromitionModal';
 
 function CreateCommunity() {
     const [file, setFile] = React.useState<File | null>(null);
     const [url, setUrl] = React.useState('');
     const [isPublic, setIsPublic] = React.useState(true);
+    const [showModal,setShowModal]= React.useState(false)
     const obj = React.useRef<{ name: string, description: string } | null>(null);
 
     const { userId, email, } = useDetails((state) => state);
@@ -45,7 +47,8 @@ function CreateCommunity() {
             });
             setUrl('');
             setFile(null);
-            router.back()
+            setShowModal(true);
+            
         },
         onError: (error) => {
             toast({
@@ -152,6 +155,9 @@ function CreateCommunity() {
 
     return renderForm(
         <Box width='100%' height='100%' overflowX={'hidden'} overflowY={'auto'} >
+
+            {/* MODAL */}
+            <PromotionCreationModal isOpen={showModal} onClose={() => {setShowModal(false); router.back();}} type='COMMUNITY'  />
 
             <VStack width='100%' height='100%'  paddingX={['20px', '0px']} paddingBottom={'50px'}>
 

@@ -2,6 +2,7 @@
 import TabOne from '@/components/Report/TabOne';
 import TabTwo from '@/components/Report/TabTwo';
 import CustomText from '@/components/general/Text';
+import PromotionCreationModal from '@/components/modals/promotions/CreatePromitionModal';
 import { Box, HStack, VStack } from '@chakra-ui/react';
 import React from 'react'
 import { FiX } from 'react-icons/fi';
@@ -13,7 +14,7 @@ function Report() {
     <Box width='100%' height={'100%'} paddingX={['10px', '50px']} >
         
         <HStack width={'100%'} height={'100%'} justifyContent={'center'}>
-           <VStack width={['100%', '50%']} height={'100%'} bg='red' >
+           <VStack width={['100%', '50%']} height={'100%'} >
 
                  {/* HEADER SECTION */}
                 <HStack width='70%' height='40px' alignItems={'center'} justifyContent={'space-between'} >
