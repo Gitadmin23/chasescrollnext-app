@@ -13,19 +13,17 @@ function Success({ onClose, handleStage }: {
       <CustomText fontFamily={'DM-Medium'} fontSize={'24px'} color='black'>Post Created Successfully!</CustomText>
       <CustomText textAlign={'center'} fontFamily={'DM-Regular'} fontSize={'16px'} color={'grey'}>
         Congratulations! Your Post has been created
-        successfully. Would you like to promote your Post
-        and reach a larger audience?
-        Click the promote button below.
+        successfully.
       </CustomText>
 
-      <Button variant={'solid'} height={'50px'} borderRadius={'25px'} bg="#5D70F9" color='white' fontFamily={'DM-Medium'}>
+      {/* <Button variant={'solid'} height={'50px'} borderRadius={'25px'} bg="#5D70F9" color='white' fontFamily={'DM-Medium'}>
         Promote Your Post
-      </Button>
+      </Button> */}
 
       <Button onClick={() => {
         handleStage(1);
         onClose()
-      }} variant={'ghost'} color={'brand.chasescrollButtonBlue'}>Not Now</Button>
+      }} variant={'ghost'} color={'brand.chasescrollButtonBlue'}>Done</Button>
     </VStack>
   )
 }
