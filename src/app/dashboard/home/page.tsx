@@ -16,6 +16,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Heart, MessageAdd, Share, DocumentDownload, Send2, Image as ImgIcon } from 'iconsax-react';
 import { IUser } from '@/models/User';
 import ImageModal from '@/components/general/ImageModal';
+import PromotionCreationModal from '@/components/modals/promotions/CreatePromitionModal';
+import { useShowHomeModal } from './state';
 
 
 
@@ -26,6 +28,7 @@ function Home() {
   const [hasNextPage, setHasNextPage] = React.useState(false);
   const [newIttem, setNew] = React.useState<IMediaContent[]>([]);
   const [showModal, setShowModal] = React.useState(false);
+  const { showModal: showPromotion, setShowModal: setShow} = useShowHomeModal((state) => state);
 
   const { firstName, lastName, userId, username, user: Details } = useDetails((state) => state);
   console.log(Details);
@@ -94,6 +97,7 @@ function Home() {
       });
       setPost('');
       mutate();
+      setShow(true);
     },
     onError: () => {
       toast({
@@ -121,6 +125,7 @@ function Home() {
     <VStack width="full" h={"full"} overflowY={"auto"} alignItems={'flex-start'} >
       {/* MODAL */}
       <CreateMediaPost mutate={mutate} isOpen={showModal} onClose={() => setShowModal(false)} />
+      <PromotionCreationModal isOpen={showPromotion} onClose={() => setShow(false)} type='POST' />
 
       <VStack width={['100%', '100%', '40%', '40%']} height='180px'  paddingTop='20px' paddingLeft={'20px'} paddingRight={['20px', '0px']} overflowY={'hidden'}>
 
@@ -156,7 +161,7 @@ function Home() {
           </HStack>
         </VStack>
        
-      </VStack>
+      P</VStack>
 
           <Box flex='1' width={'full'} height={'full'} overflow={'auto'} paddingX='20px' paddingTop='0px'>
 

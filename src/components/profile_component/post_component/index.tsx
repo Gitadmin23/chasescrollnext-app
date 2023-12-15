@@ -28,7 +28,7 @@ function PostThreads(props: Props) {
     const { setAll, typeID, open } = useLocalModalState((state) => state);
     const intObserver = React.useRef<IntersectionObserver>();
 
-    const { isLoading, isError, refetch } = useQuery(['getPosts', page], () => httpService.get(`${URLS.GET_MEDIA_POST}${user_index}`, {
+    const { isLoading, isError, refetch } = useQuery(['getUsersPosts', page], () => httpService.get(`${URLS.GET_MEDIA_POST}${user_index}`, {
         params: {
           page,
         }
