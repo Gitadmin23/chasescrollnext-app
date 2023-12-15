@@ -97,7 +97,7 @@ function Home() {
       });
       setPost('');
       mutate();
-      setShow(true);
+      // setShow(true);
     },
     onError: () => {
       toast({
