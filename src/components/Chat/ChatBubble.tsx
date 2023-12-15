@@ -19,6 +19,7 @@ import { useChatPageState } from './state';
 import { PaginatedResponse } from '@/models/PaginatedResponse';
 import { useImageModalState } from '../general/ImageModal/imageModalState';
 import UserImage from '../sharedComponent/userimage';
+import { formatTimeAgo } from '@/utils/helpers';
 
 interface IProps {
     message: ChatMessage;
@@ -136,7 +137,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                     {/* { !self && (
                         <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{post?.createdBy?.username[0]?.toUpperCase()}{post?.createdBy?.username.substring(1, post?.createdBy?.username.length)}</CustomText>
                     )} */}
-                    <CustomText color={self ? 'black':'white'} fontFamily={'DM-Medium'} fontSize={'12px'}>{moment(post?.createdDate).format('HH:MM')}</CustomText>
+                    <CustomText color={self ? 'black':'white'} fontFamily={'DM-Medium'} fontSize={'12px'}>{formatTimeAgo(post?.createdDate)}</CustomText>
                    {!self && (
                      <HStack spacing={0}>
                         <FiCheck fontSize='16px' color={'white'} />
