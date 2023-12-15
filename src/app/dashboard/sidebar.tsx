@@ -64,11 +64,11 @@ function Sidebar() {
             icon: <CalendarIcon />,
             text: 'Event'
         },
-        {
-            route: '/dashboard/promotions',
-            icon: <DashboardIcon />,
-            text: 'Dashboard'
-        },
+        // {
+        //     route: '/dashboard/promotions',
+        //     icon: <DashboardIcon />,
+        //     text: 'Dashboard'
+        // },
         {
             route: '/dashboard/chats',
             icon: <MessageIcon />,
