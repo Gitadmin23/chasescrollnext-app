@@ -29,8 +29,8 @@ function Sidebar() {
     console.log(userId);
     const { isLoading, isError, } = useQuery(['getJoinedGroups', debounceValue, userId], () => httpService.get(`${URLS.JOINED_GROUPS}`, {
         params: {
-            // page: 0,
-            // searchText: debounceValue,
+            page: 0,
+            searchText: debounceValue,
             // size: 20,
             userID: userId,
         }

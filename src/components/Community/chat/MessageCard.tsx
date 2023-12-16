@@ -104,14 +104,14 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                 )}
 
                 <VStack borderRadius='10px 20px 20px 0px' bg={shoowSubmenu ? 'lightgrey' : 'transparent'} padding='5px' spacing={0} alignItems={self ? 'flex-end' : 'flex-start'} flexWrap={'wrap'} maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px' : '0px'} borderBottomRightRadius={self ? '0px' : '20px'} >
-                    <HStack width={'100%'} justifyContent={'space-between'}>
+                    <VStack width={'100%'} justifyContent={'flex-start'} alignItems={self ? 'flex-end' : 'flex-start'} spacing={0}>
                         <CustomText fontFamily={'DM-Bold'} fontSize={'12px'} color='brand.chasescrollButtonBlue'>
                             <span>{post?.user?.firstName[0].toUpperCase()}{post?.user?.firstName.substring(1, post?.user?.firstName.length)}</span>
                             <span> </span>
                             <span>{post?.user?.lastName[0].toUpperCase()}{post?.user?.lastName.substring(1, post?.user?.lastName.length)}</span>
                         </CustomText>
                         <Text fontSize={'10px'}>{formatTimeAgo(post?.timeInMilliseconds)}</Text>
-                    </HStack>
+                    </VStack>
                     {post.mediaRef !== null && (
                         <>
                             {post.type === 'WITH_IMAGE' && (

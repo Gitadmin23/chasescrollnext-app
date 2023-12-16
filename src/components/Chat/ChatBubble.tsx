@@ -137,7 +137,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                     {/* { !self && (
                         <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{post?.createdBy?.username[0]?.toUpperCase()}{post?.createdBy?.username.substring(1, post?.createdBy?.username.length)}</CustomText>
                     )} */}
-                    <CustomText color={self ? 'black':'white'} fontFamily={'DM-Medium'} fontSize={'12px'}>{formatTimeAgo(post?.createdDate)}</CustomText>
+                    <CustomText color={self ? 'black':'lightgrey'} fontFamily={'DM-Medium'} fontSize={'10px'}>{formatTimeAgo(post?.createdDate)}</CustomText>
                    {!self && (
                      <HStack spacing={0}>
                         <FiCheck fontSize='16px' color={'white'} />
