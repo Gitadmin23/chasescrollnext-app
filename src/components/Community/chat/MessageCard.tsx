@@ -6,7 +6,7 @@ import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import { Avatar, HStack, VStack, Image, Box, Spinner, Text } from '@chakra-ui/react';
 import React from 'react'
-import { FiHeart, FiMessageSquare } from 'react-icons/fi'
+import { FiHeart, FiMessageSquare, FiTrash2 } from 'react-icons/fi'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import moment from 'moment';
 import { IoMdCloudDownload } from 'react-icons/io';
@@ -21,15 +21,16 @@ import { formatTimeAgo } from '@/utils/helpers';
 interface IProps {
     message: IMediaContent;
     id: string | undefined;
+    index?: number;
 }
 
-const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = undefined }, ref) => {
+const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = undefined, index }, ref) => {
     const [post, setPost] = React.useState(message);
     const [shoowSubmenu, setShowSubmenu] = React.useState(false);
     const [showMore, setShowMore] = React.useState(false)
 
     const queryClient = useQueryClient();
-    const { setAll } = useCommunityPageState((state) => state)
+    const { setAll, activeCommunity, removeMessage } = useCommunityPageState((state) => state)
     const { setAll: setImageModal } = useImageModalState((state) => state)
     // query
     const { isLoading } = useQuery([`getSinglePost-${post.id}`, message?.id], () => httpService.get(`${URLS.GET_POST_BY_ID}/${message.id}`), {
@@ -47,7 +48,18 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
     const likeMutation = useMutation({
         mutationFn: () => httpService.post(`${URLS.LIKE_POST}/${post?.id}`),
         onSuccess: () => {
-            queryClient.invalidateQueries([`getSinglePost-${message?.id}`])
+            queryClient.invalidateQueries([`getSinglePost-${message?.id}`]);
+        },
+        onError: () => {
+            alert('An error occurred');
+        }
+    });
+
+    const deleeteMutation = useMutation({
+        mutationFn: () => httpService.delete(`${URLS.DELETE_POST}/${post?.id}`),
+        onSuccess: () => {
+            queryClient.invalidateQueries([`getMessage-${activeCommunity?.id}`]);
+            removeMessage(index as number);
         },
         onError: () => {
             alert('An error occurred');
@@ -98,6 +110,12 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                         {likeMutation.isLoading && <Spinner />}
                         {!likeMutation.isLoading && <IoHeart onClick={() => likeMutation.mutate()} cursor='pointer' fontSize='20px' color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'} width={'20px'} height={'20px'} />}
                         <Image src='/assets/images/message.png' alt='message' width={'20px'} height={'20px'} onClick={() => setAll({ activeMessageId: post.id, commentHasNext: false, commentPage: 0, comments: [], drawerOpen: true })} />
+                        { self && (
+                            <>
+                                { !deleeteMutation.isLoading && <FiTrash2 onClick={() => deleeteMutation.mutate()} fontSize='20px' color={'red'} cursor='pointer' /> }
+                                { deleeteMutation.isLoading && <Spinner size='xs' /> }
+                            </>
+                        )}
                         {/* <Image src='/assets/images/smile.png' alt='smile' width={'20px'} height={'20px'} /> */}
                         {/* <Image src='/asstes/forward.png' alt='forward' /> */}
                     </HStack>
@@ -141,12 +159,11 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                     <Box padding='5px' width='100%'>
                         {/* <LinkExtractor text={post?.text} /> */}
                         <CustomText fontFamily={'DM-Regular'} fontSize='14px' color='black'>
-                            {showMore ? handleLinks(post?.text) : post?.text.length > 500 ? post?.text.slice(0, 500) + '...' : post?.text}
+                            {showMore ? handleLinks(post?.text) : post?.text.length > 500 ? handleLinks(post?.text.slice(0, 500) + '...')  : handleLinks(post?.text)}
                             {post?.text.length > 500 && (
                                 <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize: '12px', cursor: 'pointer' }} onClick={() => setShowMore(!showMore)} >{showMore ? 'Show Less' : 'Show More'}</span>
                             )}
                         </CustomText>
-                        {/* <CustomText width={'100%'} textOverflow={'clip'} color={'black'} fontFamily={'Satoshi-Regular'} fontSize={'md'}>{post?.text}</CustomText> */}
                     </Box>
                     <HStack>
                         <CustomText cursor='pointer' fontFamily={'DM-Regular'} fontSize='12px'>{post?.commentCount} <CustomText color='brand.chasescrollButtonBlue' display={'inline'} onClick={() => setAll({ activeMessageId: post.id, commentHasNext: false, commentPage: 0, comments: [], drawerOpen: true })}>Reply</CustomText> </CustomText>

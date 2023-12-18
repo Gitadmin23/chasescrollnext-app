@@ -6,7 +6,7 @@ import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import { Avatar, HStack, VStack, Image, Box, Spinner } from '@chakra-ui/react';
 import React from 'react'
-import { FiCheck, FiHeart, FiMessageSquare } from 'react-icons/fi'
+import { FiCheck, FiHeart, FiMessageSquare, FiTrash2 } from 'react-icons/fi'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import moment from 'moment';
 import { IoMdCloudDownload } from 'react-icons/io';
@@ -24,16 +24,18 @@ import { formatTimeAgo } from '@/utils/helpers';
 interface IProps {
     message: ChatMessage;
     id: string|undefined;
+    index?: number;
 }
 
-const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = undefined }, ref) => {
+const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = undefined ,index}, ref) => {
     const [post, setPost] = React.useState(message);
     const [shoowSubmenu, setShowSubmenu] = React.useState(false);
     const [showAll, setShowAll] = React.useState(false);
+    const [showDelete, setShowDelete] = React.useState(false);
 
 
     const queryClient = useQueryClient();
-    const { setAll, activeChat } = useChatPageState((state) => state);
+    const { setAll, activeChat,removeMessage } = useChatPageState((state) => state);
     const { setAll: setImageModal  } = useImageModalState((state) => state)
     // query
     const { isLoading } = useQuery([`getSingleChat-${post.id}`, message?.id], () => httpService.get(`${URLS.CHAT_MESSGAE}`, {
@@ -63,6 +65,21 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
         alert('An error occurred');
     }
   });
+
+  const deleteMutation = useMutation({
+    mutationFn: () => httpService.delete(`${URLS.DELETE_MESSAGE}`,{
+        params: {
+            messageID: post?.id,
+        },
+    }),
+    onSuccess: () => {
+        removeMessage(index as number);
+    //   queryClient.invalidateQueries([`getSinglePost-${message?.id}`]);
+    },
+    onError: () =>{
+        // alert('An error occurred');
+    }
+  });
     const { userId: myId } = useDetails((state) => state)
     const self = message?.createdBy?.userId === myId;
 
@@ -87,15 +104,21 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
       }
 
       const handleImageClick = () => {
-        setImageModal({ images: [post.media, ...post?.multipleMedia], isOpen: true })
+        setImageModal({ images: [post.media], isOpen: true })
       }
   return (
     <HStack id={id} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.createdBy.userId === myId ? 'flex-end':'flex-start'} flexDirection={self ? 'row':'row-reverse'}  borderRadius='20px'>
        
-       <HStack  position={'relative'}  width='100%' justifyContent={'space-between'} alignItems={'flex-start'} flexDirection={self ? 'row':'row-reverse'}>
+       <HStack onMouseOver={() => setShowDelete(true)} onMouseOut={() => setShowDelete(false)}  position={'relative'}  width='100%' justifyContent={'space-between'} alignItems={'flex-start'} flexDirection={self ? 'row':'row-reverse'}>
            
+           { showDelete && self && (
+            <>
+                { !deleteMutation.isLoading && <FiTrash2 fontSize='20px' color='red' cursor='pointer' onClick={() => deleteMutation.mutate()} /> }
+                { deleteMutation.isLoading && <Spinner size={'xs'} /> }
+            </>
+           )}
 
-            <VStack borderRadius='10px 20px 20px 0px'  bg={self ? 'white':'brand.chasescrollButtonBlue'}  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={'300px'} minW={'100px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
+            <VStack  borderRadius='10px 20px 20px 0px'  bg={self ? 'white':'brand.chasescrollButtonBlue'}  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={'300px'} minW={'100px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
                
                 {post.media !== null && (
                     <>

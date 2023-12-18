@@ -1,4 +1,4 @@
-'use client';
+"use client"
 import { Box, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { useRouter } from 'next/navigation';

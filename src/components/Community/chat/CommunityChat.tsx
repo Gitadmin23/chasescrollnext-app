@@ -22,13 +22,17 @@ import { THEME } from '@/theme';
 import { PaginatedResponse } from '@/models/PaginatedResponse';
 import { uniqBy } from 'lodash';
 import CommentCard from '@/components/Community/chat/CommentCard';
+import EmojiPicker from 'emoji-picker-react';
 
 function CommunityChat() {
   const [comment, setComment] = React.useState<string>('');
+  const [showEmoji, setShowEmoi] = React.useState(false);
   const intObserver = React.useRef<IntersectionObserver>();
   const queryClient = useQueryClient();
 
   const { drawerOpen, setAll, activeCommunity, activeMessageId, commentHasNext, commentPage, comments } = useCommunityPageState((state) => state);
+
+  
 
   const getComments = useQuery(['getMessageComments', activeMessageId, commentPage], () => httpService.get(`${URLS.GET_ALL_COMMENTS}`, {
     params: {
@@ -63,6 +67,7 @@ const createComment = useMutation({
   })=> httpService.post(`${URLS.ADD_COMMENT}`, data),
   onSuccess: () => {
     queryClient.invalidateQueries(['getMessageComments']);
+    queryClient.invalidateQueries([`getSinglePost-${activeMessageId}`]);
     setComment('');
   },
 });
@@ -94,7 +99,7 @@ const createComment = useMutation({
     <HStack flex={1} height='100%' spacing={0} padding='5px' alignItems={'flex-start'}>
 
         {/* DRAWER */}
-          <Drawer isOpen={drawerOpen} onClose={() => setAll({ drawerOpen: false })} placement='right' size={"xs"}>
+          <Drawer isOpen={drawerOpen} onClose={() => { setAll({ drawerOpen: false, activeMessageId: undefined, comments: []  }); setShowEmoi(false) }} placement='right' size={showEmoji ? 'sm':'xs'}>
             <DrawerOverlay />
             <DrawerContent>
               <DrawerHeader borderBottomWidth={'1px'} borderBottomColor={'lightgrey'}>
@@ -134,11 +139,18 @@ const createComment = useMutation({
                     })}
                   </Box>
 
-                  <VStack width={'100%'} height={'100px'} borderWidth={'1px'} borderColor={THEME.COLORS.chasescrollButtonBlue} borderRadius={'10px'} paddingX='10px'>
+                  <VStack position={'relative'} width={'100%'} height={'100px'} borderWidth={'1px'} borderColor={THEME.COLORS.chasescrollButtonBlue} borderRadius={'10px'} paddingX='10px'>
+
+                  { showEmoji && (
+                      <Box position={'absolute'} height={'400px'} top='-450px' left={'0px'}>
+                          <EmojiPicker  onEmojiClick={(e) => setComment(prev => prev + e.emoji)} />
+                      </Box>
+                  )}
+
                       <textarea value={comment} onChange={(e) => setComment(e.target.value)} style={{ height: '50px', width: '100%', resize: 'none', backgroundColor:'transparent', outline: 'none', padding: '5px' }} />
                       <HStack  mt={"2"} alignItems={"center"} justifyContent={'space-between'} width='100%'>
                         <HStack>
-                        <Image src='/assets/images/Smiley.svg'  alt='smile' width={'24px'} height={'24px'} />
+                        <Image src='/assets/images/Smiley.svg' onClick={() => setShowEmoi(prev => !prev)}  alt='smile' width={'24px'} height={'24px'} />
                         </HStack>
                         { !createComment.isLoading && <Image onClick={() => handleCreateComment()} src='/assets/images/send.svg' alt='smile' width={'24px'} height={'24px'} /> }
                         { createComment.isLoading && <Spinner /> }

@@ -39,15 +39,15 @@ const SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({ community: comm 
                 {/* </Box> */}
 
                 <VStack alignItems={'flex-start'} spacing={0}>
-                    <CustomText fontFamily={'DM-Bold'} fontSize={'14px'}>{comm?.data.name.substring(0, 20)}</CustomText>
-                    <CustomText fontFamily={'DM-Light'} fontSize={'12px'}>{comm?.data.description.substring(0, 25)}</CustomText>
+                    <CustomText fontFamily={'DM-Bold'} fontSize={'14px'}>{comm?.data?.name?.substring(0, 20)}</CustomText>
+                    <CustomText fontFamily={'DM-Light'} fontSize={'12px'}>{comm?.data?.description?.substring(0, 25)}</CustomText>
                 </VStack>
             </HStack>
 
             <VStack alignItems={'flex-end'}>
                 {/* <CustomText fontFamily={'Satoshi-Light'} fontSize={'12px'}>{new Date(comm?.createdOn as number).toDateString()}</CustomText> */}
                 <VStack width='67px' height='21px' borderRadius={'4px'} justifyContent={'center'} alignItems={'center'} bg='#D0D4EB52' color='white'>
-                    <CustomText fontSize={'10px'} color='brand.chasescrollButtonBlue' fontFamily={'DM-Regular'}>{comm?.data.memberCount} Members</CustomText>
+                    <CustomText fontSize={'10px'} color='brand.chasescrollButtonBlue' fontFamily={'DM-Regular'}>{comm?.data?.memberCount} Members</CustomText>
                 </VStack>
             </VStack>
         

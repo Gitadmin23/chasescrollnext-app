@@ -34,7 +34,7 @@ function MainArea() {
     const { userId: myId } = useDetails((state) => state)
    
     // queries
-    const { isLoading, } = useQuery(['getMessages', activeCommunity?.id, pageNumber], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
+    const { isLoading, } = useQuery([`getMessage-${activeCommunity?.id}`, activeCommunity?.id, pageNumber], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
         params: {
             groupID: activeCommunity?.id,
             page: pageNumber
@@ -105,12 +105,10 @@ function MainArea() {
         <CommunityChatHeader />
         {
             showEvents && (
-                <HStack width='100%' maxWidth={'100%'} height={'75px'} bg='white' >
-                    <Box paddingLeft='20px' width='100%'  height='100%' overflowX={'auto'} display={'inline-block'} whiteSpace={'break-spaces'}>
+                <HStack width='100%' maxWidth={'100%'} height={'115px'} bg='white' >
+                    <Box paddingLeft='20px' paddingTop={'20px'} width='100%'  height='100%' overflowX={'auto'} display={'inline-block'} whiteSpace={'break-spaces'}>
                         {events.map((item, i) => (
-                            <Link href={`/dashboard/event/details/${item.id}`} key={i.toString()}>
-                                <EventCard event={item}  />
-                            </Link>
+                            <EventCard event={item} key={i.toString()} index={i} />
                         ))}
                     </Box>
                 </HStack>
@@ -139,9 +137,9 @@ function MainArea() {
                 return (
                     <>
                         { index === messages.length - 1 ? (
-                            <MessageCard id='lastMsg' ref={lastChildRef} key={index.toString()} message={item} />
+                            <MessageCard index={index} id='lastMsg' ref={lastChildRef} key={index.toString()} message={item} />
                         ):(
-                            <MessageCard  id={undefined} key={index.toString()} message={item} />
+                            <MessageCard  index={index}  id={undefined} key={index.toString()} message={item} />
                         )}
                     </>
                 )
