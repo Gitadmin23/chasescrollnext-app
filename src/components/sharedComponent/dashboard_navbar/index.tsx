@@ -28,8 +28,7 @@ function DashboardNavbar(props: Props) {
 
     const clickHandler = (item: string) => {
         router.push(item)
-    }
-
+    } 
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [pathname, setPathname] = useState("")
@@ -63,9 +62,7 @@ function DashboardNavbar(props: Props) {
                             <NotificationBar />
 
                         </HStack>
-                    )}
-
-                    { }
+                    )} 
                     {/* SMALL SCREEN ICONS */}
                     {!home && (
                         <HStack display={['flex', 'none']}>

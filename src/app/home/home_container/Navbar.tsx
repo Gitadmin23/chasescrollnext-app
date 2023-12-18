@@ -16,14 +16,7 @@ const Navbar = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const [pathname, setPathname] = useState(window?.location?.pathname); 
-
-  const handleClick = (item: string) => {
-    // setIsMenuVisible(false);
-    router.push(item)
-    setPathname(item)
-    onClose()
-  }; 
+  const [pathname, setPathname] = useState(window?.location?.pathname);  
 
   const clickHandler = (item: string) => {
     router.push(item)
