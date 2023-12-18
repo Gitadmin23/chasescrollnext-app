@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import { Icon } from "@iconify/react"; 
-import { useParams, useRouter } from 'next/navigation'  
+import { Icon } from "@iconify/react";
+import { useParams, useRouter } from 'next/navigation'
 
 // import logo from "../assets/logo.png"; 
 import { Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure } from "@chakra-ui/react";
@@ -10,39 +10,39 @@ import ButtonGroup from "../home_component/Navbar/ButtonGroup";
 
 const Navbar = () => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // const location = useLocation();
-  const router = useRouter() 
-  
+  // const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // const location = useLocation(); 
+  const router = useRouter()
+
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const [pathname, setPathname] = useState("");
+  const [pathname, setPathname] = useState(window?.location?.pathname);
 
 
-  const handleMenuToggle = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  // const handleMenuToggle = () => {
+  //   setIsMenuOpen(!isMenuOpen);
+  // };
 
-  const handleMenuClick = () => {
-    setIsMenuVisible((prevIsMenuVisible) => !prevIsMenuVisible);
-  };
+  // const handleMenuClick = () => {
+  //   setIsMenuVisible((prevIsMenuVisible) => !prevIsMenuVisible);
+  // };
 
-  const handleToggleEnter = () => {
-    setIsMenuOpen(true);
-  };
+  // const handleToggleEnter = () => {
+  //   setIsMenuOpen(true);
+  // };
 
-  const handleDropdownLeave = () => {
-    setIsMenuOpen(false);
-  };
+  // const handleDropdownLeave = () => {
+  //   setIsMenuOpen(false);
+  // };
 
-  const isActive = (path: any) => {
-    return pathname === path;
-  };
+  // const isActive = (path: any) => {
+  //   return pathname === path;
+  // };
 
   const getNavLinkClassName = (path: any, transparent: any, isScrolled: any) => {
     let className = "";
 
-    if (pathname === path) {
+    if (window?.location?.pathname === path) {
       className += "w-auto text-[#5D70F9] font-semibold ";
       if (transparent && !isScrolled) {
         className += " text-white";
@@ -57,26 +57,28 @@ const Navbar = () => {
     return className;
   };
 
-  const CustomLink = (props : any) => {
+  const handleClick = (item: string) => {
+    // setIsMenuVisible(false);
+    router.push(item)
+    setPathname(item)
+  };
+
+  const CustomLink = (props: any) => {
     const className = getNavLinkClassName(props.path, props.transparent, props.isScrolled);
-    const handleClick = () => {
-      setIsMenuVisible(false);
-      setPathname(props.path)
-    };
 
     return (
-      <Link
-        href={props.path}
+      <p
+        role="button"
         className={className}
         // activeClassName="text-red-500"
-        onClick={handleClick}
+        onClick={() => handleClick(props.path)}
       >
         {props.children}
-      </Link>
+      </p>
     );
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     setPathname(window.location.pathname)
   }, [router])
 
@@ -89,9 +91,8 @@ const Navbar = () => {
         </div>
 
         <div className="hidden text-[15px] lg:flex justify-between max-w-[534px] w-full">
-          <CustomLink path="/" transparent={false} isScrolled={false}>
-            Event
-          </CustomLink>
+
+          <p role={"button"} onClick={() => handleClick("/")} className="text-black hover:text-[#5D70F9" >Event</p>
           <CustomLink path="/home" transparent={false} isScrolled={false}>
             Home
           </CustomLink>
@@ -142,12 +143,9 @@ const Navbar = () => {
               <DrawerBody >
                 <ul className="mt-20 flex flex-col items-center justify-start w-full gap-8 text-lg">
 
-                <div role="button"
-                    onClick={onClose}>
-
-                    <CustomLink path="/" transparent={false} isScrolled={false}>
-                      Event
-                    </CustomLink>
+                  <div role="button"
+                    onClick={onClose}> 
+                    <p onClick={() => handleClick("/")} className="text-black hover:text-[#5D70F9" >Event</p>
                   </div>
                   <div role="button"
                     onClick={onClose}>
@@ -168,29 +166,29 @@ const Navbar = () => {
                     </CustomLink>
                   </div>
                   <div role="button"
-                    onClick={onClose}> 
-                  <CustomLink path="/home/privacy_poilcy"
-                    onClick={onClose} transparent={false} isScrolled={false}>
-                    Policy
-                  </CustomLink>
+                    onClick={onClose}>
+                    <CustomLink path="/home/privacy_poilcy"
+                      onClick={onClose} transparent={false} isScrolled={false}>
+                      Policy
+                    </CustomLink>
                   </div>
                   <div role="button"
                     onClick={onClose}>
-                  <CustomLink path="/home/terms"
-                    onClick={onClose} transparent={false} isScrolled={false}>
-                    Terms & Condition
-                  </CustomLink>
+                    <CustomLink path="/home/terms"
+                      onClick={onClose} transparent={false} isScrolled={false}>
+                      Terms & Condition
+                    </CustomLink>
                   </div>
                   <div role="button"
                     onClick={onClose}>
-                  <CustomLink
-                    path="/home/contact"
-                    onClick={onClose}
-                    transparent={false}
-                    isScrolled={false}
-                  >
-                    Contact us
-                  </CustomLink>
+                    <CustomLink
+                      path="/home/contact"
+                      onClick={onClose}
+                      transparent={false}
+                      isScrolled={false}
+                    >
+                      Contact us
+                    </CustomLink>
                   </div>
                 </ul>
               </DrawerBody>
