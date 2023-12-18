@@ -7,9 +7,9 @@ export const handleLinks = (text: string) => {
     if (parts) {
       return parts.map((part, index) => {
         if (part.match(regex)) {
-          return <CustomText key={index.toString()} fontFamily={'DM-Medium'} color='blue'>
-            <a href={part} target='_blank'>{part}</a>
-        </CustomText>; // Apply styling to matched words
+          return (
+            <a href={part} key={index.toString()} target='_blank'style={{ fontFamily:'DM-Medium',color:'blue'}}>{part}</a>
+          );
         }
         return <CustomText key={index.toString()} fontFamily={'DM-Medium'}>{part}</CustomText>; // Preserve non-matched parts
       });

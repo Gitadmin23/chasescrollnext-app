@@ -9,13 +9,16 @@ import httpService from '@/utils/httpService';
 import { Box, Button, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, VStack, useToast, Image } from '@chakra-ui/react';
 import { uniqBy } from 'lodash';
 import React from 'react'
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 const EventBox = ({ event }: {
     event: IEvent,
 }) => {
     const toast = useToast();
+    const queryClient = useQueryClient();
     const { activeCommunity } = useCommunityPageState((state) => state);
+    const { userId } = useDetails((state) => state);
+
 
     const savedEvent = useMutation({
         mutationFn: (data: any) => httpService.post(`${URLS.SAVE_EVENT}`, data),
@@ -26,7 +29,9 @@ const EventBox = ({ event }: {
                 status: 'success',
                 position: 'top-right',
                 duration: 5000
-            })
+            });
+            queryClient.invalidateQueries([`getAllMyEvents-${activeCommunity?.id}`]);
+            queryClient.invalidateQueries([`getMyEventsss`, userId]);
         },
         onError: () => {
             toast({
@@ -65,9 +70,10 @@ function AddEventsModal({ isOpen, onClose }: {
     isOpen: boolean,
     onClose: () => void,
 }) {
-    const [events, setEvents] = React.useState<IEvent[]>([])
+    const [events, setEvents] = React.useState<IEvent[]>([]);
     const { userId } = useDetails((state) => state);
     const toast = useToast();
+    const { events: savedEvents } = useCommunityPageState((state) => state);
 
     const { isLoading, isError } = useQuery(['getMyEventsss', userId], () => httpService.get(`${URLS.GET_EVENTS}`, {
         params: {
@@ -77,7 +83,8 @@ function AddEventsModal({ isOpen, onClose }: {
         onSuccess: (data) => {
             const item: PaginatedResponse<IEvent> = data.data;
             console.log(item);
-            setEvents(uniqBy(item.content, 'id'))
+            const ids = savedEvents.map((item) => item.id);
+            setEvents(uniqBy(item.content.filter((item) => !ids.includes(item.id)), 'id'))
         },
         onError: () => { },
     });

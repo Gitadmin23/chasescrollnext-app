@@ -123,7 +123,11 @@ function CommunityInfo() {
     },
     onError: () => {
       toast({
-        title: 'Error'
+        title: 'Error',
+        description: 'An error occured while trying to update community info',
+        status: 'error',
+        position: 'top-right',
+        duration: 5000,
       })
     }
   });
@@ -227,6 +231,7 @@ function CommunityInfo() {
       return;
     }
     updateGroup.mutate({
+     groupID: details?.id, 
       groupData: {
         imgSrc: image,
         name,

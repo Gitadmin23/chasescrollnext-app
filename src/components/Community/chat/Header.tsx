@@ -40,7 +40,7 @@ function CommunityChatHeader() {
   const queryClient = useQueryClient();
   const toast = useToast();
 
-  const getCommunityEventts = useQuery(['getCommunityEvents', activeCommunity?.id], () => httpService.get(`${URLS.GET_SAVED_EVENTS}`, {
+  const getCommunityEventts = useQuery([`getAllMyEvents-${activeCommunity?.id}`, activeCommunity?.id], () => httpService.get(`${URLS.GET_SAVED_EVENTS}`, {
     params: {
       page: 0,
       typeID: activeCommunity?.id,
@@ -144,7 +144,7 @@ function CommunityChatHeader() {
     </HStack>
 
    <HStack>
-   <ShareEvent type='COMMUNITY' id={activeCommunity?.id} />
+   <ShareEvent type='COMMUNITY' id={activeCommunity?.id} showText={false} />
     { events.length > 0 && (
       <Box onClick={() => setAll({ showEvents: !showEvents })} cursor='pointer' position={'relative'} marginRight={'10px'} >
 

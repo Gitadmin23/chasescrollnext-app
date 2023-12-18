@@ -18,6 +18,8 @@ type ICommunityPageState = {
     eventHasNext: boolean;
     eventPageNumber: number;
     showEvents: boolean;
+    removeEvent: (index: number) => void;
+    removeMessage: (index: number) => void;
     setAll: (data: Partial<ICommunityPageState>) => void
 }
 
@@ -35,5 +37,13 @@ export const useCommunityPageState = create<ICommunityPageState>((set) => ({
     eventHasNext: false,
     eventPageNumber: 0,
     showEvents: false,
+    removeEvent: (index) => set((state) => ({
+        ...state,
+        events: state.events.filter((_, i) => i !== index),
+    })),
+    removeMessage: (index) => set((state) => ({
+        ...state,
+        messages: state.messages.filter((_, i) => i !== index),
+    })),
     setAll: (data) => set((state) => ({ ...state, ...data })),
 }))

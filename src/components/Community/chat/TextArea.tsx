@@ -37,6 +37,7 @@ function TextArea() {
   const [text, setText] = React.useState('');
   const [showEmoji, setShowEmoi] = React.useState(false);
   const [files, setFiles] = React.useState<Array<{ file: string, url: string }>>([]);
+  const [showUploader, setShowUploader] = React.useState(false);
   const toast = useToast();
   const { username } = useDetails((state) => state)
 
@@ -50,7 +51,7 @@ function TextArea() {
   const createPost   = useMutation({
     mutationFn: (data: any) => httpService.post(`${URLS.CREATE_POST}`, data),
     onSuccess: () => {
-      queryClient.invalidateQueries(['getMessages']);
+      queryClient.invalidateQueries([`getMessage-${activeCommunity?.id}`]);
       setText('');
       setFiles([]);
       reset();
@@ -79,6 +80,7 @@ function TextArea() {
 
   const handleFilePic = (files: FileList) => {
     fileUploadHandler(files);
+    setShowUploader(false);
   }
 
 
@@ -105,14 +107,11 @@ function TextArea() {
 
 
   const submit = () => {
-    if (text === '' || loading) {
-      toast({
-        title: 'Warning',
-        description: text === '' ? 'You have to type in a message' : 'image uploaing',
-        status: 'warning',
-        position: 'top-right',
-      })
+    if (text ==='' && uploadedFile.length < 1) {
       return
+    }
+    if (loading){
+      return;
     }
     if (uploadedFile.length < 1) {
       createPost.mutate({
@@ -241,10 +240,10 @@ function TextArea() {
 
                 <HStack alignItems={'center'} >
 
-                   <Popover placement='top' size={''}>
+                   <Popover isOpen={showUploader} placement='top' size={''}>
                        <PopoverTrigger>
                         <Box>
-                        { !loading && <Image onClick={() => ref.current?.click()} src='/assets/images/Add.png' alt='smile' width={'24px'} height={'24px'} /> }
+                        { !loading && <Image onClick={() => setShowUploader(prev => !prev)} src='/assets/images/Add.png' alt='smile' width={'24px'} height={'24px'} /> }
                           { loading && <Spinner size='md' />}
                         </Box>
                        </PopoverTrigger>

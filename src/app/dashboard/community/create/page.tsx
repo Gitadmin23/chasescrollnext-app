@@ -47,7 +47,8 @@ function CreateCommunity() {
             });
             setUrl('');
             setFile(null);
-            setShowModal(true);
+            router.back();
+            //setShowModal(true);
             
         },
         onError: (error) => {

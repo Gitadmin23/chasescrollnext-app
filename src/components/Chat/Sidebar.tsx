@@ -191,9 +191,17 @@ function Sidebar() {
             }
 
             {
-                !isLoading && !isError && chats.length < 1 && (
+                !isLoading && !isError && chats.length < 1 && search.length < 1 && (
                     <HStack width={'100%'} height='50px' justifyContent={'center'} alignItems={'center'}>
                         <CustomText fontFamily={'Satoshi-Medium'} fontSize={'18'} textAlign={'center'}>You do not have any active chat</CustomText>
+                    </HStack>
+                )
+            }
+
+{
+                !isLoading && !isError && chats.length < 1 && search.length > 0 && (
+                    <HStack width={'100%'} height='50px' justifyContent={'center'} alignItems={'center'}>
+                        <CustomText fontFamily={'Satoshi-Medium'} fontSize={'18'} textAlign={'center'}>No result for {search}</CustomText>
                     </HStack>
                 )
             }
