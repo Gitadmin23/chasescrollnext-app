@@ -8,6 +8,7 @@ import httpService from '@/utils/httpService'
 import { formatNumber } from '@/utils/numberFormat'
 import { Box, Flex, Text, useToast } from '@chakra-ui/react'
 import config, { setConfig } from 'next/config'
+import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 
@@ -39,9 +40,10 @@ function SelectTicketNumber(props: Props) {
     } = props
 
     const serviceFee = 1.77
+    const router = useRouter()
 
     let price = selectedTicket?.ticketPrice * numbOfTicket
-    let service = price * 0.025
+    let service = price * 0.025 
 
     const queryClient = useQueryClient()
     const toast = useToast()
@@ -63,7 +65,9 @@ function SelectTicketNumber(props: Props) {
             
             queryClient.invalidateQueries(['event_ticket' + data?.id])
             queryClient.invalidateQueries(['all-events-details' + data.id])
-            close(false)
+            // router.refresh()
+            window.location.reload()
+            // close(false)
         },
         onError: (error) => {
             toast({

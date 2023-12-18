@@ -7,8 +7,9 @@ import { useMutation, useQueryClient } from 'react-query';
 import { usePaystackPayment } from 'react-paystack'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 import useModalStore from '@/global-state/useModalSwitch';
+import { useRouter } from 'next/navigation';
 
-interface Props {  
+interface Props {
     selectedCategory: {
         ticketType: string
     },
@@ -19,17 +20,19 @@ interface Props {
 }
 
 function PayStackBtn(props: Props) {
-    const {  
+    const {
         selectedCategory,
         ticketCount,
         datainfo
-    } = props   
+    } = props
 
-    const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY; 
+    const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
 
-    const { setShowModal  } = useModalStore((state) => state);
+    const router = useRouter()
 
-    const queryClient = useQueryClient()   
+    const { setShowModal } = useModalStore((state) => state);
+
+    const queryClient = useQueryClient()
     const toast = useToast()
     const [config, setConfig] = useState({
         email: "",
@@ -38,12 +41,12 @@ function PayStackBtn(props: Props) {
         publicKey: PAYSTACK_KEY,
     })
 
-	const initializePayment: any = usePaystackPayment(config);
+    const initializePayment: any = usePaystackPayment(config);
 
     const createTicket = useMutation({
         mutationFn: (data: any) => httpService.post(URLS.CREATE_TICKET, data),
-        onSuccess: (data: any) => { 
-            console.log(data); 
+        onSuccess: (data: any) => {
+            console.log(data);
             toast({
                 title: 'Success',
                 description: "Ticket Created",
@@ -57,9 +60,9 @@ function PayStackBtn(props: Props) {
                 email: data?.data?.content?.email,
                 amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
                 reference: data?.data?.content?.orderCode
-            }); 
+            });
         },
-        onError: (error) => { 
+        onError: (error) => {
             console.log(error);
             toast({
                 title: 'Error',
@@ -68,13 +71,14 @@ function PayStackBtn(props: Props) {
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
-            });  
+            });
         },
     });
 
-	const payStackMutation = useMutation({
-		mutationFn: (data: any) => httpService.post(`/payments/verifyWebPaystackTx?orderCode=${data}`),
-		onSuccess: () => {         -    
+    const payStackMutation = useMutation({
+        mutationFn: (data: any) => httpService.post(`/payments/verifyWebPaystackTx?orderCode=${data}`),
+        onSuccess: () => {
+            -
             toast({
                 title: 'Success',
                 description: "Payment verified",
@@ -83,10 +87,14 @@ function PayStackBtn(props: Props) {
                 duration: 5000,
                 position: 'top-right',
             });
-			queryClient.invalidateQueries(['all-events-details'+datainfo.id]) 
-            setShowModal(false)
-		},
-		onError: (error: any) => { 
+
+            queryClient.invalidateQueries(['event_ticket' + datainfo.id])
+            queryClient.invalidateQueries(['all-events-details' + datainfo.id])
+
+            window.location.reload()
+            // setShowModal(false)
+        },
+        onError: (error: any) => {
             toast({
                 title: 'Error',
                 description: "Error Occured",
@@ -94,38 +102,38 @@ function PayStackBtn(props: Props) {
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
-            }); 
-		},
-	}); 
+            });
+        },
+    });
 
 
-	const onSuccess = (reference: any) => {  
+    const onSuccess = (reference: any) => {
         payStackMutation.mutate(reference?.reference);
-	};  
-	
-	// you can call this function anything
-	const onClose = () => {
-	  // implementation for  whatever you want to do when the Paystack dialog closed.
-	  console.log('closed')
-	} 
+    };
 
-	React.useEffect(()=> { 
-		if(config?.reference?.length !== 0) {  
-			initializePayment(onSuccess, onClose)
-		} 
-	}, [config]) 
+    // you can call this function anything
+    const onClose = () => {
+        // implementation for  whatever you want to do when the Paystack dialog closed.
+        console.log('closed')
+    }
+
+    React.useEffect(() => {
+        if (config?.reference?.length !== 0) {
+            initializePayment(onSuccess, onClose)
+        }
+    }, [config])
 
     const clickHandler = React.useCallback(() => {
         createTicket.mutate({
-            eventID: datainfo?.id ,
+            eventID: datainfo?.id,
             ticketType: selectedCategory,
             numberOfTickets: ticketCount
         })
-    }, [createTicket]) 
+    }, [createTicket])
 
     return (
-        <Flex onClick={clickHandler} as={"button"} width={"full"} justifyContent={(createTicket?.isLoading || payStackMutation?.isLoading) ? "center":"start"} px={"4"} mt={"6"} borderColor={"#D0D4EB"} borderWidth={"1px"} gap={"3"} py={"8"} bg={"#F4F5FA"} rounded={"lg"} alignItems={"center"} >
-            <LoadingAnimation fix_height={true} loading={(createTicket?.isLoading || payStackMutation?.isLoading)} > 
+        <Flex onClick={clickHandler} as={"button"} width={"full"} justifyContent={(createTicket?.isLoading || payStackMutation?.isLoading) ? "center" : "start"} px={"4"} mt={"6"} borderColor={"#D0D4EB"} borderWidth={"1px"} gap={"3"} py={"8"} bg={"#F4F5FA"} rounded={"lg"} alignItems={"center"} >
+            <LoadingAnimation fix_height={true} loading={(createTicket?.isLoading || payStackMutation?.isLoading)} >
                 <PayStackLogo />
             </LoadingAnimation>
         </Flex>
