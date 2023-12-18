@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 // import logo from "../assets/logo.png"; 
 import { Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure } from "@chakra-ui/react";
@@ -16,70 +16,23 @@ const Navbar = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const [pathname, setPathname] = useState(window?.location?.pathname);
-
-
-  // const handleMenuToggle = () => {
-  //   setIsMenuOpen(!isMenuOpen);
-  // };
-
-  // const handleMenuClick = () => {
-  //   setIsMenuVisible((prevIsMenuVisible) => !prevIsMenuVisible);
-  // };
-
-  // const handleToggleEnter = () => {
-  //   setIsMenuOpen(true);
-  // };
-
-  // const handleDropdownLeave = () => {
-  //   setIsMenuOpen(false);
-  // };
-
-  // const isActive = (path: any) => {
-  //   return pathname === path;
-  // };
-
-  const getNavLinkClassName = (path: any, transparent: any, isScrolled: any) => {
-    let className = "";
-
-    if (window?.location?.pathname === path) {
-      className += "w-auto text-[#5D70F9] font-semibold ";
-      if (transparent && !isScrolled) {
-        className += " text-white";
-      }
-    } else {
-      className += "text-black hover:text-[#5D70F9]";
-      if (transparent && !isScrolled) {
-        className += " text-white";
-      }
-    }
-
-    return className;
-  };
+  const [pathname, setPathname] = useState(window?.location?.pathname); 
 
   const handleClick = (item: string) => {
     // setIsMenuVisible(false);
     router.push(item)
     setPathname(item)
-  };
+    onClose()
+  }; 
 
-  const CustomLink = (props: any) => {
-    const className = getNavLinkClassName(props.path, props.transparent, props.isScrolled);
-
-    return (
-      <p
-        role="button"
-        className={className}
-        // activeClassName="text-red-500"
-        onClick={() => handleClick(props.path)}
-      >
-        {props.children}
-      </p>
-    );
-  };
+  const clickHandler = (item: string) => {
+    router.push(item)
+    setPathname(item)
+    onClose()
+  }
 
   useEffect(() => {
-    setPathname(window.location.pathname)
+    setPathname(window?.location?.pathname)
   }, [router])
 
   return (
@@ -92,22 +45,13 @@ const Navbar = () => {
 
         <div className="hidden text-[15px] lg:flex justify-between max-w-[534px] w-full">
 
-          <p role={"button"} onClick={() => handleClick("/")} className="text-black hover:text-[#5D70F9" >Event</p>
-          <CustomLink path="/home" transparent={false} isScrolled={false}>
-            Home
-          </CustomLink>
-          <CustomLink path="/home/about" transparent={false} isScrolled={false}>
-            About us
-          </CustomLink>
-          <CustomLink path="/home/privacy_poilcy" transparent={false} isScrolled={false}>
-            Policy
-          </CustomLink>
-          <CustomLink path="/home/terms" transparent={false} isScrolled={false}>
-            Terms & Condition
-          </CustomLink>
-          <CustomLink path="/home/contact" transparent={false} isScrolled={false}>
-            Contact us
-          </CustomLink>
+          <p role={"button"} onClick={() => clickHandler("/")} className={` ${pathname === "/" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Event</p>
+          <p role={"button"} onClick={() => clickHandler("/home")} className={` ${pathname === "/home" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Home</p>
+          <p role={"button"} onClick={() => clickHandler("/home/about")} className={` ${pathname === "/home/about" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >About us</p>
+          <p role={"button"} onClick={() => clickHandler("/home/privacy_poilcy")} className={` ${pathname === "/home/privacy_poilcy" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Policy</p>
+          <p role={"button"} onClick={() => clickHandler("/home/terms")} className={` ${pathname === "/home/terms" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Terms & Condition</p>
+          <p role={"button"} onClick={() => clickHandler("/home/contact")} className={` ${pathname === "/home/contact" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Contact us</p>
+          
         </div>
         <div className="hidden lg:flex gap-4">
           <ButtonGroup white ctaText="Login" url={"/auth"} />
@@ -143,53 +87,13 @@ const Navbar = () => {
               <DrawerBody >
                 <ul className="mt-20 flex flex-col items-center justify-start w-full gap-8 text-lg">
 
-                  <div role="button"
-                    onClick={onClose}> 
-                    <p onClick={() => handleClick("/")} className="text-black hover:text-[#5D70F9" >Event</p>
-                  </div>
-                  <div role="button"
-                    onClick={onClose}>
+                  <p role={"button"} onClick={() => clickHandler("/")} className={` ${pathname === "/" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Event</p>
+                  <p role={"button"} onClick={() => clickHandler("/home")} className={` ${pathname === "/" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Home</p>
+                  <p role={"button"} onClick={() => clickHandler("/home/about")} className={` ${pathname === "/" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >About us</p>
+                  <p role={"button"} onClick={() => clickHandler("/home/privacy_poilcy")} className={` ${pathname === "/" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Policy</p>
+                  <p role={"button"} onClick={() => clickHandler("/home/terms")} className={` ${pathname === "/" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Terms & Condition</p>
+                  <p role={"button"} onClick={() => clickHandler("/home/contact")} className={` ${pathname === "/" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Contact us</p>
 
-                    <CustomLink path="/home" transparent={false} isScrolled={false}>
-                      Home
-                    </CustomLink>
-                  </div>
-                  <div role="button"
-                    onClick={onClose}>
-
-                    <CustomLink
-                      path="/home/about"
-                      transparent={false}
-                      isScrolled={false}
-                    >
-                      About us
-                    </CustomLink>
-                  </div>
-                  <div role="button"
-                    onClick={onClose}>
-                    <CustomLink path="/home/privacy_poilcy"
-                      onClick={onClose} transparent={false} isScrolled={false}>
-                      Policy
-                    </CustomLink>
-                  </div>
-                  <div role="button"
-                    onClick={onClose}>
-                    <CustomLink path="/home/terms"
-                      onClick={onClose} transparent={false} isScrolled={false}>
-                      Terms & Condition
-                    </CustomLink>
-                  </div>
-                  <div role="button"
-                    onClick={onClose}>
-                    <CustomLink
-                      path="/home/contact"
-                      onClick={onClose}
-                      transparent={false}
-                      isScrolled={false}
-                    >
-                      Contact us
-                    </CustomLink>
-                  </div>
                 </ul>
               </DrawerBody>
 

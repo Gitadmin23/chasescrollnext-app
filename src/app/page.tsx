@@ -29,6 +29,7 @@ export default function Home() {
   //  React.useEffect(() => {  
   //   router.push('/auth');
   //  }, [router]);
+  
   return (
     <Flex width={"full"} flexDir={"column"} height={"100vh"} position={"relative"} overflowX={"hidden"} >
       <Flex w={"full"} position={"sticky"} zIndex={"30"} top={"0px"} >

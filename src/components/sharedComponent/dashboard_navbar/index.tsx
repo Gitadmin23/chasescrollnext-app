@@ -11,15 +11,14 @@ import React, { useEffect, useState } from 'react'
 import { Icon } from "@iconify/react"; 
 
 interface Props {
-    pathname: string | null,
-    userId?: string | number | null,
+    pathname?: string | null,
+    userId?: any,
     openmodal?: any,
     home?: boolean
 }
 
 function DashboardNavbar(props: Props) {
-    const {
-        pathname: path,
+    const { 
         userId,
         openmodal,
         home
@@ -33,11 +32,11 @@ function DashboardNavbar(props: Props) {
 
 
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [pathname, setPathname] = useState(window.location.pathname + "")
+    const [pathname, setPathname] = useState("")
 
     useEffect(() => {
-        setPathname(window.location.pathname + "")
-    }, [router])
+        setPathname(window?.location?.pathname)
+    }, [])
 
     return (
         <Box width="full">
@@ -80,7 +79,7 @@ function DashboardNavbar(props: Props) {
 
                     {home && (
                         <Flex display={['none', "none", "none", "none", 'flex']} alignItems={"center"} gap={"7"} >
-                            <Text as={"button"} onClick={() => clickHandler("/")} color={pathname === "/" ? "brand.chasescrollBlue" : "black"} >Event</Text>
+                            <Text as={"button"} onClick={() => clickHandler("/")} color={"brand.chasescrollBlue"} >Event</Text>
                             <Text as={"button"} onClick={() => clickHandler("/home")} color={pathname === "/home" ? "brand.chasescrollBlue" : "black"} >Home</Text>
                             <Text as={"button"} onClick={() => clickHandler("/home/about")} color={pathname === "/home/about" ? "brand.chasescrollBlue" : "black"} >About us</Text>
                             <Flex ml={"6"} gap={"5"}>
