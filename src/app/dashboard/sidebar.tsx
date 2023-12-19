@@ -45,7 +45,7 @@ function Sidebar() {
         await signOut();
         setAll({ userId: '', dob: '', email: '', username:'', firstName: '', lastName: '', publicProfile: ''});
         localStorage.clear();
-        router.push('/auth');
+        // router.push('/auth');
     }
 
     const routes: IRoute[] = [
