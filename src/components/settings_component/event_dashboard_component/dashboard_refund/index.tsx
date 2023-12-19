@@ -54,12 +54,12 @@ function DashboardRefund(props: Props) {
     return (
         <Flex width={"full"} flexDirection={"column"} >
 
-            <Flex py={"6"} gap={"4"} alignItems={"center"} > 
+            <Flex py={"6"} gap={"4"} alignItems={"center"} >
                 <Flex onClick={() => setShowBtn((prev) => !prev)} as={"button"} height={"45px"} _focus={{ borderWidth: "white" }} alignItems={"center"} fontWeight={"semibold"} rounded={"lg"} px={"4"} borderColor={showBtn ? "" : "brand.chasescrollBlue"} borderWidth={"1px"} bgColor={showBtn ? "brand.chasescrollBlue" : "white"} color={showBtn ? "white" : "brand.chasescrollBlue"} >
                     {showBtn ? "Hide" : "Show"} Refund Button
                 </Flex>
             </Flex>
-            <Flex ref={componentRef} width={"full"} flexDir={"column"} >
+            <Flex ref={componentRef} width={"full"} flexDir={"column"} p={"6"} >
                 <Flex width={"full"} py={"6"} justifyContent={"center"} alignItems={"center"} gap={"5"} >
                     {/* <EventImage /> */}
 
@@ -81,7 +81,14 @@ function DashboardRefund(props: Props) {
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {data?.data?.content?.map((person: any, i: number) => {
+                                {data?.data?.content?.sort((a: any, b: any) => {
+                                    if (a?.user?.firstName > b?.user?.firstName) {
+                                        return 1
+                                    } else {
+                                        return -1;
+                                    }
+                                    return 0;
+                                })?.map((person: any, i: number) => {
                                     return (
                                         <Tr key={i} >
                                             <Td >
@@ -121,8 +128,8 @@ function DashboardRefund(props: Props) {
                     <CustomButton backgroundColor={"white"} fontWeight={"semibold"} border={"1px solid #3C41F0"} px={"10px"} color={"brand.chasescrollBlue"} fontSize={"xs"} height={"25px"} rounded={"32px"} onClick={() => setPage((prev) => prev + 1)} disable={data?.data?.last ? true : false} text='Next' />
                 </Flex>
             </Flex>
-            <Flex py={"6"} gap={"4"} alignItems={"center"} >
-                <CustomButton onClick={handlePrint} text='Download List' />
+            <Flex py={"6"} gap={"4"} width={"full"} justifyContent={"center"} alignItems={"center"} >
+                <CustomButton width={"fit-content"} onClick={handlePrint} text='Download List' />
             </Flex>
         </Flex>
     )

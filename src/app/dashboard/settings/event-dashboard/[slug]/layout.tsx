@@ -75,7 +75,7 @@ function Layout({ children, params }: {
         <Box height={"auto"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"} position={"relative"}  >
 
             <LoadingAnimation loading={isLoading} >
-                <Box width={["full", "full", "600px"]} px={"6"} py={"10"} position={"relative"} >
+                <Box width={["full", "full", pathname?.includes("refund") ? "full" : "600px"]} px={"6"} py={"10"} position={"relative"} >
                     <Flex alignItems={"center"} gap={"4"} width={"full"} justifyContent={"center"} paddingBottom={"6"}>
                         <Box onClick={() => router.push(pathname?.includes("refund")  ? "/dashboard/settings/event-dashboard/"+params?.slug : "/dashboard/settings/event-dashboard")} as='button' position={"absolute"} zIndex={"10"} left={"0px"} width={"fit-content"} >
                             <BsChevronLeft color={"black"} size={"25px"} />
