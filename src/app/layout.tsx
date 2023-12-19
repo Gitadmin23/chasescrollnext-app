@@ -6,9 +6,9 @@ import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { Viewport } from 'next/dist/lib/metadata/types/extra-types';
 
 const APP_NAME = "Chasescroll";
-const APP_DEFAULT_TITLE = "Making events great";
+const APP_DEFAULT_TITLE = "Creating Unforgetable Memories";
 const APP_TITLE_TEMPLATE = "%s - Chasescroll App";
-const APP_DESCRIPTION = "Awesome events";
+const APP_DESCRIPTION = "Creating Unforgetable Memories";
 
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   //   template: APP_TITLE_TEMPLATE
   // },
   title: APP_DEFAULT_TITLE,
-  description: 'Making your events great!',
+  description: 'Creating Unforgetable Memories',
   manifest: '/manifest.json',
   applicationName: 'Chasescroll',
   // appleWebApp: {
