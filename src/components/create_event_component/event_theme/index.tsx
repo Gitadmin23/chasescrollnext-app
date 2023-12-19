@@ -34,7 +34,7 @@ function EventTheme() {
                 ...eventdata,
                 [name]: value === "true" ? true : false
             });
-        } else if( name === "attendeesVisibility") {
+        } else if (name === "attendeesVisibility") {
             updateEvent({
                 ...eventdata,
                 [name]: eventdata?.attendeesVisibility ? eventdata?.attendeesVisibility : !eventdata?.attendeesVisibility
@@ -81,10 +81,10 @@ function EventTheme() {
                         </Flex>
                         <Flex width={"full"} gap={"1"} flexDirection={"column"} >
                             <Text color={"brand.chasescrollTextGrey"} >Attendee Visibility</Text>
-                            <label htmlFor="showAttendees" style={{  display: "flex", height: "42px", alignItems: "center", justifyContent: "space-between", borderRadius: "4px", width: "100%", paddingLeft: "16px", paddingRight: "16px", padding: "8px", backgroundColor: "#DCDEE4" }} >
+                            <label htmlFor="showAttendees" style={{ display: "flex", height: "42px", alignItems: "center", justifyContent: "space-between", borderRadius: "4px", width: "100%", paddingLeft: "16px", paddingRight: "16px", padding: "8px", backgroundColor: "#DCDEE4" }} >
                                 <h3>Show</h3>
-                                <Switch  
-                                    onChange={(e)=> updateEvent({
+                                <Switch
+                                    onChange={(e) => updateEvent({
                                         ...eventdata,
                                         attendeesVisibility: e.target.checked
                                     })}
@@ -105,7 +105,14 @@ function EventTheme() {
                                 onChange={handleChange}
                                 value={eventdata?.eventType}
                                 placeholder='Select Event Type' >
-                                {types?.map((type: any, index: number) => (
+                                {types?.sort((a: string, b: string) => {
+                                    if (a > b) {
+                                        return 1
+                                    } else {
+                                        return -1;
+                                    }
+                                    return 0;
+                                })?.map((type: any, index: number) => (
                                     <option key={index} value={type}>
                                         {type.split("_").join(" ")}
                                     </option>
@@ -123,7 +130,7 @@ function EventTheme() {
                                 onChange={(e) => handleChangeLimit(e, 1500)}
                                 className="outline-none w-full h-20 text-sm"
                             />
-                            <Text fontSize={"sm"} >{eventdata?.eventDescription?.length + "/" + 1500}</Text>
+                            <Text fontSize={"sm"} >{eventdata?.eventDescription?.length ? eventdata?.eventDescription?.length : "0"  + "/" + 1500}</Text>
                         </Flex>
                         <Flex flexDirection={"column"} gap={"2"} >
                             <Text fontWeight={"bold"} fontSize={"sm"}>Event Visibility</Text>
@@ -153,10 +160,10 @@ function EventTheme() {
                                     isChecked={!eventdata?.isPublic}
                                 />
                             </label>
-                        </Flex> 
-                        <SubmitTheme type={""}/>
+                        </Flex>
+                        <SubmitTheme type={""} />
                     </Flex>
-                </Flex> 
+                </Flex>
             </Flex>
         </Box>
     )

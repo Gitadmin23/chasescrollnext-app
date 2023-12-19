@@ -35,7 +35,7 @@ function FunnelBtn(props: Props) {
 
     return (
         <>
-            <Flex as={"button"} onClick={() => setOpen(true)} width={"fit-content"} gap={"3"} >
+            <Flex as={"button"} onClick={() => setOpen(true)} fontWeight={"bold"} color={"green.500"} width={"fit-content"} gap={"3"} >
                 <OpenFolderIcon />
                 Select community funnel
             </Flex>

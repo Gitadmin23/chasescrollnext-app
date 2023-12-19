@@ -21,7 +21,7 @@ interface IProps {
 function CustomButton({
     type = 'button',
     text,
-    backgroundColor = "brand.chasescrollButtonBlue",
+    backgroundColor,
     color = 'white',
     borderRadius = '12px',
     width = 'full',
@@ -48,7 +48,7 @@ function CustomButton({
         isLoading={isLoading}
         shadow={shadow}
         variant={variant}
-        bgColor={backgroundColor ? backgroundColor : "brand.chasescrollButtonBlue"}
+        bgColor={backgroundColor ? backgroundColor : "brand.chasescrollButtonBlue"} 
         _hover={{
           backgroundColor: backgroundColor
         }}

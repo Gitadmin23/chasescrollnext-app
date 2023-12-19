@@ -300,7 +300,7 @@ function SubmitEvent(props: Iprops) {
 
     return (
         <Flex alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} my={"4"} >
-            <CustomButton isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} disable={getValidationAll()} _disabled={{ color: "#F04F4F", cursor: "not-allowed" }} width={"400px"} backgroundColor={"transparent"}
+            <CustomButton borderWidth={tab === 2 ? "2px" : "0px"} borderColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} disable={getValidationAll()} _disabled={{ color: "#F04F4F", cursor: "not-allowed" }} width={"400px"} backgroundColor={"transparent"}
                 color={"brand.chasescrollBlue"} text={pathname?.includes("edit_event") && tab === 2 ? "Update Event" :tab === 2 ? 'Submit' : 'Continue'} />
         </Flex>
     )
