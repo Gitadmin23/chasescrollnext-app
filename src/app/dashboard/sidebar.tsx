@@ -42,7 +42,7 @@ function Sidebar() {
     const { userId: user_index, setAll } = useDetails((state) => state);
 
     const logout = async () => {
-        //await signOut();
+        await signOut();
         setAll({ userId: '', dob: '', email: '', username:'', firstName: '', lastName: '', publicProfile: ''});
         localStorage.clear();
         router.push('/auth');
