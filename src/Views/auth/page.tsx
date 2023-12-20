@@ -27,7 +27,7 @@ const LINK2 = [
   },
   {
     name: "Sign in",
-    link: "/",
+    link: "/auth",
     isExternal: false
   },
   {
@@ -47,7 +47,7 @@ const LINK2 = [
   },
   {
     name: "Policy",
-    link: "/home/privacy-poilcy",
+    link: "/home/privacy_poilcy",
     isExternal: true
   },
   {
