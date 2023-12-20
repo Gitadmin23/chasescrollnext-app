@@ -44,14 +44,16 @@ const EventBox = ({ event }: {
         }
     })
     return (
-        <HStack alignItems={'flex-start'} width='100%' height={'100px'} paddingY={'10px'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'}>
+        <HStack alignItems={'flex-start'} width='100%' height={'auto'} paddingY={'10px'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'}>
             <Box width='50px' height={'50px'} borderRadius={'10px'} bg={'lightgrey'} overflow={'hidden'}>
                 <Image alt='om' src={`${IMAGE_URL}${event.currentPicUrl}`} width='100%' height='100%' objectFit={'cover'} />
             </Box>
 
-            <VStack flex={1} alignItems={'flex-start'} spacing={0}>
-                <CustomText fontFamily={'DM-Bold'} fontSize={'16px'}>{event.eventName}</CustomText>
-                <CustomText fontFamily={'DM-Regular'} fontSize={'14px'}>{event.eventDescription.length > 50 ? event.eventDescription.substring(0, 50) + '...' : event.eventDescription}</CustomText>
+            <VStack flex={1} alignItems={'flex-start'} spacing={2}>
+                <Box>
+                    <CustomText fontFamily={'DM-Bold'} fontSize={'16px'}>{event.eventName.length > 40 ? event.eventName.substring(0, 40) + '...':event.eventName}</CustomText>
+                    <CustomText fontFamily={'DM-Regular'} fontSize={'14px'}>{event.eventDescription.length >40 ? event.eventDescription.substring(0, 40) + '...' : event.eventDescription}</CustomText>
+                </Box>
 
                 <Button onClick={() => savedEvent.mutate({
                     eventID: event.id,
@@ -82,7 +84,6 @@ function AddEventsModal({ isOpen, onClose }: {
     }), {
         onSuccess: (data) => {
             const item: PaginatedResponse<IEvent> = data.data;
-            console.log(item);
             const ids = savedEvents.map((item) => item.id);
             setEvents(uniqBy(item.content.filter((item) => !ids.includes(item.id)), 'id'))
         },
@@ -91,15 +92,15 @@ function AddEventsModal({ isOpen, onClose }: {
 
 
     return (
-        <Modal isOpen={isOpen} onClose={() => onClose()} size='lg' isCentered>
+        <Modal isOpen={isOpen} onClose={() => onClose()} size='md' isCentered>
             <ModalOverlay />
-            <ModalContent>
+            <ModalContent padding='0px'>
                 <ModalCloseButton />
-                <ModalBody>
-                    <HStack width='100%' height={'60px'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'}>
+                <ModalBody padding='0px'>
+                    <HStack paddingX='10px' width='100%' height={'60px'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'}>
                         <CustomText>My Events</CustomText>
                     </HStack>
-                    <Box width='100%' height='450px' overflowY={'auto'}>
+                    <Box width='100%' height='450px' overflowY={'auto'} paddingX='10px'>
                         {!isLoading && !isError && events.length < 1 && (
                             <VStack width='100%' height={'100%'} justifyContent={'center'} alignItems={'center'}>
                                 <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>You have no Events to add!</CustomText>
