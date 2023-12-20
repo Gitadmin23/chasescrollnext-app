@@ -69,14 +69,14 @@ function Settings(props: Props) {
         {
             // id: nanoid(),
             type: "Terms and Conditions",
-            route: "https://chasescroll.com/terms",
+            route: "/home/terms",
             icon: <TermsAndPrivacy />,
             action: null as any,
         },
         {
             // id: nanoid(),
             type: "Privacy Policy",
-            route: "https://chasescroll.com/privacy-policy",
+            route: "/home/privacy_poilcy",
             icon: <TermsAndPrivacy />,
             action: null,
         },
@@ -116,8 +116,10 @@ function Settings(props: Props) {
         type: string,
         route?: any
     })=> {
-        if(item?.type !== "Support & Help") {
+        if(item?.type !== "Support & Help" && item?.type !== "Privacy Policy" && item?.type !== "Terms and Conditions") {
             router.push("/dashboard/settings"+item?.route)
+        } else {
+            router.push(item?.route)
         }
     }
 
