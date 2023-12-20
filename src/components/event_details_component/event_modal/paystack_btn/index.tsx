@@ -6,8 +6,8 @@ import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query';
 import { usePaystackPayment } from 'react-paystack'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
-import useModalStore from '@/global-state/useModalSwitch';
-import { useRouter } from 'next/navigation';
+// import useModalStore from '@/global-state/useModalSwitch';
+// import { useRouter } from 'next/navigation';
 
 interface Props {
     selectedCategory: {
@@ -26,11 +26,9 @@ function PayStackBtn(props: Props) {
         datainfo
     } = props
 
-    const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
+    const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY; 
 
-    const router = useRouter()
-
-    const { setShowModal } = useModalStore((state) => state);
+    // const { setShowModal } = useModalStore((state) => state);
 
     const queryClient = useQueryClient()
     const toast = useToast()
@@ -45,8 +43,7 @@ function PayStackBtn(props: Props) {
 
     const createTicket = useMutation({
         mutationFn: (data: any) => httpService.post(URLS.CREATE_TICKET, data),
-        onSuccess: (data: any) => {
-            console.log(data);
+        onSuccess: (data: any) => { 
             toast({
                 title: 'Success',
                 description: "Ticket Created",
@@ -63,7 +60,7 @@ function PayStackBtn(props: Props) {
             });
         },
         onError: (error) => {
-            console.log(error);
+            // console.log(error);
             toast({
                 title: 'Error',
                 description: "Error Creating Ticket",
@@ -88,10 +85,10 @@ function PayStackBtn(props: Props) {
                 position: 'top-right',
             });
 
-            queryClient.invalidateQueries(['event_ticket' + datainfo.id])
-            queryClient.invalidateQueries(['all-events-details' + datainfo.id])
+            // queryClient.invalidateQueries(['event_ticket' + datainfo.id])
+            // queryClient.invalidateQueries(['all-events-details' + datainfo.id])
 
-            window.location.reload()
+            // window.location.reload()
             // setShowModal(false)
         },
         onError: (error: any) => {
@@ -118,9 +115,11 @@ function PayStackBtn(props: Props) {
     }
 
     React.useEffect(() => {
-        if (config?.reference?.length !== 0) {
+        // if (config?.reference?.length !== 0) {
             initializePayment(onSuccess, onClose)
-        }
+        // }
+        console.log(config);
+        
     }, [config])
 
     const clickHandler = React.useCallback(() => {

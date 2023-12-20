@@ -28,7 +28,7 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
         eventDescription:null,
         joinSetting: "public",
         locationType:null,
-        currency: "USD",
+        currency: "NGN",
         currentPicUrl:null,
         eventFunnelGroupID:null, 
         isPublic: true,
