@@ -20,13 +20,56 @@ import httpServiceGoogle from '@/utils/httpServiceGoogle';
 
 
 
+// const LINK2 = [
+//   { name: 'Sign up', link: '/auth/signup', isExternal: false },
+//   { name: 'About Us', link: 'https://chasescroll.com/about', isExternal: true },
+//   { name: 'Events', link: 'https://chasescroll.com', isExternal: true },
+//   { name: 'Community', link: 'https://chasescroll.com', isExternal: true },
+//   { name: 'Terms and condition', link: 'https://chasescroll.com/terms', isExternal: true },
+//   { name: 'Help', link: 'https://chasescroll.com', isExternal: true },
+// ]
+
 const LINK2 = [
-  { name: 'Sign up', link: '/auth/signup', isExternal: false },
-  { name: 'About Us', link: 'https://chasescroll.com/about', isExternal: true },
-  { name: 'Events', link: 'https://chasescroll.com', isExternal: true },
-  { name: 'Community', link: 'https://chasescroll.com', isExternal: true },
-  { name: 'Terms and condition', link: 'https://chasescroll.com/terms', isExternal: true },
-  { name: 'Help', link: 'https://chasescroll.com', isExternal: true },
+  {
+    name: "Events",
+    link: "/",
+    isExternal: true
+  },
+  {
+    name: "Sign in",
+    link: "/auth",
+    isExternal: false
+  },
+  {
+    name: "Sign up",
+    link: "/auth/signup",
+    isExternal: true
+  },
+  {
+    name: "Home",
+    link: "/home",
+    isExternal: true
+  },
+  {
+    name: "About us",
+    link: "/home/about",
+    isExternal: true
+  },
+  {
+    name: "Policy",
+    link: "/home/privacy_poilcy",
+    isExternal: true
+  },
+  {
+    name: "Terms and conditions",
+    link: "/home/terms",
+    isExternal: true
+  },
+  {
+    name: "Contact us",
+    link: "/home/contact",
+    isExternal: true
+  },
 ]
 
 const exclude = ['Events', 'Sign up', 'Community', 'Sign up']
