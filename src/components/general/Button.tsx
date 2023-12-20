@@ -36,6 +36,7 @@ function CustomButton({
 }: IProps & ButtonProps) {
   return (
     <ChakraButton
+      style={{ backgroundColor : backgroundColor ? backgroundColor : "#E5EBF4"}}
        {...rest}
         isDisabled={isLoading || disable} 
         loadingText='Loading'
