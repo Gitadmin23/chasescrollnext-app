@@ -12,13 +12,13 @@ function Privacy(props: Props) {
     return ( 
         <div className=" w-full flex flex-col font-normal text-[#1E1E1E] py-8 lg:px-20 px-0 lg:py-20 " >
             <div className=" flex justify-end mb-4" >
-                {/* <svg onClick={() => router.push("/home")} role="button" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg onClick={() => router.back()} role="button" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="close">
                         <path id="Vector" d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z" fill="black" />
                     </g>
-                </svg> */}
+                </svg>
             </div>
-            <span className=" font-bold text-lg " >PRIVACY POLICY</span><br />
+            <span className=" font-bold text-xl text-center " >PRIVACY POLICY</span><br />
             [CHASESCROLL LLC] (“we” or “us” or “our”) respects the privacy of our users (“user” or “you”). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our web or mobile application (the “Application”). Please read this Privacy Policy carefully. IF YOU DO NOT AGREE WITH THE TERMS OF THIS PRIVACY POLICY, PLEASE DO NOT ACCESS THE APPLICATION. We reserve the right to make changes to this Privacy Policy at any time and for any reason. We will alert you about any changes by updating the “Last updated” date of this Privacy Policy. You are encouraged to periodically review this Privacy Policy to stay informed of updates. You will be deemed to have been made aware of, will be subject to, and will be deemed to have accepted the changes in any revised Privacy Policy by your continued use of the Application after the date such revised Privacy Policy is posted. This Privacy Policy does not apply to the third-party online/mobile store from which you install the Application or make payments, including any in-game virtual items, which may also collect and use data about you. We are not responsible for any of the data collected by any such third party.
             <br /><br />
             <span className=" font-bold text-lg " >Collection of your information</span>

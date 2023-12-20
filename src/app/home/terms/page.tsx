@@ -13,11 +13,11 @@ function Terms(props: Props) {
         <div className=" w-full flex flex-col font-normal text-[#1E1E1E] leading-[211.7%] py-8 lg:px-20 px-0 lg:py-20 " >
             <div className=" flex justify-center relative mb-4" >
                 <p className=" text-2xl font-bold " >TERMS AND CONDITIONS FOR CHASESCROLL</p>
-                {/* <svg className=" absolute z-20 right-0 " onClick={() => router.push("/home")} role="button" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg className=" absolute z-20 right-0 " onClick={() => router.back()} role="button" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="close">
                         <path id="Vector" d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z" fill="black" />
                     </g>
-                </svg> */}
+                </svg>
             </div><br /><br />
             These terms and conditions (the “Terms and Conditions”) govern the use of “the Site/App” owned and operated by Chasescroll.
             By using this Site/App, you indicated that you have read these Terms and Conditions and agree to abide by them at all times.
