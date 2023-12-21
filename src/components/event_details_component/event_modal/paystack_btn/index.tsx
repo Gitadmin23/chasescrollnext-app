@@ -33,7 +33,7 @@ function PayStackBtn(props: Props) {
     const createTicket = useMutation({
         mutationFn: (data: any) => httpService.post(URLS.CREATE_TICKET, data),
         onSuccess: (data: any) => {
-            setConfig({
+            setPaystackConfig({
                 publicKey: PAYSTACK_KEY,
                 email: data?.data?.content?.email,
                 amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
