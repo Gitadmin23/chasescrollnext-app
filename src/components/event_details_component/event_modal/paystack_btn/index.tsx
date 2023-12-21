@@ -74,8 +74,7 @@ function PayStackBtn(props: Props) {
 
     const payStackMutation = useMutation({
         mutationFn: (data: any) => httpService.post(`/payments/verifyWebPaystackTx?orderCode=${data}`),
-        onSuccess: () => {
-            -
+        onSuccess: () => { 
             toast({
                 title: 'Success',
                 description: "Payment verified",
@@ -88,7 +87,7 @@ function PayStackBtn(props: Props) {
             // queryClient.invalidateQueries(['event_ticket' + datainfo.id])
             // queryClient.invalidateQueries(['all-events-details' + datainfo.id])
 
-            // window.location.reload()
+            window.location.reload()
             // setShowModal(false)
         },
         onError: (error: any) => {
