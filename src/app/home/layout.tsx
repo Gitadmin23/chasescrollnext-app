@@ -12,7 +12,7 @@ function HomeLayout({
   return (
     <>
       <div className="max-w-[1440px]  mx-auto  ">
-        <div className={` ${(!window?.location?.pathname?.includes("/terms") || !window?.location?.pathname?.includes("/privacy_poilcy")) ? "hidden" : ""} w-full sticky top-0 z-10 left-0 right-0 `} >
+        <div className={`w-full sticky top-0 z-10 left-0 right-0 `} >
           <Navbar />
         </div>
         <div className="px-4 xl:px-0 lg:pt-0 pt-8 " >

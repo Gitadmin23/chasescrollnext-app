@@ -7,6 +7,7 @@ import "aos/dist/aos.css";
 import Main from './home_component/Home/Main';
 import Footer from './home_component/Home/Footer';
 import FAQ from './home_component/FAQ';
+import Navbar from './home_container/Navbar';
 
 function HomePage() {
 
@@ -24,6 +25,7 @@ function HomePage() {
   }
   return (
     <div className="  max-w-[1200px] overflow-x-hidden w-full mx-auto flex flex-col gap-8">
+      {/* <Navbar /> */}
       <Header data={HOME_HEADER} />
       <Main />
       <Footer />
