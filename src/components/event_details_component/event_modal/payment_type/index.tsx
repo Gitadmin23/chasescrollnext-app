@@ -10,14 +10,9 @@ import StripeBtn from '../stripe_btn'
 interface Props { 
     click: any
     currency: string,
-    data: {
-        id: string
-    },
-
+    data: any, 
     close?: any,
-    selectedCategory: {
-        ticketType: string
-    },
+    selectedCategory: any,
     ticketCount: any, 
 }
 

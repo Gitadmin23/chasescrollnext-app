@@ -6,17 +6,14 @@ import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'; 
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 import usePaystackStore from '@/global-state/usePaystack';
+import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
 // import useModalStore from '@/global-state/useModalSwitch';
 // import { useRouter } from 'next/navigation';
 
 interface Props {
-    selectedCategory: {
-        ticketType: string
-    },
+    selectedCategory: any,
     ticketCount: any,
-    datainfo: {
-        id: any
-    }
+    datainfo: any
 }
 
 function PayStackBtn(props: Props) {
@@ -39,7 +36,8 @@ function PayStackBtn(props: Props) {
                 email: data?.data?.content?.email,
                 amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
                 reference: data?.data?.content?.orderCode
-            });
+            }); 
+            
         },
         onError: (error) => {
             // console.log(error);
@@ -66,7 +64,7 @@ function PayStackBtn(props: Props) {
         <Flex onClick={clickHandler} as={"button"} width={"full"} justifyContent={(createTicket?.isLoading) ? "center" : "start"} px={"4"} mt={"6"} borderColor={"#D0D4EB"} borderWidth={"1px"} gap={"3"} py={"8"} bg={"#F4F5FA"} rounded={"lg"} alignItems={"center"} >
             <LoadingAnimation fix_height={true} loading={(createTicket?.isLoading)} >
                 <PayStackLogo />
-            </LoadingAnimation>
+            </LoadingAnimation> 
         </Flex>
     )
 }

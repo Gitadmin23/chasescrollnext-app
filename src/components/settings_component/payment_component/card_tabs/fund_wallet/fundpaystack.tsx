@@ -99,6 +99,12 @@ function Fundpaystack(props: Props) {
 	
 	// you can call this function anything
 	const onClose = () => {
+        setConfig({
+            email: "",
+            amount: 0,
+            reference: "",
+            publicKey: PAYSTACK_KEY,
+        })
 	  // implementation for  whatever you want to do when the Paystack dialog closed.
 	  console.log('closed')
 	}

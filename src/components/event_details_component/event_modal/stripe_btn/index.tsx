@@ -11,13 +11,9 @@ import CheckoutForm from './CheckoutForm';
 import { Elements } from '@stripe/react-stripe-js';
 
 interface Props { 
-    selectedCategory: {
-        ticketType: string
-    },
+    selectedCategory: any,
     ticketCount: any,
-    datainfo: {
-        id: any
-    }
+    datainfo: any
 }
 
 function StripeBtn(props: Props) {
