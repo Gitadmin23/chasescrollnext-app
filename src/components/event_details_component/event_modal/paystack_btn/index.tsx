@@ -7,6 +7,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 import usePaystackStore from '@/global-state/usePaystack';
 import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
+import useStripeStore from '@/global-state/useStripeState'
+import useModalStore from '@/global-state/useModalSwitch'
 // import useModalStore from '@/global-state/useModalSwitch';
 // import { useRouter } from 'next/navigation';
 
@@ -26,6 +28,10 @@ function PayStackBtn(props: Props) {
     const queryClient = useQueryClient()
     const toast = useToast()
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
+    
+    const { showModal, setShowModal } = useModalStore((state) => state);
+    const { setModalTab, modalTab } = useStripeStore((state) => state);
+    
 
     const { configPaystack, setPaystackConfig } = usePaystackStore((state) => state);
     const [config, setConfig] = React.useState({} as any)
@@ -39,6 +45,9 @@ function PayStackBtn(props: Props) {
                 amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
                 reference: data?.data?.content?.orderCode
             });
+            setShowModal(false)
+        
+            
         },
         onError: (error) => {
             // console.log(error);
