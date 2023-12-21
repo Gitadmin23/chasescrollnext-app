@@ -16,7 +16,7 @@ const CommentCard = React.forwardRef<HTMLDivElement, { comment: IComment }>(({ c
                 </HStack>
             )}
             {
-                comment.user.data.imgMain.value !== null && (
+                comment?.user?.data?.imgMain?.value !== null && (
                     <>
                         { comment?.user?.data?.imgMain?.value.startsWith('https://') && <Image src={comment?.user?.data?.imgMain?.value} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
                         { !comment?.user?.data?.imgMain?.value.startsWith('https://') && <Image src={`${IMAGE_URL}${comment?.user?.data?.imgMain?.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
