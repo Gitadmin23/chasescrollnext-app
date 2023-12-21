@@ -1,12 +1,10 @@
 import useEventStore from '@/global-state/useCreateEventState';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Box, Checkbox, Flex, Input, Radio, Select, Switch, Text, Textarea } from '@chakra-ui/react'
+import { Box, Flex, Input, Radio, Select, Switch, Text, Textarea } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useQuery } from 'react-query';
-import SelectImage from './select_image';
-import { ClosedEyeIcon, OpenEyeIcon } from '@/components/svg';
-import CustomButton from '@/components/general/Button';
+import SelectImage from './select_image'; 
 import SubmitTheme from '../submit_event';
 
 function EventTheme() {
@@ -26,7 +24,7 @@ function EventTheme() {
         if ((e.target.value).length <= limit) {
             handleChange(e)
         }
-    }
+    } 
 
     const handleChange = ({ target: { name, value, type } }: any) => {
         if (name === "isPublic") {
