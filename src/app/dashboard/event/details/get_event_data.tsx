@@ -1,10 +1,10 @@
 "use client"
 import EventDetails from '@/components/event_details_component'
-import LoadingAnimation from '@/components/sharedComponent/loading_animation' 
+import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import { URLS } from '@/services/urls'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import httpService from '@/utils/httpService'
-import { Box, useToast } from '@chakra-ui/react'  
+import { Box, useToast } from '@chakra-ui/react'
 import React from 'react'
 import { useQuery, focusManager } from 'react-query'
 
@@ -13,16 +13,16 @@ interface Props {
     dynamic?: boolean
 }
 
-  
+
 function GetEventData(props: Props) {
     const {
         event_index,
         dynamic
     } = props
     const toast = useToast()
-    const [data, setData] = React.useState({} as any) 
+    const [data, setData] = React.useState({} as any)
 
-// focusManager.setFocused(false)
+    focusManager.setFocused(false)
     // react query
     const { isLoading, isRefetching } = useQuery(['all-events-details' + event_index], () => httpService.get(URLS.All_EVENT + "?id=" + event_index), {
         onError: (error: any) => {
@@ -31,17 +31,17 @@ function GetEventData(props: Props) {
                 title: error.response?.data,
             });
         },
-        onSuccess: (data: any) => { 
-            setData(data?.data?.content[0]); 
+        onSuccess: (data: any) => {
+            setData(data?.data?.content[0]);
         }
-    }) 
+    })
 
     return (
         <Box width={"full"}  >
             <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data?.length} >
                 <EventDetails
                     dynamic={dynamic}
-                    dataInfo={data} 
+                    dataInfo={data}
                     eventID={data?.id}
                     isBought={data?.isBought}
                     eventName={data?.eventName}
@@ -61,7 +61,7 @@ function GetEventData(props: Props) {
                     currency={data?.currency}
                     isOrganizer={data?.isOrganizer}
                     minPrice={data?.minPrice}
-                    maxPrice={data?.maxPrice} 
+                    maxPrice={data?.maxPrice}
                     ticketBought={data?.ticketBought} attendees={undefined} />
             </LoadingAnimation>
         </Box>
