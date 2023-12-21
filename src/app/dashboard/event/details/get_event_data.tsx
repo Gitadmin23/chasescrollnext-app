@@ -67,9 +67,7 @@ function GetEventData(props: Props) {
                     maxPrice={data?.maxPrice}
                     ticketBought={data?.ticketBought} attendees={undefined} />
             </LoadingAnimation> 
-            {configPaystack.reference && (
-                <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} />
-            )}
+            <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} />
         </Box>
     )
 }

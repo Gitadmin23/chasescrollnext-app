@@ -1,10 +1,9 @@
 import httpService from '@/utils/httpService';
-import React, { useState } from 'react' 
+import React from 'react' 
 import { usePaystackPayment } from "react-paystack";
 import { useMutation, useQueryClient } from "react-query";
-import { useToast } from '@chakra-ui/react'
+import { Button, useToast } from '@chakra-ui/react'
 import useSettingsStore from '@/global-state/useSettingsState';
-import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 
 interface Props {  
     config: any,  
@@ -19,8 +18,6 @@ function Fundpaystack(props: Props) {
 	const queryClient = useQueryClient() 
 	
 	const initializePayment: any = usePaystackPayment(config); 
-
-    const [loading, setLoading] = useState(false)
     const toast = useToast()
 	const { setAmount } = useSettingsStore((state) => state); 
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY; 
@@ -93,7 +90,7 @@ function Fundpaystack(props: Props) {
 
 	const onSuccess = (reference: any) => { 
 		if(fund) {
-			payStackFundMutation.mutate(reference?.reference)
+			payStackMutation.mutate(reference?.reference)
 		} else {
 			payStackMutation.mutate(reference?.reference)
 		}
@@ -114,32 +111,20 @@ function Fundpaystack(props: Props) {
 
 	React.useEffect(()=> { 
 		if(config?.reference?.length !== 0) {  
-            
-            console.log(config);
-            setLoading(true) 
-            const t1 = setTimeout(() => {
-                setLoading(false); 
-                initializePayment(onSuccess, onClose)  
-                clearTimeout(t1);
-            }, 1000);  
-            
+			initializePayment(onSuccess, onClose) 
 		} 
-	}, [config])
+	}, [config?.reference]) 
 
+    // const clickHandler =()=> {
+    //     initializePayment(onSuccess, onClose) 
+    // }
 
-	// React.useEffect(()=> { 
-    //     if (orderCode) {  
-	// 		if(fund) {
-	// 			payStackMutation.mutate(orderCode);
-	// 		}
-    //         return;
-    //     } 
-    // }, [orderCode]);
  
     return (
-        <LoadingAnimation loading={loading} >
-            <></>
-        </LoadingAnimation>
+        <>
+        
+            {/* <Button onClick={()=> clickHandler()} bgColor={"blue.400"} color={"white"} >Pay</Button> */}
+        </>
     )
 }
 
