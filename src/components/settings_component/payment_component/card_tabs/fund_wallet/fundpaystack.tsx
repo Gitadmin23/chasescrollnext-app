@@ -7,11 +7,13 @@ import useSettingsStore from '@/global-state/useSettingsState';
 
 interface Props {  
     config: any,  
-    setConfig: any
+    setConfig: any,
+	fund?: boolean,
+	id?: any
 }
 
 function Fundpaystack(props: Props) {
-    const {  config, setConfig } = props
+    const {  config, setConfig, fund, id } = props
 
 	const queryClient = useQueryClient() 
 	
@@ -22,7 +24,7 @@ function Fundpaystack(props: Props) {
 
 	const [orderCode, setOrderCode] = React.useState("")
 	    // mutations 
-	const payStackMutation = useMutation({
+	const payStackFundMutation = useMutation({
 		mutationFn: (data: any) => httpService.get(`/payments/api/wallet/verifyFundWalletWeb?transactionID=${orderCode}`),
 		onSuccess: (data) => {
 			// queryClient.invalidateQueries(['EventInfo'+id]) 
@@ -56,8 +58,42 @@ function Fundpaystack(props: Props) {
 		},
 	}); 
 	
+	const payStackMutation = useMutation({
+        mutationFn: (data: any) => httpService.post(`/payments/verifyWebPaystackTx?orderCode=${data}`),
+        onSuccess: () => { 
+            toast({
+                title: 'Success',
+                description: "Payment verified",
+                status: 'success',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+
+            queryClient.invalidateQueries(['event_ticket' + id])
+            queryClient.invalidateQueries(['all-events-details' + id])
+
+            window.location.reload()
+            // setShowModal(false)
+        },
+        onError: () => {
+            toast({
+                title: 'Error',
+                description: "Error Occured",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        },
+    });
+
 	const onSuccess = (reference: any) => { 
-		setOrderCode(reference?.reference)
+		if(fund) {
+			payStackMutation.mutate(reference?.reference)
+		} else {
+			payStackMutation.mutate(reference?.reference)
+		}
 	};    
 
 	
@@ -74,12 +110,14 @@ function Fundpaystack(props: Props) {
 	}, [config?.reference])
 
 
-	React.useEffect(()=> { 
-        if (orderCode) {  
-            payStackMutation.mutate(orderCode);
-            return;
-        } 
-    }, [orderCode]);
+	// React.useEffect(()=> { 
+    //     if (orderCode) {  
+	// 		if(fund) {
+	// 			payStackMutation.mutate(orderCode);
+	// 		}
+    //         return;
+    //     } 
+    // }, [orderCode]);
  
     return (
         <></>

@@ -1,6 +1,8 @@
 "use client"
 import EventDetails from '@/components/event_details_component'
+import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
+import usePaystackStore from '@/global-state/usePaystack'
 import { URLS } from '@/services/urls'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import httpService from '@/utils/httpService'
@@ -12,15 +14,16 @@ interface Props {
     event_index: any,
     dynamic?: boolean
 }
-
-
+ 
 function GetEventData(props: Props) {
     const {
         event_index,
         dynamic
     } = props
     const toast = useToast()
-    const [data, setData] = React.useState({} as any)
+    const [data, setData] = React.useState({} as any) 
+
+    const { configPaystack, setPaystackConfig } = usePaystackStore((state) => state);
 
     focusManager.setFocused(false)
     // react query
@@ -63,7 +66,8 @@ function GetEventData(props: Props) {
                     minPrice={data?.minPrice}
                     maxPrice={data?.maxPrice}
                     ticketBought={data?.ticketBought} attendees={undefined} />
-            </LoadingAnimation>
+            </LoadingAnimation> 
+            <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} />
         </Box>
     )
 }
