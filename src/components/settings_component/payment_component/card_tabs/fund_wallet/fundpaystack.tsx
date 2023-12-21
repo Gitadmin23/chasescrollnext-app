@@ -1,9 +1,10 @@
 import httpService from '@/utils/httpService';
-import React from 'react' 
+import React, { useState } from 'react' 
 import { usePaystackPayment } from "react-paystack";
 import { useMutation, useQueryClient } from "react-query";
 import { useToast } from '@chakra-ui/react'
 import useSettingsStore from '@/global-state/useSettingsState';
+import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 
 interface Props {  
     config: any,  
@@ -18,6 +19,8 @@ function Fundpaystack(props: Props) {
 	const queryClient = useQueryClient() 
 	
 	const initializePayment: any = usePaystackPayment(config); 
+
+    const [loading, setLoading] = useState(false)
     const toast = useToast()
 	const { setAmount } = useSettingsStore((state) => state); 
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY; 
@@ -90,7 +93,7 @@ function Fundpaystack(props: Props) {
 
 	const onSuccess = (reference: any) => { 
 		if(fund) {
-			payStackMutation.mutate(reference?.reference)
+			payStackFundMutation.mutate(reference?.reference)
 		} else {
 			payStackMutation.mutate(reference?.reference)
 		}
@@ -111,9 +114,17 @@ function Fundpaystack(props: Props) {
 
 	React.useEffect(()=> { 
 		if(config?.reference?.length !== 0) {  
-			initializePayment(onSuccess, onClose) 
+            
+            console.log(config);
+            setLoading(true) 
+            const t1 = setTimeout(() => {
+                setLoading(false); 
+                initializePayment(onSuccess, onClose)  
+                clearTimeout(t1);
+            }, 1000);  
+            
 		} 
-	}, [config?.reference])
+	}, [config])
 
 
 	// React.useEffect(()=> { 
@@ -126,7 +137,9 @@ function Fundpaystack(props: Props) {
     // }, [orderCode]);
  
     return (
-        <></>
+        <LoadingAnimation loading={loading} >
+            <></>
+        </LoadingAnimation>
     )
 }
 
