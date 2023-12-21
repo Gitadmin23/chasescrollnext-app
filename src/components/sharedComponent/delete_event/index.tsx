@@ -21,7 +21,7 @@ function DeleteEvent(props: Props) {
 
     // detete event
     const deleteEvent = useMutation({
-        mutationFn: () => httpService.delete("/events/delete-draft/" + event.id),
+        mutationFn: () => httpService.delete("/events/delete-event/" + event.id),
         onError: (error: AxiosError<any, any>) => {
             toast({
                 title: 'Error',
