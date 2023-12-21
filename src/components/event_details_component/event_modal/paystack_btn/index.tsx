@@ -37,9 +37,8 @@ function PayStackBtn(props: Props) {
                 publicKey: PAYSTACK_KEY,
                 email: data?.data?.content?.email,
                 amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
-                reference: data?.data?.content?.orderId
+                reference: data?.data?.content?.orderCode
             });
-
         },
         onError: (error) => {
             // console.log(error);
@@ -62,20 +61,11 @@ function PayStackBtn(props: Props) {
         })
     }, [createTicket])
 
-    // console.log(config);
-    
-
     return (
-        <Flex onClick={clickHandler} as={"button"}  flexDir={"column"} width={"full"} justifyContent={(createTicket?.isLoading) ? "center" : "start"} px={"4"} mt={"6"} borderColor={"#D0D4EB"} borderWidth={"1px"} gap={"3"} py={"8"} bg={"#F4F5FA"} rounded={"lg"} alignItems={"center"} >
-            {/* {!config?.email && ( */}
-                <LoadingAnimation fix_height={true} loading={(createTicket?.isLoading)} >
-                    <PayStackLogo />
-                </LoadingAnimation>
-            {/* )} */}
-            {/* {config?.email && (
-                <Fundpaystack id={datainfo?.id} config={config} setConfig={setPaystackConfig} />
-            )} */}
-            {/* <Fundpaystack id={datainfo?.id} config={config} setConfig={setPaystackConfig} /> */}
+        <Flex onClick={clickHandler} as={"button"} flexDir={"column"} width={"full"} justifyContent={(createTicket?.isLoading) ? "center" : "start"} px={"4"} mt={"6"} borderColor={"#D0D4EB"} borderWidth={"1px"} gap={"3"} py={"8"} bg={"#F4F5FA"} rounded={"lg"} alignItems={"center"} >
+            <LoadingAnimation fix_height={true} loading={(createTicket?.isLoading)} >
+                <PayStackLogo />
+            </LoadingAnimation>
         </Flex>
     )
 }
