@@ -94,7 +94,7 @@ function EventTheme() {
                     </Flex>
                     <Flex flexDirection={"column"} mt={["4", "4", "0px"]} width={"full"} gap={"4"} >
                         <Flex width={"full"} gap={"1"} flexDirection={"column"} >
-                            <Text color={"brand.chasescrollTextGrey"} > Event Type</Text>
+                            <Text color={"brand.chasescrollTextGrey"} > Event Type<span style={{ color: "#F04F4F" }} > *</span></Text>
                             <Select
                                 name="eventType"
                                 id="eventType"
@@ -118,7 +118,7 @@ function EventTheme() {
                             </Select>
                         </Flex>
                         <Flex width={"full"} gap={"1"} flexDirection={"column"} >
-                            <Text color={"brand.chasescrollTextGrey"} > Event Description</Text>
+                            <Text color={"brand.chasescrollTextGrey"} > Event Description<span style={{ color: "#F04F4F" }} > *</span></Text>
                             <Textarea
                                 id="eventDescription"
                                 name="eventDescription"
@@ -128,7 +128,7 @@ function EventTheme() {
                                 onChange={(e) => handleChangeLimit(e, 1500)}
                                 className="outline-none w-full h-20 text-sm"
                             />
-                            <Text fontSize={"sm"} >{eventdata?.eventDescription?.length ? eventdata?.eventDescription?.length : "0"  + "/" + 1500}</Text>
+                            <Text fontSize={"sm"} >{eventdata?.eventDescription?.length ? eventdata?.eventDescription?.length : "0" } {"/ 1500"}</Text>
                         </Flex>
                         <Flex flexDirection={"column"} gap={"2"} >
                             <Text fontWeight={"bold"} fontSize={"sm"}>Event Visibility</Text>

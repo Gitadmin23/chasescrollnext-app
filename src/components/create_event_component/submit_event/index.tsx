@@ -29,6 +29,190 @@ function SubmitEvent(props: Iprops) {
 
     const getValidationTheme = () => {
         if (!eventdata?.eventName) {
+            toast({
+                title: 'Error',
+                description: "Please Enter Event Name",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+            return
+        } else if (!eventdata?.eventType) {
+            toast({
+                title: 'Error',
+                description: "Please Enter Event Type",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+            return
+        } else if (!eventdata?.eventDescription) {
+            toast({
+                title: 'Error',
+                description: "Please Enter Event Description",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+            return
+        } else if (!image && !eventdata?.currentPicUrl) {
+            toast({
+                title: 'Error',
+                description: "Please Enter Event Image",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+            return
+        } else {
+            if (pathname?.includes("edit_event")) {
+                changeTab(1)
+            } else {
+                if (image) {
+                    const fd = new FormData();
+                    fd.append("file", image);
+                    uploadImage.mutate(fd)
+                } else {
+                    saveToDraft.mutate(eventdata)
+                }
+            }
+        }
+    }
+
+    const getValidationInfo = () => {
+        if (!eventdata?.startDate) { 
+            toast({
+                title: 'Error',
+                description: "Please Enter Event Starting Date",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+            return
+        } else if (!eventdata?.endDate) {
+            toast({
+                title: 'Error',
+                description: "Please Enter Event Ending Date",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+            return
+        } else if (!eventdata?.location?.toBeAnnounced) {
+            if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
+                toast({
+                    title: 'Error',
+                    description: "Please Enter Event Location",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            }
+        } else {
+            if (pathname?.includes("edit_event")) {
+                changeTab(2)
+            } else {
+                saveToDraft.mutate(eventdata)
+            }
+        }
+    }
+
+    // const getValidationAll = () => {
+    //     if (tab === 0) {
+    //         return getValidationTheme()
+    //     } else if (tab === 1) {
+    //         return getValidationInfo()
+    //     } else {
+    //         return getValidationTicket()
+    //     }
+    // }
+
+    const getValidationTicket: any = () => {
+        return eventdata?.productTypeData?.every((item: any, index: number) => {
+
+            if (!item.totalNumberOfTickets) {
+                toast({
+                    title: 'Error',
+                    description: "Please Enter Total Number Of Tickets",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                }); return
+            } else if (!item.ticketType) {
+                toast({
+                    title: 'Error',
+                    description: "Please Enter Ticket Type Or Name",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                }); return
+            } else if (!item.minTicketBuy) {
+                toast({
+                    title: 'Error',
+                    description: "Please Enter Min Ticket Buy",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                }); return
+            } else if (!item.maxTicketBuy) {
+                toast({
+                    title: 'Error',
+                    description: "Please Enter Max Ticket Buy",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                }); return
+            } else if (eventdata?.productTypeData?.length === index + 1) { 
+                if (getValidationTicketNotification() === false) {
+                    toast({
+                        status: "error",
+                        title: "Error",
+                        description: "minimum ticket Price can't be less than zero ",
+                        position: "top-right"
+                    })
+                } else {
+                    if (pathname?.includes("edit_event")) {
+                        if (image) {
+                            const fd = new FormData();
+                            fd.append("file", image);
+                            uploadImage.mutate(fd)
+                        } else {
+                            // updateUserEvent.mutate(clean(eventdata))
+                        }
+                    } else {
+                        createEventFromDraft.mutate(eventdata)
+                    }
+                }
+            } else {
+                toast({
+                    title: 'Error',
+                    description: "Please Fill Ticket Information ",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            }
+        })
+    }
+
+
+
+    const getValidationThemeBtn = () => {
+        if (!eventdata?.eventName) {
             return true
         } else if (!eventdata?.eventType) {
             return true
@@ -41,7 +225,7 @@ function SubmitEvent(props: Iprops) {
         }
     }
 
-    const getValidationInfo = () => {
+    const getValidationInfoBtn = () => {
         if (!eventdata?.startDate) {
             return true
         } else if (!eventdata?.endDate) {
@@ -57,15 +241,15 @@ function SubmitEvent(props: Iprops) {
 
     const getValidationAll = () => {
         if (tab === 0) {
-            return getValidationTheme()
+            return getValidationThemeBtn()
         } else if (tab === 1) {
-            return getValidationInfo()
+            return getValidationInfoBtn()
         } else {
-            return getValidationTicket()
+            return getValidationTicketBtn()
         }
     }
 
-    const getValidationTicket: any = () => {
+    const getValidationTicketBtn: any = () => {
 
         return eventdata?.productTypeData?.every((item: any, index: number) => {
 
@@ -83,9 +267,7 @@ function SubmitEvent(props: Iprops) {
                 return true
             }
         })
-    }
-
-
+    } 
 
     const getValidationTicketNotification: any = () => {
         return eventdata?.productTypeData?.every((item: any) => {
@@ -117,7 +299,7 @@ function SubmitEvent(props: Iprops) {
         },
         onSuccess: (data: any) => {
             let newObj: any = { ...eventdata, picUrls: [data?.data?.fileName], currentPicUrl: data?.data?.fileName }
-            if(pathname?.includes("edit_event")){
+            if (pathname?.includes("edit_event")) {
                 updateUserEvent?.mutate(newObj)
             } else {
                 if (image && !eventdata?.currentPicUrl) {
@@ -257,51 +439,18 @@ function SubmitEvent(props: Iprops) {
 
     const handleClick = React.useCallback(() => {
         if (tab === 0) {
-            if (pathname?.includes("edit_event")) {
-                changeTab(1)
-            } else {
-                if (image) {
-                    const fd = new FormData();
-                    fd.append("file", image);
-                    uploadImage.mutate(fd)
-                } else {
-                    saveToDraft.mutate(eventdata)
-                }
-            }
+            getValidationTheme()
         } else if (tab === 1) {
-            if (pathname?.includes("edit_event")) {
-                changeTab(2)
-            } else {
-                saveToDraft.mutate(eventdata)
-            }
+            getValidationInfo()
         } else {
-            if (getValidationTicketNotification() === false) {
-                toast({
-                    status: "error",
-                    title: "Error",
-                    description: "minimum ticket Price can't be less than zero ",
-                    position: "top-right"
-                })
-            } else {
-                if (pathname?.includes("edit_event")) { 
-                    if(image) {
-                        const fd = new FormData();
-                        fd.append("file", image);
-                        uploadImage.mutate(fd)
-                    } else {
-                        // updateUserEvent.mutate(clean(eventdata))
-                    }
-                } else {
-                    createEventFromDraft.mutate(eventdata)
-                }
-            }
+            getValidationTicket()
         }
     }, [saveToDraft, uploadImage, createEventFromDraft])
 
     return (
         <Flex alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} my={"4"} >
-            <CustomButton borderWidth={tab === 2 ? "2px" : "0px"} borderColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} disable={getValidationAll()} _disabled={{ color: "#F04F4F", cursor: "not-allowed" }} width={"400px"} backgroundColor={"transparent"}
-                color={"brand.chasescrollBlue"} text={pathname?.includes("edit_event") && tab === 2 ? "Update Event" :tab === 2 ? 'Submit' : 'Continue'} />
+            <CustomButton borderWidth={tab === 2 ? "2px" : "0px"} borderColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} color={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} _disabled={{ color: "#F04F4F", cursor: "not-allowed" }} width={"400px"} backgroundColor={"transparent"}
+                text={pathname?.includes("edit_event") && tab === 2 ? "Update Event" : tab === 2 ? 'Submit' : 'Continue'} />
         </Flex>
     )
 }
