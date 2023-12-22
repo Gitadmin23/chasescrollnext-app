@@ -93,8 +93,11 @@ function ExploreEventCard(props: Props) {
                                 )}
                             </Flex>
                         )}
-                        {((draft || my_event) && !profile && event?.isOrganizer && !event?.isBought) && (
-                            <DeleteEvent event={event} />
+                        {((my_event) && !profile && event?.isOrganizer && !event?.isBought) && (
+                            <DeleteEvent draft={draft} event={event} />
+                        )}
+                        {(draft) && (
+                            <DeleteEvent draft={draft} event={event} />
                         )}
                     </Flex>
                     {page && (
