@@ -85,8 +85,7 @@ function SubmitEvent(props: Iprops) {
 
     const getValidationInfo = () => {
         if (!eventdata?.startDate) { 
-            toast({
-                title: 'Error',
+            toast({ 
                 description: "Please Enter Event Starting Date",
                 status: 'error',
                 isClosable: true,
@@ -95,8 +94,7 @@ function SubmitEvent(props: Iprops) {
             });
             return
         } else if (!eventdata?.endDate) {
-            toast({
-                title: 'Error',
+            toast({ 
                 description: "Please Enter Event Ending Date",
                 status: 'error',
                 isClosable: true,
@@ -106,8 +104,7 @@ function SubmitEvent(props: Iprops) {
             return
         } else if (!eventdata?.location?.toBeAnnounced) {
             if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
-                toast({
-                    title: 'Error',
+                toast({ 
                     description: "Please Enter Event Location",
                     status: 'error',
                     isClosable: true,
@@ -115,6 +112,12 @@ function SubmitEvent(props: Iprops) {
                     position: 'top-right',
                 });
                 return
+            } else {
+                if (pathname?.includes("edit_event")) {
+                    changeTab(2)
+                } else {
+                    saveToDraft.mutate(eventdata)
+                }
             }
         } else {
             if (pathname?.includes("edit_event")) {
@@ -139,8 +142,7 @@ function SubmitEvent(props: Iprops) {
         return eventdata?.productTypeData?.every((item: any, index: number) => {
 
             if (!item.totalNumberOfTickets) {
-                toast({
-                    title: 'Error',
+                toast({ 
                     description: "Please Enter Total Number Of Tickets",
                     status: 'error',
                     isClosable: true,
@@ -149,7 +151,6 @@ function SubmitEvent(props: Iprops) {
                 }); return
             } else if (!item.ticketType) {
                 toast({
-                    title: 'Error',
                     description: "Please Enter Ticket Type Or Name",
                     status: 'error',
                     isClosable: true,
@@ -158,8 +159,7 @@ function SubmitEvent(props: Iprops) {
                 }); return
             } else if (!item.minTicketBuy) {
                 toast({
-                    title: 'Error',
-                    description: "Please Enter Min Ticket Buy",
+                    title: "Please Enter Min Ticket Buy", 
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -167,7 +167,6 @@ function SubmitEvent(props: Iprops) {
                 }); return
             } else if (!item.maxTicketBuy) {
                 toast({
-                    title: 'Error',
                     description: "Please Enter Max Ticket Buy",
                     status: 'error',
                     isClosable: true,
@@ -197,7 +196,6 @@ function SubmitEvent(props: Iprops) {
                 }
             } else {
                 toast({
-                    title: 'Error',
                     description: "Please Fill Ticket Information ",
                     status: 'error',
                     isClosable: true,
@@ -435,7 +433,6 @@ function SubmitEvent(props: Iprops) {
         return obj
 
     }
-
 
     const handleClick = React.useCallback(() => {
         if (tab === 0) {
