@@ -93,7 +93,7 @@ function GetEventTicket(props: Props) {
     return (
         <>
             {!carousel && (
-                <CustomButton bgColor={"brand.chasescrollBgBlue"} opacity={!selectedTicket?.ticketType ? "30%" :""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "full"]} />
+                <CustomButton bgColor={"brand.chasescrollBgBlue"} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" :""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "full"]} />
             )}
             {carousel && (
                 <Box >
