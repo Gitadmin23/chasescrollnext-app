@@ -30,7 +30,6 @@ function SubmitEvent(props: Iprops) {
     const getValidationTheme = () => {
         if (!eventdata?.eventName) {
             toast({
-                title: 'Error',
                 description: "Please Enter Event Name",
                 status: 'error',
                 isClosable: true,
@@ -40,7 +39,6 @@ function SubmitEvent(props: Iprops) {
             return
         } else if (!eventdata?.eventType) {
             toast({
-                title: 'Error',
                 description: "Please Enter Event Type",
                 status: 'error',
                 isClosable: true,
@@ -49,8 +47,7 @@ function SubmitEvent(props: Iprops) {
             });
             return
         } else if (!eventdata?.eventDescription) {
-            toast({
-                title: 'Error',
+            toast({ 
                 description: "Please Enter Event Description",
                 status: 'error',
                 isClosable: true,
@@ -59,8 +56,7 @@ function SubmitEvent(props: Iprops) {
             });
             return
         } else if (!image && !eventdata?.currentPicUrl) {
-            toast({
-                title: 'Error',
+            toast({ 
                 description: "Please Enter Event Image",
                 status: 'error',
                 isClosable: true,
@@ -149,7 +145,7 @@ function SubmitEvent(props: Iprops) {
                 }); return
             } else if (!item.minTicketBuy) {
                 toast({
-                    title: "Please Enter Min Ticket Buy", 
+                    title: "Please Enter Minimum Ticket Buy", 
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -157,7 +153,7 @@ function SubmitEvent(props: Iprops) {
                 }); return
             } else if (!item.maxTicketBuy) {
                 toast({
-                    description: "Please Enter Max Ticket Buy",
+                    description: "Please Enter Maximum Ticket Buy",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
