@@ -81,7 +81,7 @@ function SubmitEvent(props: Iprops) {
                 }
             }
         }
-    }
+    }     
 
     const getValidationInfo = () => {
         if (!eventdata?.startDate) { 
@@ -126,17 +126,7 @@ function SubmitEvent(props: Iprops) {
                 saveToDraft.mutate(eventdata)
             }
         }
-    }
-
-    // const getValidationAll = () => {
-    //     if (tab === 0) {
-    //         return getValidationTheme()
-    //     } else if (tab === 1) {
-    //         return getValidationInfo()
-    //     } else {
-    //         return getValidationTicket()
-    //     }
-    // }
+    } 
 
     const getValidationTicket: any = () => {
         return eventdata?.productTypeData?.every((item: any, index: number) => {
