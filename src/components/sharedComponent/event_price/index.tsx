@@ -19,15 +19,15 @@ function EventPrice(props: Props) {
 
     const DataFormater = (number: number, prefix: string) => {
         if(number > 1000000000){
-          return (prefix)+(number/1000000000).toString() + 'B';
+          return (prefix)+(number/1000000000)?.toString() + 'B';
         }else if(number > 1000000){
-          return (prefix)+(number/1000000).toString() + 'M';
+          return (prefix)+(number/1000000)?.toString() + 'M';
         }else if(number > 1000){
-          return (prefix)+(number/1000).toString() + 'K';
+          return (prefix)+(number/1000)?.toString() + 'K';
         }else{
-          return (prefix)+number.toString();
+          return (prefix)+(number ? number : 0)?.toString();
         }
-      }
+    }
 
     return (
         <Text>
@@ -38,14 +38,14 @@ function EventPrice(props: Props) {
                         <>
                             {minPrice === maxPrice && (
                                 <>
-                                    {DataFormater(minPrice, currency === "USD" ? "$" : "₦")}
+                                    {minPrice ? DataFormater(minPrice, currency === "USD" ? "$" : "₦") : "0"}
                                 </>
                             )}
                             {minPrice !== maxPrice && (
                                 <>
-                                    {DataFormater(minPrice, currency === "USD" ? "$" : "₦")}
+                                    {minPrice ? DataFormater(minPrice, currency === "USD" ? "$" : "₦") : "0"}
                                     {" - "}
-                                    {DataFormater(maxPrice, currency === "USD" ? "$" : "₦")}
+                                    {maxPrice ? DataFormater(maxPrice, currency === "USD" ? "$" : "₦") : "0"}
                                 </>
                             )}
                         </>
