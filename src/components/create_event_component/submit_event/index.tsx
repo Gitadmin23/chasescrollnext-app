@@ -47,7 +47,7 @@ function SubmitEvent(props: Iprops) {
             });
             return
         } else if (!eventdata?.eventDescription) {
-            toast({ 
+            toast({
                 description: "Please Enter Event Description",
                 status: 'error',
                 isClosable: true,
@@ -56,7 +56,7 @@ function SubmitEvent(props: Iprops) {
             });
             return
         } else if (!image && !eventdata?.currentPicUrl) {
-            toast({ 
+            toast({
                 description: "Please Enter Event Image",
                 status: 'error',
                 isClosable: true,
@@ -77,11 +77,11 @@ function SubmitEvent(props: Iprops) {
                 }
             }
         }
-    }     
+    }
 
     const getValidationInfo = () => {
-        if (!eventdata?.startDate) { 
-            toast({ 
+        if (!eventdata?.startDate) {
+            toast({
                 description: "Please Enter Event Starting Date",
                 status: 'error',
                 isClosable: true,
@@ -90,7 +90,7 @@ function SubmitEvent(props: Iprops) {
             });
             return
         } else if (!eventdata?.endDate) {
-            toast({ 
+            toast({
                 description: "Please Enter Event Ending Date",
                 status: 'error',
                 isClosable: true,
@@ -100,7 +100,7 @@ function SubmitEvent(props: Iprops) {
             return
         } else if (!eventdata?.location?.toBeAnnounced) {
             if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
-                toast({ 
+                toast({
                     description: "Please Enter Event Location",
                     status: 'error',
                     isClosable: true,
@@ -122,77 +122,7 @@ function SubmitEvent(props: Iprops) {
                 saveToDraft.mutate(eventdata)
             }
         }
-    } 
-
-    const getValidationTicket: any = () => {
-        return eventdata?.productTypeData?.every((item: any, index: number) => {
-
-            if (!item.totalNumberOfTickets) {
-                toast({ 
-                    description: "Please Enter Total Number Of Tickets",
-                    status: 'error',
-                    isClosable: true,
-                    duration: 5000,
-                    position: 'top-right',
-                }); return
-            } else if (!item.ticketType) {
-                toast({
-                    description: "Please Enter Ticket Type Or Name",
-                    status: 'error',
-                    isClosable: true,
-                    duration: 5000,
-                    position: 'top-right',
-                }); return
-            } else if (!item.minTicketBuy) {
-                toast({
-                    title: "Please Enter Minimum Ticket Buy", 
-                    status: 'error',
-                    isClosable: true,
-                    duration: 5000,
-                    position: 'top-right',
-                }); return
-            } else if (!item.maxTicketBuy) {
-                toast({
-                    description: "Please Enter Maximum Ticket Buy",
-                    status: 'error',
-                    isClosable: true,
-                    duration: 5000,
-                    position: 'top-right',
-                }); return
-            } else if (eventdata?.productTypeData?.length === index + 1) { 
-                if (getValidationTicketNotification() === false) {
-                    toast({
-                        status: "error",
-                        title: "Error",
-                        description: "minimum ticket Price can't be less than zero ",
-                        position: "top-right"
-                    })
-                } else {
-                    if (pathname?.includes("edit_event")) {
-                        if (image) {
-                            const fd = new FormData();
-                            fd.append("file", image);
-                            uploadImage.mutate(fd)
-                        } else {
-                            // updateUserEvent.mutate(clean(eventdata))
-                        }
-                    } else {
-                        createEventFromDraft.mutate(eventdata)
-                    }
-                }
-            } else {
-                toast({
-                    description: "Please Fill Ticket Information ",
-                    status: 'error',
-                    isClosable: true,
-                    duration: 5000,
-                    position: 'top-right',
-                });
-                return
-            }
-        })
     }
-
 
 
     const getValidationThemeBtn = () => {
@@ -232,6 +162,77 @@ function SubmitEvent(props: Iprops) {
             return getValidationTicketBtn()
         }
     }
+    const getValidationTicket: any = () => {
+        return eventdata?.productTypeData?.every((item: any, index: number) => {
+
+            if (!item.totalNumberOfTickets) {
+
+                toast({
+                    description: "Please Enter Total Number Of Tickets",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                }); return
+            } else if (!item.ticketType) {
+                toast({
+                    description: "Please Enter Ticket Type Or Name",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                }); return
+            } else if (!item.minTicketBuy) {
+                toast({
+                    title: "Please Enter Minimum Ticket Buy",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                }); return
+            } else if (!item.maxTicketBuy) {
+                toast({
+                    description: "Please Enter Maximum Ticket Buy",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                }); return
+            } else if (getValidationTicketBtn()) {
+                toast({
+                    description: "Please Fill Ticket Information ",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            } else {
+                if (getValidationTicketNotification() === false) {
+                    toast({
+                        status: "error",
+                        title: "Error",
+                        description: "minimum ticket Price can't be less than zero ",
+                        position: "top-right"
+                    })
+                } else {
+                    if (pathname?.includes("edit_event")) {
+                        if (image) {
+                            const fd = new FormData();
+                            fd.append("file", image);
+                            uploadImage.mutate(fd)
+                        } else {
+                            updateUserEvent.mutate(eventdata)
+                        }
+                    } else {
+                        createEventFromDraft.mutate(eventdata)
+                    }
+                    console.log("helll");
+
+                }
+            }
+        })
+    }
 
     const getValidationTicketBtn: any = () => {
 
@@ -251,7 +252,7 @@ function SubmitEvent(props: Iprops) {
                 return true
             }
         })
-    } 
+    }
 
     const getValidationTicketNotification: any = () => {
         return eventdata?.productTypeData?.every((item: any) => {
