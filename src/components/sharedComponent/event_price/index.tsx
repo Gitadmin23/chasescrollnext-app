@@ -17,6 +17,23 @@ function EventPrice(props: Props) {
         indetail
     } = props
 
+    console.log(minPrice);
+    console.log(maxPrice);
+
+
+
+    const DataFormater = (number: number, prefix: string) => {
+        if(number > 1000000000){
+          return (prefix)+(number/1000000000).toString() + 'B';
+        }else if(number > 1000000){
+          return (prefix)+(number/1000000).toString() + 'M';
+        }else if(number > 1000){
+          return (prefix)+(number/1000).toString() + 'K';
+        }else{
+          return (prefix)+number.toString();
+        }
+      }
+
     return (
         <Text>
             {!indetail && (
@@ -24,7 +41,18 @@ function EventPrice(props: Props) {
                     {(minPrice === 0 && maxPrice === 0) ?
                         "Free" :
                         <>
-                            {currency === "USD" ? "$" : "₦"}{maxPrice}
+                            {minPrice === maxPrice && (
+                                <>
+                                    {DataFormater(minPrice, currency === "USD" ? "$" : "₦")}
+                                </>
+                            )}
+                            {minPrice !== maxPrice && (
+                                <>
+                                    {DataFormater(minPrice, currency === "USD" ? "$" : "₦")}
+                                    {" - "}
+                                    {DataFormater(maxPrice, currency === "USD" ? "$" : "₦")}
+                                </>
+                            )}
                         </>
                     }
                 </>
@@ -40,7 +68,7 @@ function EventPrice(props: Props) {
                                 </>
                             )}
                             {minPrice !== maxPrice && (
-                                <> 
+                                <>
                                     {formatNumber(minPrice, currency === "USD" ? "$" : "₦")}
                                     -
                                     {formatNumber(maxPrice, currency === "USD" ? "$" : "₦")}

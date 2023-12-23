@@ -67,7 +67,7 @@ function ExploreEventCard(props: Props) {
                 <Box width={searchbar ? "full" : ["full", "full", page ? "full" : "250px"]} mt={["10px", "10px", page ? "10px" : "0px", page ? "10px" : "0px"]} ml={["0px", "0px", page ? "0px" : "10px", page ? "0px" : "10px"]} >
                     <Flex fontWeight={"semibold"} width={"full"} justifyContent={"space-between"} borderBottomColor={"#D0D4EB"} borderBottom={search ? "1px" : "0px"} pb={"1"} >
                         <Text fontSize={searchbar ? "16px" : "18px"} >{event.eventName?.length >= 17 ? event.eventName.slice(0, 17) + "..." : event.eventName}</Text>
-                        <Text fontSize={searchbar ? "14px" : "16px"} >
+                        <Text fontSize={searchbar ? "14px" : "14px"} >
                             <EventPrice minPrice={event?.minPrice} maxPrice={event?.maxPrice} currency={event?.currency} />
                         </Text>
                     </Flex>

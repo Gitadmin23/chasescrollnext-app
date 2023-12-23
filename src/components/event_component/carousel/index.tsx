@@ -40,9 +40,7 @@ function EventCarousel(props: Props) {
         onSuccess: (data) => {
             setData(data.data.content);
         }
-    })
-
-    const [selectedTicket, setSelectedTicket] = useState({} as any)
+    }) 
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -63,8 +61,9 @@ function EventCarousel(props: Props) {
                                                 </Box>
                                             </Box>
                                             <Box width={"full"} pb={"10px"} px={"1"} >
-                                                <Flex color={"#121212"} fontSize={"20px"} bg={"white"} alignItems={"center"} justifyContent={"space-between"} fontWeight={"medium"} pt={"3"}  >
-                                                    <Text >{item?.eventName}</Text>
+                                                <Flex color={"#121212"} fontSize={["16px", "16px", "20px"]} bg={"white"} alignItems={"center"} justifyContent={"space-between"} fontWeight={"medium"} pt={"3"}  >
+                                                    <Text display={["none", "none", "block"]} >{item?.eventName}</Text> 
+                                                    <Text display={["block", "block", "none"]}  >{item.eventName?.length >= 17 ? item.eventName.slice(0, 17) + "..." : item.eventName}</Text>
                                                     <EventPrice minPrice={item?.minPrice} maxPrice={item?.maxPrice} currency={item?.currency} />
                                                 </Flex>
                                                 <Flex alignItems={"center"} width={"full"} py={"2"} gap={"3"} justifyContent={"space-between"} >
