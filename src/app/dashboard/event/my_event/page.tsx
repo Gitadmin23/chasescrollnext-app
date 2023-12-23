@@ -17,7 +17,7 @@ function MyEvent(props: Props) {
 
     return (
         <HStack height={"fit-content"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"}  >
-            <Box width={["full", "full", "800px"]} px={"6"} position={"relative"} >
+            <Box width={["full", "full", "700px"]} px={"6"} position={"relative"} >
                 <Box width={"full"}  >
                     <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
                         <Flex gap={"4"} flexDirection={"column"} >

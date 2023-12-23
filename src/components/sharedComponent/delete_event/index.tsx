@@ -54,7 +54,7 @@ function DeleteEvent(props: Props) {
     }, [deleteEvent])
 
     return (
-        <Box as='button' onClick={handleSave} color={"brand.chasescrollRed"} fontWeight={"semibold"} width={"fit-content"} display={"flex"} justifyContent={"center"} fontSize={"sm"} alignItems={"center"} disabled={deleteEvent.isLoading} >
+        <Box as='button' onClick={handleSave} color={"brand.chasescrollRed"} borderWidth={"1px"} borderColor={"brand.chasescrollRed"} fontWeight={"semibold"} width={"fit-content"} display={"flex"} justifyContent={"center"} fontSize={"xs"} px="3" rounded={"full"} alignItems={"center"} disabled={deleteEvent.isLoading} >
             {(deleteEvent.isLoading) && <Spinner size='sm' color="brand.chasesccrollButtonBlue" />}
             {(!deleteEvent.isLoading) && (
                 "delete"
