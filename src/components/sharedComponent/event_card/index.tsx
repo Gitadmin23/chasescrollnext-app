@@ -46,9 +46,9 @@ function ExploreEventCard(props: Props) {
     const { userId, email } = useDetails((state) => state);
 
     const clickHandler = () => {
-        if(!userId && !email ){
+        if (!userId && !email) {
             router.push("/event/" + event?.id)
-        }else if (draft) {
+        } else if (draft) {
             router.push("/dashboard/event/edit_draft/" + event?.id)
         } else if (dashboard) {
             router.push("/dashboard/settings/event-dashboard/" + event?.id)
@@ -85,10 +85,10 @@ function ExploreEventCard(props: Props) {
                     )}
                     <Flex alignItems={"center"} width={"full"} pb={"1"} gap={"3"} justifyContent={"space-between"} >
                         <EventLocationDetail iconsize={searchbar ? "16px" : "20px"} fontWeight={"medium"} fontsize={searchbar ? "13px" : page ? "14px" : "16px"} color={"rgba(18, 18, 18, 0.80)"} location={event?.location} locationType={event?.locationType} length={20} />
-                        {(!draft && !profile) && (
+                        {(!draft && !profile && !my_event) && (
                             <Flex alignItems={"center"} gap={"3"} >
                                 <ShareEvent data={event} type="EVENT" size='18px' id={event?.id} />
-                                {(userId && email && !my_event) && (
+                                {(userId && email) && (
                                     <SaveOrUnsaveBtn event={event} />
                                 )}
                             </Flex>
@@ -112,9 +112,13 @@ function ExploreEventCard(props: Props) {
                                     {event?.eventType?.replace("_", " ")}
                                 </Text>
                             </Flex>
-
-                            <Flex rounded={"md"} px={"2"} py={"1"} width={"fit-content"} bgColor={"brand.chasescrollBgBlue"} color={"brand.chasescrollBlue"} gap={"2"} fontSize={"sm"} alignItems={"center"} >
-                                {event?.isOrganizer ? "Organizer" : "Attending"}
+                            <Flex alignItems={"center"} gap={"3"} > 
+                                <Flex rounded={"md"} px={"2"} py={"1"} width={"fit-content"} bgColor={"brand.chasescrollBgBlue"} color={"brand.chasescrollBlue"} gap={"2"} fontSize={"sm"} alignItems={"center"} >
+                                    {event?.isOrganizer ? "Organizer" : "Attending"}
+                                </Flex>
+                                {my_event && (
+                                    <ShareEvent data={event} type="EVENT" size='18px' id={event?.id} />
+                                )}
                             </Flex>
                         </Flex>
                     )}
