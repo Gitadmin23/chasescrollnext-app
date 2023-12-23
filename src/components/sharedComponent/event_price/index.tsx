@@ -15,12 +15,7 @@ function EventPrice(props: Props) {
         minPrice,
         currency,
         indetail
-    } = props
-
-    console.log(minPrice);
-    console.log(maxPrice);
-
-
+    } = props 
 
     const DataFormater = (number: number, prefix: string) => {
         if(number > 1000000000){
