@@ -1,3 +1,4 @@
+import InformationTab from '@/components/booking_component/detail_component/information_tab'
 import { Box } from '@chakra-ui/react'
 import React from 'react'
 
@@ -8,7 +9,7 @@ function BookingDetails(props: Props) {
 
     return (
         <Box width={"full"} >
-
+            <InformationTab />
         </Box>
     )
 }
