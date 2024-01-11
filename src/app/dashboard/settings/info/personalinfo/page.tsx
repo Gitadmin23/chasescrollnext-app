@@ -150,7 +150,6 @@ function EditProfile() {
                         <CustomInput name='mobilePhone' isPassword={false} type='text' placeholder='' />
                     </VStack>
 
-
                     <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
                         <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Gender</CustomText>
                         <CustomSelect name='gender' option={['Male', 'Female']} isPassword={false} type='text' placeholder='' />
