@@ -23,13 +23,13 @@ function PastEvent(props: Props) {
                                 if (results.length === i + 1) {
                                     return (
                                         <Box key={event?.userId} width={"full"} ref={ref} >
-                                            <ExploreEventCard event={event} />
+                                            <ExploreEventCard past={true} event={event} />
                                         </Box>
                                     )
                                 } else {
                                     return (
                                         <Box key={event?.userId} width={"full"}  >
-                                            <ExploreEventCard event={event} />
+                                            <ExploreEventCard past={true} event={event} />
                                         </Box>
                                     )
                                 }
