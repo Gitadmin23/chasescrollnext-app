@@ -15,7 +15,7 @@ function PastEvent(props: Props) {
 
     return (
         <HStack height={"fit-content"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"}  >
-            <Box width={["full", "full", "600px"]} px={"6"} position={"relative"} >
+            <Box width={["full", "full", "700px"]} px={"6"} position={"relative"} >
                 <Box width={"full"}  >
                     <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
                         <Flex gap={"4"} flexDirection={"column"} >
@@ -23,13 +23,13 @@ function PastEvent(props: Props) {
                                 if (results.length === i + 1) {
                                     return (
                                         <Box key={event?.userId} width={"full"} ref={ref} >
-                                            <ExploreEventCard event={event} />
+                                            <ExploreEventCard past={true} event={event} />
                                         </Box>
                                     )
                                 } else {
                                     return (
                                         <Box key={event?.userId} width={"full"}  >
-                                            <ExploreEventCard event={event} />
+                                            <ExploreEventCard past={true} event={event} />
                                         </Box>
                                     )
                                 }

@@ -4,8 +4,8 @@ import { Upload } from "@aws-sdk/lib-storage";
 import { S3Client } from "@aws-sdk/client-s3";
 
 const cred = {
-    accessKeyId: 'AKIA6I6LF3LQ4YD4GL5H',
-    secretAccessKey: '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'
+    accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY as string,
+    secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_KEY as string
 }
 
 const AWSHook = () => {
