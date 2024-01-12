@@ -58,15 +58,15 @@ function EditProfile() {
                     "data": {
                         "imgMain": {
                             objectPublic: true,
-                            "value": pic?.url
+                            "value": pic?.url ?? ''
                         },
                         "webAddress": {
                             objectPublic: true,
-                            "value": data.website
+                            "value": data.website.length < 1 ? '   ' : data.website ?? ''
                         },
                         "about": {
                             objectPublic: true,
-                            "value": data.aboutme
+                            "value": data.aboutme.length < 1 ? '   ' : data.aboutme ?? ''
                         },
                     }
                 }

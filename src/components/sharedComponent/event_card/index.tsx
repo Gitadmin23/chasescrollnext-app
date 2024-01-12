@@ -23,6 +23,7 @@ interface Props {
     searchbar?: boolean,
     date?: boolean,
     profile?: boolean,
+    past?: boolean,
     dashboard?: boolean,
 }
 
@@ -36,6 +37,7 @@ function ExploreEventCard(props: Props) {
         searchbar,
         date,
         profile,
+        past,
         dashboard
     } = props
 
@@ -50,8 +52,11 @@ function ExploreEventCard(props: Props) {
             router.push("/event/" + event?.id)
         } else if (draft) {
             router.push("/dashboard/event/edit_draft/" + event?.id)
+
         } else if (dashboard) {
             router.push("/dashboard/settings/event-dashboard/" + event?.id)
+        } else if (past) { 
+            router.push("/dashboard/event/pastdetails/" + event?.id)
         } else {
             router.push("/dashboard/event/details/" + event?.id)
         }

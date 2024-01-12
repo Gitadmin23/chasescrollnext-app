@@ -48,11 +48,11 @@ function EditProfile() {
                     "showEmail": showEmail,
                     "data": {
                         gender: {
-                            // objectPublic: true,
+                            objectPublic: true,
                             value: data.gender,
                         },
                         mobilePhone: {
-                            // objectPublic: true,
+                            objectPublic: true,
                             value: data.mobilePhone,
                         }
                     }
@@ -137,7 +137,7 @@ function EditProfile() {
 
                     <VStack mt={"6"} alignItems={'flex-start'} width={'100%'} spacing={0}>
                         <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Email</CustomText>
-                        <CustomInput name='email' isPassword={false} disable type='text' placeholder='' />
+                        <CustomInput name='email' isPassword={false} type='text' placeholder='' />
                     </VStack>
 
                     <HStack width={'100%'} justifyContent={'space-between'}>
@@ -150,7 +150,6 @@ function EditProfile() {
                         <CustomInput name='mobilePhone' isPassword={false} type='text' placeholder='' />
                     </VStack>
 
-
                     <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
                         <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Gender</CustomText>
                         <CustomSelect name='gender' option={['Male', 'Female']} isPassword={false} type='text' placeholder='' />
@@ -158,7 +157,7 @@ function EditProfile() {
 
                     <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
                         <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Date of birth</CustomText>
-                        <CustomInput name='dob' isPassword={false} type='date' placeholder='' disable />
+                        <CustomInput name='dob' isPassword={false} type='date' placeholder='' />
                     </VStack>
 
                     <Button type='submit' isLoading={editProfile.isLoading} borderWidth={'0px'} variant={'outline'} width='99%' outlineColor={'brand.chasescrollButtonBlue'} color='brand.chasescrollButtonBlue'>Save Changes</Button>
