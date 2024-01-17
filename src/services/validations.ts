@@ -6,10 +6,10 @@ const signUpValidation = z.object({
     email: z.string().email().nonempty(),
     firstName: z.string().nonempty(),
     lastName: z.string().nonempty(),
-    dob: z.string().nonempty(),
+    dob: z.string().nonempty('Fill in a vaild date'),
     password: z.string().nonempty(),
     confirmPassword: z.string().nonempty(),
-    phone: z.string().nonempty(),
+    phone: z.number().min(10, 'Enter a valid phone number'),
 }).refine(({ password, confirmPassword }) => {
     if (confirmPassword !== password) {
         return false
@@ -30,6 +30,16 @@ const signUpValidation = z.object({
 }, {
     message: 'You must be upto 18 to register',
     path: ['dob']
+})
+.refine(({ username }) => {
+    if (username.includes(' ')) {
+        return false;
+    } else {
+        return true;
+    }
+}, {
+    message: 'Username cannot contain spaces',
+    path: ['username'],
 })
 
 const signInValidation = z.object({

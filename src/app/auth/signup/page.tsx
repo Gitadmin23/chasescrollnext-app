@@ -101,7 +101,7 @@ function Signup() {
 
       <VStack width={['100%', '100%', '25%', '25%']}>
             <CustomInput name='email' isPassword={false} type='email' placeholder='Enter your email'  />
-            <CustomInput name='username' isPassword={false} type='text' placeholder='Enter your username' hint='Space not allowed in username' />
+            <CustomInput name='username' isPassword={false} type='text' placeholder='Enter your username' />
             <CustomInput name='firstName' isPassword={false} type='text' placeholder='Enter your firstname' />
             <CustomInput name='lastName' isPassword={false} type='text' placeholder='Enter your lastname' />
             <CustomInput name='dob' isPassword={false} type='date' placeholder='Enter your birth date' />
