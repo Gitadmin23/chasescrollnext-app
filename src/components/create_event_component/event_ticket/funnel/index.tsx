@@ -44,7 +44,7 @@ function FunnelBtn(props: Props) {
                     <Flex width={"full"} flexDir={"column"}  >
                         <Flex as={"button"} onClick={()=> setTab(1)} width={"full"} py={"3"} justifyContent={"end"} alignItems={"center"} gap={"3"} pr={"12"} >
                             <AddIcon />
-                            Add Comunity
+                            Add community
                         </Flex>
                         <Flex width={"full"} justifyContent={"center"} py={"6"}  >
                             <Flex width={["full", "600px"]} flexDirection={"column"} gap={"4"} >

@@ -127,6 +127,10 @@ function SelectTicketNumber(props: Props) {
         setNumberOfTicket(selectedTicket?.minTicketBuy)
     }, [])
 
+    console.log(selectedTicket?.ticketPrice);
+    
+    
+
     return (
         <Box width={"full"} bg={"white"} px={"8"} py={"10"} >
             <Flex alignItems={"center"} gap={"4"} >
@@ -161,11 +165,17 @@ function SelectTicketNumber(props: Props) {
                     </Flex>
                     <Flex justifyContent={"space-between"} >
                         <Text>Processing Fee</Text>
-                        <Text>{selectedTicket?.ticketType === "Free" ? data?.currency === "USD" ? "$0" : "₦0" : formatNumber((data?.currency === "USD" ? usdtotal - price - service : (nairatotal < 2500 ? nairatotalnew : nairatotal) - price - service), data?.currency === "USD" ? "$" : "₦")}</Text>
+                        {selectedTicket?.ticketPrice === 0 ? <Text>{data?.currency === "USD" ? "$0" : "₦0" }</Text> :
+                            <Text>{formatNumber((data?.currency === "USD" ? usdtotal - price - service : (nairatotal < 2500 ? nairatotalnew : nairatotal) - price - service), data?.currency === "USD" ? "$" : "₦")}</Text>
+                        }
+                        {/* <Text>{selectedTicket?.ticketPrice === 0 ? data?.currency === "USD" ? "$0" : "₦0" : formatNumber((data?.currency === "USD" ? usdtotal - price - service : (nairatotal < 2500 ? nairatotalnew : nairatotal) - price - service), data?.currency === "USD" ? "$" : "₦")}</Text> */}
                     </Flex>
                     <Flex justifyContent={"space-between"} >
                         <Text>Total</Text>
-                        <Text>{selectedTicket?.ticketType === "Free" ? data?.currency === "USD" ? "$0" : "₦0" : formatNumber((data?.currency === "USD" ? usdtotal : (nairatotal < 2500 ? nairatotalnew : nairatotal)), data?.currency === "USD" ? "$" : "₦")}</Text>
+                        {selectedTicket?.ticketPrice === 0 ? <Text>{data?.currency === "USD" ? "$0" : "₦0" }</Text> :
+                            <Text>{formatNumber((data?.currency === "USD" ? usdtotal : (nairatotal < 2500 ? nairatotalnew : nairatotal)), data?.currency === "USD" ? "$" : "₦")}</Text>
+                        }
+                        {/* <Text>{selectedTicket?.ticketPrice === 0 ? data?.currency === "USD" ? "$0" : "₦0" : formatNumber((data?.currency === "USD" ? usdtotal : (nairatotal < 2500 ? nairatotalnew : nairatotal)), data?.currency === "USD" ? "$" : "₦")}</Text> */}
                     </Flex>
                     <CustomButton isLoading={createTicket?.isLoading} onClick={clickHandler} text='Pay now' width={["full", "full"]} />
                 </Box>
