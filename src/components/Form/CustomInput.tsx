@@ -12,11 +12,12 @@ interface IProps {
     placeholder: string,
     disable?: boolean
     value?: any,
-    ref?: any
+    ref?: any,
+    hint?: null|string;
 }
 
 
-export const CustomInput = ({ isPassword = false, name, type, placeholder, disable, value, ref }: IProps) => {
+export const CustomInput = ({ isPassword = false, name, type, placeholder, disable, value, ref, hint = null }: IProps) => {
     const { register, formState: { errors } } = useFormContext();
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -47,6 +48,7 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
               type={isPassword ? (showPassword ? 'text' : 'password') : type}
             />
           </InputGroup>
+          { hint && <small>{hint}</small>}
           { errors[name] && <CustomText textAlign={'left'} color='red' fontSize={'sm'}>{errors[name]?.message as string}</CustomText> }
         </VStack>
     )

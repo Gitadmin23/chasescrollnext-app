@@ -203,24 +203,27 @@ function SelectTicket(props: Props) {
 
                     </Flex>
                 )
-            })}
+            })} 
 
-            {/* {eventdata.productTypeData[0]?.ticketType !== "Free" && ( */}
             <CustomButton onClick={() => HandleAddTicket(eventdata?.productTypeData?.length)} text='+ Add New Ticket Type' mt={"3"} fontWeight={"bold"} width={"fit-content"} />
-            {/* // <button onClick={() => HandleAddTicket(eventdata?.productTypeData?.length)} className=" mt-3 font-bold border text-white bg-blue-600 rounded-md py-2 w-fit px-3 " >+ Add New Ticket Type</button> */}
-            {/* )} */}
-            <Select
-                h={"45px"}
-                border={"1px solid #E2E8F0"}
-                focusBorderColor={"#E2E8F0"}
-                placeholder="Type in maximum no. of Tickets"
-                value={eventdata.currency}
-                name="currency"
-                onChange={handleChangeCurrency}
-            >
-                <option>NGN</option>
-                <option>USD</option>
-            </Select>
+           
+            <Box>
+                <label className="block text-gray-700 font-medium ">
+                    Select ticket currency
+                </label>
+                <Select
+                    h={"45px"}
+                    border={"1px solid #E2E8F0"}
+                    focusBorderColor={"#E2E8F0"}
+                    placeholder="Select ticket currency"
+                    value={eventdata.currency}
+                    name="currency"
+                    onChange={handleChangeCurrency}
+                >
+                    <option>NGN</option>
+                    <option>USD</option>
+                </Select>
+            </Box>
         </Flex>
     )
 }

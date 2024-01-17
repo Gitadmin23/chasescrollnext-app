@@ -10,7 +10,8 @@ type props = {
     children: React.ReactNode,
     title?: string,
     titlecolor?: string,
-    scrollBehavior?: "outside" | "inside"
+    scrollBehavior?: "outside" | "inside",
+    
 }
 
 export default function ModalLayout({ open, close, children, size, bg, rounded, title, scrollBehavior, titlecolor }: props) {

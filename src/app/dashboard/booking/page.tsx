@@ -9,8 +9,7 @@ function Booking(props: Props) {
     const {} = props
 
     return (
-        <Box width={"full"} >
-            Booking
+        <Box width={"full"} > 
             <ListUser />
             <BookingList />
         </Box>
