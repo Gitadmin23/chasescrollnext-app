@@ -110,7 +110,7 @@ function EventDetails(props: Props) {
                 </Box>
             </Flex>
             <Box width={"full"} px={[dynamic ? "6" : "0px", "6"]}>
-                <EventHeader name={eventName} maxPrice={maxPrice} minPrice={minPrice} currency={currency} />
+                <EventHeader name={eventName} event={dataInfo} maxPrice={maxPrice} minPrice={minPrice} currency={currency} />
                 <EventCreator dynamic={dynamic} isOrganizer={isOrganizer} convener={convener} username={username} data={dataInfo} />
                 <Flex py={"3"} justifyContent={"end"} >
                     <ShareEvent data={dataInfo} id={dataInfo?.id} type="EVENT" eventName={eventName} />
