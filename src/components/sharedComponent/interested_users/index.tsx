@@ -24,7 +24,7 @@ function InterestedUsers(props: Props) {
             {event?.interestedUsers?.length > 0 && (
                 <Flex alignItems={"center"} >
                     {event?.interestedUsers?.map((item: any, index: number) => {
-                        if (index > 4) {
+                        if (index <= 4) {
                             return (
                                 <Box key={index} ml={index === 0 ? "0px" : "-10px"} >
                                     <UserImage data={item} size={size} image={item?.data?.imgMain?.value} font={fontSize + "px"} border={border} />
