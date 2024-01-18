@@ -109,7 +109,7 @@ function LoginPage() {
         status: 'success',
         position: 'top-right'
       })
-      if (!data?.data?.username) {
+      if (!data?.data?.firstName) {
         setShowModal(true)
       } else {
         localStorage.setItem('token', data?.data?.access_token);
