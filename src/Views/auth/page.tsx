@@ -137,8 +137,8 @@ function LoginPage() {
   })
 
   React.useEffect(() => {
-    const token: any = sessionData;
-    // console.log(token.token?.token.token.accessToken);
+    const token: any = sessionData; 
+        // console.log(token.token?.token.token.accessToken);
     if (sessionData !== null) {
       if (token.token?.token?.token?.idToken) {
         signinWithGoogle.mutate(token?.token?.token?.token?.idToken);
