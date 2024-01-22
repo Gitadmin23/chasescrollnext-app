@@ -5,6 +5,8 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import '../../tailwind.css'
+import CopyRightText from "@/components/sharedComponent/CopyRightText";
+import { Text } from "@chakra-ui/react";
 
 const Footer = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -203,7 +205,12 @@ const Footer = () => {
       </div>
       <hr className="w-full mt-14 mb-8 border-b-1 border-white" />
       <div className="max-w-[1200px] w-full flex lg:flex-row flex-col-reverse items-center  ">
-        <p className=" lg:absolute inset-auto text-white lg:mt-0 mt-8 " >©2023 Chasescroll, All Rights Reserved</p>
+        {/* <Text position={["relative", "relative", "absolute"]} color={"white"} mt={"8"} inset={"auto"} >
+        <CopyRightText />
+        </Text> */}
+        <p className=" lg:absolute inset-auto text-white lg:mt-0 mt-8 " > 
+          <CopyRightText />
+        </p>
         <div className="flex gap-[35px] w-full justify-center lg:justify-end">
           <a target="_blank" href="https://twitter.com/chasescroll">
             <Icon className="text-[35px]" icon="mdi:twitter" color="white" />

@@ -1,12 +1,13 @@
 import CustomText from '@/components/general/Text';
 import { CalendarIcon, HomeIcon, MessageIcon, ProfileIcon2, SearchIcon, UsersIcon, DashboardIcon } from '@/components/svg';
 import { useDetails } from '@/global-state/useUserDetails';
-import { Box, Button, Flex, HStack, Link, Modal, ModalBody, ModalContent, ModalOverlay, VStack } from '@chakra-ui/react'; 
+import { Box, Button, Flex, HStack, Link, Modal, ModalBody, ModalContent, ModalOverlay, Text, VStack } from '@chakra-ui/react'; 
 import { usePathname, useRouter } from 'next/navigation';
 import React, { ReactNode } from 'react'
 import { FiHome, FiSearch, FiCalendar, FiMessageCircle, FiUsers, FiUser, FiPower } from 'react-icons/fi';
 import { useSession , signOut } from 'next-auth/react'
 import { Warning2 } from 'iconsax-react'
+import CopyRightText from '@/components/sharedComponent/CopyRightText';
 
 type IRoute = {
     icon: any;
@@ -117,6 +118,9 @@ function Sidebar() {
                 <FiPower fontSize='25px' color="grey"  />
                 <CustomText fontFamily={'DM-Bold'} fontSize={'16px'} color='grey' >Logout</CustomText>
             </Flex>
+            <Text fontSize={"10px"} mt={'4'} >
+                <CopyRightText/>
+            </Text>
         </VStack>
 
     )
