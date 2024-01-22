@@ -1,4 +1,6 @@
 import CustomButton from '@/components/general/Button'
+import CopyRightText from '@/components/sharedComponent/CopyRightText'
+import CopyButtton from '@/components/sharedComponent/copy_btn'
 import EventLocationDetail from '@/components/sharedComponent/event_location'
 import EventPrice from '@/components/sharedComponent/event_price'
 import EventImage from '@/components/sharedComponent/eventimage'
@@ -117,7 +119,9 @@ function ViewTicket(props: Props) {
                             fontSize={12}
                         />
 
-                        <Text alignItems={"center"} fontSize={"sm"} >© Chasescroll Llc</Text>
+                        <Text alignItems={"center"} fontSize={"xs"} >
+                            <CopyRightText />
+                        </Text>
                         <Text alignItems={"center"} fontSize={"xs"} >creating unforgettable memories…</Text>
                     </Flex>
 

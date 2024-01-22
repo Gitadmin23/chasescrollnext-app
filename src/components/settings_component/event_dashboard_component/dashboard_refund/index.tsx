@@ -1,5 +1,6 @@
 import CustomButton from '@/components/general/Button'
 import PeopleCard from '@/components/search_component/other_components/people_card'
+import CopyRightText from '@/components/sharedComponent/CopyRightText'
 import EventImage from '@/components/sharedComponent/eventimage'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import RefundBtn from '@/components/sharedComponent/refundbtn'
@@ -69,7 +70,14 @@ function DashboardRefund(props: Props) {
                 <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data?.data?.content?.length} >
                     <TableContainer>
                         <Table variant='simple' colorScheme="gray">
-                            <TableCaption>Powered By Chasescroll</TableCaption>
+                            <TableCaption>
+                                <Box>
+                                    Powered By Chasescroll
+                                    <Text fontSize={"sm"} >
+                                        <CopyRightText />
+                                    </Text>
+                                </Box>
+                            </TableCaption>
                             <Thead>
                                 <Tr>
                                     <Th>Fullname</Th>
