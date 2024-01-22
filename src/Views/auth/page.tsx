@@ -1,6 +1,6 @@
 "use client";
 import React from 'react'
-import { Box, Divider, HStack, VStack, Image, useToast, Button, Flex, Input } from '@chakra-ui/react';
+import { Box, Divider, HStack, VStack, Image, useToast, Button, Flex, Input, Text } from '@chakra-ui/react';
 import CustomText from '@/components/general/Text';
 import CustomButton from '@/components/general/Button';
 import { THEME } from '@/theme';
@@ -16,6 +16,7 @@ import { CustomInput } from '@/components/Form/CustomInput';
 import { signIn, useSession, signOut, } from 'next-auth/react'
 import { Session, } from 'next-auth';
 import httpServiceGoogle from '@/utils/httpServiceGoogle';
+import CopyRightText from '@/components/sharedComponent/CopyRightText';
 
 
 
@@ -137,8 +138,8 @@ function LoginPage() {
   })
 
   React.useEffect(() => {
-    const token: any = sessionData; 
-        // console.log(token.token?.token.token.accessToken);
+    const token: any = sessionData;
+    // console.log(token.token?.token.token.accessToken);
     if (sessionData !== null) {
       if (token.token?.token?.token?.idToken) {
         signinWithGoogle.mutate(token?.token?.token?.token?.idToken);
@@ -372,11 +373,20 @@ function LoginPage() {
 
           <CustomText fontFamily={'DM-Medium'} color='grey' textAlign={'center'} fontSize={'16px'}>Create a page for events, Community and Business.</CustomText>
 
+          {/* <Text fontSize={"10px"} mx={"auto"} >
+            <CopyRightText />
+          </Text> */}
+
         </Flex>
       </Flex>
-      <Box width={"full"} display={["none", "none", "flex"]} mt={"auto"} flexDirection={"column"} gap={"4"} pb={"4"} >
+
+      <Box width={"full"} display={["none", "none", "flex"]} mt={"auto"} flexDirection={"column"} >
+
+      <Text fontSize={"10px"} textAlign={"center"} mx={"auto"} >
+            <CopyRightText />
+          </Text>
         <Box width={"full"} borderWidth={"1px"} />
-        <Flex gap={"4"} justifyContent={"center"} alignItems={"center"} fontSize={"sm"} textAlign={"center"} color={"brand.chasescrollTextGrey"} >
+        <Flex gap={"4"} py={'2'} justifyContent={"center"} alignItems={"center"} fontSize={"sm"} textAlign={"center"} color={"brand.chasescrollTextGrey"} >
           {LINK2.map((item, index) => {
             if (item.isExternal) {
               return (

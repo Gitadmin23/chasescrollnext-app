@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, Box, Flex, Grid, HStack, VStack, useToast, Image, Button, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react'
+import { Avatar, Box, Flex, Grid, HStack, VStack, useToast, Image, Button, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react'
 import React, { ReactNode } from 'react'
 import CustomText from '@/components/general/Text';
 import '../globals.css'
@@ -24,6 +24,7 @@ import UserImage from '@/components/sharedComponent/userimage';
 import { signOut } from 'next-auth/react';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 import DashboardNavbar from '@/components/sharedComponent/dashboard_navbar';
+import CopyRightText from '@/components/sharedComponent/CopyRightText';
 type IRoute = {
     icon: ReactNode;
     text: string;
@@ -174,7 +175,7 @@ function Layout({ children }: {
                 </Flex>
                 <Flex flex={1} w="full" h="full" pt={(!pathname?.includes("create_event") || !pathname?.includes("edit_draft") || !pathname?.includes("edit_event")) ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
                     {(!pathname?.includes("create_event") || !pathname?.includes("edit_draft") || !pathname?.includes("edit_event")) && (
-                        <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']}>
+                        <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']} flexDir={"column"} >
                             <Sidebar />
                         </Box>
                     )}

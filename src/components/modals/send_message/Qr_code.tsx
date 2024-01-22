@@ -8,8 +8,9 @@ import { IoClose } from 'react-icons/io5';
 import QRCode from "react-qr-code";
 import { useReactToPrint } from 'react-to-print';
 import {
-    exportComponentAsJPEG, 
+    exportComponentAsJPEG,
 } from "react-component-export-image";
+import CopyRightText from '@/components/sharedComponent/CopyRightText';
 
 interface Props {
     id: string | number;
@@ -24,7 +25,7 @@ function Qr_code(props: Props) {
         data
     } = props
 
-    const componentRef: any = React.useRef(); 
+    const componentRef: any = React.useRef();
 
     return (
         <Flex flexDir={"column"} roundedTop={"6px"} alignItems={"center"} pb={"8"} >
@@ -42,11 +43,11 @@ function Qr_code(props: Props) {
                             <CustomText fontWeight={"bold"} fontFamily={'Satoshi-Regular'} color='#FFF'>Chasescroll</CustomText>
                         </HStack>
                     </Flex>
-                    <Flex  zIndex={20} justifyContent={"center"} roundedTop={"6px"} pt={"4"} color={"white"} width={"full"} >
-                        <Text fontWeight={"semibold"} >Event Name: {data?.eventName?.length >= 16 ? data?.eventName?.slice(0, 16)+"..." : data?.eventName}</Text>
+                    <Flex zIndex={20} justifyContent={"center"} roundedTop={"6px"} pt={"4"} color={"white"} width={"full"} >
+                        <Text fontWeight={"semibold"} >Event Name: {data?.eventName?.length >= 16 ? data?.eventName?.slice(0, 16) + "..." : data?.eventName}</Text>
                     </Flex>
-                    <Flex justifyContent={"center"} flex={1} width={"full"} pt={"6"} > 
-                        <Box  zIndex={20} width={["80%", "60%"]} shadow={"lg"} bg={"white"} p={"3"} rounded={"md"} >
+                    <Flex justifyContent={"center"} flex={1} width={"full"} pt={"6"} >
+                        <Box zIndex={20} width={["80%", "60%"]} shadow={"lg"} bg={"white"} p={"3"} rounded={"md"} >
                             <QRCode
                                 style={{ height: "auto", maxWidth: "100%", width: "100%", zIndex: 20 }}
                                 value={`${WEBSITE_URL}/event/${id}`}
@@ -54,9 +55,12 @@ function Qr_code(props: Props) {
                             />
                         </Box>
                     </Flex>
-                    <Text my={"4"} color={"#121212CC"} >Scan here and get Your Event Link</Text>
+                    <Text mt={"4"} color={"#121212CC"} >Scan here and get Your Event Link</Text> 
+                    <Text fontSize={"xs"} textAlign={"center"} >
+                        <CopyRightText />
+                    </Text>
                 </Flex>
-            </Flex> 
+            </Flex>
             <CustomButton maxWidth={"300px"} backgroundColor={"#8893E4"} onClick={() => exportComponentAsJPEG(componentRef)} text='Download QR-Code' />
         </Flex>
     )
