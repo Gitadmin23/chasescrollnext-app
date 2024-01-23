@@ -25,6 +25,8 @@ import useStripeStore from '@/global-state/useStripeState'
 import { loadStripe } from '@stripe/stripe-js'
 import BlurredImage from '../sharedComponent/blurred_image'
 import { useDetails } from '@/global-state/useUserDetails'
+import MapComponent from '../sharedComponent/map_component'
+import EventMap from './event_map_info'
 
 interface Props {
     dynamic?: boolean
@@ -84,8 +86,8 @@ function EventDetails(props: Props) {
 
     const { userId, email } = useDetails((state) => state);
 
-    const clickHander =()=> {
-        if(!email && !userId){
+    const clickHander = () => {
+        if (!email && !userId) {
             router.push("/")
         } else {
             router.back()
@@ -126,10 +128,11 @@ function EventDetails(props: Props) {
                     <EventLocationDetail location={location} locationType={locationType} indetail={true} />
                     <GetEventTicket ticket={price} setSelectedTicket={setSelectedCategory} data={dataInfo} selectedTicket={selectedCategory} isBought={isBought} isFree={isFree} />
                 </Grid>
-                <OtherEventInfo name={'Venue Details'} data={location?.address} />
-                {/* <Flex width={"full"} justifyContent={"center"} py="6" >
-                    <GetEventTicket ticket={price} setSelectedTicket={setSelectedCategory} data={dataInfo} selectedTicket={selectedCategory} isBought={isBought} isFree={isFree} />
-                </Flex> */}
+                {location?.address && (
+                    <OtherEventInfo name={'Venue Details'} data={location?.address} />
+                )}
+
+                <EventMap latlng={location?.latlng} />
 
             </Box>
         </Box>

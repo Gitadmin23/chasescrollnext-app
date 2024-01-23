@@ -7,6 +7,7 @@ import useEventStore from '@/global-state/useCreateEventState'
 import SelectLocation from './select_location'
 import CustomButton from '@/components/general/Button'  
 import SubmitEvent from '../submit_event'
+import SelectMap from './select_map'
 
 function EventInformation() { 
 
@@ -34,6 +35,7 @@ function EventInformation() {
                    <SelectDate data={eventdata?.endDate} name={"End"} />
                 </Flex>
                 <SelectLocation /> 
+                <SelectMap />
                 <SubmitEvent type={""} />
             </Flex> 
         </Flex>
