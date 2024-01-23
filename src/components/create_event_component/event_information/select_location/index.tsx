@@ -1,6 +1,7 @@
 import useEventStore from '@/global-state/useCreateEventState';
 import { Box, Checkbox, Flex, Input, Select, Text, Textarea } from '@chakra-ui/react';
 import React, { useState } from 'react'
+import SelectMap from '../select_map';
 
 interface Props { }
 
@@ -36,7 +37,7 @@ function SelectLocation(props: Props) {
         }
     }
 
-    const changeHandler =(item: any)=> { 
+    const changeHandler = (item: any) => {
         updateEvent({
             ...eventdata,
             locationType: item
@@ -44,14 +45,14 @@ function SelectLocation(props: Props) {
         setSelectType(item)
     }
 
-    React.useEffect(()=> {
-     if(eventdata?.location?.link && eventdata?.location?.locationDetails){
-        setSelectType("Hybrid Location")
-     } else if(eventdata?.location?.locationDetails){
-        setSelectType("Physical Location")
-     }else if(eventdata?.location?.link){
-        setSelectType("Online Location")
-     }
+    React.useEffect(() => {
+        if (eventdata?.location?.link && eventdata?.location?.locationDetails) {
+            setSelectType("Hybrid Location")
+        } else if (eventdata?.location?.locationDetails) {
+            setSelectType("Physical Location")
+        } else if (eventdata?.location?.link) {
+            setSelectType("Online Location")
+        }
     }, [eventdata?.location?.link, eventdata?.location?.locationDetails])
 
     return (
@@ -132,9 +133,9 @@ function SelectLocation(props: Props) {
                         </Box>
                     </Box>
                 )}
-            </Box> 
+            </Box>
             <Flex width={"full"} justifyContent={"space-between"} py={"4"} px={"2"} borderBottom={"1px solid #E2E8F0"} >
-                <label style={{ color: "#667085"}} >To be announced</label>
+                <label style={{ color: "#667085" }} >To be announced</label>
                 <Checkbox
                     type="checkbox"
                     name='toBeAnnounced'
@@ -167,6 +168,9 @@ function SelectLocation(props: Props) {
                     })}
                 />
             </Box>
+            {(selectType === "Physical Location" || selectType === "Hybrid Location" || eventdata?.location?.locationDetails) && (
+                <SelectMap />
+            )}
         </Box>
     )
 }

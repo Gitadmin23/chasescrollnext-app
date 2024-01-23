@@ -16,7 +16,7 @@ function SelectMap(props: Props) {
 
     return (
         <> 
-            <CustomButton onClick={()=> setOpen(true)} text='Use Google Map' />
+            <CustomButton onClick={()=> setOpen(true)} text={eventdata?.location?.latlng ? 'Change Map Location' : 'Add Google Map' } />
             <ModalLayout title='Map' open={open} close={setOpen} size={"2xl"}  > 
                 <MapComponent latlng={eventdata?.location?.latlng} close={setOpen} /> 
             </ModalLayout>

@@ -104,21 +104,22 @@ function MapComponent(props: Props) {
         lat: Number(latlng.split(" ")[0]),
         lng: Number(latlng.split(" ")[1]),
       })
+    } else {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setCenter({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        () =>
+          setCenter({
+            lat: 9.0820,
+            lng: 8.6753,
+          })
+  
+      );
     }
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setCenter({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-      },
-      () =>
-        setCenter({
-          lat: 9.0820,
-          lng: 8.6753,
-        })
-
-    );
   }, [])
 
   return (

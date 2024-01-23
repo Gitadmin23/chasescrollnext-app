@@ -1,3 +1,4 @@
+import EventMap from '@/components/event_details_component/event_map_info'
 import { LocationIcon } from '@/components/svg'
 import { Box, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
@@ -61,7 +62,7 @@ function EventLocationDetail(props: Props) {
                 <Box display={"flex"} flexDirection={"column"} borderBottomWidth={"1px"} roundedBottom={"lg"} py={"2"} >
                     <Text fontSize={"sm"} fontWeight={"semibold"} >{"Event location"}</Text>
                     <Flex width={"full"} gap={"3"} mt={"3"} alignItems={"center"} >
-                        <Box width={"fit-content"} > 
+                        <Box width={"fit-content"} >
                             <LocationIcon className="" />
                         </Box>
                         <Box>
