@@ -77,7 +77,7 @@ function HomeCarousel(props: Props) {
                     {data?.map((item: any, index: any) => {
                         if (index === isShown) {
                             return (
-                                <Box py={["8", "8", "0px", "0px", "0px"]} px={["4", "4", "0px", "0px", "0px"]}   >
+                                <Box key={index} py={["8", "8", "0px", "0px", "0px"]} px={["4", "4", "0px", "0px", "0px"]}   >
                                     <motion.p {...boxAnimation} >
                                         <Text as={motion.p} fontSize={"32px"} lineHeight={"-0.362px"} fontWeight={"bold"} color={["white", "white", "#121212", "#121212", "#121212"]}  >{item?.eventName}</Text>
                                     </motion.p>
