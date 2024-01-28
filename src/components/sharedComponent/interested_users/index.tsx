@@ -7,7 +7,8 @@ interface Props {
     size?: any,
     border?: string,
     fontSize: number,
-    refund?: boolean
+    refund?: boolean,
+    color?: any
 }
 
 function InterestedUsers(props: Props) {
@@ -16,7 +17,8 @@ function InterestedUsers(props: Props) {
         size,
         border,
         fontSize,
-        refund
+        refund,
+        color
     } = props
 
     return (
@@ -33,7 +35,7 @@ function InterestedUsers(props: Props) {
                         }
                     })}
                     {!refund && (
-                        <Text color={"#1732F7"} ml={"2"} fontSize={(fontSize - 2) + "px"} >
+                        <Text color={color ? color : "#1732F7"} ml={"2"} fontSize={(fontSize - 2) + "px"} >
                             Interested
                         </Text>
                     )}

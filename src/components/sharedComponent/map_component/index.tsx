@@ -125,7 +125,6 @@ function MapComponent(props: Props) {
       );
     }
 
-
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setMyLocaton({
@@ -145,6 +144,7 @@ function MapComponent(props: Props) {
           options={options}
           zoom={zoom ? zoom : 14}
           onLoad={onMapLoad}
+          
           onUnmount={onUnmount}
           onClick={onMapClick}>
           {/* <UserLocation panTo={panTo}/>   */}
@@ -152,7 +152,7 @@ function MapComponent(props: Props) {
             <MapSearch center={center} panTo={panTo} />
           )}
           {directionsResponse && (
-            <DirectionsRenderer directions={directionsResponse} />
+            <DirectionsRenderer  directions={directionsResponse} />
           )}
           <Marker
             position={{ lat: marker.lat, lng: marker.lng }}
