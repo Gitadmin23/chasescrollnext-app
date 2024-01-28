@@ -3,7 +3,8 @@ import {
   GoogleMap,
   useLoadScript,
   Marker,
-  useJsApiLoader
+  useJsApiLoader,
+  DirectionsRenderer
 } from "@react-google-maps/api";
 import { MdClose } from 'react-icons/md';
 import MapSearch from './map_search';
@@ -12,6 +13,7 @@ import { Box, Flex } from '@chakra-ui/react';
 import CustomButton from '@/components/general/Button';
 import useEventStore from '@/global-state/useCreateEventState';
 import LoadingAnimation from '../loading_animation';
+import EventDirection from './event_direction';
 
 interface Props {
   close?: any,
@@ -40,6 +42,7 @@ function MapComponent(props: Props) {
 
 
   const { eventdata, updateEvent } = useEventStore((state) => state);
+  const [directionsResponse, setDirectionsResponse] = React.useState(null);
 
   const containerStyle = {
     width: '100%',
@@ -55,9 +58,10 @@ function MapComponent(props: Props) {
 
   const [marker, setMarker] = React.useState({} as any)
   const [center, setCenter] = React.useState({} as any)
+  const [myLocaton, setMyLocaton] = React.useState({} as any)
 
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyB_p6rCYMrZmZf2WxlRIVqGPOO4qO48fYw',
+    googleMapsApiKey: 'AIzaSyCk55j_rxvh2Xwau4ifeyzl2uSv4W6nbw0',
     libraries: ["places"],
   });
 
@@ -117,9 +121,18 @@ function MapComponent(props: Props) {
             lat: 9.0820,
             lng: 8.6753,
           })
-  
+
       );
     }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setMyLocaton({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      } 
+    );
   }, [])
 
   return (
@@ -131,11 +144,15 @@ function MapComponent(props: Props) {
           options={options}
           zoom={zoom ? zoom : 14}
           onLoad={onMapLoad}
+          
           onUnmount={onUnmount}
           onClick={onMapClick}>
           {/* <UserLocation panTo={panTo}/>   */}
           {!hidesearch && (
             <MapSearch center={center} panTo={panTo} />
+          )}
+          {directionsResponse && (
+            <DirectionsRenderer  directions={directionsResponse} />
           )}
           <Marker
             position={{ lat: marker.lat, lng: marker.lng }}
@@ -143,8 +160,11 @@ function MapComponent(props: Props) {
         </GoogleMap>
       </LoadingAnimation>
       {!view && (
-        <Flex w={"full"} justifyContent={"end"} px={"4"} py={"2"} >
-          <CustomButton onClick={() => close(false)} text={hidesearch ? 'Close' : 'Okay'} width={"fit-content"} />
+        <Flex w={"full"} justifyContent={hidesearch ? "between" : "end"} px={"4"} py={"2"} >
+          {(hidesearch && !directionsResponse) && (
+            <EventDirection latLng={latlng} myLocation={myLocaton} setResult={setDirectionsResponse} />
+          )}
+          <CustomButton onClick={() => close(false)} ml={"auto"} text={hidesearch ? 'Close' : 'Okay'} width={"fit-content"} />
         </Flex>
       )}
     </Box>

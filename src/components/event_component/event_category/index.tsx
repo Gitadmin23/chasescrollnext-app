@@ -39,9 +39,9 @@ function EventCategory(props: Props) {
     return (
         <Flex pb={"8"} flexDirection={"column"} overflowX={"hidden"} >
             <Box width={"full"} overflowX={"auto"} >
-                <Flex gap={"4"} width={"fit-content"} py={"4"} >
+                <Flex gap={"9"} width={"fit-content"} py={"4"} >
 
-                    <Button onClick={()=> clickHandler("")} width={"150px"} height={"45px"} fontSize={"sm"} fontWeight={"semibold"} bg={!event_category ? "brand.chasescrollBlue" : "#98929214"} color={!event_category ? "white" : ""} >All Event</Button>
+                    <Button onClick={()=> clickHandler("")} width={"80px"} _hover={{backgroundColor: "white"}} rounded={"none"} borderBottom={!event_category ? "1px" : ""} fontSize={"16px"} lineHeight={"150%"} fontWeight={!event_category? "bold" : "normal"} height={"30px"} bg={"#FFF"} color={!event_category ? "brand.chasescrollBlue" : "#626262"} >All Event</Button>
                     {data?.sort((a: string, b: string) => {
                         if (a > b) {
                             return 1
@@ -52,7 +52,7 @@ function EventCategory(props: Props) {
                     }).map((item: any) => {
 
                         return (
-                            <Button onClick={()=> clickHandler(item)} key={item} width={"180px"} height={"45px"} fontSize={"sm"} fontWeight={"semibold"} bg={event_category === item ? "brand.chasescrollBlue" : "#98929214"} borderColor={"brand.chasescrollBlue"} borderWidth={"1px"} color={event_category === item ? "white" : "brand.chasescrollBlue"} >{item?.split("_")?.join(" ")}</Button>
+                            <Button onClick={()=> clickHandler(item)} key={item} _hover={{backgroundColor: "white", borderBottom: "1px"}} rounded={"none"} width={"fit-content"} height={"30px"} fontSize={"sm"} fontWeight={event_category === item ? "bold" : "normal"} bg={"#FFF"} borderBottomColor={"brand.chasescrollBlue"} borderBottom={event_category === item ? "1px" : "0px"} textColor={event_category === item ? "brand.chasescrollBlue" : "#626262"} >{item?.split("_")?.join(" ")}</Button>
                         )
                     })}
                 </Flex>
