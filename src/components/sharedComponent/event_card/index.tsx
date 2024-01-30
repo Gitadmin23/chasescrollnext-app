@@ -56,7 +56,7 @@ function ExploreEventCard(props: Props) {
 
         } else if (dashboard) {
             router.push("/dashboard/settings/event-dashboard/" + event?.id)
-        } else if (past) { 
+        } else if (past) {
             router.push("/dashboard/event/pastdetails/" + event?.id)
         } else {
             router.push("/dashboard/event/details/" + event?.id)
@@ -67,10 +67,11 @@ function ExploreEventCard(props: Props) {
     return (
         <Box boxShadow={page ? "md" : "none"} as='button' onClick={() => clickHandler()} py={searchbar ? "2" : ["6", "6", "4"]} px={["6", "6", "4"]} roundedBottom={"32px"} flex={"1"} roundedTopLeft={"32px"} borderColor={"brand.chasescrollPalePurple"} borderBottomWidth={searchbar ? " " : "1px"} maxWidth={["400px", "400px", "full"]} width={"full"} >
             <Flex flexDirection={["column", "column", page ? "column" : "row"]} width={"full"} flex={"1"} alignItems={"center"} justifyContent={"space-between"} >
-                <Box width={["full", "full", "full"]} >
-
-                <BlurredImage height={searchbar ? "80px" : ["230px", "230px", page ? "220px" : my_event ? "180px" : "150px"]} image={event?.currentPicUrl} />
-                    {/* <EventImage date={date} data={event} searchbar={searchbar} width={searchbar ? "90px" : ["full", "full", page ? "full" : "230px"]} height={searchbar ? "80px" : ["230px", "230px", page ? "220px" : my_event ? "180px" : "150px"]} /> */}
+                <Box width={["full", "full", page ? "full" : "fit-content"]} >
+                    {page ?
+                        <BlurredImage height={searchbar ? "80px" : ["230px", "230px", page ? "220px" : my_event ? "180px" : "150px"]} image={event?.currentPicUrl} /> :
+                        <EventImage date={date} data={event} searchbar={searchbar} width={searchbar ? "90px" : ["full", "full", page ? "full" : "230px"]} height={searchbar ? "80px" : ["230px", "230px", page ? "220px" : my_event ? "180px" : "150px"]} />
+                    }
                 </Box>
                 <Box width={searchbar ? "full" : ["full", "full", page ? "full" : "full"]} mt={["10px", "10px", page ? "10px" : "0px", page ? "10px" : "0px"]} ml={["0px", "0px", page ? "0px" : "10px", page ? "0px" : "10px"]} >
                     <Flex fontWeight={"semibold"} width={"full"} justifyContent={"space-between"} borderBottomColor={"#D0D4EB"} borderBottom={search ? "1px" : "0px"} pb={"1"} >
@@ -120,7 +121,7 @@ function ExploreEventCard(props: Props) {
                                     {event?.eventType?.replace("_", " ")}
                                 </Text>
                             </Flex>
-                            <Flex alignItems={"center"} gap={"3"} > 
+                            <Flex alignItems={"center"} gap={"3"} >
                                 <Flex rounded={"md"} px={"2"} py={"1"} width={"fit-content"} bgColor={"brand.chasescrollBgBlue"} color={"brand.chasescrollBlue"} gap={"2"} fontSize={"sm"} alignItems={"center"} >
                                     {event?.isOrganizer ? "Organizer" : "Attending"}
                                 </Flex>

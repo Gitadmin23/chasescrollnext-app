@@ -41,6 +41,19 @@ function EventUserOption(props: Props) {
         })
     }, [])
 
+    const DataFormater = (number: number) => {
+        if (number > 1000000000) {
+            return (number / 1000000000).toString() + 'B';
+        } else if (number > 1000000) {
+            return (number / 1000000).toString() + 'M';
+        } else if (number > 1000) {
+            return (number / 1000).toString() + 'K';
+        } else {
+            return number.toString();
+        }
+    }
+
+
 
     return (
         <Box my={"auto"} >
@@ -48,7 +61,7 @@ function EventUserOption(props: Props) {
                 <Flex flexDirection={["column", "column", "row"]} width={"full"} justifyContent={"center"} alignItems={"center"} gap={"3"} >
                     {!event?.productTypeData[0]?.rerouteURL ?
                         <Button onClick={() => router.push("/dashboard/settings/event-dashboard/" + event?.id)} width={"full"} bg={"brand.chasescrollBlue"} height={"49px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} >My Dashboard</Button> :
-                        <Button disabled={true} onClick={() => router.push("/dashboard/settings/event-dashboard/" + event?.id)} width={"full"} bg={"brand.chasescrollBlue"} height={"49px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} >{listOfClicks} users Clicked </Button>
+                        <Button disabled={true} onClick={() => router.push("/dashboard/settings/event-dashboard/" + event?.id)} width={"full"} bg={"brand.chasescrollBlue"} height={"49px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} >{DataFormater(listOfClicks)} users Clicked </Button>
                     }
                     <Button onClick={() => clickHandler()} _disabled={{ opacity: "0.4" }} width={"full"} bg={"brand.chasescrollBlue"} height={"49px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} >Edit Event</Button>
                 </Flex>
