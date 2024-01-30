@@ -29,7 +29,7 @@ function ImageModal() {
   return (
     <Modal isOpen={isOpen} onClose={() => setAll({ isOpen: false })} isCentered size={'2xl'}>
       <ModalOverlay />
-      <ModalContent bg={'transparent'} height={'450px'} shadow={'none'} overflow={'hidden'}>
+      <ModalContent bg={'transparent'} height={'480px'} shadow={'none'} overflow={'hidden'}>
         <ModalCloseButton size='lg' color={'white'} />
         <ModalBody bg='transparent'>
           {/* MAIN AREA */}
@@ -44,13 +44,13 @@ function ImageModal() {
             )}
 
             {/* MAIN AREA FOR IMAGE */}
-            <Box flex='1' bg='red' width={'100%'} height={'450px'} borderRadius={'20px'} overflow={'hidden'}>
+            <Box flex='1' bg='black' width={'100%'} height={'450px'} borderRadius={'20px'} overflow={'hidden'}>
 
               { images.length > 0 && (
                 <>
-                  { images[currentInx].startsWith('https://') && <Image alt='img' src={images[currentInx]} width='100%' height={'450px'} objectFit={'cover'} />}
+                  { images[currentInx].startsWith('https://') && <Image alt='img' src={images[currentInx]} width='100%' height={'100%'} objectFit={'contain'} />}
               
-                  { !images[currentInx].startsWith('https://') && <Image alt='img' src={`${IMAGE_URL}${images[currentInx]}`} width='100%' height={'450px'} objectFit={'cover'} />}
+                  { !images[currentInx].startsWith('https://') && <Image alt='img' src={`${IMAGE_URL}${images[currentInx]}`} width='100%' height={'100%'} objectFit={'contain'} />}
                 </>
               )}
 
