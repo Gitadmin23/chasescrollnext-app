@@ -37,8 +37,8 @@ const SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({ chat }, ref) => 
                 </Box>
 
                 <VStack alignItems={'flex-start'} spacing={0}>
-                    <CustomText fontFamily={'DM-Medium'} fontSize={['12px', '14px']}>{chat?.type === 'GROUP' ? chat?.name : `${chat?.otherUser.firstName} ${chat?.otherUser.lastName}`}</CustomText>
-                    <CustomText fontFamily={'Satoshi-Light'} fontSize={'14px'}>{chat.lastMessage && chat.lastMessage.length > 10 ? chat.lastMessage.substring(0, 10) + '...' : chat.lastMessage}</CustomText>
+                    <CustomText fontFamily={'DM-Medium'} fontSize={['12px', '14px']}>{chat?.type === 'GROUP' ? chat?.name : `${chat?.otherUser?.firstName} ${chat?.otherUser?.lastName}`}</CustomText>
+                    <CustomText fontFamily={'Satoshi-Light'} fontSize={'14px'}>{chat?.lastMessage && chat?.lastMessage?.length > 10 ? chat?.lastMessage?.substring(0, 10) + '...' : chat?.lastMessage}</CustomText>
                 </VStack>
             </HStack>
 
