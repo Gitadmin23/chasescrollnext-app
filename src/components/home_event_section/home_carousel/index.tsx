@@ -82,10 +82,10 @@ function HomeCarousel(props: Props) {
                             return (
                                 <Flex key={index} height={["fit-content", "fit-content", "424px", "424px", "424px"]} flexDir={"column"} justifyContent={"center"} py={["8", "8", "0px", "0px", "0px"]} px={["4", "4", "0px", "0px", "0px"]} position={"relative"} >
                                     <motion.p {...boxAnimation} >
-                                        <Text as={motion.p} fontSize={"32px"} lineHeight={"-0.362px"} fontWeight={"bold"} color={["white", "white", "#121212", "#121212", "#121212"]}  >{item?.eventName}</Text>
+                                        <Text as={motion.p} fontSize={"32px"} lineHeight={"-0.362px"} fontWeight={"bold"} color={["white", "white", "#121212", "#121212", "#121212"]}  >{item?.eventName?.length >= 50 ? item?.eventName.slice(0, 50)+"..." : item?.eventName}</Text>
                                     </motion.p>
                                     <motion.p {...boxAnimation} >
-                                        <Text as={motion.p} lineHeight={"24px"} fontSize={"16px"} color={["white", "white", "#121212", "#121212", "#121212"]} my={"5"} >{item?.eventDescription}</Text>
+                                        <Text as={motion.p} lineHeight={"24px"} fontSize={"16px"} color={["white", "white", "#121212", "#121212", "#121212"]} my={"5"} >{item?.eventDescription?.length >= 124 ? item?.eventDescription?.slice(0, 124)+"..." : item?.eventDescription}</Text>
                                     </motion.p>
                                     <Flex position={["static", "static", "absolute", "absolute", "absolute"]} bottom={"26px"} zIndex={"0"} left={"0px"} w={"full"} flexDir={['row', 'row', 'column', 'row', 'row']} alignItems={["", "", "start", "center", "center"]} gap={"5"} >
 

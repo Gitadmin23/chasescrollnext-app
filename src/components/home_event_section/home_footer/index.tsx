@@ -8,9 +8,9 @@ function HomeFooter(props: Props) {
 
     return (
         <Flex width={"full"} justifyContent={"space-between"} alignItems={"center"} pb={2} px={"8"} >
-            <Text color={"#626262"} fontSize={"16px"} lineHeight={"-0.4px"} >© 2024 Chasecroll, Llc.</Text>
+            <Text color={"#626262"} fontSize={"14px"} lineHeight={"-0.4px"} >© 2024 Chasecroll, Llc.</Text>
             <Flex alignItems={"center"} flexDir={"column"} >
-                <Text color={"#626262"} fontSize={"16px"} >Partners:</Text>
+                <Text color={"#626262"} fontSize={"14px"} >Partners:</Text>
                 <Flex alignItems={"center"} mt={"2"} gap={"3"} >
                     <Image src="/images/The_Founder_Institute_Logo.svg" height={"47px"} alt='The_Founder_Institute_Logo' />
                     <Image src="/images/The_Brink.svg" height={"47px"} alt='The_Brink' />
@@ -18,7 +18,7 @@ function HomeFooter(props: Props) {
                 </Flex>
             </Flex>
             <Flex alignItems={"center"}  flexDir={"column"}  >
-                <Text color={"#626262"} fontSize={"16px"} >Payment transactions, powered by :</Text>
+                <Text color={"#626262"} fontSize={"14px"} >Payment transactions, powered by :</Text>
                     <Image src="/images/Payment.svg" height={"47px"} alt='Payment' />
             </Flex>
         </Flex>

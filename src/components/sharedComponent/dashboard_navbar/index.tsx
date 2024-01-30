@@ -30,6 +30,8 @@ function DashboardNavbar(props: Props) {
         router.push(item)
     }
 
+    let token = localStorage.getItem("token")
+
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [pathname, setPathname] = useState("")
 
@@ -47,10 +49,10 @@ function DashboardNavbar(props: Props) {
                         <Flex role="button" width={"fit-content"} alignItems={"center"} gap={"1"} onClick={() => router.push("/dashboard/home")} justifyContent={'center'}>
                             <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
                             <CustomText fontFamily={'Satoshi-Regular'} fontSize='lg' color='#12299C'>Chasescroll</CustomText>
-                        </Flex> 
+                        </Flex>
                         <Box display={["none", "none", "block"]} >
                             <SearchBar home={home} />
-                        </Box> 
+                        </Box>
                     </Flex>
                     {/* LARGE SCREEN ICONS */}
 
@@ -77,10 +79,12 @@ function DashboardNavbar(props: Props) {
                             <Text as={"button"} fontWeight={"bold"} onClick={() => clickHandler("/")} color={"brand.chasescrollBlue"} >Event</Text>
                             <Text as={"button"} fontWeight={"bold"} onClick={() => clickHandler("/home")} color={pathname === "/home" ? "brand.chasescrollBlue" : "black"} >Home</Text>
                             <Text as={"button"} fontWeight={"bold"} onClick={() => clickHandler("/home/about")} color={pathname === "/home/about" ? "brand.chasescrollBlue" : "black"} >About us</Text>
-                            <Flex ml={"6"} gap={"5"}>
-                                <ButtonGroup white ctaText="Login" url={"/auth"} />
-                                <ButtonGroup blue ctaText="Get Started" url={"/auth/signup"} />
-                            </Flex>
+                            {!token && (
+                                <Flex ml={"6"} gap={"5"}>
+                                    <ButtonGroup white ctaText="Login" url={"/auth"} />
+                                    <ButtonGroup blue ctaText="Get Started" url={"/auth/signup"} />
+                                </Flex>
+                            )}
                         </Flex>
                     )}
 
@@ -112,17 +116,18 @@ function DashboardNavbar(props: Props) {
                                     <Text as={"button"} onClick={() => clickHandler("/home/contact")} color={pathname === "/home/contact" ? "brand.chasescrollBlue" : "black"} >Contact us</Text>
                                 </Flex>
                             </DrawerBody>
-
-                            <DrawerFooter gap={"5"} width={"full"} display={"flex"} justifyContent={"center"}  >
-                                <ButtonGroup white
-                                    onClick={onClose} ctaText="Login" url={"/auth"} />
-                                <ButtonGroup blue
-                                    onClick={onClose} ctaText="Get Started" url={"/auth/signup"} />
-                            </DrawerFooter>
+                            {!token && (
+                                <DrawerFooter gap={"5"} width={"full"} display={"flex"} justifyContent={"center"}  >
+                                    <ButtonGroup white
+                                        onClick={onClose} ctaText="Login" url={"/auth"} />
+                                    <ButtonGroup blue
+                                        onClick={onClose} ctaText="Get Started" url={"/auth/signup"} />
+                                </DrawerFooter>
+                            )}
                         </DrawerContent>
                     </Drawer>
                 </HStack>
-            )} 
+            )}
         </Box>
     )
 }
