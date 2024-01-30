@@ -1,6 +1,6 @@
 import SearchComponent from '@/components/search_component'
 import useSearchStore from '@/global-state/useSearchData'
-import { InputGroup, InputLeftElement, Input, Box } from '@chakra-ui/react'
+import { InputGroup, InputLeftElement, Input, Box, Flex } from '@chakra-ui/react'
 import React from 'react'
 import { IoSearchOutline } from 'react-icons/io5'
 
@@ -17,12 +17,12 @@ function SearchBar(props: Props) {
     const [value, setValue] = React.useState("")
 
     return (
-        <Box width={"361px"} position={"relative"} >
-            <InputGroup  zIndex={"20"} position={"relative"} >
+        <Flex width={["full", "full","361px"]} position={"relative"} >
+            <InputGroup   width={["full", "full","361px"]}  zIndex={"20"} position={"relative"} >
                 <InputLeftElement pointerEvents='none'>
-                    <IoSearchOutline size={"25px"} color='#5D70F9' />
+                    <IoSearchOutline size={"25px"} color='#B6B6B6' />
                 </InputLeftElement>
-                <Input value={search} onChange={(e)=> setSearchValue(e.target.value)} type='text' borderColor={"brand.chasescrollBlue"} focusBorderColor={'brand.chasescrollBlue'} bgColor={"white"} placeholder='Search for users, event or...' />
+                <Input  width={["full", "full","361px"]}  value={search} onChange={(e)=> setSearchValue(e.target.value)} type='text' borderColor={"#CCCCCC"} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} bgColor={"white"} placeholder='Search for users, event or...' />
             </InputGroup>
             {search && (
                 <Box width={"full"} zIndex={"20"} position={"absolute"} mt={"2"} >
@@ -32,7 +32,7 @@ function SearchBar(props: Props) {
             {search && (
                 <Box onClick={()=> setSearchValue("")} bgColor={"black"} opacity={"0.3"} zIndex={"10"} position={"fixed"} inset={"0px"} />
             )}
-        </Box>
+        </Flex>
     )
 }
 

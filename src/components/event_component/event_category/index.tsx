@@ -37,7 +37,7 @@ function EventCategory(props: Props) {
     }
 
     return (
-        <Flex pb={"8"} flexDirection={"column"} overflowX={"hidden"} >
+        <Flex pb={"4"} flexDirection={"column"} overflowX={"hidden"} >
             <Box width={"full"} overflowX={"auto"} >
                 <Flex gap={"9"} width={"fit-content"} py={"4"} >
 

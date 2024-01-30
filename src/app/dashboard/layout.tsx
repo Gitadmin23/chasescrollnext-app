@@ -59,7 +59,7 @@ function Layout({ children }: {
     const pathname = usePathname();
     const router = useRouter();
     const toast = useToast();
-    const [showModal, setShowModal] = React.useState(false);
+    const [showModal, setShowModal] = React.useState(false); 
 
 
     const { username, lastName, firstName, userId, setAll, user } = useDetails((state) => state);
@@ -170,11 +170,13 @@ function Layout({ children }: {
             </Modal>
 
             <Grid h="100vh" w={"full"} overflowY={"hidden"} >
-                <Flex w={"full"} position={"absolute"} zIndex={"30"} top={"0px"} >
-                    <DashboardNavbar pathname={pathname} userId={userId} openmodal={setShowModal} />
-                </Flex>
-                <Flex flex={1} w="full" h="full" pt={(!pathname?.includes("create_event") || !pathname?.includes("edit_draft") || !pathname?.includes("edit_event")) ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
-                    {(!pathname?.includes("create_event") || !pathname?.includes("edit_draft") || !pathname?.includes("edit_event")) && (
+                {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
+                    <Flex w={"full"} position={"absolute"} zIndex={"30"} top={"0px"} >
+                        <DashboardNavbar pathname={pathname} userId={userId} openmodal={setShowModal} />
+                    </Flex>
+                )}
+                <Flex flex={1} w="full" h="full" pt={(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
+                    {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
                         <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']} flexDir={"column"} >
                             <Sidebar />
                         </Box>

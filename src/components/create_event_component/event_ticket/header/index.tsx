@@ -2,7 +2,7 @@ import useEventStore from '@/global-state/useCreateEventState';
 import { Checkbox, Flex } from '@chakra-ui/react';
 import React, { useState } from 'react'
 
-interface Props {
+interface Props { 
     type?: any
 }
 

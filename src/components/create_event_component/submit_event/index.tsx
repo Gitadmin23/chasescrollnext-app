@@ -10,13 +10,15 @@ import React from 'react'
 import { useMutation } from 'react-query';
 
 interface Iprops {
-    type: any
+    type: any,
+    promotion?: boolean
 }
 
 function SubmitEvent(props: Iprops) {
 
     const {
-        type
+        type,
+        promotion
     } = props
 
     const { eventdata, image, tab, updateEvent, changeTab } = useEventStore((state) => state);
@@ -246,6 +248,10 @@ function SubmitEvent(props: Iprops) {
                 return true
             } else if (!item.maxTicketBuy) {
                 return true
+            }  else if (promotion) {
+                if (!item.rerouteURL) {
+                    return true
+                } 
             } else if (eventdata?.productTypeData?.length === index + 1) {
                 return false
             } else {
@@ -433,7 +439,7 @@ function SubmitEvent(props: Iprops) {
 
     return (
         <Flex alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} my={"4"} >
-            <CustomButton borderWidth={tab === 2 ? "2px" : "0px"} borderColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} color={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} _disabled={{ color: "#F04F4F", cursor: "not-allowed" }} width={"400px"} backgroundColor={"transparent"}
+            <CustomButton borderWidth={tab === 2 ? "2px" : "0px"} backgroundColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} _disabled={{cursor: "not-allowed" }} width={"400px"}
                 text={pathname?.includes("edit_event") && tab === 2 ? "Update Event" : tab === 2 ? 'Submit' : 'Continue'} />
         </Flex>
     )
