@@ -3,9 +3,9 @@ import '../../../tailwind.css'
 
 const ButtonGroup = ({ white, blue, ctaText, url }: any) => {
   const buttonClass = white
-    ? "w-[120px] py-[14px] rounded-lg flex justify-center items-center bg-white text-black border-[#D0D4EB] border-2"
+    ? "w-[152px] h-[44px] rounded-lg flex justify-center items-center leading-[20px] font-medium bg-white text-black border-[#D0D4EB] border-2"
     : blue
-    ? "w-[120px] py-[14px] rounded-lg flex justify-center items-center bg-[#5D70F9] text-white border-[#5D70F9]"
+    ? "w-[152px] h-[44px] rounded-lg flex justify-center items-center leading-[20px] font-medium bg-[#5D70F9] text-white border-[#5D70F9] border-2"
     : "";
 
   return (

@@ -1,5 +1,6 @@
 'use client'
 import SelectEventPage from '@/components/event_component/select_event_page'
+import CreateEventBtn from '@/components/sharedComponent/create_event_btn'
 import { Box, Flex } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { ReactNode } from 'react' 
@@ -13,12 +14,10 @@ function Layout({ children }: {
 
     return (
         <Box width={"full"} px={["5", "8"]} py={"8"} overflowX={"hidden"} >
-            {(!pathname?.includes("details") && !pathname?.includes("create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft")) && (
+            {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion") && !pathname?.includes("/event/details")) && (
                 <Flex width={"full"} justifyContent={"space-between"} pb={"8"} alignItems={"center"}  >
                     <SelectEventPage />
-                    <Flex onClick={()=> route.replace("/dashboard/event/create_event")} as={"button"} width={"fit-content"} fontWeight={"semibold"} border={"1px solid #3C41F0"} px={"10px"} color={"brand.chasescrollBlue"} fontSize={"12px"} height={"25px"} rounded={"32px"}  alignItems={"center"} gap={"2"} > 
-                        Create Event
-                    </Flex>
+                    <CreateEventBtn />
                 </Flex>
             )}
             {children}
