@@ -4,7 +4,7 @@ import httpService from '@/utils/httpService';
 import { Box, Flex, Input, Radio, Select, Switch, Text, Textarea } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useQuery } from 'react-query';
-import SelectImage from './select_image'; 
+import SelectImage from './select_image';
 import SubmitTheme from '../submit_event';
 
 function EventTheme() {
@@ -24,9 +24,10 @@ function EventTheme() {
         if ((e.target.value).length <= limit) {
             handleChange(e)
         }
-    } 
+    }
 
     const handleChange = ({ target: { name, value, type } }: any) => {
+
         if (name === "isPublic") {
             updateEvent({
                 ...eventdata,
@@ -38,10 +39,19 @@ function EventTheme() {
                 [name]: eventdata?.attendeesVisibility ? eventdata?.attendeesVisibility : !eventdata?.attendeesVisibility
             });
         } else {
-            updateEvent({
-                ...eventdata,
-                [name]: value
-            });
+            if (value === "") {
+
+                updateEvent({
+                    ...eventdata,
+                    [name]: ""
+                });
+            } else {
+
+                updateEvent({
+                    ...eventdata,
+                    [name]: value[0]?.toUpperCase() + value.slice(1)
+                });
+            }
         }
     };
 
@@ -75,7 +85,7 @@ function EventTheme() {
                                 focusBorderColor={"#E2E8F0"}
                                 onChange={(e) => handleChangeLimit(e, 150)}
                                 value={eventdata?.eventName} />
-                            <Text fontSize={"sm"} >{eventdata?.eventName?.length + "/" + 150}</Text>
+                            <Text fontSize={"sm"} >{eventdata?.eventName?.length ? eventdata?.eventName?.length : "0"} {"/ 150"}</Text>
                         </Flex>
                         <Flex width={"full"} gap={"1"} flexDirection={"column"} >
                             <Text color={"brand.chasescrollTextGrey"} >Attendee Visibility</Text>
@@ -128,7 +138,7 @@ function EventTheme() {
                                 onChange={(e) => handleChangeLimit(e, 1500)}
                                 className="outline-none w-full h-20 text-sm"
                             />
-                            <Text fontSize={"sm"} >{eventdata?.eventDescription?.length ? eventdata?.eventDescription?.length : "0" } {"/ 1500"}</Text>
+                            <Text fontSize={"sm"} >{eventdata?.eventDescription?.length ? eventdata?.eventDescription?.length : "0"} {"/ 1500"}</Text>
                         </Flex>
                         <Flex flexDirection={"column"} gap={"2"} >
                             <Text fontWeight={"bold"} fontSize={"sm"}>Event Visibility</Text>

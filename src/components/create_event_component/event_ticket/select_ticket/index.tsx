@@ -4,12 +4,14 @@ import { Box, Flex, Input, Select, useToast } from '@chakra-ui/react'
 import React from 'react'
 
 interface Props {
-    type?: string
+    type?: string,
+    promotion?: boolean
 }
 
 function SelectTicket(props: Props) {
     const {
-        type
+        type,
+        promotion
     } = props
 
     const { eventdata, updateEvent } = useEventStore((state) => state);
@@ -89,12 +91,10 @@ function SelectTicket(props: Props) {
         myArr[index] = {
             totalNumberOfTickets: null,
             ticketPrice: type === "Free" ? 0 : null,
-            ticketType: type === "Free" ? " " : "",
+            ticketType: "Regular"+index,
             minTicketBuy: null,
             maxTicketBuy: null
-        }
-
-        console.log(myArr);
+        } 
         updateEvent({
             ...eventdata,
             productTypeData: myArr
@@ -103,10 +103,30 @@ function SelectTicket(props: Props) {
 
     return (
         <Flex flexDirection={"column"} gap={"4"} width={"full"} >
+
             {eventdata.productTypeData?.map((item: any, index: number) => {
                 return (
                     <Flex width={"full"} flexDirection={"column"} border={"1px solid #E2E8F0"} roundedBottom={"3xl"} roundedTopLeft={"3xl"} p={"6"} gap={"4"} key={index + item} >
                         {/* {eventdata.productTypeData[0]?.ticketType !== "Free" && */}
+                        {promotion && (
+                            <Box width={"full"}>
+                                <label className="block text-gray-700 font-medium mb-2">
+                                Add event owner’s website/link where attendees can  get the ticket.
+                                </label>
+                                <Flex >
+                                    <Input
+                                        h={"45px"}
+                                        type="text"
+                                        border={"1px solid #E2E8F0"}
+                                        focusBorderColor={"#E2E8F0"}
+                                        placeholder="https//"
+                                        value={eventdata.productTypeData[index]?.rerouteURL}
+                                        name="rerouteURL"
+                                        onChange={e => handleChange(index, "rerouteURL", e.target.value)}
+                                    />
+                                </Flex>
+                            </Box>
+                        )}
                         <Flex width={"full"} flexDir={["column", "column", "row"]} gap={"3"} >
                             <Box width={"full"}>
                                 <label className="block text-gray-700 font-medium mb-2">
@@ -203,10 +223,10 @@ function SelectTicket(props: Props) {
 
                     </Flex>
                 )
-            })} 
+            })}
 
-            <CustomButton onClick={() => HandleAddTicket(eventdata?.productTypeData?.length)} text='+ Add New Ticket Type' mt={"3"} fontWeight={"bold"} width={"fit-content"} />
-           
+            <CustomButton onClick={() => HandleAddTicket(eventdata?.productTypeData?.length)} text='+ Add New Ticket Type' color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
+
             <Box>
                 <label className="block text-gray-700 font-medium ">
                     Select ticket currency

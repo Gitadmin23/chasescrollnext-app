@@ -40,7 +40,7 @@ function EventCreator(props: Props) {
     } 
 
     return (
-        <Flex width={"full"} roundedBottom={"lg"} borderBottomWidth={"1px"} justifyContent={"space-between"} mt={"5"} pb={"2"} alignItems={"center"} >
+        <Flex width={"full"} roundedBottom={"8px"} borderBottomWidth={"0.5px"} borderBottomColor={"rgba(0, 0, 0, 0.50)"} justifyContent={"space-between"} mt={"5"} pb={"2"} alignItems={"center"} >
             <Flex as={"button"} onClick={clickHandler} alignItems={"center"} gap={"2"} >
                 <Box width={"fit-content"} >
                     <UserImage size={58} image={data?.createdBy?.data?.imgMain?.value} data={data?.createdBy} />
