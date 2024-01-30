@@ -1,12 +1,13 @@
 import CustomText from '@/components/general/Text';
-import { CalendarIcon, HomeIcon, MessageIcon, ProfileIcon2, SearchIcon, UsersIcon } from '@/components/svg';
+import { CalendarIcon, HomeIcon, MessageIcon, ProfileIcon2, SearchIcon, UsersIcon, DashboardIcon } from '@/components/svg';
 import { useDetails } from '@/global-state/useUserDetails';
-import { Box, Button, Flex, HStack, Link, Modal, ModalBody, ModalContent, ModalOverlay, VStack } from '@chakra-ui/react'; 
+import { Box, Button, Flex, HStack, Link, Modal, ModalBody, ModalContent, ModalOverlay, Text, VStack } from '@chakra-ui/react'; 
 import { usePathname, useRouter } from 'next/navigation';
 import React, { ReactNode } from 'react'
 import { FiHome, FiSearch, FiCalendar, FiMessageCircle, FiUsers, FiUser, FiPower } from 'react-icons/fi';
 import { useSession , signOut } from 'next-auth/react'
 import { Warning2 } from 'iconsax-react'
+import CopyRightText from '@/components/sharedComponent/CopyRightText';
 
 type IRoute = {
     icon: any;
@@ -42,10 +43,10 @@ function Sidebar() {
     const { userId: user_index, setAll } = useDetails((state) => state);
 
     const logout = async () => {
+        await signOut();
         setAll({ userId: '', dob: '', email: '', username:'', firstName: '', lastName: '', publicProfile: ''});
         localStorage.clear();
-        await signOut();
-        router.push('/auth');
+        // router.push('/auth');
     }
 
     const routes: IRoute[] = [
@@ -64,6 +65,11 @@ function Sidebar() {
             icon: <CalendarIcon />,
             text: 'Event'
         },
+        // {
+        //     route: '/dashboard/promotions',
+        //     icon: <DashboardIcon />,
+        //     text: 'Dashboard'
+        // },
         {
             route: '/dashboard/chats',
             icon: <MessageIcon />,
@@ -107,11 +113,14 @@ function Sidebar() {
                 {routes.map((item, index) => (
                     <MenuItem {...item} active={pathname?.includes(item.route.toLowerCase()) ? true:false} key={index.toString()} />
                 ))}
-            M</VStack>
+            </VStack>
             <Flex cursor={'pointer'} onClick={() => setShowModal(true)} paddingX={['20px', '40px']} gap={"4"} flex={0.2} width='100%' alignItems={"center"} mt={"30px"}  height='70px'>
                 <FiPower fontSize='25px' color="grey"  />
                 <CustomText fontFamily={'DM-Bold'} fontSize={'16px'} color='grey' >Logout</CustomText>
             </Flex>
+            <Text fontSize={"10px"} mt={'4'} >
+                <CopyRightText/>
+            </Text>
         </VStack>
 
     )

@@ -34,27 +34,8 @@ function NotificationPage({ isLoading }: Props) {
     ]
 
     return (
-        <VStack width={"full"} height={'100%'} bg={"white"} shadow={"lg"} roundedBottom={"lg"} maxHeight={"450px"} overflowX={"hidden"} overflowY={"auto"} justifyContent={"center"} > 
+        <VStack width={"full"} height={'100%'} bg={"white"} roundedBottom={"lg"} maxHeight={"450px"} overflowX={"hidden"} overflowY={"auto"} justifyContent={"center"} > 
 
-       <Box  marginTop={'10px'} width='100%'>
-        <HStack cursor={'ppinter'} onClick={() => setCurrentPage(prev => prev === 0 ?1:0)} paddingX='10px' borderBottomWidth={'0.8px'} borderBottomColor={'lightgrey'} width='100%' height={'30px'} justifyContent='space-between'>
-           { currentPage === 0 && (
-            <>
-                <CustomText fontFamily={'DM-Bold'} fontSize={'16px'} color='black'>New</CustomText>
-                <ArrowRight2 size='20px' variant='Outline' color='black' />
-            </>
-           )}
-           { currentPage === 1 && (
-            <>
-                <HStack>
-                    <ArrowLeft2 size='25px' variant='Outline' color='black' />
-                    <CustomText fontFamily={'DM-Bold'} fontSize={'16px'} color='black'>Show Read</CustomText>
-                </HStack>
-            </>
-           )}
-        </HStack>
-     
-       </Box>
 
         <Box flex={1} width='100%' height='100%' overflowY={'auto'}>
             { isLoading && (
@@ -63,42 +44,24 @@ function NotificationPage({ isLoading }: Props) {
                 </VStack>
             )}
             {
-                !isLoading &&  currentPage === 1 &&  notifications.filter((item) => item.status === 'UNREAD').length > 0 && (
+                !isLoading &&   (
                     <>
                         {
-                             notifications.filter((item) => item.status === 'UNREAD').map((item, index) => (
+                             notifications.map((item, index) => (
                                 <NotificationCard notification={item} key={index.toString()}  />
                             ))
                         }
                     </>
                 )
             }
-             {
-                !isLoading && currentPage === 0 && notifications.filter((item) => item.status === 'READ').length > 0 && notifications.filter((item) => item.status === 'READ').map((item, index) => (
-                    <NotificationCard notification={item} key={index.toString()}  />
-                ))
-            }
-            {/* {
-                !isLoading && currentPage === 0 && notifications.filter((item) => item.status === 'READ').length < 1 && (
-                    <VStack alignItems={'center'} width={'100%'} height={'70px'}>
-                        No new notifications
-                    </VStack>
-                )
-            } */}
             {
-                !isLoading && currentPage === 1 && notifications.filter((item) => item.status === 'UNREAD').length < 1 && (
+                !isLoading && currentPage === 1 && notifications.length < 1 && (
                     <VStack alignItems={'center'} width={'100%'} height={'70px'}>
                         No new notifications
                     </VStack>
                 )
             }
-            {
-                !isLoading && notifications.length < 1 && (
-                    <VStack width='100%' height='40px' justifyContent={'center'} alignItems={'center'}>
-                        <CustomText>No Notification</CustomText>
-                    </VStack>
-                )
-            }
+           
         </Box>
             
         </VStack> 

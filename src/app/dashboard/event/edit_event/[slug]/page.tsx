@@ -18,16 +18,14 @@ function EditEvent({ params }: { params: { slug: string } }) {
     focusManager.setFocused(false)
     const { tab, updateEvent, changeTab } = useEventStore((state) => state);
     const toast = useToast()
-    const { isLoading } = useQuery(['all-events-details' + params?.slug,], () => httpService.get(URLS.All_EVENT + "?id=" + params?.slug), {
+    const { isLoading, data } = useQuery(['all-events-details' + params?.slug,], () => httpService.get(URLS.All_EVENT + "?id=" + params?.slug), {
         onError: (error: any) => {
             toast({
                 status: "error",
                 title: error.response?.data,
             });
         },
-        onSuccess: (data: any) => {
-            // setData(data?.data?.content[0]); 
-            console.log(data);
+        onSuccess: (data: any) => { 
 
             updateEvent({
                 id: data?.data?.content[0]?.id,
@@ -76,7 +74,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
                     <EventInformation />
                 )}
                 {tab === 2 && (
-                    <EventTicket />
+                    <EventTicket promotion={(data?.data?.content[0]?.productTypeData[0]?.ticketType === "Promotion" || data?.data?.content[0]?.productTypeData[0]?.rerouteURL) ? true : false} />
                 )}
             </Box>
         </LoadingAnimation>

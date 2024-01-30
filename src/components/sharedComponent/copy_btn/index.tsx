@@ -5,9 +5,10 @@ type props = {
     type?: boolean,
     hide?: boolean,
     text: string,
+    rounded?: string
 }
 
-export default function CopyButtton({ type, text }: props) {
+export default function CopyButtton({ type, text, rounded }: props) {
 
     // const [copySuccess, setCopySuccess] = React.useState('');
     const textAreaRef: any = React.useRef(null);
@@ -32,8 +33,8 @@ export default function CopyButtton({ type, text }: props) {
                 value={text + ""}
             />
             {!type && (
-                <Flex wordBreak={"break-all"} gap={["2px", "2px", "0px"]} width={"full"} py={"2"} px={"4"} bgColor={"white"} borderWidth={"1px"} borderColor={"#D0D5DD"} fontSize={"sm"} alignItems={"center"} rounded={"lg"} >
-                    <Text wordBreak={"break-all"} mr={"3"} color={"#667085"} >{text}</Text>
+                <Flex wordBreak={"break-all"} gap={["2px", "2px", "0px"]} width={"full"} py={"2"} px={"4"} bgColor={"white"} borderWidth={"1px"} borderColor={"#D0D5DD"} fontSize={"sm"} alignItems={"center"} rounded={rounded ? rounded : "lg"} >
+                    <Text wordBreak={"break-all"} mr={"3"} color={"#667085"} >{text?.length >= 34 ? text?.slice(0, 34) + "..." : text}</Text>
                     <Box width={"fit-content"} ml={"auto"} >
                         <svg role='button' onClick={() => copyToClipboard(text)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="vuesax/linear/copy">

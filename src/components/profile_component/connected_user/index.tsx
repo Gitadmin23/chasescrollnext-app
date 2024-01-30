@@ -17,22 +17,9 @@ function ConnectedUser(props: Props) {
     } = props
 
     const toast = useToast()
-    const [data, setData] = React.useState([] as any)
-
-    // react query
-
+    const [data, setData] = React.useState([] as any) 
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.GET_USER_CONNECTION_LIST + user_index, limit: 10, filter: "userId" })
-    // const { isLoading, isRefetching } = useQuery(['get-joined-network'], () => httpService.get(URLS.GET_USER_CONNECTION_LIST + "" + user_index), {
-    //     onError: (error: any) => {
-    //         toast({
-    //             status: "error",
-    //             title: error.response?.data,
-    //         });
-    //     },
-    //     onSuccess: (data) => { 
-    //         setData(data.data);
-    //     }
-    // })
+   
 
     return (
         <Flex width={["full", "450px"]} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} >
@@ -51,14 +38,7 @@ function ConnectedUser(props: Props) {
                             </Box>
                         )
                     }
-                })}
-                {/* {data?.filter((item: any)=> item?.joinStatus !== "SELF")?.map((person: any, i: number) => {
-                    return (
-                        <Box key={i} width={"full"}>
-                            <PeopleCard connects={true} person={person} />
-                        </Box>
-                    )
-                })} */}
+                })} 
             </LoadingAnimation>
         </Flex>
     )

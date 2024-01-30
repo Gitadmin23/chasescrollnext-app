@@ -6,7 +6,7 @@ import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import { Avatar, HStack, VStack, Image, Box, Spinner } from '@chakra-ui/react';
 import React from 'react'
-import { FiCheck, FiHeart, FiMessageSquare } from 'react-icons/fi'
+import { FiCheck, FiHeart, FiMessageSquare, FiTrash2 } from 'react-icons/fi'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import moment from 'moment';
 import { IoMdCloudDownload } from 'react-icons/io';
@@ -18,20 +18,24 @@ import { ChatMessage } from '@/models/ChatMessage';
 import { useChatPageState } from './state';
 import { PaginatedResponse } from '@/models/PaginatedResponse';
 import { useImageModalState } from '../general/ImageModal/imageModalState';
+import UserImage from '../sharedComponent/userimage';
+import { formatTimeAgo } from '@/utils/helpers';
 
 interface IProps {
     message: ChatMessage;
     id: string|undefined;
+    index?: number;
 }
 
-const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = undefined }, ref) => {
+const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = undefined ,index}, ref) => {
     const [post, setPost] = React.useState(message);
     const [shoowSubmenu, setShowSubmenu] = React.useState(false);
     const [showAll, setShowAll] = React.useState(false);
+    const [showDelete, setShowDelete] = React.useState(false);
 
 
     const queryClient = useQueryClient();
-    const { setAll, activeChat } = useChatPageState((state) => state);
+    const { setAll, activeChat,removeMessage } = useChatPageState((state) => state);
     const { setAll: setImageModal  } = useImageModalState((state) => state)
     // query
     const { isLoading } = useQuery([`getSingleChat-${post.id}`, message?.id], () => httpService.get(`${URLS.CHAT_MESSGAE}`, {
@@ -61,6 +65,21 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
         alert('An error occurred');
     }
   });
+
+  const deleteMutation = useMutation({
+    mutationFn: () => httpService.delete(`${URLS.DELETE_MESSAGE}`,{
+        params: {
+            messageID: post?.id,
+        },
+    }),
+    onSuccess: () => {
+        removeMessage(index as number);
+    //   queryClient.invalidateQueries([`getSinglePost-${message?.id}`]);
+    },
+    onError: () =>{
+        // alert('An error occurred');
+    }
+  });
     const { userId: myId } = useDetails((state) => state)
     const self = message?.createdBy?.userId === myId;
 
@@ -85,15 +104,21 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
       }
 
       const handleImageClick = () => {
-        setImageModal({ images: [post.media, ...post?.multipleMedia], isOpen: true })
+        setImageModal({ images: [post.media], isOpen: true })
       }
   return (
     <HStack id={id} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.createdBy.userId === myId ? 'flex-end':'flex-start'} flexDirection={self ? 'row':'row-reverse'}  borderRadius='20px'>
        
-       <HStack  position={'relative'}  width='100%' justifyContent={'space-between'} alignItems={'flex-start'} flexDirection={self ? 'row':'row-reverse'}>
+       <HStack onMouseOver={() => setShowDelete(true)} onMouseOut={() => setShowDelete(false)}  position={'relative'}  width='100%' justifyContent={'space-between'} alignItems={'flex-start'} flexDirection={self ? 'row':'row-reverse'}>
            
+           { showDelete && self && (
+            <>
+                { !deleteMutation.isLoading && <FiTrash2 fontSize='20px' color='red' cursor='pointer' onClick={() => deleteMutation.mutate()} /> }
+                { deleteMutation.isLoading && <Spinner size={'xs'} /> }
+            </>
+           )}
 
-            <VStack borderRadius='10px 20px 20px 0px'  bg={self ? 'white':'brand.chasescrollButtonBlue'}  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
+            <VStack  borderRadius='10px 20px 20px 0px'  bg={self ? 'white':'brand.chasescrollButtonBlue'}  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={'300px'} minW={'100px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
                
                 {post.media !== null && (
                     <>
@@ -123,7 +148,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                         }
                     </>
                 )}
-                <Box padding='5px' width='100%' borderRadius={'12px 12px 12px 0px'}>
+                <Box padding='5px' width="100%" borderRadius={'12px 12px 12px 0px'}>
                         <CustomText color={self ? 'black':'white'} fontFamily={'DM-Regular'} fontSize={'14px'} >
                             { showAll ? handleLinks(post?.message) : post?.message.length > 500 ? post?.message.slice(0, 500) + '...' : post?.message}
                             { post?.message.length > 500 && (
@@ -135,7 +160,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                     {/* { !self && (
                         <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{post?.createdBy?.username[0]?.toUpperCase()}{post?.createdBy?.username.substring(1, post?.createdBy?.username.length)}</CustomText>
                     )} */}
-                    <CustomText color={self ? 'black':'white'} fontFamily={'DM-Medium'} fontSize={'12px'}>{moment(post?.createdDate).format('HH:MM')}</CustomText>
+                    <CustomText color={self ? 'black':'lightgrey'} fontFamily={'DM-Medium'} fontSize={'10px'}>{formatTimeAgo(post?.createdDate)}</CustomText>
                    {!self && (
                      <HStack spacing={0}>
                         <FiCheck fontSize='16px' color={'white'} />
@@ -146,7 +171,10 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                
             </VStack>
 
-            <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+            <Box width={"fit-content"} >
+              <UserImage size={"32px"} font={"13px"} border={"2px"} fontWeight={"medium"} data={post?.createdBy} image={post?.createdBy?.data?.imgMain?.value} />
+            </Box>
+            {/* <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
                     { post?.createdBy?.data?.imgMain?.value === null && (
                         <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
                             <CustomText fontFamily={'DM-Regular'}>{post?.createdBy?.username[0].toUpperCase() || 'none'}</CustomText>
@@ -161,7 +189,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                            </>
                         )
                     }
-                </Box>
+                </Box> */}
             
             
        </HStack>

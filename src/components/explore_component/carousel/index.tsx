@@ -56,8 +56,9 @@ function ExploreCarousel(props: Props) {
                                             </Box>
                                         </Box>
                                         <Box width={"full"} pb={"10px"} px={"1"} >
-                                            <Flex color={"#121212"} fontSize={"20px"} bg={"white"} alignItems={"center"} justifyContent={"space-between"} fontWeight={"medium"} pt={"3"}  >
-                                                <Text >{item?.eventName}</Text> 
+                                            <Flex color={"#121212"} fontSize={["16px", "16px", "20px"]} bg={"white"} alignItems={"center"} justifyContent={"space-between"} fontWeight={"medium"} pt={"3"}  >
+                                                <Text display={["none", "none", "block"]} >{item?.eventName}</Text>
+                                                <Text display={["block", "block", "none"]}  >{item.eventName?.length >= 17 ? item.eventName.slice(0, 17) + "..." : item.eventName}</Text>
                                                 <EventPrice minPrice={item?.minPrice} maxPrice={item?.maxPrice} currency={item?.currency} />
                                                 {/* <EventPrice maxPrice={item?.maxPrice} currency={item?.currency} /> */}
                                             </Flex>
@@ -67,7 +68,7 @@ function ExploreCarousel(props: Props) {
                                                     <InterestedUsers fontSize={16} event={item} border={"2px"} size={"32px"} />
                                                 </Box>
                                                 <Flex alignItems={"center"} gap={"3"} >
-                                                    <ShareEvent type="EVENT" size='18px' id={item?.id} />
+                                                    <ShareEvent data={item} type="EVENT" size='18px' id={item?.id} />
                                                     <SaveOrUnsaveBtn event={item} />
                                                 </Flex>
                                             </Flex>

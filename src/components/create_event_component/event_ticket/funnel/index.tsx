@@ -35,7 +35,7 @@ function FunnelBtn(props: Props) {
 
     return (
         <>
-            <Flex as={"button"} onClick={() => setOpen(true)} width={"fit-content"} gap={"3"} >
+            <Flex as={"button"} onClick={() => setOpen(true)} fontWeight={"bold"} color={"green.500"} width={"fit-content"} gap={"3"} >
                 <OpenFolderIcon />
                 Select community funnel
             </Flex>
@@ -44,7 +44,7 @@ function FunnelBtn(props: Props) {
                     <Flex width={"full"} flexDir={"column"}  >
                         <Flex as={"button"} onClick={()=> setTab(1)} width={"full"} py={"3"} justifyContent={"end"} alignItems={"center"} gap={"3"} pr={"12"} >
                             <AddIcon />
-                            Add Comunity
+                            Add community
                         </Flex>
                         <Flex width={"full"} justifyContent={"center"} py={"6"}  >
                             <Flex width={["full", "600px"]} flexDirection={"column"} gap={"4"} >

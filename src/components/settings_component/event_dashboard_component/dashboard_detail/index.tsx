@@ -1,5 +1,5 @@
 'use client'
-import { formatNumberWithK } from '@/utils/formatNumberWithK'
+import { formatNumberWithK, numberFormat, numberFormatDollar, numberFormatNaire } from '@/utils/formatNumberWithK'
 import httpService from '@/utils/httpService'
 import { Box, Flex, Text } from '@chakra-ui/react'
 import { AxiosError } from 'axios'
@@ -34,19 +34,32 @@ function DashboardDetail(props: Props) {
         },
         onSuccess: (data) => {
             setHistory(data.data);
+
+            console.log(data?.data);
+            
         }
     })
 
+
+    const DataFormater = (number: number) => {
+        if(number > 1000000000){
+          return (number/1000000000).toString() + 'B';
+        }else if(number > 1000000){
+          return (number/1000000).toString() + 'M';
+        }else if(number > 1000){
+          return (number/1000).toString() + 'K';
+        }else{
+          return number.toString();
+        }
+      }
+
+      console.log(history?.qtyActiveSold);
+      
+
     return (
         <Flex width={"full"} flexDirection={"column"} >
-            <Flex onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} as={"button"} width={"fit-content"} mt={"8"} bgColor={"#E90303"} gap={"2"} alignItems={"center"} color={"white"} py={"2px"} px={"2"} fontSize={"13px"} fontWeight={"medium"} rounded={"md"} >
-                <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g id="Group">
-                        <path id="Vector" d="M0.75 14.75V2.75C0.75 2.35218 0.908035 1.97064 1.18934 1.68934C1.47064 1.40804 1.85218 1.25 2.25 1.25H9.75C10.1478 1.25 10.5294 1.40804 10.8107 1.68934C11.092 1.97064 11.25 2.35218 11.25 2.75V14.75L9 13.25L7.5 14.75L6 13.25L4.5 14.75L3 13.25L0.75 14.75Z" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
-                        <path id="Vector_2" d="M8.25 9.5V8C8.25 7.60218 8.09196 7.22064 7.81066 6.93934C7.52936 6.65804 7.14782 6.5 6.75 6.5H3.75M3.75 6.5L5.25 5M3.75 6.5L5.25 8" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
-                    </g>
-                </svg>
-                Refund
+            <Flex onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} as={"button"} width={"fit-content"} mt={"8"} gap={"2"} alignItems={"center"} bgColor={"white"} borderColor={"brand.chasescrollBlue"} borderWidth={"1px"} _hover={{background:"#5D70F9", color: "white"}}  color={"brand.chasescrollBlue"} py={"2px"} px={"2"} fontSize={"13px"} fontWeight={"medium"} rounded={"md"} >
+                View Attendees
             </Flex>
 
             <Flex width={"full"} borderTopWidth={"1px"} borderBottomWidth={"1px"} borderColor={"#D0D4EB"} justifyContent={"center"} mt={"8"} py={"7"} px={"4"} >
@@ -71,11 +84,11 @@ function DashboardDetail(props: Props) {
                         </Box>
                         <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={"black"} >
                             <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Sold</Text>
-                            <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{history?.currency === "USD" ? "$" : "₦" + formatNumberWithK(history?.totalActiveSales ? history?.totalActiveSales : 0)}</Text>
+                            <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{history?.currency === "USD" ? "$" : "₦"}{formatNumberWithK(history?.totalActiveSales)}</Text>
                         </Box>
                         <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={"black"} >
                             <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Cancelled</Text>
-                            <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{history?.currency === "USD" ? "$" : "₦" + formatNumberWithK(history?.totalRefunds ? history?.totalRefunds : 0)}</Text>
+                            <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{history?.currency === "USD" ? "$" : "₦"}{formatNumberWithK(history?.totalRefunds)}</Text>
                         </Box>
                         <Box pt={"3px"} px={"4"} >
                             <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Available</Text>
@@ -89,8 +102,7 @@ function DashboardDetail(props: Props) {
 
                 <ResponsiveContainer width="100%" height={500}>
                     <BarChart
-                        width={500}
-                        height={300}
+                        width={930} height={440}
                         margin={{
                             top: 20,
                             right: 30,
@@ -99,15 +111,16 @@ function DashboardDetail(props: Props) {
                         }}
                         data={history.tickets}
                     >
-                        <XAxis dataKey="ticketType" />
+                        <XAxis tickFormatter={DataFormater} dataKey="ticketType" />
                         <YAxis />
-                        <Tooltip />
+                        <Tooltip formatter={numberFormat}  />
                         <Legend />
                         <CartesianGrid strokeDasharray="3 3" />
 
-                        <Bar dataKey="totalActiveSales" stackId="a" fill="#B7B00E" />
-                        <Bar dataKey="totalRefund" stackId="a" fill="#E90303" />
-                        <Bar dataKey="totalNumberOfAvailableTickets" fill="#ffc658" />
+                        <Bar name='Active Ticket Sold' dataKey="qtyActiveSold" stackId="a" fill="#B7B00E" />
+                        <Bar name='Pending Ticket Sold' dataKey="qtyPendingSold" stackId="a" fill="#ffc658" />
+                        <Bar name='Available Tickets' dataKey="totalNumberOfAvailableTickets" fill="#5D70F9" />
+                        {/* <Bar dataKey="totalRefund" stackId="a" fill="#E90303" /> */}
                         {/* <Bar dataKey="totalActiveSales" fill="#B7B00E" background={{ fill: '#eee' }} />
                                     <Bar dataKey="totalRefund" fill="#E90303" background={{ fill: '#eee' }} />
                                     <Bar dataKey="totalPendingSales" fill="#DB9E00" background={{ fill: '#eee' }} /> */}

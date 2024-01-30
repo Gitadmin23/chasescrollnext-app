@@ -3,10 +3,16 @@ import useEventStore from '@/global-state/useCreateEventState';
 import { Box, Flex, Input, Select, useToast } from '@chakra-ui/react'
 import React from 'react'
 
-interface Props { }
+interface Props {
+    type?: string,
+    promotion?: boolean
+}
 
 function SelectTicket(props: Props) {
-    const { } = props
+    const {
+        type,
+        promotion
+    } = props
 
     const { eventdata, updateEvent } = useEventStore((state) => state);
     const toast = useToast()
@@ -84,11 +90,11 @@ function SelectTicket(props: Props) {
         let myArr: any = [...eventdata?.productTypeData]
         myArr[index] = {
             totalNumberOfTickets: null,
-            ticketPrice: null,
-            ticketType: "",
+            ticketPrice: type === "Free" ? 0 : null,
+            ticketType: "Regular"+index,
             minTicketBuy: null,
             maxTicketBuy: null
-        }
+        } 
         updateEvent({
             ...eventdata,
             productTypeData: myArr
@@ -97,50 +103,70 @@ function SelectTicket(props: Props) {
 
     return (
         <Flex flexDirection={"column"} gap={"4"} width={"full"} >
+
             {eventdata.productTypeData?.map((item: any, index: number) => {
                 return (
                     <Flex width={"full"} flexDirection={"column"} border={"1px solid #E2E8F0"} roundedBottom={"3xl"} roundedTopLeft={"3xl"} p={"6"} gap={"4"} key={index + item} >
-                        {eventdata.productTypeData[0]?.ticketType !== "Free" &&
-                            <Flex width={"full"} flexDir={["column", "column", "row"]} gap={"3"} >
-                                <Box width={"full"}>
-                                    <label className="block text-gray-700 font-medium mb-2">
-                                        Enter Ticket Name
-                                    </label>
-                                    <Flex >
-                                        <Input
-                                            h={"45px"}
-                                            type="text"
-                                            border={"1px solid #E2E8F0"}
-                                            focusBorderColor={"#E2E8F0"}
-                                            placeholder="Enter Name"
-                                            disabled={eventdata.productTypeData[index]?.ticketType === "Free" ? true : false}
-                                            value={eventdata.productTypeData[index]?.ticketType}
-                                            name="ticketType"
-                                            onChange={e => handleChange(index, "ticketType", e.target.value)}
-                                        />
-                                    </Flex>
-                                </Box>
-                                <Box width={"full"} >
-                                    <label className="block text-gray-700 font-medium mb-2">
-                                        Enter Price
-                                    </label>
-                                    <Flex gap={"2"} >
-                                        <Input
-                                            h={"45px"}
-                                            type="number"
-                                            width={"full"}
-                                            border={"1px solid #E2E8F0"}
-                                            focusBorderColor={"#E2E8F0"}
-                                            placeholder="Enter amount"
-                                            value={eventdata.productTypeData[index]?.ticketPrice}
-                                            disabled={eventdata.productTypeData[index]?.ticketType === "Free" ? true : false}
-                                            name="ticketPrice"
-                                            onChange={e => handleChange(index, "ticketPrice", e.target.value)}
-                                        />
-                                    </Flex>
-                                </Box>
-                            </Flex>
-                        }
+                        {/* {eventdata.productTypeData[0]?.ticketType !== "Free" && */}
+                        {promotion && (
+                            <Box width={"full"}>
+                                <label className="block text-gray-700 font-medium mb-2">
+                                Add event owner’s website/link where attendees can  get the ticket.
+                                </label>
+                                <Flex >
+                                    <Input
+                                        h={"45px"}
+                                        type="text"
+                                        border={"1px solid #E2E8F0"}
+                                        focusBorderColor={"#E2E8F0"}
+                                        placeholder="https//"
+                                        value={eventdata.productTypeData[index]?.rerouteURL}
+                                        name="rerouteURL"
+                                        onChange={e => handleChange(index, "rerouteURL", e.target.value)}
+                                    />
+                                </Flex>
+                            </Box>
+                        )}
+                        <Flex width={"full"} flexDir={["column", "column", "row"]} gap={"3"} >
+                            <Box width={"full"}>
+                                <label className="block text-gray-700 font-medium mb-2">
+                                    Enter Ticket Name
+                                </label>
+                                <Flex >
+                                    <Input
+                                        h={"45px"}
+                                        type="text"
+                                        border={"1px solid #E2E8F0"}
+                                        focusBorderColor={"#E2E8F0"}
+                                        placeholder="Enter Name"
+                                        value={eventdata.productTypeData[index]?.ticketType}
+                                        name="ticketType"
+                                        onChange={e => handleChange(index, "ticketType", e.target.value)}
+                                    />
+                                </Flex>
+                            </Box>
+                            <Box width={"full"} >
+                                <label className="block text-gray-700 font-medium mb-2">
+                                    Enter Price
+                                </label>
+                                <Flex gap={"2"} >
+                                    <Input
+                                        h={"45px"}
+                                        type="number"
+                                        onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
+                                        width={"full"}
+                                        border={"1px solid #E2E8F0"}
+                                        focusBorderColor={"#E2E8F0"}
+                                        placeholder="Enter amount"
+                                        value={eventdata.productTypeData[index]?.ticketPrice}
+                                        disabled={type === "Free" ? true : false}
+                                        name="ticketPrice"
+                                        onChange={e => handleChange(index, "ticketPrice", e.target.value)}
+                                    />
+                                </Flex>
+                            </Box>
+                        </Flex>
+                        {/* } */}
                         <Box width={"full"} >
                             <label className="block text-gray-700 font-medium mb-2">
                                 Indicate total number of tickets available to be sold for your
@@ -149,6 +175,7 @@ function SelectTicket(props: Props) {
                             <Input
                                 h={"45px"}
                                 type="number"
+                                onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                 border={"1px solid #E2E8F0"}
                                 focusBorderColor={"#E2E8F0"}
                                 placeholder=" Type in available quantity"
@@ -168,6 +195,7 @@ function SelectTicket(props: Props) {
                             <Input
                                 h={"45px"}
                                 type="number"
+                                onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                 border={"1px solid #E2E8F0"}
                                 focusBorderColor={"#E2E8F0"}
                                 placeholder="Type in minimum no of Tickets"
@@ -177,6 +205,7 @@ function SelectTicket(props: Props) {
                             <Input
                                 h={"45px"}
                                 type="number"
+                                onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                 border={"1px solid #E2E8F0"}
                                 focusBorderColor={"#E2E8F0"}
                                 placeholder="Type in maximum no. of Tickets"
@@ -196,22 +225,25 @@ function SelectTicket(props: Props) {
                 )
             })}
 
-            {eventdata.productTypeData[0]?.ticketType !== "Free" && (
-                <CustomButton onClick={() => HandleAddTicket(eventdata?.productTypeData?.length)} text='+ Add New Ticket Type' mt={"3"} fontWeight={"bold"} width={"fit-content"} />
-                // <button onClick={() => HandleAddTicket(eventdata?.productTypeData?.length)} className=" mt-3 font-bold border text-white bg-blue-600 rounded-md py-2 w-fit px-3 " >+ Add New Ticket Type</button>
-            )}
-            <Select
-                h={"45px"}
-                border={"1px solid #E2E8F0"}
-                focusBorderColor={"#E2E8F0"}
-                placeholder="Type in maximum no. of Tickets"
-                value={eventdata.currency}
-                name="currency"
-                onChange={handleChangeCurrency}
-            >
-                <option>NGN</option>
-                <option>USD</option>
-            </Select>
+            <CustomButton onClick={() => HandleAddTicket(eventdata?.productTypeData?.length)} text='+ Add New Ticket Type' color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
+
+            <Box>
+                <label className="block text-gray-700 font-medium ">
+                    Select ticket currency
+                </label>
+                <Select
+                    h={"45px"}
+                    border={"1px solid #E2E8F0"}
+                    focusBorderColor={"#E2E8F0"}
+                    placeholder="Select ticket currency"
+                    value={eventdata.currency}
+                    name="currency"
+                    onChange={handleChangeCurrency}
+                >
+                    <option>NGN</option>
+                    <option>USD</option>
+                </Select>
+            </Box>
         </Flex>
     )
 }

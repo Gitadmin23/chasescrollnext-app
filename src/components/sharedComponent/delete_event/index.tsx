@@ -8,11 +8,13 @@ import { useMutation, useQueryClient } from 'react-query';
 
 interface Props {
     event: any,
+    draft?: boolean
 }
 
 function DeleteEvent(props: Props) {
     const {
-        event
+        event,
+        draft
     } = props
 
     const toast = useToast()
@@ -21,7 +23,7 @@ function DeleteEvent(props: Props) {
 
     // detete event
     const deleteEvent = useMutation({
-        mutationFn: () => httpService.delete("/events/delete-draft/" + event.id),
+        mutationFn: () => httpService.delete((draft ? "/events/delete-draft/" :"/events/delete-event/") + event.id),
         onError: (error: AxiosError<any, any>) => {
             toast({
                 title: 'Error',
@@ -42,6 +44,7 @@ function DeleteEvent(props: Props) {
                 position: 'top-right',
             });
             queryClient.refetchQueries(URLS.GET_DRAFT + "?createdBy=" + user_index)
+            queryClient.refetchQueries(URLS.JOINED_EVENT + user_index)
         }
     });
 
@@ -51,7 +54,7 @@ function DeleteEvent(props: Props) {
     }, [deleteEvent])
 
     return (
-        <Box as='button' onClick={handleSave} color={"brand.chasescrollRed"} fontWeight={"semibold"} width={"fit-content"} display={"flex"} justifyContent={"center"} fontSize={"sm"} alignItems={"center"} disabled={deleteEvent.isLoading} >
+        <Box as='button' onClick={handleSave} color={"brand.chasescrollRed"} borderWidth={"1px"} borderColor={"brand.chasescrollRed"} fontWeight={"semibold"} width={"fit-content"} display={"flex"} justifyContent={"center"} fontSize={"xs"} px="3" rounded={"full"} alignItems={"center"} disabled={deleteEvent.isLoading} >
             {(deleteEvent.isLoading) && <Spinner size='sm' color="brand.chasesccrollButtonBlue" />}
             {(!deleteEvent.isLoading) && (
                 "delete"

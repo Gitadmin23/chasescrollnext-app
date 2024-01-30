@@ -1,10 +1,11 @@
 import CustomText from '@/components/general/Text'
 import { useDetails } from '@/global-state/useUserDetails'
-import { URLS } from '@/services/urls'
+import AWSHook from '@/hooks/awsHook'
+import { IMAGE_URL, URLS } from '@/services/urls'
 import { THEME } from '@/theme'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import httpService from '@/utils/httpService'
-import { Avatar, Box, Flex, HStack, Image, Input, Spinner, Textarea, VStack, useToast } from '@chakra-ui/react'
+import { Avatar, Box, Flex, HStack, Image, Input, Progress, Spinner, Textarea, VStack, useToast } from '@chakra-ui/react'
 import React from 'react'
 import { FiChevronLeft, FiPlus } from 'react-icons/fi'
 import { useMutation } from 'react-query'
@@ -42,38 +43,11 @@ function ShowImages({ files, setImage, handleStage, stage, setEmpty, mutate }: {
   const [url, setUrl] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
   const inputRef = React.useRef<HTMLInputElement>();
-  const { username, firstName, lastName, publicProfile, userId } = useDetails((state) => state);
+  const { username, firstName, lastName, publicProfile, userId, user } = useDetails((state) => state);
   const [value, setValue] = React.useState('');
   const toast = useToast();
   const queryClient = useQueryClient();
-
-  const uploadMediaFile = useMutation({
-    mutationFn: (data: FormData) => httpService.post(files[0].type.startsWith('image') ? `${URLS.UPLOAD_IMAGE}/${userId}`:`${URLS.UPLOAD_VIDEO}/${userId}`, data),
-    onSuccess: (data) => {
-      const obj = {
-        text: value,
-        type: files[0].type.startsWith('image') ? 'WITH_IMAGE' : 'WITH_VIDEO_POST',
-        isGroupFeed: false,
-        sourceId: userId,
-        mediaRef: data.data?.fileName,
-        multipleMediaRef: [
-          data.data?.fileName,
-        ]
-      }
-      console.log(obj)
-      createPost.mutate(obj);
-    },
-    onError: (error: any) => {
-      toast({
-        title: 'Error',
-        description: 'An error occured while uploading file',
-        position: 'top-right',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    },
-  });
+  const { uploadedFile, fileUploadHandler, loading } = AWSHook();
 
   const createPost = useMutation({
     mutationFn: (data: any) => httpService.post(`${URLS.CREATE_POST}`, data),
@@ -96,6 +70,22 @@ function ShowImages({ files, setImage, handleStage, stage, setEmpty, mutate }: {
   })
 
   React.useEffect(() => {
+    if (uploadedFile.length > 0 && !loading) {
+      const obj = {
+        text: value,
+        type: files[0].type.startsWith('image') ? 'WITH_IMAGE' : 'WITH_VIDEO_POST',
+        isGroupFeed: false,
+        sourceId: userId,
+        mediaRef: uploadedFile[0].url,
+        multipleMediaRef: uploadedFile.map((item) => item.url),
+      }
+      createPost.mutate(obj);
+    }
+  }, [files, loading, uploadedFile, userId, value])
+
+
+
+  React.useEffect(() => {
     const fileReader = new FileReader();
 
     fileReader.onload = () => {
@@ -109,12 +99,13 @@ function ShowImages({ files, setImage, handleStage, stage, setEmpty, mutate }: {
     setImage(data, false);
 }, [setImage]);
 
-const handleNext = React.useCallback(() => {
+const handleNext = () => {
+  console.log(files);
   if (stage === 3) {
-    if (files[0].size > 262144000) {
+    if (files[0].size > 314572800) {
       toast({
         title: 'Warniing',
-        description: 'File size must be less than or equal to 250MB',
+        description: 'File size must be less than or equal to 300MB',
         position: 'top-right',
         status: 'warning',
         duration: 5000,
@@ -122,13 +113,12 @@ const handleNext = React.useCallback(() => {
       });
       return
     }
-    const formData = new FormData();
-    formData.append('file', files[0]);
-    uploadMediaFile.mutate(formData);
+    fileUploadHandler(files as any);
     return;
-  };
-  handleStage(stage+1);
-}, [files, handleStage, stage, toast, uploadMediaFile])
+  } else {
+    handleStage(stage+1);
+  }
+}
 
 const handlePrev = React.useCallback(() => {
   if (stage === 2) {
@@ -146,36 +136,40 @@ const handleChange = (e: string) => {
 }
 
   return (
-    <VStack width='100%' height='600px'>
+    <VStack width='100%' height='auto'>
         <input hidden type='file' accept="image/*, video/*" ref={inputRef as any} onChange={(e) => handlePick(e.target.files as FileList)} />
 
         <HStack width='100%' height='50px' bg='white' justifyContent={'space-between'} paddingX='10px' alignItems={'center'} paddingTop={'10px'}>
             <FiChevronLeft size={'25px'} onClick={handlePrev} color={THEME.COLORS.chasescrollButtonBlue} />
-            { !uploadMediaFile.isLoading && !createPost.isLoading && (
+            {!loading && !createPost.isLoading && (
               <CustomText cursor='pointer' onClick={handleNext} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} fontSize={'sm'}>{stage > 2 ? 'Create Post' : 'Next'}</CustomText>
             )}
             {
-              uploadMediaFile.isLoading && (
-                <Spinner colorScheme='blue' size='md' />
+              loading && (
+                <Box width='50px'>
+                  <Progress isIndeterminate colorScheme='blue' width={'100%'} size='sm' />
+                </Box>
               )
             }
             {
              createPost.isLoading && (
-                <Spinner colorScheme='blue' size='md' />
+                <Box width='50px'>
+                  <Progress isIndeterminate colorScheme='blue' width={'100%'} size='sm' />
+                </Box>
               )
             }
         </HStack>
 
-        <Flex minWidth='300px' maxWidth={'350px'} height={'250px'}  bg='red' borderRadius='0px' position={'relative'}>
+        <Flex minWidth='400px' maxWidth={'350px'} height={'auto'}  borderRadius='0px' position={'relative'}>
 
           { isLoading && (
             <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'} >
-              <Spinner colorScheme='blue' size='md' />
+              <Progress isIndeterminate colorScheme='blue' width={'100%'} size='sm' />
             </VStack>
           )}
 
           { !isLoading && url !== '' && (
-            <VStack width={'100%'} zIndex={1} height='300px' overflow={'hidden'}>
+            <VStack width={'100%'} zIndex={1} height='auto' overflow={'hidden'}>
               {files[0].type.startsWith('video') && (
                 <video controls width={'100%'} height={'300px'}>
                   <source src={url} type='video/mp4' />
@@ -194,7 +188,22 @@ const handleChange = (e: string) => {
             <VStack alignItems='flex-start' width='100%' height='250px' paddingX='20px' paddingTop={'20px'} bg='white' justifyContent={'center'} fontFamily={'Satoshi-Regular'}>
 
               <HStack>
-                <Avatar name={`${firstName} ${lastName}`} size={'md'} />
+              <Box  width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+                {user?.data.imgMain.value === null && (
+                  <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                    <CustomText fontFamily={'DM-Regular'}>{user?.username[0].toUpperCase()}</CustomText>
+                  </VStack>
+                )}
+                {
+                  user?.data.imgMain.value !== null && (
+                    <>
+                      { user?.data?.imgMain?.value.startsWith('https://') && <Image src={`${user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+
+                      { !user?.data?.imgMain?.value.startsWith('https://') && <Image src={`${IMAGE_URL}${user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                    </>
+                  )
+                }
+                </Box>
                 <CustomText>{capitalizeFLetter(firstName)} {capitalizeFLetter(lastName)}</CustomText>
               </HStack>
 

@@ -11,7 +11,8 @@ interface IProps {
     hasJoined?: boolean;
 }
 
-function CommunityCard({ community, hasJoined }: IProps) {
+function CommunityCard({ community, hasJoined }: IProps) { 
+    
   return (
     <HStack width={'50%'} height={'230px'} marginBottom='30px'>
 

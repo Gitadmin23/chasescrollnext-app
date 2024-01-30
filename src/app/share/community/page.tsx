@@ -27,13 +27,13 @@ function ShareCommunity() {
   const query = useSearchParams();
   const type = query?.get('type');
   const typeID = query?.get('typeID');
-  const [details, setDetails] = React.useState<ICommunity|null>(null);
+  const [details, setDetails] = React.useState<ICommunity | null>(null);
   const [members, setMembers] = React.useState<ICommunityMember[]>([]);
   const [posts, setPosts] = React.useState<IMediaContent[]>([])
   const [search, setSearch] = React.useState('');
   const [mediaTab, setMediaTab] = React.useState(1);
   const router = useRouter();
-  const { userId } = useDetails((state)=> state)
+  const { userId } = useDetails((state) => state)
 
   const admin = userId === details?.creator?.userId;
   const toast = useToast();
@@ -45,11 +45,11 @@ function ShareCommunity() {
       groupID: typeID,
     }
   }), {
-  enabled: typeID !== null || typeID !== undefined,
-  onSuccess: (data) => {
-    const item: PaginatedResponse<ICommunity> = data.data;
-    setDetails(item.content[0]);
-  }
+    enabled: typeID !== null || typeID !== undefined,
+    onSuccess: (data) => {
+      const item: PaginatedResponse<ICommunity> = data.data;
+      setDetails(item.content[0]);
+    }
   });
 
   const joinGroup = useMutation({
@@ -102,11 +102,11 @@ function ShareCommunity() {
       groupID: typeID,
     }
   }), {
-  enabled: typeID !== null || typeID !== undefined,
-  onSuccess: (data) => {
-    const item: PaginatedResponse<IMediaContent> = data.data;
-    setPosts(uniqBy(item.content, 'id'));
-  }
+    enabled: typeID !== null || typeID !== undefined,
+    onSuccess: (data) => {
+      const item: PaginatedResponse<IMediaContent> = data.data;
+      setPosts(uniqBy(item.content, 'id'));
+    }
   });
 
   const communityMembers = useQuery(['getCommunityMembers', typeID], () => httpService.get(`${URLS.GET_GROUP_MEMBERS}`, {
@@ -115,11 +115,11 @@ function ShareCommunity() {
       page: 0,
     }
   }), {
-  enabled: typeID !== null || typeID !== undefined,
-  onSuccess: (data) => {
-    const item: PaginatedResponse<ICommunityMember> = data.data;
-    setMembers(prev => uniqBy([...prev, ...item.content], 'id'));
-  }
+    enabled: typeID !== null || typeID !== undefined,
+    onSuccess: (data) => {
+      const item: PaginatedResponse<ICommunityMember> = data.data;
+      setMembers(prev => uniqBy([...prev, ...item.content], 'id'));
+    }
   });
 
   const admins = () => {
@@ -133,7 +133,7 @@ function ShareCommunity() {
   const media = () => {
     if (posts.length < 1) return [];
     return posts.filter((item) => {
-      if(item.type === 'WITH_IMAGE' || item.type === 'WITH_VIDEO_POST') {
+      if (item.type === 'WITH_IMAGE' || item.type === 'WITH_VIDEO_POST') {
         return item;
       }
     })
@@ -142,13 +142,13 @@ function ShareCommunity() {
   const files = () => {
     if (posts.length < 1) return [];
     return posts.filter((item) => {
-      if(item.type === 'WITH_FILE') {
+      if (item.type === 'WITH_FILE') {
         return item;
       }
     })
   }
 
-  if (community.isLoading || communityMembers.isLoading ) {
+  if (community.isLoading || communityMembers.isLoading) {
     return (
       <VStack width='100%' height={'100%'} justifyContent={'center'} alignItems={'center'}>
         <Spinner />
@@ -161,14 +161,14 @@ function ShareCommunity() {
   return (
     <Box overflowY='auto' width='100%' height='100%' bg='white' paddingTop='40px' paddingBottom={'100px'}>
 
-        <VStack width='100%'>
+      <VStack width='100%'>
 
 
         <VStack width={['100%', '25%']} height='100%' bg='white' paddingTop='20px' paddingX={['20px', '0px']}>
 
           {/* HEADER SECTIOONS */}
           <VStack alignItems={'center'} borderWidth={'1px'} borderRadius={'32px'} borderColor={'#D0D4EB'} width='100%' height={'auto'} padding='20px'>
-            
+
             <HStack justifyContent={'space-between'} width='100%'>
               <FiChevronLeft color='black' fontSize='20px' onClick={() => router.back()} />
               <CustomText fontFamily={'DM-Bold'} fontSize={'16px'}>Community Info</CustomText>
@@ -178,89 +178,89 @@ function ShareCommunity() {
             </HStack>
 
             <Box width='97px' height={'97px'} borderRadius={'999px 0px 999px 999px'} borderWidth={'3px'} borderColor={'#3C41F0'} overflow={'hidden'}>
-                { details?.data?.imgSrc === null && (
-                        <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                            <CustomText fontFamily={'DM-Regular'}>{details.data.name[0].toUpperCase()}</CustomText>
-                        </VStack>
-                    )}
-                    {
-                        details?.data?.imgSrc && (
-                            <Image src={`${IMAGE_URL}${details.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
-                        )
-                    }
+              {details?.data?.imgSrc === null && (
+                <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                  <CustomText fontFamily={'DM-Regular'}>{details.data.name[0].toUpperCase()}</CustomText>
+                </VStack>
+              )}
+              {
+                details?.data?.imgSrc && (
+                  <Image src={`${IMAGE_URL}${details.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                )
+              }
             </Box>
 
             <CustomText fontFamily={'DM-Bold'} fontSize={'18px'} color="brand.chasescrollButtonBlue" textAlign={'center'}>{details?.data?.name}</CustomText>
             <CustomText textAlign={'center'} fontFamily={'DM-Light'} fontSize={'14px'} color={'black'}>{members.length} Members</CustomText>
 
             <InputGroup>
-                    <InputLeftElement>
-                      <Image alt='searc' src='/assets/images/search-normal.png' width='20px' height='20px' />
-                    </InputLeftElement>
-                    <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder='search' />
+              <InputLeftElement>
+                <Image alt='searc' src='/assets/images/search-normal.png' width='20px' height='20px' />
+              </InputLeftElement>
+              <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder='search' />
             </InputGroup>
 
 
           </VStack>
 
           {/* MEMBERS */}
-          <Box width='100%' height={'330px'}  position={'relative'} zIndex={'10'}  marginTop={'30px'}  borderWidth={'1px'} borderRadius={'32px'} borderColor={'#D0D4EB'}>
+          <Box width='100%' height={'330px'} position={'relative'} zIndex={'10'} marginTop={'30px'} borderWidth={'1px'} borderRadius={'32px'} borderColor={'#D0D4EB'}>
 
-              <HStack justifyContent={'center'} bg='white' width='150px' position='absolute' left='40px' top='-20px' padding='10px'>
-                  <CustomText fontFamily={'DM-Light'} color={THEME.COLORS.chasescrollButtonBlue} >Members</CustomText>
-                </HStack>  
+            <HStack justifyContent={'center'} bg='white' width='150px' position='absolute' left='40px' top='-20px' padding='10px'>
+              <CustomText fontFamily={'DM-Light'} color={THEME.COLORS.chasescrollButtonBlue} >Members</CustomText>
+            </HStack>
 
-            <Box paddingY={'30px'} width='100%' height={'100%'}  paddingX='10px' overflowY='scroll'>
+            <Box paddingY={'30px'} width='100%' height={'100%'} paddingX='10px' overflowY='scroll'>
 
-              
 
-                {admins().length > 0 && admins().filter((item) => {
-                  if (search === '') {
+
+              {admins().length > 0 && admins().filter((item) => {
+                if (search === '') {
+                  return item;
+                } else {
+                  if (item.user.firstName.toLowerCase().includes(search.toLowerCase()) || item.user.lastName.toLowerCase().includes(search.toLowerCase()) || item.user.username.toLowerCase().includes(search.toLowerCase())) {
                     return item;
-                  } else {
-                    if (item.user.firstName.toLowerCase().includes(search.toLowerCase()) || item.user.lastName.toLowerCase().includes(search.toLowerCase()) || item.user.username.toLowerCase().includes(search.toLowerCase())) {
-                      return item;
-                    }
                   }
-                }).map((item, index) => (
-                  <MemberCard member={item} key={index.toString()} isAdmin />
-                ))}
-                {users().length > 0 && users().filter((item) => {
-                  if (search === '') {
+                }
+              }).map((item, index) => (
+                <MemberCard member={item} key={index.toString()} isAdmin />
+              ))}
+              {users().length > 0 && users().filter((item) => {
+                if (search === '') {
+                  return item;
+                } else {
+                  if (item.user.firstName.toLowerCase().includes(search.toLowerCase()) || item.user.lastName.toLowerCase().includes(search.toLowerCase()) || item.user.username.toLowerCase().includes(search.toLowerCase())) {
                     return item;
-                  } else {
-                    if (item.user.firstName.toLowerCase().includes(search.toLowerCase()) || item.user.lastName.toLowerCase().includes(search.toLowerCase()) || item.user.username.toLowerCase().includes(search.toLowerCase())) {
-                      return item;
-                    }
                   }
-                }).map((item, index) => (
-                  <MemberCard member={item} key={index.toString()} isAdmin={false} />
-                ))}
+                }
+              }).map((item, index) => (
+                <MemberCard member={item} key={index.toString()} isAdmin={false} />
+              ))}
 
-              </Box>
+            </Box>
           </Box>
 
-          
-
-          </VStack>
-
-        </VStack>
-
-        <VStack width='100%' height="auto" overflowY='auto' marginTop={'30px'}  paddingTop='20px' paddingX={['20px', '0px']}>
-
-
-              <VStack width={['100%', '25%']} height={'100%'} >
-
-                    {/* header */}
-                    <Button width='100%' height='40px' borderRadius='20px' isLoading={joinGroup.isLoading} type='button' variant={'solid'} bg='brand.chasescrollButtonBlue' color='white' onClick={handleJoin}>Join Community</Button>
-     
-
-            </VStack>
 
 
         </VStack>
 
-        
+      </VStack>
+
+      <VStack width='100%' height="auto" overflowY='auto' marginTop={'30px'} paddingTop='20px' paddingX={['20px', '0px']}>
+
+
+        <VStack width={['100%', '25%']} height={'100%'} >
+
+          {/* header */}
+          <Button width='100%' height='40px' borderRadius='20px' isLoading={joinGroup.isLoading} type='button' variant={'solid'} bg='brand.chasescrollButtonBlue' color='white' onClick={handleJoin}>Join Community</Button>
+
+
+        </VStack>
+
+
+      </VStack>
+
+
     </Box>
   )
 }

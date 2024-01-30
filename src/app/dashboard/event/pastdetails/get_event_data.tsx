@@ -1,43 +1,50 @@
+"use client"
 import EventDetails from '@/components/event_details_component'
-import LoadingAnimation from '@/components/sharedComponent/loading_animation' 
+import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
+import LoadingAnimation from '@/components/sharedComponent/loading_animation'
+import usePaystackStore from '@/global-state/usePaystack'
 import { URLS } from '@/services/urls'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import httpService from '@/utils/httpService'
-import { Box, useToast } from '@chakra-ui/react' 
+import { Box, useToast } from '@chakra-ui/react'
 import React from 'react'
 import { useQuery, focusManager } from 'react-query'
 
 interface Props {
-    event_index: any
+    event_index: any,
+    dynamic?: boolean
 }
+ 
 function GetEventData(props: Props) {
     const {
-        event_index
+        event_index,
+        dynamic
     } = props
     const toast = useToast()
     const [data, setData] = React.useState({} as any) 
 
-focusManager.setFocused(false)
+    const { configPaystack, setPaystackConfig } = usePaystackStore((state) => state);
+
+    focusManager.setFocused(false)
     // react query
-    const { isLoading, isRefetching } = useQuery(['all-events-details' + event_index,], () => httpService.get(URLS.All_EVENT + "?id=" + event_index), {
+    const { isLoading, isRefetching } = useQuery(['all-events-details' + event_index], () => httpService.get(URLS.All_EVENT + "?id=" + event_index + "&pastEvent=true"), {
         onError: (error: any) => {
             toast({
                 status: "error",
                 title: error.response?.data,
             });
         },
-        onSuccess: (data: any) => { 
-            setData(data?.data?.content[0]); 
+        onSuccess: (data: any) => {
+            setData(data?.data?.content[0]);
         }
     })
-
-    // console.log(data);
 
     return (
         <Box width={"full"}  >
             <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data?.length} >
                 <EventDetails
-                    dataInfo={data} 
+                    dynamic={dynamic}
+                    dataInfo={data}
                     eventID={data?.id}
                     isBought={data?.isBought}
                     eventName={data?.eventName}
@@ -57,9 +64,10 @@ focusManager.setFocused(false)
                     currency={data?.currency}
                     isOrganizer={data?.isOrganizer}
                     minPrice={data?.minPrice}
-                    maxPrice={data?.maxPrice} 
+                    maxPrice={data?.maxPrice}
                     ticketBought={data?.ticketBought} attendees={undefined} />
-            </LoadingAnimation>
+            </LoadingAnimation> 
+            <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} />
         </Box>
     )
 }

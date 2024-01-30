@@ -7,7 +7,7 @@ import RefundPolicy from '../event_modal/refund_policy'
 import CustomButton from '@/components/general/Button'
 import PaymentType from '../event_modal/payment_type'
 import httpService from '@/utils/httpService'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { URLS } from '@/services/urls'
 import { useDetails } from '@/global-state/useUserDetails'
 import ViewTicket from '../event_modal/view_ticket'
@@ -36,7 +36,7 @@ function GetEventTicket(props: Props) {
         setSelectedTicket,
         ticket,
         carousel
-    } = props
+    } = props 
 
     const STRIPE_KEY: any = process.env.NEXT_PUBLIC_STRIPE_KEY;
     // const [stripePromise, setStripePromise] = React?.useState(() => loadStripe(STRIPE_KEY))
@@ -56,12 +56,32 @@ function GetEventTicket(props: Props) {
 
     const clickHandler = (event: any) => {
         event.stopPropagation();
-        if (!user_index) {
-            router.push("/share/auth/login?type=EVENT&typeID=" + data?.id)
-        } else {
+
+        if (selectedTicket?.rerouteURL) {
+            clickThrough()
+        } else if (isBought) {
             setModalTab(carousel ? 6 : isBought ? 5 : 1)
             setShowModal(true)
+        } else if (!selectedTicket?.ticketType) {
+            toast({
+                status: "error",
+                title: "Please Select Ticket Type",
+                position: 'top-right',
+            });
+        } else {
+            if (!user_index) {
+                router.push("/share/auth/login?type=EVENT&typeID=" + data?.id)
+            } else {
+                setModalTab(carousel ? 6 : isBought ? 5 : 1)
+                setShowModal(true)
+            }
         }
+    }
+
+    const modalHandler = (event: any) => {
+        event.stopPropagation();
+        setModalTab(6)
+        setShowModal(true)
     }
 
     const { isLoading } = useQuery(['event_ticket' + data?.id], () => httpService.get(URLS.GET_TICKET + user_index + "&eventID=" + data?.id), {
@@ -69,6 +89,7 @@ function GetEventTicket(props: Props) {
             toast({
                 status: "error",
                 title: error.response?.data,
+                position: 'top-right',
             });
         },
         onSuccess: (data) => {
@@ -78,14 +99,57 @@ function GetEventTicket(props: Props) {
         }
     })
 
+
+    const createTicket = useMutation({
+        mutationFn: (data: any) => httpService.post("/events/create-click-through", data),
+        onSuccess: () => { 
+            // toast({
+            //     title: 'Success',
+            //     description: "Error Occured",
+            //     status: 'error',
+            //     isClosable: true,
+            //     duration: 5000,
+            //     position: 'top-right',
+            // });
+        },
+        onError: (error) => {
+            // console.log(error);
+            toast({
+                title: 'Error',
+                description: "Error Occured",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        },
+    });
+
+    const clickThrough = React.useCallback(() => {
+        createTicket.mutate({
+            eventID: data?.id,
+            ticketType: selectedTicket?.ticketType,
+            rerouteURL: selectedTicket?.rerouteURL
+        })
+    }, [createTicket])
+
+
+
     return (
         <>
             {!carousel && (
-                <CustomButton my={"auto"} onClick={clickHandler} disable={(selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "full"]} />
+                <>
+                    {!selectedTicket?.rerouteURL ? 
+                        <CustomButton bgColor={"brand.chasescrollBgBlue"} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "full"]} /> :
+                        <a href={selectedTicket?.rerouteURL} target="_blank" > 
+                            <CustomButton bgColor={"brand.chasescrollBgBlue"} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "full"]} />
+                        </a>
+                    }
+                </>
             )}
             {carousel && (
                 <Box >
-                    <CustomButton onClick={clickHandler} backgroundColor={"transparent"} fontSize={"sm"} borderColor={"brand.chasescrollBlue"} color={"brand.chasescrollBlue"} borderWidth={"1px"} text={"Get Ticket"} width={["172px"]} />
+                    <CustomButton onClick={modalHandler} fontSize={"sm"} borderColor={"brand.chasescrollBlue"} color={"white"} borderWidth={"1px"} px={"4"} text={"Get Ticket Now"} width={["172px"]} />
                 </Box>
             )}
             <ModalLayout title={modalTab === 6 ? "Ticket available for this event" : ""} open={showModal} close={setShowModal} >

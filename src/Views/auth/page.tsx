@@ -1,6 +1,6 @@
 "use client";
 import React from 'react'
-import { Box, Divider, HStack, VStack, Image, useToast, Button, Flex, Input } from '@chakra-ui/react';
+import { Box, Divider, HStack, VStack, Image, useToast, Button, Flex, Input, Text } from '@chakra-ui/react';
 import CustomText from '@/components/general/Text';
 import CustomButton from '@/components/general/Button';
 import { THEME } from '@/theme';
@@ -16,43 +16,49 @@ import { CustomInput } from '@/components/Form/CustomInput';
 import { signIn, useSession, signOut, } from 'next-auth/react'
 import { Session, } from 'next-auth';
 import httpServiceGoogle from '@/utils/httpServiceGoogle';
+import CopyRightText from '@/components/sharedComponent/CopyRightText';
 
 
 
 const LINK2 = [
   {
-    name: "Sign in",
+    name: "Events",
     link: "/",
+    isExternal: true
+  },
+  {
+    name: "Sign in",
+    link: "/auth",
     isExternal: false
   },
   {
     name: "Sign up",
-    link: "/sign-up",
+    link: "/auth/signup",
     isExternal: true
   },
   {
     name: "Home",
-    link: "https://chasescroll.com/",
+    link: "/home",
     isExternal: true
   },
   {
     name: "About us",
-    link: "https://chasescroll.com/about",
+    link: "/home/about",
     isExternal: true
   },
   {
     name: "Policy",
-    link: "https://chasescroll.com/privacy-poilcy",
+    link: "/home/privacy_poilcy",
     isExternal: true
   },
   {
     name: "Terms and conditions",
-    link: "https://chasescroll.com/terms",
+    link: "/home/terms",
     isExternal: true
   },
   {
     name: "Contact us",
-    link: "https://chasescroll.com/contact",
+    link: "/home/contact",
     isExternal: true
   },
 ]
@@ -69,6 +75,7 @@ function LoginPage() {
   const [UserName, setUserName] = React.useState("")
   const [email, setEmail] = React.useState({} as any)
   const [checkData, setCheckData] = React.useState<any>({})
+  const [checked, setChecked] = React.useState(false);
 
 
   const toast = useToast();
@@ -77,15 +84,15 @@ function LoginPage() {
   const { data: sessionData, update } = useSession();
 
 
+  React.useEffect(() => {
+    localStorage.clear()
+  }, []);
+
+
+
   const handleSignIn = async (event: any) => {
-    if (sessionData !== null) {
-      // signOut();
-      console.log(sessionData)
-      const id: string = (sessionData as any).idToken;
-      signinWithGoogle.mutate(id);
-    } else {
-      const result = await signIn('google');
-    }
+    const result = await signIn('google');
+    console.log(result);
   };
 
   const signinWithGoogle = useMutation({
@@ -101,9 +108,22 @@ function LoginPage() {
         title: 'Success',
         description: 'Signin Successful',
         status: 'success',
+        position: 'top-right'
       })
       if (!data?.data?.firstName) {
         setShowModal(true)
+      } else {
+        localStorage.setItem('token', data?.data?.access_token);
+        localStorage.setItem('refresh_token', data?.data?.refresh_token);
+        localStorage.setItem('user_id', data?.data?.user_id);
+        localStorage.setItem('expires_in', data?.data?.expires_in);
+        setAll({
+          firstName: data?.data?.firstName,
+          lastName: data?.data?.firstName,
+          username: data?.data?.user_name,
+          userId: data?.data?.user_id,
+        })
+        router.push('/dashboard/home')
       }
       setCheckData(data?.data)
     },
@@ -116,6 +136,27 @@ function LoginPage() {
       })
     }
   })
+
+  React.useEffect(() => {
+    const token: any = sessionData;
+    // console.log(token.token?.token.token.accessToken);
+    if (sessionData !== null) {
+      if (token.token?.token?.token?.idToken) {
+        signinWithGoogle.mutate(token?.token?.token?.token?.idToken);
+      }
+    }
+
+  }, [sessionData])
+
+  const handleGoogleSignIn = async () => {
+    const token: any = sessionData;
+    if (token && token.token?.token.token.idToken) {
+      signinWithGoogle.mutate(token.token?.token.token.idToken);
+    } else {
+      const dets = await signIn('google');
+      setCheckData(true);
+    }
+  }
 
   React.useEffect(() => {
     if (checkData?.user_id) {
@@ -132,7 +173,6 @@ function LoginPage() {
           username: checkData.user_name,
           userId: checkData.user_id,
         })
-        // router.push('/dashboard');
       }
     }
   }, [checkData, router, setAll]);
@@ -178,7 +218,7 @@ function LoginPage() {
       });
 
       if (data?.data?.message === "This email is not verified") {
-        router.push('/auth/verify-account?email=' + values?.username);
+        router.push('/auth/verify-account');
       } else {
 
         localStorage.setItem('token', data?.data?.access_token);
@@ -191,7 +231,7 @@ function LoginPage() {
           username: data?.data?.user_name,
           userId: data?.data?.user_id,
         })
-        router.push('/dashboard');
+        router.push('/dashboard/home')
       }
 
     }
@@ -244,7 +284,7 @@ function LoginPage() {
           username: checkData.user_name,
           userId: checkData.user_id,
         })
-        router.push('/dashboard');
+        router.push('/dashboard/home')
         // navigate("/explore")
       } else {
         toast({
@@ -267,8 +307,17 @@ function LoginPage() {
     submit: (data: any) => mutate(data)
   });
 
+  const comingSoon = () => {
+    toast({
+      title: 'Info',
+      description: 'Coming Soon',
+      status: "info",
+      position: 'top-right',
+    })
+  }
+
   return renderForm(
-    <Flex flexDir={"column"} gap={"10"} alignItems={"center"} justifyContent={"space-between"} pt={"16"} pb={["16px", "16px", "0px"]} width={"full"} >
+    <Flex flexDir={"column"} gap={"10"} alignItems={"center"} justifyContent={"space-between"} pt={"16"} pb={["16px", "16px", "0px"]} width={"full"} height={"100vh"} >
       <Flex flexDir={["column", "column", "row"]} gap={["10", "10", "4"]} alignItems={"center"} justifyContent={"space-between"} width={"full"} maxWidth={"5xl"} >
         <Flex px={"4"} flexDir={"column"} alignItems={"center"} width={"full"} gap={"12"} >
           <Box width={"full"} maxWidth={"sm"} height={"80"} >
@@ -279,10 +328,10 @@ function LoginPage() {
             <CustomText textAlign={'center'} fontFamily={'DM-Regular'} fontSize={'24px'}>An efficient ecosystem for event management.</CustomText>
           </Flex>
           <Flex gap={"5"} justifyContent={"center"} flexWrap={"wrap"} >
-            <Box as='button' >
+            <Box as='button' type='button' onClick={comingSoon}  >
               <Image alt='google-btn' src="/assets/images/play-store.png" width='100%' height={'100%'} objectFit={'contain'} />
             </Box>
-            <Box as='button' >
+            <Box as='button' type='button' onClick={comingSoon} >
               <Image alt='google-btn' src="/assets/images/apple-store.png" width='100%' height={'100%'} objectFit={'contain'} />
             </Box>
           </Flex>
@@ -317,28 +366,37 @@ function LoginPage() {
             </Flex>
           </Flex>
 
-          <Button onClick={handleSignIn} width={['100%', '294px']} height={'40px'} borderRadius={'8px'} bg='#1018280D' padding='8px 16px 8px 16px'>
+          <Button onClick={handleGoogleSignIn} width={['100%', '294px']} height={'40px'} borderRadius={'8px'} bg='#1018280D' padding='8px 16px 8px 16px'>
             <Image alt='google' src='/assets/svg/googlelogo.svg' />
             <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color='black' fontWeight={'700'}>Sign in with Google</CustomText>
           </Button>
 
           <CustomText fontFamily={'DM-Medium'} color='grey' textAlign={'center'} fontSize={'16px'}>Create a page for events, Community and Business.</CustomText>
 
+          {/* <Text fontSize={"10px"} mx={"auto"} >
+            <CopyRightText />
+          </Text> */}
+
         </Flex>
       </Flex>
-      <Box width={"full"} display={["none", "none", "flex"]} flexDirection={"column"} gap={"4"} pb={"4"} >
+
+      <Box width={"full"} display={["none", "none", "flex"]} mt={"auto"} flexDirection={"column"} >
+
+      <Text fontSize={"10px"} textAlign={"center"} mx={"auto"} >
+            <CopyRightText />
+          </Text>
         <Box width={"full"} borderWidth={"1px"} />
-        <Flex gap={"4"} justifyContent={"center"} alignItems={"center"} fontSize={"sm"} textAlign={"center"} color={"brand.chasescrollTextGrey"} >
+        <Flex gap={"4"} py={'2'} justifyContent={"center"} alignItems={"center"} fontSize={"sm"} textAlign={"center"} color={"brand.chasescrollTextGrey"} >
           {LINK2.map((item, index) => {
             if (item.isExternal) {
               return (
-                <CustomText fontFamily={'DM-Regular'} color={item.name === "Sign in" ?  "brand.chasescrollBlue" :"brand.chasescrollTextGrey"} _hover={{color:"brand.chasescrollBlue"}} key={index.toString()}>
+                <CustomText fontFamily={'DM-Regular'} color={item.name === "Sign in" ? "brand.chasescrollBlue" : "brand.chasescrollTextGrey"} _hover={{ color: "brand.chasescrollBlue" }} key={index.toString()}>
                   <a key={index.toString()} href={item.link}>{item.name}</a>
                 </CustomText>
               )
             } else {
               return (
-                <CustomText  fontFamily={'DM-Regular'} color={item.name === "Sign in" ?  "brand.chasescrollBlue" :"brand.chasescrollTextGrey"} _hover={{color:"brand.chasescrollBlue"}} key={index.toString()}>
+                <CustomText fontFamily={'DM-Regular'} color={item.name === "Sign in" ? "brand.chasescrollBlue" : "brand.chasescrollTextGrey"} _hover={{ color: "brand.chasescrollBlue" }} key={index.toString()}>
                   <Link href={`/${item.link}`} key={index.toString()}>
                     {item.name}
                   </Link>

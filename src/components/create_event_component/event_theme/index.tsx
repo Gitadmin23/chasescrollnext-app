@@ -1,12 +1,10 @@
 import useEventStore from '@/global-state/useCreateEventState';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Box, Checkbox, Flex, Input, Radio, Select, Switch, Text, Textarea } from '@chakra-ui/react'
+import { Box, Flex, Input, Radio, Select, Switch, Text, Textarea } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useQuery } from 'react-query';
 import SelectImage from './select_image';
-import { ClosedEyeIcon, OpenEyeIcon } from '@/components/svg';
-import CustomButton from '@/components/general/Button';
 import SubmitTheme from '../submit_event';
 
 function EventTheme() {
@@ -29,21 +27,31 @@ function EventTheme() {
     }
 
     const handleChange = ({ target: { name, value, type } }: any) => {
+
         if (name === "isPublic") {
             updateEvent({
                 ...eventdata,
                 [name]: value === "true" ? true : false
             });
-        } else if( name === "attendeesVisibility") {
+        } else if (name === "attendeesVisibility") {
             updateEvent({
                 ...eventdata,
                 [name]: eventdata?.attendeesVisibility ? eventdata?.attendeesVisibility : !eventdata?.attendeesVisibility
             });
         } else {
-            updateEvent({
-                ...eventdata,
-                [name]: value
-            });
+            if (value === "") {
+
+                updateEvent({
+                    ...eventdata,
+                    [name]: ""
+                });
+            } else {
+
+                updateEvent({
+                    ...eventdata,
+                    [name]: value[0]?.toUpperCase() + value.slice(1)
+                });
+            }
         }
     };
 
@@ -77,14 +85,14 @@ function EventTheme() {
                                 focusBorderColor={"#E2E8F0"}
                                 onChange={(e) => handleChangeLimit(e, 150)}
                                 value={eventdata?.eventName} />
-                            <Text fontSize={"sm"} >{eventdata?.eventName?.length + "/" + 150}</Text>
+                            <Text fontSize={"sm"} >{eventdata?.eventName?.length ? eventdata?.eventName?.length : "0"} {"/ 150"}</Text>
                         </Flex>
                         <Flex width={"full"} gap={"1"} flexDirection={"column"} >
                             <Text color={"brand.chasescrollTextGrey"} >Attendee Visibility</Text>
-                            <label htmlFor="showAttendees" style={{  display: "flex", height: "42px", alignItems: "center", justifyContent: "space-between", borderRadius: "4px", width: "100%", paddingLeft: "16px", paddingRight: "16px", padding: "8px", backgroundColor: "#DCDEE4" }} >
+                            <label htmlFor="showAttendees" style={{ display: "flex", height: "42px", alignItems: "center", justifyContent: "space-between", borderRadius: "4px", width: "100%", paddingLeft: "16px", paddingRight: "16px", padding: "8px", backgroundColor: "#DCDEE4" }} >
                                 <h3>Show</h3>
-                                <Switch  
-                                    onChange={(e)=> updateEvent({
+                                <Switch
+                                    onChange={(e) => updateEvent({
                                         ...eventdata,
                                         attendeesVisibility: e.target.checked
                                     })}
@@ -96,7 +104,7 @@ function EventTheme() {
                     </Flex>
                     <Flex flexDirection={"column"} mt={["4", "4", "0px"]} width={"full"} gap={"4"} >
                         <Flex width={"full"} gap={"1"} flexDirection={"column"} >
-                            <Text color={"brand.chasescrollTextGrey"} > Event Type</Text>
+                            <Text color={"brand.chasescrollTextGrey"} > Event Type<span style={{ color: "#F04F4F" }} > *</span></Text>
                             <Select
                                 name="eventType"
                                 id="eventType"
@@ -105,7 +113,14 @@ function EventTheme() {
                                 onChange={handleChange}
                                 value={eventdata?.eventType}
                                 placeholder='Select Event Type' >
-                                {types?.map((type: any, index: number) => (
+                                {types?.sort((a: string, b: string) => {
+                                    if (a > b) {
+                                        return 1
+                                    } else {
+                                        return -1;
+                                    }
+                                    return 0;
+                                })?.map((type: any, index: number) => (
                                     <option key={index} value={type}>
                                         {type.split("_").join(" ")}
                                     </option>
@@ -113,7 +128,7 @@ function EventTheme() {
                             </Select>
                         </Flex>
                         <Flex width={"full"} gap={"1"} flexDirection={"column"} >
-                            <Text color={"brand.chasescrollTextGrey"} > Event Description</Text>
+                            <Text color={"brand.chasescrollTextGrey"} > Event Description<span style={{ color: "#F04F4F" }} > *</span></Text>
                             <Textarea
                                 id="eventDescription"
                                 name="eventDescription"
@@ -123,7 +138,7 @@ function EventTheme() {
                                 onChange={(e) => handleChangeLimit(e, 1500)}
                                 className="outline-none w-full h-20 text-sm"
                             />
-                            <Text fontSize={"sm"} >{eventdata?.eventDescription?.length + "/" + 1500}</Text>
+                            <Text fontSize={"sm"} >{eventdata?.eventDescription?.length ? eventdata?.eventDescription?.length : "0"} {"/ 1500"}</Text>
                         </Flex>
                         <Flex flexDirection={"column"} gap={"2"} >
                             <Text fontWeight={"bold"} fontSize={"sm"}>Event Visibility</Text>
@@ -153,10 +168,10 @@ function EventTheme() {
                                     isChecked={!eventdata?.isPublic}
                                 />
                             </label>
-                        </Flex> 
-                        <SubmitTheme />
+                        </Flex>
+                        <SubmitTheme type={""} />
                     </Flex>
-                </Flex> 
+                </Flex>
             </Flex>
         </Box>
     )

@@ -20,7 +20,7 @@ function CreateMediaPost({isOpen, onClose, mutate}:IProps) {
     const handleImagePicked = React.useCallback((Files: FileList, goNext?: boolean) => {
         console.log(Files)
         const file = Files[0];
-        if (file.size > 262144000) {
+        if (file.size > 314572800) {
             toast({
                 title: 'Error',
                 description: 'File size too large',
@@ -45,7 +45,7 @@ function CreateMediaPost({isOpen, onClose, mutate}:IProps) {
                 arrs.push(Files[i]);
             }
             setFiles(prev => [...prev, ...arrs]);
-    }, []);
+    }, [toast]);
 
     const handleSetStage = React.useCallback((page: number) => {
         setStage(page);

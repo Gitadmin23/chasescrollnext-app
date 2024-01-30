@@ -7,7 +7,8 @@ interface Props {
     size?: any,
     border?: string,
     fontSize: number,
-    refund?: boolean
+    refund?: boolean,
+    color?: any
 }
 
 function InterestedUsers(props: Props) {
@@ -16,7 +17,8 @@ function InterestedUsers(props: Props) {
         size,
         border,
         fontSize,
-        refund
+        refund,
+        color
     } = props
 
     return (
@@ -24,14 +26,16 @@ function InterestedUsers(props: Props) {
             {event?.interestedUsers?.length > 0 && (
                 <Flex alignItems={"center"} >
                     {event?.interestedUsers?.map((item: any, index: number) => {
-                        return (
-                            <Box key={index} ml={index === 0 ? "0px" : "-10px"} > 
-                                <UserImage data={item} size={size} image={item?.data?.imgMain?.value} font={fontSize + "px"} border={border} />
-                            </Box>
-                        )
+                        if (index <= 4) {
+                            return (
+                                <Box key={index} ml={index === 0 ? "0px" : "-10px"} >
+                                    <UserImage data={item} size={size} image={item?.data?.imgMain?.value} font={fontSize + "px"} border={border} />
+                                </Box>
+                            )
+                        }
                     })}
                     {!refund && (
-                        <Text color={"#1732F7"} ml={"2"} fontSize={(fontSize - 2) + "px"} >
+                        <Text color={color ? color : "#1732F7"} ml={"2"} fontSize={(fontSize - 2) + "px"} >
                             Interested
                         </Text>
                     )}

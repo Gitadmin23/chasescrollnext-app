@@ -6,10 +6,10 @@ const signUpValidation = z.object({
     email: z.string().email().nonempty(),
     firstName: z.string().nonempty(),
     lastName: z.string().nonempty(),
-    dob: z.string().nonempty(),
+    dob: z.string().nonempty('Fill in a vaild date'),
     password: z.string().nonempty(),
     confirmPassword: z.string().nonempty(),
-    phone: z.string().nonempty(),
+    phone: z.string().min(10, 'Enter a valid phone number'),
 }).refine(({ password, confirmPassword }) => {
     if (confirmPassword !== password) {
         return false
@@ -30,6 +30,16 @@ const signUpValidation = z.object({
 }, {
     message: 'You must be upto 18 to register',
     path: ['dob']
+})
+.refine(({ username }) => {
+    if (username.includes(' ')) {
+        return false;
+    } else {
+        return true;
+    }
+}, {
+    message: 'Username cannot contain spaces',
+    path: ['username'],
 })
 
 const signInValidation = z.object({
@@ -80,8 +90,8 @@ const editProfileSchema = z.object({
     firstName: z.string().nonempty("Your firstname is required").min(3),
     lastName: z.string().nonempty("Your lastname is required").min(3),
     username: z.string().nonempty("Your username cannot be blank").min(3),
-    website: z.string(),
-    aboutme: z.string(),
+    website: z.string().min(0),
+    aboutme: z.string().min(0),
 });
 
 const editPersonalInfoSchema = z.object({

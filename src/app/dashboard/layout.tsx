@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, Box, Flex, Grid, HStack, VStack, useToast, Image, Button, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react'
+import { Avatar, Box, Flex, Grid, HStack, VStack, useToast, Image, Button, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react'
 import React, { ReactNode } from 'react'
 import CustomText from '@/components/general/Text';
 import '../globals.css'
@@ -22,6 +22,9 @@ import { HomeIcon, UsersIcon } from '@/components/svg';
 import ImageModal from '@/components/general/ImageModal';
 import UserImage from '@/components/sharedComponent/userimage';
 import { signOut } from 'next-auth/react';
+import LoadingAnimation from '@/components/sharedComponent/loading_animation';
+import DashboardNavbar from '@/components/sharedComponent/dashboard_navbar';
+import CopyRightText from '@/components/sharedComponent/CopyRightText';
 type IRoute = {
     icon: ReactNode;
     text: string;
@@ -56,17 +59,16 @@ function Layout({ children }: {
     const pathname = usePathname();
     const router = useRouter();
     const toast = useToast();
-    const [showModal, setShowModal] = React.useState(false);
+    const [showModal, setShowModal] = React.useState(false); 
 
 
     const { username, lastName, firstName, userId, setAll, user } = useDetails((state) => state);
 
-    const getUserDetails = useQuery(['getDetails', id], () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`), {
-        enabled: id !== null,
+    const { isLoading } = useQuery(['getDetails', id], () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`), {
+        // enabled: id !== null,
         onSuccess: (data) => {
-            console.log(data.data);
-            setAll({ 
-                user: data?.data, 
+            setAll({
+                user: data?.data,
                 userId: data?.data?.userId,
                 firstName: data?.data?.firstName,
                 lastName: data?.data?.lastName,
@@ -76,7 +78,6 @@ function Layout({ children }: {
             });
         },
         onError: (error) => {
-            console.log(error);
             toast({
                 title: 'Error',
                 description: 'An error occured while updating your profile',
@@ -85,6 +86,7 @@ function Layout({ children }: {
                 isClosable: true,
                 duration: 3000,
             });
+            router.push('/auth');
         },
     });
 
@@ -116,6 +118,11 @@ function Layout({ children }: {
             text: 'Events'
         },
         {
+            route: '/dashboard/report',
+            icon: <FiMessageCircle fontSize='30px' />,
+            text: 'Dashboard'
+        },
+        {
             route: '/dashboard/chats',
             icon: <FiMessageCircle fontSize='30px' />,
             text: 'Chats'
@@ -133,19 +140,18 @@ function Layout({ children }: {
     ];
 
     const logout = async () => {
-        setAll({ userId: '', dob: '', email: '', username:'', firstName: '', lastName: '', publicProfile: ''});
+        setAll({ userId: '', dob: '', email: '', username: '', firstName: '', lastName: '', publicProfile: '' });
         localStorage.clear();
         await signOut();
         router.push('/auth');
     }
 
     return (
-
         <Box className='w-full h-screen'>
             {/* MODALS */}
             <ImageModal />
-             {/* MODAL */}
-             <Modal isOpen={showModal} onClose={() => setShowModal(false)} isCentered size='sm' closeOnOverlayClick={false} closeOnEsc={false}>
+            {/* MODAL */}
+            <Modal isOpen={showModal} onClose={() => setShowModal(false)} isCentered size='sm' closeOnOverlayClick={false} closeOnEsc={false}>
                 <ModalOverlay />
                 <ModalContent height={'300px'} borderRadius={'30px'}>
                     <ModalBody width={'100%'} height={'100%'} borderRadius={'20px'}>
@@ -162,62 +168,22 @@ function Layout({ children }: {
                     </ModalBody>
                 </ModalContent>
             </Modal>
-            
+
             <Grid h="100vh" w={"full"} overflowY={"hidden"} >
-                <Box width="full" position={"absolute"} zIndex={"30"} top={"0px"} >
-                    {/* NAVBAR SECTION */}
-                    {!pathname?.includes("create_event") && (
-                        <HStack position={"absolute"} zIndex={"30"} top={"0px"} width='100%' height='80px' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} backgroundColor={'white'} alignItems='center' justifyContent={'space-between'} paddingX={['20px', '40px']}>
-
-                            <Flex alignItems={"center"} gap={"12"} >
-                                <HStack justifyContent={'center'}>
-                                    <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
-                                    <CustomText fontFamily={'Satoshi-Regular'} fontSize='lg' display={['none', 'inline']} color='#12299C'>Chasescroll</CustomText>
-                                </HStack>
-                                {userId && (
-                                    <Box display={["none", "none", "block"]} >
-                                        <SearchBar />
-                                    </Box>
-                                )}
-                            </Flex>
-                            {/* LARGE SCREEN ICONS */}
-
-                            {userId && (
-                                <HStack display={['none', 'flex']}>
-                                    {/* <CustomText fontWeight={"bold"} >{username}</CustomText> */}
-                                    <NotificationBar />
-
-                                    <Link href={`/dashboard/profile/${userId}`}>
-                                        <UserImage data={user} image={user?.data?.imgMain?.value} size={["40px"]} font={["15px"]} />
-                                    </Link>
-
-                                    
-                                </HStack>
-                            )}
-
-                            {/* SMALL SCREEN ICONS */}
-                            <HStack display={['flex', 'none']}>
-                               
-
-                                <Link href='/dashboard/chats'>
-                                    <Message color={THEME.COLORS.chasescrollBlue} size='30px' variant='Outline' />
-                                </Link>
-
-                                <NotificationBar />
-
-                                <LogoutCurve onClick={() => setShowModal(true)} color='red' size={'30px'} variant='Outline' />
-                            </HStack>
-
-                        </HStack>
-                    )}
-                </Box>
-                <Flex flex={1} w="full" h="full" pt={!pathname?.includes("create_event") ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
-                    {(!pathname?.includes("create_event")) && (
-                        <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']}>
+                {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
+                    <Flex w={"full"} position={"absolute"} zIndex={"30"} top={"0px"} >
+                        <DashboardNavbar pathname={pathname} userId={userId} openmodal={setShowModal} />
+                    </Flex>
+                )}
+                <Flex flex={1} w="full" h="full" pt={(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
+                    {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
+                        <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']} flexDir={"column"} >
                             <Sidebar />
                         </Box>
                     )}
-                    {children}
+                    <LoadingAnimation loading={isLoading || !firstName} >
+                        {children}
+                    </LoadingAnimation>
                 </Flex>
                 {/* BOTTOM TAB */}
                 <HStack paddingX='20px' position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg='white' borderTopWidth={1} borderTopColor={'lightgrey'} display={['flex', 'flex', 'flex', 'none']}>
@@ -248,21 +214,21 @@ function Layout({ children }: {
 
                     <Link href={userId ? `/dashboard/profile/${userId}` : ""}>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('profile') ? 'brand.chasescrollBlue' : 'white'} color={pathname?.includes('profile') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
-                        <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-                                        { user?.data.imgMain.value === null && (
-                                            <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
-                                                <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color='brand.chasescrollButtonBlue'>{firstName[0]?.toUpperCase()} {lastName[0]?.toUpperCase()}</CustomText>
-                                            </VStack>
-                                        )}
-                                        {
-                                            user?.data.imgMain.value !== null && (
-                                                <>
-                                                    { user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
-                                                    { !user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${IMAGE_URL}${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
-                                                </>
-                                            )
-                                        }
-                        </Box>
+                            <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+                                {user?.data.imgMain.value === null && (
+                                    <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
+                                        <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color='brand.chasescrollButtonBlue'>{firstName[0]?.toUpperCase()} {lastName[0]?.toUpperCase()}</CustomText>
+                                    </VStack>
+                                )}
+                                {
+                                    user?.data.imgMain.value !== null && (
+                                        <>
+                                            {user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
+                                            {!user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${IMAGE_URL}${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
+                                        </>
+                                    )
+                                }
+                            </Box>
                         </VStack>
                     </Link>
                 </HStack>

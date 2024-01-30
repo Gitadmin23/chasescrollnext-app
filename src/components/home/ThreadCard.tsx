@@ -40,11 +40,6 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
 
   const router = useRouter();
   const toast = useToast();
-  console.log(post.user);
-
-  if (post.type === 'WITH_IMAGE') {
-    console.log(post);
-  }
 
   const { isLoading, isError } = useQuery([`getPostById-${post?.id}`, post?.id], () => httpService.get(`${URLS.GET_POST_BY_ID}/${post?.id}`),
     {
@@ -188,7 +183,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       </CustomText>
 
       {post?.type === 'WITH_IMAGE' && (
-        <Box onClick={handleImageClick} width='100%' height={'200px'} maxHeight={'250px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} overflow={'hidden'}>
+        <Box onClick={handleImageClick} width='100%' minHeight={'250px'} maxHeight={'350px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} overflow={'hidden'}>
          { post.mediaRef.startsWith('https://') &&  <Image src={`${post?.mediaRef}`} alt='image' style={{ width: '100%', height: '100%' }} objectFit={'cover'} />}
          { !post.mediaRef.startsWith('https://') &&  <Image src={`${IMAGE_URL}${post?.mediaRef}`} alt='image' style={{ width: '100%', height: '100%' }} objectFit={'cover'} />}
         </Box>
@@ -241,7 +236,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
         )}
 
         <VStack>
-        <ShareEvent id={post.id} type='POST' />
+        <ShareEvent id={post.id} type='POST' showText={false} />
           {/* <FiShare2 color='black' fontSize={15} /> */}
           <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>Share</CustomText>
         </VStack>

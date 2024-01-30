@@ -12,9 +12,12 @@ import { IMAGE_URL, URLS } from '@/services/urls';
 import CommentBox from '@/components/home/Comment';
 import { useRouter } from 'next/navigation';
 import { IComment } from '@/models/Comment';
+import _ from 'lodash';
 
 function Comment() {
   const [userComments, setUserComments] = React.useState<IComment[]>([]);
+  const [hasNextPage, setHasNextPage] = React.useState(false);
+  const [page, setPage] = React.useState(0);
   const [commentInput, setCommentInput] = React.useState("");
   const router = useRouter();
 
@@ -23,15 +26,19 @@ function Comment() {
   const params = useParams();
   const post = params;
   const queryClient = useQueryClient();
-  const toast = useToast();
+  const toast = useToast(); 
 
-  console.log(post);
+  const intObserver = React.useRef<IntersectionObserver>();
 
-
-  const { isLoading } = useQuery([`getComments-${post?.id}`, post?.id], () => httpService.get(`${URLS.GET_ALL_COMMENTS}?postID=${post?.id}`), {
-    onSuccess: (data) => {
-      console.log(data?.data?.ccontent);
-      setUserComments(data?.data?.content);
+  const { isLoading } = useQuery([`getComments-${post?.id}`, post?.id, page], () => httpService.get(`${URLS.GET_ALL_COMMENTS}`, {
+    params: {
+      page,
+      postID: post?.id
+    }
+  }), {
+    onSuccess: (data) => { 
+      setUserComments(_.uniq([...userComments, ...data?.data?.content]));
+      setHasNextPage(data.data.last ? false:true);
     }
   });
 
@@ -50,6 +57,17 @@ function Comment() {
       });
     }
   });
+
+  const lastChildRef = React.useCallback((post: any) => {
+    if (isLoading) return;
+    if (intObserver.current) intObserver.current.disconnect();
+    intObserver.current = new IntersectionObserver((posts) => {
+      if (posts[0].isIntersecting && hasNextPage) {
+        setPage(prev => prev + 1); 
+      }
+    });
+    if (post) intObserver.current.observe(post);
+   }, [isLoading, hasNextPage, setPage]);
 
   const addCommentNew = React.useCallback(async () => {
     if (commentInput === "" || addComment.isLoading) return;
@@ -99,15 +117,17 @@ function Comment() {
 
       {/* CCOMMENTS */}
      <Box width={'100%'} height={'100%'} overflowX={'hidden'} overflowY={'auto'} marginTop={'30px'} paddingX={['0px','65px']}>
+     { userComments.length > 0 && userComments.filter((item) => item.user.data !== null).map((item, index) => (
+        <>
+          { index === userComments.length - 1 ? <CommentBox ref={lastChildRef} {...item} key={index.toString()} />:<CommentBox {...item} key={index.toString()} /> }
+        </>
+      ))}
       { isLoading && (
         <Flex flexDir={'column'} width={'100%'} height='50px' justifyContent={'center'} alignItems={'center'}>
-          <Spinner colorScheme='blue' size='lg' />
+          <Spinner colorScheme='blue' size='sm' />
           <CustomText>Loading Comments</CustomText>
         </Flex>
       )}
-      { !isLoading && userComments.length > 0 && userComments.filter((item) => item.user.data !== null).map((item, index) => (
-        <CommentBox {...item} key={index.toString()} />
-      ))}
      </Box>
     </VStack>
   )

@@ -82,7 +82,7 @@ function FundWallet(props: Props) {
             <Input value={amount} onChange={(e) => setAmount(e.target.value)} width={"full"} type='number' textAlign={"center"} borderColor={"transparent"} focusBorderColor="transparent" placeholder={currency === "USD" ? '$0.00' : "₦0.00"} fontSize={"20px"} _hover={{ color: "black" }} />
             <CustomButton isLoading={createTicket.isLoading} onClick={() => clickHandler()} text='Fund' marginTop={"8"} backgroundColor={"#12299C"} />
 
-            <Fundpaystack config={config} setConfig={setConfig} />
+            <Fundpaystack fund={true} config={config} setConfig={setConfig} />
             <ModalLayout open={open} close={setOpen} title='Fund Wallet' >
                 <StripePopup fund={true} stripePromise={stripePromise} clientSecret={clientSecret} configData={configData} />
             </ModalLayout>

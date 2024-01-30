@@ -28,7 +28,7 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
         eventDescription:null,
         joinSetting: "public",
         locationType:null,
-        currency: "USD",
+        currency: "NGN",
         currentPicUrl:null,
         eventFunnelGroupID:null, 
         isPublic: true,
@@ -49,10 +49,11 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
             // first is always standard
             {
                 totalNumberOfTickets:null,
-                ticketPrice:null,
+                ticketPrice: null,
                 ticketType: "Regular",
                 minTicketBuy:null,
-                maxTicketBuy:null
+                maxTicketBuy:null,
+                rerouteURL: null
             },
         ],
     },

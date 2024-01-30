@@ -19,53 +19,54 @@ function Visibility() {
     const getDetails = useQuery(['getPublicProfile', userId], () => httpService.get(`${URLS.GET_PUBLIC_PROIFLE}/${userId}`), {
         onSuccess: (data) => {
             console.log(data.data);
-            setIsPrivate((data?.data?.publicProfile as any) === true ? false:true);
+            setIsPrivate((data?.data?.publicProfile as any) === true ? false : true);
         }
     });
 
     const { mutate, isLoading: updating } = useMutation({
         mutationFn: (data: any) => httpService.put(`${URLS.UPDATE_PROFILE}`, data),
         onSuccess: (data) => {
-          alert('Account privacy updated');
-          queryClient.invalidateQueries(['getPublicProfile']);
+            alert('Account privacy updated');
+            queryClient.invalidateQueries(['getPublicProfile']);
         },
         onError: (error) => {
-          alert('An error occured while updating the privacy, please try again later')
+            alert('An error occured while updating the privacy, please try again later')
         }
-      })
-  return (
-    <VStack width='100%' height='100%' bg='lightgrey'>
-        <VStack width={['100%', '35%']} height={'100%'} alignItems={'center'}>
+    }) 
 
-            <HStack width={'100%'} alignItems={'center'} marginTop={'120px'}>
-                <FiChevronLeft size={'25px'} color='black' onPress={() => router.back()} />
-                <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Account settings</CustomText>
-            </HStack>
+    return (
+        <VStack width='100%' height='100%' bg='lightgrey'>
+            <VStack width={['100%', '35%']} height={'100%'} alignItems={'center'}>
 
-            <VStack width='100%' height={'auto'} marginTop={'20px'}>
-
-                <HStack width='100%' height='40px' paddingX={'20px'} borderRadius={'10px'} bg='white' justifyContent={'space-between'} marginBottom={'15px'}>
-                    <HStack alignItems={'center'}>
-                        <Image alt='peoople' src='/assets/images/people.svg' />
-                        <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Public</CustomText>
-                    </HStack>
-
-                    { updating ? <Spinner /> : <Radio name='visibility' isChecked={isPrivate === false} onChange={() => mutate({ publicProfile: true })} /> }
+                <HStack width={'100%'} alignItems={'center'} marginTop={'120px'}>
+                    <FiChevronLeft role="button" size={'25px'} color='black' onClick={() => router.back()} />
+                    <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Account settings</CustomText>
                 </HStack>
 
-                <HStack width='100%' height='40px' paddingX={'20px'} borderRadius={'10px'} bg='white' justifyContent={'space-between'} marginBottom={'15px'}>
-                    <HStack alignItems={'center'}>
-                        <Image alt='peoople' src='/assets/images/Vector.svg' />
-                        <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Private</CustomText>
+                <VStack width='100%' height={'auto'} marginTop={'20px'}>
+
+                    <HStack width='100%' height='40px' paddingX={'20px'} borderRadius={'10px'} bg='white' justifyContent={'space-between'} marginBottom={'15px'}>
+                        <HStack alignItems={'center'}>
+                            <Image alt='peoople' src='/assets/images/people.svg' />
+                            <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Public</CustomText>
+                        </HStack>
+
+                        {updating ? <Spinner /> : <Radio name='visibility' isChecked={isPrivate === false} onChange={() => mutate({ publicProfile: true })} />}
                     </HStack>
 
-                    { updating ? <Spinner /> : <Radio name='visibility' isChecked={isPrivate === true} onChange={() => mutate({ publicProfile: false })} /> }
-                </HStack>
+                    <HStack width='100%' height='40px' paddingX={'20px'} borderRadius={'10px'} bg='white' justifyContent={'space-between'} marginBottom={'15px'}>
+                        <HStack alignItems={'center'}>
+                            <Image alt='peoople' src='/assets/images/Vector.svg' />
+                            <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Private</CustomText>
+                        </HStack>
 
+                        {updating ? <Spinner /> : <Radio name='visibility' isChecked={isPrivate === true} onChange={() => mutate({ publicProfile: false })} />}
+                    </HStack>
+
+                </VStack>
             </VStack>
         </VStack>
-    </VStack>
-  )
+    )
 }
 
 export default Visibility

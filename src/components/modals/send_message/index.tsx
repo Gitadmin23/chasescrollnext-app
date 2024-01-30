@@ -1,6 +1,7 @@
 import { ShareType } from '@/app/share/page';
 import CopyButtton from '@/components/sharedComponent/copy_btn';
-import { WEBSITE_URL } from '@/services/urls';
+import EventPrice from '@/components/sharedComponent/event_price';
+import { IMAGE_URL, WEBSITE_URL } from '@/services/urls';
 import { Box, Flex, Image, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import {
@@ -17,6 +18,7 @@ interface Props {
     isprofile?: boolean;
     type?: ShareType
     eventName?: string,
+    data?: any
 }
 
 function SendMessage(props: Props) {
@@ -24,13 +26,14 @@ function SendMessage(props: Props) {
         id,
         click,
         isprofile,
-        eventName
+        type,
+        data
     } = props
 
-    const url_link = eventName ? `${WEBSITE_URL}/share?eventName=${eventName}&type=${props.type}&typeID=${id}`: `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`;
+    const url_link = (type === "EVENT" ? `${WEBSITE_URL}/event/${id}` : `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`);
 
     const handleType = () => {
-        switch(props.type) {
+        switch (props.type) {
             case 'COMMUNITY': {
                 return 'Share community'
             }
@@ -47,7 +50,7 @@ function SendMessage(props: Props) {
     }
 
     const handle = () => {
-        switch(props.type) {
+        switch (props.type) {
             case 'COMMUNITY': {
                 return 'Share community'
             }
@@ -65,12 +68,56 @@ function SendMessage(props: Props) {
 
     return (
         <Flex width={"full"} justifyContent={"center"} pb={"7"} px={"8"} flexDir={"column"} >
-            <Text color={"#121212CC"} mt={"4"} lineHeight={"18px"} textAlign={"center"} >
-                {handleType()}
-            </Text>
-            <Text mb={"1"} mt={"6"} fontWeight={"semibold"} fontSize={"sm"} color={"#667085"} >{isprofile ? "Profile link": "Event link"}</Text>
-            <CopyButtton text={url_link} />
-            <Text py={"5"} textAlign={"center"} >or</Text>
+            {type !== "EVENT" && (
+                <Text color={"#121212CC"} mt={"4"} lineHeight={"18px"} textAlign={"center"} >
+                    {handleType()}
+                </Text>
+            )}
+            {type !== "EVENT" && (
+                <>
+                    <Text mb={"1"} mt={"6"} fontWeight={"semibold"} fontSize={"sm"} color={"#667085"} >{isprofile ? "Profile link" : "Event link"}</Text>
+                    <CopyButtton text={url_link} />
+                </>
+            )}
+
+            {type === "EVENT" && (
+                <Box style={{ background: "linear-gradient(0deg, rgba(18, 18, 18, 0.10) 0%, rgba(18, 18, 18, 0.10) 100%), linear-gradient(107deg, rgba(93, 112, 249, 0.39) -9.73%, #1732F7 116.02%)" }} rounded={"12px"} py={"15px"} px={"24px"} >
+                    <Flex alignItems={"center"} mb={"8px"} gap={"4"} >
+                        <Box width={"120px"} height={"80px"} rounded={"8px"}>
+                            <Image style={{ borderBottomLeftRadius: "8px", borderBottomRightRadius: "8px", borderTopLeftRadius: "8px" }} objectFit="cover" alt={data?.currentPicUrl} width={"full"} height={"full"} src={IMAGE_URL + data?.currentPicUrl} />
+                        </Box>
+                        <Box color={"white"} fontWeight={"semibold"} >
+                            <Text>{data?.eventName}</Text>
+                            <Flex>
+                                <Text >
+                                    <EventPrice minPrice={data?.minPrice} maxPrice={data?.maxPrice} currency={data?.currency} />
+                                </Text>
+                            </Flex>
+                        </Box>
+                    </Flex>
+                    <CopyButtton rounded={"32px"} text={url_link} />
+                </Box>
+            )}
+            <Text py={"5"} textAlign={"center"} >via</Text>
+           {props.type === "EVENT" && (
+             <Flex width={"full"} pb={"5"}  justifyContent={"center" } >
+                <Flex onClick={()=> click(3)} as={"button"} alignItems={"center"} w={"80%"} justifyContent={"center" }  py={"2"} borderWidth={"1px"} rounded={"32px"} borderColor={"#C4C4C475"} gap={"1"} color={"#121212CC"} >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="vuesax/linear/scan">
+                            <g id="scan">
+                                <path id="Vector" d="M2 9V6.5C2 4.01 4.01 2 6.5 2H9" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path id="Vector_2" d="M15 2H17.5C19.99 2 22 4.01 22 6.5V9" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path id="Vector_3" d="M22 16V17.5C22 19.99 19.99 22 17.5 22H16" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path id="Vector_4" d="M9 22H6.5C4.01 22 2 19.99 2 17.5V15" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path id="Vector_5" d="M17 9.5V14.5C17 16.5 16 17.5 14 17.5H10C8 17.5 7 16.5 7 14.5V9.5C7 7.5 8 6.5 10 6.5H14C16 6.5 17 7.5 17 9.5Z" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path id="Vector_6" d="M19 12H5" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            </g>
+                        </g>
+                    </svg>
+                    <Text>Get  QR Code</Text>
+                </Flex>
+            </Flex>
+           )}
             <Flex width={"full"} justifyContent={"space-evenly"}>
                 <WhatsappShareButton
                     url={url_link}>

@@ -1,3 +1,4 @@
+import EventMap from '@/components/event_details_component/event_map_info'
 import { LocationIcon } from '@/components/svg'
 import { Box, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
@@ -58,20 +59,22 @@ function EventLocationDetail(props: Props) {
                 </Flex>
             )}
             {indetail && (
-                <Box display={"flex"} flexDirection={"column"}  borderBottomWidth={"1px"} roundedBottom={"lg"} py={"2"} >
+                <Box display={"flex"} flexDirection={"column"} borderBottomWidth={"1px"} borderBottomColor={"rgba(0, 0, 0, 0.50)"} roundedBottom={"lg"} py={"2"} >
                     <Text fontSize={"sm"} fontWeight={"semibold"} >{"Event location"}</Text>
                     <Flex width={"full"} gap={"3"} mt={"3"} alignItems={"center"} >
-                        <LocationIcon className="" />
+                        <Box width={"fit-content"} >
+                            <LocationIcon className="" />
+                        </Box>
                         <Box>
                             <Text textAlign={"left"} fontWeight={"semibold"} color={color ? color : "gray.600"} fontSize={fontsize ? fontsize : "sm"} >
                                 {location?.locationDetails && (
-                                    <p>{location?.locationDetails?.length >= (length ? length : 17) ? location?.locationDetails.slice(0, (length ? length : 17)) + "..." : location?.locationDetails}</p>
+                                    <p>{location?.locationDetails?.length >= (length ? length : 350) ? location?.locationDetails.slice(0, (length ? length : 350)) + "..." : location?.locationDetails}</p>
                                 )}
                                 {(location?.toBeAnnounced && !location?.locationDetails) && (
                                     <p>To Be Announced</p>
                                 )}
                                 {(location?.link) && (
-                                    <Text as={"button"} onClick={(e) => clickHandler(location?.link, e)}  className=' font-bold text-sm text-chasescrollBlue ' >Join Online</Text>
+                                    <Text as={"button"} onClick={(e) => clickHandler(location?.link, e)} className=' font-bold text-sm text-chasescrollBlue ' >Join Online</Text>
                                 )}
                             </Text>
                         </Box>

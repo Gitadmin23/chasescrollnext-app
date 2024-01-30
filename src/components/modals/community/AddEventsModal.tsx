@@ -2,20 +2,24 @@ import { useCommunityPageState } from '@/components/Community/chat/state';
 import EventDetails from '@/components/event_details_component';
 import CustomText from '@/components/general/Text';
 import { useDetails } from '@/global-state/useUserDetails'
+import useDebounce from '@/hooks/useDebounce';
 import { IEvent } from '@/models/Events'
 import { PaginatedResponse } from '@/models/PaginatedResponse';
 import { IMAGE_URL, URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Box, Button, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, VStack, useToast, Image } from '@chakra-ui/react';
+import { Box, Button, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, VStack, useToast, Image, Input } from '@chakra-ui/react';
 import { uniqBy } from 'lodash';
 import React from 'react'
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 const EventBox = ({ event }: {
     event: IEvent,
 }) => {
     const toast = useToast();
+    const queryClient = useQueryClient();
     const { activeCommunity } = useCommunityPageState((state) => state);
+    const { userId } = useDetails((state) => state);
+
 
     const savedEvent = useMutation({
         mutationFn: (data: any) => httpService.post(`${URLS.SAVE_EVENT}`, data),
@@ -26,7 +30,9 @@ const EventBox = ({ event }: {
                 status: 'success',
                 position: 'top-right',
                 duration: 5000
-            })
+            });
+            queryClient.invalidateQueries([`getAllMyEvents-${activeCommunity?.id}`]);
+            queryClient.invalidateQueries([`getMyEventsss`, userId]);
         },
         onError: () => {
             toast({
@@ -39,14 +45,16 @@ const EventBox = ({ event }: {
         }
     })
     return (
-        <HStack alignItems={'flex-start'} width='100%' height={'100px'} paddingY={'10px'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'}>
+        <HStack alignItems={'flex-start'} width='100%' height={'auto'} paddingY={'10px'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'}>
             <Box width='50px' height={'50px'} borderRadius={'10px'} bg={'lightgrey'} overflow={'hidden'}>
                 <Image alt='om' src={`${IMAGE_URL}${event.currentPicUrl}`} width='100%' height='100%' objectFit={'cover'} />
             </Box>
 
-            <VStack flex={1} alignItems={'flex-start'} spacing={0}>
-                <CustomText fontFamily={'DM-Bold'} fontSize={'16px'}>{event.eventName}</CustomText>
-                <CustomText fontFamily={'DM-Regular'} fontSize={'14px'}>{event.eventDescription.length > 50 ? event.eventDescription.substring(0, 50) + '...' : event.eventDescription}</CustomText>
+            <VStack flex={1} alignItems={'flex-start'} spacing={2}>
+                <Box>
+                    <CustomText fontFamily={'DM-Bold'} fontSize={'16px'}>{event.eventName.length > 40 ? event.eventName.substring(0, 40) + '...':event.eventName}</CustomText>
+                    <CustomText fontFamily={'DM-Regular'} fontSize={'14px'}>{event.eventDescription.length >40 ? event.eventDescription.substring(0, 40) + '...' : event.eventDescription}</CustomText>
+                </Box>
 
                 <Button onClick={() => savedEvent.mutate({
                     eventID: event.id,
@@ -65,34 +73,42 @@ function AddEventsModal({ isOpen, onClose }: {
     isOpen: boolean,
     onClose: () => void,
 }) {
-    const [events, setEvents] = React.useState<IEvent[]>([])
+    const [events, setEvents] = React.useState<IEvent[]>([]);
     const { userId } = useDetails((state) => state);
+    const [search, setSeearch] = React.useState('');
     const toast = useToast();
+    const { events: savedEvents } = useCommunityPageState((state) => state);
 
-    const { isLoading, isError } = useQuery(['getMyEventsss', userId], () => httpService.get(`${URLS.GET_EVENTS}`, {
+    const debounceValue = useDebounce(search, 500);
+    const { isLoading, isError } = useQuery(['getMyEventsss', userId, debounceValue], () => httpService.get(`${URLS.GET_EVENTS}`, {
         params: {
             // createdBy: userId,
+            page: 0,
+            eventName: debounceValue,
         }
     }), {
         onSuccess: (data) => {
             const item: PaginatedResponse<IEvent> = data.data;
-            console.log(item);
-            setEvents(uniqBy(item.content, 'id'))
+            const ids = savedEvents.map((item) => item.id);
+            setEvents(uniqBy(item.content.filter((item) => !ids.includes(item.id)), 'id'))
         },
         onError: () => { },
     });
 
 
     return (
-        <Modal isOpen={isOpen} onClose={() => onClose()} size='lg' isCentered>
+        <Modal isOpen={isOpen} onClose={() => onClose()} size='md' isCentered>
             <ModalOverlay />
-            <ModalContent>
+            <ModalContent padding='0px'>
                 <ModalCloseButton />
-                <ModalBody>
-                    <HStack width='100%' height={'60px'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'}>
-                        <CustomText>My Events</CustomText>
+                <ModalBody padding='0px'>
+                    <HStack paddingX='10px' width='100%' height={'60px'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'}>
+                        <CustomText fontFamily={'DM-Bold'} fontSize={'20px'}>Events</CustomText>
                     </HStack>
-                    <Box width='100%' height='450px' overflowY={'auto'}>
+                    <HStack paddingX='10px' width='100%' paddingY='10px'>
+                        <Input value={search} onChange={(e) =>setSeearch(e.target.value)} placeholder='Search for event' />
+                    </HStack>
+                    <Box width='100%' height='450px' overflowY={'auto'} paddingX='10px'>
                         {!isLoading && !isError && events.length < 1 && (
                             <VStack width='100%' height={'100%'} justifyContent={'center'} alignItems={'center'}>
                                 <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>You have no Events to add!</CustomText>

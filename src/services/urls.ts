@@ -6,6 +6,7 @@ export const URLS = {
     RESET_PASSWORD: '/chasescroll/verification/change-password',
     GET_POSTS: '/feed/get-user-and-friends-posts',
     GET_USER_DETAILS: '/user/publicprofile',
+    GET_PUBLIC_POST: '/feed/get-public-posts',
     GET_USER_PRIVATE_PROFILE: '/user/privateprofile',
     GET_POST_BY_ID: '/feed/get-post',
     LIKE_POST: '/feed/like-post',
@@ -82,6 +83,9 @@ export const URLS = {
     SAVE_EVENT: '/events/save-event',
     GET_USER_FEED_DATA: '/feed/get-user-feed-data',
     UPDATE_GROUP: '/group/update-group',
+    GET_SUB_COMMENT_COUNT: '/feed/get-sub-comment-count',
+    REMOVE_EVENT: '/events/remove-saved-event',
+    DELETE_MESSAGE:'/chat/message'
     //GET_MEDIA_POST : "/feed/get-users-media-posts?userID="
 }
 

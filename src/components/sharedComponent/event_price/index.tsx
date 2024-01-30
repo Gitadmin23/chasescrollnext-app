@@ -15,7 +15,19 @@ function EventPrice(props: Props) {
         minPrice,
         currency,
         indetail
-    } = props
+    } = props 
+
+    const DataFormater = (number: number, prefix: string) => {
+        if(number > 1000000000){
+          return (prefix)+(number/1000000000)?.toString() + 'B';
+        }else if(number > 1000000){
+          return (prefix)+(number/1000000)?.toString() + 'M';
+        }else if(number > 1000){
+          return (prefix)+(number/1000)?.toString() + 'K';
+        }else{
+          return (prefix)+(number ? number : 0)?.toString();
+        }
+    }
 
     return (
         <Text>
@@ -24,7 +36,18 @@ function EventPrice(props: Props) {
                     {(minPrice === 0 && maxPrice === 0) ?
                         "Free" :
                         <>
-                            {currency === "USD" ? "$" : "₦"}{maxPrice}
+                            {minPrice === maxPrice && (
+                                <>
+                                    {minPrice ? DataFormater(minPrice, currency === "USD" ? "$" : "₦") : "0"}
+                                </>
+                            )}
+                            {minPrice !== maxPrice && (
+                                <>
+                                    {minPrice ? DataFormater(minPrice, currency === "USD" ? "$" : "₦") : "0"}
+                                    {" - "}
+                                    {maxPrice ? DataFormater(maxPrice, currency === "USD" ? "$" : "₦") : "0"}
+                                </>
+                            )}
                         </>
                     }
                 </>
@@ -40,7 +63,7 @@ function EventPrice(props: Props) {
                                 </>
                             )}
                             {minPrice !== maxPrice && (
-                                <> 
+                                <>
                                     {formatNumber(minPrice, currency === "USD" ? "$" : "₦")}
                                     -
                                     {formatNumber(maxPrice, currency === "USD" ? "$" : "₦")}

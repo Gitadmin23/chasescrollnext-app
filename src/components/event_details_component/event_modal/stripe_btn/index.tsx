@@ -2,7 +2,7 @@ import { StripeLogo } from '@/components/svg'
 import { Flex, useToast } from '@chakra-ui/react'
 import React from 'react'
 import { loadStripe } from "@stripe/stripe-js";
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
@@ -11,13 +11,9 @@ import CheckoutForm from './CheckoutForm';
 import { Elements } from '@stripe/react-stripe-js';
 
 interface Props { 
-    selectedCategory: {
-        ticketType: string
-    },
+    selectedCategory: any,
     ticketCount: any,
-    datainfo: {
-        id: any
-    }
+    datainfo: any
 }
 
 function StripeBtn(props: Props) {
@@ -26,7 +22,7 @@ function StripeBtn(props: Props) {
         ticketCount,
         datainfo
     } = props
-
+ 
     const STRIPE_KEY: any = process.env.NEXT_PUBLIC_STRIPE_KEY;
     // const [stripePromise, setStripePromise] = React?.useState(() => loadStripe(STRIPE_KEY))
 
@@ -76,7 +72,7 @@ function StripeBtn(props: Props) {
         
         onSuccess: (data: any) => {   
             setClientSecret(data?.data?.gatewayReferenceID)
-            setOpen(true)
+            setOpen(true) 
         },
         onError: () => {
             toast({

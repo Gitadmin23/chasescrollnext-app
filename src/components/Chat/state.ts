@@ -22,6 +22,7 @@ type IChatPageState = {
     showEvents: boolean;
     showEmoji: boolean;
     chatsIds: string[];
+    removeMessage: (index: number) => void,
     setAll: (data: Partial<IChatPageState>) => void
 }
 
@@ -41,5 +42,9 @@ export const useChatPageState = create<IChatPageState>((set) => ({
     showEvents: false,
     showEmoji: false,
     chatsIds: [],
+    removeMessage: (index) => set((state) => ({
+        ...state,
+        messages: state.messages.filter((_, i) => i !== index),
+    })),
     setAll: (data) => set((state) => ({ ...state, ...data })),
 }))

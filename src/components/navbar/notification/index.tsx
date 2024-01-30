@@ -36,7 +36,6 @@ function NotificationBar(props: Props) {
     const {isLoading, isError } = useQuery(['getNotifications', page], () => httpService.get(`${URLS.GET_NOTIFICATIONS}`, {
         params: {
             page,
-            // status: status,
         }
     }), {
         onSuccess: (data) => {
@@ -48,21 +47,28 @@ function NotificationBar(props: Props) {
     })
 
     return (
-        <Box width={"auto"} position={"relative"} borderRadius={'10px'} >
-             <Box position={'relative'}>
-                <Notification color={THEME.COLORS.chasescrollBlue} size='30px' variant='Outline' onClick={() => setActive(prev => !prev)} />
-                { count > 0 && <Box width={'10px'} height={'10px'} bg='red' borderRadius={'5px'} position={'absolute'} top='0' right='0' /> }
+        <Popover  >
+             <PopoverTrigger>
+                <Box position={'relative'}>
+                    <Notification color={THEME.COLORS.chasescrollBlue} size='30px' variant='Outline' onClick={() => setActive(prev => !prev)} />
+                    { count > 0 && <Box width={'10px'} height={'10px'} bg='red' borderRadius={'5px'} position={'absolute'} top='0' right='0' /> }
+                </Box>
                 {/* <CustomText position={'absolute'} top='-10px' right='0'></CustomText> */}
-             </Box>
-            {active && (
-                <Box width={"380px"} left={['-270px','-350px']} borderRadius={'10px'} height={'300px'} maxHeight={'500px'} zIndex={"2000"} position={"absolute"} mt={"2"} >
+             </PopoverTrigger>
+             <PopoverContent width={['auto', '400px']} bg='whitesmoke' padding='0px'>
+                <PopoverBody width='100%' padding='5px' height={'auto'} overflowY={'auto'}>
                     <NotificationPage isLoading={isLoading} />
+                </PopoverBody>
+             </PopoverContent>
+            {/* {active && (
+                <Box width={"380px"} left={['-270px','-350px']} borderRadius={'10px'} maxHeight={'500px'} zIndex={"2000"} position={"absolute"} mt={"2"} >
+                    
                 </Box>
             )} 
             {active && (
                 <Box onClick={()=> setActive(false)} bgColor={"black"} opacity={"0.3"} zIndex={"1000"} position={"fixed"} inset={"0px"} />
-            )}
-        </Box>
+            )} */}
+        </Popover>
     )
 }
 

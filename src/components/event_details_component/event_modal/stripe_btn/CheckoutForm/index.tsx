@@ -9,6 +9,7 @@ import CustomButton from "@/components/general/Button";
 import LoadingAnimation from "@/components/sharedComponent/loading_animation";
 import useModalStore from "@/global-state/useModalSwitch";
 import useSettingsStore from "@/global-state/useSettingsState";
+import { useRouter } from "next/navigation";
 // import { useNavigate, useParams } from "react-router-dom"; 
 
 interface IProps {
@@ -30,6 +31,7 @@ export default function InjectedCheckoutForm(props: IProps) {
   const { setOpen, setShowModal  } = useModalStore((state) => state);
   const { setAmount } = useSettingsStore((state) => state); 
   const queryClient = useQueryClient() 
+  const router = useRouter()
 
   const [loading, setLoading] = React.useState(false); 
   const toast = useToast()
@@ -50,8 +52,11 @@ export default function InjectedCheckoutForm(props: IProps) {
           duration: 5000,
           position: 'top-right',
         }); 
-        queryClient.invalidateQueries(['all-events-details'+index])
-        setShowModal(false)
+            
+        queryClient.invalidateQueries(['event_ticket' + index])
+        queryClient.invalidateQueries(['all-events-details' + index]) 
+        window.location.reload()
+        // setShowModal(false)
       },
       onError: (error: any) => {
         toast({

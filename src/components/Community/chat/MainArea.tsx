@@ -20,17 +20,21 @@ import AddEventsModal from '@/components/modals/community/AddEventsModal';
 import Link from 'next/link';
 
 function MainArea() {
+    const { activeCommunity, setAll, messages, pageNumber, hasNext, activeMessageId, commentHasNext, commentPage, comments, showEvents, events } = useCommunityPageState((state) => state);
+    
     const [posts, setPosts] = React.useState<IMediaContent[]>([]);
     const [showEventModal, setShowEventModal] = React.useState(false);
-    const [len, setLen] = React.useState(posts?.length);
+    const [len, setLen] = React.useState(messages?.length);
+
+    
 
      const intObserver = React.useRef<IntersectionObserver>();
 
 
     const { userId: myId } = useDetails((state) => state)
-    const { activeCommunity, setAll, messages, pageNumber, hasNext, activeMessageId, commentHasNext, commentPage, comments, showEvents, events } = useCommunityPageState((state) => state);
+   
     // queries
-    const { isLoading, } = useQuery(['getMessages', activeCommunity?.id, pageNumber], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
+    const { isLoading, } = useQuery([`getMessage-${activeCommunity?.id}`, activeCommunity?.id, pageNumber], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
         params: {
             groupID: activeCommunity?.id,
             page: pageNumber
@@ -57,6 +61,13 @@ function MainArea() {
         onError: (error: any) => {}
     });
 
+    React.useEffect(() => {
+        if (messages?.length !== len) {
+            setLen(messages?.length);
+            document.querySelector('#lastMsg')?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messages, len])
+
     const lastChildRef = React.useCallback((post: any) => {
         if (isLoading) return;
         if (intObserver.current) intObserver.current.disconnect();
@@ -69,14 +80,13 @@ function MainArea() {
         if (post) intObserver.current.observe(post);
        }, [isLoading, setAll, pageNumber, hasNext]);
 
-       const arr = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7];
 
        React.useEffect(() => {
-        if (posts?.length !== len) {
-            setLen(posts?.length);
+        if (messages?.length !== len) {
+            setLen(messages?.length);
             document.querySelector('#lastMsg')?.scrollIntoView({ behavior: 'smooth' });
         }
-       }, [posts, len])
+       }, [messages, len])
 
     if (activeCommunity === null) {
         return (
@@ -95,12 +105,10 @@ function MainArea() {
         <CommunityChatHeader />
         {
             showEvents && (
-                <HStack width='100%' maxWidth={'100%'} height={'75px'} bg='white' >
-                    <Box paddingLeft='20px' width='100%'  height='100%' overflowX={'auto'} display={'inline-block'} whiteSpace={'break-spaces'}>
+                <HStack width='100%' maxWidth={'100%'} height={'115px'} bg='white' >
+                    <Box paddingLeft='20px' paddingTop={'20px'} width='100%'  height='100%' overflowX={'auto'} display={'inline-block'} whiteSpace={'break-spaces'}>
                         {events.map((item, i) => (
-                            <Link href={`/dashboard/event/details/${item.id}`} key={i.toString()}>
-                                <EventCard event={item}  />
-                            </Link>
+                            <EventCard event={item} key={i.toString()} index={i} />
                         ))}
                     </Box>
                 </HStack>
@@ -129,9 +137,9 @@ function MainArea() {
                 return (
                     <>
                         { index === messages.length - 1 ? (
-                            <MessageCard id='lastMsg' ref={lastChildRef} key={index.toString()} message={item} />
+                            <MessageCard index={index} id='lastMsg' ref={lastChildRef} key={index.toString()} message={item} />
                         ):(
-                            <MessageCard  id={undefined} key={index.toString()} message={item} />
+                            <MessageCard  index={index}  id={undefined} key={index.toString()} message={item} />
                         )}
                     </>
                 )
