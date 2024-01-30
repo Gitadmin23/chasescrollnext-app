@@ -32,6 +32,7 @@ const DOC_FORM = ['pdf', 'doc'];
 function TextArea() {
   const [text, setText] = React.useState('');
   const [showEmoji, setShowEmoi] = React.useState(false);
+  const [showUploader, setShowuploader] = React.useState(false);
   const [files, setFiles] = React.useState<Array<{ file: string, url: string }>>([]);
   const toast = useToast();
   const { username } = useDetails((state) => state)
@@ -51,6 +52,7 @@ function TextArea() {
       setText('');
       setFiles([]);
       reset();
+      setShowuploader(false)
     },
     onError: () => {
       toast({ 
@@ -64,6 +66,7 @@ function TextArea() {
 
   const handleFilePick = React.useCallback((uploaded: Array<any>) => {
     setFiles(prev => [...prev, ...uploaded]);
+    setShowuploader(false);
   }, [])
 
   React.useEffect(() => {
@@ -229,10 +232,10 @@ function TextArea() {
 
                 <HStack alignItems={'center'} >
 
-                   <Popover placement='top' size={''}>
+                   <Popover placement='top' size={''} isOpen={showUploader} onClose={() => setShowuploader(false)} closeOnBlur closeOnEsc closeDelay={5000}>
                        <PopoverTrigger>
                         <Box>
-                        { !loading && <Image onClick={() => ref.current?.click()} src='/assets/images/Add.png' alt='smile' width={'24px'} height={'24px'} /> }
+                        { !loading && <Image onClick={() => setShowuploader(true)} src='/assets/images/Add.png' alt='smile' width={'24px'} height={'24px'} /> }
                           { loading && <Spinner size='md' />}
                         </Box>
                        </PopoverTrigger>

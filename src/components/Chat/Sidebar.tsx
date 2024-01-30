@@ -172,7 +172,7 @@ function Sidebar() {
                     <Box width={'100%'} height={'100%'} overflowY={'auto'} paddingBottom={'100px'}>
                         {
                             !isLoading && !isError && chats.length > 0 && chats.sort((a: Chat, b: Chat) => {
-                                if (a.lastModifiedDate > b.lastModifiedDate) {
+                                if (a?.lastModifiedDate > b?.lastModifiedDate) {
                                     return -1
                                 } else {
                                     return 1

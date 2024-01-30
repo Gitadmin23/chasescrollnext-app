@@ -51,6 +51,8 @@ function ReportUserModal({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
                 isClosable: true,
                 status: 'success',
             });
+            setValue('');
+            setTitle('');
             onClose();
         },
         onError: () => {
@@ -90,7 +92,7 @@ function ReportUserModal({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
                 <HStack justifyContent={'space-between'} alignItems={'center'} width={'100%'}>
                         <FiX fontSize={'25px'} onClick={() => onClose()} />
                         <CustomText color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Medium'}>Report a User</CustomText>
-                        <CustomText>{}</CustomText>
+                        {/* <CustomText>{}</CustomText> */}
                 </HStack>
 
                 <VStack width={'70%'} marginTop={'30px'}>

@@ -1,3 +1,4 @@
+import CopyRightText from '@/components/sharedComponent/CopyRightText'
 import { Flex, Box, Text, Image } from '@chakra-ui/react' 
 import React from 'react'
 
@@ -8,7 +9,9 @@ function HomeFooter(props: Props) {
 
     return (
         <Flex width={"full"} justifyContent={"space-between"} alignItems={"center"} pb={2} px={"8"} >
-            <Text color={"#626262"} fontSize={"14px"} lineHeight={"-0.4px"} >© 2024 Chasecroll, Llc.</Text>
+            <Text color={"#626262"} fontSize={"14px"} lineHeight={"-0.4px"} >
+            <CopyRightText />
+            </Text>
             <Flex alignItems={"center"} flexDir={"column"} >
                 <Text color={"#626262"} fontSize={"14px"} >Partners:</Text>
                 <Flex alignItems={"center"} mt={"2"} gap={"3"} >
@@ -24,5 +27,8 @@ function HomeFooter(props: Props) {
         </Flex>
     )
 }
+
+
+
 
 export default HomeFooter

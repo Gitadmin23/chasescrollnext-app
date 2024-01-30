@@ -95,13 +95,13 @@ function EventDetails(props: Props) {
     }
 
     return (
-        <Box width={"full"} display={"flex"} flexDirection={"column"} pt={["6", "6", "0"]} position={"relative"} paddingBottom={"12"} >
-            <Flex width={"full"} alignItems={"start"} justifyContent={"center"} >
+        <Box width={"full"} display={"flex"} flexDirection={"column"} pt={["6", "6", "4"]} position={"relative"} paddingBottom={"12"} >
+            <Flex width={"full"} flexDirection={["column", "column", "row"]} alignItems={"start"} justifyContent={"center"} >
                 <Box as='button' display={"flex"} onClick={() => clickHander()} px={"3"} mt={"20px"} ml={(!email && !userId) ? "0px" : "-30px"} justifyContent={"center"} alignItems={"center"} zIndex={"20"} >
                     <BsChevronLeft color={"black"} size={"25px"} />
                 </Box>
 
-                <Box height={["230px", "230px", "350px"]} position={"relative"} width={"full"} rounded={"16px"} roundedTopRight={"none"} >
+                <Box height={["230px", "230px", "350px"]} px={["4", "4", "0px"]} pr={["0px", "0px", "4"]} mt={["4", "4", "0px"]} position={"relative"} width={"full"} rounded={"16px"} roundedTopRight={"none"} >
                     <BlurredImage height={["230px", "230px", "350px"]} image={dataInfo?.currentPicUrl} />
                     {/* <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={dataInfo?.currentPicUrl} width={"full"} height={"full"} src={IMAGE_URL + dataInfo?.currentPicUrl} /> */}
                     {!dynamic && (
