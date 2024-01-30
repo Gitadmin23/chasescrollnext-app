@@ -42,6 +42,8 @@ function HomeCarousel(props: Props) {
     const [data, setData] = React.useState([] as any)
     const router = useRouter()
 
+    let token = localStorage.getItem("token")
+
     const { userId, email } = useDetails((state) => state);
 
     focusManager.setFocused(false)
@@ -73,6 +75,14 @@ function HomeCarousel(props: Props) {
         }
     }, [isShown])
 
+    const clickHander =(item: any)=> {
+        if(token){
+            router.push("/dashboard/event/details/" + item?.id)
+        } else {
+            router.push("/event/" + item?.id)
+        }
+    }
+
     return (
         <LoadingAnimation loading={isLoading} >
             <Flex w={"full"} bg={["transparent", "transparent", "#EFF1FE", "#EFF1FE", "#EFF1FE"]} position={"relative"} h={"fit-content"} gap={["0px", "0px", "7", "7", "7"]} p={["0px", "0px", "4", "4", "4"]} flexDir={["column", "column", "row"]} rounded={"2xl"} >
@@ -89,7 +99,7 @@ function HomeCarousel(props: Props) {
                                     </motion.p>
                                     <Flex position={["static", "static", "absolute", "absolute", "absolute"]} bottom={"26px"} zIndex={"0"} left={"0px"} w={"full"} flexDir={['row', 'row', 'column', 'row', 'row']} alignItems={["", "", "start", "center", "center"]} gap={"5"} >
 
-                                        <CustomButton onClick={() => router.push("/dashboard/event/details/" + item?.id)} fontSize={"sm"} borderColor={"brand.chasescrollBlue"} color={"white"} borderWidth={"1px"} px={"4"} text={"View Event"} width={["172px"]} />
+                                        <CustomButton onClick={() => clickHander(item)} fontSize={"sm"} borderColor={"brand.chasescrollBlue"} color={"white"} borderWidth={"0px"} px={"4"} text={"View Event"} width={["172px"]} />
                                         <InterestedUsers fontSize={16} color={["white", "white", "#1732F7", "#1732F7", "#1732F7"]} event={item} border={"2px"} size={"32px"} />
                                     </Flex>
                                 </Flex>
