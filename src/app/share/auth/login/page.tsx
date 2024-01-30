@@ -1,6 +1,6 @@
 "use client";
 import React from 'react'
-import { Box, Divider, HStack, VStack, Image, useToast, Button, Flex, Input } from '@chakra-ui/react';
+import { Box, Divider, HStack, VStack, Image, useToast, Button, Flex, Input, Text } from '@chakra-ui/react';
 import CustomText from '@/components/general/Text';
 import CustomButton from '@/components/general/Button';
 import { THEME } from '@/theme';
@@ -17,6 +17,7 @@ import { signIn, useSession } from 'next-auth/react'
 import { Session, } from 'next-auth';
 import { useShareState } from '../../state';
 import httpServiceGoogle from '@/utils/httpServiceGoogle';
+import CopyRightText from '@/components/sharedComponent/CopyRightText';
 
 
 
@@ -110,7 +111,7 @@ function LoginPage() {
       seType({ type, typeID });
     }
   }, [query, seType, setAll])
- 
+
   React.useEffect(() => {
     const token: any = sessionData;
     // console.log(token.token?.token.token.accessToken);
@@ -166,7 +167,7 @@ function LoginPage() {
         status: 'error',
       })
     }
-  }) 
+  })
 
   // React.useEffect(() => {
   //   if (checkData?.user_id) {
@@ -327,7 +328,7 @@ function LoginPage() {
 
         <HStack flex='1' width={'100%'} height='100%' justifyContent={'center'}>
 
-          <Flex direction={['column']} alignItems={'center'} justifyContent={'center'} width={['100%', '80%']} height={'100%'}>
+          <Flex direction={['column']} alignItems={'center'} justifyContent={'center'} width={['100%', '100%']} height={'100%'}>
 
             {/* LEFT SECTIOON */}
             {/* <VStack flex='1' paddingTop={['30px', '0px']} width={['100%', '50%']} height={['100%']} alignItems={'center'} justifyContent={'center'} spacing={0}>
@@ -391,7 +392,7 @@ function LoginPage() {
 
       </Box>
 
-      <HStack display={['none', 'flex']} width={'100%'} height={'100px'} borderTop={'1px'} borderTopColor={'lightgrey'} alignItems={'center'} justifyContent={'center'}>
+      {/* <HStack display={['none', 'flex']} width={'100%'} height={'100px'} borderTop={'1px'} borderTopColor={'lightgrey'} alignItems={'center'} justifyContent={'center'}>
         {LINK2.map((item, index) => {
           if (item.isExternal) {
             return (
@@ -409,27 +410,34 @@ function LoginPage() {
             )
           }
         })}
-      </HStack>
+      </HStack> */}
 
-      <HStack display={['flex', 'none']} width={'100%'} height={'100px'} borderTop={'1px'} borderTopColor={'lightgrey'} alignItems={'center'} justifyContent={'center'}>
-        {LINK2.filter((item) => !exclude.includes(item.name)).map((item, index) => {
-          if (item.isExternal) {
-            return (
-              <CustomText fontFamily={'DM-Regular'} fontSize={'16px'} marginX={'10px'} display={{ sm: exclude.includes(item.name) ? 'none' : 'inline', lg: 'inline' }} key={index.toString()}>
-                <a key={index.toString()} href={item.link}>{item.name}</a>
-              </CustomText>
-            )
-          } else {
-            return (
-              <CustomText display={{ sm: exclude.includes(item.name) ? 'none' : 'inline', lg: 'inline-block' }} fontFamily={'DM-Regular'} fontSize={'16px'} marginX={'10px'} key={index.toString()}>
-                <Link href={`/${item.link}`} key={index.toString()}>
-                  {item.name}
-                </Link>
-              </CustomText>
-            )
-          }
-        })}
-      </HStack>
+      <Box width={"full"} display={["none", "none", "flex"]} mt={"auto"} flexDirection={"column"} >
+
+        <Text fontSize={"10px"} textAlign={"center"} mx={"auto"} >
+          <CopyRightText />
+        </Text>
+        <Box width={"full"} borderWidth={"1px"} />
+        <Flex gap={"4"} py={'2'} justifyContent={"center"} alignItems={"center"} fontSize={"sm"} textAlign={"center"} color={"brand.chasescrollTextGrey"} >
+          {LINK2.map((item, index) => {
+            if (item.isExternal) {
+              return (
+                <CustomText fontFamily={'DM-Regular'} color={item.name === "Sign in" ? "brand.chasescrollBlue" : "brand.chasescrollTextGrey"} _hover={{ color: "brand.chasescrollBlue" }} key={index.toString()}>
+                  <a key={index.toString()} href={item.link}>{item.name}</a>
+                </CustomText>
+              )
+            } else {
+              return (
+                <CustomText fontFamily={'DM-Regular'} color={item.name === "Sign in" ? "brand.chasescrollBlue" : "brand.chasescrollTextGrey"} _hover={{ color: "brand.chasescrollBlue" }} key={index.toString()}>
+                  <Link href={`/${item.link}`} key={index.toString()}>
+                    {item.name}
+                  </Link>
+                </CustomText>
+              )
+            }
+          })}
+        </Flex>
+      </Box>
       {
         showModal && (
           <Box position={'absolute'} width='100%' height={'100vh'} bg='#0000007f' bottom='0px' left={'0px'} justifyContent={'center'} alignItems={'center'}>
