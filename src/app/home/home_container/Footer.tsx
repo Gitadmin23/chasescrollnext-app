@@ -117,51 +117,7 @@ const Footer = () => {
           <div className="flex justify-between lg:flex-row flex-col gap-4 lg:px-0 px-6 w-full">
             <CustomLink path="/home" transparent={false} isScrolled={false}>
               Home
-            </CustomLink>
-            {/* <div
-              className="relative lg:inline-block lg:mt-0"
-              onMouseEnter={handleToggleEnter}
-            >
-              <button
-                className="flex items-center gap-1 hover:text-chase-blue lg:mr-4"
-                onClick={handleMenuToggle}
-                aria-haspopup="true"
-                aria-expanded={isDropdownOpen}
-              >
-                Features <Icon icon="mdi:chevron-down" />
-              </button>
-              {isDropdownOpen && (
-                <div
-                  className="w-full absolute left-0 mt-2 bg-white text-black shadow-lg rounded-lg py-2 lg:block"
-                  onMouseLeave={handleDropdownLeave}
-                >
-                  <Link
-                    to="#"
-                    className="block px-0 py-2 hover:bg-chase-blue hover:text-chaseBlue"
-                  >
-                    Feature 1
-                  </Link>
-                  <Link
-                    to="#"
-                    className="block px-0 py-2 hover:bg-chase-blue hover:text-chaseBlue"
-                  >
-                    Feature 2
-                  </Link>
-                  <Link
-                    to="#"
-                    className="block px-0 py-2 hover:bg-chase-blue hover:text-chaseBlue"
-                  >
-                    Feature 3
-                  </Link>
-                  <Link
-                    to="#"
-                    className="block px-0 py-2 hover:bg-chase-blue hover:text-chaseBlue"
-                  >
-                    Feature 4
-                  </Link>
-                </div>
-              )}
-            </div> */}
+            </CustomLink> 
             <CustomLink path="/home/about" transparent={false} isScrolled={false}>
               About us
             </CustomLink>
@@ -175,39 +131,10 @@ const Footer = () => {
               Contact us
             </CustomLink>
           </div>
-        </div>
-        {/* <div className="text-center lg:text-left max-w-[557px] w-full flex flex-col gap-[18px]">
-          <h3 className="text-[32px] font-medium">
-            Subscribe to Chasescroll Newsletter
-          </h3>
-          <p className="text-base font-medium">
-          Don't miss out on the opportunity to be part of a thriving network of event enthusiasts.
-          </p>
-          <form
-            className="flex flex-row gap-2 justify-center lg:justify-start"
-            action=""
-          >
-            <input
-              className="py-[10px] px-[14px] rounded-lg max-w-[352px] w-full"
-              placeholder="Enter your email"
-              type="email"
-              name="email"
-              id="email"
-            />
-            <button
-              className="w-[115px] bg-[#5D70F9] rounded-lg flex justify-center items-center bg-chase-blue"
-              type="submit"
-            >
-              Subscribe
-            </button>
-          </form>
-        </div> */}
+        </div> 
       </div>
       <hr className="w-full mt-14 mb-8 border-b-1 border-white" />
-      <div className="max-w-[1200px] w-full flex lg:flex-row flex-col-reverse items-center  ">
-        {/* <Text position={["relative", "relative", "absolute"]} color={"white"} mt={"8"} inset={"auto"} >
-        <CopyRightText />
-        </Text> */}
+      <div className="max-w-[1200px] w-full flex lg:flex-row flex-col-reverse items-center  "> 
         <p className=" lg:absolute inset-auto text-white lg:mt-0 mt-8 " > 
           <CopyRightText />
         </p>

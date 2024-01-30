@@ -86,14 +86,15 @@ function HomeCarousel(props: Props) {
     return (
         <LoadingAnimation loading={isLoading} >
             <Flex w={"full"} bg={["transparent", "transparent", "#EFF1FE", "#EFF1FE", "#EFF1FE"]} position={"relative"} h={"fit-content"} gap={["0px", "0px", "7", "7", "7"]} p={["0px", "0px", "4", "4", "4"]} flexDir={["column", "column", "row"]} rounded={"2xl"} >
-                <Box w={["full", "full", "70%", "70%", "60%"]} my={["", "auto"]} zIndex={"10"} pl={["0px", "0px", "6", "6", "6"]} insetX={"0px"} position={["absolute", "absolute", "relative", "relative", "relative"]} bottom={"0px"} roundedBottom={["32px", "32px", "none", "none", "none"]} bg={["linear-gradient(168deg, rgba(46, 43, 43, 0.80) -7.34%, rgba(46, 43, 43, 0.00) 522.78%)", "linear-gradient(168deg, rgba(46, 43, 43, 0.80) -7.34%, rgba(46, 43, 43, 0.00) 522.78%)", "transparent", "transparent"]} >
+                <Box w={["full", "full", "70%", "70%", "60%"]} my={["", "auto"]} zIndex={"20"} pl={["0px", "0px", "6", "6", "6"]} insetX={"0px"} position={["absolute", "absolute", "relative", "relative", "relative"]} bottom={"0px"} roundedBottom={["32px", "32px", "none", "none", "none"]} bg={["linear-gradient(168deg, rgba(46, 43, 43, 0.80) -7.34%, rgba(46, 43, 43, 0.00) 522.78%)", "linear-gradient(168deg, rgba(46, 43, 43, 0.80) -7.34%, rgba(46, 43, 43, 0.00) 522.78%)", "transparent", "transparent"]} >
                     {data?.map((item: any, index: any) => {
                         if (index === isShown) {
                             return (
                                 <Flex key={index} height={["fit-content", "fit-content", "424px", "424px", "424px"]} flexDir={"column"} justifyContent={"center"} py={["8", "8", "0px", "0px", "0px"]} px={["4", "4", "0px", "0px", "0px"]} position={"relative"} >
-                                    <motion.p {...boxAnimation} >
-                                        <Text as={motion.p} fontSize={"32px"} lineHeight={"-0.362px"} fontWeight={"bold"} color={["white", "white", "#121212", "#121212", "#121212"]}  >{item?.eventName?.length >= 50 ? item?.eventName.slice(0, 50)+"..." : item?.eventName}</Text>
-                                    </motion.p>
+                                    <motion.p {...boxAnimation} > 
+                                        <Text as={motion.p} fontSize={"32px"} display={["none", "none", "block", "block", "block"]} lineHeight={"-0.362px"} fontWeight={"bold"} color={["white", "white", "#121212", "#121212", "#121212"]}  >{item?.eventName?.length >= 50 ? item?.eventName.slice(0, 50)+"..." : item?.eventName}</Text>
+                                        <Text as={motion.p} fontSize={"20px"} display={["block", "block", "none", "none", "none"]} lineHeight={"-0.362px"} fontWeight={"bold"} color={["white", "white", "#121212", "#121212", "#121212"]}  >{item?.eventName?.length >= 25 ? item?.eventName.slice(0, 25)+"..." : item?.eventName}</Text>
+                                    </motion.p> 
                                     <motion.p {...boxAnimation} >
                                         <Text as={motion.p} lineHeight={"24px"} fontSize={"16px"} color={["white", "white", "#121212", "#121212", "#121212"]} my={"5"} >{item?.eventDescription?.length >= 124 ? item?.eventDescription?.slice(0, 124)+"..." : item?.eventDescription}</Text>
                                     </motion.p>
