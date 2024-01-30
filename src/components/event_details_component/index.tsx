@@ -126,7 +126,9 @@ function EventDetails(props: Props) {
                 <Grid templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} py={"3"} gap={6}>
 
                     <EventLocationDetail location={location} locationType={locationType} indetail={true} />
-                    <GetEventTicket ticket={price} setSelectedTicket={setSelectedCategory} data={dataInfo} selectedTicket={selectedCategory} isBought={isBought} isFree={isFree} />
+                    {!isOrganizer && (
+                        <GetEventTicket ticket={price} setSelectedTicket={setSelectedCategory} data={dataInfo} selectedTicket={selectedCategory} isBought={isBought} isFree={isFree} />
+                    )}
                 </Grid>
                 {location?.address && (
                     <OtherEventInfo name={'Venue Details'} data={location?.address} />

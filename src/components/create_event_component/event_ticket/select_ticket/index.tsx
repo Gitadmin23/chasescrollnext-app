@@ -91,12 +91,10 @@ function SelectTicket(props: Props) {
         myArr[index] = {
             totalNumberOfTickets: null,
             ticketPrice: type === "Free" ? 0 : null,
-            ticketType: type === "Free" ? " " : "",
+            ticketType: "Regular"+index,
             minTicketBuy: null,
             maxTicketBuy: null
-        }
-
-        console.log(myArr);
+        } 
         updateEvent({
             ...eventdata,
             productTypeData: myArr
