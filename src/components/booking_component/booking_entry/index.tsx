@@ -1,7 +1,7 @@
 'use client'
 import CustomText from '@/components/general/Text'
 import { Box, HStack, VStack } from '@chakra-ui/react'
-// import ReactStars from "react-rating-stars-component";
+const ReactStars = require("react-rating-stars-component");
 import React from 'react'
 import { useRouter } from 'next/navigation';
 
