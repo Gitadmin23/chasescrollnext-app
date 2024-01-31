@@ -16,7 +16,7 @@ function BookingEntry() {
 
     <VStack alignItems={'flex-start'} spacing={0}>
         <CustomText fontSize={'18px'} fontFamily={'DM-Medium'} color='black'>Flod&apos;s 99 barbershop</CustomText>
-        {/* <ReactStars
+        <ReactStars
             count={5}
             onChange={ratingChanged}
             size={14}
@@ -24,7 +24,7 @@ function BookingEntry() {
             value={3.6}
             edit={false}
             isHalf
-        /> */}
+        /> 
         <CustomText fontFamily={'DM-Light'} fontSize={'14px'} color='grey'>143 Histoeric Town square, Lancaster, 75146</CustomText>
     </VStack>
    </HStack>
