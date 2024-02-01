@@ -29,6 +29,7 @@ import MapComponent from '../sharedComponent/map_component'
 import EventMap from './event_map_info'
 import { ScanIcon } from '../svg'
 import EventQrCode from './event_qrcode'
+import { MdArrowBackIos } from 'react-icons/md'
 
 interface Props {
     dynamic?: boolean
@@ -97,17 +98,20 @@ function EventDetails(props: Props) {
     }
 
     return (
-        <Box width={"full"} display={"flex"} flexDirection={"column"} pt={["6", "6", "4"]} position={"relative"} paddingBottom={"12"} >
-            <Flex width={"full"} flexDirection={["column", "column", "row"]} alignItems={"start"} justifyContent={"center"} >
-                <Box as='button' display={"flex"} onClick={() => clickHander()} px={"3"} mt={"20px"} ml={(!email && !userId) ? "0px" : "-30px"} justifyContent={"center"} alignItems={"center"} zIndex={"20"} >
-                    <BsChevronLeft color={"black"} size={"25px"} />
-                </Box>
+        <Box width={"full"} display={"flex"} flexDirection={"column"} pt={["6", "6", "2"]} position={"relative"} paddingBottom={"12"} >
+            <Flex width={"full"} flexDirection={["column", "column", "row"]} alignItems={"start"} position={"relative"} justifyContent={"center"} >
 
-                <Box height={["230px", "230px", "350px"]} px={["4", "4", "0px"]} pr={["0px", "0px", "4"]} mt={["4", "4", "0px"]} position={"relative"} width={"full"} rounded={"16px"} roundedTopRight={"none"} >
+
+                <Box height={["230px", "230px", "350px"]} px={["4", "4", "0px"]} mt={["4", "4", "0px"]} position={"relative"} width={"full"} rounded={"16px"} roundedTopRight={"none"} >
+                    <Box w={"42px"} position={"absolute"} top={"4"} left={"4"} h={"42px"} bg={"#FFFFFF40"} rounded={"full"} as='button' display={"flex"} onClick={() => clickHander()}
+                        // mt={"20px"} ml={(!email && !userId) ? "0px" : "-30px"} 
+                        justifyContent={"center"} pl={"2"} alignItems={"center"} zIndex={"20"} >
+                        <MdArrowBackIos color={"white"} size={"25px"} />
+                    </Box>
                     <BlurredImage height={["230px", "230px", "350px"]} image={dataInfo?.currentPicUrl} />
                     {/* <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={dataInfo?.currentPicUrl} width={"full"} height={"full"} src={IMAGE_URL + dataInfo?.currentPicUrl} /> */}
                     {!dynamic && (
-                        <Box width={"fit-content"} h={"40px"} px={"2"} display={"flex"} flexDirection={"row"} alignItems={"center"} justifyContent={"center"} rounded={"md"} bg={"#101828D2"} position={"absolute"} bottom={"4"} right={"4"} gap={"4"} >
+                        <Box width={"fit-content"} h={"40px"} px={"2"} zIndex={"20"} display={"flex"} flexDirection={"row"} alignItems={"center"} justifyContent={"center"} rounded={"md"} bg={"#101828D2"} position={"absolute"} bottom={"4"} right={"5"}  >
                             <SaveOrUnsaveBtn indetail={true} event={dataInfo} size='24' />
                         </Box>
                     )}

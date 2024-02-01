@@ -30,7 +30,7 @@ function PayStackBtn(props: Props) {
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
     
     const { showModal, setShowModal } = useModalStore((state) => state);
-    const { setModalTab, modalTab } = useStripeStore((state) => state);
+    const { setModalTab, modalTab } = useStripeStore((state: any) => state);
     
 
     const { configPaystack, setPaystackConfig } = usePaystackStore((state) => state);
