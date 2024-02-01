@@ -36,16 +36,16 @@ function UserWalletAmount(props: Props) {
     })
 
     return (
-        <Flex flexDirection={"column"} maxWidth={"full"} color={"white"} alignItems={"center"} py={"20px"} >
+        <Flex flexDirection={"column"} maxWidth={"full"} color={showEscrow ? "brand.chasescrollYellow" : "white"} alignItems={"center"} py={"20px"} >
             <Flex justifyContent={"space-between"} gap={"3"} alignItems={"center"} >
                 <Text fontSize={"lg"} fontWeight={"medium"} >Total</Text>
                 <Box as={"button"} onClick={() => setShowText((prev) => !prev)} >
                     {!showText ? <ClosedEyeIcon /> : <OpenEyeIcon />}
                 </Box>
             </Flex>
-            <Flex height={"30px"} justifyContent={"center"} alignItems={"center"} > 
-                <LoadingAnimation fix_height={true} color='white' loading={isLoading} refeching={isRefetching} >
-                    {(!isRefetching && !isLoading ) && (
+            <Flex height={"30px"} justifyContent={"center"} alignItems={"center"} >
+                <LoadingAnimation fix_height={true} color={showEscrow ? 'brand.chasescrollYellow' : 'white'} loading={isLoading} refeching={isRefetching} >
+                    {(!isRefetching && !isLoading) && (
                         <Text fontSize={"xl"} fontWeight={"bold"} >{showEscrow ? formatNumber(showText ? data?.escrowBalances?.balance / 100 : "***", currency === "USD" ? "$" : "₦") : formatNumber(showText ? data?.walletBalances?.balance / 100 : "***", currency === "USD" ? "$" : "₦")}</Text>
                     )}
                 </LoadingAnimation>
