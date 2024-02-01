@@ -27,6 +27,8 @@ import BlurredImage from '../sharedComponent/blurred_image'
 import { useDetails } from '@/global-state/useUserDetails'
 import MapComponent from '../sharedComponent/map_component'
 import EventMap from './event_map_info'
+import { ScanIcon } from '../svg'
+import EventQrCode from './event_qrcode'
 
 interface Props {
     dynamic?: boolean
@@ -114,7 +116,8 @@ function EventDetails(props: Props) {
             <Box width={"full"} px={[dynamic ? "6" : "0px", "6"]}>
                 <EventHeader name={eventName} event={dataInfo} maxPrice={maxPrice} minPrice={minPrice} currency={currency} />
                 <EventCreator dynamic={dynamic} isOrganizer={isOrganizer} convener={convener} username={username} data={dataInfo} />
-                <Flex py={"3"} justifyContent={"end"} >
+                <Flex py={"3"} justifyContent={"end"} alignItems={"center"} gap={"14"} >
+                    <EventQrCode data={dataInfo} id={dataInfo?.id} />
                     <ShareEvent data={dataInfo} id={dataInfo?.id} type="EVENT" eventName={eventName} />
                 </Flex>
                 <Grid templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} py={"3"} gap={6}>

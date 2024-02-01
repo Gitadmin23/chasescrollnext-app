@@ -12,7 +12,7 @@ type Action = {
     setModalTab: (data: State['modalTab']) => void 
 }
 
-const useStripeStore = create<State & Action>((set) => ({
+const useStripeStore: any = create<State & Action>((set) => ({
     configData: {} as any, 
     clientSecret: "",
     modalTab: 1,
