@@ -32,6 +32,24 @@ export const ShareIcon = (props: any) => {
   )
 }
 
+
+export const ScanIcon = (props: any) => {
+  return (
+     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g id="vuesax/linear/scan">
+        <g id="scan">
+          <path id="Vector" d="M2 9V6.5C2 4.01 4.01 2 6.5 2H9" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path id="Vector_2" d="M15 2H17.5C19.99 2 22 4.01 22 6.5V9" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path id="Vector_3" d="M22 16V17.5C22 19.99 19.99 22 17.5 22H16" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path id="Vector_4" d="M9 22H6.5C4.01 22 2 19.99 2 17.5V15" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path id="Vector_5" d="M17 9.5V14.5C17 16.5 16 17.5 14 17.5H10C8 17.5 7 16.5 7 14.5V9.5C7 7.5 8 6.5 10 6.5H14C16 6.5 17 7.5 17 9.5Z" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path id="Vector_6" d="M19 12H5" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+      </g>
+    </svg>
+  )
+}
+
 export const EyeIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
     <path d="M12 9C12.7956 9 13.5587 9.31607 14.1213 9.87868C14.6839 10.4413 15 11.2044 15 12C15 12.7956 14.6839 13.5587 14.1213 14.1213C13.5587 14.6839 12.7956 15 12 15C11.2044 15 10.4413 14.6839 9.87868 14.1213C9.31607 13.5587 9 12.7956 9 12C9 11.2044 9.31607 10.4413 9.87868 9.87868C10.4413 9.31607 11.2044 9 12 9ZM12 4.5C17 4.5 21.27 7.61 23 12C21.27 16.39 17 19.5 12 19.5C7 19.5 2.73 16.39 1 12C2.73 7.61 7 4.5 12 4.5ZM3.18 12C3.98825 13.6503 5.24331 15.0407 6.80248 16.0133C8.36165 16.9858 10.1624 17.5013 12 17.5013C13.8376 17.5013 15.6383 16.9858 17.1975 16.0133C18.7567 15.0407 20.0117 13.6503 20.82 12C20.0117 10.3497 18.7567 8.95925 17.1975 7.98675C15.6383 7.01424 13.8376 6.49868 12 6.49868C10.1624 6.49868 8.36165 7.01424 6.80248 7.98675C5.24331 8.95925 3.98825 10.3497 3.18 12Z" fill="white" />

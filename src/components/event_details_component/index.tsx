@@ -27,6 +27,8 @@ import BlurredImage from '../sharedComponent/blurred_image'
 import { useDetails } from '@/global-state/useUserDetails'
 import MapComponent from '../sharedComponent/map_component'
 import EventMap from './event_map_info'
+import { ScanIcon } from '../svg'
+import EventQrCode from './event_qrcode'
 
 interface Props {
     dynamic?: boolean
@@ -95,13 +97,13 @@ function EventDetails(props: Props) {
     }
 
     return (
-        <Box width={"full"} display={"flex"} flexDirection={"column"} pt={["6", "6", "0"]} position={"relative"} paddingBottom={"12"} >
-            <Flex width={"full"} alignItems={"start"} justifyContent={"center"} >
+        <Box width={"full"} display={"flex"} flexDirection={"column"} pt={["6", "6", "4"]} position={"relative"} paddingBottom={"12"} >
+            <Flex width={"full"} flexDirection={["column", "column", "row"]} alignItems={"start"} justifyContent={"center"} >
                 <Box as='button' display={"flex"} onClick={() => clickHander()} px={"3"} mt={"20px"} ml={(!email && !userId) ? "0px" : "-30px"} justifyContent={"center"} alignItems={"center"} zIndex={"20"} >
                     <BsChevronLeft color={"black"} size={"25px"} />
                 </Box>
 
-                <Box height={["230px", "230px", "350px"]} position={"relative"} width={"full"} rounded={"16px"} roundedTopRight={"none"} >
+                <Box height={["230px", "230px", "350px"]} px={["4", "4", "0px"]} pr={["0px", "0px", "4"]} mt={["4", "4", "0px"]} position={"relative"} width={"full"} rounded={"16px"} roundedTopRight={"none"} >
                     <BlurredImage height={["230px", "230px", "350px"]} image={dataInfo?.currentPicUrl} />
                     {/* <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={dataInfo?.currentPicUrl} width={"full"} height={"full"} src={IMAGE_URL + dataInfo?.currentPicUrl} /> */}
                     {!dynamic && (
@@ -114,7 +116,8 @@ function EventDetails(props: Props) {
             <Box width={"full"} px={[dynamic ? "6" : "0px", "6"]}>
                 <EventHeader name={eventName} event={dataInfo} maxPrice={maxPrice} minPrice={minPrice} currency={currency} />
                 <EventCreator dynamic={dynamic} isOrganizer={isOrganizer} convener={convener} username={username} data={dataInfo} />
-                <Flex py={"3"} justifyContent={"end"} >
+                <Flex py={"3"} justifyContent={"end"} alignItems={"center"} gap={"14"} >
+                    <EventQrCode data={dataInfo} id={dataInfo?.id} />
                     <ShareEvent data={dataInfo} id={dataInfo?.id} type="EVENT" eventName={eventName} />
                 </Flex>
                 <Grid templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} py={"3"} gap={6}>
