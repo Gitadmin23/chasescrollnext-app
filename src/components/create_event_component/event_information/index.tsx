@@ -25,8 +25,8 @@ function EventInformation() {
         } else {
             return false
         }
-    }
-    
+    } 
+
     return (
         <Flex width={"full"} display={"flex"} flexDirection={"column"} alignItems={"center"} pt={"10"} px={"6"} >
             <Flex width={"full"} maxWidth={["full", "full", "600px"]} flexDirection={"column"} justifyContent={"space-between"} gap={"4"} py={"6"} >
