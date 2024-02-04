@@ -84,16 +84,7 @@ function MapComponent(props: Props) {
   }, []);
 
   const onMapClick = React.useCallback((e: any) => {
-    if (!hidesearch) { 
-      
-      updateEvent({
-        ...eventdata,
-        location: {
-          ...eventdata.location,
-          latlng: e.latLng.lat() + " " + e.latLng.lng()
-        }
-      })
-
+    if (!hidesearch) {  
       const geocoder = new google.maps.Geocoder();
       geocoder.geocode(
         { location: { lat: e.latLng.lat(), lng: e.latLng.lng() } },
@@ -106,7 +97,8 @@ function MapComponent(props: Props) {
               ...eventdata,
               location: {
                 ...eventdata.location,
-                address: address
+                address: address,
+                latlng: e.latLng.lat() + " " + e.latLng.lng()
               }
             })
 

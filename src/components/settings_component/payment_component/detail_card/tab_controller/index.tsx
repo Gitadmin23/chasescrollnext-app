@@ -52,7 +52,7 @@ function TabController(props: Props) {
                 icon: any
             }, index: number) => {
                 return( 
-                    <Flex as={"button"} key={index} cursor={item?.name === "Cash Out" && type ? "not-allowed" : "pointer"} opacity={item?.name === "Cash Out" && type ? "40%" : ""} disabled={item?.name === "Cash Out" && type ? true: false} onClick={()=> clickHandler(index)} flexDirection={"column"} alignItems={"center"} fontSize={"12px"} justifyContent={"center"} py={"2"} rounded={"6px"} width={"full"} bgColor={tab === index ? "#12299C" : ""} color={tab === index ? type ? "brand.chasescrollYellow" : "white" : "#12299C"} borderColor={tab === index ? type ? "brand.chasescrollYellow" : "white" : "#12299C"} >
+                    <Flex as={"button"} key={index} cursor={(item?.name === "Cash Out" || item?.name === "Fund Wallet") && type ? "not-allowed" : "pointer"} opacity={(item?.name === "Cash Out" || item?.name === "Fund Wallet") && type ? "40%" : ""} disabled={(item?.name === "Cash Out" || item?.name === "Fund Wallet") && type ? true: false} onClick={()=> clickHandler(index)} flexDirection={"column"} alignItems={"center"} fontSize={"12px"} justifyContent={"center"} py={"2"} rounded={"6px"} width={"full"} bgColor={tab === index ? "#12299C" : ""} color={tab === index ? type ? "brand.chasescrollYellow" : "white" : "#12299C"} borderColor={tab === index ? type ? "brand.chasescrollYellow" : "white" : "#12299C"} >
                         <Flex width={"40px"} height={"40px"} justifyContent={"center"} alignItems={"center"} border={"1px"} rounded={"full"} >
                             {item?.icon}
                         </Flex>

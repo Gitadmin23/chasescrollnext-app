@@ -21,7 +21,7 @@ function DetailCard(props: Props) {
     const { currency } = useSettingsStore((state) => state);
 
     const clickHandler =()=> {
-        setTab(2)
+        setTab(3)
         setShowEscrow((prev) => !prev)
     }
 

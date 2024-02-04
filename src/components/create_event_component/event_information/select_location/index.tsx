@@ -151,7 +151,7 @@ function SelectLocation(props: Props) {
             <Box width={"full"} mt={"3"} mb={"2"} >
                 <Text fontWeight={"bold"} mb={"2"} >Venue Details</Text>
                 <Textarea
-                    placeholder="Example: Behind Chervon gas station "
+                    placeholder="Example: Behind chevron gas station "
                     width={"full"}
                     px={"4"}
                     py={"2"}
