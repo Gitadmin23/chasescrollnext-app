@@ -25,7 +25,7 @@ function SearchBar(props: Props) {
                 <Input  width={["full", "full","361px"]}  value={search} onChange={(e)=> setSearchValue(e.target.value)} type='text' borderColor={"#CCCCCC"} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} bgColor={"white"} placeholder='Search for users, event or...' />
             </InputGroup>
             {search && (
-                <Box width={"full"} zIndex={"20"} position={"absolute"} mt={"2"} >
+                <Box width={"full"} zIndex={"20"} position={"absolute"} mt={"45px"} >
                     <SearchComponent home={home} />
                 </Box>
             )} 
