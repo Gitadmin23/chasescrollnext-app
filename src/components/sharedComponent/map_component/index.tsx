@@ -21,7 +21,8 @@ interface Props {
   height?: string,
   view?: boolean,
   latlng?: any,
-  zoom?: number | undefined
+  zoom?: number | undefined,
+  setMyLocat?: any
 }
 
 const center = {
@@ -37,7 +38,8 @@ function MapComponent(props: Props) {
     height,
     view,
     latlng,
-    zoom
+    zoom,
+    setMyLocat
   } = props
 
 
@@ -82,14 +84,29 @@ function MapComponent(props: Props) {
   }, []);
 
   const onMapClick = React.useCallback((e: any) => {
-    if (!hidesearch) {
-      updateEvent({
-        ...eventdata,
-        location: {
-          ...eventdata.location,
-          latlng: e.latLng.lat() + " " + e.latLng.lng()
+    if (!hidesearch) {  
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode(
+        { location: { lat: e.latLng.lat(), lng: e.latLng.lng() } },
+        (results: any, status: any) => {
+          if (status === 'OK' && results[0]) {
+
+            let address = results[0].formatted_address
+ 
+            updateEvent({
+              ...eventdata,
+              location: {
+                ...eventdata.location,
+                address: address,
+                latlng: e.latLng.lat() + " " + e.latLng.lng()
+              }
+            })
+
+          } else {
+            console.error('Error fetching address:', status);
+          }
         }
-      })
+      );
 
       setMarker({
         lat: e.latLng.lat(),
@@ -131,7 +148,13 @@ function MapComponent(props: Props) {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         });
-      } 
+        if (hidesearch) {
+          setMyLocat({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        }
+      }
     );
   }, [])
 
@@ -144,7 +167,7 @@ function MapComponent(props: Props) {
           options={options}
           zoom={zoom ? zoom : 14}
           onLoad={onMapLoad}
-          
+
           onUnmount={onUnmount}
           onClick={onMapClick}>
           {/* <UserLocation panTo={panTo}/>   */}
@@ -152,7 +175,7 @@ function MapComponent(props: Props) {
             <MapSearch center={center} panTo={panTo} />
           )}
           {directionsResponse && (
-            <DirectionsRenderer  directions={directionsResponse} />
+            <DirectionsRenderer directions={directionsResponse} />
           )}
           <Marker
             position={{ lat: marker.lat, lng: marker.lng }}

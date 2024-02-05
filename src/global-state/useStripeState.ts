@@ -1,18 +1,22 @@
 import { create } from 'zustand';
 
 type State = {
-    configData: object,
-    clientSecret: string,
+    configData: object, 
+} 
+type Key = { 
+    clientSecret: string,  
+} 
+type Tab = { 
     modalTab: number
 } 
 
 type Action = {
     setConfigData: (data: State['configData']) => void,
-    setClientSecret: (data: State['clientSecret']) => void 
-    setModalTab: (data: State['modalTab']) => void 
+    setClientSecret: (data: Key['clientSecret']) => void 
+    setModalTab: (data: Tab['modalTab']) => void 
 }
 
-const useStripeStore = create<State & Action>((set) => ({
+const useStripeStore: any = create<State & Action & Key & Tab>((set) => ({
     configData: {} as any, 
     clientSecret: "",
     modalTab: 1,

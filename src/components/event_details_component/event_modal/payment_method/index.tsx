@@ -1,12 +1,12 @@
-import { DebitCardIcon } from '@/components/svg'
+import { DebitCardIcon } from '@/components/svg' 
 import useStripeStore from '@/global-state/useStripeState'
 import { Box, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
 import { BsChevronLeft } from 'react-icons/bs' 
 
-function PaymentMethod() { 
+function PaymentMethod() {  
 
-    const { configData, clientSecret, setModalTab, modalTab } = useStripeStore((state) => state);
+    const { modalTab, setModalTab } = useStripeStore((state: any) => state);
 
     return (
         <Box width={"full"} bg={"white"} px={"8"} py={"10"} >

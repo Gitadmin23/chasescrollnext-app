@@ -16,7 +16,7 @@ function RefundPolicy(props: Props) {
     } = props
 
     const [checked, setChecked] = useState(false)
-    const { setModalTab, modalTab } = useStripeStore((state) => state);
+    const { setModalTab, modalTab } = useStripeStore((state: any) => state);
 
     return (
         <Box width={"full"} bg={"white"} px={"8"} py={"10"} >  

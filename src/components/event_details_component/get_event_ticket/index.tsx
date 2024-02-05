@@ -42,7 +42,7 @@ function GetEventTicket(props: Props) {
     // const [stripePromise, setStripePromise] = React?.useState(() => loadStripe(STRIPE_KEY))
 
     const { showModal, setShowModal } = useModalStore((state) => state);
-    const { setModalTab, modalTab } = useStripeStore((state) => state);
+    const { setModalTab, modalTab } = useStripeStore((state: any) => state);
 
     // const [modalTab, setModalTab] = useState(1)
     const [numbOfTicket, setNumberOfTicket] = React.useState(1)

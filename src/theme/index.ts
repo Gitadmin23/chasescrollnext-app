@@ -9,6 +9,7 @@ const dm_sans = DM_Sans({
 export const THEME = {
     COLORS: {
         chasescrollTextGray: "#101828",
+        chasescrollYellow: "#f29339",
         chasescrollRed: "#F04F4F",
         chasescrollGray: "#B1B5C3",
         chasescrollGrey: "#A3A3A3",
@@ -33,6 +34,7 @@ export const theme = extendTheme({
     colors: {
         brand: {
             chasescrollTextGray: "#101828",
+            chasescrollYellow: "#f29339",
             chasescrollRed: "#F04F4F",
             chasescrollGray: "#B1B5C3",
             chasescrollGrey: "#A3A3A3",
