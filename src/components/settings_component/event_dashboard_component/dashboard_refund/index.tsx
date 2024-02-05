@@ -72,67 +72,9 @@ function DashboardRefund(props: Props) {
                     <Text fontSize={"lg"} fontWeight={"semibold"} >{data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length)}</Text>
                 </Flex>
                 <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data?.data?.content?.length} >
-                    <Box width={"full"} position={"relative"} >
-                    <TableContainer bg={"white"} >
+                   
+                    <TableContainer ref={tableRef} >
                         <Table variant='simple' colorScheme="gray">
-                            <TableCaption>
-                                <Box>
-                                    Powered By Chasescroll
-                                    <Text fontSize={"sm"} >
-                                        <CopyRightText />
-                                    </Text>
-                                </Box>
-                            </TableCaption>
-                            <Thead>
-                                <Tr>
-                                    <Th>Full Name</Th>
-                                    {/* <Th>User Name</Th> */}
-                                    <Th>Email</Th>
-                                    <Th>Ticket Type</Th>
-                                    {showBtn && (
-                                        <Th>Action</Th>
-                                    )}
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {data?.data?.content?.sort((a: any, b: any) => {
-                                    if (a?.user?.firstName > b?.user?.firstName) {
-                                        return 1
-                                    } else {
-                                        return -1;
-                                    }
-                                    return 0;
-                                })?.map((person: any, i: number) => {
-                                    return (
-                                        <Tr key={i} >
-                                            <Td >
-                                                <Flex gap={"3"}>
-                                                    <Box>
-                                                        <UserImage fontWeight={"semibold"} border={"2px"} data={person?.user} image={person?.user?.data?.imgMain?.value} size={"32px"} font={"[16px]"} />
-                                                    </Box>
-                                                    <Box>
-                                                        <Text fontSize={"14px"} mt={"4px"} fontWeight={"semibold"} >{(person?.user?.firstName + " " + person?.user?.lastName)?.length > 15 ? (person?.user?.firstName + " " + person?.user?.lastName)?.slice(0, 15) + "..." : (person?.user?.firstName + " " + person?.user?.lastName)}</Text>
-                                                        <Text textAlign={"start"} fontSize={"12px"} fontWeight={"medium"} color={"brand.chasescrollTextGrey2"} >@{person?.user?.username?.length > 15 ? person?.user?.username?.slice(0, 15) + "..." : person?.user?.username}</Text>
-                                                    </Box>
-                                                </Flex>
-                                            </Td>
-                                            {/* <Td>{person?.user?.username}</Td> */}
-                                            <Td fontSize={"14px"}>{person?.user?.email}</Td>
-                                            <Td fontSize={"14px"}>{person?.ticketType?.slice(0, 1)?.toUpperCase() + person?.ticketType?.slice(1, person?.ticketType?.length)}</Td>
-
-                                            {showBtn && (
-                                                <Td >
-                                                    <RefundBtn person={person} index={index} />
-                                                </Td>
-                                            )}
-                                        </Tr>
-                                    )
-                                })}
-                            </Tbody>
-                        </Table>
-                    </TableContainer>
-                    <TableContainer position={"absolute"} top={"0px"} zIndex={"-20"}  >
-                        <Table  ref={tableRef} variant='simple' colorScheme="gray">
                             <TableCaption>
                                 <Box>
                                     Powered By Chasescroll
@@ -164,7 +106,15 @@ function DashboardRefund(props: Props) {
                                     return (
                                         <Tr key={i} >
                                             <Td >
-                                                <Text fontSize={"14px"} fontWeight={"semibold"} >{(person?.user?.firstName + " " + person?.user?.lastName)}</Text>
+                                                <Flex gap={"3"}>
+                                                    {/* <Box>
+                                                        <UserImage fontWeight={"semibold"} border={"2px"} data={person?.user} image={person?.user?.data?.imgMain?.value} size={"32px"} font={"[16px]"} />
+                                                    </Box>
+                                                    <Box> */}
+                                                        <Text fontSize={"14px"} mt={"4px"} fontWeight={"semibold"} >{(person?.user?.firstName + " " + person?.user?.lastName)?.length > 15 ? (person?.user?.firstName + " " + person?.user?.lastName)?.slice(0, 15) + "..." : (person?.user?.firstName + " " + person?.user?.lastName)}</Text>
+                                                        {/* <Text textAlign={"start"} fontSize={"12px"} fontWeight={"medium"} color={"brand.chasescrollTextGrey2"} >@{person?.user?.username?.length > 15 ? person?.user?.username?.slice(0, 15) + "..." : person?.user?.username}</Text> */}
+                                                    {/* </Box> */}
+                                                </Flex>
                                             </Td>
                                             <Td>{person?.user?.username}</Td>
                                             <Td fontSize={"14px"}>{person?.user?.email}</Td>
@@ -180,8 +130,7 @@ function DashboardRefund(props: Props) {
                                 })}
                             </Tbody>
                         </Table>
-                    </TableContainer>
-                    </Box>
+                    </TableContainer>  
                 </LoadingAnimation>
             </Flex>
 
