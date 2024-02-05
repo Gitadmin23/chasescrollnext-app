@@ -382,9 +382,9 @@ function LoginPage() {
 
       <Box width={"full"} display={["none", "none", "flex"]} mt={"auto"} flexDirection={"column"} >
 
-      <Text fontSize={"10px"} textAlign={"center"} mx={"auto"} >
-            <CopyRightText />
-          </Text>
+        <Text fontSize={"10px"} textAlign={"center"} mx={"auto"} >
+          <CopyRightText />
+        </Text>
         <Box width={"full"} borderWidth={"1px"} />
         <Flex gap={"4"} py={'2'} justifyContent={"center"} alignItems={"center"} fontSize={"sm"} textAlign={"center"} color={"brand.chasescrollTextGrey"} >
           {LINK2.map((item, index) => {
