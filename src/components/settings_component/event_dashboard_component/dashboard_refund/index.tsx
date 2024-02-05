@@ -86,7 +86,7 @@ function DashboardRefund(props: Props) {
                             <Thead>
                                 <Tr>
                                     <Th>Full Name</Th>
-                                    <Th>User Name</Th>
+                                    {/* <Th>User Name</Th> */}
                                     <Th>Email</Th>
                                     <Th>Ticket Type</Th>
                                     {showBtn && (
@@ -112,11 +112,11 @@ function DashboardRefund(props: Props) {
                                                     </Box>
                                                     <Box>
                                                         <Text fontSize={"14px"} mt={"4px"} fontWeight={"semibold"} >{(person?.user?.firstName + " " + person?.user?.lastName)?.length > 15 ? (person?.user?.firstName + " " + person?.user?.lastName)?.slice(0, 15) + "..." : (person?.user?.firstName + " " + person?.user?.lastName)}</Text>
-                                                        {/* <Text textAlign={"start"} fontSize={"12px"} fontWeight={"medium"} color={"brand.chasescrollTextGrey2"} >@{person?.user?.username?.length > 15 ? person?.user?.username?.slice(0, 15) + "..." : person?.user?.username}</Text> */}
+                                                        <Text textAlign={"start"} fontSize={"12px"} fontWeight={"medium"} color={"brand.chasescrollTextGrey2"} >@{person?.user?.username?.length > 15 ? person?.user?.username?.slice(0, 15) + "..." : person?.user?.username}</Text>
                                                     </Box>
                                                 </Flex>
                                             </Td>
-                                            <Td>{person?.user?.username}</Td>
+                                            {/* <Td>{person?.user?.username}</Td> */}
                                             <Td fontSize={"14px"}>{person?.user?.email}</Td>
                                             <Td fontSize={"14px"}>{person?.ticketType?.slice(0, 1)?.toUpperCase() + person?.ticketType?.slice(1, person?.ticketType?.length)}</Td>
 
