@@ -29,13 +29,13 @@ function EditProfile() {
     const router = useRouter();
     const toast = useToast();
 
-    const { renderForm, setValue, formState: { isDirty,  } } = useForm({
+    const { renderForm, setValue, formState: { isDirty,  }, watch } = useForm({
         defaultValues: {
             firstName: user?.firstName,
             lastName: user?.lastName,
             username: user?.username,
-            website: user?.data?.webAddress?.value || '',
-            aboutme: user?.data?.about?.value || '',
+            website: user?.data?.webAddress?.value,
+            aboutme: user?.data?.about?.value,
         },
         validationSchema: editProfileSchema,
         submit: (data: {
@@ -62,11 +62,11 @@ function EditProfile() {
                         },
                         "webAddress": {
                             objectPublic: true,
-                            "value": data.website.length < 1 ? '   ' : data.website ?? ''
+                            "value": data.website === null ? null : data.website ?? null
                         },
                         "about": {
                             objectPublic: true,
-                            "value": data.aboutme.length < 1 ? '   ' : data.aboutme ?? ''
+                            "value": data.aboutme === null  ? null : data.aboutme ?? null
                         },
                     }
                 }
@@ -75,6 +75,10 @@ function EditProfile() {
         },
     });
 
+    // watching variables
+    const website = watch('website');
+    const about = watch('aboutme'); 
+
     const { isLoading, isError } = useQuery(['getUserDetails', userId], () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`), {
         onSuccess: (data) => {
             console.log(data.data);
@@ -82,8 +86,8 @@ function EditProfile() {
             setValue('firstName', data?.data?.firstName);
             setValue('lastName', data?.data?.lastName);
             setValue('username', data?.data?.username);
-            setValue('website', data?.data?.data?.webAddress.value);
-            setValue('aboutme', data?.data?.data.about.value);
+            setValue('website', data?.data?.data?.webAddress.value === ' ' ? null: data?.data?.data?.webAddress.value === null ? null: data?.data?.data?.webAddress.value);
+            setValue('aboutme', data?.data?.data.about.value === ' ' ? null: data?.data?.data.about.value === null ? null: data?.data?.data.about.value);
         },
         onError: (error) => {
             console.log(error);
@@ -213,12 +217,12 @@ function EditProfile() {
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
                                 <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Website</CustomText>
-                                <CustomInput name='website' isPassword={false} type='text' placeholder='' />
+                                <CustomInput name='website' isPassword={false} type='text' placeholder={website === null ? 'www.example.com': ''} />
                             </VStack>
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
                                 <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>About me</CustomText>
-                                <CustomInput name='aboutme' isPassword={false} type='text' placeholder='' />
+                                <CustomInput name='aboutme' isPassword={false} type='text' placeholder={about === null ? 'A short description about me': ''} />
                             </VStack>
 
                             <Link href='/dashboard/settings/info/personalinfo' style={{ width: '100%', marginTop: '20px' }}>
