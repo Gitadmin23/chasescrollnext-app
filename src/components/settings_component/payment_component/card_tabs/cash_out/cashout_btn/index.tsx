@@ -89,7 +89,7 @@ function CashoutBtn(props: Props) {
 
     return (
         <Box width={"full"} >
-            <CustomButton backgroundColor={"#12299C"} onClick={() => clickHandler()} text='Withdraw' isLoading={loading} disable={loading} marginTop={"8"} />
+            <CustomButton backgroundColor={"#12299C"} onClick={() => clickHandler()} text='Withdraw' isLoading={loading} disable={loading || !amount} marginTop={"8"} />
             <ModalLayout open={open} close={setOpen} title='Bank Information' >
                 {modalType === 0 && (
                     <AddBankInfo close={setOpen} />
