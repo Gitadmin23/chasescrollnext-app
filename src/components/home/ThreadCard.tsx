@@ -23,6 +23,8 @@ import { handleLinks } from '../general/LinkExtractor';
 import { THEME } from '@/theme';
 import { formatTimeAgo } from '@/utils/helpers';
 
+const longText = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis repudiandae incidunt consectetur suscipit sunt velit nostrum expedita dignissimos saepe aperiam neque, repellendus laudantium distinctio eveniet. Et error corrupti, perspiciatis similique, eaque dolores animi reiciendis delectus odio ex laborum ratione dolor odit maiores aperiam ipsam. Reprehenderit, labore voluptatem. Earum, hic voluptatibus?'
+
 interface IProps {
   post?: IMediaContent;
   id?: string;
@@ -175,7 +177,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       </HStack>
 
       {/* BODY SECTION */}
-      <CustomText fontFamily={'Satoshi-Regular'}  color='black' fontSize={'16px'}>
+      <CustomText fontFamily={'Satoshi-Regular'}  color='black' fontSize={'16px'} width='100%'>
         { showAll ? handleLinks(post?.text) : post?.text.length > 30 ? post?.text.slice(0, 30) + '...' : post?.text}
         { post?.text.length > 30 && (
           <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>

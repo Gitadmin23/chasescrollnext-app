@@ -11,7 +11,7 @@ export const handleLinks = (text: string) => {
             <a href={part} key={index.toString()} target='_blank'style={{ fontFamily:'DM-Medium',color:'blue'}}>{part}</a>
           );
         }
-        return <CustomText key={index.toString()} fontFamily={'DM-Medium'}>{part}</CustomText>; // Preserve non-matched parts
+        return <span key={index.toString()} >{part}</span>; // Preserve non-matched parts
       });
     }
   };
