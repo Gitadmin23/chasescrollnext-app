@@ -24,14 +24,14 @@ function AddBankInfo(props: Props) {
         setAccountName,
         accountName,
         withdraw,
-        setTransferRecipient,
+        // setTransferRecipient,
         loading
     } = props
 
 
     const [bankName, setBankName] = React.useState("")
     const [accountNumber, setAccountNumber] = React.useState("")
-    // const [transferRecipient, setTransferRecipient] = React.useState("")
+    const [transferRecipient, setTransferRecipient] = React.useState("")
     const [data, setData] = React.useState([] as any)
     const toast = useToast()
 
@@ -66,6 +66,9 @@ function AddBankInfo(props: Props) {
                 position: 'top-right',
             });
 
+            console.log(data?.data?.transferRecipient);
+            
+
             setTransferRecipient(data?.data?.transferRecipient)
             setAccountName(data?.data?.accountName)
             // close(false)
@@ -93,7 +96,7 @@ function AddBankInfo(props: Props) {
 
     return (
         <Box width={"full"} padding={"6"} >
-            <AccountList withdraw={withdraw} setTransferRecipient={setTransferRecipient} />
+            <AccountList withdraw={withdraw} loading={loading} />
             <Text>Bank Name</Text>
             <Select onChange={(e) => setBankName(e.target.value)} placeholder="Select Bank" >
                 {data?.map((item: any, index: number) => {
@@ -112,7 +115,7 @@ function AddBankInfo(props: Props) {
                     </Flex>
                 }
             </LoadingAnimation>
-            <CustomButton isLoading={loading} isDisabled={loading} onClick={withdraw} text='Transfer' mt={"5"} />
+            <CustomButton isLoading={loading} disable={loading || !transferRecipient} onClick={()=> withdraw(transferRecipient)} text='Transfer' mt={"5"} />
         </Box >
     )
 }
