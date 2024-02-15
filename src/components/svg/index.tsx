@@ -35,7 +35,7 @@ export const ShareIcon = (props: any) => {
 
 export const ScanIcon = (props: any) => {
   return (
-     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g id="vuesax/linear/scan">
         <g id="scan">
           <path id="Vector" d="M2 9V6.5C2 4.01 4.01 2 6.5 2H9" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -53,6 +53,21 @@ export const ScanIcon = (props: any) => {
 export const EyeIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
     <path d="M12 9C12.7956 9 13.5587 9.31607 14.1213 9.87868C14.6839 10.4413 15 11.2044 15 12C15 12.7956 14.6839 13.5587 14.1213 14.1213C13.5587 14.6839 12.7956 15 12 15C11.2044 15 10.4413 14.6839 9.87868 14.1213C9.31607 13.5587 9 12.7956 9 12C9 11.2044 9.31607 10.4413 9.87868 9.87868C10.4413 9.31607 11.2044 9 12 9ZM12 4.5C17 4.5 21.27 7.61 23 12C21.27 16.39 17 19.5 12 19.5C7 19.5 2.73 16.39 1 12C2.73 7.61 7 4.5 12 4.5ZM3.18 12C3.98825 13.6503 5.24331 15.0407 6.80248 16.0133C8.36165 16.9858 10.1624 17.5013 12 17.5013C13.8376 17.5013 15.6383 16.9858 17.1975 16.0133C18.7567 15.0407 20.0117 13.6503 20.82 12C20.0117 10.3497 18.7567 8.95925 17.1975 7.98675C15.6383 7.01424 13.8376 6.49868 12 6.49868C10.1624 6.49868 8.36165 7.01424 6.80248 7.98675C5.24331 8.95925 3.98825 10.3497 3.18 12Z" fill="white" />
+  </svg>
+)
+
+export const GreenTick = () => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.5" y="0.5" width="19" height="19" rx="9.5" fill="#00F562" />
+    <rect x="0.5" y="0.5" width="19" height="19" rx="9.5" stroke="#00F562" />
+    <path d="M14.6666 6.5L8.24992 12.9167L5.33325 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+)
+
+export const RoundArrow = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="#121212" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M10.74 8.47125L14.26 12.0013L10.74 15.5312" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
   </svg>
 )
 
