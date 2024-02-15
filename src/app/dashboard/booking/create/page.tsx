@@ -4,6 +4,8 @@ import StepOne from '@/components/booking_component/create_booking_component/ste
 import StepThree from '@/components/booking_component/create_booking_component/step_three'
 import StepTwo from '@/components/booking_component/create_booking_component/step_two'
 import { BackIcon } from '@/components/svg'
+import { useForm } from '@/hooks/useForm'
+import { createBusinessValidation } from '@/services/validations'
 import { Box, Flex, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
 
@@ -12,9 +14,20 @@ interface Props { }
 function CreateBooking(props: Props) {
     const { } = props
 
-    const [tab, setTab] = useState(0)
+    const [tab, setTab] = useState(0);
 
-    return (
+    const { renderForm } = useForm({
+        defaultValues: {
+            email: '',
+            phone: '',
+            businessName: '',
+            description: '',
+        },
+        validationSchema: createBusinessValidation,
+        submit: (data) => {},
+    })
+
+    return renderForm(
         <Box w={"full"} >
             <Flex alignItems={"center"}  >
                 <Box w={"50px"} >

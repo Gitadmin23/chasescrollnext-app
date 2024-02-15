@@ -78,7 +78,7 @@ function CreateMediaPost({isOpen, onClose, mutate}:IProps) {
         setStage(1);
         setFiles([]);
         onClose()
-        }} closeOnEsc={true} closeOnOverlayClick={true} size='md' isCentered>
+        }} closeOnEsc={true} closeOnOverlayClick={true} size='2xl' isCentered>
         <ModalOverlay />
         <ModalContent width={'auto'} height={'auto'} bg='white' padding='0px' overflow={'hidden'} borderRadius={'20px'}>
             <ModalBody width='100%' height='100%' padding='0px' overflow={'hidden'}>

@@ -116,6 +116,14 @@ const changePasswordSchema = z.object({
     path: ['confirmPassword'],
 });
 
+
+const createBusinessValidation = z.object({
+    buisnessName: z.string().nonempty(),
+    description: z.string().nonempty(),
+    phone: z.string().min(11, 'invalid phone number'),
+    email: z.string().email().nonempty(),
+});
+
 export {
     signUpValidation,
     signInValidation,
@@ -127,5 +135,6 @@ export {
     groupChatSchema,
     editProfileSchema,
     editPersonalInfoSchema,
-    changePasswordSchema
+    changePasswordSchema,
+    createBusinessValidation
 }
