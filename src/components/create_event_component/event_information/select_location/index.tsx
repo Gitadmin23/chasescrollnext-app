@@ -82,7 +82,7 @@ function SelectLocation(props: Props) {
                             </Flex>
                             {(selectType === "Physical Location" || selectType === "Hybrid Location" || eventdata?.location?.locationDetails) && (
                                 <Box width={"full"} mt={"4"}  >
-                                    <Text>Enter City</Text>
+                                    <Text>Enter Address</Text>
                                     <Input
                                         type="text"
                                         h={"45px"}
