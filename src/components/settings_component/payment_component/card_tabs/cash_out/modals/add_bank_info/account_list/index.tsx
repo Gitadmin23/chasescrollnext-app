@@ -41,7 +41,7 @@ function AccountList(props: Props) {
     return (
         <Flex flexDir={"column"} width={"full"} >
             <Text lineHeight={"13.02px"} fontSize={"10px"} color={"#626262"} >Recent Transaction</Text>
-            <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data?.length} >
+            <LoadingAnimation loading={isLoading} length={data?.length} >
                 <Flex ref={ref} w={"full"} overflowX={"auto"} scrollBehavior={"smooth"} pt={"4"} pb={"1"} mb={"2"} >
                     <Flex w={"auto"} gap={"4"} >
                         {data?.map((item: any, index: number) => {
