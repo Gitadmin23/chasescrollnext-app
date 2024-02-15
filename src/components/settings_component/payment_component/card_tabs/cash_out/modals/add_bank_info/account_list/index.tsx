@@ -5,15 +5,15 @@ import { Box, Flex, Text, useToast } from '@chakra-ui/react';
 import React, { useState } from 'react'
 import { useQuery } from 'react-query';
 
-interface Props {
-    setTransferRecipient: any,
-    withdraw: any
+interface Props { 
+    withdraw: any,
+    loading?: any
 }
 
 function AccountList(props: Props) {
-    const {
-        setTransferRecipient,
-        withdraw
+    const { 
+        withdraw,
+        loading
     } = props
 
     const toast = useToast()
@@ -41,12 +41,12 @@ function AccountList(props: Props) {
     return (
         <Flex flexDir={"column"} width={"full"} >
             <Text lineHeight={"13.02px"} fontSize={"10px"} color={"#626262"} >Recent Transaction</Text>
-            <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data?.length} >
+            <LoadingAnimation loading={isLoading} length={data?.length} >
                 <Flex ref={ref} w={"full"} overflowX={"auto"} scrollBehavior={"smooth"} pt={"4"} pb={"1"} mb={"2"} >
                     <Flex w={"auto"} gap={"4"} >
                         {data?.map((item: any, index: number) => {
                             return (
-                                <Box key={index} onClick={() => withdraw(item?.accountName)} as='button' flexWrap={"nowrap"} >
+                                <Box key={index} disabled={loading} onClick={() => withdraw(item?.transferRecipient)} as='button' flexWrap={"nowrap"} >
                                     <Box position={"relative"} width={"fit-content"} >
                                         <Text lineHeight={"18.23px"} fontSize={"14px"} fontWeight={"bold"} color={"#121212"} >{item?.accountName}</Text>
                                         <Text lineHeight={"18.23px"} top={"0px"} mt={"-18.23px"} opacity={"0"} fontSize={"14px"} fontWeight={"bold"} color={"#121212"} >Otuekong_Archibong</Text>

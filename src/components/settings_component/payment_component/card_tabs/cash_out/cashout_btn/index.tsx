@@ -11,12 +11,12 @@ import { useRouter } from 'next/navigation'
 
 interface Props {
     currency: string,
-    amount: any,
+    amount: any, 
 }
 
 function CashoutBtn(props: Props) {
     const {
-        currency,
+        currency, 
         amount,
     } = props
 
@@ -101,10 +101,19 @@ function CashoutBtn(props: Props) {
         setLoadingWithdrawal(false)
     }
 
+    const closeHandler =(item: any) => {
+        console.log(item);
+        
+        setOpen(false)
+        setAmount("")
+        setLoadingWithdrawal(false)
+        setLoading(false)
+    }
+
     return (
         <Box width={"full"} >
             <CustomButton backgroundColor={"#12299C"} onClick={() => clickHandler()} text='Withdraw' isLoading={loading} disable={loading || !amount} marginTop={"8"} />
-            <ModalLayout open={open} close={setOpen} title='Recipient' >
+            <ModalLayout open={open} close={closeHandler} title='Recipient' >
                 {modalType === 0 && (
                     <AddBankInfo loading={loadingWithdrawal} withdraw={WithdrawFund} setTransferRecipient={setTransferRecipient} transferRecipient={transferRecipient} setAccountName={setAccountName} accountName={accountName} close={setOpen} />
                 )}
