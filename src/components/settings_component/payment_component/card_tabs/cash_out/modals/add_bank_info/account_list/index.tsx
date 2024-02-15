@@ -46,7 +46,7 @@ function AccountList(props: Props) {
                     <Flex w={"auto"} gap={"4"} >
                         {data?.map((item: any, index: number) => {
                             return (
-                                <Box onClick={() => withdraw(item?.accountName)} as='button' flexWrap={"nowrap"} >
+                                <Box key={index} onClick={() => withdraw(item?.accountName)} as='button' flexWrap={"nowrap"} >
                                     <Box position={"relative"} width={"fit-content"} >
                                         <Text lineHeight={"18.23px"} fontSize={"14px"} fontWeight={"bold"} color={"#121212"} >{item?.accountName}</Text>
                                         <Text lineHeight={"18.23px"} top={"0px"} mt={"-18.23px"} opacity={"0"} fontSize={"14px"} fontWeight={"bold"} color={"#121212"} >Otuekong_Archibong</Text>
