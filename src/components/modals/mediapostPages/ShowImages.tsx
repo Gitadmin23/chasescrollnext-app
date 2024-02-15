@@ -1,15 +1,17 @@
 import CustomText from '@/components/general/Text'
+import { PlusIcon } from '@/components/svg'
 import { useDetails } from '@/global-state/useUserDetails'
 import AWSHook from '@/hooks/awsHook'
 import { IMAGE_URL, URLS } from '@/services/urls'
 import { THEME } from '@/theme'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import httpService from '@/utils/httpService'
-import { Avatar, Box, Flex, HStack, Image, Input, Progress, Spinner, Textarea, VStack, useToast } from '@chakra-ui/react'
+import { Avatar, Box, Button, Flex, HStack, Image, Input, Progress, Spinner, Textarea, VStack, useToast } from '@chakra-ui/react'
 import React from 'react'
 import { FiChevronLeft, FiPlus } from 'react-icons/fi'
 import { useMutation } from 'react-query'
 import { useQueryClient } from 'react-query';
+import ImageSlider from './ImageSlider'
 
 const FileView = ({ file}: { file: File, }) => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -136,7 +138,7 @@ const handleChange = (e: string) => {
 }
 
   return (
-    <VStack width='100%' height='auto'>
+    <VStack width='500px' height='auto'>
         <input hidden type='file' accept="image/*, video/*" ref={inputRef as any} onChange={(e) => handlePick(e.target.files as FileList)} />
 
         <HStack width='100%' height='50px' bg='white' justifyContent={'space-between'} paddingX='10px' alignItems={'center'} paddingTop={'10px'}>
@@ -160,7 +162,7 @@ const handleChange = (e: string) => {
             }
         </HStack>
 
-        <Flex minWidth='400px' maxWidth={'350px'} height={'auto'}  borderRadius='0px' position={'relative'}>
+        <Flex position='relative' maxWidth='500px' minWidth={'350px'} maxHeight={'500px'} minH={'350px'} borderRadius='0px'>
 
           { isLoading && (
             <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'} >
@@ -176,10 +178,20 @@ const handleChange = (e: string) => {
                 </video>
               )}
               {files[0].type.startsWith('image') && (
-                <Image src={url} alt='image' width={'100%'} height={'300px'} objectFit={'cover'} />
+                <ImageSlider type='upload' files={files} />
               )}
             </VStack>
           )}
+
+          {/* ADD MORE BUTTON */}
+
+          {
+            files[0].type.startsWith('image') && (
+              <VStack cursor='pointer' justifyContent={'center'} backgroundColor={'brand.chasescrollButtonBlue'} _hover={{ backgroundColor: 'brand.chasescrollButtonBlue' }} width='40px' height='40px' borderRadius='20px' position='absolute' bottom='20px' right='10px' zIndex={10} onClick={() => inputRef.current?.click()} >
+                <FiPlus color='white' size={'25px'}  />
+              </VStack>
+            )
+          }
          
         </Flex>
     

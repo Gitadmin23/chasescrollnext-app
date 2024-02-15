@@ -1,3 +1,5 @@
+import { CustomInput } from '@/components/Form/CustomInput'
+import { CustomTextArea } from '@/components/Form/CustomTextarea'
 import CustomButton from '@/components/general/Button'
 import { Flex, Input, Text, Textarea } from '@chakra-ui/react'
 import React, { useState } from 'react'
@@ -46,16 +48,16 @@ function StepOne(props: Props) {
                 <Text color={"#000000CC"} fontSize={"lg"} fontWeight={"medium"} >Start building a booking Profile</Text>
                 <Flex mt={"6"} flexDir={"column"} w={"full"} gap={"1"} >
                     <Text color={"#101828B2"} >Business Name<span style={{ color: "#F04F4F" }} >*</span></Text>
-                    <Input h={"45px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" placeholder='Business Name*' />
+                    <CustomInput name="businessName" type='text' placeholder='Business Name*' isPassword={false} />
                 </Flex>
-                <Flex mt={"4"} flexDir={"column"} w={"full"} gap={"1"} >
+                {/* <Flex mt={"4"} flexDir={"column"} w={"full"} gap={"1"} >
                     <Text color={"#101828B2"} >Business Category<span style={{ color: "#F04F4F" }} >*</span></Text>
-                    <Input h={"45px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" placeholder='Business Category*' />
-                </Flex>
+                    <CustomInput name='' h={"45px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" placeholder='Business Category*' />
+                </Flex> */}
                 <Flex mt={"8"} flexDir={"column"} w={"full"} gap={"1"} >
                     <Text color={"#101828B2"} >Business Category<span style={{ color: "#F04F4F" }} >*</span></Text>
                     <Text color={"#00000080"} fontSize={"xs"} >Let customers learn more about your business by adding a description to your booking profile</Text>
-                    <Textarea h={"176px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" />
+                    <CustomTextArea name='description' placeholder=''  />
                 </Flex>
             </Flex>
             <Flex w={"full"} flexDir={"column"} >
