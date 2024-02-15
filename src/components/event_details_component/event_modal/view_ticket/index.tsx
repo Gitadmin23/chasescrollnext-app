@@ -87,10 +87,7 @@ function ViewTicket(props: Props) {
                             <Flex flexDirection={"column"} gap={"2"} >
                                 <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Ticket Type</Text>
                                 <Text color={"brand.chasescrollTextGrey"} >
-                                    {ticketFee === "Free"
-                                        ? "Free"
-                                        : formatNumber(ticketFee, currency === "USD" ? "$" : "₦")
-                                    }
+                                    {datainfo?.ticketType}
                                 </Text>
                             </Flex>
                         </Flex>
