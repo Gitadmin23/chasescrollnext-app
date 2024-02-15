@@ -162,7 +162,7 @@ function SendMessage(props: Props) {
                         <path d="M23.232 16.5744H19.1727V28.875H23.232C23.232 28.875 23.232 25.0026 23.232 22.5814C23.232 21.1281 23.7282 19.6685 25.7081 19.6685C27.9457 19.6685 27.9322 21.5703 27.9218 23.0437C27.9082 24.9696 27.9407 26.9349 27.9407 28.875H32V22.383C31.9656 18.2377 30.8855 16.3276 27.3318 16.3276C25.2215 16.3276 23.9133 17.2857 23.232 18.1525V16.5744Z" fill="white" />
                     </svg>
                 </LinkedinShareButton>
-                <svg xmlns="http://www.w3.org/2000/svg" width="43" height="42" viewBox="0 0 43 42" fill="none">
+                {/* <svg xmlns="http://www.w3.org/2000/svg" width="43" height="42" viewBox="0 0 43 42" fill="none">
                     <rect x="3.125" y="2.625" width="36.75" height="36.75" rx="6" fill="url(#paint0_radial_1180_46682)" />
                     <path d="M3.125 21C3.125 10.8518 11.3518 2.625 21.5 2.625C31.6482 2.625 39.875 10.8518 39.875 21C39.875 31.1482 31.6482 39.375 21.5 39.375C11.3518 39.375 3.125 31.1482 3.125 21Z" fill="url(#paint1_radial_1180_46682)" />
                     <rect x="3.125" y="2.625" width="36.75" height="36.75" rx="18.375" fill="url(#paint2_radial_1180_46682)" />
@@ -187,7 +187,7 @@ function SendMessage(props: Props) {
                             <stop offset="1" stop-color="#6A45BE" stop-opacity="0" />
                         </radialGradient>
                     </defs>
-                </svg>
+                </svg> */}
                 <EmailShareButton url={url_link} subject='ChaseScroll Event' >
                     <svg width="43" height="42" viewBox="0 0 43 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g id="vuesax/outline/sms">
