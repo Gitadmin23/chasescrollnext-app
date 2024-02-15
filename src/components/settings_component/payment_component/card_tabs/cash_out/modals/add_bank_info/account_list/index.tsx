@@ -25,7 +25,7 @@ function AccountList(props: Props) {
         ref.current.scrollLeft += scrolloffset 
     };        
     // react query
-    const { isLoading, isRefetching } = useQuery(['get-bank-list'], () => httpService.get("/payments/account/paystackBankAccounts"), {
+    const { isLoading, isRefetching } = useQuery(['my-bank-list'], () => httpService.get("/payments/account/paystackBankAccounts"), {
         onError: (error: any) => {
             toast({
                 status: "error",

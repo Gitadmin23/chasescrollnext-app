@@ -45,6 +45,9 @@ function AddBankInfo(props: Props) {
         },
         onSuccess: (data) => {
             setData(data?.data?.data);
+
+            console.log(data);
+            
         }
     })
 
