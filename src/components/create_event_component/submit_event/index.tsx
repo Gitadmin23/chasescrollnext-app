@@ -100,6 +100,15 @@ function SubmitEvent(props: Iprops) {
                 position: 'top-right',
             });
             return
+        } else if (eventdata?.startDate > eventdata?.endDate) {
+            toast({
+                description: "Please Start Date Is Greater Than End Date",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+            return
         } else if (!eventdata?.location?.toBeAnnounced) {
             if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
                 toast({
@@ -146,7 +155,9 @@ function SubmitEvent(props: Iprops) {
             return true
         } else if (!eventdata?.endDate) {
             return true
-        } else if (!eventdata?.location?.toBeAnnounced) {
+        } else if(eventdata?.startDate > eventdata?.endDate){
+            return true
+        }else if (!eventdata?.location?.toBeAnnounced) {
             if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
                 return true
             }
