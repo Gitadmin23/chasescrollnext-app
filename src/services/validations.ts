@@ -9,7 +9,6 @@ const signUpValidation = z.object({
     dob: z.string().nonempty('Fill in a vaild date'),
     password: z.string().nonempty(),
     confirmPassword: z.string().nonempty(),
-    phone: z.string().min(10, 'Enter a valid phone number'),
 }).refine(({ password, confirmPassword }) => {
     if (confirmPassword !== password) {
         return false

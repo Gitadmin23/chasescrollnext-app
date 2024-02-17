@@ -34,7 +34,7 @@ export const authOptions: AuthOptions = {
             token.accessToken = account?.access_token;
             token.idToken = account?.id_token;
             token.refeshToken =account?.refresh_token;
-            console.log(token)
+            // console.log(token)
             return {
                 token,
             }

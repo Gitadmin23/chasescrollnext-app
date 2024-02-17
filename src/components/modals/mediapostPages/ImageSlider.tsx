@@ -52,7 +52,7 @@ function ImageSlider({files, type, links }: {
 
     const goBackward = React.useCallback(() => {
         if (type === 'upload') {
-            if (index < (files as File[])?.length - 1) {
+            if (index > 0) {
                 setIndex(index - 1);
             } else {
                 return;
@@ -64,7 +64,7 @@ function ImageSlider({files, type, links }: {
                 return;
             }
         }
-    }, [files, index, type])
+    }, [index, type])
 
   return (
     <VStack width='100%' height='100%' spacing={0}>
