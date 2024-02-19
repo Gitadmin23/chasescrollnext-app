@@ -9,7 +9,6 @@ const signUpValidation = z.object({
     dob: z.string().nonempty('Fill in a vaild date'),
     password: z.string().nonempty(),
     confirmPassword: z.string().nonempty(),
-    phone: z.string().min(10, 'Enter a valid phone number'),
 }).refine(({ password, confirmPassword }) => {
     if (confirmPassword !== password) {
         return false
@@ -116,6 +115,14 @@ const changePasswordSchema = z.object({
     path: ['confirmPassword'],
 });
 
+
+const createBusinessValidation = z.object({
+    buisnessName: z.string().nonempty(),
+    description: z.string().nonempty(),
+    phone: z.string().min(11, 'invalid phone number'),
+    email: z.string().email().nonempty(),
+});
+
 export {
     signUpValidation,
     signInValidation,
@@ -127,5 +134,6 @@ export {
     groupChatSchema,
     editProfileSchema,
     editPersonalInfoSchema,
-    changePasswordSchema
+    changePasswordSchema,
+    createBusinessValidation
 }

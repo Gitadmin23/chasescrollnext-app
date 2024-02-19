@@ -4,6 +4,7 @@ import { ArrowLeft2, ArrowRight2 } from 'iconsax-react'
 import React from 'react'
 import { useImageModalState } from './imageModalState';
 import { IMAGE_URL } from '@/services/urls';
+import ImageSlider from '@/components/modals/mediapostPages/ImageSlider';
 
 function ImageModal() {
   const [len, setLen] = React.useState(0);
@@ -48,9 +49,7 @@ function ImageModal() {
 
               { images.length > 0 && (
                 <>
-                  { images[currentInx].startsWith('https://') && <Image alt='img' src={images[currentInx]} width='100%' height={'100%'} objectFit={'contain'} />}
-              
-                  { !images[currentInx].startsWith('https://') && <Image alt='img' src={`${IMAGE_URL}${images[currentInx]}`} width='100%' height={'100%'} objectFit={'contain'} />}
+                  <ImageSlider type='feed' links={images} />
                 </>
               )}
 

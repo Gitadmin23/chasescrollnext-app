@@ -1,5 +1,6 @@
 import CustomButton from '@/components/general/Button'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
+import { useCreateBookingState } from '@/global-state/useCreateBooking'
 import { Box, Flex, Input, Modal, Radio, Stack, Text } from '@chakra-ui/react'
 import { RadioGroup } from '@headlessui/react'
 import React from 'react'
@@ -8,13 +9,17 @@ interface Props {
     next?: any
 }
 
+type VENUE = 'PHYSICAL'|'VIRTUAL'|'REMOTE';
+
 function StepTwo(props: Props) {
     const { 
         next
     } = props
 
-    const [value, setValue] = React.useState('1')
-    const [open, setOpen] = React.useState(false)
+    const [value, setValue] = React.useState<VENUE>('PHYSICAL');
+    const [open, setOpen] = React.useState(false);
+
+    const { setAll, locationData } = useCreateBookingState((state) => state);
 
     return (
         <Flex w={"full"} flexDir={"column"} >
@@ -30,20 +35,20 @@ function StepTwo(props: Props) {
             </RadioGroup> */}
             <Flex flexDir={"column"} py={"6"} gap={"5"} >
                 <Flex alignItems={"center"} gap={"3"} >
-                    <Flex onClick={()=> setValue("1")} as={"button"} w={"20px"} h={"20px"} borderWidth={value === "1" ? "1px" : "1px"} borderColor={value === "1" ? "#5D70F9" : "#D0D5DD"} rounded={"full"} justifyContent={"center"} alignItems={"center"} >
-                        <Box w={"8px"} h={"8px"} bgColor={value === "1" ? "#5D70F9" : "transparent"} rounded={"full"} />
+                    <Flex onClick={()=> setValue('PHYSICAL')} as={"button"} w={"20px"} h={"20px"} borderWidth={value === "PHYSICAL" ? "1px" : "1px"} borderColor={value === "PHYSICAL" ? "#5D70F9" : "#D0D5DD"} rounded={"full"} justifyContent={"center"} alignItems={"center"} >
+                        <Box w={"8px"} h={"8px"} bgColor={value === "PHYSICAL" ? "#5D70F9" : "transparent"} rounded={"full"} />
                     </Flex>
                     <Text fontWeight={"medium"} fontSize={"lg"} >Physical Venue</Text>
                 </Flex>
                 <Flex alignItems={"center"} gap={"3"} >
-                    <Flex onClick={()=> setValue("2")} as={"button"} w={"20px"} h={"20px"} borderWidth={value === "2" ? "1px" : "1px"} borderColor={value === "2" ? "#5D70F9" : "#D0D5DD"} rounded={"full"} justifyContent={"center"} alignItems={"center"} >
-                        <Box w={"8px"} h={"8px"} bgColor={value === "2" ? "#5D70F9" : "transparent"} rounded={"full"} />
+                    <Flex onClick={()=> setValue('VIRTUAL')} as={"button"} w={"20px"} h={"20px"} borderWidth={value === "VIRTUAL" ? "1px" : "1px"} borderColor={value === "VIRTUAL" ? "#5D70F9" : "#D0D5DD"} rounded={"full"} justifyContent={"center"} alignItems={"center"} >
+                        <Box w={"8px"} h={"8px"} bgColor={value === "VIRTUAL" ? "#5D70F9" : "transparent"} rounded={"full"} />
                     </Flex>
                     <Text fontWeight={"medium"} fontSize={"lg"} >Virtual</Text>
                 </Flex>
                 <Flex alignItems={"center"} gap={"3"} >
-                    <Flex onClick={()=> setValue("3")} as={"button"} w={"20px"} h={"20px"} borderWidth={value === "3" ? "1px" : "1px"} borderColor={value === "3" ? "#5D70F9" : "#D0D5DD"} rounded={"full"} justifyContent={"center"} alignItems={"center"} >
-                        <Box w={"8px"} h={"8px"} bgColor={value === "3" ? "#5D70F9" : "transparent"} rounded={"full"} />
+                    <Flex onClick={()=> setValue('REMOTE')} as={"button"} w={"20px"} h={"20px"} borderWidth={value === "REMOTE" ? "1px" : "1px"} borderColor={value === "REMOTE" ? "#5D70F9" : "#D0D5DD"} rounded={"full"} justifyContent={"center"} alignItems={"center"} >
+                        <Box w={"8px"} h={"8px"} bgColor={value === "REMOTE" ? "#5D70F9" : "transparent"} rounded={"full"} />
                     </Flex>
                     <Text fontWeight={"medium"} fontSize={"lg"} >Remote</Text>
                 </Flex>
@@ -55,23 +60,23 @@ function StepTwo(props: Props) {
                     <Flex my={"6"} flexDir={"column"} w={"full"} gap={"1"} >
                         <Flex gap={"1"} flexDir={"column"} >
                             <Text fontSize={"sm"} color={"#101828B2"} >Country</Text>
-                            <Input h={"40px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" placeholder='Country' />
+                            <Input value={locationData.country} onChange={(e) => setAll({ locationData: { ...locationData, country: e.target.value }})} h={"40px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" placeholder='Country' />
                         </Flex>
                         <Flex gap={"1"} flexDir={"column"} >
                             <Text fontSize={"sm"} color={"#101828B2"} >Street Address</Text>
-                            <Input h={"40px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" placeholder='Street Address' />
+                            <Input value={locationData.street} onChange={(e) => setAll({ locationData: { ...locationData, street: e.target.value }})}  h={"40px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" placeholder='Street Address' />
                         </Flex>
                         <Flex gap={"1"} flexDir={"column"} >
                             <Text fontSize={"sm"} color={"#101828B2"} >City</Text>
-                            <Input h={"40px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" placeholder='City' />
+                            <Input value={locationData.city} onChange={(e) => setAll({ locationData: { ...locationData, city: e.target.value }})}  h={"40px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" placeholder='City' />
                         </Flex>
                         <Flex gap={"1"} flexDir={"column"} >
                             <Text fontSize={"sm"} color={"#101828B2"} >Zip Code</Text>
-                            <Input h={"40px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" placeholder='Zip Code' />
+                            <Input value={locationData.zipCode} onChange={(e) => setAll({ locationData: { ...locationData, zipCode: e.target.value }})}  h={"40px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" placeholder='Zip Code' />
                         </Flex>
                         <Flex gap={"1"} flexDir={"column"} >
                             <Text fontSize={"sm"} color={"#101828B2"} >State</Text>
-                            <Input h={"40px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" placeholder='State' />
+                            <Input value={locationData.state} onChange={(e) => setAll({ locationData: { ...locationData, state: e.target.value }})}  h={"40px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" placeholder='State' />
                         </Flex>
                     </Flex> 
                     <CustomButton onClick={()=> next(2)} borderRadius={"8px"} width={"full"} text='Next' backgroundColor={"#5D70F9"} color={"white"} fontSize={"sm"} />

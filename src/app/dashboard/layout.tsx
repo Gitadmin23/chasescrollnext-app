@@ -175,7 +175,7 @@ function Layout({ children }: {
                         <DashboardNavbar pathname={pathname} userId={userId} openmodal={setShowModal} />
                     </Flex>
                 )}
-                <Flex flex={1} w="full" h="full" pt={(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"brand.black"} >
+                <Flex flex={1} w="full" h="full" pt={(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"white"} >
                     {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
                         <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']} flexDir={"column"} >
                             <Sidebar />

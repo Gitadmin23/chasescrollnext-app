@@ -108,3 +108,40 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #5840bb;
   }
+
+  #dropdown-date {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    gap: 12px;
+  }
+
+  #dropdown-month select {
+    height: 45px;
+    width: 100%; 
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid #e2e8f0; 
+    border-radius: 8px !important;
+    background-color: white;
+  }
+
+  #dropdown-year select {
+    height: 45px;
+    width: 100%; 
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid #e2e8f0; 
+    border-radius: 8px !important;
+    background-color: white;
+  }
+
+  #dropdown-day select {
+    height: 45px;
+    width: 100%; 
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid #e2e8f0; 
+    border-radius: 8px !important;
+    background-color: white;
+  }

@@ -25,7 +25,7 @@ function EventInformation() {
         } else {
             return false
         }
-    } 
+    }      
 
     return (
         <Flex width={"full"} display={"flex"} flexDirection={"column"} alignItems={"center"} pt={"10"} px={"6"} >

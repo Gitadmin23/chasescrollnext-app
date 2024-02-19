@@ -102,15 +102,7 @@ function GetEventTicket(props: Props) {
 
     const createTicket = useMutation({
         mutationFn: (data: any) => httpService.post("/events/create-click-through", data),
-        onSuccess: () => { 
-            // toast({
-            //     title: 'Success',
-            //     description: "Error Occured",
-            //     status: 'error',
-            //     isClosable: true,
-            //     duration: 5000,
-            //     position: 'top-right',
-            // });
+        onSuccess: () => {  
         },
         onError: (error) => {
             // console.log(error);
@@ -133,7 +125,10 @@ function GetEventTicket(props: Props) {
         })
     }, [createTicket])
 
-
+    const goback =(item: boolean)=> {
+        setModalTab(4)
+        setShowModal(item)
+    }
 
     return (
         <>
@@ -175,7 +170,7 @@ function GetEventTicket(props: Props) {
                                 ? "Free"
                                 : ticketDetails?.boughtPrice
                             }
-                            click={setShowModal}
+                            click={goback}
                             orderId={ticketDetails?.id}
                             length={ticketLenght}
                             currency={ticketDetails?.event?.currency}

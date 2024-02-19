@@ -144,7 +144,7 @@ function DashboardRefund(props: Props) {
                 </Flex>
             </Flex>
             <Flex py={"6"} gap={"4"} width={"full"} justifyContent={"center"} alignItems={"center"} >
-                <CustomButton width={"fit-content"} onClick={handlePrint} text='Download List' />
+                <CustomButton width={"fit-content"} onClick={handlePrint} text='Download List in PDF' />
 
                 <DownloadTableExcel
                     filename={data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length) + " Attendee Table"}

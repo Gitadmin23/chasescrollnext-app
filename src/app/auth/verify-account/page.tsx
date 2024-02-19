@@ -5,13 +5,46 @@ import { HStack, VStack, useToast, PinInput, PinInputField } from '@chakra-ui/re
 import CustomText from '@/components/general/Text';
 import CustomButton from '@/components/general/Button';
 import { useMutation } from 'react-query';
-import httpService from '@/utils/httpService';
+import httpService, { unsecureHttpService } from '@/utils/httpService';
 import { URLS } from '@/services/urls'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 function VerifyAccount() {
     const [code, setCode] = React.useState('');
     const router = useRouter();
+    const search = useSearchParams();
+
+    const email = search?.get('email');
+
+    console.log(email);
+
+    const sendVerificatinEmail = useMutation({
+        mutationFn: (data: string) => unsecureHttpService.post(`${URLS.SEND_VERIFICATION_EMAIL}`, {
+          userEmail: data,
+          emailType: 1,
+        }),
+        onError: (error: any) => {
+          toast({
+            title: 'An error occured',
+            description: error.response.data.error,
+            status: 'error',
+            isClosable: true,
+            duration: 5000,
+            position: 'top-right',
+        });
+        },
+        onSuccess: () => {
+          toast({
+            title: 'Success',
+            description: 'A verification code has been sent to your email',
+            status: 'success',
+            isClosable: true,
+            duration: 5000,
+            position: 'top-right',
+        });
+        }
+      });
+
 
     const toast = useToast();
     const { mutate, isLoading } = useMutation({
@@ -65,6 +98,9 @@ function VerifyAccount() {
             </HStack>
 
             <CustomButton onClick={hanldeSubmit} type='button' text='Verify Code' isLoading={isLoading} color='white' width='100%' borderRadius='10px' />
+
+            { sendVerificatinEmail.isLoading && <CustomText textAlign={'center'}>Sending...</CustomText> }
+            { !sendVerificatinEmail.isLoading && <CustomText color='brand.chasescrollButtonBlue' cursor={'pointer'} textAlign={'center'} fontFamily={'Satoshi-Regular'} fontSize={'18px'} onClick={() => sendVerificatinEmail.mutate(email as string)}>Resend Code</CustomText>}
       </VStack>
     </VStack>
   )

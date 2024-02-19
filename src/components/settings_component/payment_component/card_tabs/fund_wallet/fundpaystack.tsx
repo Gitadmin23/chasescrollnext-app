@@ -22,10 +22,10 @@ function Fundpaystack(props: Props) {
 	const { setAmount } = useSettingsStore((state) => state); 
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY; 
 
-	const [orderCode, setOrderCode] = React.useState("")
+	// const [orderCode, setOrderCode] = React.useStates("")
 	    // mutations 
 	const payStackFundMutation = useMutation({
-		mutationFn: (data: any) => httpService.get(`/payments/api/wallet/verifyFundWalletWeb?transactionID=${orderCode}`),
+		mutationFn: (data: any) => httpService.get(`/payments/api/wallet/verifyFundWalletWeb?transactionID=${data}`),
 		onSuccess: (data) => {
 			// queryClient.invalidateQueries(['EventInfo'+id]) 
 
@@ -90,7 +90,7 @@ function Fundpaystack(props: Props) {
 
 	const onSuccess = (reference: any) => { 
 		if(fund) {
-			payStackMutation.mutate(reference?.reference)
+			payStackFundMutation.mutate(reference?.reference)
 		} else {
 			payStackMutation.mutate(reference?.reference)
 		}

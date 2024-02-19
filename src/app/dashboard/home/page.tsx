@@ -123,6 +123,7 @@ function Home() {
 
   return (
     <VStack width="full" h={"full"} overflowY={"auto"} alignItems={'flex-start'} >
+    
       {/* MODAL */}
       <CreateMediaPost mutate={mutate} isOpen={showModal} onClose={() => setShowModal(false)} />
       <PromotionCreationModal isOpen={showPromotion} onClose={() => setShow(false)} type='POST' />
@@ -161,7 +162,7 @@ function Home() {
           </HStack>
         </VStack>
        
-      P</VStack>
+      </VStack>
 
           <Box flex='1' width={'full'} height={'full'} overflow={'auto'} paddingX='20px' paddingTop='0px'>
 

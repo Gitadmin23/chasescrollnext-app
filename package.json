@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "ionic:build": "npm run build",
+    "ionic:serve": "npm run start"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.438.0",
@@ -54,10 +56,13 @@
     "react-component-export-image": "^1.0.6",
     "react-datepicker": "^4.21.0",
     "react-dom": "18.2.0",
+    "react-dropdown-date": "^2.2.7",
     "react-export-table-to-excel": "^1.0.6",
     "react-hook-form": "^7.46.1",
     "react-icons": "^4.11.0",
     "react-paystack": "^4.0.3",
+    "react-phone-input-2": "^2.15.1",
+    "react-phone-number-input": "^3.3.9",
     "react-qr-code": "^2.0.12",
     "react-query": "^3.39.3",
     "react-rating-stars-component": "^2.2.0",

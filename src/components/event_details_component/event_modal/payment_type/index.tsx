@@ -6,6 +6,7 @@ import React from 'react'
 import { BsChevronLeft } from 'react-icons/bs' 
 import PayStackBtn from '../paystack_btn'
 import StripeBtn from '../stripe_btn'
+import useStripeStore from '@/global-state/useStripeState'
 
 interface Props { 
     click: any
@@ -25,10 +26,12 @@ function PaymentType(props: Props) {
         data
     } = props
 
+    const { modalTab, setModalTab } = useStripeStore((state: any) => state);
+
     return (
         <Box width={"full"} bg={"white"} px={"8"} py={"10"} >
             <Flex gap={"4"} alignItems={"center"} >
-                <Box onClick={()=> click((prev: any) => prev - 1)} as='button' >
+                <Box onClick={()=> setModalTab(modalTab -1)} as='button' >
                     <BsChevronLeft color={"black"} size={"25px"} />
                 </Box>
                 <Text fontSize={"20px"} fontWeight={"bold"} textAlign={"center"} >Payment Options</Text>

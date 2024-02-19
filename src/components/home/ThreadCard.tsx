@@ -22,6 +22,9 @@ import { useRouter } from 'next/navigation';
 import { handleLinks } from '../general/LinkExtractor';
 import { THEME } from '@/theme';
 import { formatTimeAgo } from '@/utils/helpers';
+import ImageSlider from '../modals/mediapostPages/ImageSlider';
+
+const longText = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis repudiandae incidunt consectetur suscipit sunt velit nostrum expedita dignissimos saepe aperiam neque, repellendus laudantium distinctio eveniet. Et error corrupti, perspiciatis similique, eaque dolores animi reiciendis delectus odio ex laborum ratione dolor odit maiores aperiam ipsam. Reprehenderit, labore voluptatem. Earum, hic voluptatibus?'
 
 interface IProps {
   post?: IMediaContent;
@@ -106,7 +109,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   }
 
   const handleImageClick = () => {
-    setAll({ images: [post.mediaRef, ...post.multipleMediaRef], isOpen: true })
+    // setAll({ images: [post.mediaRef, ...post.multipleMediaRef], isOpen: true })
   }
 
   return (
@@ -175,7 +178,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       </HStack>
 
       {/* BODY SECTION */}
-      <CustomText fontFamily={'Satoshi-Regular'}  color='black' fontSize={'16px'}>
+      <CustomText fontFamily={'Satoshi-Regular'}  color='black' fontSize={'16px'} width='100%'>
         { showAll ? handleLinks(post?.text) : post?.text.length > 30 ? post?.text.slice(0, 30) + '...' : post?.text}
         { post?.text.length > 30 && (
           <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
@@ -183,9 +186,8 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       </CustomText>
 
       {post?.type === 'WITH_IMAGE' && (
-        <Box onClick={handleImageClick} width='100%' minHeight={'250px'} maxHeight={'350px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} overflow={'hidden'}>
-         { post.mediaRef.startsWith('https://') &&  <Image src={`${post?.mediaRef}`} alt='image' style={{ width: '100%', height: '100%' }} objectFit={'cover'} />}
-         { !post.mediaRef.startsWith('https://') &&  <Image src={`${IMAGE_URL}${post?.mediaRef}`} alt='image' style={{ width: '100%', height: '100%' }} objectFit={'cover'} />}
+        <Box onClick={handleImageClick} width='100%' minHeight={'250px'} maxHeight={'550px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} overflow={'hidden'}>
+         <ImageSlider links={post?.multipleMediaRef} type='feed' />
         </Box>
       )}
 
