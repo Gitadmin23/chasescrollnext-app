@@ -40,8 +40,7 @@ function Signup() {
 
 
   React.useEffect(() => {
-    const token: any = sessionData;
-    console.log(token?.token);
+    const token: any = sessionData; 
     if (sessionData !== null) {
       if (token.token?.token?.token?.idToken) {
         signinWithGoogle.mutate(token?.token?.token?.token?.idToken);
@@ -229,9 +228,9 @@ function Signup() {
     }
 
   } 
-
+ 
   return renderForm(
-    <VStack width='100%' height='100%' overflowY={"auto"} justifyContent={'center'} padding={['20px', '0px']} py={["20px", "20px"]}>
+    <VStack width='100%' height='100%' overflowY={"auto"} justifyContent={'center'} padding={['20px', '20px']} py={["20px", "20px"]}>
       {/* <Box width={"fit-content"} > */}
         <Image src='/assets/images/chasescroll-logo.png' width={100} height={100} alt='chasescroll logo' />
 
@@ -247,23 +246,23 @@ function Signup() {
           <CustomText fontFamily={'DM-Medium'} textAlign={'center'}>OR</CustomText>
 
           <Box width="full" >
-            <CustomText fontSize={"sm"} mb={"1"} >Enter your email</CustomText>
+            <CustomText fontSize={"sm"} mb={"1"} >Enter your email<span style={{color: "#F04F4F"}} > *</span></CustomText>
             <CustomInput name='email' isPassword={false} type='email' placeholder='' />
           </Box>
           <Box width="full" >
-            <CustomText fontSize={"sm"} mb={"1"} >Enter your username</CustomText>
+            <CustomText fontSize={"sm"} mb={"1"} >Enter your username<span style={{color: "#F04F4F"}} > *</span></CustomText>
             <CustomInput name='username' isPassword={false} type='text' placeholder='' />
           </Box>
           <Box width="full" >
-            <CustomText fontSize={"sm"} mb={"1"} >Enter your firstname</CustomText>
+            <CustomText fontSize={"sm"} mb={"1"} >Enter your firstname<span style={{color: "#F04F4F"}} > *</span></CustomText>
             <CustomInput name='firstName' isPassword={false} type='text' placeholder='' />
           </Box>
           <Box width="full" >
-            <CustomText fontSize={"sm"} mb={"1"} >Enter your lastname</CustomText>
+            <CustomText fontSize={"sm"} mb={"1"} >Enter your lastname<span style={{color: "#F04F4F"}} > *</span></CustomText>
             <CustomInput name='lastName' isPassword={false} type='text' placeholder='' />
           </Box>
           <Box width="full" >
-            <CustomText fontSize={"sm"} mb={"1"} >DD/MM/YYYY (Date of Birth)</CustomText>
+            <CustomText fontSize={"sm"} mb={"1"} >DD/MM/YYYY (Date of Birth)<span style={{color: "#F04F4F"}} > *</span></CustomText>
             {/* <CustomInput name='dob' isPassword={false} type='date' placeholder='DD/MM/YYYY (Date of Birth)' /> */}
             <DropdownDate
               onMonthChange={(month: any) => {
@@ -290,9 +289,10 @@ function Signup() {
           </Box>
 
           <Box width="full" >
-            <CustomText fontSize={"sm"} mb={"1"} >Enter Phone Number</CustomText>
+            <CustomText fontSize={"sm"} mb={"1"} >Enter Phone Number<span style={{color: "#F04F4F"}} > *</span></CustomText>
             <PhoneInput
               country={'us'}
+              enableSearch
               // style={{ width: '100%', height: '45px', borderWidth: '1px', borderRadius: '5px', borderColor: 'lightgrey', padding: '10px' }}
               containerStyle={{ width: '100%', height: '45px', }}
               inputStyle={{ width: "100%", height: "45px", borderWidth: '1px', borderColor: 'lightgrey', }}
@@ -302,12 +302,12 @@ function Signup() {
           </Box>
 
           <Box width="full" >
-            <CustomText fontSize={"sm"} mb={"1"} >Enter your password</CustomText>
+            <CustomText fontSize={"sm"} mb={"1"} >Enter your password<span style={{color: "#F04F4F"}} > *</span></CustomText>
             <CustomInput name='password' isPassword type='password' placeholder='' />
           </Box>
 
           <Box width="full" >
-            <CustomText fontSize={"sm"} mb={"1"} >Confirm password</CustomText>
+            <CustomText fontSize={"sm"} mb={"1"} >Confirm password<span style={{color: "#F04F4F"}} > *</span></CustomText>
             <CustomInput name='confirmPassword' isPassword={true} type='password' placeholder='' />
           </Box>
 
