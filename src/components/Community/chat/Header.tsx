@@ -157,7 +157,9 @@ function CommunityChatHeader() {
 
       </Box>
     )}
-    <Menu>
+    {
+      self && (
+        <Menu>
         <MenuButton>
           <IoMdInformationCircleOutline color='grey' fontSize='25px' />
         </MenuButton>
@@ -186,6 +188,8 @@ function CommunityChatHeader() {
           )}
         </MenuList>
     </Menu>
+      )
+    }
    </HStack>
 
    </HStack>
