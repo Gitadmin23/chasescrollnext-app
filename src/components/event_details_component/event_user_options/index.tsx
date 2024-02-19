@@ -1,8 +1,11 @@
-import { Box, Button, Flex } from '@chakra-ui/react'
+import { Box, Button, Flex, ModalOverlay, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import SelectTicket from '../select_ticket'
 import { useRouter } from 'next/navigation'
 import ViewClickYser from '../view_click_user'
+import ModalLayout from '@/components/sharedComponent/modal_layout'
+import CustomButton from '@/components/general/Button'
+import { FiAlertCircle } from "react-icons/fi";
 
 interface Props {
     isOrganizer: boolean,
@@ -27,12 +30,15 @@ function EventUserOption(props: Props) {
 
     const router = useRouter()
     const [listOfClicks, setListOfClicks] = useState(0)
+    const [open, setOpen] = useState(false)
 
     const clickHandler = () => {
-        router.push("/dashboard/event/edit_event/" + event?.id)
-    }
-
-    console.log(event?.productTypeData);
+        if(event?.ticketBought) {
+            setOpen(true)
+        } else {
+            router.push("/dashboard/event/edit_event/" + event?.id)
+        }
+    }     
 
     useEffect(() => {
         event?.productTypeData?.map((item: any) => {
@@ -60,6 +66,18 @@ function EventUserOption(props: Props) {
                     )}
                 </>
             )}
+            <ModalLayout open={open} close={setOpen} title='' >
+                <Box px={"4"} pt={"5"} pb={"5"} >
+                    <Flex color={"brand.chasescrollRed"} width={"full"} pb={"4"} justifyContent={"center"} >
+                    <FiAlertCircle size={"60px"}  />
+                    </Flex>
+                    <Text  fontWeight={"medium"} textAlign={"center"} >You can only edit the date, time and location of this event because people have already brought tickets to this event.</Text>
+                    <Flex w={"full"} gap={"4"} mt={"6"} >
+                        <CustomButton onClick={()=> setOpen(false)} backgroundColor={"brand.chasescrollRed"} width={"full"} text='Cancel' />
+                        <CustomButton onClick={()=> router.push("/dashboard/event/edit_event/" + event?.id)} text='Continue' width={"full"} />
+                    </Flex>
+                </Box>
+            </ModalLayout>
         </Box>
     )
 }

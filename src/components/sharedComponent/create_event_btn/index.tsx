@@ -55,7 +55,7 @@ function CreateEventBtn(props: Props) {
                             <Text color={"#5465E0"} fontWeight={"bold"} fontSize={"sm"} >{`I'm just promoting this event. `}</Text>
                             <IoArrowForward size={"18px"} color={"#292D32"} />
                         </Flex>
-                        <Text textAlign={"left"} color={"#626262"} mt={"2"} fontSize={"12px"} >You serve as the promoter but are not responsible for significant decisions regarding the event.</Text>
+                        <Text textAlign={"left"} color={"#626262"} mt={"2"} fontSize={"12px"} >You serve as the promoter but you are not responsible for any significant decision making or major changes regarding the event.</Text>
                     </Flex>
                 </Flex>
             )}
