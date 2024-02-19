@@ -12,11 +12,10 @@ import { useDetails } from '@/global-state/useUserDetails';
 import { useMutation, useQuery } from 'react-query';
 import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
-import { CustomInput } from '@/components/Form/CustomInput';
-import { signIn, useSession, signOut, } from 'next-auth/react'
-import { Session, } from 'next-auth';
+import { CustomInput } from '@/components/Form/CustomInput'; 
 import httpServiceGoogle from '@/utils/httpServiceGoogle';
 import CopyRightText from '@/components/sharedComponent/CopyRightText';
+import GoogleBtn from '@/components/sharedComponent/googlebtn';
 
 
 
@@ -72,91 +71,18 @@ function LoginPage() {
   const [FirstName, setFirstName] = React.useState("")
   const [CheckUsername, setCheckUsername] = React.useState("")
   const [LastName, setLastName] = React.useState("")
-  const [UserName, setUserName] = React.useState("")
-  const [email, setEmail] = React.useState({} as any)
-  const [checkData, setCheckData] = React.useState<any>({})
-  const [checked, setChecked] = React.useState(false);
+  const [UserName, setUserName] = React.useState("") 
+  const [checkData, setCheckData] = React.useState<any>({}) 
 
 
   const toast = useToast();
   const router = useRouter();
-  const { setAll } = useDetails((state) => state);
-  const { data: sessionData, update } = useSession();
+  const { setAll } = useDetails((state) => state); 
 
 
   React.useEffect(() => {
     localStorage.clear()
-  }, []);
-
-
-
-  const handleSignIn = async (event: any) => {
-    const result = await signIn('google');
-    console.log(result);
-  };
-
-  const signinWithGoogle = useMutation({
-    mutationFn: (data: string) => httpServiceGoogle.get(`${URLS.SIGN_IN_WTIH_CREDENTIALS}`, {
-      headers: {
-        Authorization: `Bearer ${data}`,
-      }
-    }),
-    onSuccess: (data) => {
-      console.log(data.data);
-      localStorage.setItem('token', data?.data?.access_token);
-      toast({
-        title: 'Success',
-        description: 'Signin Successful',
-        status: 'success',
-        position: 'top-right'
-      })
-      if (!data?.data?.firstName) {
-        setShowModal(true)
-      } else {
-        localStorage.setItem('token', data?.data?.access_token);
-        localStorage.setItem('refresh_token', data?.data?.refresh_token);
-        localStorage.setItem('user_id', data?.data?.user_id);
-        localStorage.setItem('expires_in', data?.data?.expires_in);
-        setAll({
-          firstName: data?.data?.firstName,
-          lastName: data?.data?.firstName,
-          username: data?.data?.user_name,
-          userId: data?.data?.user_id,
-        })
-        router.push('/dashboard/home')
-      }
-      setCheckData(data?.data)
-    },
-    onError: (error: any) => {
-      console.log(error);
-      toast({
-        title: 'Erroor',
-        description: 'An error occured, please try again',
-        status: 'error',
-      })
-    }
-  })
-
-  React.useEffect(() => {
-    const token: any = sessionData;
-    // console.log(token.token?.token.token.accessToken);
-    if (sessionData !== null) {
-      if (token.token?.token?.token?.idToken) {
-        signinWithGoogle.mutate(token?.token?.token?.token?.idToken);
-      }
-    }
-
-  }, [sessionData])
-
-  const handleGoogleSignIn = async () => {
-    const token: any = sessionData;
-    if (token && token.token?.token.token.idToken) {
-      signinWithGoogle.mutate(token.token?.token.token.idToken);
-    } else {
-      const dets = await signIn('google');
-      setCheckData(true);
-    }
-  }
+  }, []); 
 
   React.useEffect(() => {
     if (checkData?.user_id) {
@@ -343,7 +269,7 @@ function LoginPage() {
             <CustomText textAlign={'center'} fontSize={['2xl', "4xl"]} color={"brand.chasescrollDarkBlue"} fontFamily={'DM-Bold'} fontWeight={'700'}>Chasescroll</CustomText>
             <CustomText textAlign={'center'} fontWeight={"400"} fontFamily={'DM-Regular'} fontSize={'md'}>An efficient ecosystem for event management.</CustomText>
             <Flex width={"full"} gap={"4"} flexDir={"column"} >
-              <CustomInput name='username' isPassword={false} type='text' placeholder='Enter your Email' />
+              <CustomInput name='username' isPassword={false} type='text' placeholder='Enter your Email or Username' />
               <CustomInput name='password' isPassword type='password' placeholder='Enter your password' />
 
               <HStack justifyContent={'space-between'} spacing={0} width='100%' marginY='0px'>
@@ -364,12 +290,9 @@ function LoginPage() {
               <CustomButton type='submit' text='Login' isLoading={isLoading} color='white' width='100%' borderRadius='10px' />
 
             </Flex>
-          </Flex>
+          </Flex> 
 
-          <Button onClick={handleGoogleSignIn} width={['100%', '294px']} height={'40px'} borderRadius={'8px'} bg='#1018280D' padding='8px 16px 8px 16px'>
-            <Image alt='google' src='/assets/svg/googlelogo.svg' />
-            <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color='black' fontWeight={'700'}>Sign in with Google</CustomText>
-          </Button>
+          <GoogleBtn title="Sign in" fixedwidth='294px' />
 
           <CustomText fontFamily={'DM-Medium'} color='grey' textAlign={'center'} fontSize={'16px'}>Create a page for events, Community and Business.</CustomText>
 

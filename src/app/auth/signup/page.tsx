@@ -14,13 +14,10 @@ import { URLS } from '@/services/urls'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link';
 import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
-import { TbBorderRadius } from 'react-icons/tb';
-import { signIn, useSession } from 'next-auth/react';
-import httpServiceGoogle from '@/utils/httpServiceGoogle';
-import { useDetails } from '@/global-state/useUserDetails';
+import 'react-phone-input-2/lib/style.css' 
 
-import { DropdownDate, DropdownComponent } from "react-dropdown-date";
+import { DropdownDate } from "react-dropdown-date"; 
+import GoogleBtn from '@/components/sharedComponent/googlebtn';
 
 function Signup() {
   const [email, setEmail] = React.useState('');
@@ -28,81 +25,11 @@ function Signup() {
   const [month, setmonth] = React.useState('');
   const [day, setday] = React.useState('');
   const [year, setyear] = React.useState('');
-  const [dob, setdate] = React.useState('');
-  const [checkData, setCheckData] = React.useState<any>({});
-  const [showModal, setShowModal] = React.useState(false);
-
+  const [dob, setdate] = React.useState(''); 
   const router = useRouter();
   const [terms, setTerms] = React.useState(false);
-  const toast = useToast();
-  const { data: sessionData, update } = useSession();
-  const { setAll } = useDetails((state) => state);
-
-
-  React.useEffect(() => {
-    const token: any = sessionData; 
-    if (sessionData !== null) {
-      if (token.token?.token?.token?.idToken) {
-        signinWithGoogle.mutate(token?.token?.token?.token?.idToken);
-      }
-    }
-
-  }, [sessionData])
-
-  const handleGoogleSignIn = async () => {
-    const token: any = sessionData;
-    if (token && token.token?.token.token.idToken) {
-      //console.log(token)
-      setEmail(token?.token?.token?.token?.email);
-      signinWithGoogle.mutate(token.token?.token.token.idToken);
-    } else {
-      const dets = await signIn('google');
-      setCheckData(true);
-    }
-  }
-
-  const signinWithGoogle = useMutation({
-    mutationFn: (data: string) => httpServiceGoogle.get(`${URLS.SIGN_IN_WTIH_CREDENTIALS}`, {
-      headers: {
-        Authorization: `Bearer ${data}`,
-      }
-    }),
-    onSuccess: (data) => {
-      //console.log(data.data);
-      localStorage.setItem('token', data?.data?.access_token);
-      toast({
-        title: 'Success',
-        description: 'Signup Successful',
-        status: 'success',
-        position: 'top-right'
-      })
-      if (!data?.data?.firstName) {
-        setShowModal(true)
-      } else {
-        localStorage.setItem('token', data?.data?.access_token);
-        localStorage.setItem('refresh_token', data?.data?.refresh_token);
-        localStorage.setItem('user_id', data?.data?.user_id);
-        localStorage.setItem('expires_in', data?.data?.expires_in);
-        setAll({
-          firstName: data?.data?.firstName,
-          lastName: data?.data?.firstName,
-          username: data?.data?.user_name,
-          userId: data?.data?.user_id,
-        })
-        sendVerificatinEmail.mutate(email);
-        // router.push('/dashboard/home')
-      }
-      setCheckData(data?.data)
-    },
-    onError: (error: any) => {
-      //console.log(error);
-      toast({
-        title: 'Erroor',
-        description: 'An error occured, please try again',
-        status: 'error',
-      })
-    }
-  })
+  const toast = useToast();  
+  
 
   const sendVerificatinEmail = useMutation({
     mutationFn: (data: string) => unsecureHttpService.post(`${URLS.SEND_VERIFICATION_EMAIL}`, {
@@ -237,11 +164,9 @@ function Signup() {
         <CustomText color='brand.chasescrollBlue' fontSize='xl' marginY='10px'>Create An account</CustomText>
 
         <VStack width={['100%', '100%', '500px', '500px']}>
+ 
 
-          <Button onClick={handleGoogleSignIn} width={['100%', '100%']} height={'40px'} borderRadius={'8px'} bg='#1018280D' padding='8px 16px 8px 16px'>
-            <Image alt='google' src='/assets/svg/googlelogo.svg' />
-            <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color='black' fontWeight={'700'}>Sign up with Google</CustomText>
-          </Button>
+          <GoogleBtn title="Sign up" />
 
           <CustomText fontFamily={'DM-Medium'} textAlign={'center'}>OR</CustomText>
 
