@@ -46,12 +46,12 @@ function AccountList(props: Props) {
                     <Flex w={"auto"} gap={"4"} >
                         {data?.map((item: any, index: number) => {
                             return (
-                                <Box key={index} disabled={loading} onClick={() => withdraw(item?.transferRecipient)} as='button' flexWrap={"nowrap"} >
+                                <Box key={index} disabled={loading} onClick={() => withdraw(item?.transferRecipient)} as='button' flexWrap={"nowrap"} p={"3"} borderWidth={"1px"} borderColor={"#00F562"} rounded={"8px"} >
                                     <Box position={"relative"} width={"fit-content"} >
-                                        <Text lineHeight={"18.23px"} fontSize={"14px"} fontWeight={"bold"} color={"#121212"} >{item?.accountName}</Text>
-                                        <Text lineHeight={"18.23px"} top={"0px"} mt={"-18.23px"} opacity={"0"} fontSize={"14px"} fontWeight={"bold"} color={"#121212"} >Otuekong_Archibong</Text>
+                                        <Text textAlign={"left"}  lineHeight={"18.23px"} fontSize={"14px"} fontWeight={"bold"} color={"#121212"} >{item?.accountName}</Text>
+                                        <Text textAlign={"left"}  lineHeight={"18.23px"} top={"0px"} mt={"-18.23px"} opacity={"0"} fontSize={"14px"} fontWeight={"bold"} color={"#121212"} >{item?.accountName.replace(/ /g,"_")}</Text>
                                     </Box>
-                                    <Text color={"#B6B6B6"} fontSize={"14px"} fontWeight={"normal"} >{item?.bankName}</Text>
+                                    <Text textAlign={"left"} color={"#B6B6B6"} fontSize={"14px"} fontWeight={"normal"} >{item?.bankName}</Text>
                                 </Box>
                             )
                         })} 
