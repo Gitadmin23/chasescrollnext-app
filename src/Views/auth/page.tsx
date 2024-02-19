@@ -269,7 +269,7 @@ function LoginPage() {
             <CustomText textAlign={'center'} fontSize={['2xl', "4xl"]} color={"brand.chasescrollDarkBlue"} fontFamily={'DM-Bold'} fontWeight={'700'}>Chasescroll</CustomText>
             <CustomText textAlign={'center'} fontWeight={"400"} fontFamily={'DM-Regular'} fontSize={'md'}>An efficient ecosystem for event management.</CustomText>
             <Flex width={"full"} gap={"4"} flexDir={"column"} >
-              <CustomInput name='username' isPassword={false} type='text' placeholder='Enter your Email' />
+              <CustomInput name='username' isPassword={false} type='text' placeholder='Enter your Email or Username' />
               <CustomInput name='password' isPassword type='password' placeholder='Enter your password' />
 
               <HStack justifyContent={'space-between'} spacing={0} width='100%' marginY='0px'>
