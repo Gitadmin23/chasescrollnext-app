@@ -92,8 +92,8 @@ function AddBankInfo(props: Props) {
                 bank_code: bankName
             })
         }
-    }, [accountNumber, bankName])
-
+    }, [accountNumber, bankName]) 
+    
     return (
         <Box width={"full"} padding={"6"} >
             <AccountList withdraw={withdraw} loading={loading} />

@@ -6,17 +6,18 @@ import BankOtp from '../modals/bank_otp'
 import httpService from '@/utils/httpService'
 import CustomButton from '@/components/general/Button'
 import useSettingsStore from '@/global-state/useSettingsState'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { useRouter } from 'next/navigation'
+import SuccessMessage from '../modals/success_message'
 
 interface Props {
     currency: string,
-    amount: any, 
+    amount: any,
 }
 
 function CashoutBtn(props: Props) {
     const {
-        currency, 
+        currency,
         amount,
     } = props
 
@@ -25,11 +26,12 @@ function CashoutBtn(props: Props) {
     const [loadingWithdrawal, setLoadingWithdrawal] = React.useState(false)
     const [modalType, setModalType] = React.useState(0)
     const [transferCode, settransferCode] = React.useState("")
-    const [transferRecipient, setTransferRecipient] = React.useState("") 
+    const [transferRecipient, setTransferRecipient] = React.useState("")
     const [accountName, setAccountName] = React.useState("")
     const toast = useToast()
     const navigate = useRouter()
 
+    const queryClient = useQueryClient()
     const { setAmount } = useSettingsStore((state) => state);
 
     const clickHandler = async () => {
@@ -39,6 +41,7 @@ function CashoutBtn(props: Props) {
             response = await httpService.get("/payments/account/check")
         } else {
             setOpen(true)
+            setModalType(0)
         }
         if (!response?.data) {
             if (currency === "USD") {
@@ -56,38 +59,65 @@ function CashoutBtn(props: Props) {
         setLoading(false)
     }
 
-    const WithdrawFund = async (item?: any)=> {
+    const WithdrawFund = async (item?: any) => {
         setLoadingWithdrawal(true)
-        const request: any = await httpService.post(`/payments/account/withdraw?currency=${currency}&amount=${amount}&transferRecipient=${item ? item : transferRecipient}`)
-            
-        if (request?.data?.status === "SUCCESS") {
-            toast({
-                title: 'Success',
-                description: "Withdraw Success",
-                status: 'success',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            setAmount("")
-            navigate.refresh()
-        } else if (request?.data?.status === "ok") {
-            toast({
-                title: 'Success',
-                description: "Withdraw Success",
-                status: 'success',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
+        try {
+            const request: any = await httpService.post(`/payments/account/withdraw?currency=${currency}&amount=${amount}&transferRecipient=${item ? item : transferRecipient}`)
 
-            setAmount("")
-            navigate.refresh()
-        } else if (request?.data?.status === "OTP") {
-            settransferCode(request?.transfer_code)
-            setModalType(1)
-            setOpen(true)
-        } else {
+            console.log(request);
+            
+            if (request?.data?.status === "SUCCESS") {
+                toast({
+                    title: 'Success',
+                    description: "Withdraw Success",
+                    status: 'success',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                setAmount("")
+                setLoadingWithdrawal(false)
+                // setOpen(false)
+                setAccountName("")
+                setModalType(2)
+            } else if (request?.data?.status === "ok") {
+                toast({
+                    title: 'Success',
+                    description: "Withdraw Success",
+                    status: 'success',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+
+                setAmount("")
+                setLoadingWithdrawal(false)
+                // setOpen(false)
+                setAccountName("")
+                setModalType(2)
+            } else if (request?.data?.status === "OTP") {
+                settransferCode(request?.transfer_code)
+                setModalType(1)
+                setLoadingWithdrawal(false)
+                // setOpen(false)
+                setAccountName("") 
+                setOpen(true)
+            } else {
+
+                toast({
+                    title: 'Error',
+                    description: "Error Occurred",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+            }
+
+            queryClient.invalidateQueries(['get-wallet-balanceNGN'])
+        } catch (error: any) {
+            console.log(error);
+
 
             toast({
                 title: 'Error',
@@ -96,29 +126,48 @@ function CashoutBtn(props: Props) {
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
-            }); 
+            });
+            setLoadingWithdrawal(false)
+            setOpen(false)
+            setAccountName("")
+
         }
-        setLoadingWithdrawal(false)
+
     }
 
-    const closeHandler =(item: any) => {
-        console.log(item);
-        
+    const closeHandler = () => {
+
         setOpen(false)
         setAmount("")
         setLoadingWithdrawal(false)
         setLoading(false)
+        setModalType(0)
     }
+
+    const endHandler = () => {
+
+        setOpen(false)
+        setAmount("")
+        setLoadingWithdrawal(false)
+        setLoading(false)
+        setModalType(0)
+    }
+
+    
+
 
     return (
         <Box width={"full"} >
             <CustomButton backgroundColor={"#12299C"} onClick={() => clickHandler()} text='Withdraw' isLoading={loading} disable={loading || !amount} marginTop={"8"} />
-            <ModalLayout open={open} close={closeHandler} title='Recipient' >
+            <ModalLayout open={open} close={closeHandler} title={modalType === 2 ? "" : 'Recipient'} >
                 {modalType === 0 && (
                     <AddBankInfo loading={loadingWithdrawal} withdraw={WithdrawFund} setTransferRecipient={setTransferRecipient} transferRecipient={transferRecipient} setAccountName={setAccountName} accountName={accountName} close={setOpen} />
                 )}
                 {modalType === 1 && (
                     <BankOtp close={setOpen} currency={currency} transferCode={transferCode} />
+                )}
+                {modalType === 2 && (
+                    <SuccessMessage close={endHandler} />
                 )}
             </ModalLayout>
         </Box>
