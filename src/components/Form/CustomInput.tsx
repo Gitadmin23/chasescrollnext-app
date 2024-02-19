@@ -40,6 +40,7 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
               width={'100%'}
               {...register(name)} 
               placeholder={placeholder}
+              height={"45px"}
               data-date="DD MMMM YYYY"
               lang='pt_BR'
               disabled={disable}
