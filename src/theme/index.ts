@@ -55,7 +55,7 @@ export const theme = extendTheme({
         }
     },
     fonts: {
-        heading: dm_sans.style.fontFamily,
-        body: dm_sans.style.fontFamily,
+        heading: "DM-San",
+        body: "DM-San",
     },
 })
