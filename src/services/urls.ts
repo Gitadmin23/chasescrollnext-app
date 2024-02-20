@@ -85,7 +85,9 @@ export const URLS = {
     UPDATE_GROUP: '/group/update-group',
     GET_SUB_COMMENT_COUNT: '/feed/get-sub-comment-count',
     REMOVE_EVENT: '/events/remove-saved-event',
-    DELETE_MESSAGE:'/chat/message'
+    DELETE_MESSAGE:'/chat/message',
+    GET_BLOCKED_LIST: '/user/blocklist',
+    UNBLOCK_USER: '/user/delete-block',
     //GET_MEDIA_POST : "/feed/get-users-media-posts?userID="
 }
 

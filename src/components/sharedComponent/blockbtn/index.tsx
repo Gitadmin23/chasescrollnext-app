@@ -1,9 +1,12 @@
+import { useDetails } from '@/global-state/useUserDetails';
+import { BlockList } from '@/models/BlockList';
+import { PaginatedResponse } from '@/models/PaginatedResponse';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import { Box, Button, Flex, Text, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { CgMore } from "react-icons/cg";
-import { useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 interface Props {
     user_index: any,
@@ -22,8 +25,71 @@ function BlockBtn(props: Props) {
 
     const [showModal, setShowModal] = useState("0")
     const [loading, setLoading] = useState("0")
-    const toast = useToast()
+    const [ids, setIds] = useState<string[]>([])
+    const [block, setBlock] = React.useState<BlockList|null>(null);
+    const toast = useToast();
+    const { userId } = useDetails((state) => state);
     const queryClient = useQueryClient()
+
+    const self = userId === user_index;
+
+    const { isLoading } = useQuery(['getBlockList'], () => httpService.get(`${URLS.GET_BLOCKED_LIST}`), {
+        onSuccess: (data) => {
+            const item: PaginatedResponse<BlockList> = data.data;
+            const ids = item.content.map((itemm) => {
+                return itemm.typeID
+            });
+            setIds(ids);
+        }
+    });
+
+    const handleBlock = useMutation({
+        mutationFn: (data: any) => httpService.post(`${URLS.BLOCK_USER}`, data),
+        onSuccess: (data) => {
+            toast({
+                title: 'Success',
+                description: 'user succewssfully blocked',
+                status: 'success',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        },
+        onError: () => {
+            toast({
+                title: 'Erro',
+                description: 'An error occured while blocking user',
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        }
+    });
+
+    const handleUnblock = useMutation({
+        mutationFn: () => httpService.delete(`${URLS.UNBLOCK_USER}/${block?.id}`),
+        onSuccess: (data) => {
+            toast({
+                title: 'Success',
+                description: 'user succewssfully blocked',
+                status: 'success',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        },
+        onError: () => {
+            toast({
+                title: 'Erro',
+                description: 'An error occured while blocking user',
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        }
+    });
 
     const blockSuggestion = async (event: any) => {
 
@@ -64,9 +130,18 @@ function BlockBtn(props: Props) {
     return (
         <Flex position={"relative"} width={isprofile ? "fit-content" : "full"} >
             {isprofile && (
-                <Text onClick={(e) => blockSuggestion(e)} as={"button"} width={"full"}>
-                    {loading === user_index ? "Loading.." : "Block"}
-                </Text>
+                <>
+                {ids.includes(user_index) &&(
+                    <Text onClick={(e) => handleUnblock.mutate()} as={"button"} width={"full"}>
+                        Blocked
+                    </Text>
+                )}
+                {!ids.includes(user_index) && (
+                    <Text onClick={(e) => handleBlock.mutate({ blockType: "USER", typeID: user_index })} as={"button"} width={"full"}>
+                        Block
+                    </Text>
+                )}
+                </>
             )}
             {!isprofile && (
                 <Box as="button" onClick={(e: any) => clickHandler(e)} ml={"auto"} >
