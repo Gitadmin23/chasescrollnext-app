@@ -65,9 +65,9 @@
   background-size: cover;
 }
 
-/* html, body { 
-  font-family: "DM Sans"!important;
-} */
+html, body { 
+  overflow-x: hidden;
+}
 
 #img_blur {
   /* position: absolute;
