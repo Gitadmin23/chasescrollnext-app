@@ -55,7 +55,7 @@ function Signup() {
         duration: 5000,
         position: 'top-right',
       });
-      router.push('/auth/verify-account?email=' + email);
+      // router.push('/auth/verify-account?email=' + email);
     }
   });
 
@@ -77,7 +77,7 @@ function Signup() {
     }
   });
 
-  const { renderForm, values } = useForm({
+  const { renderForm, values, formState: { isValid } } = useForm({
     defaultValues: {
       username: '',
       password: '',
@@ -104,6 +104,17 @@ function Signup() {
         toast({
           title: 'Attention!',
           description: 'You must put in a valid number',
+          status: 'warning',
+          isClosable: true,
+          duration: 5000,
+          position: 'top-right',
+        });
+        return;
+      }
+      if (!dob) {
+        toast({
+          title: 'Attention!',
+          description: 'You must fillin your date of birth',
           status: 'warning',
           isClosable: true,
           duration: 5000,
@@ -187,7 +198,7 @@ function Signup() {
             <CustomInput name='lastName' isPassword={false} type='text' placeholder='' />
           </Box>
           <Box width="full" >
-            <CustomText fontSize={"sm"} mb={"1"} >DD/MM/YYYY (Date of Birth)<span style={{color: "#F04F4F"}} > *</span></CustomText>
+            <CustomText fontSize={"sm"} mb={"1"} >(Date of Birth)<span style={{color: "#F04F4F"}} > *</span></CustomText>
             {/* <CustomInput name='dob' isPassword={false} type='date' placeholder='DD/MM/YYYY (Date of Birth)' /> */}
             <DropdownDate
               onMonthChange={(month: any) => {
@@ -238,7 +249,7 @@ function Signup() {
 
 
           <HStack justifyContent={'flex-start'} spacing={6} width='100%' marginY='20px'> 
-            <Checkbox colorScheme='blue' isDisabled={(values?.username && values?.password && values?.firstName && values?.lastName && values?.email && values?.confirmPassword && phone && dob) ? false : true} size='md' isChecked={terms} onChange={() => setTerms(prev => !prev)} />
+            <Checkbox colorScheme='blue' size='md' isChecked={terms} onChange={() => setTerms(prev => !prev)} />
 
 
             <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'} marginLeft='0px'>

@@ -6,7 +6,7 @@ const signUpValidation = z.object({
     email: z.string().email().nonempty(),
     firstName: z.string().nonempty(),
     lastName: z.string().nonempty(),
-    dob: z.string().nonempty('Fill in a vaild date'),
+    // dob: z.string().nonempty('Fill in a vaild date'),
     password: z.string().nonempty(),
     confirmPassword: z.string().nonempty(),
 }).refine(({ password, confirmPassword }) => {
@@ -19,17 +19,17 @@ const signUpValidation = z.object({
     message: 'password do not match',
     path: ['confirmPassword'],
 })
-.refine(({ dob }) => {
-    const ageLimit = moment().subtract(18, 'years');
-    if (moment(dob).isAfter(ageLimit)) {
-        return false;
-    } else {
-        return true;
-    }
-}, {
-    message: 'You must be upto 18 to register',
-    path: ['dob']
-})
+// .refine(({ dob }) => {
+//     const ageLimit = moment().subtract(18, 'years');
+//     if (moment(dob).isAfter(ageLimit)) {
+//         return false;
+//     } else {
+//         return true;
+//     }
+// }, {
+//     message: 'You must be upto 18 to register',
+//     path: ['dob']
+// })
 .refine(({ username }) => {
     if (username.includes(' ')) {
         return false;

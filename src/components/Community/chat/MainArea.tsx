@@ -104,7 +104,7 @@ function MainArea() {
 
         <CommunityChatHeader />
         {
-            showEvents && (
+            showEvents && events.length > 0 && (
                 <HStack width='100%' maxWidth={'100%'} height={'115px'} bg='white' >
                     <Box paddingLeft='20px' paddingTop={'20px'} width='100%'  height='100%' overflowX={'auto'} display={'inline-block'} whiteSpace={'break-spaces'}>
                         {events.map((item, i) => (

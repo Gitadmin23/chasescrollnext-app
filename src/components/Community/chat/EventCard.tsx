@@ -25,6 +25,7 @@ function EventCard({
     mutationFn: (data: any) => httpService.post(`${URLS.REMOVE_EVENT}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries(['getCommunityEvents']);
+      queryClient.invalidateQueries([`getAllMyEvents-${activeCommunity?.id}`])
       removeEvent(index as number)
       toast({
         title: 'Success',
