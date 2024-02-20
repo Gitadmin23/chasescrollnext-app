@@ -102,7 +102,7 @@ function SubmitEvent(props: Iprops) {
             return
         } else if (eventdata?.startDate > eventdata?.endDate) {
             toast({
-                description: "Please Start Date Is Greater Than End Date",
+                description: "End date and time cannot earlier than Start date and time",
                 status: 'error',
                 isClosable: true,
                 duration: 5000,
