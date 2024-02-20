@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css' 
+import moment from 'moment';
 
 import { DropdownDate } from "react-dropdown-date"; 
 import GoogleBtn from '@/components/sharedComponent/googlebtn';
@@ -103,7 +104,7 @@ function Signup() {
       if (phone.length < 11) {
         toast({
           title: 'Attention!',
-          description: 'You must put in a valid number',
+          description: 'You must put in a valid phone number',
           status: 'warning',
           isClosable: true,
           duration: 5000,
@@ -122,6 +123,18 @@ function Signup() {
         });
         return;
       }
+      const ageLimit = moment().subtract(18, 'years');
+          if (moment(dob).isAfter(ageLimit)) {
+            toast({
+              title: 'Attention!',
+              description: 'You must be upto 18 years old',
+              status: 'warning',
+              isClosable: true,
+              duration: 5000,
+              position: 'top-right',
+            });
+              return;
+          }
       setEmail(data.email);
       //console.log(phone)
       mutate({ ...data, phone, dob });

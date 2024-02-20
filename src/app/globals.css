@@ -19,6 +19,11 @@
 }
 
 @font-face {
+  font-family: 'DM-San';
+  src: url(../../public/assets/fonts/DMSans[opsz,wght].ttf);
+}
+
+@font-face {
   font-family: 'Rubik-Regular';
   src: url(../../public/assets/fonts/Rubik-Regular.ttf);
 }
