@@ -2,7 +2,7 @@ import CustomText from '@/components/general/Text'
 import { URLS } from '@/services/urls'
 import httpServiceGoogle from '@/utils/httpServiceGoogle'
 import { Button, Image, useToast } from '@chakra-ui/react'
-import router from 'next/router'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useMutation } from 'react-query'
 import { signIn, useSession, } from 'next-auth/react'
@@ -23,6 +23,7 @@ function GoogleBtn(props: Props) {
     const [showModal, setShowModal] = React.useState(false);
     const { data: sessionData } = useSession();
     const toast = useToast();
+    const router = useRouter();
     const { setAll } = useDetails((state) => state);
 
     React.useEffect(() => {
@@ -71,11 +72,11 @@ function GoogleBtn(props: Props) {
                 username: data?.data?.user_name,
                 userId: data?.data?.user_id,
             })
-            router.push('/dashboard/home')
+            router.push('/dashboard/home');
             setCheckData(data?.data)
         },
         onError: (error: any) => {
-            //console.log(error);
+            console.log(error);
             toast({
                 title: 'Erroor',
                 description: 'An error occured, please try again',
