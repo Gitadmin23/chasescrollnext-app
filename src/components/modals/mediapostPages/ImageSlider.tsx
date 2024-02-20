@@ -24,7 +24,8 @@ const ImageViewer = ({ file }: { file: string,  }) => {
 function ImageSlider({files, type, links }: {
     files?: File[],
     type: 'feed'|'upload', 
-    links?: string[]
+    links?: string[],
+    goBack?: () => void,
 }) {
     const [index, setIndex] = React.useState(0);
     const { setAll } = useImageModalState((state) => state)
