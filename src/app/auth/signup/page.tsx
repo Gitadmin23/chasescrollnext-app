@@ -111,6 +111,17 @@ function Signup() {
         });
         return;
       }
+      if (!dob) {
+        toast({
+          title: 'Attention!',
+          description: 'You must fillin your date of birth',
+          status: 'warning',
+          isClosable: true,
+          duration: 5000,
+          position: 'top-right',
+        });
+        return;
+      }
       setEmail(data.email);
       //console.log(phone)
       mutate({ ...data, phone, dob });
@@ -238,7 +249,7 @@ function Signup() {
 
 
           <HStack justifyContent={'flex-start'} spacing={6} width='100%' marginY='20px'> 
-            <Checkbox colorScheme='blue' isDisabled={(isValid && phone && dob) ? false : true} size='md' isChecked={terms} onChange={() => setTerms(prev => !prev)} />
+            <Checkbox colorScheme='blue' size='md' isChecked={terms} onChange={() => setTerms(prev => !prev)} />
 
 
             <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'} marginLeft='0px'>
