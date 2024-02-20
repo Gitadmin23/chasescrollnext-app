@@ -103,7 +103,7 @@ function Signup() {
       if (phone.length < 11) {
         toast({
           title: 'Attention!',
-          description: 'You must put in a valid number',
+          description: 'You must put in a valid phone number',
           status: 'warning',
           isClosable: true,
           duration: 5000,
