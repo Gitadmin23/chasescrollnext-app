@@ -13,6 +13,7 @@ import CommentBox from '@/components/home/Comment';
 import { useRouter } from 'next/navigation';
 import { IComment } from '@/models/Comment';
 import _ from 'lodash';
+import Link from 'next/link';
 
 function Comment() {
   const [userComments, setUserComments] = React.useState<IComment[]>([]);
@@ -37,7 +38,8 @@ function Comment() {
     }
   }), {
     onSuccess: (data) => { 
-      setUserComments(_.uniq([...userComments, ...data?.data?.content]));
+      const arr = _.uniqBy([...userComments, ...data?.data?.content], 'id');
+      setUserComments(arr);
       setHasNextPage(data.data.last ? false:true);
     }
   });
@@ -88,10 +90,12 @@ function Comment() {
           <FiChevronLeft fontSize='25px' color='black' onClick={() => router.back()} />
           <HStack width={'100%'}>
 
+          <Link href={`/dashboard/profile/${user?.userId}`}>
+          
           <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
             {user?.data.imgMain.value === null && (
               <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                <CustomText fontFamily={'DM-Regular'}>{user?.username[0].toUpperCase()}</CustomText>
+                <CustomText fontFamily={'DM-Regular'}>{user?.firstName[0].toUpperCase()}{user?.lastName[0].toUpperCase()}</CustomText>
               </VStack>
             )}
             {
@@ -104,6 +108,8 @@ function Comment() {
               )
             }
           </Box>
+
+          </Link>
 
             <InputGroup>
               <InputRightElement>
