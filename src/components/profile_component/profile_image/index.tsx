@@ -1,3 +1,4 @@
+import CustomButton from '@/components/general/Button';
 import AddOrRemoveUserBtn from '@/components/sharedComponent/add_remove_user_btn';
 import BlockBtn from '@/components/sharedComponent/blockbtn';
 import ChatBtn from '@/components/sharedComponent/chat_btn';
@@ -88,9 +89,15 @@ function ProfileImage(props: Props) {
                         </Flex>
                     )}
                     {userId === user_index && (
-                        <Flex as={"button"} onClick={() => clickHandler()} bgColor={"#00000099"} width={"32px"} rounded={"full"} height={"32px"} justifyContent={"center"} alignItems={"center"} >
-                            <IoMdSettings size="25px" fontSize='30px' color='white' />
-                        </Flex>
+                        <CustomButton onClick={() => clickHandler()} borderWidth={"1px"} color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"4"} rounded={"8px"} width={"fit-content"}
+                            text={
+                                <Flex gap={"1"} alignItems={"center"} >
+                                    <IoMdSettings size="25px" fontSize='30px' /> 
+                                    Settings
+                                </Flex>} />
+                        // <Flex as={"button"} onClick={() => clickHandler()} bgColor={"#00000099"} width={"32px"} rounded={"full"} height={"32px"} justifyContent={"center"} alignItems={"center"} >
+                        //     <IoMdSettings size="25px" fontSize='30px' color='white' />
+                        // </Flex>
                     )}
                     {showModal && (
                         <Box width={"127px"} zIndex={"20"} position={"absolute"} top={"70px"} right={"0px"} shadow={"lg"} bg={"white"} rounded={"16px"} >
@@ -126,7 +133,7 @@ function ProfileImage(props: Props) {
                         {data?.data?.about?.value && (
                             <>
                                 {data?.data?.about?.value?.length > 18 ? (
-                                    <Text display={"flex"} onClick={() => clickMore()} as={data?.data?.about?.value?.length > 18 ? "button" : "text"} fontSize={"sm"} >Bio : {data?.data?.about?.value?.slice(0, 18)+"..."}<Text color={"brand.chasescrollBlue"} fontWeight={"semibold"} >more</Text></Text>
+                                    <Text display={"flex"} onClick={() => clickMore()} as={data?.data?.about?.value?.length > 18 ? "button" : "text"} fontSize={"sm"} >Bio : {data?.data?.about?.value?.slice(0, 18) + "..."}<Text color={"brand.chasescrollBlue"} fontWeight={"semibold"} >more</Text></Text>
                                 ) :
                                     <Text onClick={() => clickMore()} as={data?.data?.about?.value?.length > 18 ? "button" : "text"} fontSize={"sm"} >Bio : {data?.data?.about?.value}</Text>}
                             </>
