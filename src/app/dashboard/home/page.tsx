@@ -18,6 +18,7 @@ import { IUser } from '@/models/User';
 import ImageModal from '@/components/general/ImageModal';
 import PromotionCreationModal from '@/components/modals/promotions/CreatePromitionModal';
 import { useShowHomeModal } from './state';
+import Link from 'next/link';
 
 
 
@@ -134,22 +135,24 @@ function Home() {
         <VStack alignItems={'flex-start'} justifyContent={'flex-start'} width='100%' height='150px' bg='whitesmoke' borderWidth={0} shadow={'md'} borderColor={'lightgrey'} borderRadius={'10px'} padding='10px'>
           <HStack width='100%' height={'90px'}>
 
-            <Box  width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-            {Details?.data.imgMain.value === null && (
-              <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                <CustomText fontFamily={'DM-Regular'}>{Details?.username[0].toUpperCase()}</CustomText>
-              </VStack>
-            )}
-            {
-              Details?.data.imgMain.value !== null && (
-                <>
-                  { Details?.data?.imgMain?.value.startsWith('https://') && <Image src={`${Details?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+            <Link href={`/dashboard/profile/${Details?.userId}`}>
+              <Box  width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+              {Details?.data.imgMain.value === null && (
+                <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                  <CustomText fontFamily={'DM-Regular'}>{Details?.username[0].toUpperCase()}</CustomText>
+                </VStack>
+              )}
+              {
+                Details?.data.imgMain.value !== null && (
+                  <>
+                    { Details?.data?.imgMain?.value.startsWith('https://') && <Image src={`${Details?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
 
-                  { !Details?.data?.imgMain?.value.startsWith('https://') && <Image src={`${IMAGE_URL}${Details?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
-                </>
-              )
-            }
-            </Box>
+                    { !Details?.data?.imgMain?.value.startsWith('https://') && <Image src={`${IMAGE_URL}${Details?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                  </>
+                )
+              }
+              </Box>
+            </Link>
 
             <Textarea bg='whitesmoke' borderWidth={'0px'} fontFamily={'DM-Regular'} fontSize={'14px'} flex={'1'} width='100%'  placeholder={`What's on your mind @${username}`} resize={'none'} value={post} onChange={(e) => setPost(e.target.value)}></Textarea>
             { !createPostMutation.isLoading && <Send2 onClick={() => handlePostCreation()} size={'30px'} color={THEME.COLORS.chasescrollButtonBlue} /> }
