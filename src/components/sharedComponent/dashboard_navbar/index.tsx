@@ -60,9 +60,10 @@ function DashboardNavbar(props: Props) {
                     {userId && (
                         <HStack gap={"4"} display={['none', 'flex']}>
                             <Box onClick={() => router.push("/dashboard/settings/payment/details")} as={"button"} >
-                                <Wallet
+                                {/* <Wallet
                                     color={THEME.COLORS.chasescrollBlue} size='30px'
-                                />
+                                /> */}
+                                <WalletIcon2 />
                             </Box>
                             {/* <CustomText fontWeight={"bold"} >{username}</CustomText> */}
                             <NotificationBar />
@@ -73,10 +74,8 @@ function DashboardNavbar(props: Props) {
                     {!home && (
                         <HStack display={['flex', 'none']}>
 
-                            <Box onClick={() => router.push("/dashboard/settings/payment/details")} as={"button"} >
-                                <Wallet
-                                    color={THEME.COLORS.chasescrollBlue} size='30px'
-                                />
+                            <Box onClick={() => router.push("/dashboard/settings/payment/details")} as={"button"} > 
+                                <WalletIcon2 />
                             </Box>
                             <Link href='/dashboard/chats'>
                                 <Message color={THEME.COLORS.chasescrollBlue} size='30px' variant='Outline' />
