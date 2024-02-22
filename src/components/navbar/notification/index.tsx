@@ -49,7 +49,7 @@ function NotificationBar(props: Props) {
     return (
         <Popover  >
              <PopoverTrigger>
-                <Box position={'relative'}>
+                <Box position={'relative'} display={["none", "block"]} >
                     <Notification color={THEME.COLORS.chasescrollBlue} size='30px' variant='Outline' onClick={() => setActive(prev => !prev)} />
                     { count > 0 && <Box width={'10px'} height={'10px'} bg='red' borderRadius={'5px'} position={'absolute'} top='0' right='0' /> }
                 </Box>
