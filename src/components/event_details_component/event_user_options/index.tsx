@@ -74,7 +74,7 @@ function EventUserOption(props: Props) {
                     <Text  fontWeight={"medium"} textAlign={"center"} >You can only edit the date, time and location of this event because people have already brought tickets to this event.</Text>
                     <Flex w={"full"} gap={"4"} mt={"6"} >
                         <CustomButton onClick={()=> setOpen(false)} backgroundColor={"brand.chasescrollRed"} width={"full"} text='Cancel' />
-                        <CustomButton onClick={()=> router.push("/dashboard/event/edit_event/" + event?.id)} text='Continue' width={"full"} />
+                        <CustomButton onClick={()=> router.push("/dashboard/event/edit_event_data/" + event?.id)} text='Continue' width={"full"} />
                     </Flex>
                 </Box>
             </ModalLayout>

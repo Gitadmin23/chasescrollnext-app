@@ -120,7 +120,10 @@ function SubmitEvent(props: Iprops) {
                 });
                 return
             } else {
-                if (pathname?.includes("edit_event")) {
+
+                if(pathname?.includes("edit_event_data")){
+                    updateUserEvent.mutate(eventdata)
+                }else if (pathname?.includes("edit_event")) {
                     changeTab(2)
                 } else {
                     saveToDraft.mutate(eventdata)
@@ -239,9 +242,7 @@ function SubmitEvent(props: Iprops) {
                         }
                     } else {
                         createEventFromDraft.mutate(eventdata)
-                    }
-                    console.log("helll");
-
+                    } 
                 }
             }
         })
@@ -421,24 +422,24 @@ function SubmitEvent(props: Iprops) {
     });
 
 
-    function clean(obj: any) {
-        for (var propName in obj) {
-            if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
-                delete obj[propName];
-            }
-            if (obj[propName] === "location") {
-                for (var propName in obj?.location) {
-                    if (obj?.location[propName] === null || obj?.location[propName] === undefined || obj?.location[propName] === "") {
-                        delete obj?.location[propName];
-                    }
-                }
-            }
-        }
-        return obj
+    // function clean(obj: any) {
+    //     for (var propName in obj) {
+    //         if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+    //             delete obj[propName];
+    //         }
+    //         if (obj[propName] === "location") {
+    //             for (var propName in obj?.location) {
+    //                 if (obj?.location[propName] === null || obj?.location[propName] === undefined || obj?.location[propName] === "") {
+    //                     delete obj?.location[propName];
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return obj
 
-    }
+    // }
 
-    const handleClick = React.useCallback(() => {
+    const handleClick = React.useCallback(() => { 
         if (tab === 0) {
             getValidationTheme()
         } else if (tab === 1) {
