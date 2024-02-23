@@ -412,7 +412,7 @@ function SubmitEvent(props: Iprops) {
             router.push("/dashboard/event")
             toast({
                 title: 'Success',
-                description: "Event Updated",
+                description: "Event has been updated successfully",
                 status: 'success',
                 isClosable: true,
                 duration: 5000,
@@ -452,7 +452,7 @@ function SubmitEvent(props: Iprops) {
     return (
         <Flex alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} my={"4"} >
             <CustomButton borderWidth={tab === 2 ? "2px" : "0px"} backgroundColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} _disabled={{cursor: "not-allowed" }} width={"400px"}
-                text={pathname?.includes("edit_event") && tab === 2 ? "Update Event" : tab === 2 ? 'Submit' : 'Continue'} />
+                text={pathname?.includes("edit_event_data") ? "Update Event" :pathname?.includes("edit_event") && tab === 2 ? "Update Event" : tab === 2 ? 'Submit' : 'Continue'} />
         </Flex>
     )
 }

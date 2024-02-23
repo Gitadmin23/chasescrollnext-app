@@ -104,6 +104,7 @@ function SelectLocation(props: Props) {
                                         })}
                                         value={eventdata?.location?.locationDetails}
                                     />
+                                    <SelectMap />
                                 </Box>
                             )}
                             {(selectType === "Online Location" || selectType === "Hybrid Location" || eventdata?.location?.link) && (
@@ -168,9 +169,9 @@ function SelectLocation(props: Props) {
                     })}
                 />
             </Box>
-            {(selectType === "Physical Location" || selectType === "Hybrid Location" || eventdata?.location?.locationDetails) && (
+            {/* {(selectType === "Physical Location" || selectType === "Hybrid Location" || eventdata?.location?.locationDetails) && (
                 <SelectMap />
-            )}
+            )} */}
         </Box>
     )
 }

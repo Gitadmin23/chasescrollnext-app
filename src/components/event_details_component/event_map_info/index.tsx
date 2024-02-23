@@ -1,6 +1,6 @@
 import MapComponent from '@/components/sharedComponent/map_component'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
-import { Box } from '@chakra-ui/react'
+import { Box, Button } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
@@ -31,19 +31,19 @@ function EventMap(props: Props) {
             "," +
             Number(latlng.split(" ")[1]))
     }
- 
+
     return (
         <>
             {latlng && (
-                <a target="_blank" href={`https://www.google.com/maps/dir/?api=1&origin=${Number(myLocation?.lat)},${Number(myLocation?.lng)}&destination=${Number(latlng.split(" ")[0])},${Number(latlng.split(" ")[1])}`} >
+                <Box>
                     <Box width={"full"} as='button' mt={"8"}   >
                         <MapComponent view={true} zoom={15} setMyLocat={setMyLocation} hidesearch={true} latlng={latlng} height='30vh' />
                     </Box>
-                </a>
+                    <a target="_blank" href={`https://www.google.com/maps/dir/?api=1&origin=${Number(myLocation?.lat)},${Number(myLocation?.lng)}&destination=${Number(latlng.split(" ")[0])},${Number(latlng.split(" ")[1])}`} >
+                        <Button width={"fit-content"} bg={"brand.chasescrollBlue"} px={"7"} mt={"2"} height={"49px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} >Direction</Button>
+                    </a>
+                </Box>
             )}
-            <ModalLayout title='Map' open={open} close={setOpen} size={"2xl"}  >
-                <MapComponent latlng={latlng} hidesearch={true} close={setOpen} />
-            </ModalLayout>
         </>
     )
 }
