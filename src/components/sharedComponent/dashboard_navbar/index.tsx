@@ -4,11 +4,12 @@ import CustomText from '@/components/general/Text'
 import NotificationBar from '@/components/navbar/notification'
 import { THEME } from '@/theme'
 import { Box, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerOverlay, Flex, HStack, Image, Link, Text, useDisclosure } from '@chakra-ui/react'
-import { Message, LogoutCurve } from 'iconsax-react'
+import { Message, LogoutCurve, Wallet, HambergerMenu } from 'iconsax-react'
 import { useRouter } from 'next/navigation'
 import router from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { Icon } from "@iconify/react";
+import { WalletIcon2 } from '@/components/svg'
 
 interface Props {
     pathname?: string | null,
@@ -57,7 +58,13 @@ function DashboardNavbar(props: Props) {
                     {/* LARGE SCREEN ICONS */}
 
                     {userId && (
-                        <HStack display={['none', 'flex']}>
+                        <HStack gap={"4"} display={['none', 'flex']}>
+                            <Box onClick={() => router.push("/dashboard/settings/payment/details")} as={"button"} >
+                                {/* <Wallet
+                                    color={THEME.COLORS.chasescrollBlue} size='30px'
+                                /> */}
+                                <WalletIcon2 />
+                            </Box>
                             {/* <CustomText fontWeight={"bold"} >{username}</CustomText> */}
                             <NotificationBar />
 
@@ -66,6 +73,10 @@ function DashboardNavbar(props: Props) {
                     {/* SMALL SCREEN ICONS */}
                     {!home && (
                         <HStack display={['flex', 'none']}>
+
+                            <Box onClick={() => router.push("/dashboard/settings/payment/details")} as={"button"} > 
+                                <WalletIcon2 />
+                            </Box>
                             <Link href='/dashboard/chats'>
                                 <Message color={THEME.COLORS.chasescrollBlue} size='30px' variant='Outline' />
                             </Link>
@@ -81,8 +92,8 @@ function DashboardNavbar(props: Props) {
                             <Text as={"button"} fontWeight={"bold"} onClick={() => clickHandler("/home/about")} color={pathname === "/home/about" ? "brand.chasescrollBlue" : "black"} >About us</Text>
                             {!token && (
                                 <Flex ml={"6"} gap={"5"}>
-                                    <ButtonGroup white ctaText="Login" url={"/auth"} />
-                                    <ButtonGroup blue ctaText="Get Started" url={"/auth/signup"} />
+                                    <ButtonGroup whitesecond ctaText="Login" url={"/auth"} />
+                                    <ButtonGroup bluesecond ctaText="Get Started" url={"/auth/signup"} />
                                 </Flex>
                             )}
                         </Flex>
@@ -90,7 +101,11 @@ function DashboardNavbar(props: Props) {
 
                     {home && (
                         <Flex width={"fit-content"} onClick={() => onOpen()} as={"button"} display={['flex', 'flex', 'flex', 'flex', 'none']}>
-                            <Icon className="text-2xl" icon="mdi:hamburger-menu" />
+                            {/* <Icon className="text-2xl" icon="mdi:h/amburger-menu" /> */}
+                            <HambergerMenu
+                                size="30"
+                                color="#000"
+                            />
                         </Flex>
                     )}
 
@@ -106,24 +121,33 @@ function DashboardNavbar(props: Props) {
 
                             <DrawerBody >
 
-                                <Flex pt={"20"} flexDir={"column"} alignItems={"center"} justifyContent={"start"} w={"full"} gap={"8"} fontSize={"lg"} >
+                                <Flex h={"full"} pt={"20"} flexDir={"column"} alignItems={"center"} justifyContent={"start"} w={"full"} gap={"8"} fontSize={"lg"} >
+                                    <Flex maxW={'220px'} width={"full"} flexDir={"column"} gap={"4"} >
+                                        <ButtonGroup white={pathname === "/" ? false : true} active={pathname === "/" ? true : false}
+                                            onClick={() => clickHandler("/")} ctaText="Event" url={"/"} />
+                                        <ButtonGroup white={pathname === "/home" ? false : true} active={pathname === "/home" ? true : false}
+                                            onClick={() => clickHandler("/home")} ctaText="Home" url={"/home"} />
+                                        <ButtonGroup white={pathname === "/home/about" ? false : true} active={pathname === "/home/about" ? true : false}
+                                            onClick={() => clickHandler("/home/about")} ctaText="About us" url={"/home/about"} />
+                                        <ButtonGroup white={pathname === "/home/privacy_poilcy" ? false : true} active={pathname === "/home/privacy_poilcy" ? true : false}
+                                            onClick={() => clickHandler("/home/privacy_poilcy")} ctaText="Policy" url={"/home/privacy_poilcy"} />
+                                        <ButtonGroup white={pathname === "/home/terms" ? false : true} active={pathname === "/home/terms" ? true : false}
+                                            onClick={() => clickHandler("/home/terms")} ctaText="Terms & Condition" url={"/home/terms"} />
+                                        <ButtonGroup white={pathname === "/home/contact" ? false : true} active={pathname === "/home/contact" ? true : false}
+                                            onClick={() => clickHandler("/home/contact")} ctaText="Contact us" url={"/home/contact"} />
 
-                                    <Text as={"button"} onClick={() => clickHandler("/")} color={pathname === "/" ? "brand.chasescrollBlue" : "black"} >Event</Text>
-                                    <Text as={"button"} onClick={() => clickHandler("/home")} color={pathname === "/home" ? "brand.chasescrollBlue" : "black"} >Home</Text>
-                                    <Text as={"button"} onClick={() => clickHandler("/home/about")} color={pathname === "/home/about" ? "brand.chasescrollBlue" : "black"} >About us</Text>
-                                    <Text as={"button"} onClick={() => clickHandler("/home/privacy_poilcy")} color={pathname === "/home/privacy_poilcy" ? "brand.chasescrollBlue" : "black"} >Policy</Text>
-                                    <Text as={"button"} onClick={() => clickHandler("/home/terms")} color={pathname === "/home/terms" ? "brand.chasescrollBlue" : "black"} >Terms & Condition</Text>
-                                    <Text as={"button"} onClick={() => clickHandler("/home/contact")} color={pathname === "/home/contact" ? "brand.chasescrollBlue" : "black"} >Contact us</Text>
+                                    </Flex>
+                                    {/* {!token && ( */}
+                                    <Flex gap={"3"} width={"full"} my={"auto"} display={"flex"} justifyContent={"center"}  >
+                                        <ButtonGroup white
+                                            width={"152px"}
+                                            onClick={onClose} ctaText="Login" url={"/auth"} />
+                                        <ButtonGroup blue
+                                            onClick={onClose} ctaText="Get Started" url={"/auth/signup"} />
+                                    </Flex>
+                                    {/* )} */}
                                 </Flex>
                             </DrawerBody>
-                            {!token && (
-                                <DrawerFooter gap={"5"} width={"full"} display={"flex"} justifyContent={"center"}  >
-                                    <ButtonGroup white
-                                        onClick={onClose} ctaText="Login" url={"/auth"} />
-                                    <ButtonGroup blue
-                                        onClick={onClose} ctaText="Get Started" url={"/auth/signup"} />
-                                </DrawerFooter>
-                            )}
                         </DrawerContent>
                     </Drawer>
                 </HStack>

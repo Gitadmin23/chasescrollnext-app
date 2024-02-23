@@ -107,18 +107,18 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
         setImageModal({ images: [post.media], isOpen: true })
       }
   return (
-    <HStack id={id} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.createdBy.userId === myId ? 'flex-end':'flex-start'} flexDirection={self ? 'row':'row-reverse'}  borderRadius='20px'>
+    <HStack id={id} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.createdBy.userId === myId ? 'flex-end':'flex-start'} flexDirection={self ? 'row':'row-reverse'}  borderRadius='10px'>
        
        <HStack onMouseOver={() => setShowDelete(true)} onMouseOut={() => setShowDelete(false)}  position={'relative'}  width='100%' justifyContent={'space-between'} alignItems={'flex-start'} flexDirection={self ? 'row':'row-reverse'}>
            
            { showDelete && self && (
-            <>
-                { !deleteMutation.isLoading && <FiTrash2 fontSize='20px' color='red' cursor='pointer' onClick={() => deleteMutation.mutate()} /> }
-                { deleteMutation.isLoading && <Spinner size={'xs'} /> }
-            </>
+                <>
+                    { !deleteMutation.isLoading && <FiTrash2 fontSize='20px' color='red' cursor='pointer' onClick={() => deleteMutation.mutate()} /> }
+                    { deleteMutation.isLoading && <Spinner size={'xs'} /> }
+                </>
            )}
 
-            <VStack  borderRadius='10px 20px 20px 0px'  bg={self ? 'white':'brand.chasescrollButtonBlue'}  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={'300px'} minW={'100px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
+            <VStack  borderRadius='10px 20px 20px 0px'  bg={self ? 'white':'brand.chasescrollButtonBlue'}  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={['300px', '400px']} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
                
                 {post.media !== null && (
                     <>
@@ -128,7 +128,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                         {
                             post.mediaType === 'VIDEO' && (
                                 <Box width='100%' height='100%' maxH={'150px'} overflow={'hidden'}>
-                                    <video controls width={'100%'} height={'100%'} style={{ borderRadius: '20px', maxHeight: '150px' }}>
+                                    <video controls width={'100%'} height={'150px'} style={{ borderRadius: '20px', maxHeight: '150px' }}>
                                         <source src={post.media}  />
                                     </video>
                                 </Box>
@@ -148,6 +148,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                         }
                     </>
                 )}
+                
                 <Box padding='5px' width="100%" borderRadius={'12px 12px 12px 0px'}>
                         <CustomText color={self ? 'black':'white'} fontFamily={'DM-Regular'} fontSize={'14px'} >
                             { showAll ? handleLinks(post?.message) : post?.message.length > 500 ? post?.message.slice(0, 500) + '...' : post?.message}
@@ -174,6 +175,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
             <Box width={"fit-content"} >
               <UserImage size={"32px"} font={"13px"} border={"2px"} fontWeight={"medium"} data={post?.createdBy} image={post?.createdBy?.data?.imgMain?.value} />
             </Box>
+
             {/* <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
                     { post?.createdBy?.data?.imgMain?.value === null && (
                         <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
@@ -189,7 +191,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                            </>
                         )
                     }
-                </Box> */}
+            </Box> */}
             
             
        </HStack>

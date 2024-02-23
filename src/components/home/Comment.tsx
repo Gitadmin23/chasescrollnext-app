@@ -14,8 +14,9 @@ import { handleLinks } from '../general/LinkExtractor'
 import { THEME } from '@/theme'
 import { error } from 'console'
 import _ from 'lodash'
+import Link from 'next/link'
 
-const SubCommentBox = React.forwardRef<HTMLDivElement, Subcomment>(({ comment, id, commentID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data } },ref) => {
+const SubCommentBox = React.forwardRef<HTMLDivElement, Subcomment>(({ comment, id, commentID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data, firstName, lastName } },ref) => {
     const [isLiked, setIsLiked] = React.useState(likeStatus);
     const { userId: myId } = useDetails((state) => state);
     const queryClient = useQueryClient();
@@ -28,7 +29,8 @@ const SubCommentBox = React.forwardRef<HTMLDivElement, Subcomment>(({ comment, i
     const likeComment = useMutation({
         mutationFn: () => httpService.post(`${URLS.LIKE_SUB_COMMENT}/${id}`),
         onSuccess: () => {
-            queryClient.invalidateQueries([`getSubcomments-${commentID}`]);
+            // queryClient.invalidateQueries([`getSubcomments-${commentID}`]);
+            setIsLiked(prev => prev === 'LIKED'? 'NOT_LIKED':'LIKED');
         }
     });
 
@@ -51,9 +53,11 @@ const SubCommentBox = React.forwardRef<HTMLDivElement, Subcomment>(({ comment, i
         <div ref={ref}>
             <HStack width='100%' justifyContent={'space-between'} alignItems={'center'} marginBottom={'20px'}>
 
-                <HStack>
+                <HStack flex={0.8} overflow={'hidden'}>
 
-                <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+                    <Link href={`/dashboard/profile/${userId}`}>
+                    
+                    <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
                             { data === null && (
                             <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
                                 <CustomText fontFamily={'DM-Regular'}>{username ? username[0].toUpperCase(): 'USER'}</CustomText>
@@ -61,7 +65,7 @@ const SubCommentBox = React.forwardRef<HTMLDivElement, Subcomment>(({ comment, i
                             )}
                             { data?.imgMain.value === null && (
                             <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                                <CustomText fontFamily={'DM-Regular'}>{username[0].toUpperCase()}</CustomText>
+                                <CustomText fontFamily={'DM-Regular'}>{firstName[0].toUpperCase()}{lastName[0].toUpperCase()}</CustomText>
                             </VStack>
                             )}
                             {
@@ -75,8 +79,10 @@ const SubCommentBox = React.forwardRef<HTMLDivElement, Subcomment>(({ comment, i
                             }
                     </Box>
 
+                    </Link>
+
                     <VStack alignItems={'flex-start'}>
-                        <VStack alignItems={'flex-start'} spacing={0}>
+                        <VStack alignItems={'flex-start'} spacing={0} width='150px'>
                             <CustomText fontFamily={'Satoshi-Medium'} color='brand.chasescrollButtonBlue'>{username}</CustomText>
                             <CustomText fontFamily={'Satoshi-Regular'}>{comment}</CustomText>
                         </VStack>
@@ -91,19 +97,19 @@ const SubCommentBox = React.forwardRef<HTMLDivElement, Subcomment>(({ comment, i
                     </VStack>
                 </HStack>
 
-                <Heart variant={likeStatus === 'LIKED' ? 'Bold':'Outline'} cursor={'pointer'} style={{ alignSelf: 'flex-end' }} onClick={() => likeComment.mutate()} fontSize='20px' color={likeStatus === 'LIKED' ? 'red' : 'black'} />
+                <Heart variant={isLiked === 'LIKED' ? 'Bold':'Outline'} cursor={'pointer'} style={{ alignSelf: 'flex-end' }} onClick={() => likeComment.mutate()} fontSize='20px' color={isLiked === 'LIKED' ? 'red' : 'black'} />
             </HStack>
         
         </div>
     )
 })
 
-const CommentBox = React.forwardRef<HTMLDivElement, IComment>(({ comment, id, postID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data } }, ref) => {
+const CommentBox = React.forwardRef<HTMLDivElement, IComment>(({ comment, id, postID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data, firstName, lastName } }, ref) => {
     const [showReplies, setShowReplies] = React.useState(false);
     const [subComments, setSubComments] = React.useState<Subcomment[]>([]);
     const [reply, setReply] = React.useState('');
     const [page, setPage] = React.useState(0);
-    const [liked, setLiked] = React.useState(likeStatus);
+    const [liked, setLiked] = React.useState<'LIKED'|'NOT_LIKED'>(likeStatus);
     const [showMore, setShowMore] = React.useState(false);
     const [hasNextPage, setHasNextPage] = React.useState(false);
 
@@ -154,7 +160,12 @@ const CommentBox = React.forwardRef<HTMLDivElement, IComment>(({ comment, id, po
     const likeComment = useMutation({
         mutationFn: () => httpService.post(`${URLS.LIKE_COMMENT}/${id}`),
         onSuccess: () => {
-            queryClient.invalidateQueries([`getComments-${postID}`]);
+            // queryClient.invalidateQueries([`getComments-${postID}`]);
+            if (likeStatus === 'LIKED') {
+                setLiked('NOT_LIKED')
+            } else {
+                setLiked('LIKED');
+            }
         }
     });
 
@@ -184,7 +195,7 @@ const CommentBox = React.forwardRef<HTMLDivElement, IComment>(({ comment, id, po
     }), {
         enabled: true,
         onSuccess: (data) => {
-            setSubComments(_.uniq([ ...subComments, ...data?.data?.content]));
+            setSubComments(_.uniqBy([ ...subComments, ...data?.data?.content], 'id'));
             setHasNextPage(data.data.last ? false:true);
         },
         onError: (erroor: any) => {}
@@ -215,8 +226,10 @@ const CommentBox = React.forwardRef<HTMLDivElement, IComment>(({ comment, id, po
         <>
             <HStack ref={ref} width='100%' justifyContent={'space-between'} alignItems={'center'} marginBottom={'20px'} marginRight={['20px', '20px']}>
 
-                <HStack flex={1} alignItems={'flex-start'}>
+                <HStack flex={1} alignItems={'flex-start'} overflow={'hidden'}>
 
+                     <Link href={`/dashboard/profile/${userId}`}>
+                        
                      <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
                             { data === null && (
                             <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
@@ -225,7 +238,7 @@ const CommentBox = React.forwardRef<HTMLDivElement, IComment>(({ comment, id, po
                             )}
                             { data?.imgMain.value === null && (
                             <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                                <CustomText fontFamily={'DM-Regular'}>{username[0].toUpperCase()}</CustomText>
+                                <CustomText fontFamily={'DM-Regular'}>{firstName[0].toUpperCase()} {lastName[0].toUpperCase()}</CustomText>
                             </VStack>
                             )}
                             {
@@ -239,13 +252,15 @@ const CommentBox = React.forwardRef<HTMLDivElement, IComment>(({ comment, id, po
                             }
                     </Box>
 
+                     </Link>
+
                     <VStack alignItems={'flex-start'} width={'70%'}>
-                        <VStack spacing={0} alignItems={'flex-start'}>
+                        <VStack spacing={0} alignItems={'flex-start'} width='150px'>
                             <CustomText fontFamily={'Satoshi-Light'} color='brand.chasescrollButtonBlue'>{username[0].toUpperCase()}{username.substring(1)}</CustomText>
                             <VStack>
 
                                 <CustomText fontFamily={'Satoshi-Medium'}>
-                                { showMore ? handleLinks(comment) : comment.length > 30 ? comment.slice(0, 30) + '...' : comment}
+                                { showMore ? handleLinks(comment) : comment.length > 130 ? handleLinks(comment.slice(0, 130)) + '...' : handleLinks(comment)}
                                 <br />
                                 { comment.length > 30 && (
                                     <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowMore(!showMore)} >{showMore ? 'Show Less' : 'Show More'}</span>
@@ -265,7 +280,7 @@ const CommentBox = React.forwardRef<HTMLDivElement, IComment>(({ comment, id, po
                     </VStack>
                 </HStack>
 
-                <Heart cursor={'pointer'} style={{ alignSelf: 'flex-end'}} onClick={() => likeComment.mutate()} size='20px' variant={likeStatus === 'LIKED' ? 'Bold':'Outline'} color={likeStatus === 'LIKED' ? 'red' : 'black'} />
+                <Heart cursor={'pointer'} style={{ alignSelf: 'flex-end'}} onClick={() => likeComment.mutate()} size='20px' variant={liked === 'LIKED' ? 'Bold':'Outline'} color={liked === 'LIKED' ? 'red' : 'black'} />
             </HStack>
             {
                 showReplies && (

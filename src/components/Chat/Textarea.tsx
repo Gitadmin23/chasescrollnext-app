@@ -151,9 +151,16 @@ function TextArea() {
         });
       } else {
         createPost.mutate({
-            message: text,
-            chatID: activeChat?.id
-        });
+          message: text,
+          mediaType: 'DOCUMENT',
+          chatID: activeChat?.id,
+          media: file.url,
+          multipleMediaRef: files.map((item) => item.url),
+      });
+        // createPost.mutate({
+        //     message: text,
+        //     chatID: activeChat?.id
+        // });
       }
     }
   }

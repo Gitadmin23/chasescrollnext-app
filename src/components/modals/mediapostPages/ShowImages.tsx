@@ -8,10 +8,11 @@ import { capitalizeFLetter } from '@/utils/capitalLetter'
 import httpService from '@/utils/httpService'
 import { Avatar, Box, Button, Flex, HStack, Image, Input, Progress, Spinner, Textarea, VStack, useToast } from '@chakra-ui/react'
 import React from 'react'
-import { FiChevronLeft, FiPlus } from 'react-icons/fi'
+import { FiChevronLeft, FiMinus, FiPlus } from 'react-icons/fi'
 import { useMutation } from 'react-query'
 import { useQueryClient } from 'react-query';
 import ImageSlider from './ImageSlider'
+import CustomButton from '@/components/general/Button'
 
 const FileView = ({ file}: { file: File, }) => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -41,7 +42,7 @@ const FileView = ({ file}: { file: File, }) => {
   )
 }
 
-function ShowImages({ files, setImage, handleStage, stage, setEmpty, mutate }: {files: File[], setImage: (files: FileList, go?: boolean) => void, handleStage: (page: number) => void, stage: number, setEmpty: () => void, mutate: () => void}) {
+function ShowImages({ files, setImage, handleStage, stage, setEmpty, mutate, removeFile }: {files: File[], setImage: (files: FileList, go?: boolean) => void, handleStage: (page: number) => void, removeFile: (index: number) => void, stage: number, setEmpty: () => void, mutate: () => void}) {
   const [url, setUrl] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
   const inputRef = React.useRef<HTMLInputElement>();
@@ -137,6 +138,7 @@ const handleChange = (e: string) => {
   }
 }
 
+
   return (
     <VStack width='500px' height='auto'>
         <input hidden type='file' accept="image/*, video/*" ref={inputRef as any} onChange={(e) => handlePick(e.target.files as FileList)} />
@@ -144,7 +146,8 @@ const handleChange = (e: string) => {
         <HStack width='100%' height='50px' bg='white' justifyContent={'space-between'} paddingX='10px' alignItems={'center'} paddingTop={'10px'}>
             <FiChevronLeft size={'25px'} onClick={handlePrev} color={THEME.COLORS.chasescrollButtonBlue} />
             {!loading && !createPost.isLoading && (
-              <CustomText cursor='pointer' onClick={handleNext} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} fontSize={'sm'}>{stage > 2 ? 'Create Post' : 'Next'}</CustomText>
+              // <CustomText cursor='pointer' onClick={handleNext} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} fontSize={'sm'}>{stage > 2 ? 'Create Post' : 'Next'}</CustomText>
+              <CustomButton onClick={handleNext} borderWidth={"1px"} color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} text={'Next' } />
             )}
             {
               loading && (
@@ -186,14 +189,40 @@ const handleChange = (e: string) => {
           {/* ADD MORE BUTTON */}
 
           {
-            files[0].type.startsWith('image') && (
-              <VStack cursor='pointer' justifyContent={'center'} backgroundColor={'brand.chasescrollButtonBlue'} _hover={{ backgroundColor: 'brand.chasescrollButtonBlue' }} width='40px' height='40px' borderRadius='20px' position='absolute' bottom='20px' right='10px' zIndex={10} onClick={() => inputRef.current?.click()} >
-                <FiPlus color='white' size={'25px'}  />
-              </VStack>
+            files[0].type.startsWith('image') && files.length < 4 && (
+              <Button bg='brand.chasescrollButtonBlue' height='35px' color='white' position='absolute' bottom='20px' right='10px' zIndex={10} onClick={() => {
+                if (files.length === 4) {
+                  return;
+                } else {
+                  inputRef.current?.click();
+                }
+              }} >
+                Add More
+              </Button>
+             
             )
           }
          
         </Flex>
+
+        {
+          files.length > 0 && (
+            <HStack height={'120px'} alignItems={'center'} width='100%' paddingX={'10px'}  overflowX={'auto'} bg='lightgrey'>
+              { files.map((file, index) => (
+                <Box key={index.toString()} marginRight={'5px'} width='100px' height='70%' borderRadius={'10px'} position={'relative'}>
+
+                  <Box width='100%' height='100%' borderRadius={'10px'} overflow={'hidden'}>
+                    <Image src={URL.createObjectURL(file)} alt="img" width={'100px'} height='100%' objectFit={'cover'} />
+                  </Box>
+
+                  <VStack onClick={() => removeFile(index)} width='20px' height='20px' borderRadius={'10px'} position='absolute' top='-5px' right='-5px' bg='red' color='white' alignItems={'center'} justifyContent={'center'} cursor={'pointer'}>
+                    <FiMinus size={'20px'} color='white' />
+                  </VStack>
+                </Box>
+              ))}
+            </HStack>
+          )
+        }
     
         {
           stage === 3 &&  (

@@ -9,7 +9,7 @@ import {
 import { MdClose } from 'react-icons/md';
 import MapSearch from './map_search';
 import UserLocation from './user_location';
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, useToast } from '@chakra-ui/react';
 import CustomButton from '@/components/general/Button';
 import useEventStore from '@/global-state/useCreateEventState';
 import LoadingAnimation from '../loading_animation';
@@ -44,6 +44,7 @@ function MapComponent(props: Props) {
 
 
   const { eventdata, updateEvent } = useEventStore((state) => state);
+  const toast = useToast()
   const [directionsResponse, setDirectionsResponse] = React.useState(null);
 
   const containerStyle = {
@@ -84,7 +85,7 @@ function MapComponent(props: Props) {
   }, []);
 
   const onMapClick = React.useCallback((e: any) => {
-    if (!hidesearch) {  
+    if (!hidesearch) {
       const geocoder = new google.maps.Geocoder();
       geocoder.geocode(
         { location: { lat: e.latLng.lat(), lng: e.latLng.lng() } },
@@ -92,12 +93,12 @@ function MapComponent(props: Props) {
           if (status === 'OK' && results[0]) {
 
             let address = results[0].formatted_address
- 
+
             updateEvent({
               ...eventdata,
               location: {
                 ...eventdata.location,
-                address: address,
+                locationDetails: address,
                 latlng: e.latLng.lat() + " " + e.latLng.lng()
               }
             })
@@ -158,6 +159,21 @@ function MapComponent(props: Props) {
     );
   }, [])
 
+  const clickHandler = () => {
+    if(eventdata.location.latlng) {
+      close(false)
+    } else {
+      toast({
+        title: 'Error',
+        description: "Add the Location of your event",
+        status: 'error',
+        isClosable: true,
+        duration: 3000,
+        position: 'top-right',
+      });
+    }
+  }
+
   return (
     <Box width={"full"} >
       <LoadingAnimation loading={!isLoaded} >
@@ -187,7 +203,7 @@ function MapComponent(props: Props) {
           {(hidesearch && !directionsResponse) && (
             <EventDirection latLng={latlng} myLocation={myLocaton} setResult={setDirectionsResponse} />
           )}
-          <CustomButton onClick={() => close(false)} ml={"auto"} text={hidesearch ? 'Close' : 'Okay'} width={"fit-content"} />
+          <CustomButton onClick={() => clickHandler()} ml={"auto"} text={hidesearch ? 'Close' : 'Okay'} width={"fit-content"} />
         </Flex>
       )}
     </Box>

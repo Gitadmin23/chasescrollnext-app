@@ -171,13 +171,13 @@ function Layout({ children }: {
 
             <Grid h="100vh" w={"full"} overflowY={"hidden"} >
                 {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
-                    <Flex w={"full"} position={"absolute"} zIndex={"30"} top={"0px"} >
+                    <Flex w={"full"} position={"sticky"} zIndex={"100"} top={"0px"} >
                         <DashboardNavbar pathname={pathname} userId={userId} openmodal={setShowModal} />
                     </Flex>
                 )}
                 <Flex flex={1} w="full" h="full" pt={(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"white"} >
                     {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
-                        <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']} flexDir={"column"} >
+                        <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']}  zIndex={"100"} flexDir={"column"} >
                             <Sidebar />
                         </Box>
                     )}
@@ -186,7 +186,7 @@ function Layout({ children }: {
                     </LoadingAnimation>
                 </Flex>
                 {/* BOTTOM TAB */}
-                <HStack paddingX='20px' position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg='white' borderTopWidth={1} borderTopColor={'lightgrey'} display={['flex', 'flex', 'flex', 'none']}>
+                <HStack paddingX='20px' zIndex={"100"} position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg='white' borderTopWidth={1} borderTopColor={'lightgrey'} display={['flex', 'flex', 'flex', 'none']}>
                     <Link href='/dashboard/home'>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('home') ? 'brand.chasescrollBlue' : 'white'} color={pathname?.includes('home') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
                             <HomeIcon />

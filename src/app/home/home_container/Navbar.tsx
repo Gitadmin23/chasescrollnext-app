@@ -4,9 +4,10 @@ import { Icon } from "@iconify/react";
 import { useRouter } from 'next/navigation'
 
 // import logo from "../assets/logo.png"; 
-import { Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure } from "@chakra-ui/react";
+import { Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, useDisclosure } from "@chakra-ui/react";
 import Link from "next/link";
 import ButtonGroup from "../home_component/Navbar/ButtonGroup";
+import { HambergerMenu } from "iconsax-react";
 
 const Navbar = () => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -16,7 +17,7 @@ const Navbar = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const [pathname, setPathname] = useState(window?.location?.pathname);  
+  const [pathname, setPathname] = useState(window?.location?.pathname);
 
   const clickHandler = (item: string) => {
     router.push(item)
@@ -36,7 +37,7 @@ const Navbar = () => {
           <p className="text-2xl font-normal w-full">Chasescroll</p>
         </div>
 
-        <div className="hidden text-[15px] lg:flex justify-between max-w-[534px] w-full">
+        <div className="hidden text-[15px] font-bold lg:flex justify-between max-w-[534px] w-full">
 
           <p role={"button"} onClick={() => clickHandler("/")} className={` ${pathname === "/" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Event</p>
           <p role={"button"} onClick={() => clickHandler("/home")} className={` ${pathname === "/home" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Home</p>
@@ -44,11 +45,11 @@ const Navbar = () => {
           <p role={"button"} onClick={() => clickHandler("/home/privacy_poilcy")} className={` ${pathname === "/home/privacy_poilcy" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Policy</p>
           <p role={"button"} onClick={() => clickHandler("/home/terms")} className={` ${pathname === "/home/terms" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Terms & Condition</p>
           <p role={"button"} onClick={() => clickHandler("/home/contact")} className={` ${pathname === "/home/contact" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Contact us</p>
-          
+
         </div>
         <div className="hidden lg:flex gap-4">
-          <ButtonGroup white ctaText="Login" url={"/auth"} />
-          <ButtonGroup blue ctaText="Get Started" url={"/auth/signup"} />
+          <ButtonGroup whitesecond ctaText="Login" url={"/auth"} />
+          <ButtonGroup bluesecond ctaText="Get Started" url={"/auth/signup"} />
         </div>
         {/* Hamburger Menu */}
         <div className="flex lg:hidden">
@@ -58,12 +59,16 @@ const Navbar = () => {
               className="p-3 z-50 focus:outline-none"
             >
               {isMenuVisible ? (
-                <Icon
-                  className="text-2xl text-[#5D70F9]"
-                  icon="line-md:menu-to-close-transition"
+                <HambergerMenu
+                  size="30"
+                  color="#5D70F9"
                 />
               ) : (
-                <Icon className="text-2xl" icon="mdi:hamburger-menu" />
+
+                <HambergerMenu
+                  size="30"
+                  color="#000"
+                />
               )}
             </button>
           </div>
@@ -78,24 +83,47 @@ const Navbar = () => {
               <DrawerCloseButton />
 
               <DrawerBody >
-                <ul className="mt-20 flex flex-col items-center justify-start w-full gap-8 text-lg">
 
-                  <p role={"button"} onClick={() => clickHandler("/")} className={` ${pathname === "/" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Event</p>
-                  <p role={"button"} onClick={() => clickHandler("/home")} className={` ${pathname === "/" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Home</p>
-                  <p role={"button"} onClick={() => clickHandler("/home/about")} className={` ${pathname === "/" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >About us</p>
-                  <p role={"button"} onClick={() => clickHandler("/home/privacy_poilcy")} className={` ${pathname === "/" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Policy</p>
-                  <p role={"button"} onClick={() => clickHandler("/home/terms")} className={` ${pathname === "/" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Terms & Condition</p>
-                  <p role={"button"} onClick={() => clickHandler("/home/contact")} className={` ${pathname === "/" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Contact us</p>
+                <Flex h={"full"} pt={"20"} flexDir={"column"} alignItems={"center"} justifyContent={"start"} w={"full"} gap={"8"} fontSize={"lg"} >
+                  <Flex maxW={'220px'} width={"full"} flexDir={"column"} gap={"4"} >
+                    <ButtonGroup white={pathname === "/" ? false : true} active={pathname === "/" ? true : false}
+                      onClick={() => clickHandler("/")} ctaText="Event" url={"/"} />
+                    <ButtonGroup white={pathname === "/home" ? false : true} active={pathname === "/home" ? true : false}
+                      onClick={() => clickHandler("/home")} ctaText="Home" url={"/home"} />
+                    <ButtonGroup white={pathname === "/home/about" ? false : true} active={pathname === "/home/about" ? true : false}
+                      onClick={() => clickHandler("/home/about")} ctaText="About us" url={"/home/about"} />
+                    <ButtonGroup white={pathname === "/home/privacy_poilcy" ? false : true} active={pathname === "/home/privacy_poilcy" ? true : false}
+                      onClick={() => clickHandler("/home/privacy_poilcy")} ctaText="Policy" url={"/home/privacy_poilcy"} />
+                    <ButtonGroup white={pathname === "/home/terms" ? false : true} active={pathname === "/home/terms" ? true : false}
+                      onClick={() => clickHandler("/home/terms")} ctaText="Terms & Condition" url={"/home/terms"} />
+                    <ButtonGroup white={pathname === "/home/contact" ? false : true} active={pathname === "/home/contact" ? true : false}
+                      onClick={() => clickHandler("/home/contact")} ctaText="Contact us" url={"/home/contact"} />
+                    {/* <Text as={"button"} onClick={() => clickHandler("/")} color={pathname === "/" ? "brand.chasescrollBlue" : "black"} >Event</Text>
+                                        <Text as={"button"} onClick={() => clickHandler("/home")} color={pathname === "/home" ? "brand.chasescrollBlue" : "black"} >Home</Text>
+                                        <Text as={"button"} onClick={() => clickHandler("/home/about")} color={pathname === "/home/about" ? "brand.chasescrollBlue" : "black"} >About us</Text>
+                                        <Text as={"button"} onClick={() => clickHandler("/home/privacy_poilcy")} color={pathname === "/home/privacy_poilcy" ? "brand.chasescrollBlue" : "black"} >Policy</Text>
+                                        <Text as={"button"} onClick={() => clickHandler("/home/terms")} color={pathname === "/home/terms" ? "brand.chasescrollBlue" : "black"} >Terms & Condition</Text>
+                                        <Text as={"button"} onClick={() => clickHandler("/home/contact")} color={pathname === "/home/contact" ? "brand.chasescrollBlue" : "black"} >Contact us</Text> */}
 
-                </ul>
+                  </Flex>
+                  {/* {!token && ( */}
+                  <Flex gap={"3"} width={"full"} my={"auto"} display={"flex"} justifyContent={"center"}  >
+                    <ButtonGroup white
+                      width={"152px"}
+                      onClick={onClose} ctaText="Login" url={"/auth"} />
+                    <ButtonGroup blue
+                      onClick={onClose} ctaText="Get Started" url={"/auth/signup"} />
+                  </Flex>
+                  {/* )} */}
+                </Flex>
               </DrawerBody>
 
-              <DrawerFooter gap={"5"} >
+              {/* <DrawerFooter gap={"5"} >
                 <ButtonGroup white
                   onClick={onClose} ctaText="Login" url={"/auth"} />
                 <ButtonGroup blue
                   onClick={onClose} ctaText="Get Started" url={"/auth/signup"} />
-              </DrawerFooter>
+              </DrawerFooter> */}
             </DrawerContent>
           </Drawer>
         </div>
