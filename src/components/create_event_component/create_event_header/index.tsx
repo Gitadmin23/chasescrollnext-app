@@ -7,7 +7,7 @@ import React from 'react'
 
 function CreateEventHeader() {
 
-    const { eventdata, changeTab, image, tab } = useEventStore((state) => state); 
+    const { eventdata, changeTab, image, tab } = useEventStore((state) => state);
 
     const toast = useToast()
 
@@ -30,14 +30,8 @@ function CreateEventHeader() {
     }
 
     const getValidationTheme = () => {
-        if (!eventdata?.eventName) {
-            toast({
-                description: "Please Enter Ticket Type Or Name",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            }); return
+        if (!eventdata?.eventName) { 
+            return true
         } else if (!eventdata?.eventType) {
             return true
         } else if (!eventdata?.eventDescription) {
@@ -58,52 +52,54 @@ function CreateEventHeader() {
                 position: 'top-right',
             });
             return
-        } else if (!eventdata?.startDate) {
-            toast({
-                description: "Please Enter Event Starting Date",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else if (!eventdata?.endDate) {
-            toast({
-                description: "Please Enter Event Ending Date",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else if (eventdata?.startDate > eventdata?.endDate) {
-            toast({
-                description: "End date and time cannot earlier than Start date and time",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else if (!eventdata?.location?.toBeAnnounced) {
-            if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
+        } else {
+            if (!eventdata?.startDate) {
                 toast({
-                    description: "Please Enter Event Location",
+                    description: "Please Enter Event Starting Date",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
                     position: 'top-right',
                 });
                 return
+            } else if (!eventdata?.endDate) {
+                toast({
+                    description: "Please Enter Event Ending Date",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            } else if (eventdata?.startDate > eventdata?.endDate) {
+                toast({
+                    description: "End date and time cannot earlier than Start date and time",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            } else if (!eventdata?.location?.toBeAnnounced) {
+                if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
+                    toast({
+                        description: "Please Enter Event Location",
+                        status: 'error',
+                        isClosable: true,
+                        duration: 5000,
+                        position: 'top-right',
+                    });
+                    return
+                } else {
+                    changeTab(2)
+                }
             } else {
                 changeTab(2)
             }
-        } else {
-            changeTab(2)
         }
     }
 
-    const clickHandler =()=> {
+    const clickHandler = () => {
         if (pathname?.includes("edit_event_data")) {
             toast({
                 description: "You can only edit the information tab because users have already bought this event",
@@ -120,44 +116,46 @@ function CreateEventHeader() {
 
 
     const getValidationThemeClick = () => {
-        if (!eventdata?.eventName) {
-            toast({
-                description: "Please Enter Event Name",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else if (!eventdata?.eventType) {
-            toast({
-                description: "Please Enter Event Type",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else if (!eventdata?.eventDescription) {
-            toast({
-                description: "Please Enter Event Description",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else if (!image && !eventdata?.currentPicUrl) {
-            toast({
-                description: "Please Enter Event Image",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else {
-            changeTab(1)
+        if (!pathname?.includes("edit_event_data")) { 
+            if (!eventdata?.eventName) {
+                toast({
+                    description: "Please Enter Event Name",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            } else if (!eventdata?.eventType) {
+                toast({
+                    description: "Please Enter Event Type",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            } else if (!eventdata?.eventDescription) {
+                toast({
+                    description: "Please Enter Event Description",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            } else if (!image && !eventdata?.currentPicUrl) {
+                toast({
+                    description: "Please Enter Event Image",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            } else {
+                changeTab(1)
+            }
         }
     }
 

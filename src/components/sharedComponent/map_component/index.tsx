@@ -165,7 +165,7 @@ function MapComponent(props: Props) {
     } else {
       toast({
         title: 'Error',
-        description: "Marker the Location of your event",
+        description: "Add the Location of your event",
         status: 'error',
         isClosable: true,
         duration: 3000,
