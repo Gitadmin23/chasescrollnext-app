@@ -179,8 +179,8 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
 
       {/* BODY SECTION */}
       <CustomText fontFamily={'Satoshi-Regular'}  color='black' fontSize={'16px'} width='100%'>
-        { showAll ? handleLinks(post?.text) : post?.text.length > 30 ? handleLinks(post?.text.slice(0, 30)) + '...' : handleLinks(post?.text)}
-        { post?.text.length > 30 && (
+        { showAll ? handleLinks(post?.text) : post?.text.length > 130 ? handleLinks(post?.text.slice(0, 130)) + '...' : handleLinks(post?.text)}
+        { post?.text.length > 130 && (
           <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
         )}
       </CustomText>
