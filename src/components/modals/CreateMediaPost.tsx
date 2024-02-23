@@ -53,7 +53,11 @@ function CreateMediaPost({isOpen, onClose, mutate}:IProps) {
 
     const emptyFiles = React.useCallback(() => {
         setFiles([]);
-    }, [])
+    }, []);
+
+    const removeFile = (index: number) => {
+        setFiles((prev) => prev.filter((_, i) => i !== index));
+    }
 
     const handleSwitch = React.useCallback(() => {
         switch(stage) {
@@ -61,13 +65,13 @@ function CreateMediaPost({isOpen, onClose, mutate}:IProps) {
                 return <SelectImages setImage={handleImagePicked} />
             }
             case 2: {
-                return <ShowImages mutate={mutate} setEmpty={emptyFiles} stage={stage}  handleStage={handleSetStage} files={files as any} setImage={handleImagePicked} />
+                return <ShowImages removeFile={removeFile} mutate={mutate} setEmpty={emptyFiles} stage={stage}  handleStage={handleSetStage} files={files as any} setImage={handleImagePicked} />
             }
             case 4: {
                 return <Success onClose={onClose} handleStage={handleSetStage} />
             }
             default: {
-                return <ShowImages mutate={mutate}  setEmpty={emptyFiles} stage={stage} handleStage={handleSetStage} files={files as any} setImage={handleImagePicked} />
+                return <ShowImages removeFile={removeFile} mutate={mutate}  setEmpty={emptyFiles} stage={stage} handleStage={handleSetStage} files={files as any} setImage={handleImagePicked} />
             }
         }
     }, [stage, handleImagePicked, mutate, emptyFiles, handleSetStage, files, onClose]);
