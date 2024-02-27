@@ -91,9 +91,7 @@ function MapSearch(props: Props) {
                 lng: Number(lng),
             })
             SetMap({ lat: lat, lng: lng })
-            SetZoom(9)
-            console.log('lng ' + lat, lng)
-            console.log('address ' + address)
+            SetZoom(9) 
         } catch (error) {
             console.log("😱 Error: ", error);
         }
