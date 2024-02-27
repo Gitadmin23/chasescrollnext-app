@@ -93,6 +93,7 @@ function MapComponent(props: Props) {
           if (status === 'OK' && results[0]) {
 
             let address = results[0].formatted_address
+ 
 
             updateEvent({
               ...eventdata,
@@ -188,7 +189,7 @@ function MapComponent(props: Props) {
           onClick={onMapClick}>
           {/* <UserLocation panTo={panTo}/>   */}
           {!hidesearch && (
-            <MapSearch center={center} panTo={panTo} />
+            <MapSearch setMarker={setMarker} center={center} panTo={panTo} />
           )}
           {directionsResponse && (
             <DirectionsRenderer directions={directionsResponse} />
