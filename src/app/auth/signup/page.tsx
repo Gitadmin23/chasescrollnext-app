@@ -56,7 +56,7 @@ function Signup() {
         duration: 5000,
         position: 'top-right',
       });
-      // router.push('/auth/verify-account?email=' + email);
+      router.push('/auth/verify-account?email=' + email);
     }
   });
 
@@ -73,7 +73,7 @@ function Signup() {
       });
     },
     onSuccess: (data) => {
-      router.push('/auth/verify-account?email=' + email);
+      sendVerificatinEmail.mutate(email);
     }
   });
 
