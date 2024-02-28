@@ -32,52 +32,7 @@ function Signup() {
   const toast = useToast();  
   
 
-  const sendVerificatinEmail = useMutation({
-    mutationFn: (data: string) => unsecureHttpService.post(`${URLS.SEND_VERIFICATION_EMAIL}`, {
-      userEmail: data,
-      emailType: 1,
-    }),
-    onError: (error: any) => {
-      toast({
-        title: 'An error occured',
-        description: error.response.data.error,
-        status: 'error',
-        isClosable: true,
-        duration: 5000,
-        position: 'top-right',
-      });
-    },
-    onSuccess: () => {
-      toast({
-        title: 'Success',
-        description: 'A verification code has been sent to your email',
-        status: 'success',
-        isClosable: true,
-        duration: 5000,
-        position: 'top-right',
-      });
-      router.push('/auth/verify-account?email=' + email);
-    }
-  });
-
-  const { mutate, isLoading } = useMutation({
-    mutationFn: (data) => unsecureHttpService.post(`${URLS.SIGNUP}`, data),
-    onError: (error: any) => {
-      toast({
-        title: 'An error occured',
-        description: error.response.data,
-        status: 'error',
-        isClosable: true,
-        duration: 5000,
-        position: 'top-right',
-      });
-    },
-    onSuccess: (data) => {
-      sendVerificatinEmail.mutate(email);
-    }
-  });
-
-  const { renderForm, values, formState: { isValid } } = useForm({
+  const { renderForm, values, formState: { isValid }, watch } = useForm({
     defaultValues: {
       username: '',
       password: '',
@@ -136,9 +91,68 @@ function Signup() {
           }
       setEmail(data.email);
       //console.log(phone)
-      mutate({ ...data, phone, dob });
+      if (watchEmail) {
+        mutate({ ...data, phone, dob });
+      } else {
+        toast({
+          title: 'Attention!',
+          description: 'You must fill in your email',
+          status: 'warning',
+          isClosable: true,
+          duration: 5000,
+          position: 'top-right',
+        });
+      }
     }
   }); 
+
+  const watchEmail = watch('email')
+
+
+  const sendVerificatinEmail = useMutation({
+    mutationFn: (data: string) => unsecureHttpService.post(`${URLS.SEND_VERIFICATION_EMAIL}`, {
+      userEmail: data,
+      emailType: 1,
+    }),
+    onError: (error: any) => {
+      toast({
+        title: 'An error occured',
+        description: error.response.data.error,
+        status: 'error',
+        isClosable: true,
+        duration: 5000,
+        position: 'top-right',
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Success',
+        description: 'A verification code has been sent to your email',
+        status: 'success',
+        isClosable: true,
+        duration: 5000,
+        position: 'top-right',
+      });
+      router.push('/auth/verify-account?email=' + watchEmail);
+    }
+  });
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (data) => unsecureHttpService.post(`${URLS.SIGNUP}`, data),
+    onError: (error: any) => {
+      toast({
+        title: 'An error occured',
+        description: error.response.data,
+        status: 'error',
+        isClosable: true,
+        duration: 5000,
+        position: 'top-right',
+      });
+    },
+    onSuccess: (data) => {
+      sendVerificatinEmail.mutate(watchEmail);
+    }
+  });
 
 
   const formatDate = (item: any, name: string) => {
