@@ -28,6 +28,9 @@ function SugestedUserSection() {
         }
     })
 
+    console.log(BlockedUser);
+    
+
     return (
         <Flex pb={"8"} pt={["16"]} flexDirection={"column"} flex={"1"} overflowY={"auto"} overflowX={"hidden"} >
             <Flex width={"full"} justifyContent={"space-between"} py={"5"} >
@@ -37,6 +40,8 @@ function SugestedUserSection() {
             <Box width={"full"} overflowX={"auto"} > 
                 <Flex gap={"4"} width={"fit-content"} py={"4"} >
                     {data?.slice(0, 6)?.filter((item: any) => !BlockedUser.includes(item?.userId))?.map((suggestion: any) => {
+                        console.log(suggestion);
+                        
                         return (
                             <UserExploreCard
                                 key={suggestion.id}

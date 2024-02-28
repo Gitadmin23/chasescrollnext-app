@@ -48,12 +48,12 @@ function BlockBtn(props: Props) {
         onSuccess: (data) => {
             toast({
                 title: 'Success',
-                description: 'user succewssfully blocked',
+                description: 'user successfully blocked',
                 status: 'success',
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
-            });
+            }); 
         },
         onError: () => {
             toast({
@@ -110,9 +110,9 @@ function BlockBtn(props: Props) {
         });
 
         queryClient.invalidateQueries([URLS.GET_SUGGESTED_FRIENDS])
-        // if(!isprofile) {
-        //     setDeleted([...deleted, user_index])
-        // }
+        if(!isprofile) {
+            setDeleted([...deleted, user_index])
+        }
         setLoading("")
     }
 
