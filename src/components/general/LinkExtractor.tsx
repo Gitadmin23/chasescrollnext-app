@@ -8,7 +8,7 @@ export const handleLinks = (text: string) => {
       return parts.map((part, index) => {
         if (part.match(regex)) {
           return (
-            <a href={part} key={index.toString()} target='_blank'style={{ fontFamily:'DM-Medium',color:'blue'}}>{part}</a>
+            <a href={part} key={index.toString()} target='_blank'style={{ fontFamily:'DM-Medium', color:'blue'}}>{part}</a>
           );
         }
         return <span key={index.toString()} >{part}</span>; // Preserve non-matched parts

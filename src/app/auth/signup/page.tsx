@@ -73,8 +73,7 @@ function Signup() {
       });
     },
     onSuccess: (data) => {
-      router.push('/auth/verify-account');
-      // sendVerificatinEmail.mutate(email);
+      router.push('/auth/verify-account?email=' + email);
     }
   });
 
