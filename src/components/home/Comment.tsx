@@ -82,7 +82,7 @@ const SubCommentBox = React.forwardRef<HTMLDivElement, Subcomment>(({ comment, i
                     </Link>
 
                     <VStack alignItems={'flex-start'}>
-                        <VStack alignItems={'flex-start'} spacing={0} width='150px'>
+                        <VStack alignItems={'flex-start'} spacing={0} width='250px'>
                             <CustomText fontFamily={'Satoshi-Medium'} color='brand.chasescrollButtonBlue'>{username}</CustomText>
                             <CustomText fontFamily={'Satoshi-Regular'}>{comment}</CustomText>
                         </VStack>
@@ -255,14 +255,14 @@ const CommentBox = React.forwardRef<HTMLDivElement, IComment>(({ comment, id, po
                      </Link>
 
                     <VStack alignItems={'flex-start'} width={'70%'}>
-                        <VStack spacing={0} alignItems={'flex-start'} width='150px'>
+                        <VStack spacing={0} alignItems={'flex-start'} width='250px'>
                             <CustomText fontFamily={'Satoshi-Light'} color='brand.chasescrollButtonBlue'>{username[0].toUpperCase()}{username.substring(1)}</CustomText>
                             <VStack>
 
                                 <CustomText fontFamily={'Satoshi-Medium'}>
-                                { showMore ? handleLinks(comment) : comment.length > 130 ? handleLinks(comment.slice(0, 130)) + '...' : handleLinks(comment)}
+                                { showMore ? handleLinks(comment) : comment.length > 130 ? handleLinks(comment, true) + ' ...' : handleLinks(comment)}
                                 <br />
-                                { comment.length > 30 && (
+                                { comment.length > 130 && (
                                     <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowMore(!showMore)} >{showMore ? 'Show Less' : 'Show More'}</span>
                                 )}
                                 </CustomText>

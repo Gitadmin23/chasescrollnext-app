@@ -232,7 +232,7 @@ const handleChange = (e: string) => {
               <Box  width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
                 {user?.data.imgMain.value === null && (
                   <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                    <CustomText fontFamily={'DM-Regular'}>{user?.username[0].toUpperCase()}</CustomText>
+                    <CustomText fontFamily={'DM-Regular'}>{user?.firstName[0].toUpperCase()}{user?.lastName[0].toUpperCase()}</CustomText>
                   </VStack>
                 )}
                 {
