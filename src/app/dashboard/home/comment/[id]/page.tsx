@@ -12,7 +12,7 @@ import { IMAGE_URL, URLS } from '@/services/urls';
 import CommentBox from '@/components/home/Comment';
 import { useRouter } from 'next/navigation';
 import { IComment } from '@/models/Comment';
-import _ from 'lodash';
+import _, { uniq } from 'lodash';
 import Link from 'next/link';
 
 function Comment() {
@@ -38,7 +38,7 @@ function Comment() {
     }
   }), {
     onSuccess: (data) => { 
-      const arr = _.uniqBy([...userComments, ...data?.data?.content], 'id');
+      const arr = uniq([...userComments, ...data.data.content]);
       setUserComments(arr);
       setHasNextPage(data.data.last ? false:true);
     }
