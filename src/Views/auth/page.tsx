@@ -157,7 +157,7 @@ function LoginPage() {
           username: data?.data?.user_name,
           userId: data?.data?.user_id,
         })
-        router.push('/dashboard/home')
+        router.push('/dashboard/event')
       }
 
     }

@@ -1,7 +1,7 @@
 import CustomButton from '@/components/general/Button';
 import useEventStore from '@/global-state/useCreateEventState';
 import { Box, Flex, Input, Select, useToast } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 interface Props {
     type?: string,
@@ -48,6 +48,13 @@ function SelectTicket(props: Props) {
             });
         }
     };
+
+    useEffect(()=> {
+        updateEvent({
+            ...eventdata,
+            currency: "NGN",
+        });
+    }, [])
 
     const handleMaxTicket = (index: number, name: string, value: any) => {
         if (Number(eventdata.productTypeData[index]?.totalNumberOfTickets) >= (value)) {
@@ -238,6 +245,7 @@ function SelectTicket(props: Props) {
                     placeholder="Select ticket currency"
                     value={eventdata.currency}
                     name="currency"
+                    disabled={true}
                     onChange={handleChangeCurrency}
                 >
                     <option>NGN</option>
