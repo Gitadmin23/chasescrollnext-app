@@ -12,7 +12,7 @@ type Action = {
 
 const useSettingsStore = create<State & Action>((set) => ({
     amount: "", 
-    currency: "USD",
+    currency: "NGN",
     setAmount: (data) => set(() => ({ amount: data })),
     setCurrency: (data) => set(() => ({ currency: data })),
 }));
