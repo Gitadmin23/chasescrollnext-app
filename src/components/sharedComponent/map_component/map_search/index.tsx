@@ -13,10 +13,12 @@ import usePlacesAutocomplete, {
     getLatLng,
 } from "use-places-autocomplete";
 import { IoSearchOutline } from 'react-icons/io5';
+import useEventStore from '@/global-state/useCreateEventState';
 
 interface Props {
     center: any,
-    panTo: any
+    panTo: any,
+    setMarker: any
 }
 
 let defaultzoom = 8;
@@ -26,7 +28,8 @@ let location_address: any = 'Location'
 function MapSearch(props: Props) {
     let {
         center,
-        panTo
+        panTo,
+        setMarker
     } = props
 
 
@@ -37,6 +40,8 @@ function MapSearch(props: Props) {
 
     const [zoom, SetZoom] = React.useState(8)
     const [show, setShow] = React.useState(false)
+
+    const { eventdata, updateEvent } = useEventStore((state) => state);
 
     const {
         ready,
@@ -50,13 +55,13 @@ function MapSearch(props: Props) {
             radius: 100 * 1000,
         },
 
-    }); 
+    });
 
     // https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
 
     const handleInput = (e: any) => {
         setValue(e.target.value);
-        if(e.target.value === ''){
+        if (e.target.value === '') {
             setShow(false)
         } else {
             setShow(true)
@@ -71,9 +76,22 @@ function MapSearch(props: Props) {
             const results = await getGeocode({ address });
             const { lat, lng } = await getLatLng(results[0]);
             panTo({ lat, lng });
+
+            updateEvent({
+                ...eventdata,
+                location: {
+                    ...eventdata.location,
+                    locationDetails: address,
+                    latlng: lat + " " + lng
+                }
+            })
+
+            setMarker({
+                lat: Number(lat),
+                lng: Number(lng),
+            })
             SetMap({ lat: lat, lng: lng })
-            SetZoom(14)
-            console.log('address ' + lat, lng)
+            SetZoom(9) 
         } catch (error) {
             console.log("😱 Error: ", error);
         }

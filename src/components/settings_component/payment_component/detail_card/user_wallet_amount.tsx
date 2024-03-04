@@ -23,7 +23,7 @@ function UserWalletAmount(props: Props) {
     const toast = useToast()
 
     // react query
-    const { isLoading, isRefetching, refetch } = useQuery(['get-wallet-balance' + currency], () => httpService.get(URLS.GET_WALLET_BALANCE + "?currency=" + currency), {
+    const { isLoading, isRefetching } = useQuery(['get-wallet-balance' + currency], () => httpService.get(URLS.GET_WALLET_BALANCE + "?currency=" + currency), {
         onError: (error: any) => {
             toast({
                 status: "error",

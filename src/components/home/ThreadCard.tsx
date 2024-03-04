@@ -127,7 +127,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
           <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
             {post?.user?.data.imgMain.value === null && (
               <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                <CustomText fontFamily={'DM-Regular'} >{post?.user?.username[0].toUpperCase()}</CustomText>
+                <CustomText fontFamily={'DM-Regular'} >{post?.user?.firstName[0].toUpperCase()}{post?.user?.lastName[0].toUpperCase()}</CustomText>
               </VStack>
             )}
             {
@@ -178,10 +178,10 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       </HStack>
 
       {/* BODY SECTION */}
-      <CustomText fontFamily={'Satoshi-Regular'}  color='black' fontSize={'16px'} width='100%'>
-        { showAll ? handleLinks(post?.text) : post?.text.length > 130 ? handleLinks(post?.text.slice(0, 130)) + '...' : handleLinks(post?.text)}
+      <CustomText fontFamily={'Satoshi-Regular'}  color='black' fontSize={'16px'} width='100%' >
+        { showAll ? handleLinks(post?.text, true) : post?.text.length > 130 ? handleLinks(post?.text) : handleLinks(post?.text, true)}
         { post?.text.length > 130 && (
-          <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
+          <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'16px', cursor: 'pointer', marginLeft: '10px' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
         )}
       </CustomText>
 
@@ -238,9 +238,9 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
         )}
 
         <VStack>
-        <ShareEvent id={post.id} type='POST' showText={false} />
+        <ShareEvent id={post.id} type='POST' showText={true} />
           {/* <FiShare2 color='black' fontSize={15} /> */}
-          <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>Share</CustomText>
+          {/* <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>Share</CustomText> */}
         </VStack>
       </HStack>
     </Flex>

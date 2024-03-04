@@ -67,7 +67,7 @@ function ReportUserModal({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
     });
 
     const createReport = React.useCallback(() => {
-        if (value.length < 0 || title === '') {
+        if (value === '' || title === '') {
             toast({
                 title: 'Warrning',
                 description: 'Please provide some details',
@@ -78,7 +78,7 @@ function ReportUserModal({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
         } else {
             mutate()
         }
-    }, [value.length, title, toast, mutate])
+    }, [value, title, toast, mutate])
 
   return (
     <Modal isOpen={isOpen} onClose={() => {
