@@ -115,10 +115,7 @@ function CashoutBtn(props: Props) {
             }
 
             queryClient.invalidateQueries(['get-wallet-balanceNGN'])
-        } catch (error: any) {
-            console.log(error?.response?.data?.message);
-
-
+        } catch (error: any) { 
             toast({
                 title: 'Error',
                 description: error?.response?.data?.message,
