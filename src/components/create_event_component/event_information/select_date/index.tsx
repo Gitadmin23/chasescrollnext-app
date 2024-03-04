@@ -39,8 +39,8 @@ function SelectDate(props: Props) {
             <Text fontSize={"sm"} >
                 {name} <span style={{ color: "#F04F4F" }}>*</span>
             </Text>
-            <label role='button' htmlFor={name} style={{ gap: "4px", display: "flex", height: "50px", alignItems: "center", borderRadius: "4px", paddingLeft: "12px", paddingRight: "12px", border: "1px solid #E2E8F0" }} >
-                <Flex px={"3"} gap={"1"} >
+            <label role='button' htmlFor={name} style={{ cursor: (name === "End" && !eventdata.startDate) ? "not-allowed" : "pointer", gap: "4px", display: "flex", height: "50px", alignItems: "center", borderRadius: "4px", paddingLeft: "12px", paddingRight: "12px", border: "1px solid #E2E8F0" }} >
+                <Flex px={"3"} gap={"1"}  >
                 <CalendarIcon />
                 {data ?
                     <DatePicker
@@ -56,6 +56,7 @@ function SelectDate(props: Props) {
                         id={name}
                         minDate={name === "End" ? new Date(eventdata.startDate) : new Date()}
                         onChange={handleDateSelect}
+                        disabled={(name === "End" && !eventdata.startDate) ? true : false}
                         showTimeSelect
                         dateFormat="MMM d, yyyy h:mm aa"
                         placeholderText={"Select "+name+" Date"}
