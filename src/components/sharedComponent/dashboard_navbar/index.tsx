@@ -10,19 +10,24 @@ import router from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { Icon } from "@iconify/react";
 import { WalletIcon2 } from '@/components/svg'
+import UserImage from '../userimage'
 
 interface Props {
     pathname?: string | null,
     userId?: any,
     openmodal?: any,
-    home?: boolean
+    home?: boolean,
+    image?: string,
+    data?: any
 }
 
 function DashboardNavbar(props: Props) {
     const {
         userId,
         openmodal,
-        home
+        home,
+        image,
+        data
     } = props
 
     const router = useRouter()
@@ -67,7 +72,9 @@ function DashboardNavbar(props: Props) {
                             </Box>
                             {/* <CustomText fontWeight={"bold"} >{username}</CustomText> */}
                             <NotificationBar />
-
+                            <Box as='button' onClick={()=> router.push(`/dashboard/profile/${userId}`)} > 
+                                <UserImage border={"2px"} font={"14px"} size={"30px"} image={image} data={data} />
+                            </Box>
                         </HStack>
                     )}
                     {/* SMALL SCREEN ICONS */}
