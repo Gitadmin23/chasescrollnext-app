@@ -236,7 +236,7 @@ function SelectTicket(props: Props) {
 
             <Box>
                 <label className="block text-gray-700 font-medium ">
-                    Select ticket currency
+                    Currency
                 </label>
                 <Select
                     h={"45px"}
