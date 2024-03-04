@@ -116,12 +116,12 @@ function CashoutBtn(props: Props) {
 
             queryClient.invalidateQueries(['get-wallet-balanceNGN'])
         } catch (error: any) {
-            console.log(error);
+            console.log(error?.response?.data?.message);
 
 
             toast({
                 title: 'Error',
-                description: "Error Occurred",
+                description: error?.response?.data?.message,
                 status: 'error',
                 isClosable: true,
                 duration: 5000,
