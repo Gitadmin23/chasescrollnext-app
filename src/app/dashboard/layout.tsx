@@ -172,7 +172,7 @@ function Layout({ children }: {
             <Grid h="100vh" w={"full"} overflowY={"hidden"} >
                 {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
                     <Flex w={"full"} position={"sticky"} zIndex={"100"} top={"0px"} >
-                        <DashboardNavbar pathname={pathname} userId={userId} openmodal={setShowModal} />
+                        <DashboardNavbar data={user} pathname={pathname} userId={userId} openmodal={setShowModal} image={user?.data.imgMain.value} />
                     </Flex>
                 )}
                 <Flex flex={1} w="full" h="full" pt={(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"white"} >
