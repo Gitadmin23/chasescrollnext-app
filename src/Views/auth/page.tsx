@@ -210,7 +210,7 @@ function LoginPage() {
           username: checkData.user_name,
           userId: checkData.user_id,
         })
-        router.push('/dashboard/home')
+        router.push('/dashboard/event')
         // navigate("/explore")
       } else {
         toast({
