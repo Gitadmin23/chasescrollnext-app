@@ -12,10 +12,10 @@ function Chat() {
         {/* BIG SCREEN */}
         <HStack width='100%' height='100%' display={['none', 'flex']} spacing={0} alignItems={'flex-start'}>
 
-          <Box width='25%' height='100%' borderRightColor={'lightgrey'} borderRightWidth={activeChat !== null ?'1px':'0px'} >
+          <Box flex={0.25} overflow={'hidden'} height='100%' borderRightColor={'lightgrey'} borderRightWidth={activeChat !== null ?'1px':'0px'} >
             <Sidebar />
           </Box>
-          <Box flex={1} height={['100%', '97%']} bg='white' borderWidth={activeChat !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeChat !== null ? '0px':'20px'}>
+          <Box flex={0.75} height={['100%', '97%']} bg='white' borderWidth={activeChat !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeChat !== null ? '0px':'20px'}>
             <MainArea />
           </Box>
 
