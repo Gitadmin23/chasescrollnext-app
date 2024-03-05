@@ -118,7 +118,7 @@ function CashoutBtn(props: Props) {
         } catch (error: any) { 
             toast({
                 title: 'Error',
-                description: error?.response?.data?.message,
+                description: error?.response?.data?.message?.includes("sufficient funds") ? "You do not have sufficient balance in this wallet" : error?.response?.data?.message,
                 status: 'error',
                 isClosable: true,
                 duration: 5000,
@@ -149,9 +149,6 @@ function CashoutBtn(props: Props) {
         setLoading(false)
         setModalType(0)
     }
-
-    
-
 
     return (
         <Box width={"full"} >
