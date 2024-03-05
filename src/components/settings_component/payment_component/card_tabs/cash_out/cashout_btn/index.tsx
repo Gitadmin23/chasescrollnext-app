@@ -150,9 +150,6 @@ function CashoutBtn(props: Props) {
         setModalType(0)
     }
 
-    
-
-
     return (
         <Box width={"full"} >
             <CustomButton backgroundColor={"#12299C"} onClick={() => clickHandler()} text='Withdraw' isLoading={loading} disable={loading || !amount} marginTop={"8"} />
