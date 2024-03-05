@@ -18,6 +18,7 @@ interface IProps {
 const SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({ chat }, ref) => {
     const { setAll, activeChat } = useChatPageState((state) => state);
     const [count, setCount] = React.useState(0);
+    const [name, setName] = React.useState(`${chat?.otherUser?.firstName} ${chat?.otherUser?.lastName}`);
 
     const { isLoading } = useQuery(['getChat', chat?.id], () => httpService.get(`${URLS.GET_MESSAGE_COUNT}`, {
         params: {
@@ -37,7 +38,7 @@ const SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({ chat }, ref) => 
                 </Box>
 
                 <VStack alignItems={'flex-start'} spacing={0}>
-                    <CustomText fontFamily={'DM-Medium'} fontSize={['12px', '14px']}>{chat?.type === 'GROUP' ? chat?.name : `${chat?.otherUser?.firstName} ${chat?.otherUser?.lastName}`}</CustomText>
+                    <CustomText fontFamily={'DM-Medium'} fontSize={['12px', '14px']}>{chat?.type === 'GROUP' ? chat?.name.substring(0, 8) : name.length > 12 ? name.substring(0,12)+ '...': name}</CustomText>
                     <CustomText fontFamily={'Satoshi-Light'} fontSize={'14px'}>{chat?.lastMessage && chat?.lastMessage?.length > 10 ? chat?.lastMessage?.substring(0, 10) + '...' : chat?.lastMessage}</CustomText>
                 </VStack>
             </HStack>
