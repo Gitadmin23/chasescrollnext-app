@@ -8,7 +8,7 @@ import React from 'react'
 function Chat() {
   const { activeChat } = useChatPageState((state) => state)
   return (
-    <HStack flex={1} width={'100%'} height='100%' spacing={0} padding='5px'>
+    <HStack flex={1} width={'100%'} height='90vh' spacing={0} padding='5px'>
         {/* BIG SCREEN */}
         <HStack width='100%' height='100%' display={['none', 'flex']} spacing={0} alignItems={'flex-start'}>
 
