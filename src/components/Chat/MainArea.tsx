@@ -72,14 +72,14 @@ const lastChildRef = React.useCallback((post: any) => {
         )
     }
   return (
-    <VStack overflow={'hidden'} height='100%' flex={1} bg='whitesmoke'>
+    <VStack overflow={'hidden'} height='100%' width={'100%'} bg='whitesmoke'>
       
       <ChatSectionHeader />
 
       {/* MESSAGE AREA */}
 
-      <Box flex='1' width={'100%'} height={'100%'} overflow={'auto'} className='chat-area'>
-        <VStack spacing={6} paddingX={['10px', '30px']} paddingY='40px' alignItems={'flex-start'} width={'100%'} height={'100%'}>
+      <Box flex='1' width={'100%'} overflowY={'auto'} overflowX={'hidden'} className='chat-area'>
+        <VStack spacing={6} paddingX={['10px', '10px']} paddingY='40px' alignItems={'flex-start'} width={'100%'} height={'100%'}>
             {activeChat !== null && messages.length > 0 && messages.map((item, index) => {
                 return (
                     <>
