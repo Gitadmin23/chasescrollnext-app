@@ -118,7 +118,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                 </>
            )}
 
-            <VStack  borderRadius='10px 20px 20px 0px'  bg={self ? 'white':'brand.chasescrollButtonBlue'}  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={['300px', '400px']} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
+            <VStack  borderRadius='10px 20px 20px 0px'  bg={self ? 'white':'brand.chasescrollButtonBlue'}  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={['300px', '350px']} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
                
                 {post.media !== null && (
                     <>
