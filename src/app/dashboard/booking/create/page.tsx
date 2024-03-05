@@ -3,6 +3,7 @@ import StepFour from '@/components/booking_component/create_booking_component/st
 import StepOne from '@/components/booking_component/create_booking_component/step_one'
 import StepThree from '@/components/booking_component/create_booking_component/step_three'
 import StepTwo from '@/components/booking_component/create_booking_component/step_two'
+import StepFive from '@/components/booking_component/create_booking_component/step_five';
 import { BackIcon } from '@/components/svg'
 import { useForm } from '@/hooks/useForm'
 import { createBusinessValidation } from '@/services/validations'
@@ -25,14 +26,24 @@ function CreateBooking(props: Props) {
         },
         validationSchema: createBusinessValidation,
         submit: (data) => {},
-    })
+    });
+
+    const goBack = React.useCallback(() => {
+        if (tab !== 0) {
+            setTab((prev) => prev - 1);
+        } 
+    }, [tab]);
 
     return renderForm(
         <Box w={"full"} >
             <Flex alignItems={"center"}  >
-                <Box w={"50px"} >
-                    <BackIcon />
+
+                <Box w={'50px'} onClick={goBack} cursor={'pointer'}>
+                    { tab > 0 && (
+                        <BackIcon />
+                    )}
                 </Box>
+
                 <Text color={"#292D32"} fontWeight={"bold"} fontSize={"2xl"} >Set-up your business on Chasescroll</Text>
             </Flex>
             <Box px={"50px"} >
@@ -50,8 +61,11 @@ function CreateBooking(props: Props) {
                     {tab === 0 && ( 
                         <StepOne next={setTab} />
                     )}
-                    {tab === 1 && ( 
+                    {/* {tab === 1 && ( 
                         <StepTwo next={setTab} />
+                    )} */}
+                      {tab === 1 && ( 
+                        <StepFive next={setTab} />
                     )}
                     {tab === 2 && ( 
                         <StepThree next={setTab} />
