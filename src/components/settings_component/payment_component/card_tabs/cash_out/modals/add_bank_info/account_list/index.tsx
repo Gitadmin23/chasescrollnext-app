@@ -35,8 +35,6 @@ function AccountList(props: Props) {
         },
         onSuccess: (data) => {
             setData(data?.data?.content); 
-            
-
         }
     })
 
