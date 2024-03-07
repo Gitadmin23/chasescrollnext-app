@@ -103,6 +103,11 @@ function DashboardNavbar(props: Props) {
                                     <ButtonGroup bluesecond ctaText="Get Started" url={"/auth/signup"} />
                                 </Flex>
                             )}
+                            {token && (
+                                <Flex ml={"6"} gap={"5"}>
+                                    <ButtonGroup bluesecond ctaText="Dashboard" url={"/dashboard/event"} /> 
+                                </Flex>
+                            )}
                         </Flex>
                     )}
 

@@ -28,7 +28,7 @@ function InfiniteScrollerComponent(props: Props) {
 
     const { data, isLoading, refetch, isRefetching } = useQuery([url], () => httpService.get(`${url}`, {
         params: {
-          size: size
+          size: size, 
         }
       }), {
         onError: (error: AxiosError<any, any>) => {

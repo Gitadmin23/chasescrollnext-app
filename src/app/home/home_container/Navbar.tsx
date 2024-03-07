@@ -25,6 +25,8 @@ const Navbar = () => {
     onClose()
   }
 
+  let token = localStorage.getItem("token")
+
   useEffect(() => {
     setPathname(window?.location?.pathname)
   }, [router])
@@ -47,10 +49,17 @@ const Navbar = () => {
           <p role={"button"} onClick={() => clickHandler("/home/contact")} className={` ${pathname === "/home/contact" ? "text-[#5D70F9]" : "text-black hover:text-[#5D70F9]"} `} >Contact us</p>
 
         </div>
-        <div className="hidden lg:flex gap-4">
-          <ButtonGroup whitesecond ctaText="Login" url={"/auth"} />
-          <ButtonGroup bluesecond ctaText="Get Started" url={"/auth/signup"} />
-        </div>
+        {!token && (
+          <div className="hidden lg:flex gap-4">
+            <ButtonGroup whitesecond ctaText="Login" url={"/auth"} />
+            <ButtonGroup bluesecond ctaText="Get Started" url={"/auth/signup"} />
+          </div>
+        )}
+        {token && (
+          <div className="hidden lg:flex gap-4">
+            <ButtonGroup bluesecond ctaText="Dashboard" url={"/dashboard/event"} />
+          </div>
+        )}
         {/* Hamburger Menu */}
         <div className="flex lg:hidden">
           <div className="lg:hidden flex items-center">
@@ -98,12 +107,6 @@ const Navbar = () => {
                       onClick={() => clickHandler("/home/terms")} ctaText="Terms & Condition" url={"/home/terms"} />
                     <ButtonGroup white={pathname === "/home/contact" ? false : true} active={pathname === "/home/contact" ? true : false}
                       onClick={() => clickHandler("/home/contact")} ctaText="Contact us" url={"/home/contact"} />
-                    {/* <Text as={"button"} onClick={() => clickHandler("/")} color={pathname === "/" ? "brand.chasescrollBlue" : "black"} >Event</Text>
-                                        <Text as={"button"} onClick={() => clickHandler("/home")} color={pathname === "/home" ? "brand.chasescrollBlue" : "black"} >Home</Text>
-                                        <Text as={"button"} onClick={() => clickHandler("/home/about")} color={pathname === "/home/about" ? "brand.chasescrollBlue" : "black"} >About us</Text>
-                                        <Text as={"button"} onClick={() => clickHandler("/home/privacy_poilcy")} color={pathname === "/home/privacy_poilcy" ? "brand.chasescrollBlue" : "black"} >Policy</Text>
-                                        <Text as={"button"} onClick={() => clickHandler("/home/terms")} color={pathname === "/home/terms" ? "brand.chasescrollBlue" : "black"} >Terms & Condition</Text>
-                                        <Text as={"button"} onClick={() => clickHandler("/home/contact")} color={pathname === "/home/contact" ? "brand.chasescrollBlue" : "black"} >Contact us</Text> */}
 
                   </Flex>
                   {/* {!token && ( */}

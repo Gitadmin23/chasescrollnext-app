@@ -13,7 +13,7 @@ function Draft(props: Props) {
     const { } = props
  
     const { userId } = useDetails((state) => state);
-    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.GET_DRAFT+"?createdBy="+userId, limit: 10, filter: "id" })
+    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.GET_DRAFT, limit: 10, filter: "id" })
   
 
     return (
