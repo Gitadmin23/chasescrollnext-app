@@ -14,7 +14,8 @@ interface Props {
     publicProfile: boolean,
     userId: any, 
     setDeleted?:any,
-    deleted?:any
+    deleted?:any,
+    mutualFriends?:number
 }
 
 function UserExploreCard(props: Props) {
@@ -25,11 +26,14 @@ function UserExploreCard(props: Props) {
         lastName, 
         userId, 
         setDeleted,
-        deleted
+        deleted,
+        mutualFriends
     } = props 
 
     const [isFriend, setisFriend] = useState(data?.joinStatus)
     const router = useRouter()
+ 
+    
 
     return (
         <Flex as={"button"} alignItems={"center"} onClick={()=> router.push("/dashboard/profile/" + userId)} flexDirection={"column"} width={"180px"} gap={"12px"}  roundedBottom={"24px"} roundedTopLeft={"24px"} shadow={"lg"} p={"12px"} pb={"24px"} bg={"brand.chasescrollWhite"}>
@@ -39,7 +43,7 @@ function UserExploreCard(props: Props) {
             </Flex>
             <Text fontWeight={"bold"} textAlign={"center"} fontSize={"sm"} >{(firstName+" "+lastName).length > 14 ? (capitalizeFLetter(firstName)+" "+capitalizeFLetter(lastName)).slice(0, 14)+"...": (capitalizeFLetter(firstName)+" "+capitalizeFLetter(lastName))}</Text>
             <Text color={"brand.chasescrollGrey"} fontWeight={"semibold"} textAlign={"center"} fontSize={"xs"} >
-            {mutuals} Mutual Connection{mutuals === 1 ? "" : "s"}
+            {mutualFriends} Mutual Connection{mutualFriends ?? 0 <= 1 ? "" : "s"}
             </Text>
             <AddOrRemoveUserBtn name={(isFriend === "CONNECTED" || isFriend === "CONNECTFriend" || isFriend === "FRIEND_REQUEST_SENT" || isFriend === "FRIEND_REQUEST_RECIEVED") ? (isFriend === "FRIEND_REQUEST_SENT" || isFriend === "FRIEND_REQUEST_RECIEVED") ? "Pending" : isFriend === "CONNECTFriend" ? "Disconnect": "Disconnect": "Connect"} setJoinStatus={setisFriend} user_index={userId} />
         </Flex>
