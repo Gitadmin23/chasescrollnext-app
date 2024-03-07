@@ -23,6 +23,7 @@ function UserList(props: Props) {
                                     key={suggestion.id}
                                     userId={suggestion?.userId}
                                     data={suggestion}
+                                    mutualFriends={suggestion?.mutualFriends}
                                     firstName={suggestion?.firstName}
                                     lastName={suggestion?.lastName}
                                     publicProfile={suggestion?.publicProfile}
@@ -37,6 +38,7 @@ function UserList(props: Props) {
                                     key={suggestion.id}
                                     userId={suggestion?.userId}
                                     data={suggestion}
+                                    mutualFriends={suggestion?.mutualFriends}
                                     firstName={suggestion?.firstName}
                                     lastName={suggestion?.lastName}
                                     publicProfile={suggestion?.publicProfile}
