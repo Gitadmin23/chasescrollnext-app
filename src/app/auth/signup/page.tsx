@@ -150,7 +150,8 @@ function Signup() {
       });
     },
     onSuccess: (data) => {
-      sendVerificatinEmail.mutate(watchEmail);
+      router.push('/auth/verify-account?email=' + watchEmail);
+      //sendVerificatinEmail.mutate(watchEmail);
     }
   });
 

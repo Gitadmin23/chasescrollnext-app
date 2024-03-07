@@ -56,6 +56,11 @@ function CreateMediaPost({isOpen, onClose, mutate}:IProps) {
     }, []);
 
     const removeFile = (index: number) => {
+        if (files.length === 1) {
+            setFiles((prev) => prev.filter((_, i) => i !== index));
+            setStage(1);
+            return;
+        }
         setFiles((prev) => prev.filter((_, i) => i !== index));
     }
 
