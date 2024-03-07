@@ -46,16 +46,15 @@ function InterestedUsers(props: Props) {
                                     <UserImage data={item} size={size} image={item?.data?.imgMain?.value} font={fontSize + "px"} border={border} />
                                 </Box>
                             )
-                        } else  if(index === 4) {
-                            return (
-                                <Box key={index} roundedBottom={"64px"} width={size} fontWeight={"bold"} height={size} fontSize={(fontSize - 2)+ "px"} pr={"-3px"} pb={"-2px"} roundedTopLeft={"64px"} ml={"-10px"} display={'flex'} bgColor={"#3C41F0"}  color={"#fff"} justifyContent={"center"} alignItems={"center"} > 
-                                    {"+"+DataFormater(event?.interestedUsers?.length- 4)}
-                                </Box>
-                            )
                         }
                     })}
+                    {event?.memberCount >= 4 &&
+                        <Box roundedBottom={"64px"} width={size} fontWeight={"bold"} height={size} fontSize={(fontSize - 2) + "px"} pr={"-3px"} pb={"-2px"} roundedTopLeft={"64px"} ml={"-10px"} display={'flex'} bgColor={"#3C41F0"} color={"#fff"} justifyContent={"center"} alignItems={"center"} >
+                            {"+" + DataFormater(event?.memberCount - 3)}
+                        </Box>
+                    }
                     {!refund && (
-                        <Text color={color ? color : "#1732F7"} ml={"2"}  fontSize={(fontSize - 2) + "px"} >
+                        <Text color={color ? color : "#1732F7"} ml={"2"} fontSize={(fontSize - 2) + "px"} >
                             Interested
                         </Text>
                     )}
