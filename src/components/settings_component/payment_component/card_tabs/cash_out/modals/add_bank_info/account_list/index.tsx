@@ -4,6 +4,7 @@ import httpService from '@/utils/httpService';
 import { Box, Flex, Text, useToast } from '@chakra-ui/react';
 import React, { useState } from 'react'
 import { useQuery } from 'react-query';
+import Deleteaccount from '../../../deleteaccount';
 
 interface Props { 
     withdraw: any,
@@ -33,8 +34,7 @@ function AccountList(props: Props) {
             });
         },
         onSuccess: (data) => {
-            setData(data?.data?.content);
-
+            setData(data?.data?.content); 
         }
     })
 
@@ -44,14 +44,19 @@ function AccountList(props: Props) {
             <LoadingAnimation loading={isLoading} length={data?.length} >
                 <Flex ref={ref} w={"full"} overflowX={"auto"} scrollBehavior={"smooth"} pt={"4"} pb={"1"} mb={"2"} >
                     <Flex w={"auto"} gap={"4"} >
-                        {data?.map((item: any, index: number) => {
+                        {data?.map((item: {
+                            transferRecipient: string | number,
+                            accountName: string,
+                            bankName: string
+                        }, index: number) => {
                             return (
-                                <Box key={index} disabled={loading} onClick={() => withdraw(item?.transferRecipient)} as='button' flexWrap={"nowrap"} p={"3"} borderWidth={"1px"} borderColor={"#00F562"} rounded={"8px"} >
+                                <Box width={"200px"} key={index} disabled={loading} pos={"relative"} onClick={() => withdraw(item?.transferRecipient)} as='button' flexWrap={"nowrap"} px={"3"} pb={"3"} pt={"7"} borderWidth={"1px"} borderColor={"#00F562"} rounded={"8px"} >
                                     <Box position={"relative"} width={"fit-content"} >
-                                        <Text textAlign={"left"}  lineHeight={"18.23px"} fontSize={"14px"} fontWeight={"bold"} color={"#121212"} >{item?.accountName}</Text>
+                                        <Text textAlign={"left"}  lineHeight={"18.23px"} fontSize={"14px"} fontWeight={"bold"} color={"#121212"} >{(item?.accountName+"123456789123456789")?.length >= 20 ? (item?.accountName+"123456789123456789")?.slice(0, 20)+"..." : item?.accountName+"123456789123456789"}</Text>
                                         <Text textAlign={"left"}  lineHeight={"18.23px"} top={"0px"} mt={"-18.23px"} opacity={"0"} fontSize={"14px"} fontWeight={"bold"} color={"#121212"} >{item?.accountName.replace(/ /g,"_")}</Text>
                                     </Box>
                                     <Text textAlign={"left"} color={"#B6B6B6"} fontSize={"14px"} fontWeight={"normal"} >{item?.bankName}</Text>
+                                    <Deleteaccount code={item?.transferRecipient ?? ""} />
                                 </Box>
                             )
                         })} 

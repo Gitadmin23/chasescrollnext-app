@@ -55,12 +55,12 @@ function SelectEventPage(props: Props) {
 
     return (
         <Box position={"relative"} >
-            <Box onClick={() => setShowSelector((prev) => !prev)} as='button' height={"30px"} width={"fit-content"} display={"flex"} gap={"2"} alignItems={"center"} justifyContent={"space-between"} position={"relative"} >
+            <Box onClick={() => setShowSelector((prev) => !prev)} as='button' height={"40px"} width={"fit-content"} display={"flex"} gap={"2"} alignItems={"center"} justifyContent={"space-between"} borderWidth={"1px"} color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} position={"relative"} >
                 <Text>{showPage}</Text>
                 <IoIosArrowDown />
             </Box>
             {showSelector && ( 
-                <HStack flexDirection={"column"} zIndex={"30"} position={"absolute"} shadow={"md"} width={"230px"} p={"2"} top={"35px"} bg={"white"} >
+                <HStack flexDirection={"column"} zIndex={"30"} position={"absolute"} shadow={"md"} width={"230px"} p={"2"} top={"60px"} bg={"white"} >
                     {tablist()?.map((item: any, index: number) => {
                         return (
                             <Box key={index} onClick={()=> clickHandler(item?.name, item?.route)} width={"full"} rounded={"md"} as='button' display={"flex"} justifyContent={"center"} color={showPage === item?.name ? "white" : "black"} bg={showPage === item?.name ? "brand.chasescrollBlue" : "white"} roundedTopRight={"none"} py={"2"} fontSize={"sm"} fontWeight={"semibold"} >

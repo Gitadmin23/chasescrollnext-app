@@ -44,7 +44,7 @@ function LoadingAnimation(props: Props) {
                 </>
             )}
             {loading && (
-                <Flex width={"full"} justifyContent={"center"} fontSize={"20px"} py={"8"}  >
+                <Flex width={"full"} justifyContent={"center"} mb={"auto"} fontSize={"20px"} py={"8"}  >
                     <Spinner size={["md", "sm"]} color={color? color : 'black'} />
                 </Flex>
             )}

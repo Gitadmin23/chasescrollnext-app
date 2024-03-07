@@ -1,7 +1,7 @@
 import { Box, Button, Flex, ModalOverlay, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import SelectTicket from '../select_ticket'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import ViewClickYser from '../view_click_user'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import CustomButton from '@/components/general/Button'
@@ -31,6 +31,7 @@ function EventUserOption(props: Props) {
     const router = useRouter()
     const [listOfClicks, setListOfClicks] = useState(0)
     const [open, setOpen] = useState(false)
+    const pathname = usePathname()
 
     const clickHandler = () => {
         if(event?.ticketBought) {
@@ -56,7 +57,7 @@ function EventUserOption(props: Props) {
                         <Button onClick={() => router.push("/dashboard/settings/event-dashboard/" + event?.id)} width={"full"} bg={"brand.chasescrollBlue"} height={"49px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} >My Dashboard</Button> :
                         <ViewClickYser ticket={ticket} data={event} listOfClicks={listOfClicks} />
                     }
-                    <Button onClick={() => clickHandler()} _disabled={{ opacity: "0.4" }} width={"full"} bg={"brand.chasescrollBlue"} height={"49px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} >Edit Event</Button>
+                    <Button isDisabled={pathname?.includes("pastdetails") ? true : false} onClick={() => clickHandler()} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} width={"full"} bg={"brand.chasescrollBlue"} height={"49px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} >Edit Event</Button>
                 </Flex>
             )}
             {!isBought && (
