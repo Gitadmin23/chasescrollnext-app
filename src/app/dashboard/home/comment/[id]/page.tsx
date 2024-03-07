@@ -12,7 +12,7 @@ import { IMAGE_URL, URLS } from '@/services/urls';
 import CommentBox from '@/components/home/Comment';
 import { useRouter } from 'next/navigation';
 import { IComment } from '@/models/Comment';
-import _, { uniq } from 'lodash';
+import _, {uniq, uniqBy} from 'lodash';
 import Link from 'next/link';
 
 function Comment() {
@@ -38,11 +38,16 @@ function Comment() {
     }
   }), {
     onSuccess: (data) => { 
-      const arr = uniq([...userComments, ...data.data.content]);
+      const arr = uniqBy([...userComments, ...data.data.content], 'id');
       setUserComments(arr);
       setHasNextPage(data.data.last ? false:true);
     }
   });
+
+  const deleteComment = (id: string) => {
+    const arr = userComments.filter((item) => item.id !== id);
+    setUserComments(arr);
+  }
 
   const addComment = useMutation({
     mutationFn: (data: any) => httpService.post('/feed/add-comment', data),
@@ -125,7 +130,7 @@ function Comment() {
      <Box width={'100%'} height={'100%'} overflowX={'hidden'} overflowY={'auto'} marginTop={'30px'} paddingX={['0px','65px']}>
      { userComments.length > 0 && userComments.filter((item) => item.user.data !== null).map((item, index) => (
         <>
-          { index === userComments.length - 1 ? <CommentBox ref={lastChildRef} {...item} key={index.toString()} />:<CommentBox {...item} key={index.toString()} /> }
+          { index === userComments.length - 1 ? <CommentBox deleteComment={deleteComment} ref={lastChildRef} {...item} key={index.toString()} />:<CommentBox deleteComment={deleteComment} {...item} key={index.toString()} /> }
         </>
       ))}
       { isLoading && (
