@@ -20,7 +20,14 @@ function Deleteaccount(props: Props) {
     const deleteAccount = useMutation({
         mutationFn: () => httpService.delete("/payments/account/removeBankAccount/"+code),
         onSuccess: (data: any) => {
-            console.log(data?.data?.message); 
+            toast({
+                title: 'Success',
+                description: data?.data?.message,
+                status: "success",
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            }); 
             queryClient.invalidateQueries(['my-bank-list'])
 
         },
