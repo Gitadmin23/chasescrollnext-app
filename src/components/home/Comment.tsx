@@ -10,17 +10,18 @@ import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import httpService from '@/utils/httpService'
 import { Heart } from 'iconsax-react'
-import { handleLinks } from '../general/LinkExtractor'
+import {handleLinks, LinksHandler} from '../general/LinkExtractor'
 import { THEME } from '@/theme'
 import { error } from 'console'
 import _ from 'lodash'
 import Link from 'next/link'
 
-const SubCommentBox = React.forwardRef<HTMLDivElement, Subcomment>(({ comment, id, commentID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data, firstName, lastName } },ref) => {
+const SubCommentBox = React.forwardRef<HTMLDivElement, Subcomment & {deleteComment: (id:string) => void}>(({ deleteComment, comment, id, commentID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data, firstName, lastName } },ref) => {
     const [isLiked, setIsLiked] = React.useState(likeStatus);
     const { userId: myId } = useDetails((state) => state);
     const queryClient = useQueryClient();
     const toast = useToast();
+    const [showMore, setShowMore] = React.useState(false)
 
 
     // GET SUBCOMMENTS
@@ -46,8 +47,10 @@ const SubCommentBox = React.forwardRef<HTMLDivElement, Subcomment>(({ comment, i
                 duration: 5000,
             });
             queryClient.invalidateQueries([`getSubcomments-${commentID}`]);
+            deleteComment(id);
         }
     });
+
 
     return (
         <div ref={ref}>
@@ -84,7 +87,14 @@ const SubCommentBox = React.forwardRef<HTMLDivElement, Subcomment>(({ comment, i
                     <VStack alignItems={'flex-start'}>
                         <VStack alignItems={'flex-start'} spacing={0} width='250px'>
                             <CustomText fontFamily={'Satoshi-Medium'} color='brand.chasescrollButtonBlue'>{username}</CustomText>
-                            <CustomText fontFamily={'Satoshi-Regular'}>{comment}</CustomText>
+                            <CustomText fontFamily={'Satoshi-Regular'}>
+                                { showMore ? LinksHandler({ text: comment, showAll: true }) : comment.length > 130 ? LinksHandler({ text: comment, showAll: false, length: 100 })  : LinksHandler({ text: comment, showAll: true })
+                                }
+                                <br />
+                                { comment.length > 130 && (
+                                    <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowMore(!showMore)} >{showMore ? 'Show Less' : 'Show More'}</span>
+                                )}
+                            </CustomText>
                         </VStack>
 
                         <HStack spacing={10} fontSize={'14px'}>
@@ -104,7 +114,7 @@ const SubCommentBox = React.forwardRef<HTMLDivElement, Subcomment>(({ comment, i
     )
 })
 
-const CommentBox = React.forwardRef<HTMLDivElement, IComment>(({ comment, id, postID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data, firstName, lastName } }, ref) => {
+const CommentBox = React.forwardRef<HTMLDivElement, IComment & { deleteComment: (id:string) => void}>(({ deleteComment: delComment, comment, id, postID, timeInMilliseconds, likeCount, likeStatus, user: { userId, username, publicProfile, data, firstName, lastName } }, ref) => {
     const [showReplies, setShowReplies] = React.useState(false);
     const [subComments, setSubComments] = React.useState<Subcomment[]>([]);
     const [reply, setReply] = React.useState('');
@@ -160,8 +170,9 @@ const CommentBox = React.forwardRef<HTMLDivElement, IComment>(({ comment, id, po
     const likeComment = useMutation({
         mutationFn: () => httpService.post(`${URLS.LIKE_COMMENT}/${id}`),
         onSuccess: () => {
+            console.log(liked);
             // queryClient.invalidateQueries([`getComments-${postID}`]);
-            if (likeStatus === 'LIKED') {
+            if (liked === 'LIKED') {
                 setLiked('NOT_LIKED')
             } else {
                 setLiked('LIKED');
@@ -181,9 +192,14 @@ const CommentBox = React.forwardRef<HTMLDivElement, IComment>(({ comment, id, po
                 duration: 5000,
             });
             queryClient.invalidateQueries([`getComments-${postID}`]);
-
+            delComment(id);
         }
     });
+
+    const deleteSubComment = (id: string) => {
+        const arr = subComments.filter((item) => item.id !== id);
+        setSubComments(arr);
+    }
 
     // GET SUBCOMMENTS
     const { isLoading, isError, refetch } = useQuery([`getSubcomments-${id}`, id, page], () => httpService.get(`${URLS.GET_ALL_SUBCOMMENTS}`, {
@@ -255,18 +271,20 @@ const CommentBox = React.forwardRef<HTMLDivElement, IComment>(({ comment, id, po
                      </Link>
 
                     <VStack alignItems={'flex-start'} width={'70%'}>
-                        <VStack spacing={0} alignItems={'flex-start'} width='250px'>
+                        <VStack spacing={0} alignItems={'flex-start'} width={['100%', '450px']}>
                             <CustomText fontFamily={'Satoshi-Light'} color='brand.chasescrollButtonBlue'>{username[0].toUpperCase()}{username.substring(1)}</CustomText>
-                            <VStack>
+                            <Box>
 
-                                <CustomText fontFamily={'Satoshi-Medium'}>
-                                { showMore ? handleLinks(comment) : comment.length > 130 ? handleLinks(comment, true) + ' ...' : handleLinks(comment)}
+                                <>
+                                { showMore ? LinksHandler({ text: comment, showAll: true }) : comment.length > 130 ? LinksHandler({ text: comment, showAll: false, length: 100 })  : LinksHandler({ text: comment, showAll: true })
+                                }
                                 <br />
                                 { comment.length > 130 && (
                                     <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowMore(!showMore)} >{showMore ? 'Show Less' : 'Show More'}</span>
                                 )}
-                                </CustomText>
-                            </VStack>
+                                </>
+
+                            </Box>
                         </VStack>
 
                         <HStack spacing={10} fontSize={'14px'} width={['100%','60%']}>
@@ -308,7 +326,7 @@ const CommentBox = React.forwardRef<HTMLDivElement, IComment>(({ comment, id, po
                             }
                             { !isError && subComments.length > 0 && subComments.map((item, index) => (
                                 <>
-                                    { index === subComments.length - 1 ? <SubCommentBox ref={lastChildRef} {...item} key={index.toString()} />:<SubCommentBox {...item} key={index.toString()} /> }
+                                    { index === subComments.length - 1 ? <SubCommentBox deleteComment={deleteSubComment} ref={lastChildRef} {...item} key={index.toString()} />:<SubCommentBox deleteComment={deleteSubComment}  {...item} key={index.toString()} /> }
                                 </>
                             ))}
                             {
