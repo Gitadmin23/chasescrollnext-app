@@ -48,6 +48,7 @@ function SugestedUserSection() {
                                 userId={suggestion?.userId}
                                 data={suggestion}
                                 firstName={suggestion?.firstName}
+                                mutualFriends={suggestion?.mutualFriends}
                                 lastName={suggestion?.lastName}
                                 publicProfile={suggestion?.publicProfile}
                                 setDeleted={setblockedUser}
