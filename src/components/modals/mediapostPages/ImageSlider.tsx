@@ -6,7 +6,7 @@ import { useImageModalState } from '@/components/general/ImageModal/imageModalSt
 
 const FileViewer = ({ file }: { file: File,  }) => {
     return (
-        <Box width='100%' height='100%' zIndex={2}>
+        <Box width='500px' height='400px' overflow={'hidden'} zIndex={2}>
             <Image src={URL.createObjectURL(file)} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
         </Box>
     )
@@ -14,18 +14,19 @@ const FileViewer = ({ file }: { file: File,  }) => {
 
 const ImageViewer = ({ file }: { file: string,  }) => {
     return (
-        <Box width='100%' height='100%' zIndex={2}>
+        <Box width='100%' height='100%' overflow={'hidden'}  zIndex={2}>
             { file.startsWith('https://') &&  <Image src={`${file}`} alt='image' style={{ width: '100%', height: '100%' }} objectFit={'cover'} />}
             { !file.startsWith('https://') &&  <Image src={`${IMAGE_URL}${file}`} alt='image' style={{ width: '100%', height: '100%' }} objectFit={'cover'} />} 
         </Box>
     )
 }
 
-function ImageSlider({files, type, links }: {
+function ImageSlider({files, type, links, setCurrentIndex }: {
     files?: File[],
     type: 'feed'|'upload', 
     links?: string[],
     goBack?: () => void,
+    setCurrentIndex?: (index: number) => void
 }) {
     const [index, setIndex] = React.useState(0);
     const { setAll } = useImageModalState((state) => state)
@@ -38,13 +39,27 @@ function ImageSlider({files, type, links }: {
         if (type === 'upload') {
             if (index < (files as File[])?.length - 1) {
                 setIndex(index + 1);
+                if (setCurrentIndex) {
+                    setCurrentIndex(index + 1);
+                }
             } else {
+                setIndex(0);
+                if (setCurrentIndex) {
+                    setCurrentIndex(0);
+                }
                 return;
             }
         } else {
             if (index < (links as string[])?.length - 1) {
                 setIndex(index + 1);
+                if (setCurrentIndex) {
+                    setCurrentIndex(0);
+                }
             } else {
+                setIndex(0);
+                if (setCurrentIndex) {
+                    setCurrentIndex(0);
+                }
                 return;
             }
         }
@@ -55,13 +70,27 @@ function ImageSlider({files, type, links }: {
         if (type === 'upload') {
             if (index > 0) {
                 setIndex(index - 1);
+                if (setCurrentIndex) {
+                    setCurrentIndex(index - 1);
+                }
             } else {
+                setIndex((files as File[])?.length - 1);
+                if (setCurrentIndex) {
+                    setCurrentIndex((files as File[])?.length - 1);
+                }
                 return;
             }
         } else {
             if (index > 0) {
                 setIndex(index - 1);
+                if (setCurrentIndex) {
+                    setCurrentIndex(index - 1);
+                }
             } else {
+                setIndex((files as File[])?.length - 1);
+                if (setCurrentIndex) {
+                    setCurrentIndex((files as File[])?.length - 1);
+                }
                 return;
             }
         }
@@ -70,7 +99,7 @@ function ImageSlider({files, type, links }: {
   return (
     <VStack width='100%' height='100%' spacing={0}>
 
-        <HStack width={'100%'} height={'100%'} position={'relative'} bg='brown' zIndex={1}>
+        <HStack width={'100%'} height={(links as string[])?.length < 2 || (files as File[])?.length < 2 ? '100%':'90%'} position={'relative'} bg='brown' zIndex={1}>
 
             {/* LEFT ARROW */}
             {type === 'feed' && (links as string[])?.length > 1 && (
@@ -116,16 +145,16 @@ function ImageSlider({files, type, links }: {
         </HStack>
 
         {type === 'feed' && (links as string[])?.length > 1 && (
-            <HStack justifyContent={'center'} width='100%' height={'25px'} >
+            <HStack justifyContent={'center'} width='100%' height={'10%'} >
             {links?.map((item, indx) => (
                     <Box key={indx.toString()} marginX='2px' width={index === indx ? '10px':'5px'} height={index === indx ? '10px':'5px'} bg={index === indx ? 'brand.chasescrollButtonBlue':'lightgrey'} borderRadius={'10px'} />
                 ))}
             </HStack>
         )}
 
-        {type === 'upload' && (links as string[])?.length > 1 && (
-            <HStack justifyContent={'center'} width='100%' height={'25px'} >
-            {links?.map((item, indx) => (
+        {type === 'upload' && (files as File[])?.length > 1 && (
+            <HStack justifyContent={'center'} alignItems={'center'} width='100%' height={'10%'} >
+            {files?.map((item, indx) => (
                     <Box key={indx.toString()} marginX='2px' width={index === indx ? '10px':'5px'} height={index === indx ? '10px':'5px'} bg={index === indx ? 'brand.chasescrollButtonBlue':'lightgrey'} borderRadius={'10px'} />
             ))}
             </HStack>
