@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import BlockBtn from '../../sharedComponent/blockbtn'
 import UserImage from '@/components/sharedComponent/userimage'
