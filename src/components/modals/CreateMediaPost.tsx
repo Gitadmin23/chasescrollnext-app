@@ -58,7 +58,7 @@ function CreateMediaPost({isOpen, onClose, mutate}:IProps) {
     const removeFile = (index: number) => {
         if (files.length === 1) {
             setFiles((prev) => prev.filter((_, i) => i !== index));
-            setStage(1);
+            // setStage(1);
             return;
         }
         setFiles((prev) => prev.filter((_, i) => i !== index));
@@ -89,7 +89,7 @@ function CreateMediaPost({isOpen, onClose, mutate}:IProps) {
         onClose()
         }} closeOnEsc={true} closeOnOverlayClick={true} size='2xl' isCentered>
         <ModalOverlay />
-        <ModalContent width={'auto'} height={'auto'} bg='white' padding='0px' overflow={'hidden'} borderRadius={'20px'}>
+        <ModalContent width={'auto'} height={'auto'} bg='white' padding='0px' overflow={'hidden'} borderRadius={'0px'}>
             <ModalBody width='100%' height='100%' padding='0px' overflow={'hidden'}>
                 {handleSwitch()}
             </ModalBody>
