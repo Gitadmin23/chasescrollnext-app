@@ -1,18 +1,22 @@
 import CustomButton from '@/components/general/Button'
-import PeopleCard from '@/components/search_component/other_components/people_card'
+// import PeopleCard from '@/components/search_component/other_components/people_card'
 import CopyRightText from '@/components/sharedComponent/CopyRightText'
 import EventImage from '@/components/sharedComponent/eventimage'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import RefundBtn from '@/components/sharedComponent/refundbtn'
-import UserImage from '@/components/sharedComponent/userimage'
-import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
+// import UserImage from '@/components/sharedComponent/userimage'
+// import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
 import httpService from '@/utils/httpService'
 import { Box, Flex, Select, Table, TableCaption, TableContainer, Tbody, Td, Text, Tfoot, Th, Thead, Tr, useToast } from '@chakra-ui/react'
 import React from 'react'
 import { useQuery } from 'react-query'
 import { useReactToPrint } from 'react-to-print'
 
-import { DownloadTableExcel } from 'react-export-table-to-excel';
+
+// import { DownloadTableExcel } from 'react-export-table-to-excel';
+import { CSVLink } from 'react-csv'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
+import { dateFormat } from '@/utils/dateFormat'
 
 interface Props {
     index: any
@@ -27,6 +31,7 @@ function DashboardRefund(props: Props) {
     const [size, setSize] = React.useState(100)
     const [showBtn, setShowBtn] = React.useState(false)
     const [page, setPage] = React.useState(0)
+    const [newData, setNewData] = React.useState([] as any)
 
     // react query
     const { isLoading, isRefetching, data } = useQuery(['get-event-members' + size + page], () => httpService.get('/events/get-event-members/' + index, {
@@ -42,7 +47,12 @@ function DashboardRefund(props: Props) {
             });
         },
         onSuccess: (data) => {
-            console.log(data.data.content);
+            console.log(data.data.content); 
+                const codes = Object.entries(data.data.content)
+                    .map(([key, value]: any) => {
+                        return { "Full Name": capitalizeFLetter(value?.user?.firstName)+" "+capitalizeFLetter(value?.user?.lastName), "User Name" : value?.user?.username, "Email": value?.user?.email, "Ticket Type": value?.ticketType?.slice(0, 1)?.toUpperCase() + value?.ticketType?.slice(1, value?.ticketType?.length), "Created Date": dateFormat(value?.user?.createdDate) };
+                    });
+                setNewData(codes)
 
             // setData(data.data.content);
         }
@@ -146,7 +156,7 @@ function DashboardRefund(props: Props) {
             <Flex py={"6"} gap={"4"} width={"full"} justifyContent={"center"} alignItems={"center"} >
                 <CustomButton width={"fit-content"} onClick={handlePrint} text='Export PDF' />
 
-                <DownloadTableExcel
+                {/* <DownloadTableExcel
                     filename={data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length) + " Attendee Table"}
                     sheet="users"
                     currentTableRef={tableRef.current}
@@ -154,7 +164,13 @@ function DashboardRefund(props: Props) {
 
                     <CustomButton width={"fit-content"} text='Export XLS' />
 
-                </DownloadTableExcel>
+                </DownloadTableExcel> */}
+
+                <CSVLink data={newData? newData: []} 
+                        filename={data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length) +"m.csv"} > 
+                    <CustomButton width={"fit-content"} text='Export CSV' />
+
+                </CSVLink>
             </Flex>
         </Flex>
     )
