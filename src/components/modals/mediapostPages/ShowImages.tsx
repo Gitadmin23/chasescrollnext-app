@@ -63,13 +63,15 @@ function ShowImages({ files, setImage, handleStage, stage, setEmpty, mutate, rem
 
 
   React.useEffect(() => {
-    const fileReader = new FileReader();
+    if (files.length > 0) {
+      const fileReader = new FileReader();
 
-    fileReader.onload = () => {
-      setIsLoading(false);
-      setUrl(fileReader.result as string);
+      fileReader.onload = () => {
+        setIsLoading(false);
+        setUrl(fileReader.result as string);
+      }
+      fileReader.readAsDataURL(files[0]);
     }
-    fileReader.readAsDataURL(files[0]);
   }, [files]);
 
   const handlePick = React.useCallback((data: FileList) => {
@@ -114,32 +116,34 @@ const handleChange = (e: string) => {
 
 
   return (
-    <VStack width='500px' height='auto'>
+    <VStack maxWidth='500px' minWidth={'300px'} height='auto' overflow={'hidden'}>
         <input hidden type='file' accept="image/*, video/*" ref={inputRef as any} onChange={(e) => handlePick(e.target.files as FileList)} />
 
         <HStack width='100%' height='50px' bg='white' justifyContent={'space-between'} paddingX='10px' alignItems={'center'} paddingTop={'10px'}>
             <FiChevronLeft size={'25px'} onClick={handlePrev} style={{ cursor: 'pointer' }} color={THEME.COLORS.chasescrollButtonBlue} />
             {!loading && !createPost.isLoading && (
               // <CustomText cursor='pointer' onClick={handleNext} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} fontSize={'sm'}>{stage > 2 ? 'Create Post' : 'Next'}</CustomText>
-              <CustomButton onClick={handleNext} borderWidth={"1px"} color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} text={stage < 2 ? 'Next':'create post' } />
+              <CustomButton onClick={handleNext} borderWidth={"1px"} color={"#5465E0"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"0px"} width={"fit-content"} text={stage < 2 ? 'Next':'Post' } />
             )}
             {
               loading && (
                 <Box width='50px'>
-                  <Progress isIndeterminate colorScheme='blue' width={'100%'} size='sm' />
+                  <Spinner colorScheme={'blue'} />
+                  {/*<Progress isIndeterminate colorScheme='blue' width={'100%'} size='sm' />*/}
                 </Box>
               )
             }
             {
              createPost.isLoading && (
                 <Box width='50px'>
-                  <Progress isIndeterminate colorScheme='blue' width={'100%'} size='sm' />
+                  <Spinner colorScheme={'blue'} />
+                  {/*<Progress isIndeterminate colorScheme='blue' width={'100%'} size='sm' />*/}
                 </Box>
               )
             }
         </HStack>
 
-              <VStack alignItems='flex-start' width='100%' height='250px' paddingX='20px' paddingTop={'20px'} bg='white' justifyContent={'flex-start'} fontFamily={'Satoshi-Regular'}>
+              <VStack alignItems='flex-start' width='100%' height='180px' paddingX='20px' paddingTop={'20px'} justifyContent={'flex-start'} fontFamily={'Satoshi-Regular'}>
 
                 <HStack>
                   <Box  width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
@@ -170,39 +174,57 @@ const handleChange = (e: string) => {
               </VStack>
 
 
-        <Flex position='relative' maxWidth='500px' minWidth={'350px'} maxHeight={'500px'} minH={'350px'} borderRadius='0px'>
+      {files.length < 1 && (
+          <VStack cursor={'pointer'} onClick={() => {
+            if (files.length === 4) {
+              return;
+            } else {
+              inputRef.current?.click();
+            }
+          }} height={'300px'} alignItems={'center'} width='500px' paddingX={'10px'}  overflowX={'auto'} backgroundColor={"#EFF1FE"} borderStyle={'dashed'} borderWidth={'1px'} borderColor={'brand.chasescrollButtonBlue'} justifyContent={'center'} >
+            <Image src='/assets/images/Add.png' alt='smile' width={'64px'} height={'64px'} />
+            <CustomText color={'grey'} fontFamily={'DM-Medium'} fontSize={'18px'}>Add Images or video</CustomText>
+          </VStack>
+      )}
 
-          { isLoading && (
-            <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'} >
-              <Progress isIndeterminate colorScheme='blue' width={'100%'} size='sm' />
-            </VStack>
-          )}
 
-          { !isLoading && url !== '' && (
-            <VStack width={'100%'} zIndex={1} height='auto' overflow={'hidden'}>
-              {files[0].type.startsWith('video') && (
-                <video controls width={'100%'} height={'300px'}>
-                  <source src={url} type='video/mp4' />
-                </video>
-              )}
-              {files[0].type.startsWith('image') && (
-                <ImageSlider type='upload' files={files} setCurrentIndex={(index) => {
-                  console.log(index);
-                  setCurrentIndex(index);
-                }} />
-              )}
-            </VStack>
-          )}
+      { files.length > 0 && (
+          <Flex position='relative' maxWidth='500px' minWidth={'350px'} maxHeight={'500px'} minH={'350px'} borderRadius='0px'>
 
-          {/* ADD MORE BUTTON */}
-         
-        </Flex>
+            { isLoading && (
+                <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'} >
+                  <Progress isIndeterminate colorScheme='blue' width={'100%'} size='sm' />
+                </VStack>
+            )}
+
+            { !isLoading && url !== '' && (
+                <VStack width={'100%'} zIndex={1} height='auto' overflow={'hidden'}>
+                  {files.length > 0 && files[0].type.startsWith('video') && (
+                      <video controls width={'100%'} height={'300px'}>
+                        <source src={url} type='video/mp4' />
+                      </video>
+                  )}
+                  {files.length > 0 && files[0].type.startsWith('image') && (
+                      <ImageSlider type='upload' files={files} setCurrentIndex={(index) => {
+                        console.log(index);
+                        setCurrentIndex(index);
+                      }} />
+                  )}
+                </VStack>
+            )}
+
+            {/* ADD MORE BUTTON */}
+
+          </Flex>
+      )}
+
+
 
         {
           files.length > 0 && (
             <HStack height={'120px'} alignItems={'center'} width='100%' paddingX={'10px'}  overflowX={'auto'} bg='whitesmoke'>
               { files.map((file, index) => (
-                <Box borderWidth={currentIndex === index ? 3:0} borderColor={"brand.chasescrollButtonBlue"} key={index.toString()} marginRight={'5px'} width='100px' height='70%' borderRadius={'10px'} position={'relative'}>
+                <Box borderWidth={currentIndex === index ? 1:0} borderColor={"brand.chasescrollButtonBlue"} key={index.toString()} marginRight={'5px'} width='100px' height='70%' borderRadius={'10px'} position={'relative'}>
 
                   <Box width='100%' height='100%' borderRadius={'10px'} overflow={'hidden'}>
                     <Image src={URL.createObjectURL(file)} alt="img" width={'100px'} height='100%' objectFit={'cover'} />
@@ -227,7 +249,7 @@ const handleChange = (e: string) => {
             </HStack>
           )
         }
-    
+
 
     </VStack>
   )
