@@ -9,7 +9,7 @@ function Success({ onClose, handleStage }: {
   handleStage: (num: number) => void
 }) {
   return (
-    <VStack spacing={5}paddingX={'20px'}  height='350px' justifyContent={'center'} alignItems={'center'}>
+    <VStack spacing={5}paddingX={'20px'}  height='250px' justifyContent={'center'} alignItems={'center'}>
       <CustomText fontFamily={'DM-Medium'} fontSize={'24px'} color='black'>Post Created Successfully!</CustomText>
       <CustomText textAlign={'center'} fontFamily={'DM-Regular'} fontSize={'16px'} color={'grey'}>
         Congratulations! Your Post has been created
