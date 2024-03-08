@@ -14,10 +14,10 @@ import { URLS } from '@/services/urls'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link';
 import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css' 
+import 'react-phone-input-2/lib/style.css'
 import moment from 'moment';
 
-import { DropdownDate } from "react-dropdown-date"; 
+import { DropdownDate } from "react-dropdown-date";
 import GoogleBtn from '@/components/sharedComponent/googlebtn';
 
 function Signup() {
@@ -26,11 +26,11 @@ function Signup() {
   const [month, setmonth] = React.useState('');
   const [day, setday] = React.useState('');
   const [year, setyear] = React.useState('');
-  const [dob, setdate] = React.useState(''); 
+  const [dob, setdate] = React.useState('');
   const router = useRouter();
   const [terms, setTerms] = React.useState(false);
-  const toast = useToast();  
-  
+  const toast = useToast();
+
 
   const { renderForm, values, formState: { isValid }, watch } = useForm({
     defaultValues: {
@@ -104,7 +104,7 @@ function Signup() {
         });
       }
     }
-  }); 
+  });
 
   const watchEmail = watch('email')
 
@@ -150,6 +150,7 @@ function Signup() {
       });
     },
     onSuccess: (data) => {
+      //router.push('/auth/verify-account?email=' + watchEmail);
       sendVerificatinEmail.mutate(watchEmail);
     }
   });
@@ -191,8 +192,8 @@ function Signup() {
       setday(item)
     }
 
-  } 
- 
+  }
+
   return renderForm(
     <VStack width='100%' height='100%' overflowY={"auto"} justifyContent={'center'} padding={['20px', '20px']} py={["20px", "20px"]}>
       {/* <Box width={"fit-content"} > */}
@@ -201,7 +202,7 @@ function Signup() {
         <CustomText color='brand.chasescrollBlue' fontSize='xl' marginY='10px'>Create An account</CustomText>
 
         <VStack width={['100%', '100%', '500px', '500px']}>
- 
+
 
           <GoogleBtn title="Sign up" />
 
@@ -233,12 +234,12 @@ function Signup() {
               }}
               onDayChange={(day: any) => {
                 // optional
-                formatDate(day, "day"); 
+                formatDate(day, "day");
               }}
               onYearChange={(year: any) => {
                 // optional
-                formatDate(year, "year"); 
-              }} 
+                formatDate(year, "year");
+              }}
               defaultValues={
                 // optional
                 {
@@ -274,7 +275,7 @@ function Signup() {
           </Box>
 
 
-          <HStack justifyContent={'flex-start'} spacing={6} width='100%' marginY='20px'> 
+          <HStack justifyContent={'flex-start'} spacing={6} width='100%' marginY='20px'>
             <Checkbox colorScheme='blue' size='md' isChecked={terms} onChange={() => setTerms(prev => !prev)} />
 
 
