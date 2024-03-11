@@ -51,7 +51,7 @@ function ChangePassword() {
             toast({
                 title: 'Error',
                 description: 'An error occured while changing your password.',
-                status: 'success',
+                status: 'error',
                 position: 'top-right',
                 duration: 3000,
                 isClosable: true,

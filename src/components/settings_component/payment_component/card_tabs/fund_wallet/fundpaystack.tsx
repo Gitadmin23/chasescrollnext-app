@@ -4,6 +4,7 @@ import { usePaystackPayment } from "react-paystack";
 import { useMutation, useQueryClient } from "react-query";
 import { Button, useToast } from '@chakra-ui/react'
 import useSettingsStore from '@/global-state/useSettingsState';
+import { useRouter } from 'next/navigation';
 
 interface Props {  
     config: any,  
@@ -21,6 +22,8 @@ function Fundpaystack(props: Props) {
     const toast = useToast()
 	const { setAmount } = useSettingsStore((state) => state); 
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY; 
+
+    const router = useRouter()
 
 	// const [orderCode, setOrderCode] = React.useStates("")
 	    // mutations 
@@ -72,8 +75,10 @@ function Fundpaystack(props: Props) {
 
             queryClient.invalidateQueries(['event_ticket' + id])
             queryClient.invalidateQueries(['all-events-details' + id])
+            
+            router.push("/dashboard/event/my_event")
 
-            window.location.reload()
+            // window.location.reload()
             // setShowModal(false)
         },
         onError: () => {
