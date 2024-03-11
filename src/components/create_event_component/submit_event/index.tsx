@@ -382,7 +382,7 @@ function SubmitEvent(props: Iprops) {
             });
         },
         onSuccess: (data: AxiosResponse<any>) => {
-            router.push("/dashboard/event")
+            router.push("/dashboard/event/my_event")
             toast({
                 title: 'Success',
                 description: "Event Created",

@@ -86,7 +86,7 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
                 <HStack justifyContent={'space-between'} alignItems={'center'} width={'100%'}>
                         <FiX fontSize={'25px'} onClick={() => onClose()} />
                         <CustomText color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Medium'}>Report Enhancement</CustomText>
-                        <CustomText>{}</CustomText>
+                        {/* <CustomText>{}</CustomText> */}
                 </HStack>
 
                 <VStack width={'70%'} marginTop={'30px'}>
@@ -104,7 +104,7 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
                     </HStack>
                 </VStack>
 
-                <Button onClick={createReport} isLoading={isLoading} width='70%' color='white' marginTop='30px' height='50px' bg='brand.chasescrollButtonBlue' variant={'solid'} borderRadius={'10px'}>Submit</Button>
+                <Button onClick={createReport} isLoading={isLoading} isDisabled={(title || value) ? false : true} width='70%' color='white' marginTop='30px' height='50px' bg='brand.chasescrollButtonBlue' variant={'solid'} borderRadius={'10px'}>Submit</Button>
               </Flex>
 
             </ModalBody>
