@@ -31,7 +31,7 @@ function ProfileComponent(props: Props) {
 
     return (
         <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
-            <Flex width={"full"} justifyContent={"center"} py={"6"} px={"6"} >
+            <Flex width={"full"} justifyContent={"center"} px={"6"} >
                 <Grid width={"full"} templateColumns={['repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)', 'repeat(4, 1fr)']} gap={6} >
                     {results.filter((item: any) => item?.joinStatus !== "SELF")?.map((item: {
                         type: string,
