@@ -58,7 +58,7 @@ function EventTheme() {
     return (
         <Box px={"4"} pt={"10"} >
             <Flex flexDirection={"column"} alignItems={"center"} >
-                <Box maxW={["full", "full", "1000px"]} width={"full"} >
+                <Box maxW={["full", "full", "full", "1000px"]} width={"full"} >
                     <Text fontWeight={"bold"} fontSize={["md", "xl"]} >
                         Event Cover Image
                     </Text>
@@ -66,7 +66,7 @@ function EventTheme() {
                         Add photos/posters that describes details of your events.
                     </Text>
                 </Box>
-                <Flex maxW={["full", "full", "1000px"]} py={"6"} width={"full"} gap={"12"} flexDirection={["column", "column", "row"]} alignItems={"center"} justifyContent={"center"}          >
+                <Flex maxW={["full", "full", "full", "1000px"]} py={"6"} width={"full"} h={"full"} gap={"12"} flexDirection={["column", "column", "row"]} alignItems={"center"} justifyContent={"center"}          >
                     <Flex flexDirection={"column"} width={"full"} gap={"4"} >
                         <SelectImage />
                         <Box>
@@ -102,7 +102,7 @@ function EventTheme() {
                             </label>
                         </Flex>
                     </Flex>
-                    <Flex flexDirection={"column"} mt={["4", "4", "0px"]} width={"full"} gap={"4"} >
+                    <Flex flexDirection={"column"} h={"full"} mt={["4", "4", "0px"]} width={"full"} gap={"4"} >
                         <Flex width={"full"} gap={"1"} flexDirection={"column"} >
                             <Text color={"brand.chasescrollTextGrey"} > Event Type<span style={{ color: "#F04F4F" }} > *</span></Text>
                             <Select
@@ -169,7 +169,9 @@ function EventTheme() {
                                 />
                             </label>
                         </Flex>
-                        <SubmitTheme type={""} />
+                        <Flex w={"full"} gap={"4"} my={"4"} >
+                            <SubmitTheme type={""} />
+                        </Flex>
                     </Flex>
                 </Flex>
             </Flex>

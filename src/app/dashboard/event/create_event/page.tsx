@@ -4,33 +4,51 @@ import EventInformation from '@/components/create_event_component/event_informat
 import EventTheme from '@/components/create_event_component/event_theme'
 import EventTicket from '@/components/create_event_component/event_ticket'
 import useEventStore from '@/global-state/useCreateEventState'
-import { Box } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import React, { useState } from 'react'
 
 interface Props { }
 
 function CreateEvent(props: Props) {
     const { } = props
- 
-    const { tab, changeTab } = useEventStore((state) => state); 
 
-    React.useEffect(()=> {
+    const { tab, changeTab } = useEventStore((state) => state);
+
+    React.useEffect(() => {
         changeTab(0)
     }, [])
 
     return (
-        <Box width={"full"} >
-            <CreateEventHeader/>
-            {tab === 0 && (
-                <EventTheme />
-            )}
-            {tab === 1 && (
-                <EventInformation />
-            )}
-            {tab === 2 && (
-                <EventTicket />
-            )}
-        </Box>
+        <> 
+            <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"74px"} display={["none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]} >
+                <CreateEventHeader />
+                <Flex bgColor={"gray.300"} w={"full"} p={["0px", "0px", "0px", "3"]} overflowY={["auto"]}  >
+                    <Flex bgColor={"white"} w={"full"} px={"3"} h={["fit-content"]} rounded={["0px", "0px", "0px", "2xl"]} >
+                        {tab === 0 && (
+                            <EventTheme />
+                        )}
+                        {tab === 1 && (
+                            <EventInformation />
+                        )}
+                        {tab === 2 && (
+                            <EventTicket />
+                        )}
+                    </Flex>
+                </Flex>
+            </Flex>
+            <Box width={"full"} display={["block", "block", "block", "none"]}  >
+                <CreateEventHeader />
+                {tab === 0 && (
+                    <EventTheme />
+                )}
+                {tab === 1 && (
+                    <EventInformation />
+                )}
+                {tab === 2 && (
+                    <EventTicket />
+                )}
+            </Box>
+        </> 
     )
 }
 

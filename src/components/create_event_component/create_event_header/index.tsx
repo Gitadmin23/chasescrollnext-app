@@ -1,6 +1,6 @@
 import CustomButton from '@/components/general/Button';
 import useEventStore from '@/global-state/useCreateEventState';
-import { Box, Flex, useToast } from '@chakra-ui/react';
+import { Box, Flex, Text, useToast } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
 import React from 'react'
 
@@ -30,7 +30,7 @@ function CreateEventHeader() {
     }
 
     const getValidationTheme = () => {
-        if (!eventdata?.eventName) { 
+        if (!eventdata?.eventName) {
             return true
         } else if (!eventdata?.eventType) {
             return true
@@ -116,7 +116,7 @@ function CreateEventHeader() {
 
 
     const getValidationThemeClick = () => {
-        if (!pathname?.includes("edit_event_data")) { 
+        if (!pathname?.includes("edit_event_data")) {
             if (!eventdata?.eventName) {
                 toast({
                     description: "Please Enter Event Name",
@@ -160,10 +160,29 @@ function CreateEventHeader() {
     }
 
     return (
-        <Flex justifyContent={"space-around"} py={"5"} width={"full"}  >
-            <Box as='button' onClick={() => clickHandler()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 0 ? "brand.chasescrollBlue" : "#A9ABAF"} >Theme</Box>
-            <Box as='button' disabled={getValidationTheme()} onClick={() => getValidationThemeClick()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 1 ? "brand.chasescrollBlue" : "#A9ABAF"} >Information</Box>
-            <Box as='button' disabled={getValidationInfo()} onClick={() => getValidationInfoClick()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 2 ? "brand.chasescrollBlue" : "#A9ABAF"} >Ticket</Box>
+        <Flex  h={["fit-content", "fit-content", "fit-content", "100vh"]} width={["full", "full", "full", "546px"]} > 
+            <Flex justifyContent={"center"} alignItems={"center"} flexDir={"column"} px={["4", "4", "4", "12"]} py={"5"} h={["fit-content", "fit-content", "fit-content", "100vh"]} width={["full", "full", "full", "546px"]}  >
+                <Flex w={"full"} display={["flex", "flex", "flex", "none"]} py={"3"} justifyContent={"space-around"} >
+                    <Box as='button' onClick={() => clickHandler()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 0 ? "brand.chasescrollBlue" : "#A9ABAF"} >Theme</Box>
+                    <Box as='button' disabled={getValidationTheme()} onClick={() => getValidationThemeClick()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 1 ? "brand.chasescrollBlue" : "#A9ABAF"} >Information</Box>
+                    <Box as='button' disabled={getValidationInfo()} onClick={() => getValidationInfoClick()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 2 ? "brand.chasescrollBlue" : "#A9ABAF"} >Ticket</Box>
+                </Flex>
+                <Flex maxW={["full", "full", "full", "385px"]} w={"full"} fontWeight={"700"} flexDir={"column"} >
+                    <Text color={"#1732F7"} fontSize={"24px"} display={["none", "none", "none", "block"]} lineHeight={"33.6px"} >{tab === 0 ? "Theme" : tab === 1 ? "Information" : "Ticket"}</Text>
+                    <Text color={"#121212"} fontSize={["24px", "24px", "24px", "38px"]} lineHeight={["33.6px", "33.6px", "33.6px", "53.2px"]} >
+                        {tab === 0 ? "Tell Us More about your Event" : tab === 1 ? "Discover the Details" : "Effortlessly Invite Attendees with Ticket Generation"}
+                    </Text>
+                    <Text mt={"4"} fontWeight={"400"} color={"#626262"} lineHeight={"19.6px"} fontSize={"14px"} >
+                        {tab === 0 ?
+                            "Whether it's a conference, seminar, or celebration, let us in on the details. Your event matters, and we're here to ensure it gets the spotlight it deserves." :
+                            tab === 1 ? "Find out the location and schedule for the upcoming event." : "Streamline Attendance with Seamless Ticket Generation and Invitations"}
+                    </Text>
+                    <Text fontWeight={"400"} mt={"4"} color={"#626262"} lineHeight={"19.6px"} fontSize={"14px"} >Step {tab + 1}/3</Text>
+                    <Flex w={"full"} rounded={"32px"} mt={"3"} h={"10px"} bgColor={"#D9D9D9"} >
+                        <Box w={tab === 0 ? "35%" : tab === 1 ? "60%" : "100%"} bgColor={"#5465E0"} rounded={"32px"} />
+                    </Flex>
+                </Flex>
+            </Flex>
         </Flex>
     )
 }

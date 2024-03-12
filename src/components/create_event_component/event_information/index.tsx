@@ -5,15 +5,15 @@ import React from 'react'
 import SelectDate from './select_date'
 import useEventStore from '@/global-state/useCreateEventState'
 import SelectLocation from './select_location'
-import CustomButton from '@/components/general/Button'  
+import CustomButton from '@/components/general/Button'
 import SubmitEvent from '../submit_event'
 import SelectMap from './select_map'
 
-function EventInformation() { 
+function EventInformation() {
 
-    const { eventdata } = useEventStore((state) => state);
+    const { eventdata, changeTab } = useEventStore((state) => state);
 
-    const getValidationInfo = () => { 
+    const getValidationInfo = () => {
         if (!eventdata?.startDate) {
             return true
         } else if (!eventdata?.endDate) {
@@ -25,18 +25,21 @@ function EventInformation() {
         } else {
             return false
         }
-    }      
+    }
 
     return (
         <Flex width={"full"} display={"flex"} flexDirection={"column"} alignItems={"center"} pt={"10"} px={"6"} >
             <Flex width={"full"} maxWidth={["full", "full", "600px"]} flexDirection={"column"} justifyContent={"space-between"} gap={"4"} py={"6"} >
-                <Flex width={"full"} flexDirection={["column", "column",  "column", "row"]} gap={"4"} >
-                   <SelectDate data={eventdata?.startDate} name={"Start"} />
-                   <SelectDate data={eventdata?.endDate} name={"End"} />
+                <Flex width={"full"} flexDirection={["column", "column", "column", "row"]} gap={"4"} >
+                    <SelectDate data={eventdata?.startDate} name={"Start"} />
+                    <SelectDate data={eventdata?.endDate} name={"End"} />
                 </Flex>
-                <SelectLocation /> 
-                <SubmitEvent type={""} />
-            </Flex> 
+                <SelectLocation />
+                <Flex w={"full"} gap={"4"}  my={"4"} >
+                    <CustomButton onClick={()=> changeTab(0)} text={"Back"} width={"full"} backgroundColor={"#EFF1FE80"} color={"#5465E0"} />
+                    <SubmitEvent type={""} />
+                </Flex>
+            </Flex>
         </Flex>
     )
 }
