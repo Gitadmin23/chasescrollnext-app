@@ -67,7 +67,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
         <>
             <LoadingAnimation loading={isLoading}>
                 <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"74px"} display={["none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]} >
-                    <CreateEventHeader />
+                    <CreateEventHeader name="Edit Events Draft"  />
                     <Flex bgColor={"gray.300"} w={"full"} p={["0px", "0px", "0px", "3"]} overflowY={["auto"]}  >
                         <Flex bgColor={"white"} w={"full"} px={"3"} h={["fit-content"]} rounded={["0px", "0px", "0px", "2xl"]} >
                             {tab === 0 && (
@@ -83,7 +83,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
                     </Flex>
                 </Flex>
                 <Box width={"full"} display={["block", "block", "block", "none"]}  >
-                    <CreateEventHeader />
+                    <CreateEventHeader name="Edit Events Draft"  />
                     {tab === 0 && (
                         <EventTheme />
                     )}

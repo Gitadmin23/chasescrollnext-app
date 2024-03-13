@@ -1,5 +1,5 @@
 import ModalLayout from '@/components/sharedComponent/modal_layout'
-import { Box, useToast } from '@chakra-ui/react'
+import { Box, Flex, Text, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import PaymentMethod from '../event_modal/payment_method'
 import SelectTicketNumber from '../event_modal/select_ticket_number'
@@ -16,6 +16,7 @@ import useStripeStore from '@/global-state/useStripeState'
 import useModalStore from '@/global-state/useModalSwitch'
 import { useRouter } from 'next/navigation'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
+import { SuccessIcon } from '@/components/svg'
 
 interface Props {
     isBought: any,
@@ -36,7 +37,7 @@ function GetEventTicket(props: Props) {
         setSelectedTicket,
         ticket,
         carousel
-    } = props 
+    } = props
 
     const STRIPE_KEY: any = process.env.NEXT_PUBLIC_STRIPE_KEY;
     // const [stripePromise, setStripePromise] = React?.useState(() => loadStripe(STRIPE_KEY))
@@ -84,6 +85,11 @@ function GetEventTicket(props: Props) {
         setShowModal(true)
     }
 
+    const closeHandler = () => { 
+        setModalTab(1)
+        setShowModal(false)
+    }
+
     const { isLoading } = useQuery(['event_ticket' + data?.id], () => httpService.get(URLS.GET_TICKET + user_index + "&eventID=" + data?.id), {
         onError: (error: any) => {
             toast({
@@ -102,7 +108,7 @@ function GetEventTicket(props: Props) {
 
     const createTicket = useMutation({
         mutationFn: (data: any) => httpService.post("/events/create-click-through", data),
-        onSuccess: () => {  
+        onSuccess: () => {
         },
         onError: (error) => {
             // console.log(error);
@@ -125,7 +131,7 @@ function GetEventTicket(props: Props) {
         })
     }, [createTicket])
 
-    const goback =(item: boolean)=> {
+    const goback = (item: boolean) => {
         setModalTab(4)
         setShowModal(item)
     }
@@ -134,9 +140,9 @@ function GetEventTicket(props: Props) {
         <>
             {!carousel && (
                 <>
-                    {!selectedTicket?.rerouteURL ? 
+                    {!selectedTicket?.rerouteURL ?
                         <CustomButton bgColor={"brand.chasescrollBgBlue"} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "full"]} /> :
-                        <a href={selectedTicket?.rerouteURL} target="_blank" > 
+                        <a href={selectedTicket?.rerouteURL} target="_blank" >
                             <CustomButton bgColor={"brand.chasescrollBgBlue"} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "full"]} />
                         </a>
                     }
@@ -180,6 +186,14 @@ function GetEventTicket(props: Props) {
                 )}
                 {modalTab === 6 && (
                     <SelectTicketType ticket={ticket} setSelectedTicket={setSelectedTicket} currency={data?.currency} click={setModalTab} />
+                )}
+                {modalTab === 7 && ( 
+                    <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
+                        <SuccessIcon />
+                        <Text fontSize={"24px"} color={"#151515"} lineHeight={"44.8px"} fontWeight={"500"} mt={"4"} >Ticket Purchase Successful</Text>
+                        <Text fontSize={"12px"} color={"#626262"} maxW={"351px"} textAlign={"center"} mb={"4"} >{`Congratulations! You now have a ticket to this event. Kindly proceed to "My Events" to access it.`}</Text>
+                        <CustomButton onClick={() => closeHandler()} color={"#12299C"} text='Close' w={"full"} backgroundColor={"white"} border={"1px solid #12299C75"} />
+                    </Flex>
                 )}
             </ModalLayout>
         </>
