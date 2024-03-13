@@ -170,7 +170,7 @@ function CreateEventHeader({ name }: IProps) {
                     <Box as='button' disabled={getValidationInfo()} onClick={() => getValidationInfoClick()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 2 ? "brand.chasescrollBlue" : "#A9ABAF"} >Ticket</Box>
                 </Flex>
 
-                <Flex pos={"absolute"} display={["flex", "flex", "flex", "none"]} top={"4"} w={"full"} justifyContent={"center"} alignItems={"center"} >
+                <Flex pos={"absolute"} display={["none", "none", "none", "flex"]} top={"4"} w={"full"} justifyContent={"center"} alignItems={"center"} >
 
                     <Text fontWeight={"bold"} fontSize={"20px"} >{name}</Text>
                 </Flex>
