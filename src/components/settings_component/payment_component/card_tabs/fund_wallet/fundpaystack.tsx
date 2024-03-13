@@ -137,7 +137,7 @@ function Fundpaystack(props: Props) {
                 <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
                     <SuccessIcon />
                     <Text fontSize={"24px"} color={"#151515"} lineHeight={"44.8px"} fontWeight={"500"} mt={"4"} >Ticket Purchase Successful</Text>
-                    <Text fontSize={"12px"} color={"#626262"} maxW={"351px"} textAlign={"center"} mb={"4"} >Congratulations! You now have a ticket to this event. Kindly proceed to "My Events" to access it.</Text>
+                    <Text fontSize={"12px"} color={"#626262"} maxW={"351px"} textAlign={"center"} mb={"4"} >{`Congratulations! You now have a ticket to this event. Kindly proceed to "My Events" to access it.`}</Text>
                     <CustomButton onClick={()=> setOpen(false)} color={"#12299C"} text='Close' w={"full"} backgroundColor={"white"} border={"1px solid #12299C75"} />
                 </Flex> 
             </ModalLayout>
