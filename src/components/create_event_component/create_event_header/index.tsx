@@ -48,7 +48,7 @@ function CreateEventHeader({ name }: IProps) {
     const getValidationInfoClick = () => {
         if (pathname?.includes("edit_event_data")) {
             toast({
-                description: "You can only edit the information tab because users have already bought this event",
+                description: "Fill all the field in information tab to continue",
                 status: 'error',
                 isClosable: true,
                 duration: 5000,
@@ -58,7 +58,7 @@ function CreateEventHeader({ name }: IProps) {
         } else {
             if (!eventdata?.startDate) {
                 toast({
-                    description: "Please Enter Event Starting Date",
+                    description: "Fill all the field in information tab to continue",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -67,7 +67,7 @@ function CreateEventHeader({ name }: IProps) {
                 return
             } else if (!eventdata?.endDate) {
                 toast({
-                    description: "Please Enter Event Ending Date",
+                    description: "Fill all the field in information tab to continue",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -76,7 +76,7 @@ function CreateEventHeader({ name }: IProps) {
                 return
             } else if (eventdata?.startDate > eventdata?.endDate) {
                 toast({
-                    description: "End date and time cannot earlier than Start date and time",
+                    description: "Fill all the field in information tab to continue",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -121,7 +121,7 @@ function CreateEventHeader({ name }: IProps) {
         if (!pathname?.includes("edit_event_data")) {
             if (!eventdata?.eventName) {
                 toast({
-                    description: "Please Enter Event Name",
+                    description: "Fill all the field in theme to continue",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -130,7 +130,7 @@ function CreateEventHeader({ name }: IProps) {
                 return
             } else if (!eventdata?.eventType) {
                 toast({
-                    description: "Please Enter Event Type",
+                    description: "Fill all the field in theme to continuee",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -139,7 +139,7 @@ function CreateEventHeader({ name }: IProps) {
                 return
             } else if (!eventdata?.eventDescription) {
                 toast({
-                    description: "Please Enter Event Description",
+                    description: "Fill all the field in theme to continue",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -148,7 +148,7 @@ function CreateEventHeader({ name }: IProps) {
                 return
             } else if (!image && !eventdata?.currentPicUrl) {
                 toast({
-                    description: "Please Enter Event Image",
+                    description: "Fill all the field in theme to continue",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -158,6 +158,14 @@ function CreateEventHeader({ name }: IProps) {
             } else {
                 changeTab(1)
             }
+        }
+    }
+
+    const statusHandler =()=> {
+        if(tab === 0) {
+            getValidationThemeClick()
+        } else {
+            getValidationInfoClick()
         }
     }
 
@@ -172,8 +180,8 @@ function CreateEventHeader({ name }: IProps) {
             <Flex justifyContent={"center"} alignItems={"center"} flexDir={"column"} px={["4", "4", "4", "12"]} py={"5"} h={["fit-content", "fit-content", "fit-content", "100vh"]} width={["full", "full", "full", "546px"]}  >
                 <Flex  pos={["relative", "relative", "relative","absolute"]} top={["0px", "0px", "0px", "12"]} w={"full"} py={"3"} justifyContent={"space-around"} >
                     <Box as='button' onClick={() => clickHandler()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 0 ? "brand.chasescrollBlue" : "#A9ABAF"} >Theme</Box>
-                    <Box as='button' disabled={getValidationTheme()} onClick={() => getValidationThemeClick()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 1 ? "brand.chasescrollBlue" : "#A9ABAF"} >Information</Box>
-                    <Box as='button' disabled={getValidationInfo()} onClick={() => getValidationInfoClick()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 2 ? "brand.chasescrollBlue" : "#A9ABAF"} >Ticket</Box>
+                    <Box as='button' onClick={() => statusHandler()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 1 ? "brand.chasescrollBlue" : "#A9ABAF"} >Information</Box>
+                    <Box as='button' onClick={() => statusHandler()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 2 ? "brand.chasescrollBlue" : "#A9ABAF"} >Ticket</Box>
                 </Flex>
 
 
