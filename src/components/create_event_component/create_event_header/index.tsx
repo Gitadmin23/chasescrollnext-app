@@ -170,7 +170,7 @@ function CreateEventHeader({ name }: IProps) {
                 <Text fontWeight={"bold"} fontSize={"20px"} >{name}</Text>
             </Flex>
             <Flex justifyContent={"center"} alignItems={"center"} flexDir={"column"} px={["4", "4", "4", "12"]} py={"5"} h={["fit-content", "fit-content", "fit-content", "100vh"]} width={["full", "full", "full", "546px"]}  >
-                <Flex  pos={["relative", "relative", "relative","absolute"]} top={"12"} w={"full"} py={"3"} justifyContent={"space-around"} >
+                <Flex  pos={["relative", "relative", "relative","absolute"]} top={["0px", "0px", "0px", "12"]} w={"full"} py={"3"} justifyContent={"space-around"} >
                     <Box as='button' onClick={() => clickHandler()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 0 ? "brand.chasescrollBlue" : "#A9ABAF"} >Theme</Box>
                     <Box as='button' disabled={getValidationTheme()} onClick={() => getValidationThemeClick()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 1 ? "brand.chasescrollBlue" : "#A9ABAF"} >Information</Box>
                     <Box as='button' disabled={getValidationInfo()} onClick={() => getValidationInfoClick()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 2 ? "brand.chasescrollBlue" : "#A9ABAF"} >Ticket</Box>
