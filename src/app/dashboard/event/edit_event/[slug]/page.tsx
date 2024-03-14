@@ -7,7 +7,7 @@ import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import useEventStore from '@/global-state/useCreateEventState'
 import { URLS } from '@/services/urls'
 import httpService from '@/utils/httpService'
-import { Box, useToast } from '@chakra-ui/react'
+import { Box, Flex, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { focusManager, useQuery } from 'react-query'
 
@@ -25,7 +25,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
                 title: error.response?.data,
             });
         },
-        onSuccess: (data: any) => { 
+        onSuccess: (data: any) => {
 
             updateEvent({
                 id: data?.data?.content[0]?.id,
@@ -63,10 +63,26 @@ function EditEvent({ params }: { params: { slug: string } }) {
         changeTab(0)
     }, [])
 
-    return (
+    return ( 
         <LoadingAnimation loading={isLoading}>
-            <Box width={"full"} >
-                <CreateEventHeader />
+            <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"74px"} display={["none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]} >
+                <CreateEventHeader name="Edit Events"  />
+                <Flex bgColor={"gray.300"} w={"full"} p={["0px", "0px", "0px", "3"]} overflowY={["auto"]}  >
+                    <Flex bgColor={"white"} w={"full"} px={"3"} h={["fit-content"]} rounded={["0px", "0px", "0px", "2xl"]} >
+                        {tab === 0 && (
+                            <EventTheme />
+                        )}
+                        {tab === 1 && (
+                            <EventInformation />
+                        )}
+                        {tab === 2 && (
+                            <EventTicket promotion={(data?.data?.content[0]?.productTypeData[0]?.ticketType === "Promotion" || data?.data?.content[0]?.productTypeData[0]?.rerouteURL) ? true : false} />
+                        )}
+                    </Flex>
+                </Flex>
+            </Flex>
+            <Box width={"full"} display={["block", "block", "block", "none"]}  >
+                <CreateEventHeader name="Edit Events" />
                 {tab === 0 && (
                     <EventTheme />
                 )}
@@ -78,6 +94,20 @@ function EditEvent({ params }: { params: { slug: string } }) {
                 )}
             </Box>
         </LoadingAnimation>
+        // <LoadingAnimation loading={isLoading}>
+        //     <Box width={"full"} >
+        //         <CreateEventHeader />
+        //         {tab === 0 && (
+        //             <EventTheme />
+        //         )}
+        //         {tab === 1 && (
+        //             <EventInformation />
+        //         )}
+        //         {tab === 2 && (
+        //             <EventTicket promotion={(data?.data?.content[0]?.productTypeData[0]?.ticketType === "Promotion" || data?.data?.content[0]?.productTypeData[0]?.rerouteURL) ? true : false} />
+        //         )}
+        //     </Box>
+        // </LoadingAnimation>
     )
 }
 

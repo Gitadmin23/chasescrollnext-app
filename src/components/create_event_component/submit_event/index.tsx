@@ -1,4 +1,5 @@
 import CustomButton from '@/components/general/Button'
+import ModalLayout from '@/components/sharedComponent/modal_layout';
 import useEventStore from '@/global-state/useCreateEventState';
 import { useDetails } from '@/global-state/useUserDetails';
 import { URLS } from '@/services/urls';
@@ -6,8 +7,9 @@ import httpService from '@/utils/httpService';
 import { Flex, useToast } from '@chakra-ui/react'
 import { AxiosError, AxiosResponse } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useState } from 'react'
 import { useMutation } from 'react-query';
+import SuccessMessageCreateEvent from '../success_message';
 
 interface Iprops {
     type: any,
@@ -25,6 +27,8 @@ function SubmitEvent(props: Iprops) {
     const { userId: user_index } = useDetails((state) => state);
     const router = useRouter()
     const pathname = usePathname();
+
+    const [open, setOpen] = useState(false)
 
     // const []
     const toast = useToast()
@@ -382,15 +386,15 @@ function SubmitEvent(props: Iprops) {
             });
         },
         onSuccess: (data: AxiosResponse<any>) => {
-            router.push("/dashboard/event/my_event")
-            toast({
-                title: 'Success',
-                description: "Event Created",
-                status: 'success',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
+            setOpen(true)
+            // toast({
+            //     title: 'Success',
+            //     description: "Event Created",
+            //     status: 'success',
+            //     isClosable: true,
+            //     duration: 5000,
+            //     position: 'top-right',
+            // });
         }
     });
 
@@ -450,9 +454,12 @@ function SubmitEvent(props: Iprops) {
     }, [saveToDraft, uploadImage, createEventFromDraft])
 
     return (
-        <Flex alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} my={"4"} >
-            <CustomButton borderWidth={tab === 2 ? "2px" : "0px"} backgroundColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} _disabled={{cursor: "not-allowed" }} width={"400px"}
+        <Flex w={"full"} alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} >
+            <CustomButton borderWidth={tab === 2 ? "2px" : "0px"} backgroundColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} _disabled={{cursor: "not-allowed" }} width={"full"}
                 text={pathname?.includes("edit_event_data") ? "Update Event" :pathname?.includes("edit_event") && tab === 2 ? "Update Event" : tab === 2 ? 'Submit' : 'Continue'} />
+            <ModalLayout close={setOpen} open={open} >
+                <SuccessMessageCreateEvent update={(pathname?.includes("edit_event_data") || pathname?.includes("edit_event")) ? true : false} />
+            </ModalLayout>
         </Flex>
     )
 }

@@ -1,7 +1,7 @@
 import { PictureIcon } from '@/components/svg'
 import useEventStore from '@/global-state/useCreateEventState';
 import { IMAGE_URL } from '@/services/urls';
-import { Box, Flex, Image, Text } from '@chakra-ui/react'
+import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react'
 import React from 'react'
 
 interface Props { }
@@ -12,20 +12,38 @@ function SelectImage(props: Props) {
     const { eventdata, updateImage, image } = useEventStore((state) => state);
     const [selectedImageFile, setSelectedImageFile] = React.useState('');
 
+    const toast = useToast()
+
     const handleImageChange = (e: any) => {
 
         const selected = e.target.files[0];
+        
+
+        console.log(selected?.size === 107787);
+        
         const TYPES = ["image/png", "image/jpg", "image/jpeg"];
-        if (selected && TYPES.includes(selected.type)) {
-            updateImage(selected)
-            // handleFileChange(e)
-            const reader: any = new FileReader();
-            reader.onloadend = () => {
-                setSelectedImageFile(reader.result)
-            }
-            reader.readAsDataURL(selected)
+        if(selected?.size > 800000) {
+
+            toast({
+                title: 'Error',
+                description: 'Image size should be less than 800KB',
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
         } else {
-            console.log('Error')
+            if (selected && TYPES.includes(selected.type)) {
+                updateImage(selected)
+                // handleFileChange(e)
+                const reader: any = new FileReader();
+                reader.onloadend = () => {
+                    setSelectedImageFile(reader.result)
+                }
+                reader.readAsDataURL(selected)
+            } else {
+                console.log('Error')
+            }
         }
     } 
 
@@ -67,7 +85,7 @@ function SelectImage(props: Props) {
                 </Box>
                 <Box>
                     <Text>Max. file size:</Text>
-                    <Text>10MB</Text>
+                    <Text>800KB</Text>
                 </Box>
                 <Box>
                     <Text>Image type:</Text>
