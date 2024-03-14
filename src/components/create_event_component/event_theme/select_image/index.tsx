@@ -26,7 +26,7 @@ function SelectImage(props: Props) {
 
             toast({
                 title: 'Error',
-                description: 'Image is Above 800KB',
+                description: 'Image size should be less than 800KB',
                 status: 'error',
                 isClosable: true,
                 duration: 5000,

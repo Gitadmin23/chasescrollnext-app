@@ -16,39 +16,39 @@ function CreateEventHeader({ name }: IProps) {
 
     const pathname = usePathname();
 
-    const getValidationInfo = () => {
-        if (!eventdata?.startDate) {
-            return true
-        } else if (!eventdata?.endDate) {
-            return true
-        } else if (!eventdata?.location?.toBeAnnounced) {
-            if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
-                return true
-            }
-        } else if (pathname?.includes("edit_event_data")) {
-            return true
-        } else {
-            return false
-        }
-    }
+    // const getValidationInfo = () => {
+    //     if (!eventdata?.startDate) {
+    //         return true
+    //     } else if (!eventdata?.endDate) {
+    //         return true
+    //     } else if (!eventdata?.location?.toBeAnnounced) {
+    //         if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
+    //             return true
+    //         }
+    //     } else if (pathname?.includes("edit_event_data")) {
+    //         return true
+    //     } else {
+    //         return false
+    //     }
+    // }
 
-    const getValidationTheme = () => {
-        if (!eventdata?.eventName) {
-            return true
-        } else if (!eventdata?.eventType) {
-            return true
-        } else if (!eventdata?.eventDescription) {
-            return true
-        } else {
-            return false
-        }
-    }
+    // const getValidationTheme = () => {
+    //     if (!eventdata?.eventName) {
+    //         return true
+    //     } else if (!eventdata?.eventType) {
+    //         return true
+    //     } else if (!eventdata?.eventDescription) {
+    //         return true
+    //     } else {
+    //         return false
+    //     }
+    // }
 
 
     const getValidationInfoClick = () => {
         if (pathname?.includes("edit_event_data")) {
             toast({
-                description: "Fill all the field in information tab to continue",
+                description: "Complete all fields in the information section to continue.",
                 status: 'error',
                 isClosable: true,
                 duration: 5000,
@@ -58,7 +58,7 @@ function CreateEventHeader({ name }: IProps) {
         } else {
             if (!eventdata?.startDate) {
                 toast({
-                    description: "Fill all the field in information tab to continue",
+                    description: "Complete all fields in the information section to continue.",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -67,7 +67,7 @@ function CreateEventHeader({ name }: IProps) {
                 return
             } else if (!eventdata?.endDate) {
                 toast({
-                    description: "Fill all the field in information tab to continue",
+                    description: "Complete all fields in the information section to continue.",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -76,7 +76,7 @@ function CreateEventHeader({ name }: IProps) {
                 return
             } else if (eventdata?.startDate > eventdata?.endDate) {
                 toast({
-                    description: "Fill all the field in information tab to continue",
+                    description: "Complete all fields in the information section to continue.",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -86,7 +86,7 @@ function CreateEventHeader({ name }: IProps) {
             } else if (!eventdata?.location?.toBeAnnounced) {
                 if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
                     toast({
-                        description: "Please Enter Event Location",
+                        description: "Complete all fields in the information section to continue.",
                         status: 'error',
                         isClosable: true,
                         duration: 5000,
@@ -121,7 +121,7 @@ function CreateEventHeader({ name }: IProps) {
         if (!pathname?.includes("edit_event_data")) {
             if (!eventdata?.eventName) {
                 toast({
-                    description: "Fill all the field in theme to continue",
+                    description: "Complete all fields in the Themes section to continue.",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -130,7 +130,7 @@ function CreateEventHeader({ name }: IProps) {
                 return
             } else if (!eventdata?.eventType) {
                 toast({
-                    description: "Fill all the field in theme to continuee",
+                    description: "Complete all fields in the Themes section to continue.e",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -139,7 +139,7 @@ function CreateEventHeader({ name }: IProps) {
                 return
             } else if (!eventdata?.eventDescription) {
                 toast({
-                    description: "Fill all the field in theme to continue",
+                    description: "Complete all fields in the Themes section to continue.",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -148,7 +148,7 @@ function CreateEventHeader({ name }: IProps) {
                 return
             } else if (!image && !eventdata?.currentPicUrl) {
                 toast({
-                    description: "Fill all the field in theme to continue",
+                    description: "Complete all fields in the Themes section to continue.",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
