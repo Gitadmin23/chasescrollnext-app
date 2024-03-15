@@ -1,8 +1,10 @@
 import CustomButton from '@/components/general/Button';
 import useEventStore from '@/global-state/useCreateEventState';
 import { Box, Flex, Text, useToast } from '@chakra-ui/react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import {  } from 'next/router';
 import React from 'react'
+import { IoArrowBack, IoArrowForward } from 'react-icons/io5';
 
 interface IProps {
     name?: string
@@ -16,34 +18,7 @@ function CreateEventHeader({ name }: IProps) {
 
     const pathname = usePathname();
 
-    // const getValidationInfo = () => {
-    //     if (!eventdata?.startDate) {
-    //         return true
-    //     } else if (!eventdata?.endDate) {
-    //         return true
-    //     } else if (!eventdata?.location?.toBeAnnounced) {
-    //         if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
-    //             return true
-    //         }
-    //     } else if (pathname?.includes("edit_event_data")) {
-    //         return true
-    //     } else {
-    //         return false
-    //     }
-    // }
-
-    // const getValidationTheme = () => {
-    //     if (!eventdata?.eventName) {
-    //         return true
-    //     } else if (!eventdata?.eventType) {
-    //         return true
-    //     } else if (!eventdata?.eventDescription) {
-    //         return true
-    //     } else {
-    //         return false
-    //     }
-    // }
-
+    const router = useRouter()
 
     const getValidationInfoClick = () => {
         if (pathname?.includes("edit_event_data")) {
@@ -170,12 +145,12 @@ function CreateEventHeader({ name }: IProps) {
     }
 
     return (
-        <Flex position={"relative"} h={["fit-content", "fit-content", "fit-content", "100vh"]} width={["full", "full", "full", "546px"]} >
-
-
-            <Flex pos={"absolute"} display={["none", "none", "none", "flex"]} top={"4"} w={"full"} justifyContent={"center"} alignItems={"center"} >
-
+        <Flex position={"relative"} h={["fit-content", "fit-content", "fit-content", "100vh"]} width={["full", "full", "full", "546px"]} > 
+            <Flex pos={"absolute"} display={["none", "none", "none", "flex"]} top={"4"} w={"full"} h={"30px"} justifyContent={"center"} alignItems={"center"} >
                 <Text fontWeight={"bold"} fontSize={"20px"} >{name}</Text>
+            </Flex>
+            <Flex as={"button"} w={"fit-content"} onClick={()=> router?.back()} left={"6"} justifyContent={"center"} alignItems={"center"} height={"30px"} pos={"absolute"} display={["none", "none", "none", "flex"]} top={"18px"}  > 
+                <IoArrowBack size={"25px"} />
             </Flex>
             <Flex justifyContent={"center"} alignItems={"center"} flexDir={"column"} px={["4", "4", "4", "12"]} py={"5"} h={["fit-content", "fit-content", "fit-content", "100vh"]} width={["full", "full", "full", "546px"]}  >
                 <Flex  pos={["relative", "relative", "relative","absolute"]} top={["0px", "0px", "0px", "12"]} w={"full"} py={"3"} justifyContent={"space-around"} >
