@@ -44,6 +44,8 @@ function DeleteEvent(props: Props) {
                 position: 'top-right',
             });
             queryClient.refetchQueries(URLS.GET_DRAFT + "?createdBy=" + user_index)
+            queryClient.refetchQueries("/events/drafts")
+            
             queryClient.refetchQueries(URLS.JOINED_EVENT + user_index)
         }
     });
