@@ -97,7 +97,7 @@ function ExploreEventCard(props: Props) {
                         {(!draft && !profile && !my_event) && (
                             <Flex alignItems={"center"} gap={"3"} >
                                 <ShareEvent data={event} type="EVENT" size='18px' id={event?.id} />
-                                {(userId && email) && (
+                                {(userId && email && !past) && (
                                     <SaveOrUnsaveBtn event={event} />
                                 )}
                             </Flex>
@@ -113,14 +113,16 @@ function ExploreEventCard(props: Props) {
                         <InterestedUsers fontSize={14} event={event} border={"2px"} size={"28px"} />
                     )}
 
-                    {my_event && (
+                    {(my_event || past) && (
                         <Flex justifyContent={"space-between"} gap={"3"} flexDirection={"column"} width={"full"} >
-                            <Flex gap={"2"} fontSize={"sm"} alignItems={"center"} >
-                                <Text>Category:</Text>
-                                <Text color={"brand.chasescrollBlue"} fontWeight={"bold"}  >
-                                    {event?.eventType?.replace("_", " ")}
-                                </Text>
-                            </Flex>
+                            {!past && (
+                                <Flex gap={"2"} fontSize={"sm"} alignItems={"center"} >
+                                    <Text>Category:</Text>
+                                    <Text color={"brand.chasescrollBlue"} fontWeight={"bold"}  >
+                                        {event?.eventType?.replace("_", " ")}
+                                    </Text>
+                                </Flex>
+                            )}
                             <Flex alignItems={"center"} gap={"3"} >
                                 <Flex rounded={"md"} px={"2"} py={"1"} width={"fit-content"} bgColor={"brand.chasescrollBgBlue"} color={"brand.chasescrollBlue"} gap={"2"} fontSize={"sm"} alignItems={"center"} >
                                     {event?.isOrganizer ? "Organizer" : "Attending"}

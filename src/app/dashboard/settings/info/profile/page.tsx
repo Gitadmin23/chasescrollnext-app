@@ -1,6 +1,6 @@
 'use client';
 import { Box, Button, HStack, Image, Spinner, VStack, useToast } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ArrowLeft2, ArrowRight2, Camera } from 'iconsax-react'
 import CustomText from '@/components/general/Text'
 import { THEME } from '@/theme'
@@ -78,6 +78,11 @@ function EditProfile() {
     // watching variables
     const website = watch('website');
     const about = watch('aboutme'); 
+    // const firstname = watch('firstName');
+
+    // useEffect(() => { 
+    //     s
+    // }, [firstname])
 
     const { isLoading, isError } = useQuery(['getUserDetails', userId], () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`), {
         onSuccess: (data) => {
@@ -161,7 +166,7 @@ function EditProfile() {
 
                         {/* HEADER */}
                         <HStack width={'100%'} height={'50px'} justifyContent={'space-between'}>
-                            <ArrowLeft2 size={'30px'} color='black' onClick={() => router.back()} />
+                            <ArrowLeft2 role='button' size={'30px'} color='black' onClick={() => router.back()} />
                             <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Edit Profile</CustomText>
                             <Box></Box>
                         </HStack>

@@ -9,6 +9,7 @@ import { CgMore } from "react-icons/cg";
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 interface Props {
+    data: any,
     user_index: any,
     setDeleted?: any,
     deleted?: any,
@@ -17,6 +18,7 @@ interface Props {
 
 function BlockBtn(props: Props) {
     const {
+        data,
         user_index,
         setDeleted,
         deleted,
@@ -30,6 +32,9 @@ function BlockBtn(props: Props) {
     const toast = useToast();
     const { userId } = useDetails((state) => state);
     const queryClient = useQueryClient()
+
+    console.log(data);
+    
 
     const self = userId === user_index;
 

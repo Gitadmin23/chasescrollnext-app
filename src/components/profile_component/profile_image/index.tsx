@@ -66,6 +66,9 @@ function ProfileImage(props: Props) {
         }
     }
 
+    console.log(data);
+    
+
     return (
         <LoadingAnimation loading={isLoading} >
             <Box position={"relative"} bg={"gray.400"} height={"442px"} >
@@ -102,7 +105,7 @@ function ProfileImage(props: Props) {
                     {showModal && (
                         <Box width={"127px"} zIndex={"20"} position={"absolute"} top={"70px"} right={"0px"} shadow={"lg"} bg={"white"} rounded={"16px"} >
                             <Flex width={"full"} justifyContent={"center"} borderBottomColor={"#0000001F"} borderBottomWidth={"1px"} py={"2"} >
-                                <BlockBtn isprofile={true} user_index={user_index} />
+                                <BlockBtn data={data} isprofile={true} user_index={user_index} />
                             </Flex>
                             <Flex width={"full"} justifyContent={"center"} borderBottomWidth={"1px"} py={"2"} >
                                 <ShareEvent type='PROFILE' isprofile={true} istext={true} id={user_index} />
