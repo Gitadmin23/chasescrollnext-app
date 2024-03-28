@@ -84,7 +84,9 @@ function EventDetails(props: Props) {
         dataInfo,
     } = props
 
-    const [selectedCategory, setSelectedCategory] = useState({} as any)
+
+    const { category, setCategory } = useModalStore((state) => state); 
+
     const router = useRouter()
 
     const { userId, email } = useDetails((state) => state);
@@ -127,14 +129,14 @@ function EventDetails(props: Props) {
                 <Grid templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} py={"3"} gap={6}>
                     <EventDate name='Event Start date and time' date={timeAndDate} />
                     <EventDate name='Event End date and time' date={endtimeAndDate} />
-                    <EventUserOption event={dataInfo} isOrganizer={isOrganizer} isBought={isBought} ticket={price} currency={currency} selectedticket={selectedCategory} setCategory={setSelectedCategory} />
+                    <EventUserOption event={dataInfo} isOrganizer={isOrganizer} isBought={isBought} ticket={price} currency={currency} selectedticket={category} setCategory={setCategory} />
                 </Grid>
                 <OtherEventInfo name={'About this event'} data={about} />
                 <Grid templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} py={"3"} gap={6}>
 
                     <EventLocationDetail location={location} locationType={locationType} indetail={true} />
                     {!isOrganizer && (
-                        <GetEventTicket ticket={price} setSelectedTicket={setSelectedCategory} data={dataInfo} selectedTicket={selectedCategory} isBought={isBought} isFree={isFree} />
+                        <GetEventTicket ticket={price} setSelectedTicket={setCategory} data={dataInfo} selectedTicket={category} isBought={isBought} isFree={isFree} />
                     )}
                 </Grid>
                 {location?.address && (

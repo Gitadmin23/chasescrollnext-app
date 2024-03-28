@@ -123,12 +123,12 @@ function ExploreEventCard(props: Props) {
                                     </Text>
                                 </Flex>
                             )}
-                            <Flex alignItems={"center"} gap={"3"} >
-                                <Flex rounded={"md"} px={"2"} py={"1"} width={"fit-content"} bgColor={"brand.chasescrollBgBlue"} color={"brand.chasescrollBlue"} gap={"2"} fontSize={"sm"} alignItems={"center"} >
-                                    {event?.isOrganizer ? "Organizer" : "Attending"}
+                            <Flex alignItems={"center"} gap={"3"} justifyContent={["space-between", "space-between", "space-between", ""]} >
+                                <Flex rounded={"md"} px={"2"} py={"1"} width={"fit-content"} bgColor={past ? "#F04F4F" : "brand.chasescrollBgBlue"} color={past ? "white" : "brand.chasescrollBlue"} gap={"2"} fontSize={"sm"} alignItems={"center"} >
+                                    {event?.isOrganizer ? "Organizer" : past ? "Attended" : "Attending"}
                                 </Flex>
                                 {my_event && (
-                                    <ShareEvent data={event} type="EVENT" size='18px' id={event?.id} />
+                                    <ShareEvent data={event} type="EVENT" size='18px'id={event?.id} />
                                 )}
                             </Flex>
                         </Flex>

@@ -63,10 +63,13 @@ function SelectTicketNumber(props: Props) {
                 position: 'top-right',
             });
             
-            queryClient.refetchQueries(['event_ticket' + data?.id])
-            queryClient.refetchQueries(['all-events-details' + data.id])
+            queryClient.refetchQueries(['event_ticket'])
+            queryClient.refetchQueries(['all-events-details'])
+
+            // queryClient.invalidateQueries(['event_ticket' + id])
+            // queryClient.invalidateQueries(['all-events-details' + id])
             // router.refresh()
-            window.location.reload()
+            // window.location.reload()
             close(false)
         },
         onError: (error) => {

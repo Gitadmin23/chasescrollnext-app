@@ -94,7 +94,7 @@ function Signup() {
         }
     });
   return renderForm(
-    <VStack width='100%' height='100vh' justifyContent={'center'} padding={['20px', '0px']}>
+    <VStack width='100%' height='100%' justifyContent={'center'} padding={['20px', '20px']}>
       <Image src='/assets/images/chasescroll-logo.png' width={100} height={100} alt='chasescroll logo' />
       <CustomText color='brand.chasescrollBlue' fontSize='xl' marginY='10px'>Create An account</CustomText>
 

@@ -78,8 +78,8 @@ function Fundpaystack(props: Props) {
                 position: 'top-right',
             });
 
-            queryClient.invalidateQueries(['event_ticket' + id])
-            queryClient.invalidateQueries(['all-events-details' + id])
+            queryClient.invalidateQueries(['event_ticket'])
+            queryClient.invalidateQueries(['all-events-details'])
 
             // router.push("/dashboard/event/my_event")
             setOpen(true)

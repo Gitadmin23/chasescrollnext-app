@@ -1,3 +1,8 @@
+import CustomButton from '@/components/general/Button'
+import CustomText from '@/components/general/Text'
+import GoogleBtn from '@/components/sharedComponent/googlebtn'
+import ModalLayout from '@/components/sharedComponent/modal_layout'
+import useModalStore from '@/global-state/useModalSwitch'
 import { useDetails } from '@/global-state/useUserDetails'
 import { formatNumber } from '@/utils/numberFormat'
 import { Box, Button, Flex, Text } from '@chakra-ui/react'
@@ -18,25 +23,37 @@ function SelectTicket(props: Props) {
     const {
         ticket,
         selectedticket,
-        currency,
         setCategory,
+        currency,
         data
     } = props
 
+
     const [showModal, setShowModal] = React.useState(false)
-    const { userId: user_index } = useDetails((state) => state); 
+    const [open, setOpen] = React.useState(false)
+    const token = sessionStorage.getItem('tp_token')
+    const { userId: user_index } = useDetails((state) => state);
 
     const router = useRouter()
 
     const clickHandler = (item: any) => {
 
-        if (!user_index) {
-            router.push("/share/auth/login?type=EVENT&typeID=" + data?.id)
-        } else { 
-        setCategory(item)
-        setShowModal(false)
+        console.log(token);
+
+        if (token) {
+            setCategory(item)
+            setShowModal(false)
+        } else {
+            if (!user_index) {
+                setOpen(true)
+                setCategory(item)
+                // router.push("/share/auth/?type=EVENT&typeID=" + data?.id)
+            } else {
+                setCategory(item)
+                setShowModal(false)
+            }
         }
-    } 
+    }
 
     return (
         <Flex gap={"3"} position={"relative"} alignItems={"center"} justifyContent={"end"} pl={"5"}  >
@@ -54,7 +71,7 @@ function SelectTicket(props: Props) {
             {showModal && (
                 <Box width={"full"} pl={"5"} borderWidth={"0px"} zIndex={"30"} top={"60px"} position={"absolute"} rounded={"lg"} >
                     <Flex gap={"3"} flexDirection={"column"} shadow={"lg"} width={"full"} borderColor={"#D0D4EB"} padding={"4"} borderBottomWidth={"0px"} bg={"white"} rounded={"lg"}>
-                        {ticket?.filter((item: any) => item?.ticketType)?.map((item: any, index: number) => { 
+                        {ticket?.filter((item: any) => item?.ticketType)?.map((item: any, index: number) => {
                             return (
                                 <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                     {item?.totalNumberOfTickets === item?.ticketsSold ?
@@ -70,6 +87,25 @@ function SelectTicket(props: Props) {
             {showModal && (
                 <Box onClick={() => setShowModal(false)} bg={"black"} inset={"0px"} position={"fixed"} opacity={"0.25"} zIndex={"20"} />
             )}
+            <ModalLayout open={open} close={setOpen} title='' closeIcon={true} >
+                <Flex w={"full"} flexDir={"column"} gap={"4"} p={"6"} >
+                    <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"44.8px"} >Get Ticket</Text>
+                    <Text color={"#62619.6px262"} textAlign={"center"} lineHeight={"22.4px"} >Please choose your option and proceed with Chasescroll.</Text>
+                    <GoogleBtn title='Sign up ' height='50px' border='1px solid #B6B6B6' bgColor='white' />
+                    <Flex justifyContent={"center"} gap={"2px"} alignItems={"center"} >
+                        <Text color={"#BCBCBC"} fontSize={"14px"} lineHeight={"19.6px"} >OR</Text>
+                    </Flex>
+                    {/* <CustomButton backgroundColor={"#EDEFFF"} color={"#5465E0"} fontWeight={"400"} onClick={() => router.push("/share/auth/login/?type=EVENT&typeID=" + data?.id)} text={"Get Temporary Account"} /> */}
+                    <CustomButton backgroundColor={"#EDEFFF"} color={"#5465E0"} fontWeight={"400"} onClick={() => router.push("/share/auth/temporary-account/?type=EVENT&typeID=" + data?.id)} text={"Get Temporary Account"} />
+                    <CustomButton backgroundColor={"#5D70F9"} color={"white"} onClick={() => router.push("/share/auth/signup/?type=EVENT&typeID=" + data?.id)} text={"Sign up"} />
+                    <Flex>
+                        <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'} marginLeft='0px'>
+                            Already have an account?
+                        </CustomText>
+                        <CustomText onClick={() => router.push("/share/auth/login/?type=EVENT&typeID=" + data?.id)} ml={"4px"} fontSize={'sm'} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} cursor='pointer'>Log in</CustomText>
+                    </Flex>
+                </Flex>
+            </ModalLayout>
         </Flex>
     )
 }

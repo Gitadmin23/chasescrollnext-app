@@ -27,7 +27,7 @@ function GetEventData(props: Props) {
 
     focusManager.setFocused(false)
     // react query
-    const { isLoading, isRefetching } = useQuery(['all-events-details' + event_index], () => httpService.get(URLS.All_EVENT + "?id=" + event_index), {
+    const { isLoading, isRefetching } = useQuery(['all-events-details' ,  event_index], () => httpService.get(URLS.All_EVENT + "?id=" + event_index), {
         onError: (error: any) => {
             toast({
                 status: "error",
