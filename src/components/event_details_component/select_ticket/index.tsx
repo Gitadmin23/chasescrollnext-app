@@ -8,7 +8,7 @@ import { formatNumber } from '@/utils/numberFormat'
 import { Box, Button, Flex, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import router from 'next/router'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { LiaAngleDownSolid } from 'react-icons/lia'
 
 interface Props {
@@ -36,10 +36,7 @@ function SelectTicket(props: Props) {
 
     const router = useRouter()
 
-    const clickHandler = (item: any) => {
-
-        console.log(token);
-
+    const clickHandler = (item: any) => { 
         if (token) {
             setCategory(item)
             setShowModal(false)
@@ -54,6 +51,10 @@ function SelectTicket(props: Props) {
             }
         }
     }
+
+    useEffect(()=> {
+        setCategory({} as any)
+    }, [])
 
     return (
         <Flex gap={"3"} position={"relative"} alignItems={"center"} justifyContent={"end"} pl={"5"}  >
