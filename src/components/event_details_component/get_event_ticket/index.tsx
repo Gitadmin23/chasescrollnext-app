@@ -52,7 +52,7 @@ function GetEventTicket(props: Props) {
     const [ticketLenght, setTicketLenght] = useState(0)
     const { userId: user_index } = useDetails((state) => state);
     const toast = useToast()
-
+    const token = sessionStorage.getItem('tp_token')
     const router = useRouter()
 
     const clickHandler = (event: any) => {
@@ -70,7 +70,10 @@ function GetEventTicket(props: Props) {
                 position: 'top-right',
             });
         } else {
-            if (!user_index) {
+            if (token) {
+                setModalTab(carousel ? 6 : isBought ? 5 : 1)
+                setShowModal(true)
+            } else if (!user_index) {
                 router.push("/share/auth/login?type=EVENT&typeID=" + data?.id)
             } else {
                 setModalTab(carousel ? 6 : isBought ? 5 : 1)
@@ -85,25 +88,25 @@ function GetEventTicket(props: Props) {
         setShowModal(true)
     }
 
-    const closeHandler = () => { 
+    const closeHandler = () => {
         setModalTab(1)
         setShowModal(false)
     }
 
-    const { isLoading } = useQuery(['event_ticket' + data?.id], () => httpService.get(URLS.GET_TICKET + user_index + "&eventID=" + data?.id), {
-        onError: (error: any) => {
-            toast({
-                status: "error",
-                title: error.response?.data,
-                position: 'top-right',
-            });
-        },
-        onSuccess: (data) => {
-            // console.log(data);
-            setTicketLenght(data?.data?.content?.length)
-            setTicketDetails(data?.data?.content[0]);
-        }
-    })
+    // const { isLoading } = useQuery(['event_ticket', data?.id, sessionStorage?.getItem("user_id")], () => httpService.get(URLS.GET_TICKET + user_index ? user_index : sessionStorage?.getItem("user_id") + "" + "&eventID=" + data?.id), {
+    //     onError: (error: any) => {
+    //         toast({
+    //             status: "error",
+    //             title: error.response?.data,
+    //             position: 'top-right',
+    //         });
+    //     },
+    //     onSuccess: (data) => {
+    //         console.log(data);
+    //         setTicketLenght(data?.data?.content?.length)
+    //         setTicketDetails(data?.data?.content[0]);
+    //     }
+    // })
 
 
     const createTicket = useMutation({
@@ -167,27 +170,17 @@ function GetEventTicket(props: Props) {
                     <PaymentType data={data} ticketCount={numbOfTicket} currency={data?.currency} selectedCategory={selectedTicket?.ticketType} click={setModalTab} />
                 )}
                 {modalTab === 5 && (
-                    <LoadingAnimation loading={isLoading} >
+                    // <LoadingAnimation loading={isLoading} >
                         <ViewTicket
-                            userName={ticketDetails?.createdBy?.firstName + " " + ticketDetails?.createdBy?.lastName}
-                            date={ticketDetails?.event?.startDate}
-                            time={ticketDetails?.event?.startDate}
-                            ticketFee={ticketDetails?.ticketType === "Free"
-                                ? "Free"
-                                : ticketDetails?.boughtPrice
-                            }
+                            user_index={user_index}
                             click={goback}
-                            orderId={ticketDetails?.id}
-                            length={ticketLenght}
-                            currency={ticketDetails?.event?.currency}
-                            location={ticketDetails?.event?.locationDetails}
-                            datainfo={ticketDetails} />
-                    </LoadingAnimation>
+                            data={data} />
+                    // </LoadingAnimation>
                 )}
                 {modalTab === 6 && (
                     <SelectTicketType ticket={ticket} setSelectedTicket={setSelectedTicket} currency={data?.currency} click={setModalTab} />
                 )}
-                {modalTab === 7 && ( 
+                {modalTab === 7 && (
                     <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
                         <SuccessIcon />
                         <Text fontSize={"24px"} color={"#151515"} lineHeight={"44.8px"} fontWeight={"500"} mt={"4"} >Ticket Purchase Successful</Text>

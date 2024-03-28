@@ -164,6 +164,10 @@ function LoginPage() {
 
   });
 
+  React.useEffect(()=> {
+    sessionStorage.setItem("tp_token", "")
+  }, [])
+
   const clickHandler = async () => {
     setLoading(true);
     if (!FirstName) {

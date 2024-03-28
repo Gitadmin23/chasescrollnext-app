@@ -26,11 +26,7 @@ function SugestedUserSection() {
         onSuccess: (data) => {
             setData(data?.data?.content) 
         }
-    })
-
-    console.log(BlockedUser);
-    
-
+    }) 
     return (
         <Flex pb={"8"} pt={["16"]} flexDirection={"column"} flex={"1"} overflowY={"auto"} overflowX={"hidden"} >
             <Flex width={"full"} justifyContent={"space-between"} py={"5"} >
