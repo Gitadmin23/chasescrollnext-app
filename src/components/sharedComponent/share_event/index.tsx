@@ -32,13 +32,11 @@ function ShareEvent(props: Props) {
         showText = true
     } = props
 
-    const [open, setOpen] = useState(false)
-    const [show, setShow] = useState(true)
+    const [open, setOpen] = useState(false) 
     const [tab, setTab] = useState(1)
 
     const CloseModal = () => {
-        setOpen(false)
-        setShow(false)
+        setOpen(false) 
         setTab(1)
     }
 
@@ -47,23 +45,23 @@ function ShareEvent(props: Props) {
         setOpen(true)
     }
 
-    const firstHandler = (event: any) => {
-        event.stopPropagation();
-        setShow(true)
-    }
+    // const firstHandler = (event: any) => {
+    //     event.stopPropagation();
+    //     setShow(true)
+    // }
 
     return (
         <Box width={"fit-content"} zIndex={"20"} mt={size === "18px" ? "10px" : "0px"} >
             {(isprofile && !istext) && (
-                <Box mt={"2px"} onClick={(e: any) => firstHandler(e)} as={"button"} >
+                <Box mt={"2px"} onClick={(e: any) => clickHandler(e)} as={"button"} >
                     <ShareIcon color={"#000"} />
                 </Box>
             )}
             {(isprofile && istext) && (
-                <Text onClick={(e: any) => firstHandler(e)} as={"button"} >Share</Text>
+                <Text onClick={(e: any) => clickHandler(e)} as={"button"} >Share</Text>
             )}
             {!isprofile && (
-                <Box onClick={(e: any) => firstHandler(e)} as='button' display={"flex"} alignItems={"center"} flexDir={"column"} >
+                <Box onClick={(e: any) => clickHandler(e)} as='button' display={"flex"} alignItems={"center"} flexDir={"column"} >
                     <ShareIcon width={size ? size : "24px"} color={"#3C41F0"} />
                     { showText && <Text color={"#3C41F0"} fontSize={"9px"} fontWeight={"semibold"} >share</Text>}
                 </Box>
@@ -78,20 +76,7 @@ function ShareEvent(props: Props) {
                 {tab === 3 && ( 
                     <Qr_code data={data} close={CloseModal} id={id} />
                 )}
-            </ModalLayout>
-            <ModalLayout open={show} close={CloseModal} >
-                <Flex py={"6"} width={"full"} flexDir={"column"} px={"6"} alignItems={"center"} >
-                    <WarningIcon />
-                    <Text maxW={"352px"} textAlign={"center"} color={"#121212"} fontWeight={"medium"} fontSize={"18px"} lineHeight={"28px"} >Make sure you are using a web browser to access this page to avoid any errors.</Text>
-                    <Text color={"#667085"} fontSize={"14px"} lineHeight={"20px"} >supported Browsers:</Text>
-                    <Flex gap={"8"} w={"fit-content"} py={"6"} alignItems={"center"} >
-                        <ChromesIcon />
-                        <SafariIcon />
-                        <ExplorerIcon />
-                    </Flex>
-                    <CustomButton onClick={(e)=> clickHandler(e)} text={"Open"} backgroundColor={"transparent"} border={"1px solid #5465E0"} color={"#5465E0"} />
-                </Flex>
-            </ModalLayout>
+            </ModalLayout> 
         </Box>
     )
 }
