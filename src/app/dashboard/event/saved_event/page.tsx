@@ -17,12 +17,12 @@ function SavedEvent(props: Props) {
     const { search } = useSearchStore((state) => state);
 
     const { userId: user_index } = useDetails((state) => state);
-    const { data ,results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.SAVED_EVENT + user_index+"?searchText="+search, limit: 10, filter: "id" })
+    const { data ,results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.SAVED_EVENT + user_index+(search ? "?searchText="+search : ""), limit: 10, filter: "id" })
  
     return (
-        <HStack height={"fit-content"} display={"flex"} flexDir={"column"} width={"full"} overflowX={"hidden"} overflowY={"auto"} justifyContent={"center"}  >
+        <Flex height={"fit-content"} flexDir={"column"} width={"full"} overflowX={"hidden"} overflowY={"auto"} alignItems={"center"}  >
             <SearchBar change={true} />
-            <Box width={["full", "full", "700px"]} px={"6"} position={"relative"} >
+            <Box width={["full", "full", "700px"]} position={"relative"} mx={"auto"} >
                 <Box width={"full"}  >
                     <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
                         <Flex gap={"4"} flexDirection={"column"} >
@@ -45,7 +45,7 @@ function SavedEvent(props: Props) {
                     </LoadingAnimation>
                 </Box>
             </Box>
-        </HStack>
+        </Flex>
     )
 }
 

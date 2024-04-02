@@ -1,6 +1,6 @@
 import { CustomInput } from '@/components/Form/CustomInput'
 import CustomButton from '@/components/general/Button'
-import httpService from '@/utils/httpService';
+import httpService, { unsecureHttpService } from '@/utils/httpService';
 import { signInTemporaryValidation } from '@/services/validations';
 import { Flex, Image, Text, useToast } from '@chakra-ui/react'
 import React from 'react'
@@ -30,7 +30,7 @@ export default function Temporarylogin() {
   }, [query, seType, setAll])
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: (data) => httpService.post(`/auth/temporary-signup`, data),
+    mutationFn: (data) => unsecureHttpService.post(`/auth/temporary-signup`, data),
     onError: (error) => {
       toast({
         title: 'An error occured',
