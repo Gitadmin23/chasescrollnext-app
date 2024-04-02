@@ -53,7 +53,7 @@ function DashboardNavbar(props: Props) {
                             <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
                             <CustomText fontFamily={'Satoshi-Regular'} fontSize='lg' color='#12299C'>Chasescroll</CustomText>
                         </Flex>
-                        {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event") && (
+                        {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft") && (
                             <Box display={["none", "none", "block"]} >
                                 <SearchBar home={home} />
                             </Box>
