@@ -15,7 +15,7 @@ function Layout({ children }: {
     return (
         <Box width={"full"} px={(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft")&& pathname !== ("/dashboard/event/create_event_promotion")) ? ["5", "8"] : ""} py={(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft")&& pathname !== ("/dashboard/event/create_event_promotion")) ? "8" : ""} overflowX={"hidden"} >
             {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion") && !pathname?.includes("/event/details") && !pathname?.includes("/event/pastdetails") ) && (
-                <Flex width={"full"} justifyContent={"space-between"} pb={"8"} alignItems={"center"}  >
+                <Flex width={"full"} justifyContent={"space-between"} gap={"4"} flexDir={["column", "column", "row"]} pb={"8"} alignItems={["start", "start" ,"center"]}  >
                     <SelectEventPage />
                     <CreateEventBtn />
                 </Flex>

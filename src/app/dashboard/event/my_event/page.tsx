@@ -17,12 +17,12 @@ function MyEvent(props: Props) {
     const { search } = useSearchStore((state) => state);
 
     const { userId: user_index } = useDetails((state) => state);
-    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.JOINED_EVENT + user_index+"?searchText="+search, limit: 10, filter: "id" })
+    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.JOINED_EVENT + user_index+(search ? "?searchText="+search : ""), limit: 10, filter: "id" })
 
     return (
         <HStack height={"fit-content"} display={"flex"} flexDir={"column"} overflowX={"hidden"}  width={"full"} overflowY={"auto"} justifyContent={"center"}  >
             <SearchBar change={true} />
-            <Box width={["full", "full", "700px"]} px={"6"} position={"relative"} >
+            <Box width={["full", "full", "700px"]} position={"relative"} >
                 <Box width={"full"}  >
                     <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
                         <Flex gap={"4"} flexDirection={"column"} >

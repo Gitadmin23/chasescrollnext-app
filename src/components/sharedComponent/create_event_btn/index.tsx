@@ -28,12 +28,12 @@ function CreateEventBtn(props: Props) {
 
 
     return (
-        <Box position={"relative"}  >
-            <Flex onClick={() => clickHander()} as={"button"} w={"152px"} ml={"auto"} fontWeight={"medium"} border={"1px solid #3C41F0"} justifyContent={"center"} color={"brand.chasescrollBlue"} fontSize={"14px"} lineHeight={"20px"} height={"44px"} rounded={"8px"} alignItems={"center"} gap={"2"} >
+        <Box position={"relative"} w={"full"}  >
+            <Flex onClick={() => clickHander()} as={"button"} w={["full", "full", "152px"]} ml={["0px", "0px","auto"]} fontWeight={"medium"} border={"1px solid #3C41F0"} justifyContent={"center"} color={"brand.chasescrollBlue"} fontSize={"14px"} lineHeight={"20px"} height={"44px"} rounded={"8px"} alignItems={"center"} gap={"2"} >
                 Create Event
             </Flex>
             {open && (
-                <Flex zIndex={"110"} position={"absolute"} top={"0px"} flexDir={"column"} right={"0px"} width={"374px"} py={"4"} px={"6"} bg={"white"} rounded={'8px'} >
+                <Flex zIndex={"110"} position={"absolute"} top={"0px"} flexDir={"column"} right={"0px"} maxW={"374px"} w={"full"} py={"4"} px={"6"} bg={"white"} rounded={'8px'} >
                     <Flex w={"full"} alignItems={"center"} justifyContent={"space-between"} >
                         <Flex role="button" onClick={() => router.push("/dashboard/home")} justifyContent={'center'} gap={"2"} >
                             <Image src='/assets/images/chasescroll-logo.png' width={"24px"} height={"24px"} alt='logo' />
