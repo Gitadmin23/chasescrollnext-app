@@ -17,7 +17,7 @@ function SavedEvent(props: Props) {
     const { search } = useSearchStore((state) => state);
 
     const { userId: user_index } = useDetails((state) => state);
-    const { data ,results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.SAVED_EVENT + user_index+(search ? "?searchText="+search : ""), limit: 10, filter: "id" })
+    const { data ,results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.SAVED_EVENT + user_index+(search ? "&searchText="+search : "")+"&type=EVENT", limit: 10, filter: "id" })
  
     return (
         <Flex height={"fit-content"} flexDir={"column"} width={"full"} overflowX={"hidden"} overflowY={"auto"} alignItems={"center"}  >
