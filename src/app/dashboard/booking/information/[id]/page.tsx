@@ -18,10 +18,13 @@ import { useDetails } from '@/global-state/useUserDetails';
 import { useRouter } from 'next/navigation'
 import BookingsTab from '@/components/booking_component/detail_component/booking_tab';
 
-interface Props { }
+type Props = {
 
-function BookingDetails(props: Props) {
-    const { id } = useParams();
+}
+
+function BookingDetails(props: Props) { 
+
+    const { id }: any = useParams();
     const { userId } = useDetails((state) => state);
     const router = useRouter();
 
