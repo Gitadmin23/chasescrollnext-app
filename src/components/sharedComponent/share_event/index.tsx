@@ -1,13 +1,14 @@
 'use client';
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { FiUpload } from 'react-icons/fi'
 import ModalLayout from '../modal_layout'
 import SendMessage from '@/components/modals/send_message'
 import SendMesageModal from '@/components/modals/send_message/send_to_app_user'
-import { MessageIcon, ShareIcon } from '@/components/svg'
+import { ChromesIcon, ExplorerIcon, MessageIcon, SafariIcon, ShareIcon, WarningIcon } from '@/components/svg'
 import { ShareType } from '@/app/share/page'
 import Qr_code from '@/components/modals/send_message/Qr_code';
+import CustomButton from '@/components/general/Button';
 
 interface Props {
     id: any,
@@ -31,11 +32,11 @@ function ShareEvent(props: Props) {
         showText = true
     } = props
 
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false) 
     const [tab, setTab] = useState(1)
 
     const CloseModal = () => {
-        setOpen(false)
+        setOpen(false) 
         setTab(1)
     }
 
@@ -43,6 +44,11 @@ function ShareEvent(props: Props) {
         event.stopPropagation();
         setOpen(true)
     }
+
+    // const firstHandler = (event: any) => {
+    //     event.stopPropagation();
+    //     setShow(true)
+    // }
 
     return (
         <Box width={"fit-content"} zIndex={"20"} mt={size === "18px" ? "10px" : "0px"} >
@@ -70,7 +76,7 @@ function ShareEvent(props: Props) {
                 {tab === 3 && ( 
                     <Qr_code data={data} close={CloseModal} id={id} />
                 )}
-            </ModalLayout>
+            </ModalLayout> 
         </Box>
     )
 }

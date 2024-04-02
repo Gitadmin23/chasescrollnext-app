@@ -11,6 +11,7 @@ import React, { useEffect, useState } from 'react'
 import { Icon } from "@iconify/react";
 import { WalletIcon2 } from '@/components/svg'
 import UserImage from '../userimage'
+import { usePathname } from 'next/navigation'
 
 interface Props {
     pathname?: string | null,
@@ -31,6 +32,7 @@ function DashboardNavbar(props: Props) {
     } = props
 
     const router = useRouter()
+    const pathname = usePathname()
 
     const clickHandler = (item: string) => {
         router.push(item)
@@ -38,12 +40,7 @@ function DashboardNavbar(props: Props) {
 
     let token = localStorage.getItem("token")
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const [pathname, setPathname] = useState("")
-
-    useEffect(() => {
-        setPathname(window?.location?.pathname)
-    }, [])
+    const { isOpen, onOpen, onClose } = useDisclosure() 
 
     return (
         <Box width="full">
@@ -56,9 +53,11 @@ function DashboardNavbar(props: Props) {
                             <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
                             <CustomText fontFamily={'Satoshi-Regular'} fontSize='lg' color='#12299C'>Chasescroll</CustomText>
                         </Flex>
-                        <Box display={["none", "none", "block"]} >
-                            <SearchBar home={home} />
-                        </Box>
+                        {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft") && (
+                            <Box display={["none", "none", "block"]} >
+                                <SearchBar home={home} />
+                            </Box>
+                        )}
                     </Flex>
                     {/* LARGE SCREEN ICONS */}
 
@@ -72,7 +71,7 @@ function DashboardNavbar(props: Props) {
                             </Box>
                             {/* <CustomText fontWeight={"bold"} >{username}</CustomText> */}
                             <NotificationBar />
-                            <Box as='button' onClick={()=> router.push(`/dashboard/profile/${userId}`)} > 
+                            <Box as='button' onClick={() => router.push(`/dashboard/profile/${userId}`)} >
                                 <UserImage border={"2px"} font={"14px"} size={"30px"} image={image} data={data} />
                             </Box>
                         </HStack>
@@ -81,7 +80,7 @@ function DashboardNavbar(props: Props) {
                     {!home && (
                         <HStack display={['flex', 'none']}>
 
-                            <Box onClick={() => router.push("/dashboard/settings/payment/details")} as={"button"} > 
+                            <Box onClick={() => router.push("/dashboard/settings/payment/details")} as={"button"} >
                                 <WalletIcon2 />
                             </Box>
                             <Link href='/dashboard/chats'>
@@ -105,7 +104,7 @@ function DashboardNavbar(props: Props) {
                             )}
                             {token && (
                                 <Flex ml={"6"} gap={"5"}>
-                                    <ButtonGroup bluesecond ctaText="Dashboard" url={"/dashboard/event"} /> 
+                                    <ButtonGroup bluesecond ctaText="Dashboard" url={"/dashboard/event"} />
                                 </Flex>
                             )}
                         </Flex>

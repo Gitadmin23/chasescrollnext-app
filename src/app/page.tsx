@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
 // import Image from 'next/image'
@@ -18,11 +18,11 @@ import CreateEventBtn from '@/components/sharedComponent/create_event_btn';
 
 export default function Home() {
 
-  const pathname = usePathname(); 
-
-  //  React.useEffect(() => {  
-  //   router.push('/auth');
-  //  }, [router]);
+  const pathname = usePathname();  
+  
+  useEffect(()=> {
+    sessionStorage.setItem("tp_token", "")
+  }, [])
 
   return (
     <Flex flexDir={"column"} height={"100vh"} position={"relative"} overflowX={"hidden"} >

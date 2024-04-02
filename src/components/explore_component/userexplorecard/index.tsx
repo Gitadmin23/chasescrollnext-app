@@ -37,7 +37,7 @@ function UserExploreCard(props: Props) {
 
     return (
         <Flex as={"button"} alignItems={"center"} onClick={()=> router.push("/dashboard/profile/" + userId)} flexDirection={"column"} width={"180px"} gap={"12px"}  roundedBottom={"24px"} roundedTopLeft={"24px"} shadow={"lg"} p={"12px"} pb={"24px"} bg={"brand.chasescrollWhite"}>
-            <BlockBtn setDeleted={setDeleted} deleted={deleted} user_index={userId} />
+            <BlockBtn data={data} setDeleted={setDeleted} deleted={deleted} user_index={userId} />
             <Flex alignItems={"center"} width={"full"} gap={["1", "1", "2"]} flexDirection={"column"} >
                 <UserImage data={data} size={20} image={data?.data?.imgMain?.value} />
             </Flex>

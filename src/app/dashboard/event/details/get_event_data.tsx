@@ -1,13 +1,17 @@
 "use client"
 import EventDetails from '@/components/event_details_component'
+import CustomButton from '@/components/general/Button'
 import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
+import ModalLayout from '@/components/sharedComponent/modal_layout'
+import { WarningIcon, ChromesIcon, SafariIcon, ExplorerIcon } from '@/components/svg'
 import usePaystackStore from '@/global-state/usePaystack'
 import { URLS } from '@/services/urls'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import httpService from '@/utils/httpService'
-import { Box, useToast } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Flex, Text, useToast } from '@chakra-ui/react'
+import { usePathname } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 import { useQuery, focusManager } from 'react-query'
 
 interface Props {
@@ -22,12 +26,14 @@ function GetEventData(props: Props) {
     } = props
     const toast = useToast()
     const [data, setData] = React.useState({} as any) 
+    const [show, setShow] = useState(false)
+    const pathname = usePathname()
 
     const { configPaystack, setPaystackConfig } = usePaystackStore((state) => state);
 
     focusManager.setFocused(false)
     // react query
-    const { isLoading, isRefetching } = useQuery(['all-events-details' + event_index], () => httpService.get(URLS.All_EVENT + "?id=" + event_index), {
+    const { isLoading, isRefetching } = useQuery(['all-events-details' ,  event_index], () => httpService.get(URLS.All_EVENT + "?id=" + event_index), {
         onError: (error: any) => {
             toast({
                 status: "error",
@@ -38,6 +44,12 @@ function GetEventData(props: Props) {
             setData(data?.data?.content[0]);
         }
     })
+
+    useEffect(()=> {
+        if(!pathname?.includes("dasnboard")){
+            setShow(true)
+        }
+    }, [pathname])
 
     return (
         <Box width={"full"}  >
@@ -68,6 +80,20 @@ function GetEventData(props: Props) {
                     ticketBought={data?.ticketBought} attendees={undefined} />
             </LoadingAnimation> 
             <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} />
+
+            <ModalLayout open={show} close={setShow} >
+                <Flex py={"6"} width={"full"} flexDir={"column"} px={"6"} alignItems={"center"} >
+                    <WarningIcon />
+                    <Text maxW={"352px"} textAlign={"center"} color={"#121212"} fontWeight={"medium"} fontSize={"18px"} lineHeight={"28px"} >Make sure you are using a web browser to access this page to avoid any errors.</Text>
+                    <Text color={"#667085"} fontSize={"14px"} lineHeight={"20px"} >supported Browsers:</Text>
+                    <Flex gap={"8"} w={"fit-content"} py={"6"} alignItems={"center"} >
+                        <ChromesIcon />
+                        <SafariIcon />
+                        <ExplorerIcon />
+                    </Flex>
+                    <CustomButton onClick={()=> setShow(false)} text={"Close"} backgroundColor={"transparent"} border={"1px solid #5465E0"} color={"#5465E0"} />
+                </Flex>
+            </ModalLayout>
         </Box>
     )
 }

@@ -46,6 +46,12 @@ const signInValidation = z.object({
     password: z.string().nonempty('Password cannot be empty'),
 })
 
+const signInTemporaryValidation = z.object({
+    email: z.string().email().nonempty(), 
+    firstName: z.string().nonempty('firstName cannot be empty').min(3, 'must contain at least 3 characters'), 
+    lastName: z.string().nonempty('lastName cannot be empty').min(3, 'must contain at least 3 characters'), 
+})
+
 const personinforSchema = z.object({
     // email: z.string().nonempty().email(),
     phone: z.string().nonempty().min(11),
@@ -135,5 +141,6 @@ export {
     editProfileSchema,
     editPersonalInfoSchema,
     changePasswordSchema,
-    createBusinessValidation
-}
+    createBusinessValidation, 
+    signInTemporaryValidation
+};

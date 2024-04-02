@@ -1,5 +1,5 @@
 "use client";
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Divider, HStack, VStack, Image, useToast, Button, Flex, Input, Text } from '@chakra-ui/react';
 import CustomText from '@/components/general/Text';
 import CustomButton from '@/components/general/Button';
@@ -10,7 +10,7 @@ import { signInValidation } from '@/services/validations';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDetails } from '@/global-state/useUserDetails';
 import { useMutation, useQuery } from 'react-query';
-import httpService from '@/utils/httpService';
+import httpService, { unsecureHttpService } from '@/utils/httpService';
 import { URLS } from '@/services/urls';
 import { CustomInput } from '@/components/Form/CustomInput';
 import { signIn, useSession } from 'next-auth/react'
@@ -18,6 +18,7 @@ import { Session, } from 'next-auth';
 import { useShareState } from '../../state';
 import httpServiceGoogle from '@/utils/httpServiceGoogle';
 import CopyRightText from '@/components/sharedComponent/CopyRightText';
+import Temporarylogin from '../temporary-account/temporarylogin';
 
 
 
@@ -123,6 +124,10 @@ function LoginPage() {
 
   }, [sessionData])
 
+  useEffect(()=> {
+    sessionStorage.setItem("tp_token", "") 
+  }, [])
+
   const signinWithGoogle = useMutation({
     mutationFn: (data: string) => httpServiceGoogle.get(`${URLS.SIGN_IN_WTIH_CREDENTIALS}`, {
       headers: {
@@ -208,7 +213,7 @@ function LoginPage() {
   })
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: (data) => httpService.post(`${URLS.LOGIN}`, data),
+    mutationFn: (data) => unsecureHttpService.post(`${URLS.LOGIN}`, data),
     onError: (error) => {
       toast({
         title: 'An error occured',
@@ -319,7 +324,8 @@ function LoginPage() {
     },
     validationSchema: signInValidation,
     submit: (data) => mutate(data)
-  });
+  }); 
+
   return renderForm(
     <VStack width='100%' height='100vh' overflow={'hidden'} alignItems={'flex-start'} justifyContent={['flex-start', 'center']} bg='white' paddingX={['0px', '150px',]} spacing={0} position={'relative'}>
 
@@ -329,7 +335,7 @@ function LoginPage() {
         <HStack flex='1' width={'100%'} height='100%' justifyContent={'center'}>
 
           <Flex direction={['column']} alignItems={'center'} justifyContent={'center'} width={['100%', '100%']} height={'100%'}>
- 
+
             <VStack flex='0.5' paddingBottom={['30px', '0px']} width={['100%', '50%']} marginTop={['30px', '0px']} height={['100%']} justifyContent={'center'} alignItems={'center'} spacing={6}>
 
               <VStack width={['100%', '463px']} height='374px' borderWidth={'0.2px'} borderRadius={'24px 0px 24px 24px'} borderColor={'grey'} paddingTop={'30px'} paddingX='20px'>
@@ -340,10 +346,10 @@ function LoginPage() {
 
                 <HStack justifyContent={'space-between'} spacing={0} width='100%' marginY='20px'>
                   {/* <Link href='/auth/forgotpassword'>
-                    <CustomText color='brand.chasescrollBlue' fontSize={'sm'} fontFamily={'Satoshi-Regular'} textAlign={'left'}>
-                      Forgot password ?
-                    </CustomText>
-                  </Link> */}
+                  <CustomText color='brand.chasescrollBlue' fontSize={'sm'} fontFamily={'Satoshi-Regular'} textAlign={'left'}>
+                    Forgot password ?
+                  </CustomText>
+                </Link> */}
 
                   <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'}>
                     Dont have an account ?
@@ -371,26 +377,6 @@ function LoginPage() {
         </HStack>
 
       </Box>
-
-      {/* <HStack display={['none', 'flex']} width={'100%'} height={'100px'} borderTop={'1px'} borderTopColor={'lightgrey'} alignItems={'center'} justifyContent={'center'}>
-        {LINK2.map((item, index) => {
-          if (item.isExternal) {
-            return (
-              <CustomText fontFamily={'DM-Regular'} fontSize={'16px'} marginX={'10px'} display={{ sm: exclude.includes(item.name) ? 'none' : 'inline', lg: 'inline' }} key={index.toString()}>
-                <a key={index.toString()} href={item.link}>{item.name}</a>
-              </CustomText>
-            )
-          } else {
-            return (
-              <CustomText display={{ sm: exclude.includes(item.name) ? 'none' : 'inline', lg: 'inline-block' }} fontFamily={'DM-Regular'} fontSize={'16px'} marginX={'10px'} key={index.toString()}>
-                <Link href={`/${item.link}`} key={index.toString()}>
-                  {item.name}
-                </Link>
-              </CustomText>
-            )
-          }
-        })}
-      </HStack> */}
 
       <Box width={"full"} display={["none", "none", "flex"]} mt={"auto"} flexDirection={"column"} >
 

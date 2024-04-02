@@ -72,7 +72,7 @@ function StepTwo(props: Props) {
                         </Flex>
                         <Flex gap={"1"} flexDir={"column"} >
                             <Text fontSize={"sm"} color={"#101828B2"} >Zip Code</Text>
-                            <Input value={locationData.zipCode} onChange={(e) => setAll({ locationData: { ...locationData, zipCode: e.target.value }})}  h={"40px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" placeholder='Zip Code' />
+                            <Input value={locationData.zipcode} onChange={(e) => setAll({ locationData: { ...locationData, zipCode: e.target.value }})}  h={"40px"} _placeholder={{ color: "#66708533" }} borderColor={"#A3A3A3"} focusBorderColor="#A3A3A3" placeholder='Zip Code' />
                         </Flex>
                         <Flex gap={"1"} flexDir={"column"} >
                             <Text fontSize={"sm"} color={"#101828B2"} >State</Text>

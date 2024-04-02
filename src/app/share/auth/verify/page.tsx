@@ -7,12 +7,16 @@ import CustomButton from '@/components/general/Button';
 import { useMutation } from 'react-query';
 import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 function VerifyAccount() {
     const [code, setCode] = React.useState('');
-    const router = useRouter();
+    const router = useRouter(); 
 
+    const query = useSearchParams();
+    const type = query?.get('type');
+    const typeID = query?.get('typeID');
+    
     const toast = useToast();
     const { mutate, isLoading } = useMutation({
         mutationFn: (data: { token: string }) => httpService.post(`${URLS.VERIFY_TOKEN}`, data),
@@ -35,7 +39,7 @@ function VerifyAccount() {
                 duration: 5000,
                 position: 'top-right',
             });
-            router.push('/share/auth/login');
+            router.push(`/share/auth/login?type=${type}&typeID=${typeID}`);
         }
     });
 
