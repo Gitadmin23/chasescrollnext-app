@@ -10,7 +10,7 @@ import { signInValidation } from '@/services/validations';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDetails } from '@/global-state/useUserDetails';
 import { useMutation, useQuery } from 'react-query';
-import httpService from '@/utils/httpService';
+import httpService, { unsecureHttpService } from '@/utils/httpService';
 import { URLS } from '@/services/urls';
 import { CustomInput } from '@/components/Form/CustomInput';
 import { signIn, useSession } from 'next-auth/react'
@@ -125,7 +125,7 @@ function LoginPage() {
   }, [sessionData])
 
   useEffect(()=> {
-    sessionStorage.setItem("tp_token", "")
+    sessionStorage.setItem("tp_token", "") 
   }, [])
 
   const signinWithGoogle = useMutation({
@@ -213,7 +213,7 @@ function LoginPage() {
   })
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: (data) => httpService.post(`${URLS.LOGIN}`, data),
+    mutationFn: (data) => unsecureHttpService.post(`${URLS.LOGIN}`, data),
     onError: (error) => {
       toast({
         title: 'An error occured',

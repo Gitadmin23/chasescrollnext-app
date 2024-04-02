@@ -1,5 +1,5 @@
 "use client";
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image';
 import { Box, Checkbox, HStack, VStack, useToast } from '@chakra-ui/react';
 import CustomText from '@/components/general/Text';
@@ -9,9 +9,9 @@ import { CustomInput } from '@/components/Form/CustomInput';
 import { THEME } from '@/theme';
 import CustomButton from '@/components/general/Button';
 import { useMutation } from 'react-query';
-import httpService from '@/utils/httpService';
+import httpService, { unsecureHttpService } from '@/utils/httpService';
 import { URLS } from '@/services/urls'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link';
 import GoogleBtn from '@/components/sharedComponent/googlebtn';
 import { DropdownDate } from 'react-dropdown-date';
@@ -25,14 +25,14 @@ function Signup() {
   const [month, setmonth] = React.useState('');
   const [day, setday] = React.useState('');
   const [year, setyear] = React.useState('');
-  const [dob, setdate] = React.useState(''); 
+  const [dob, setdate] = React.useState('');
 
   const router = useRouter();
   const [terms, setTerms] = React.useState(false);
   const toast = useToast();
 
   const sendVerificatinEmail = useMutation({
-    mutationFn: (data: string) => httpService.post(`${URLS.SEND_VERIFICATION_EMAIL}`, {
+    mutationFn: (data: string) => unsecureHttpService.post(`${URLS.SEND_VERIFICATION_EMAIL}`, {
       userEmail: data,
       emailType: 1,
     }),
@@ -104,8 +104,9 @@ function Signup() {
     }
   });
 
-
-
+  const query = useSearchParams();
+  const type = query?.get('type');
+  const typeID = query?.get('typeID');
 
   const formatDate = (item: any, name: string) => {
 
@@ -144,6 +145,11 @@ function Signup() {
     }
 
   }
+
+  useEffect(()=> {
+    sessionStorage.setItem("tp_token", "")
+    localStorage.setItem('token', "");
+  }, [])
 
   return renderForm(
     <VStack width='100%' height='100%' overflowY={"auto"} justifyContent={'center'} padding={['20px', '20px']} py={["20px", "20px"]}>
@@ -243,7 +249,7 @@ function Signup() {
           <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'} marginLeft='0px'>
             Already have an account ?
           </CustomText>
-          <Link href="/auth">
+          <Link href={`/share/auth/login?type=${type}&typeID=${typeID}`}>
             <CustomText color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} decoration={'underline'} cursor='pointer'>Log in</CustomText>
           </Link>
         </HStack>
