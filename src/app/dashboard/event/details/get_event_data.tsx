@@ -46,7 +46,7 @@ function GetEventData(props: Props) {
     })
 
     useEffect(()=> {
-        if(!pathname?.includes("dasnboard")){
+        if(!pathname?.includes("dashboard")){
             setShow(true)
         }
     }, [pathname])
