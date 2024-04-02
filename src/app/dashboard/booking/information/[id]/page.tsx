@@ -19,16 +19,20 @@ import { useRouter } from 'next/navigation'
 import BookingsTab from '@/components/booking_component/detail_component/booking_tab';
 
 type Props = {
-
-}
+    params: { id: string } 
+  } 
 
 function BookingDetails(props: Props) { 
 
-    const { id }: any = useParams();
+    const {
+        params: id
+    } = props
+
+    // const { id }: any = useParams();
     const { userId } = useDetails((state) => state);
     const router = useRouter();
 
-    console.log(`this is the id ${id}`);
+    // console.log(`this is the id ${props?.params?.id}`);
 
     const [service, setService] = React.useState<IService|null>(null);
     const [active, setActive] = React.useState(1);
@@ -40,7 +44,7 @@ function BookingDetails(props: Props) {
     const [showModal, setShowModal] = React.useState(false);
 
     const toast = useToast();
-    const { isLoading, isError } = useQuery(['getService', id], () => httpService.get(URLS.GET_SERVICES, {
+    const { isLoading, isError } = useQuery(['getService',  id], () => httpService.get(URLS.GET_SERVICES, {
         params: {
             id,
         }
