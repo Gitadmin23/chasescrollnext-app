@@ -20,7 +20,8 @@ interface Props {
     eventName?: string,
     data?: any;
     showText?: boolean;
-    home?: boolean
+    home?: boolean,
+    notext?: boolean
 }
 
 function ShareEvent(props: Props) {
@@ -32,7 +33,8 @@ function ShareEvent(props: Props) {
         eventName,
         data,
         showText = true,
-        home
+        home,
+        notext
     } = props
 
     const [open, setOpen] = useState(false)
@@ -65,12 +67,14 @@ function ShareEvent(props: Props) {
             )}
             {!isprofile && (
                 <>
-                    {home && ( 
+                    {home && (
                         <Flex onClick={(e: any) => clickHandler(e)} as='button' w={"41px"} height={"44px"} justifyContent={"center"} flexDir={"column"} alignItems={"center"} >
-                            <HomeShareIcon />
-                            {/* <FiMessageSquare color='black' fontSize={15} /> */}
-                            <CustomText textColor={"#00000099"} fontFamily={'Satoshi-Light'} fontSize='10px' >share</CustomText>
-                            {/* </VStack> */}
+                            <Flex width={"24px"} h={"30px"} justifyContent={"center"} alignItems={"center"} >
+                                <HomeShareIcon />
+                            </Flex>
+                            {!notext && (
+                                <CustomText textColor={"#00000099"} fontFamily={'Satoshi-Light'} fontSize='10px' >share</CustomText>
+                            )} 
                         </Flex>
                     )}
                     {!home && (
