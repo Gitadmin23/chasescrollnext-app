@@ -42,23 +42,26 @@ function ExploreEventCard(props: Props) {
         dashboard
     } = props
 
-    const router = useRouter()
-    const { updateEvent } = useEventStore((state) => state);
+    const router = useRouter() 
     const { setSearchValue } = useSearchStore((state) => state);
 
     const { userId, email } = useDetails((state) => state);
 
-    const clickHandler = () => {
-        if (!userId && !email) {
-            router.push("/event/" + event?.id)
-        } else if (draft) {
-            router.push("/dashboard/event/edit_draft/" + event?.id)
+    let token = localStorage.getItem("token")
 
+    const clickHandler = () => { 
+        
+        if (draft) {
+            router.push("/dashboard/event/edit_draft/" + event?.id) 
         } else if (dashboard) {
             router.push("/dashboard/settings/event-dashboard/" + event?.id)
         } else if (past) {
             router.push("/dashboard/event/pastdetails/" + event?.id)
-        } else {
+        }else if (token) {
+            router.push("/dashboard/event/details/" + event?.id)
+        } else if (!userId && !email) {
+            router.push("/event/" + event?.id)
+        }  else {
             router.push("/dashboard/event/details/" + event?.id)
         }
         setSearchValue("")

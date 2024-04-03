@@ -99,9 +99,12 @@ function EventDetails(props: Props) {
         }
     }
 
+    console.log(category);
+    
+
     return (
         <Box width={"full"} display={"flex"} flexDirection={"column"} pt={["", "", "2"]} position={"relative"} paddingBottom={"12"} >
-            <Flex w={"full"} px={"4"} justifyContent={"space-between"} alignItems={"center"} >
+            <Flex w={"full"} display={["flex", "flex", "none"]} px={"4"} justifyContent={"space-between"} alignItems={"center"} >
                 <Box as='button' onClick={() => clickHander()}>
                     <MdArrowBackIos color={"#292D32"} size={"24px"} />
                 </Box>

@@ -44,9 +44,11 @@ function GetEventData(props: Props) {
             setData(data?.data?.content[0]);
         }
     })
+    
+    let token = sessionStorage.getItem('tp_token')+"";
 
     useEffect(()=> {
-        if(!pathname?.includes("dashboard")){
+        if(!pathname?.includes("dashboard") && !token){
             setShow(true)
         }
     }, [pathname])
