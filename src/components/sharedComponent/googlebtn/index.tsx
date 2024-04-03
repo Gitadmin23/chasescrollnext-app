@@ -95,7 +95,7 @@ function GoogleBtn(props: Props) {
 
         <Button onClick={handleGoogleSignIn} width={['100%', fixedwidth ? fixedwidth : '100%']} height={height ? height : '40px'} borderRadius={'8px'} border={border} _hover={{backgroundColor: bgColor ? bgColor: "#1018280D"}} bg={bgColor ? bgColor : '#1018280D'} padding='8px 16px 8px 16px'>
             <Image alt='google' src='/assets/svg/googlelogo.svg' />
-            <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color='black' fontWeight={'700'}>{title} with Google</CustomText>
+            <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color='#111111' fontWeight={'700'}>{title} with Google</CustomText>
         </Button>
     )
 }
