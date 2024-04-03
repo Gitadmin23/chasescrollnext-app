@@ -7,12 +7,14 @@ import React, { useState } from 'react'
 interface Props {
     id: any,
     data?: any;
+    notext?: boolean
 }
 
 function EventQrCode(props: Props) {
     const {
         id,
-        data
+        data,
+        notext
     } = props
 
     const [open, setOpen] = useState(false)
@@ -23,8 +25,10 @@ function EventQrCode(props: Props) {
 
     return (
         <>
-            <Flex onClick={()=> setOpen(true)} as={"button"} gap={"11px"} >
-                <Text color={"#3C41F0"} >Get Event QR Code</Text>
+            <Flex onClick={() => setOpen(true)} as={"button"} gap={"11px"} >
+                {!notext && (
+                    <Text color={"#3C41F0"} >Get Event QR Code</Text>
+                )}
                 <ScanIcon />
             </Flex>
 

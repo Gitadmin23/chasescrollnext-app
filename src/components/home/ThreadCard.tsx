@@ -209,14 +209,14 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
           {!likeMutation.isLoading && (
             <Flex w={"41px"} height={"44px"} justifyContent={"center"} flexDir={"column"} alignItems={"center"} >
               {/* <Heart onClick={() => likeMutation.mutate()} color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'} size={'25px'} variant={post?.likeStatus === 'LIKED' ? 'Bold': 'Outline'} /> */}
-              <Box onClick={() => likeMutation.mutate()} >
+              <Flex width={"24px"} h={"30px"} justifyContent={"center"} alignItems={"center"} onClick={() => likeMutation.mutate()} >
                 {post?.likeStatus !== 'LIKED' && (
                   <HomeHeartIcon />
                 )}
                 {post?.likeStatus === 'LIKED' && (
                   <HomeHeartFillIcon />
                 )}
-              </Box>
+              </Flex>
               {/* <FiHeart onClick={() => likeMutation.mutate()} color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'} fontSize={15} /> */}
               <CustomText onClick={() => setShowLikes(true)} fontFamily={'Satoshi-Light'} fontSize='10px' color={post?.likeStatus === 'LIKED' ? 'red' : '#00000099'}>{post?.likeCount}</CustomText>
             </Flex>
@@ -233,7 +233,9 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
         {!props.shared && (
           <Link href={`/dashboard/home/comment/${post?.id}`}>
             <Flex w={"41px"} height={"44px"} justifyContent={"center"} flexDir={"column"} alignItems={"center"} >
-              <HomeCommentIcon />
+              <Flex width={"24px"} h={"30px"} justifyContent={"center"} alignItems={"center"} >
+                <HomeCommentIcon />
+              </Flex>
               {/* <FiMessageSquare color='black' fontSize={15} /> */}
               <CustomText textColor={"#00000099"} fontFamily={'Satoshi-Light'} fontSize='10px' >{post?.commentCount}</CustomText>
             </Flex>
@@ -242,7 +244,9 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
 
         {props.shared && (
           <Flex onClick={handleComment} w={"41px"} height={"44px"} justifyContent={"center"} flexDir={"column"} alignItems={"center"} >
-            <MessageAdd color='grey' size={'25px'} variant='Outline' />
+            <Flex width={"24px"} h={"30px"} justifyContent={"center"} alignItems={"center"} >
+              <HomeCommentIcon />
+            </Flex>
             {/* <FiMessageSquare color='black' fontSize={15} /> */}
             <CustomText textColor={"#00000099"} fontFamily={'Satoshi-Light'} fontSize='10px' >{post?.commentCount} Comments</CustomText>
             {/* </VStack> */}

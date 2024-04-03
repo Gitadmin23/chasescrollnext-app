@@ -85,7 +85,7 @@ function EventDetails(props: Props) {
     } = props
 
 
-    const { category, setCategory } = useModalStore((state) => state); 
+    const { category, setCategory } = useModalStore((state) => state);
 
     const router = useRouter()
 
@@ -100,12 +100,18 @@ function EventDetails(props: Props) {
     }
 
     return (
-        <Box width={"full"} display={"flex"} flexDirection={"column"} pt={["6", "6", "2"]} position={"relative"} paddingBottom={"12"} >
+        <Box width={"full"} display={"flex"} flexDirection={"column"} pt={["", "", "2"]} position={"relative"} paddingBottom={"12"} >
+            <Flex w={"full"} px={"4"} justifyContent={"space-between"} alignItems={"center"} >
+                <Box as='button' onClick={() => clickHander()}>
+                    <MdArrowBackIos color={"#292D32"} size={"24px"} />
+                </Box>
+                <Text color={"#121212"} fontWeight={"bold"} lineHeight={"22px"} >Event Details</Text>
+                <ShareEvent home={true} notext={true} data={dataInfo} id={dataInfo?.id} type="EVENT" eventName={eventName} />
+            </Flex>
             <Flex width={"full"} flexDirection={["column", "column", "row"]} alignItems={"start"} position={"relative"} justifyContent={"center"} >
 
-
                 <Box height={["230px", "230px", "350px"]} px={["4", "4", "0px"]} mt={["4", "4", "0px"]} position={"relative"} width={"full"} rounded={"16px"} roundedTopRight={"none"} >
-                    <Box w={"42px"} position={"absolute"} top={"4"} left={"4"} h={"42px"} bg={"#FFFFFF40"} rounded={"full"} as='button' display={"flex"} onClick={() => clickHander()}
+                    <Box w={"42px"} position={"absolute"} top={"4"} left={"4"} h={"42px"} bg={"#FFFFFF40"} rounded={"full"} as='button' display={["none", "none", "flex"]} onClick={() => clickHander()}
                         // mt={"20px"} ml={(!email && !userId) ? "0px" : "-30px"} 
                         justifyContent={"center"} pl={"2"} alignItems={"center"} zIndex={"20"} >
                         <MdArrowBackIos color={"white"} size={"25px"} />
@@ -122,7 +128,7 @@ function EventDetails(props: Props) {
             <Box width={"full"} px={[dynamic ? "6" : "0px", "6"]}>
                 <EventHeader name={eventName} event={dataInfo} maxPrice={maxPrice} minPrice={minPrice} currency={currency} />
                 <EventCreator dynamic={dynamic} isOrganizer={isOrganizer} convener={convener} username={username} data={dataInfo} />
-                <Flex py={"3"} justifyContent={"end"} alignItems={"center"} gap={"14"} >
+                <Flex display={["none", "none", "flex"]} py={"3"} justifyContent={"end"} alignItems={"center"} gap={"14"} >
                     <EventQrCode data={dataInfo} id={dataInfo?.id} />
                     <ShareEvent data={dataInfo} id={dataInfo?.id} type="EVENT" eventName={eventName} />
                 </Flex>
