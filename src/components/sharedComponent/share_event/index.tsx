@@ -5,10 +5,11 @@ import { FiUpload } from 'react-icons/fi'
 import ModalLayout from '../modal_layout'
 import SendMessage from '@/components/modals/send_message'
 import SendMesageModal from '@/components/modals/send_message/send_to_app_user'
-import { ChromesIcon, ExplorerIcon, MessageIcon, SafariIcon, ShareIcon, WarningIcon } from '@/components/svg'
+import { ChromesIcon, ExplorerIcon, HomeShareIcon, MessageIcon, SafariIcon, ShareIcon, WarningIcon } from '@/components/svg'
 import { ShareType } from '@/app/share/page'
 import Qr_code from '@/components/modals/send_message/Qr_code';
 import CustomButton from '@/components/general/Button';
+import CustomText from '@/components/general/Text';
 
 interface Props {
     id: any,
@@ -19,6 +20,7 @@ interface Props {
     eventName?: string,
     data?: any;
     showText?: boolean;
+    home?: boolean
 }
 
 function ShareEvent(props: Props) {
@@ -29,14 +31,15 @@ function ShareEvent(props: Props) {
         istext,
         eventName,
         data,
-        showText = true
+        showText = true,
+        home
     } = props
 
-    const [open, setOpen] = useState(false) 
+    const [open, setOpen] = useState(false)
     const [tab, setTab] = useState(1)
 
     const CloseModal = () => {
-        setOpen(false) 
+        setOpen(false)
         setTab(1)
     }
 
@@ -61,10 +64,22 @@ function ShareEvent(props: Props) {
                 <Text onClick={(e: any) => clickHandler(e)} as={"button"} >Share</Text>
             )}
             {!isprofile && (
-                <Box onClick={(e: any) => clickHandler(e)} as='button' display={"flex"} alignItems={"center"} flexDir={"column"} >
-                    <ShareIcon width={size ? size : "24px"} color={"#3C41F0"} />
-                    { showText && <Text color={"#3C41F0"} fontSize={"9px"} fontWeight={"semibold"} >share</Text>}
-                </Box>
+                <>
+                    {home && ( 
+                        <Flex onClick={(e: any) => clickHandler(e)} as='button' w={"41px"} height={"44px"} justifyContent={"center"} flexDir={"column"} alignItems={"center"} >
+                            <HomeShareIcon />
+                            {/* <FiMessageSquare color='black' fontSize={15} /> */}
+                            <CustomText textColor={"#00000099"} fontFamily={'Satoshi-Light'} fontSize='10px' >share</CustomText>
+                            {/* </VStack> */}
+                        </Flex>
+                    )}
+                    {!home && (
+                        <Box onClick={(e: any) => clickHandler(e)} as='button' display={"flex"} alignItems={"center"} flexDir={"column"} >
+                            <ShareIcon width={size ? size : "24px"} color={"#3C41F0"} />
+                            {showText && <Text color={"#3C41F0"} fontSize={"9px"} fontWeight={"semibold"} >share</Text>}
+                        </Box>
+                    )}
+                </>
             )}
             <ModalLayout open={open} close={CloseModal} titlecolor={tab === 3 ? "white" : "black"} title={tab === 1 ? "Share" : tab === 2 ? "Share with friends" : ""} >
                 {tab === 1 && (
@@ -73,10 +88,10 @@ function ShareEvent(props: Props) {
                 {tab === 2 && (
                     <SendMesageModal type={props.type} isprofile={isprofile} id={id} onClose={CloseModal} />
                 )}
-                {tab === 3 && ( 
+                {tab === 3 && (
                     <Qr_code data={data} close={CloseModal} id={id} />
                 )}
-            </ModalLayout> 
+            </ModalLayout>
         </Box>
     )
 }

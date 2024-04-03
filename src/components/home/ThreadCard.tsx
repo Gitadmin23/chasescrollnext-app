@@ -23,6 +23,7 @@ import { handleLinks } from '../general/LinkExtractor';
 import { THEME } from '@/theme';
 import { formatTimeAgo } from '@/utils/helpers';
 import ImageSlider from '../modals/mediapostPages/ImageSlider';
+import { HomeCommentIcon, HomeHeartFillIcon, HomeHeartIcon } from '../svg';
 
 const longText = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis repudiandae incidunt consectetur suscipit sunt velit nostrum expedita dignissimos saepe aperiam neque, repellendus laudantium distinctio eveniet. Et error corrupti, perspiciatis similique, eaque dolores animi reiciendis delectus odio ex laborum ratione dolor odit maiores aperiam ipsam. Reprehenderit, labore voluptatem. Earum, hic voluptatibus?'
 
@@ -83,14 +84,14 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
         duration: 4000,
         isClosable: true
       });
-     }
+    }
   });
 
   const handleJoin = () => {
     const userId = localStorage.getItem('user_id');
     if (props.shared && !userId || userId === '') {
       const type = sessionStorage.getItem('type');
-      const typeID =sessionStorage.getItem('typeID');
+      const typeID = sessionStorage.getItem('typeID');
       router.push(`/share/auth/login?type=${type}&typeID=${typeID}`)
     } else {
       likeMutation.mutate()
@@ -101,7 +102,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
     const userId = localStorage.getItem('user_id');
     if (props.shared && !userId || userId === '') {
       const type = sessionStorage.getItem('type');
-      const typeID =sessionStorage.getItem('typeID');
+      const typeID = sessionStorage.getItem('typeID');
       router.push(`/share/auth/login?type=${type}&typeID=${typeID}`)
     } else {
       router.push(`/dashboard/home/comment/${post?.id}`);
@@ -113,7 +114,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   }
 
   return (
-    <Flex direction={'column'} id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='white' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='md'  boxShadow={'lg'} borderColor={'lightgrey'} color='black' padding='20px'>
+    <Flex direction={'column'} id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='white' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='md' boxShadow={'lg'} borderColor={'lightgrey'} color='black' padding='20px'>
 
       {/* MODALS SECTION */}
       <ReportUserModal typeID={post?.id} REPORT_TYPE='REPORT_USER' isOpen={showReportModal} onClose={() => setShowReportModal(false)} />
@@ -124,26 +125,26 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
         <HStack>
 
           <Link href={`/dashboard/profile/${post.user.userId}`}>
-          <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-            {post?.user?.data.imgMain.value === null && (
-              <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                <CustomText fontFamily={'DM-Regular'} >{post?.user?.firstName[0].toUpperCase()}{post?.user?.lastName[0].toUpperCase()}</CustomText>
-              </VStack>
-            )}
-            {
-              post?.user?.data.imgMain.value && (
-                <>
-                  { post?.user?.data?.imgMain?.value.startsWith('https://') && <Image src={`${post?.user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+            <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+              {post?.user?.data.imgMain.value === null && (
+                <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                  <CustomText fontFamily={'DM-Regular'} >{post?.user?.firstName[0].toUpperCase()}{post?.user?.lastName[0].toUpperCase()}</CustomText>
+                </VStack>
+              )}
+              {
+                post?.user?.data.imgMain.value && (
+                  <>
+                    {post?.user?.data?.imgMain?.value.startsWith('https://') && <Image src={`${post?.user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />}
 
-                  { !post?.user?.data?.imgMain?.value.startsWith('https://') && <Image src={`${IMAGE_URL}${post?.user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
-                </>
-              )
-            }
-          </Box>
+                    {!post?.user?.data?.imgMain?.value.startsWith('https://') && <Image src={`${IMAGE_URL}${post?.user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />}
+                  </>
+                )
+              }
+            </Box>
           </Link>
 
           <VStack spacing={0} alignItems={'flex-start'}>
-            <Link  href={`/dashboard/profile/${post.user.userId}`}>
+            <Link href={`/dashboard/profile/${post.user.userId}`}>
               <CustomText fontSize={'14px'} fontFamily={'DM-Medium'}>{post?.user?.username[0].toUpperCase()}{post?.user.username.substring(1)}</CustomText>
             </Link>
             {/* <CustomText fontSize='md' fontFamily={'DM-Regular'}>o2 Areana London</CustomText> */}
@@ -157,8 +158,8 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
           <MenuList zIndex={10} bg='white'>
             {userId === post?.user?.userId && (
               <MenuItem onClick={() => deleteMutation.isLoading ? null : deleteMutation.mutate()} color={'red'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
-               { !deleteMutation.isLoading && <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Delete Post</CustomText>}
-               { deleteMutation.isLoading && <Spinner size='sm' /> }
+                {!deleteMutation.isLoading && <CustomText fontFamily={'Satoshi-Light'} fontSize={'sm'} textAlign={'center'} width={'100%'}>Delete Post</CustomText>}
+                {deleteMutation.isLoading && <Spinner size='sm' />}
               </MenuItem>
             )}
             {/* <MenuItem color={'grey'} width={'100%'} borderBottomWidth={1} borderBottomColor={'lightgrey'}>
@@ -178,23 +179,23 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       </HStack>
 
       {/* BODY SECTION */}
-      <CustomText fontFamily={'Satoshi-Regular'}  color='black' fontSize={'16px'} width='100%' >
-        { showAll ? handleLinks(post?.text, true) : post?.text.length > 130 ? handleLinks(post?.text) : handleLinks(post?.text, true)}
-        { post?.text.length > 130 && (
-          <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'16px', cursor: 'pointer', marginLeft: '10px' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
+      <CustomText fontFamily={'Satoshi-Regular'} color='black' fontSize={'16px'} width='100%' >
+        {showAll ? handleLinks(post?.text, true) : post?.text.length > 130 ? handleLinks(post?.text) : handleLinks(post?.text, true)}
+        {post?.text.length > 130 && (
+          <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize: '16px', cursor: 'pointer', marginLeft: '10px' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
         )}
       </CustomText>
 
       {post?.type === 'WITH_IMAGE' && (
         <Box onClick={handleImageClick} width='100%' minHeight={'250px'} maxHeight={'550px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} overflow={'hidden'}>
-         <ImageSlider links={post?.multipleMediaRef} type='feed' />
+          <ImageSlider links={post?.multipleMediaRef} type='feed' />
         </Box>
       )}
 
       {post?.type === 'WITH_VIDEO_POST' && (
         <Box width='100%' maxHeight={'250px'} bg='whitesmoke' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} overflow={'hidden'}>
-          { post.mediaRef.startsWith('https://') && <VideoPlayer src={`${post.mediaRef}`} measureType='px' /> }
-          { !post.mediaRef.startsWith('https://') && <VideoPlayer src={`${IMAGE_URL}${post.mediaRef}`} measureType='px' />}
+          {post.mediaRef.startsWith('https://') && <VideoPlayer src={`${post.mediaRef}`} measureType='px' />}
+          {!post.mediaRef.startsWith('https://') && <VideoPlayer src={`${IMAGE_URL}${post.mediaRef}`} measureType='px' />}
           <VideoPlayer src={`${IMAGE_URL}${post.mediaRef}`} measureType='px' />
           {/* <video controls width={'100%'} style={{ maxHeight: '250px'}}>
             <source  type='video/mp4' src={`${IMAGE_URL}${post.mediaRef}`} />
@@ -204,41 +205,52 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
 
       {/* FOOTER SECTION */}
       <HStack justifyContent={'space-between'} alignItems={'center'} width='100%' height={'50px'} bg='white' marginTop={'20px'}>
-        <VStack  cursor={'pointer'}>
+        <VStack cursor={'pointer'}>
           {!likeMutation.isLoading && (
-            <>
-              <Heart onClick={() => likeMutation.mutate()} color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'} size={'25px'} variant={post?.likeStatus === 'LIKED' ? 'Bold': 'Outline'} />
+            <Flex w={"41px"} height={"44px"} justifyContent={"center"} flexDir={"column"} alignItems={"center"} >
+              {/* <Heart onClick={() => likeMutation.mutate()} color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'} size={'25px'} variant={post?.likeStatus === 'LIKED' ? 'Bold': 'Outline'} /> */}
+              <Box onClick={() => likeMutation.mutate()} >
+                {post?.likeStatus !== 'LIKED' && (
+                  <HomeHeartIcon />
+                )}
+                {post?.likeStatus === 'LIKED' && (
+                  <HomeHeartFillIcon />
+                )}
+              </Box>
               {/* <FiHeart onClick={() => likeMutation.mutate()} color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'} fontSize={15} /> */}
-              <CustomText onClick={() => setShowLikes(true)} fontFamily={'Satoshi-Light'} fontSize='xs' color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'}>{post?.likeCount} Likes</CustomText>
-            </>
+              <CustomText onClick={() => setShowLikes(true)} fontFamily={'Satoshi-Light'} fontSize='10px' color={post?.likeStatus === 'LIKED' ? 'red' : '#00000099'}>{post?.likeCount}</CustomText>
+            </Flex>
           )}
           {
             likeMutation.isLoading && (
-              <Spinner size='xs' colorScheme='blue' />
+              <Flex w={"41px"} height={"44px"} justifyContent={"center"} flexDir={"column"} alignItems={"center"} >
+                <Spinner size='xs' colorScheme='blue' />
+              </Flex>
             )
           }
         </VStack>
 
         {!props.shared && (
           <Link href={`/dashboard/home/comment/${post?.id}`}>
-          <VStack>
-            <MessageAdd color='grey' size={'25px'} variant='Outline' />
-            {/* <FiMessageSquare color='black' fontSize={15} /> */}
-            <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>{post?.commentCount} Comments</CustomText>
-          </VStack>
-        </Link>
+            <Flex w={"41px"} height={"44px"} justifyContent={"center"} flexDir={"column"} alignItems={"center"} >
+              <HomeCommentIcon />
+              {/* <FiMessageSquare color='black' fontSize={15} /> */}
+              <CustomText textColor={"#00000099"} fontFamily={'Satoshi-Light'} fontSize='10px' >{post?.commentCount}</CustomText>
+            </Flex>
+          </Link>
         )}
 
-         {props.shared && (
-          <VStack onClick={handleComment}>
+        {props.shared && (
+          <Flex onClick={handleComment} w={"41px"} height={"44px"} justifyContent={"center"} flexDir={"column"} alignItems={"center"} >
             <MessageAdd color='grey' size={'25px'} variant='Outline' />
             {/* <FiMessageSquare color='black' fontSize={15} /> */}
-            <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>{post?.commentCount} Comments</CustomText>
-          </VStack>
+            <CustomText textColor={"#00000099"} fontFamily={'Satoshi-Light'} fontSize='10px' >{post?.commentCount} Comments</CustomText>
+            {/* </VStack> */}
+          </Flex>
         )}
 
         <VStack>
-        <ShareEvent id={post.id} type='POST' showText={true} />
+          <ShareEvent home={true} id={post.id} type='POST' showText={true} />
           {/* <FiShare2 color='black' fontSize={15} /> */}
           {/* <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>Share</CustomText> */}
         </VStack>
