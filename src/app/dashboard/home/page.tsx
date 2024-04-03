@@ -24,12 +24,12 @@ import Link from 'next/link';
 
 function Home() {
   const [page, setPage] = React.useState(0);
-  const [post,setPost] = React.useState('');
+  const [post, setPost] = React.useState('');
   const [posts, setPosts] = React.useState<IMediaContent[]>([]);
   const [hasNextPage, setHasNextPage] = React.useState(false);
   const [newIttem, setNew] = React.useState<IMediaContent[]>([]);
   const [showModal, setShowModal] = React.useState(false);
-  const { showModal: showPromotion, setShowModal: setShow} = useShowHomeModal((state) => state);
+  const { showModal: showPromotion, setShowModal: setShow } = useShowHomeModal((state) => state);
 
   const { firstName, lastName, userId, username, user: Details } = useDetails((state) => state);
   console.log(Details);
@@ -55,7 +55,7 @@ function Home() {
   }), {
     onSuccess: (data) => {
       setPosts(uniq([...posts, ...data?.data?.content]));
-      setHasNextPage(data.data.last ? false:true);
+      setHasNextPage(data.data.last ? false : true);
     },
   });
 
@@ -64,14 +64,14 @@ function Home() {
     if (intObserver.current) intObserver.current.disconnect();
     intObserver.current = new IntersectionObserver((posts) => {
       if (posts[0].isIntersecting && hasNextPage) {
-        setPage(prev => prev + 1); 
+        setPage(prev => prev + 1);
       }
     });
     if (post) intObserver.current.observe(post);
-   }, [isLoading, hasNextPage, setPage]);
+  }, [isLoading, hasNextPage, setPage]);
 
-   //MUTATIONS
-   const { mutate } = useMutation({
+  //MUTATIONS
+  const { mutate } = useMutation({
     mutationFn: () => httpService.get(`${URLS.GET_POSTS}`, {
       params: {
         page: 0,
@@ -85,7 +85,7 @@ function Home() {
     }
   })
 
-   const createPostMutation = useMutation({
+  const createPostMutation = useMutation({
     mutationFn: (data: any) => httpService.post(`${URLS.CREATE_POST}`, data),
     onSuccess: () => {
       toast({
@@ -110,9 +110,9 @@ function Home() {
         position: 'top-right'
       });
     }
-   });
+  });
 
-   const handlePostCreation = React.useCallback(() => {
+  const handlePostCreation = React.useCallback(() => {
     if (post.length < 1) return;
     createPostMutation.mutate({
       text: post,
@@ -120,43 +120,44 @@ function Home() {
       sourceId: userId,
       isGroup: false,
     });
-   }, [createPostMutation, post, userId])
+  }, [createPostMutation, post, userId]) 
 
   return (
     <VStack width="full" h={"full"} overflowY={"auto"} alignItems={'flex-start'} >
-    
+
       {/* MODAL */}
       <CreateMediaPost mutate={mutate} isOpen={showModal} onClose={() => setShowModal(false)} />
       <PromotionCreationModal isOpen={showPromotion} onClose={() => setShow(false)} type='POST' />
 
-      <VStack width={['100%', '100%', '40%', '40%']} height='180px'  paddingTop='20px' paddingLeft={'20px'} paddingRight={['20px', '0px']} overflowY={'hidden'}>
+      <VStack width={['100%', '100%', '40%', '40%']} height='180px' paddingTop='20px' paddingLeft={'20px'} paddingRight={['20px', '0px']} overflowY={'hidden'}>
 
         {/* TEXTBOX */}
         <VStack alignItems={'flex-start'} justifyContent={'flex-start'} width='100%' height='150px' bg='whitesmoke' borderWidth={0} shadow={'md'} borderColor={'lightgrey'} borderRadius={'10px'} padding='10px'>
           <HStack width='100%' height={'90px'}>
 
             <Link href={`/dashboard/profile/${Details?.userId}`}>
-              <Box  width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-              {Details?.data.imgMain.value === null && (
-                <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                  <CustomText fontFamily={'DM-Regular'}>{Details?.username[0].toUpperCase()}</CustomText>
-                </VStack>
-              )}
-              {
-                Details?.data.imgMain.value !== null && (
+              <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+                {Details?.data?.imgMain?.value === null && (
+                  <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                    {Details?.username && (
+                      <CustomText fontFamily={'DM-Regular'}>{Details?.username[0].toUpperCase()}</CustomText>
+                    )}
+                  </VStack>
+                )}
+                {Details?.data.imgMain.value !== null && (
                   <>
-                    { Details?.data?.imgMain?.value.startsWith('https://') && <Image src={`${Details?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                    {Details?.data?.imgMain?.value.startsWith('https://') && <Image src={`${Details?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />}
 
-                    { !Details?.data?.imgMain?.value.startsWith('https://') && <Image src={`${IMAGE_URL}${Details?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                    {!Details?.data?.imgMain?.value.startsWith('https://') && <Image src={`${IMAGE_URL}${Details?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />}
                   </>
                 )
-              }
+                }
               </Box>
             </Link>
 
-            <Textarea bg='whitesmoke' borderWidth={'0px'} fontFamily={'DM-Regular'} fontSize={'14px'} flex={'1'} width='100%'  placeholder={`What's on your mind @${username}`} resize={'none'} value={post} onChange={(e) => setPost(e.target.value)}></Textarea>
-            { !createPostMutation.isLoading && <Send2 onClick={() => handlePostCreation()} size={'30px'} color={THEME.COLORS.chasescrollButtonBlue} /> }
-            { createPostMutation.isLoading && <Spinner size={'sm'} color={THEME.COLORS.chasescrollButtonBlue} /> }
+            <Textarea bg='whitesmoke' borderWidth={'0px'} fontFamily={'DM-Regular'} fontSize={'14px'} flex={'1'} width='100%' placeholder={`What's on your mind @${username}`} resize={'none'} value={post} onChange={(e) => setPost(e.target.value)}></Textarea>
+            {!createPostMutation.isLoading && <Send2 onClick={() => handlePostCreation()} size={'30px'} color={THEME.COLORS.chasescrollButtonBlue} />}
+            {createPostMutation.isLoading && <Spinner size={'sm'} color={THEME.COLORS.chasescrollButtonBlue} />}
           </HStack>
 
           <HStack>
@@ -164,34 +165,34 @@ function Home() {
             <CustomText onClick={() => setShowModal(true)} fontFamily={'DM-Regular'} fontSize={'sm'} cursor='pointer' color='brand.chasescrollButtonBlue'>Add Photos /Video in your post</CustomText>
           </HStack>
         </VStack>
-       
+
       </VStack>
 
-          <Box flex='1' width={'full'} height={'full'} overflow={'auto'} paddingX='20px' paddingTop='0px'>
+      <Box flex='1' width={'full'} height={'full'} overflow={'auto'} paddingX='20px' paddingTop='0px'>
 
+        {
+          !isLoading && isError && (
+            <VStack width={'30%'} height={'100px'} justifyItems={'center'}>
+              <CustomText>An error occured please retry</CustomText>
+              <CustomButton isLoading={isLoading} text='Retry' onClick={() => refetch()} backgroundColor={THEME.COLORS.chasescrollButtonBlue} />
+            </VStack>
+          )
+        }
+        <VStack width={['100%', '100%', '40%', '40%']} height={['100%', '80%']}>
           {
-            !isLoading && isError && (
-              <VStack width={'30%'} height={'100px'} justifyItems={'center'}>
-                <CustomText>An error occured please retry</CustomText>
-                <CustomButton isLoading={isLoading} text='Retry' onClick={() => refetch()} backgroundColor={THEME.COLORS.chasescrollButtonBlue} />
-              </VStack>
-            )
+            newIttem.map((item, i) => (
+              <ThreadCard post={item} key={i.toString()} />
+            ))
           }
-          <VStack width={['100%', '100%', '40%', '40%']} height={['100%', '80%']}>
-            {
-              newIttem.map((item, i) => (
-                <ThreadCard post={item} key={i.toString()} />
-              ))
+          {posts.map((item, i) => {
+            if (i === posts.length - 1) {
+              return <ThreadCard ref={lastChildRef} key={i.toString()} post={item} />
             }
-            {posts.map((item, i) => {
-              if (i === posts.length - 1) {
-                return <ThreadCard ref={lastChildRef} key={i.toString()} post={item} />
-              }
-              return (<ThreadCard key={i.toString()} post={item} />)
-            })}
-          </VStack>
+            return (<ThreadCard key={i.toString()} post={item} />)
+          })}
+        </VStack>
 
-          </Box>
+      </Box>
 
     </VStack>
   )
