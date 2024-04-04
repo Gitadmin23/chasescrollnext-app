@@ -8,12 +8,13 @@ import { useMutation } from 'react-query'
 import { signIn, useSession, } from 'next-auth/react'
 import { useDetails } from '@/global-state/useUserDetails'
 
-interface Props { 
+interface Props {
     title: string,
     fixedwidth?: string,
     height?: string,
     bgColor?: string,
-    border?: string 
+    id?: boolean,
+    border?: string
 }
 
 function GoogleBtn(props: Props) {
@@ -22,6 +23,7 @@ function GoogleBtn(props: Props) {
         fixedwidth,
         height,
         bgColor,
+        id,
         border
     } = props
 
@@ -78,7 +80,11 @@ function GoogleBtn(props: Props) {
                 username: data?.data?.user_name,
                 userId: data?.data?.user_id,
             })
-            router.push('/dashboard/event')
+            if (id) {
+                router.push(`/dashboard/event/details/${id}`);
+            } else {
+                router.push('/dashboard/event')
+            }
             setCheckData(data?.data)
         },
         onError: (error: any) => {
@@ -93,7 +99,7 @@ function GoogleBtn(props: Props) {
 
     return (
 
-        <Button onClick={handleGoogleSignIn} width={['100%', fixedwidth ? fixedwidth : '100%']} height={height ? height : '40px'} borderRadius={'8px'} border={border} _hover={{backgroundColor: bgColor ? bgColor: "#1018280D"}} bg={bgColor ? bgColor : '#1018280D'} padding='8px 16px 8px 16px'>
+        <Button onClick={handleGoogleSignIn} width={['100%', fixedwidth ? fixedwidth : '100%']} height={height ? height : '40px'} borderRadius={'8px'} border={border} _hover={{ backgroundColor: bgColor ? bgColor : "#1018280D" }} bg={bgColor ? bgColor : '#1018280D'} padding='8px 16px 8px 16px'>
             <Image alt='google' src='/assets/svg/googlelogo.svg' />
             <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color='#111111' fontWeight={'700'}>{title} with Google</CustomText>
         </Button>
