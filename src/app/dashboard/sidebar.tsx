@@ -8,6 +8,7 @@ import { FiHome, FiSearch, FiCalendar, FiMessageCircle, FiUsers, FiUser, FiPower
 import { useSession , signOut } from 'next-auth/react'
 import { Warning2 } from 'iconsax-react'
 import CopyRightText from '@/components/sharedComponent/CopyRightText';
+import PageLoader from '@/components/sharedComponent/pageLoader';
 
 type IRoute = {
     icon: any;
@@ -37,12 +38,12 @@ const MenuItem = ({
 }
 
 function Sidebar() { 
-    const [showModal, setShowModal] = React.useState(false);
+    const [showModal, setShowModal] = React.useState(false); 
     const pathname = usePathname();
     const router = useRouter();
     const { userId: user_index, setAll } = useDetails((state) => state);
 
-    const logout = async () => {
+    const logout = async () => { 
         await signOut();
         setAll({ userId: '', dob: '', email: '', username:'', firstName: '', lastName: '', publicProfile: ''});
         localStorage.clear();

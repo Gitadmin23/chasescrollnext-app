@@ -25,6 +25,7 @@ import { signOut } from 'next-auth/react';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 import DashboardNavbar from '@/components/sharedComponent/dashboard_navbar';
 import CopyRightText from '@/components/sharedComponent/CopyRightText';
+import PageLoader from '@/components/sharedComponent/pageLoader';
 type IRoute = {
     icon: ReactNode;
     text: string;
@@ -59,7 +60,7 @@ function Layout({ children }: {
     const pathname = usePathname();
     const router = useRouter();
     const toast = useToast();
-    const [showModal, setShowModal] = React.useState(false); 
+    const [showModal, setShowModal] = React.useState(false);
 
 
     const { username, lastName, firstName, userId, setAll, user } = useDetails((state) => state);
@@ -78,27 +79,28 @@ function Layout({ children }: {
             });
         },
         onError: (error) => {
-            toast({
-                title: 'Error',
-                description: 'An error occured while updating your profile',
-                status: 'error',
-                position: 'top-right',
-                isClosable: true,
-                duration: 3000,
-            });
+            // toast({
+            //     title: 'Error',
+            //     description: 'An error occured while updating your profile',
+            //     status: 'error',
+            //     position: 'top-right',
+            //     isClosable: true,
+            //     duration: 3000,
+            // });
             router.push('/auth');
         },
     });
+    
+    const Id = localStorage.getItem('user_id');
 
     React.useEffect(() => {
-        const Id = localStorage.getItem('user_id');
         if (Id === null) {
             router.push('/auth')
         } else {
             setId(Id as string);
             setAll({ userId: Id });
         }
-    }, [router, setAll]);
+    }, [Id]);
 
 
     const routes: IRoute[] = [
@@ -143,7 +145,7 @@ function Layout({ children }: {
         setAll({ userId: '', dob: '', email: '', username: '', firstName: '', lastName: '', publicProfile: '' });
         localStorage.clear();
         await signOut();
-        router.push('/auth');
+        // router.push('/auth');
     }
 
     return (
@@ -170,22 +172,26 @@ function Layout({ children }: {
             </Modal>
 
             <Grid h="100vh" w={"full"} overflowY={"hidden"} >
-                {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
-                    <Flex w={"full"} position={"fixed"} zIndex={"100"} top={"0px"} >
-                        <DashboardNavbar data={user} pathname={pathname} userId={userId} openmodal={setShowModal} image={user?.data.imgMain.value} />
-                    </Flex>
-                )}
-                <Flex w="full" h="full" pt={(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"white"} >
+
+                <LoadingAnimation loading={isLoading || !firstName} >
                     {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
-                        <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']} flexDir={"column"} >
-                            <Sidebar />
-                        </Box>
+                        <Flex w={"full"} position={"fixed"} zIndex={"100"} top={"0px"} >
+                            <DashboardNavbar data={user} pathname={pathname} userId={userId} openmodal={setShowModal} image={user?.data.imgMain.value} />
+                        </Flex>
                     )}
-                    <LoadingAnimation loading={isLoading || !firstName} >
+                    <Flex w="full" h="full" pt={(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"white"} >
+                        {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
+                            <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']} flexDir={"column"} >
+                                <Sidebar />
+                            </Box>
+                        )}
                         {children}
-                    </LoadingAnimation>
-                </Flex>
+
+                    </Flex>
+
+                </LoadingAnimation>
                 {/* BOTTOM TAB */}
+                <PageLoader show={isLoading || !firstName} />
                 <HStack paddingX='20px' zIndex={"100"} position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg='white' borderTopWidth={1} borderTopColor={'lightgrey'} display={['flex', 'flex', 'flex', 'none']}>
                     <Link href='/dashboard/home'>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('home') ? 'brand.chasescrollBlue' : 'white'} color={pathname?.includes('home') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
