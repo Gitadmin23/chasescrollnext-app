@@ -131,7 +131,7 @@ function Settings(props: Props) {
             <ReportBug isOpen={showReport} onClose={() => setShowReport(false)} REPORT_TYPE="REPORT_BUG" typeID={userId} />
             <ReportEnhancement isOpen={showEnhancement} onClose={() => setShowEnhancement(false)} REPORT_TYPE="REPORT_ENHANCEMENT" typeID={userId} />
 
-            <Flex onClick={() => router.back()} as={"button"} alignItems={"center"} fontWeight={"700"} fontSize={"20px"} gap={"3"} >
+            <Flex onClick={() => router.push('/dashboard/profile/' + userId)} as={"button"} alignItems={"center"} fontWeight={"700"} fontSize={"20px"} gap={"3"} >
                 <IoIosArrowBack size="24px" />
                 Settings
             </Flex>
