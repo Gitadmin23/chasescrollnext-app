@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Modal, ModalOverlay, ModalBody, ModalContent, HStack, Select, VStack, Flex, Textarea, Button, useToast } from '@chakra-ui/react';
 import { FiX } from 'react-icons/fi';
 import CustomText from '@/components/general/Text';
@@ -32,6 +32,11 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
         }
     }, [value]);
 
+    useEffect(()=> { 
+        setValue("")
+        setTitle("")
+    }, [isOpen])
+
     const { isLoading, mutate } = useMutation({
         mutationFn: () => httpService.post(`${URLS.CREATE_REPORT}`, {
             typeID,
@@ -47,6 +52,8 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
                 isClosable: true,
                 status: 'success',
             });
+            setValue("")
+            setTitle("")
             onClose();
         },
         onError: () => {
