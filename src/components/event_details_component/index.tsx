@@ -97,10 +97,7 @@ function EventDetails(props: Props) {
         } else {
             router.back()
         }
-    }
-
-    console.log(category);
-    
+    } 
 
     return (
         <Box width={"full"} display={"flex"} flexDirection={"column"} pt={["", "", "2"]} position={"relative"} paddingBottom={"12"} >

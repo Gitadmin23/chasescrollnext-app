@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Modal, ModalOverlay, ModalBody, ModalContent, HStack, Select, VStack, Flex, Textarea, Button, useToast } from '@chakra-ui/react';
 import { FiX } from 'react-icons/fi';
 import CustomText from '@/components/general/Text';
@@ -32,6 +32,11 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
         }
     }, [value]);
 
+    useEffect(()=> { 
+        setValue("")
+        setTitle("")
+    }, [isOpen])
+
     const { isLoading, mutate } = useMutation({
         mutationFn: () => httpService.post(`${URLS.CREATE_REPORT}`, {
             typeID,
@@ -47,6 +52,8 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
                 isClosable: true,
                 status: 'success',
             });
+            setValue("")
+            setTitle("")
             onClose();
         },
         onError: () => {
@@ -61,7 +68,7 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
     });
 
     const createReport = React.useCallback(() => {
-        if (value.length < 0 || title === '') {
+        if (value.length <= 0 || title === '') {
             toast({
                 title: 'Warrning',
                 description: 'Please provide some details',
@@ -90,8 +97,8 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
                 </HStack>
 
                 <VStack width={'70%'} marginTop={'30px'}>
-                    <Select value={title} onChange={(e) => setTitle(e.target.value)} width={'100%'} height={'45px'} borderRadius={'10px'}>
-                            <option disabled selected>Report type</option>
+                    <Select placeholder='Report type' value={title} onChange={(e) => setTitle(e.target.value)} width={'100%'} height={'45px'} borderRadius={'10px'}>
+                            {/* <option  selected>Report type</option> */}
                             {REPORT_OPTIONS.map((option, index) => (
                                 <option key={index.toString()} value={option}>{option}</option>
                             ))}

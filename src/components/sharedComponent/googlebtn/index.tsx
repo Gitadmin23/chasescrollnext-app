@@ -3,17 +3,20 @@ import { URLS } from '@/services/urls'
 import httpServiceGoogle from '@/utils/httpServiceGoogle'
 import { Button, Image, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useMutation } from 'react-query'
 import { signIn, useSession, } from 'next-auth/react'
 import { useDetails } from '@/global-state/useUserDetails'
+import PageLoader from '../pageLoader'
+import useModalStore from '@/global-state/useModalSwitch'
 
-interface Props { 
+interface Props {
     title: string,
     fixedwidth?: string,
     height?: string,
     bgColor?: string,
-    border?: string 
+    id?: boolean,
+    border?: string
 }
 
 function GoogleBtn(props: Props) {
@@ -22,45 +25,59 @@ function GoogleBtn(props: Props) {
         fixedwidth,
         height,
         bgColor,
+        id,
         border
     } = props
 
-    const [checkData, setCheckData] = React.useState<any>({});
-    const [showModal, setShowModal] = React.useState(false);
+    const [checkData, setCheckData] = React.useState<any>({}); 
     const { data: sessionData } = useSession();
     const toast = useToast();
     const router = useRouter();
-    const { setAll } = useDetails((state) => state);
+    const { email, setAll } = useDetails((state) => state);
 
+    const { googlesign, setGoogle } = useModalStore((state) => state);
+
+    const token: any = sessionData;
     React.useEffect(() => {
-        const token: any = sessionData;
         // console.log(token.token?.token.token.accessToken);
         if (sessionData !== null) {
-            if (token.token?.token?.token?.idToken) {
+            if (token.token?.token?.token?.idToken) { 
                 signinWithGoogle.mutate(token?.token?.token?.token?.idToken);
             }
-        }
+        } 
+    }, [token])
 
-    }, [sessionData])
+    useEffect(()=> {
+        if(!token){
+            setGoogle(false)
+        }
+    }, [])
 
     const handleGoogleSignIn = async () => {
         const token: any = sessionData;
         if (token && token.token?.token.token.idToken) {
+            console.log("first");
+            
             signinWithGoogle.mutate(token.token?.token.token.idToken);
         } else {
+            setGoogle(true)
+            
             const dets = await signIn('google');
+            console.log("second");
+            
             setCheckData(true);
         }
     }
 
     const signinWithGoogle = useMutation({
+    
         mutationFn: (data: string) => httpServiceGoogle.get(`${URLS.SIGN_IN_WTIH_CREDENTIALS}`, {
             headers: {
                 Authorization: `Bearer ${data}`,
             }
         }),
         onSuccess: (data) => {
-            //console.log(data.data);
+            //console.log(data.data); 
             localStorage.setItem('token', data?.data?.access_token);
             toast({
                 title: 'Success',
@@ -78,11 +95,17 @@ function GoogleBtn(props: Props) {
                 username: data?.data?.user_name,
                 userId: data?.data?.user_id,
             })
-            router.push('/dashboard/event')
+            if (id) {
+                router.push(`/dashboard/event/details/${id}`);
+            } else {
+                router.push('/dashboard/event')
+            }
             setCheckData(data?.data)
         },
         onError: (error: any) => {
             console.log(error);
+            setGoogle(false)
+            
             toast({
                 title: 'Erroor',
                 description: 'An error occured, please try again',
@@ -91,12 +114,18 @@ function GoogleBtn(props: Props) {
         }
     })
 
-    return (
+    // useEffect(() => {
+    //     router.push('/dashboard/event')
+    // }, [email])
 
-        <Button onClick={handleGoogleSignIn} width={['100%', fixedwidth ? fixedwidth : '100%']} height={height ? height : '40px'} borderRadius={'8px'} border={border} _hover={{backgroundColor: bgColor ? bgColor: "#1018280D"}} bg={bgColor ? bgColor : '#1018280D'} padding='8px 16px 8px 16px'>
-            <Image alt='google' src='/assets/svg/googlelogo.svg' />
-            <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color='#111111' fontWeight={'700'}>{title} with Google</CustomText>
-        </Button>
+    return (
+        <>
+            <Button onClick={handleGoogleSignIn} width={['100%', fixedwidth ? fixedwidth : '100%']} height={height ? height : '40px'} borderRadius={'8px'} border={border} _hover={{ backgroundColor: bgColor ? bgColor : "#1018280D" }} bg={bgColor ? bgColor : '#1018280D'} padding='8px 16px 8px 16px'>
+                <Image alt='google' src='/assets/svg/googlelogo.svg' />
+                <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color='#111111' fontWeight={'700'}>{title} with Google</CustomText>
+            </Button>
+            <PageLoader show={googlesign || localStorage.getItem('google') === "true"} />
+        </>
     )
 }
 
