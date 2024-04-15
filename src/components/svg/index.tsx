@@ -447,6 +447,15 @@ export const HomeHeartIcon = () => (
   </svg>
 )
 
+export const CollaboratorIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18.5 19.5H14.5" stroke="#5D70F9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M16.5 21.5V17.5" stroke="#5D70F9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M12.1596 10.87C12.0596 10.86 11.9396 10.86 11.8296 10.87C9.44961 10.79 7.55961 8.84 7.55961 6.44C7.54961 3.99 9.53961 2 11.9896 2C14.4396 2 16.4296 3.99 16.4296 6.44C16.4296 8.84 14.5296 10.79 12.1596 10.87Z" stroke="#5D70F9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M11.99 21.8102C10.17 21.8102 8.36004 21.3502 6.98004 20.4302C4.56004 18.8102 4.56004 16.1702 6.98004 14.5602C9.73004 12.7202 14.24 12.7202 16.99 14.5602" stroke="#5D70F9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+)
+
 export const HomeHeartFillIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M20.3115 4.46071C17.9773 2.08032 15.2743 3.08425 13.6007 4.14593C12.655 4.74582 11.345 4.74582 10.3993 4.14593C8.72564 3.08427 6.02272 2.08035 3.68853 4.46072C-1.85249 10.1114 7.64988 21 12 21C16.3502 21 25.8525 10.1114 20.3115 4.46071Z" fill="#FF0000" stroke="#FF0000" stroke-width="1.5" stroke-linecap="round" />
@@ -1637,20 +1646,40 @@ export const PlusIcon = () => (
   </svg>
 )
 
-export const CloseIcon = () => (
-  <svg
-    width="26"
-    height="26"
-    viewBox="0 0 26 26"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M24.9234 2.7557C25.3871 2.29196 25.3871 1.54007 24.9234 1.07633C24.4596 0.612579 23.7078 0.612579 23.244 1.07633L13.0003 11.32L2.75668 1.07633C2.29293 0.612583 1.54105 0.612583 1.0773 1.07633C0.613555 1.54008 0.613555 2.29196 1.0773 2.75571L11.321 12.9994L1.07735 23.243C0.613598 23.7067 0.613598 24.4586 1.07735 24.9224C1.54109 25.3861 2.29298 25.3861 2.75672 24.9224L13.0003 14.6788L23.244 24.9224C23.7077 25.3861 24.4596 25.3861 24.9233 24.9224C25.3871 24.4586 25.3871 23.7067 24.9233 23.243L14.6797 12.9994L24.9234 2.7557Z"
-      fill="white"
-    />
-  </svg>
-)
+export const CloseIcon = (props: any) => {
+
+  const {
+    color,
+    size,
+    second
+  } = props
+
+  if (second) {
+    return (
+      <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 6.5L6 18.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M6 6.5L18 18.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    )
+  } else {
+    return (
+      <svg
+        width={size ? size : "26"}
+        height={size ? size : "26"}
+        viewBox="0 0 26 26"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M24.9234 2.7557C25.3871 2.29196 25.3871 1.54007 24.9234 1.07633C24.4596 0.612579 23.7078 0.612579 23.244 1.07633L13.0003 11.32L2.75668 1.07633C2.29293 0.612583 1.54105 0.612583 1.0773 1.07633C0.613555 1.54008 0.613555 2.29196 1.0773 2.75571L11.321 12.9994L1.07735 23.243C0.613598 23.7067 0.613598 24.4586 1.07735 24.9224C1.54109 25.3861 2.29298 25.3861 2.75672 24.9224L13.0003 14.6788L23.244 24.9224C23.7077 25.3861 24.4596 25.3861 24.9233 24.9224C25.3871 24.4586 25.3871 23.7067 24.9233 23.243L14.6797 12.9994L24.9234 2.7557Z"
+          fill={color ? color : "white"}
+        />
+      </svg>
+    )
+  }
+
+
+}
 export const PlainMailIcon = () => (
   <svg
     width="44"

@@ -1,14 +1,54 @@
 import { create } from 'zustand';
 
-type State = {
-    eventdata: any
+type ticket = {
+    totalNumberOfTickets: string,
+    ticketPrice: string,
+    ticketType: string,
+    minTicketBuy: string,
+    maxTicketBuy: string,
+    rerouteURL: string
 }
 
-type Image = { 
+type CreateEvent = {
+    id?: string
+    picUrls: Array<any>,
+    collaborators:  Array<any>,
+    admins:  Array<any>,
+    eventType: string,
+    eventName: string,
+    eventDescription: string,
+    joinSetting: string,
+    locationType: string,
+    mediaType?: string,
+    currency: string,
+    currentPicUrl: string,
+    eventFunnelGroupID: string,
+    isPublic: boolean,
+    currentVideoUrl?: string,
+    isExclusive: boolean,
+    mask: boolean,
+    attendeesVisibility: boolean,
+    minPrice: string,
+    maxPrice: string,
+    startTime: string,
+    endTime: string,
+    startDate: string,
+    endDate: string,
+    location: {
+        toBeAnnounced: boolean
+    },
+    productTypeData: Array<ticket>
+}
+
+type State = {
+    eventdata: CreateEvent
+}
+
+type Image = {
     image: any
 }
 
-type Navigate = { 
+type Navigate = {
     tab: number
 }
 
@@ -21,47 +61,51 @@ type Action = {
 const useEventStore = create<State & Image & Navigate & Action>((set) => ({
     eventdata: {
         picUrls: [
-           null
+            null
         ],
-        eventType:null,
-        eventName:null,
-        eventDescription:null,
+        collaborators: [
+        ],
+        admins: [
+        ],
+        eventType: "",
+        eventName: "",
+        eventDescription: "",
         joinSetting: "public",
-        locationType:null,
+        locationType: "",
         currency: "NGN",
-        currentPicUrl:null,
-        eventFunnelGroupID:null, 
+        currentPicUrl: "",
+        eventFunnelGroupID: "",
         isPublic: true,
         isExclusive: false,
         mask: false,
         attendeesVisibility: true,
-        minPrice:null,
-        maxPrice:null,
-        startTime:null,
-        endTime:null,
-        startDate:null,
-        endDate:null,
+        minPrice: "",
+        maxPrice: "",
+        startTime: "",
+        endTime: "",
+        startDate: "",
+        endDate: "",
         // expirationDate:null,
-        location: { 
+        location: {
             toBeAnnounced: false
         },
         productTypeData: [
             // first is always standard
             {
-                totalNumberOfTickets:null,
-                ticketPrice: null,
+                totalNumberOfTickets: "",
+                ticketPrice: "",
                 ticketType: "Regular",
-                minTicketBuy:null,
-                maxTicketBuy:null,
-                rerouteURL: null
+                minTicketBuy: "",
+                maxTicketBuy: "",
+                rerouteURL: ""
             },
         ],
     },
     image: null,
     tab: 0,
-    updateEvent: (data) => set(() => ({ eventdata: data })),  
-    updateImage: (data) => set(() => ({ image: data })),  
-    changeTab: (data) => set(() => ({ tab: data })),  
+    updateEvent: (data) => set(() => ({ eventdata: data })),
+    updateImage: (data) => set(() => ({ image: data })),
+    changeTab: (data) => set(() => ({ tab: data })),
 }));
 
 
