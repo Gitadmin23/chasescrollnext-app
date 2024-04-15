@@ -48,13 +48,8 @@ function ShareEvent(props: Props) {
     const clickHandler = (event: any) => {
         event.stopPropagation();
         setOpen(true)
-    }
-
-    // const firstHandler = (event: any) => {
-    //     event.stopPropagation();
-    //     setShow(true)
-    // }
-
+    } 
+    
     return (
         <Box width={"fit-content"} zIndex={"20"} mt={size === "18px" ? "10px" : "0px"} >
             {(isprofile && !istext) && (
