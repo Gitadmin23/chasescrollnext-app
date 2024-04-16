@@ -9,25 +9,35 @@ import usePaystackStore from '@/global-state/usePaystack'
 import { URLS } from '@/services/urls'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import httpService from '@/utils/httpService'
-import { Box, Flex, Text, useToast } from '@chakra-ui/react'
+import {Box, Button, Flex, Text, useToast} from '@chakra-ui/react'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useQuery, focusManager } from 'react-query'
+import {IEventType} from "@/models/Event";
+import {PaginatedResponse} from "@/models/PaginatedResponse";
+import {useDetails} from "@/global-state/useUserDetails";
+import Scanner from "@/components/modals/Events/Scanner";
 
 interface Props {
     event_index: any,
     dynamic?: boolean
 }
- 
+
 function GetEventData(props: Props) {
     const {
         event_index,
         dynamic
     } = props
     const toast = useToast()
-    const [data, setData] = React.useState({} as any) 
-    const [show, setShow] = useState(false)
+    const { userId } = useDetails((state) => state);
+    const [data, setData] = React.useState<IEventType| null>(null);
+    const [show, setShow] = useState(false);
     const pathname = usePathname()
+    const [isCollaborator, setIsCollaborator] = React.useState(false);
+    const [isAdmin, setIsAdmin] = React.useState(false);
+
+    //show scanner
+    const [showScanner, setShowScanner] = React.useState(false);
 
     const { configPaystack, setPaystackConfig } = usePaystackStore((state) => state);
 
@@ -41,10 +51,20 @@ function GetEventData(props: Props) {
             });
         },
         onSuccess: (data: any) => {
-            setData(data?.data?.content[0]);
+            const item: PaginatedResponse<IEventType> = data.data;
+            setData(item.content[0]);
+            const ids = item.content[0].collaborators.map((item) => item.userId);
+            const adminIds = item.content[0].admins.map((item) => item.userId);
+
+            if (ids.includes(userId)) {
+                setIsCollaborator(true);
+            }
+            if (userId === item.content[0].createdBy.userId || adminIds.includes(userId)) {
+                setIsAdmin(true);
+            }
         }
     })
-    
+
     let token = sessionStorage.getItem('tp_token')+"";
 
     useEffect(()=> {
@@ -55,7 +75,8 @@ function GetEventData(props: Props) {
 
     return (
         <Box width={"full"}  >
-            <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data?.length} >
+            <Scanner isOpen={showScanner} onClose={() => setShowScanner(false)} />
+            <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data !== null} >
                 <EventDetails
                     dynamic={dynamic}
                     dataInfo={data}
@@ -80,7 +101,19 @@ function GetEventData(props: Props) {
                     minPrice={data?.minPrice}
                     maxPrice={data?.maxPrice}
                     ticketBought={data?.ticketBought} attendees={undefined} />
-            </LoadingAnimation> 
+
+                <Flex w={['100%', '40%']} direction={['column', 'row']} paddingLeft={'10px'}>
+                    {isAdmin && (
+                        <>
+                            <Button display={['block', 'none']} width={['100%', '50%']} height={['40px']} bg={'brand.chasescrollButtonBlue'} color={'white'}>Scan Ticket</Button>
+                            <Button display={['block']} width={['100%', '50%']} height={['40px']} bg={'brand.chasescrollBlue'} marginTop={'5px'} color={'white'} onClick={() => setShowScanner(true)}>Event Details</Button>
+                        </>
+                    )}
+                    {isCollaborator && (
+                        <Button display={['block', 'none']} width={['100%', '50%']} height={['40px']} bg={'brand.chasescrollButtonBlue'} color={'white'} onClick={() => setShowScanner(true)}>Scan Ticket</Button>
+                    )}
+                </Flex>
+            </LoadingAnimation>
             <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} />
 
             <ModalLayout open={show} close={setShow} >
