@@ -1,13 +1,14 @@
 import { create } from 'zustand';
 
 type ticket = {
-    totalNumberOfTickets: string,
-    ticketPrice: string,
+    totalNumberOfTickets: string | number,
+    ticketPrice: string | number,
     ticketType: string,
-    minTicketBuy: string,
-    maxTicketBuy: string,
-    rerouteURL: string
-}
+    minTicketBuy: string | number,
+    maxTicketBuy: string | number,
+    rerouteURL?: string
+    ticketsSold?: 0,
+} 
 
 type CreateEvent = {
     id?: string
@@ -22,6 +23,7 @@ type CreateEvent = {
     mediaType?: string,
     currency: string,
     currentPicUrl: string,
+    isBought?: boolean
     eventFunnelGroupID: string,
     isPublic: boolean,
     currentVideoUrl?: string,
@@ -30,12 +32,17 @@ type CreateEvent = {
     attendeesVisibility: boolean,
     minPrice: string,
     maxPrice: string,
-    startTime: string,
-    endTime: string,
-    startDate: string,
-    endDate: string,
+    startTime: any,
+    endTime: any,
+    startDate: any,
+    endDate: any,
     location: {
         toBeAnnounced: boolean
+        locationDetails?: string,
+        link?: string,
+        address?: string,
+        latlng?: string,
+        placeIds?: string
     },
     productTypeData: Array<ticket>
 }
@@ -87,7 +94,11 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
         endDate: "",
         // expirationDate:null,
         location: {
-            toBeAnnounced: false
+            toBeAnnounced: false,
+            locationDetails: "",
+            link: "",
+            address: "",
+            latlng: ""
         },
         productTypeData: [
             // first is always standard
