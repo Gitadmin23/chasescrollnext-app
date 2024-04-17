@@ -17,7 +17,7 @@ function GetCommunity(props: Props) {
     const clickHandler = () => {
         updateEvent({
             ...eventdata,
-            eventFunnelGroupID: null
+            eventFunnelGroupID: ""
         })
     }
 

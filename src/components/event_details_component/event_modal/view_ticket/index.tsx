@@ -81,8 +81,7 @@ function ViewTicket(props: Props) {
     })
 
     return (
-        <LoadingAnimation loading={isLoading} >
-
+        <LoadingAnimation loading={isLoading} > 
             <Flex p={"6"} shadow={"lg"} flexDirection={"column"} bg={"#eee"} roundedTop={"md"} width={"full"} alignItems={"center"} justifyContent={"center"} px={"2"} gap={"2"} >
                 <Flex position={"relative"} gap={"4"} mb={"4"} width={"full"} justifyContent={"space-between"} alignItems={"start"} >
                     <Box onClick={() => click(false)} as='button' >
