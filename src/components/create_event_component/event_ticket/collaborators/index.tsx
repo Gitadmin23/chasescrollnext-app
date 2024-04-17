@@ -9,8 +9,8 @@ import useDebounce from '@/hooks/useDebounce'
 import { IUser } from '@/models/User'
 import httpService from '@/utils/httpService'
 import { textLimit } from '@/utils/textlimit'
-import { Box, Checkbox, Flex, HStack, Heading, Input, InputGroup, InputLeftElement, Radio, RadioGroup, Stack, Text, VStack, useToast } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import { Box, Checkbox, Flex, Heading, Input, InputGroup, InputLeftElement, Text, VStack } from '@chakra-ui/react'
+import React, { useState } from 'react'
 import { IoSearchOutline } from 'react-icons/io5'
 import { useQuery } from 'react-query'
 
@@ -177,7 +177,7 @@ export default function CollaboratorBtn() {
         <>
             <Flex onClick={() => setOpen(true)} as={'button'} gap={"1"} alignItems={"center"} >
                 <CollaboratorIcon />
-                <Text color={"#1732F7"} lineHeight={"22px"} >Add Event Collaborators.</Text>
+                <Text color={"#1732F7"} lineHeight={"22px"} >{(eventdata?.admins || eventdata?.collaborators) ?  (eventdata?.admins ? eventdata?.admins?.length : 0) + (eventdata?.collaborators ? eventdata?.collaborators?.length : 0)  :"Add Event "} Collaborators.</Text>
             </Flex>
             <ModalLayout open={open} close={setOpen} closeIcon={false} >
                 <Flex w={"full"} px={"6"} pt={"8"} >
@@ -209,7 +209,7 @@ export default function CollaboratorBtn() {
                 </LoadingAnimation>
 
                 <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg='white' py={'20px'} >
-                    <CustomButton text='Assign role' onClick={()=> setOpen(false)} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
+                    <CustomButton text='Done' onClick={()=> setOpen(false)} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
                 </Box>
             </ModalLayout>
         </>

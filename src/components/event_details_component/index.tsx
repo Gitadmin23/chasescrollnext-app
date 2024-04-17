@@ -30,6 +30,7 @@ import EventMap from './event_map_info'
 import { ScanIcon } from '../svg'
 import EventQrCode from './event_qrcode'
 import { MdArrowBackIos } from 'react-icons/md'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
 
 interface Props {
     dynamic?: boolean
@@ -126,7 +127,7 @@ function EventDetails(props: Props) {
                 </Box>
             </Flex>
             <Box width={"full"} px={[dynamic ? "6" : "0px", "6"]}>
-                <EventHeader name={eventName} event={dataInfo} maxPrice={maxPrice} minPrice={minPrice} currency={currency} />
+                <EventHeader name={capitalizeFLetter(eventName)} event={dataInfo} maxPrice={maxPrice} minPrice={minPrice} currency={currency} />
                 <EventCreator dynamic={dynamic} isOrganizer={isOrganizer} convener={convener} username={username} data={dataInfo} />
                 <Flex display={["none", "none", "flex"]} py={"3"} justifyContent={"end"} alignItems={"center"} gap={"14"} >
                     <EventQrCode data={dataInfo} id={dataInfo?.id} />
