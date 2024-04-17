@@ -23,7 +23,7 @@ function EventComponent() {
       eventDescription: "",
       joinSetting: "public",
       locationType: "",
-      currency: "USD",
+      currency: "NGN",
       currentPicUrl: "",
       eventFunnelGroupID: "",
       mediaType: "",
@@ -57,7 +57,9 @@ function EventComponent() {
           maxTicketBuy: ""
         },
       ],
-    })
+      collaborators: [],
+      admins: []
+    });
   }, [])
 
   return (

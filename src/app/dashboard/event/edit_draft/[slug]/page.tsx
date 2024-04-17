@@ -54,6 +54,8 @@ function EditEvent({ params }: { params: { slug: string } }) {
                 // expirationDate: "",
                 location: data?.data?.content[0]?.location,
                 productTypeData: data?.data?.content[0]?.productTypeData,
+                collaborators: data?.data?.content?.collaborators,
+                admins: data?.data?.content?.collaborators
             })
 
         }
@@ -67,23 +69,25 @@ function EditEvent({ params }: { params: { slug: string } }) {
         <>
             <LoadingAnimation loading={isLoading}>
                 <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"74px"} display={["none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]} >
-                    <CreateEventHeader name="Edit Events Draft"  />
-                    <Flex bgColor={"gray.300"} w={"full"} p={["0px", "0px", "0px", "3"]} overflowY={["auto"]}  >
-                        <Flex bgColor={"white"} w={"full"} px={"3"} h={["fit-content"]} rounded={["0px", "0px", "0px", "2xl"]} >
-                            {tab === 0 && (
-                                <EventTheme />
-                            )}
-                            {tab === 1 && (
-                                <EventInformation />
-                            )}
-                            {tab === 2 && (
-                                <EventTicket promotion={(data?.data?.content[0]?.productTypeData[0]?.ticketType === "Promotion" || data?.data?.content[0]?.productTypeData[0]?.rerouteURL) ? true : false} />
-                            )}
+                    <CreateEventHeader name="Edit Events Draft" />
+                    <Flex bgColor={"gray.300"} w={"full"} p={["0px", "0px", "0px", "3"]}   >
+                        <Flex bgColor={"white"} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} h={["auto"]} overflowY={["auto"]}>
+                            <Box bgColor={"white"} w={"full"}  px={"3"}  h={["auto"]} >
+                                {tab === 0 && (
+                                    <EventTheme />
+                                )}
+                                {tab === 1 && (
+                                    <EventInformation />
+                                )}
+                                {tab === 2 && (
+                                    <EventTicket promotion={(data?.data?.content[0]?.productTypeData[0]?.ticketType === "Promotion" || data?.data?.content[0]?.productTypeData[0]?.rerouteURL) ? true : false} />
+                                )}
+                            </Box>
                         </Flex>
                     </Flex>
                 </Flex>
                 <Box width={"full"} display={["block", "block", "block", "none"]}  >
-                    <CreateEventHeader name="Edit Events Draft"  />
+                    <CreateEventHeader name="Edit Events Draft" />
                     {tab === 0 && (
                         <EventTheme />
                     )}
