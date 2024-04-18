@@ -68,9 +68,14 @@ function GetEventData(props: Props) {
 
     let token = sessionStorage.getItem('tp_token')+"";
 
+    let clicked = sessionStorage.getItem('clicked')+"";
+    
+
     useEffect(()=> {
         if(!pathname?.includes("dashboard") && !token){
-            setShow(true)
+            if(clicked !== "true"){
+                setShow(true)
+            }
         }
     }, [pathname]);
 

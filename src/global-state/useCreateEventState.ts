@@ -1,3 +1,5 @@
+import { IEventType } from '@/models/Event';
+import { IUser } from '@/models/User';
 import { create } from 'zustand';
 
 type ticket = {
@@ -10,7 +12,7 @@ type ticket = {
     ticketsSold?: 0,
 } 
 
-type CreateEvent = {
+export type CreateEvent = {
     id?: string
     picUrls: Array<any>,
     collaborators:  Array<any>,
@@ -44,7 +46,8 @@ type CreateEvent = {
         latlng?: string,
         placeIds?: string
     },
-    productTypeData: Array<ticket>
+    productTypeData: Array<ticket>,
+    createdBy?: IUser
 }
 
 type State = {
@@ -68,7 +71,7 @@ type Action = {
 const useEventStore = create<State & Image & Navigate & Action>((set) => ({
     eventdata: {
         picUrls: [
-            null
+            ""
         ],
         collaborators: [
         ],
