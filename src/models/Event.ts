@@ -2,10 +2,10 @@ import {IUser} from "@/models/User";
 
 export interface IEventType {
     "id": "66195e61e19efa4501491f7c",
-    "createdDate": 1712938593125,
+    "createdDate"?: 1712938593125,
     "lastModifiedBy": IUser;
     "createdBy": IUser;
-    "lastModifiedDate": number;
+    "lastModifiedDate"?: number;
     "isDeleted": boolean;
     "picUrls": string[],
     "eventMemberRole": string;
@@ -29,21 +29,21 @@ export interface IEventType {
     "isBought": boolean;
     "ticketBought": boolean;
     "externalEvent": string;
-    "minPrice": number;
-    "maxPrice": number;
-    "startTime": number;
-    "endTime": number;
-    "startDate": number;
-    "endDate": number;
+    "minPrice": any;
+    "maxPrice": any;
+    "startTime": any;
+    "endTime": any;
+    "startDate": any;
+    "endDate": any;
     "expirationDate": string;
     "memberCount": number;
     "location": {
         "link": string;
         "address": string;
         "locationDetails": string;
-        "latlng": string;
-        "placeIds": string;
-        "toBeAnnounced": boolean;
+        "latlng"?: string;
+        "placeIds"?: string;
+        "toBeAnnounced"?: boolean;
     },
     "productTypeData": IProductTypeData[],
     "interestedUsers": IUser[],
@@ -53,13 +53,13 @@ export interface IEventType {
 }
 
 interface IProductTypeData  {
-    "totalNumberOfTickets": number;
-    "ticketPrice": number;
+    "totalNumberOfTickets": number | string ;
+    "ticketPrice": number | string;
     "ticketType": string;
-    "ticketsSold": number;
-    "sale": any;
-    "minTicketBuy": number;
-    "maxTicketBuy": number;
-    "rerouteURL": string;
-    "clickThroughCount": number;
+    "ticketsSold"?: number | string;
+    "sale"?: any;
+    "minTicketBuy": number | string;
+    "maxTicketBuy": number | string;
+    "rerouteURL"?: string;
+    "clickThroughCount"?: number | string;
 }

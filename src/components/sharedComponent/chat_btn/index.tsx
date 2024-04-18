@@ -8,7 +8,7 @@ import React from 'react'
 import { useMutation } from 'react-query';
 
 interface Props { 
-    profile: any,
+    profile?: any,
     userId: string | number
 }
 

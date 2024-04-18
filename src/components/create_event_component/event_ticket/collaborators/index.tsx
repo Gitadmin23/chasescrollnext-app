@@ -3,18 +3,31 @@ import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import UserImage from '@/components/sharedComponent/userimage'
 import { CloseIcon, CollaboratorIcon } from '@/components/svg'
-import useEventStore from '@/global-state/useCreateEventState'
+import useEventStore, { CreateEvent } from '@/global-state/useCreateEventState'
 import { useDetails } from '@/global-state/useUserDetails'
 import useDebounce from '@/hooks/useDebounce'
+import { IEventType } from '@/models/Event'
 import { IUser } from '@/models/User'
 import httpService from '@/utils/httpService'
 import { textLimit } from '@/utils/textlimit'
-import { Box, Checkbox, Flex, Heading, Input, InputGroup, InputLeftElement, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Checkbox, Flex, Heading, Input, InputGroup, InputLeftElement, Text, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { IoSearchOutline } from 'react-icons/io5'
 import { useQuery } from 'react-query'
+import { MdEdit } from "react-icons/md";
+import SubmitEvent from '../../submit_event'
 
-export default function CollaboratorBtn() {
+type IProps = {
+    btn?: boolean,
+    data?: CreateEvent,
+}
+
+export default function CollaboratorBtn(props: IProps) {
+
+    const {
+        btn,
+        data
+    } = props
 
     const [open, setOpen] = useState(false)
     const [users, setUsers] = React.useState<IUser[]>([]);
@@ -36,7 +49,7 @@ export default function CollaboratorBtn() {
         }
     });
 
-    const AddAdmin =(userIndex: string)=> {
+    const AddAdmin = (userIndex: string) => {
 
         let admin = !eventdata?.admins ? [] : [...eventdata?.admins]
         let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators]
@@ -46,43 +59,43 @@ export default function CollaboratorBtn() {
             let clone = { ...eventdata }
 
             const index = collaborators.indexOf(userIndex);
-            clone?.collaborators.splice(index, 1); 
+            clone?.collaborators.splice(index, 1);
 
-            if (!eventdata?.admins?.includes(userIndex)) { 
+            if (!eventdata?.admins?.includes(userIndex)) {
 
-                clone.admins = [...admin, userIndex] 
-            } else { 
+                clone.admins = [...admin, userIndex]
+            } else {
 
                 const index = admin.indexOf(userIndex);
-                clone?.admins.splice(index, 1); 
+                clone?.admins.splice(index, 1);
             }
 
             updateEvent(clone);
 
         } else if (eventdata?.admins?.includes(userIndex)) {
 
-            let clone = { ...eventdata } 
+            let clone = { ...eventdata }
 
             const index = admin.indexOf(userIndex);
-            clone?.admins.splice(index, 1); 
+            clone?.admins.splice(index, 1);
 
-            updateEvent(clone); 
+            updateEvent(clone);
         } else {
 
-            let clone = { ...eventdata }
+            let clone: any = { ...eventdata }
 
             if (!clone.admins) {
                 clone.admins = [userIndex]
             } else {
                 clone.admins = [...admin, userIndex]
-            } 
+            }
 
-            updateEvent(clone); 
+            updateEvent(clone);
 
         }
     }
 
-    const AddCollaborators =(userIndex: string)=> {
+    const AddCollaborators = (userIndex: string) => {
 
         let admin = !eventdata?.admins ? [] : [...eventdata?.admins]
         let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators]
@@ -96,14 +109,14 @@ export default function CollaboratorBtn() {
 
             if (!eventdata?.collaborators?.includes(userIndex)) {
 
-                clone.collaborators = [...collaborators, userIndex] 
+                clone.collaborators = [...collaborators, userIndex]
             } else {
 
 
                 const index = collaborators.indexOf(userIndex);
                 clone?.collaborators.splice(index, 1);
                 // clone?.collaborators?.filter((id) => id !== userIndex)
-                clone.collaborators = [...collaborators, userIndex] 
+                clone.collaborators = [...collaborators, userIndex]
             }
             updateEvent(clone);
 
@@ -115,7 +128,7 @@ export default function CollaboratorBtn() {
 
             // clone?.collaborators?.filter((id) => id !== userIndex)
 
-            updateEvent(clone); 
+            updateEvent(clone);
         } else {
 
             let clone = { ...eventdata }
@@ -123,7 +136,7 @@ export default function CollaboratorBtn() {
             clone.collaborators = [...collaborators, userIndex]
             // clone.collaborators.push(item)
 
-            updateEvent(clone); 
+            updateEvent(clone);
 
         }
     }
@@ -150,8 +163,8 @@ export default function CollaboratorBtn() {
                 </Flex>
                 {(show || collaborators || admin) && (
                     <Flex gap={"6"} pt={"4"} justifyContent={"center"} alignItems={"center"} >
-                         
-                        <Flex as='button' onClick={()=> AddAdmin(userId)} alignItems={"center"} gap={"2"} >
+
+                        <Flex as='button' onClick={() => AddAdmin(userId)} alignItems={"center"} gap={"2"} >
                             <Text>Admin</Text>
                             <Flex as='button' w={"24px"} h={"24px"} rounded={"full"} borderWidth={"2px"} borderColor={admin ? "#5465E0" : "#8AA7C5"} alignItems={"center"} justifyContent={"center"} >
                                 {admin && (
@@ -159,7 +172,7 @@ export default function CollaboratorBtn() {
                                 )}
                             </Flex>
                         </Flex>
-                        <Flex as='button' onClick={()=> AddCollaborators(userId)} alignItems={"center"} gap={"2"} >
+                        <Flex as='button' onClick={() => AddCollaborators(userId)} alignItems={"center"} gap={"2"} >
                             <Text>Coordinator</Text>
                             <Flex as='button' w={"24px"} h={"24px"} rounded={"full"} borderWidth={"2px"} borderColor={collaborators ? "#5465E0" : "#8AA7C5"} alignItems={"center"} justifyContent={"center"} >
                                 {collaborators && (
@@ -171,14 +184,74 @@ export default function CollaboratorBtn() {
                 )}
             </Flex>
         )
-    } 
+    }
+
+    const clickHandler = () => {
+        setOpen(true)
+
+        if (data?.eventName) {
+            const clone: CreateEvent = {
+                id: data?.id,
+                picUrls: data?.picUrls,
+                eventType: data?.eventType,
+                eventName: data?.eventName,
+                eventDescription: data?.eventDescription,
+                joinSetting: data?.joinSetting,
+                locationType: data?.locationType,
+                currency: data?.currency,
+                currentPicUrl: data?.currentPicUrl,
+                eventFunnelGroupID: data?.eventFunnelGroupID,
+                mediaType: data?.mediaType,
+                currentVideoUrl: data?.currentVideoUrl,
+                isPublic: data?.isPublic,
+                isExclusive: data?.isExclusive,
+                mask: data?.mask,
+                attendeesVisibility: data?.attendeesVisibility,
+                minPrice: data?.minPrice,
+                maxPrice: data?.maxPrice,
+                startTime: data?.startTime,
+                endTime: data?.endTime,
+                startDate: data?.startDate,
+                endDate: data?.endDate,
+                // expirationDate: "",
+                location: data?.location,
+                productTypeData: data?.productTypeData,
+                collaborators: data?.collaborators,
+                admins: data?.admins
+            }
+
+
+            const admin: any = []
+            const collaborator: any = []
+
+            clone?.admins?.map((item: IUser) => {
+                return admin.push(item?.userId)
+            })
+            clone?.collaborators?.map((item: IUser) => {
+                return collaborator.push(item?.userId)
+            })
+
+            clone.admins = admin
+
+            clone.collaborators = collaborator
+
+            updateEvent(clone)
+        }
+
+    }
+
 
     return (
         <>
-            <Flex onClick={() => setOpen(true)} as={'button'} gap={"1"} alignItems={"center"} >
-                <CollaboratorIcon />
-                <Text color={"#1732F7"} lineHeight={"22px"} >{(eventdata?.admins || eventdata?.collaborators) ?  (eventdata?.admins ? eventdata?.admins?.length : 0) + (eventdata?.collaborators ? eventdata?.collaborators?.length : 0)  :"Add Event "} Collaborators.</Text>
-            </Flex>
+            {btn && (
+                <Button onClick={() => clickHandler()} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>Edit Collaborator</Button>
+            )}
+            {!btn && (
+                <Flex onClick={() => setOpen(true)} as={'button'} gap={"1"} alignItems={"center"} >
+                    <CollaboratorIcon />
+                    <Text color={"#1732F7"} lineHeight={"22px"} >{(eventdata?.admins || eventdata?.collaborators) ? (eventdata?.admins ? eventdata?.admins?.length : 0) + (eventdata?.collaborators ? eventdata?.collaborators?.length : 0) : "Add Event "} Collaborators.</Text>
+                </Flex>
+            )}
             <ModalLayout open={open} close={setOpen} closeIcon={false} >
                 <Flex w={"full"} px={"6"} pt={"8"} >
                     <Box>
@@ -208,9 +281,21 @@ export default function CollaboratorBtn() {
                     </Flex>
                 </LoadingAnimation>
 
-                <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg='white' py={'20px'} >
-                    <CustomButton text='Done' onClick={()=> setOpen(false)} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
-                </Box>
+                {btn && (
+                    <>
+                        {data?.eventName && ( 
+                            <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg='white' py={'20px'} >
+                                <SubmitEvent collaborate={btn} close={setOpen} disable={(data?.admins?.length + data?.collaborators?.length) === (eventdata?.admins?.length + eventdata?.collaborators?.length)} />
+                            </Box>
+                        )}
+                    </>
+                )}
+
+                {!btn && (
+                    <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg='white' py={'20px'} >
+                        <CustomButton text='Done' onClick={() => setOpen(false)} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
+                    </Box>
+                )}
             </ModalLayout>
         </>
     )
