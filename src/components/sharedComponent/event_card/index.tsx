@@ -60,6 +60,7 @@ function ExploreEventCard(props: Props) {
         }else if (token) {
             router.push("/dashboard/event/details/" + event?.id)
         } else if (!userId && !email) {
+            sessionStorage.setItem('clicked', "true")+"";
             router.push("/event/" + event?.id)
         }  else {
             router.push("/dashboard/event/details/" + event?.id)

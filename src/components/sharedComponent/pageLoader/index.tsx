@@ -1,4 +1,6 @@
-import { Flex } from '@chakra-ui/react'
+import CustomText from '@/components/general/Text'
+// import { Image } from '@chakra-ui/next-js'
+import { Flex, Image } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import React from 'react'
 import { ThreeDots } from "react-loader-spinner"
@@ -11,10 +13,26 @@ export default function PageLoader({ show }: IProps) {
     return (
         <>
             {show && (
-                <Flex position={"fixed"} zIndex={"500"} inset={"0px"} w={"full"} bgColor={"white"} justifyContent={"center"} alignItems={"center"} height={"full"} >
+                // <Flex position={"fixed"} zIndex={"500"} inset={"0px"} w={"full"} bgColor={"white"} justifyContent={"center"} alignItems={"center"} height={"full"} >
 
+                //     <Flex role="button" width={"fit-content"} alignItems={"center"} gap={"1"} justifyContent={'center'}>
+                //         <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
+                //         <CustomText fontFamily={'Satoshi-Regular'} fontSize='lg' color='#12299C'>Chasescroll</CustomText>
+                //     </Flex>
+                // </Flex>
+                <div>
                     <motion.div
-                        className=' w-14 h-14 rounded-full bg-slate-800 '
+                    
+                    style={{
+                        width: "50px",
+                        height: "50px",
+                        backgroundColor: 'salmon',
+                        margin: '40px auto',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius:"999px"
+                    }}
                         animate={{
                             scale: [1, 1.5, 1], // Scale from 1 to 1.5 to 1
                         }}
@@ -22,10 +40,10 @@ export default function PageLoader({ show }: IProps) {
                             duration: 2, // Duration of each cycle
                             ease: "easeInOut",
                             loop: Infinity, // Loop indefinitely
-                            repeatDelay: 1 // Delay of 1 second before repeating
+                            repeatDelay: 0.5 // Delay of 1 second before repeating
                         }}
                     />
-                </Flex>
+                </div>
             )}
         </>
     )

@@ -12,15 +12,21 @@ import { useMutation } from 'react-query';
 import SuccessMessageCreateEvent from '../success_message';
 
 interface Iprops {
-    type: any,
-    promotion?: boolean
+    type?: any,
+    promotion?: boolean,
+    collaborate?: boolean,
+    disable?: boolean,
+    close?: any
 }
 
 function SubmitEvent(props: Iprops) {
 
     const {
         type,
-        promotion
+        promotion,
+        collaborate,
+        disable,
+        close
     } = props
 
     const { eventdata, image, tab, updateEvent, changeTab } = useEventStore((state) => state);
@@ -125,9 +131,9 @@ function SubmitEvent(props: Iprops) {
                 return
             } else {
 
-                if(pathname?.includes("edit_event_data")){
+                if (pathname?.includes("edit_event_data")) {
                     updateUserEvent.mutate(eventdata)
-                }else if (pathname?.includes("edit_event")) {
+                } else if (pathname?.includes("edit_event")) {
                     changeTab(2)
                 } else {
                     saveToDraft.mutate(eventdata)
@@ -162,9 +168,9 @@ function SubmitEvent(props: Iprops) {
             return true
         } else if (!eventdata?.endDate) {
             return true
-        } else if(eventdata?.startDate > eventdata?.endDate){
+        } else if (eventdata?.startDate > eventdata?.endDate) {
             return true
-        }else if (!eventdata?.location?.toBeAnnounced) {
+        } else if (!eventdata?.location?.toBeAnnounced) {
             if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
                 return true
             }
@@ -246,7 +252,7 @@ function SubmitEvent(props: Iprops) {
                         }
                     } else {
                         createEventFromDraft.mutate(eventdata)
-                    } 
+                    }
                 }
             }
         })
@@ -264,10 +270,10 @@ function SubmitEvent(props: Iprops) {
                 return true
             } else if (!item.maxTicketBuy) {
                 return true
-            }  else if (promotion) {
+            } else if (promotion) {
                 if (!item.rerouteURL) {
                     return true
-                } 
+                }
             } else if (eventdata?.productTypeData?.length === index + 1) {
                 return false
             } else {
@@ -413,7 +419,12 @@ function SubmitEvent(props: Iprops) {
         },
         onSuccess: (data: AxiosResponse<any>) => {
 
-            router.push("/dashboard/event")
+            if(collaborate){
+                close(false)
+            } else {
+                router.push("/dashboard/event")
+            }
+
             toast({
                 title: 'Success',
                 description: "Event has been updated successfully",
@@ -443,7 +454,7 @@ function SubmitEvent(props: Iprops) {
 
     // }
 
-    const handleClick = React.useCallback(() => { 
+    const handleClick = React.useCallback(() => {
         if (tab === 0) {
             getValidationTheme()
         } else if (tab === 1) {
@@ -453,10 +464,20 @@ function SubmitEvent(props: Iprops) {
         }
     }, [saveToDraft, uploadImage, createEventFromDraft])
 
+    const updateEventCollaboration = React.useCallback(() => {
+        updateUserEvent.mutate(eventdata)
+    }, [])
+
     return (
         <Flex w={"full"} alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} >
-            <CustomButton borderWidth={tab === 2 ? "2px" : "0px"} backgroundColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} _disabled={{cursor: "not-allowed" }} width={"full"}
-                text={pathname?.includes("edit_event_data") ? "Update Event" :pathname?.includes("edit_event") && tab === 2 ? "Update Event" : tab === 2 ? 'Submit' : 'Continue'} />
+            {!collaborate && (
+                <CustomButton borderWidth={tab === 2 ? "2px" : "0px"} backgroundColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} _disabled={{ cursor: "not-allowed" }} width={"full"}
+                    text={pathname?.includes("edit_event_data") ? "Update Event" : pathname?.includes("edit_event") && tab === 2 ? "Update Event" : tab === 2 ? 'Submit' : 'Continue'} />
+            )}
+            {collaborate && (
+                <CustomButton disable={disable} backgroundColor={disable ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={updateUserEvent?.isLoading} onClick={updateEventCollaboration} _disabled={{ cursor: "not-allowed" }} width={"full"}
+                    text={"Update Event"} />
+            )}
             <ModalLayout close={setOpen} open={open} >
                 <SuccessMessageCreateEvent update={(pathname?.includes("edit_event_data") || pathname?.includes("edit_event")) ? true : false} />
             </ModalLayout>
