@@ -92,7 +92,7 @@ function CreateEventHeader({ name }: IProps) {
         }
     }
 
-    const getValidationThemeClick = () => {
+    const getValidationThemeClick = (item?: number) => {
         if (!pathname?.includes("edit_event_data")) {
             if (!eventdata?.eventName) {
                 toast({
@@ -131,14 +131,18 @@ function CreateEventHeader({ name }: IProps) {
                 });
                 return
             } else {
-                changeTab(1)
+                if(item === 1){
+                    changeTab(1)
+                } else{
+                    getValidationInfoClick()
+                }
             }
         }
     }
 
-    const statusHandler =()=> {
-        if(tab === 0) {
-            getValidationThemeClick()
+    const statusHandler =(item: number)=> {
+        if(tab === 0) { 
+            getValidationThemeClick(item)
         } else {
             getValidationInfoClick()
         }
@@ -155,8 +159,8 @@ function CreateEventHeader({ name }: IProps) {
             <Flex justifyContent={"center"} alignItems={"center"} flexDir={"column"} px={["4", "4", "4", "12"]} py={"5"} h={["fit-content", "fit-content", "fit-content", "100vh"]} width={["full", "full", "full", "546px"]}  >
                 <Flex  pos={["relative", "relative", "relative","absolute"]} top={["0px", "0px", "0px", "12"]} w={"full"} py={"3"} justifyContent={"space-around"} >
                     <Box as='button' onClick={() => clickHandler()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 0 ? "brand.chasescrollBlue" : "#A9ABAF"} >Theme</Box>
-                    <Box as='button' onClick={() => statusHandler()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 1 ? "brand.chasescrollBlue" : "#A9ABAF"} >Information</Box>
-                    <Box as='button' onClick={() => statusHandler()} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 2 ? "brand.chasescrollBlue" : "#A9ABAF"} >Ticket</Box>
+                    <Box as='button' onClick={() => statusHandler(1)} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 1 ? "brand.chasescrollBlue" : "#A9ABAF"} >Information</Box>
+                    <Box as='button' onClick={() => statusHandler(2)} py={"2"} width={"150px"} rounded={"md"} _hover={{ color: "#5D70F9", backgroundColor: "#F9FAFB" }} backgroundColor={"transparent"} color={tab === 2 ? "brand.chasescrollBlue" : "#A9ABAF"} >Ticket</Box>
                 </Flex>
 
 

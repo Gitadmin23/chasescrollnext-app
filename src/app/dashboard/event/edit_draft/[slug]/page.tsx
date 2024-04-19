@@ -4,7 +4,8 @@ import EventInformation from '@/components/create_event_component/event_informat
 import EventTheme from '@/components/create_event_component/event_theme'
 import EventTicket from '@/components/create_event_component/event_ticket'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
-import useEventStore from '@/global-state/useCreateEventState'
+import useEventStore, { CreateEvent } from '@/global-state/useCreateEventState'
+import { IUser } from '@/models/User'
 import httpService from '@/utils/httpService'
 import { Box, Flex, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
@@ -28,7 +29,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
             // setData(data?.data?.content[0]); 
             console.log(data);
 
-            updateEvent({
+            const clone: CreateEvent = {
                 id: data?.data?.content[0]?.id,
                 picUrls: data?.data?.content[0]?.picUrls,
                 eventType: data?.data?.content[0]?.eventType,
@@ -54,9 +55,29 @@ function EditEvent({ params }: { params: { slug: string } }) {
                 // expirationDate: "",
                 location: data?.data?.content[0]?.location,
                 productTypeData: data?.data?.content[0]?.productTypeData,
-                collaborators: data?.data?.content?.collaborators,
-                admins: data?.data?.content?.collaborators
+                collaborators: data?.data?.content[0]?.collaborators,
+                admins: data?.data?.content[0]?.admins
+            }
+
+
+            const admin: any = []
+            const collaborator: any = []
+
+            clone?.admins?.map((item: IUser) => {
+                return admin.push(item?.userId)
             })
+            clone?.collaborators?.map((item: IUser) => {
+                return collaborator.push(item?.userId)
+            })
+
+            clone.admins = admin
+
+            clone.collaborators = collaborator
+
+            console.log(clone);
+            
+
+            updateEvent(clone)
 
         }
     })
