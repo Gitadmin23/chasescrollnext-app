@@ -30,7 +30,7 @@ export default function InjectedCheckoutForm(props: IProps) {
 
   const { setOpen, setShowModal  } = useModalStore((state) => state);
   const { setAmount } = useSettingsStore((state) => state); 
-  const queryClient = useQueryClient() 
+  const queryClient = useQueryClient()  
   const router = useRouter()
 
   const [loading, setLoading] = React.useState(false); 

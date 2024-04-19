@@ -10,12 +10,15 @@ import { IEventType } from '@/models/Event'
 import { IUser } from '@/models/User'
 import httpService from '@/utils/httpService'
 import { textLimit } from '@/utils/textlimit'
-import { Box, Button, Checkbox, Flex, Heading, Input, InputGroup, InputLeftElement, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Checkbox, Flex, Heading, Input, InputGroup, InputLeftElement, Text, VStack, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { IoSearchOutline } from 'react-icons/io5'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { MdEdit } from "react-icons/md";
 import SubmitEvent from '../../submit_event'
+import { URLS } from '@/services/urls'
+import { AxiosError, AxiosResponse } from 'axios'
+import router from 'next/router'
 
 type IProps = {
     btn?: boolean,
@@ -29,9 +32,12 @@ export default function CollaboratorBtn(props: IProps) {
         data
     } = props
 
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false) 
     const [users, setUsers] = React.useState<IUser[]>([]);
-    const { updateEvent, eventdata } = useEventStore((state) => state);
+    const { eventdata, updateEvent } = useEventStore((state) => state);
+
+
+    const queryClient = useQueryClient() 
 
     const { userId } = useDetails((state) => state);
     // const toast = useToast()
@@ -49,97 +55,95 @@ export default function CollaboratorBtn(props: IProps) {
         }
     });
 
-    const AddAdmin = (userIndex: string) => {
+    const AddAdmin =(userIndex: string)=> {
 
         let admin = !eventdata?.admins ? [] : [...eventdata?.admins]
         let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators]
 
-        if (eventdata?.collaborators?.includes(userIndex)) {
+        let clone = { ...eventdata }
 
-            let clone = { ...eventdata }
+        if (eventdata?.collaborators?.includes(userIndex)) {
+ 
 
             const index = collaborators.indexOf(userIndex);
-            clone?.collaborators.splice(index, 1);
+            clone?.collaborators.splice(index, 1); 
 
-            if (!eventdata?.admins?.includes(userIndex)) {
+            if (!eventdata?.admins?.includes(userIndex)) { 
 
-                clone.admins = [...admin, userIndex]
-            } else {
+                clone.admins = [...admin, userIndex] 
+            } else { 
 
                 const index = admin.indexOf(userIndex);
-                clone?.admins.splice(index, 1);
+                clone?.admins.splice(index, 1); 
             }
 
             updateEvent(clone);
 
         } else if (eventdata?.admins?.includes(userIndex)) {
-
-            let clone = { ...eventdata }
+  
 
             const index = admin.indexOf(userIndex);
-            clone?.admins.splice(index, 1);
+            clone?.admins.splice(index, 1); 
 
-            updateEvent(clone);
+            updateEvent(clone); 
         } else {
-
-            let clone: any = { ...eventdata }
 
             if (!clone.admins) {
                 clone.admins = [userIndex]
             } else {
                 clone.admins = [...admin, userIndex]
-            }
+            } 
 
-            updateEvent(clone);
+            updateEvent(clone); 
 
         }
     }
 
-    const AddCollaborators = (userIndex: string) => {
+    const AddCollaborators =(userIndex: string)=> {
 
         let admin = !eventdata?.admins ? [] : [...eventdata?.admins]
         let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators]
 
+        let clone = { ...eventdata }
+        
         if (eventdata?.admins?.includes(userIndex)) {
 
-            let clone = { ...eventdata }
 
             const index = admin.indexOf(userIndex);
             clone?.admins.splice(index, 1);
 
             if (!eventdata?.collaborators?.includes(userIndex)) {
 
-                clone.collaborators = [...collaborators, userIndex]
+                clone.collaborators = [...collaborators, userIndex] 
             } else {
 
 
                 const index = collaborators.indexOf(userIndex);
                 clone?.collaborators.splice(index, 1);
                 // clone?.collaborators?.filter((id) => id !== userIndex)
-                clone.collaborators = [...collaborators, userIndex]
+                clone.collaborators = [...collaborators, userIndex] 
             }
             updateEvent(clone);
 
-        } else if (eventdata?.collaborators?.includes(userIndex)) {
+        } else if (eventdata?.collaborators?.includes(userIndex)) { 
 
-            let clone = { ...eventdata }
             const index = collaborators.indexOf(userIndex);
             clone?.collaborators.splice(index, 1);
 
             // clone?.collaborators?.filter((id) => id !== userIndex)
 
-            updateEvent(clone);
+            updateEvent(clone); 
         } else {
-
-            let clone = { ...eventdata }
 
             clone.collaborators = [...collaborators, userIndex]
             // clone.collaborators.push(item)
 
-            updateEvent(clone);
+            updateEvent(clone); 
 
-        }
+        } 
     }
+
+
 
     const UserCard = (props: IUser & { collaborators: boolean, admin: boolean }) => {
         const { username, userId, data: { imgMain: { value: imgMain } }, firstName, lastName, collaborators, admin } = props;
@@ -190,6 +194,7 @@ export default function CollaboratorBtn(props: IProps) {
         setOpen(true)
 
         if (data?.eventName) {
+
             const clone: CreateEvent = {
                 id: data?.id,
                 picUrls: data?.picUrls,
@@ -218,6 +223,11 @@ export default function CollaboratorBtn(props: IProps) {
                 productTypeData: data?.productTypeData,
                 collaborators: data?.collaborators,
                 admins: data?.admins
+            } 
+
+            const cloneAdmin: any = {
+                collaborators: data?.collaborators,
+                admins: data?.admins
             }
 
 
@@ -231,14 +241,54 @@ export default function CollaboratorBtn(props: IProps) {
                 return collaborator.push(item?.userId)
             })
 
-            clone.admins = admin
+            clone.admins = admin 
+            clone.collaborators = collaborator 
 
-            clone.collaborators = collaborator
-
-            updateEvent(clone)
+            updateEvent(clone) 
         }
 
     }
+
+
+    const toast = useToast()
+
+    // Edit Event
+    const updateUserEvent = useMutation({
+        mutationFn: (newdata: any) => httpService.put(URLS.UPDATE_EVENT, newdata),
+        onError: (error: AxiosError<any, any>) => {
+            toast({
+                title: 'Error',
+                description: error?.response?.data?.message,
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        },
+        onSuccess: (message: AxiosResponse<any>) => {
+            queryClient.invalidateQueries(['all-events-details' + data?.id]) 
+
+            toast({
+                title: 'Success',
+                description: "Event has been updated successfully",
+                status: 'success',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+            setOpen(false)
+        }
+    }); 
+
+
+    const updateEventCollaboration = React.useCallback(() => {  
+
+        const clone: any = {}
+
+        clone.admins = eventdata.admins
+        clone.collaborators = eventdata.collaborators 
+        updateUserEvent.mutate(clone)
+    }, []) 
 
 
     return (
@@ -249,7 +299,7 @@ export default function CollaboratorBtn(props: IProps) {
             {!btn && (
                 <Flex onClick={() => setOpen(true)} as={'button'} gap={"1"} alignItems={"center"} >
                     <CollaboratorIcon />
-                    <Text color={"#1732F7"} lineHeight={"22px"} >{(eventdata?.admins || eventdata?.collaborators) ? (eventdata?.admins ? eventdata?.admins?.length : 0) + (eventdata?.collaborators ? eventdata?.collaborators?.length : 0) : "Add Event "} Collaborators.</Text>
+                    <Text color={"#1732F7"} lineHeight={"22px"} >{(eventdata?.admins?.length !== 0 || eventdata?.collaborators?.length !== 0) ? (eventdata?.admins ? eventdata?.admins?.length : 0) + (eventdata?.collaborators ? eventdata?.collaborators?.length : 0) : "Add Event "} Collaborators.</Text>
                 </Flex>
             )}
             <ModalLayout open={open} close={setOpen} closeIcon={false} >
@@ -274,7 +324,7 @@ export default function CollaboratorBtn(props: IProps) {
                 </Flex>
 
                 <LoadingAnimation loading={isLoading} >
-                    <Flex flexDir={"column"} gap={"4"} maxH={"300px"} pb={"4"} px={"2"} overflowY={"auto"} >
+                    <Flex flexDir={"column"} gap={"4"} maxH={"300px"} pb={"4"} px={"5"} overflowY={"auto"} >
                         {users.map((item, index) => (
                             <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
                         ))}
@@ -282,13 +332,9 @@ export default function CollaboratorBtn(props: IProps) {
                 </LoadingAnimation>
 
                 {btn && (
-                    <>
-                        {data?.eventName && ( 
-                            <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg='white' py={'20px'} >
-                                <SubmitEvent collaborate={btn} close={setOpen} disable={(data?.admins?.length + data?.collaborators?.length) === (eventdata?.admins?.length + eventdata?.collaborators?.length)} />
-                            </Box>
-                        )}
-                    </>
+                    <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg='white' py={'20px'} >
+                        <CustomButton text='Submit' isLoading={updateUserEvent?.isLoading} onClick={() => updateEventCollaboration()} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
+                    </Box>
                 )}
 
                 {!btn && (
