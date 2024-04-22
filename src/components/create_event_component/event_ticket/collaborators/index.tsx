@@ -1,3 +1,4 @@
+"use client"
 import CustomButton from '@/components/general/Button'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
@@ -5,20 +6,17 @@ import UserImage from '@/components/sharedComponent/userimage'
 import { CloseIcon, CollaboratorIcon } from '@/components/svg'
 import useEventStore, { CreateEvent } from '@/global-state/useCreateEventState'
 import { useDetails } from '@/global-state/useUserDetails'
-import useDebounce from '@/hooks/useDebounce'
-import { IEventType } from '@/models/Event'
+import useDebounce from '@/hooks/useDebounce' 
 import { IUser } from '@/models/User'
 import httpService from '@/utils/httpService'
 import { textLimit } from '@/utils/textlimit'
 import { Box, Button, Checkbox, Flex, Heading, Input, InputGroup, InputLeftElement, Text, VStack, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { IoSearchOutline } from 'react-icons/io5'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { MdEdit } from "react-icons/md";
-import SubmitEvent from '../../submit_event'
+import { useMutation, useQuery, useQueryClient } from 'react-query' 
 import { URLS } from '@/services/urls'
-import { AxiosError, AxiosResponse } from 'axios'
-import router from 'next/router'
+import { AxiosError, AxiosResponse } from 'axios' 
+import { useRouter } from 'next/navigation'
 
 type IProps = {
     btn?: boolean,
@@ -36,6 +34,7 @@ export default function CollaboratorBtn(props: IProps) {
     const [users, setUsers] = React.useState<IUser[]>([]);
     const { eventdata, updateEvent } = useEventStore((state) => state);
 
+    const router = useRouter()
 
     const queryClient = useQueryClient() 
 
@@ -223,12 +222,7 @@ export default function CollaboratorBtn(props: IProps) {
                 productTypeData: data?.productTypeData,
                 collaborators: data?.collaborators,
                 admins: data?.admins
-            } 
-
-            const cloneAdmin: any = {
-                collaborators: data?.collaborators,
-                admins: data?.admins
-            }
+            }  
 
 
             const admin: any = []
@@ -266,7 +260,9 @@ export default function CollaboratorBtn(props: IProps) {
             });
         },
         onSuccess: (message: AxiosResponse<any>) => {
-            queryClient.invalidateQueries(['all-events-details' + data?.id]) 
+            queryClient.invalidateQueries(['all-events-details']) 
+
+            // router.refresh(
 
             toast({
                 title: 'Success',
@@ -281,14 +277,10 @@ export default function CollaboratorBtn(props: IProps) {
     }); 
 
 
-    const updateEventCollaboration = React.useCallback(() => {  
-
-        const clone: any = {}
-
-        clone.admins = eventdata.admins
-        clone.collaborators = eventdata.collaborators 
-        updateUserEvent.mutate(clone)
-    }, []) 
+    const updateEventCollaboration = React.useCallback((item: any) => {   
+        updateUserEvent.mutate(item)
+    }, [])  
+    
 
 
     return (
@@ -333,7 +325,7 @@ export default function CollaboratorBtn(props: IProps) {
 
                 {btn && (
                     <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg='white' py={'20px'} >
-                        <CustomButton text='Submit' isLoading={updateUserEvent?.isLoading} onClick={() => updateEventCollaboration()} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
+                        <CustomButton text='Submit' isLoading={updateUserEvent?.isLoading} onClick={() => updateEventCollaboration({admins: eventdata?.admins, collaborators: eventdata?.collaborators, id: eventdata?.id})} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
                     </Box>
                 )}
 

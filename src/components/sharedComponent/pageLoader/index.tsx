@@ -20,30 +20,77 @@ export default function PageLoader({ show }: IProps) {
                 //         <CustomText fontFamily={'Satoshi-Regular'} fontSize='lg' color='#12299C'>Chasescroll</CustomText>
                 //     </Flex>
                 // </Flex>
-                <div>
-                    <motion.div
-                    
-                    style={{
-                        width: "50px",
-                        height: "50px",
-                        backgroundColor: 'salmon',
-                        margin: '40px auto',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius:"999px"
-                    }}
-                        animate={{
-                            scale: [1, 1.5, 1], // Scale from 1 to 1.5 to 1
-                        }}
-                        transition={{
-                            duration: 2, // Duration of each cycle
-                            ease: "easeInOut",
-                            loop: Infinity, // Loop indefinitely
-                            repeatDelay: 0.5 // Delay of 1 second before repeating
-                        }}
-                    />
-                </div>
+                <Flex position={"fixed"} zIndex={"500"} inset={"0px"} w={"full"} bgColor={"white"} justifyContent={"center"} alignItems={"center"} height={"full"} >
+                    <Flex gap={"6"} w={"fit-content"} >
+
+                        <motion.div
+
+                            style={{
+                                width: "40px",
+                                height: "40px",
+                                backgroundColor: 'salmon',
+                                margin: '40px auto',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderRadius: "999px"
+                            }}
+                            animate={{
+                                scale: [1, 1.5, 1], // Scale from 1 to 1.5 to 1
+                            }}
+                            transition={{
+                                duration: 2, // Duration of each cycle
+                                ease: "easeInOut",
+                                loop: Infinity, // Loop indefinitely
+                                repeatDelay: 0.5 // Delay of 1 second before repeating
+                            }}
+                        />
+                        <motion.div
+
+                            style={{
+                                width: "40px",
+                                height: "40px",
+                                backgroundColor: 'salmon',
+                                margin: '40px auto',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderRadius: "999px"
+                            }}
+                            animate={{
+                                scale: [1.5, 1, 1.5], // Scale from 1 to 1.5 to 1
+                            }}
+                            transition={{
+                                duration: 2, // Duration of each cycle
+                                ease: "easeInOut",
+                                loop: Infinity, // Loop indefinitely
+                                repeatDelay: 0.5 // Delay of 1 second before repeating
+                            }}
+                        />
+                        <motion.div
+
+                            style={{
+                                width: "40px",
+                                height: "40px",
+                                backgroundColor: 'salmon',
+                                margin: '40px auto',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderRadius: "999px"
+                            }}
+                            animate={{
+                                scale: [1, 1.5, 1], // Scale from 1 to 1.5 to 1
+                            }}
+                            transition={{
+                                duration: 2, // Duration of each cycle
+                                ease: "easeInOut",
+                                loop: Infinity, // Loop indefinitely
+                                repeatDelay: 0.5 // Delay of 1 second before repeating
+                            }}
+                        />
+                    </Flex>
+                </Flex>
             )}
         </>
     )
