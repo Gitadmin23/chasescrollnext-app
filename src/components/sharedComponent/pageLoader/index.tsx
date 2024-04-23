@@ -28,7 +28,7 @@ export default function PageLoader({ show }: IProps) {
                             style={{
                                 width: "40px",
                                 height: "40px",
-                                backgroundColor: 'salmon',
+                                backgroundColor: '#5465E0',
                                 margin: '40px auto',
                                 display: 'flex',
                                 alignItems: 'center',
@@ -39,10 +39,10 @@ export default function PageLoader({ show }: IProps) {
                                 scale: [1, 1.5, 1], // Scale from 1 to 1.5 to 1
                             }}
                             transition={{
-                                duration: 2, // Duration of each cycle
+                                duration: 1, // Duration of each cycle
                                 ease: "easeInOut",
                                 loop: Infinity, // Loop indefinitely
-                                repeatDelay: 0.5 // Delay of 1 second before repeating
+                                // repeatDelay: 0.1 // Delay of 1 second before repeating
                             }}
                         />
                         <motion.div
@@ -50,7 +50,7 @@ export default function PageLoader({ show }: IProps) {
                             style={{
                                 width: "40px",
                                 height: "40px",
-                                backgroundColor: 'salmon',
+                                backgroundColor: '#5465E0',
                                 margin: '40px auto',
                                 display: 'flex',
                                 alignItems: 'center',
@@ -61,10 +61,10 @@ export default function PageLoader({ show }: IProps) {
                                 scale: [1.5, 1, 1.5], // Scale from 1 to 1.5 to 1
                             }}
                             transition={{
-                                duration: 2, // Duration of each cycle
+                                duration: 1, // Duration of each cycle
                                 ease: "easeInOut",
                                 loop: Infinity, // Loop indefinitely
-                                repeatDelay: 0.5 // Delay of 1 second before repeating
+                                // repeatDelay: 0.5 // Delay of 1 second before repeating
                             }}
                         />
                         <motion.div
@@ -72,7 +72,7 @@ export default function PageLoader({ show }: IProps) {
                             style={{
                                 width: "40px",
                                 height: "40px",
-                                backgroundColor: 'salmon',
+                                backgroundColor: '#5465E0',
                                 margin: '40px auto',
                                 display: 'flex',
                                 alignItems: 'center',
@@ -83,10 +83,10 @@ export default function PageLoader({ show }: IProps) {
                                 scale: [1, 1.5, 1], // Scale from 1 to 1.5 to 1
                             }}
                             transition={{
-                                duration: 2, // Duration of each cycle
+                                duration: 1, // Duration of each cycle
                                 ease: "easeInOut",
                                 loop: Infinity, // Loop indefinitely
-                                repeatDelay: 0.5 // Delay of 1 second before repeating
+                                // repeatDelay: 0.5 // Delay of 1 second before repeating
                             }}
                         />
                     </Flex>
