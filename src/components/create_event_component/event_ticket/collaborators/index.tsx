@@ -157,7 +157,7 @@ export default function CollaboratorBtn(props: IProps) {
             let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators]
 
 
-            if (show === true) {
+            if (show || collaborators || admin) {
                 if (eventdata?.admins?.includes(userIndex)) {
 
 
