@@ -24,7 +24,7 @@ function SubmitEvent(props: Iprops) {
         promotion,
     } = props
 
-    const { eventdata, image, tab, updateEvent, changeTab, data } = useEventStore((state) => state);
+    const { eventdata, image, tab, updateEvent, changeTab } = useEventStore((state) => state);
     const { userId: user_index } = useDetails((state) => state);
     const router = useRouter()
     const pathname = usePathname();
