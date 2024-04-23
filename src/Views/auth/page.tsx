@@ -16,6 +16,7 @@ import { CustomInput } from '@/components/Form/CustomInput';
 import httpServiceGoogle from '@/utils/httpServiceGoogle';
 import CopyRightText from '@/components/sharedComponent/CopyRightText';
 import GoogleBtn from '@/components/sharedComponent/googlebtn';
+import PageLoader from '@/components/sharedComponent/pageLoader';
 
 
 
@@ -67,6 +68,7 @@ const exclude = ['Events', 'Sign up', 'Community', 'Sign up']
 function LoginPage() {
   // const { getValues } = useForm()
   const [showModal, setShowModal] = React.useState(false);
+  const [show, setShow] = React.useState(false);
   const [Loading, setLoading] = React.useState(false)
   const [FirstName, setFirstName] = React.useState("")
   const [CheckUsername, setCheckUsername] = React.useState("")
@@ -134,6 +136,7 @@ function LoginPage() {
       });
     },
     onSuccess: (data) => {
+      setShow(true)
       toast({
         title: data?.data?.message ? 'Error' : 'Success',
         description: data?.data?.message ? data?.data?.message : 'Login successful',
@@ -333,6 +336,8 @@ function LoginPage() {
           })}
         </Flex>
       </Box>
+
+      <PageLoader show={show} />
     </Flex>
   )
 }
