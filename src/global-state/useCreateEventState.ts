@@ -10,13 +10,13 @@ type ticket = {
     maxTicketBuy: string | number,
     rerouteURL?: string
     ticketsSold?: 0,
-} 
+}
 
 export type CreateEvent = {
     id?: string
     picUrls: Array<any>,
-    collaborators:  Array<any>,
-    admins:  Array<any>,
+    collaborators: Array<any>,
+    admins: Array<any>,
     eventType: string,
     eventName: string,
     eventDescription: string,
@@ -48,7 +48,7 @@ export type CreateEvent = {
     },
     productTypeData: Array<ticket>,
     createdBy?: IUser
-}
+} 
 
 type State = {
     eventdata: CreateEvent
@@ -63,12 +63,18 @@ type Navigate = {
 }
 
 type Action = {
-    updateEvent: (data: State['eventdata']) => void
+    updateEvent: (data: State['eventdata']) => void 
     updateImage: (data: Image['image']) => void
     changeTab: (data: Navigate['tab']) => void
 }
 
 const useEventStore = create<State & Image & Navigate & Action>((set) => ({
+    data: {
+        collaborators: [
+        ],
+        admins: [
+        ],
+    },
     eventdata: {
         picUrls: [
             ""
@@ -116,7 +122,7 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
         ],
     },
     image: null,
-    tab: 0,
+    tab: 0, 
     updateEvent: (data) => set(() => ({ eventdata: data })),
     updateImage: (data) => set(() => ({ image: data })),
     changeTab: (data) => set(() => ({ tab: data })),
