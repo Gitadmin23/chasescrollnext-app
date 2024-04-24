@@ -1,7 +1,7 @@
 import { PayStackLogo } from '@/components/svg'
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Flex, useToast } from '@chakra-ui/react'
+import { Button, Flex, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
@@ -23,18 +23,15 @@ function PayStackBtn(props: Props) {
         selectedCategory,
         ticketCount,
         datainfo
-    } = props
-
-    const queryClient = useQueryClient()
+    } = props 
+    
     const toast = useToast()
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
-    
-    const { showModal, setShowModal } = useModalStore((state) => state);
-    const { setModalTab, modalTab } = useStripeStore((state: any) => state);
-    
 
-    const { configPaystack, setPaystackConfig } = usePaystackStore((state) => state);
-    const [config, setConfig] = React.useState({} as any)
+    const { setShowModal } = useModalStore((state) => state); 
+
+
+    const { setPaystackConfig } = usePaystackStore((state) => state); 
 
     const createTicket = useMutation({
         mutationFn: (data: any) => httpService.post(URLS.CREATE_TICKET, data),
@@ -46,8 +43,8 @@ function PayStackBtn(props: Props) {
                 reference: data?.data?.content?.orderCode
             });
             setShowModal(false)
-        
-            
+
+
         },
         onError: (error) => {
             // console.log(error);
@@ -71,11 +68,20 @@ function PayStackBtn(props: Props) {
     }, [createTicket])
 
     return (
-        <Flex onClick={clickHandler} as={"button"} flexDir={"column"} width={"full"} justifyContent={(createTicket?.isLoading) ? "center" : "start"} px={"4"} mt={"6"} borderColor={"#D0D4EB"} borderWidth={"1px"} gap={"3"} py={"8"} bg={"#F4F5FA"} rounded={"lg"} alignItems={"center"} >
-            <LoadingAnimation fix_height={true} loading={(createTicket?.isLoading)} >
-                <PayStackLogo />
-            </LoadingAnimation>
-        </Flex>
+        // <LoadingAnimation fix_height={true} loading={(createTicket?.isLoading)} >
+        //     <Flex onClick={clickHandler} as={"button"} flexDir={"column"} width={"full"} justifyContent={(createTicket?.isLoading) ? "center" : "start"} px={"4"} mt={"6"} borderColor={"#D0D4EB"} borderWidth={"1px"} gap={"3"} py={"8"} bg={"#F4F5FA"} rounded={"lg"} alignItems={"center"} >
+
+        //         <PayStackLogo />
+        //     </Flex>
+
+        // </LoadingAnimation>
+        <>
+            <Button isDisabled={createTicket?.isLoading} isLoading={createTicket?.isLoading} onClick={clickHandler} as={"button"} mt={"4"} width={"full"} h={"full"} >
+                <Flex h={"100px"} justifyContent={"center"} alignItems={"center"} >
+                    <PayStackLogo />
+                </Flex>
+            </Button>
+        </>
     )
 }
 

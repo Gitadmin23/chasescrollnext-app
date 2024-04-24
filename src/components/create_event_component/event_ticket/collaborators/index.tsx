@@ -48,7 +48,7 @@ export default function CollaboratorBtn(props: IProps) {
 
     const { isLoading, isError } = useQuery(['getUserFriends', searchText, userId], () => httpService.get(`/user/get-users-connections/${userId}`, {
         params: {
-            searchText
+            searchText: searchText
         }
     }), {
         onSuccess: (data) => {
@@ -222,6 +222,7 @@ export default function CollaboratorBtn(props: IProps) {
 
         setTab(false)
         setOpen(true)
+        setSearch("")
 
         if (data?.eventName) {
 
@@ -341,10 +342,10 @@ export default function CollaboratorBtn(props: IProps) {
         }
     }, [data, open])
 
-    const changeTabHandler = () => {
-        setTab((prev) => !prev)
+    const changeTabHandler = (item: boolean) => {
+        setTab(item)
         setSearch("")
-    } 
+    }
 
 
     return (
@@ -373,8 +374,8 @@ export default function CollaboratorBtn(props: IProps) {
                 <Flex px={"6"} py={"4"} flexDir={"column"} gap={"2"}  >
 
                     <Flex rounded={"lg"} w={"full"} bg={"#EFF1FE"} py={"3px"} px={"9px"} >
-                        <Button onClick={() => changeTabHandler()} _hover={{ backgroundColor: !tab ? "white" : "transparent" }} borderBottom={!tab ? "1px solid #5465E0" : ""} width={"full"} bgColor={!tab ? "white" : "transparent"} h={"36px"} color={"#5465E0"} fontWeight={"medium"} fontSize={"sm"} >My Network</Button>
-                        <Button onClick={() => changeTabHandler()} _hover={{ backgroundColor: tab ? "white" : "transparent" }} borderBottom={tab ? "1px solid #5465E0" : ""} width={"full"} bgColor={tab ? "white" : "transparent"} h={"36px"} color={"#5465E0"} fontWeight={"medium"} fontSize={"sm"} >Collaborators</Button>
+                        <Button onClick={() => changeTabHandler(false)} _hover={{ backgroundColor: !tab ? "white" : "transparent" }} borderBottom={!tab ? "1px solid #5465E0" : ""} width={"full"} bgColor={!tab ? "white" : "transparent"} h={"36px"} color={"#5465E0"} fontWeight={"medium"} fontSize={"sm"} >My Network</Button>
+                        <Button onClick={() => changeTabHandler(true)} _hover={{ backgroundColor: tab ? "white" : "transparent" }} borderBottom={tab ? "1px solid #5465E0" : ""} width={"full"} bgColor={tab ? "white" : "transparent"} h={"36px"} color={"#5465E0"} fontWeight={"medium"} fontSize={"sm"} >Collaborators</Button>
                     </Flex>
                     <InputGroup width={["full", "full", "full"]} zIndex={"20"} position={"relative"} >
                         <InputLeftElement pointerEvents='none'>
@@ -387,9 +388,20 @@ export default function CollaboratorBtn(props: IProps) {
                 {!tab && (
                     <LoadingAnimation loading={isLoading} >
                         <Flex flexDir={"column"} gap={"4"} maxH={"250px"} pb={"4"} px={"5"} overflowY={"auto"} >
-                            {usersFilter?.map((item: IUser, index: number) => (
-                                <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
-                            ))}
+                            {!searchText && (
+                                <>
+                                    {usersFilter?.map((item: IUser, index: number) => (
+                                        <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
+                                    ))}
+                                </>
+                            )}
+                            {searchText && (
+                                <> 
+                                    {users?.map((item: IUser, index: number) => (
+                                        <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
+                                    ))}
+                                </>
+                            )}
                         </Flex>
                     </LoadingAnimation>
                 )}
