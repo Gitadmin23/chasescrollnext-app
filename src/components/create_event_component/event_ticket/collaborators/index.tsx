@@ -431,7 +431,7 @@ export default function CollaboratorBtn(props: IProps) {
                 )}
                 {btn && (
                     <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg='white' py={'20px'} >
-                        <CustomButton text='Submit' isLoading={updateUserEvent?.isLoading} onClick={() => updateEventCollaboration({ admins: eventdata?.admins, collaborators: eventdata?.collaborators, id: eventdata?.id })} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
+                        <CustomButton text='Assign Role' disable={(eventdata?.admins?.length === data?.admins?.length) && (eventdata?.collaborators?.length === data?.collaborators?.length)} isLoading={updateUserEvent?.isLoading} onClick={() => updateEventCollaboration({ admins: eventdata?.admins, collaborators: eventdata?.collaborators, id: eventdata?.id })} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
                     </Box>
                 )}
 
