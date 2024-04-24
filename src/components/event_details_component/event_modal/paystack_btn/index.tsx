@@ -24,7 +24,7 @@ function PayStackBtn(props: Props) {
         ticketCount,
         datainfo
     } = props 
-    
+
     const toast = useToast()
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
 
@@ -67,14 +67,7 @@ function PayStackBtn(props: Props) {
         })
     }, [createTicket])
 
-    return (
-        // <LoadingAnimation fix_height={true} loading={(createTicket?.isLoading)} >
-        //     <Flex onClick={clickHandler} as={"button"} flexDir={"column"} width={"full"} justifyContent={(createTicket?.isLoading) ? "center" : "start"} px={"4"} mt={"6"} borderColor={"#D0D4EB"} borderWidth={"1px"} gap={"3"} py={"8"} bg={"#F4F5FA"} rounded={"lg"} alignItems={"center"} >
-
-        //         <PayStackLogo />
-        //     </Flex>
-
-        // </LoadingAnimation>
+    return ( 
         <>
             <Button isDisabled={createTicket?.isLoading} isLoading={createTicket?.isLoading} onClick={clickHandler} as={"button"} mt={"4"} width={"full"} h={"full"} >
                 <Flex h={"100px"} justifyContent={"center"} alignItems={"center"} >

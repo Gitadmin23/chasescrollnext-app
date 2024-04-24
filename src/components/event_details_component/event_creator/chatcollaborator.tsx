@@ -32,7 +32,7 @@ export default function Chatcollaborator(props: IProps) {
                                 <Text textAlign={"left"} fontSize={"sm"} >Admin</Text>
                             </Box>
                         </Flex>
-                        <Flex border={"1px solid #E8E8E8"} rounded={"32px"} gap={"8"} py={"8px"} px={"16px"} >
+                        <Flex border={"1px solid #E8E8E8"} color={"#5465E0"} rounded={"32px"} gap={"8"} py={"8px"} px={"16px"} >
 
                             <ChatBtn userId={item?.userId} />
                         </Flex>
@@ -53,7 +53,7 @@ export default function Chatcollaborator(props: IProps) {
                                 <Text textAlign={"left"} fontSize={"sm"} >Coordinator</Text>
                             </Box>
                         </Flex>
-                        <Flex border={"1px solid #E8E8E8"} rounded={"32px"} gap={"8"} py={"8px"} px={"16px"} >
+                        <Flex border={"1px solid #E8E8E8"} color={"#5465E0"} rounded={"32px"} gap={"8"} py={"8px"} px={"16px"} >
 
                             <ChatBtn userId={item?.userId} />
                         </Flex>

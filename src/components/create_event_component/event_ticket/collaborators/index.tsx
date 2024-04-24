@@ -356,7 +356,7 @@ export default function CollaboratorBtn(props: IProps) {
             {!btn && (
                 <Flex onClick={() => setOpen(true)} as={'button'} gap={"1"} alignItems={"center"} >
                     <CollaboratorIcon />
-                    <Text color={"#1732F7"} lineHeight={"22px"} >{(eventdata?.admins?.length !== 0 || eventdata?.collaborators?.length !== 0) ? (eventdata?.admins ? eventdata?.admins?.length : 0) + (eventdata?.collaborators ? eventdata?.collaborators?.length : 0) : "Add Event "} Collaborators.</Text>
+                    <Text color={"#1732F7"} lineHeight={"22px"} >{(eventdata?.admins?.length !== 0 || eventdata?.collaborators?.length !== 0) ? (eventdata?.admins ? eventdata?.admins?.length : 0) + (eventdata?.collaborators ? eventdata?.collaborators?.length : 0) : "Update Event "} Collaborators.</Text>
                 </Flex>
             )}
             <ModalLayout open={open} close={setOpen} closeIcon={false} >
