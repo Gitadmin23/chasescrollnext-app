@@ -180,7 +180,7 @@ export default function CollaboratorBtn(props: IProps) {
 
         return (
             <Flex width='100%' height={'fit-content'} flexDir={"column"} rounded={"16px"} borderColor={"#B6B6B6"} borderWidth={"1px"} justifyContent={'space-between'} padding='15px'>
-                <Flex justifyContent={'space-between'} w={"full"} alignItems={"center"}  >
+                <Flex as={"button"} onClick={() => removeHandler(userId)} justifyContent={'space-between'} w={"full"} alignItems={"center"}  >
                     <Flex gap={"1"} height={"full"} alignItems={"center"} >
                         <Box w={"fit-content"} >
                             <UserImage data={props} image={props?.data?.imgMain?.value} size={"40px"} border={"2px"} font={"20px"} />
@@ -354,9 +354,31 @@ export default function CollaboratorBtn(props: IProps) {
                 <Button onClick={() => clickHandler()} bgColor={"#5D70F9"} px={"2"} display={["none", "none", "block"]} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>Edit Collaborator</Button>
             )}
             {!btn && (
-                <Flex onClick={() => setOpen(true)} as={'button'} gap={"1"} alignItems={"center"} >
-                    <CollaboratorIcon />
-                    <Text color={"#1732F7"} lineHeight={"22px"} >{(eventdata?.admins?.length !== 0 || eventdata?.collaborators?.length !== 0) ? (eventdata?.admins ? eventdata?.admins?.length : 0) + (eventdata?.collaborators ? eventdata?.collaborators?.length : 0) : "Update Event "} Collaborators.</Text>
+                <Flex flexDir={"column"} w={"fit-content"} gap={"3"} alignItems={"end"} >
+                    <Flex onClick={() => setOpen(true)} as={'button'} gap={"1"} alignItems={"center"} mr={"auto"} >
+                        <CollaboratorIcon />
+                        {(eventdata?.admins?.length <= 0 && eventdata?.collaborators?.length <= 0) && (
+                            <Text color={"#1732F7"} lineHeight={"22px"} >Add Collaborators</Text>
+                        )}
+                        {(eventdata?.admins?.length > 0 || eventdata?.collaborators?.length > 0) && (
+                            <Flex alignItems={"center"} gap={"2"} >
+                                <Text color={"#1732F7"} lineHeight={"22px"} >Add Collaborators</Text> 
+                            </Flex>
+                        )}
+                    </Flex>
+                    <Flex gap={"3"} >
+
+                        {eventdata?.admins?.length > 0 && (
+                            <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"#3EC30F"} >
+                                {eventdata?.admins?.length + " Admin"+(eventdata?.admins?.length > 1 ? "s" : "")}
+                            </Flex>
+                        )}
+                        {eventdata?.collaborators?.length > 0 && (
+                            <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#FDF3CF6B"} color={"#FDB806"} >
+                                {eventdata?.collaborators?.length + " Collaborator"+(eventdata?.collaborators?.length > 1 ? "s" : "")}
+                            </Flex>
+                        )}
+                    </Flex>
                 </Flex>
             )}
             <ModalLayout open={open} close={setOpen} closeIcon={false} >
@@ -372,11 +394,12 @@ export default function CollaboratorBtn(props: IProps) {
                     </Box>
                 </Flex>
                 <Flex px={"6"} py={"4"} flexDir={"column"} gap={"2"}  >
-
-                    <Flex rounded={"lg"} w={"full"} bg={"#EFF1FE"} py={"3px"} px={"9px"} >
-                        <Button onClick={() => changeTabHandler(false)} _hover={{ backgroundColor: !tab ? "white" : "transparent" }} borderBottom={!tab ? "1px solid #5465E0" : ""} width={"full"} bgColor={!tab ? "white" : "transparent"} h={"36px"} color={"#5465E0"} fontWeight={"medium"} fontSize={"sm"} >My Network</Button>
-                        <Button onClick={() => changeTabHandler(true)} _hover={{ backgroundColor: tab ? "white" : "transparent" }} borderBottom={tab ? "1px solid #5465E0" : ""} width={"full"} bgColor={tab ? "white" : "transparent"} h={"36px"} color={"#5465E0"} fontWeight={"medium"} fontSize={"sm"} >Collaborators</Button>
-                    </Flex>
+                    {btn && (
+                        <Flex rounded={"lg"} w={"full"} bg={"#EFF1FE"} py={"3px"} px={"9px"} >
+                            <Button onClick={() => changeTabHandler(false)} _hover={{ backgroundColor: !tab ? "white" : "transparent" }} borderBottom={!tab ? "1px solid #5465E0" : ""} width={"full"} bgColor={!tab ? "white" : "transparent"} h={"36px"} color={"#5465E0"} fontWeight={"medium"} fontSize={"sm"} >My Network</Button>
+                            <Button onClick={() => changeTabHandler(true)} _hover={{ backgroundColor: tab ? "white" : "transparent" }} borderBottom={tab ? "1px solid #5465E0" : ""} width={"full"} bgColor={tab ? "white" : "transparent"} h={"36px"} color={"#5465E0"} fontWeight={"medium"} fontSize={"sm"} >Collaborators</Button>
+                        </Flex>
+                    )}
                     <InputGroup width={["full", "full", "full"]} zIndex={"20"} position={"relative"} >
                         <InputLeftElement pointerEvents='none'>
                             <IoSearchOutline size={"25px"} color='#B6B6B6' />
@@ -387,22 +410,31 @@ export default function CollaboratorBtn(props: IProps) {
 
                 {!tab && (
                     <LoadingAnimation loading={isLoading} >
-                        <Flex flexDir={"column"} gap={"4"} maxH={"250px"} pb={"4"} px={"5"} overflowY={"auto"} >
-                            {!searchText && (
-                                <>
-                                    {usersFilter?.map((item: IUser, index: number) => (
-                                        <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
-                                    ))}
-                                </>
-                            )}
-                            {searchText && (
-                                <> 
-                                    {users?.map((item: IUser, index: number) => (
-                                        <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
-                                    ))}
-                                </>
-                            )}
-                        </Flex>
+                        {btn && (
+                            <Flex flexDir={"column"} gap={"4"} maxH={btn ? "200px" : "300px"} pb={"4"} px={"5"} overflowY={"auto"} >
+                                {!searchText && (
+                                    <>
+                                        {usersFilter?.map((item: IUser, index: number) => (
+                                            <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
+                                        ))}
+                                    </>
+                                )}
+                                {searchText && (
+                                    <>
+                                        {users?.map((item: IUser, index: number) => (
+                                            <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
+                                        ))}
+                                    </>
+                                )}
+                            </Flex>
+                        )}
+                        {!btn && (
+                            <Flex flexDir={"column"} gap={"4"} maxH={"250px"} pb={"4"} px={"5"} overflowY={"auto"} >
+                                {users?.map((item: IUser, index: number) => (
+                                    <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
+                                ))}
+                            </Flex>
+                        )}
                     </LoadingAnimation>
                 )}
 
