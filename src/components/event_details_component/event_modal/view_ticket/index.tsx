@@ -138,8 +138,8 @@ function ViewTicket(props: Props) {
                                                     <EventPrice minPrice={datainfo?.boughtPrice} maxPrice={datainfo?.boughtPrice} currency={datainfo?.event?.currency} />
                                                 </Text>
                                             </Flex>
-                                            <Flex flexDirection={"column"} >
-                                                <Text fontWeight={"bold"} fontSize={"10.26px"} lineHeight={"16.42px"} color={"brand.chasescrollBlue"} >Number</Text>
+                                            <Flex flexDirection={"column"} alignItems={"center"} >
+                                                <Text fontWeight={"bold"} fontSize={"10.26px"} lineHeight={"16.42px"} color={"brand.chasescrollBlue"} >Quantity</Text>
                                                 <Text color={"brand.chasescrollTextGrey"} fontSize={"10.26px"} lineHeight={"13.68px"}  >{index + 1}/{dataMultiple?.length}</Text>
                                             </Flex>
                                         </Flex>
