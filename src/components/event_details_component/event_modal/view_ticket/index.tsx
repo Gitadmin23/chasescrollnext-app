@@ -107,7 +107,7 @@ function ViewTicket(props: Props) {
                                         <EventImage width={["201px"]} height={["201px"]} data={datainfo?.event} />
                                     </Flex>
                                     <Flex flexDir={"column"} gap={"4"} px={["4", "4", "0px"]} >
-                                        <Text fontSize={"24px"} lineHeight={"18px"} fontWeight={"bold"} >{capitalizeFLetter(datainfo?.event?.eventName)}</Text>
+                                        <Text fontSize={"24px"} lineHeight={"18px"} fontWeight={"bold"} >{capitalizeFLetter(textLimit(datainfo?.event?.eventName, 20))}</Text>
 
 
                                         {/* <Flex gap={"4"} display={["flex", "flex", "none"]} fontSize={"xs"} >

@@ -10,6 +10,7 @@ import ShareEvent from '@/components/sharedComponent/share_event';
 import { useDetails } from '@/global-state/useUserDetails';
 import { IMAGE_URL } from '@/services/urls';
 import httpService from '@/utils/httpService';
+import { textLimit } from '@/utils/textlimit';
 import { Box, Flex, Image, useToast, Text } from '@chakra-ui/react';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
@@ -62,7 +63,7 @@ function EventCarousel(props: Props) {
                                             </Box>
                                             <Box width={"full"} pb={"10px"} px={"1"} >
                                                 <Flex color={"#121212"} fontSize={["16px", "16px", "20px"]} bg={"white"} alignItems={"center"} justifyContent={"space-between"} fontWeight={"medium"} pt={"3"}  >
-                                                    <Text display={["none", "none", "block"]} >{item?.eventName}</Text> 
+                                                    <Text display={["none", "none", "block"]} >{textLimit(item?.eventName, 40)}</Text> 
                                                     <Text display={["block", "block", "none"]}  >{item.eventName?.length >= 17 ? item.eventName.slice(0, 17) + "..." : item.eventName}</Text>
                                                     <EventPrice minPrice={item?.minPrice} maxPrice={item?.maxPrice} currency={item?.currency} />
                                                 </Flex>

@@ -351,7 +351,7 @@ export default function CollaboratorBtn(props: IProps) {
     return (
         <>
             {btn && (
-                <Button onClick={() => clickHandler()} bgColor={"#5D70F9"} px={"2"} display={["none", "none", "block"]} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>Edit Collaborator</Button>
+                <Button onClick={() => clickHandler()} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>Edit Collaborator</Button>
             )}
             {!btn && (
                 <Flex flexDir={"column"} w={"fit-content"} gap={"3"} alignItems={"end"} >
