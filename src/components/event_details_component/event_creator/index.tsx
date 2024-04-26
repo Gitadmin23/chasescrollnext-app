@@ -70,7 +70,7 @@ function EventCreator(props: Props) {
                         <Text textAlign={"left"} fontSize={"sm"} >{username}</Text>
                     </Box>
                     {isOrganizer && (
-                        <Box display={["flex", "flex", "none"]} >
+                        <Box display={["none", "none", "block"]} >
                             <CollaboratorBtn btn={true} data={data} />
                         </Box>
                     )}
@@ -90,12 +90,16 @@ function EventCreator(props: Props) {
                     <Chatcollaborator admins={data?.admins} collaborators={data?.collaborators} />
                 </ModalLayout>
             </Flex>
-            <Flex display={["flex", "flex", "none"]} w={"full"} alignItems={"center"} justifyContent={"end"} > 
+            <Flex display={["flex", "flex", "none"]} w={"full"} alignItems={"center"} justifyContent={"end"} >
                 <Flex display={["flex", "flex", "none"]} border={"1px solid #E8E8E8"} ml={"auto"} rounded={"32px"} gap={"8"} py={"8px"} px={"16px"} >
                     <EventQrCode notext={true} data={data} id={data?.id} />
 
                     {!dynamic && (
-                        <ChatBtn profile={data} userId={data?.createdBy?.userId ?? ""} />
+                        <> 
+                            {!isOrganizer && (
+                                <ChatBtn profile={data} userId={data?.createdBy?.userId ?? ""} />
+                            )}
+                        </>
                     )}
                 </Flex>
             </Flex>
