@@ -22,6 +22,7 @@ function InterestedUsers(props: Props) {
         color
     } = props
 
+    console.log(event);    
 
     return (
         <>

@@ -69,11 +69,11 @@ function DashboardRefund(props: Props) {
     return (
         <Flex width={"full"} flexDirection={"column"} >
 
-            <Flex py={"6"} gap={"4"} alignItems={"center"} >
+            {/* <Flex py={"6"} gap={"4"} alignItems={"center"} >
                 <Flex onClick={() => setShowBtn((prev) => !prev)} as={"button"} height={"45px"} _focus={{ borderWidth: "white" }} alignItems={"center"} fontWeight={"semibold"} rounded={"lg"} px={"4"} borderColor={showBtn ? "" : "brand.chasescrollBlue"} borderWidth={"1px"} bgColor={showBtn ? "brand.chasescrollBlue" : "white"} color={showBtn ? "white" : "brand.chasescrollBlue"} >
                     {showBtn ? "Hide" : "Show"} Refund Button
                 </Flex>
-            </Flex>
+            </Flex> */}
             <Flex ref={componentRef} width={"full"} flexDir={"column"} p={"6"} >
                 <Flex width={"full"} py={"6"} justifyContent={"center"} alignItems={"center"} gap={"5"} >
                     {/* <EventImage /> */}
