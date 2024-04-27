@@ -13,10 +13,11 @@ import { dateFormat, timeFormat } from '@/utils/dateFormat'
 import httpService from '@/utils/httpService'
 import { formatNumber } from '@/utils/numberFormat'
 import { textLimit } from '@/utils/textlimit'
-import { Box, Flex, Text, useToast } from '@chakra-ui/react'
+import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import Barcode from "react-barcode"
 import { BsChevronLeft } from 'react-icons/bs'
+import { IoClose } from 'react-icons/io5'
 import QRCode from 'react-qr-code'
 import { useQuery } from 'react-query'
 import { useReactToPrint } from "react-to-print";
@@ -81,11 +82,11 @@ function ViewTicket(props: Props) {
     })
 
     return (
-        <LoadingAnimation loading={isLoading} > 
+        <LoadingAnimation loading={isLoading} >
             <Flex p={"6"} shadow={"lg"} flexDirection={"column"} bg={"#eee"} roundedTop={"md"} width={"full"} alignItems={"center"} justifyContent={"center"} px={"2"} gap={"2"} >
                 <Flex position={"relative"} gap={"4"} mb={"4"} width={"full"} justifyContent={"space-between"} alignItems={"start"} >
-                    <Box onClick={() => click(false)} as='button' >
-                        <BsChevronLeft color={"black"} size={"25px"} />
+                    <Box pos={"relative"} zIndex={"10"} onClick={() => click(false)} as='button' >
+                        <IoClose size={"30px"} />
                     </Box>
                     <Flex pos={"absolute"} w={"full"} justifyContent={"center"} >
                         <Text fontSize={"20px"} fontWeight={"bold"} textAlign={"center"} >Ticket Details</Text>
@@ -106,18 +107,13 @@ function ViewTicket(props: Props) {
                                     <Flex w={["fit-content"]} gap={"4"} >
                                         <EventImage width={["201px"]} height={["201px"]} data={datainfo?.event} />
                                     </Flex>
-                                    <Flex flexDir={"column"} gap={"4"} px={["4", "4", "0px"]} >
+                                    <Flex flexDir={"column"} pos={"relative"} gap={"4"} px={["4", "4", "0px"]} >
                                         <Text fontSize={"24px"} lineHeight={"18px"} fontWeight={"bold"} >{capitalizeFLetter(textLimit(datainfo?.event?.eventName, 20))}</Text>
-
-
-                                        {/* <Flex gap={"4"} display={["flex", "flex", "none"]} fontSize={"xs"} >
-
-                                        <UserImage size={58} image={datainfo?.createdBy?.data?.imgMain?.value} data={datainfo?.createdBy} />
-                                        <Flex flexDirection={"column"} gap={"2"} >
-                                            <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Name</Text>
-                                            <Text color={"brand.chasescrollTextGrey"} >{datainfo?.createdBy?.firstName + " " + datainfo?.createdBy?.lastName}</Text>
-                                        </Flex>
-                                    </Flex> */}
+                                        {datainfo?.ticketUsed > 0 && (
+                                            <Box width={'fit-content'} height={'fit-content'} position={'absolute'} bottom={'50px'} right={"0"} bg={'transparent'}>
+                                                <Image src={'/assets/approved.svg'} alt={'approved'} width={'100px'} height={'100px'} objectFit={'cover'} />
+                                            </Box>
+                                        )}
                                         <Flex gap={"4"} alignItems={"center"} >
                                             <Flex border={`0.5px solid ${index === 0 ? "#CDD3FD" : "#5465E0"}`} h={"34px"} justifyContent={"center"} alignItems={"center"} px={"3"} color={"#5B5858"} fontSize={"10px"} lineHeight={"13.68px"} rounded={"full"} >
                                                 {dateFormat(datainfo?.event?.startDate)}
@@ -174,12 +170,16 @@ function ViewTicket(props: Props) {
                     {dataMultiple?.map((item: { id: string }, index: number) => {
                         return (
                             <Flex key={index} maxW={["400px", "400px", "750px"]} w={["full", "full", "fit-content"]} flexDir={["column", "column", "row"]} rounded={"16px"} pb={"4"} pt={["4"]} p={["0px", "", "4"]} bg={index === 0 ? "white" : "#CDD3FD"} alignItems={["start", "start", "center"]} justifyContent={"center"} gap={"4"} >
-                                <Flex w={["full", "full", "fit-content"]} gap={"4"} mt={["4", "4", "0px"]} px={["4", "4", ""]} >
+                                <Flex pos={"relative"} w={["full", "full", "fit-content"]} gap={"4"} mt={["4", "4", "0px"]} px={["4", "4", ""]} >
                                     <EventImage width={["full", "full", "201px"]} height={["201px", "201px", "201px"]} data={datainfo?.event} />
+                                    {datainfo?.ticketUsed > 0 && (
+                                        <Box width={'fit-content'} height={'fit-content'} position={'absolute'} bottom={'-50px'} right={"3"} bg={'transparent'}>
+                                            <Image src={'/assets/approved.svg'} alt={'approved'} width={'100px'} height={'100px'} objectFit={'cover'} />
+                                        </Box>
+                                    )}
                                 </Flex>
-                                <Flex flexDir={"column"} gap={"4"} px={["4", "4", "0px"]} >
+                                <Flex pos={"relative"} flexDir={"column"} gap={"4"} px={["4", "4", "0px"]} >
                                     <Text fontSize={"24px"} lineHeight={"18px"} fontWeight={"bold"} >{capitalizeFLetter(datainfo?.event?.eventName)}</Text>
-
 
                                     <Flex gap={"4"} display={["flex", "flex", "none"]} fontSize={"xs"} >
 

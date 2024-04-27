@@ -28,8 +28,7 @@ function GetEventData(props: Props) {
         event_index,
         dynamic
     } = props
-    const toast = useToast()
-    const router = useRouter();
+    const toast = useToast() 
     const { userId } = useDetails((state) => state);
     const [data, setData] = React.useState<IEventType| null>(null);
     const [show, setShow] = useState(false);
@@ -54,13 +53,13 @@ function GetEventData(props: Props) {
         onSuccess: (data: any) => {
             const item: PaginatedResponse<IEventType> = data.data;
             setData(item.content[0]);
-            const ids = item.content[0].collaborators.map((item) => item.userId);
-            const adminIds = item.content[0].admins.map((item) => item.userId);
+            const ids = item.content[0]?.collaborators?.map((item) => item.userId);
+            const adminIds = item.content[0]?.admins?.map((item) => item.userId);
 
-            if (ids.includes(userId)) {
+            if (ids?.includes(userId)) {
                 setIsCollaborator(true);
             }
-            if (userId === item.content[0].createdBy.userId || adminIds.includes(userId)) {
+            if (userId === item.content[0].createdBy.userId || adminIds?.includes(userId)) {
                 setIsAdmin(true);
             }
         }
@@ -77,11 +76,7 @@ function GetEventData(props: Props) {
                 setShow(true)
             }
         }
-    }, [pathname]);
-
-    const handleNavigation = () => {
-        router.push(`/dashboard/settings/event-dashboard/${event_index}`);
-    }
+    }, [pathname]); 
 
     return (
         <Box width={"full"}  >
