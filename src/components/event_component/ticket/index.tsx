@@ -16,6 +16,7 @@ import { BsChevronLeft } from "react-icons/bs";
 import CopyRightText from "@/components/sharedComponent/CopyRightText";
 import Barcode from "react-barcode";
 import EventLocationDetail from "@/components/sharedComponent/event_location";
+import { IoClose } from "react-icons/io5";
 
 
 interface ITicketprops {
@@ -23,10 +24,11 @@ interface ITicketprops {
     showStatus?: boolean; // use this to show accepted or denied
     approved?: boolean;
     showQrCode?: boolean;
+    close: () => void
 }
 
-export default function Ticket({ ticket, showStatus = false, approved, showQrCode = false }: ITicketprops) {
-    // const { id, event } = ticket;
+export default function Ticket({ ticket, showStatus = false, approved, close }: ITicketprops) {
+    // const { id, event } = ticket; 
     return (
         // <VStack width={'100%'} height={'100%'} paddingX={'20px'} bg={'white'} alignItems={'flex-start'}>
         //     {/*HEADER SECTION*/}
@@ -178,11 +180,12 @@ export default function Ticket({ ticket, showStatus = false, approved, showQrCod
         //     </Flex>
         // </Flex>
         <Flex p={"4"} shadow={"lg"} flexDirection={"column"} bg={"white"} roundedTop={"md"} width={"full"} alignItems={"center"} justifyContent={"center"} gap={"2"} >
-            <Flex gap={"4"} width={"full"} alignItems={"center"} >
-                <Box as='button' >
-                    <BsChevronLeft color={"black"} size={"25px"} />
-                </Box>
+            <Flex gap={"4"} width={"full"} alignItems={"center"} justifyContent={"space-between"} >
+
                 <Text fontSize={"20px"} fontWeight={"bold"} textAlign={"center"} >Ticket Details</Text>
+                <Box onClick={() => close()} as='button' >
+                    <IoClose color={"black"} size={"25px"} />
+                </Box>
             </Flex>
             <Flex width={"full"} flexDirection={"column"} alignItems={"center"} >
 
@@ -199,9 +202,9 @@ export default function Ticket({ ticket, showStatus = false, approved, showQrCod
                     </Flex>
                     <Flex width={"full"} pos={"relative"} pb={"2"} justifyContent={"center"} borderBottom={"1px solid #E2E8F0"}  >
                         <Box width={'fit-content'} height={'fit-content'} position={'absolute'} bottom={'10px'} right={"6"} bg={'transparent'}>
-                            <Image src={approved ? '/assets/approved.svg' : '/assets/denied.svg'} alt={'approved'} width={'100px'} height={'100px'} objectFit={'cover'} />
+                            <Image src={approved ? '/assets/approved.svg' : '/assets/denied.svg'} alt={'approved'} width={'150px'} height={'150px'} objectFit={'cover'} />
                         </Box>
-                        <Flex p={"4"} flexBasis={"50%"} width={"full"} flexDirection={"column"} gap={"4"} fontSize={"xs"} >
+                        <Flex p={"2"} width={"full"} flexDirection={"column"} gap={"4"} fontSize={"xs"} >
                             <Flex flexDirection={"column"} gap={"2"} >
                                 <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Place</Text>
                                 <EventLocationDetail color={"brand.chasescrollTextGrey"} fontsize={"xs"} location={ticket?.event?.location} fontWeight={"medium"} noicon={true} locationType={ticket?.event?.locationType} />
@@ -227,7 +230,7 @@ export default function Ticket({ ticket, showStatus = false, approved, showQrCod
                                 </Text>
                             </Flex>
                         </Flex>
-                        <Flex p={"4"} flexBasis={"50%"} width={"full"} flexDirection={"column"} gap={"4"} fontSize={"xs"} >
+                        <Flex p={"2"} width={"full"} flexDirection={"column"} gap={"4"} fontSize={"xs"} >
 
                             <UserImage size={58} image={ticket?.createdBy?.data?.imgMain?.value} data={ticket?.createdBy} />
                             <Flex flexDirection={"column"} gap={"2"} >
@@ -237,18 +240,19 @@ export default function Ticket({ ticket, showStatus = false, approved, showQrCod
                             <Flex flexDirection={"column"} gap={"2"} >
                                 <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Time</Text>
                                 <Text color={"brand.chasescrollTextGrey"} >{timeFormat(ticket?.createdDate)}</Text>
-                            </Flex> 
+                            </Flex>
                         </Flex>
                     </Flex>
 
-                    <Flex borderLeft={["", "", "1px dashed black"]} borderTop={["1px dashed black", "1px dashed black", "0px"]} w={["full", "full", "fit-content"]} alignItems={"center"} border={""} py={["4", "4", "0px"]} pl={["0px", "0px", "4"]} flexDir={"column"} >
+                    <Flex gap={"2"} borderLeft={["", "", "1px dashed black"]} borderTop={["1px dashed black", "1px dashed black", "0px"]} w={["full", "full", "fit-content"]} alignItems={"center"} border={""} py={["4", "4", "0px"]} pl={["0px", "0px", "4"]} flexDir={"column"} >
                         <Box bg={"white"} p={"3"} w={"fit-content"} rounded={"16px"} >
                             <QRCode
-                                style={{ height: "200px", width: "200px", zIndex: 20 }}
+                                style={{ height: "100px", width: "100px", zIndex: 20 }}
                                 value={ticket?.id + ""}
                                 viewBox={`0 0 256 256`}
                             />
-                        </Box>
+                        </Box> 
+                        <Text textAlign={"center"} fontSize={"xs"} >Powered by Chasescroll</Text>
                     </Flex>
                 </Flex>
 
