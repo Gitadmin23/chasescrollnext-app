@@ -149,7 +149,7 @@ function ViewTicket(props: Props) {
                                         </Flex>
                                     </Flex>
 
-                                    <Flex borderLeft={["1px dashed black"]} w={["fit-content"]} alignItems={"center"} border={""} pl={["4"]} flexDir={"column"} >
+                                    <Flex gap={"1"} borderLeft={["1px dashed black"]} w={["fit-content"]} alignItems={"center"} border={""} pl={["4"]} flexDir={"column"} >
                                         <Box bg={"white"} p={"3"} w={"fit-content"} rounded={"16px"} >
                                             <QRCode
                                                 style={{ height: "200px", width: "200px", zIndex: 20 }}
@@ -157,6 +157,7 @@ function ViewTicket(props: Props) {
                                                 viewBox={`0 0 256 256`}
                                             />
                                         </Box>
+                                        <Text textAlign={"center"} fontSize={"xs"} >Powered by Chasescroll</Text>
                                     </Flex>
                                 </Flex>
                             )
@@ -224,7 +225,7 @@ function ViewTicket(props: Props) {
                                     </Flex>
                                 </Flex>
 
-                                <Flex borderLeft={["", "", "1px dashed black"]} borderTop={["1px dashed black", "1px dashed black", "0px"]} w={["full", "full", "fit-content"]} alignItems={"center"} border={""} py={["4", "4", "0px"]} pl={["0px", "0px", "4"]} flexDir={"column"} >
+                                <Flex gap={"1"} borderLeft={["", "", "1px dashed black"]} borderTop={["1px dashed black", "1px dashed black", "0px"]} w={["full", "full", "fit-content"]} alignItems={"center"} border={""} py={["4", "4", "0px"]} pl={["0px", "0px", "4"]} flexDir={"column"} >
                                     <Box bg={"white"} p={"3"} w={"fit-content"} rounded={"16px"} >
                                         <QRCode
                                             style={{ height: "200px", width: "200px", zIndex: 20 }}
@@ -232,6 +233,7 @@ function ViewTicket(props: Props) {
                                             viewBox={`0 0 256 256`}
                                         />
                                     </Box>
+                                    <Text textAlign={"center"} fontSize={"xs"} >Powered by Chasescroll</Text>
                                 </Flex>
                             </Flex>
                         )
