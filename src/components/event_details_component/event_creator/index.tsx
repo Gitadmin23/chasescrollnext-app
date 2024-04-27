@@ -70,8 +70,10 @@ function EventCreator(props: Props) {
                         <Text textAlign={"left"} fontSize={"sm"} >{username}</Text>
                     </Box>
                     {isOrganizer && (
-                        <Box display={["none", "none", "block"]} >
-                            <CollaboratorBtn btn={true} data={data} />
+                        <Box display={["block"]} >
+                            {(data?.collaborators || data?.admins) && (
+                                <CollaboratorBtn collaborate={data?.collaborators?.length !== 0 || data?.admins?.length !== 0} btn={true} data={data} />
+                            )}
                         </Box>
                     )}
                 </Flex>
@@ -92,10 +94,17 @@ function EventCreator(props: Props) {
             </Flex>
             <Flex display={["flex", "flex", "none"]} w={"full"} alignItems={"center"} justifyContent={"end"} >
                 <Flex display={["flex", "flex", "none"]} border={"1px solid #E8E8E8"} ml={"auto"} rounded={"32px"} gap={"8"} py={"8px"} px={"16px"} >
+                    {!dynamic && (
+                        <>
+                            {!isOrganizer && (
+                                <AddOrRemoveUserBtn icon={true} name={(isFriend === "FRIEND_REQUEST_RECIEVED" || isFriend === "FRIEND_REQUEST_SENT" || isFriend === "CONNECTED" || isFriend === "CONNECTFriend") ? isFriend === "FRIEND_REQUEST_SENT" ? "Pending" : isFriend === "CONNECTFriend" ? "Disconnect" : "Disconnect" : "Connect"} setJoinStatus={setisFriend} user_index={data?.createdBy?.userId} />
+                            )}
+                        </>
+                    )}
                     <EventQrCode notext={true} data={data} id={data?.id} />
 
                     {!dynamic && (
-                        <> 
+                        <>
                             {!isOrganizer && (
                                 <ChatBtn profile={data} userId={data?.createdBy?.userId ?? ""} />
                             )}

@@ -21,13 +21,15 @@ import { useRouter } from 'next/navigation'
 type IProps = {
     btn?: boolean,
     data?: CreateEvent,
+    collaborate?: boolean
 }
 
 export default function CollaboratorBtn(props: IProps) {
 
     const {
         btn,
-        data
+        data,
+        collaborate
     } = props
 
     const [open, setOpen] = useState(false)
@@ -351,7 +353,9 @@ export default function CollaboratorBtn(props: IProps) {
     return (
         <>
             {btn && (
-                <Button onClick={() => clickHandler()} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{eventdata?.collaborators?.length+ eventdata?.admins?.length > 0 ? "Edit" : "Add" } Collaborator</Button>
+                <> 
+                    <Button onClick={() => clickHandler()} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{collaborate ? "Edit" : "Add"} Collaborator</Button> 
+                </>
             )}
             {!btn && (
                 <Flex flexDir={"column"} w={"fit-content"} gap={"3"} alignItems={"end"} >
@@ -362,7 +366,7 @@ export default function CollaboratorBtn(props: IProps) {
                         )}
                         {(eventdata?.admins?.length > 0 || eventdata?.collaborators?.length > 0) && (
                             <Flex alignItems={"center"} gap={"2"} >
-                                <Text color={"#1732F7"} lineHeight={"22px"} >Add Collaborators</Text> 
+                                <Text color={"#1732F7"} lineHeight={"22px"} >Edit Collaborators</Text>
                             </Flex>
                         )}
                     </Flex>
@@ -370,12 +374,12 @@ export default function CollaboratorBtn(props: IProps) {
 
                         {eventdata?.admins?.length > 0 && (
                             <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"#3EC30F"} >
-                                {eventdata?.admins?.length + " Admin"+(eventdata?.admins?.length > 1 ? "s" : "")}
+                                {eventdata?.admins?.length + " Admin" + (eventdata?.admins?.length > 1 ? "s" : "")}
                             </Flex>
                         )}
                         {eventdata?.collaborators?.length > 0 && (
                             <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#FDF3CF6B"} color={"#FDB806"} >
-                                {eventdata?.collaborators?.length + " Collaborator"+(eventdata?.collaborators?.length > 1 ? "s" : "")}
+                                {eventdata?.collaborators?.length + " Collaborator" + (eventdata?.collaborators?.length > 1 ? "s" : "")}
                             </Flex>
                         )}
                     </Flex>
@@ -475,7 +479,7 @@ export default function CollaboratorBtn(props: IProps) {
                 )}
                 {btn && (
                     <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg='white' py={'20px'} >
-                        <CustomButton text={tab ? 'Update Role' :'Assign Role'} disable={(eventdata?.admins?.length === data?.admins?.length) && (eventdata?.collaborators?.length === data?.collaborators?.length)} isLoading={updateUserEvent?.isLoading} onClick={() => updateEventCollaboration({ admins: eventdata?.admins, collaborators: eventdata?.collaborators, id: eventdata?.id })} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
+                        <CustomButton text={tab ? 'Update Role' : 'Assign Role'} disable={(eventdata?.admins?.length === data?.admins?.length) && (eventdata?.collaborators?.length === data?.collaborators?.length)} isLoading={updateUserEvent?.isLoading} onClick={() => updateEventCollaboration({ admins: eventdata?.admins, collaborators: eventdata?.collaborators, id: eventdata?.id })} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
                     </Box>
                 )}
 
