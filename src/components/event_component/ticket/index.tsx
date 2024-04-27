@@ -237,11 +237,7 @@ export default function Ticket({ ticket, showStatus = false, approved, showQrCod
                             <Flex flexDirection={"column"} gap={"2"} >
                                 <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Time</Text>
                                 <Text color={"brand.chasescrollTextGrey"} >{timeFormat(ticket?.createdDate)}</Text>
-                            </Flex>
-                            {/* <Flex flexDirection={"column"} gap={"2"} >
-                                <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Ticket Number</Text>
-                                <Text color={"brand.chasescrollTextGrey"} >{length}</Text>
-                            </Flex> */}
+                            </Flex> 
                         </Flex>
                     </Flex>
 
