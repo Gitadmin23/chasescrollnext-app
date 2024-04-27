@@ -7,6 +7,7 @@ import GetCommunity from './funnel/get_community';
 import { useState } from 'react';
 import CustomButton from '@/components/general/Button';
 import useEventStore from '@/global-state/useCreateEventState';
+import CollaboratorBtn from './collaborators';
 
 interface IProps {
     promotion?: boolean
@@ -28,13 +29,18 @@ function EventTicket(props: IProps) {
                     <EventTicketHeader type={setIsFree} />
                 )}
                 <SelectTicket promotion={promotion} type={isFree} />
-                {!promotion && (
-                    <FunnelBtn />
-                )}
+                <Flex justifyContent={"space-between"} >
+                    {!promotion && (
+                        <FunnelBtn />
+                    )}
+                    {!promotion && (
+                        <CollaboratorBtn />
+                    )}
+                </Flex>
                 <GetCommunity />
 
                 <Flex w={"full"} gap={"4"} my={"4"} >
-                    <CustomButton onClick={() => changeTab(0)} text={"Back"} width={"full"} backgroundColor={"#EFF1FE80"} color={"#5465E0"} />
+                    <CustomButton onClick={() => changeTab(1)} text={"Back"} width={"full"} backgroundColor={"#EFF1FE80"} color={"#5465E0"} />
                     <SubmitEvent promotion={promotion} type={isFree} />
                 </Flex>
             </Flex>

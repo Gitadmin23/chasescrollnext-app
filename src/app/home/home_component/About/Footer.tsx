@@ -25,13 +25,13 @@ const Footer = () => {
           professionals committed to revolutionising event and group management.
         </p>
       </div>
-      <div className=" grid grid-cols-1 lg:grid-cols-4 gap-8 max-w-[1200px] justify-center ">
+      <div className=" grid grid-cols-1 lg:grid-cols-3 gap-8 w-fit mx-auto max-w-[1200px] justify-center ">
         {ABOUT_FOOTER.map((item: {
           img: string,
           text: string,
           text1: string
         }, index: number) => (
-          <div key={index} className="rounded-xl w-full relative">
+          <div key={index} className="rounded-xl max-w-[300px] relative">
             <img
               data-aos="fade-up"
               src={item.img}

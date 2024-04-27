@@ -1,6 +1,6 @@
 import CustomButton from '@/components/general/Button'
 import ModalLayout from '@/components/sharedComponent/modal_layout';
-import useEventStore from '@/global-state/useCreateEventState';
+import useEventStore, { CreateEvent } from '@/global-state/useCreateEventState';
 import { useDetails } from '@/global-state/useUserDetails';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
@@ -10,17 +10,18 @@ import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useMutation } from 'react-query';
 import SuccessMessageCreateEvent from '../success_message';
+import { IUser } from '@/models/User';
 
 interface Iprops {
-    type: any,
-    promotion?: boolean
+    type?: any,
+    promotion?: boolean,
 }
 
 function SubmitEvent(props: Iprops) {
 
     const {
         type,
-        promotion
+        promotion,
     } = props
 
     const { eventdata, image, tab, updateEvent, changeTab } = useEventStore((state) => state);
@@ -125,9 +126,9 @@ function SubmitEvent(props: Iprops) {
                 return
             } else {
 
-                if(pathname?.includes("edit_event_data")){
+                if (pathname?.includes("edit_event_data")) {
                     updateUserEvent.mutate(eventdata)
-                }else if (pathname?.includes("edit_event")) {
+                } else if (pathname?.includes("edit_event")) {
                     changeTab(2)
                 } else {
                     saveToDraft.mutate(eventdata)
@@ -162,9 +163,9 @@ function SubmitEvent(props: Iprops) {
             return true
         } else if (!eventdata?.endDate) {
             return true
-        } else if(eventdata?.startDate > eventdata?.endDate){
+        } else if (eventdata?.startDate > eventdata?.endDate) {
             return true
-        }else if (!eventdata?.location?.toBeAnnounced) {
+        } else if (!eventdata?.location?.toBeAnnounced) {
             if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
                 return true
             }
@@ -246,7 +247,7 @@ function SubmitEvent(props: Iprops) {
                         }
                     } else {
                         createEventFromDraft.mutate(eventdata)
-                    } 
+                    }
                 }
             }
         })
@@ -264,10 +265,10 @@ function SubmitEvent(props: Iprops) {
                 return true
             } else if (!item.maxTicketBuy) {
                 return true
-            }  else if (promotion) {
+            } else if (promotion) {
                 if (!item.rerouteURL) {
                     return true
-                } 
+                }
             } else if (eventdata?.productTypeData?.length === index + 1) {
                 return false
             } else {
@@ -359,7 +360,54 @@ function SubmitEvent(props: Iprops) {
             });
         },
         onSuccess: (data: AxiosResponse<any>) => {
-            updateEvent(data?.data)
+
+            const clone: CreateEvent = {
+                id: data?.data?.id,
+                picUrls: data?.data?.picUrls,
+                eventType: data?.data?.eventType,
+                eventName: data?.data?.eventName,
+                eventDescription: data?.data?.eventDescription,
+                joinSetting: data?.data?.joinSetting,
+                locationType: data?.data?.locationType,
+                currency: data?.data?.currency,
+                currentPicUrl: data?.data?.currentPicUrl,
+                eventFunnelGroupID: data?.data?.eventFunnelGroupID,
+                mediaType: data?.data?.mediaType,
+                currentVideoUrl: data?.data?.currentVideoUrl,
+                isPublic: data?.data?.isPublic,
+                isExclusive: data?.data?.isExclusive,
+                mask: data?.data?.mask,
+                attendeesVisibility: data?.data?.attendeesVisibility,
+                minPrice: data?.data?.minPrice,
+                maxPrice: data?.data?.maxPrice,
+                startTime: data?.data?.startTime,
+                endTime: data?.data?.endTime,
+                startDate: data?.data?.startDate,
+                endDate: data?.data?.endDate,
+                // expirationDate: "",
+                location: data?.data?.location,
+                productTypeData: data?.data?.productTypeData,
+                collaborators: data?.data?.collaborators,
+                admins: data?.data?.admins
+            }
+
+
+            const admin: any = []
+            const collaborator: any = []
+
+            clone?.admins?.map((item: IUser) => {
+                return admin.push(item?.userId)
+            })
+            clone?.collaborators?.map((item: IUser) => {
+                return collaborator.push(item?.userId)
+            })
+
+            clone.admins = admin
+
+            clone.collaborators = collaborator
+
+
+            updateEvent(clone)
             changeTab(tab !== 1 ? 1 : 2)
             toast({
                 title: 'Success',
@@ -387,14 +435,6 @@ function SubmitEvent(props: Iprops) {
         },
         onSuccess: (data: AxiosResponse<any>) => {
             setOpen(true)
-            // toast({
-            //     title: 'Success',
-            //     description: "Event Created",
-            //     status: 'success',
-            //     isClosable: true,
-            //     duration: 5000,
-            //     position: 'top-right',
-            // });
         }
     });
 
@@ -412,8 +452,8 @@ function SubmitEvent(props: Iprops) {
             });
         },
         onSuccess: (data: AxiosResponse<any>) => {
-
             router.push("/dashboard/event")
+
             toast({
                 title: 'Success',
                 description: "Event has been updated successfully",
@@ -426,24 +466,24 @@ function SubmitEvent(props: Iprops) {
     });
 
 
-    // function clean(obj: any) {
-    //     for (var propName in obj) {
-    //         if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
-    //             delete obj[propName];
-    //         }
-    //         if (obj[propName] === "location") {
-    //             for (var propName in obj?.location) {
-    //                 if (obj?.location[propName] === null || obj?.location[propName] === undefined || obj?.location[propName] === "") {
-    //                     delete obj?.location[propName];
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return obj
+    function clean(obj: any) {
+        for (var propName in obj) {
+            if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+                delete obj[propName];
+            }
+            if (obj[propName] === "location") {
+                for (var propName in obj?.location) {
+                    if (obj?.location[propName] === null || obj?.location[propName] === undefined || obj?.location[propName] === "") {
+                        delete obj?.location[propName];
+                    }
+                }
+            }
+        }
+        return obj
 
-    // }
+    }
 
-    const handleClick = React.useCallback(() => { 
+    const handleClick = React.useCallback(() => {
         if (tab === 0) {
             getValidationTheme()
         } else if (tab === 1) {
@@ -455,8 +495,10 @@ function SubmitEvent(props: Iprops) {
 
     return (
         <Flex w={"full"} alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} >
-            <CustomButton borderWidth={tab === 2 ? "2px" : "0px"} backgroundColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} _disabled={{cursor: "not-allowed" }} width={"full"}
-                text={pathname?.includes("edit_event_data") ? "Update Event" :pathname?.includes("edit_event") && tab === 2 ? "Update Event" : tab === 2 ? 'Submit' : 'Continue'} />
+
+            <CustomButton borderWidth={tab === 2 ? "2px" : "0px"} backgroundColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} _disabled={{ cursor: "not-allowed" }} width={"full"}
+                text={pathname?.includes("edit_event_data") ? "Update Event" : pathname?.includes("edit_event") && tab === 2 ? "Update Event" : tab === 2 ? 'Submit' : 'Continue'} />
+
             <ModalLayout close={setOpen} open={open} >
                 <SuccessMessageCreateEvent update={(pathname?.includes("edit_event_data") || pathname?.includes("edit_event")) ? true : false} />
             </ModalLayout>

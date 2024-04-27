@@ -1,4 +1,5 @@
 import CustomText from '@/components/general/Text';
+import useEventStore from '@/global-state/useCreateEventState';
 import { useDetails } from '@/global-state/useUserDetails';
 import { Box, Flex, Image, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation';
@@ -15,11 +16,59 @@ function CreateEventBtn(props: Props) {
 
     const { userId, email } = useDetails((state) => state);
 
+    const { updateEvent } = useEventStore((state) => state);
+
     let token = localStorage.getItem("token")
 
     const clickHander = () => {
         if (token) {
             setOpen(true)
+            updateEvent({
+                picUrls: [
+                    ""
+                ],
+                collaborators: [
+                ],
+                admins: [
+                ],
+                eventType: "",
+                eventName: "",
+                eventDescription: "",
+                joinSetting: "public",
+                locationType: "",
+                currency: "NGN",
+                currentPicUrl: "",
+                eventFunnelGroupID: "",
+                isPublic: true,
+                isExclusive: false,
+                mask: false,
+                attendeesVisibility: true,
+                minPrice: "",
+                maxPrice: "",
+                startTime: "",
+                endTime: "",
+                startDate: "",
+                endDate: "",
+                // expirationDate:null,
+                location: {
+                    toBeAnnounced: false,
+                    locationDetails: "",
+                    link: "",
+                    address: "",
+                    latlng: ""
+                },
+                productTypeData: [
+                    // first is always standard
+                    {
+                        totalNumberOfTickets: "",
+                        ticketPrice: "",
+                        ticketType: "Regular",
+                        minTicketBuy: "",
+                        maxTicketBuy: "",
+                        rerouteURL: ""
+                    },
+                ],
+            })
             // router.push("/dashboard/event/create_event")
         } else {
             router.push("/auth")

@@ -1,6 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
 import UserImage from '../userimage'
+import { formatNumberWithK } from '@/utils/formatNumberWithK'
 
 interface Props {
     event: any,
@@ -21,19 +22,7 @@ function InterestedUsers(props: Props) {
         color
     } = props
 
-
-
-    const DataFormater = (number: number) => {
-        if (number > 1000000000) {
-            return (number / 1000000000).toString() + 'B';
-        } else if (number > 1000000) {
-            return (number / 1000000).toString() + 'M';
-        } else if (number > 1000) {
-            return (number / 1000).toString() + 'K';
-        } else {
-            return number.toString();
-        }
-    }
+    console.log(event);    
 
     return (
         <>
@@ -50,7 +39,7 @@ function InterestedUsers(props: Props) {
                     })}
                     {event?.memberCount >= 4 &&
                         <Box roundedBottom={"64px"} width={size} fontWeight={"bold"} height={size} fontSize={(fontSize - 2) + "px"} pr={"-3px"} pb={"-2px"} roundedTopLeft={"64px"} ml={"-10px"} display={'flex'} bgColor={"#3C41F0"} color={"#fff"} justifyContent={"center"} alignItems={"center"} >
-                            {"+" + DataFormater(event?.memberCount - 3)}
+                            {"+" + formatNumberWithK(event?.memberCount - 3)}
                         </Box>
                     }
                     {!refund && (

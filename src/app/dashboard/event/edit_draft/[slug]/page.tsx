@@ -4,7 +4,8 @@ import EventInformation from '@/components/create_event_component/event_informat
 import EventTheme from '@/components/create_event_component/event_theme'
 import EventTicket from '@/components/create_event_component/event_ticket'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
-import useEventStore from '@/global-state/useCreateEventState'
+import useEventStore, { CreateEvent } from '@/global-state/useCreateEventState'
+import { IUser } from '@/models/User'
 import httpService from '@/utils/httpService'
 import { Box, Flex, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
@@ -28,7 +29,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
             // setData(data?.data?.content[0]); 
             console.log(data);
 
-            updateEvent({
+            const clone: CreateEvent = {
                 id: data?.data?.content[0]?.id,
                 picUrls: data?.data?.content[0]?.picUrls,
                 eventType: data?.data?.content[0]?.eventType,
@@ -54,7 +55,29 @@ function EditEvent({ params }: { params: { slug: string } }) {
                 // expirationDate: "",
                 location: data?.data?.content[0]?.location,
                 productTypeData: data?.data?.content[0]?.productTypeData,
+                collaborators: data?.data?.content[0]?.collaborators,
+                admins: data?.data?.content[0]?.admins
+            }
+
+
+            const admin: any = []
+            const collaborator: any = []
+
+            clone?.admins?.map((item: IUser) => {
+                return admin.push(item?.userId)
             })
+            clone?.collaborators?.map((item: IUser) => {
+                return collaborator.push(item?.userId)
+            })
+
+            clone.admins = admin
+
+            clone.collaborators = collaborator
+
+            console.log(clone);
+            
+
+            updateEvent(clone)
 
         }
     })
@@ -67,23 +90,25 @@ function EditEvent({ params }: { params: { slug: string } }) {
         <>
             <LoadingAnimation loading={isLoading}>
                 <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"74px"} display={["none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]} >
-                    <CreateEventHeader name="Edit Events Draft"  />
-                    <Flex bgColor={"gray.300"} w={"full"} p={["0px", "0px", "0px", "3"]} overflowY={["auto"]}  >
-                        <Flex bgColor={"white"} w={"full"} px={"3"} h={["fit-content"]} rounded={["0px", "0px", "0px", "2xl"]} >
-                            {tab === 0 && (
-                                <EventTheme />
-                            )}
-                            {tab === 1 && (
-                                <EventInformation />
-                            )}
-                            {tab === 2 && (
-                                <EventTicket promotion={(data?.data?.content[0]?.productTypeData[0]?.ticketType === "Promotion" || data?.data?.content[0]?.productTypeData[0]?.rerouteURL) ? true : false} />
-                            )}
+                    <CreateEventHeader name="Edit Events Draft" />
+                    <Flex bgColor={"gray.300"} w={"full"} p={["0px", "0px", "0px", "3"]}   >
+                        <Flex bgColor={"white"} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} h={["auto"]} overflowY={["auto"]}>
+                            <Box bgColor={"white"} w={"full"}  px={"3"}  h={["auto"]} >
+                                {tab === 0 && (
+                                    <EventTheme />
+                                )}
+                                {tab === 1 && (
+                                    <EventInformation />
+                                )}
+                                {tab === 2 && (
+                                    <EventTicket promotion={(data?.data?.content[0]?.productTypeData[0]?.ticketType === "Promotion" || data?.data?.content[0]?.productTypeData[0]?.rerouteURL) ? true : false} />
+                                )}
+                            </Box>
                         </Flex>
                     </Flex>
                 </Flex>
                 <Box width={"full"} display={["block", "block", "block", "none"]}  >
-                    <CreateEventHeader name="Edit Events Draft"  />
+                    <CreateEventHeader name="Edit Events Draft" />
                     {tab === 0 && (
                         <EventTheme />
                     )}

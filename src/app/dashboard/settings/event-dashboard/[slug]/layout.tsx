@@ -76,7 +76,7 @@ function Layout({ children, params }: {
 
             <LoadingAnimation loading={isLoading} >
                 <Box width={["full", "full", pathname?.includes("refund") ? "full" : "600px"]} px={"6"} py={"10"} position={"relative"} >
-                    <Flex alignItems={"center"} gap={"4"} width={"full"} justifyContent={"center"} paddingBottom={"6"}>
+                    <Flex alignItems={"center"} gap={"4"} width={"full"} justifyContent={"center"}>
                         <Box onClick={() => router.push(pathname?.includes("refund")  ? "/dashboard/settings/event-dashboard/"+params?.slug : "/dashboard/settings/event-dashboard")} as='button' position={"absolute"} zIndex={"10"} left={"0px"} width={"fit-content"} >
                             <BsChevronLeft color={"black"} size={"25px"} />
                         </Box>
@@ -85,9 +85,9 @@ function Layout({ children, params }: {
 
                     {pathname?.includes("refund") && (
                         <Flex width={"full"} flexDirection={"column"}  > 
-                            <Flex mt={"6"} width={"full"} justifyContent={"center"} alignItems={"center"} position={"relative"} >
+                            <Flex mt={"6"} h={"5"} width={"full"} justifyContent={"center"} alignItems={"center"} position={"relative"} >
                                 <InterestedUsers fontSize={14} event={data} border={"2px"} size={"40px"} refund={true} />
-                                <CustomButton isLoading={refundallUser?.isLoading} onClick={clickHandler} text='refund all' color={"#E90303"} position={"absolute"} width={"fit-content"} right={"2px"} backgroundColor={"transparent"} />
+                                {/* <CustomButton isLoading={refundallUser?.isLoading} onClick={clickHandler} text='refund all' color={"#E90303"} position={"absolute"} width={"fit-content"} right={"2px"} backgroundColor={"transparent"} /> */}
                             </Flex>
                         </Flex>
                     )}

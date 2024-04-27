@@ -105,6 +105,9 @@ function SendMesageModal({ onClose, id, isprofile, type }: {
             setUserIds([...userIds, iem]);
         }
     }
+
+    
+
     return (
         <Box width={"full"} >
             <InputGroup marginY='20px' borderLeftWidth={'0px'} borderRightWidth={'0px'} borderRadius={'0px'} borderTopWidth='0.5px' borderBottomWidth={'0.5px'} borderTopColor={'lightgrey'} borderBottomColor='lightgrey' >
