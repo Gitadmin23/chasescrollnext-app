@@ -173,8 +173,8 @@ function ViewTicket(props: Props) {
 
                     {dataMultiple?.map((item: { id: string }, index: number) => {
                         return (
-                            <Flex key={index} maxW={["400px", "400px", "750px"]} w={["full", "full", "fit-content"]} flexDir={["column", "column", "row"]} rounded={"16px"} pb={"4"} p={["0px", "", "4"]} bg={index === 0 ? "white" : "#CDD3FD"} alignItems={["start", "start", "center"]} justifyContent={"center"} gap={"4"} >
-                                <Flex w={["full", "full", "fit-content"]} gap={"4"} mx={["auto", "auto", ""]} >
+                            <Flex key={index} maxW={["400px", "400px", "750px"]} w={["full", "full", "fit-content"]} flexDir={["column", "column", "row"]} rounded={"16px"} pb={"4"} pt={["4"]} p={["0px", "", "4"]} bg={index === 0 ? "white" : "#CDD3FD"} alignItems={["start", "start", "center"]} justifyContent={"center"} gap={"4"} >
+                                <Flex w={["full", "full", "fit-content"]} gap={"4"} mt={["4", "4", "0px"]} px={["4", "4", ""]} >
                                     <EventImage width={["full", "full", "201px"]} height={["201px", "201px", "201px"]} data={datainfo?.event} />
                                 </Flex>
                                 <Flex flexDir={"column"} gap={"4"} px={["4", "4", "0px"]} >

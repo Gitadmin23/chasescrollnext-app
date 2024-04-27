@@ -31,6 +31,7 @@ import { ScanIcon } from '../svg'
 import EventQrCode from './event_qrcode'
 import { MdArrowBackIos } from 'react-icons/md'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
+import { textLimit } from '@/utils/textlimit'
 
 interface Props {
     dynamic?: boolean
@@ -107,7 +108,7 @@ function EventDetails(props: Props) {
                     <MdArrowBackIos color={"#292D32"} size={"24px"} />
                 </Box>
                 <Text color={"#121212"} fontWeight={"bold"} lineHeight={"22px"} >Event Details</Text>
-                <ShareEvent home={true} notext={true} data={dataInfo} id={dataInfo?.id} type="EVENT" eventName={eventName} />
+                <ShareEvent home={true} notext={true} data={dataInfo} id={dataInfo?.id} type="EVENT" eventName={textLimit(eventName, 20)} />
             </Flex>
             <Flex width={"full"} flexDirection={["column", "column", "row"]} alignItems={"start"} position={"relative"} justifyContent={"center"} >
 
@@ -127,11 +128,11 @@ function EventDetails(props: Props) {
                 </Box>
             </Flex>
             <Box width={"full"} px={[dynamic ? "6" : "0px", "6"]}>
-                <EventHeader name={capitalizeFLetter(eventName)} event={dataInfo} maxPrice={maxPrice} minPrice={minPrice} currency={currency} />
+                <EventHeader name={capitalizeFLetter(textLimit(eventName, 17))} event={dataInfo} maxPrice={maxPrice} minPrice={minPrice} currency={currency} />
                 <EventCreator dynamic={dynamic} isOrganizer={isOrganizer} convener={convener} username={username} data={dataInfo} />
                 <Flex display={["none", "none", "flex"]} py={"3"} justifyContent={"end"} alignItems={"center"} gap={"14"} >
                     <EventQrCode data={dataInfo} id={dataInfo?.id} />
-                    <ShareEvent data={dataInfo} id={dataInfo?.id} type="EVENT" eventName={eventName} />
+                    <ShareEvent data={dataInfo} id={dataInfo?.id} type="EVENT" eventName={textLimit(eventName, 17)} />
                 </Flex>
                 <Grid templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} py={"3"} gap={6}>
                     <EventDate name='Event Start date and time' date={timeAndDate} />

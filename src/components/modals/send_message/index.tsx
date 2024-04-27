@@ -2,6 +2,7 @@ import { ShareType } from '@/app/share/page';
 import CopyButtton from '@/components/sharedComponent/copy_btn';
 import EventPrice from '@/components/sharedComponent/event_price';
 import { IMAGE_URL, WEBSITE_URL } from '@/services/urls';
+import { textLimit } from '@/utils/textlimit';
 import { Box, Flex, Image, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import {
@@ -87,7 +88,7 @@ function SendMessage(props: Props) {
                             <Image style={{ borderBottomLeftRadius: "8px", borderBottomRightRadius: "8px", borderTopLeftRadius: "8px" }} objectFit="cover" alt={data?.currentPicUrl} width={"full"} height={"full"} src={IMAGE_URL + data?.currentPicUrl} />
                         </Box>
                         <Box color={"white"} fontWeight={"semibold"} >
-                            <Text>{data?.eventName}</Text>
+                            <Text>{textLimit(data?.eventName, 20)}</Text>
                             <Flex>
                                 <Text >
                                     <EventPrice minPrice={data?.minPrice} maxPrice={data?.maxPrice} currency={data?.currency} />
@@ -99,25 +100,25 @@ function SendMessage(props: Props) {
                 </Box>
             )}
             <Text py={"5"} textAlign={"center"} >via</Text>
-           {props.type === "EVENT" && (
-             <Flex width={"full"} pb={"5"}  justifyContent={"center" } >
-                <Flex onClick={()=> click(3)} as={"button"} alignItems={"center"} w={"80%"} justifyContent={"center" }  py={"2"} borderWidth={"1px"} rounded={"32px"} borderColor={"#C4C4C475"} gap={"1"} color={"#121212CC"} >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g id="vuesax/linear/scan">
-                            <g id="scan">
-                                <path id="Vector" d="M2 9V6.5C2 4.01 4.01 2 6.5 2H9" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path id="Vector_2" d="M15 2H17.5C19.99 2 22 4.01 22 6.5V9" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path id="Vector_3" d="M22 16V17.5C22 19.99 19.99 22 17.5 22H16" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path id="Vector_4" d="M9 22H6.5C4.01 22 2 19.99 2 17.5V15" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path id="Vector_5" d="M17 9.5V14.5C17 16.5 16 17.5 14 17.5H10C8 17.5 7 16.5 7 14.5V9.5C7 7.5 8 6.5 10 6.5H14C16 6.5 17 7.5 17 9.5Z" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path id="Vector_6" d="M19 12H5" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            {props.type === "EVENT" && (
+                <Flex width={"full"} pb={"5"} justifyContent={"center"} >
+                    <Flex onClick={() => click(3)} as={"button"} alignItems={"center"} w={"80%"} justifyContent={"center"} py={"2"} borderWidth={"1px"} rounded={"32px"} borderColor={"#C4C4C475"} gap={"1"} color={"#121212CC"} >
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="vuesax/linear/scan">
+                                <g id="scan">
+                                    <path id="Vector" d="M2 9V6.5C2 4.01 4.01 2 6.5 2H9" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path id="Vector_2" d="M15 2H17.5C19.99 2 22 4.01 22 6.5V9" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path id="Vector_3" d="M22 16V17.5C22 19.99 19.99 22 17.5 22H16" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path id="Vector_4" d="M9 22H6.5C4.01 22 2 19.99 2 17.5V15" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path id="Vector_5" d="M17 9.5V14.5C17 16.5 16 17.5 14 17.5H10C8 17.5 7 16.5 7 14.5V9.5C7 7.5 8 6.5 10 6.5H14C16 6.5 17 7.5 17 9.5Z" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path id="Vector_6" d="M19 12H5" stroke="#3C41F0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </g>
                             </g>
-                        </g>
-                    </svg>
-                    <Text>Get  QR Code</Text>
+                        </svg>
+                        <Text>Get  QR Code</Text>
+                    </Flex>
                 </Flex>
-            </Flex>
-           )}
+            )}
             <Flex width={"full"} justifyContent={"space-evenly"}>
                 <WhatsappShareButton
                     url={url_link}>
