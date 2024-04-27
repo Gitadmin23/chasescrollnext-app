@@ -13,6 +13,9 @@ import { textLimit } from "@/utils/textlimit";
 import CustomButton from "@/components/general/Button";
 import { DownloadTwoIcon } from "@/components/svg";
 import { BsChevronLeft } from "react-icons/bs";
+import CopyRightText from "@/components/sharedComponent/CopyRightText";
+import Barcode from "react-barcode";
+import EventLocationDetail from "@/components/sharedComponent/event_location";
 
 
 interface ITicketprops {
@@ -22,7 +25,7 @@ interface ITicketprops {
     showQrCode?: boolean;
 }
 
-export default function Ticket({ ticket, showStatus = false, approved = false, showQrCode = false }: ITicketprops) {
+export default function Ticket({ ticket, showStatus = false, approved, showQrCode = false }: ITicketprops) {
     // const { id, event } = ticket;
     return (
         // <VStack width={'100%'} height={'100%'} paddingX={'20px'} bg={'white'} alignItems={'flex-start'}>
@@ -99,76 +102,161 @@ export default function Ticket({ ticket, showStatus = false, approved = false, s
         //     )}
         // </VStack>
 
-        <Flex p={"6"} shadow={"lg"} flexDirection={"column"} bg={"#eee"} roundedTop={"md"} width={"full"} alignItems={"center"} justifyContent={"center"} px={"2"} gap={"2"} >
-        <Flex position={"relative"} gap={"4"} mb={"4"} width={"full"} justifyContent={"space-between"} alignItems={"start"} >
-            <Box  as='button' >
-                <BsChevronLeft color={"black"} size={"25px"} />
-            </Box>
-            <Flex pos={"absolute"} w={"full"} justifyContent={"center"} >
-                <Text fontSize={"20px"} fontWeight={"bold"} textAlign={"center"} >Ticket Details</Text>
-            </Flex> 
-        </Flex>
-        <Flex maxW={["400px", "400px", "750px"]} w={["full", "full", "fit-content"]} flexDir={["column", "column", "row"]} rounded={"16px"} pb={"4"} pt={["4"]} p={["0px", "", "4"]} bg={"white"} alignItems={["start", "start", "center"]} justifyContent={"center"} gap={"4"} >
-            <Flex w={["full", "full", "fit-content"]} gap={"4"} mt={["4", "4", "0px"]} px={["4", "4", ""]} >
-                <EventImage width={["full", "full", "201px"]} height={["201px", "201px", "201px"]} data={ticket?.event} />
-            </Flex>
-            <Flex flexDir={"column"} gap={"4"} px={["4", "4", "0px"]} >
-                <Text fontSize={"24px"} lineHeight={"18px"} fontWeight={"bold"} >{capitalizeFLetter(ticket?.event?.eventName)}</Text>
+        // <Flex p={"6"} shadow={"lg"} flexDirection={"column"} bg={"#eee"} roundedTop={"md"} width={"full"} alignItems={"center"} justifyContent={"center"} px={"2"} gap={"2"} >
+        //     <Flex position={"relative"} gap={"4"} mb={"4"} width={"full"} justifyContent={"space-between"} alignItems={"start"} >
+        //         <Box as='button' >
+        //             <BsChevronLeft color={"black"} size={"25px"} />
+        //         </Box>
+        //         <Flex pos={"absolute"} w={"full"} justifyContent={"center"} >
+        //             <Text fontSize={"20px"} fontWeight={"bold"} textAlign={"center"} >Ticket Details</Text>
+        //         </Flex>
+        //     </Flex>
+        //     <Flex maxW={["400px", "400px", "750px"]} w={["full", "full", "fit-content"]} flexDir={["column", "column", "row"]} rounded={"16px"} pb={"4"} pt={["4"]} p={["0px", "", "4"]} bg={"white"} alignItems={["start", "start", "center"]} justifyContent={"center"} gap={"4"} >
+        //         <Flex w={["full", "full", "fit-content"]} gap={"4"} mt={["4", "4", "0px"]} px={["4", "4", ""]} >
+        //             <EventImage width={["full", "full", "201px"]} height={["201px", "201px", "201px"]} data={ticket?.event} />
+        //         </Flex>
+        //         <Flex position={"relative"} flexDir={"column"} gap={"4"} px={["4", "4", "0px"]} >
+
+        //             <Box width={'250px'} height={'250px'} position={'absolute'} top={'160px'} left={'220px'} bg={'transparent'}>
+        //                 <Image src={approved ? '/assets/approved.svg' : '/assets/denied.svg'} alt={'approved'} width={'100px'} height={'100px'} objectFit={'cover'} />
+        //             </Box>
+        //             <Text fontSize={"24px"} lineHeight={"18px"} fontWeight={"bold"} >{capitalizeFLetter(ticket?.event?.eventName)}</Text>
 
 
-                <Flex gap={"4"} display={["flex", "flex", "none"]} fontSize={"xs"} >
+        //             <Flex gap={"4"} display={["flex", "flex", "none"]} fontSize={"xs"} >
 
-                    <UserImage size={58} image={ticket?.createdBy?.data?.imgMain?.value} data={ticket?.createdBy} />
-                    <Flex flexDirection={"column"} gap={"2"} >
-                        <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Name</Text>
-                        <Text color={"brand.chasescrollTextGrey"} >{ticket?.createdBy?.firstName + " " + ticket?.createdBy?.lastName}</Text>
-                    </Flex>
-                </Flex>
-                <Flex gap={"4"} alignItems={"center"} >
-                    <Flex border={`0.5px solid #CDD3FD`} h={"34px"} justifyContent={"center"} alignItems={"center"} px={"3"} color={"#5B5858"} fontSize={"10px"} lineHeight={"13.68px"} rounded={"full"} >
-                        {dateFormat(ticket?.event?.startDate)}
-                    </Flex>
-                    <Flex border={`0.5px solid #CDD3FD`} h={"34px"} justifyContent={"center"} alignItems={"center"} px={"3"} color={"#5B5858"} fontSize={"10px"} lineHeight={"13.68px"} rounded={"full"} >
-                        {timeFormat(ticket?.event?.startDate)}
-                    </Flex>
-                </Flex>
-                <Flex gap={"4"} >
+        //                 <UserImage size={58} image={ticket?.createdBy?.data?.imgMain?.value} data={ticket?.createdBy} />
+        //                 <Flex flexDirection={"column"} gap={"2"} >
+        //                     <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Name</Text>
+        //                     <Text color={"brand.chasescrollTextGrey"} >{ticket?.createdBy?.firstName + " " + ticket?.createdBy?.lastName}</Text>
+        //                 </Flex>
+        //             </Flex>
+        //             <Flex gap={"4"} alignItems={"center"} >
+        //                 <Flex border={`0.5px solid #CDD3FD`} h={"34px"} justifyContent={"center"} alignItems={"center"} px={"3"} color={"#5B5858"} fontSize={"10px"} lineHeight={"13.68px"} rounded={"full"} >
+        //                     {dateFormat(ticket?.event?.startDate)}
+        //                 </Flex>
+        //                 <Flex border={`0.5px solid #CDD3FD`} h={"34px"} justifyContent={"center"} alignItems={"center"} px={"3"} color={"#5B5858"} fontSize={"10px"} lineHeight={"13.68px"} rounded={"full"} >
+        //                     {timeFormat(ticket?.event?.startDate)}
+        //                 </Flex>
+        //             </Flex>
+        //             <Flex gap={"4"} >
 
-                    <Flex flexDirection={"column"} >
-                        <Text fontWeight={"bold"} fontSize={"10.26px"} lineHeight={"16.42px"} color={"brand.chasescrollBlue"} >Order ID</Text>
-                        <Text color={"brand.chasescrollTextGrey"} fontSize={"10.26px"} lineHeight={"13.68px"}  >{textLimit(ticket?.id+"", 7)}</Text>
-                    </Flex>
-                    <Flex flexDirection={"column"} >
-                        <Text fontWeight={"bold"} fontSize={"10.26px"} lineHeight={"16.42px"} color={"brand.chasescrollBlue"} >Ticket fee</Text>
-                        <Text color={"brand.chasescrollTextGrey"} fontSize={"10.26px"} lineHeight={"13.68px"}  >
-                            <EventPrice minPrice={ticket?.boughtPrice} maxPrice={ticket?.boughtPrice} currency={ticket?.event?.currency} />
-                        </Text>
-                    </Flex>
-                    {/* <Flex flexDirection={"column"} >
-                        <Text fontWeight={"bold"} fontSize={"10.26px"} lineHeight={"16.42px"} color={"brand.chasescrollBlue"} >Number</Text>
-                        <Text color={"brand.chasescrollTextGrey"} fontSize={"10.26px"} lineHeight={"13.68px"}  >{index + 1}/{dataMultiple?.length}</Text>
-                    </Flex> */}
-                </Flex>
-                <Flex gap={"4"} display={["none", "none", "flex"]} fontSize={"xs"} >
+        //                 <Flex flexDirection={"column"} >
+        //                     <Text fontWeight={"bold"} fontSize={"10.26px"} lineHeight={"16.42px"} color={"brand.chasescrollBlue"} >Order ID</Text>
+        //                     <Text color={"brand.chasescrollTextGrey"} fontSize={"10.26px"} lineHeight={"13.68px"}  >{textLimit(ticket?.id + "", 7)}</Text>
+        //                 </Flex>
+        //                 <Flex flexDirection={"column"} >
+        //                     <Text fontWeight={"bold"} fontSize={"10.26px"} lineHeight={"16.42px"} color={"brand.chasescrollBlue"} >Ticket fee</Text>
+        //                     <Text color={"brand.chasescrollTextGrey"} fontSize={"10.26px"} lineHeight={"13.68px"}  >
+        //                         <EventPrice minPrice={ticket?.boughtPrice} maxPrice={ticket?.boughtPrice} currency={ticket?.event?.currency} />
+        //                     </Text>
+        //                 </Flex>
+        //                 {/* <Flex flexDirection={"column"} >
+        //                 <Text fontWeight={"bold"} fontSize={"10.26px"} lineHeight={"16.42px"} color={"brand.chasescrollBlue"} >Number</Text>
+        //                 <Text color={"brand.chasescrollTextGrey"} fontSize={"10.26px"} lineHeight={"13.68px"}  >{index + 1}/{dataMultiple?.length}</Text>
+        //             </Flex> */}
+        //             </Flex>
+        //             <Flex gap={"4"} display={["none", "none", "flex"]} fontSize={"xs"} >
 
-                    <UserImage size={58} image={ticket?.createdBy?.data?.imgMain?.value} data={ticket?.createdBy} />
-                    <Flex flexDirection={"column"} gap={"2"} >
-                        <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Name</Text>
-                        <Text color={"brand.chasescrollTextGrey"} >{ticket?.createdBy?.firstName + " " + ticket?.createdBy?.lastName}</Text>
-                    </Flex>
-                </Flex>
-            </Flex>
+        //                 <UserImage size={58} image={ticket?.createdBy?.data?.imgMain?.value} data={ticket?.createdBy} />
+        //                 <Flex flexDirection={"column"} gap={"2"} >
+        //                     <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Name</Text>
+        //                     <Text color={"brand.chasescrollTextGrey"} >{ticket?.createdBy?.firstName + " " + ticket?.createdBy?.lastName}</Text>
+        //                 </Flex>
+        //             </Flex>
+        //         </Flex>
 
-            <Flex borderLeft={["", "", "1px dashed black"]} borderTop={["1px dashed black", "1px dashed black", "0px"]} w={["full", "full", "fit-content"]} alignItems={"center"} border={""} py={["4", "4", "0px"]} pl={["0px", "0px", "4"]} flexDir={"column"} >
-                <Box bg={"white"} p={"3"} w={"fit-content"} rounded={"16px"} >
-                    <QRCode
-                        style={{ height: "200px", width: "200px", zIndex: 20 }}
-                        value={ticket?.id+""}
-                        viewBox={`0 0 256 256`}
-                    />
+        //         <Flex borderLeft={["", "", "1px dashed black"]} borderTop={["1px dashed black", "1px dashed black", "0px"]} w={["full", "full", "fit-content"]} alignItems={"center"} border={""} py={["4", "4", "0px"]} pl={["0px", "0px", "4"]} flexDir={"column"} >
+        //             <Box bg={"white"} p={"3"} w={"fit-content"} rounded={"16px"} >
+        //                 <QRCode
+        //                     style={{ height: "200px", width: "200px", zIndex: 20 }}
+        //                     value={ticket?.id + ""}
+        //                     viewBox={`0 0 256 256`}
+        //                 />
+        //             </Box>
+        //         </Flex>
+        //     </Flex>
+        // </Flex>
+        <Flex p={"4"} shadow={"lg"} flexDirection={"column"} bg={"white"} roundedTop={"md"} width={"full"} alignItems={"center"} justifyContent={"center"} gap={"2"} >
+            <Flex gap={"4"} width={"full"} alignItems={"center"} >
+                <Box as='button' >
+                    <BsChevronLeft color={"black"} size={"25px"} />
                 </Box>
+                <Text fontSize={"20px"} fontWeight={"bold"} textAlign={"center"} >Ticket Details</Text>
             </Flex>
-        </Flex>
+            <Flex width={"full"} flexDirection={"column"} alignItems={"center"} >
+
+                <Flex width={"fit-content"} flexDirection={"column"} bg={"white"} alignItems={"center"} justifyContent={"center"} gap={"2"} >
+
+                    <Flex alignItems={"center"} gap={"4"} py={"2"} px={"2"} borderBottom={"1px solid #E2E8F0"}  >
+                        <Box w={"fit-content"} >
+                            <EventImage width={"140px"} height={"110px"} data={ticket?.event} />
+                        </Box>
+                        <Box>
+                            <Text fontSize={"17px"} fontWeight={"bold"} >{textLimit(ticket?.event?.eventName + "", 15)}</Text>
+                            <EventLocationDetail location={ticket?.event?.location} fontWeight={"medium"} color={"brand.chasescrollBlue"} fontsize='sm' noicon={true} locationType={ticket?.event?.locationType} />
+                        </Box>
+                    </Flex>
+                    <Flex width={"full"} pos={"relative"} pb={"2"} justifyContent={"center"} borderBottom={"1px solid #E2E8F0"}  >
+                        <Box width={'fit-content'} height={'fit-content'} position={'absolute'} bottom={'10px'} right={"6"} bg={'transparent'}>
+                            <Image src={approved ? '/assets/approved.svg' : '/assets/denied.svg'} alt={'approved'} width={'100px'} height={'100px'} objectFit={'cover'} />
+                        </Box>
+                        <Flex p={"4"} flexBasis={"50%"} width={"full"} flexDirection={"column"} gap={"4"} fontSize={"xs"} >
+                            <Flex flexDirection={"column"} gap={"2"} >
+                                <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Place</Text>
+                                <EventLocationDetail color={"brand.chasescrollTextGrey"} fontsize={"xs"} location={ticket?.event?.location} fontWeight={"medium"} noicon={true} locationType={ticket?.event?.locationType} />
+                            </Flex>
+                            <Flex flexDirection={"column"} gap={"2"} >
+                                <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Order ID</Text>
+                                <Text color={"brand.chasescrollTextGrey"} >{textLimit(ticket?.id + "", 10)}</Text>
+                            </Flex>
+                            <Flex flexDirection={"column"} gap={"2"} >
+                                <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Date</Text>
+                                <Text color={"brand.chasescrollTextGrey"} >{dateFormat(ticket?.createdDate)}</Text>
+                            </Flex>
+                            <Flex flexDirection={"column"} gap={"2"} >
+                                <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Ticket Fee</Text>
+                                <Text color={"brand.chasescrollTextGrey"} >
+                                    <EventPrice minPrice={ticket?.boughtPrice} maxPrice={ticket?.boughtPrice} currency={ticket?.event?.currency} />
+                                </Text>
+                            </Flex>
+                            <Flex flexDirection={"column"} gap={"2"} >
+                                <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Ticket Type</Text>
+                                <Text color={"brand.chasescrollTextGrey"} >
+                                    {ticket?.ticketType}
+                                </Text>
+                            </Flex>
+                        </Flex>
+                        <Flex p={"4"} flexBasis={"50%"} width={"full"} flexDirection={"column"} gap={"4"} fontSize={"xs"} >
+
+                            <UserImage size={58} image={ticket?.createdBy?.data?.imgMain?.value} data={ticket?.createdBy} />
+                            <Flex flexDirection={"column"} gap={"2"} >
+                                <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Name</Text>
+                                <Text color={"brand.chasescrollTextGrey"} >{ticket?.createdBy?.username}</Text>
+                            </Flex>
+                            <Flex flexDirection={"column"} gap={"2"} >
+                                <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Time</Text>
+                                <Text color={"brand.chasescrollTextGrey"} >{timeFormat(ticket?.createdDate)}</Text>
+                            </Flex>
+                            {/* <Flex flexDirection={"column"} gap={"2"} >
+                                <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Ticket Number</Text>
+                                <Text color={"brand.chasescrollTextGrey"} >{length}</Text>
+                            </Flex> */}
+                        </Flex>
+                    </Flex>
+
+                    <Flex borderLeft={["", "", "1px dashed black"]} borderTop={["1px dashed black", "1px dashed black", "0px"]} w={["full", "full", "fit-content"]} alignItems={"center"} border={""} py={["4", "4", "0px"]} pl={["0px", "0px", "4"]} flexDir={"column"} >
+                        <Box bg={"white"} p={"3"} w={"fit-content"} rounded={"16px"} >
+                            <QRCode
+                                style={{ height: "200px", width: "200px", zIndex: 20 }}
+                                value={ticket?.id + ""}
+                                viewBox={`0 0 256 256`}
+                            />
+                        </Box>
+                    </Flex>
+                </Flex>
+
+            </Flex>
         </Flex>
     )
 }
