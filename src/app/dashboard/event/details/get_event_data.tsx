@@ -113,7 +113,7 @@ function GetEventData(props: Props) {
                     ticketBought={data?.ticketBought} attendees={undefined} />
 
                 <Flex w={['100%', '40%']} direction={['column', 'row']} paddingLeft={'10px'}>
-                    {(
+                    {isAdmin && (
                         <>
                             <Button display={['block']} width={['100%', '50%']} height={['40px']} bg={'brand.chasescrollButtonBlue'} marginTop={'5px'} color={'white'} onClick={() => handleNavigation()} >Event Details</Button>
 
