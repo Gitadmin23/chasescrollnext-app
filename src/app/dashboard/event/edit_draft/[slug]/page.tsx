@@ -72,10 +72,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
 
             clone.admins = admin
 
-            clone.collaborators = collaborator
-
-            console.log(clone);
-            
+            clone.collaborators = collaborator 
 
             updateEvent(clone)
 

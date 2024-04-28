@@ -1,7 +1,7 @@
 "use client"
 import { IMAGE_URL } from '@/services/urls'
 import { Box, Button, Flex, Grid, HStack, Image, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import EventHeader from './event_header'
 import EventCreator from './event_creator'
 import EventDate from './event_date'
@@ -32,6 +32,8 @@ import EventQrCode from './event_qrcode'
 import { MdArrowBackIos } from 'react-icons/md'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import { textLimit } from '@/utils/textlimit'
+import Scanner from '../modals/Events/Scanner'
+import CustomButton from '../general/Button'
 
 interface Props {
     dynamic?: boolean
@@ -88,6 +90,10 @@ function EventDetails(props: Props) {
 
 
     const { category, setCategory } = useModalStore((state) => state);
+    const [showScanner, setShowScanner] = React.useState(false);
+
+    const [isCollaborator, setIsCollaborator] = React.useState(false);
+    const [isAdmin, setIsAdmin] = React.useState(false);
 
     const router = useRouter()
 
@@ -99,7 +105,19 @@ function EventDetails(props: Props) {
         } else {
             router.back()
         }
-    } 
+    }
+
+    useEffect(() => {
+        const ids = dataInfo?.collaborators?.map((item: any) => item.userId);
+        const adminIds = dataInfo?.admins?.map((item: any) => item.userId);
+
+        if (ids?.includes(userId)) {
+            setIsCollaborator(true);
+        }
+        if (adminIds?.includes(userId)) {
+            setIsAdmin(true);
+        }
+    }, [])
 
     return (
         <Box width={"full"} display={"flex"} flexDirection={"column"} pt={["", "", "2"]} position={"relative"} paddingBottom={"12"} >
@@ -137,14 +155,20 @@ function EventDetails(props: Props) {
                 <Grid templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} py={"3"} gap={6}>
                     <EventDate name='Event Start date and time' date={timeAndDate} />
                     <EventDate name='Event End date and time' date={endtimeAndDate} />
-                    <EventUserOption event={dataInfo} isOrganizer={isOrganizer} isBought={isBought} ticket={price} currency={currency} selectedticket={category} setCategory={setCategory} />
+                    {!isCollaborator && (
+                        <EventUserOption event={dataInfo} isOrganizer={isOrganizer} isBought={isBought} ticket={price} currency={currency} selectedticket={category} setCategory={setCategory} />
+                    )}
                 </Grid>
                 <OtherEventInfo name={'About this event'} data={about} />
                 <Grid templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} py={"3"} gap={6}>
 
                     <EventLocationDetail location={location} locationType={locationType} indetail={true} />
-                    {!isOrganizer && (
+                    {(!isOrganizer && dataInfo?.eventMemberRole !== "ADMIN") && (
                         <GetEventTicket ticket={price} setSelectedTicket={setCategory} data={dataInfo} selectedTicket={category} isBought={isBought} isFree={isFree} />
+                    )}
+
+                    {(isOrganizer || isAdmin || isCollaborator) && (
+                        <CustomButton display={['block', 'none']} onClick={() => setShowScanner(true)} color={"#12299C"} text='Scan Ticket' w={"full"} mt={"4"} backgroundColor={"white"} border={"1px solid #12299C75"} />
                     )}
                 </Grid>
                 {location?.address && (
@@ -154,6 +178,8 @@ function EventDetails(props: Props) {
                 <EventMap latlng={location?.latlng} />
 
             </Box>
+
+            <Scanner isOpen={showScanner} onClose={() => setShowScanner(false)} />
         </Box>
     )
 }

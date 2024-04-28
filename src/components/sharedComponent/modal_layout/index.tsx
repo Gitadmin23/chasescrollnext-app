@@ -11,10 +11,11 @@ type props = {
     title?: string,
     titlecolor?: string,
     scrollBehavior?: "outside" | "inside",
-    closeIcon?: boolean
+    closeIcon?: boolean,
+    titleAlign?: any
 }
 
-export default function ModalLayout({ open, close, closeIcon, children, size, bg, rounded, title, scrollBehavior, titlecolor }: props) {
+export default function ModalLayout({ open, close, closeIcon, children, size, bg, rounded, title, scrollBehavior, titlecolor, titleAlign }: props) {
 
     // const [size, setSize] = React.useState("md") 
 
@@ -24,7 +25,7 @@ export default function ModalLayout({ open, close, closeIcon, children, size, bg
             <ModalContent zIndex={10} backgroundColor={bg ? bg : "#fff"} maxHeight={"90vh"} rounded={rounded ? "0px" : "6px"} padding="0px" margin="16px" w="full"  h={scrollBehavior ? "full" : "auto"}  >
                 {(title || closeIcon) && (
                     <>
-                        <ModalHeader zIndex={20} color={titlecolor ? titlecolor : "black"} textAlign={"center"} >{title}</ModalHeader>
+                        <ModalHeader zIndex={20} color={titlecolor ? titlecolor : "black"} textAlign={titleAlign ? titleAlign : "center"} >{title}</ModalHeader>
                         <ModalCloseButton  color={titlecolor ? titlecolor : "black"} zIndex={20} />
                     </>
                 )}

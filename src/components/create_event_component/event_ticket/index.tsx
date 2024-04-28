@@ -29,7 +29,7 @@ function EventTicket(props: IProps) {
                     <EventTicketHeader type={setIsFree} />
                 )}
                 <SelectTicket promotion={promotion} type={isFree} />
-                <Flex justifyContent={"space-between"} >
+                <Flex flexDir={["column", "column", "row"]} justifyContent={"space-between"} >
                     {!promotion && (
                         <FunnelBtn />
                     )}
