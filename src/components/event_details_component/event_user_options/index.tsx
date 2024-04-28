@@ -51,7 +51,7 @@ function EventUserOption(props: Props) {
 
     return (
         <Box my={"auto"} >
-            {isOrganizer && (
+            {(isOrganizer || event?.eventMemberRole === "ADMIN") && (
                 <Flex flexDirection={["column", "column", "row"]} width={"full"} justifyContent={"center"} alignItems={"center"} gap={"3"} >
                     {!event?.productTypeData[0]?.rerouteURL ?
                         <Button onClick={() => router.push("/dashboard/settings/event-dashboard/" + event?.id)} width={"full"} bg={"brand.chasescrollBlue"} height={"49px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} >My Dashboard</Button> :
@@ -62,7 +62,7 @@ function EventUserOption(props: Props) {
             )}
             {!isBought && (
                 <>
-                    {(!isOrganizer) && (
+                    {(!isOrganizer && event?.eventMemberRole !== "ADMIN") && (
                         <SelectTicket data={event} ticket={ticket} selectedticket={selectedticket} currency={currency} setCategory={setCategory} />
                     )}
                 </>

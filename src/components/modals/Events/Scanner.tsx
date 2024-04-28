@@ -53,12 +53,12 @@ export default function Scanner({
     return (
         <>
 
-            <Modal isOpen={isOpen} isCentered={true} onClose={() => onClose()} size={scanned && !isLoading && !isError ? 'full' : 'full'}>
+            <Modal isOpen={isOpen} isCentered={true} onClose={() => onClose(false)} size={scanned && !isLoading && !isError ? 'full' : 'full'}>
                 <ModalContent bg={'grey'}>
                     {!isLoading && !scanned && (
-                        <ModalCloseButton size={'large'} onClick={() => onClose()} />
+                        <ModalCloseButton size={'large'} onClick={() => onClose(false)} />
                     )}
-                    <ModalBody position={'relative'} width={'100%'} height={'400px'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+                    <ModalBody width={'100%'} height={'400px'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
                         {!isLoading && !scanned && (
                             <Box width={'300px'} height={'300px'} bg={'black'}>
                                 <Box width={'100%'} height={'100%'}>

@@ -83,7 +83,6 @@ function GetEventData(props: Props) {
 
     return (
         <Box width={"full"}  >
-            <Scanner isOpen={showScanner} onClose={() => setShowScanner(false)} />
             <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data !== null} >
                 <EventDetails
                     dynamic={dynamic}
@@ -109,19 +108,6 @@ function GetEventData(props: Props) {
                     minPrice={data?.minPrice}
                     maxPrice={data?.maxPrice}
                     ticketBought={data?.ticketBought} attendees={undefined} />
-
-                <Flex w={['100%', '40%']} direction={['column', 'row']} paddingLeft={'10px'}>
-                    {(isAdmin) && (
-                        <>
-                            {/* <Button display={['block']} width={['100%', '50%']} height={['40px']} bg={'brand.chasescrollButtonBlue'} marginTop={'5px'} color={'white'} onClick={() => handleNavigation()} >Event Details</Button> */}
-
-                            <Button display={['block', 'none']} width={['100%', '50%']} height={['40px']} color={'brand.chasescrollButtonBlue'} onClick={() => setShowScanner(true)} borderColor={'brand.chasescrollButtonBlue'} bg={'white'} marginTop={'10px'} borderWidth={'2px'}>Scan Ticket</Button>
-                        </>
-                    )}
-                    {isCollaborator && (
-                        <Button display={['block', 'none']} width={['100%', '50%']} height={['40px']} bg={'brand.chasescrollButtonBlue'} color={'white'} onClick={() => setShowScanner(true)} marginTop={'10px'} >Scan Ticket</Button>
-                    )}
-                </Flex>
             </LoadingAnimation>
             <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} />
 

@@ -17,6 +17,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { URLS } from '@/services/urls'
 import { AxiosError, AxiosResponse } from 'axios'
 import { useRouter } from 'next/navigation'
+import { IoMdHelpCircleOutline } from 'react-icons/io'
 
 type IProps = {
     btn?: boolean,
@@ -37,6 +38,7 @@ export default function CollaboratorBtn(props: IProps) {
     const [users, setUsers] = React.useState<IUser[]>([]);
     const [usersFilter, setUserFilter] = React.useState<IUser[]>([]);
     const { eventdata, updateEvent } = useEventStore((state) => state);
+    const [show, setShow] = useState(false)
 
     const router = useRouter()
 
@@ -353,22 +355,28 @@ export default function CollaboratorBtn(props: IProps) {
     return (
         <>
             {btn && (
-                <> 
-                    <Button onClick={() => clickHandler()} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{collaborate ? "Edit" : "Add"} Collaborator</Button> 
+                <>
+                    <Button onClick={() => clickHandler()} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{collaborate ? "Edit" : "Add"} Collaborator</Button>
                 </>
             )}
             {!btn && (
                 <Flex flexDir={"column"} w={"fit-content"} gap={"3"} alignItems={"end"} >
-                    <Flex onClick={() => setOpen(true)} as={'button'} gap={"1"} alignItems={"center"} mr={"auto"} >
-                        <CollaboratorIcon />
-                        {(eventdata?.admins?.length <= 0 && eventdata?.collaborators?.length <= 0) && (
-                            <Text color={"#1732F7"} lineHeight={"22px"} >Add Collaborators</Text>
-                        )}
-                        {(eventdata?.admins?.length > 0 || eventdata?.collaborators?.length > 0) && (
-                            <Flex alignItems={"center"} gap={"2"} >
-                                <Text color={"#1732F7"} lineHeight={"22px"} >Edit Collaborators</Text>
-                            </Flex>
-                        )}
+                    <Flex gap={"3"} alignItems={"center"} >
+                        <Flex onClick={() => setOpen(true)} as={'button'} gap={"1"} alignItems={"center"} mr={"auto"} >
+                            <CollaboratorIcon />
+                            {(eventdata?.admins?.length <= 0 && eventdata?.collaborators?.length <= 0) && (
+                                <Text color={"#1732F7"} lineHeight={"22px"} >Add Collaborators and Teams</Text>
+                            )}
+                            {(eventdata?.admins?.length > 0 || eventdata?.collaborators?.length > 0) && (
+                                <Flex alignItems={"center"} gap={"2"} >
+                                    <Text color={"#1732F7"} lineHeight={"22px"} >Edit Collaborators and Teams</Text>
+                                </Flex>
+                            )}
+                        </Flex>
+
+                        <Box onClick={() => setShow(true)} color={"gray.500"}  as='button' >
+                            <IoMdHelpCircleOutline size={"20px"} />
+                        </Box>
                     </Flex>
                     <Flex gap={"3"} >
 
@@ -488,6 +496,14 @@ export default function CollaboratorBtn(props: IProps) {
                         <CustomButton text='Done' onClick={() => setOpen(false)} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
                     </Box>
                 )}
+            </ModalLayout>
+
+
+            <ModalLayout open={show} close={setShow} titleAlign='left' titlecolor='brand.chasescrollButtonBlue' title={"Adding Collaborator"}>
+                <Box px={"6"} pb={"6"} >
+                    <Text color={"gray.500"} >{"Event owners can manage individual and team access to the event dashboard. When you make someone an Admin to your event, they have full access to your event dashboard such as attendees lists, ticket sales, transactions and also the event scanner to assist with scanning the tickets at the event. "}</Text>
+                    <Text mt={"6"} color={"gray.500"} >{"When you make them collaborator, they can only have access to the event scanner."}</Text>
+                </Box>
             </ModalLayout>
         </>
     )

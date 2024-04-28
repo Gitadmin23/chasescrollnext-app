@@ -17,7 +17,7 @@ function HomeFooter(props: Props) {
                 <Flex alignItems={"center"} mt={"2"} gap={"3"} >
                     <Image src="/images/The_Founder_Institute_Logo.svg" height={"47px"} alt='The_Founder_Institute_Logo' />
                     <Image src="/images/The_Brink.svg" height={"47px"} alt='The_Brink' />
-                    <Image src="/images/babcock.svg" alt='The_Brink' />
+                    <Image w={"90px"} src="/images/babcock.png" alt='The_Brink' />
                     <Image src="/images/sdbcc.svg" height={"47px"} alt='sdbcc' />
                 </Flex>
             </Flex>
