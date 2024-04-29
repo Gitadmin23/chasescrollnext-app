@@ -77,7 +77,7 @@ function CreateEventBtn(props: Props) {
 
 
     return (
-        <Box position={"relative"} w={"full"}  >
+        <Box w={"full"}  >
             <Flex onClick={() => clickHander()} as={"button"} w={["full", "full", "152px"]} ml={["0px", "0px","auto"]} fontWeight={"medium"} border={"1px solid #3C41F0"} justifyContent={"center"} color={"brand.chasescrollBlue"} fontSize={"14px"} lineHeight={"20px"} height={"44px"} rounded={"8px"} alignItems={"center"} gap={"2"} >
                 Create Event
             </Flex>
