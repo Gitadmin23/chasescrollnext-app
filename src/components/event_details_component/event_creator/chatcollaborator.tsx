@@ -1,24 +1,28 @@
 import ChatBtn from '@/components/sharedComponent/chat_btn'
 import UserImage from '@/components/sharedComponent/userimage'
+import { useDetails } from '@/global-state/useUserDetails'
 import { IUser } from '@/models/User'
 import { Flex, Box, Text } from '@chakra-ui/layout'
 import React from 'react'
 
 type IProps = {
     collaborators: Array<IUser>,
-    admins: Array<IUser>, 
+    admins: Array<IUser>,
 }
 
 export default function Chatcollaborator(props: IProps) {
 
     const {
         collaborators,
-        admins 
+        admins
     } = props
-    
+
+
+    const { userId } = useDetails((state) => state);
+
     return (
         <Flex flexDir={"column"} w={"full"} px={"2"} >
-            {admins?.map((item: IUser, index: number) => {
+            {admins?.filter((item: IUser) => item?.userId !== userId)?.map((item: IUser, index: number) => {
                 return (
                     <Flex key={index} py={"5"} w={"full"} borderTop={"0.5px solid #B6B6B6"} alignItems={"center"} px={"4"} justifyContent={"space-between"} >
 
@@ -32,10 +36,11 @@ export default function Chatcollaborator(props: IProps) {
                                 <Text textAlign={"left"} fontSize={"sm"} >Admin</Text>
                             </Box>
                         </Flex>
-                        <Flex border={"1px solid #E8E8E8"} color={"#5465E0"} rounded={"32px"} gap={"8"} py={"8px"} px={"16px"} >
-
-                            <ChatBtn userId={item?.userId} />
-                        </Flex>
+                        {item?.userId !== userId && (
+                            <Flex border={"1px solid #E8E8E8"} color={"#5465E0"} rounded={"32px"} gap={"8"} py={"8px"} px={"16px"} >
+                                <ChatBtn userId={item?.userId} />
+                            </Flex>
+                        )}
                     </Flex>
                 )
             })}
@@ -53,10 +58,11 @@ export default function Chatcollaborator(props: IProps) {
                                 <Text textAlign={"left"} fontSize={"sm"} >Coordinator</Text>
                             </Box>
                         </Flex>
-                        <Flex border={"1px solid #E8E8E8"} color={"#5465E0"} rounded={"32px"} gap={"8"} py={"8px"} px={"16px"} >
-
-                            <ChatBtn userId={item?.userId} />
-                        </Flex>
+                        {item?.userId !== userId && (
+                            <Flex border={"1px solid #E8E8E8"} color={"#5465E0"} rounded={"32px"} gap={"8"} py={"8px"} px={"16px"} >
+                                <ChatBtn userId={item?.userId} />
+                            </Flex>
+                        )}
                     </Flex>
                 )
             })}

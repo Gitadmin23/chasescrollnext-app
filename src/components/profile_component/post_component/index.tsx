@@ -8,7 +8,7 @@ import { useLocalModalState } from '../modalstate'
 import { IMediaContent } from '@/models/MediaPost'
 import { useQuery } from 'react-query'
 import httpService from '@/utils/httpService'
-import { uniq } from 'lodash'
+import { uniq } from 'lodash' 
 
 interface Props {
     user_index: string | number,
@@ -30,25 +30,25 @@ function PostThreads(props: Props) {
 
     const { isLoading, isError, refetch } = useQuery(['getUsersPosts', page], () => httpService.get(`${URLS.GET_MEDIA_POST}${user_index}`, {
         params: {
-          page,
+            page,
         }
-      }), {
+    }), {
         onSuccess: (data) => {
-          setPosts(uniq([...posts, ...data?.data?.content]));
-          setHasNextPage(data.data.last ? false:true);
+            setPosts(uniq([...posts, ...data?.data?.content]));
+            setHasNextPage(data.data.last ? false : true);
         },
-      });
-    
-      const lastChildRef = React.useCallback((post: any) => {
+    });
+
+    const lastChildRef = React.useCallback((post: any) => {
         if (isLoading) return;
         if (intObserver.current) intObserver.current.disconnect();
         intObserver.current = new IntersectionObserver((posts) => {
-          if (posts[0].isIntersecting && hasNextPage) {
-            setPage(prev => prev + 1); 
-          }
+            if (posts[0].isIntersecting && hasNextPage) {
+                setPage(prev => prev + 1);
+            }
         });
         if (post) intObserver.current.observe(post);
-       }, [isLoading, hasNextPage, setPage]);
+    }, [isLoading, hasNextPage, setPage]);
 
     //const { results, isLoading, ref, isRefetching, data } = InfiniteScrollerComponent({ url: URLS.GET_MEDIA_POST + user_index, limit: 10, filter: "id" })
 
@@ -72,14 +72,14 @@ function PostThreads(props: Props) {
                     {posts.map((item: any, i: number) => {
                         if (i === posts.length - 1) {
                             return (
-                                <Box  key={i.toString()}  ref={item?.id === typeID ? itemRef : null}>
-                                    <ThreadCard id={item?.id} ref={lastChildRef} post={item} />
+                                <Box key={i.toString()} ref={item?.id === typeID ? itemRef : null}> 
+                                    <ThreadCard closeIcon={true} close={handleClose} id={item?.id} ref={lastChildRef} post={item} />
                                 </Box>
                             )
                         }
                         return (
-                            <Box  key={i.toString()} ref={item?.id === typeID ? itemRef : null}>
-                                <ThreadCard  post={item} />
+                            <Box key={i.toString()} ref={item?.id === typeID ? itemRef : null}> 
+                                <ThreadCard closeIcon={true} close={handleClose} post={item} />
                             </Box>
                         )
                     })}

@@ -24,6 +24,7 @@ import { THEME } from '@/theme';
 import { formatTimeAgo } from '@/utils/helpers';
 import ImageSlider from '../modals/mediapostPages/ImageSlider';
 import { HomeCommentIcon, HomeHeartFillIcon, HomeHeartIcon } from '../svg';
+import { IoClose, IoCloseOutline } from 'react-icons/io5';
 
 const longText = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis repudiandae incidunt consectetur suscipit sunt velit nostrum expedita dignissimos saepe aperiam neque, repellendus laudantium distinctio eveniet. Et error corrupti, perspiciatis similique, eaque dolores animi reiciendis delectus odio ex laborum ratione dolor odit maiores aperiam ipsam. Reprehenderit, labore voluptatem. Earum, hic voluptatibus?'
 
@@ -31,6 +32,8 @@ interface IProps {
   post?: IMediaContent;
   id?: string;
   shared?: boolean;
+  close?: any,
+  closeIcon?: boolean
 }
 
 const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
@@ -114,8 +117,12 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   }
 
   return (
-    <Flex direction={'column'} id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='white' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='md' boxShadow={'lg'} borderColor={'lightgrey'} color='black' padding='20px'>
-
+    <Flex pos={"relative"} direction={'column'} id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='white' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='md' boxShadow={'lg'} borderColor={'lightgrey'} color='black' padding='20px'>
+      {props?.closeIcon && (
+        <Box position={"absolute"} onClick={() => props?.close()} right={"1"} top={"1"} as='button'  >
+          <IoCloseOutline size={"30px"} />
+        </Box>
+      )}
       {/* MODALS SECTION */}
       <ReportUserModal typeID={post?.id} REPORT_TYPE='REPORT_USER' isOpen={showReportModal} onClose={() => setShowReportModal(false)} />
       <LikeUserModal typeID={post?.id} isOpen={showlikes} onClose={() => setShowLikes(false)} />
