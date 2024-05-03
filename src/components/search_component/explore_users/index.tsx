@@ -12,7 +12,7 @@ function ExploreUser(props: Props) {
 
     const searchValue = useSearchStore((state) => state.search);
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/user/search-users?searchText=${searchValue}`, limit: 10, filter: "userId" })
-
+  
     return (
         <Flex width={"full"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} >
             <LoadingAnimation length={results?.length} loading={isLoading} refeching={isRefetching} >

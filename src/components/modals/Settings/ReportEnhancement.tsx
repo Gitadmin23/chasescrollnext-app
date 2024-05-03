@@ -68,7 +68,15 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
     });
 
     const createReport = React.useCallback(() => {
-        if (value.length <= 0 || title === '') {
+        if (title === '') {
+            toast({
+                title: 'Warrning',
+                description: 'Please select a report type',
+                position: 'top-right',
+                isClosable: true,
+                status: 'warning',
+            });
+        } else if (value === '') {
             toast({
                 title: 'Warrning',
                 description: 'Please provide some details',
@@ -81,9 +89,15 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
         }
     }, [value.length, title, toast, mutate])
 
+    const closeHandler =()=> {
+        setValue("")
+        setTitle("")
+        onClose()
+    }
+
   return (
     <Modal isOpen={isOpen} onClose={() => {
-        onClose()
+        closeHandler()
         }} closeOnEsc={true} closeOnOverlayClick={true} size='2xl' isCentered>
         <ModalOverlay />
         <ModalContent width={'100%'} bg='white' padding='0px' overflow={'hidden'} borderRadius={'10px'}>
@@ -97,8 +111,8 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
                 </HStack>
 
                 <VStack width={'70%'} marginTop={'30px'}>
-                    <Select placeholder='Report type' value={title} onChange={(e) => setTitle(e.target.value)} width={'100%'} height={'45px'} borderRadius={'10px'}>
-                            {/* <option  selected>Report type</option> */}
+                    <Select value={title} onChange={(e) => setTitle(e.target.value)} width={'100%'} height={'45px'} borderRadius={'10px'}>
+                            <option value={""}  selected>Report type</option>
                             {REPORT_OPTIONS.map((option, index) => (
                                 <option key={index.toString()} value={option}>{option}</option>
                             ))}
@@ -111,7 +125,7 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
                     </HStack>
                 </VStack>
 
-                <Button onClick={createReport} isLoading={isLoading} isDisabled={(title || value) ? false : true} width='70%' color='white' marginTop='30px' height='50px' bg='brand.chasescrollButtonBlue' variant={'solid'} borderRadius={'10px'}>Submit</Button>
+                <Button onClick={createReport} isLoading={isLoading} isDisabled={(value === "") ? true : ( title === "") ? true : false} width='70%' color='white' marginTop='30px' height='50px' bg='brand.chasescrollButtonBlue' variant={'solid'} borderRadius={'10px'}>Submit</Button>
               </Flex>
 
             </ModalBody>
