@@ -10,7 +10,7 @@ import useDebounce from '@/hooks/useDebounce'
 import { IUser } from '@/models/User'
 import httpService from '@/utils/httpService'
 import { textLimit } from '@/utils/textlimit'
-import { Box, Button, Checkbox, Flex, Heading, Input, InputGroup, InputLeftElement, Text, VStack, useToast } from '@chakra-ui/react'
+import { Box, Button, Checkbox, Flex, Heading, Input, InputGroup, InputLeftElement, Spinner, Text, VStack, useToast } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { IoSearchOutline } from 'react-icons/io5'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
@@ -18,6 +18,7 @@ import { URLS } from '@/services/urls'
 import { AxiosError, AxiosResponse } from 'axios'
 import { useRouter } from 'next/navigation'
 import { IoMdHelpCircleOutline } from 'react-icons/io'
+import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
 
 type IProps = {
     btn?: boolean,
@@ -50,15 +51,17 @@ export default function CollaboratorBtn(props: IProps) {
     const [search, setSearch] = React.useState('');
     const searchText = useDebounce(search, 1000);
 
-    const { isLoading, isError } = useQuery(['getUserFriends', searchText, userId], () => httpService.get(`/user/get-users-connections/${userId}`, {
-        params: {
-            searchText: searchText
-        }
-    }), {
-        onSuccess: (data) => {
-            setUsers(data?.data.content);
-        }
-    });
+    // const { isError } = useQuery(['getUserFriends', searchText, userId], () => httpService.get(`/user/search-users`, {
+    //     params: {
+    //         searchText: searchText
+    //     }
+    // }), {
+    //     onSuccess: (data) => {
+    //         setUsers(data?.data.content);
+    //     }
+    // });
+
+    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/user/search-users?searchText=${searchText}`, limit: 10, filter: "userId" })
 
     const AddAdmin = (userIndex: string) => {
 
@@ -209,7 +212,7 @@ export default function CollaboratorBtn(props: IProps) {
                             </Flex>
                         </Flex>
                         <Flex as='button' onClick={() => AddCollaborators(userId)} alignItems={"center"} gap={"2"} >
-                            <Text>Coordinator</Text>
+                            <Text>Collaborator</Text>
                             <Flex as='button' w={"24px"} h={"24px"} rounded={"full"} borderWidth={"2px"} borderColor={collaborators ? "#5465E0" : "#8AA7C5"} alignItems={"center"} justifyContent={"center"} >
                                 {collaborators && (
                                     <Box w={"9.6px"} h={"9.6px"} bgColor={"#5465E0"} rounded={"full"} />
@@ -321,30 +324,30 @@ export default function CollaboratorBtn(props: IProps) {
 
             let userData: Array<IUser> = []
 
-            let admin: any = data?.admins
-            let collaborator: any = data?.collaborators
+            let admin: any = results?.admins
+            let collaborator: any = results?.collaborators
 
 
             if (admin?.length > 0 && collaborator?.length > 0) {
                 userData = users.filter((obj1: IUser) =>
-                    data?.admins.every((obj2: IUser) => obj1?.userId !== obj2?.userId) &&
-                    data?.collaborators.every((obj2: IUser) => obj1?.userId !== obj2?.userId)
+                    results?.admins.every((obj2: IUser) => obj1?.userId !== obj2?.userId) &&
+                    results?.collaborators.every((obj2: IUser) => obj1?.userId !== obj2?.userId)
                 );
 
             } else if (admin?.length > 0 && collaborator?.length <= 0) {
                 userData = users.filter((obj1: IUser) =>
-                    data?.admins.every((obj2: IUser) => obj1?.userId !== obj2?.userId && obj1?.firstName !== obj2?.firstName)
+                    results?.admins.every((obj2: IUser) => obj1?.userId !== obj2?.userId && obj1?.firstName !== obj2?.firstName)
                 );
             } else {
                 userData = users.filter((obj1: IUser) =>
-                    data?.collaborators.every((obj2: IUser) => obj1?.userId !== obj2?.userId)
+                    results?.collaborators.every((obj2: IUser) => obj1?.userId !== obj2?.userId)
                 );
             }
 
             setUserFilter(userData)
 
         }
-    }, [data, open])
+    }, [results, open])
 
     const changeTabHandler = (item: boolean) => {
         setTab(item)
@@ -374,7 +377,7 @@ export default function CollaboratorBtn(props: IProps) {
                             )}
                         </Flex>
 
-                        <Box onClick={() => setShow(true)} color={"gray.500"}  as='button' >
+                        <Box onClick={() => setShow(true)} color={"gray.500"} as='button' >
                             <IoMdHelpCircleOutline size={"20px"} />
                         </Box>
                     </Flex>
@@ -426,9 +429,26 @@ export default function CollaboratorBtn(props: IProps) {
                             <Flex flexDir={"column"} gap={"4"} maxH={btn ? "200px" : "300px"} pb={"4"} px={"5"} overflowY={"auto"} >
                                 {!searchText && (
                                     <>
-                                        {usersFilter?.map((item: IUser, index: number) => (
-                                            <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
-                                        ))}
+                                        {results?.map((item: IUser, index: number) => {
+                                            if (results.length === index + 1) {
+                                                return (
+                                                    <Box key={index.toString()} width={"full"} ref={ref} >
+                                                        <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} />
+                                                    </Box>
+                                                )
+                                            } else {
+                                                return (
+                                                    <Box key={index.toString()} width={"full"} >
+                                                        <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} />
+                                                    </Box>
+                                                )
+                                            }
+                                        })}
+                                        {isRefetching && ( 
+                                            <Flex w={"full"} justifyContent={"center"} alignItems={"center"} py={"4"} >
+                                                <Spinner size={"sm"} />
+                                            </Flex>
+                                        )}
                                     </>
                                 )}
                                 {searchText && (
