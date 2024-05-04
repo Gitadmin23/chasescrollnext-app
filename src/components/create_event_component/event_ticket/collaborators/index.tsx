@@ -425,48 +425,30 @@ export default function CollaboratorBtn(props: IProps) {
 
                 {!tab && (
                     <LoadingAnimation loading={isLoading} >
-                        {btn && (
-                            <Flex flexDir={"column"} gap={"4"} maxH={btn ? "200px" : "300px"} pb={"4"} px={"5"} overflowY={"auto"} >
-                                {!searchText && (
-                                    <>
-                                        {results?.map((item: IUser, index: number) => {
-                                            if (results.length === index + 1) {
-                                                return (
-                                                    <Box key={index.toString()} width={"full"} ref={ref} >
-                                                        <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} />
-                                                    </Box>
-                                                )
-                                            } else {
-                                                return (
-                                                    <Box key={index.toString()} width={"full"} >
-                                                        <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} />
-                                                    </Box>
-                                                )
-                                            }
-                                        })}
-                                        {isRefetching && ( 
-                                            <Flex w={"full"} justifyContent={"center"} alignItems={"center"} py={"4"} >
-                                                <Spinner size={"sm"} />
-                                            </Flex>
-                                        )}
-                                    </>
+                        <Flex flexDir={"column"} gap={"4"} maxH={btn ? "200px" : "300px"} pb={"4"} px={"5"} overflowY={"auto"} >
+                            <>
+                                {results?.map((item: IUser, index: number) => {
+                                    if (results.length === index + 1) {
+                                        return (
+                                            <Box key={index.toString()} width={"full"} ref={ref} >
+                                                <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} />
+                                            </Box>
+                                        )
+                                    } else {
+                                        return (
+                                            <Box key={index.toString()} width={"full"} >
+                                                <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} />
+                                            </Box>
+                                        )
+                                    }
+                                })}
+                                {isRefetching && (
+                                    <Flex w={"full"} justifyContent={"center"} alignItems={"center"} py={"4"} >
+                                        <Spinner size={"sm"} />
+                                    </Flex>
                                 )}
-                                {searchText && (
-                                    <>
-                                        {users?.map((item: IUser, index: number) => (
-                                            <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
-                                        ))}
-                                    </>
-                                )}
-                            </Flex>
-                        )}
-                        {!btn && (
-                            <Flex flexDir={"column"} gap={"4"} maxH={"250px"} pb={"4"} px={"5"} overflowY={"auto"} >
-                                {users?.map((item: IUser, index: number) => (
-                                    <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
-                                ))}
-                            </Flex>
-                        )}
+                            </>
+                        </Flex>
                     </LoadingAnimation>
                 )}
 
