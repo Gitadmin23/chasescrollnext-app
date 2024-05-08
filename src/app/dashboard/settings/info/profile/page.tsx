@@ -29,7 +29,7 @@ function EditProfile() {
     const router = useRouter();
     const toast = useToast();
 
-    const { renderForm, setValue, formState: { isDirty,  }, watch } = useForm({
+    const { renderForm, setValue, formState: { isDirty, }, watch, values } = useForm({
         defaultValues: {
             firstName: user?.firstName,
             lastName: user?.lastName,
@@ -66,7 +66,7 @@ function EditProfile() {
                         },
                         "about": {
                             objectPublic: true,
-                            "value": data.aboutme === null  ? null : data.aboutme ?? null
+                            "value": data.aboutme === null ? null : data.aboutme ?? null
                         },
                     }
                 }
@@ -77,7 +77,7 @@ function EditProfile() {
 
     // watching variables
     const website = watch('website');
-    const about = watch('aboutme'); 
+    const about = watch('aboutme');
     // const firstname = watch('firstName');
 
     // useEffect(() => { 
@@ -91,8 +91,8 @@ function EditProfile() {
             setValue('firstName', data?.data?.firstName);
             setValue('lastName', data?.data?.lastName);
             setValue('username', data?.data?.username);
-            setValue('website', data?.data?.data?.webAddress.value === ' ' ? null: data?.data?.data?.webAddress.value === null ? null: data?.data?.data?.webAddress.value);
-            setValue('aboutme', data?.data?.data.about.value === ' ' ? null: data?.data?.data.about.value === null ? null: data?.data?.data.about.value);
+            setValue('website', data?.data?.data?.webAddress.value === ' ' ? null : data?.data?.data?.webAddress.value === null ? null : data?.data?.data?.webAddress.value);
+            setValue('aboutme', data?.data?.data.about.value === ' ' ? null : data?.data?.data.about.value === null ? null : data?.data?.data.about.value);
         },
         onError: (error) => {
             console.log(error);
@@ -152,6 +152,7 @@ function EditProfile() {
             </VStack>
         )
     }
+
     return renderForm(
         <VStack width={'100%'} height={'100%'}>
             <input ref={ref} onChange={(e) => handleChange(e.target.files as FileList)} hidden type='file' accept='image/*' />
@@ -178,8 +179,8 @@ function EditProfile() {
                                 <Box width={'144px'} height={'144px'} borderRadius={'50px 0px 50px 50px'} overflow={'hidden'} borderWidth={'3px'} borderColor={'#CFD4DF'}>
                                     {user?.data.imgMain.value !== null && pic === null && (
                                         <>
-                                            { user?.data?.imgMain.value.startsWith('https://') && <Image alt='prifle' src={`${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit={'cover'} />}
-                                            { !user?.data?.imgMain.value.startsWith('https://') && <Image alt='prifle' src={`${IMAGE_URL}${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit={'cover'} />}
+                                            {user?.data?.imgMain.value.startsWith('https://') && <Image alt='prifle' src={`${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit={'cover'} />}
+                                            {!user?.data?.imgMain.value.startsWith('https://') && <Image alt='prifle' src={`${IMAGE_URL}${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit={'cover'} />}
                                         </>
                                     )}
                                     {
@@ -207,12 +208,12 @@ function EditProfile() {
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
                                 <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>FirstName</CustomText>
-                                <CustomInput name='firstName' isPassword={false} type='text' placeholder='' />
+                                <CustomInput name='firstName' value={values?.firstName} isPassword={false} type='text' placeholder='' />
                             </VStack>
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
                                 <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>LastName</CustomText>
-                                <CustomInput name='lastName' isPassword={false} type='text' placeholder='' />
+                                <CustomInput name='lastName' value={values?.lastName} isPassword={false} type='text' placeholder='' />
                             </VStack>
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
@@ -222,12 +223,12 @@ function EditProfile() {
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
                                 <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Website</CustomText>
-                                <CustomInput name='website' isPassword={false} type='text' placeholder={website === null ? 'www.example.com': ''} />
+                                <CustomInput name='website' isPassword={false} type='text' placeholder={website === null ? 'www.example.com' : ''} />
                             </VStack>
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
                                 <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>About me</CustomText>
-                                <CustomInput name='aboutme' isPassword={false} type='text' placeholder={about === null ? 'A short description about me': ''} />
+                                <CustomInput name='aboutme' isPassword={false} type='text' placeholder={about === null ? 'A short description about me' : ''} />
                             </VStack>
 
                             <Link href='/dashboard/settings/info/personalinfo' style={{ width: '100%', marginTop: '20px' }}>
