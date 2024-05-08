@@ -29,9 +29,7 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
     const regex = /^[a-zA-Z]*$/;
     if (regex.test(value)) {
       setValue(name, value); 
-      setNewValue(value)
-      console.log(value);
-            
+      setNewValue(value)            
     }
   }; 
 
