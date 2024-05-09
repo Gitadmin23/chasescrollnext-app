@@ -74,6 +74,8 @@ function AddBankInfo(props: Props) {
             // close(false)
         },
         onError: (error: any) => {
+            setTransferRecipient("")
+            setAccountName("")
             toast({
                 title: 'Error',
                 description: "Error Occurred",
