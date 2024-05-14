@@ -11,6 +11,7 @@ interface Props {
     length?: number,
     color?: string,
     iconsize?: string,
+    height?: string
     indetail?: boolean,
     noicon?: boolean,
     fontWeight?: string
@@ -25,6 +26,7 @@ function EventLocationDetail(props: Props) {
         length,
         iconsize,
         indetail,
+        height,
         noicon,
         fontWeight
     } = props
@@ -37,7 +39,7 @@ function EventLocationDetail(props: Props) {
     return (
         <>
             {!indetail && (
-                <Flex gap={"1"} height={"50px"} alignItems={"center"} >
+                <Flex gap={"1"} height={height? height : "50px"} alignItems={"center"} >
                     {!noicon && (
                         <Box width={"fit-content"} >
                             <Box width={iconsize ? iconsize : "20px"} display={"flex"} justifyContent={"center"} alignItems={"center"} >

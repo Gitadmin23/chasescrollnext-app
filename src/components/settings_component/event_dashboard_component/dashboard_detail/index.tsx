@@ -84,11 +84,11 @@ function DashboardDetail(props: Props) {
                         </Box>
                         <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={"black"} >
                             <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Sold</Text>
-                            <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{history?.currency === "USD" ? "$" : "₦"}{formatNumberWithK(history?.totalActiveSales)}</Text>
+                            <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalActiveSales)}</Text>
                         </Box>
                         <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={"black"} >
                             <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Cancelled</Text>
-                            <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{history?.currency === "USD" ? "$" : "₦"}{formatNumberWithK(history?.totalRefunds)}</Text>
+                            <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalRefunds)}</Text>
                         </Box>
                         <Box pt={"3px"} px={"4"} >
                             <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Available</Text>

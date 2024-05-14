@@ -155,7 +155,7 @@ function Home() {
               </Box>
             </Link>
 
-            <Textarea bg='whitesmoke' borderWidth={'0px'} fontFamily={'DM-Regular'} fontSize={'14px'} flex={'1'} width='100%' placeholder={`What's on your mind @${username}`} resize={'none'} value={post} onChange={(e) => setPost(e.target.value)}></Textarea>
+            <Textarea bg='whitesmoke' borderWidth={'0px'} fontFamily={'DM-Regular'} fontSize={'14px'} flex={'1'} width='100%' placeholder={`What's on your mind @${username.length > 10 ? username.substring(0, 10) + '...':usernmae}`} resize={'none'} value={post} onChange={(e) => setPost(e.target.value)}></Textarea>
             {!createPostMutation.isLoading && <Send2 onClick={() => handlePostCreation()} size={'30px'} color={THEME.COLORS.chasescrollButtonBlue} />}
             {createPostMutation.isLoading && <Spinner size={'sm'} color={THEME.COLORS.chasescrollButtonBlue} />}
           </HStack>
@@ -168,6 +168,7 @@ function Home() {
 
       </VStack>
 
+      
       <Box flex='1' width={'full'} height={'full'} overflow={'auto'} paddingX='20px' paddingTop='0px'>
 
         {

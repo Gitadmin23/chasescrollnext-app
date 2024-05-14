@@ -81,7 +81,7 @@ function GoogleBtn(props: Props) {
             localStorage.setItem('token', data?.data?.access_token);
             toast({
                 title: 'Success',
-                description: 'Signup Successful',
+                description: 'Google Signin Successful',
                 status: 'success',
                 position: 'top-right'
             })
