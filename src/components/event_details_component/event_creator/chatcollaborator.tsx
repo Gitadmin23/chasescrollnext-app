@@ -17,7 +17,6 @@ export default function Chatcollaborator(props: IProps) {
         admins
     } = props
 
-
     const { userId } = useDetails((state) => state);
 
     return (
@@ -28,12 +27,16 @@ export default function Chatcollaborator(props: IProps) {
 
                         <Flex alignItems={"center"} gap={"2"} >
                             <Flex width={"fit-content"} position={"relative"} >
-                                <UserImage size={"42px"} image={item?.data?.imgMain?.value} data={item} />
+                                <UserImage size={"42px"} font={"16px"} image={item?.data?.imgMain?.value} data={item} />
 
                             </Flex>
                             <Box >
                                 <Text textAlign={"left"} fontWeight={"medium"} >{(item?.firstName + " " + item?.lastName)?.length > 10 ? (item?.firstName + " " + item?.lastName)?.slice(0, 10) + "..." : (item?.firstName + " " + item?.lastName)}</Text>
-                                <Text textAlign={"left"} fontSize={"sm"} >Admin</Text>
+                                {/* <Text textAlign={"left"} fontSize={"sm"} >Admin</Text> */}
+
+                                <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"#3EC30F"} >
+                                    Admin
+                                </Flex>
                             </Box>
                         </Flex>
                         {item?.userId !== userId && (
@@ -55,7 +58,12 @@ export default function Chatcollaborator(props: IProps) {
                             </Flex>
                             <Box >
                                 <Text textAlign={"left"} fontWeight={"medium"} >{(item?.firstName + " " + item?.lastName)?.length > 10 ? (item?.firstName + " " + item?.lastName)?.slice(0, 10) + "..." : (item?.firstName + " " + item?.lastName)}</Text>
-                                <Text textAlign={"left"} fontSize={"sm"} >Coordinator</Text>
+                                {/* <Text textAlign={"left"} fontSize={"sm"} >Coordinator</Text>
+
+                        {eventdata?.admins?.length > 0 && ( */}
+                                <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#FDF3CF6B"} color={"#FDB806"} >
+                                    Collaborator
+                                </Flex>
                             </Box>
                         </Flex>
                         {item?.userId !== userId && (

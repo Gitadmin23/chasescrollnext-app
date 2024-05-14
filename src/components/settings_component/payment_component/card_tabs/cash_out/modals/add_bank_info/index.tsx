@@ -111,9 +111,9 @@ function AddBankInfo(props: Props) {
             <Input type='number' onChange={(e) => setAccountNumber(e.target.value)} placeholder="0000000000" />
             <LoadingAnimation loading={payStackMutation?.isLoading} >
                 {accountName &&
-                    <Flex alignItems={"center"} gap={"2"} mt={"4"} color={"#00F562"}  >
+                    <Flex alignItems={"center"} fontSize={"12px"} gap={"2"} mt={"4"} color={"#00F562"}  >
                         <GreenTick />
-                        {accountName}
+                        {accountName} 
                     </Flex>
                 }
             </LoadingAnimation>
