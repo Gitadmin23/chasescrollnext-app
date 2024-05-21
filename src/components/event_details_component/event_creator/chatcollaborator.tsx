@@ -62,7 +62,7 @@ export default function Chatcollaborator(props: IProps) {
 
                         {eventdata?.admins?.length > 0 && ( */}
                                 <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#FDF3CF6B"} color={"#FDB806"} >
-                                    Collaborator
+                                    Volunteer
                                 </Flex>
                             </Box>
                         </Flex>
