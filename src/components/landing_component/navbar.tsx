@@ -44,7 +44,7 @@ function HomeNavbar() {
                 link: string
             }) => {
                 return (
-                    <Box as="button" _hover={{color: THEME?.COLORS?.chasescrollBlue}} >
+                    <Box key={item?.label} as="button" _hover={{color: THEME?.COLORS?.chasescrollBlue}} >
                         <Text lineHeight={"22.5px"} fontWeight={"semibold"} >{item?.label}</Text>
                     </Box>
                 )
