@@ -2,7 +2,6 @@ import CustomButton from "@/components/general/Button";
 import { THEME } from "@/theme";
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 
-
 export default function VersionInfo (){
     return(
         <Flex w={"full"} alignItems={"center"} h={"547px"} px={"12"} pos={"relative"} >
