@@ -1,3 +1,4 @@
+import FooterLandingPage from "@/components/landing_component/footer"
 import HomeNavbar from "@/components/landing_component/navbar"
 import { Flex } from "@chakra-ui/react"
 import React from "react"
@@ -13,6 +14,7 @@ export default async function RootLayout({
                 <HomeNavbar />
             </Flex>
                 {children}
+            <FooterLandingPage />
         </Flex>
     )
   }
