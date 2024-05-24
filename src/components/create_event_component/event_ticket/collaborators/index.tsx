@@ -13,7 +13,7 @@ import { textLimit } from '@/utils/textlimit'
 import { Box, Button, Checkbox, Flex, Heading, Input, InputGroup, InputLeftElement, Spinner, Text, VStack, useToast } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { IoSearchOutline } from 'react-icons/io5'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { URLS } from '@/services/urls'
 import { AxiosError, AxiosResponse } from 'axios'
 import { useRouter } from 'next/navigation'
@@ -212,7 +212,7 @@ export default function CollaboratorBtn(props: IProps) {
                             </Flex>
                         </Flex>
                         <Flex as='button' onClick={() => AddCollaborators(userId)} alignItems={"center"} gap={"2"} >
-                            <Text>Collaborator</Text>
+                            <Text>Volunteer</Text>
                             <Flex as='button' w={"24px"} h={"24px"} rounded={"full"} borderWidth={"2px"} borderColor={collaborators ? "#5465E0" : "#8AA7C5"} alignItems={"center"} justifyContent={"center"} >
                                 {collaborators && (
                                     <Box w={"9.6px"} h={"9.6px"} bgColor={"#5465E0"} rounded={"full"} />
@@ -390,7 +390,7 @@ export default function CollaboratorBtn(props: IProps) {
                         )}
                         {eventdata?.collaborators?.length > 0 && (
                             <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#FDF3CF6B"} color={"#FDB806"} >
-                                {eventdata?.collaborators?.length + " Collaborator" + (eventdata?.collaborators?.length > 1 ? "s" : "")}
+                                {eventdata?.collaborators?.length + " Volunteer" + (eventdata?.collaborators?.length > 1 ? "s" : "")}
                             </Flex>
                         )}
                     </Flex>
@@ -411,7 +411,7 @@ export default function CollaboratorBtn(props: IProps) {
                 <Flex px={"6"} py={"4"} flexDir={"column"} gap={"2"}  >
                     {btn && (
                         <Flex rounded={"lg"} w={"full"} bg={"#EFF1FE"} py={"3px"} px={"9px"} >
-                            <Button onClick={() => changeTabHandler(false)} _hover={{ backgroundColor: !tab ? "white" : "transparent" }} borderBottom={!tab ? "1px solid #5465E0" : ""} width={"full"} bgColor={!tab ? "white" : "transparent"} h={"36px"} color={"#5465E0"} fontWeight={"medium"} fontSize={"sm"} >My Network</Button>
+                            <Button onClick={() => changeTabHandler(false)} _hover={{ backgroundColor: !tab ? "white" : "transparent" }} borderBottom={!tab ? "1px solid #5465E0" : ""} width={"full"} bgColor={!tab ? "white" : "transparent"} h={"36px"} color={"#5465E0"} fontWeight={"medium"} fontSize={"sm"} >Network</Button>
                             <Button onClick={() => changeTabHandler(true)} _hover={{ backgroundColor: tab ? "white" : "transparent" }} borderBottom={tab ? "1px solid #5465E0" : ""} width={"full"} bgColor={tab ? "white" : "transparent"} h={"36px"} color={"#5465E0"} fontWeight={"medium"} fontSize={"sm"} >Collaborators</Button>
                         </Flex>
                     )}
