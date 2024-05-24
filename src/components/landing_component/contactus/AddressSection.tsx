@@ -57,7 +57,7 @@ function AddressSection() {
             
             {/* "51.503038 0.0031543" */}
 
-            <EventMap latlng="32.8995951 -117.1966284" />
+            <EventMap latlng="32.9000079 -117.1903523" height="400px" />
         </Flex>
     )
 }
