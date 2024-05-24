@@ -1,3 +1,4 @@
+"use client"
 import FirstSetion from "@/components/landing_component/aboutus/FirstSection";
 import MissionAndGoal from "@/components/landing_component/aboutus/MissionAndGoal";
 import MissionAndVision from "@/components/landing_component/aboutus/MissionAndVision";

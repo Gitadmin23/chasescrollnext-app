@@ -1,7 +1,10 @@
+"use client"
 import { Flex, Image, Text } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import CopyRightText from "../sharedComponent/CopyRightText";
+import MobileAppLink from "./mobileapplink";
+import SocialMedia from "./socialMedia";
 
 export default function FooterLandingPage() {
     return (
@@ -12,29 +15,10 @@ export default function FooterLandingPage() {
                         <Image width={["full", "full", "60px"]} src={"/assets/logo.png"} alt="logo" />
                         <Text fontWeight={"bold"} fontSize={"32px"} lineHeight={"48ox"} color={"white"} >Chasescroll</Text>
                     </Flex>
-                    <Text fontSize={"15.38px"} lineHeight={"24px"} mt={"6"} >Lets connect</Text>
-                    <Flex w={"fit-content"} gap={"35px"} mt={"4"} justifyContent={"center"} >
-                        {/* <a target="_blank" href="https://twitter.com/chasescroll">
-                        <Icon className="text-[35px]" icon="mdi:twitter" color="white" />
-                    </a>
-                    <a target="_blank" href=" https://www.facebook.com/chase.scroll/ ">
-                        <Icon
-                            className="text-[35px]"
-                            icon="ic:baseline-facebook"
-                            color="white"
-                        />
-                    </a>
-                    <a target="_blank" href=" https://www.linkedin.com/company/chasescroll/">
-                        <Icon className="text-[35px]" icon="mdi:linkedin" color="white" />
-                    </a>
-                    <a target="_blank" href="  https://www.instagram.com/chasescroll_/  ">
-                        <Icon
-                            className="text-[35px]"
-                            icon="ri:instagram-fill"
-                            color="white"
-                        />
-                    </a> */}
-                    </Flex>
+                    <Text fontSize={"15.38px"} lineHeight={"24px"} mt={"8"} >Lets connect</Text>
+                    <SocialMedia top="0px" />
+                    <Text fontSize={"15.38px"} mt={"8"} mb={"2"} lineHeight={"24px"} >Download Our App</Text>
+                    <MobileAppLink width="113.14px" height="36px" />
                 </Flex>
                 <Flex w={"100%"} justifyContent={"space-between"} pr={"10"} >
                     <Flex w={"300px"} flexDir={"column"} >
