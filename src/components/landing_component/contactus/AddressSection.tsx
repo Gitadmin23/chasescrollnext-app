@@ -1,6 +1,7 @@
 import EventMap from "@/components/event_details_component/event_map_info";
 import { CallStroke, LocationStroke } from "@/components/svg";
 import { Flex, Text } from "@chakra-ui/react";
+import { title } from "process";
 
 
 
@@ -37,7 +38,7 @@ function AddressSection() {
                     call?: boolean
                 }) => {
                     return (
-                        <Flex maxW={"374px"} w={"full"} flexDir={"column"} gap={"2"} alignItems={"center"} >
+                        <Flex key={item?.title} maxW={"374px"} w={"full"} flexDir={"column"} gap={"2"} alignItems={"center"} >
                             {item?.call ? (
                                 <CallStroke />
                             ): (

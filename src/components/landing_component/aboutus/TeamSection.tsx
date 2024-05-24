@@ -24,7 +24,7 @@ function TeamSection() {
                     text1: string
                 })=> {
                     return(
-                        <Flex maxW={"421px"} w={"full"} h={"536px"} rounded={"4px"} justifyContent={"center"} alignItems={"end"} pb={"6"} px={"4"} pos={"relative"} >
+                        <Flex key={item?.id} maxW={"421px"} w={"full"} h={"536px"} rounded={"4px"} justifyContent={"center"} alignItems={"end"} pb={"6"} px={"4"} pos={"relative"} >
                             <Image src={item?.img} alt={item?.img} w={"full"} h={"full"} objectFit={"cover"} pos={"absolute"} inset={"0px"} rounded={"4px"} />
                             <Flex w={"full"} gap={"1"} justifyContent={"center"} alignItems={"center"} fontWeight={"700"} zIndex={"20"} rounded={"8px"} h={"105px"} flexDir={"column"} bgColor={"#FFFFFFCC"} >
                                 <Text color={"#1A202C"} lineHeight={"28px"} fontSize={"24px"} >{item?.text}</Text>
