@@ -5,7 +5,7 @@ import { MessageIcon } from '@/components/svg';
 import { useDetails } from '@/global-state/useUserDetails';
 import { Box, Button, Flex, Text } from '@chakra-ui/react'
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { TbMessage } from "react-icons/tb";
 import EventQrCode from '../event_qrcode';
@@ -41,6 +41,8 @@ function EventCreator(props: Props) {
     const router = useRouter()
     const { userId: user_index } = useDetails((state) => state);
 
+    const pathname = usePathname();
+
     const clickHandler = () => {
         if (!user_index) {
             router.push("/share/auth/login?type=EVENT&typeID=" + data?.id)
@@ -72,7 +74,7 @@ function EventCreator(props: Props) {
                     </Box>
                     {isOrganizer && (
                         <Box display={["flex"]} gap={"2"} >
-                            {(data?.collaborators || data?.admins) && (
+                            {((data?.collaborators || data?.admins) && !pathname?.includes("pastdetails"))&& (
                                 <CollaboratorBtn collaborate={data?.collaborators?.length !== 0 || data?.admins?.length !== 0} btn={true} data={data} />
                             )}
                         </Box>

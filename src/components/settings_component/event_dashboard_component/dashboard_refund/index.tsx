@@ -17,6 +17,7 @@ import { useReactToPrint } from 'react-to-print'
 import { CSVLink } from 'react-csv'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import { dateFormat } from '@/utils/dateFormat'
+import EventLocationDetail from '@/components/sharedComponent/event_location'
 
 interface Props {
     index: any
@@ -75,12 +76,16 @@ function DashboardRefund(props: Props) {
                 </Flex>
             </Flex> */}
             <Flex ref={componentRef} width={"full"} flexDir={"column"} p={"6"} >
-                <Flex width={"full"} py={"6"} justifyContent={"center"} alignItems={"center"} gap={"5"} >
+                <Flex width={"full"} pt={"6"} justifyContent={"center"} alignItems={"center"} gap={"5"} >
                     {/* <EventImage /> */}
 
                     <EventImage data={data?.data?.content[0]?.event} width={"90px"} height={"80px"} />
                     <Text fontSize={"lg"} fontWeight={"semibold"} >{data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length)}</Text>
                 </Flex>
+                <Flex w={"full"} pt={"4"} pb={"6"} justifyContent={"center"} > 
+                <EventLocationDetail location={data?.data?.content[0]?.event?.location} locationType={data?.data?.content[0]?.event?.locationType} indetail={false} />
+                </Flex>
+                {/* <Loca/ */}
                 <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data?.data?.content?.length} >
                    
                     <TableContainer ref={tableRef} >
