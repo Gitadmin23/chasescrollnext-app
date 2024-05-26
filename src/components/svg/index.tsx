@@ -15,6 +15,22 @@ export const AddIconWithBorder = () => (
   </svg>
 )
 
+export const CategoryRightIcon = () => (
+  <svg width="100" height="40" viewBox="0 0 100 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_5115_2151)">
+      <rect x="0.869141" width="99" height="40" rx="20" fill="white" />
+      <path d="M51.04 20.0001L48.2109 17.1721L49.625 15.7571L53.868 20.0001L49.625 24.2431L48.2109 22.8281L51.04 20.0001Z" fill="#5465E0" />
+    </g>
+    <rect x="1.36914" y="0.5" width="98" height="39" rx="19.5" stroke="#5465E0" />
+    <defs>
+      <clipPath id="clip0_5115_2151">
+        <rect x="0.869141" width="99" height="40" rx="20" fill="white" />
+      </clipPath>
+    </defs>
+  </svg>
+
+)
+
 export const QuoteIcon = () => (
   <svg width="82" height="58" viewBox="0 0 82 58" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g clip-path="url(#clip0_5115_2444)">

@@ -10,7 +10,7 @@ export default async function RootLayout({
   }) {
     return(
         <Flex h={"100vh"} w={"full"} overflowY={"auto"} flexDir={"column"} pos={"relative"} >
-            <Flex w={"full"} pos={"sticky"} zIndex={"50"} top={"0px"} >
+            <Flex w={"full"} pos={"sticky"} zIndex={"100"} top={"0px"} >
                 <HomeNavbar />
             </Flex>
                 {children}
