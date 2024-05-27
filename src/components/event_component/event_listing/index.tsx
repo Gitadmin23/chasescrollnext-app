@@ -29,13 +29,13 @@ function EventListing(props: Props) {
                             {results?.map((event: any, i: number) => {
                                 if (results.length === i + 1) {
                                     return (
-                                        <GridItem key={event?.userId} maxWidth={["full", "full", "500px", "500px", "500px"]} ref={ref} >
+                                        <GridItem key={i} maxWidth={["full", "full", "500px", "500px", "500px"]} ref={ref} >
                                             <ExploreEventCard date={true} page={true} event={event} />
                                         </GridItem>
                                     )
                                 } else {
                                     return (
-                                        <GridItem key={event?.userId} maxWidth={["full", "full", "500px", "500px", "500px"]}  >
+                                        <GridItem key={i} maxWidth={["full", "full", "500px", "500px", "500px"]}  >
                                             <ExploreEventCard date={true} page={true} event={event} />
                                         </GridItem>
                                     )
@@ -47,8 +47,8 @@ function EventListing(props: Props) {
                         <Grid width={["fit", "fit", "auto", "auto", "auto"]} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(3, 1fr)']} gap={5}>
                             {results?.map((event: any, i: number) => {
                                 return (
-                                    <GridItem key={event?.userId} maxWidth={["full", "full", "500px", "500px", "500px"]}  >
-                                        <ExploreEventCard date={true} page={true} event={event} />
+                                    <GridItem key={i} maxWidth={["full", "full", "500px", "500px", "500px"]}  >
+                                        <ExploreEventCard landing={limit} date={true} page={true} event={event} />
                                     </GridItem>
                                 )
                             })}
