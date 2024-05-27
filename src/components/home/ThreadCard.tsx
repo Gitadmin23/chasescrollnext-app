@@ -1,6 +1,20 @@
 /* eslint-disable react/display-name */
 import { IMediaContent, IMediaPost } from '@/models/MediaPost';
-import { Avatar, HStack, VStack, Box, Spinner, Menu, MenuList, MenuButton, MenuItem, Image, useToast, Flex } from '@chakra-ui/react';
+import {
+  Avatar,
+  HStack,
+  VStack,
+  Box,
+  Spinner,
+  Menu,
+  MenuList,
+  MenuButton,
+  MenuItem,
+  Image,
+  useToast,
+  Flex,
+  useColorMode
+} from '@chakra-ui/react';
 import { FiMoreHorizontal, FiHeart, FiMessageSquare, FiShare2 } from 'react-icons/fi'
 import React from 'react'
 import CustomText from '../general/Text';
@@ -24,7 +38,7 @@ import { THEME } from '@/theme';
 import { formatTimeAgo } from '@/utils/helpers';
 import ImageSlider from '../modals/mediapostPages/ImageSlider';
 import { HomeCommentIcon, HomeHeartFillIcon, HomeHeartIcon } from '../svg';
-import { IoClose, IoCloseOutline } from 'react-icons/io5';
+import useCustomTheme from "@/hooks/useTheme";
 
 const longText = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis repudiandae incidunt consectetur suscipit sunt velit nostrum expedita dignissimos saepe aperiam neque, repellendus laudantium distinctio eveniet. Et error corrupti, perspiciatis similique, eaque dolores animi reiciendis delectus odio ex laborum ratione dolor odit maiores aperiam ipsam. Reprehenderit, labore voluptatem. Earum, hic voluptatibus?'
 
@@ -44,6 +58,9 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   const { userId } = useDetails((state) => state);
   const { setAll } = useImageModalState((state) => state)
   const [post, setPost] = React.useState<IMediaContent>(props.post as IMediaContent);
+
+  const { bodyTextColor, primaryColor,secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const router = useRouter();
   const toast = useToast();
@@ -117,12 +134,8 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
   }
 
   return (
-    <Flex pos={"relative"} direction={'column'} id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg='white' borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='md' boxShadow={'lg'} borderColor={'lightgrey'} color='black' padding='20px'>
-      {props?.closeIcon && (
-        <Box position={"absolute"} onClick={() => props?.close()} right={"1"} top={"1"} as='button'  >
-          <IoCloseOutline size={"30px"} />
-        </Box>
-      )}
+    <Flex direction={'column'} id={props.id} alignItems={'flex-start'} ref={ref} marginTop={'40px'} width={'100%'} height={'auto'} bg={secondaryBackgroundColor} borderBottomLeftRadius={'20px'} borderBottomRightRadius={'20px'} borderTopLeftRadius={'20px'} borderWidth='0px' shadow='md' boxShadow={'lg'} borderColor={'lightgrey'} color='black' padding='20px'>
+
       {/* MODALS SECTION */}
       <ReportUserModal typeID={post?.id} REPORT_TYPE='REPORT_USER' isOpen={showReportModal} onClose={() => setShowReportModal(false)} />
       <LikeUserModal typeID={post?.id} isOpen={showlikes} onClose={() => setShowLikes(false)} />
@@ -135,7 +148,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
             <Box width='42px' height='42px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
               {post?.user?.data.imgMain.value === null && (
                 <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                  <CustomText fontFamily={'DM-Regular'} >{post?.user?.firstName[0].toUpperCase()}{post?.user?.lastName[0].toUpperCase()}</CustomText>
+                  <CustomText fontFamily={'DM-Regular'} color={bodyTextColor}>{post?.user?.firstName[0].toUpperCase()}{post?.user?.lastName[0].toUpperCase()}</CustomText>
                 </VStack>
               )}
               {
@@ -152,15 +165,15 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
 
           <VStack spacing={0} alignItems={'flex-start'}>
             <Link href={`/dashboard/profile/${post.user.userId}`}>
-              <CustomText fontSize={'14px'} fontFamily={'DM-Medium'}>{post?.user?.username[0].toUpperCase()}{post?.user.username.substring(1)}</CustomText>
+              <CustomText fontSize={'14px'} fontFamily={'DM-Medium'} color={bodyTextColor} >{post?.user?.username[0].toUpperCase()}{post?.user.username.substring(1)}</CustomText>
             </Link>
             {/* <CustomText fontSize='md' fontFamily={'DM-Regular'}>o2 Areana London</CustomText> */}
-            <CustomText fontSize='xs' fontFamily={'Satoshi-Light'} color='grey'>{formatTimeAgo(post?.timeInMilliseconds)}</CustomText>
+            <CustomText fontSize='xs' fontFamily={'Satoshi-Light'} color={bodyTextColor}>{formatTimeAgo(post?.timeInMilliseconds)}</CustomText>
           </VStack>
         </HStack>
         <Menu>
           <MenuButton>
-            <FiMoreHorizontal color="blue" fontSize={25} />
+            <FiMoreHorizontal color={colorMode === 'light' ? "blue": bodyTextColor} fontSize={25} />
           </MenuButton>
           <MenuList zIndex={10} bg='white'>
             {userId === post?.user?.userId && (
@@ -186,7 +199,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       </HStack>
 
       {/* BODY SECTION */}
-      <CustomText fontFamily={'Satoshi-Regular'} color='black' fontSize={'16px'} width='100%' >
+      <CustomText fontFamily={'Satoshi-Regular'} color={bodyTextColor} fontSize={'16px'} width='100%' marginY={'20px'} >
         {showAll ? handleLinks(post?.text, true) : post?.text.length > 130 ? handleLinks(post?.text) : handleLinks(post?.text, true)}
         {post?.text.length > 130 && (
           <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize: '16px', cursor: 'pointer', marginLeft: '10px' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
@@ -211,7 +224,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       )}
 
       {/* FOOTER SECTION */}
-      <HStack justifyContent={'space-between'} alignItems={'center'} width='100%' height={'50px'} bg='white' marginTop={'20px'}>
+      <HStack justifyContent={'space-between'} alignItems={'center'} width='100%' height={'50px'} marginTop={'20px'}>
         <VStack cursor={'pointer'}>
           {!likeMutation.isLoading && (
             <Flex w={"41px"} height={"44px"} justifyContent={"center"} flexDir={"column"} alignItems={"center"} >
@@ -225,7 +238,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
                 )}
               </Flex>
               {/* <FiHeart onClick={() => likeMutation.mutate()} color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'} fontSize={15} /> */}
-              <CustomText onClick={() => setShowLikes(true)} fontFamily={'Satoshi-Light'} fontSize='10px' color={post?.likeStatus === 'LIKED' ? 'red' : '#00000099'}>{post?.likeCount}</CustomText>
+              <CustomText onClick={() => setShowLikes(true)} fontFamily={'DM-Bold'} fontSize='14px' color={post?.likeStatus === 'LIKED' ? 'red' : bodyTextColor}>{post?.likeCount}</CustomText>
             </Flex>
           )}
           {
@@ -240,11 +253,11 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
         {!props.shared && (
           <Link href={`/dashboard/home/comment/${post?.id}`}>
             <Flex w={"41px"} height={"44px"} justifyContent={"center"} flexDir={"column"} alignItems={"center"} >
-              <Flex width={"24px"} h={"30px"} justifyContent={"center"} alignItems={"center"} >
+              <Flex width={"24px"} h={"30px"} justifyContent={"center"} alignItems={"center"} color={bodyTextColor} >
                 <HomeCommentIcon />
               </Flex>
               {/* <FiMessageSquare color='black' fontSize={15} /> */}
-              <CustomText textColor={"#00000099"} fontFamily={'Satoshi-Light'} fontSize='10px' >{post?.commentCount}</CustomText>
+              <CustomText textColor={bodyTextColor} fontFamily={'DM-Bold'} fontSize='14px' >{post?.commentCount}</CustomText>
             </Flex>
           </Link>
         )}
@@ -255,7 +268,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
               <HomeCommentIcon />
             </Flex>
             {/* <FiMessageSquare color='black' fontSize={15} /> */}
-            <CustomText textColor={"#00000099"} fontFamily={'Satoshi-Light'} fontSize='10px' >{post?.commentCount} Comments</CustomText>
+            <CustomText textColor={bodyTextColor} fontFamily={'DM-Bold'} fontSize='14px' >{post?.commentCount} Comments</CustomText>
             {/* </VStack> */}
           </Flex>
         )}

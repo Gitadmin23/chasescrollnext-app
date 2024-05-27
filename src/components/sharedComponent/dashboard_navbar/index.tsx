@@ -3,7 +3,22 @@ import SearchBar from '@/components/explore_component/searchbar'
 import CustomText from '@/components/general/Text'
 import NotificationBar from '@/components/navbar/notification'
 import { THEME } from '@/theme'
-import { Box, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerOverlay, Flex, HStack, Image, Link, Text, useDisclosure } from '@chakra-ui/react'
+import {
+    Box,
+    Drawer,
+    DrawerBody,
+    DrawerCloseButton,
+    DrawerContent,
+    DrawerFooter,
+    DrawerOverlay,
+    Flex,
+    HStack,
+    Image,
+    Link,
+    Text,
+    useColorMode,
+    useDisclosure
+} from '@chakra-ui/react'
 import { Message, LogoutCurve, Wallet, HambergerMenu } from 'iconsax-react'
 import { useRouter } from 'next/navigation'
 import router from 'next/router'
@@ -12,6 +27,7 @@ import { Icon } from "@iconify/react";
 import { WalletIcon2 } from '@/components/svg'
 import UserImage from '../userimage'
 import { usePathname } from 'next/navigation'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     pathname?: string | null,
@@ -34,6 +50,10 @@ function DashboardNavbar(props: Props) {
     const router = useRouter()
     const pathname = usePathname()
 
+    const { bodyTextColor, primaryColor,secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
+
+
     const clickHandler = (item: string) => {
         router.push(item)
     }
@@ -46,12 +66,12 @@ function DashboardNavbar(props: Props) {
         <Box width="full">
             {/* NAVBAR SECTION */}
             {(!pathname?.includes("create_event") || !pathname?.includes("edit_draft") || !pathname?.includes("edit_event")) && (
-                <HStack position={"absolute"} zIndex={"30"} top={"0px"} width='100%' height='80px' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} backgroundColor={'white'} alignItems='center' justifyContent={'space-between'} paddingX={['20px', '40px']}>
+                <HStack position={"absolute"} zIndex={"30"} top={"0px"} width='100%' height='80px' borderBottomWidth={'1px'} borderBottomColor={borderColor} backgroundColor={mainBackgroundColor} alignItems='center' justifyContent={'space-between'} paddingX={['20px', '40px']}>
 
                     <Flex alignItems={"center"} gap={["3", "3", "12"]}>
                         <Flex role="button" width={"fit-content"} alignItems={"center"} gap={"1"} onClick={() => router.push("/dashboard/home")} justifyContent={'center'}>
                             <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
-                            <CustomText fontFamily={'Satoshi-Regular'} fontSize='lg' color='#12299C'>Chasescroll</CustomText>
+                            <CustomText fontFamily={'DM-Bold'} fontSize='lg' color={colorMode === 'light' ? primaryColor: bodyTextColor}>Chasescroll</CustomText>
                         </Flex>
                         {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft") && (
                             <Box display={["none", "none", "block"]} >

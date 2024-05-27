@@ -1,8 +1,9 @@
-import { Box, VStack, Image, HStack, Button } from '@chakra-ui/react'
+import {Box, VStack, Image, HStack, Button, useColorMode} from '@chakra-ui/react'
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 import React from 'react'
 import { IMAGE_URL } from '@/services/urls'
 import { useImageModalState } from '@/components/general/ImageModal/imageModalState'
+import useCustomTheme from "@/hooks/useTheme";
 
 const FileViewer = ({ file }: { file: File,  }) => {
     return (
@@ -29,7 +30,11 @@ function ImageSlider({files, type, links, setCurrentIndex }: {
     setCurrentIndex?: (index: number) => void
 }) {
     const [index, setIndex] = React.useState(0);
-    const { setAll } = useImageModalState((state) => state)
+    const { setAll } = useImageModalState((state) => state);
+
+    const { bodyTextColor, primaryColor,secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
+
 
     const handleImageClick = () => {
         setAll({ images: links as string[], isOpen: true })
@@ -97,7 +102,7 @@ function ImageSlider({files, type, links, setCurrentIndex }: {
     }, [index, type])
 
   return (
-    <VStack width='100%' height='100%' spacing={0}>
+    <VStack width='100%' height='100%' spacing={0} bg={mainBackgroundColor}>
 
         <HStack width={'100%'} height={(links as string[])?.length < 2 || (files as File[])?.length < 2 ? '100%':'90%'} position={'relative'} bg='brown' zIndex={1}>
 

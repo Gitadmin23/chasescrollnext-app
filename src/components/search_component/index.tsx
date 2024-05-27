@@ -3,8 +3,9 @@ import ExploreCommunity from '@/components/search_component/explore_communities'
 import ExploreEvent from '@/components/search_component/explore_events'
 import ExploreUser from '@/components/search_component/explore_users'
 import TabController from '@/components/search_component/tab_controller'
-import { Box, Flex } from '@chakra-ui/react'
+import {Box, Flex, useColorMode} from '@chakra-ui/react'
 import React, { useState } from 'react'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     home?: boolean
@@ -17,8 +18,11 @@ function SearchComponent(props: Props) {
 
     const [tab, setTab] = useState(home ? 1 : 0)
 
+    const { bodyTextColor, primaryColor,secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
+
     return (
-        <Flex width={"full"} bg={"white"} shadow={"lg"} roundedBottom={"lg"} maxHeight={"450px"} overflowX={"hidden"} overflowY={"auto"} justifyContent={"center"}   >
+        <Flex width={"full"} bg={secondaryBackgroundColor} shadow={"lg"} roundedBottom={"lg"} maxHeight={"450px"} overflowX={"hidden"} overflowY={"auto"} justifyContent={"center"}   >
             <Box width={["full", "full", "full"]} position={"relative"} >
                 {!home && (
                     <TabController tab={tab} setTab={setTab} />
