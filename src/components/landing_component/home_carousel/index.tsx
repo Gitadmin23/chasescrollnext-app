@@ -100,7 +100,7 @@ function HomeLandingPageCarousel(props: Props) {
                                         </motion.p>
                                         <Flex zIndex={"0"} color={"black"} left={"0px"} w={"full"} flexDir={['row', 'row', 'column', 'row', 'row']} alignItems={["", "", "start", "center", "center"]} gap={"5"} > 
                                             <CustomButton onClick={() => clickHander(item)} fontSize={"sm"} borderColor={"brand.chasescrollBlue"} color={"white"} borderWidth={"0px"} px={"4"} text={"View Event"} width={["172px"]} />
-                                            <InterestedUsers fontSize={16} color={["white", "white", "#1732F7", "#1732F7", "#1732F7"]} event={item} border={"2px"} size={"32px"} />
+                                            <InterestedUsers fontSize={16} color={["white", "white", "white", "white", "white"]} event={item} border={"2px"} size={"32px"} />
                                         </Flex>
                                     </Flex>
 
@@ -108,7 +108,7 @@ function HomeLandingPageCarousel(props: Props) {
                             }
                         })}
                     </Box>
-                    <Box w={"full"} pos={"absolute"} inset={"0px"} zIndex={"40"} roundedBottom={"32px"} roundedTopLeft={"32px"} h={"full"} bgColor={"black"} opacity={"30%"} />
+                    <Box w={"full"} pos={"absolute"} inset={"0px"} zIndex={"40"} roundedBottom={"32px"} roundedTopLeft={"32px"} h={"full"} bgColor={"black"} opacity={"50%"} />
                     <Box pos={"absolute"} inset={"0px"} w={"full"} h={["540px", "540px", "449px", "449px", "449px"]}  roundedBottom={"32px"} roundedTopLeft={"32px"} >
                         {data?.map((item: any, index: any) => {
                             return (

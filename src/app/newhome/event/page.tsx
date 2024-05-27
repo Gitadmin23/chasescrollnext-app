@@ -17,10 +17,10 @@ const Eventpage = () => {
                 <EventCategory selector={true} />
             </Flex>
             <HomeLandingPageCarousel />
-            <Flex bg={"white"} py={"9"} px={["6", "12"]} >
+            <Flex bg={"white"} py={"9"} gap={"8"} flexDir={"column"} px={["6", "12"]} >
                 <EventCategory />
+                <EventListing limit={true} />
             </Flex>
-            <EventListing limit={true} />
             <HomeFooter />
         </Flex>
     );
