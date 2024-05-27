@@ -1,10 +1,11 @@
 import { AddProfileIcon } from '@/components/svg'
 import { URLS } from '@/services/urls'
 import httpService from '@/utils/httpService'
-import { Button, Flex, Spinner, useToast } from '@chakra-ui/react'
+import {Button, Flex, Spinner, useColorMode, useToast} from '@chakra-ui/react'
 import { AxiosError, AxiosResponse } from 'axios'
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     name: string,
@@ -36,7 +37,10 @@ function AddOrRemoveUserBtn(props: Props) {
     const [loading, setLoading] = useState("0") 
     const [loadingRejected, setLoadingRejected] = useState("0")
     const toast = useToast()    
-    const queryClient = useQueryClient()  
+    const queryClient = useQueryClient();
+
+    const { bodyTextColor, primaryColor,secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const unfriend = useMutation({
         mutationFn: () => httpService.delete(URLS.REMOVE_FRIEND + user_index, {}),

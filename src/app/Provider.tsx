@@ -1,11 +1,12 @@
 'use client'
 
-import { theme } from '@/theme';
+import { theme, darkTheme } from '@/theme';
 import { CacheProvider } from '@chakra-ui/next-js'
-import { ChakraProvider } from '@chakra-ui/react'
+import {ChakraProvider, ColorModeScript, useColorMode} from '@chakra-ui/react'
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { SessionProvider } from 'next-auth/react'
 import { Session } from 'next-auth';
+import {useUtilState} from "@/global-state/useUtilState";
 
 const queryClient = new QueryClient();
 
@@ -21,10 +22,14 @@ export function Providers({
   children: React.ReactNode,
   session: Session | null
 }) {
-  return (
+    const { isDarkMode } = useUtilState((state) => state);
+    const { colorMode, toggleColorMode } = useColorMode();
+
+    return (
     <QueryClientProvider client={queryClient}>
       <CacheProvider>
-        <ChakraProvider theme={theme}>  
+        <ChakraProvider theme={theme}>
+            <ColorModeScript initialColorMode={theme.config.initialColorMode} />
             <SessionProvider session={session}>
               {children}
             </SessionProvider>

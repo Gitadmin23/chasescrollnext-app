@@ -8,7 +8,7 @@ import { IMediaContent, IMediaPost } from '@/models/MediaPost';
 import { IMAGE_URL, URLS } from '@/services/urls';
 import { THEME } from '@/theme'
 import httpService from '@/utils/httpService';
-import { Avatar, Box, Flex, HStack, Spinner, Textarea, VStack, useToast, Image } from '@chakra-ui/react'
+import {Avatar, Box, Flex, HStack, Spinner, Textarea, VStack, useToast, Image, useColorMode} from '@chakra-ui/react'
 import lodash, { uniq } from 'lodash';
 import React from 'react'
 import { FiSend, FiImage } from 'react-icons/fi';
@@ -19,6 +19,7 @@ import ImageModal from '@/components/general/ImageModal';
 import PromotionCreationModal from '@/components/modals/promotions/CreatePromitionModal';
 import { useShowHomeModal } from './state';
 import Link from 'next/link';
+import useCustomTheme from "@/hooks/useTheme";
 
 
 
@@ -32,7 +33,10 @@ function Home() {
   const { showModal: showPromotion, setShowModal: setShow } = useShowHomeModal((state) => state);
 
   const { firstName, lastName, userId, username, user: Details } = useDetails((state) => state);
-  console.log(Details);
+
+  const { bodyTextColor, primaryColor,secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+  const { colorMode, toggleColorMode } = useColorMode();
+
 
   const [user, setUser] = React.useState<IUser | null>(null);
 
@@ -123,16 +127,16 @@ function Home() {
   }, [createPostMutation, post, userId]) 
 
   return (
-    <VStack width="full" h={"full"} overflowY={"auto"} alignItems={'flex-start'} >
+    <VStack width="full" h={"full"} overflowY={"auto"} alignItems={'flex-start'} bg={mainBackgroundColor} >
 
       {/* MODAL */}
       <CreateMediaPost mutate={mutate} isOpen={showModal} onClose={() => setShowModal(false)} />
       <PromotionCreationModal isOpen={showPromotion} onClose={() => setShow(false)} type='POST' />
 
-      <VStack width={['100%', '100%', '40%', '40%']} height='180px' paddingTop='20px' paddingLeft={'20px'} paddingRight={['20px', '0px']} overflowY={'hidden'}>
+      <VStack width={['100%', '100%', '40%', '40%']} height='180px' paddingTop='20px' paddingLeft={'20px'} paddingRight={['20px', '0px']} overflowY={'hidden'} bg={mainBackgroundColor}>
 
         {/* TEXTBOX */}
-        <VStack alignItems={'flex-start'} justifyContent={'flex-start'} width='100%' height='150px' bg='whitesmoke' borderWidth={0} shadow={'md'} borderColor={'lightgrey'} borderRadius={'10px'} padding='10px'>
+        <VStack alignItems={'flex-start'} justifyContent={'flex-start'} width='100%' height='150px' bg={secondaryBackgroundColor} borderWidth={0} shadow={'md'} borderColor={'lightgrey'} borderRadius={'10px'} padding='10px'>
           <HStack width='100%' height={'90px'}>
 
             <Link href={`/dashboard/profile/${Details?.userId}`}>
@@ -155,14 +159,14 @@ function Home() {
               </Box>
             </Link>
 
-            <Textarea bg='whitesmoke' borderWidth={'0px'} fontFamily={'DM-Regular'} fontSize={'14px'} flex={'1'} width='100%' placeholder={`What's on your mind @${username.length > 10 ? username.substring(0, 10) + '...':usernmae}`} resize={'none'} value={post} onChange={(e) => setPost(e.target.value)}></Textarea>
-            {!createPostMutation.isLoading && <Send2 onClick={() => handlePostCreation()} size={'30px'} color={THEME.COLORS.chasescrollButtonBlue} />}
-            {createPostMutation.isLoading && <Spinner size={'sm'} color={THEME.COLORS.chasescrollButtonBlue} />}
+            <Textarea bg={secondaryBackgroundColor} borderWidth={'0.6px'} borderColor={borderColor} fontFamily={'DM-Regular'} fontSize={'14px'} flex={'1'} width='100%' placeholder={`What's on your mind @${username.length > 10 ? username.substring(0, 10) + '...':username ?? ''}`} color={colorMode === 'light' ? THEME.COLORS.chasescrollButtonBlue:bodyTextColor} resize={'none'} value={post} onChange={(e) => setPost(e.target.value)}></Textarea>
+            {!createPostMutation.isLoading && <Send2 onClick={() => handlePostCreation()} size={'30px'} color={colorMode === 'light' ? THEME.COLORS.chasescrollButtonBlue:bodyTextColor} />}
+            {createPostMutation.isLoading && <Spinner size={'sm'} color={colorMode === 'light' ? THEME.COLORS.chasescrollButtonBlue:bodyTextColor} />}
           </HStack>
 
           <HStack>
-            <ImgIcon size={25} color={THEME.COLORS.chasescrollButtonBlue} />
-            <CustomText onClick={() => setShowModal(true)} fontFamily={'DM-Regular'} fontSize={'sm'} cursor='pointer' color='brand.chasescrollButtonBlue'>Add Photos /Video in your post</CustomText>
+            <ImgIcon size={25} color={colorMode === 'light' ? THEME.COLORS.chasescrollButtonBlue:bodyTextColor} />
+            <CustomText onClick={() => setShowModal(true)} fontFamily={'DM-Bold'} fontSize={'sm'} cursor='pointer' color={colorMode === 'light' ? 'brand.chasescrollButtonBlue':bodyTextColor}>Add Photos /Video in your post</CustomText>
           </HStack>
         </VStack>
 

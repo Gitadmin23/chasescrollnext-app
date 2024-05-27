@@ -3,11 +3,12 @@ import AddOrRemoveUserBtn from '@/components/sharedComponent/add_remove_user_btn
 import UserImage from '@/components/sharedComponent/userimage'
 import useSearchStore from '@/global-state/useSearchData' 
 import httpService from '@/utils/httpService'
-import { Box, Flex, Text, useToast } from '@chakra-ui/react'
+import {Box, Flex, Text, useColorMode, useToast} from '@chakra-ui/react'
 import { AxiosError, AxiosResponse } from 'axios'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useMutation, useQueryClient } from 'react-query'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     person: any,
@@ -38,7 +39,11 @@ function PeopleCard(props: Props) {
     const router = useRouter()
     const toast = useToast()
     // const [loading, setLoading] = React.useState("")
-    const queryClient = useQueryClient()   
+    const queryClient = useQueryClient()   ;
+
+
+    const { bodyTextColor, primaryColor,secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const refundUser = useMutation({
         mutationFn: () => httpService.get('/payments/refundEvent?eventID='+index+"&userID="+person?.userId),
@@ -81,7 +86,7 @@ function PeopleCard(props: Props) {
     
 
     return (
-        <Flex as={"button"} onClick={() => submit()} _hover={{ backgroundColor: "#f1f2ff" }} px={"2"} width={"full"} justifyContent={"space-between"} alignItems={"center"} py={"4"} borderBottomWidth={"1px"} >
+        <Flex as={"button"} onClick={() => submit()} _hover={{ backgroundColor: mainBackgroundColor }} px={"2"} width={"full"} justifyContent={"space-between"} alignItems={"center"} py={"4"} borderBottomWidth={"1px"} >
             <Flex width={["60vw", "fit-content"]} gap={"2"} alignItems={"center"} >
                 <Box> 
                     <UserImage fontWeight={"semibold"} border={search ? "1px" : "3px"} data={person} image={person?.data?.imgMain?.value} size={search ? "32px" : 50} font={search ? "[16px]" : '[30px]'} />
@@ -100,7 +105,7 @@ function PeopleCard(props: Props) {
             )}
 
             {refund && (
-                <CustomButton isLoading={refundUser.isLoading} borderRadius={"md"} onClick={clickHandler} text='refund' color={"white"} backgroundColor={"rgb(220 38 38)"} height={"43px"} px={"4"} width={"fit-content"} />
+                <CustomButton isLoading={refundUser.isLoading} borderRadius={"md"} onClick={clickHandler} text='refund' color={"white"} backgroundColor={colorMode === 'light' ? "rgb(220 38 38)": mainBackgroundColor} height={"43px"} px={"4"} width={"fit-content"} />
             )} 
         </Flex>
     )
