@@ -28,8 +28,7 @@ function GetEventData(props: Props) {
         event_index,
         dynamic
     } = props
-    const toast = useToast()
-    const router = useRouter();
+    const toast = useToast() 
     const { userId } = useDetails((state) => state);
     const [data, setData] = React.useState<IEventType| null>(null);
     const [show, setShow] = useState(false);
@@ -54,13 +53,13 @@ function GetEventData(props: Props) {
         onSuccess: (data: any) => {
             const item: PaginatedResponse<IEventType> = data.data;
             setData(item.content[0]);
-            const ids = item.content[0].collaborators.map((item) => item.userId);
-            const adminIds = item.content[0].admins.map((item) => item.userId);
+            const ids = item.content[0]?.collaborators?.map((item) => item.userId);
+            const adminIds = item.content[0]?.admins?.map((item) => item.userId);
 
-            if (ids.includes(userId)) {
+            if (ids?.includes(userId)) {
                 setIsCollaborator(true);
             }
-            if (userId === item.content[0].createdBy.userId || adminIds.includes(userId)) {
+            if (userId === item.content[0].createdBy.userId || adminIds?.includes(userId)) {
                 setIsAdmin(true);
             }
         }
@@ -77,15 +76,13 @@ function GetEventData(props: Props) {
                 setShow(true)
             }
         }
-    }, [pathname]);
+    }, [pathname]); 
 
-    const handleNavigation = () => {
-        router.push(`/dashboard/settings/event-dashboard/${event_index}`);
-    }
+    console.log(isAdmin);
+    
 
     return (
         <Box width={"full"}  >
-            <Scanner isOpen={showScanner} onClose={() => setShowScanner(false)} />
             <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data !== null} >
                 <EventDetails
                     dynamic={dynamic}
@@ -111,19 +108,6 @@ function GetEventData(props: Props) {
                     minPrice={data?.minPrice}
                     maxPrice={data?.maxPrice}
                     ticketBought={data?.ticketBought} attendees={undefined} />
-
-                <Flex w={['100%', '40%']} direction={['column', 'row']} paddingLeft={'10px'}>
-                    {(
-                        <>
-                            <Button display={['block']} width={['100%', '50%']} height={['40px']} bg={'brand.chasescrollButtonBlue'} marginTop={'5px'} color={'white'} onClick={() => handleNavigation()} >Event Details</Button>
-
-                            <Button display={['block', 'none']} width={['100%', '50%']} height={['40px']} color={'brand.chasescrollButtonBlue'} onClick={() => setShowScanner(true)} borderColor={'brand.chasescrollButtonBlue'} bg={'white'} marginTop={'10px'} borderWidth={'2px'}>Scan Ticket</Button>
-                        </>
-                    )}
-                    {isCollaborator && (
-                        <Button display={['block', 'none']} width={['100%', '50%']} height={['40px']} bg={'brand.chasescrollButtonBlue'} color={'white'} onClick={() => setShowScanner(true)} marginTop={'10px'} >Scan Ticket</Button>
-                    )}
-                </Flex>
             </LoadingAnimation>
             <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} />
 

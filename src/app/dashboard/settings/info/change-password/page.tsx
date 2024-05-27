@@ -65,8 +65,8 @@ function ChangePassword() {
             <CustomText fontSize={'20px'} fontFamily={'DM-Bold'} color='black'>New Password</CustomText>
         </HStack>
 
-        <HStack width='100%' height={'100%'} flex='1' justifyContent={'center'}>
-            <VStack width={['100%', '25%']} height='100%' alignItems={'center'} spacing={5} paddingX={'20px'}>
+        <HStack width='100%' flex='1' pb={"10"} justifyContent={'center'}>
+            <VStack maxW={"400px"} width={['100%']} height='100%' alignItems={'center'} spacing={5} paddingX={'20px'}>
 
                     {/* HEADER */}
                     <VStack>

@@ -31,7 +31,7 @@ function PaymentType(props: Props) {
     return (
         <Box width={"full"} bg={"white"} px={"8"} py={"10"} >
             <Flex gap={"4"} alignItems={"center"} >
-                <Box onClick={()=> setModalTab(modalTab -1)} as='button' >
+                <Box onClick={()=> setModalTab(1)} as='button' >
                     <BsChevronLeft color={"black"} size={"25px"} />
                 </Box>
                 <Text fontSize={"20px"} fontWeight={"bold"} textAlign={"center"} >Payment Options</Text>

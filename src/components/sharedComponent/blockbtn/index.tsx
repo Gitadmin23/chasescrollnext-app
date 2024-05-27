@@ -28,25 +28,35 @@ function BlockBtn(props: Props) {
     const [showModal, setShowModal] = useState("0")
     const [loading, setLoading] = useState("0")
     const [ids, setIds] = useState<string[]>([])
-    const [block, setBlock] = React.useState<BlockList|null>(null);
+    const [block, setBlock] = React.useState<BlockList | null>(null);
     const toast = useToast();
     const { userId } = useDetails((state) => state);
     const queryClient = useQueryClient()
 
     console.log(data);
-    
+
 
     const self = userId === user_index;
 
-    const { isLoading } = useQuery(['getBlockList'], () => httpService.get(`${URLS.GET_BLOCKED_LIST}`), {
+    const { isLoading, isRefetching, refetch } = useQuery(['getBlockList'], () => httpService.get(`${URLS.GET_BLOCKED_LIST}`), {
         onSuccess: (data) => {
             const item: PaginatedResponse<BlockList> = data.data;
+            console.log(data);
+
             const ids = item.content.map((itemm) => {
+                if (user_index === itemm?.typeID) {
+                    setBlock(itemm)
+                }
                 return itemm.typeID
             });
             setIds(ids);
         }
     });
+
+    console.log(user_index);
+
+    console.log(ids);
+
 
     const handleBlock = useMutation({
         mutationFn: (data: any) => httpService.post(`${URLS.BLOCK_USER}`, data),
@@ -58,7 +68,8 @@ function BlockBtn(props: Props) {
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
-            }); 
+            });
+            refetch()
         },
         onError: () => {
             toast({
@@ -69,6 +80,7 @@ function BlockBtn(props: Props) {
                 duration: 5000,
                 position: 'top-right',
             });
+            refetch()
         }
     });
 
@@ -83,6 +95,7 @@ function BlockBtn(props: Props) {
                 duration: 5000,
                 position: 'top-right',
             });
+            refetch()
         },
         onError: () => {
             toast({
@@ -115,7 +128,7 @@ function BlockBtn(props: Props) {
         });
 
         queryClient.invalidateQueries([URLS.GET_SUGGESTED_FRIENDS])
-        if(!isprofile) {
+        if (!isprofile) {
             setDeleted([...deleted, user_index])
         }
         setLoading("")
@@ -136,16 +149,29 @@ function BlockBtn(props: Props) {
         <Flex position={"relative"} width={isprofile ? "fit-content" : "full"} >
             {isprofile && (
                 <>
-                {ids.includes(user_index) &&(
-                    <Text onClick={(e) => handleUnblock.mutate()} as={"button"} width={"full"}>
-                        Blocked
-                    </Text>
-                )}
-                {!ids.includes(user_index) && (
-                    <Text onClick={(e) => handleBlock.mutate({ blockType: "USER", typeID: user_index })} as={"button"} width={"full"}>
-                        Block
-                    </Text>
-                )}
+                    {ids.includes(user_index) && (
+
+                        <Button height={"fit-content"} _hover={{backgroundColor : "white"}} fontWeight={"normal"} bgColor={"white"} isLoading={isLoading || isRefetching || handleUnblock?.isLoading} onClick={() => handleUnblock.mutate()} fontSize={"md"} width={"full"}>
+
+                            Unblock
+                        </Button>
+                    )}
+                    {!ids.includes(user_index) && (
+                        // <Text onClick={(e) => handleBlock.mutate({
+                        //     blockType: "USER",
+                        //     typeID: user_index,
+                        // })} as={"button"} width={"full"}>
+                        //     Block
+                        // </Text>
+
+                        <Button height={"fit-content"} _hover={{backgroundColor : "white"}} fontWeight={"normal"} bgColor={"white"} isLoading={isLoading || isRefetching || handleBlock?.isLoading} onClick={() => handleBlock.mutate({
+                            blockType: "USER",
+                            typeID: user_index,
+                        })} fontSize={"md"} width={"full"}>
+
+                             Block
+                        </Button>
+                    )}
                 </>
             )}
             {!isprofile && (

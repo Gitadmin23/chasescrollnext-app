@@ -81,7 +81,7 @@ function GoogleBtn(props: Props) {
             localStorage.setItem('token', data?.data?.access_token);
             toast({
                 title: 'Success',
-                description: 'Signup Successful',
+                description: 'Google Signin Successful',
                 status: 'success',
                 position: 'top-right'
             })
@@ -115,8 +115,10 @@ function GoogleBtn(props: Props) {
     })
 
     // useEffect(() => {
-    //     router.push('/dashboard/event')
-    // }, [email])
+    //     if(googlesign){
+    //         router.push('/dashboard/event')
+    //     }
+    // }, [googlesign])
 
     return (
         <>
@@ -124,7 +126,7 @@ function GoogleBtn(props: Props) {
                 <Image alt='google' src='/assets/svg/googlelogo.svg' />
                 <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color='#111111' fontWeight={'700'}>{title} with Google</CustomText>
             </Button>
-            <PageLoader show={googlesign || localStorage.getItem('google') === "true"} />
+            {/* <PageLoader show={googlesign || localStorage.getItem('google') === "true"} /> */}
         </>
     )
 }

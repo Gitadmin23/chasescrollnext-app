@@ -5,12 +5,14 @@ import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 interface Props {
-    latlng: string
+    latlng: string, 
+    height?: string
 }
 
 function EventMap(props: Props) {
     const {
-        latlng
+        latlng,
+        height
     } = props
 
     const [open, setOpen] = useState(false)
@@ -18,6 +20,9 @@ function EventMap(props: Props) {
         lat: 0,
         lng: 0,
     })
+
+    console.log(latlng);
+    
 
     const router = useRouter()
 
@@ -37,7 +42,7 @@ function EventMap(props: Props) {
             {latlng && (
                 <Box>
                     <Box width={"full"} as='button' mt={"8"}   >
-                        <MapComponent view={true} zoom={15} setMyLocat={setMyLocation} hidesearch={true} latlng={latlng} height='30vh' />
+                        <MapComponent view={true} zoom={15} setMyLocat={setMyLocation} hidesearch={true} latlng={latlng} height={height ?? '30vh'} />
                     </Box>
                     <a target="_blank" href={`https://www.google.com/maps/dir/?api=1&origin=${Number(myLocation?.lat)},${Number(myLocation?.lng)}&destination=${Number(latlng.split(" ")[0])},${Number(latlng.split(" ")[1])}`} >
                         <Button width={"fit-content"} bg={"brand.chasescrollBlue"} px={"7"} mt={"2"} height={"49px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} >Direction</Button>

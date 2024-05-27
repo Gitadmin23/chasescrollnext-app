@@ -55,7 +55,7 @@ function SelectEventPage(props: Props) {
 
     return (
         <Box position={"relative"} w={"full"} >
-            <Box onClick={() => setShowSelector((prev) => !prev)} as='button' height={"40px"} width={["full", "full", "fit-content"]} display={"flex"} gap={"2"} alignItems={"center"} justifyContent={"space-between"} borderWidth={"1px"} color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} position={"relative"} >
+            <Box onClick={() => setShowSelector((prev) => !prev)} as='button' height={"44px"} width={["full", "full", "fit-content"]} display={"flex"} gap={"2"} alignItems={"center"} justifyContent={"space-between"} mt={["0px", "0px", "3"]} borderWidth={"1px"} color={"#5465E0"} backgroundColor={"#EFF1FE"} fontWeight={"medium"} px={"6"} rounded={"8px"} position={"relative"} >
                 <Text>{showPage}</Text>
                 <IoIosArrowDown />
             </Box>
@@ -63,7 +63,7 @@ function SelectEventPage(props: Props) {
                 <HStack flexDirection={"column"} zIndex={"30"} position={"absolute"} shadow={"md"}  width={["full", "full", "230px"]} p={"2"} top={"60px"} bg={"white"} >
                     {tablist()?.map((item: any, index: number) => {"fit-content"
                         return (
-                            <Box key={index} onClick={()=> clickHandler(item?.name, item?.route)} width={"full"} rounded={"md"} as='button' display={"flex"} justifyContent={"center"} color={showPage === item?.name ? "white" : "black"} bg={showPage === item?.name ? "brand.chasescrollBlue" : "white"} roundedTopRight={"none"} py={"2"} fontSize={"sm"} fontWeight={"semibold"} >
+                            <Box key={index} onClick={()=> clickHandler(item?.name, item?.route)} width={"full"} rounded={"md"} as='button' display={"flex"} justifyContent={"center"} color={showPage === item?.name ? "white" : "black"} bg={showPage === item?.name ? "brand.chasescrollBlue" : "white"} roundedTopRight={"none"} py={"2"} fontSize={"sm"} fontWeight={"medium"} >
                                 {item?.name}
                             </Box>
                         )

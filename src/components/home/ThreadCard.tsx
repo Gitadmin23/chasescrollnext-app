@@ -46,6 +46,8 @@ interface IProps {
   post?: IMediaContent;
   id?: string;
   shared?: boolean;
+  close?: any,
+  closeIcon?: boolean
 }
 
 const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
