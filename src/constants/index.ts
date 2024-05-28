@@ -85,11 +85,11 @@ export const ABOUT_FOOTER = [
         img: "/assets/about2.jpeg",
         text: "Femi Babaniyi",
         text1: "(CTO/Co-Founder)"    },
-    {
-        id: 3,
-        img: "/assets/about.jpeg",
-        text: "Abolaji Alabi",
-        text1: "(Business Analyst)"    },
+    // {
+    //     id: 3,
+    //     img: "/assets/about.jpeg",
+    //     text: "Abolaji Alabi",
+    //     text1: "(Business Analyst)"    },
     // {
     //     id: 4,
     //     img: "/assets/about4.jpeg",
