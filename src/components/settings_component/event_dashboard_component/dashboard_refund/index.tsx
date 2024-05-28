@@ -77,7 +77,7 @@ function DashboardRefund(props: Props) {
                 </Flex>
             </Flex> */}
             <Flex ref={componentRef} width={"full"} flexDir={"column"} p={"6"} >
-                <Flex width={"full"} py={"6"} justifyContent={"center"} alignItems={"center"} gap={"5"} >
+                <Flex width={"full"} pb={"6"} justifyContent={"center"} alignItems={"center"} gap={"5"} >
                     {/* <EventImage /> */}
 
                     <EventImage data={data?.data?.content[0]?.event} width={"90px"} height={"80px"} />

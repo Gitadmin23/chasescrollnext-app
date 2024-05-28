@@ -18,7 +18,7 @@ function EventDate(props: Props) {
     } = props 
 
     return (
-        <Box display={"flex"} flexDirection={dashboard ? "row":"column"} gap={dashboard ? "2" : "0px"} borderBottomWidth={dashboard ? "0px":"1px"} borderBottomColor={"#B6B6B6"} roundedBottom={["0px", "0px", "lg"]} px={dashboard? "0px":"2"} alignItems={dashboard? "center":"start"} pb={"2"} >
+        <Box display={"flex"} flexDirection={dashboard ? "row":"column"} gap={dashboard ? "2" : "0px"} borderBottomWidth={dashboard ? "0px":"1px"} borderBottomColor={"#B6B6B6"} roundedBottom={["0px", "0px", "lg"]} px={dashboard? "0px":"2"} alignItems={dashboard? "center":"start"} pb={dashboard ? "0px":"2"} >
             <Text fontSize={"sm"} ml={dashboard ? "0px":"3"} fontWeight={"semibold"} >{name}</Text>
             <Flex width={dashboard ? "auto" : "full"} gap={"3"} mt={dashboard ? "0px":"3"} alignItems={"center"} >
                 {!dashboard && (
