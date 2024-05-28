@@ -14,6 +14,7 @@ import ShareEvent from '../share_event'
 import useSearchStore from '@/global-state/useSearchData'
 import { useDetails } from '@/global-state/useUserDetails'
 import BlurredImage from '../blurred_image'
+import { Log } from 'victory'
 
 interface Props {
     event: any,
@@ -68,10 +69,10 @@ function ExploreEventCard(props: Props) {
             router.push("/dashboard/event/details/" + event?.id)
         }
         setSearchValue("")
-    }
+    } 
 
     return (
-        <Box boxShadow={page ? "md" : "none"} as='button' onClick={() => clickHandler()} py={searchbar ? landing ? "0px" : "2" : ["6", "6", "4"]} px={landing ? "" : ["6", "6", "4"]} roundedBottom={"32px"} flex={"1"} roundedTopLeft={"32px"} borderColor={"brand.chasescrollPalePurple"} borderBottomWidth={searchbar ? " " : "1px"} maxWidth={["400px", "400px", "full"]} width={"full"} >
+        <Box boxShadow={page ? "md" : "none"} cursor={"pointer"} onClick={() => clickHandler()} py={searchbar ? landing ? "0px" : "2" : ["6", "6", "4"]} px={landing ? "" : ["6", "6", "4"]} roundedBottom={"32px"} flex={"1"} roundedTopLeft={"32px"} borderColor={"brand.chasescrollPalePurple"} borderBottomWidth={searchbar ? " " : "1px"} maxWidth={["400px", "400px", "full"]} width={"full"} >
             <Flex flexDirection={["column", "column", page ? "column" : "row"]} width={"full"} flex={"1"} alignItems={"center"} justifyContent={"space-between"} >
                 <Box width={["full", "full", page ? "full" : "fit-content"]} >
                     {page ?
@@ -83,9 +84,9 @@ function ExploreEventCard(props: Props) {
                     <Box width={searchbar ? "full" : ["full", "full", page ? "full" : "full"]} mt={["10px", "10px", page ? "10px" : "0px", page ? "10px" : "0px"]} ml={["0px", "0px", page ? "0px" : "10px", page ? "0px" : "10px"]} >
                         <Flex fontWeight={"semibold"} width={"full"} justifyContent={"space-between"} borderBottomColor={"#D0D4EB"} borderBottom={search ? "1px" : "0px"} pb={"1"} >
                             <Text fontSize={searchbar ? "16px" : "18px"} >{event.eventName?.length >= 17 ? event.eventName.slice(0, 13) + "..." : event.eventName}</Text>
-                            <Text fontSize={searchbar ? "14px" : "14px"} >
+                            <Box fontSize={searchbar ? "14px" : "14px"} >
                                 <EventPrice minPrice={event?.minPrice} maxPrice={event?.maxPrice} currency={event?.currency} />
-                            </Text>
+                            </Box>
                         </Flex>
                         {!date && (
                             <Flex alignItems={"center"} width={"full"} mt={searchbar ? "-4px" : "10px"} mb={"4px"} gap={"1"} >
@@ -131,9 +132,21 @@ function ExploreEventCard(props: Props) {
                                     </Flex>
                                 )}
                                 <Flex alignItems={"center"} gap={"3"} justifyContent={["space-between", "space-between", "space-between", ""]} >
-                                    <Flex rounded={"md"} px={"2"} py={"1"} width={"fit-content"} bgColor={past ? "#F04F4F" : "brand.chasescrollBgBlue"} color={past ? "white" : "brand.chasescrollBlue"} gap={"2"} fontSize={"sm"} alignItems={"center"} >
-                                        {event?.isOrganizer ? "Organizer" : past ? "Attended" : "Attending"}
-                                    </Flex>
+                                    {(event?.isOrganizer && !event?.admins.some((obj: any )=> Object.values(obj).some(val => typeof val === 'string' && val.includes(userId))) && !event?.collaborators.some((obj: any )=> Object.values(obj).some(val => typeof val === 'string' && val.includes(userId)))) && (
+                                        <Flex rounded={"md"} px={"2"} py={"1"} width={"fit-content"} bgColor={past ? "#F04F4F" : "brand.chasescrollBgBlue"} color={past ? "white" : "brand.chasescrollBlue"} gap={"2"} fontSize={"sm"} alignItems={"center"} >
+                                            {event?.isOrganizer ? "Organizer" : past ? "Attended" : "Attending"}
+                                        </Flex>
+                                    )}
+                                    {(event?.admins.some((obj: any )=> Object.values(obj).some(val => typeof val === 'string' && val.includes(userId)))) && (
+                                        <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"#3EC30F"} >
+                                            Admin
+                                        </Flex>
+                                    )}
+                                    {(event?.collaborators.some((obj: any )=> Object.values(obj).some(val => typeof val === 'string' && val.includes(userId)))) && (
+                                        <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#FDF3CF6B"} color={"#FDB806"} >
+                                            Volunteer
+                                        </Flex>
+                                    )}
                                     {my_event && (
                                         <ShareEvent data={event} type="EVENT" size='18px' id={event?.id} />
                                     )}

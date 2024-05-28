@@ -47,7 +47,7 @@ function EventLocationDetail(props: Props) {
                             </Box>
                         </Box>
                     )}
-                    <Text textAlign={"left"} fontWeight={fontWeight ? fontWeight : "semibold"} color={color ? color : "brand.chasescrollBlue"} fontSize={fontsize ? fontsize : "sm"} >
+                    <Flex textAlign={"left"} fontWeight={fontWeight ? fontWeight : "semibold"} color={color ? color : "brand.chasescrollBlue"} fontSize={fontsize ? fontsize : "sm"} >
                         {location?.locationDetails && (
                             <p>{location?.locationDetails?.length >= (length ? length : 17) ? location?.locationDetails.slice(0, (length ? length : 17)) + "..." : location?.locationDetails}</p>
                         )}
@@ -57,7 +57,7 @@ function EventLocationDetail(props: Props) {
                         {(location?.link) && (
                             <Text as={"button"} onClick={(e) => clickHandler(location?.link, e)} style={{ color: "#5D70F9", fontSize: fontsize ? fontsize : "sm", fontWeight: fontWeight ? fontWeight : "semibold" }} >Join Online</Text>
                         )}
-                    </Text>
+                    </Flex>
                 </Flex>
             )}
             {indetail && (
