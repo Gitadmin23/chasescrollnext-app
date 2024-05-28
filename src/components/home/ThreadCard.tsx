@@ -426,9 +426,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
                 {post?.likeStatus !== "LIKED" && (
                   <HomeHeartIcon color={bodyTextColor} />
                 )}
-                {post?.likeStatus === "LIKED" && (
-                  <HomeHeartFillIcon color={null} />
-                )}
+                {post?.likeStatus === "LIKED" && <HomeHeartFillIcon />}
               </Flex>
               {/* <FiHeart onClick={() => likeMutation.mutate()} color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'} fontSize={15} /> */}
               <CustomText

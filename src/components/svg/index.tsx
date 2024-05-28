@@ -1646,12 +1646,12 @@ export const CameraIcon = () => (
   </svg>
 );
 
-export const HomeHeartIcon = ({ color }) => (
+export const HomeHeartIcon = ({ color = "" }: { color?: string }) => (
   <svg
     width="24"
     height="24"
     viewBox="0 0 24 24"
-    fill={color ?? "none"}
+    fill={"none"}
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
@@ -1702,7 +1702,11 @@ export const CollaboratorIcon = () => (
   </svg>
 );
 
-export const HomeHeartFillIcon = ({ color }: { color: string }) => (
+export const HomeHeartFillIcon = ({
+  color = "#FF0000",
+}: {
+  color?: string;
+}) => (
   <svg
     width="24"
     height="24"
