@@ -77,19 +77,16 @@ function DashboardRefund(props: Props) {
                 </Flex>
             </Flex> */}
             <Flex ref={componentRef} width={"full"} flexDir={"column"} p={"6"} >
-                <Flex width={"full"} pt={"6"} justifyContent={"center"} alignItems={"center"} gap={"5"} >
+                <Flex width={"full"} py={"6"} justifyContent={"center"} alignItems={"center"} gap={"5"} >
                     {/* <EventImage /> */}
 
                     <EventImage data={data?.data?.content[0]?.event} width={"90px"} height={"80px"} />
-                    <Text fontSize={"lg"} fontWeight={"semibold"} >{data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length)}</Text>
-                </Flex>
-                <Flex w={"full"} pt={"4"} pb={"6"} justifyContent={"center"} >
-                    <EventDate name='Date' dashboard={true} date={data?.data?.content[0]?.event?.startDate} />
-                    {/* <Flex>
-                        <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >{dateFormat(data?.data?.content[0]?.event?.startDate)}</Text>
-                        <Text fontWeight={"semibold"} fontSize={"sm"} color={"brand.chasescrollTextGrey2"} >{timeFormat(data?.data?.content[0]?.event?.startDate)} ({new Date(data?.data?.content[0]?.event?.startDate).toLocaleTimeString('en-us', { timeZoneName: 'short' }).split(' ')[2]})</Text>
-                    </Flex> */}
-                </Flex>
+                    <Flex flexDir={"column"} >
+                        <Text fontSize={"lg"} fontWeight={"semibold"} >{data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length)}</Text>
+                        <EventDate name='Start Date:' dashboard={true} date={data?.data?.content[0]?.event?.startDate} />
+                        <EventDate name='End Date:' dashboard={true} date={data?.data?.content[0]?.event?.endDate} />
+                    </Flex>
+                </Flex> 
                 {/* <Loca/ */}
                 <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data?.data?.content?.length} >
 
@@ -148,7 +145,7 @@ function DashboardRefund(props: Props) {
                                                             Organizer
                                                         </Flex>
                                                     )}
-                                                    {(person?.role === "ADMIN" && person?.createdBy?.email !== person?.user?.email)  && (
+                                                    {(person?.role === "ADMIN" && person?.createdBy?.email !== person?.user?.email) && (
                                                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"#3EC30F"} >
                                                             Admin
                                                         </Flex>
