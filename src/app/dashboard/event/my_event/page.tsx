@@ -29,13 +29,13 @@ function MyEvent(props: Props) {
                             {results?.map((event: any, i: number) => {
                                 if (results.length === i + 1) {
                                     return (
-                                        <Box key={event?.userId} width={"full"} ref={ref} >
+                                        <Box key={i} width={"full"} ref={ref} >
                                             <ExploreEventCard my_event={true} event={event} />
                                         </Box>
                                     )
                                 } else {
                                     return (
-                                        <Box key={event?.userId} width={"full"}  >
+                                        <Box key={i} width={"full"}  >
                                             <ExploreEventCard my_event={true} event={event} />
                                         </Box>
                                     )
