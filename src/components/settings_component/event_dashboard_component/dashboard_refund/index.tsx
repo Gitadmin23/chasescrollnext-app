@@ -16,8 +16,9 @@ import { useReactToPrint } from 'react-to-print'
 // import { DownloadTableExcel } from 'react-export-table-to-excel';
 import { CSVLink } from 'react-csv'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
-import { dateFormat } from '@/utils/dateFormat'
+import { dateFormat, timeFormat } from '@/utils/dateFormat'
 import EventLocationDetail from '@/components/sharedComponent/event_location'
+import EventDate from '@/components/event_details_component/event_date'
 
 interface Props {
     index: any
@@ -48,12 +49,12 @@ function DashboardRefund(props: Props) {
             });
         },
         onSuccess: (data) => {
-            console.log(data.data.content); 
-                const codes = Object.entries(data.data.content)
-                    .map(([key, value]: any) => {
-                        return { "Full Name": capitalizeFLetter(value?.user?.firstName)+" "+capitalizeFLetter(value?.user?.lastName), "User Name" : value?.user?.username, "Email": value?.user?.email, "Ticket Type": value?.ticketType?.slice(0, 1)?.toUpperCase() + value?.ticketType?.slice(1, value?.ticketType?.length), "Created Date": dateFormat(value?.user?.createdDate) };
-                    });
-                setNewData(codes)
+            console.log(data.data.content);
+            const codes = Object.entries(data.data.content)
+                .map(([key, value]: any) => {
+                    return { "Full Name": capitalizeFLetter(value?.user?.firstName) + " " + capitalizeFLetter(value?.user?.lastName), "User Name": value?.user?.username, "Email": value?.user?.email, "Ticket Type": value?.ticketType?.slice(0, 1)?.toUpperCase() + value?.ticketType?.slice(1, value?.ticketType?.length), "Created Date": dateFormat(value?.user?.createdDate) };
+                });
+            setNewData(codes)
 
             // setData(data.data.content);
         }
@@ -82,12 +83,16 @@ function DashboardRefund(props: Props) {
                     <EventImage data={data?.data?.content[0]?.event} width={"90px"} height={"80px"} />
                     <Text fontSize={"lg"} fontWeight={"semibold"} >{data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length)}</Text>
                 </Flex>
-                <Flex w={"full"} pt={"4"} pb={"6"} justifyContent={"center"} > 
-                <EventLocationDetail location={data?.data?.content[0]?.event?.location} locationType={data?.data?.content[0]?.event?.locationType} indetail={false} />
+                <Flex w={"full"} pt={"4"} pb={"6"} justifyContent={"center"} >
+                    <EventDate name='Date' dashboard={true} date={data?.data?.content[0]?.event?.startDate} />
+                    {/* <Flex>
+                        <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >{dateFormat(data?.data?.content[0]?.event?.startDate)}</Text>
+                        <Text fontWeight={"semibold"} fontSize={"sm"} color={"brand.chasescrollTextGrey2"} >{timeFormat(data?.data?.content[0]?.event?.startDate)} ({new Date(data?.data?.content[0]?.event?.startDate).toLocaleTimeString('en-us', { timeZoneName: 'short' }).split(' ')[2]})</Text>
+                    </Flex> */}
                 </Flex>
                 {/* <Loca/ */}
                 <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data?.data?.content?.length} >
-                   
+
                     <TableContainer ref={tableRef} >
                         <Table variant='simple' colorScheme="gray">
                             <TableCaption>
@@ -126,14 +131,37 @@ function DashboardRefund(props: Props) {
                                                         <UserImage fontWeight={"semibold"} border={"2px"} data={person?.user} image={person?.user?.data?.imgMain?.value} size={"32px"} font={"[16px]"} />
                                                     </Box>
                                                     <Box> */}
-                                                        <Text fontSize={"14px"} mt={"4px"} fontWeight={"semibold"} >{(person?.user?.firstName + " " + person?.user?.lastName)?.length > 15 ? (person?.user?.firstName + " " + person?.user?.lastName)?.slice(0, 15) + "..." : (person?.user?.firstName + " " + person?.user?.lastName)}</Text>
-                                                        {/* <Text textAlign={"start"} fontSize={"12px"} fontWeight={"medium"} color={"brand.chasescrollTextGrey2"} >@{person?.user?.username?.length > 15 ? person?.user?.username?.slice(0, 15) + "..." : person?.user?.username}</Text> */}
+                                                    <Text fontSize={"14px"} mt={"4px"} fontWeight={"semibold"} >{(person?.user?.firstName + " " + person?.user?.lastName)?.length > 15 ? (person?.user?.firstName + " " + person?.user?.lastName)?.slice(0, 15) + "..." : (person?.user?.firstName + " " + person?.user?.lastName)}</Text>
+                                                    {/* <Text textAlign={"start"} fontSize={"12px"} fontWeight={"medium"} color={"brand.chasescrollTextGrey2"} >@{person?.user?.username?.length > 15 ? person?.user?.username?.slice(0, 15) + "..." : person?.user?.username}</Text> */}
                                                     {/* </Box> */}
                                                 </Flex>
                                             </Td>
                                             <Td>{person?.user?.username}</Td>
                                             <Td fontSize={"14px"}>{person?.user?.email}</Td>
-                                            <Td fontSize={"14px"}>{person?.ticketType?.slice(0, 1)?.toUpperCase() + person?.ticketType?.slice(1, person?.ticketType?.length)}</Td>
+                                            {person?.ticketType && (
+                                                <Td fontSize={"14px"}>{person?.ticketType?.slice(0, 1)?.toUpperCase() + person?.ticketType?.slice(1, person?.ticketType?.length)}</Td>
+                                            )}
+                                            {!person?.ticketType && (
+                                                <Td>
+                                                    {(person?.role === "ADMIN" && person?.createdBy?.email === person?.user?.email) && (
+                                                        <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"brand.chasescrollBlue"} >
+                                                            Organizer
+                                                        </Flex>
+                                                    )}
+                                                    {(person?.role === "ADMIN" && person?.createdBy?.email !== person?.user?.email)  && (
+                                                        <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"#3EC30F"} >
+                                                            Admin
+                                                        </Flex>
+                                                    )}
+                                                    {person?.role === "COLLABORATOR" && (
+                                                        <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#FDF3CF6B"} color={"#FDB806"} >
+                                                            Volunteer
+                                                        </Flex>
+                                                    )}
+
+                                                </Td>
+                                                // <Td fontSize={"14px"}>{person?.ticketType?.slice(0, 1)?.toUpperCase() + person?.ticketType?.slice(1, person?.ticketType?.length)}</Td>
+                                            )}
 
                                             {showBtn && (
                                                 <Td >
@@ -145,7 +173,7 @@ function DashboardRefund(props: Props) {
                                 })}
                             </Tbody>
                         </Table>
-                    </TableContainer>  
+                    </TableContainer>
                 </LoadingAnimation>
             </Flex>
 
@@ -171,8 +199,8 @@ function DashboardRefund(props: Props) {
 
                 </DownloadTableExcel> */}
 
-                <CSVLink data={newData? newData: []} 
-                        filename={data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length) +"m.csv"} > 
+                <CSVLink data={newData ? newData : []}
+                    filename={data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length) + "m.csv"} >
                     <CustomButton width={"fit-content"} text='Export CSV' />
 
                 </CSVLink>
