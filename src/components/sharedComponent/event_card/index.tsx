@@ -69,11 +69,7 @@ function ExploreEventCard(props: Props) {
             router.push("/dashboard/event/details/" + event?.id)
         }
         setSearchValue("")
-    }
-
-    console.log(event?.admins?.includes(userId));
-    console.log(event?.admins.some((obj: any )=> Object.values(obj).some(val => typeof val === 'string' && val.includes(userId))));
-
+    } 
 
     return (
         <Box boxShadow={page ? "md" : "none"} cursor={"pointer"} onClick={() => clickHandler()} py={searchbar ? landing ? "0px" : "2" : ["6", "6", "4"]} px={landing ? "" : ["6", "6", "4"]} roundedBottom={"32px"} flex={"1"} roundedTopLeft={"32px"} borderColor={"brand.chasescrollPalePurple"} borderBottomWidth={searchbar ? " " : "1px"} maxWidth={["400px", "400px", "full"]} width={"full"} >
