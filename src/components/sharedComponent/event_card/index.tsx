@@ -132,17 +132,17 @@ function ExploreEventCard(props: Props) {
                                     </Flex>
                                 )}
                                 <Flex alignItems={"center"} gap={"3"} justifyContent={["space-between", "space-between", "space-between", ""]} >
-                                    {(event?.isOrganizer && !event?.admins.some((obj: any )=> Object.values(obj).some(val => typeof val === 'string' && val.includes(userId))) && !event?.collaborators.some((obj: any )=> Object.values(obj).some(val => typeof val === 'string' && val.includes(userId)))) && (
+                                    {(event?.isOrganizer && !event?.admins?.some((obj: any )=> Object.values(obj).some(val => typeof val === 'string' && val.includes(userId))) && !event?.collaborators?.some((obj: any )=> Object?.values(obj)?.some(val => typeof val === 'string' && val?.includes(userId)))) && (
                                         <Flex rounded={"md"} px={"2"} py={"1"} width={"fit-content"} bgColor={past ? "#F04F4F" : "brand.chasescrollBgBlue"} color={past ? "white" : "brand.chasescrollBlue"} gap={"2"} fontSize={"sm"} alignItems={"center"} >
                                             {event?.isOrganizer ? "Organizer" : past ? "Attended" : "Attending"}
                                         </Flex>
                                     )}
-                                    {(event?.admins.some((obj: any )=> Object.values(obj).some(val => typeof val === 'string' && val.includes(userId)))) && (
+                                    {(event?.admins?.some((obj: any )=> Object?.values(obj)?.some(val => typeof val === 'string' && val?.includes(userId)))) && (
                                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"#3EC30F"} >
                                             Admin
                                         </Flex>
                                     )}
-                                    {(event?.collaborators.some((obj: any )=> Object.values(obj).some(val => typeof val === 'string' && val.includes(userId)))) && (
+                                    {(event?.collaborators?.some((obj: any )=> Object?.values(obj)?.some(val => typeof val === 'string' && val.includes(userId)))) && (
                                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#FDF3CF6B"} color={"#FDB806"} >
                                             Volunteer
                                         </Flex>
