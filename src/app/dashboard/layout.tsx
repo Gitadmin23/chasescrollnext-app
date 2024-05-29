@@ -26,6 +26,7 @@ import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 import DashboardNavbar from '@/components/sharedComponent/dashboard_navbar';
 import CopyRightText from '@/components/sharedComponent/CopyRightText';
 import PageLoader from '@/components/sharedComponent/pageLoader';
+import useCustomTheme from "@/hooks/useTheme";
 type IRoute = {
     icon: ReactNode;
     text: string;
@@ -62,6 +63,7 @@ function Layout({ children }: {
     const toast = useToast();
     const [showModal, setShowModal] = React.useState(false);
 
+    const { bodyTextColor, primaryColor,secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
 
     const { username, lastName, firstName, userId, setAll, user } = useDetails((state) => state);
 
@@ -171,11 +173,11 @@ function Layout({ children }: {
                 </ModalContent>
             </Modal>
 
-            <Grid h="100vh" w={"full"} overflowY={"hidden"} >
+            <Grid h="100vh" w={"full"} overflowY={"hidden"} backgroundColor={mainBackgroundColor} >
 
                 <LoadingAnimation loading={isLoading || !firstName} >
                     {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
-                        <Flex w={"full"} position={"fixed"} zIndex={"100"} top={"0px"} >
+                        <Flex w={"full"} position={"fixed"} zIndex={"100"} top={"0px"} bg={{mainBackgroundColor}} >
                             <DashboardNavbar data={user} pathname={pathname} userId={userId} openmodal={setShowModal} image={user?.data.imgMain.value} />
                         </Flex>
                     )}
