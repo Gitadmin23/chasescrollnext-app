@@ -34,17 +34,14 @@ function SelectDate(props: Props) {
             })
         }
     }
+
     const ExampleCustomInput = forwardRef(({ value, onClick }: any, ref: any) => {
-
-        console.log(value);
-
-
         return (
-            <Flex onClick={onClick} as={"button"} w={"full"} ref={ref} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"4px"} h={"50px"}  >
+            <Flex onClick={onClick} as={"button"} w={"full"} ref={ref} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"4px"} fontSize={"sm"} h={"50px"}  >
                 <CalendarIcon />
-                {dateFormat(name === "Start" ? eventdata?.startDate : eventdata?.endDate)}
+                {data ? dateFormat(data) : "Select Date And Time"}
                 {" "}
-                {timeFormat(name === "Start" ? eventdata?.startDate : eventdata?.endDate)}
+                {data ? timeFormat(data) : ""}
             </Flex>
         )
     }
@@ -54,9 +51,10 @@ function SelectDate(props: Props) {
         <Flex width={"full"} flexDirection={"column"} gap={"2"} py={"2"} >
             <Text fontSize={"sm"} >
                 {name} <span style={{ color: "#F04F4F" }}>*</span>
-            </Text> 
+            </Text>
             <DatePicker
                 id={name}
+                selected={new Date(data)}
                 dateFormat="MMM d, yyyy h:mm aa"
                 showTimeSelect
                 minDate={name === "End" ? new Date(eventdata.startDate) : new Date()}
