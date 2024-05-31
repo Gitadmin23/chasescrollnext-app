@@ -14,7 +14,8 @@ import { HStack, Input, Spinner, VStack, Popover,
   Divider,
   Image,
   Box,
-  useToast
+  useToast,
+  useColorMode
  } from '@chakra-ui/react'
 import React from 'react'
 import { useMutation, useQueryClient } from 'react-query';
@@ -23,6 +24,7 @@ import CustomText from '@/components/general/Text';
 import MediaBox from '../Community/chat/MediaBox';
 import AWSHook from '@/hooks/awsHook';
 import { useChatPageState } from './state';
+import useCustomTheme from '@/hooks/useTheme';
 
 const IMAGE_FORM = ['jpeg', 'jpg', 'png', 'svg'];
 const VIDEO_FORM = ['mp4'];
@@ -43,6 +45,16 @@ function TextArea() {
   const queryClient = useQueryClient();
   const { activeChat } = useChatPageState((state) => state);
   const { userId } = useDetails((state) => state);
+
+
+  const {
+    bodyTextColor,
+    primaryColor,
+    secondaryBackgroundColor,
+    mainBackgroundColor,
+    borderColor,
+} = useCustomTheme();
+const { colorMode, toggleColorMode } = useColorMode();
 
   const createPost   = useMutation({
     mutationFn: (data: any) => httpService.post(`${URLS.CHAT_MESSGAE}`, data),
@@ -167,7 +179,7 @@ function TextArea() {
   return (
     <VStack width='100%' height={'auto'} maxH={'230px'} bg='transparent' paddingY='10px' paddingX="10px" position={'relative'}>
       <input ref={ref as any} onChange={(e) => handleFilePic(e.target.files as FileList)} hidden type='file' accept={accept()} />
-        <VStack ref={containerRef as any} width={'100%'} height='100%' borderWidth={'1px'} bg='white' borderColor={'#D0D4EB'} borderRadius={'10px'} paddingX='8px' paddingY='8px' position={'relative'}>
+        <VStack ref={containerRef as any} width={'100%'} height='100%' borderWidth={'0.5px'} bg={secondaryBackgroundColor} borderColor={borderColor} borderRadius={'10px'} paddingX='8px' paddingY='8px' position={'relative'}>
 
             { showEmoji && (
                 <Box position={'absolute'} height={'400px'} top='-450px' left={'0px'}>
@@ -178,6 +190,7 @@ function TextArea() {
             <textarea value={text} onChange={(e) => setText(e.target.value)} style={{
               width: '100%', height: 'auto', backgroundColor: 'transparent',
               outline: 'none', resize: 'none',
+              color: bodyTextColor
             }} placeholder={`Say something @${username}`} />
 
             { uploadedFile.length > 0 &&

@@ -1,6 +1,7 @@
 "use client"
 import BlockedUsersComponent from '@/components/settings_component/blocked_user_component'
-import { Box, Flex, Text } from '@chakra-ui/react'
+import useCustomTheme from '@/hooks/useTheme'
+import { Box, Flex, Text, useColorMode } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation' 
 import React from 'react'
 import { IoIosArrowBack } from 'react-icons/io'
@@ -10,10 +11,19 @@ interface Props {}
 function BlockedUsers(props: Props) {
     const {} = props
 
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
+
     const router = useRouter()
 
     return ( 
-        <Flex flexDirection={"column"} height={"auto"} width={"full"} overflowY={"auto"} >
+        <Flex flexDirection={"column"} height={"auto"} width={"full"} overflowY={"auto"} bg={mainBackgroundColor} >
             <Flex justifyContent={"space-between"} py={"36px"} px={["6", "59px"]} width={"full"} alignItems={"center"} >
 
                 <Flex onClick={() => router.push("/dashboard/settings")} as={"button"} alignItems={"center"} fontWeight={"700"} fontSize={"20px"} gap={"3"} >

@@ -4,7 +4,7 @@ import { useDetails } from '@/global-state/useUserDetails';
 import { IMediaContent } from '@/models/MediaPost'
 import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Avatar, HStack, VStack, Image, Box, Spinner } from '@chakra-ui/react';
+import { Avatar, HStack, VStack, Image, Box, Spinner, useColorMode } from '@chakra-ui/react';
 import React from 'react'
 import { FiCheck, FiHeart, FiMessageSquare, FiTrash2 } from 'react-icons/fi'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -20,6 +20,7 @@ import { PaginatedResponse } from '@/models/PaginatedResponse';
 import { useImageModalState } from '../general/ImageModal/imageModalState';
 import UserImage from '../sharedComponent/userimage';
 import { formatTimeAgo } from '@/utils/helpers';
+import useCustomTheme from '@/hooks/useTheme';
 
 interface IProps {
     message: ChatMessage;
@@ -33,6 +34,14 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
     const [showAll, setShowAll] = React.useState(false);
     const [showDelete, setShowDelete] = React.useState(false);
 
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const queryClient = useQueryClient();
     const { setAll, activeChat,removeMessage } = useChatPageState((state) => state);
@@ -118,7 +127,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                 </>
            )}
 
-            <VStack  borderRadius='10px 20px 20px 0px'  bg={self ? 'white':'brand.chasescrollButtonBlue'}  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={['300px', '350px']} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
+            <VStack  borderRadius='10px 20px 20px 0px'  bg={self ? secondaryBackgroundColor:'brand.chasescrollButtonBlue'}  padding='5px' spacing={0} alignItems={self? 'flex-end':'flex-start'} flexWrap={'wrap'}  maxW={['300px', '350px']} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px':'0px'} borderBottomRightRadius={self ? '0px':'20px'} >
                
                 {post.media !== null && (
                     <>
@@ -150,7 +159,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                 )}
                 
                 <Box padding='5px' width="100%" borderRadius={'12px 12px 12px 0px'}>
-                        <CustomText color={self ? 'black':'white'} fontFamily={'DM-Regular'} fontSize={'14px'} >
+                        <CustomText color={self ? bodyTextColor:'white'} fontFamily={'DM-Regular'} fontSize={'14px'} >
                             { showAll ? handleLinks(post?.message) : post?.message.length > 500 ? post?.message.slice(0, 500) + '...' : post?.message}
                             { post?.message.length > 500 && (
                             <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize:'12px', cursor: 'pointer' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
@@ -161,7 +170,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                     {/* { !self && (
                         <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{post?.createdBy?.username[0]?.toUpperCase()}{post?.createdBy?.username.substring(1, post?.createdBy?.username.length)}</CustomText>
                     )} */}
-                    <CustomText color={self ? 'black':'lightgrey'} fontFamily={'DM-Medium'} fontSize={'10px'}>{formatTimeAgo(post?.createdDate)}</CustomText>
+                    <CustomText color={self ? bodyTextColor:'lightgrey'} fontFamily={'DM-Medium'} fontSize={'10px'}>{formatTimeAgo(post?.createdDate)}</CustomText>
                    {!self && (
                      <HStack spacing={0}>
                         <FiCheck fontSize='16px' color={'white'} />

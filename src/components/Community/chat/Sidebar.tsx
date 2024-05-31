@@ -1,5 +1,17 @@
 import CustomText from '@/components/general/Text'
-import { HStack, VStack, Button, InputGroup, InputLeftElement, Input, Box, useToast, Image, Flex } from '@chakra-ui/react'
+import {
+    HStack,
+    VStack,
+    Button,
+    InputGroup,
+    InputLeftElement,
+    Input,
+    Box,
+    useToast,
+    Image,
+    Flex,
+    useColorMode
+} from '@chakra-ui/react'
 import { IoMdSearch } from 'react-icons/io'
 import React from 'react'
 import { THEME } from '@/theme'
@@ -14,6 +26,7 @@ import { PaginatedResponse } from '@/models/PaginatedResponse'
 import useDebounce from '@/hooks/useDebounce'
 import Link from 'next/link'
 import { SearchNormal1 } from 'iconsax-react'
+import useCustomTheme from "@/hooks/useTheme";
 
 
 function Sidebar() {
@@ -22,6 +35,15 @@ function Sidebar() {
     const [last, setLast] = React.useState(false);
     const [communitiies, setCommunities] = React.useState<ICommunity[]>([]);
     const intObserver = React.useRef<IntersectionObserver>();
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const toast = useToast();
     const debounceValue = useDebounce(search);
@@ -64,7 +86,7 @@ function Sidebar() {
     return (
         <VStack width='100%' height={'100%'} spacing={0} alignItems={'flex-start'} >
 
-            <VStack width={'100%'} paddingX={'10px'} borderBottomWidth={'1px'} paddingBottom={'20px'} borderBottomColor={'lightgrey'}>
+            <VStack width={'100%'} paddingX={'10px'} borderBottomWidth={'0.5px'} paddingBottom={'20px'} borderBottomColor={borderColor}>
                 <HStack width={'100%'} height={'60px'} justifyContent={'space-between'}>
 
                     <HStack alignItems={'center'}>
@@ -87,7 +109,7 @@ function Sidebar() {
                     <InputLeftElement>
                         <SearchNormal1 size='25px' color={THEME.COLORS.chasescrollButtonBlue} />
                     </InputLeftElement>
-                    <Input value={search} onChange={(e) => setSearch(e.target.value)} width='100%' height={'45px'} placeholder='search message' borderRadius={'12px'} borderWidth={'1px'} borderColor={'lightgrey'} bg='whitesmoke' />
+                    <Input value={search} onChange={(e) => setSearch(e.target.value)} width='100%' height={'45px'} placeholder='search message' borderRadius={'12px'} borderWidth={'1px'} borderColor={borderColor} bg={secondaryBackgroundColor} />
                 </InputGroup>
             </VStack>
 

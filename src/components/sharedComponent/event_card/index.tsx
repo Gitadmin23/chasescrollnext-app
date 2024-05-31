@@ -2,7 +2,7 @@ import EventLocationDetail from '@/components/sharedComponent/event_location'
 import EventImage from '@/components/sharedComponent/eventimage'
 import SaveOrUnsaveBtn from '@/components/sharedComponent/save_unsave_event_btn'
 import { dateFormat } from '@/utils/dateFormat'
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Box, Flex, Text, useColorMode } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { IoCalendarOutline } from "react-icons/io5";
@@ -15,6 +15,7 @@ import useSearchStore from '@/global-state/useSearchData'
 import { useDetails } from '@/global-state/useUserDetails'
 import BlurredImage from '../blurred_image'
 import { Log } from 'victory'
+import useCustomTheme from '@/hooks/useTheme'
 
 interface Props {
     event: any,
@@ -50,7 +51,16 @@ function ExploreEventCard(props: Props) {
 
     const { userId, email } = useDetails((state) => state);
 
-    let token = localStorage.getItem("token")
+    let token = localStorage.getItem("token");
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const clickHandler = () => {
 
@@ -72,7 +82,7 @@ function ExploreEventCard(props: Props) {
     } 
 
     return (
-        <Box boxShadow={page ? "md" : "none"} cursor={"pointer"} onClick={() => clickHandler()} py={searchbar ? landing ? "0px" : "2" : ["6", "6", "4"]} px={landing ? "" : ["6", "6", "4"]} roundedBottom={"32px"} flex={"1"} roundedTopLeft={"32px"} borderColor={"brand.chasescrollPalePurple"} borderBottomWidth={searchbar ? " " : "1px"} maxWidth={["400px", "400px", "full"]} width={"full"} >
+        <Box boxShadow={page ? "md" : "none"} cursor={"pointer"} onClick={() => clickHandler()} py={searchbar ? landing ? "0px" : "2" : ["6", "6", "4"]} px={landing ? "" : ["6", "6", "4"]} roundedBottom={"32px"} flex={"1"} roundedTopLeft={"32px"} borderColor={borderColor} borderBottomWidth={searchbar ? " " : "0.5px"} maxWidth={["400px", "400px", "full"]} width={"full"} >
             <Flex flexDirection={["column", "column", page ? "column" : "row"]} width={"full"} flex={"1"} alignItems={"center"} justifyContent={"space-between"} >
                 <Box width={["full", "full", page ? "full" : "fit-content"]} >
                     {page ?

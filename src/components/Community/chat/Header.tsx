@@ -7,7 +7,8 @@ import { PaginatedResponse } from '@/models/PaginatedResponse';
 import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import { THEME } from '@/theme';
 import httpService from '@/utils/httpService';
-import { Avatar, HStack, VStack,  Menu,
+import {
+  Avatar, HStack, VStack, Menu,
   MenuButton,
   MenuList,
   MenuItem,
@@ -20,8 +21,8 @@ import { Avatar, HStack, VStack,  Menu,
   Box,
   Spinner,
   useToast,
-  Link
- } from '@chakra-ui/react'
+  Link, useColorMode
+} from '@chakra-ui/react'
 import { uniqBy } from 'lodash';
 import React from 'react'
 import { FiCalendar, FiPlusSquare, FiX } from 'react-icons/fi';
@@ -30,6 +31,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { ArrowLeft2 } from 'iconsax-react'
 import AddEventsModal from '@/components/modals/community/AddEventsModal';
 import ShareEvent from '@/components/sharedComponent/share_event';
+import useCustomTheme from "@/hooks/useTheme";
 
 
 
@@ -39,6 +41,15 @@ function CommunityChatHeader() {
   const [showModal, setShowModal] = React.useState(false);
   const queryClient = useQueryClient();
   const toast = useToast();
+
+  const {
+    bodyTextColor,
+    primaryColor,
+    secondaryBackgroundColor,
+    mainBackgroundColor,
+    borderColor,
+  } = useCustomTheme();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const getCommunityEventts = useQuery([`getAllMyEvents-${activeCommunity?.id}`, activeCommunity?.id], () => httpService.get(`${URLS.GET_SAVED_EVENTS}`, {
     params: {
@@ -112,7 +123,7 @@ function CommunityChatHeader() {
 
 
   return (
-   <HStack width='100%' height={'100px'} bg='white' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingX={['0px', '20px']} justifyContent={'space-between'}>
+   <HStack width='100%' height={'100px'} bg={secondaryBackgroundColor} borderBottomWidth={'0.5px'} borderBottomColor={borderColor} paddingX={['0px', '20px']} justifyContent={'space-between'}>
     <Box display={['block', 'none']}>
       <ArrowLeft2 size={'20px'} variant='Outline' onClick={() => setAll({ activeCommunity: null })} />
     </Box>
@@ -137,7 +148,7 @@ function CommunityChatHeader() {
          </Link>
         <VStack alignItems={'flex-start'} spacing={0}>
             <Link  href={`/dashboard/community/info/${activeCommunity?.id}`}>
-              <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{activeCommunity?.data.name}</CustomText>
+              <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color={colorMode === 'light' ? 'brand.chasescrollButtonBlue' : bodyTextColor}>{activeCommunity?.data.name}</CustomText>
             </Link>
             <CustomText fontFamily={'DM-Regular'} fontSize={'12px'}>{activeCommunity?.data.memberCount} Members</CustomText>
         </VStack>

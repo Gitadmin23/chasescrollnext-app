@@ -2,12 +2,13 @@
 
 import CommunityTab from '@/components/Community/CommunityTab';
 import Requests from '@/components/Community/Requests';
-import { Box, HStack, Spinner, VStack } from '@chakra-ui/react'
+import {Box, HStack, Spinner, useColorMode, VStack} from '@chakra-ui/react'
 import React from 'react' 
 import { useRouter } from 'next/navigation'
 import CommunityChat from '@/components/Community/chat/CommunityChat';
 import { useSearchParams } from 'next/navigation'
 import CustomText from '@/components/general/Text';
+import useCustomTheme from "@/hooks/useTheme";
 
 function Community() {
   const [activeTab, setActiveTab] = React.useState(1);
@@ -15,6 +16,15 @@ function Community() {
 
   const router = useRouter();
   const query = useSearchParams();
+
+  const {
+    bodyTextColor,
+    primaryColor,
+    secondaryBackgroundColor,
+    mainBackgroundColor,
+    borderColor,
+  } = useCustomTheme();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   React.useEffect(() => {
     const tab = query?.get('tab');
@@ -55,7 +65,7 @@ function Community() {
 
         <CommunityTab activeTab={activeTab} setActiveTab={handleTabChange} showModal={() => setShowModal(true)} />
 
-        <Box flex={1} height='100%' width='100%' overflowY={'scroll'} >
+        <Box flex={1} height='100%' width='100%' overflowY={'scroll'} bg={mainBackgroundColor} >
           {switchPages()}
         </Box>
 

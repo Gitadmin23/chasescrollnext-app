@@ -2,7 +2,8 @@ import { useDetails } from '@/global-state/useUserDetails';
 import { URLS } from '@/services/urls';
 import { THEME } from '@/theme';
 import httpService from '@/utils/httpService';
-import { HStack, Input, Spinner, VStack, Popover,
+import {
+  HStack, Input, Spinner, VStack, Popover,
   PopoverTrigger,
   PopoverContent,
   PopoverHeader,
@@ -16,8 +17,8 @@ import { HStack, Input, Spinner, VStack, Popover,
   Box,
   Button,
   Portal,
-  useToast
- } from '@chakra-ui/react'
+  useToast, useColorMode
+} from '@chakra-ui/react'
 import React from 'react'
 import { FiSend, FiSmile, FiPlusCircle } from 'react-icons/fi';
 import { useMutation, useQueryClient } from 'react-query';
@@ -27,6 +28,7 @@ import { IoReturnDownBackOutline } from 'react-icons/io5';
 import { useCommunityPageState } from '@/components/Community/chat/state';
 import AWSHook from '@/hooks/awsHook';
 import MediaBox from './MediaBox';
+import useCustomTheme from "@/hooks/useTheme";
 
 const IMAGE_FORM = ['jpeg', 'jpg', 'png', 'svg'];
 const VIDEO_FORM = ['mp4'];
@@ -47,6 +49,15 @@ function TextArea() {
   const queryClient = useQueryClient();
   const { activeCommunity } = useCommunityPageState((state) => state);
   const { userId } = useDetails((state) => state);
+
+  const {
+    bodyTextColor,
+    primaryColor,
+    secondaryBackgroundColor,
+    mainBackgroundColor,
+    borderColor,
+  } = useCustomTheme();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const createPost   = useMutation({
     mutationFn: (data: any) => httpService.post(`${URLS.CREATE_POST}`, data),
@@ -168,7 +179,7 @@ function TextArea() {
   return (
     <VStack width='100%' height={'auto'} maxH={'230px'} bg='transparent' paddingY='10px'mb={"10px"} paddingX="10px" position={'relative'}>
       <input ref={ref as any} onChange={(e) => handleFilePic(e.target.files as FileList)} hidden type='file' accept={accept()} />
-        <VStack ref={containerRef as any} width={'100%'} height='100%' borderWidth={'1px'} bg='white' borderColor={'#D0D4EB'} borderRadius={'10px'} paddingX='8px' paddingY='8px' position={'relative'}>
+        <VStack ref={containerRef as any} width={'100%'} height='100%' borderWidth={'0.5px'} bg={secondaryBackgroundColor} borderColor={borderColor} borderRadius={'10px'} paddingX='8px' paddingY='8px' position={'relative'}>
 
             { showEmoji && (
                 <Box position={'absolute'} height={'400px'} top='-450px' left={'0px'}>
