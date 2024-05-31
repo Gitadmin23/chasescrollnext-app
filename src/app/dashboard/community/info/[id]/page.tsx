@@ -1,6 +1,25 @@
 'use client';
 import CustomText from '@/components/general/Text'
-import { Box, HStack, Spinner, VStack, InputGroup, InputLeftElement, Input, Image, Grid, GridItem, useToast, Modal, ModalOverlay, ModalContent, ModalBody, Button, ModalCloseButton } from '@chakra-ui/react'
+import {
+  Box,
+  HStack,
+  Spinner,
+  VStack,
+  InputGroup,
+  InputLeftElement,
+  Input,
+  Image,
+  Grid,
+  GridItem,
+  useToast,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalBody,
+  Button,
+  ModalCloseButton,
+  useColorMode
+} from '@chakra-ui/react'
 import React from 'react'
 import { FiBell, FiCamera, FiChevronLeft, FiDownloadCloud, FiEdit2, FiImage, FiLink, FiLogIn, FiSettings, FiTrash2 } from 'react-icons/fi'
 import { useParams, useRouter } from 'next/navigation'
@@ -22,6 +41,7 @@ import { useCommunityPageState } from '@/components/Community/chat/state';
 import { IoCamera } from 'react-icons/io5';
 import AWSHook from '@/hooks/awsHook';
 import { MessageIcon, ShareIcon } from '@/components/svg'
+import useCustomTheme from "@/hooks/useTheme";
 
 
 function CommunityInfo() {
@@ -46,6 +66,15 @@ function CommunityInfo() {
   const queryClient = useQueryClient();
   const { uploadedFile, loading, fileUploadHandler } = AWSHook();
   const intObserver = React.useRef<IntersectionObserver>();
+
+  const {
+    bodyTextColor,
+    primaryColor,
+    secondaryBackgroundColor,
+    mainBackgroundColor,
+    borderColor,
+  } = useCustomTheme();
+  const { colorMode, toggleColorMode } = useColorMode();
 
 
   const { setAll } = useCommunityPageState((state) => state);
@@ -249,7 +278,7 @@ function CommunityInfo() {
 
 
   return (
-    <Box overflowY='auto' width='100%' height='100%' bg='white' paddingTop='40px' paddingBottom={'100px'}>
+    <Box overflowY='auto' width='100%' height='100%' bg={mainBackgroundColor} paddingTop='40px' paddingBottom={'100px'}>
 
       <input type='file' ref={inputRef} onChange={(e) => fileUploadHandler(e.target.files as FileList)} accept='image/png, image/jpeg, image/jpg, video/mp4' hidden />
 
@@ -301,16 +330,16 @@ function CommunityInfo() {
       <VStack width='100%'>
 
 
-        <VStack width={['100%', '35%']} height='100%' bg='white' paddingTop='20px' paddingX={['20px', '0px']}>
+        <VStack width={['100%', '35%']} height='100%' bg={mainBackgroundColor} paddingTop='20px' paddingX={['20px', '0px']}>
 
           {/* HEADER SECTIOONS */}
-          <VStack alignItems={'center'} borderWidth={'1px'} borderRadius={'32px'} borderColor={'#D0D4EB'} width='100%' height={'auto'} padding='20px'>
+          <VStack alignItems={'center'} borderWidth={'0.5px'} borderRadius={'32px'} borderColor={borderColor} bg={secondaryBackgroundColor} width='100%' height={'auto'} padding='20px'>
 
             <HStack justifyContent={'space-between'} width='100%'>
-              <FiChevronLeft color='black' fontSize='20px' onClick={() => router.back()} />
+              <FiChevronLeft color={bodyTextColor} fontSize='20px' onClick={() => router.back()} />
               <CustomText fontFamily={'DM-Bold'} fontSize={'16px'}>Community Info</CustomText>
               <Box>
-                {admin && <FiEdit2 color='black' fontSize='20px' onClick={() => {
+                {admin && <FiEdit2 color={bodyTextColor} fontSize='20px' onClick={() => {
                   setName(details?.data.name);
                   setShowModal(true);
                 }} />}
@@ -334,8 +363,8 @@ function CommunityInfo() {
               }
             </Box>
 
-            <CustomText fontFamily={'DM-Bold'} fontSize={'18px'} color="brand.chasescrollButtonBlue" textAlign={'center'}>{details?.data?.name}</CustomText>
-            <CustomText textAlign={'center'} fontFamily={'DM-Light'} fontSize={'14px'} color={'black'}>{details?.data.memberCount} Members</CustomText>
+            <CustomText fontFamily={'DM-Bold'} fontSize={'18px'} color={colorMode === 'light' ? "brand.chasescrollButtonBlue":bodyTextColor} textAlign={'center'}>{details?.data?.name}</CustomText>
+            <CustomText textAlign={'center'} fontFamily={'DM-Light'} fontSize={'14px'} color={bodyTextColor}>{details?.data.memberCount} Members</CustomText>
 
             <InputGroup>
               <InputLeftElement>
@@ -359,12 +388,12 @@ function CommunityInfo() {
             <VStack width={['100%', '100%']} height={'100%'} >
 
               {/* header */}
-              <HStack overflow={'hidden'} width='100%' height='40px' bg='#F1F2F9' borderRadius={'25px'}>
-                <VStack onClick={() => setMediaTab(1)} color={mediaTab === 1 ? 'white' : 'black'} height='100%' justifyContent={'center'} bg={mediaTab === 1 ? THEME.COLORS.chasescrollButtonBlue : 'transparent'} flex='1'>
+              <HStack overflow={'hidden'} width='100%' height='40px' bg={secondaryBackgroundColor} borderRadius={'25px'}>
+                <VStack onClick={() => setMediaTab(1)} color={mediaTab === 1 ? 'white' : colorMode === 'light' ? 'black':bodyTextColor} height='100%' justifyContent={'center'} bg={mediaTab === 1 ? THEME.COLORS.chasescrollButtonBlue : secondaryBackgroundColor} flex='1'>
                   <CustomText>Media</CustomText>
                 </VStack>
 
-                <VStack onClick={() => setMediaTab(2)} color={mediaTab === 2 ? 'white' : 'black'} height='100%' justifyContent={'center'} bg={mediaTab === 2 ? THEME.COLORS.chasescrollButtonBlue : 'transparent'} flex='1'>
+                <VStack onClick={() => setMediaTab(2)} color={mediaTab === 2 ? 'white' : colorMode === 'light' ? 'black':bodyTextColor} height='100%' justifyContent={'center'} bg={mediaTab === 2 ? THEME.COLORS.chasescrollButtonBlue : secondaryBackgroundColor} flex='1'>
                   <CustomText>Files</CustomText>
                 </VStack>
               </HStack>
@@ -426,10 +455,10 @@ function CommunityInfo() {
           </VStack>
 
           {/* MEMBERS */}
-          <Box width='100%' height={'330px'} position={'relative'} zIndex={'10'} marginTop={'30px'} borderWidth={'1px'} borderRadius={'32px'} borderColor={'#D0D4EB'}>
+          <Box width='100%' height={'330px'} position={'relative'} zIndex={'10'} marginTop={'30px'} borderWidth={'0.5px'} borderRadius={'32px'} borderColor={borderColor} bg={secondaryBackgroundColor}>
 
-            <HStack justifyContent={'center'} bg='white' width='150px' position='absolute' left='40px' top='-20px' padding='10px'>
-              <CustomText fontFamily={'DM-Light'} color={THEME.COLORS.chasescrollButtonBlue} >Members</CustomText>
+            <HStack justifyContent={'center'} bg={secondaryBackgroundColor} width='150px' position='absolute' left='40px' top='-20px' padding='10px'>
+              <CustomText fontFamily={'DM-Light'} color={colorMode === 'light' ? THEME.COLORS.chasescrollButtonBlue:bodyTextColor} >Members</CustomText>
             </HStack>
 
 

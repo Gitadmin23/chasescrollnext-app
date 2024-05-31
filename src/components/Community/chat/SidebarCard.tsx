@@ -4,8 +4,9 @@ import CustomText from '@/components/general/Text'
 import CommunityImage from '@/components/sharedComponent/community_image';
 import { ICommunity } from '@/models/Communitty'
 import { IMAGE_URL, RESOURCE_BASE_URL } from '@/services/urls';
-import { Avatar, HStack, Image, VStack, Box } from '@chakra-ui/react'
+import {Avatar, HStack, Image, VStack, Box, useColorMode} from '@chakra-ui/react'
 import React from 'react'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface IProps {
     community?: ICommunity;
@@ -14,8 +15,18 @@ interface IProps {
 const SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({ community: comm }, ref) => {
     const [community, setCommunity] = React.useState(comm);
     const { setAll, activeCommunity } = useCommunityPageState((state) => state);
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
+
     return (
-        <HStack bg={ activeCommunity?.id === comm?.id ? '#EAEAFC66':'white'} onClick={() => setAll({ activeCommunity: comm, pageNumber: 0, messages: [], hasNext: false })} ref={ref} paddingX='10px' width='100%' height='60px' borderRadius={activeCommunity?.id === comm?.id ?'8px':'8px'} alignItems={'center'} justifyContent={'space-between'} borderBottomWidth={activeCommunity?.id === comm?.id ?'1px':'1px'} borderBottomColor={'lightgrey'} >
+        <HStack bg={ activeCommunity?.id === comm?.id ? '#EAEAFC66': mainBackgroundColor} onClick={() => setAll({ activeCommunity: comm, pageNumber: 0, messages: [], hasNext: false })} ref={ref} paddingX='10px' width='100%' height='60px' borderRadius={activeCommunity?.id === comm?.id ?'8px':'8px'} alignItems={'center'} justifyContent={'space-between'} borderBottomWidth={activeCommunity?.id === comm?.id ?'1px':'1px'} borderBottomColor={'lightgrey'} >
 
             <HStack>
                 {/* <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}> */}
@@ -46,8 +57,8 @@ const SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({ community: comm 
 
             <VStack alignItems={'flex-end'}>
                 {/* <CustomText fontFamily={'Satoshi-Light'} fontSize={'12px'}>{new Date(comm?.createdOn as number).toDateString()}</CustomText> */}
-                <VStack width='67px' height='21px' borderRadius={'4px'} justifyContent={'center'} alignItems={'center'} bg='#D0D4EB52' color='white'>
-                    <CustomText fontSize={'10px'} color='brand.chasescrollButtonBlue' fontFamily={'DM-Regular'}>{comm?.data?.memberCount} Members</CustomText>
+                <VStack width='67px' height='21px' borderRadius={'4px'} justifyContent={'center'} alignItems={'center'} bg='#D0D4EB52' >
+                    <CustomText fontSize={'10px'} color={colorMode === 'light' ? 'brand.chasescrollButtonBlue':bodyTextColor} fontFamily={'DM-Regular'}>{comm?.data?.memberCount} Members</CustomText>
                 </VStack>
             </VStack>
         

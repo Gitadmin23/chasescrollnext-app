@@ -1,5 +1,5 @@
 'use client';
-import { Box, Button, HStack, Image, Spinner, VStack, useToast } from '@chakra-ui/react'
+import { Box, Button, HStack, Image, Spinner, VStack, useColorMode, useToast } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { ArrowLeft2, ArrowRight2, Camera } from 'iconsax-react'
 import CustomText from '@/components/general/Text'
@@ -16,6 +16,7 @@ import { IUser } from '@/models/User';
 import AWSHook from '@/hooks/awsHook';
 import { useRouter } from 'next/navigation'
 import { isValid } from 'zod';
+import useCustomTheme from '@/hooks/useTheme';
 
 function EditProfile() {
     const [user, setUser] = React.useState<IUser | null>(null);
@@ -28,6 +29,15 @@ function EditProfile() {
     const ref = React.useRef<HTMLInputElement>(null);
     const router = useRouter();
     const toast = useToast();
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const { renderForm, setValue, formState: { isDirty, }, watch, values } = useForm({
         defaultValues: {
@@ -146,7 +156,7 @@ function EditProfile() {
     }
     if (isLoading) {
         return (
-            <VStack width='100%' height='100%' justifyContent={'center'} alignItems={'center'}>
+            <VStack width='100%' height='100%' justifyContent={'center'} alignItems={'center'} bg={mainBackgroundColor}>
                 <Spinner />
                 <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Loading Details</CustomText>
             </VStack>
@@ -154,7 +164,7 @@ function EditProfile() {
     }
 
     return renderForm(
-        <VStack width={'100%'} height={'100%'}>
+        <VStack width={'100%'} height={'100%'} bg={mainBackgroundColor}>
             <input ref={ref} onChange={(e) => handleChange(e.target.files as FileList)} hidden type='file' accept='image/*' />
             <Box overflowY='auto' width={['100%']} height={'100vh'} paddingY='20px' paddingX={['20px', '0px']}>
 
@@ -167,7 +177,7 @@ function EditProfile() {
 
                         {/* HEADER */}
                         <HStack width={'100%'} height={'50px'} justifyContent={'space-between'}>
-                            <ArrowLeft2 role='button' size={'30px'} color='black' onClick={() => router.back()} />
+                            <ArrowLeft2 role='button' size={'30px'} color={bodyTextColor} onClick={() => router.back()} />
                             <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Edit Profile</CustomText>
                             <Box></Box>
                         </HStack>

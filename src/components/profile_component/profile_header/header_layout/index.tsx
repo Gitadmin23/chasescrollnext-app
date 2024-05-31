@@ -1,4 +1,5 @@
-import { Box, Flex, Text } from '@chakra-ui/react'
+import useCustomTheme from '@/hooks/useTheme'
+import { Box, Flex, Text, useColorMode } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
 
@@ -21,10 +22,19 @@ function HeaderLayout(props: Props) {
 
     const router = useRouter() 
     const pathname = usePathname(); 
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
  
     return (
-        <Flex as={"button"} onClick={()=> router.push(link)} color={(pathname?.includes(name.toLocaleLowerCase()) || (pathname === "/dashboard/profile/"+index)) ? "brand.chasescrollBlue" : "#B1B5C3"} justifyContent={"center"} alignItems={"center"} flexDirection={"column"} >
-            <Text fontSize={["160x", "20px"]} fontWeight={"medium"} color={(pathname?.includes(name.toLocaleLowerCase()) || (pathname === "/dashboard/profile/"+index)) ? "brand.chasescrollBlue" : "black"} >{count ? count : 0}</Text>
+        <Flex as={"button"} onClick={()=> router.push(link)} color={(pathname?.includes(name.toLocaleLowerCase()) || (pathname === "/dashboard/profile/"+index)) ? "brand.chasescrollBlue" : bodyTextColor} justifyContent={"center"} alignItems={"center"} flexDirection={"column"} >
+            <Text fontSize={["160x", "20px"]} fontWeight={"medium"} color={(pathname?.includes(name.toLocaleLowerCase()) || (pathname === "/dashboard/profile/"+index)) ? "brand.chasescrollBlue" : bodyTextColor} >{count ? count : 0}</Text>
             <Box display={"flex"} justifyContent={"center"} alignItems={"center"} width={"24px"} height={"24px"} >
                 {icon}
             </Box>

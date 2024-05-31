@@ -1,5 +1,5 @@
 import CustomText from '@/components/general/Text';
-import { Box, Spinner, VStack } from '@chakra-ui/react';
+import { Box, Spinner, useColorMode, VStack } from '@chakra-ui/react';
 import React from 'react'
 import { useCommunityPageState } from '../Community/chat/state';
 import { useChatPageState } from './state';
@@ -12,6 +12,7 @@ import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
 import { uniqBy } from 'lodash';
 import ChatBubble from './ChatBubble';
+import useCustomTheme from '@/hooks/useTheme';
 
 function MainArea() {
   const [messagess, setMessages] = React.useState<ChatMessage[]>([]);
@@ -19,6 +20,15 @@ function MainArea() {
 
    const intObserver = React.useRef<IntersectionObserver>();
   const { activeChat, pageNumber, setAll, messages, hasNext } = useChatPageState((state) => state);
+
+  const {
+    bodyTextColor,
+    primaryColor,
+    secondaryBackgroundColor,
+    mainBackgroundColor,
+    borderColor,
+} = useCustomTheme();
+const { colorMode, toggleColorMode } = useColorMode();
 
    // queries
    const { isLoading, } = useQuery(['getMessages', activeChat?.id, pageNumber], () => httpService.get(`${URLS.CHAT_MESSGAE}`, {
@@ -72,13 +82,13 @@ const lastChildRef = React.useCallback((post: any) => {
         )
     }
   return (
-    <VStack overflow={'hidden'} height='100%' width={'100%'} bg='whitesmoke'>
+    <VStack overflow={'hidden'} height='100%' width={'100%'} bg={mainBackgroundColor}>
       
       <ChatSectionHeader />
 
       {/* MESSAGE AREA */}
 
-      <Box flex='1' width={'100%'} overflowY={'auto'} overflowX={'hidden'} className='chat-area'>
+      <Box flex='1' width={'100%'} overflowY={'auto'} overflowX={'hidden'} className={colorMode === 'light' ? 'chat-area':''} bg={mainBackgroundColor}>
         <VStack spacing={6} paddingX={['10px', '10px']} paddingY='40px' alignItems={'flex-start'} width={'100%'} height={'100%'}>
             {activeChat !== null && messages.length > 0 && messages.map((item, index) => {
                 return (

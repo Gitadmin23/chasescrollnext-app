@@ -3,7 +3,8 @@ import CustomButton from '@/components/general/Button';
 import UserImage from '@/components/sharedComponent/userimage';
 import useSettingsStore from '@/global-state/useSettingsState';
 import { useDetails } from '@/global-state/useUserDetails';
-import { Box, Flex, Switch, Text } from '@chakra-ui/react'
+import useCustomTheme from '@/hooks/useTheme';
+import { Box, Flex, Switch, Text, useColorMode } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation';
 import React, { ReactNode } from 'react'
 import { IoIosArrowBack } from 'react-icons/io'
@@ -15,6 +16,14 @@ function Layout({ children }: { children: ReactNode }) {
     const router = useRouter()
 
     const { setCurrency } = useSettingsStore((state) => state);
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     // const toggleCurrency = (item: any) => {
     //     if (item) {
@@ -25,7 +34,7 @@ function Layout({ children }: { children: ReactNode }) {
     // }
     
     return (
-        <Flex flexDirection={"column"} height={"full"} width={"full"} overflowY={"auto"} >
+        <Flex flexDirection={"column"} height={"full"} width={"full"} overflowY={"auto"} bg={mainBackgroundColor} >
             <Flex justifyContent={"space-between"} py={"36px"} px={["6", "59px"]} width={"full"} alignItems={"center"} >
                 <Flex onClick={() => router.back()} as={"button"} gap={"3"} width={"fit-content"} alignItems={"center"}  >
                     <IoIosArrowBack size="24px" />

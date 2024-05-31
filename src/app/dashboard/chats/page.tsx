@@ -2,20 +2,30 @@
 import MainArea from '@/components/Chat/MainArea';
 import Sidebar from '@/components/Chat/Sidebar';
 import { useChatPageState } from '@/components/Chat/state';
-import { Box, HStack, VStack } from '@chakra-ui/react';
+import useCustomTheme from '@/hooks/useTheme';
+import { Box, HStack, useColorMode, VStack } from '@chakra-ui/react';
 import React from 'react'
 
 function Chat() {
-  const { activeChat } = useChatPageState((state) => state)
+  const { activeChat } = useChatPageState((state) => state);
+  const {
+    bodyTextColor,
+    primaryColor,
+    secondaryBackgroundColor,
+    mainBackgroundColor,
+    borderColor,
+} = useCustomTheme();
+const { colorMode, toggleColorMode } = useColorMode();
+
   return (
-    <HStack flex={1} width={'100%'} height='90vh' spacing={0} padding='5px'>
+    <HStack flex={1} width={'100%'} height='95vh' spacing={0} padding='5px' bg={mainBackgroundColor}>
         {/* BIG SCREEN */}
         <HStack width='100%' height='100%' display={['none', 'flex']} spacing={0} alignItems={'flex-start'}>
 
-          <Box flex={0.25} overflow={'hidden'} height='100%' borderRightColor={'lightgrey'} borderRightWidth={activeChat !== null ?'1px':'0px'} >
+          <Box flex={0.25} overflow={'hidden'} height='100%' borderRightColor={borderColor} borderRightWidth={activeChat !== null ?'0.5px':'0px'} >
             <Sidebar />
           </Box>
-          <Box flex={0.75} overflow={'hidden'} height={['100%', '97%']} bg='white' borderWidth={activeChat !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeChat !== null ? '0px':'20px'}>
+          <Box flex={0.75} overflow={'hidden'} height={['100%', '97%']} bg={secondaryBackgroundColor} borderWidth={activeChat !== null ? 0:0.5}  borderColor={colorMode === 'light' ? 'brand.chasescrollButtonBlue':borderColor}  borderRadius={activeChat !== null ? '0px':'20px'}>
             <MainArea />
           </Box>
 
@@ -30,7 +40,7 @@ function Chat() {
           )}
         {
           activeChat !== null && (
-            <VStack spacing={0} flex={1} height='100%' bg='white' borderWidth={activeChat !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeChat !== null ? '0px':'20px'}>
+            <VStack spacing={0} flex={1} height='100%' bg={secondaryBackgroundColor} borderWidth={activeChat !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeChat !== null ? '0px':'20px'}>
                 <MainArea />
             </VStack>
           )

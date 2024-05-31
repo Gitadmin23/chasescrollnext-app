@@ -21,7 +21,8 @@ import {
   Box,
   Spinner,
   useToast,
-  Link
+  Link,
+  useColorMode
 } from '@chakra-ui/react'
 import { uniqBy } from 'lodash';
 import React from 'react'
@@ -34,6 +35,7 @@ import ReportUserModal from '../modals/chat/ReportUser';
 import ReportGroupChatModal from '../modals/chat/ReportGroupChat';
 import { CloseCircle, ArrowLeft2 } from 'iconsax-react'
 import UserImage from '../sharedComponent/userimage';
+import useCustomTheme from '@/hooks/useTheme';
 
 
 function ChatSectionHeader() {
@@ -44,6 +46,15 @@ function ChatSectionHeader() {
   const queryClient = useQueryClient();
   const toast = useToast();
 
+
+  const {
+    bodyTextColor,
+    primaryColor,
+    secondaryBackgroundColor,
+    mainBackgroundColor,
+    borderColor,
+} = useCustomTheme();
+const { colorMode, toggleColorMode } = useColorMode();
 
   const self = userId === activeChat?.createdBy.userId;
 
@@ -73,7 +84,7 @@ function ChatSectionHeader() {
 
 
   return (
-    <HStack width='100%' height={['80px', '80px']} bg='white' borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingX={['0px', '20px']} justifyContent={'space-between'}>
+    <HStack width='100%' height={['80px', '80px']} bg={secondaryBackgroundColor} borderBottomWidth={'0.5px'} borderBottomColor={borderColor} paddingX={['0px', '20px']} justifyContent={'space-between'}>
 
       {/* {MODAL} */}
 
@@ -97,7 +108,7 @@ function ChatSectionHeader() {
           <Box width='45px' height='45px' borderRadius={'36px 0px 36px 36px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>
             {activeChat?.image === null && (
               <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                <CustomText fontFamily={'DM-Regular'}>{activeChat.name.toUpperCase()}</CustomText>
+                <CustomText fontFamily={'DM-Regular'} color={bodyTextColor}>{activeChat.name.toUpperCase()}</CustomText>
               </VStack>
             )}
             {
@@ -113,7 +124,7 @@ function ChatSectionHeader() {
         <VStack alignItems={'flex-start'} spacing={0}>
           {activeChat?.type === 'ONE_TO_ONE' && (
             <Link href={`/dashboard/profile/${activeChat?.otherUser?.userId}`}>
-              <CustomText fontFamily={'DM-Medium'} fontSize={'16px'} color='brand.chasescrollButtonBlue'>{activeChat?.otherUser.firstName} {activeChat?.otherUser?.lastName}</CustomText>
+              <CustomText fontFamily={'DM-Medium'} fontSize={'16px'} color={colorMode === 'light' ? 'brand.chasescrollButtonBlue':bodyTextColor}>{activeChat?.otherUser.firstName} {activeChat?.otherUser?.lastName}</CustomText>
             </Link>
           )}
           {activeChat?.type === 'GROUP' && (
