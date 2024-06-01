@@ -64,7 +64,7 @@ function EventComponent() {
 
   return (
     <Box width={"full"}> 
-      <EventCategory />
+      <EventCategory eventpage={true} />
       {!event_category && (
         <EventCarousel />
       )}
