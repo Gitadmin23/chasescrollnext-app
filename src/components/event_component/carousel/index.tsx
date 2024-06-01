@@ -45,7 +45,7 @@ function EventCarousel(props: Props) {
 
     return (
         <LoadingAnimation loading={isLoading} >
-            <Box width={"full"} position={"relative"} height={["380px", "380px", "480px"]} pb={"10"} >
+            <Box width={"full"} position={"relative"} height={["380px", "380px", "480px"]} pt={"6"} pb={"10"} >
                 {(!isLoading && !isRefetching) && (
                     <CustomCarousel
                         slides={
