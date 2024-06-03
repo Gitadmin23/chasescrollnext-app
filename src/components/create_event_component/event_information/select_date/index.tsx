@@ -35,7 +35,7 @@ function SelectDate(props: Props) {
         }
     }
 
-const CustomInput = ({ value, onClick }: any) => {
+    const CustomInput = ({ value, onClick }: any) => {
         return (
             <Flex onClick={onClick} as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"4px"} fontSize={"sm"} h={"50px"}  >
                 <CalendarIcon />
@@ -44,7 +44,7 @@ const CustomInput = ({ value, onClick }: any) => {
                 {data ? timeFormat(data) : ""}
             </Flex>
         )
-    } 
+    }
 
     return (
         <Flex width={"full"} flexDirection={"column"} gap={"2"} py={"2"} >
@@ -53,7 +53,7 @@ const CustomInput = ({ value, onClick }: any) => {
             </Text>
             <DatePicker
                 id={name}
-                selected={data ? new Date(data): new Date()}
+                selected={data ? new Date(data) : new Date()}
                 dateFormat="MMM d, yyyy h:mm aa"
                 showTimeSelect
                 minDate={name === "End" ? new Date(eventdata.startDate) : new Date()}
