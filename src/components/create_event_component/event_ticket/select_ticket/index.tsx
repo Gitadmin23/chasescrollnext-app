@@ -47,6 +47,7 @@ function SelectTicket(props: Props) {
             })
             console.log("max stop");
         } else {
+            clone.productTypeData[index]["minTicketBuy"] = 1
             clone.productTypeData[index][name] = value
 
             updateEvent(clone)
@@ -71,8 +72,15 @@ function SelectTicket(props: Props) {
     };
 
     useEffect(() => {
+
+        const clone = {...eventdata}
+
+        clone?.productTypeData?.map((item, index) => {
+            return clone.productTypeData[index]["minTicketBuy"] = "1"
+        })
+
         updateEvent({
-            ...eventdata,
+            ...clone,
             currency: "NGN",
         });
     }, [])
@@ -226,7 +234,7 @@ function SelectTicket(props: Props) {
                             <Input
                                 h={"45px"}
                                 type="number"
-                                disabled={Number(eventdata.productTypeData[index]?.totalNumberOfTickets) <= 0 ? true : false}
+                                disabled={true}
                                 onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                 border={"1px solid #E2E8F0"}
                                 focusBorderColor={"#E2E8F0"} 
