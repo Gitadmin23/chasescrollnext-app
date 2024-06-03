@@ -8,7 +8,7 @@ type props = {
     bg?: any,
     rounded?: boolean,
     children: React.ReactNode,
-    title?: string,
+    title?: any,
     titlecolor?: string,
     scrollBehavior?: "outside" | "inside",
     closeIcon?: boolean,
