@@ -53,7 +53,7 @@ const CustomInput = ({ value, onClick }: any) => {
             </Text>
             <DatePicker
                 id={name}
-                selected={data ? new Date(): new Date()}
+                selected={data ? new Date(data): new Date()}
                 dateFormat="MMM d, yyyy h:mm aa"
                 showTimeSelect
                 minDate={name === "End" ? new Date(eventdata.startDate) : new Date()}
