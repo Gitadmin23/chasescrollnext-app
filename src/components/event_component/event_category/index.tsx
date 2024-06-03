@@ -56,7 +56,7 @@ function EventCategory(props: Props) {
     return (
         <>
             {!selector && (
-                <Flex flexDirection={"column"} overflowX={"hidden"} h={"50px"} justifyContent={"center"} alignItems={"center"} position={"relative"} >
+                <Flex flexDirection={"column"} overflowX={"hidden"} h={"0px"} justifyContent={"center"} alignItems={"center"} position={"relative"} >
                     <Box ref={ref} width={"full"}  height={"full"} display={"flex"} overflowX={"auto"} scrollBehavior={"smooth"}
                         // sx={{
                         //     '::-webkit-scrollbar': {
