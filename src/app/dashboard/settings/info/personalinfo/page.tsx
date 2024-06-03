@@ -1,5 +1,5 @@
 'use client';
-import { Box, Button, Checkbox, HStack, Select, Spinner, Switch, VStack, useToast } from '@chakra-ui/react'
+import { Box, Button, Checkbox, HStack, Select, Spinner, Switch, VStack, useColorMode, useToast } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { ArrowLeft2 } from 'iconsax-react'
 import CustomText from '@/components/general/Text'
@@ -17,6 +17,7 @@ import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import CustomButton from '@/components/general/Button';
 import { DropdownDate } from 'react-dropdown-date';
+import useCustomTheme from '@/hooks/useTheme';
 
 
 function EditProfile() {
@@ -30,6 +31,15 @@ function EditProfile() {
 
     const toast = useToast();
     const router = useRouter();
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const { renderForm, setValue, formState: { isDirty, }, values } = useForm({
         defaultValues: {
@@ -188,7 +198,7 @@ function EditProfile() {
 
 
     return renderForm(
-        <VStack width={'100%'} height={'100%'}>
+        <VStack width={'100%'} height={'100%'} bg={mainBackgroundColor}>
             <input hidden type='file' accept='image/*' />
             <Box overflowY='auto' width={['100%', '100%']} height={'100%'} paddingY='20px' paddingX={['20px', '0px']}>
 
@@ -199,7 +209,7 @@ function EditProfile() {
 
                         {/* HEADER */}
                         <HStack width={'100%'} height={'50px'} justifyContent={'space-between'}>
-                            <ArrowLeft2 size={'30px'} color='black' onClick={() => router.back()} />
+                            <ArrowLeft2 size={'30px'} color={bodyTextColor} onClick={() => router.back()} />
                             <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Edit Personal Information</CustomText>
                             <Box></Box>
                         </HStack>

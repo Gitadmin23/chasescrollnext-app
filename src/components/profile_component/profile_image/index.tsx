@@ -7,10 +7,11 @@ import ModalLayout from '@/components/sharedComponent/modal_layout';
 import ShareEvent from '@/components/sharedComponent/share_event';
 import UserImage from '@/components/sharedComponent/userimage';
 import { useDetails } from '@/global-state/useUserDetails';
+import useCustomTheme from '@/hooks/useTheme';
 import { IMAGE_URL, URLS } from '@/services/urls';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
 import httpService from '@/utils/httpService';
-import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react'
+import { Box, Flex, Image, Text, useColorMode, useToast } from '@chakra-ui/react'
 import { fstat } from 'fs';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
@@ -34,6 +35,15 @@ function ProfileImage(props: Props) {
     const router = useRouter()
 
     const { userId, user } = useDetails((state) => state);
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     // react query
     const { isLoading, isRefetching } = useQuery(['get-user-info'], () => httpService.get(URLS.GET_USER_DETAILS + "/" + user_index), {
@@ -71,7 +81,7 @@ function ProfileImage(props: Props) {
 
     return (
         <LoadingAnimation loading={isLoading} >
-            <Box position={"relative"} bg={"gray.400"} height={"442px"} >
+            <Box position={"relative"} bg={secondaryBackgroundColor} height={"442px"} >
                 {data?.data === null && (
                     <Box width='full' height='full' bg='brand.chascrollButtonBlue' position={"absolute"} zIndex={"10"} inset={"0px"}></Box>
                 )}

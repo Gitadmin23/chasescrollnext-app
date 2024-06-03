@@ -1,5 +1,18 @@
 'use client'
-import { Modal, ModalOverlay, ModalContent, ModalBody, useToast, Box, HStack, VStack, Switch, Image, Button } from '@chakra-ui/react';
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalBody,
+    useToast,
+    Box,
+    HStack,
+    VStack,
+    Switch,
+    Image,
+    Button,
+    useColorMode
+} from '@chakra-ui/react';
 import React, { useRef } from 'react'
 import { FiFolderPlus, FiX } from 'react-icons/fi';
 import CustomText from '@/components/general/Text';
@@ -12,6 +25,7 @@ import { URLS } from '@/services/urls';
 import { useDetails } from '@/global-state/useUserDetails';
 import { useRouter } from 'next/navigation'
 import PromotionCreationModal from '@/components/modals/promotions/CreatePromitionModal';
+import useCustomTheme from "@/hooks/useTheme";
 
 function CreateCommunity() {
     const [file, setFile] = React.useState<File | null>(null);
@@ -26,6 +40,15 @@ function CreateCommunity() {
     const inputRef = useRef<HTMLInputElement>();
     const toast = useToast();
     const router = useRouter();
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     React.useEffect(() => {
         fileReader.current = new FileReader();
@@ -155,7 +178,7 @@ function CreateCommunity() {
     }
 
     return renderForm(
-        <Box width='100%' height='100%' overflowX={'hidden'} overflowY={'auto'} >
+        <Box width='100%' height='100%' overflowX={'hidden'} overflowY={'auto'} bg={mainBackgroundColor} >
 
             {/* MODAL */}
             <PromotionCreationModal isOpen={showModal} onClose={() => {setShowModal(false); router.back();}} type='COMMUNITY'  />
@@ -169,7 +192,7 @@ function CreateCommunity() {
                     <FiX fontSize={'25px'} onClick={() => clickHandler()} />
                 </HStack>
 
-                <Box cursor={'pointer'} onClick={() => inputRef.current?.click()} width='100%' height="200px" borderWidth='2px' borderColor='grey' borderRadius={'20px'} borderStyle={'dashed'} overflow={'hidden'} bg='grey' >
+                <Box cursor={'pointer'} onClick={() => inputRef.current?.click()} width='100%' height="200px" borderWidth='2px' borderColor={borderColor} borderRadius={'20px'} borderStyle={'dashed'} overflow={'hidden'} bg={secondaryBackgroundColor} >
                     {url === '' && file === null && (
                         <VStack width='100%' height='100%' justifyContent={'center'} alignItems={'center'}>
                             <Image src='/assets/svg/folder-cloud.svg' alt='icon' width={50} height={50} />

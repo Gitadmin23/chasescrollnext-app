@@ -4,12 +4,13 @@ import { useDetails } from '@/global-state/useUserDetails'
 import { Chat } from '@/models/Chat'
 import { IMAGE_URL, URLS } from '@/services/urls'
 import httpService from '@/utils/httpService'
-import { Avatar, Box, HStack, VStack, Image } from '@chakra-ui/react'
+import { Avatar, Box, HStack, VStack, Image, useColorMode } from '@chakra-ui/react'
 import React from 'react'
 import { useQuery } from 'react-query'
 import { useChatPageState } from './state'
 import moment from 'moment'
 import UserImage from '../sharedComponent/userimage'
+import useCustomTheme from '@/hooks/useTheme'
 
 interface IProps {
     chat: Chat
@@ -19,6 +20,15 @@ const SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({ chat }, ref) => 
     const { setAll, activeChat } = useChatPageState((state) => state);
     const [count, setCount] = React.useState(0);
     const [name, setName] = React.useState(`${chat?.otherUser?.firstName} ${chat?.otherUser?.lastName}`);
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const { isLoading } = useQuery(['getChat', chat?.id], () => httpService.get(`${URLS.GET_MESSAGE_COUNT}`, {
         params: {
@@ -30,7 +40,7 @@ const SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({ chat }, ref) => 
         }
     })
     return (
-        <HStack onClick={() => setAll({ activeChat: chat, messages: [], pageNumber: 0, hasNext: false })} ref={ref} width='100%' height='60px' borderRadius={'8px'} alignItems={'center'} justifyContent={'space-between'} bg={activeChat?.id === chat?.id ? '#EAEAFC66' : 'white'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingRight={'10px'} cursor={'pointer'}>
+        <HStack onClick={() => setAll({ activeChat: chat, messages: [], pageNumber: 0, hasNext: false })} ref={ref} width='100%' height='60px' borderRadius={'8px'} alignItems={'center'} justifyContent={'space-between'} bg={activeChat?.id === chat?.id ? secondaryBackgroundColor : mainBackgroundColor} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingRight={'10px'} cursor={'pointer'}>
 
             <HStack>
                 <Box width={"fit-content"} overflow={'hidden'}>

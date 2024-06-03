@@ -4,7 +4,7 @@ import { useDetails } from '@/global-state/useUserDetails';
 import { IMediaContent } from '@/models/MediaPost'
 import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Avatar, HStack, VStack, Image, Box, Spinner, Text } from '@chakra-ui/react';
+import { Avatar, HStack, VStack, Image, Box, Spinner, Text, useColorMode } from '@chakra-ui/react';
 import React from 'react'
 import { FiHeart, FiMessageSquare, FiTrash2 } from 'react-icons/fi'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -17,6 +17,7 @@ import LinkExtractor, { handleLinks } from '@/components/general/LinkExtractor';
 import { useImageModalState } from '@/components/general/ImageModal/imageModalState';
 import UserImage from '@/components/sharedComponent/userimage';
 import { formatTimeAgo } from '@/utils/helpers';
+import useCustomTheme from '@/hooks/useTheme';
 
 interface IProps {
     message: IMediaContent;
@@ -30,8 +31,18 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
     const [showMore, setShowMore] = React.useState(false)
 
     const queryClient = useQueryClient();
-    const { setAll, activeCommunity, removeMessage } = useCommunityPageState((state) => state)
-    const { setAll: setImageModal } = useImageModalState((state) => state)
+    const { setAll, activeCommunity, removeMessage } = useCommunityPageState((state) => state);
+    const { setAll: setImageModal } = useImageModalState((state) => state);
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
+    
     // query
     const { isLoading } = useQuery([`getSinglePost-${post.id}`, message?.id], () => httpService.get(`${URLS.GET_POST_BY_ID}/${message.id}`), {
         onSuccess: (data) => {
@@ -121,9 +132,9 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                     </HStack>
                 )}
 
-                <VStack borderRadius='10px 20px 20px 0px' bg={shoowSubmenu ? 'lightgrey' : 'transparent'} padding='5px' spacing={0} alignItems={self ? 'flex-end' : 'flex-start'} flexWrap={'wrap'} maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px' : '0px'} borderBottomRightRadius={self ? '0px' : '20px'} >
+                <VStack borderRadius='10px 20px 20px 0px' bg={shoowSubmenu ? secondaryBackgroundColor : 'transparent'} padding='5px' spacing={0} alignItems={self ? 'flex-end' : 'flex-start'} flexWrap={'wrap'} maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px' : '0px'} borderBottomRightRadius={self ? '0px' : '20px'} >
                     <VStack width={'100%'} justifyContent={'flex-start'} alignItems={self ? 'flex-end' : 'flex-start'} spacing={0}>
-                        <CustomText fontFamily={'DM-Bold'} fontSize={'12px'} color='brand.chasescrollButtonBlue'>
+                        <CustomText fontFamily={'DM-Bold'} fontSize={'12px'} color={colorMode === 'light' ? 'brand.chasescrollButtonBlue':bodyTextColor}>
                             <span>{post?.user?.firstName[0].toUpperCase()}{post?.user?.firstName.substring(1, post?.user?.firstName.length)}</span>
                             <span> </span>
                             <span>{post?.user?.lastName[0].toUpperCase()}{post?.user?.lastName.substring(1, post?.user?.lastName.length)}</span>
@@ -158,7 +169,7 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                     )}
                     <Box padding='5px' width='100%'>
                         {/* <LinkExtractor text={post?.text} /> */}
-                        <CustomText fontFamily={'DM-Regular'} fontSize='14px' color='black'>
+                        <CustomText fontFamily={'DM-Regular'} fontSize='14px' color={bodyTextColor}>
                             {showMore ? handleLinks(post?.text) : post?.text.length > 500 ? handleLinks(post?.text.slice(0, 500) + '...')  : handleLinks(post?.text)}
                             {post?.text.length > 500 && (
                                 <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize: '12px', cursor: 'pointer' }} onClick={() => setShowMore(!showMore)} >{showMore ? 'Show Less' : 'Show More'}</span>
@@ -166,9 +177,9 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                         </CustomText>
                     </Box>
                     <HStack>
-                        <CustomText cursor='pointer' fontFamily={'DM-Regular'} fontSize='12px'>{post?.commentCount} <CustomText color='brand.chasescrollButtonBlue' display={'inline'} onClick={() => setAll({ activeMessageId: post.id, commentHasNext: false, commentPage: 0, comments: [], drawerOpen: true })}>Reply</CustomText> </CustomText>
+                        <CustomText cursor='pointer' fontFamily={'DM-Regular'} fontSize='12px'>{post?.commentCount} <CustomText color={colorMode === 'light' ? 'brand.chasescrollButtonBlue':bodyTextColor} display={'inline'} onClick={() => setAll({ activeMessageId: post.id, commentHasNext: false, commentPage: 0, comments: [], drawerOpen: true })}>Reply</CustomText> </CustomText>
 
-                        <CustomText cursor='pointer' fontFamily={'DM-Regular'} fontSize='12px'>{post?.likeCount} <CustomText color='brand.chasescrollButtonBlue' display={'inline'}>Likes</CustomText> </CustomText>
+                        <CustomText cursor='pointer' fontFamily={'DM-Regular'} fontSize='12px'>{post?.likeCount} <CustomText color={colorMode === 'light' ? 'brand.chasescrollButtonBlue':bodyTextColor} display={'inline'}>Likes</CustomText> </CustomText>
                     </HStack>
                 </VStack>
 

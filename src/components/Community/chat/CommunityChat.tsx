@@ -2,15 +2,17 @@
 import MainArea from '@/components/Community/chat/MainArea';
 import Sidebar from '@/components/Community/chat/Sidebar';
 import CustomText from '@/components/general/Text';
-import { Box, HStack, VStack,  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  Textarea,
-  Spinner, Image } from '@chakra-ui/react';
+import {
+    Box, HStack, VStack, Drawer,
+    DrawerBody,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerOverlay,
+    DrawerContent,
+    DrawerCloseButton,
+    Textarea,
+    Spinner, Image, useColorMode
+} from '@chakra-ui/react';
 import React from 'react'
 import { useCommunityPageState } from './state';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -23,12 +25,22 @@ import { PaginatedResponse } from '@/models/PaginatedResponse';
 import { uniqBy } from 'lodash';
 import CommentCard from '@/components/Community/chat/CommentCard';
 import EmojiPicker from 'emoji-picker-react';
+import useCustomTheme from "@/hooks/useTheme";
 
 function CommunityChat() {
   const [comment, setComment] = React.useState<string>('');
   const [showEmoji, setShowEmoi] = React.useState(false);
   const intObserver = React.useRef<IntersectionObserver>();
   const queryClient = useQueryClient();
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
   const { drawerOpen, setAll, activeCommunity, activeMessageId, commentHasNext, commentPage, comments } = useCommunityPageState((state) => state);
 
@@ -101,8 +113,8 @@ const createComment = useMutation({
         {/* DRAWER */}
           <Drawer isOpen={drawerOpen} onClose={() => { setAll({ drawerOpen: false, activeMessageId: undefined, comments: []  }); setShowEmoi(false) }} placement='right' size={showEmoji ? 'sm':'xs'}>
             <DrawerOverlay />
-            <DrawerContent>
-              <DrawerHeader borderBottomWidth={'1px'} borderBottomColor={'lightgrey'}>
+            <DrawerContent bg={secondaryBackgroundColor}>
+              <DrawerHeader borderBottomWidth={'1px'} borderBottomColor={borderColor}>
                 <HStack justifyContent={'space-between'}>
                   <CustomText>Replies</CustomText>
                   <FiX fontSize='25px' color={THEME.COLORS.chasescrollButtonBlue} onClick={() => setAll({ drawerOpen: false })} />
@@ -171,17 +183,9 @@ const createComment = useMutation({
           <Box width='30%' height='100%' borderRightColor={'lightgrey'} borderRightWidth={activeCommunity !== null ?'1px':'0px'} >
             <Sidebar />
           </Box>
-          <Box flex={1} height='90%' bg='white' borderWidth={activeCommunity !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeCommunity !== null ? '0px':'20px'}>
+          <Box flex={1} height='90%' bg={secondaryBackgroundColor} borderWidth={activeCommunity !== null ? 0:1}  borderColor={ colorMode  === 'light' ? 'brand.chasescrollButtonBlue': borderColor}  borderRadius={activeCommunity !== null ? '0px':'20px'}>
             <MainArea />
           </Box>
-
-            {/* <Box  width={'20%'} height={'100%'} borderRightColor={'lightgrey'} borderRightWidth={activeCommunity !== null ?'1px':'0px'} >
-                <Sidebar />
-            </Box>
-
-            <VStack alignItems={'flex-start'} width={'100%'} overflow={'hidden'} height='90%' bg='white' borderWidth={activeCommunity !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeCommunity !== null ? '0px':'20px'}>
-                  <MainArea />
-            </VStack> */}
 
         </HStack>
         
@@ -194,7 +198,7 @@ const createComment = useMutation({
           )}
         {
           activeCommunity !== null && (
-            <VStack spacing={0} flex={1} height='82%' bg='white' borderWidth={activeCommunity !== null ? 0:1}  borderColor={'brand.chasescrollButtonBlue'}  borderRadius={activeCommunity !== null ? '0px':'20px'}>
+            <VStack spacing={0} flex={1} height='82%' bg={secondaryBackgroundColor} borderWidth={activeCommunity !== null ? 0:1}  borderColor={ colorMode  === 'light' ? 'brand.chasescrollButtonBlue': borderColor} borderRadius={activeCommunity !== null ? '0px':'20px'}>
                 <MainArea />
             </VStack>
           )

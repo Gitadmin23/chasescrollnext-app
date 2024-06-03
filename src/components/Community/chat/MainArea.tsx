@@ -1,5 +1,5 @@
 import CustomText from '@/components/general/Text';
-import { Box, HStack, Spinner, VStack, Image } from '@chakra-ui/react';
+import {Box, HStack, Spinner, VStack, Image, useColorMode} from '@chakra-ui/react';
 import React from 'react'
 import CommunityChatHeader from './Header';
 import TextArea from './TextArea';
@@ -18,6 +18,7 @@ import { THEME } from '@/theme';
 import EventCard from './EventCard';
 import AddEventsModal from '@/components/modals/community/AddEventsModal';
 import Link from 'next/link';
+import useCustomTheme from "@/hooks/useTheme";
 
 function MainArea() {
     const { activeCommunity, setAll, messages, pageNumber, hasNext, activeMessageId, commentHasNext, commentPage, comments, showEvents, events } = useCommunityPageState((state) => state);
@@ -26,7 +27,14 @@ function MainArea() {
     const [showEventModal, setShowEventModal] = React.useState(false);
     const [len, setLen] = React.useState(messages?.length);
 
-
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
      const intObserver = React.useRef<IntersectionObserver>();
 
@@ -99,14 +107,15 @@ function MainArea() {
         )
     }
   return (
-    <VStack width='100%' height="100%" overflow={'hidden'} borderRadius={'20px'} spacing={0} className='chat-area' alignItems={'flex-start'}>
+    <VStack width='100%' height="100%" overflow={'hidden'} borderRadius={'20px'} spacing={0} className={colorMode === 'light' ? 'chat-area':''}  alignItems={'flex-start'} bg={mainBackgroundColor}>
+        {/*className='chat-area'*/}
          {/* MODALS */}
         <AddEventsModal isOpen={showEventModal} onClose={() => setShowEventModal(false)} />
 
         <CommunityChatHeader />
         {
             showEvents && events.length > 0 && (
-                <HStack width='100%' maxWidth={'100%'} height={'115px'} bg='white' >
+                <HStack width='100%' maxWidth={'100%'} height={'115px'} bg={secondaryBackgroundColor} >
                     <Box paddingLeft='20px' paddingTop={'20px'} width='100%'  height='100%' overflowX={'auto'} display={'inline-block'} whiteSpace={'break-spaces'}>
                         {events.map((item, i) => (
                             <EventCard event={item} key={i.toString()} index={i} />
@@ -128,12 +137,12 @@ function MainArea() {
                         </Box>
                     )
                 }
-                <HStack justifyContent={'center'} flex="1" >
-                    <CustomText textAlign={'center'} width={'60%'} fontFamily={'DM-Regular'} fontSize={'15px'}> </CustomText>
-                </HStack>
+                {/*<HStack justifyContent={'center'} flex="1" >*/}
+                {/*    <CustomText textAlign={'center'} width={'60%'} fontFamily={'DM-Regular'} fontSize={'15px'}> </CustomText>*/}
+                {/*</HStack>*/}
             </HStack>
 
-            <VStack spacing={6} paddingX={['10px', '30px']} paddingY='40px' alignItems={'flex-start'} width={'100%'} height={'100%'}>
+            <VStack spacing={6} paddingX={['10px', '30px']} paddingY='40px' alignItems={'flex-start'} width={'100%'} height={'96%'}>
             {activeCommunity !== null && messages.length > 0 && messages.map((item, index) => {
                 return (
                     <>

@@ -4,7 +4,8 @@ import ReportEnhancement from "@/components/modals/Settings/ReportEnhancement"
 import ReportBug from "@/components/modals/Settings/SettingsReport"
 import { BlockedUserIcon, ChangePasswordIcon, DeleteAccountIcon, EventCalenderIcon, FlaggedIcon, PaymentIcon, ProfileCircle, RequestEnhancementIcon, TermsAndPrivacy } from "@/components/svg"
 import { useDetails } from "@/global-state/useUserDetails"
-import { Box, Flex } from "@chakra-ui/react"
+import useCustomTheme from "@/hooks/useTheme"
+import { Box, Flex, useColorMode } from "@chakra-ui/react"
 import { useRouter } from "next/navigation"
 import React from 'react'
 import { IoIosArrowBack } from "react-icons/io"
@@ -17,7 +18,16 @@ function Settings(props: Props) {
     const [showReport, setShowReport] = React.useState(false);
     const [showEnhancement, setShowEnhancement] = React.useState(false);
 
-    const { userId } = useDetails((state) => state)
+    const { userId } = useDetails((state) => state);
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const SettingsPageList: {
         type: string,
@@ -28,35 +38,35 @@ function Settings(props: Props) {
             {
                 type: "Payment",
                 route: "/payment",
-                icon: <PaymentIcon />,
+                icon: <PaymentIcon color={bodyTextColor} />,
                 action: null as any,
             },
             {
                 // id: nanoid(),
                 type: "Event Dash Board",
                 route: "/event-dashboard",
-                icon: <EventCalenderIcon />,
+                icon: <EventCalenderIcon color={bodyTextColor} />,
                 action: null as any,
             },
             {
                 // id: nanoid(),
                 type: "Change Password",
                 route: "/info/change-password",
-                icon: <ChangePasswordIcon />,
+                icon: <ChangePasswordIcon color={bodyTextColor} />,
                 action: null as any,
             },
             {
                 // id: nanoid(),
                 type: "Edit Profile",
                 route: "/info/profile",
-                icon: <EventCalenderIcon />,
+                icon: <EventCalenderIcon color={bodyTextColor} />,
                 action: null as any,
             },
             {
                 // id: nanoid(),
                 type: "Account Settings",
                 route: "/info/visibility",
-                icon: <ProfileCircle />,
+                icon: <ProfileCircle color={bodyTextColor} />,
                 action: null as any,
             },
             {
@@ -70,35 +80,35 @@ function Settings(props: Props) {
                 // id: nanoid(),
                 type: "Terms and Conditions",
                 route: "/home/terms",
-                icon: <TermsAndPrivacy />,
+                icon: <TermsAndPrivacy color={bodyTextColor} />,
                 action: null as any,
             },
             {
                 // id: nanoid(),
                 type: "Privacy Policy",
                 route: "/home/privacy_poilcy",
-                icon: <TermsAndPrivacy />,
+                icon: <TermsAndPrivacy color={bodyTextColor} />,
                 action: null,
             },
             {
                 // id: nanoid(),
                 type: "Report a Bug",
                 route: "",
-                icon: <FlaggedIcon />,
+                icon: <FlaggedIcon color={bodyTextColor} />,
                 action: () => setShowReport(true),
             },
             {
                 // id: nanoid(),
                 type: "Request an Enhancement",
                 route: "",
-                icon: <RequestEnhancementIcon />,
+                icon: <RequestEnhancementIcon color={bodyTextColor} />,
                 action: () => setShowEnhancement(true),
             },
             {
                 // id: nanoid(),
                 type: "Blocked Users",
                 route: "/blocked-users",
-                icon: <BlockedUserIcon />,
+                icon: <BlockedUserIcon color={bodyTextColor} />,
                 action: null
             },
             {
@@ -106,7 +116,7 @@ function Settings(props: Props) {
                 type: "Delete Account",
                 route: "",
                 action: () => setShowModal(true),
-                icon: <DeleteAccountIcon />,
+                icon: <DeleteAccountIcon color={bodyTextColor} />,
             },
         ]
 
@@ -124,14 +134,14 @@ function Settings(props: Props) {
     }
 
     return (
-        <Box px={"20px"} py={"30px"} height={"auto"} overflowY={"auto"} width={"full"} >
+        <Box px={"20px"} py={"30px"} height={"auto"} overflowY={"auto"} width={"full"} bg={mainBackgroundColor} >
 
             {/* MODALS */}
             <DeleteAccountModal isOpen={showModal} onClose={() => setShowModal(false)} />
             <ReportBug isOpen={showReport} onClose={() => setShowReport(false)} REPORT_TYPE="REPORT_BUG" typeID={userId} />
             <ReportEnhancement isOpen={showEnhancement} onClose={() => setShowEnhancement(false)} REPORT_TYPE="REPORT_ENHANCEMENT" typeID={userId} />
 
-            <Flex onClick={() => router.push('/dashboard/profile/' + userId)} as={"button"} alignItems={"center"} fontWeight={"700"} fontSize={"20px"} gap={"3"} >
+            <Flex onClick={() => router.push('/dashboard/profile/' + userId)} as={"button"} alignItems={"center"} fontWeight={"700"} fontSize={"20px"} gap={"3"} color={bodyTextColor} >
                 <IoIosArrowBack size="24px" />
                 Settings
             </Flex>
@@ -145,7 +155,7 @@ function Settings(props: Props) {
                     return (
                         <>
                             {item?.route !== '' && !item?.route?.startsWith("https://") &&
-                                <Flex key={index} onClick={() => clickHandler({ ...item })} as={item?.type !== "Support & Help" ? "button" : "div"} alignItems={"center"} color={item?.type !== "Support & Help" ? "black" : "#5D70F9"} my={item?.type !== "Support & Help" ? "0px" : "4"} fontWeight={item?.type !== "Support & Help" ? "400" : "bold"} fontSize={"15px"} py={"3"} gap={"1"}  >
+                                <Flex key={index} onClick={() => clickHandler({ ...item })} as={item?.type !== "Support & Help" ? "button" : "div"} alignItems={"center"} color={item?.type !== "Support & Help" ? bodyTextColor : bodyTextColor} my={item?.type !== "Support & Help" ? "0px" : "4"} fontWeight={item?.type !== "Support & Help" ? "400" : "bold"} fontSize={"15px"} py={"3"} gap={"1"}  >
                                     {item?.type !== "Support & Help" && (
                                         <Box width={"30px"} >
                                             {item?.icon}
@@ -156,7 +166,7 @@ function Settings(props: Props) {
                             }
                             {item?.route !== '' && item?.route?.startsWith("https://") &&
                                 <a href={item.route} key={index}  >
-                                    <Flex key={index} as={item?.type !== "Support & Help" ? "button" : "div"} alignItems={"center"} color={item?.type !== "Support & Help" ? "black" : "#5D70F9"} my={item?.type !== "Support & Help" ? "0px" : "4"} fontWeight={item?.type !== "Support & Help" ? "400" : "bold"} fontSize={"15px"} py={"3"} gap={"1"}  >
+                                    <Flex key={index} as={item?.type !== "Support & Help" ? "button" : "div"} alignItems={"center"} color={item?.type !== "Support & Help" ? bodyTextColor : bodyTextColor} my={item?.type !== "Support & Help" ? "0px" : "4"} fontWeight={item?.type !== "Support & Help" ? "400" : "bold"} fontSize={"15px"} py={"3"} gap={"1"}  >
                                         {item?.type !== "Support & Help" && (
                                             <Box width={"30px"} >
                                                 {item?.icon}
@@ -168,7 +178,7 @@ function Settings(props: Props) {
                             }
 
                             {item?.route === '' && item?.action !== null &&
-                                <Flex onClick={() => item?.action() as any} key={index} as={item?.type !== "Support & Help" ? "button" : "div"} alignItems={"center"} color={item?.type !== "Support & Help" ? "black" : "#5D70F9"} my={item?.type !== "Support & Help" ? "0px" : "4"} fontWeight={item?.type !== "Support & Help" ? "400" : "bold"} fontSize={"15px"} py={"3"} gap={"1"}  >
+                                <Flex onClick={() => item?.action() as any} key={index} as={item?.type !== "Support & Help" ? "button" : "div"} alignItems={"center"} color={item?.type !== "Support & Help" ? bodyTextColor : "#5D70F9"} my={item?.type !== "Support & Help" ? "0px" : "4"} fontWeight={item?.type !== "Support & Help" ? "400" : "bold"} fontSize={"15px"} py={"3"} gap={"1"}  >
                                     {item?.type !== "Support & Help" && (
                                         <Box width={"30px"} >
                                             {item?.icon}

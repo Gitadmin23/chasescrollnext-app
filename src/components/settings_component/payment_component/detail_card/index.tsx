@@ -1,11 +1,12 @@
 "use client"
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Flex, useColorMode } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import UserWalletAmount from './user_wallet_amount'
 import TabController from './tab_controller'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io' 
 import useSettingsStore from '@/global-state/useSettingsState'
 import CardTabs from '../card_tabs'
+import useCustomTheme from '@/hooks/useTheme'
 
 interface Props { 
 
@@ -20,6 +21,15 @@ function DetailCard(props: Props) {
 
     const { currency } = useSettingsStore((state) => state);
 
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
+
     const clickHandler =()=> {
         setTab(3)
         setShowEscrow((prev) => !prev)
@@ -27,7 +37,7 @@ function DetailCard(props: Props) {
 
     return (
         <Box> 
-            <Box width={"full"} padding={"2px"} rounded={"6px"} bgColor={"#12299C"} >
+            <Box width={"full"} padding={"2px"} rounded={"6px"} bgColor={colorMode === 'light' ? "#12299C":secondaryBackgroundColor} >
                 <Flex justifyContent={"space-between"} >
                     <Flex as={"button"} color={"#12299C"} bg={showEscrow ? "brand.chasescrollYellow" : "white"} roundedTopLeft={"6px"} roundedBottomRight={"12px"} fontWeight={"bold"} px={"10px"} py={"3px"} >
                         Balance

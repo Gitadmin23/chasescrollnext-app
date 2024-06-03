@@ -1,5 +1,5 @@
 import CustomText from '@/components/general/Text'
-import { HStack, VStack, Button, InputGroup, InputLeftElement, Input, Box, Avatar, useToast, Spinner, Image } from '@chakra-ui/react'
+import { HStack, VStack, Button, InputGroup, InputLeftElement, Input, Box, Avatar, useToast, Spinner, Image, useColorMode } from '@chakra-ui/react'
 import { IoMdSearch } from 'react-icons/io'
 import React from 'react'
 import { THEME } from '@/theme'
@@ -17,6 +17,7 @@ import { SearchNormal1 } from 'iconsax-react'
 import { IUser } from '@/models/User'
 import { uniq } from 'lodash'
 import UserImage from '../sharedComponent/userimage'
+import useCustomTheme from '@/hooks/useTheme'
 
 
 const ARRAY = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -74,12 +75,21 @@ function Sidebar() {
     const intObserver = React.useRef<IntersectionObserver>();
     const query = useSearchParams();
 
-
     const router = useRouter();
     const toast = useToast();
     const debounceValue = useDebounce(search);
     const { userId } = useDetails((state) => state);
     const { setAll, chatsIds } = useChatPageState((state) => state);
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
+
     const getonlineUsers = useQuery(['onlineUser', userId], () => httpService.get(`${URLS.ONLINE_USERS}`), {
         
         onSuccess: (data) => {
@@ -160,9 +170,9 @@ function Sidebar() {
                 {/* SEARCH BAR */}
                 <InputGroup>
                     <InputLeftElement>
-                        <SearchNormal1 size='25px' color={THEME.COLORS.chasescrollButtonBlue} />
+                        <SearchNormal1 size='25px' color={colorMode === 'light' ? THEME.COLORS.chasescrollButtonBlue: bodyTextColor} />
                     </InputLeftElement>
-                    <Input value={search} onChange={(e) => setSearch(e.target.value)} width='100%' height={'45px'} placeholder='search message' borderRadius={'10'} borderWidth={'1px'} borderColor={'lightgrey'} bg='whitesmoke' />
+                    <Input value={search} onChange={(e) => setSearch(e.target.value)} width='100%' height={'45px'} placeholder='search message' borderRadius={'10'} borderWidth={'0.5px'} borderColor={borderColor} bg={secondaryBackgroundColor} />
                 </InputGroup>
             </VStack>
 
