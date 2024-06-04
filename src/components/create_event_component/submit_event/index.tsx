@@ -211,9 +211,9 @@ function SubmitEvent(props: Iprops) {
                     duration: 5000,
                     position: 'top-right',
                 }); return
-            } else if (!item.maxTicketBuy) {
+            } else if (!item.maxTicketBuy  || Number(item.maxTicketBuy) === 0) {
                 toast({
-                    description: "Please Enter Maximum Ticket Buy",
+                    description: "Please enter maximum number of ticket an attendee can purchase.",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -233,7 +233,7 @@ function SubmitEvent(props: Iprops) {
                     toast({
                         status: "error",
                         title: "Error",
-                        description: "minimum ticket Price can't be less than zero ",
+                        description: "The price for ticket cannot be zero(0) ",
                         position: "top-right"
                     })
                 } else {

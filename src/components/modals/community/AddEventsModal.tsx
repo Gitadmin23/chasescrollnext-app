@@ -22,7 +22,9 @@ import {
     Input,
     InputGroup,
     InputLeftAddon, InputLeftElement,
-    Spinner
+    Spinner,
+    Flex,
+    Text
 } from '@chakra-ui/react';
 import { uniqBy } from 'lodash';
 import React from 'react'
@@ -32,6 +34,7 @@ import { IoPin, IoPinSharp } from 'react-icons/io5';
 import { IoIosPin } from 'react-icons/io';
 import { AiOutlinePushpin } from 'react-icons/ai';
 import ModalLayout from '@/components/sharedComponent/modal_layout';
+import { boolean } from 'zod';
 
 const EventBox = ({ event }: {
     event: IEvent,
@@ -87,16 +90,19 @@ const EventBox = ({ event }: {
                 </VStack>
 
             </HStack>
-            <Box role='button' position={"absolute"} top={"5"} right={"5"} onClick={() => savedEvent.mutate({
+            <Button role='button' position={"absolute"} top={"auto"} bottom={"auto"} right={"5"} onClick={() => savedEvent.mutate({
                 eventID: event.id,
                 typeID: activeCommunity?.id,
                 type: 'EVENT',
             })}>
                 {savedEvent.isLoading ?
                     <Spinner size={"xs"} /> :
-                    <AiOutlinePushpin />
+                    <Flex w={"full"} color={"#5D70F9"} gap={"1px"} flexDir={"column"} alignItems={"center"} >
+                        <AiOutlinePushpin  />
+                        <Text fontSize={"10px"} >Pin</Text>
+                    </Flex>
                 }
-            </Box>
+            </Button>
 
 
             {/* <Button 

@@ -94,7 +94,7 @@ export const URLS = {
     GET_BOOKING:  '/booking/search',
     GET_SERVICES: '/service/search',
     CREATE_SERVICE: '/service/create',
-    VALIDATE_TICKET: (id: string) => `/events/validate-ticket/${id}`,
+    VALIDATE_TICKET: (id: string, ticket: string) => `/events/validate-ticket?eventID=${id}&ticketID=${ticket}`,
     //GET_MEDIA_POST : "/feed/get-users-media-posts?userID="
 }
 
