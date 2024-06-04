@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Modal, ModalBody, ModalCloseButton, ModalContent, Box, VStack, Spinner, Image, Button } from "@chakra-ui/react";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, Box, VStack, Spinner, Image, Button, useToast } from "@chakra-ui/react";
 import { Scanner as QrcodeScanner } from '@yudiel/react-qr-scanner';
 import { useMutation } from "react-query";
 import httpService from "@/utils/httpService";
@@ -8,6 +8,7 @@ import CustomText from "@/components/general/Text";
 import Ticket from "@/components/event_component/ticket";
 import { ITicket } from "@/models/Ticket";
 import ModalLayout from '@/components/sharedComponent/modal_layout';
+import { AxiosError } from 'axios';
 
 interface IProps {
     isOpen: boolean;
@@ -17,7 +18,7 @@ interface IProps {
 
 export default function Scanner({
     isOpen,
-    onClose, 
+    onClose,
     eventID
 }: IProps) {
     const [approved, setApproved] = React.useState(false);
@@ -26,13 +27,25 @@ export default function Scanner({
     const [ticket, setTicket] = React.useState<ITicket | null>(null);
     const [scanned, setScanned] = React.useState(false);
 
+    const toast = useToast()
+
     const { isLoading, mutate, isError } = useMutation({
         mutationFn: (data: string) => httpService.get(`${URLS.VALIDATE_TICKET(eventID, data)}`),
-        onSuccess: (data) => { 
+        onSuccess: (data) => {
             setTicket(data?.data?.ticket);
             setApproved(data?.data?.validate);
             onClose(false)
             setOpen(true)
+        },
+        onError: (error: any) => {
+
+            toast({
+                status: "error",
+                title: error.response?.data?.message,
+                position: "top-right"
+            });
+
+            onClose(false)
         }
     })
 
@@ -49,7 +62,7 @@ export default function Scanner({
 
     const closeHandler = () => {
         setOpen(false)
-    } 
+    }
 
     return (
         <>
