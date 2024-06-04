@@ -179,7 +179,7 @@ function EventDetails(props: Props) {
 
             </Box>
 
-            <Scanner isOpen={showScanner} onClose={() => setShowScanner(false)} />
+            <Scanner isOpen={showScanner} eventID={eventID} onClose={() => setShowScanner(false)} />
         </Box>
     )
 }

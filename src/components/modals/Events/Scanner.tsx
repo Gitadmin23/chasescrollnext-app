@@ -12,11 +12,13 @@ import ModalLayout from '@/components/sharedComponent/modal_layout';
 interface IProps {
     isOpen: boolean;
     onClose: (by?: boolean) => void;
+    eventID: string
 }
 
 export default function Scanner({
     isOpen,
-    onClose
+    onClose, 
+    eventID
 }: IProps) {
     const [approved, setApproved] = React.useState(false);
     const [show, setShow] = React.useState(true);
@@ -25,9 +27,8 @@ export default function Scanner({
     const [scanned, setScanned] = React.useState(false);
 
     const { isLoading, mutate, isError } = useMutation({
-        mutationFn: (data: string) => httpService.get(`${URLS.VALIDATE_TICKET(data)}`),
-        onSuccess: (data) => {
-            console.log(data.data);
+        mutationFn: (data: string) => httpService.get(`${URLS.VALIDATE_TICKET(eventID, data)}`),
+        onSuccess: (data) => { 
             setTicket(data?.data?.ticket);
             setApproved(data?.data?.validate);
             onClose(false)
@@ -48,11 +49,10 @@ export default function Scanner({
 
     const closeHandler = () => {
         setOpen(false)
-    }
+    } 
 
     return (
         <>
-
             <Modal isOpen={isOpen} isCentered={true} onClose={() => onClose(false)} size={scanned && !isLoading && !isError ? 'full' : 'full'}>
                 <ModalContent bg={'grey'}>
                     {!isLoading && !scanned && (
@@ -93,7 +93,7 @@ export default function Scanner({
                     </Box>
                 )}
                 {(!isLoading && !isError) &&
-                    <Ticket close={closeHandler} showQrCode={true} approved={approved} ticket={ticket as ITicket} />
+                    <Ticket close={closeHandler} showQrCode={true} approved={approved || new Date(ticket?.scanTimeStamp ? ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 1] : "")?.getDay() !== new Date(ticket?.scanTimeStamp ? ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 2] : "")?.getDay()} ticket={ticket as ITicket} />
                 }
             </ModalLayout>
         </>
