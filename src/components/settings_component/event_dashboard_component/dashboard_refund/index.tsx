@@ -169,27 +169,31 @@ function DashboardRefund(props: Props) {
                                                 {person?.ticketNumber !== 0 ? person?.ticketNumber : ""}
                                             </Td>
                                             <Td>
-                                                {person?.ticketScanInfoList[0]?.scanTime?.length > 0 && (
-                                                    <>
-                                                        {person?.ticketScanInfoList?.map((item: {
-                                                            scanTime: Array<any>,
-                                                            scanned: boolean
-                                                        }, index: number) => {
-                                                            return (
-                                                                <Flex key={index} flexDir={"column"} gap={"2"} >
-                                                                    <Text>Ticket {index + 1}</Text>
-                                                                    <Flex flexDir={"column"} gap={"1"} >
-                                                                        {item?.scanTime?.map((time: number, indexkey: number) => {
-                                                                            return (
-                                                                                <Text key={indexkey} >{dateFormat(time)} {timeFormat(time)}</Text>
-                                                                            )
-                                                                        })}
+                                                {/* {person?.ticketScanInfoList[0]?.scanTime?.length > 0 && ( */}
+                                                <>
+                                                    {person?.ticketScanInfoList?.map((item: {
+                                                        scanTime: Array<any>,
+                                                        scanned: boolean
+                                                    }, index: number) => {
+                                                        return (
+                                                            <>
+                                                                {item?.scanTime?.length > 0 &&
+                                                                    <Flex key={index} mt={index === 0 ? "0px" : "4"} flexDir={"column"} gap={"2"} >
+                                                                        <Text>Ticket {index + 1}</Text>
+                                                                        <Flex flexDir={"column"} gap={"1"} >
+                                                                            {item?.scanTime?.map((time: number, indexkey: number) => {
+                                                                                return (
+                                                                                    <Text key={indexkey} >{time ? dateFormat(time) : ""} {time ? timeFormat(time) : ""}</Text>
+                                                                                )
+                                                                            })}
+                                                                        </Flex>
                                                                     </Flex>
-                                                                </Flex>
-                                                            )
-                                                        })}
-                                                    </>
-                                                )}
+                                                                }
+                                                            </>
+                                                        )
+                                                    })}
+                                                </>
+                                                {/* )} */}
                                             </Td>
                                             {showBtn && (
                                                 <Td >
