@@ -229,7 +229,7 @@ function ViewTicket(props: Props) {
                                     <Box bg={"white"} p={"3"} w={"fit-content"} rounded={"16px"} >
                                         <QRCode
                                             style={{ height: "200px", width: "200px", zIndex: 20 }}
-                                            value={dataMultiple[0]?.id}
+                                            value={item?.id}
                                             viewBox={`0 0 256 256`}
                                         />
                                     </Box>

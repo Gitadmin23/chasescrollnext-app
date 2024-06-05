@@ -2,6 +2,10 @@ import moment from "moment"
 
 export function dateFormat(date: any) {
   return moment(date).format("ddd, MMMM Do YYYY")
+} 
+
+export function dateFormatDashboad(date: any) {
+  return moment(date).format("ddd, MM/DD/YY")
 }
 
 export function dateFormatMonthDay(date: any) {
