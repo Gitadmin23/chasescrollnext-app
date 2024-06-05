@@ -27,10 +27,32 @@ function SelectTicket(props: Props) {
                 minTicketBuy: null,
                 maxTicketBuy: null
             },]
-        }
-        clone.productTypeData[index][name] = value
+        }  
+        
+        if (name === "minTicketBuy" && value > 5) {
+            toast({
+                status: "error",
+                title: "Error",
+                description: "minimum ticket can't be greater than 5",
+                position: "top-right"
+            })
+            console.log("min stop");
+            
+        } else if (name === "maxTicketBuy" && value > 50) {
+            toast({
+                status: "error",
+                title: "Error",
+                description: "maximum ticket can't be greater than 50",
+                position: "top-right"
+            })
+            console.log("max stop");
+        } else {
+            clone.productTypeData[index]["minTicketBuy"] = 1
+            clone.productTypeData[index][name] = value
 
-        updateEvent(clone)
+            updateEvent(clone)
+            console.log(" stop");
+        }
     };
 
 
@@ -49,14 +71,22 @@ function SelectTicket(props: Props) {
         }
     };
 
-    useEffect(()=> {
+    useEffect(() => {
+
+        const clone = {...eventdata}
+
+        clone?.productTypeData?.map((item, index) => {
+            return clone.productTypeData[index]["minTicketBuy"] = "1"
+        })
+
         updateEvent({
-            ...eventdata,
+            ...clone,
             currency: "NGN",
         });
     }, [])
 
     const handleMaxTicket = (index: number, name: string, value: any) => {
+
         if (Number(eventdata.productTypeData[index]?.totalNumberOfTickets) >= (value)) {
             handleChange(index, name, value)
         } else {
@@ -71,7 +101,7 @@ function SelectTicket(props: Props) {
                 toast({
                     status: "error",
                     title: "Error",
-                    description: "maximum ticket can't be greater than total number of ticket",
+                    description: "Maximum number of ticket cannot be greater than total number of available ticket",
                     position: "top-right"
                 })
             }
@@ -98,15 +128,17 @@ function SelectTicket(props: Props) {
         myArr[index] = {
             totalNumberOfTickets: null,
             ticketPrice: type === "Free" ? 0 : null,
-            ticketType: "Regular"+index,
-            minTicketBuy: null,
+            ticketType: "Regular" + index,
+            minTicketBuy: 1,
             maxTicketBuy: null
-        } 
+        }
         updateEvent({
             ...eventdata,
             productTypeData: myArr
         })
     }
+    console.log(eventdata?.productTypeData);
+    
 
     return (
         <Flex flexDirection={"column"} gap={"4"} width={"full"} >
@@ -118,7 +150,7 @@ function SelectTicket(props: Props) {
                         {promotion && (
                             <Box width={"full"}>
                                 <label className="block text-gray-700 font-medium mb-2">
-                                Add event owner’s website/link where attendees can  get the ticket.
+                                    Add event owner’s website/link where attendees can  get the ticket.
                                 </label>
                                 <Flex >
                                     <Input
@@ -127,7 +159,7 @@ function SelectTicket(props: Props) {
                                         border={"1px solid #E2E8F0"}
                                         focusBorderColor={"#E2E8F0"}
                                         placeholder="https//"
-                                        value={eventdata.productTypeData[index]?.rerouteURL}
+                                        value={eventdata.productTypeData[index]?.rerouteURL ?? ""}
                                         name="rerouteURL"
                                         onChange={e => handleChange(index, "rerouteURL", e.target.value)}
                                     />
@@ -146,7 +178,7 @@ function SelectTicket(props: Props) {
                                         border={"1px solid #E2E8F0"}
                                         focusBorderColor={"#E2E8F0"}
                                         placeholder="Enter Name"
-                                        value={eventdata.productTypeData[index]?.ticketType}
+                                        value={eventdata.productTypeData[index]?.ticketType ?? ""}
                                         name="ticketType"
                                         onChange={e => handleChange(index, "ticketType", e.target.value)}
                                     />
@@ -165,7 +197,7 @@ function SelectTicket(props: Props) {
                                         border={"1px solid #E2E8F0"}
                                         focusBorderColor={"#E2E8F0"}
                                         placeholder="Enter amount"
-                                        value={eventdata.productTypeData[index]?.ticketPrice}
+                                        value={eventdata.productTypeData[index]?.ticketPrice ?? ""}
                                         disabled={type === "Free" ? true : false}
                                         name="ticketPrice"
                                         onChange={e => handleChange(index, "ticketPrice", e.target.value)}
@@ -176,7 +208,7 @@ function SelectTicket(props: Props) {
                         {/* } */}
                         <Box width={"full"} >
                             <label className="block text-gray-700 font-medium mb-2">
-                                Indicate total number of tickets available to be sold for your
+                                Total number of tickets available to be sold for your
                                 events
                             </label>
                             <Input
@@ -187,7 +219,7 @@ function SelectTicket(props: Props) {
                                 focusBorderColor={"#E2E8F0"}
                                 placeholder=" Type in available quantity"
                                 // value={eventdata.totalTicketAvailable}
-                                value={eventdata.productTypeData[index]?.totalNumberOfTickets}
+                                value={eventdata.productTypeData[index]?.totalNumberOfTickets ?? ""}
                                 name="totalNumberOfTickets"
                                 onChange={e =>
                                     handleChange(index, "totalNumberOfTickets", e.target.value)
@@ -196,27 +228,29 @@ function SelectTicket(props: Props) {
                         </Box>
                         <Flex flexDirection={"column"} gap={"4"} width={"full"} >
                             <label className="block text-gray-700 font-medium mb-2">
-                                Indicate the minimum and maximum number of tickets each user can
+                                Indicate the maximum number of tickets each user can
                                 purchase for your event
                             </label>
-                            <Input
+                            {/* <Input
                                 h={"45px"}
                                 type="number"
+                                disabled={true}
                                 onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                 border={"1px solid #E2E8F0"}
-                                focusBorderColor={"#E2E8F0"}
+                                focusBorderColor={"#E2E8F0"} 
                                 placeholder="Type in minimum no of Tickets"
-                                value={eventdata.productTypeData[index]?.minTicketBuy}
+                                value={eventdata.productTypeData[index]?.minTicketBuy ?? ""}
                                 name="minTicketBuy"
-                                onChange={e => handleMaxTicket(index, "minTicketBuy", e.target.value)} />
+                                onChange={e => handleMaxTicket(index, "minTicketBuy", e.target.value)} /> */}
                             <Input
                                 h={"45px"}
                                 type="number"
+                                // disabled={Number(eventdata.productTypeData[index]?.totalNumberOfTickets) <= 0 ? true : false}
                                 onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                 border={"1px solid #E2E8F0"}
                                 focusBorderColor={"#E2E8F0"}
                                 placeholder="Type in maximum no. of Tickets"
-                                value={eventdata.productTypeData[index]?.maxTicketBuy}
+                                value={eventdata.productTypeData[index]?.maxTicketBuy ?? ""}
                                 name="maxTicketBuy"
                                 onChange={e => handleMaxTicket(index, "maxTicketBuy", e.target.value)} />
                         </Flex>

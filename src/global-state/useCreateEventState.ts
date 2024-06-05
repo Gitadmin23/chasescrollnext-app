@@ -115,7 +115,7 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
                 totalNumberOfTickets: "",
                 ticketPrice: "",
                 ticketType: "Regular",
-                minTicketBuy: "",
+                minTicketBuy: "1",
                 maxTicketBuy: "",
                 rerouteURL: ""
             },

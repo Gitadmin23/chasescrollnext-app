@@ -8,12 +8,14 @@ import { useQuery } from 'react-query';
 import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
-    selector?: boolean
+    selector?: boolean,
+    eventpage?: boolean
 }
 
 function EventCategory(props: Props) {
     const {
-        selector
+        selector,
+        eventpage
     } = props
 
     const [data, setData] = React.useState([] as string[]);
@@ -64,14 +66,15 @@ function EventCategory(props: Props) {
     return (
         <>
             {!selector && (
-                <Flex flexDirection={"column"} overflowX={"hidden"} h={"50px"} justifyContent={"center"} alignItems={"center"} position={"relative"} >
-                    <Box ref={ref} width={"full"} overflowX={"auto"} scrollBehavior={"smooth"} sx={
-                        {
-                            '::-webkit-scrollbar': {
-                                display: 'none'
-                            }
-                        }}>
-                        <Flex gap={"9"} width={"fit-content"} pr={"100px"} height={"fit-content"} >
+                <Flex flexDirection={"column"} overflowX={"hidden"} h={"0px"} justifyContent={"center"} alignItems={"center"} position={"relative"} >
+                    <Box ref={ref} width={"full"}  height={"full"} display={"flex"} overflowX={"auto"} scrollBehavior={"smooth"}
+                        // sx={{
+                        //     '::-webkit-scrollbar': {
+                        //         display: 'none'
+                        //     }
+                        // }}
+                    >
+                        <Flex gap={"9"} width={"fit-content"} my={"auto"} pr={"100px"} height={"fit-content"} >
 
                             <Button onClick={() => clickHandler("")} width={"80px"} _hover={{ backgroundColor: "white" }} rounded={"none"} borderBottom={!event_category ? "1px" : ""} fontSize={"16px"} lineHeight={"150%"} fontWeight={!event_category ? "bold" : "normal"} height={"30px"} bg={"#FFF"} color={!event_category ? "brand.chasescrollBlue" : "#626262"} >All Event</Button>
                             {data?.sort((a: string, b: string) => {
@@ -91,13 +94,41 @@ function EventCategory(props: Props) {
                     </Box>
 
                     <Box h={"50px"} justifyContent={"center"} as='button' onClick={() => scroll(400)} pos={"absolute"} w={"fit-content"} right={"0px"} top={"0px"} >
-                        <CategoryRightIcon />
+                        {eventpage && (
+                            <Select
+                                color={"#5465E0"} backgroundColor={"#F2F4FF"}
+                                focusBorderColor={"#5465E0"}
+                                height={"50px"}
+                                fontSize={"sm"}
+                                rounded={"50px"}
+                                width={["150px", "auto", "auto"]}
+                                onChange={(e) => handleChange(e.target.value)}
+                                value={event_category}
+                                textAlign={"center"}
+                                placeholder='Select Event Type' >
+                                {data?.sort((a: string, b: string) => {
+                                    if (a > b) {
+                                        return 1
+                                    } else {
+                                        return -1;
+                                    }
+                                    return 0;
+                                })?.map((type: any, index: number) => (
+                                    <option style={{ fontSize: "12px" }} key={index} value={type}>
+                                        {type.split("_").join(" ")}
+                                    </option>
+                                ))}
+                            </Select>
+                        )}
+                        {!eventpage && (
+                            <CategoryRightIcon />
+                        )}
                     </Box>
                 </Flex>
             )}
             {selector && (
                 <Select
-                     color={"#5465E0"} backgroundColor={"#F2F4FF"}
+                    color={"#5465E0"} backgroundColor={"#F2F4FF"}
                     focusBorderColor={"#F2F4FF"}
                     height={"50px"}
                     fontSize={"sm"}
