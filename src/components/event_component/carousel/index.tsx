@@ -62,7 +62,7 @@ function EventCarousel(props: Props) {
                             data?.map((item: any, index: any) => {
                                 return (
                                     <>
-                                        <Box onClick={() => router.push("/dashboard/event/details/" + item?.id)} key={index} role='button' bg={"white"} rounded={"32px"} roundedTopRight={"0px"} width={"full"} height={["fit-content", "fit-content", "fit-content"]} p={"3"} bg={secondaryBackgroundColor} >
+                                        <Box onClick={() => router.push("/dashboard/event/details/" + item?.id)} key={index} role='button' rounded={"32px"} roundedTopRight={"0px"} width={"full"} height={["fit-content", "fit-content", "fit-content"]} p={"3"} bg={secondaryBackgroundColor} >
                                             <Box position={"relative"} width={"full"} >
                                                 <BlurredImage height={["256px", "256px", "350px"]} image={item?.currentPicUrl} />
                                                 {/* <Image style={{ borderTopRightRadius: "0px", borderRadius: "32px" }} objectFit="cover" alt={item?.currentPicUrl} width={"full"} height={["256px", "256px", "350px"]} src={IMAGE_URL + item?.currentPicUrl} /> */}
