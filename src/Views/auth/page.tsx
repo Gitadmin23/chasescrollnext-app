@@ -319,7 +319,7 @@ function LoginPage() {
         </Flex>
       </Flex>
 
-      <Box width={"full"} display={["none", "none", "flex"]} mt={"auto"} flexDirection={"column"} bg >
+      <Box width={"full"} display={["none", "none", "flex"]} mt={"auto"} flexDirection={"column"} >
 
         <Text fontSize={"10px"} textAlign={"center"} mx={"auto"} >
           <CopyRightText />
