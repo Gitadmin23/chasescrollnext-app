@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import PropTypes from 'prop-types';
 import './styles/styles.scss';
-import { Box, Flex } from '@chakra-ui/react';
+import {Box, Flex, useColorMode} from '@chakra-ui/react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import useCustomTheme from "@/hooks/useTheme";
 
 // const isEqual = require("react-fast-compare");
 
@@ -20,6 +21,17 @@ export function CustomCarousel(props: any) {
     // preventDefaultTouchmoveEvent: true,
     trackMouse: true
   });
+
+  const {
+    bodyTextColor,
+    primaryColor,
+    secondaryBackgroundColor,
+    mainBackgroundColor,
+    borderColor,
+  } = useCustomTheme();
+  const { colorMode, toggleColorMode } = useColorMode();
+
+
   useEffect(() => {
     const locSlides: any = [];
     props.slides.forEach((slide: any) => {
@@ -188,13 +200,13 @@ export function CustomCarousel(props: any) {
                       {slides.map((slider: any, index: any) => (
                                 <div className={slider.class} key={index}>
                                     <div className={sliderClass('left')} onClick={slideLeft}>
-                                        <Flex justifyContent={"center"} alignItems={"center"} borderWidth={"1px"} borderColor={"#5D70F9"} width={"40px"} height={"40px"} rounded={"lg"} >
-                                          <IoIosArrowBack color={"#5D70F9"} size={"25px"} />
+                                        <Flex justifyContent={"center"} alignItems={"center"} borderWidth={"1px"} borderColor={borderColor} width={"40px"} height={"40px"} rounded={"lg"} >
+                                          <IoIosArrowBack color={colorMode === "light" ? "#5D70F9":bodyTextColor} size={"25px"} />
                                         </Flex>
                                     </div>
                                     <div className={sliderClass('right')} onClick={slideRight} ref={nextRef}>
-                                        <Flex justifyContent={"center"} alignItems={"center"} borderWidth={"1px"} borderColor={"#5D70F9"} width={"40px"} height={"40px"} rounded={"lg"} >
-                                            <IoIosArrowForward color={"#5D70F9"} size={"25px"} />
+                                        <Flex justifyContent={"center"} alignItems={"center"} borderWidth={"1px"} borderColor={borderColor} width={"40px"} height={"40px"} rounded={"lg"} >
+                                            <IoIosArrowForward color={colorMode === "light" ? "#5D70F9":bodyTextColor} size={"25px"} />
                                         </Flex>
                                     </div>
 

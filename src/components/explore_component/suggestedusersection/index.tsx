@@ -1,10 +1,11 @@
 'use client'
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Box, Flex, Link, Text, useToast } from '@chakra-ui/react'
+import {Box, Flex, Link, Text, useColorMode, useToast} from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useQuery } from 'react-query';
 import UserExploreCard from '../userexplorecard';
+import useCustomTheme from "@/hooks/useTheme";
 
 // interface Props {}
 
@@ -13,7 +14,16 @@ function SugestedUserSection() {
 
     const toast = useToast()
     const [data, setData] = React.useState([] as any)
-    const [BlockedUser, setblockedUser] = useState([] as any)
+    const [BlockedUser, setblockedUser] = useState([] as any);
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     // react query
     const { isLoading, isRefetching } = useQuery(['get-suggested-user'], () => httpService.get(URLS.GET_SUGGESTED_FRIENDS), {
@@ -36,8 +46,6 @@ function SugestedUserSection() {
             <Box width={"full"} overflowX={"auto"} > 
                 <Flex gap={"4"} width={"fit-content"} py={"4"} >
                     {data?.slice(0, 6)?.filter((item: any) => !BlockedUser.includes(item?.userId))?.map((suggestion: any) => {
-                        console.log(suggestion);
-                        
                         return (
                             <UserExploreCard
                                 key={suggestion.id}

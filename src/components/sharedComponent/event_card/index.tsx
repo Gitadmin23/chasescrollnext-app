@@ -105,7 +105,7 @@ function ExploreEventCard(props: Props) {
                                         <IoCalendarOutline size={searchbar ? "16px" : "20px"} />
                                     </Box>
                                 </Box>
-                                <Text color={"gray.600"} fontSize={searchbar ? "13px" : "16px"} fontWeight={"medium"}>
+                                <Text color={colorMode === 'light' ? "gray.600":bodyTextColor} fontSize={searchbar ? "13px" : "16px"} fontWeight={"medium"}>
                                     {dateFormat(event.startDate)}
                                 </Text>
                             </Flex>
@@ -134,7 +134,7 @@ function ExploreEventCard(props: Props) {
                         {(my_event || past) && (
                             <Flex justifyContent={"space-between"} gap={"3"} flexDirection={"column"} width={"full"} >
                                 {!past && (
-                                    <Flex gap={"2"} fontSize={"sm"} alignItems={"center"} >
+                                    <Flex gap={"2"} fontSize={"sm"} alignItems={"center"} color={bodyTextColor} >
                                         <Text>Category:</Text>
                                         <Text color={"brand.chasescrollBlue"} fontWeight={"bold"}  >
                                             {event?.eventType?.replace("_", " ")}

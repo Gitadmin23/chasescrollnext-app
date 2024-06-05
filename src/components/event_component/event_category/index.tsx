@@ -2,9 +2,10 @@ import { CategoryRightIcon } from '@/components/svg';
 import useSearchStore from '@/global-state/useSearchData';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Box, Button, Flex, Select, useToast } from '@chakra-ui/react';
+import {Box, Button, Flex, Select, useColorMode, useToast} from '@chakra-ui/react';
 import React from 'react'
 import { useQuery } from 'react-query';
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     selector?: boolean
@@ -16,7 +17,16 @@ function EventCategory(props: Props) {
     } = props
 
     const [data, setData] = React.useState([] as string[]);
-    const toast = useToast()
+    const toast = useToast();
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const { event_category, setEventCategory } = useSearchStore((state) => state);
 
@@ -74,7 +84,7 @@ function EventCategory(props: Props) {
                             }).map((item: any) => {
 
                                 return (
-                                    <Button onClick={() => clickHandler(item)} key={item} _hover={{ backgroundColor: "white", borderBottom: "1px" }} rounded={"none"} width={"fit-content"} height={"30px"} fontSize={"sm"} fontWeight={event_category === item ? "bold" : "normal"} bg={"#FFF"} borderBottomColor={"brand.chasescrollBlue"} borderBottom={event_category === item ? "1px" : "0px"} textColor={event_category === item ? "brand.chasescrollBlue" : "#626262"} >{item?.split("_")?.join(" ")}</Button>
+                                    <Button onClick={() => clickHandler(item)} key={item} _hover={{ backgroundColor: secondaryBackgroundColor, borderBottom: "1px" }} rounded={"none"} width={"fit-content"} height={"30px"} fontSize={"sm"} fontWeight={event_category === item ? "bold" : "normal"} bg={mainBackgroundColor} borderBottomColor={"brand.chasescrollBlue"} borderBottom={event_category === item ? "1px" : "0px"} textColor={event_category === item ? "brand.chasescrollBlue" : bodyTextColor} >{item?.split("_")?.join(" ")}</Button>
                                 )
                             })}
                         </Flex>

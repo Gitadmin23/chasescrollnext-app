@@ -139,7 +139,6 @@ function AddEventsModal({ isOpen, onClose }: {
                             </InputLeftElement>
                             <Input value={search} onChange={(e) =>setSeearch(e.target.value)} placeholder='Search for event' height={'50px'} borderRadius={'30px'} />
                         </InputGroup>
-
                     </HStack>
                     <Box width='100%' height='450px' overflowY={'auto'} paddingX='20px'>
                         {!isLoading && !isError && events.length < 1 && (
