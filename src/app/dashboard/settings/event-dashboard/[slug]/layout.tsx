@@ -89,7 +89,7 @@ function Layout({ children, params }: {
                 <Box width={["full", "full", pathname?.includes("refund") ? "full" : "600px"]} px={"6"} py={"10"} position={"relative"} >
                     <Flex alignItems={"center"} gap={"4"} width={"full"} justifyContent={"center"}>
                         <Box onClick={() => router.back()} as='button' position={"absolute"} zIndex={"10"} left={"0px"} width={"fit-content"} >
-                            <BsChevronLeft color={"black"} size={"25px"} color={bodyTextColor} />
+                            <BsChevronLeft size={"25px"} color={bodyTextColor} />
                         </Box>
                         <Text textAlign={"center"} fontSize={"2xl"} fontWeight={"bold"} >{pathname?.includes("refund") ? "Attendees" : data?.eventName}</Text>
                     </Flex>

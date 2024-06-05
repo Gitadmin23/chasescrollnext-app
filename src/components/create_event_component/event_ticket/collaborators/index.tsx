@@ -220,7 +220,7 @@ export default function CollaboratorBtn(props: IProps) {
                         {/* <Avatar src={`${CONFIG.RESOURCE_URL}${imgMain}`} size='sm' name={`${firstName} ${lastName}`} /> */}
                         <VStack alignItems={'flex-start'} spacing={0}>
                             <Heading fontSize={'16px'} color={headerTextColor}>{firstName || ''} {lastName || ''}</Heading>
-                            <Text color='grey' fontSize={'14px'} color={bodyTextColor}>@{textLimit(username, 12) || ''}</Text>
+                            <Text fontSize={'14px'} color={bodyTextColor}>@{textLimit(username, 12) || ''}</Text>
                         </VStack>
                     </Flex>
                     <Checkbox isChecked={show || collaborators || admin} rounded={"full"} onChange={(e) => removeHandler(userId)} />
