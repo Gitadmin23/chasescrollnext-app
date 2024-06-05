@@ -126,30 +126,30 @@ html, body {
 
   #dropdown-month select {
     height: 45px;
-    width: 100%; 
+    width: 100%;
     padding-left: 10px;
     padding-right: 10px;
-    border: 1px solid #e2e8f0; 
+    border: 1px solid #e2e8f0;
     border-radius: 8px !important;
     background-color: white;
   }
 
   #dropdown-year select {
     height: 45px;
-    width: 100%; 
+    width: 100%;
     padding-left: 10px;
     padding-right: 10px;
-    border: 1px solid #e2e8f0; 
+    border: 1px solid #e2e8f0;
     border-radius: 8px !important;
     background-color: white;
   }
 
   #dropdown-day select {
     height: 45px;
-    width: 100%; 
+    width: 100%;
     padding-left: 10px;
     padding-right: 10px;
-    border: 1px solid #e2e8f0; 
+    border: 1px solid #e2e8f0;
     border-radius: 8px !important;
     background-color: white;
   }

@@ -1,7 +1,8 @@
 import SearchComponent from '@/components/search_component'
 import useSearchStore from '@/global-state/useSearchData'
 import { THEME } from '@/theme'
-import { InputGroup, InputLeftElement, Input, Box,  Popover,
+import {
+    InputGroup, InputLeftElement, Input, Box, Popover,
     PopoverTrigger,
     PopoverContent,
     PopoverHeader,
@@ -9,7 +10,8 @@ import { InputGroup, InputLeftElement, Input, Box,  Popover,
     PopoverFooter,
     PopoverArrow,
     PopoverCloseButton,
-    PopoverAnchor, } from '@chakra-ui/react'
+    PopoverAnchor, useColorMode,
+} from '@chakra-ui/react'
 import React from 'react'
 import { FiBell } from 'react-icons/fi'
 import { IoSearchOutline } from 'react-icons/io5'
@@ -22,6 +24,7 @@ import { useQuery } from 'react-query'
 import httpService from '@/utils/httpService'
 import { URLS } from '@/services/urls'
 import { PaginatedResponse } from '@/models/PaginatedResponse'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props { }
 
@@ -30,6 +33,14 @@ function NotificationBar(props: Props) {
     const [active, setActive] = React.useState(false);
     const[page, setPage] = React.useState(0);
 
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const { count, setAllCount } = useNotification((state) => state);
 
@@ -55,7 +66,7 @@ function NotificationBar(props: Props) {
                 </Box>
                 {/* <CustomText position={'absolute'} top='-10px' right='0'></CustomText> */}
              </PopoverTrigger>
-             <PopoverContent width={['auto', '400px']} bg='whitesmoke' padding='0px'>
+             <PopoverContent width={['auto', '400px']} bg={secondaryBackgroundColor} padding='0px'>
                 <PopoverBody width='100%' padding='5px' height={'auto'} overflowY={'auto'}>
                     <NotificationPage isLoading={isLoading} />
                 </PopoverBody>
@@ -68,7 +79,7 @@ function NotificationBar(props: Props) {
             {active && (
                 <Box onClick={()=> setActive(false)} bgColor={"black"} opacity={"0.3"} zIndex={"1000"} position={"fixed"} inset={"0px"} />
             )} */}
-        </Popover>
+        </Popover >
     )
 }
 

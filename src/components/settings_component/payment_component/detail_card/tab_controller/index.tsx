@@ -20,7 +20,7 @@ function TabController(props: Props) {
     const tab_list = [
         {
             name: "Buy Ticket",
-            icon: <MiniTicketIcon />
+            icon: <MiniTicketIcon  />
         },
         {
             name: "Cash Out",
@@ -67,10 +67,10 @@ function TabController(props: Props) {
                             ""} disabled={(item?.name === "Cash Out" || item?.name === "Fund Wallet") && type ? true :
                                 false} onClick={() => clickHandler(index)} flexDirection={"column"} alignItems={"center"} fontSize={"12px"} justifyContent={"center"} py={"2"} rounded={"6px"} width={"full"} bgColor={tab === index ? "#12299C" : ""} color={tab === index ? type ? "brand.chasescrollYellow" : "white" : "#12299C"} borderColor={tab === index ? type ? "brand.chasescrollYellow" : "white" : "#12299C"} >
                                     
-                        <Flex width={"40px"} height={"40px"} justifyContent={"center"} alignItems={"center"} border={"1px"} rounded={"full"} >
+                        <Flex width={"40px"} height={"40px"} justifyContent={"center"} alignItems={"center"} border={"1px"} rounded={"full"} color={bodyTextColor} >
                             {item?.icon}
                         </Flex>
-                        <Text fontWeight={"medium"} mt={"2px"} >{item?.name}</Text>
+                        <Text fontWeight={"medium"} mt={"2px"} color={colorMode === 'light'  ? primaryColor:bodyTextColor} >{item?.name}</Text>
                     </Flex>
                 )
             })}
