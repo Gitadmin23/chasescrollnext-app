@@ -1,8 +1,9 @@
 import EventMap from '@/components/event_details_component/event_map_info'
 import { LocationIcon } from '@/components/svg'
-import { Box, Flex, Text } from '@chakra-ui/react'
+import {Box, Flex, Text, useColorMode} from '@chakra-ui/react'
 import React from 'react'
 import { MdLocationPin } from 'react-icons/md'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     location: any,
@@ -31,6 +32,15 @@ function EventLocationDetail(props: Props) {
         fontWeight
     } = props
 
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
+
     const clickHandler = (item: any, e: any) => {
         e.stopPropagation();
         window.open(item, "_blank", "noreferrer");
@@ -43,11 +53,11 @@ function EventLocationDetail(props: Props) {
                     {!noicon && (
                         <Box width={"fit-content"} >
                             <Box width={iconsize ? iconsize : "20px"} display={"flex"} justifyContent={"center"} alignItems={"center"} >
-                                <LocationIcon style={{ width: iconsize ? iconsize : "20px" }} />
+                                <LocationIcon color={colorMode === 'light' ? primaryColor : bodyTextColor} style={{ width: iconsize ? iconsize : "20px", color: bodyTextColor }} />
                             </Box>
                         </Box>
                     )}
-                    <Flex textAlign={"left"} fontWeight={fontWeight ? fontWeight : "semibold"} color={color ? color : "brand.chasescrollBlue"} fontSize={fontsize ? fontsize : "sm"} >
+                    <Flex textAlign={"left"} fontWeight={fontWeight ? fontWeight : "semibold"} color={color ? bodyTextColor : "brand.chasescrollBlue"} fontSize={fontsize ? fontsize : "sm"} >
                         {location?.locationDetails && (
                             <p>{location?.locationDetails?.length >= (length ? length : 17) ? location?.locationDetails.slice(0, (length ? length : 17)) + "..." : location?.locationDetails}</p>
                         )}

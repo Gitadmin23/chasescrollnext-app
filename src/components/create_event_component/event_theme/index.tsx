@@ -1,13 +1,23 @@
 import useEventStore from '@/global-state/useCreateEventState';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Box, Flex, Input, Radio, Select, Switch, Text, Textarea } from '@chakra-ui/react'
+import {Box, Flex, Input, Radio, Select, Switch, Text, Textarea, useColorMode} from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useQuery } from 'react-query';
 import SelectImage from './select_image';
 import SubmitTheme from '../submit_event';
+import useCustomTheme from "@/hooks/useTheme";
 
 function EventTheme() {
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const [types, setTypes] = useState([] as any)
     const { eventdata, updateEvent } = useEventStore((state) => state);
@@ -73,7 +83,7 @@ function EventTheme() {
                             <Text fontSize={["md", "lg"]} fontWeight={"bold"} >
                                 Basic Event Details
                             </Text>
-                            <Text fontStyle={["xs", "sm"]} color={"brand.chasescrollTextGray"} >
+                            <Text fontStyle={["xs", "sm"]} color={colorMode === 'light' ? "brand.chasescrollTextGray":bodyTextColor} >
                                 This section highlights details that should attract attendees to your event
                             </Text>
                         </Box>
@@ -89,7 +99,7 @@ function EventTheme() {
                         </Flex>
                         <Flex width={"full"} gap={"1"} flexDirection={"column"} >
                             <Text color={"brand.chasescrollTextGrey"} >Attendee Visibility</Text>
-                            <label htmlFor="showAttendees" style={{ display: "flex", height: "42px", alignItems: "center", justifyContent: "space-between", borderRadius: "4px", width: "100%", paddingLeft: "16px", paddingRight: "16px", padding: "8px", backgroundColor: "#DCDEE4" }} >
+                            <label htmlFor="showAttendees" style={{ display: "flex", height: "42px", alignItems: "center", justifyContent: "space-between", borderRadius: "4px", width: "100%", paddingLeft: "16px", paddingRight: "16px", padding: "8px", backgroundColor: colorMode === 'light' ? "#DCDEE4":secondaryBackgroundColor }} >
                                 <h3>Show</h3>
                                 <Switch
                                     onChange={(e) => updateEvent({

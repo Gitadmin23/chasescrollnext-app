@@ -7,7 +7,7 @@ import { INotification } from '@/models/Notifications'
 import { PaginatedResponse } from '@/models/PaginatedResponse'
 import { URLS } from '@/services/urls'
 import httpService from '@/utils/httpService'
-import { Box, Flex, HStack, Select, VStack } from '@chakra-ui/react'
+import {Box, Flex, HStack, Select, useColorMode, VStack} from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import NotificationCard from './NotificationCard'
@@ -15,6 +15,7 @@ import CustomText from '@/components/general/Text'
 import { useNotification } from '@/global-state/useNotification'
 import { stat } from 'fs'
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-react'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     isLoading: boolean;
@@ -26,6 +27,15 @@ function NotificationPage({ isLoading }: Props) {
     const [status, setStatus] =React.useState('UNREAD');
     const [currentPage, setCurrentPage] = React.useState(0);
 
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
+
     const { setAllCount, notifications } = useNotification((state) => state);
 
     const menus = [
@@ -34,10 +44,10 @@ function NotificationPage({ isLoading }: Props) {
     ]
 
     return (
-        <VStack width={"full"} height={'100%'} bg={"white"} roundedBottom={"lg"} maxHeight={"450px"} overflowX={"hidden"} overflowY={"auto"} justifyContent={"center"} > 
+        <VStack width={"full"} height={'100%'} bg={secondaryBackgroundColor} roundedBottom={"lg"} maxHeight={"450px"} overflowX={"hidden"} overflowY={"auto"} justifyContent={"center"} >
 
 
-        <Box flex={1} width='100%' height='100%' overflowY={'auto'}>
+        <Box flex={1} width='100%' height='100%' overflowY={'auto'} bg={secondaryBackgroundColor}>
             { isLoading && (
                 <VStack width='100%'>
                     <CustomText>Loadiing....</CustomText>

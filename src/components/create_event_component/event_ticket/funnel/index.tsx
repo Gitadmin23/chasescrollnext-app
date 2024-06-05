@@ -7,14 +7,23 @@ import { AddIcon, OpenFolderIcon } from '@/components/svg'
 import useEventStore from '@/global-state/useCreateEventState'
 import { useDetails } from '@/global-state/useUserDetails'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
-import { Box, Flex } from '@chakra-ui/react'
+import {Box, Flex, useColorMode} from '@chakra-ui/react'
 import React, { useState } from 'react'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props { }
 
 function FunnelBtn(props: Props) {
     const { } = props
 
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const [open, setOpen] = useState(false)
 
@@ -39,11 +48,11 @@ function FunnelBtn(props: Props) {
                 <OpenFolderIcon />
                 Select community funnel
             </Flex>
-            <ModalLayout open={open} close={setOpen} size={"full"} title='Communities'   >
+            <ModalLayout open={open} close={setOpen} size={"full"} title='Communities' bg={mainBackgroundColor} titlecolor={bodyTextColor}   >
                 {tab === 0 && (
                     <Flex width={"full"} flexDir={"column"}  >
-                        <Flex as={"button"} onClick={()=> setTab(1)} width={"full"} py={"3"} justifyContent={"end"} alignItems={"center"} gap={"3"} pr={"12"} >
-                            <AddIcon />
+                        <Flex as={"button"} color={bodyTextColor} onClick={()=> setTab(1)} width={"full"} py={"3"} justifyContent={"end"} alignItems={"center"} gap={"3"} pr={"12"} >
+                            <AddIcon color={bodyTextColor} />
                             Add community
                         </Flex>
                         <Flex width={"full"} justifyContent={"center"} py={"6"}  >
@@ -52,13 +61,13 @@ function FunnelBtn(props: Props) {
                                     {results?.map((community: any, i: number) => {
                                         if (results?.length === i + 1) {
                                             return (
-                                                <Box as='button' onClick={() => clickHandler(community?.id)} ref={ref} key={i} width={"full"} borderWidth={"1px"} px={"3"} _hover={{ backgroundColor: "#f1f2ff" }} roundedBottom={"2xl"} roundedTopLeft={"2xl"} >
+                                                <Box as='button' onClick={() => clickHandler(community?.id)} ref={ref} key={i} width={"full"} borderWidth={"1px"} px={"3"} _hover={{ backgroundColor: colorMode === 'light' ? "#f1f2ff":secondaryBackgroundColor }} roundedBottom={"2xl"} roundedTopLeft={"2xl"} >
                                                     <CommunityCard create={true} data={community} />
                                                 </Box>
                                             )
                                         } else {
                                             return (
-                                                <Box as='button' onClick={() => clickHandler(community?.id)} key={i} width={"full"} borderWidth={"1px"} px={"3"} _hover={{ backgroundColor: "#f1f2ff" }} roundedBottom={"2xl"} roundedTopLeft={"2xl"} >
+                                                <Box as='button' onClick={() => clickHandler(community?.id)} key={i} width={"full"} borderWidth={"1px"} px={"3"} _hover={{ backgroundColor:colorMode === 'light' ? "#f1f2ff":secondaryBackgroundColor }} roundedBottom={"2xl"} roundedTopLeft={"2xl"} >
                                                     <CommunityCard create={true} data={community} />
                                                 </Box>
                                             )

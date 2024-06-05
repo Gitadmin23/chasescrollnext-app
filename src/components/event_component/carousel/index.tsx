@@ -11,17 +11,27 @@ import { useDetails } from '@/global-state/useUserDetails';
 import { IMAGE_URL } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import { textLimit } from '@/utils/textlimit';
-import { Box, Flex, Image, useToast, Text } from '@chakra-ui/react';
+import {Box, Flex, Image, useToast, Text, useColorMode} from '@chakra-ui/react';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import Router from 'next/router';
 import React, { useState } from 'react'
 import { focusManager, useQuery } from 'react-query';
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props { }
 
 function EventCarousel(props: Props) {
-    const { } = props
+    const { } = props;
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const toast = useToast()
     const [data, setData] = React.useState([] as any)
@@ -52,17 +62,17 @@ function EventCarousel(props: Props) {
                             data?.map((item: any, index: any) => {
                                 return (
                                     <>
-                                        <Box onClick={() => router.push("/dashboard/event/details/" + item?.id)} key={index} role='button' bg={"white"} rounded={"32px"} roundedTopRight={"0px"} width={"full"} height={["fit-content", "fit-content", "fit-content"]} p={"3"} >
+                                        <Box onClick={() => router.push("/dashboard/event/details/" + item?.id)} key={index} role='button' rounded={"32px"} roundedTopRight={"0px"} width={"full"} height={["fit-content", "fit-content", "fit-content"]} p={"3"} bg={secondaryBackgroundColor} >
                                             <Box position={"relative"} width={"full"} >
                                                 <BlurredImage height={["256px", "256px", "350px"]} image={item?.currentPicUrl} />
                                                 {/* <Image style={{ borderTopRightRadius: "0px", borderRadius: "32px" }} objectFit="cover" alt={item?.currentPicUrl} width={"full"} height={["256px", "256px", "350px"]} src={IMAGE_URL + item?.currentPicUrl} /> */}
-                                                <Box color={"#121212"} zIndex={"10"} roundedBottom={"8px"} roundedTopLeft={"8px"} alignItems={"center"} justifyContent={"center"} display={"flex"} flexDirection={"column"} fontWeight={"semibold"} position={"absolute"} bottom={"10px"} left={"10px"} width={["36px", "36px", "57px"]} height={["36px", "36px", "51px"]} bgColor={"white"} >
+                                                <Box color={colorMode === 'light' ? "#121212":bodyTextColor} zIndex={"10"} roundedBottom={"8px"} roundedTopLeft={"8px"} alignItems={"center"} justifyContent={"center"} display={"flex"} flexDirection={"column"} fontWeight={"semibold"} position={"absolute"} bottom={"10px"} left={"10px"} width={["36px", "36px", "57px"]} height={["36px", "36px", "51px"]} bgColor={secondaryBackgroundColor} >
                                                     <Text fontSize={["20px", "20px", "24px"]} >{moment(item?.startDate).format("D")}</Text>
                                                     <Text fontSize={["11px", "11px", "13px"]} mt={"-8px"} >{moment(item?.startDate).format("MMM")}</Text>
                                                 </Box>
                                             </Box>
                                             <Box width={"full"} pb={"10px"} px={"1"} >
-                                                <Flex color={"#121212"} fontSize={["16px", "16px", "20px"]} bg={"white"} alignItems={"center"} justifyContent={"space-between"} fontWeight={"medium"} pt={"3"}  >
+                                                <Flex color={colorMode ==='light' ? "#121212": bodyTextColor} fontSize={["16px", "16px", "20px"]} bg={secondaryBackgroundColor} alignItems={"center"} justifyContent={"space-between"} fontWeight={"medium"} pt={"3"}  >
                                                     <Text display={["none", "none", "block"]} >{textLimit(item?.eventName, 40)}</Text> 
                                                     <Text display={["block", "block", "none"]}  >{item.eventName?.length >= 17 ? item.eventName.slice(0, 17) + "..." : item.eventName}</Text>
                                                     <EventPrice minPrice={item?.minPrice} maxPrice={item?.maxPrice} currency={item?.currency} />

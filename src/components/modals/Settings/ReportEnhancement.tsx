@@ -1,10 +1,24 @@
 import React, { useEffect } from 'react'
-import { Modal, ModalOverlay, ModalBody, ModalContent, HStack, Select, VStack, Flex, Textarea, Button, useToast } from '@chakra-ui/react';
+import {
+    Modal,
+    ModalOverlay,
+    ModalBody,
+    ModalContent,
+    HStack,
+    Select,
+    VStack,
+    Flex,
+    Textarea,
+    Button,
+    useToast,
+    useColorMode
+} from '@chakra-ui/react';
 import { FiX } from 'react-icons/fi';
 import CustomText from '@/components/general/Text';
 import { useMutation } from 'react-query';
 import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
+import useCustomTheme from "@/hooks/useTheme";
 
 
 interface IProps {
@@ -25,6 +39,15 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
     const [title, setTitle] = React.useState('');
 
     const toast = useToast();
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const handleChange = React.useCallback((e:string) => {
         if (value.length < 300) {
@@ -100,7 +123,7 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
         closeHandler()
         }} closeOnEsc={true} closeOnOverlayClick={true} size='2xl' isCentered>
         <ModalOverlay />
-        <ModalContent width={'100%'} bg='white' padding='0px' overflow={'hidden'} borderRadius={'10px'}>
+        <ModalContent width={'100%'} bg={secondaryBackgroundColor} padding='0px' overflow={'hidden'} borderRadius={'10px'}>
             <ModalBody width='100%' height='100%' paddingX='20px' overflow={'hidden'} paddingY='20px'>
 
               <Flex width={'100%'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>

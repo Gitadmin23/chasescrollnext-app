@@ -1,10 +1,11 @@
-import { Flex, Text } from '@chakra-ui/react'
+import {Flex, Text, useColorMode} from '@chakra-ui/react'
 import React, { useState } from 'react'
 import BlockBtn from '../../sharedComponent/blockbtn'
 import UserImage from '@/components/sharedComponent/userimage'
 import AddOrRemoveUserBtn from '../../sharedComponent/add_remove_user_btn'
 import { useRouter } from 'next/navigation'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     mutuals?: number,
@@ -32,11 +33,18 @@ function UserExploreCard(props: Props) {
 
     const [isFriend, setisFriend] = useState(data?.joinStatus)
     const router = useRouter()
- 
-    
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     return (
-        <Flex as={"button"} alignItems={"center"} onClick={()=> router.push("/dashboard/profile/" + userId)} flexDirection={"column"} width={"180px"} gap={"12px"}  roundedBottom={"24px"} roundedTopLeft={"24px"} shadow={"lg"} p={"12px"} pb={"24px"} bg={"brand.chasescrollWhite"}>
+        <Flex as={"button"} alignItems={"center"} onClick={()=> router.push("/dashboard/profile/" + userId)} flexDirection={"column"} width={"180px"} gap={"12px"}  roundedBottom={"24px"} roundedTopLeft={"24px"} shadow={"lg"} p={"12px"} pb={"24px"} bg={secondaryBackgroundColor}>
             <BlockBtn data={data} setDeleted={setDeleted} deleted={deleted} user_index={userId} />
             <Flex alignItems={"center"} width={"full"} gap={["1", "1", "2"]} flexDirection={"column"} >
                 <UserImage data={data} size={20} image={data?.data?.imgMain?.value} />

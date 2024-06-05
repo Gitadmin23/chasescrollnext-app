@@ -135,8 +135,8 @@ function CommunityChatHeader() {
          <Link  href={`/dashboard/community/info/${activeCommunity?.id}`}>
             <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>
                       { activeCommunity?.data.imgSrc === null && (
-                          <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                              <CustomText fontFamily={'DM-Regular'}>{activeCommunity.data.name[0].toUpperCase()}</CustomText>
+                          <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'} bg={secondaryBackgroundColor}>
+                              <CustomText fontFamily={'DM-Regular'} color={bodyTextColor}>{activeCommunity.data.name[0].toUpperCase()}</CustomText>
                           </VStack>
                       )}
                       {

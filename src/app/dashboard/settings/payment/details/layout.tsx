@@ -43,8 +43,8 @@ function Layout({ children }: { children: ReactNode }) {
                             <UserImage data={user} size={"46px"} font={"18px"} image={user?.data?.imgMain?.value} />
                         </Box>
                         <Box>
-                            <Text fontSize={"14px"} textAlign={"start"} color={"#353945"} >Hello</Text>
-                            <Text fontSize={"17px"} fontWeight={"semibold"} mt={"-3px"} color={"#14131B"} >{firstName + " " + lastName}</Text>
+                            <Text fontSize={"14px"} textAlign={"start"} color={bodyTextColor} >Hello</Text>
+                            <Text fontSize={"17px"} fontWeight={"semibold"} mt={"-3px"} color={bodyTextColor} >{firstName + " " + lastName}</Text>
                         </Box>
                     </Flex>
                 </Flex>

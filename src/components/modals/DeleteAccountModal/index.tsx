@@ -1,11 +1,22 @@
 import CustomText from '@/components/general/Text'
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Modal, ModalBody, ModalContent, ModalOverlay, VStack, Image, Button, useToast } from '@chakra-ui/react'
+import {
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalOverlay,
+    VStack,
+    Image,
+    Button,
+    useToast,
+    useColorMode
+} from '@chakra-ui/react'
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import { useMutation } from 'react-query';
 import { useSession , signOut } from 'next-auth/react'
+import useCustomTheme from "@/hooks/useTheme";
 
 type Props = {
     isOpen: boolean;
@@ -15,6 +26,15 @@ type Props = {
 function DeleteAccoutModal({ isOpen, onClose }: Props) {
     const router = useRouter();
     const toast = useToast();
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const { isLoading, mutate } = useMutation({
         mutationFn: () => httpService.delete(`${URLS.DELETE_ACCOUNT}`),
@@ -51,7 +71,7 @@ function DeleteAccoutModal({ isOpen, onClose }: Props) {
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
-            <ModalContent width='350px' bg='white' height='326px' borderRadius={'16px'}>
+            <ModalContent width='350px' bg={mainBackgroundColor} height='326px' borderRadius={'16px'}>
                 <ModalBody >
                     <VStack width='100%' justifyContent={'center'} height='100%' alignItems={'center'} spacing={3}>
                         <Image alt='delete' src='/assets/images/deleteaccount.svg' />
