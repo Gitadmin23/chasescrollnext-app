@@ -2586,7 +2586,7 @@ export const SettingsIcon = () => (
   </svg>
 );
 
-export const AddIcon = () => (
+export const AddIcon = ({color}: {color?:string}) => (
   <svg
     width="38"
     height="38"
@@ -2599,7 +2599,7 @@ export const AddIcon = () => (
         <path
           id="Vector"
           d="M12.668 19H25.3346"
-          stroke="black"
+          stroke={color ?? "black"}
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -2607,7 +2607,7 @@ export const AddIcon = () => (
         <path
           id="Vector_2"
           d="M19 25.3337V12.667"
-          stroke="black"
+          stroke={color ?? "black"}
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -2615,7 +2615,7 @@ export const AddIcon = () => (
         <path
           id="Vector_3"
           d="M14.2513 34.8337H23.7513C31.668 34.8337 34.8346 31.667 34.8346 23.7503V14.2503C34.8346 6.33366 31.668 3.16699 23.7513 3.16699H14.2513C6.33464 3.16699 3.16797 6.33366 3.16797 14.2503V23.7503C3.16797 31.667 6.33464 34.8337 14.2513 34.8337Z"
-          stroke="black"
+          stroke={color ?? "black"}
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"

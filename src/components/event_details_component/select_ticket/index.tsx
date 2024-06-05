@@ -5,11 +5,12 @@ import ModalLayout from '@/components/sharedComponent/modal_layout'
 import useModalStore from '@/global-state/useModalSwitch'
 import { useDetails } from '@/global-state/useUserDetails'
 import { formatNumber } from '@/utils/numberFormat'
-import { Box, Button, Flex, Text } from '@chakra-ui/react'
+import {Box, Button, Flex, Text, useColorMode} from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import router from 'next/router'
 import React, { useEffect } from 'react'
 import { LiaAngleDownSolid } from 'react-icons/lia'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     ticket: any,
@@ -28,6 +29,15 @@ function SelectTicket(props: Props) {
         data
     } = props
 
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+        headerTextColor
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const [showModal, setShowModal] = React.useState(false)
     const [open, setOpen] = React.useState(false)
@@ -71,7 +81,7 @@ function SelectTicket(props: Props) {
             </Box>
             {showModal && (
                 <Box width={"full"} pl={"5"} borderWidth={"0px"} zIndex={"30"} top={"60px"} position={"absolute"} rounded={"lg"} >
-                    <Flex gap={"3"} flexDirection={"column"} shadow={"lg"} width={"full"} borderColor={"#D0D4EB"} padding={"4"} borderBottomWidth={"0px"} bg={"white"} rounded={"lg"}>
+                    <Flex gap={"3"} flexDirection={"column"} shadow={"lg"} width={"full"} borderColor={borderColor} padding={"4"} borderBottomWidth={"0px"} bg={secondaryBackgroundColor} rounded={"lg"}>
                         {ticket?.filter((item: any) => item?.ticketType)?.map((item: any, index: number) => {
                             return (
                                 <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >

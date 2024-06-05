@@ -5,17 +5,28 @@ import InterestedUsers from '@/components/sharedComponent/interested_users'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import { URLS } from '@/services/urls'
 import httpService from '@/utils/httpService'
-import { Box, Flex, Text, useToast } from '@chakra-ui/react'
+import {Box, Flex, Text, useColorMode, useToast} from '@chakra-ui/react'
 import { AxiosError, AxiosResponse } from 'axios'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { ReactNode, useState } from 'react'
 import { BsChevronLeft } from 'react-icons/bs'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
+import useCustomTheme from "@/hooks/useTheme";
 
 function Layout({ children, params }: {
     children: ReactNode,
     params: { slug: string }
 }) {
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+        headerTextColor
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const router = useRouter()
     const toast = useToast()
@@ -72,13 +83,13 @@ function Layout({ children, params }: {
 
 
     return (
-        <Box height={"auto"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"} position={"relative"}  >
+        <Box height={"auto"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"} position={"relative"} bg={mainBackgroundColor}  >
 
             <LoadingAnimation loading={isLoading} >
                 <Box width={["full", "full", pathname?.includes("refund") ? "full" : "600px"]} px={"6"} py={"10"} position={"relative"} >
                     <Flex alignItems={"center"} gap={"4"} width={"full"} justifyContent={"center"}>
                         <Box onClick={() => router.back()} as='button' position={"absolute"} zIndex={"10"} left={"0px"} width={"fit-content"} >
-                            <BsChevronLeft color={"black"} size={"25px"} />
+                            <BsChevronLeft color={"black"} size={"25px"} color={bodyTextColor} />
                         </Box>
                         <Text textAlign={"center"} fontSize={"2xl"} fontWeight={"bold"} >{pathname?.includes("refund") ? "Attendees" : data?.eventName}</Text>
                     </Flex>

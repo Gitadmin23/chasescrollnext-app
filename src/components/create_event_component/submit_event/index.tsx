@@ -4,13 +4,14 @@ import useEventStore, { CreateEvent } from '@/global-state/useCreateEventState';
 import { useDetails } from '@/global-state/useUserDetails';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Flex, useToast } from '@chakra-ui/react'
+import {Flex, useColorMode, useToast} from '@chakra-ui/react'
 import { AxiosError, AxiosResponse } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useMutation } from 'react-query';
 import SuccessMessageCreateEvent from '../success_message';
 import { IUser } from '@/models/User';
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Iprops {
     type?: any,
@@ -23,6 +24,15 @@ function SubmitEvent(props: Iprops) {
         type,
         promotion,
     } = props
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const { eventdata, image, tab, updateEvent, changeTab } = useEventStore((state) => state);
     const { userId: user_index } = useDetails((state) => state);
@@ -499,7 +509,7 @@ function SubmitEvent(props: Iprops) {
             <CustomButton borderWidth={tab === 2 ? "2px" : "0px"} backgroundColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} _disabled={{ cursor: "not-allowed" }} width={"full"}
                 text={pathname?.includes("edit_event_data") ? "Update Event" : pathname?.includes("edit_event") && tab === 2 ? "Update Event" : tab === 2 ? 'Submit' : 'Continue'} />
 
-            <ModalLayout close={setOpen} open={open} >
+            <ModalLayout close={setOpen} open={open} bg={secondaryBackgroundColor} >
                 <SuccessMessageCreateEvent update={(pathname?.includes("edit_event_data") || pathname?.includes("edit_event")) ? true : false} />
             </ModalLayout>
         </Flex>

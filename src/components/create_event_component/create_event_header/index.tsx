@@ -1,16 +1,27 @@
 import CustomButton from '@/components/general/Button';
 import useEventStore from '@/global-state/useCreateEventState';
-import { Box, Flex, Text, useToast } from '@chakra-ui/react';
+import {Box, Flex, Text, useColorMode, useToast} from '@chakra-ui/react';
 import { usePathname, useRouter } from 'next/navigation';
 import {  } from 'next/router';
 import React from 'react'
 import { IoArrowBack, IoArrowForward } from 'react-icons/io5';
+import useCustomTheme from "@/hooks/useTheme";
 
 interface IProps {
     name?: string
 }
 
 function CreateEventHeader({ name }: IProps) {
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+        headerTextColor
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const { eventdata, changeTab, image, tab } = useEventStore((state) => state);
 
@@ -166,10 +177,10 @@ function CreateEventHeader({ name }: IProps) {
 
                 <Flex maxW={["full", "full", "full", "385px"]} w={"full"} fontWeight={"700"} flexDir={"column"} >
                     <Text color={"#1732F7"} fontSize={"24px"} display={["none", "none", "none", "block"]} lineHeight={"33.6px"} >{tab === 0 ? "Theme" : tab === 1 ? "Information" : "Ticket"}</Text>
-                    <Text color={"#121212"} fontSize={["24px", "24px", "24px", "38px"]} lineHeight={["33.6px", "33.6px", "33.6px", "53.2px"]} >
+                    <Text color={headerTextColor} fontSize={["24px", "24px", "24px", "38px"]} lineHeight={["33.6px", "33.6px", "33.6px", "53.2px"]} >
                         {tab === 0 ? "Tell Us More about your Event" : tab === 1 ? "Discover the Details" : "Effortlessly Invite Attendees with Ticket Generation"}
                     </Text>
-                    <Text mt={"4"} fontWeight={"400"} color={"#626262"} lineHeight={"19.6px"} fontSize={"14px"} >
+                    <Text mt={"4"} fontWeight={"400"} color={bodyTextColor} lineHeight={"19.6px"} fontSize={"14px"} >
                         {tab === 0 ?
                             "Whether it's a conference, seminar, or celebration, let us in on the details. Your event matters, and we're here to ensure it gets the spotlight it deserves." :
                             tab === 1 ? "Find out the location and schedule for the upcoming event." : "Streamline Attendance with Seamless Ticket Generation and Invitations"}
