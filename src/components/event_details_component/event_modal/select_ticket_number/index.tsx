@@ -46,7 +46,7 @@ function SelectTicketNumber(props: Props) {
     const router = useRouter()
 
     let price = selectedTicket?.ticketPrice * numbOfTicket
-    let service = price * 0.025
+    let service = price * 0.015
 
     const queryClient = useQueryClient()
     const toast = useToast()
