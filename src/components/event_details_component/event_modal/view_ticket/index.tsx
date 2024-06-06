@@ -60,9 +60,10 @@ function ViewTicket(props: Props) {
     const [dataMultiple, setDataMultiple] = useState([] as any)
     const [length, setTicketLenght] = useState("" as any)
 
-    let userId = sessionStorage?.getItem("user_id") + ""
+    let userId = sessionStorage?.getItem("user_id") + "" 
 
-    console.log(userId);
+    console.log(dataMultiple);
+    
 
 
 
@@ -80,6 +81,18 @@ function ViewTicket(props: Props) {
             setDataMultiple(data?.data?.content)
         }
     })
+
+
+    const checkEventDay = (item: any) => {
+        return (new Date(item[item?.length - 1])?.getDate() >= new Date(datainfo?.event?.startDate)?.getDate()) && (new Date(item[item?.length - 1])?.getDate() <= new Date(datainfo?.event?.endDate)?.getDate())
+    }
+
+
+
+    const isToDay = (item: any) => {
+
+        return (new Date()?.getDate() === new Date(item)?.getDate() || new Date(datainfo?.endDate)?.getDate() === new Date(item)?.getDate())
+    }
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -101,7 +114,8 @@ function ViewTicket(props: Props) {
                 <Box display={["none", "none", "block"]} >
                     <Flex ref={componentRef} width={"full"} flexDirection={"column"} alignItems={"center"} gap={"4"} px={["4", "4", "0px"]} >
 
-                        {dataMultiple?.map((item: { id: string }, index: number) => {
+                        {dataMultiple?.map((item: { id: string, scanTimeStamp: any }, index: number) => { 
+
                             return (
                                 <Flex key={index} maxW={["750px"]} w={["fit-content"]} flexDir={["row"]} rounded={"16px"} pb={"4"} p={["4"]} bg={index === 0 ? "white" : "#CDD3FD"} alignItems={["center"]} justifyContent={"center"} gap={"4"} >
                                     <Flex w={["fit-content"]} gap={"4"} >
@@ -109,10 +123,19 @@ function ViewTicket(props: Props) {
                                     </Flex>
                                     <Flex flexDir={"column"} pos={"relative"} gap={"4"} px={["4", "4", "0px"]} >
                                         <Text fontSize={"24px"} lineHeight={"18px"} fontWeight={"bold"} >{capitalizeFLetter(textLimit(datainfo?.event?.eventName, 20))}</Text>
-                                        {datainfo?.ticketUsed > 0 && (
+                                        {/* {(checkEventDay(datainfo?.scanTimeStamp[datainfo?.scanTimeStamp?.length - 1]) || isToDay(datainfo?.scanTimeStamp[datainfo?.scanTimeStamp?.length - 1])) && (
                                             <Box width={'fit-content'} height={'fit-content'} position={'absolute'} bottom={'50px'} right={"0"} bg={'transparent'}>
                                                 <Image src={'/assets/approved.svg'} alt={'approved'} width={'100px'} height={'100px'} objectFit={'cover'} />
                                             </Box>
+                                        )} */}
+                                        {isToDay(item?.scanTimeStamp ? item?.scanTimeStamp[item?.scanTimeStamp?.length - 1] : "") && (
+                                            <>
+                                                {(checkEventDay(item?.scanTimeStamp)) && (
+                                                    <Box width={'fit-content'} height={'fit-content'} position={'absolute'} bottom={'50px'} right={"0"} bg={'transparent'}>
+                                                        <Image src={'/assets/approved.svg'} alt={'approved'} width={'100px'} height={'100px'} objectFit={'cover'} />
+                                                    </Box>
+                                                )}
+                                            </>
                                         )}
                                         <Flex gap={"4"} alignItems={"center"} >
                                             <Flex border={`0.5px solid ${index === 0 ? "#CDD3FD" : "#5465E0"}`} h={"34px"} justifyContent={"center"} alignItems={"center"} px={"3"} color={"#5B5858"} fontSize={"10px"} lineHeight={"13.68px"} rounded={"full"} >
@@ -168,15 +191,19 @@ function ViewTicket(props: Props) {
 
                 <Flex width={"full"} display={["flex", "flex", "none"]} flexDirection={"column"} alignItems={"center"} gap={"4"} px={["4", "4", "0px"]} >
 
-                    {dataMultiple?.map((item: { id: string }, index: number) => {
+                    {dataMultiple?.map((item: { id: string, scanTimeStamp: any }, index: number) => { 
                         return (
                             <Flex key={index} maxW={["400px", "400px", "750px"]} w={["full", "full", "fit-content"]} flexDir={["column", "column", "row"]} rounded={"16px"} pb={"4"} pt={["4"]} p={["0px", "", "4"]} bg={index === 0 ? "white" : "#CDD3FD"} alignItems={["start", "start", "center"]} justifyContent={"center"} gap={"4"} >
                                 <Flex pos={"relative"} w={["full", "full", "fit-content"]} gap={"4"} mt={["4", "4", "0px"]} px={["4", "4", ""]} >
                                     <EventImage width={["full", "full", "201px"]} height={["201px", "201px", "201px"]} data={datainfo?.event} />
-                                    {datainfo?.ticketUsed > 0 && (
-                                        <Box width={'fit-content'} height={'fit-content'} position={'absolute'} bottom={'-50px'} right={"3"} bg={'transparent'}>
-                                            <Image src={'/assets/approved.svg'} alt={'approved'} width={'100px'} height={'100px'} objectFit={'cover'} />
-                                        </Box>
+                                    {isToDay(item?.scanTimeStamp ? item?.scanTimeStamp[item?.scanTimeStamp?.length - 1] : "") && (
+                                        <>
+                                            {(checkEventDay(item?.scanTimeStamp)) && (
+                                                <Box width={'fit-content'} height={'fit-content'} position={'absolute'} bottom={'-50px'} right={"3"} bg={'transparent'}>
+                                                    <Image src={'/assets/approved.svg'} alt={'approved'} width={'100px'} height={'100px'} objectFit={'cover'} />
+                                                </Box>
+                                            )}
+                                        </>
                                     )}
                                 </Flex>
                                 <Flex pos={"relative"} flexDir={"column"} gap={"4"} px={["4", "4", "0px"]} >
