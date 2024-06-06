@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Modal, ModalBody, ModalCloseButton, ModalContent, Box, VStack, Spinner, Image, Button } from "@chakra-ui/react";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, Box, VStack, Spinner, Image, Button, useToast } from "@chakra-ui/react";
 import { Scanner as QrcodeScanner } from '@yudiel/react-qr-scanner';
 import { useMutation } from "react-query";
 import httpService from "@/utils/httpService";
@@ -8,15 +8,23 @@ import CustomText from "@/components/general/Text";
 import Ticket from "@/components/event_component/ticket";
 import { ITicket } from "@/models/Ticket";
 import ModalLayout from '@/components/sharedComponent/modal_layout';
+import { AxiosError } from 'axios';
+import { dateFormat } from '@/utils/dateFormat';
 
 interface IProps {
     isOpen: boolean;
     onClose: (by?: boolean) => void;
+    eventID: string,
+    startDate: number,
+    endDate: number
 }
 
 export default function Scanner({
     isOpen,
-    onClose
+    onClose,
+    eventID,
+    startDate,
+    endDate
 }: IProps) {
     const [approved, setApproved] = React.useState(false);
     const [show, setShow] = React.useState(true);
@@ -24,14 +32,25 @@ export default function Scanner({
     const [ticket, setTicket] = React.useState<ITicket | null>(null);
     const [scanned, setScanned] = React.useState(false);
 
+    const toast = useToast()
+
     const { isLoading, mutate, isError } = useMutation({
-        mutationFn: (data: string) => httpService.get(`${URLS.VALIDATE_TICKET(data)}`),
+        mutationFn: (data: string) => httpService.get(`${URLS.VALIDATE_TICKET(eventID, data)}`),
         onSuccess: (data) => {
-            console.log(data.data);
             setTicket(data?.data?.ticket);
             setApproved(data?.data?.validate);
             onClose(false)
             setOpen(true)
+        },
+        onError: (error: any) => {
+
+            toast({
+                status: "error",
+                title: error.response?.data?.message,
+                position: "top-right"
+            });
+
+            onClose(false)
         }
     })
 
@@ -50,9 +69,24 @@ export default function Scanner({
         setOpen(false)
     }
 
+    const checkEventDay =(item: any)=> {
+        console.log(new Date(startDate)?.getDate());
+        
+        return (new Date(item)?.getDate() >= new Date(startDate)?.getDate()) && (new Date(item)?.getDate() <= new Date(endDate)?.getDate())
+    }
+
+    const checkPreviousDate = () => { 
+        return (new Date((ticket?.scanTimeStamp) ? (ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 1]) : "")?.getDay() !== new Date((ticket?.scanTimeStamp) ?( ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 2]) : "")?.getDay())
+    }  
+
+    console.log(checkEventDay((ticket?.scanTimeStamp) ? (ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 1]) : ""));
+    
+    console.log(ticket?.id);
+    
+    
+
     return (
         <>
-
             <Modal isOpen={isOpen} isCentered={true} onClose={() => onClose(false)} size={scanned && !isLoading && !isError ? 'full' : 'full'}>
                 <ModalContent bg={'grey'}>
                     {!isLoading && !scanned && (
@@ -93,7 +127,7 @@ export default function Scanner({
                     </Box>
                 )}
                 {(!isLoading && !isError) &&
-                    <Ticket close={closeHandler} showQrCode={true} approved={approved} ticket={ticket as ITicket} />
+                    <Ticket close={closeHandler} showQrCode={true} approved={checkEventDay(ticket?.scanTimeStamp ? (ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 1]) : "") && (approved || checkPreviousDate())} ticket={ticket as ITicket} />
                 }
             </ModalLayout>
         </>
