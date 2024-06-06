@@ -228,9 +228,9 @@ function Sidebar() {
             key={index.toString()}
           />
         ))}
-        <Flex paddingX={['20px', '40px']} gap={"4"} _hover={{backgroundColor: secondaryBackgroundColor }} width='100%' height='70px' alignItems={'center'}>
-                    <CustomText color={bodyTextColor} fontFamily={'DM-Bold'}>{'Dark Mode'}</CustomText>
-                    <Switch isChecked={colorMode === 'dark'} size={'md'} onChange={() => toggleColorMode() }  />
+        <Flex paddingX={['20px', '40px']} gap={"4"} _hover={{ backgroundColor: secondaryBackgroundColor }} width='100%' height='70px' alignItems={'center'}>
+          <CustomText color={bodyTextColor} fontFamily={'DM-Bold'}>{'Dark Mode'}</CustomText>
+          <Switch isChecked={colorMode === 'dark'} size={'md'} onChange={() => toggleColorMode()} />
         </Flex>
       </VStack>
       <Flex
