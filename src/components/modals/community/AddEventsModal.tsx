@@ -174,6 +174,7 @@ function AddEventsModal({ isOpen, onClose }: {
                     <VStack width='100%' height={'100%'} justifyContent={'center'} alignItems={'center'}>
                         <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>You have no Events to add!</CustomText>
                     </VStack>
+
                 )}
                 {
                     events?.map((event: IEvent, index) => (
@@ -182,6 +183,7 @@ function AddEventsModal({ isOpen, onClose }: {
                 }
             </Box>
         </ModalLayout>
+
     )
 }
 

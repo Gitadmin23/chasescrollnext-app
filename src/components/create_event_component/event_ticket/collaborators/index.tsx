@@ -10,7 +10,21 @@ import useDebounce from '@/hooks/useDebounce'
 import { IUser } from '@/models/User'
 import httpService from '@/utils/httpService'
 import { textLimit } from '@/utils/textlimit'
-import { Box, Button, Checkbox, Flex, Heading, Input, InputGroup, InputLeftElement, Spinner, Text, VStack, useToast } from '@chakra-ui/react'
+import {
+    Box,
+    Button,
+    Checkbox,
+    Flex,
+    Heading,
+    Input,
+    InputGroup,
+    InputLeftElement,
+    Spinner,
+    Text,
+    VStack,
+    useToast,
+    useColorMode
+} from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { IoSearchOutline } from 'react-icons/io5'
 import { useMutation, useQueryClient } from 'react-query'
@@ -19,6 +33,7 @@ import { AxiosError, AxiosResponse } from 'axios'
 import { useRouter } from 'next/navigation'
 import { IoMdHelpCircleOutline } from 'react-icons/io'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
+import useCustomTheme from "@/hooks/useTheme";
 
 type IProps = {
     btn?: boolean,
@@ -33,6 +48,16 @@ export default function CollaboratorBtn(props: IProps) {
         data,
         collaborate
     } = props
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+        headerTextColor
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const [open, setOpen] = useState(false)
     const [tab, setTab] = useState(false)
@@ -186,7 +211,7 @@ export default function CollaboratorBtn(props: IProps) {
         }
 
         return (
-            <Flex width='100%' height={'fit-content'} flexDir={"column"} rounded={"16px"} borderColor={"#B6B6B6"} borderWidth={"1px"} justifyContent={'space-between'} padding='15px'>
+            <Flex width='100%' height={'fit-content'} flexDir={"column"} rounded={"16px"} borderColor={borderColor} borderWidth={"1px"} justifyContent={'space-between'} padding='15px'>
                 <Flex as={"button"} onClick={() => removeHandler(userId)} justifyContent={'space-between'} w={"full"} alignItems={"center"}  >
                     <Flex gap={"1"} height={"full"} alignItems={"center"} >
                         <Box w={"fit-content"} >
@@ -194,8 +219,8 @@ export default function CollaboratorBtn(props: IProps) {
                         </Box>
                         {/* <Avatar src={`${CONFIG.RESOURCE_URL}${imgMain}`} size='sm' name={`${firstName} ${lastName}`} /> */}
                         <VStack alignItems={'flex-start'} spacing={0}>
-                            <Heading fontSize={'16px'} color='black'>{firstName || ''} {lastName || ''}</Heading>
-                            <Text color='grey' fontSize={'14px'}>@{textLimit(username, 12) || ''}</Text>
+                            <Heading fontSize={'16px'} color={headerTextColor}>{firstName || ''} {lastName || ''}</Heading>
+                            <Text fontSize={'14px'} color={bodyTextColor}>@{textLimit(username, 12) || ''}</Text>
                         </VStack>
                     </Flex>
                     <Checkbox isChecked={show || collaborators || admin} rounded={"full"} onChange={(e) => removeHandler(userId)} />
@@ -396,11 +421,11 @@ export default function CollaboratorBtn(props: IProps) {
                     </Flex>
                 </Flex>
             )}
-            <ModalLayout open={open} close={setOpen} closeIcon={false} >
-                <Flex w={"full"} px={"6"} pt={"8"} >
+            <ModalLayout open={open} close={setOpen} closeIcon={false} bg={secondaryBackgroundColor} >
+                <Flex w={"full"} px={"6"} pt={"8"} bg={secondaryBackgroundColor} >
                     <Box>
-                        <Text color={"#121212"} fontSize={"24px"} lineHeight={"31.25px"} fontWeight={"bold"} >Select Collaborators</Text>
-                        <Text color={"#626262"} lineHeight={"20.83px"} >Kindly select users to collaborate with on this event and assign roles.</Text>
+                        <Text color={colorMode === 'light' ? "#121212":headerTextColor} fontSize={"24px"} lineHeight={"31.25px"} fontWeight={"bold"} >Select Collaborators</Text>
+                        <Text color={colorMode === 'light' ? "#626262":bodyTextColor} lineHeight={"20.83px"} >Kindly select users to collaborate with on this event and assign roles.</Text>
                     </Box>
                     <Box w={"fit-content"} >
                         <Box onClick={() => setOpen(false)} as='button'>
@@ -408,7 +433,7 @@ export default function CollaboratorBtn(props: IProps) {
                         </Box>
                     </Box>
                 </Flex>
-                <Flex px={"6"} py={"4"} flexDir={"column"} gap={"2"}  >
+                <Flex px={"6"} py={"4"} flexDir={"column"} gap={"2"} bg={secondaryBackgroundColor}  >
                     {btn && (
                         <Flex rounded={"lg"} w={"full"} bg={"#EFF1FE"} py={"3px"} px={"9px"} >
                             <Button onClick={() => changeTabHandler(false)} _hover={{ backgroundColor: !tab ? "white" : "transparent" }} borderBottom={!tab ? "1px solid #5465E0" : ""} width={"full"} bgColor={!tab ? "white" : "transparent"} h={"36px"} color={"#5465E0"} fontWeight={"medium"} fontSize={"sm"} >Network</Button>
@@ -419,7 +444,7 @@ export default function CollaboratorBtn(props: IProps) {
                         <InputLeftElement pointerEvents='none'>
                             <IoSearchOutline size={"25px"} color='#B6B6B6' />
                         </InputLeftElement>
-                        <Input width={["full", "full", "full"]} value={search} onChange={(e) => setSearch(e.target.value)} type='text' borderColor={"#CCCCCC"} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} bgColor={"white"} placeholder='Search for users, event or...' />
+                        <Input width={["full", "full", "full"]} value={search} onChange={(e) => setSearch(e.target.value)} type='text' borderColor={borderColor} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} bgColor={mainBackgroundColor} placeholder='Search for users, event or...' />
                     </InputGroup>
                 </Flex>
 
@@ -488,13 +513,13 @@ export default function CollaboratorBtn(props: IProps) {
                     </>
                 )}
                 {btn && (
-                    <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg='white' py={'20px'} >
+                    <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg={mainBackgroundColor} py={'20px'} >
                         <CustomButton text={tab ? 'Update Role' : 'Assign Role'} disable={(eventdata?.admins?.length === data?.admins?.length) && (eventdata?.collaborators?.length === data?.collaborators?.length)} isLoading={updateUserEvent?.isLoading} onClick={() => updateEventCollaboration({ admins: eventdata?.admins, collaborators: eventdata?.collaborators, id: eventdata?.id })} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
                     </Box>
                 )}
 
                 {!btn && (
-                    <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg='white' py={'20px'} >
+                    <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg={mainBackgroundColor} py={'20px'} >
                         <CustomButton text='Done' onClick={() => setOpen(false)} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
                     </Box>
                 )}

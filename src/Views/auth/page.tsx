@@ -1,6 +1,6 @@
 "use client";
 import React from 'react'
-import { Box, Divider, HStack, VStack, Image, useToast, Button, Flex, Input, Text } from '@chakra-ui/react';
+import {Box, Divider, HStack, VStack, Image, useToast, Button, Flex, Input, Text, useColorMode} from '@chakra-ui/react';
 import CustomText from '@/components/general/Text';
 import CustomButton from '@/components/general/Button';
 import { THEME } from '@/theme';
@@ -17,6 +17,7 @@ import httpServiceGoogle from '@/utils/httpServiceGoogle';
 import CopyRightText from '@/components/sharedComponent/CopyRightText';
 import GoogleBtn from '@/components/sharedComponent/googlebtn';
 import PageLoader from '@/components/sharedComponent/pageLoader';
+import useCustomTheme from "@/hooks/useTheme";
 
 
 
@@ -74,8 +75,16 @@ function LoginPage() {
   const [CheckUsername, setCheckUsername] = React.useState("")
   const [LastName, setLastName] = React.useState("")
   const [UserName, setUserName] = React.useState("") 
-  const [checkData, setCheckData] = React.useState<any>({}) 
+  const [checkData, setCheckData] = React.useState<any>({})
 
+  const {
+    bodyTextColor,
+    primaryColor,
+    secondaryBackgroundColor,
+    mainBackgroundColor,
+    borderColor,
+  } = useCustomTheme();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const toast = useToast();
   const router = useRouter();
@@ -250,7 +259,7 @@ function LoginPage() {
   }
 
   return renderForm(
-    <Flex flexDir={"column"} gap={"10"} alignItems={"center"} justifyContent={"space-between"} pt={"16"} pb={["16px", "16px", "0px"]} width={"full"} height={"100vh"} >
+    <Flex flexDir={"column"} gap={"10"} alignItems={"center"} justifyContent={"space-between"} pt={"16"} pb={["16px", "16px", "0px"]} width={"full"} height={"100vh"} bg={mainBackgroundColor} >
       <Flex flexDir={["column", "column", "row"]} gap={["10", "10", "4"]} alignItems={"center"} justifyContent={"space-between"} width={"full"} maxWidth={"5xl"} >
         <Flex px={"4"} flexDir={"column"} alignItems={"center"} width={"full"} gap={"12"} >
           <Box width={"full"} maxWidth={"sm"} height={"80"} >

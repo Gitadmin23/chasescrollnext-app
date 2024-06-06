@@ -13,11 +13,7 @@ import { BsChevronLeft } from 'react-icons/bs'
 interface Props {}
 
 function EventDashboard(props: Props) {
-    const {} = props 
-  
-    const { userId: user_index } = useDetails((state) => state);
-    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.All_EVENT+"?createdBy="+user_index, limit: 10, filter: "id" })
-    const router = useRouter();
+    const {} = props
 
     const {
         bodyTextColor,
@@ -25,8 +21,13 @@ function EventDashboard(props: Props) {
         secondaryBackgroundColor,
         mainBackgroundColor,
         borderColor,
+        headerTextColor
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
+  
+    const { userId: user_index } = useDetails((state) => state);
+    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.All_EVENT+"?createdBy="+user_index, limit: 10, filter: "id" })
+    const router = useRouter();
 
     return (
         <Box height={"auto"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"} position={"relative"} bg={mainBackgroundColor}  > 

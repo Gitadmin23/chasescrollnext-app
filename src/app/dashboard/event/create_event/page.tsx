@@ -4,13 +4,23 @@ import EventInformation from '@/components/create_event_component/event_informat
 import EventTheme from '@/components/create_event_component/event_theme'
 import EventTicket from '@/components/create_event_component/event_ticket'
 import useEventStore from '@/global-state/useCreateEventState'
-import { Box, Flex } from '@chakra-ui/react'
+import {Box, Flex, useColorMode} from '@chakra-ui/react'
 import React, { useState } from 'react'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props { }
 
 function CreateEvent(props: Props) {
     const { } = props
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const { tab, changeTab } = useEventStore((state) => state);
 
@@ -23,9 +33,9 @@ function CreateEvent(props: Props) {
 
             <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"74px"} display={["none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]} >
                 <CreateEventHeader name="Create Events" />
-                <Flex bgColor={"gray.300"} w={"full"} p={["0px", "0px", "0px", "3"]}   >
-                    <Flex bgColor={"white"} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} h={["auto"]} overflowY={["auto"]}>
-                        <Box bgColor={"white"} w={"full"} px={"3"} h={["auto"]} >
+                <Flex bgColor={colorMode === 'light' ? "gray.300":secondaryBackgroundColor} w={"full"} p={["0px", "0px", "0px", "3"]}   >
+                    <Flex bgColor={colorMode === 'light' ? "white":mainBackgroundColor} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} h={["auto"]} overflowY={["auto"]}>
+                        <Box bgColor={colorMode === 'light' ? "white":mainBackgroundColor} w={"full"} px={"3"} h={["auto"]} >
                             {tab === 0 && (
                                 <EventTheme />
                             )}

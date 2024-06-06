@@ -1,7 +1,7 @@
 'use client'
 import { formatNumberWithK, numberFormat, numberFormatDollar, numberFormatNaire } from '@/utils/formatNumberWithK'
 import httpService from '@/utils/httpService'
-import { Box, Flex, Text } from '@chakra-ui/react'
+import {Box, Flex, Text, useColorMode} from '@chakra-ui/react'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -9,6 +9,7 @@ import { useQuery } from 'react-query'
 import { VictoryArea, VictoryChart, VictoryPie, VictoryTheme } from "victory";
 
 import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Line } from 'recharts';
+import useCustomTheme from "@/hooks/useTheme";
 // import { AreaChart, Area } from 'recharts';
 
 interface Props {
@@ -20,6 +21,14 @@ function DashboardDetail(props: Props) {
         index
     } = props
 
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const [history, setHistory] = React.useState([] as any)
     const router = useRouter()
@@ -62,8 +71,8 @@ function DashboardDetail(props: Props) {
                 View Attendees
             </Flex>
 
-            <Flex width={"full"} borderTopWidth={"1px"} borderBottomWidth={"1px"} borderColor={"#D0D4EB"} justifyContent={"center"} mt={"8"} py={"7"} px={"4"} >
-                <Box rounded={"36px"} px={"8"} py={"6"} width={"fit-content"} bgColor={"#D0F2D9"} >
+            <Flex width={"full"} borderTopWidth={"1px"} borderBottomWidth={"1px"} borderColor={colorMode === 'light' ? "#D0D4EB":borderColor} justifyContent={"center"} mt={"8"} py={"7"} px={"4"} >
+                <Box rounded={"36px"} px={"8"} py={"6"} width={"fit-content"} bgColor={colorMode === 'light' ? "#D0F2D9":secondaryBackgroundColor} >
                     <Flex alignItems={"center"} gap={"2"}>
                         <Flex width={"10"} height={"10"} bgColor={"#101828"} rounded={"full"} justifyContent={"center"} alignItems={"center"} >
                             <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -78,15 +87,15 @@ function DashboardDetail(props: Props) {
                         <Text fontSize={"15px"} fontWeight={"medium"} >Tickets</Text>
                     </Flex>
                     <Flex pt={"7"} alignItems={"center"}>
-                        <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={"black"} >
+                        <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor} >
                             <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Created</Text>
                             <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{formatNumberWithK(history?.totalNumberOfTickets ? history?.totalNumberOfTickets : 0)}</Text>
                         </Box>
-                        <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={"black"} >
+                        <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor} >
                             <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Sold</Text>
                             <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalActiveSales)}</Text>
                         </Box>
-                        <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={"black"} >
+                        <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor} >
                             <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Cancelled</Text>
                             <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalRefunds)}</Text>
                         </Box>

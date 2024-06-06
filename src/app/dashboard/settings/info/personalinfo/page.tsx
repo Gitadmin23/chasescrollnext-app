@@ -234,7 +234,10 @@ function EditProfile() {
                                     enableSearch
                                     // style={{ width: '100%', height: '45px', borderWidth: '1px', borderRadius: '5px', borderColor: 'lightgrey', padding: '10px' }}
                                     containerStyle={{ width: '100%', height: '45px', }}
-                                    inputStyle={{ width: "100%", height: "45px", borderWidth: '1px', borderColor: 'lightgrey', }}
+                                    inputStyle={{ width: "100%", height: "45px", borderWidth: '1px', borderColor: borderColor, background: mainBackgroundColor }}
+                                    dropdownStyle={{ backgroundColor: mainBackgroundColor }}
+                                    searchStyle={{ background: secondaryBackgroundColor }}
+                                    buttonStyle={{ color: bodyTextColor }}
                                 value={values?.mobilePhone}
                                 onChange={(phone: any) => setValue('mobilePhone', phone)}
                                 />
@@ -261,6 +264,7 @@ function EditProfile() {
                                         // optional
                                         formatDate(year, "year");
                                     }}
+                                    classes={{ year: "dropdown-year", day: "dropdown-day", month: "dropdown-month"}}
                                     defaultValues={
                                         // optional
                                         {
