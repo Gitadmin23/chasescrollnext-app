@@ -208,7 +208,7 @@ function Layout({ children }: {
                     </Link>
 
                     <Link href='/dashboard/event'>
-                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('events') ? 'brand.chasescrollBlue' : 'white'} color={pathname?.includes('events') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
+                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('event') ? 'brand.chasescrollBlue' : 'white'} color={pathname?.includes('event') ? 'white' : 'brand.chasescrollBlue'} justifyContent={'center'} alignItems={'center'}>
                             <Calendar size='20px' />
                         </VStack>
                     </Link>
