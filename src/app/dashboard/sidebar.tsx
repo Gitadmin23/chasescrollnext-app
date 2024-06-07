@@ -193,19 +193,24 @@ function Sidebar() {
                 Are you sure you want to logout?
               </CustomText>
               <VStack justifyContent={"center"} width={"100%"}>
-                <Button
-                  variant={"outline"}
-                  outlineColor={"brand.chasescrollButtonBlue"}
-                  borderWidth={"0px"}
+                <Button 
+                  // outlineColor={"brand.chasescrollButtonBlue"}
+                  borderColor={"brand.chasescrollButtonBlue"}
+                  borderWidth={"1px"}
                   width="100%"
+                  outline={"none"}
+                  _hover={{backgroundColor: "white"}}
+                  bg={"white"}
                   height={"32px"}
                   color="brand.chasescrollButtonBlue"
                   onClick={() => setShowModal(false)}
                 >
                   Cancel
                 </Button>
-                <Button
-                  variant={"solid"}
+                <Button 
+                  borderColor={"red"}
+                  borderWidth={"1px"}
+                  _hover={{backgroundColor: "red"}}
                   bg="red"
                   width="100%"
                   height={"40px"}
@@ -228,10 +233,6 @@ function Sidebar() {
             key={index.toString()}
           />
         ))}
-        {/*<Flex paddingX={['20px', '40px']} gap={"4"} _hover={{backgroundColor: secondaryBackgroundColor }} width='100%' height='70px' alignItems={'center'}>*/}
-        {/*            <CustomText color={bodyTextColor} fontFamily={'DM-Bold'}>{'Dark Mode'}</CustomText>*/}
-        {/*            <Switch isChecked={colorMode === 'dark'} size={'md'} onChange={() => toggleColorMode() }  />*/}
-        {/*</Flex>*/}
       </VStack>
       <Flex
         cursor={"pointer"}

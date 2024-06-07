@@ -183,7 +183,7 @@ function CreateEventHeader({ name }: IProps) {
                     <Text mt={"4"} fontWeight={"400"} color={bodyTextColor} lineHeight={"19.6px"} fontSize={"14px"} >
                         {tab === 0 ?
                             "Whether it's a conference, seminar, or celebration, let us in on the details. Your event matters, and we're here to ensure it gets the spotlight it deserves." :
-                            tab === 1 ? "Find out the location and schedule for the upcoming event." : "Streamline Attendance with Seamless Ticket Generation and Invitations"}
+                            tab === 1 ? "We will like to know the location and schedule for your upcoming event" : "Streamline Attendance with Seamless Ticket Generation and Invitations"}
                     </Text>
                     <Text fontWeight={"400"} mt={"4"} color={"#626262"} lineHeight={"19.6px"} fontSize={"14px"} >Step {tab + 1}/3</Text>
                     <Flex w={"full"} rounded={"32px"} mt={"3"} h={"10px"} bgColor={"#D9D9D9"} >
