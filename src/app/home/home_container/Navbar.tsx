@@ -4,7 +4,18 @@ import { Icon } from "@iconify/react";
 import { useRouter } from 'next/navigation'
 
 // import logo from "../assets/logo.png"; 
-import { Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, useDisclosure } from "@chakra-ui/react";
+import {
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  Flex,
+  useDisclosure,
+  useToast
+} from "@chakra-ui/react";
 import Link from "next/link";
 import ButtonGroup from "../home_component/Navbar/ButtonGroup";
 import { HambergerMenu } from "iconsax-react";
@@ -13,7 +24,8 @@ const Navbar = () => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   // const [isMenuOpen, setIsMenuOpen] = useState(false);
   // const location = useLocation(); 
-  const router = useRouter()
+  const router = useRouter();
+  const toast = useToast();
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -29,7 +41,19 @@ const Navbar = () => {
 
   useEffect(() => {
     setPathname(window?.location?.pathname)
-  }, [router])
+  }, [router]);
+
+  const tempFunc = () => {
+    toast({
+      title: 'Infomation',
+      description: 'Please sign-in with google',
+      status: 'info',
+      isClosable: true,
+      duration: 5000,
+      position: 'top-right',
+    });
+  }
+
 
   return (
     <div className=" sticky z-50 top-0 w-full mx-auto max-w-[1440px] bg-white border-b-2">
@@ -52,7 +76,9 @@ const Navbar = () => {
         {!token && (
           <div className="hidden lg:flex gap-4">
             <ButtonGroup whitesecond ctaText="Login" url={"/auth"} />
-            <ButtonGroup bluesecond ctaText="Get Started" url={"/auth/signup"} />
+            <span onClick={tempFunc}>
+              <ButtonGroup bluesecond ctaText="Get Started" url={"/home"} />
+            </span>
           </div>
         )}
         {token && (
