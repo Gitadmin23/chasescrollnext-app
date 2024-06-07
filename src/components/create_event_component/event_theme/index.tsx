@@ -72,7 +72,7 @@ function EventTheme() {
                     <Text fontWeight={"bold"} fontSize={["md", "xl"]} >
                         Event Cover Image
                     </Text>
-                    <Text fontWeight={"bold"} fontSize={["xs", "md"]} opacity={"0.5"} >
+                    <Text fontWeight={"medium"} fontSize={["xs", "md"]} opacity={"0.5"} >
                         Add photos/posters that describes details of your events.
                     </Text>
                 </Box>
