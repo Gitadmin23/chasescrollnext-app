@@ -17,7 +17,7 @@ import {
     Link,
     Text,
     useColorMode,
-    useDisclosure
+    useDisclosure, useToast
 } from '@chakra-ui/react'
 import { Message, LogoutCurve, Wallet, HambergerMenu } from 'iconsax-react'
 import { useRouter } from 'next/navigation'
@@ -49,6 +49,7 @@ function DashboardNavbar(props: Props) {
 
     const router = useRouter()
     const pathname = usePathname()
+    const toast = useToast()
 
     const { bodyTextColor, primaryColor,secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
@@ -60,7 +61,19 @@ function DashboardNavbar(props: Props) {
 
     let token = localStorage.getItem("token")
 
-    const { isOpen, onOpen, onClose } = useDisclosure() 
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+
+    const tempFunc = () => {
+        toast({
+            title: 'Infomation',
+            description: 'Please make use of the signup with google',
+            status: 'info',
+            isClosable: true,
+            duration: 5000,
+            position: 'top-right',
+        });
+    }
 
     return (
         <Box width="full">
@@ -119,7 +132,9 @@ function DashboardNavbar(props: Props) {
                             {!token && (
                                 <Flex ml={"6"} gap={"5"}>
                                     <ButtonGroup whitesecond ctaText="Login" url={"/auth"} />
-                                    <ButtonGroup bluesecond ctaText="Get Started" url={"/auth/signup"} />
+                                    <Box onClick={tempFunc}>
+                                        <ButtonGroup bluesecond ctaText="Get Started" url={""} />
+                                    </Box>
                                 </Flex>
                             )}
                             {token && (
