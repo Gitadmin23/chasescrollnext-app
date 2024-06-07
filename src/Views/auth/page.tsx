@@ -261,7 +261,7 @@ function LoginPage() {
   const tempFunc = () => {
     toast({
       title: 'Infomation',
-      description: 'Please make use of the signup with google',
+      description: 'Please sign-in with google',
       status: 'info',
       isClosable: true,
       duration: 5000,

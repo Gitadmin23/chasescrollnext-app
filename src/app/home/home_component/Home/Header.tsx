@@ -1,9 +1,12 @@
 "use client"
 import React, { useEffect } from "react"; 
 import AOS from "aos";
-import "aos/dist/aos.css";   
+import "aos/dist/aos.css";
+import {useToast} from "@chakra-ui/react";
 
 const Header = ({ data }: any) => {
+  const toast = useToast();
+
   useEffect(() => {
     AOS.init({
       duration: 1500, // Animation duration in milliseconds
@@ -15,6 +18,17 @@ const Header = ({ data }: any) => {
 
   const handleToast = () => {
     // toast.info('Coming soon');
+  }
+
+  const tempFunc = () => {
+    toast({
+      title: 'Infomation',
+      description: 'Please sign-in with google',
+      status: 'info',
+      isClosable: true,
+      duration: 5000,
+      position: 'top-right',
+    });
   }
 
   return (
