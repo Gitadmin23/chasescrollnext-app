@@ -46,13 +46,13 @@ function SelectTicketNumber(props: Props) {
     const router = useRouter()
 
     let price = selectedTicket?.ticketPrice * numbOfTicket
-    let service = price * 0.025
+    let service = price * 0.015
 
     const queryClient = useQueryClient()
     const toast = useToast()
-    let usdtotal = ((((selectedTicket?.ticketPrice * numbOfTicket) * 1.025) + 0.39) / (1 - 0.059))
-    let nairatotal = ((((selectedTicket?.ticketPrice * numbOfTicket) * 1.025) + 100) / (1 - 0.039))
-    let nairatotalnew = ((((selectedTicket?.ticketPrice * numbOfTicket) * 1.025)) / (1 - 0.039))
+    let usdtotal = ((((selectedTicket?.ticketPrice * numbOfTicket) * 1.015) + 0.39) / (1 - 0.059))
+    let nairatotal = ((((selectedTicket?.ticketPrice * numbOfTicket) * 1.015) + 100) / (1 - 0.015))
+    let nairatotalnew = ((((selectedTicket?.ticketPrice * numbOfTicket) * 1.015)) / (1 - 0.015))
 
     const createTicket = useMutation({
         mutationFn: (data: any) => httpService.post(URLS.CREATE_TICKET, data),

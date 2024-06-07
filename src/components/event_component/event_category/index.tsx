@@ -66,15 +66,9 @@ function EventCategory(props: Props) {
     return (
         <>
             {!selector && (
-                <Flex flexDirection={"column"} overflowX={"hidden"} h={"0px"} justifyContent={"center"} alignItems={"center"} position={"relative"} >
-                    <Box ref={ref} width={"full"}  height={"full"} display={"flex"} overflowX={"auto"} scrollBehavior={"smooth"}
-                        // sx={{
-                        //     '::-webkit-scrollbar': {
-                        //         display: 'none'
-                        //     }
-                        // }}
-                    >
-                        <Flex gap={"9"} width={"fit-content"} my={"auto"} pr={"100px"} height={"fit-content"} >
+                <Flex flexDirection={"column"} overflowX={"hidden"} h={"50px"}justifyContent={"center"} alignItems={"center"} position={"relative"} >
+                    <Box ref={ref} width={"full"}  height={"full"} display={"flex"} overflowX={"auto"} scrollBehavior={"smooth"} >
+                        <Flex gap={"9"} width={"fit-content"} my={"auto"} pr={"100px"} >
 
                             <Button onClick={() => clickHandler("")} width={"80px"} _hover={{ backgroundColor: "white" }} rounded={"none"} borderBottom={!event_category ? "1px" : ""} fontSize={"16px"} lineHeight={"150%"} fontWeight={!event_category ? "bold" : "normal"} height={"30px"} bg={"#FFF"} color={!event_category ? "brand.chasescrollBlue" : "#626262"} >All Event</Button>
                             {data?.sort((a: string, b: string) => {

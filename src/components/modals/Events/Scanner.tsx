@@ -9,17 +9,22 @@ import Ticket from "@/components/event_component/ticket";
 import { ITicket } from "@/models/Ticket";
 import ModalLayout from '@/components/sharedComponent/modal_layout';
 import { AxiosError } from 'axios';
+import { dateFormat } from '@/utils/dateFormat';
 
 interface IProps {
     isOpen: boolean;
     onClose: (by?: boolean) => void;
-    eventID: string
+    eventID: string,
+    startDate: number,
+    endDate: number
 }
 
 export default function Scanner({
     isOpen,
     onClose,
-    eventID
+    eventID,
+    startDate,
+    endDate
 }: IProps) {
     const [approved, setApproved] = React.useState(false);
     const [show, setShow] = React.useState(true);
@@ -64,6 +69,22 @@ export default function Scanner({
         setOpen(false)
     }
 
+    const checkEventDay =(item: any)=> {
+        console.log(new Date(startDate)?.getDate());
+        
+        return (new Date(item)?.getDate() >= new Date(startDate)?.getDate()) && (new Date(item)?.getDate() <= new Date(endDate)?.getDate())
+    }
+
+    const checkPreviousDate = () => { 
+        return (new Date((ticket?.scanTimeStamp) ? (ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 1]) : "")?.getDay() !== new Date((ticket?.scanTimeStamp) ?( ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 2]) : "")?.getDay())
+    }  
+
+    console.log(checkEventDay((ticket?.scanTimeStamp) ? (ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 1]) : ""));
+    
+    console.log(ticket?.id);
+    
+    
+
     return (
         <>
             <Modal isOpen={isOpen} isCentered={true} onClose={() => onClose(false)} size={scanned && !isLoading && !isError ? 'full' : 'full'}>
@@ -106,7 +127,7 @@ export default function Scanner({
                     </Box>
                 )}
                 {(!isLoading && !isError) &&
-                    <Ticket close={closeHandler} showQrCode={true} approved={approved || new Date(ticket?.scanTimeStamp ? ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 1] : "")?.getDay() !== new Date(ticket?.scanTimeStamp ? ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 2] : "")?.getDay()} ticket={ticket as ITicket} />
+                    <Ticket close={closeHandler} showQrCode={true} approved={checkEventDay(ticket?.scanTimeStamp ? (ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 1]) : "") && (approved || checkPreviousDate())} ticket={ticket as ITicket} />
                 }
             </ModalLayout>
         </>
