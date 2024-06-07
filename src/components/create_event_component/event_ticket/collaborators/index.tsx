@@ -529,7 +529,7 @@ export default function CollaboratorBtn(props: IProps) {
             <ModalLayout open={show} close={setShow} titleAlign='left' titlecolor='brand.chasescrollButtonBlue' title={"Adding Collaborator"}>
                 <Box px={"6"} pb={"6"} >
                     <Text color={"gray.500"} >{"Event owners can manage individual and team access to the event dashboard. When you make someone an Admin to your event, they have full access to your event dashboard such as attendees lists, ticket sales, transactions and also the event scanner to assist with scanning the tickets at the event. "}</Text>
-                    <Text mt={"6"} color={"gray.500"} >{"When you make them collaborator, they can only have access to the event scanner."}</Text>
+                    <Text mt={"6"} color={"gray.500"} >{"When you make them volunteers, they can only have access to the event scanner in order to assist with validating and checking in attendee’s tickets using their mobile phone camera."}</Text>
                 </Box>
             </ModalLayout>
         </>
