@@ -51,7 +51,7 @@ function DashboardNavbar(props: Props) {
     const pathname = usePathname()
     const toast = useToast()
 
-    const { bodyTextColor, primaryColor,secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
 
 
@@ -84,7 +84,7 @@ function DashboardNavbar(props: Props) {
                     <Flex alignItems={"center"} gap={["3", "3", "12"]}>
                         <Flex role="button" width={"fit-content"} alignItems={"center"} gap={"1"} onClick={() => router.push("/dashboard/home")} justifyContent={'center'}>
                             <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
-                            <CustomText fontFamily={'DM-Bold'} fontSize='lg' color={colorMode === 'light' ? primaryColor: bodyTextColor}>Chasescroll</CustomText>
+                            <CustomText fontFamily={'DM-Bold'} fontSize='lg' color={colorMode === 'light' ? primaryColor : bodyTextColor}>Chasescroll</CustomText>
                         </Flex>
                         {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft") && (
                             <Box display={["none", "none", "block"]} >
@@ -130,9 +130,9 @@ function DashboardNavbar(props: Props) {
                             <Text as={"button"} fontWeight={"bold"} onClick={() => clickHandler("/home")} color={pathname === "/home" ? "brand.chasescrollBlue" : "black"} >Home</Text>
                             <Text as={"button"} fontWeight={"bold"} onClick={() => clickHandler("/home/about")} color={pathname === "/home/about" ? "brand.chasescrollBlue" : "black"} >About us</Text>
                             {!token && (
-                                <Flex ml={"6"} gap={"5"}>
+                                <Flex className=' flex gap-5 ' ml={"6"} gap={"5"}>
                                     <ButtonGroup whitesecond ctaText="Login" url={"/auth"} />
-                                    <Box onClick={tempFunc}>
+                                    <Box role='button' onClick={tempFunc}>
                                         <ButtonGroup bluesecond ctaText="Get Started" url={""} />
                                     </Box>
                                 </Flex>
@@ -184,12 +184,15 @@ function DashboardNavbar(props: Props) {
 
                                     </Flex>
                                     {/* {!token && ( */}
-                                    <Flex gap={"3"} width={"full"} my={"auto"} display={"flex"} justifyContent={"center"}  >
+                                    <Flex gap={"3"} width={"full"} my={"auto"} flexDir={"column"} justifyContent={"center"}  >
                                         <ButtonGroup white
                                             width={"152px"}
                                             onClick={onClose} ctaText="Login" url={"/auth"} />
-                                        <ButtonGroup blue
-                                            onClick={onClose} ctaText="Get Started" url={"/auth/signup"} />
+
+                                        <Box role='button' onClick={tempFunc}>
+                                            <ButtonGroup blue
+                                                onClick={tempFunc} ctaText="Get Started" url={""} />
+                                        </Box>
                                     </Flex>
                                     {/* )} */}
                                 </Flex>
