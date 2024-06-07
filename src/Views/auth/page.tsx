@@ -258,6 +258,17 @@ function LoginPage() {
     })
   }
 
+  const tempFunc = () => {
+    toast({
+      title: 'Infomation',
+      description: 'Please make use of the signup with google',
+      status: 'info',
+      isClosable: true,
+      duration: 5000,
+      position: 'top-right',
+    });
+  }
+
   return renderForm(
     <Flex flexDir={"column"} gap={"10"} alignItems={"center"} justifyContent={"space-between"} pt={"16"} pb={["16px", "16px", "0px"]} width={"full"} height={"100vh"} bg={mainBackgroundColor} >
       <Flex flexDir={["column", "column", "row"]} gap={["10", "10", "4"]} alignItems={"center"} justifyContent={"space-between"} width={"full"} maxWidth={"5xl"} >
@@ -295,11 +306,12 @@ function LoginPage() {
                   </CustomText>
                 </Link>
 
-                <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'}>
+                <CustomText  fontSize={'sm'} fontFamily={'Satoshi-Regular'}>
                   Dont have an account ?
-                  <Link href='/auth/signup'>
-                    <span style={{ color: THEME.COLORS.chasescrollBlue }}> Sign up</span>
-                  </Link>
+                  <span onClick={tempFunc} style={{color: THEME.COLORS.chasescrollBlue}}> Sign up</span>
+                  {/*<Link href='/auth/signup'>*/}
+                  {/*  <span style={{color: THEME.COLORS.chasescrollBlue}}> Sign up</span>*/}
+                  {/*</Link>*/}
                 </CustomText>
               </HStack>
 
