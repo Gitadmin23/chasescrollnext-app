@@ -4,8 +4,8 @@ import { ButtonProps, Button as ChakraButton, Box } from '@chakra-ui/react'
 interface IProps {
   type?: 'button' | 'submit';
   text: any;
-  backgroundColor?: string;
-  color?: string;
+  backgroundColor?: string | Array<string>;
+  color?: string | Array<string>;
   borderRadius?: string;
   width?: any;
   fontSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
