@@ -63,7 +63,6 @@ function DashboardNavbar(props: Props) {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-
     const tempFunc = () => {
         toast({
             title: 'Information',
@@ -133,7 +132,7 @@ function DashboardNavbar(props: Props) {
                                 <Flex className=' flex gap-5 ' ml={"6"} gap={"5"}>
                                     <ButtonGroup whitesecond ctaText="Login" url={"/auth"} />
                                     <Box role='button' onClick={tempFunc}>
-                                        <ButtonGroup bluesecond ctaText="Get Started" url={""} />
+                                        <ButtonGroup bluesecond ctaText="Get Started" url={"/auth"} />
                                     </Box>
                                 </Flex>
                             )}
@@ -191,7 +190,7 @@ function DashboardNavbar(props: Props) {
 
                                         <Box role='button' onClick={tempFunc}>
                                             <ButtonGroup blue
-                                                onClick={tempFunc} ctaText="Get Started" url={""} />
+                                                onClick={tempFunc} ctaText="Get Started" url={"/auth"} />
                                         </Box>
                                     </Flex>
                                     {/* )} */}
