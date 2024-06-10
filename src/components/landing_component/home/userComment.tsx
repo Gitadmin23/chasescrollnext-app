@@ -1,7 +1,8 @@
 import { QuoteIcon } from "@/components/svg";
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
-import { FaPlay } from "react-icons/fa";
+// import { FaPlay } from "react-icons/fa";
+import YouTube from "react-youtube";
 
 export default function UserComment() {
 
@@ -29,10 +30,19 @@ export default function UserComment() {
     const Video = () => {
         return (
             <Flex w={"512px"} h={"330px"} bgColor={"red.300"} justifyContent={"center"} rounded={"14px"} alignItems={"center"}  >
-                <FaPlay size={"30px"} color="white" />
+                <YouTube className=" videoborder " videoId="TKODgfkpL6o" opts={opts} />
             </Flex>
         )
     }
+
+    const opts = {
+      height: '330',
+      width: '512',
+      playerVars: {
+        // https://developers.google.com/youtube/player_parameters
+        autoplay: 0,
+      },
+    };
 
     return (
         <Flex w={"full"} flexDir={"column"} py={"12"} gap={"9"} >

@@ -23,7 +23,7 @@ export default function Home() {
 
   return (
     <Flex flexDir={"column"} height={"100vh"} position={"relative"} overflowX={"hidden"} >
-      <Flex w={"full"} bgColor={"white"} position={"sticky"} flexDir={"column"} gap={"5"} pb={"4"} zIndex={"30"} top={"0px"} >
+      <Flex w={"full"} position={"sticky"} flexDir={"column"} gap={"5"} bgColor={"white"} pb={"4"} zIndex={"30"} top={"0px"} >
         <DashboardNavbar home={true} pathname={pathname} />
         <Flex pt={"90px"} bg={"white"} px={["6", "8"]} justifyContent={"center"} width={"full"} pb={"1"} display={["flex", "flex", "none"]} >
           <SearchBar home={true} />
@@ -47,9 +47,6 @@ export default function Home() {
       <Box w={"full"} bg={"white"} zIndex={"20"} display={["none", "none", "none", "none", "block"]} mt={"auto"} pt={"2"} borderTop={"1px"} borderTopColor={"#CDD3FD"} pos={"sticky"} bottom={"0px"} >
         <HomeFooter />
       </Box>
-    </Flex>
-    // <VStack width='100%' height='100vh' justifyContent={'center'} alignItems={'center'} >
-    //   <Image src='/assets/images/chasescroll-logo.png' width={200} height={200} alt='logo' />
-    // </VStack>
+    </Flex> 
   )
 }

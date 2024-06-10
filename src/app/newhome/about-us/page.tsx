@@ -9,8 +9,8 @@ import { Flex } from "@chakra-ui/react";
 
 
 
-function AboutUs(){
-    return(
+function AboutUs() {
+    return (
         <Flex flexDir={"column"} w={"full"} >
             <FirstSetion />
             <MissionAndGoal />

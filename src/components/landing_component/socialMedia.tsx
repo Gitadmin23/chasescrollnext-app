@@ -15,28 +15,32 @@ function SocialMedia(props: IProps) {
     } = props
 
     return (
-        <Flex w={"fit-content"} gap={"5"} mt={top ?? "4"} justifyContent={"center"} >
+        <Flex w={"fit-content"} color={["white", "white", color ? color: "white"]} gap={"5"} mt={top ?? "4"} justifyContent={"center"} >
             <a target="_blank" href="https://twitter.com/chasescroll">
                 <Icon
-                    fontSize={"30px"} icon="mdi:twitter" color={color ?? "white"} />
+                    fontSize={"30px"} icon="mdi:twitter" 
+                    // color={color ?? "white"} 
+                />
             </a>
             <a target="_blank" href=" https://www.facebook.com/chase.scroll/ ">
                 <Icon
                     fontSize={"30px"}
                     icon="ic:baseline-facebook"
-                    color={color ?? "white"} 
+                    // color={color ?? "white"} 
                 />
             </a>
             <a target="_blank" href=" https://www.linkedin.com/company/chasescroll/">
                 <Icon
                     fontSize={"30px"}
-                    icon="mdi:linkedin" color={color ?? "white"}  />
+                    icon="mdi:linkedin" 
+                    // color={color ?? "white"}  
+                />
             </a>
             <a target="_blank" href="  https://www.instagram.com/chasescroll_/  ">
                 <Icon
                     fontSize={"30px"}
                     icon="ri:instagram-fill"
-                    color={color ?? "white"} 
+                    // color={color ?? "white"} 
                 />
             </a>
         </Flex>

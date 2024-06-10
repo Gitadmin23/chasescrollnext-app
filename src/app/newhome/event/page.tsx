@@ -1,7 +1,8 @@
 "use client"
 import EventCategory from "@/components/event_component/event_category";
 import EventListing from "@/components/event_component/event_listing";
-import HomeFooter from "@/components/home_event_section/home_footer";
+import SearchBar from "@/components/explore_component/searchbar";
+import OurPartner from "@/components/landing_component/home/ourpartner";
 import HomeLandingPageCarousel from "@/components/landing_component/home_carousel";
 import { Flex, Text } from "@chakra-ui/react";
 
@@ -12,8 +13,11 @@ interface Props {
 const Eventpage = () => {
     return (
         <Flex flexDir={"column"} w={"full"}  >
-            <Flex px={"12"} w={"full"} justifyContent={"space-between"} alignItems={"center"} py={"4"} >
-                <Text color={"#2B2D31"} fontSize={"24px"} lineHeight={"29.05px"} fontWeight={"500"} >Upcoming Event</Text>
+            <Flex display={["flex", "flex", "none"]} pt={"4"} px={"6"} >
+                <SearchBar home={true} />
+            </Flex>
+            <Flex px={["6", "6", "12"]} w={"full"} justifyContent={"space-between"} alignItems={"center"} py={"4"} >
+                <Text color={"#2B2D31"} fontSize={["14px", "14px", "24px"]} lineHeight={["16.94px", "16.94px", "29.05px"]} fontWeight={"500"} >Upcoming Event</Text>
                 <EventCategory selector={true} />
             </Flex>
             <HomeLandingPageCarousel />
@@ -21,7 +25,7 @@ const Eventpage = () => {
                 <EventCategory />
                 <EventListing limit={true} />
             </Flex>
-            <HomeFooter />
+            <OurPartner />
         </Flex>
     );
 }

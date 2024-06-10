@@ -4,7 +4,7 @@ import { Box, Flex, Image, Text } from "@chakra-ui/react";
 
 export default function VersionInfo (){
     return(
-        <Flex w={"full"} alignItems={"center"} h={"547px"} px={"12"} pos={"relative"} >
+        <Flex w={"full"} display={["none", "none", "flex"]} alignItems={"center"} h={"547px"} px={"12"} pos={"relative"} >
             <Box pos={"absolute"} inset={"0px"} >
             <Image src="/images/abouthomebg.png" alt="abouthomebg" w={"full"} />
             </Box>

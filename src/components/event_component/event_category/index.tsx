@@ -68,7 +68,7 @@ function EventCategory(props: Props) {
             {!selector && (
                 <Flex flexDirection={"column"} overflowX={"hidden"} h={"50px"}justifyContent={"center"} alignItems={"center"} position={"relative"} >
                     <Box ref={ref} width={"full"}  height={"full"} display={"flex"} overflowX={"auto"} scrollBehavior={"smooth"} >
-                        <Flex gap={"2"} width={"fit-content"} my={"auto"} pr={"100px"} >
+                        <Flex gap={["4", "4", "9"]} width={"fit-content"} my={"auto"} pr={"100px"} >
 
                             <Button onClick={() => clickHandler("")} width={"80px"} _hover={{ backgroundColor: "white" }} rounded={"none"} borderBottom={!event_category ? "1px" : ""} fontSize={"14px"} lineHeight={"150%"} fontWeight={!event_category ? "bold" : "normal"} height={"30px"} bg={"#FFF"} color={!event_category ? "brand.chasescrollBlue" : "#626262"} >All Event</Button>
                             {data?.sort((a: string, b: string) => {
@@ -81,7 +81,7 @@ function EventCategory(props: Props) {
                             }).map((item: any) => {
 
                                 return (
-                                    <Button onClick={() => clickHandler(item)} key={item} _hover={{ backgroundColor: secondaryBackgroundColor, borderBottom: "1px" }} rounded={"none"} width={"fit-content"} height={"30px"} fontSize={"sm"} fontWeight={event_category === item ? "bold" : "normal"} bg={mainBackgroundColor} borderBottomColor={"brand.chasescrollBlue"} borderBottom={event_category === item ? "1px" : "0px"} textColor={event_category === item ? "brand.chasescrollBlue" : bodyTextColor} >{item?.split("_")?.join(" ")}</Button>
+                                    <Button onClick={() => clickHandler(item)} key={item} _hover={{ backgroundColor: secondaryBackgroundColor, borderBottom: "1px" }} rounded={"none"} width={"fit-content"} height={"30px"} fontSize={"13px"} fontWeight={event_category === item ? "normal" : "normal"} bg={mainBackgroundColor} borderBottomColor={"brand.chasescrollBlue"} borderBottom={event_category === item ? "1px" : "0px"} textColor={event_category === item ? "brand.chasescrollBlue" : bodyTextColor} >{item?.split("_")?.join(" ")}</Button>
                                 )
                             })}
                         </Flex>
