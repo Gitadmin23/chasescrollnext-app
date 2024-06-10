@@ -9,7 +9,7 @@ export default async function RootLayout({
     children: React.ReactNode
   }) {
     return(
-        <Flex h={"100vh"} w={"full"} overflowY={"auto"} flexDir={"column"} pos={"relative"} >
+        <Flex h={"100vh"} w={"full"}  scrollBehavior={"smooth"} overflowY={"auto"} flexDir={"column"} pos={"relative"} >
             <Flex w={"full"} pos={"sticky"} zIndex={"100"} top={"0px"} >
                 <HomeNavbar />
             </Flex>

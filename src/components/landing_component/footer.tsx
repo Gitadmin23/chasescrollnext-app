@@ -5,6 +5,7 @@ import Link from "next/link";
 import CopyRightText from "../sharedComponent/CopyRightText";
 import MobileAppLink from "./mobileapplink";
 import SocialMedia from "./socialMedia";
+import { useRouter } from "next/navigation";
 
 export default function FooterLandingPage() {
 
@@ -22,6 +23,8 @@ export default function FooterLandingPage() {
             </Flex>
         )
     }
+    
+    const router = useRouter()
 
     return (
         <Flex w={"full"} pt={"12"} flexDir={"column"} color={"white"} bgColor={"#01041A"} >
@@ -39,16 +42,16 @@ export default function FooterLandingPage() {
                     <Flex w={[ "full", "full", "full", "300px"]} flexDir={"column"} >
                         <Text fontSize={["20px", "20px", "24px"]} lineHeight={"48px"} fontWeight={"medium"} >Helpful links</Text>
                         <Flex w={"full"} mt={"6"} gap={["8", "8", "8", "5"]} flexDir={"column"} >
-                            <Link href={""}  >
+                            <Link href={"/newhome#faq"}  >
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >FAQ</Text>
                             </Link>
-                            <Link href={""}  >
+                            <Link href={"contact-us"}  >
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >Contact Us</Text>
                             </Link>
-                            <Link href={""}  >
+                            <Link href={"event"}  >
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >Event</Text>
                             </Link>
-                            <Link href={""}  >
+                            <Link href={"/newhome"}  >
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >Home</Text>
                             </Link>
                         </Flex>

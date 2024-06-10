@@ -3,7 +3,8 @@ import { Button, Flex, Image, Text } from "@chakra-ui/react";
 import MobileAppLink from "../mobileapplink";
 
 
-export default function HeroSection() {
+export default function HeroSection() { 
+
     return (
         <Flex px={["6", "6", "8"]} gap={["8"]} background={"linear-gradient(0deg, #5465E0, #5465E0), linear-gradient(180deg, #5465E0 0%, #0F1292 100%)"} w={"full"} flexDir={"column"} alignItems={"center"} pt={"12"} >
             <Text fontSize={["24px", "24px", "60px"]} fontWeight={"bold"} maxW={"1300"} textAlign={"center"} lineHeight={["33.89px", "33.89px", "72.61px"]} color={"white"} >Redefining Experiences for Effortless Event  Management.</Text>
