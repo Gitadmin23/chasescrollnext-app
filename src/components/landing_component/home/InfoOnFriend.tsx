@@ -9,7 +9,7 @@ export default function InfoOnFriend(){
         <PictureAndText imageUrl="/images/hometwo.png" reverse={true} >
             <Flex p={[ "0px", "0px", "12"]} gap={"6"} flexDir={"column"} >
                 <Text fontSize={["20px", "20px", "32px"]} lineHeight={[ "24.2px", "24.2px", "40px" ]} fontWeight={"semibold"} color={"#2B2D31"} >Connect with friends via chat on <span style={{ fontWeight: "bold", color: THEME?.COLORS?.chasescrollBlue }} >Chasescroll</span></Text>
-                <Text  fontSize={["12px", "12px", "19.53px"]} lineHeight={[ "17.15px", "17.15px", "28px" ]} color={"#4B4E61"}  >Connect and Engage: Enhance Event Collaboration with Chasescroll's Interactive Messaging and Chat Functionality</Text>
+                <Text  fontSize={["12px", "12px", "19.53px"]} lineHeight={[ "17.15px", "17.15px", "28px" ]} color={"#4B4E61"}  >{`Connect and Engage: Enhance Event Collaboration with Chasescroll's Interactive Messaging and Chat Functionality`}</Text>
                 <Flex gap={"4"} w={"full"} flexDir={"column"} >
                     <Flex alignItems={"center"} gap={"2"} >
                         <Box w={"fit-content"} >
