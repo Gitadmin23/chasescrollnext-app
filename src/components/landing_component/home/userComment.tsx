@@ -174,11 +174,11 @@ export default function UserComment() {
                     {data?.map((item: IProps, index: number) => {
                         if (item?.video) {
                             return (
-                                <Video {...item} />
+                                <Video key={index} {...item} />
                             )
                         } else {
                             return (
-                                <Card {...item} />
+                                <Card key={index} {...item} />
                             )
                         }
                     })}
