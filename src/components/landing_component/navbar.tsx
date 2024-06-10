@@ -58,7 +58,7 @@ function HomeNavbar() {
                     <SearchBar home={true} />
                 )}
             </Flex>
-            <Flex display={["none", "none", "flex"]} gap={"5"} >
+            <Flex display={["none", "none", "none", "flex"]} gap={"5"} >
                 {homelink?.slice(0, pathname?.includes("event") ? 3 : 6)?.map((item: {
                     label: string,
                     link: string
@@ -70,11 +70,11 @@ function HomeNavbar() {
                     )
                 })}
             </Flex>
-            <Flex display={["none", "none", "flex"]} gap={"4"} >
+            <Flex display={["none", "none", "none", "flex"]} gap={"4"} >
                 <CustomButton text={"Login"} width={"152px"} backgroundColor={"white"} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={THEME?.COLORS?.chasescrollBlue} borderRadius={"8px"} />
                 <CustomButton text={"Get Started"} width={"152px"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
             </Flex>
-            <Flex display={["flex", "flex", "none"]} >
+            <Flex display={["flex", "flex", "flex", "none"]} >
                 <button
                     onClick={onOpen}
                     className="p-3 z-50 focus:outline-none"
@@ -89,7 +89,7 @@ function HomeNavbar() {
             <Drawer
                 isOpen={isOpen}
                 placement='right'
-                size={"sm"}
+                size={"xs"}
                 onClose={onClose}
             >
                 <DrawerOverlay />
@@ -98,7 +98,7 @@ function HomeNavbar() {
 
                     <DrawerBody >
 
-                        <Flex h={"full"} pt={"20"} flexDir={"column"} alignItems={"center"} justifyContent={"start"} w={"full"} gap={"8"} fontSize={"lg"} >
+                        <Flex width={"full"} h={"full"} pt={"20"} flexDir={"column"} alignItems={"center"} justifyContent={"start"} gap={"8"} fontSize={"lg"} >
 
                             <Flex flexDir={"column"} gap={"8"} >
                                 {homelink?.map((item: {
