@@ -226,7 +226,7 @@ function AddOrRemoveUserBtn(props: Props) {
             )}
             {request && (
                 <Flex gap={"3"} fontSize={"sm"} >
-                    <Button isDisabled={loading === index ? true : false} onClick={(e) => handleaccept(e)} fontSize={"sm"} width={"100px"} bgColor={mainBackgroundColor} color={'white'} height={"40px"} >
+                    <Button isDisabled={loading === index ? true : false} onClick={(e) => handleaccept(e)} fontSize={"sm"} width={"100px"} bgColor={primaryColor} color={'white'} height={"40px"} >
                         {(loading === index) ? "Loading..." : "Accept"}
                     </Button>
                     <Button isDisabled={loadingRejected === index ? true : false} onClick={(e) => handleReject(e)} fontSize={"sm"} width={"100px"} bgColor={"#FCE7F3"} height={"40px"} color={"#DD2B2C"} >

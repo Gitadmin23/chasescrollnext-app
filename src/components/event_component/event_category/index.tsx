@@ -70,7 +70,7 @@ function EventCategory(props: Props) {
                     <Box ref={ref} width={"full"} height={"full"} display={"flex"} overflowX={"auto"} scrollBehavior={"smooth"} sx={
                         {
                             '::-webkit-scrollbar': {
-                                display: eventpage ? 'none' : ""
+                                display: !eventpage ? 'none' : ""
                             }
                         }
                     } >
