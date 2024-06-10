@@ -23,7 +23,7 @@ export default function Home() {
             <VersionInfo />
             <DiscoverApp />
             <UserComment />
-            <Faq  />
+            <Faq />
         </Flex>
     )
 }

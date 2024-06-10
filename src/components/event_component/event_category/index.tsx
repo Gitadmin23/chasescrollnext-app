@@ -2,7 +2,7 @@ import { CategoryRightIcon } from '@/components/svg';
 import useSearchStore from '@/global-state/useSearchData';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import {Box, Button, Flex, Select, useColorMode, useToast} from '@chakra-ui/react';
+import { Box, Button, Flex, Select, useColorMode, useToast } from '@chakra-ui/react';
 import React from 'react'
 import { useQuery } from 'react-query';
 import useCustomTheme from "@/hooks/useTheme";
@@ -66,8 +66,14 @@ function EventCategory(props: Props) {
     return (
         <>
             {!selector && (
-                <Flex flexDirection={"column"} overflowX={"hidden"} h={"50px"}justifyContent={"center"} alignItems={"center"} position={"relative"} >
-                    <Box ref={ref} width={"full"}  height={"full"} display={"flex"} overflowX={"auto"} scrollBehavior={"smooth"} >
+                <Flex flexDirection={"column"} overflowX={"hidden"} h={"50px"} justifyContent={"center"} alignItems={"center"} position={"relative"} >
+                    <Box ref={ref} width={"full"} height={"full"} display={"flex"} overflowX={"auto"} scrollBehavior={"smooth"} sx={
+                        {
+                            '::-webkit-scrollbar': {
+                                display: !eventpage ? 'none' : ""
+                            }
+                        }
+                    } >
                         <Flex gap={["4", "4", "9"]} width={"fit-content"} my={"auto"} pr={"100px"} >
 
                             <Button onClick={() => clickHandler("")} width={"80px"} _hover={{ backgroundColor: "white" }} rounded={"none"} borderBottom={!event_category ? "1px" : ""} fontSize={"14px"} lineHeight={"150%"} fontWeight={!event_category ? "bold" : "normal"} height={"30px"} bg={"#FFF"} color={!event_category ? "brand.chasescrollBlue" : "#626262"} >All Event</Button>
@@ -85,7 +91,7 @@ function EventCategory(props: Props) {
                                 )
                             })}
                         </Flex>
-                    </Box>
+                    </Box >
 
                     <Box h={"50px"} justifyContent={"center"} as='button' onClick={() => scroll(400)} pos={"absolute"} w={"fit-content"} right={"0px"} top={"0px"} >
                         {eventpage && (
@@ -118,33 +124,36 @@ function EventCategory(props: Props) {
                             <CategoryRightIcon />
                         )}
                     </Box>
-                </Flex>
-            )}
-            {selector && (
-                <Select
-                    color={"#5465E0"} backgroundColor={"#F2F4FF"}
-                    focusBorderColor={"#F2F4FF"}
-                    height={"50px"}
-                    fontSize={"sm"}
-                    rounded={"50px"}
-                    width={["150px", "auto", "auto"]}
-                    onChange={(e) => handleChange(e.target.value)}
-                    value={event_category}
-                    placeholder='Select Event Type' >
-                    {data?.sort((a: string, b: string) => {
-                        if (a > b) {
-                            return 1
-                        } else {
-                            return -1;
-                        }
-                        return 0;
-                    })?.map((type: any, index: number) => (
-                        <option style={{ fontSize: "12px" }} key={index} value={type}>
-                            {type.split("_").join(" ")}
-                        </option>
-                    ))}
-                </Select>
-            )}
+                </Flex >
+            )
+            }
+            {
+                selector && (
+                    <Select
+                        color={"#5465E0"} backgroundColor={"#F2F4FF"}
+                        focusBorderColor={"#F2F4FF"}
+                        height={"50px"}
+                        fontSize={"sm"}
+                        rounded={"50px"}
+                        width={["150px", "auto", "auto"]}
+                        onChange={(e) => handleChange(e.target.value)}
+                        value={event_category}
+                        placeholder='Select Event Type' >
+                        {data?.sort((a: string, b: string) => {
+                            if (a > b) {
+                                return 1
+                            } else {
+                                return -1;
+                            }
+                            return 0;
+                        })?.map((type: any, index: number) => (
+                            <option style={{ fontSize: "12px" }} key={index} value={type}>
+                                {type.split("_").join(" ")}
+                            </option>
+                        ))}
+                    </Select>
+                )
+            }
         </>
     )
 }
