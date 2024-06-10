@@ -37,7 +37,7 @@ export default function InfoOnCommunity() {
                         <Box w={"fit-content"} >
                             <FaCheckCircle size={"24px"} color="#12BC42" />
                         </Box>
-                        <Text fontSize={["12px", "12px", "19.53px"]} lineHeight={["17.15px", "17.15px", "28px"]} color={"#1A202C"} >Experience ChaseScroll's vitality.</Text>
+                        <Text fontSize={["12px", "12px", "19.53px"]} lineHeight={["17.15px", "17.15px", "28px"]} color={"#1A202C"} >{`Experience ChaseScroll's vitality.`}</Text>
                     </Flex> 
                 </Flex>
                 <CustomButton text={"Get Started"} mt={"6"} width={["full", "full", "152px"]} backgroundColor={["white", "white", THEME?.COLORS?.chasescrollButtonBlue + ""]} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={[THEME?.COLORS?.chasescrollBlue, THEME?.COLORS?.chasescrollBlue, "white"]} borderRadius={"8px"} />
