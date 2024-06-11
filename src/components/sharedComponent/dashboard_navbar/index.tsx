@@ -1,4 +1,4 @@
-import ButtonGroup from '@/app/home/home_component/Navbar/ButtonGroup'
+import ButtonGroup from '@/app/homeold/home_component/Navbar/ButtonGroup'
 import SearchBar from '@/components/explore_component/searchbar'
 import CustomText from '@/components/general/Text'
 import NotificationBar from '@/components/navbar/notification'

@@ -135,10 +135,12 @@ function EventCategory(props: Props) {
                         height={"50px"}
                         fontSize={"sm"}
                         rounded={"50px"}
-                        width={["150px", "auto", "auto"]}
+                        width={["250px", "auto", "auto"]}
                         onChange={(e) => handleChange(e.target.value)}
                         value={event_category}
-                        placeholder='Select Event Type' >
+                        fontWeight={"bold"}
+                        textAlign={"center"}
+                        placeholder='Select Event Category' >
                         {data?.sort((a: string, b: string) => {
                             if (a > b) {
                                 return 1
@@ -147,7 +149,7 @@ function EventCategory(props: Props) {
                             }
                             return 0;
                         })?.map((type: any, index: number) => (
-                            <option style={{ fontSize: "12px" }} key={index} value={type}>
+                            <option style={{ fontSize: "16px", fontWeight: "normal" }} key={index} value={type}>
                                 {type.split("_").join(" ")}
                             </option>
                         ))}

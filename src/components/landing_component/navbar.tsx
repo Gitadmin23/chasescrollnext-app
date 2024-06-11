@@ -12,29 +12,31 @@ function HomeNavbar() {
     const homelink = [
         {
             label: "Home",
-            link: "/newhome"
-        },
-        {
-            label: "Event",
-            link: "/newhome/event"
-        },
-        {
-            label: "About us",
-            link: "/newhome/about-us"
-        },
-        {
-            label: "Policy",
-            link: "/newhome/home"
-        },
-        {
-            label: "Terms & Condition",
             link: "/home"
         },
         {
+            label: "Event",
+            link: ""
+        },
+        {
+            label: "About us",
+            link: "/home/about-us"
+        },
+        {
+            label: "Policy",
+            link: "/home/privacy"
+        },
+        {
+            label: "Terms & Condition",
+            link: "/home/terms"
+        },
+        {
             label: "Contact us",
-            link: "/newhome/contact-us"
+            link: "/home/contact-us"
         }
     ]
+
+    let token = localStorage.getItem("token")
 
     const pathname = usePathname();
     const router = useRouter();
@@ -70,10 +72,17 @@ function HomeNavbar() {
                     )
                 })}
             </Flex>
-            <Flex display={["none", "none", "none", "flex"]} gap={"4"} >
-                <CustomButton text={"Login"} width={"152px"} backgroundColor={"white"} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={THEME?.COLORS?.chasescrollBlue} borderRadius={"8px"} />
-                <CustomButton text={"Get Started"} width={"152px"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
-            </Flex>
+            {!token && (
+                <Flex display={["none", "none", "none", "flex"]} gap={"4"} >
+                    <CustomButton onClick={() => clickHander("/auth")} text={"Login"} width={"152px"} backgroundColor={"white"} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={THEME?.COLORS?.chasescrollBlue} borderRadius={"8px"} />
+                    <CustomButton onClick={() => clickHander("/auth")} text={"Get Started"} width={"152px"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
+                </Flex>
+            )}
+            {token && (
+                <Flex display={["none", "none", "none", "flex"]} gap={"4"} >
+                    <CustomButton onClick={() => clickHander("/dashboard/event")} text={"Dashboard"} width={"152px"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
+                </Flex>
+            )}
             <Flex display={["flex", "flex", "flex", "none"]} >
                 <button
                     onClick={onOpen}
@@ -112,11 +121,17 @@ function HomeNavbar() {
                                     )
                                 })}
                             </Flex>
-                            {/* {!token && ( */}
-                            <Flex gap={"3"} width={"full"} my={"auto"} flexDir={"column"} justifyContent={"center"}  >
-                                <CustomButton text={"Login"} width={"full"} backgroundColor={"white"} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={THEME?.COLORS?.chasescrollBlue} borderRadius={"8px"} />
-                                <CustomButton text={"Get Started"} width={"full"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
-                            </Flex>
+                            {!token && (
+                                <Flex gap={"3"} width={"full"} my={"auto"} flexDir={"column"} justifyContent={"center"}  >
+                                    <CustomButton onClick={() => clickHander("/auth")} text={"Login"} width={"full"} backgroundColor={"white"} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={THEME?.COLORS?.chasescrollBlue} borderRadius={"8px"} />
+                                    <CustomButton onClick={() => clickHander("/auth")} text={"Get Started"} width={"full"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
+                                </Flex>
+                            )}
+                            {token && (
+                                <Flex gap={"3"} width={"full"} my={"auto"} flexDir={"column"} justifyContent={"center"}  >
+                                    <CustomButton onClick={() => clickHander("/dashboard/event")} text={"Dashboard"} width={"full"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
+                                </Flex>
+                            )}
                             {/* )} */}
                         </Flex>
                     </DrawerBody>

@@ -28,7 +28,7 @@ export default function UserComment() {
 
         return (
             <Flex w={"399px"} h={"330px"} pb={"6"} pt={"4"} flexDir={"column"} pos={"relative"} rounded={"14px"} borderWidth={"1px"} borderColor={"#E2E8F0"} >
-                <Flex px={"6"} pt={"2"} w={"full"} maxH={"200px"} overflowY={"auto"} >
+                <Flex px={"6"} pt={"2"} w={"full"} h={"200px"} justifyContent={"center"} alignItems={"center"} overflowY={"auto"} >
                     <Text fontSize={"17.3px"} lineHeight={"28px"} letterSpacing={"-0.18px"} >{detail}</Text>
                 </Flex>
                 <Flex px={"6"} alignItems={"center"} position={"relative"} zIndex={"20"} mt={"auto"} gap={"3"} >
@@ -162,7 +162,7 @@ export default function UserComment() {
 
 
     return (
-        <Flex w={"full"} flexDir={"column"} py={"12"} gap={"9"} >
+        <Flex w={"full"} flexDir={"column"} pt={["0px", "0px", "12"]} pb={["4","4", "12"]} gap={"9"} >
             <Flex ref={ref} w={"full"} overflowX={"auto"} scrollBehavior={"smooth"} px={"12"} sx={
                 {
                     '::-webkit-scrollbar': {

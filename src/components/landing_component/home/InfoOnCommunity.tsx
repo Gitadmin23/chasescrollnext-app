@@ -3,8 +3,12 @@ import { THEME } from "@/theme";
 import { Flex, Box, Text } from "@chakra-ui/react";
 import { FaCheckCircle } from "react-icons/fa";
 import PictureAndText from "../pictureAndText";
+import { useRouter } from "next/navigation";
 
 export default function InfoOnCommunity() {
+
+    const router = useRouter()
+
     return (
         <PictureAndText imageUrl="/images/hometwo.png" >
             <Flex p={["0px", "0px", "12"]} gap={"6"} flexDir={"column"} >
@@ -40,7 +44,7 @@ export default function InfoOnCommunity() {
                         <Text fontSize={["12px", "12px", "19.53px"]} lineHeight={["17.15px", "17.15px", "28px"]} color={"#1A202C"} >{`Experience ChaseScroll's vitality.`}</Text>
                     </Flex> 
                 </Flex>
-                <CustomButton text={"Get Started"} mt={"6"} width={["full", "full", "152px"]} backgroundColor={["white", "white", THEME?.COLORS?.chasescrollButtonBlue + ""]} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={[THEME?.COLORS?.chasescrollBlue, THEME?.COLORS?.chasescrollBlue, "white"]} borderRadius={"8px"} />
+                <CustomButton onClick={() => router.push("/auth")} text={"Get Started"} mt={"6"} width={["full", "full", "152px"]} backgroundColor={["white", "white", THEME?.COLORS?.chasescrollButtonBlue + ""]} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={[THEME?.COLORS?.chasescrollBlue, THEME?.COLORS?.chasescrollBlue, "white"]} borderRadius={"8px"} />
             </Flex>
         </PictureAndText>
     )
