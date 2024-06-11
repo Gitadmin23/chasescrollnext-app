@@ -110,7 +110,7 @@ function DashboardDetail(props: Props) {
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} > Escrow (24hrs)</Text>
                                 <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalPendingSales)}</Text>
                             </Box>
-                            <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor}  >
+                            <Box pt={"3px"} w={"100px"} px={"1"} borderRight={"1px"} borderColor={borderColor}  >
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >My Wallet</Text>
                                 <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalActiveSales)}</Text>
                             </Box>
