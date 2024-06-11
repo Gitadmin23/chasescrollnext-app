@@ -26,6 +26,7 @@ export default function OurPartner() {
                     <Image src="/images/The_Brink.svg" alt="Brink" w={"119.31px"} />
                     <Image src="/images/babcock.svg" alt="babcock" w={"100px"} />
                     <Image src="/images/sdbcc.svg" alt="sdbcc" w={"100px"} />
+                    <Image src="/images/unilag.png" alt="unilag" w={"60px"} />
                 </Flex>
                 <Box display={["block", "block", "none"]} position={"absolute"} bottom={"20"} left={"3"} bgColor={"white"} onClick={() => scroll(-400)} as="button" w={"40px"} h={"40px"} rounded={"full"} >
                     <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
