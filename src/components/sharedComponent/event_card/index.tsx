@@ -16,6 +16,7 @@ import { useDetails } from '@/global-state/useUserDetails'
 import BlurredImage from '../blurred_image'
 import { Log } from 'victory'
 import useCustomTheme from '@/hooks/useTheme'
+import moment from 'moment'
 
 interface Props {
     event: any,
@@ -169,8 +170,8 @@ function ExploreEventCard(props: Props) {
                     <Flex flexDir={"column"} px={"4"} pt={"6"} >
                         <Flex w={"full"} gap={"4"} py={"1"} borderBottomWidth={"1px"} borderBottomColor={"#EFF1FE"} >
                             <Flex w={"fit-content"} flexDir={"column"} fontWeight={"bold"} >
-                                <Text fontSize={"11.37px"} lineHeight={"14.81px"} color={"#3D37F1"} >APR</Text>
-                                <Text fontSize={"28.43px"} mt={"-1"} lineHeight={"37.01px"} >14</Text>
+                                <Text fontSize={"11.37px"} lineHeight={"14.81px"} color={"#3D37F1"} >{moment(event?.startDate).format("MMM")}</Text>
+                                <Text fontSize={"28.43px"} mt={"-1"} lineHeight={"37.01px"} >{moment(event?.startDate).format("D")}</Text>
                             </Flex>
                             <Text lineHeight={"24px"} textAlign={"left"} >Wonder Girls 2010 Wonder Girls World Tour San Francisco</Text>
                         </Flex>
