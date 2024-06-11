@@ -171,12 +171,14 @@ function ExploreEventCard(props: Props) {
                     <Flex w={"full"} flexDir={"column"} px={"4"} pt={"6"} >
                         <Flex w={"full"} gap={"4"} py={"1"} borderBottomWidth={"1px"} borderBottomColor={"#EFF1FE"} >
                             <Flex w={"fit-content"} flexDir={"column"} fontWeight={"bold"} >
-                                <Text fontSize={"11.37px"} lineHeight={"14.81px"} color={"#3D37F1"} >{moment(event?.startDate).format("MMM")}</Text>
-                                <Text fontSize={"28.43px"} mt={"-1"} lineHeight={"37.01px"} >{moment(event?.startDate).format("D")}</Text>
+                                <Flex width={"50px"} flexDir={"column"} py={"2px"} borderWidth={"1px"} alignItems={"center"} roundedBottom={"2xl"} roundedTopLeft={"2xl"} > 
+                                    <Text fontSize={"11.37px"} lineHeight={"14.81px"} color={"#3D37F1"} >{moment(event?.startDate).format("MMM")}</Text>
+                                    <Text fontSize={"28.43px"} mt={"-1"} lineHeight={"37.01px"} >{moment(event?.startDate).format("D")}</Text>
+                                </Flex>
                             </Flex>
-                            <Flex flexDir={"column"} > 
-                                <Text lineHeight={"24px"} fontWeight={"700"} textAlign={"left"} >{textLimit(event?.eventName, 40)}</Text>
-                                <Text lineHeight={"24px"} fontSize={"14px"} >{textLimit(event?.eventDescription, 100)}</Text>
+                            <Flex flexDir={"column"} >
+                                <Text lineHeight={"24px"} fontWeight={"700"} textAlign={"left"} >{textLimit(event?.eventName, 30)}</Text>
+                                <Text fontSize={"14px"} >{textLimit(event?.eventDescription, 100)}</Text>
                             </Flex>
                         </Flex>
                         <Flex w={"full"} h={"40px"} mt={"2"} justifyContent={"space-between"} alignItems={"center"} >

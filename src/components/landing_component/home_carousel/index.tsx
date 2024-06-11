@@ -6,6 +6,7 @@ import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import { useDetails } from '@/global-state/useUserDetails'
 import { IMAGE_URL } from '@/services/urls'
 import httpService from '@/utils/httpService'
+import { textLimit } from '@/utils/textlimit'
 import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
@@ -92,11 +93,11 @@ function HomeLandingPageCarousel(props: Props) {
                                 return (
                                     <Flex key={index} h={["fit-content", "fit-content", "449px", "449px", "449px"]} pos={"relative"} zIndex={"50"} flexDir={"column"} justifyContent={"center"} pb={["5", "5", "0px", "0px", "0px"]} pt={["5", "5", "0px", "0px", "0px"]} px={["4", "4", "0px", "0px", "0px"]} gap={["0px", "0px", "0px", "5"]} position={"relative"} >
                                         <motion.p {...boxAnimation} >
-                                            <Text as={motion.p} fontSize={"45px"} display={["none", "none", "block", "block", "block"]} lineHeight={"40px"} fontWeight={"bold"}  >{item?.eventName?.length >= 50 ? item?.eventName.slice(0, 50) + "..." : item?.eventName}</Text>
-                                            <Text as={motion.p} fontSize={"20px"} display={["block", "block", "none", "none", "none"]} fontWeight={"bold"}  >{item?.eventName?.length >= 25 ? item?.eventName.slice(0, 25) + "..." : item?.eventName}</Text>
+                                            <Text as={motion.p} fontSize={"45px"} display={["none", "none", "block", "block", "block"]} lineHeight={"40px"} fontWeight={"bold"}  >{textLimit(item?.eventName, 15)}</Text>
+                                            <Text as={motion.p} fontSize={"20px"} display={["block", "block", "none", "none", "none"]} fontWeight={"bold"}  >{textLimit(item?.eventName, 15)}</Text>
                                         </motion.p>
                                         <motion.p {...boxAnimation} >
-                                            <Text as={motion.p} lineHeight={"24px"} fontSize={"16px"} >{item?.eventDescription?.length >= 124 ? item?.eventDescription?.slice(0, 124) + "..." : item?.eventDescription}</Text>
+                                            <Text as={motion.p} lineHeight={"24px"} fontSize={"16px"} >{textLimit(item?.eventDescription, 40)}</Text>
                                         </motion.p>
                                         <Flex zIndex={"0"} mt={["5", "5", "5", "0px"]} color={"black"} left={"0px"} w={"full"} flexDir={['column', 'column', 'column', 'row', 'row']} alignItems={["", "", "start", "center", "center"]} gap={"5"} > 
                                             <CustomButton onClick={() => clickHander(item)} fontSize={"sm"} borderColor={"brand.chasescrollBlue"} color={"white"} borderWidth={"0px"} px={"4"} text={"View Event"} width={["172px"]} />
