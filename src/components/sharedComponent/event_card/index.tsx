@@ -178,7 +178,7 @@ function ExploreEventCard(props: Props) {
                             </Flex>
                             <Flex flexDir={"column"} >
                                 <Text lineHeight={"24px"} fontWeight={"700"} textAlign={"left"} >{textLimit(event?.eventName, 30)}</Text>
-                                <Text fontSize={"14px"} >{textLimit(event?.eventDescription, 100)}</Text>
+                                <Text fontSize={"14px"} >{textLimit(event?.eventDescription, 70)}</Text>
                             </Flex>
                         </Flex>
                         <Flex w={"full"} h={"40px"} mt={"2"} justifyContent={"space-between"} alignItems={"center"} >
