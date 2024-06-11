@@ -19,6 +19,20 @@ export default function UserComment() {
         ref.current.scrollLeft += scrolloffset
     };
 
+    function getFirstLetterBeforeSpace(str: string) {
+        // Split the string into an array of words
+        const words = str.split(' ');
+
+        // Check if there are at least two words
+        if (words.length >= 2) {
+            // Return the first character of the second word
+            return words[1].charAt(0);
+        }
+
+        // Return an empty string if there is no second word
+        return '';
+    }
+
     const Card = (props: IProps) => {
 
         const {
@@ -32,7 +46,10 @@ export default function UserComment() {
                     <Text fontSize={"17.3px"} lineHeight={"28px"} letterSpacing={"-0.18px"} >{detail}</Text>
                 </Flex>
                 <Flex px={"6"} alignItems={"center"} position={"relative"} zIndex={"20"} mt={"auto"} gap={"3"} >
-                    <Box bgColor={"gray.700"} w={"48px"} h={"48px"} rounded={"full"} />
+                    <Flex bgColor={"gray.700"} fontWeight={"600"} color={"white"} justifyContent={"center"} alignItems={"center"} w={"48px"} h={"48px"} rounded={"full"}>
+                        {name?.slice(0, 1)}
+                        {getFirstLetterBeforeSpace(name)}
+                    </Flex>
                     <Text fontWeight={"medium"} fontSize={"15.13px"} lineHeight={"28px"} letterSpacing={"-0.16px"} >{name}</Text>
                 </Flex>
                 <Box pos={"absolute"} bottom={"0px"} zIndex={"0"} right={"4"} >
@@ -69,7 +86,7 @@ export default function UserComment() {
             "name": "",
             "detail": "",
             "video": true,
-            "url": "rZpcP499EPY"
+            "url": "rZpcP499EPY",
         },
         {
             "name": "Egwake Jc - Abuja",
@@ -162,7 +179,7 @@ export default function UserComment() {
 
 
     return (
-        <Flex w={"full"} flexDir={"column"} pt={["0px", "0px", "12"]} pb={["4","4", "12"]} gap={"9"} >
+        <Flex w={"full"} flexDir={"column"} pt={["0px", "0px", "12"]} pb={["4", "4", "12"]} gap={"9"} >
             <Flex ref={ref} w={"full"} overflowX={"auto"} scrollBehavior={"smooth"} px={"12"} sx={
                 {
                     '::-webkit-scrollbar': {
