@@ -2,6 +2,7 @@ import CustomButton from "@/components/general/Button";
 import { THEME } from "@/theme";
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { FaHeart } from "react-icons/fa";
 
 type IProps = {
     hide?: boolean
@@ -16,7 +17,7 @@ export default function DiscoverApp(props: IProps) {
     const router = useRouter()
     
     return (
-        <Flex w={"full"} flexDir={"column"} >
+        <Flex w={"full"} flexDir={"column"}>
             <Flex w={"full"} flexDir={"column"} alignItems={"center"} justifyContent={"center"} gap={["8", "8", "10"]} py={["10", "10px", "20"]} px={["6", "6", "12"]} >
                 <Flex w={"fit-content"} flexDir={"column"} alignItems={"center"} justifyContent={"center"} gap={[ "1", "1", "3"]} textAlign={"center"} >
                     <Text fontSize={["20px", "20px", "45px"]} fontWeight={"semibold"} lineHeight={"40px"} >Discover <span style={{ color: THEME?.COLORS?.chasescrollBlue }} >Chasescroll</span></Text>
@@ -38,8 +39,9 @@ export default function DiscoverApp(props: IProps) {
                 <CustomButton onClick={() => router.push("/auth")} text={"Sign-up"} width={"175px"} backgroundColor={[THEME?.COLORS?.chasescrollBlue, THEME?.COLORS?.chasescrollBlue, "white"]} height={"60px"} borderWidth={["0px", "0px", "1px"]} color={["white", "white", THEME?.COLORS?.chasescrollBlue]} borderRadius={"8px"} />
             </Flex>
             {!hide && (
-                <Flex width={"full"} alignItems={"center"} gap={"6"} px={["6", "6", "12"]} justifyContent={"space-between"} height={"250px"} >
-                    <Text maxW={["160px", "160px", "913px"]} fontSize={["20px", "20px", "45px"]} lineHeight={["24px", "24px", "58px"]} letterSpacing={"-2.5px"} textAlign={["left", "left", "center"]} fontWeight={"semibold"} ><span style={{ color: THEME?.COLORS?.chasescrollBlue }} >Loved</span> by our users</Text>
+                <Flex width={"full"} alignItems={"center"} gap={"3"} px={["6", "6", "12"]}  height={[ "150px", "150px", "250px"]} >
+                    <Text maxW={["full", "full", "913px"]} alignItems={"center"} fontSize={["20px", "20px", "45px"]} lineHeight={["24px", "24px", "58px"]} letterSpacing={"-2.5px"} textAlign={["left", "left", "center"]} fontWeight={"semibold"} ><span style={{ color: THEME?.COLORS?.chasescrollBlue }} >Loved</span> by our users</Text>
+                    <FaHeart color="red" size="35px" />
                     {/* <CustomButton text={"Leave a Review"} fontWeight={"semibold"} width={"152px"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} /> */}
                 </Flex>
             )}

@@ -36,6 +36,8 @@ function HomeNavbar() {
         }
     ]
 
+    let token = localStorage.getItem("token")
+
     const pathname = usePathname();
     const router = useRouter();
 

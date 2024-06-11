@@ -13,7 +13,7 @@ function Terms(props: Props) {
     const router = useRouter()
 
     return (
-        <Flex flexDir={"column"} color={"#1E1E1E"} lineHeight={"211.7%"} py={["8", "8", "8", "20"]} px={["0px", "0px", "0px", "20"]} >
+        <Flex flexDir={"column"} color={"#1E1E1E"} lineHeight={"211.7%"} py={["8", "8", "8", "20"]} px={["6", "6", "6", "20"]} >
             <Flex justifyContent={"center"} mb={"4"} pos={"relative"} >
                 <Text fontSize={"24px"} fontWeight={"bold"}>TERMS AND CONDITIONS FOR CHASESCROLL</Text>
                 <Box pos={"absolute"} zIndex={"20"} right={"0px"} onClick={() => router.back()} >

@@ -13,7 +13,7 @@ function Privacy(props: Props) {
     const router = useRouter()
 
     return ( 
-        <Flex w={"full"} flexDir={"column"} color={"#1E1E1E"} py={["8", "8", "8", "20"]} px={["0px", "0px", "0px", "20"]} >
+        <Flex w={"full"} flexDir={"column"} color={"#1E1E1E"} py={["8", "8", "8", "20"]} px={["6", "6", "6", "20"]} >
             <Flex justifyContent={"end"} mb={"4"}  >
                 <svg onClick={() => router.back()} role="button" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="close">

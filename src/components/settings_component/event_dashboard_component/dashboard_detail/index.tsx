@@ -76,7 +76,7 @@ function DashboardDetail(props: Props) {
             </Flex>
 
             <Flex width={"full"} borderTopWidth={"1px"} borderBottomWidth={"1px"} borderColor={colorMode === 'light' ? "#D0D4EB" : borderColor} justifyContent={"center"} mt={"8"} py={"7"} px={"4"} >
-                <Box position={"relative"} rounded={"36px"} maxW={["100vw", "100vw", "500px"]} px={"8"} py={"6"} width={"fit-content"} bgColor={colorMode === 'light' ? "#D0F2D9" : secondaryBackgroundColor} >
+                <Box position={"relative"} rounded={"36px"} maxW={["100vw", "100vw", "700px"]} px={"8"} py={"6"} width={"fit-content"} bgColor={colorMode === 'light' ? "#D0F2D9" : secondaryBackgroundColor} >
                     <Flex alignItems={"center"} gap={"2"}>
                         <Flex width={"10"} height={"10"} bgColor={"#101828"} rounded={"full"} justifyContent={"center"} alignItems={"center"} >
                             <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -102,9 +102,9 @@ function DashboardDetail(props: Props) {
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Created</Text>
                                 <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{formatNumberWithK(history?.totalNumberOfTickets ? history?.totalNumberOfTickets : 0)}</Text>
                             </Box>
-                            <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor}  >
-                                <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Available</Text>
-                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{formatNumberWithK(history?.totalNumberOfAvailableTickets ? history?.totalNumberOfAvailableTickets : 0)}</Text>
+                            <Box pt={"3px"} w={"120px"} px={"1"} borderRight={"1px"} borderColor={borderColor} >
+                                <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >No. of Tickets Sold</Text>
+                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{formatNumberWithK(history?.qtyActiveSold ? history?.qtyActiveSold : 0)}</Text>
                             </Box>
                             <Box pt={"3px"} w={"100px"} px={"1"} borderRight={"1px"} borderColor={borderColor}  >
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} > Escrow (24hrs)</Text>
@@ -114,24 +114,24 @@ function DashboardDetail(props: Props) {
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >My Wallet</Text>
                                 <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalActiveSales)}</Text>
                             </Box>
-                            <Box pt={"3px"} w={"120px"} px={"1"} borderRight={"1px"} borderColor={borderColor} >
-                                <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >No. of Tickets Sold</Text>
-                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{formatNumberWithK(history?.qtyActiveSold ? history?.qtyActiveSold : 0)}</Text>
+                            <Box pt={"3px"} px={"4"} borderColor={borderColor}  >
+                                <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Available</Text>
+                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{formatNumberWithK(history?.totalNumberOfAvailableTickets ? history?.totalNumberOfAvailableTickets : 0)}</Text>
                             </Box>
                             {/* <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor} >
                             <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Sold</Text>
                             <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalActiveSales)}</Text>
                         </Box> */}
-                            <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor} >
+                            {/* <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor} >
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Cancelled</Text>
                                 <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalRefunds)}</Text>
-                            </Box>
+                            </Box> */}
                         </Flex>
                     </Flex>
-                    <Box zIndex={"10"} position={"absolute"} bottom={"10"} left={"1"} bgColor={"white"} onClick={() => scroll(-400)} as="button" w={"40px"} h={"40px"} rounded={"full"} >
+                    <Box zIndex={"10"} display={["block", "block", "none"]} position={"absolute"} bottom={"10"} left={"1"} bgColor={"white"} onClick={() => scroll(-400)} as="button" w={"40px"} h={"40px"} rounded={"full"} >
                         <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
                     </Box>
-                    <Box zIndex={"10"} position={"absolute"} bottom={"10"} right={"1"} bgColor={"white"} onClick={() => scroll(400)} transform={"rotate(180deg)"} as="button" w={"40px"} h={"40px"} rounded={"full"} >
+                    <Box zIndex={"10"} display={["block", "block", "none"]} position={"absolute"} bottom={"10"} right={"1"} bgColor={"white"} onClick={() => scroll(400)} transform={"rotate(180deg)"} as="button" w={"40px"} h={"40px"} rounded={"full"} >
                         <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
                     </Box>
                 </Box>
