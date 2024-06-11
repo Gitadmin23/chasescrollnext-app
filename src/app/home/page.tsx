@@ -1,37 +1,29 @@
-'use client';
-import Header from '@/app/home/home_component/Home/Header';
-import { HOME_HEADER } from '@/constants';
-import React, { useEffect } from 'react'
-import AOS from "aos";
-import "aos/dist/aos.css";
-import Main from './home_component/Home/Main';
-import Footer from './home_component/Home/Footer';
-import FAQ from './home_component/FAQ';
-import Navbar from './home_container/Navbar';
+"use client"
 
-function HomePage() {
+import Faq from "@/components/landing_component/home/FAQ"
+import InfoOnCommunity from "@/components/landing_component/home/InfoOnCommunity"
+import InfoOnEvent from "@/components/landing_component/home/InfoOnEvent"
+import InfoOnFriend from "@/components/landing_component/home/InfoOnFriend"
+import DiscoverApp from "@/components/landing_component/home/discoverApp"
+import HeroSection from "@/components/landing_component/home/herosection" 
+import OurPartner from "@/components/landing_component/home/ourpartner"
+import UserComment from "@/components/landing_component/home/userComment"
+import VersionInfo from "@/components/landing_component/home/versionInfo"
+import { Flex } from "@chakra-ui/react"
+import React from "react"
 
-  useEffect(() => {
-    AOS.init({
-      duration: 1500, // Animation duration in milliseconds
-      delay: 200, // Delay between animations in milliseconds
-      once: true, // Whether to animate elements only once
-    });
-    AOS.refresh();
-  }, []);
-
-  const handleToast = () => {
-    // toast.info('Coming soon');
-  }
-  return (
-    <div className="  max-w-[1200px] overflow-x-hidden w-full mx-auto flex flex-col gap-8">
-      {/* <Navbar /> */}
-      <Header data={HOME_HEADER} />
-      <Main />
-      <Footer />
-      <FAQ />
-    </div>
-  )
+export default function Home() {
+    return (
+        <Flex flexDir={"column"} w={"full"} >
+            <HeroSection />
+            <OurPartner />
+            <InfoOnEvent />
+            <InfoOnFriend />
+            <InfoOnCommunity />
+            <VersionInfo />
+            <DiscoverApp />
+            <UserComment />
+            <Faq />
+        </Flex>
+    )
 }
-
-export default HomePage

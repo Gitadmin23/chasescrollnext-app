@@ -42,16 +42,16 @@ export default function FooterLandingPage() {
                     <Flex w={[ "full", "full", "full", "300px"]} flexDir={"column"} >
                         <Text fontSize={["20px", "20px", "24px"]} lineHeight={"48px"} fontWeight={"medium"} >Helpful links</Text>
                         <Flex w={"full"} mt={"6"} gap={["8", "8", "8", "5"]} flexDir={"column"} >
-                            <Link href={"/newhome#faq"}  >
+                            <Link href={"/home#faq"}  >
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >FAQ</Text>
                             </Link>
                             <Link href={"contact-us"}  >
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >Contact Us</Text>
                             </Link>
-                            <Link href={"event"}  >
+                            <Link href={"/"}  >
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >Event</Text>
                             </Link>
-                            <Link href={"/newhome"}  >
+                            <Link href={"/home"}  >
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >Home</Text>
                             </Link>
                         </Flex>
@@ -60,16 +60,16 @@ export default function FooterLandingPage() {
                     <Flex w={[ "full", "full", "150px"]} flexDir={"column"} >
                         <Text fontSize={[ "20px", "20px", "24px"]} lineHeight={"48px"} fontWeight={"medium"} >About Us</Text>
                         <Flex w={"full"} mt={"6"} gap={["8", "8", "5"]} flexDir={"column"} >
-                            <Link href={""}  >
+                            <Link href={"/home/privacy"}  >
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >Privacy Policy</Text>
                             </Link>
-                            <Link href={""}  >
+                            <Link href={"/home/terms"}  >
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >Terms & Condition</Text>
                             </Link>
-                            <Link href={""}  >
+                            <Link href={"/dashboard/event"}  >
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >Sell Ticket</Text>
                             </Link>
-                            <Link href={""}  >
+                            <Link href={"/dashboard/explore"}  >
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >Explore</Text>
                             </Link>
                         </Flex>
@@ -77,18 +77,18 @@ export default function FooterLandingPage() {
                     <Flex w={[ "full", "full", "155px"]} flexDir={"column"} >
                         <Text fontSize={[ "20px", "20px", "24px"]} lineHeight={"48px"} fontWeight={"medium"} >Partners</Text>
                         <Flex w={"full"} mt={"6"} gap={["8", "8", "5"]} flexDir={"column"} >
-                            <Link href={""}  >
+                            {/* <Link href={""}  > */}
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >Babcock University</Text>
-                            </Link>
-                            <Link href={""}  >
+                            {/* </Link>
+                            <Link href={""}  > */}
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >University of San Diego</Text>
-                            </Link>
-                            <Link href={""}  >
+                            {/* </Link>
+                            <Link href={""}  > */}
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >County  of san Diego chambers</Text>
-                            </Link>
-                            <Link href={""}  >
+                            {/* </Link>
+                            <Link href={""}  > */}
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >The Brink</Text>
-                            </Link>
+                            {/* </Link> */}
                         </Flex>
                     </Flex>
                 </Flex>
