@@ -1,7 +1,7 @@
 'use client'
 import { formatNumberWithK, numberFormat, numberFormatDollar, numberFormatNaire } from '@/utils/formatNumberWithK'
 import httpService from '@/utils/httpService'
-import {Box, Flex, Text, useColorMode} from '@chakra-ui/react'
+import { Box, Flex, Image, Text, useColorMode } from '@chakra-ui/react'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -45,34 +45,38 @@ function DashboardDetail(props: Props) {
             setHistory(data.data);
 
             console.log(data?.data);
-            
+
         }
     })
 
 
     const DataFormater = (number: number) => {
-        if(number > 1000000000){
-          return (number/1000000000).toString() + 'B';
-        }else if(number > 1000000){
-          return (number/1000000).toString() + 'M';
-        }else if(number > 1000){
-          return (number/1000).toString() + 'K';
-        }else{
-          return number.toString();
+        if (number > 1000000000) {
+            return (number / 1000000000).toString() + 'B';
+        } else if (number > 1000000) {
+            return (number / 1000000).toString() + 'M';
+        } else if (number > 1000) {
+            return (number / 1000).toString() + 'K';
+        } else {
+            return number.toString();
         }
-      }
+    }
 
-      console.log(history?.qtyActiveSold);
-      
+    const ref: any = React.useRef(null);
+
+    const scroll = (scrolloffset: number) => {
+        ref.current.scrollLeft += scrolloffset
+    };
+
 
     return (
         <Flex width={"full"} flexDirection={"column"} >
-            <Flex onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} as={"button"} width={"fit-content"} mt={"8"} gap={"2"} alignItems={"center"} bgColor={"white"} borderColor={"brand.chasescrollBlue"} borderWidth={"1px"} _hover={{background:"#5D70F9", color: "white"}}  color={"brand.chasescrollBlue"} py={"2px"} px={"2"} fontSize={"13px"} fontWeight={"medium"} rounded={"md"} >
+            <Flex onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} as={"button"} width={"fit-content"} mt={"8"} gap={"2"} alignItems={"center"} bgColor={"white"} borderColor={"brand.chasescrollBlue"} borderWidth={"1px"} _hover={{ background: "#5D70F9", color: "white" }} color={"brand.chasescrollBlue"} py={"2px"} px={"2"} fontSize={"13px"} fontWeight={"medium"} rounded={"md"} >
                 View Attendees
             </Flex>
 
-            <Flex width={"full"} borderTopWidth={"1px"} borderBottomWidth={"1px"} borderColor={colorMode === 'light' ? "#D0D4EB":borderColor} justifyContent={"center"} mt={"8"} py={"7"} px={"4"} >
-                <Box rounded={"36px"} px={"8"} py={"6"} width={"fit-content"} bgColor={colorMode === 'light' ? "#D0F2D9":secondaryBackgroundColor} >
+            <Flex width={"full"} borderTopWidth={"1px"} borderBottomWidth={"1px"} borderColor={colorMode === 'light' ? "#D0D4EB" : borderColor} justifyContent={"center"} mt={"8"} py={"7"} px={"4"} >
+                <Box position={"relative"} rounded={"36px"} maxW={["100vw", "100vw", "700px"]} px={"8"} py={"6"} width={"fit-content"} bgColor={colorMode === 'light' ? "#D0F2D9" : secondaryBackgroundColor} >
                     <Flex alignItems={"center"} gap={"2"}>
                         <Flex width={"10"} height={"10"} bgColor={"#101828"} rounded={"full"} justifyContent={"center"} alignItems={"center"} >
                             <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -86,24 +90,50 @@ function DashboardDetail(props: Props) {
                         </Flex>
                         <Text fontSize={"15px"} fontWeight={"medium"} >Tickets</Text>
                     </Flex>
-                    <Flex pt={"7"} alignItems={"center"}>
-                        <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor} >
-                            <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Created</Text>
-                            <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{formatNumberWithK(history?.totalNumberOfTickets ? history?.totalNumberOfTickets : 0)}</Text>
-                        </Box>
-                        <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor} >
+                    <Flex ref={ref} pt={"7"} mx={"6"} scrollBehavior={"smooth"} overflowX={"auto"} alignItems={"center"} sx={
+                        {
+                            '::-webkit-scrollbar': {
+                                display: 'none'
+                            }
+                        }
+                    }>
+                        <Flex w={"fit-content"}   >
+                            <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor} >
+                                <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Created</Text>
+                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{formatNumberWithK(history?.totalNumberOfTickets ? history?.totalNumberOfTickets : 0)}</Text>
+                            </Box>
+                            <Box pt={"3px"} w={"120px"} px={"1"} borderRight={"1px"} borderColor={borderColor} >
+                                <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >No. of Tickets Sold</Text>
+                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{formatNumberWithK(history?.qtyActiveSold ? history?.qtyActiveSold : 0)}</Text>
+                            </Box>
+                            <Box pt={"3px"} w={"100px"} px={"1"} borderRight={"1px"} borderColor={borderColor}  >
+                                <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} > Escrow (24hrs)</Text>
+                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalPendingSales)}</Text>
+                            </Box>
+                            <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor}  >
+                                <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >My Wallet</Text>
+                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalActiveSales)}</Text>
+                            </Box>
+                            <Box pt={"3px"} px={"4"} borderColor={borderColor}  >
+                                <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Available</Text>
+                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{formatNumberWithK(history?.totalNumberOfAvailableTickets ? history?.totalNumberOfAvailableTickets : 0)}</Text>
+                            </Box>
+                            {/* <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor} >
                             <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Sold</Text>
                             <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalActiveSales)}</Text>
-                        </Box>
-                        <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor} >
-                            <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Cancelled</Text>
-                            <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalRefunds)}</Text>
-                        </Box>
-                        <Box pt={"3px"} px={"4"} >
-                            <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Available</Text>
-                            <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{formatNumberWithK(history?.totalNumberOfAvailableTickets ? history?.totalNumberOfAvailableTickets : 0)}</Text>
-                        </Box>
+                        </Box> */}
+                            {/* <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor} >
+                                <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Cancelled</Text>
+                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalRefunds)}</Text>
+                            </Box> */}
+                        </Flex>
                     </Flex>
+                    <Box zIndex={"10"} display={["block", "block", "none"]} position={"absolute"} bottom={"10"} left={"1"} bgColor={"white"} onClick={() => scroll(-400)} as="button" w={"40px"} h={"40px"} rounded={"full"} >
+                        <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
+                    </Box>
+                    <Box zIndex={"10"} display={["block", "block", "none"]} position={"absolute"} bottom={"10"} right={"1"} bgColor={"white"} onClick={() => scroll(400)} transform={"rotate(180deg)"} as="button" w={"40px"} h={"40px"} rounded={"full"} >
+                        <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
+                    </Box>
                 </Box>
             </Flex>
 
@@ -122,7 +152,7 @@ function DashboardDetail(props: Props) {
                     >
                         <XAxis tickFormatter={DataFormater} dataKey="ticketType" />
                         <YAxis />
-                        <Tooltip formatter={numberFormat}  />
+                        <Tooltip formatter={numberFormat} />
                         <Legend />
                         <CartesianGrid strokeDasharray="3 3" />
 
@@ -134,7 +164,7 @@ function DashboardDetail(props: Props) {
                                     <Bar dataKey="totalRefund" fill="#E90303" background={{ fill: '#eee' }} />
                                     <Bar dataKey="totalPendingSales" fill="#DB9E00" background={{ fill: '#eee' }} /> */}
                     </BarChart>
-                </ResponsiveContainer> 
+                </ResponsiveContainer>
             </Box>
         </Flex>
     )

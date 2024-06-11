@@ -83,39 +83,38 @@ function HomeLandingPageCarousel(props: Props) {
     }
 
     return (
-        <Flex w={"full"} px={"12"} py={"8"} > 
+        <Flex w={"full"} px={["2", "2", "12"]} pb={"8"} pt={"4"} > 
             <LoadingAnimation loading={isLoading} >
-                <Flex color={"white"} w={"full"} bg={["transparent", "transparent", "#EFF1FE", "#EFF1FE", "#EFF1FE"]} position={"relative"} h={["540px", "540px", "449px", "449px", "449px"]} gap={["0px", "0px", "7", "7", "7"]} flexDir={["column", "column", "row"]} roundedBottom={"32px"} roundedTopLeft={"32px"}  >
-                    <Box w={["full", "full", "568px", "568px", "568px"]} my={["", "auto"]} zIndex={"50"} px={["0px", "0px", "14", "14", "14"]} insetX={"0px"} position={["absolute", "absolute", "relative", "relative", "relative"]} bottom={"0px"} roundedBottom={["32px", "32px", "none", "none", "none"]} bg={["linear-gradient(168deg, rgba(46, 43, 43, 0.80) -7.34%, rgba(46, 43, 43, 0.00) 522.78%)", "linear-gradient(168deg, rgba(46, 43, 43, 0.80) -7.34%, rgba(46, 43, 43, 0.00) 522.78%)", "transparent", "transparent"]} >
+                <Flex color={"white"} w={"full"} bg={["transparent", "transparent", "#EFF1FE", "#EFF1FE", "#EFF1FE"]} position={"relative"} h={["411px", "411px", "449px", "449px", "449px"]} gap={["0px", "0px", "7", "7", "7"]} flexDir={["column", "column", "row"]} roundedBottom={"32px"} roundedTopLeft={"32px"}  >
+                    <Box w={["full", "full", "568px", "568px", "568px"]} my={["", "auto"]} zIndex={"50"} px={["0px", "0px", "14", "14", "14"]} insetX={"0px"} position={["absolute", "absolute", "relative", "relative", "relative"]} bottom={"0px"} roundedBottom={["32px", "32px", "none", "none", "none"]} roundedTopLeft={"32px"} bg={["linear-gradient(168deg, rgba(46, 43, 43, 0.80) -7.34%, rgba(46, 43, 43, 0.00) 522.78%)", "linear-gradient(168deg, rgba(46, 43, 43, 0.80) -7.34%, rgba(46, 43, 43, 0.00) 522.78%)", "transparent", "transparent"]} >
                         {data?.map((item: any, index: any) => {
                             if (index === isShown) {
                                 return (
-                                    <Flex key={index} h={["540px", "540px", "449px", "449px", "449px"]} pos={"relative"} zIndex={"50"} flexDir={"column"} justifyContent={"center"} py={["8", "8", "0px", "0px", "0px"]} px={["4", "4", "0px", "0px", "0px"]} gap={"5"} position={"relative"} >
+                                    <Flex key={index} h={["fit-content", "fit-content", "449px", "449px", "449px"]} pos={"relative"} zIndex={"50"} flexDir={"column"} justifyContent={"center"} pb={["5", "5", "0px", "0px", "0px"]} pt={["5", "5", "0px", "0px", "0px"]} px={["4", "4", "0px", "0px", "0px"]} gap={["0px", "0px", "0px", "5"]} position={"relative"} >
                                         <motion.p {...boxAnimation} >
                                             <Text as={motion.p} fontSize={"45px"} display={["none", "none", "block", "block", "block"]} lineHeight={"40px"} fontWeight={"bold"}  >{item?.eventName?.length >= 50 ? item?.eventName.slice(0, 50) + "..." : item?.eventName}</Text>
-                                            {/* <Text as={motion.p} fontSize={"20px"} display={["block", "block", "none", "none", "none"]} lineHeight={"-0.362px"} fontWeight={"bold"}  >{item?.eventName?.length >= 25 ? item?.eventName.slice(0, 25) + "..." : item?.eventName}</Text> */}
+                                            <Text as={motion.p} fontSize={"20px"} display={["block", "block", "none", "none", "none"]} fontWeight={"bold"}  >{item?.eventName?.length >= 25 ? item?.eventName.slice(0, 25) + "..." : item?.eventName}</Text>
                                         </motion.p>
                                         <motion.p {...boxAnimation} >
                                             <Text as={motion.p} lineHeight={"24px"} fontSize={"16px"} >{item?.eventDescription?.length >= 124 ? item?.eventDescription?.slice(0, 124) + "..." : item?.eventDescription}</Text>
                                         </motion.p>
-                                        <Flex zIndex={"0"} color={"black"} left={"0px"} w={"full"} flexDir={['row', 'row', 'column', 'row', 'row']} alignItems={["", "", "start", "center", "center"]} gap={"5"} > 
+                                        <Flex zIndex={"0"} mt={["5", "5", "5", "0px"]} color={"black"} left={"0px"} w={"full"} flexDir={['column', 'column', 'column', 'row', 'row']} alignItems={["", "", "start", "center", "center"]} gap={"5"} > 
                                             <CustomButton onClick={() => clickHander(item)} fontSize={"sm"} borderColor={"brand.chasescrollBlue"} color={"white"} borderWidth={"0px"} px={"4"} text={"View Event"} width={["172px"]} />
                                             <InterestedUsers fontSize={16} color={["white", "white", "white", "white", "white"]} event={item} border={"2px"} size={"32px"} />
                                         </Flex>
                                     </Flex>
-
                                 )
                             }
                         })}
                     </Box>
-                    <Box w={"full"} pos={"absolute"} inset={"0px"} zIndex={"40"} roundedBottom={"32px"} roundedTopLeft={"32px"} h={"full"} bgColor={"black"} opacity={"50%"} />
-                    <Box pos={"absolute"} inset={"0px"} w={"full"} h={["540px", "540px", "449px", "449px", "449px"]}  roundedBottom={"32px"} roundedTopLeft={"32px"} >
+                    <Box w={"full"} pos={"absolute"}  inset={"0px"} zIndex={"40"} roundedBottom={"32px"} borderTopLeftRadius={"32px"} h={"full"} bgColor={"black"} opacity={"15%"} />
+                    <Box pos={"absolute"} inset={"0px"} w={"full"} h={["411px", "411px", "449px", "449px", "449px"]}  roundedBottom={"32px"} roundedTopLeft={"32px"} >
                         {data?.map((item: any, index: any) => {
                             return (
                                 <AnimatePresence key={index} >
                                     {index === isShown &&
                                         <motion.div {...boxAnimation} style={{ width: "100%", height: "100%", borderRadius: "32px", position: "absolute", inset: "0px", borderColor: "#D0D4EB", borderWidth: "2px", objectFit: "cover" }} >
-                                            <BlurredImage height={["540px", "540px", "449px", "449px", "449px"]} image={item?.currentPicUrl} />
+                                            <BlurredImage border='0px ' height={["411px", "411px", "449px", "449px", "449px"]}  image={item?.currentPicUrl} />
                                         </motion.div>
                                     }
                                 </AnimatePresence>

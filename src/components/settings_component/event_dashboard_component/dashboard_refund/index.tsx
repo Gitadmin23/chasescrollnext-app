@@ -167,7 +167,7 @@ function DashboardRefund(props: Props) {
                                                 </Td>
                                                 // <Td fontSize={"14px"}>{person?.ticketType?.slice(0, 1)?.toUpperCase() + person?.ticketType?.slice(1, person?.ticketType?.length)}</Td>
                                             )}
-                                            <Td fontSize={"xs"} >
+                                            <Td textAlign={"center"} fontSize={"xs"} >
                                                 {person?.ticketNumber !== 0 ? person?.ticketNumber : ""}
                                             </Td>
                                             <Td>

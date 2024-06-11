@@ -13,11 +13,11 @@ export default function PictureAndText({
 }) {
 
     return (
-        <Flex w={"full"} p={"12"} flexDir={reverse ? "row-reverse" : "row"} >
-            <Flex width={"full"} justifyContent={"center"} alignItems={"center"} >
-                <Image src={imageUrl} alt={imageUrl} height={"572px"} />
+        <Flex w={"full"} p={[ "6", "6", "12"]} flexDir={reverse ? [ "column", "column", "column", "row-reverse" ] : [ "column", "column", "column", "row"]} >
+            <Flex width={[ "full", "full", "full"]} justifyContent={"center"} alignItems={"center"} >
+                <Image src={imageUrl} alt={imageUrl} height={["auto" , "auto", "auto", "572px"]} />
             </Flex>
-            <Flex width={"full"} >
+            <Flex width={"full"} pt={["8", "8", "0px"]} >
                 {children}
             </Flex>
         </Flex>

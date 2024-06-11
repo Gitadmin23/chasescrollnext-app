@@ -1,7 +1,4 @@
 "use client"
-import CustomButton from '@/components/general/Button'
-import { THEME } from '@/theme'
-import { Box, Flex, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
@@ -12,22 +9,20 @@ function Terms(props: Props) {
 
     const router = useRouter()
 
-    return (
-        <Flex flexDir={"column"} color={"#1E1E1E"} lineHeight={"211.7%"} py={["8", "8", "8", "20"]} px={["6", "6", "6", "20"]} >
-            <Flex justifyContent={"center"} mb={"4"} pos={"relative"} >
-                <Text fontSize={"24px"} fontWeight={"bold"}>TERMS AND CONDITIONS FOR CHASESCROLL</Text>
-                <Box pos={"absolute"} zIndex={"20"} right={"0px"} onClick={() => router.back()} >
-                    <svg  role="button" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g id="close">
-                            <path id="Vector" d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z" fill="black" />
-                        </g>
-                    </svg>
-                </Box>
-            </Flex><br /><br />
+    return ( 
+        <div className=" w-full flex flex-col font-normal text-[#1E1E1E] leading-[211.7%] py-8 lg:px-20 px-0 lg:py-20 " >
+            <div className=" flex justify-center relative mb-4" >
+                <p className=" text-2xl font-bold " >TERMS AND CONDITIONS FOR CHASESCROLL</p>
+                <svg className=" absolute z-20 right-0 " onClick={() => router.back()} role="button" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g id="close">
+                        <path id="Vector" d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z" fill="black" />
+                    </g>
+                </svg>
+            </div><br /><br />
             These terms and conditions (the “Terms and Conditions”) govern the use of “the Site/App” owned and operated by Chasescroll.
             By using this Site/App, you indicated that you have read these Terms and Conditions and agree to abide by them at all times.
             <br /><br />
-            <Text fontWeight={"bold"} fontSize={"18px"} >1. Definitions and Interpretation</Text>
+            <span className=" font-bold text-lg " >1. Definitions and Interpretation</span>
             <br />
             1.1 In this Terms and Conditions:
             <br />
@@ -43,7 +38,7 @@ function Terms(props: Props) {
             <br />
             1.4 Reference to any statute or statutory provision includes a reference to the statute or statutory provisions as from time to time amended or extended.
             <br /><br />
-            <Text fontWeight={"bold"} fontSize={"18px"} >2. Intellectual Property</Text>
+            <span className=" font-bold text-lg " >2. Intellectual Property</span>
             <br />
             2.1 All Content published and made available on our Site is the property of Chasescroll and the Site’s creators. This includes, but is not limited to images, text, logos, documents files, and anything that contributes to the composition of our Site/App.
             <br />
@@ -67,7 +62,7 @@ function Terms(props: Props) {
             <br />
             3.2 Chasescroll reserves the right to suspend or terminate your account if you are using our Site illegally or if you violate these Terms and Conditions.
             <br /><br />
-            <Text fontWeight={"bold"} fontSize={"18px"} >4 Chasescroll Rules for Users</Text><br />
+            <span className=" font-bold text-lg " >4 Chasescroll Rules for Users</span><br />
             Accessing the Chasescroll site means that you have accepted the following terms and conditions;
             <br />
             {`4.1.1 You may download and use the Chasescroll application ("Chasescroll app") only for your own use. You must read these Terms and Conditions; and by clicking on the "I Accept" button while installing, downloading, and/or using the Site/App. You agree to the terms and conditions of this Agreement.`}
@@ -86,12 +81,12 @@ function Terms(props: Props) {
             <br />
             4.1.7 you may not distribute any portion of the Chasescroll site/app.
             <br /><br />
-            <Text fontWeight={"bold"} fontSize={"18px"} >5 Payments</Text>
+            <span className=" font-bold text-lg " >5 Payments</span>
 
             <br />
             3.1 When you provide your payment information, you authorise our use and access to the payment instrument you have chosen and authorise us to charge the amount due to this payment instrument. Should your payment violate any law or these Terms and Conditions, Chasescroll reserves the right to cancel or reverse your transaction.
             <br /><br />
-            <Text fontWeight={"bold"} fontSize={"18px"} >3 Refunds</Text><br />
+            <span className=" font-bold text-lg " >3 Refunds</span><br />
             Refund requests must be made within 48hours of payment and no later than 24hours prior to the event day and a 20% administration fee may apply.
             <br />
             4 Limitation of Liability
@@ -128,19 +123,17 @@ function Terms(props: Props) {
             <br />
             These Terms and Conditions are governed by the laws of location where the event is scheduled to be held.
             <br /><br />
-            <Text fontWeight={"bold"} fontSize={"18px"} >15. Dispute Resolution</Text><br />
+            <span className=" font-bold text-lg " >15. Dispute Resolution</span><br />
             15.1 Subject to any exceptions specified in these Terms and Conditions, if you and Chasescroll are unable to resolve any dispute through informal discussions, then you and Chasescroll agree to submit the issue before a Mediator jointly appointed. The cost will be borne by the losing party.
             <br />
             15.2 Notwithstanding any other provision in these Terms and Conditions, you and Chasescroll agree that you both retain the right to bring an action before any competent court of law of the location of the event and bring an action for injunctive relief or intellectual property infringement.
             <br /><br />
-            <Text fontWeight={"bold"} fontSize={"18px"} >16. Changes</Text><br />
+            <span className=" font-bold text-lg " >16. Changes</span><br />
             These Terms and Conditions may be amended from time to time in order to maintain compliance with the law and to reflect any changes to the way we operate our Site and the way we expect users to behave. We may notify users by email of changes to these Terms and Conditions or post a notice on the Site.
-            {/* <div className=" w-full flex justify-end mt-8 " >
+            <div className=" w-full flex justify-end mt-8 " >
                 <button onClick={() => router.push("/home")} className=" w-full lg:w-[225px] h-[55px] border border-[#5D70F9] bg-[#D0D4EB45] rounded text-[#3C41F0] font-semibold text-lg " >Back </button>
-            </div> */}
-
-            <CustomButton onClick={() => router.push("/home")} text={"Back"} mt={"8"} width={["full", "full", "152px"]} backgroundColor={["white", "white", THEME?.COLORS?.chasescrollButtonBlue + ""]} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={[THEME?.COLORS?.chasescrollBlue, THEME?.COLORS?.chasescrollBlue, "white"]} borderRadius={"8px"} />
-        </Flex>
+            </div>
+        </div>
     )
 }
 

@@ -28,8 +28,8 @@ function AddressSection() {
     ]
 
     return (
-        <Flex w={"full"} flexDir={"column"} px={"12"} gap={"8"} py={"20"} >
-            <Flex w={"full"} justifyContent={"space-between"} >
+        <Flex w={"full"} flexDir={"column"} px={["6", "6", "12"]} gap={"8"} py={"20"} >
+            <Flex w={"full"} flexDir={["column", "column", "row"]} gap={["6", "6", "0px"]} justifyContent={"space-between"} >
                 {data?.map((item: {
                     title: string,
                     date: string,
