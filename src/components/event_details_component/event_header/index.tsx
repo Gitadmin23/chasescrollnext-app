@@ -1,6 +1,8 @@
 import EventPrice from '@/components/sharedComponent/event_price'
 import InterestedUsers from '@/components/sharedComponent/interested_users'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
 import { formatNumber } from '@/utils/numberFormat'
+import { textLimit } from '@/utils/textlimit'
 import { Box, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
 
@@ -23,12 +25,13 @@ function EventHeader(props: Props) {
 
     return (
         <Flex mt={"12"} justifyContent={"space-between"} alignItems={"center"}>
-            <Box>
-                <Text fontSize={"24px"} fontWeight={"bold"} >{name}</Text>
-                <Text fontSize={"20px"} fontWeight={"semibold"} color={"brand.chasescrollBlue"} > 
+            <Box> 
+                <Text display={["none", "none", "block"]} fontSize={"24px"} fontWeight={"bold"} >{capitalizeFLetter(name)}</Text>
+                <Text display={["block", "block", "none"]} fontSize={"18px"} fontWeight={"bold"} >{capitalizeFLetter(textLimit(name, 30))}</Text>
+                <Text fontSize={["16px", "16px", "20px"]} fontWeight={"semibold"} color={"brand.chasescrollBlue"} >
                     <EventPrice minPrice={minPrice} maxPrice={maxPrice} currency={currency} />
                 </Text>
-            </Box> 
+            </Box>
             <InterestedUsers fontSize={16} event={event} border={"2px"} size={"38px"} refund={true} />
         </Flex>
     )

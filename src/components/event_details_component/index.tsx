@@ -146,7 +146,7 @@ function EventDetails(props: Props) {
                 </Box>
             </Flex>
             <Box width={"full"} px={[dynamic ? "6" : "0px", "6"]}>
-                <EventHeader name={capitalizeFLetter(textLimit(eventName, 17))} event={dataInfo} maxPrice={maxPrice} minPrice={minPrice} currency={currency} />
+                <EventHeader name={eventName} event={dataInfo} maxPrice={maxPrice} minPrice={minPrice} currency={currency} />
                 <EventCreator dynamic={dynamic} isOrganizer={isOrganizer} convener={convener} username={username} data={dataInfo} />
                 <Flex display={["none", "none", "flex"]} py={"3"} justifyContent={"end"} alignItems={"center"} gap={"14"} >
                     <EventQrCode data={dataInfo} id={dataInfo?.id} />
