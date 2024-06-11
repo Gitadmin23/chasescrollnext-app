@@ -58,15 +58,11 @@ import OurPartner from "@/components/landing_component/home/ourpartner";
 import HomeLandingPageCarousel from "@/components/landing_component/home_carousel";
 import LandingPageLayout from "@/components/landing_component/landingPageLayout";
 import useSearchStore from "@/global-state/useSearchData";
-import { Flex, Text } from "@chakra-ui/react";
-
-interface Props {
-
-}
+import { Flex, Text } from "@chakra-ui/react"; 
 
 const Eventpage = () => {
 
-  const { event_category } = useSearchStore((state) => state); 
+  const { event_category } = useSearchStore((state) => state);  
 
   return (
     <LandingPageLayout>
