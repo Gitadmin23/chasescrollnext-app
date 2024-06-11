@@ -28,14 +28,14 @@ export default function DiscoverApp(props: IProps) {
                 </Flex>
                 {!hide && (
                     <Flex w={"full"} display={["none", "none", "flex"]} pos={"relative"} h={["317px", "317px", "606px"]} justifyContent={"center"} alignItems={"center"} >
-                        <Image src="/images/discoverApp.png" alt="discoverApp" pos={"absolute"} w={"full"} height={["317px", "317px", "auto"]} inset={"0px"} rounded={"8px"} />
+                        <Image src="/images/discoverapp.png" alt="discoverApp" pos={"absolute"} w={"full"} height={["317px", "317px", "auto"]} inset={"0px"} rounded={"8px"} />
                         <CustomButton onClick={() => router.push("/auth")} text={"Sign-up"} width={"175px"} backgroundColor={[THEME?.COLORS?.chasescrollBlue, THEME?.COLORS?.chasescrollBlue, "white"]} height={"60px"} borderWidth={["0px", "0px", "1px"]} color={["white", "white", THEME?.COLORS?.chasescrollBlue]} borderRadius={"8px"} />
                     </Flex>
                 )}
             </Flex>
 
             <Flex w={"full"} display={hide ? ["none", "none", "none"] : ["flex", "flex", "none"]} pos={"relative"} h={["317px", "317px", "606px"]} justifyContent={"center"} alignItems={"center"} >
-                <Image src="/images/discoverApp.png" alt="discoverApp" pos={"absolute"} w={"full"} height={["317px", "317px", "606px"]} inset={"0px"} rounded={"8px"} />
+                <Image src="/images/discoverapp.png" alt="discoverApp" pos={"absolute"} w={"full"} height={["317px", "317px", "606px"]} inset={"0px"} rounded={"8px"} />
                 <CustomButton onClick={() => router.push("/auth")} text={"Sign-up"} width={"175px"} backgroundColor={[THEME?.COLORS?.chasescrollBlue, THEME?.COLORS?.chasescrollBlue, "white"]} height={"60px"} borderWidth={["0px", "0px", "1px"]} color={["white", "white", THEME?.COLORS?.chasescrollBlue]} borderRadius={"8px"} />
             </Flex>
             {!hide && (
