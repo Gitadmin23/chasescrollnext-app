@@ -1,6 +1,5 @@
 import { Flex, Image } from "@chakra-ui/react";
-import React from "react";
-
+import React from "react"; 
 
 export default function PictureAndText({
     children,
@@ -10,7 +9,7 @@ export default function PictureAndText({
     children: React.ReactNode,
     reverse?: boolean,
     imageUrl: string
-}) {
+}) { 
 
     return (
         <Flex w={"full"} p={[ "6", "6", "12"]} flexDir={reverse ? [ "column", "column", "column", "row-reverse" ] : [ "column", "column", "column", "row"]} >
