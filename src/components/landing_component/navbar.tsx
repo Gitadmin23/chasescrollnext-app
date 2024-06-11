@@ -16,7 +16,7 @@ function HomeNavbar() {
         },
         {
             label: "Event",
-            link: ""
+            link: "/"
         },
         {
             label: "About us",
