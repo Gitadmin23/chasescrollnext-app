@@ -2,7 +2,7 @@ import ExploreEventCard from '@/components/sharedComponent/event_card'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import useSearchStore from '@/global-state/useSearchData'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
-import { Box, Flex, Grid, GridItem, Text } from '@chakra-ui/react'
+import { Box, Flex, Grid, GridItem, Skeleton, Text } from '@chakra-ui/react'
 import React from 'react'
 
 interface Props {
@@ -22,7 +22,25 @@ function EventListing(props: Props) {
             {!limit && (
                 <Text fontWeight={"semibold"} textAlign={!event_category ? "left" : "center"} fontSize={"20px"} mt={"15px"} mb={"10px"} mr={!event_category ? "auto" : ""} ml={!event_category ? "12px" : ""} >{!event_category ? "Trending" : event_category?.split("_")?.join(" ")}</Text>
             )}
-            <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
+            <LoadingAnimation loading={isLoading} customLoader={
+                <Grid width={["full", "full", "full", "full", "full"]} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(3, 1fr)']} gap={5}> 
+                    <GridItem maxWidth={["500px", "500px", "500px", "500px", "500px"]}  >
+                        <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
+                    </GridItem>
+                    <GridItem maxWidth={["500px", "500px", "500px", "500px", "500px"]}  >
+                        <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
+                    </GridItem>
+                    <GridItem maxWidth={["500px", "500px", "500px", "500px", "500px"]}  >
+                        <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
+                    </GridItem>
+                    <GridItem maxWidth={["500px", "500px", "500px", "500px", "500px"]}  >
+                        <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
+                    </GridItem>
+                    <GridItem maxWidth={["500px", "500px", "500px", "500px", "500px"]}  >
+                        <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
+                    </GridItem>
+                </Grid>
+            } refeching={isRefetching} length={results?.length} >
                 <>
                     {!limit && (
                         <Grid width={["fit", "fit", "auto", "auto", "auto"]} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(3, 1fr)']} gap={5}>
