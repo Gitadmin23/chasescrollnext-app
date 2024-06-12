@@ -7,7 +7,7 @@ import { useDetails } from '@/global-state/useUserDetails'
 import { IMAGE_URL } from '@/services/urls'
 import httpService from '@/utils/httpService'
 import { textLimit } from '@/utils/textlimit'
-import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react'
+import { Box, Flex, Image, Skeleton, Text, useToast } from '@chakra-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 // import { useRouter } from 'next/router'
@@ -60,7 +60,7 @@ function HomeLandingPageCarousel(props: Props) {
         onSuccess: (data) => {
             setData(data.data.content);
         }
-    }) 
+    })
 
     React.useEffect(() => {
         const t1 = setTimeout(() => {
@@ -84,8 +84,10 @@ function HomeLandingPageCarousel(props: Props) {
     }
 
     return (
-        <Flex w={"full"} px={["2", "2", "12"]} pb={"8"} pt={"4"} > 
-            <LoadingAnimation loading={isLoading} >
+        <Flex w={"full"} px={["2", "2", "12"]} pb={"8"} pt={"4"} >
+            <LoadingAnimation loading={isLoading} customLoader={
+                <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={["411px", "411px", "449px", "449px", "449px"]} />
+            } >
                 <Flex color={"white"} w={"full"} bg={["transparent", "transparent", "#EFF1FE", "#EFF1FE", "#EFF1FE"]} position={"relative"} h={["411px", "411px", "449px", "449px", "449px"]} gap={["0px", "0px", "7", "7", "7"]} flexDir={["column", "column", "row"]} roundedBottom={"32px"} roundedTopLeft={"32px"}  >
                     <Box w={["full", "full", "568px", "568px", "568px"]} my={["", "auto"]} zIndex={"50"} px={["0px", "0px", "14", "14", "14"]} insetX={"0px"} position={["absolute", "absolute", "relative", "relative", "relative"]} bottom={"0px"} roundedBottom={["32px", "32px", "none", "none", "none"]} roundedTopLeft={"32px"} bg={["linear-gradient(168deg, rgba(46, 43, 43, 0.80) -7.34%, rgba(46, 43, 43, 0.00) 522.78%)", "linear-gradient(168deg, rgba(46, 43, 43, 0.80) -7.34%, rgba(46, 43, 43, 0.00) 522.78%)", "transparent", "transparent"]} >
                         {data?.map((item: any, index: any) => {
@@ -99,7 +101,7 @@ function HomeLandingPageCarousel(props: Props) {
                                         <motion.p {...boxAnimation} >
                                             <Text as={motion.p} lineHeight={"24px"} fontSize={"16px"} >{textLimit(item?.eventDescription, 40)}</Text>
                                         </motion.p>
-                                        <Flex zIndex={"0"} mt={["5", "5", "5", "0px"]} color={"black"} left={"0px"} w={"full"} flexDir={['column', 'column', 'column', 'row', 'row']} alignItems={["", "", "start", "center", "center"]} gap={"5"} > 
+                                        <Flex zIndex={"0"} mt={["5", "5", "5", "0px"]} color={"black"} left={"0px"} w={"full"} flexDir={['column', 'column', 'column', 'row', 'row']} alignItems={["", "", "start", "center", "center"]} gap={"5"} >
                                             <CustomButton onClick={() => clickHander(item)} fontSize={"sm"} borderColor={"brand.chasescrollBlue"} color={"white"} borderWidth={"0px"} px={"4"} text={"View Event"} width={["172px"]} />
                                             <InterestedUsers fontSize={16} color={["white", "white", "white", "white", "white"]} event={item} border={"2px"} size={"32px"} />
                                         </Flex>
@@ -108,14 +110,14 @@ function HomeLandingPageCarousel(props: Props) {
                             }
                         })}
                     </Box>
-                    <Box w={"full"} pos={"absolute"}  inset={"0px"} zIndex={"40"} roundedBottom={"32px"} borderTopLeftRadius={"32px"} h={"full"} bgColor={"black"} opacity={"15%"} />
-                    <Box pos={"absolute"} inset={"0px"} w={"full"} h={["411px", "411px", "449px", "449px", "449px"]}  roundedBottom={"32px"} roundedTopLeft={"32px"} >
+                    <Box w={"full"} pos={"absolute"} inset={"0px"} zIndex={"40"} roundedBottom={"32px"} borderTopLeftRadius={"32px"} h={"full"} bgColor={"black"} opacity={"15%"} />
+                    <Box pos={"absolute"} inset={"0px"} w={"full"} h={["411px", "411px", "449px", "449px", "449px"]} roundedBottom={"32px"} roundedTopLeft={"32px"} >
                         {data?.map((item: any, index: any) => {
                             return (
                                 <AnimatePresence key={index} >
                                     {index === isShown &&
                                         <motion.div {...boxAnimation} style={{ width: "100%", height: "100%", borderRadius: "32px", position: "absolute", inset: "0px", borderColor: "#D0D4EB", borderWidth: "2px", objectFit: "cover" }} >
-                                            <BlurredImage border='0px ' height={["411px", "411px", "449px", "449px", "449px"]}  image={item?.currentPicUrl} />
+                                            <BlurredImage border='0px ' height={["411px", "411px", "449px", "449px", "449px"]} image={item?.currentPicUrl} />
                                         </motion.div>
                                     }
                                 </AnimatePresence>

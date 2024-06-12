@@ -27,7 +27,7 @@ export default function LandingPageLayout({ children }: IProps) {
     }, [router]);
 
     return (
-        <Flex h={"100vh"} w={"full"} scrollBehavior={"smooth"} overflowY={"auto"} flexDir={"column"} pos={"relative"} >
+        <Flex h={"100vh"} w={"full"} overflowX={"hidden"} scrollBehavior={"smooth"} overflowY={"auto"} flexDir={"column"} pos={"relative"} >
             <Flex w={"full"} pos={"sticky"} zIndex={"100"} top={"0px"} >
                 <HomeNavbar />
             </Flex>

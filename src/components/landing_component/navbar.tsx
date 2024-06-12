@@ -15,7 +15,7 @@ function HomeNavbar() {
             link: "/home"
         },
         {
-            label: "Event",
+            label: "Events",
             link: "/"
         },
         {

@@ -12,7 +12,7 @@ export default function InfoOnEvent(){
     return(
         <PictureAndText imageUrl="/images/homeone.png" >
             <Flex p={[ "0px", "0px", "12"]} gap={"6"} flexDir={"column"} >
-                <Text fontSize={["20px", "20px", "32px"]} lineHeight={[ "24.2px", "24.2px", "40px" ]} fontWeight={"semibold"} color={"#2B2D31"} >Explore Event and Purchase Ticket on <span style={{ fontWeight: "bold", color: THEME?.COLORS?.chasescrollBlue }} >Chasescroll</span></Text>
+                <Text fontSize={["20px", "20px", "32px"]} lineHeight={[ "24.2px", "24.2px", "40px" ]} fontWeight={"semibold"} color={"#2B2D31"} >Explore Events and Purchase Ticket on <span style={{ fontWeight: "bold", color: THEME?.COLORS?.chasescrollBlue }} >Chasescroll</span></Text>
                 <Text fontSize={["12px", "12px", "19.53px"]} lineHeight={[ "17.15px", "17.15px", "28px" ]} color={"#4B4E61"}  >Explore a diverse range of <span style={{ fontWeight: "bold" }} >events</span> tailored to your interest and <span style={{ fontWeight: "bold" }} >secure</span> your spot with ease.</Text>
                 <Flex gap={"4"} w={"full"} flexDir={"column"} >
                     <Flex alignItems={"center"} gap={"2"} >
