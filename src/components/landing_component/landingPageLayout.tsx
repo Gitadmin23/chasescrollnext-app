@@ -1,6 +1,6 @@
 "use client"
 import { Flex } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import FooterLandingPage from './footer'
 import HomeNavbar from './navbar'
 import { useRouter } from 'next/navigation'
@@ -29,6 +29,22 @@ export default function LandingPageLayout({ children }: IProps) {
       };
     }, []);
 
+  const stickyRef: any = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+      if (stickyRef.current) {
+        stickyRef.current.style.transform = `translateY(${scrollPosition}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [router]);
+
     useEffect(() => {
         const handleRouteChange = () => {
             if (typeof window !== 'undefined') {
@@ -44,7 +60,7 @@ export default function LandingPageLayout({ children }: IProps) {
 
     return (
         <Flex h={"100vh"} w={"full"} overflowX={"hidden"} scrollBehavior={"smooth"} overflowY={"auto"} flexDir={"column"} pos={"relative"} >
-            <Flex w={"full"} pos={isAtTop ? "relative" : "sticky"} zIndex={"100"} top={"0px"} >
+            <Flex ref={stickyRef} w={"full"} pos={"sticky"} zIndex={"100"} top={"0px"} >
                 <HomeNavbar />
             </Flex>
             {children}
