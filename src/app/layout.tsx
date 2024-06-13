@@ -38,9 +38,7 @@ export default async function RootLayout({
       </head>
       <body>
         <Providers session={session}>
-          <Flex w={"full"} flexDir={"column"} scrollBehavior={"smooth"} >
-            {children}
-          </Flex>
+          {children}
         </Providers>
       </body>
     </html>
