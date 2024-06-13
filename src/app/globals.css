@@ -74,6 +74,17 @@ html,
 body {
   overflow-x: hidden !important;
   scroll-behavior: smooth !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* Include padding and border in the element's total width and height */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  /* Inherit box-sizing to all elements */
 }
 
 #img_blur {
@@ -160,7 +171,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .videoborder :where(*, *::before, *::after) {
   border-radius: 14px;
   /* Adjust the radius as needed */
-} 
+}
 
 .animated-text-two {
   animation: fadeIn 1s ease-in-out;
@@ -180,13 +191,26 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 @keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
 }
 
 @keyframes blink {
-  0%, 50% { border-color: transparent; }
-  50%, 100% { border-color: black; }
+
+  0%,
+  50% {
+    border-color: transparent;
+  }
+
+  50%,
+  100% {
+    border-color: black;
+  }
 }
 
 @keyframes pop-word {
@@ -219,7 +243,7 @@ input[type="number"]::-webkit-outer-spin-button {
   100% {
     transform: scale(0) translate(4px, 1px) rotate(8deg);
   }
-} 
+}
 
 .rotate {
   display: block;
@@ -238,7 +262,7 @@ input[type="number"]::-webkit-outer-spin-button {
   animation-delay: 4s;
 
   color: gold;
-} 
+}
 
 
 /* Continue this pattern for more letters */

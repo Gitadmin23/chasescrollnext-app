@@ -23,6 +23,10 @@ function HomeNavbar() {
             link: "/home/about-us"
         },
         {
+            label: "FAQ",
+            link: "/home#faq"
+        },
+        {
             label: "Policy",
             link: "/home/privacy"
         },
@@ -61,7 +65,7 @@ function HomeNavbar() {
                 )}
             </Flex>
             <Flex display={["none", "none", "none", "flex"]} gap={"5"} >
-                {homelink?.slice(0, pathname?.includes("event") ? 3 : 6)?.map((item: {
+                {homelink?.slice(0, pathname?.includes("event") ? 3 : 7)?.map((item: {
                     label: string,
                     link: string
                 }) => {
