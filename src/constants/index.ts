@@ -162,6 +162,11 @@ export const FAQDATA = [
         // desc1: " Event attendee can cancel a ticket or seek refund within 3 days the ticket was purchased or less than 72 hours to the event depending on which one comes first. ",
     },
     {
+        title: 'where can i find my ticket in chasescroll app?',
+        desc: `Step 1: Log into your chasescroll account. on the event screen select the “all event” dropdown button.\nStep 2: From the options, select “MY EVENTS”\nStep 3: On the MY EVENTS page – tap on the event you wish to view the ticket to open the event details page.\nStep 4: Once on the event details page, scroll down and select “VIEW TICKET”.\nStep 5: You made it! congratulations! here’s your ticket. you select the download button at the top-right corner to save it.\nStep 6: You can save it to your files or share it to your email or through other platforms.`,
+        // desc1: " Event attendee can cancel a ticket or seek refund within 3 days the ticket was purchased or less than 72 hours to the event depending on which one comes first. ",
+    },
+    {
         title: ' Are my payment information secured on Chasecroll? ',
         desc: " Payment information is secured through 3rd party payment gateway providers (Paystack and Stripe). These payment processors have established security measures that comply with the Payment Card Industry Data Security Standard. Chasescroll does not store users' payment details.",
         // desc1: " Event attendee can cancel a ticket or seek refund within 3 days the ticket was purchased or less than 72 hours to the event depending on which one comes first. ",

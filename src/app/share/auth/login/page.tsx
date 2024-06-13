@@ -124,8 +124,8 @@ function LoginPage() {
 
   }, [sessionData])
 
-  useEffect(()=> {
-    sessionStorage.setItem("tp_token", "") 
+  useEffect(() => {
+    sessionStorage.setItem("tp_token", "")
   }, [])
 
   const signinWithGoogle = useMutation({
@@ -324,7 +324,20 @@ function LoginPage() {
     },
     validationSchema: signInValidation,
     submit: (data) => mutate(data)
-  }); 
+  });
+
+
+  const tempFunc = () => {
+    toast({
+      title: 'Infomation',
+      description: 'Please sign-up with google',
+      status: 'info',
+      isClosable: true,
+      duration: 5000,
+      position: 'top-right',
+    });
+    // router.push("/share/auth/signup/?type=EVENT&typeID=" + data?.id)
+  }
 
   return renderForm(
     <VStack width='100%' height='100vh' overflow={'hidden'} alignItems={'flex-start'} justifyContent={['flex-start', 'center']} bg='white' paddingX={['0px', '150px',]} spacing={0} position={'relative'}>
@@ -353,9 +366,9 @@ function LoginPage() {
 
                   <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'}>
                     Dont have an account ?
-                    <Link href='/share/auth/signup'>
-                      <span style={{ color: THEME.COLORS.chasescrollBlue }}> Sign up</span>
-                    </Link>
+                    {/* <Link href='/share/auth/signup'> */}
+                      <span role='button' onClick={tempFunc} style={{ color: THEME.COLORS.chasescrollBlue }}> Sign up</span>
+                    {/* </Link> */}
                   </CustomText>
                 </HStack>
 
