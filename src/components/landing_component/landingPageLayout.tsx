@@ -51,7 +51,7 @@ export default function LandingPageLayout({ children }: IProps) {
     }, [router])
 
     return (
-        <Flex ref={contentRef} h={"100vh"} w={"full"} overflowX={"hidden"} scrollBehavior={"smooth"} overflowY={"auto"} flexDir={"column"} pos={"relative"} >
+        <Flex ref={contentRef} minH={"100vh"} w={"full"} overflowX={"hidden"} scrollBehavior={"smooth"} overflowY={"auto"} flexDir={"column"} pos={"relative"} >
             <Flex w={"full"} pos={!isAtTop ? "relative" : "sticky"} zIndex={"100"} top={"0px"} >
                 <HomeNavbar />
             </Flex>
