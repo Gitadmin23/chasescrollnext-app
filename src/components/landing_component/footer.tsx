@@ -45,7 +45,7 @@ export default function FooterLandingPage() {
                             <Link href={"/home#faq"}  >
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >FAQ</Text>
                             </Link>
-                            <Link href={"contact-us"}  >
+                            <Link href={"/home/contact-us"}  >
                                 <Text fontSize={["14px", "14px", "14px", "16px"]} lineHeight={"19.36px"} fontWeight={"500"} >Contact Us</Text>
                             </Link>
                             <Link href={"/"}  >
