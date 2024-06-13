@@ -70,8 +70,10 @@
   background-size: cover;
 }
 
-html, body { 
+html,
+body {
   overflow-x: hidden !important;
+  scroll-behavior: smooth !important;
 }
 
 #img_blur {
@@ -82,74 +84,161 @@ html, body {
   width: 100%;
   height: 100%; */
   background-color: black;
-  -webkit-filter: blur(10px); /* Safari 6.0 - 9.0 */
+  -webkit-filter: blur(10px);
+  /* Safari 6.0 - 9.0 */
   filter: blur(10px);
-  }
-  
+}
 
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none !important;
-    margin: 0;
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  margin-right: 40px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: #c3c3c3;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #5969ba;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #5840bb;
+}
+
+#dropdown-date {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  gap: 12px;
+}
+
+#dropdown-month select {
+  height: 45px;
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px !important;
+  background-color: white;
+}
+
+#dropdown-year select {
+  height: 45px;
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px !important;
+  background-color: white;
+}
+
+#dropdown-day select {
+  height: 45px;
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px !important;
+  background-color: white;
+}
+
+.videoborder :where(*, *::before, *::after) {
+  border-radius: 14px;
+  /* Adjust the radius as needed */
+} 
+
+.animated-text-two {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* src/AnimatedText.css */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(100px);
   }
 
-  /* width */
-  ::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
-    margin-right: 40px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  0%, 50% { border-color: transparent; }
+  50%, 100% { border-color: black; }
+}
+
+@keyframes pop-word {
+  to {
+    transform: rotateX(0);
+  }
+}
+
+@keyframes show {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bar-scale {
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes sparkle {
+  0% {
+    transform: scale(0);
   }
 
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background-color: #c3c3c3;
-    border-radius: 10px;
+  60% {
+    transform: scale(1) translate(4px, 1px) rotate(8deg);
   }
 
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #5969ba;
-    border-radius: 10px;
+  100% {
+    transform: scale(0) translate(4px, 1px) rotate(8deg);
   }
+} 
 
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #5840bb;
-  }
+.rotate {
+  display: block;
 
-  #dropdown-date {
-    width: 100%;
-    display: flex;
-    justify-content: start;
-    gap: 12px;
-  }
+  animation: show 0.3s forwards, pop-word 1.5s forwards;
+  animation-timing-function: cubic-bezier(0.14, 1.23, 0.33, 1.16);
+  opacity: 0;
 
-  #dropdown-month select {
-    height: 45px;
-    width: 100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px !important;
-    background-color: white;
-  }
+  transform: rotateX(120deg);
+  transform-origin: 50% 100%;
+}
 
-  #dropdown-year select {
-    height: 45px;
-    width: 100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px !important;
-    background-color: white;
-  }
+.word:nth-of-type(2) {
+  padding: 0 2rem;
 
-  #dropdown-day select {
-    height: 45px;
-    width: 100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px !important;
-    background-color: white;
-  }
+  animation-delay: 4s;
+
+  color: gold;
+} 
+
+
+/* Continue this pattern for more letters */

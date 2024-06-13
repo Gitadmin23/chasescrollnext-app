@@ -16,6 +16,8 @@ import { useDetails } from '@/global-state/useUserDetails'
 import BlurredImage from '../blurred_image'
 import { Log } from 'victory'
 import useCustomTheme from '@/hooks/useTheme'
+import moment from 'moment'
+import { textLimit } from '@/utils/textlimit'
 
 interface Props {
     event: any,
@@ -79,7 +81,7 @@ function ExploreEventCard(props: Props) {
             router.push("/dashboard/event/details/" + event?.id)
         }
         setSearchValue("")
-    } 
+    }
 
     return (
         <Box boxShadow={page ? "md" : "none"} cursor={"pointer"} onClick={() => clickHandler()} py={searchbar ? landing ? "0px" : "2" : ["6", "6", "4"]} px={landing ? "" : ["6", "6", "4"]} roundedBottom={"32px"} flex={"1"} roundedTopLeft={"32px"} borderColor={borderColor} borderBottomWidth={searchbar ? " " : "0.5px"} maxWidth={["400px", "400px", "full"]} width={"full"} >
@@ -105,7 +107,7 @@ function ExploreEventCard(props: Props) {
                                         <IoCalendarOutline size={searchbar ? "16px" : "20px"} />
                                     </Box>
                                 </Box>
-                                <Text color={colorMode === 'light' ? "gray.600":bodyTextColor} fontSize={searchbar ? "13px" : "16px"} fontWeight={"medium"}>
+                                <Text color={colorMode === 'light' ? "gray.600" : bodyTextColor} fontSize={searchbar ? "13px" : "16px"} fontWeight={"medium"}>
                                     {dateFormat(event.startDate)}
                                 </Text>
                             </Flex>
@@ -142,17 +144,17 @@ function ExploreEventCard(props: Props) {
                                     </Flex>
                                 )}
                                 <Flex alignItems={"center"} gap={"3"} justifyContent={["space-between", "space-between", "space-between", ""]} >
-                                    {(event?.isOrganizer && !event?.admins?.some((obj: any )=> Object.values(obj).some(val => typeof val === 'string' && val.includes(userId))) && !event?.collaborators?.some((obj: any )=> Object?.values(obj)?.some(val => typeof val === 'string' && val?.includes(userId)))) && (
+                                    {(event?.isOrganizer && !event?.admins?.some((obj: any) => Object.values(obj).some(val => typeof val === 'string' && val.includes(userId))) && !event?.collaborators?.some((obj: any) => Object?.values(obj)?.some(val => typeof val === 'string' && val?.includes(userId)))) && (
                                         <Flex rounded={"md"} px={"2"} py={"1"} width={"fit-content"} bgColor={past ? "#F04F4F" : "brand.chasescrollBgBlue"} color={past ? "white" : "brand.chasescrollBlue"} gap={"2"} fontSize={"sm"} alignItems={"center"} >
                                             {event?.isOrganizer ? "Organizer" : past ? "Attended" : "Attending"}
                                         </Flex>
                                     )}
-                                    {(event?.admins?.some((obj: any )=> Object?.values(obj)?.some(val => typeof val === 'string' && val?.includes(userId)))) && (
+                                    {(event?.admins?.some((obj: any) => Object?.values(obj)?.some(val => typeof val === 'string' && val?.includes(userId)))) && (
                                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"#3EC30F"} >
                                             Admin
                                         </Flex>
                                     )}
-                                    {(event?.collaborators?.some((obj: any )=> Object?.values(obj)?.some(val => typeof val === 'string' && val.includes(userId)))) && (
+                                    {(event?.collaborators?.some((obj: any) => Object?.values(obj)?.some(val => typeof val === 'string' && val.includes(userId)))) && (
                                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#FDF3CF6B"} color={"#FDB806"} >
                                             Volunteer
                                         </Flex>
@@ -166,13 +168,18 @@ function ExploreEventCard(props: Props) {
                     </Box>
                 )}
                 {landing && (
-                    <Flex flexDir={"column"} px={"4"} pt={"6"} >
+                    <Flex w={"full"} flexDir={"column"} px={"4"} pt={"6"} >
                         <Flex w={"full"} gap={"4"} py={"1"} borderBottomWidth={"1px"} borderBottomColor={"#EFF1FE"} >
                             <Flex w={"fit-content"} flexDir={"column"} fontWeight={"bold"} >
-                                <Text fontSize={"11.37px"} lineHeight={"14.81px"} color={"#3D37F1"} >APR</Text>
-                                <Text fontSize={"28.43px"} mt={"-1"} lineHeight={"37.01px"} >14</Text>
+                                <Flex width={"50px"} flexDir={"column"} py={"2px"} borderWidth={"1px"} alignItems={"center"} roundedBottom={"2xl"} roundedTopLeft={"2xl"} > 
+                                    <Text fontSize={"11.37px"} lineHeight={"14.81px"} color={"#3D37F1"} >{moment(event?.startDate).format("MMM")}</Text>
+                                    <Text fontSize={"28.43px"} mt={"-1"} lineHeight={"37.01px"} >{moment(event?.startDate).format("D")}</Text>
+                                </Flex>
                             </Flex>
-                            <Text lineHeight={"24px"} textAlign={"left"} >Wonder Girls 2010 Wonder Girls World Tour San Francisco</Text>
+                            <Flex flexDir={"column"} >
+                                <Text lineHeight={"24px"} fontWeight={"700"} textAlign={"left"} >{textLimit(event?.eventName, 30)}</Text>
+                                <Text fontSize={"14px"} >{textLimit(event?.eventDescription, 70)}</Text>
+                            </Flex>
                         </Flex>
                         <Flex w={"full"} h={"40px"} mt={"2"} justifyContent={"space-between"} alignItems={"center"} >
                             <InterestedUsers fontSize={16} color={["white", "white", "#1732F7", "#1732F7", "#1732F7"]} event={event} border={"2px"} size={"32px"} />

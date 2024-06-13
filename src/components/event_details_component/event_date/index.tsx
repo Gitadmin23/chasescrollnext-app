@@ -25,8 +25,8 @@ function EventDate(props: Props) {
                     <BlueCalendarIcon />
                 )}
                 <Flex flexDirection={dashboard? "row": "column"} gap={dashboard ? "2" : "0px"} alignItems={dashboard ? "center" : "flex-start"} >
-                    <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >{dateFormat(date)}</Text>
-                    <Text fontWeight={"semibold"} fontSize={"sm"} color={"brand.chasescrollTextGrey2"} >{timeFormat(date)} ({new Date(date).toLocaleTimeString('en-us',{timeZoneName:'short'}).split(' ')[2]})</Text>
+                    <Text fontWeight={[ "medium", "medium", "bold"]} color={"brand.chasescrollBlue"} >{dateFormat(date)}</Text>
+                    <Text fontWeight={[ "medium", "medium", "semibold"]} fontSize={"sm"} color={"brand.chasescrollTextGrey2"} >{timeFormat(date)} ({new Date(date).toLocaleTimeString('en-us',{timeZoneName:'short'}).split(' ')[2]})</Text>
                 </Flex>
             </Flex>
         </Box>
