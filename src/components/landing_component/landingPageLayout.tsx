@@ -11,29 +11,7 @@ interface IProps {
 
 export default function LandingPageLayout({ children }: IProps) {
 
-    const router = useRouter();
-    const [isAtTop, setIsAtTop] = useState(true);
-
-    const checkScrollTop = () => {
-        if (window.scrollY === 0) {
-            setIsAtTop(true);
-        } else {
-            setIsAtTop(false);
-        }
-    };
-
-    useEffect(() => {
-        window.addEventListener('scroll', checkScrollTop);
-
-        console.log("heelo");
-        return () => {
-            window.removeEventListener('scroll', checkScrollTop);
-        };
-        
-    });
-
-    console.log(isAtTop);
-    
+    const router = useRouter(); 
 
     const contentRef: any = useRef(null);
 
@@ -52,7 +30,7 @@ export default function LandingPageLayout({ children }: IProps) {
 
     return (
         <Flex ref={contentRef} minH={"100vh"} w={"full"} overflowX={"hidden"} scrollBehavior={"smooth"} overflowY={"auto"} flexDir={"column"} pos={"relative"} >
-            <Flex w={"full"} pos={!isAtTop ? "relative" : "sticky"} zIndex={"100"} top={"0px"} >
+            <Flex w={"full"} pos={"sticky"} zIndex={"100"} top={"0px"} >
                 <HomeNavbar />
             </Flex>
             {children}
