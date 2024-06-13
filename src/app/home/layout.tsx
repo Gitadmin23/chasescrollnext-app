@@ -11,7 +11,7 @@ function HomeLayout({
 }) {
   return (
     <>
-      <div className="max-w-[1440px]  mx-auto  ">
+      <div className="max-w-[1440px]  mx-auto bg-white  ">
         <div className={`w-full sticky top-0 z-10 left-0 right-0 `} >
           <Navbar />
         </div>

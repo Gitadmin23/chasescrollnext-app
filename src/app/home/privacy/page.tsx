@@ -10,7 +10,7 @@ function Privacy(props: Props) {
     const router = useRouter()
 
     return ( 
-        <div className=" w-full flex flex-col font-normal text-[#1E1E1E] py-8 lg:px-20 px-0 lg:py-20 " >
+        <div className=" w-full flex flex-col font-normal text-[#1E1E1E] py-8 lg:px-20 px-0 lg:py-20 bg-white " >
             <div className=" flex justify-end mb-4" >
                 <svg onClick={() => router.back()} role="button" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="close">

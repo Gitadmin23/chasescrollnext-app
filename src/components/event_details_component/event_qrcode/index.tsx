@@ -1,8 +1,9 @@
 import Qr_code from '@/components/modals/send_message/Qr_code';
 import ModalLayout from '@/components/sharedComponent/modal_layout';
 import { ScanIcon } from '@/components/svg'
-import { Flex, Text } from '@chakra-ui/react'
+import {Flex, Text, useColorMode} from '@chakra-ui/react'
 import React, { useState } from 'react'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     id: any,
@@ -17,6 +18,15 @@ function EventQrCode(props: Props) {
         notext
     } = props
 
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
+
     const [open, setOpen] = useState(false)
 
     const CloseModal = () => {
@@ -27,9 +37,9 @@ function EventQrCode(props: Props) {
         <>
             <Flex onClick={() => setOpen(true)} as={"button"} gap={"11px"} >
                 {!notext && (
-                    <Text color={"#3C41F0"} >Get Event QR Code</Text>
+                    <Text color={colorMode ==='light' ? "#3C41F0":bodyTextColor} >Get Event QR Code</Text>
                 )}
-                <ScanIcon />
+                <ScanIcon color={bodyTextColor} />
             </Flex>
 
             <ModalLayout open={open} close={CloseModal} titlecolor={"black"} title={""} >

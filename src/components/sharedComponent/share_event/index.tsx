@@ -46,6 +46,7 @@ function ShareEvent(props: Props) {
     notext,
   } = props;
 
+
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(1);
 
@@ -119,10 +120,10 @@ function ShareEvent(props: Props) {
               alignItems={"center"}
               flexDir={"column"}
             >
-              <ShareIcon width={size ? size : "24px"} color={"#3C41F0"} />
+              <ShareIcon width={size ? size : "24px"} color={colorMode === 'light' ? "#3C41F0":bodyTextColor} />
               {showText && (
                 <Text
-                  color={"#3C41F0"}
+                    color={colorMode === 'light' ? "#3C41F0":bodyTextColor}
                   fontSize={"9px"}
                   fontWeight={"semibold"}
                 >

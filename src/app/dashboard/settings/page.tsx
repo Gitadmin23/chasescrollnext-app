@@ -86,7 +86,7 @@ function Settings(props: Props) {
             {
                 // id: nanoid(),
                 type: "Privacy Policy",
-                route: "/home/privacy_poilcy",
+                route: "/home/privacy",
                 icon: <TermsAndPrivacy color={bodyTextColor} />,
                 action: null,
             },

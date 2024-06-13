@@ -1,7 +1,7 @@
 import CustomButton from '@/components/general/Button'
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Flex, Input, Text, useToast } from '@chakra-ui/react'
+import {Flex, Input, Text, useColorMode, useToast} from '@chakra-ui/react'
 import React from 'react'
 import { loadStripe } from "@stripe/stripe-js";
 import { useMutation } from 'react-query';
@@ -11,6 +11,7 @@ import { useDetails } from '@/global-state/useUserDetails';
 import Fundpaystack from './fundpaystack';
 import useModalStore from '@/global-state/useModalSwitch';
 import useSettingsStore from '@/global-state/useSettingsState';
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     currency: string
@@ -20,6 +21,16 @@ function FundWallet(props: Props) {
     const {
         currency
     } = props
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+        headerTextColor
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const { email } = useDetails((state) => state);
     const { open, setOpen } = useModalStore((state) => state);
@@ -79,7 +90,7 @@ function FundWallet(props: Props) {
     return (
         <Flex width={"full"} pt={"8"} flexDirection={"column"} alignItems={"center"} >
             <Text fontWeight={"semibold"} >Enter Amount</Text>
-            <Input value={amount} onChange={(e) => setAmount(e.target.value)} width={"full"} type='number' textAlign={"center"} borderColor={"transparent"} focusBorderColor="transparent" placeholder={currency === "USD" ? '$0.00' : "₦0.00"} fontSize={"20px"} _hover={{ color: "black" }} />
+            <Input value={amount} onChange={(e) => setAmount(e.target.value)} width={"full"} type='number' textAlign={"center"} borderColor={"transparent"} focusBorderColor="transparent" placeholder={currency === "USD" ? '$0.00' : "₦0.00"} _placeholder={{ color: bodyTextColor }} fontSize={"20px"} _hover={{ color: bodyTextColor }} />
             <CustomButton isLoading={createTicket.isLoading} disable={createTicket.isLoading} onClick={() => clickHandler()} text='Fund' marginTop={"8"} backgroundColor={"#12299C"} />
 
             <Fundpaystack fund={true} config={config} setConfig={setConfig} />

@@ -12,50 +12,12 @@ const APP_DESCRIPTION = "Creating Unforgetable Memories";
 
 
 export const metadata: Metadata = {
-  // title: {
-  //   default: APP_DEFAULT_TITLE,
-  //   template: APP_TITLE_TEMPLATE
-  // },
   title: APP_DEFAULT_TITLE,
   description: 'Creating Unforgetable Memories',
   manifest: '/manifest.json',
   applicationName: 'Chasescroll',
-  // appleWebApp: {
-  //   capable: true,
-  //   statusBarStyle: "default",
-  //   title: APP_DEFAULT_TITLE,
-  //   // startUpImage: [],
-  // },
-  // formatDetection: {
-  //   telephone: false,
-  // },
-  // openGraph: {
-  //   type: "website",
-  //   siteName: APP_NAME,
-  //   title: {
-  //     default: APP_DEFAULT_TITLE,
-  //     template: APP_TITLE_TEMPLATE,
-  //   },
-  //   description: APP_DESCRIPTION,
-  // },
-  // twitter: {
-  //   card: "summary",
-  //   title: {
-  //     default: APP_DEFAULT_TITLE,
-  //     template: APP_TITLE_TEMPLATE,
-  //   },
-  //   description: APP_DESCRIPTION,
-  // },
-
 }
 
-// export const viewport: Viewport = {
-//   maximumScale: 1,
-//   minimumScale: 1.5,
-//   initialScale: 1,
-//   viewportFit: 'cover',
-
-// };
 
 export default async function RootLayout({
   children,

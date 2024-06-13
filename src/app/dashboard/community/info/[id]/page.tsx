@@ -374,10 +374,10 @@ function CommunityInfo() {
             </InputGroup>
 
             <HStack>
-              {!admin && <SettingsChip icon={<FiLogIn color={THEME.COLORS.chasescrollButtonBlue} />} text='Exit' action={() => leaveGroup.mutate()} isLoading={leaveGroup.isLoading} />}
-              {admin && <SettingsChip icon={<FiTrash2 color={THEME.COLORS.chasescrollButtonBlue} />} text='Delete' action={() => deleteGroup.mutate()} isLoading={deleteGroup.isLoading} />}
+              {!admin && <SettingsChip icon={<FiLogIn color={bodyTextColor} />} text='Exit' action={() => leaveGroup.mutate()} isLoading={leaveGroup.isLoading} />}
+              {admin && <SettingsChip icon={<FiTrash2 color={bodyTextColor} />} text='Delete' action={() => deleteGroup.mutate()} isLoading={deleteGroup.isLoading} />}
               <SettingsChip icon={<ShareEvent showText={false} type='COMMUNITY' id={page?.id} />} text='Share' action={() => { }} />
-              <SettingsChip icon={<FiSettings color={THEME.COLORS.chasescrollButtonBlue} />} text='Settings' action={() => { }} />
+              <SettingsChip icon={<FiSettings color={bodyTextColor} />} text='Settings' action={() => { }} />
             </HStack>
 
           </VStack>

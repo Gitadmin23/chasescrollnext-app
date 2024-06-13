@@ -100,7 +100,7 @@ function ChangePassword() {
                         <CustomInput placeholder='' type='password' isPassword name='confirmPassword' />
                     </VStack>
 
-                    <Button isLoading={isLoading} type='submit' variant={'outline'} outlineColor={'brand.chasescrollButtonBlue'} width={'100%'} height={'30px'} borderWidth={'0px'} color='brand.chasescrollButtonBlue'>
+                    <Button isLoading={isLoading} type='submit' variant={'outline'} outlineColor={'brand.chasescrollButtonBlue'} width={'100%'} height={'30px'} borderWidth={'0px'} color={bodyTextColor}>
                         Submit
                     </Button>
 

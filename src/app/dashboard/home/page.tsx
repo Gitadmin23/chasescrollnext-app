@@ -38,6 +38,7 @@ import PromotionCreationModal from "@/components/modals/promotions/CreatePromiti
 import { useShowHomeModal } from "./state";
 import Link from "next/link";
 import useCustomTheme from "@/hooks/useTheme";
+import UpcomingEvents from "@/components/home/UpcomingEvents";
 
 function Home() {
   const [page, setPage] = React.useState(0);
@@ -64,6 +65,7 @@ function Home() {
     secondaryBackgroundColor,
     mainBackgroundColor,
     borderColor,
+    headerTextColor,
   } = useCustomTheme();
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -168,12 +170,13 @@ function Home() {
   }, [createPostMutation, post, userId]);
 
   return (
-    <VStack
+    <HStack
       width="full"
       h={"full"}
-      overflowY={"auto"}
+      overflow={"hidden"}
       alignItems={"flex-start"}
       bg={mainBackgroundColor}
+      justifyContent={["flex-start", "center"]}
     >
       {/* MODAL */}
       <CreateMediaPost
@@ -187,179 +190,219 @@ function Home() {
         type="POST"
       />
 
-      <VStack
-        width={["100%", "100%", "40%", "40%"]}
-        height="180px"
-        paddingTop="20px"
-        paddingLeft={"20px"}
-        paddingRight={["20px", "0px"]}
-        overflowY={"hidden"}
-        bg={mainBackgroundColor}
-      >
-        {/* TEXTBOX */}
+      <Box overflowY={"hidden"} height={"full"} width={["100%", "40%"]}>
         <VStack
-          alignItems={"flex-start"}
-          justifyContent={"flex-start"}
-          width="100%"
-          height="150px"
-          bg={secondaryBackgroundColor}
-          borderWidth={0}
-          shadow={"md"}
-          borderColor={"lightgrey"}
-          borderRadius={"10px"}
-          padding="10px"
+          width={"100%"}
+          height="180px"
+          paddingTop="20px"
+          paddingLeft={"20px"}
+          paddingRight={["20px", "0px"]}
+          overflowY={"hidden"}
+          bg={mainBackgroundColor}
         >
-          <HStack width="100%" height={"90px"}>
-            <Link href={`/dashboard/profile/${Details?.userId}`}>
-              <Box
-                width="32px"
-                height="32px"
-                borderRadius={"20px 0px 20px 20px"}
-                borderWidth={"2px"}
-                borderColor={"#D0D4EB"}
-                overflow={"hidden"}
-              >
-                {Details?.data?.imgMain?.value === null && (
-                  <VStack
-                    width={"100%"}
-                    height="100%"
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                  >
-                    {Details?.username && (
-                      <CustomText fontFamily={"DM-Regular"}>
-                        {Details?.username[0].toUpperCase()}
-                      </CustomText>
-                    )}
-                  </VStack>
-                )}
-                {Details?.data.imgMain.value !== null && (
-                  <>
-                    {Details?.data?.imgMain?.value.startsWith("https://") && (
-                      <Image
-                        src={`${Details?.data.imgMain.value}`}
-                        alt="image"
-                        width={"100%"}
-                        height={"100%"}
-                        objectFit={"cover"}
-                      />
-                    )}
+          {/* TEXTBOX */}
+          <VStack
+            alignItems={"flex-start"}
+            justifyContent={"flex-start"}
+            width="100%"
+            height="150px"
+            bg={secondaryBackgroundColor}
+            borderWidth={0}
+            shadow={"md"}
+            borderColor={"lightgrey"}
+            borderRadius={"10px"}
+            padding="10px"
+          >
+            <HStack width="100%" height={"90px"}>
+              <Link href={`/dashboard/profile/${Details?.userId}`}>
+                <Box
+                  width="32px"
+                  height="32px"
+                  borderRadius={"20px 0px 20px 20px"}
+                  borderWidth={"2px"}
+                  borderColor={"#D0D4EB"}
+                  overflow={"hidden"}
+                >
+                  {Details?.data?.imgMain?.value === null && (
+                    <VStack
+                      width={"100%"}
+                      height="100%"
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                    >
+                      {Details?.username && (
+                        <CustomText fontFamily={"DM-Regular"}>
+                          {Details?.username[0].toUpperCase()}
+                        </CustomText>
+                      )}
+                    </VStack>
+                  )}
+                  {Details?.data.imgMain.value !== null && (
+                    <>
+                      {Details?.data?.imgMain?.value.startsWith("https://") && (
+                        <Image
+                          src={`${Details?.data.imgMain.value}`}
+                          alt="image"
+                          width={"100%"}
+                          height={"100%"}
+                          objectFit={"cover"}
+                        />
+                      )}
 
-                    {!Details?.data?.imgMain?.value.startsWith("https://") && (
-                      <Image
-                        src={`${IMAGE_URL}${Details?.data.imgMain.value}`}
-                        alt="image"
-                        width={"100%"}
-                        height={"100%"}
-                        objectFit={"cover"}
-                      />
+                      {!Details?.data?.imgMain?.value.startsWith(
+                        "https://",
+                      ) && (
+                        <Image
+                          src={`${IMAGE_URL}${Details?.data.imgMain.value}`}
+                          alt="image"
+                          width={"100%"}
+                          height={"100%"}
+                          objectFit={"cover"}
+                        />
+                      )}
+                    </>
+                  )}
+                </Box>
+              </Link>
+
+              <Textarea
+                bg={secondaryBackgroundColor}
+                borderWidth={"0.2px"}
+                borderColor={borderColor}
+                fontFamily={"DM-Regular"}
+                fontSize={"14px"}
+                flex={"1"}
+                width="100%"
+                placeholder={`What's on your mind @${username.length > 10 ? username.substring(0, 10) + "..." : username ?? ""}`}
+                color={
+                  colorMode === "light"
+                    ? THEME.COLORS.chasescrollButtonBlue
+                    : bodyTextColor
+                }
+                resize={"none"}
+                value={post}
+                onChange={(e) => setPost(e.target.value)}
+              ></Textarea>
+              {!createPostMutation.isLoading && (
+                <Send2
+                  onClick={() => handlePostCreation()}
+                  size={"30px"}
+                  color={
+                    colorMode === "light"
+                      ? THEME.COLORS.chasescrollButtonBlue
+                      : bodyTextColor
+                  }
+                />
+              )}
+              {createPostMutation.isLoading && (
+                <Spinner
+                  size={"sm"}
+                  color={
+                    colorMode === "light"
+                      ? THEME.COLORS.chasescrollButtonBlue
+                      : bodyTextColor
+                  }
+                />
+              )}
+            </HStack>
+
+            <HStack>
+              <ImgIcon
+                size={25}
+                color={
+                  colorMode === "light"
+                    ? THEME.COLORS.chasescrollButtonBlue
+                    : bodyTextColor
+                }
+              />
+              <CustomText
+                onClick={() => setShowModal(true)}
+                fontFamily={"DM-Bold"}
+                fontSize={"sm"}
+                cursor="pointer"
+                color={
+                  colorMode === "light"
+                    ? "brand.chasescrollButtonBlue"
+                    : bodyTextColor
+                }
+              >
+                Add Photos /Video in your post
+              </CustomText>
+            </HStack>
+          </VStack>
+        </VStack>
+
+        <Box
+          flex="1"
+          width={"full"}
+          height={"83%"}
+          overflow={"auto"}
+          paddingX="20px"
+          paddingTop="0px"
+          paddingBottom={"520px"}
+        >
+          {!isLoading && isError && (
+            <VStack width={"100%"} height={"100px"} justifyItems={"center"}>
+              <CustomText>An error occured please retry</CustomText>
+              <CustomButton
+                isLoading={isLoading}
+                text="Retry"
+                onClick={() => refetch()}
+                backgroundColor={THEME.COLORS.chasescrollButtonBlue}
+              />
+            </VStack>
+          )}
+          <VStack width={"100%"} height={["100%", "80%"]}>
+            {newIttem.map((item, i) => (
+              <ThreadCard post={item} key={i.toString()} />
+            ))}
+            {posts.map((item, i) => {
+              if (i === post?.length - 1) {
+                return (
+                  <ThreadCard
+                    key={i.toString()}
+                    post={item}
+                    ref={lastChildRef}
+                  />
+                );
+              } else {
+                return (
+                  <>
+                    <ThreadCard
+                      key={i.toString()}
+                      post={item}
+                      ref={lastChildRef}
+                    />
+                    {i % 9 === 0 && (
+                      <Box
+                        display={["block", "none"]}
+                        width="100%"
+                        height={"500px"}
+                        marginY={"40px"}
+                      >
+                        <UpcomingEvents />
+                      </Box>
                     )}
                   </>
-                )}
-              </Box>
-            </Link>
-
-            <Textarea
-              bg={secondaryBackgroundColor}
-              borderWidth={"0.2px"}
-              borderColor={borderColor}
-              fontFamily={"DM-Regular"}
-              fontSize={"14px"}
-              flex={"1"}
-              width="100%"
-              placeholder={`What's on your mind @${username.length > 10 ? username.substring(0, 10) + "..." : username ?? ""}`}
-              color={
-                colorMode === "light"
-                  ? THEME.COLORS.chasescrollButtonBlue
-                  : bodyTextColor
+                );
               }
-              resize={"none"}
-              value={post}
-              onChange={(e) => setPost(e.target.value)}
-            ></Textarea>
-            {!createPostMutation.isLoading && (
-              <Send2
-                onClick={() => handlePostCreation()}
-                size={"30px"}
-                color={
-                  colorMode === "light"
-                    ? THEME.COLORS.chasescrollButtonBlue
-                    : bodyTextColor
-                }
-              />
-            )}
-            {createPostMutation.isLoading && (
-              <Spinner
-                size={"sm"}
-                color={
-                  colorMode === "light"
-                    ? THEME.COLORS.chasescrollButtonBlue
-                    : bodyTextColor
-                }
-              />
-            )}
-          </HStack>
-
-          <HStack>
-            <ImgIcon
-              size={25}
-              color={
-                colorMode === "light"
-                  ? THEME.COLORS.chasescrollButtonBlue
-                  : bodyTextColor
-              }
-            />
-            <CustomText
-              onClick={() => setShowModal(true)}
-              fontFamily={"DM-Bold"}
-              fontSize={"sm"}
-              cursor="pointer"
-              color={
-                colorMode === "light"
-                  ? "brand.chasescrollButtonBlue"
-                  : bodyTextColor
-              }
-            >
-              Add Photos /Video in your post
-            </CustomText>
-          </HStack>
-        </VStack>
-      </VStack>
+              // return <ThreadCard key={i.toString()} post={item} />;
+            })}
+          </VStack>
+        </Box>
+      </Box>
 
       <Box
-        flex="1"
-        width={"full"}
+        display={["none", "block"]}
+        width={["0%", "40%"]}
         height={"full"}
-        overflow={"auto"}
-        paddingX="20px"
-        paddingTop="0px"
+        bg={mainBackgroundColor}
+        marginLeft={"20px"}
+        paddingTop={"50px"}
       >
-        {!isLoading && isError && (
-          <VStack width={"30%"} height={"100px"} justifyItems={"center"}>
-            <CustomText>An error occured please retry</CustomText>
-            <CustomButton
-              isLoading={isLoading}
-              text="Retry"
-              onClick={() => refetch()}
-              backgroundColor={THEME.COLORS.chasescrollButtonBlue}
-            />
-          </VStack>
-        )}
-        <VStack width={["100%", "100%", "40%", "40%"]} height={["100%", "80%"]}>
-          {newIttem.map((item, i) => (
-            <ThreadCard post={item} key={i.toString()} />
-          ))}
-          {posts.map((item, i) => {
-            if (i === posts.length - 1) {
-              return (
-                <ThreadCard ref={lastChildRef} key={i.toString()} post={item} />
-              );
-            }
-            return <ThreadCard key={i.toString()} post={item} />;
-          })}
-        </VStack>
+        <UpcomingEvents />
       </Box>
-    </VStack>
+    </HStack>
   );
 }
 

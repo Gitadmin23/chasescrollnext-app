@@ -38,6 +38,7 @@ function EventLocationDetail(props: Props) {
         secondaryBackgroundColor,
         mainBackgroundColor,
         borderColor,
+        headerTextColor
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
 
@@ -57,12 +58,12 @@ function EventLocationDetail(props: Props) {
                             </Box>
                         </Box>
                     )}
-                    <Flex textAlign={"left"} fontWeight={fontWeight ? fontWeight : "semibold"} color={color ? bodyTextColor : "brand.chasescrollBlue"} fontSize={fontsize ? fontsize : "sm"} >
+                    <Flex textAlign={"left"} fontWeight={fontWeight ? fontWeight : "semibold"} color={colorMode === 'light' ? "brand.chasescrollBlue":headerTextColor} fontSize={fontsize ? fontsize : "sm"} >
                         {location?.locationDetails && (
                             <p>{location?.locationDetails?.length >= (length ? length : 17) ? location?.locationDetails.slice(0, (length ? length : 17)) + "..." : location?.locationDetails}</p>
                         )}
                         {(location?.toBeAnnounced && !location?.locationDetails) && (
-                            <p>To Be Announced</p>
+                            <Text color={headerTextColor}>To Be Announced</Text>
                         )}
                         {(location?.link) && (
                             <Text as={"button"} onClick={(e) => clickHandler(location?.link, e)} style={{ color: "#5D70F9", fontSize: fontsize ? fontsize : "sm", fontWeight: fontWeight ? fontWeight : "semibold" }} >Join Online</Text>
@@ -83,7 +84,7 @@ function EventLocationDetail(props: Props) {
                                     <p>{location?.locationDetails?.length >= (length ? length : 350) ? location?.locationDetails.slice(0, (length ? length : 350)) + "..." : location?.locationDetails}</p>
                                 )}
                                 {(location?.toBeAnnounced && !location?.locationDetails) && (
-                                    <p>To Be Announced</p>
+                                    <Text color={bodyTextColor}>To Be Announced</Text>
                                 )}
                                 {(location?.link) && (
                                     <Text as={"button"} onClick={(e) => clickHandler(location?.link, e)} className=' font-bold text-sm text-chasescrollBlue ' >Join Online</Text>

@@ -50,14 +50,7 @@ function Layout({ children }: { children: ReactNode }) {
                 </Flex>
 
                 <Flex gap={"2"} > 
-                    <CustomButton fontSize={"sm"} height={"35px"} borderWidth={"1px"} color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"4"} rounded={"8px"} width={"fit-content"} text={'NGN'} />
-                    {/* <Text color={"brand.chasescrollTextGrey"} fontWeight={"semibold"}>{currency}</Text> */}
-                    {/* <Switch
-                        colorScheme="green"
-                        onChange={(e) => toggleCurrency(e.target.checked)}
-                        isChecked={currency === "USD" ? true : false}
-                        h="28px" 
-                    /> */}
+                    <CustomButton fontSize={"sm"} height={"35px"} borderWidth={"1px"} color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"4"} rounded={"8px"} width={"fit-content"} text={'🇳🇬'} />
                 </Flex>
             </Flex>
             <Box width={["full", "400px"]} mx={"auto"} px={["6", "0px"]} py={"6"} >

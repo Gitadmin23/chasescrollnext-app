@@ -16,7 +16,7 @@ function CardTabs(props: Props) {
     } = props
 
     return (
-        <Box width={"full"} >
+        <Box width={"full"} px={'10px'} >
             {tab === 1 && (
                 <CashOut currency={currency} />
             )}

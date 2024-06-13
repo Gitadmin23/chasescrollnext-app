@@ -1,5 +1,6 @@
 import { Flex, Spinner, Text } from '@chakra-ui/react'
 import React from 'react'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     loading: any,
@@ -21,13 +22,21 @@ function LoadingAnimation(props: Props) {
         color
     } = props
 
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+
     return (
         <>
             {!loading && (
                 <>
                     {children} 
                     {(!loading && refeching)&& (
-                        <Flex width={"full"} justifyContent={"center"} height={fix_height ? "full": "auto"} fontSize={"20px"} py={fix_height ? "" : "8"}  >
+                        <Flex width={"full"} justifyContent={"center"} height={fix_height ? "full": "auto"} width={"full"} bg={secondaryBackgroundColor}  fontSize={"20px"} py={fix_height ? "" : "8"}  >
                             <Spinner size={["md", "sm"]} color={color? color : 'black'} />
                         </Flex>
                     )}
@@ -37,15 +46,15 @@ function LoadingAnimation(props: Props) {
             {(!loading && !refeching ) && (
                 <>
                     {length === 0 && (
-                        <Flex width={"full"} justifyContent={"center"} fontSize={"20px"} py={"4"}  >
+                        <Flex width={"full"} justifyContent={"center"} fontSize={"20px"} py={"4"} width={"full"} bg={secondaryBackgroundColor}   >
                             <Text>No Records Found</Text>
                         </Flex>
                     )}
                 </>
             )}
             {loading && (
-                <Flex width={"full"} justifyContent={"center"} mb={"auto"} fontSize={"20px"} py={"8"}  >
-                    <Spinner size={["md", "sm"]} color={color? color : 'black'} />
+                <Flex width={"full"} bg={secondaryBackgroundColor} justifyContent={"center"} mb={"auto"} fontSize={"20px"} py={"8"}  >
+                    <Spinner size={["md", "sm"]} color={color? color : bodyTextColor} />
                 </Flex>
             )}
         </>
