@@ -266,14 +266,15 @@ function Home() {
               </Link>
 
               <Textarea
-                bg={secondaryBackgroundColor}
-                borderWidth={"0.2px"}
+                bg={mainBackgroundColor}
+                borderWidth={"0px"}
                 borderColor={borderColor}
                 fontFamily={"DM-Regular"}
                 fontSize={"14px"}
                 flex={"1"}
                 width="100%"
                 placeholder={`What's on your mind @${username.length > 10 ? username.substring(0, 10) + "..." : username ?? ""}`}
+                _placeholder={{ color: bodyTextColor }}
                 color={
                   colorMode === "light"
                     ? THEME.COLORS.chasescrollButtonBlue

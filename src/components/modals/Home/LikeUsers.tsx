@@ -1,11 +1,28 @@
 import React from 'react'
-import { Modal, ModalOverlay, ModalBody, ModalContent, HStack, Select, VStack, Flex, Textarea, Button, useToast, Box, Spinner, Image } from '@chakra-ui/react';
+import {
+    Modal,
+    ModalOverlay,
+    ModalBody,
+    ModalContent,
+    HStack,
+    Select,
+    VStack,
+    Flex,
+    Textarea,
+    Button,
+    useToast,
+    Box,
+    Spinner,
+    Image,
+    useColorMode
+} from '@chakra-ui/react';
 import { FiX } from 'react-icons/fi';
 import CustomText from '@/components/general/Text';
 import { useMutation, useQuery } from 'react-query';
 import httpService from '@/utils/httpService';
 import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import { IUser } from '@/models/User';
+import useCustomTheme from "@/hooks/useTheme";
 
 
 interface IProps {
@@ -27,6 +44,15 @@ const REPORT_OPTIONS = [
 function LikeUserModal({isOpen, onClose, typeID }:IProps) {
     const [users, setUsers] = React.useState<IUser[]>([])
     const toast = useToast();
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
 
     const { isLoading, isError } = useQuery([`getPostLikes-${typeID}`, typeID], () => httpService.get(`${URLS.GET_POST_LIKES}`, {
@@ -61,7 +87,7 @@ if (isLoading) {
         onClose()
         }} closeOnEsc={true} closeOnOverlayClick={true} size='md' isCentered>
         <ModalOverlay />
-        <ModalContent width={'100%'} bg='white' padding='0px' overflow={'hidden'} borderRadius={'10px'}>
+        <ModalContent width={'100%'} bg={mainBackgroundColor} padding='0px' overflow={'hidden'} borderRadius={'10px'}>
             <ModalBody width='100%' height='100%' paddingX='20px' overflow={'hidden'} paddingY='20px'>
 
               <Flex width={'100%'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
@@ -95,8 +121,8 @@ if (isLoading) {
                                         }
                                 </Box>
                                 <VStack alignItems={'flex-start'} spacing={0}>
-                                    <CustomText color='brand.chasescrollButtonBlue' fontFamily={'DM-Bold'} fontSize={'14px'}>{item.firstName} {item.lastName}</CustomText>
-                                    <CustomText color='brand.chasescrollButtonBlue' fontFamily={'DM-Regular'} fontSize={'12px'}>@{item.username}</CustomText>
+                                    <CustomText color={bodyTextColor} fontFamily={'DM-Bold'} fontSize={'16px'}>{item.firstName} {item.lastName}</CustomText>
+                                    <CustomText color={primaryColor} fontFamily={'DM-Regular'} fontSize={'14px'}>@{item.username}</CustomText>
                                 </VStack>
                             </HStack>
                         ))

@@ -72,7 +72,7 @@ const MenuItem = ({
         width="100%"
         height="70px"
         alignItems={"center"}
-        bg={active ? secondaryBackgroundColor: null}
+        bg={active ? secondaryBackgroundColor: undefined}
       >
         {icon}
         <CustomText fontFamily={"DM-Bold"} fontSize={"16px"}>

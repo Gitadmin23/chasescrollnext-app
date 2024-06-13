@@ -1,17 +1,18 @@
 import { Flex, Spinner, Text } from '@chakra-ui/react'
-import React from 'react'
+import React, {PropsWithChildren} from 'react'
 import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
-    loading: any,
-    refeching?: any,
-    children: React.ReactNode,
-    length?: any,
-    fix_height?: boolean,
-    color?: string
+    loading: any;
+    refeching?: any;
+    children: React.ReactNode;
+    length?: any;
+    fix_height?: boolean;
+    color?: string;
+    customLoader?: any;
 }
 
-function LoadingAnimation(props: Props) {
+function LoadingAnimation(props: PropsWithChildren & Props) {
 
     let {
         children,
@@ -36,7 +37,7 @@ function LoadingAnimation(props: Props) {
                 <>
                     {children} 
                     {(!loading && refeching)&& (
-                        <Flex width={"full"} justifyContent={"center"} height={fix_height ? "full": "auto"} width={"full"} bg={secondaryBackgroundColor}  fontSize={"20px"} py={fix_height ? "" : "8"}  >
+                        <Flex width={"full"} justifyContent={"center"} height={fix_height ? "full": "auto"} bg={secondaryBackgroundColor}  fontSize={"20px"} py={fix_height ? "" : "8"}  >
                             <Spinner size={["md", "sm"]} color={color? color : 'black'} />
                         </Flex>
                     )}
@@ -46,7 +47,7 @@ function LoadingAnimation(props: Props) {
             {(!loading && !refeching ) && (
                 <>
                     {length === 0 && (
-                        <Flex width={"full"} justifyContent={"center"} fontSize={"20px"} py={"4"} width={"full"} bg={secondaryBackgroundColor}   >
+                        <Flex width={"full"} justifyContent={"center"} fontSize={"20px"} py={"4"} bg={secondaryBackgroundColor}   >
                             <Text>No Records Found</Text>
                         </Flex>
                     )}

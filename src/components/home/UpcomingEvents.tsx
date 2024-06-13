@@ -50,7 +50,7 @@ export default function UpcomingEvents() {
           fontFamily={"DM-Bold"}
           color={headerTextColor}
         >
-          Upcoming Event
+          Upcoming Events
         </CustomText>
 
         <Link href={"/dashboard/event"}>

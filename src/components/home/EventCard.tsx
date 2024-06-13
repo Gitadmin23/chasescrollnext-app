@@ -41,10 +41,10 @@ export default function EventCard({event}: IProps) {
                 <HStack>
                     <EventLocationDetail iconsize={"16px"} fontWeight={"medium"} fontsize={"13px"} color={"rgba(18, 18, 18, 0.80)"} location={event?.location} locationType={event?.locationType} length={20} />
                 </HStack>
-                <CustomText fontSize={'12px'} color={primaryColor} fontFamily={'DM-Medium'}>N{event?.maxPrice}</CustomText>
+                <CustomText fontSize={'12px'} color={primaryColor} fontFamily={'DM-Bold'}>N{event?.maxPrice}</CustomText>
             </HStack>
 
-            <InterestedUsers fontSize={14} event={event} border={"2px"} size={"25px"} />
+            <InterestedUsers fontSize={16} event={event} border={"2px"} size={"25px"} color={primaryColor} />
         </Box>
     )
 }
