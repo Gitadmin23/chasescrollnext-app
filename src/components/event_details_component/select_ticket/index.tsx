@@ -5,7 +5,7 @@ import ModalLayout from '@/components/sharedComponent/modal_layout'
 import useModalStore from '@/global-state/useModalSwitch'
 import { useDetails } from '@/global-state/useUserDetails'
 import { formatNumber } from '@/utils/numberFormat'
-import {Box, Button, Flex, Text, useColorMode} from '@chakra-ui/react'
+import { Box, Button, Flex, Text, useColorMode, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import router from 'next/router'
 import React, { useEffect } from 'react'
@@ -44,9 +44,11 @@ function SelectTicket(props: Props) {
     const token = sessionStorage.getItem('tp_token')
     const { userId: user_index } = useDetails((state) => state);
 
+    const toast = useToast()
+
     const router = useRouter()
 
-    const clickHandler = (item: any) => { 
+    const clickHandler = (item: any) => {
         if (token) {
             setCategory(item)
             setShowModal(false)
@@ -62,9 +64,22 @@ function SelectTicket(props: Props) {
         }
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         setCategory({} as any)
     }, [])
+
+
+    const tempFunc = () => {
+        toast({
+            title: 'Infomation',
+            description: 'Please sign-in with google',
+            status: 'info',
+            isClosable: true,
+            duration: 5000,
+            position: 'top-right',
+        });
+        // router.push("/share/auth/signup/?type=EVENT&typeID=" + data?.id)
+    }
 
     return (
         <Flex gap={"3"} position={"relative"} alignItems={"center"} justifyContent={"end"} pl={"5"}  >
@@ -108,7 +123,7 @@ function SelectTicket(props: Props) {
                     </Flex>
                     {/* <CustomButton backgroundColor={"#EDEFFF"} color={"#5465E0"} fontWeight={"400"} onClick={() => router.push("/share/auth/login/?type=EVENT&typeID=" + data?.id)} text={"Get Temporary Account"} /> */}
                     <CustomButton backgroundColor={"#EDEFFF"} color={"#5465E0"} fontWeight={"400"} onClick={() => router.push("/share/auth/temporary-account/?type=EVENT&typeID=" + data?.id)} text={"Get Temporary Account"} />
-                    <CustomButton backgroundColor={"#5D70F9"} color={"white"} onClick={() => router.push("/share/auth/signup/?type=EVENT&typeID=" + data?.id)} text={"Sign up"} />
+                    <CustomButton backgroundColor={"#5D70F9"} color={"white"} onClick={() => tempFunc()} text={"Sign up"} />
                     <Flex>
                         <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'} marginLeft='0px'>
                             Already have an account?
