@@ -10,11 +10,11 @@ export default function OurPartner() {
     const scroll = (scrolloffset: number) => {
         ref.current.scrollLeft += scrolloffset
     };
-
+    
     return (
         <Flex w={"full"} flexDir={"column"} >
             <Flex position={"relative"} borderBottomWidth={"1px"} borderColor={"#CDD3FD"} width={"full"} alignItems={"center"} flexDir={"column"} gap={"6"} justifyContent={"center"} height={"267px"} >
-                <Text color={"#2B2D31"} fontWeight={"semibold"} lineHeight={"38.73px"} fontSize={"32px"} >Our Partners</Text>
+                <Text color={"#2B2D31"} fontWeight={"semibold"} lineHeight={"38.73px"} fontSize={["24px", "24px", "32px"]} >Our Partners</Text>
                 <Flex scrollBehavior={"smooth"} ref={ref} w={"fit-content"} overflowX={["auto", "auto", "hidden"]} px={"14"} gap={"12"} alignItems={"center"} sx={
                     {
                         '::-webkit-scrollbar': {
