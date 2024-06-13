@@ -71,7 +71,7 @@ const Eventpage = () => {
           <SearchBar home={true} />
         </Flex>
         <Flex px={["6", "6", "12"]} gap={["4", "4", "0px"]} w={"full"} flexDir={["column-reverse", "column-reverse", "column-reverse"]} justifyContent={"space-between"} alignItems={["start", "start", "start"]} pt={"4"} pb={"2"} >
-          <Text color={"#2B2D31"} fontSize={["18px", "18px", "24px"]} lineHeight={["16.94px", "16.94px", "29.05px"]} fontWeight={"500"} >{event_category ? event_category?.replaceAll("_", " ") : "Upcoming Event"}</Text>
+          <Text color={"#2B2D31"} fontSize={["18px", "18px", "24px"]} lineHeight={["16.94px", "16.94px", "29.05px"]} fontWeight={"500"} >{event_category ? event_category?.replaceAll("_", " ") : "Upcoming Events"}</Text>
           <Flex width={["full", "full", "full"]} justifyContent={"end"} >
             <EventCategory selector={true} />
           </Flex>

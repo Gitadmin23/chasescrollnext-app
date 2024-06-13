@@ -48,10 +48,11 @@ export default function Faq() {
                             </Flex>
                             {selectedData?.includes(item?.title) && (
                                 <Flex borderBottomWidth={"1px"} borderBottomColor={"#E2E8F0"} py={"4"} maxW={"575px"} w={"full"} >
-                                    <Text fontSize={"16px"} lineHeight={"32px"} color={"#222222"} >{item?.desc}</Text>
+                                    <Text whiteSpace={"pre-wrap"} fontSize={"16px"} lineHeight={"32px"} color={"#222222"} >{item?.desc}</Text>
                                 </Flex>
                             )}
                         </Flex>
+                        //  white-space: pre-wrap;
                     )
                 })}
             </Flex>
