@@ -79,6 +79,18 @@ body {
   box-sizing: border-box;
   /* Include padding and border in the element's total width and height */
 }
+html {
+  overflow: hidden;
+  width: 100%;
+}
+body {
+  height: 100%;
+  position: fixed;
+  /* prevent overscroll bounce*/
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  /* iOS velocity scrolling */
+}
 
 *,
 *::before,
