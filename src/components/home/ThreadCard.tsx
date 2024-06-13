@@ -267,7 +267,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
               fontSize={25}
             />
           </MenuButton>
-          <MenuList zIndex={10} bg="white">
+          <MenuList zIndex={10} bg={mainBackgroundColor}>
             {userId === post?.user?.userId && (
               <MenuItem
                 onClick={() =>
@@ -275,8 +275,9 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
                 }
                 color={"red"}
                 width={"100%"}
-                borderBottomWidth={1}
-                borderBottomColor={"lightgrey"}
+                borderBottomWidth={"0.3px"}
+                borderBottomColor={borderColor}
+                bg={secondaryBackgroundColor}
               >
                 {!deleteMutation.isLoading && (
                   <CustomText
@@ -301,11 +302,12 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
               onClick={() => setShowReportModal(true)}
               color={"red"}
               width={"100%"}
-              borderBottomWidth={1}
-              borderBottomColor={"lightgrey"}
+              borderBottomWidth={"0.3px"}
+              borderBottomColor={borderColor}
+              bg={secondaryBackgroundColor}
             >
               <CustomText
-                fontFamily={"Satoshi-Light"}
+                fontFamily={"DM-Medium"}
                 fontSize={"sm"}
                 textAlign={"center"}
                 width={"100%"}
@@ -313,7 +315,9 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
                 Report User
               </CustomText>
             </MenuItem>
-            <MenuItem color={"red"} width={"100%"}>
+            <MenuItem color={"red"} width={"100%"}     borderBottomWidth={"0.3px"}
+                      borderBottomColor={borderColor}
+                      bg={secondaryBackgroundColor}>
               <CustomText
                 fontFamily={"Satoshi-Light"}
                 fontSize={"sm"}

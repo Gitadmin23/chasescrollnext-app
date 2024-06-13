@@ -6,13 +6,28 @@ import { IMAGE_URL, URLS } from '@/services/urls'
 import { THEME } from '@/theme'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import httpService from '@/utils/httpService'
-import { Avatar, Box, Button, Flex, HStack, Image, Input, Progress, Spinner, Textarea, VStack, useToast } from '@chakra-ui/react'
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  HStack,
+  Image,
+  Input,
+  Progress,
+  Spinner,
+  Textarea,
+  VStack,
+  useToast,
+  useColorMode
+} from '@chakra-ui/react'
 import React from 'react'
 import { FiChevronLeft, FiMinus, FiPlus } from 'react-icons/fi'
 import { useMutation } from 'react-query'
 import { useQueryClient } from 'react-query';
 import ImageSlider from './ImageSlider'
 import CustomButton from '@/components/general/Button'
+import useCustomTheme from "@/hooks/useTheme";
 
 
 function ShowImages({ files, setImage, handleStage, stage, setEmpty, mutate, removeFile }: {files: File[], setImage: (files: FileList, go?: boolean) => void, handleStage: (page: number) => void, removeFile: (index: number) => void, stage: number, setEmpty: () => void, mutate: () => void}) {
@@ -25,6 +40,16 @@ function ShowImages({ files, setImage, handleStage, stage, setEmpty, mutate, rem
   const toast = useToast();
   const queryClient = useQueryClient();
   const { uploadedFile, fileUploadHandler, loading } = AWSHook();
+
+  const {
+    bodyTextColor,
+    primaryColor,
+    secondaryBackgroundColor,
+    mainBackgroundColor,
+    borderColor,
+    headerTextColor,
+  } = useCustomTheme();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const createPost = useMutation({
     mutationFn: (data: any) => httpService.post(`${URLS.CREATE_POST}`, data),
@@ -116,14 +141,14 @@ const handleChange = (e: string) => {
 
 
   return (
-    <VStack maxWidth='500px' minWidth={'300px'} height='auto' overflow={'hidden'}>
+    <VStack maxWidth='500px' minWidth={'300px'} height='auto' overflow={'hidden'} bg={mainBackgroundColor}>
         <input hidden type='file' accept="image/*, video/*" ref={inputRef as any} onChange={(e) => handlePick(e.target.files as FileList)} />
 
-        <HStack width='100%' height='50px' bg='white' justifyContent={'space-between'} paddingX='10px' alignItems={'center'} paddingTop={'10px'}>
+        <HStack width='100%' height='70px' bg={mainBackgroundColor} justifyContent={'space-between'} paddingX='10px' alignItems={'center'} paddingTop={'10px'} borderBottomWidth={'0.3px'} borderBottomColor={borderColor}>
             <FiChevronLeft size={'25px'} onClick={handlePrev} style={{ cursor: 'pointer' }} color={THEME.COLORS.chasescrollButtonBlue} />
             {!loading && !createPost.isLoading && (
               // <CustomText cursor='pointer' onClick={handleNext} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} fontSize={'sm'}>{stage > 2 ? 'Create Post' : 'Next'}</CustomText>
-              <CustomButton onClick={handleNext} borderWidth={"1px"} color={"#5465E0"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"0px"} width={"fit-content"} text={stage < 2 ? 'Next':'Post' } />
+              <CustomButton onClick={handleNext} borderWidth={"0.3px"} color={colorMode === "light" ? "#5465E0":bodyTextColor} backgroundColor={colorMode === "light" ? "#EFF1FE":secondaryBackgroundColor} fontWeight={"bold"} px={"6"} height={'30px'} rounded={"0px"} width={"fit-content"} text={stage < 2 ? 'Next':'Post' } />
             )}
             {
               loading && (
@@ -143,7 +168,7 @@ const handleChange = (e: string) => {
             }
         </HStack>
 
-              <VStack alignItems='flex-start' width='100%' height='180px' paddingX='20px' paddingTop={'20px'} justifyContent={'flex-start'} fontFamily={'Satoshi-Regular'}>
+              <VStack alignItems='flex-start' bg={mainBackgroundColor} width='100%' height='180px' paddingX='20px' paddingTop={'20px'} justifyContent={'flex-start'} fontFamily={'Satoshi-Regular'}>
 
                 <HStack>
                   <Box  width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
@@ -165,7 +190,7 @@ const handleChange = (e: string) => {
                   <CustomText>{capitalizeFLetter(firstName)} {capitalizeFLetter(lastName)}</CustomText>
                 </HStack>
 
-                <Textarea value={value} borderWidth={0} placeholder='Write something about  your post' onChange={(e) =>handleChange(e.target.value)} />
+                <Textarea value={value} borderWidth={0} placeholder='Write something about  your post' _placeholder={{ color: bodyTextColor}} bg={secondaryBackgroundColor} onChange={(e) =>handleChange(e.target.value)} />
 
                 <HStack width={'100%'} justifyContent={'flex-end'}>
                   <CustomText fontFamily={'Satoshi-Light'} fontSize={'ms'}>{value.length}/60000</CustomText>
@@ -222,7 +247,7 @@ const handleChange = (e: string) => {
 
         {
           files.length > 0 && (
-            <HStack height={'120px'} alignItems={'center'} width='100%' paddingX={'10px'}  overflowX={'auto'} bg='whitesmoke'>
+            <HStack height={'120px'} alignItems={'center'} width='100%' paddingX={'10px'}  overflowX={'auto'} bg={colorMode === "light" ? 'whitesmoke':mainBackgroundColor}>
               { files.map((file, index) => (
                 <Box borderWidth={currentIndex === index ? 1:0} borderColor={"brand.chasescrollButtonBlue"} key={index.toString()} marginRight={'5px'} width='100px' height='70%' borderRadius={'10px'} position={'relative'}>
 
@@ -242,7 +267,7 @@ const handleChange = (e: string) => {
                     } else {
                       inputRef.current?.click();
                     }
-                  }} justifyContent={'center'} alignItems={'center'} width={'100px'} height={'70%'} borderWidth={'1px'} borderRadius={'10px'} borderColor={'brand.chasescrollButtonBlue'} borderStyle={'dashed'}>
+                  }} justifyContent={'center'} alignItems={'center'} width={'100px'} height={'70%'} borderWidth={'1px'} borderRadius={'10px'} borderColor={primaryColor} borderStyle={'dashed'}>
                     <Image src='/assets/images/Add.png' alt='smile' width={'34px'} height={'34px'} />
                   </VStack>
               )}

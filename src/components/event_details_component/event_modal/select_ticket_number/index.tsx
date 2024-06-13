@@ -9,11 +9,12 @@ import { dateFormatMonthDay } from '@/utils/dateFormat'
 import httpService from '@/utils/httpService'
 import { formatNumber } from '@/utils/numberFormat'
 import { textLimit } from '@/utils/textlimit'
-import { Box, Flex, Text, useToast } from '@chakra-ui/react'
+import {Box, Flex, Text, useColorMode, useToast} from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import PayStackBtn from '../paystack_btn'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     data: IEvent,
@@ -41,6 +42,17 @@ function SelectTicketNumber(props: Props) {
         setNumberOfTicket,
         close
     } = props
+
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+        headerTextColor
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const serviceFee = 1.77
     const router = useRouter()
@@ -138,8 +150,8 @@ function SelectTicketNumber(props: Props) {
 
 
     return (
-        <Box width={"full"} bg={"white"} px={"8"} py={"6"} >
-            <Flex alignItems={"center"} bgColor={"#F8F7FF"} rounded={"16px"} px={"8px"} py={"12px"} >
+        <Box width={"full"} bg={mainBackgroundColor} px={"8"} py={"6"} >
+            <Flex alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"16px"} px={"8px"} py={"12px"} >
                 <EventImage borderWidth='2px' rounded='16px' width={"153px"} height={"127px"} data={data} />
                 <Flex height={"fit-content"} ml={"3"} flexDir={"column"} gap={"2px"} >
                     <Text fontSize={"17px"} fontWeight={"bold"} >{textLimit(data?.eventName, 20)}</Text>
@@ -153,16 +165,16 @@ function SelectTicketNumber(props: Props) {
             </Flex>
             <Flex flexDirection={"column"} pt={"3"} pb={"5"} alignItems={"center"} >
                 <Flex alignItems={"center"} rounded={"16px"} borderWidth={"1px"} borderColor={"#CDD3FD"} w={"full"} flexDir={"column"} py={"4"} >
-                    <Text color={"#667085"} >
+                    <Text color={colorMode === 'light' ? "#667085":bodyTextColor} >
                         Number of Tickets
                     </Text>
                     <Flex gap={"5"} alignItems={"center"} py={"1"}  >
                         <Box disabled={numbOfTicket === selectedTicket?.minTicketBuy} onClick={() => setNumberOfTicket((prev: any) => prev - 1)} as='button' >
-                            <SubtractIcon />
+                            <SubtractIcon color={bodyTextColor} />
                         </Box>
                         {numbOfTicket}
                         <Box onClick={() => addticket()} as='button' >
-                            <AddIcon />
+                            <AddIcon color={bodyTextColor} />
                         </Box>
                     </Flex>
                 </Flex>

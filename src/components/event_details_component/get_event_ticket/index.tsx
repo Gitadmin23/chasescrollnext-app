@@ -1,5 +1,5 @@
 import ModalLayout from '@/components/sharedComponent/modal_layout'
-import { Box, Flex, Text, useToast } from '@chakra-ui/react'
+import {Box, Flex, Text, useColorMode, useToast} from '@chakra-ui/react'
 import React, { useState } from 'react'
 import PaymentMethod from '../event_modal/payment_method'
 import SelectTicketNumber from '../event_modal/select_ticket_number'
@@ -17,6 +17,7 @@ import useModalStore from '@/global-state/useModalSwitch'
 import { useRouter } from 'next/navigation'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import { SuccessIcon } from '@/components/svg'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     isBought: any,
@@ -37,7 +38,17 @@ function GetEventTicket(props: Props) {
         setSelectedTicket,
         ticket,
         carousel
-    } = props
+    } = props;
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+        headerTextColor
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const STRIPE_KEY: any = process.env.NEXT_PUBLIC_STRIPE_KEY;
     // const [stripePromise, setStripePromise] = React?.useState(() => loadStripe(STRIPE_KEY))
@@ -144,19 +155,19 @@ function GetEventTicket(props: Props) {
             {!carousel && (
                 <>
                     {!selectedTicket?.rerouteURL ?
-                        <CustomButton bgColor={"brand.chasescrollBgBlue"} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} /> :
+                        <CustomButton bgColor={"brand.chasescrollBgBlue"} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Get" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} /> :
                         <a href={selectedTicket?.rerouteURL} target="_blank" >
-                            <CustomButton bgColor={"brand.chasescrollBgBlue"} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} />
+                            <CustomButton bgColor={"brand.chasescrollBgBlue"} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Get" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} />
                         </a>
                     }
                 </>
             )}
             {carousel && (
                 <Box >
-                    <CustomButton onClick={modalHandler} fontSize={"sm"} borderColor={"brand.chasescrollBlue"} color={"white"} borderWidth={"1px"} px={"4"} text={"Get Ticket Now"} width={["172px"]} />
+                    <CustomButton onClick={modalHandler} fontSize={"sm"} borderColor={"brand.chasescrollBlue"} color={"white"} borderWidth={"1px"} px={"4"} text={"Get Ticket Now"} width={["172px"]} bg={secondaryBackgroundColor} />
                 </Box>
             )}
-            <ModalLayout size={modalTab === 5  ? ["md", "md" , "4xl"] : "md"} title={modalTab === 6 ? "Ticket available for this event" : ""} open={showModal} close={setShowModal} >
+            <ModalLayout size={modalTab === 5  ? ["md", "md" , "4xl"] : "md"} title={modalTab === 6 ? "Ticket available for this event" : ""} open={showModal} close={setShowModal} bg={secondaryBackgroundColor} >
                 {modalTab === 1 && (
                     <SelectTicketNumber close={setShowModal} numbOfTicket={numbOfTicket} setNumberOfTicket={setNumberOfTicket} next={setModalTab} selectedTicket={selectedTicket} data={data} />
                 )}

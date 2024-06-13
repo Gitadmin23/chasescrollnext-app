@@ -20,7 +20,7 @@ function PaymentDetails(props: Props) {
     const { colorMode, toggleColorMode } = useColorMode();
 
     return ( 
-        <Box width={"full"} bg={secondaryBackgroundColor} >
+        <Box width={"full"} bg={secondaryBackgroundColor} pb={'6px'} borderRadius={'10px'} >
             <DetailCard />
         </Box>
     )

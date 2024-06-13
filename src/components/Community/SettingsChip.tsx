@@ -21,7 +21,7 @@ function SettingsChip({ icon, action, text, isLoading = false }: {
     <VStack cursor='pointer' onClick={() => isLoading ? null: action()} width='76px' height='64px' borderRadius={'12px'} bg={mainBackgroundColor} justifyContent={'center'}>
         { !isLoading && icon}
         { isLoading && <Spinner size="xs" /> }
-        <CustomText fontFamily={'DM-Light'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{text}</CustomText>
+        <CustomText fontFamily={'DM-Light'} fontSize={'14px'} color={colorMode === 'light' ? 'brand.chasescrollButtonBlue':bodyTextColor}>{text}</CustomText>
     </VStack>
   )
 }

@@ -13,7 +13,7 @@ import { dateFormat, timeFormat } from '@/utils/dateFormat'
 import httpService from '@/utils/httpService'
 import { formatNumber } from '@/utils/numberFormat'
 import { textLimit } from '@/utils/textlimit'
-import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react'
+import {Box, Flex, Image, Text, useColorMode, useToast} from '@chakra-ui/react'
 import React, { useState } from 'react'
 import Barcode from "react-barcode"
 import { BsChevronLeft } from 'react-icons/bs'
@@ -21,6 +21,7 @@ import { IoClose } from 'react-icons/io5'
 import QRCode from 'react-qr-code'
 import { useQuery } from 'react-query'
 import { useReactToPrint } from "react-to-print";
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     click: any,
@@ -35,6 +36,16 @@ function ViewTicket(props: Props) {
         data,
         user_index
     } = props
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+        headerTextColor
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const toast = useToast()
 
@@ -96,7 +107,7 @@ function ViewTicket(props: Props) {
 
     return (
         <LoadingAnimation loading={isLoading} >
-            <Flex p={"6"} shadow={"lg"} flexDirection={"column"} bg={"#eee"} roundedTop={"md"} width={"full"} alignItems={"center"} justifyContent={"center"} px={"2"} gap={"2"} >
+            <Flex p={"6"} shadow={"lg"} flexDirection={"column"} bg={colorMode === 'light' ? "#eee":mainBackgroundColor} roundedTop={"md"} width={"full"} alignItems={"center"} justifyContent={"center"} px={"2"} gap={"2"} >
                 <Flex position={"relative"} gap={"4"} px={"4"} mb={"4"} width={"full"} justifyContent={"space-between"} alignItems={"start"} >
                     <Box pos={"relative"} zIndex={"10"} onClick={() => click(false)} as='button' >
                         <IoClose size={"30px"} />
@@ -117,7 +128,7 @@ function ViewTicket(props: Props) {
                         {dataMultiple?.map((item: { id: string, scanTimeStamp: any }, index: number) => { 
 
                             return (
-                                <Flex key={index} maxW={["750px"]} w={["fit-content"]} flexDir={["row"]} rounded={"16px"} pb={"4"} p={["4"]} bg={index === 0 ? "white" : "#CDD3FD"} alignItems={["center"]} justifyContent={"center"} gap={"4"} >
+                                <Flex key={index} maxW={["750px"]} w={["fit-content"]} flexDir={["row"]} rounded={"16px"} pb={"4"} p={["4"]} bg={index === 0 ? secondaryBackgroundColor : "#CDD3FD"} alignItems={["center"]} justifyContent={"center"} gap={"4"} >
                                     <Flex w={["fit-content"]} gap={"4"} >
                                         <EventImage width={["201px"]} height={["201px"]} data={datainfo?.event} />
                                     </Flex>
@@ -138,10 +149,10 @@ function ViewTicket(props: Props) {
                                             </>
                                         )}
                                         <Flex gap={"4"} alignItems={"center"} >
-                                            <Flex border={`0.5px solid ${index === 0 ? "#CDD3FD" : "#5465E0"}`} h={"34px"} justifyContent={"center"} alignItems={"center"} px={"3"} color={"#5B5858"} fontSize={"10px"} lineHeight={"13.68px"} rounded={"full"} >
+                                            <Flex border={`0.5px solid ${index === 0 ? bodyTextColor : "#5465E0"}`} h={"34px"} justifyContent={"center"} alignItems={"center"} px={"3"} color={colorMode === 'light' ? "#5B5858":bodyTextColor} fontSize={"10px"} lineHeight={"13.68px"} rounded={"full"} >
                                                 {dateFormat(datainfo?.event?.startDate)}
                                             </Flex>
-                                            <Flex border={`0.5px solid ${index === 0 ? "#CDD3FD" : "#5465E0"}`} h={"34px"} justifyContent={"center"} alignItems={"center"} px={"3"} color={"#5B5858"} fontSize={"10px"} lineHeight={"13.68px"} rounded={"full"} >
+                                            <Flex border={`0.5px solid ${index === 0 ? bodyTextColor : "#5465E0"}`} h={"34px"} justifyContent={"center"} alignItems={"center"} px={"3"} color={colorMode === 'light' ? "#5B5858":bodyTextColor} fontSize={"10px"} lineHeight={"13.68px"} rounded={"full"} >
                                                 {timeFormat(datainfo?.event?.startDate)}
                                             </Flex>
                                         </Flex>
@@ -149,25 +160,25 @@ function ViewTicket(props: Props) {
 
                                             <Flex flexDirection={"column"} >
                                                 <Text fontWeight={"bold"} fontSize={"10.26px"} lineHeight={"16.42px"} color={"brand.chasescrollBlue"} >Order ID</Text>
-                                                <Text color={"brand.chasescrollTextGrey"} fontSize={"10.26px"} lineHeight={"13.68px"}  >{textLimit(item?.id, 7)}</Text>
+                                                <Text color={bodyTextColor} fontSize={"10.26px"} lineHeight={"13.68px"}  >{textLimit(item?.id, 7)}</Text>
                                             </Flex>
                                             <Flex flexDirection={"column"} >
                                                 <Text fontWeight={"bold"} fontSize={"10.26px"} lineHeight={"16.42px"} color={"brand.chasescrollBlue"} >Ticket fee</Text>
-                                                <Text color={"brand.chasescrollTextGrey"} fontSize={"10.26px"} lineHeight={"13.68px"}  >
+                                                <Text color={bodyTextColor} fontSize={"10.26px"} lineHeight={"13.68px"}  >
                                                     <EventPrice minPrice={datainfo?.boughtPrice} maxPrice={datainfo?.boughtPrice} currency={datainfo?.event?.currency} />
                                                 </Text>
                                             </Flex>
                                             <Flex flexDirection={"column"} alignItems={"center"} >
                                                 <Text fontWeight={"bold"} fontSize={"10.26px"} lineHeight={"16.42px"} color={"brand.chasescrollBlue"} >Quantity</Text>
-                                                <Text color={"brand.chasescrollTextGrey"} fontSize={"10.26px"} lineHeight={"13.68px"}  >{index + 1}/{dataMultiple?.length}</Text>
+                                                <Text color={bodyTextColor} fontSize={"10.26px"} lineHeight={"13.68px"}  >{index + 1}/{dataMultiple?.length}</Text>
                                             </Flex>
                                         </Flex>
                                         <Flex gap={"4"} fontSize={"xs"} >
 
                                             <UserImage size={58} image={datainfo?.createdBy?.data?.imgMain?.value} data={datainfo?.createdBy} />
                                             <Flex flexDirection={"column"} gap={"2"} >
-                                                <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Name</Text>
-                                                <Text color={"brand.chasescrollTextGrey"} >{datainfo?.createdBy?.firstName + " " + datainfo?.createdBy?.lastName}</Text>
+                                                <Text fontWeight={"bold"} color={headerTextColor} >Name</Text>
+                                                <Text color={bodyTextColor} >{datainfo?.createdBy?.firstName + " " + datainfo?.createdBy?.lastName}</Text>
                                             </Flex>
                                         </Flex>
                                     </Flex>

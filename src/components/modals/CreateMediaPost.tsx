@@ -1,9 +1,10 @@
 import React from 'react'
-import { Modal, ModalOverlay, ModalBody, ModalContent, useToast } from '@chakra-ui/react';
+import {Modal, ModalOverlay, ModalBody, ModalContent, useToast, useColorMode} from '@chakra-ui/react';
 import SelectImages from './mediapostPages/SelectImages';
 import ShowImages from './mediapostPages/ShowImages';
 import Success from './mediapostPages/Success';
 import AWSHook from '@/hooks/awsHook';
+import useCustomTheme from "@/hooks/useTheme";
 
 interface IProps {
     isOpen: boolean;
@@ -16,6 +17,17 @@ function CreateMediaPost({isOpen, onClose, mutate}:IProps) {
     const [files, setFiles] = React.useState<File[]>([]);
     const { uploadedFile, loading, fileUploadHandler } = AWSHook();
     const toast = useToast();
+
+
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const handleImagePicked = React.useCallback((Files: FileList, goNext?: boolean) => {
         console.log(Files)
@@ -89,7 +101,7 @@ function CreateMediaPost({isOpen, onClose, mutate}:IProps) {
         onClose()
         }} closeOnEsc={true} closeOnOverlayClick={true} size='2xl' isCentered>
         <ModalOverlay />
-        <ModalContent width={'auto'} height={'auto'} bg='white' padding='0px' overflow={'hidden'} borderRadius={'0px'}>
+        <ModalContent width={'auto'} height={'auto'} bg={secondaryBackgroundColor} padding='0px' overflow={'hidden'} borderRadius={'0px'}>
             <ModalBody width='100%' height='100%' padding='0px' overflow={'hidden'}>
                 {handleSwitch()}
             </ModalBody>
