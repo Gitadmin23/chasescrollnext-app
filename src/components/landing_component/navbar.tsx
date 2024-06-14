@@ -26,14 +26,14 @@ function HomeNavbar() {
             label: "FAQ",
             link: "/home#faq"
         },
-        {
-            label: "Policy",
-            link: "/home/privacy"
-        },
-        {
-            label: "Terms & Condition",
-            link: "/home/terms"
-        },
+        // {
+        //     label: "Policy",
+        //     link: "/home/privacy"
+        // },
+        // {
+        //     label: "Terms & Condition",
+        //     link: "/home/terms"
+        // },
         {
             label: "Contact us",
             link: "/home/contact-us"

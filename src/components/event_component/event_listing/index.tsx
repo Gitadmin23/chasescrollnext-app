@@ -48,13 +48,13 @@ function EventListing(props: Props) {
                                 if (results.length === i + 1) {
                                     return (
                                         <GridItem key={i} maxWidth={["full", "full", "500px", "500px", "500px"]} ref={ref} >
-                                            <ExploreEventCard date={true} page={true} event={event} />
+                                            <ExploreEventCard landing={true} date={true} page={true} event={event} />
                                         </GridItem>
                                     )
                                 } else {
                                     return (
                                         <GridItem key={i} maxWidth={["full", "full", "500px", "500px", "500px"]}  >
-                                            <ExploreEventCard date={true} page={true} event={event} />
+                                            <ExploreEventCard landing={true} date={true} page={true} event={event} />
                                         </GridItem>
                                     )
                                 }

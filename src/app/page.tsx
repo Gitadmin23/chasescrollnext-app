@@ -79,10 +79,7 @@ const Eventpage = () => {
         {!event_category && (
           <HomeLandingPageCarousel />
         )}
-        <Flex bg={"white"} py={["4", "4", "9"]} gap={"8"} flexDir={"column"} px={["6", "12"]} >
-          {/* <Flex display={["none", "none", "none", "flex"]} w={"full"} >
-                  <EventCategory />
-              </Flex> */}
+        <Flex bg={"white"} py={["4", "4", "9"]} gap={"8"} flexDir={"column"} px={["6", "12"]} > 
           <EventListing limit={true} />
         </Flex>
         <OurPartner />
