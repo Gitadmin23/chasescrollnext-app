@@ -14,7 +14,7 @@ export default function LandingPageLayout({ children }: IProps) {
     const router = useRouter();
 
     useEffect(() => {
-        window.scrollTo(0, 0)
+        window.scrollTo(0, 1)
       }, [router])
 
     return (
