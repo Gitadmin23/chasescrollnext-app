@@ -107,8 +107,8 @@ function ViewTicket(props: Props) {
 
     return (
         <LoadingAnimation loading={isLoading} >
-            <Flex p={"6"} shadow={"lg"} flexDirection={"column"} bg={colorMode === 'light' ? "#eee":mainBackgroundColor} roundedTop={"md"} width={"full"} alignItems={"center"} justifyContent={"center"} px={"2"} gap={"2"} >
-                <Flex position={"relative"} gap={"4"} px={"4"} mb={"4"} width={"full"} justifyContent={"space-between"} alignItems={"start"} >
+            <Flex p={"6"} shadow={"lg"} flexDirection={"column"} bg={"#eee"} roundedTop={"md"} width={"full"} alignItems={"center"} justifyContent={"center"} px={"2"} gap={"2"} >
+                <Flex  maxW={["750px"]} position={"relative"} gap={"4"} px={"4"} mb={"4"} width={"full"} justifyContent={"space-between"} alignItems={"center"} >
                     <Box pos={"relative"} zIndex={"10"} onClick={() => click(false)} as='button' >
                         <IoClose size={"30px"} />
                     </Box>
@@ -119,7 +119,7 @@ function ViewTicket(props: Props) {
                         <DownloadTwoIcon />
                     </Box>
                     <Box display={["none", "none", "block"]} >
-                        <CustomButton width={"fit-content"} borderRadius={"full"} onClick={handlePrint} text='Download Ticket' />
+                        <CustomButton width={"fit-content"} backgroundColor={"#3EC259"} color={"#FFF"} borderRadius={"full"} onClick={handlePrint} text='Download Ticket' />
                     </Box>
                 </Flex>
                 <Box display={["none", "none", "block"]} >
