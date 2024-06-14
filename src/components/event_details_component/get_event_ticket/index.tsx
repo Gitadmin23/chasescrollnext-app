@@ -1,5 +1,5 @@
 import ModalLayout from '@/components/sharedComponent/modal_layout'
-import {Box, Flex, Text, useColorMode, useToast} from '@chakra-ui/react'
+import { Box, Flex, Text, useColorMode, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import PaymentMethod from '../event_modal/payment_method'
 import SelectTicketNumber from '../event_modal/select_ticket_number'
@@ -150,14 +150,18 @@ function GetEventTicket(props: Props) {
         setShowModal(item)
     }
 
+
+    
     return (
         <>
             {!carousel && (
                 <>
                     {!selectedTicket?.rerouteURL ?
-                        <CustomButton backgroundColor={isBought ? "#3EC259" : ""} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} /> :
+                        (isBought) ?
+                            <CustomButton backgroundColor={"#3EC259"} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} /> :
+                            <CustomButton opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} /> :
                         <a href={selectedTicket?.rerouteURL} target="_blank" >
-                            <CustomButton backgroundColor={isBought ? "#3EC259" : "brand.chasescrollBgBlue"} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} />
+                            <CustomButton backgroundColor={isBought ? "#3EC259" : ""} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} />
                         </a>
                     }
                 </>
@@ -167,7 +171,7 @@ function GetEventTicket(props: Props) {
                     <CustomButton onClick={modalHandler} fontSize={"sm"} borderColor={"brand.chasescrollBlue"} color={"white"} borderWidth={"1px"} px={"4"} text={"Get Ticket Now"} width={["172px"]} bg={secondaryBackgroundColor} />
                 </Box>
             )}
-            <ModalLayout size={modalTab === 5  ? ["md", "md" , "3xl"] : "md"} title={modalTab === 6 ? "Ticket available for this event" : ""} open={showModal} close={setShowModal} >
+            <ModalLayout size={modalTab === 5 ? ["md", "md", "3xl"] : "md"} title={modalTab === 6 ? "Ticket available for this event" : ""} open={showModal} close={setShowModal} >
                 {modalTab === 1 && (
                     <SelectTicketNumber close={setShowModal} numbOfTicket={numbOfTicket} setNumberOfTicket={setNumberOfTicket} next={setModalTab} selectedTicket={selectedTicket} data={data} />
                 )}
@@ -182,10 +186,10 @@ function GetEventTicket(props: Props) {
                 )}
                 {modalTab === 5 && (
                     // <LoadingAnimation loading={isLoading} >
-                        <ViewTicket
-                            user_index={user_index}
-                            click={goback}
-                            data={data} />
+                    <ViewTicket
+                        user_index={user_index}
+                        click={goback}
+                        data={data} />
                     // </LoadingAnimation>
                 )}
                 {modalTab === 6 && (
