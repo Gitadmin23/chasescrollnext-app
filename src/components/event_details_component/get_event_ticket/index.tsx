@@ -150,6 +150,8 @@ function GetEventTicket(props: Props) {
         setShowModal(item)
     }
 
+
+    
     return (
         <>
             {!carousel && (
