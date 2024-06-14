@@ -46,11 +46,16 @@ function ShareEvent(props: Props) {
     notext,
   } = props;
 
-
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(1);
 
-  const { bodyTextColor } = useCustomTheme();
+  const {
+    bodyTextColor,
+    mainBackgroundColor,
+    headerTextColor,
+    secondaryBackgroundColor,
+    primaryColor,
+  } = useCustomTheme();
   const { colorMode } = useColorMode();
 
   const CloseModal = () => {
@@ -120,10 +125,13 @@ function ShareEvent(props: Props) {
               alignItems={"center"}
               flexDir={"column"}
             >
-              <ShareIcon width={size ? size : "24px"} color={colorMode === 'light' ? "#3C41F0":bodyTextColor} />
+              <ShareIcon
+                width={size ? size : "24px"}
+                color={colorMode === "light" ? "#3C41F0" : bodyTextColor}
+              />
               {showText && (
                 <Text
-                    color={colorMode === 'light' ? "#3C41F0":bodyTextColor}
+                  color={colorMode === "light" ? "#3C41F0" : bodyTextColor}
                   fontSize={"9px"}
                   fontWeight={"semibold"}
                 >
@@ -137,8 +145,9 @@ function ShareEvent(props: Props) {
       <ModalLayout
         open={open}
         close={CloseModal}
-        titlecolor={tab === 3 ? "white" : "black"}
+        titlecolor={tab === 3 ? primaryColor : bodyTextColor}
         title={tab === 1 ? "Share" : tab === 2 ? "Share with friends" : ""}
+        bg={secondaryBackgroundColor}
       >
         {tab === 1 && (
           <SendMessage
