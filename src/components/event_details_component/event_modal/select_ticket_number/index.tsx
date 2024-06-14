@@ -170,7 +170,7 @@ function SelectTicketNumber(props: Props) {
                     </Text>
                     <Flex gap={"5"} alignItems={"center"} py={"1"}  >
                         <Box disabled={numbOfTicket === selectedTicket?.minTicketBuy} onClick={() => setNumberOfTicket((prev: any) => prev - 1)} as='button' >
-                            <SubtractIcon color={bodyTextColor} />
+                            <SubtractIcon />
                         </Box>
                         {numbOfTicket}
                         <Box onClick={() => addticket()} as='button' >
