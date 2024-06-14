@@ -4,7 +4,7 @@ import SaveOrUnsaveBtn from '@/components/sharedComponent/save_unsave_event_btn'
 import { dateFormat } from '@/utils/dateFormat'
 import { Box, Flex, Text, useColorMode } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 import { IoCalendarOutline } from "react-icons/io5";
 import EventPrice from '../event_price'
 import DeleteEvent from '../delete_event'
@@ -18,6 +18,9 @@ import { Log } from 'victory'
 import useCustomTheme from '@/hooks/useTheme'
 import moment from 'moment'
 import { textLimit } from '@/utils/textlimit'
+import CustomButton from '@/components/general/Button'
+import ModalLayout from '../modal_layout'
+import ViewTicket from '@/components/event_details_component/event_modal/view_ticket'
 
 interface Props {
     event: any,
@@ -50,10 +53,12 @@ function ExploreEventCard(props: Props) {
 
     const router = useRouter()
     const { setSearchValue } = useSearchStore((state) => state);
+    const [showModal, setShowModal] = useState(false)
 
     const { userId, email } = useDetails((state) => state);
 
     let token = localStorage.getItem("token");
+    const { userId: user_index } = useDetails((state) => state);
 
     const {
         bodyTextColor,
@@ -81,6 +86,15 @@ function ExploreEventCard(props: Props) {
             router.push("/dashboard/event/details/" + event?.id)
         }
         setSearchValue("")
+    }
+
+    const viewTicket = (event: any) => {
+        event.stopPropagation();
+        setShowModal(true)
+    }
+
+    const goback = (item: boolean) => { 
+        setShowModal(item)
     }
 
     return (
@@ -162,6 +176,9 @@ function ExploreEventCard(props: Props) {
                                     {my_event && (
                                         <ShareEvent data={event} type="EVENT" size='18px' id={event?.id} />
                                     )}
+                                    {(my_event && !event?.isOrganizer) && (
+                                        <CustomButton backgroundColor={"#3EC259"} onClick={viewTicket} px={"4"} text={"View Ticket"} width={"auto"} />
+                                    )}
                                 </Flex>
                             </Flex>
                         )}
@@ -171,7 +188,7 @@ function ExploreEventCard(props: Props) {
                     <Flex w={"full"} flexDir={"column"} px={"4"} pt={"6"} >
                         <Flex w={"full"} gap={"4"} py={"1"} borderBottomWidth={"1px"} borderBottomColor={"#EFF1FE"} >
                             <Flex w={"fit-content"} flexDir={"column"} fontWeight={"bold"} >
-                                <Flex width={"50px"} flexDir={"column"} py={"2px"} borderWidth={"1px"} alignItems={"center"} roundedBottom={"2xl"} roundedTopLeft={"2xl"} > 
+                                <Flex width={"50px"} flexDir={"column"} py={"2px"} borderWidth={"1px"} alignItems={"center"} roundedBottom={"2xl"} roundedTopLeft={"2xl"} >
                                     <Text fontSize={"11.37px"} lineHeight={"14.81px"} color={"#3D37F1"} >{moment(event?.startDate).format("MMM")}</Text>
                                     <Text fontSize={"28.43px"} mt={"-1"} lineHeight={"37.01px"} >{moment(event?.startDate).format("D")}</Text>
                                 </Flex>
@@ -190,6 +207,13 @@ function ExploreEventCard(props: Props) {
                     </Flex>
                 )}
             </Flex>
+
+            <ModalLayout size={["md", "md", "3xl"]} open={showModal} close={setShowModal} >
+                <ViewTicket
+                    user_index={user_index}
+                    click={goback}
+                    data={event} />
+            </ModalLayout>
         </Box>
     )
 }
