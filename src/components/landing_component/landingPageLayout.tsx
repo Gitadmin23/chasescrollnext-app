@@ -14,11 +14,11 @@ export default function LandingPageLayout({ children }: IProps) {
     const router = useRouter();
 
     useEffect(() => {
-        window.scrollTo(0, 1)
+        window.scrollTo(0, 0)
       }, [router])
 
     return (
-        <Flex h={"100vh"} w={"full"} overflow={"hidden"} scrollBehavior={"smooth"} flexDir={"column"} pos={"relative"} >
+        <Flex h={"auto"} w={"full"} overflow={"hidden"} scrollBehavior={"smooth"} flexDir={"column"} pos={"relative"} >
             <Flex w={"full"} position={"static"} top={"0px"} insetX={"0px"} zIndex={"100"} >
                 <HomeNavbar />
             </Flex>
