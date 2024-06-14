@@ -1,5 +1,5 @@
 "use client"
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Flex, Grid } from '@chakra-ui/react'
 import React, { useEffect, useRef, useState } from 'react'
 import FooterLandingPage from './footer'
 import HomeNavbar from './navbar'
@@ -15,18 +15,21 @@ export default function LandingPageLayout({ children }: IProps) {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-      }, [router])
+    }, [router])
 
     return (
-        <Flex h={"auto"} w={"full"} overflow={"hidden"} scrollBehavior={"smooth"} flexDir={"column"} pos={"relative"} >
-            <Flex w={"full"} position={"static"} top={"0px"} insetX={"0px"} zIndex={"100"} >
-                <HomeNavbar />
-            </Flex>
-            <Flex h={"auto"} w={"full"} overflowY={"auto"} overflowX={"hidden"} scrollBehavior={"smooth"} flexDir={"column"} >
-                {/* <Box w={"full"} height={["64px", "64px", "101.03px"]} /> */}
-                {children}
-                <FooterLandingPage />
-            </Flex>
-        </Flex>
+        <Box overflow={"hidden"} w={"full"} > 
+            <Grid h="100vh" w={"full"} overflow={"hidden"} >
+                <Flex w={"full"} position={"fixed"} zIndex={"100"} top={"0px"} >
+                    <HomeNavbar />
+                </Flex>
+                <Flex w="full" h="full" pt={["64px", "64px", "101.03px"]} overflow={"hidden"} bg={"white"}> 
+                    <Flex w={"full"} flexDirection={"column"} overflowX={"hidden"} overflowY={"auto"} >
+                        {children}
+                        <FooterLandingPage />
+                    </Flex>
+                </Flex>
+            </Grid>
+        </Box>
     )
 }
