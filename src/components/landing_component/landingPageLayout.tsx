@@ -24,7 +24,7 @@ export default function LandingPageLayout({ children }: IProps) {
                     <HomeNavbar />
                 </Flex>
                 <Flex w="full" h="full" pt={["64px", "64px", "101.03px"]} overflow={"hidden"} bg={"white"}> 
-                    <Flex w={"full"} flexDirection={"column"} overflowX={"hidden"} overflowY={"auto"} >
+                    <Flex w={"full"} h={"full"} flexDirection={"column"} overflowX={"hidden"} overflowY={"auto"} >
                         {children}
                         <FooterLandingPage />
                     </Flex>
