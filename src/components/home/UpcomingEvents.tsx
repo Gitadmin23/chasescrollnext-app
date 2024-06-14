@@ -12,7 +12,7 @@ import useCustomTheme from "@/hooks/useTheme";
 import InfiniteScrollerComponent from "@/hooks/infiniteScrollerComponent";
 import ExploreEventCard from "../sharedComponent/event_card";
 import Link from "next/link";
-import {IEvent} from "@/models/Events";
+import { IEvent } from "@/models/Events";
 import EventCard from "@/components/home/EventCard";
 
 export default function UpcomingEvents() {
@@ -32,8 +32,8 @@ export default function UpcomingEvents() {
 
   return (
     <Box
-      width={["100%", "70%"]}
-      height={['auto', "100%"]}
+      width={["100%", "80%"]}
+      height={["auto", "100%"]}
       overflowY={"auto"}
       px={["0px", "40px"]}
       borderLeftWidth={["0px", "1px"]}
@@ -46,7 +46,7 @@ export default function UpcomingEvents() {
         display={["flex"]}
       >
         <CustomText
-          fontSize={["16px", "25px"]}
+          fontSize={["16px", "16px"]}
           fontFamily={"DM-Bold"}
           color={headerTextColor}
         >
@@ -57,7 +57,7 @@ export default function UpcomingEvents() {
           <CustomText
             color={"brand.chasescrollButtonBlue"}
             fontFamily={"DM-Regular"}
-            fontSize={["13px", "18px"]}
+            fontSize={["13px", "14px"]}
           >
             See more
           </CustomText>
@@ -70,15 +70,21 @@ export default function UpcomingEvents() {
         height={"full"}
         overflowX={"auto"}
         scrollBehavior={"smooth"}
-        paddingBottom={'50px'}
+        paddingBottom={"50px"}
         style={{
-          scrollbarWidth: "none"
+          scrollbarWidth: "none",
         }}
       >
         <Flex gap={"9"} width={"fit-content"}>
           {results?.map((event: IEvent, i: number) => {
             return (
-              <Box key={i} width={"250px"} marginRight={"10px"} height={"300px"} bg='transparent'>
+              <Box
+                key={i}
+                width={"250px"}
+                marginRight={"10px"}
+                height={"300px"}
+                bg="transparent"
+              >
                 <EventCard event={event} />
               </Box>
             );
