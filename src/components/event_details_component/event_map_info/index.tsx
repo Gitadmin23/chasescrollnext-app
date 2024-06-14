@@ -19,11 +19,8 @@ function EventMap(props: Props) {
     const [myLocation, setMyLocation] = useState({
         lat: 0,
         lng: 0,
-    })
-
-    console.log(latlng);
+    }) 
     
-
     const router = useRouter()
 
     const clickHander = () => {
