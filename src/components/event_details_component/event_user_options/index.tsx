@@ -1,4 +1,4 @@
-import { Box, Button, Flex, ModalOverlay, Text } from '@chakra-ui/react'
+import {Box, Button, Flex, ModalOverlay, Text, useColorMode} from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import SelectTicket from '../select_ticket'
 import { usePathname, useRouter } from 'next/navigation'
@@ -6,6 +6,7 @@ import ViewClickYser from '../view_click_user'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import CustomButton from '@/components/general/Button'
 import { FiAlertCircle } from "react-icons/fi";
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     isOrganizer: boolean,
@@ -27,6 +28,9 @@ function EventUserOption(props: Props) {
         isBought,
         event
     } = props
+
+    const { bodyTextColor } = useCustomTheme();
+    const { colorMode } = useColorMode();
 
     const router = useRouter()
     const [listOfClicks, setListOfClicks] = useState(0)

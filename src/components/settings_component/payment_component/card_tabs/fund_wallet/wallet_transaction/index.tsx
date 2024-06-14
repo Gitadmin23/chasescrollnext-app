@@ -5,13 +5,24 @@ import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
 import { URLS } from '@/services/urls'
 import { dateFormat } from '@/utils/dateFormat'
 import { formatNumber } from '@/utils/numberFormat'
-import { Box, Flex, Text } from '@chakra-ui/react'
+import {Box, Flex, Text, useColorMode} from '@chakra-ui/react'
 import React from 'react'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props { }
 
 function WalletTransaction(props: Props) {
     const { } = props
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+        headerTextColor
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.GET_TRANSACTIONS, limit: 10, filter: "id" })
 
@@ -43,7 +54,7 @@ function WalletTransaction(props: Props) {
                             </Box>
                             <Flex width={"full"} color={"gray.600"} justifyContent={"space-between"} >
                                 <Box>
-                                    <Text fontWeight={"medium"} >
+                                    <Text fontWeight={"medium"} color={headerTextColor} >
                                         {
                                             item?.description ??
                                                 item?.title ??
@@ -54,10 +65,10 @@ function WalletTransaction(props: Props) {
                                                     : 'CASHOUT' && 'Withdrawal'
                                         }
                                     </Text>
-                                    <Text fontSize={"12px"} fontWeight={"medium"} color={"#777E90"} >{dateFormat(item?.timestamp * 1000)}</Text>
+                                    <Text fontSize={"12px"} fontWeight={"medium"} color={colorMode === 'light' ? "#777E90":bodyTextColor} >{dateFormat(item?.timestamp * 1000)}</Text>
                                 </Box>
                                 <Flex textAlign={"right"} flexDir={"column"} alignItems={"end"} >
-                                    <Text fontSize={"sm"} fontWeight={"medium"} >
+                                    <Text fontSize={"sm"} fontWeight={"medium"} color={bodyTextColor} >
                                         {item?.purpose === 'FUND_WALLET' ||
                                             item?.purpose === 'PAY_FOR_TICKET'
                                             ? "+ "

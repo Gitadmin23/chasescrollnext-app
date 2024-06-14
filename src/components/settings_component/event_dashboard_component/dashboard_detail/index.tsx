@@ -71,7 +71,7 @@ function DashboardDetail(props: Props) {
 
     return (
         <Flex width={"full"} flexDirection={"column"} >
-            <Flex onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} as={"button"} width={"fit-content"} mt={"8"} gap={"2"} alignItems={"center"} bgColor={"white"} borderColor={"brand.chasescrollBlue"} borderWidth={"1px"} _hover={{ background: "#5D70F9", color: "white" }} color={"brand.chasescrollBlue"} py={"2px"} px={"2"} fontSize={"13px"} fontWeight={"medium"} rounded={"md"} >
+            <Flex onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} as={"button"} width={"fit-content"} mt={"8"} gap={"2"} alignItems={"center"} bgColor={secondaryBackgroundColor} borderColor={borderColor} borderWidth={"1px"} _hover={{background:"#5D70F9", color: "white"}}  color={bodyTextColor} py={"2px"} px={"2"} fontSize={"13px"} fontWeight={"medium"} rounded={"md"} >
                 View Attendees
             </Flex>
 

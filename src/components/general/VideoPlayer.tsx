@@ -14,7 +14,7 @@ function VideoPlayer({
 }) {
     const [isPlaying, setIsPlaying] = React.useState(false);
     const [isMuted, setIsMuted] = React.useState(true);
-    const [showControl, setShowControl] = React.useState(false);
+    const [showControl, setShowControl] = React.useState(true);
     const [heightt, setHeight]= React.useState(0);
     const [wiidth, setWidth] = React.useState(0);
     const [inView, setInView] = React.useState(false);
@@ -98,7 +98,7 @@ function VideoPlayer({
 
   return (
    <Box ref={boxRef as any} onDoubleClick={handleDoubleClick} onMouseOver={() => setShowControl(true)} onMouseOut={() => setShowControl(false)} width={'100%'} height={'100%'} maxH={'250px'} overflow={'hidden'} position={'relative'}>
-     <video ref={videoRef as any} style={{ width: '100%', height: '100%', maxHeight: '250px',}} onEnded={() => {
+     <video ref={videoRef as any} style={{ width: '100%', height: '100%', maxHeight: '250px', zIndex: 1, }} onEnded={() => {
       setIsPlaying(false);
       videoRef?.current?.pause();
      }}>
@@ -106,7 +106,7 @@ function VideoPlayer({
     </video>
     {
         showControl && (
-            <HStack width='100%' height={'50px'} justifyContent={'space-between'} bg={'#00000054'} position={'absolute'} bottom={'0'} paddingX='10px'>
+            <HStack width='100%' height={'50px'} justifyContent={'space-between'} bg={'#00000054'} position={'absolute'} bottom={'0'} paddingX='10px' zIndex={10}>
                 <HStack onClick={handlePlayPause} cursor={'pointer'}  justifyContent='center' alignItems={'center'} width={'30px'} height={'30px'} borderRadius={'15px'} bg='white'>
                     { !isPlaying && <Play size='20px' variant='Linear' color={THEME.COLORS.chasescrollButtonBlue} /> }
                     { isPlaying && <Pause size='20px' variant='Linear' color={THEME.COLORS.chasescrollButtonBlue}  />}

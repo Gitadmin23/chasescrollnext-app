@@ -156,13 +156,13 @@ function ProfileImage(props: Props) {
                         )}
                     </Box>
                     {userId === user_index && (
-                        <Flex bgColor={"#FFF"} color={"black"} py={"1"} gap={"3"} rounded={"full"} px={"4"} alignItems={"center"} justifyContent={"center"} >
+                        <Flex bgColor={mainBackgroundColor} color={"black"} py={"1"} gap={"3"} rounded={"full"} px={"4"} alignItems={"center"} justifyContent={"center"} >
                             <ShareEvent type='PROFILE' isprofile={true} id={user_index} />
                         </Flex>
                     )}
 
                     {userId !== user_index && (
-                        <Flex bgColor={"#FFF"} color={"black"} py={"1"} gap={"3"} rounded={"full"} px={"4"} alignItems={"center"} justifyContent={"center"}>
+                        <Flex bgColor={mainBackgroundColor} color={"black"} py={"1"} gap={"3"} rounded={"full"} px={"4"} alignItems={"center"} justifyContent={"center"}>
                             {isFriend && (
                                 <AddOrRemoveUserBtn profile={true} icon={true} name={
                                     (isFriend === "CONNECTED" || isFriend === "CONNECTFriend") ?

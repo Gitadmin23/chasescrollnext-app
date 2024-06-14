@@ -7,7 +7,23 @@ import RefundBtn from '@/components/sharedComponent/refundbtn'
 // import UserImage from '@/components/sharedComponent/userimage'
 // import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
 import httpService from '@/utils/httpService'
-import { Box, Flex, Select, Table, TableCaption, TableContainer, Tbody, Td, Text, Tfoot, Th, Thead, Tr, useToast } from '@chakra-ui/react'
+import {
+    Box,
+    Flex,
+    Select,
+    Table,
+    TableCaption,
+    TableContainer,
+    Tbody,
+    Td,
+    Text,
+    Tfoot,
+    Th,
+    Thead,
+    Tr,
+    useColorMode,
+    useToast
+} from '@chakra-ui/react'
 import React from 'react'
 import { useQuery } from 'react-query'
 import { FcApproval } from "react-icons/fc";
@@ -21,6 +37,7 @@ import { dateFormat, dateFormatDashboad, timeFormat } from '@/utils/dateFormat'
 import EventLocationDetail from '@/components/sharedComponent/event_location'
 import EventDate from '@/components/event_details_component/event_date'
 import { IoMdCloseCircle } from 'react-icons/io'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     index: any
@@ -30,6 +47,16 @@ function DashboardRefund(props: Props) {
     const {
         index
     } = props
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+        headerTextColor
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const toast = useToast()
     const [size, setSize] = React.useState(100)
@@ -244,8 +271,8 @@ function DashboardRefund(props: Props) {
                     Page: {data?.data?.totalPages}
                 </Flex>
                 <Flex width={"fit-content"} gap={"5"} ml={"auto"} >
-                    <CustomButton backgroundColor={"white"} fontWeight={"semibold"} border={"1px solid #3C41F0"} px={"10px"} color={"brand.chasescrollBlue"} fontSize={"xs"} height={"25px"} rounded={"32px"} onClick={() => setPage((prev) => prev - 1)} disable={data?.data?.first ? true : false} text='Previous' />
-                    <CustomButton backgroundColor={"white"} fontWeight={"semibold"} border={"1px solid #3C41F0"} px={"10px"} color={"brand.chasescrollBlue"} fontSize={"xs"} height={"25px"} rounded={"32px"} onClick={() => setPage((prev) => prev + 1)} disable={data?.data?.last ? true : false} text='Next' />
+                    <CustomButton backgroundColor={mainBackgroundColor} fontWeight={"semibold"} borderWidth={'1px'} borderColor={borderColor} px={"10px"} color={headerTextColor} fontSize={"xs"} height={"35px"} rounded={"42px"} onClick={() => setPage((prev) => prev - 1)} disable={data?.data?.first ? true : false} text='Previous' />
+                    <CustomButton backgroundColor={mainBackgroundColor} fontWeight={"semibold"} borderWidth={'1px'} borderColor={borderColor} px={"10px"} color={headerTextColor} fontSize={"xs"} height={"35px"} rounded={"42px"} onClick={() => setPage((prev) => prev + 1)} disable={data?.data?.last ? true : false} text='Next' />
                 </Flex>
             </Flex>
             <Flex py={"6"} gap={"4"} width={"full"} justifyContent={"center"} alignItems={"center"} >

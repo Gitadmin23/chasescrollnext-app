@@ -1,5 +1,5 @@
 import ModalLayout from '@/components/sharedComponent/modal_layout'
-import { Box, Flex, Text, useToast } from '@chakra-ui/react'
+import {Box, Flex, Text, useColorMode, useToast} from '@chakra-ui/react'
 import React, { useState } from 'react'
 import PaymentMethod from '../event_modal/payment_method'
 import SelectTicketNumber from '../event_modal/select_ticket_number'
@@ -17,6 +17,7 @@ import useModalStore from '@/global-state/useModalSwitch'
 import { useRouter } from 'next/navigation'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import { SuccessIcon } from '@/components/svg'
+import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
     isBought: any,
@@ -37,7 +38,17 @@ function GetEventTicket(props: Props) {
         setSelectedTicket,
         ticket,
         carousel
-    } = props
+    } = props;
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+        headerTextColor
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const STRIPE_KEY: any = process.env.NEXT_PUBLIC_STRIPE_KEY;
     // const [stripePromise, setStripePromise] = React?.useState(() => loadStripe(STRIPE_KEY))
@@ -143,7 +154,7 @@ function GetEventTicket(props: Props) {
         <>
             {!carousel && (
                 <>
-                    {!selectedTicket?.rerouteURL ?
+                    {!selectedTicket?.rerouteURL ? 
                         <CustomButton backgroundColor={isBought ? "#3EC259" : "brand.chasescrollBgBlue"} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} /> :
                         <a href={selectedTicket?.rerouteURL} target="_blank" >
                             <CustomButton backgroundColor={isBought ? "#3EC259" : "brand.chasescrollBgBlue"} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} />
@@ -153,7 +164,7 @@ function GetEventTicket(props: Props) {
             )}
             {carousel && (
                 <Box >
-                    <CustomButton onClick={modalHandler} fontSize={"sm"} borderColor={"brand.chasescrollBlue"} color={"white"} borderWidth={"1px"} px={"4"} text={"Get Ticket Now"} width={["172px"]} />
+                    <CustomButton onClick={modalHandler} fontSize={"sm"} borderColor={"brand.chasescrollBlue"} color={"white"} borderWidth={"1px"} px={"4"} text={"Get Ticket Now"} width={["172px"]} bg={secondaryBackgroundColor} />
                 </Box>
             )}
             <ModalLayout size={modalTab === 5  ? ["md", "md" , "3xl"] : "md"} title={modalTab === 6 ? "Ticket available for this event" : ""} open={showModal} close={setShowModal} >
@@ -183,9 +194,9 @@ function GetEventTicket(props: Props) {
                 {modalTab === 7 && (
                     <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
                         <SuccessIcon />
-                        <Text fontSize={"24px"} color={"#151515"} lineHeight={"44.8px"} fontWeight={"500"} mt={"4"} >Ticket Purchase Successful</Text>
-                        <Text fontSize={"12px"} color={"#626262"} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Congratulations! You now have a ticket to this event. Kindly proceed to "My Events" to access it.`}</Text>
-                        <CustomButton onClick={() => closeHandler()} color={"#12299C"} text='Close' w={"full"} backgroundColor={"white"} border={"1px solid #12299C75"} />
+                        <Text fontSize={"24px"} color={"#121212"} lineHeight={"44.8px"} fontWeight={"500"} mt={"4"} >Ticket Purchase Successful</Text>
+                        <Text fontSize={"12px"} color={"#626262"} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Congratulations! you can also find your ticket on the Chasescroll app, ON THE EVENT DETAILS page click on the view ticket button.`}</Text>
+                        <CustomButton onClick={() => setModalTab(5)} color={"#FFF"} text='View Ticket' w={"full"} backgroundColor={"#3EC259"} />
                     </Flex>
                 )}
             </ModalLayout>

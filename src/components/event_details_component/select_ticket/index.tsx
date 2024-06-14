@@ -83,8 +83,8 @@ function SelectTicket(props: Props) {
     return (
         <Flex gap={"3"} position={"relative"} alignItems={"center"} justifyContent={"end"} pl={"5"}  >
             <Flex onClick={() => setShowModal(true)} as={"button"} borderColor={"brand.chasescrollBlue"} rounded={"lg"} borderWidth={"1px"} height={"49px"} width={"full"} justifyContent={"center"} alignItems={"center"} >
-                <Text fontSize={"sm"} color={"brand.chasescrollBlue"} >
-                    {selectedticket?.ticketType ? selectedticket?.ticketType : "Select Ticket Type"}{" "}
+                <Text fontSize={"sm"} color={colorMode === 'light' ? "brand.chasescrollBlue":bodyTextColor} >
+                    {selectedticket?.ticketType ? selectedticket?.ticketType : "Select Ticket"}{" "}
                     {selectedticket?.ticketType ? formatNumber(selectedticket?.ticketPrice, currency === "USD" ? "$" : "₦") : ""}
                 </Text>
             </Flex>

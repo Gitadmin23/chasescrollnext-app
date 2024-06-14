@@ -2,6 +2,8 @@ import { Box, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
 import UserImage from '../userimage'
 import { formatNumberWithK } from '@/utils/formatNumberWithK'
+import useCustomTheme from "@/hooks/useTheme";
+import CustomText from "@/components/general/Text";
 
 interface Props {
     event: any,
@@ -22,7 +24,7 @@ function InterestedUsers(props: Props) {
         color
     } = props
 
-    console.log(event);    
+    const { bodyTextColor, primaryColor,secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
 
     return (
         <>
@@ -43,9 +45,9 @@ function InterestedUsers(props: Props) {
                         </Box>
                     }
                     {!refund && (
-                        <Text color={color ? color : "#1732F7"} ml={"2"} fontSize={(fontSize - 2) + "px"} >
+                        <CustomText color={color ? color : primaryColor} ml={"2"} fontSize={(fontSize - 2) + "px"}  fontFamily={'DM-Bold'}>
                             Interested
-                        </Text>
+                        </CustomText>
                     )}
                 </Flex>
             )}
