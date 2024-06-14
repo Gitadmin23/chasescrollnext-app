@@ -917,7 +917,7 @@ export const ShareIcon = (props: any) => {
   );
 };
 
-export const ScanIcon = ({color}: {color?:string}) => {
+export const ScanIcon = ({ color }: { color?: string }) => {
   return (
     <svg
       width="24"
@@ -1017,7 +1017,7 @@ export const GreenTick = () => (
   </svg>
 );
 
-export const RoundArrow = () => (
+export const RoundArrow = ({ color }: { color?: string }) => (
   <svg
     width="24"
     height="24"
@@ -1027,7 +1027,7 @@ export const RoundArrow = () => (
   >
     <path
       d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z"
-      stroke="#121212"
+      stroke={color ?? "#121212"}
       strokeWidth="1.5"
       stroke-miterlimit="10"
       strokeLinecap="round"
@@ -1035,7 +1035,7 @@ export const RoundArrow = () => (
     />
     <path
       d="M10.74 8.47125L14.26 12.0013L10.74 15.5312"
-      stroke="#121212"
+      stroke={color ?? "#121212"}
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -1043,7 +1043,7 @@ export const RoundArrow = () => (
   </svg>
 );
 
-export const EventCalenderIcon = ({color}: {color?:string}) => (
+export const EventCalenderIcon = ({ color }: { color?: string }) => (
   <svg
     width="24"
     height="24"
@@ -1057,7 +1057,7 @@ export const EventCalenderIcon = ({color}: {color?:string}) => (
     />
   </svg>
 );
-export const PaymentIcon = ({color}: {color?:string}) => (
+export const PaymentIcon = ({ color }: { color?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -1067,11 +1067,11 @@ export const PaymentIcon = ({color}: {color?:string}) => (
   >
     <path
       d="M12.89 11.1C11.11 10.51 10.25 10.14 10.25 9.2C10.25 8.18 11.36 7.81 12.06 7.81C13.37 7.81 13.85 8.8 13.96 9.15L15.54 8.48C15.39 8.03 14.72 6.56 13 6.24V5H11V6.26C8.52 6.82 8.51 9.12 8.51 9.22C8.51 11.49 10.76 12.13 11.86 12.53C13.44 13.09 14.14 13.6 14.14 14.56C14.14 15.69 13.09 16.17 12.16 16.17C10.34 16.17 9.82 14.3 9.76 14.08L8.1 14.75C8.73 16.94 10.38 17.53 11 17.71V19H13V17.76C13.4 17.67 15.9 17.17 15.9 14.54C15.9 13.15 15.29 11.93 12.89 11.1ZM3 21H1V15H7V17H4.52C6.13 19.41 8.88 21 12 21C14.3869 21 16.6761 20.0518 18.364 18.364C20.0518 16.6761 21 14.3869 21 12H23C23 18.08 18.08 23 12 23C8.28 23 4.99 21.15 3 18.33V21ZM1 12C1 5.92 5.92 1 12 1C15.72 1 19.01 2.85 21 5.67V3H23V9H17V7H19.48C17.87 4.59 15.12 3 12 3C9.61305 3 7.32387 3.94821 5.63604 5.63604C3.94821 7.32387 3 9.61305 3 12H1Z"
-      fill={color ?? 'black'}
+      fill={color ?? "black"}
     />
   </svg>
 );
-export const ChangePasswordIcon = ({color}: {color?:string}) => (
+export const ChangePasswordIcon = ({ color }: { color?: string }) => (
   <svg
     width="24"
     height="24"
@@ -1093,7 +1093,7 @@ export const ChangePasswordIcon = ({color}: {color?:string}) => (
     />
   </svg>
 );
-export const ProfileCircle = ({color}: {color?:string}) => (
+export const ProfileCircle = ({ color }: { color?: string }) => (
   <svg
     width="24"
     height="24"
@@ -1124,7 +1124,7 @@ export const ProfileCircle = ({color}: {color?:string}) => (
     />
   </svg>
 );
-export const TermsAndPrivacy = ({color}: {color?:string}) => (
+export const TermsAndPrivacy = ({ color }: { color?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -1138,7 +1138,7 @@ export const TermsAndPrivacy = ({color}: {color?:string}) => (
     />
   </svg>
 );
-export const FlaggedIcon = ({color}: {color?:string}) => (
+export const FlaggedIcon = ({ color }: { color?: string }) => (
   <svg
     width="16"
     height="20"
@@ -1157,7 +1157,7 @@ export const FlaggedIcon = ({color}: {color?:string}) => (
     </g>
   </svg>
 );
-export const RequestEnhancementIcon = ({color}: {color?:string}) => (
+export const RequestEnhancementIcon = ({ color }: { color?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -1171,7 +1171,7 @@ export const RequestEnhancementIcon = ({color}: {color?:string}) => (
     />
   </svg>
 );
-export const BlockedUserIcon = ({color}: {color?:string}) => (
+export const BlockedUserIcon = ({ color }: { color?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -1186,7 +1186,7 @@ export const BlockedUserIcon = ({color}: {color?:string}) => (
   </svg>
 );
 
-export const DeleteAccountIcon = ({color}: {color?:string}) => (
+export const DeleteAccountIcon = ({ color }: { color?: string }) => (
   <svg
     width="24"
     height="24"
@@ -1437,7 +1437,7 @@ export const CashoutIcon = () => (
   </svg>
 );
 
-export const MiniTicketIcon = ({color}: { color?:string}) => (
+export const MiniTicketIcon = ({ color }: { color?: string }) => (
   <svg
     width="18"
     height="18"
@@ -2484,7 +2484,7 @@ export const MessageIconColored = () => (
   </svg>
 );
 
-export const MessageIcon = () => (
+export const MessageIcon = ({ color }: { color?: string }) => (
   <svg
     width="24"
     height="24"
@@ -2586,7 +2586,7 @@ export const SettingsIcon = () => (
   </svg>
 );
 
-export const AddIcon = ({color}: {color?:string}) => (
+export const AddIcon = ({ color }: { color?: string }) => (
   <svg
     width="38"
     height="38"
@@ -4201,7 +4201,7 @@ export const Chat = () => (
   </svg>
 );
 
-export const SubtractIcon = ({color}: {color?: string}) => (
+export const SubtractIcon = ({ color }: { color?: string }) => (
   <svg
     width="30"
     height="30"
