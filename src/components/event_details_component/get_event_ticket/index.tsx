@@ -155,7 +155,7 @@ function GetEventTicket(props: Props) {
             {!carousel && (
                 <>
                     {!selectedTicket?.rerouteURL ?
-                        <CustomButton backgroundColor={isBought ? "#3EC259" : "brand.chasescrollBgBlue"} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} /> :
+                        <CustomButton backgroundColor={isBought ? "#3EC259" : ""} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} /> :
                         <a href={selectedTicket?.rerouteURL} target="_blank" >
                             <CustomButton backgroundColor={isBought ? "#3EC259" : "brand.chasescrollBgBlue"} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} />
                         </a>
@@ -194,9 +194,9 @@ function GetEventTicket(props: Props) {
                 {modalTab === 7 && (
                     <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
                         <SuccessIcon />
-                        <Text fontSize={"24px"} color={"#151515"} lineHeight={"44.8px"} fontWeight={"500"} mt={"4"} >Ticket Purchase Successful</Text>
-                        <Text fontSize={"12px"} color={"#626262"} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Congratulations! You now have a ticket to this event. Kindly proceed to "My Events" to access it.`}</Text>
-                        <CustomButton onClick={() => closeHandler()} color={"#12299C"} text='Close' w={"full"} backgroundColor={"white"} border={"1px solid #12299C75"} />
+                        <Text fontSize={"24px"} color={"#121212"} lineHeight={"44.8px"} fontWeight={"500"} mt={"4"} >Ticket Purchase Successful</Text>
+                        <Text fontSize={"12px"} color={"#626262"} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Congratulations! you can also find your ticket on the Chasescroll app, ON THE EVENT DETAILS page click on the view ticket button.`}</Text>
+                        <CustomButton onClick={() => setModalTab(5)} color={"#FFF"} text='View Ticket' w={"full"} backgroundColor={"#3EC259"} />
                     </Flex>
                 )}
             </ModalLayout>
