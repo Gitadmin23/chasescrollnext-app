@@ -143,6 +143,8 @@ function GetEventTicket(props: Props) {
 
     return (
         <>
+
+        
             {!carousel && (
                 <> 
                     {!selectedTicket?.rerouteURL ?
