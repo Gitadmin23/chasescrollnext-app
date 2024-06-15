@@ -99,7 +99,7 @@ function CashOut(props: Props) {
       )}
       {!show && (
         <CustomButton
-          backgroundColor={secondaryBackgroundColor}
+          backgroundColor={"#12299C"}
           borderRadius={"8px"}
           onClick={() => setShow(true)}
           text="Cash out"
