@@ -1,4 +1,5 @@
 import CustomButton from '@/components/general/Button';
+import { AddIcon, SubtractIcon } from '@/components/svg';
 import useEventStore from '@/global-state/useCreateEventState';
 import { Box, Flex, Input, Select, useToast } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
@@ -27,8 +28,8 @@ function SelectTicket(props: Props) {
                 minTicketBuy: null,
                 maxTicketBuy: null
             },]
-        }  
-        
+        }
+
         if (name === "minTicketBuy" && value > 5) {
             toast({
                 status: "error",
@@ -37,7 +38,7 @@ function SelectTicket(props: Props) {
                 position: "top-right"
             })
             console.log("min stop");
-            
+
         } else if (name === "maxTicketBuy" && value > 50) {
             toast({
                 status: "error",
@@ -56,6 +57,26 @@ function SelectTicket(props: Props) {
     };
 
 
+    const MaxTicketHandler = (index: number, type: string) => {
+        let clone: any = { ...eventdata }
+        if (type === "add") {
+            if ((Number(eventdata.productTypeData[index]?.maxTicketBuy) + 1) <= 50) {
+                clone.productTypeData[index]["maxTicketBuy"] = Number(eventdata.productTypeData[index]?.maxTicketBuy) + 1
+            } else {
+                toast({
+                    status: "error",
+                    title: "Error",
+                    description: "maximum ticket can't be greater than 50",
+                    position: "top-right"
+                })
+                return
+            }
+        } else {
+            clone.productTypeData[index]["maxTicketBuy"] = Number(eventdata.productTypeData[index]?.maxTicketBuy) - 1
+        }
+        updateEvent(clone)
+    }
+
 
     const handleChangeCurrency = ({ target: { name, value, type } }: any) => {
         if (name === "isPublic" || name === "attendeesVisibility") {
@@ -73,7 +94,7 @@ function SelectTicket(props: Props) {
 
     useEffect(() => {
 
-        const clone = {...eventdata}
+        const clone = { ...eventdata }
 
         clone?.productTypeData?.map((item, index) => {
             return clone.productTypeData[index]["minTicketBuy"] = "1"
@@ -138,7 +159,7 @@ function SelectTicket(props: Props) {
         })
     }
     console.log(eventdata?.productTypeData);
-    
+
 
     return (
         <Flex flexDirection={"column"} gap={"4"} width={"full"} >
@@ -242,7 +263,7 @@ function SelectTicket(props: Props) {
                                 value={eventdata.productTypeData[index]?.minTicketBuy ?? ""}
                                 name="minTicketBuy"
                                 onChange={e => handleMaxTicket(index, "minTicketBuy", e.target.value)} /> */}
-                            <Input
+                            {/* <Input
                                 h={"45px"}
                                 type="number"
                                 // disabled={Number(eventdata.productTypeData[index]?.totalNumberOfTickets) <= 0 ? true : false}
@@ -252,7 +273,21 @@ function SelectTicket(props: Props) {
                                 placeholder="Type in maximum no. of Tickets"
                                 value={eventdata.productTypeData[index]?.maxTicketBuy ?? ""}
                                 name="maxTicketBuy"
-                                onChange={e => handleMaxTicket(index, "maxTicketBuy", e.target.value)} />
+                                onChange={e => handleMaxTicket(index, "maxTicketBuy", e.target.value)} /> */}
+                            <Flex alignItems={"center"} rounded={"16px"} borderWidth={"1px"} borderColor={"#CDD3FD"} w={"full"} flexDir={"column"} py={"4"} >
+                                {/* <Text color={colorMode === 'light' ? "#667085" : bodyTextColor} > */}
+                                {/* Number of Tickets
+                                </Text> */}
+                                <Flex gap={"5"} alignItems={"center"} py={"1"}  >
+                                    <Box disabled={eventdata.productTypeData[index]?.maxTicketBuy === 0} onClick={() => MaxTicketHandler(index, "subtract")} as='button' >
+                                        <SubtractIcon />
+                                    </Box>
+                                    {eventdata.productTypeData[index]?.maxTicketBuy ?? 0}
+                                    <Box onClick={() => MaxTicketHandler(index, "add")} as='button' >
+                                        <AddIcon />
+                                    </Box>
+                                </Flex>
+                            </Flex>
                         </Flex>
                         {eventdata.productTypeData[index]?.ticketType && (
                             <>

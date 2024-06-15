@@ -259,14 +259,15 @@ function LoginPage() {
   }
 
   const tempFunc = () => {
-    toast({
-      title: 'Infomation',
-      description: 'Please sign-up with google',
-      status: 'info',
-      isClosable: true,
-      duration: 5000,
-      position: 'top-right',
-    });
+    // toast({
+    //   title: 'Infomation',
+    //   description: 'Please sign-up with google',
+    //   status: 'info',
+    //   isClosable: true,
+    //   duration: 5000,
+    //   position: 'top-right',
+    // }); 
+    router?.push("/auth/signup")
   }
 
   return renderForm(

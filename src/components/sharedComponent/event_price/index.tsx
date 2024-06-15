@@ -33,7 +33,7 @@ function EventPrice(props: Props) {
         <Text>
             {!indetail && (
                 <>
-                    {(minPrice === 0 && maxPrice === 0) ?
+                    {(minPrice === 0 && maxPrice === 0) || (!minPrice && !maxPrice) ?
                         "Free" :
                         <>
                             {minPrice === maxPrice && (

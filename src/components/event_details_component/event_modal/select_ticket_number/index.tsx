@@ -15,6 +15,7 @@ import React, { useEffect } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import PayStackBtn from '../paystack_btn'
 import useCustomTheme from "@/hooks/useTheme";
+import useStripeStore from '@/global-state/useStripeState'
 
 interface Props {
     data: IEvent,
@@ -65,6 +66,7 @@ function SelectTicketNumber(props: Props) {
     let usdtotal = ((((selectedTicket?.ticketPrice * numbOfTicket) * 1.015) + 0.39) / (1 - 0.059))
     let nairatotal = ((((selectedTicket?.ticketPrice * numbOfTicket) * 1.015) + 100) / (1 - 0.015))
     let nairatotalnew = ((((selectedTicket?.ticketPrice * numbOfTicket) * 1.015)) / (1 - 0.015))
+    const { setModalTab, modalTab } = useStripeStore((state: any) => state);
 
     const createTicket = useMutation({
         mutationFn: (data: any) => httpService.post(URLS.CREATE_TICKET, data),
@@ -85,7 +87,8 @@ function SelectTicketNumber(props: Props) {
             // queryClient.invalidateQueries(['all-events-details' + id])
             // router.refresh()
             // window.location.reload()
-            close(false)
+            // close(false)
+            setModalTab(7)
         },
         onError: (error) => {
             toast({

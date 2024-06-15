@@ -58,9 +58,7 @@ function GetEventTicket(props: Props) {
 
     // const [modalTab, setModalTab] = useState(1)
     const [numbOfTicket, setNumberOfTicket] = React.useState(1)
-    // const [open, setopen] = useState(false) 
-    const [ticketDetails, setTicketDetails] = useState({} as any)
-    const [ticketLenght, setTicketLenght] = useState(0)
+    // const [open, setopen] = useState(false)  
     const { userId: user_index } = useDetails((state) => state);
     const toast = useToast()
     const token = sessionStorage.getItem('tp_token')
@@ -145,17 +143,21 @@ function GetEventTicket(props: Props) {
         })
     }, [createTicket])
 
-    const goback = (item: boolean) => {
+    const goback = () => {
+        if (showModal) {
+            setShowModal(false)
+        } else {
+            setShowModal(true)
+        }
         setModalTab(4)
-        setShowModal(item)
     }
 
     return (
-        <> 
+        <>
             {!carousel && (
-                <> 
+                <>
                     {!selectedTicket?.rerouteURL ?
-                        <CustomButton backgroundColor={isBought ? "#3EC259": ""} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} /> :
+                        <CustomButton backgroundColor={isBought ? "#3EC259" : ""} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} /> :
                         <a href={selectedTicket?.rerouteURL} target="_blank" >
                             <CustomButton backgroundColor={isBought ? "#3EC259" : ""} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} />
                         </a>
@@ -195,7 +197,7 @@ function GetEventTicket(props: Props) {
                     <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
                         <SuccessIcon />
                         <Text fontSize={"24px"} color={"#121212"} lineHeight={"44.8px"} fontWeight={"500"} mt={"4"} >Ticket Purchase Successful</Text>
-                        <Text fontSize={"12px"} color={"#626262"} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Congratulations! you can also find your ticket on the Chasescroll app, ON THE EVENT DETAILS page click on the view ticket button.`}</Text>
+                        <Text fontSize={"12px"} color={"#626262"} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Congratulations! you can also find your ticket on the Chasescroll app, on the details page click on the view ticket button.`}</Text>
                         <CustomButton onClick={() => setModalTab(5)} color={"#FFF"} text='View Ticket' w={"full"} backgroundColor={"#3EC259"} />
                     </Flex>
                 )}
