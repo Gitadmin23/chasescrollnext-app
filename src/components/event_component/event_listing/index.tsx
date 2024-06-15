@@ -24,37 +24,37 @@ function EventListing(props: Props) {
             )}
             <LoadingAnimation loading={isLoading} customLoader={
                 <Grid width={["full", "full", "full", "full", "full"]} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(3, 1fr)']} gap={5}> 
-                    <GridItem maxWidth={["500px", "500px", "500px", "500px", "500px"]}  >
+                    <GridItem maxWidth={["full", "full", "full", "full", "full"]}  >
                         <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
                     </GridItem>
-                    <GridItem maxWidth={["500px", "500px", "500px", "500px", "500px"]}  >
+                    <GridItem maxWidth={["full", "full", "full", "full", "full"]}  >
                         <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
                     </GridItem>
-                    <GridItem maxWidth={["500px", "500px", "500px", "500px", "500px"]}  >
+                    <GridItem maxWidth={["full", "full", "full", "full", "full"]}  >
                         <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
                     </GridItem>
-                    <GridItem maxWidth={["500px", "500px", "500px", "500px", "500px"]}  >
+                    <GridItem maxWidth={["full", "full", "full", "full", "full"]}  >
                         <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
                     </GridItem>
-                    <GridItem maxWidth={["500px", "500px", "500px", "500px", "500px"]}  >
+                    <GridItem maxWidth={["full", "full", "full", "full", "full"]}  >
                         <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
                     </GridItem>
                 </Grid>
             } refeching={isRefetching} length={results?.length} >
                 <>
                     {!limit && (
-                        <Grid width={["fit", "fit", "auto", "auto", "auto"]} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(3, 1fr)']} gap={5}>
+                        <Grid width={["full", "full", "full", "full", "full"]} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(3, 1fr)']} gap={5}>
                             {results?.map((event: any, i: number) => {
                                 if (results.length === i + 1) {
                                     return (
-                                        <GridItem key={i} maxWidth={["full", "full", "500px", "500px", "500px"]} ref={ref} >
-                                            <ExploreEventCard date={true} page={true} event={event} />
+                                        <GridItem key={i} w={["full", "full", "full", "full", "full"]} ref={ref} >
+                                            <ExploreEventCard landing={true} date={true} page={true} event={event} />
                                         </GridItem>
                                     )
                                 } else {
                                     return (
-                                        <GridItem key={i} maxWidth={["full", "full", "500px", "500px", "500px"]}  >
-                                            <ExploreEventCard date={true} page={true} event={event} />
+                                        <GridItem key={i} w={["full", "full", "full", "full", "full"]}  >
+                                            <ExploreEventCard landing={true} date={true} page={true} event={event} />
                                         </GridItem>
                                     )
                                 }
@@ -62,11 +62,11 @@ function EventListing(props: Props) {
                         </Grid>
                     )}
                     {limit && (
-                        <Grid width={["fit", "fit", "auto", "auto", "auto"]} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(3, 1fr)']} gap={5}>
+                        <Grid width={["full", "full", "full", "full", "full"]} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(3, 1fr)']} gap={5}>
                             {results?.map((event: any, i: number) => {
                                 return (
-                                    <GridItem key={i} maxWidth={["full", "full", "500px", "500px", "500px"]}  >
-                                        <ExploreEventCard landing={limit} date={true} page={true} event={event} />
+                                    <GridItem key={i} w={["full", "full", "full", "full", "full"]}  >
+                                        <ExploreEventCard limit={true} landing={limit} date={true} page={true} event={event} />
                                     </GridItem>
                                 )
                             })}
