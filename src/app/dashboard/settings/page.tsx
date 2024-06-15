@@ -1,11 +1,13 @@
+
 "use client"
+import CustomText from "@/components/general/Text"
 import DeleteAccountModal from "@/components/modals/DeleteAccountModal"
 import ReportEnhancement from "@/components/modals/Settings/ReportEnhancement"
 import ReportBug from "@/components/modals/Settings/SettingsReport"
 import { BlockedUserIcon, ChangePasswordIcon, DeleteAccountIcon, EventCalenderIcon, FlaggedIcon, PaymentIcon, ProfileCircle, RequestEnhancementIcon, TermsAndPrivacy } from "@/components/svg"
 import { useDetails } from "@/global-state/useUserDetails"
 import useCustomTheme from "@/hooks/useTheme"
-import { Box, Flex, useColorMode } from "@chakra-ui/react"
+import { Box, Flex, Switch, useColorMode } from "@chakra-ui/react"
 import { useRouter } from "next/navigation"
 import React from 'react'
 import { IoIosArrowBack } from "react-icons/io"
@@ -164,6 +166,12 @@ function Settings(props: Props) {
                                     {item?.type}
                                 </Flex>
                             }
+                            {item?.type === "Account Settings" && ( 
+                                <Flex gap={"4"} display={["flex", "flex", "flex", "none"]}  width='100%' height='70px' alignItems={'center'}>
+                                    <CustomText color={bodyTextColor} fontFamily={'DM-Bold'}>{'Dark Mode'}</CustomText>
+                                    <Switch isChecked={colorMode === 'dark'} size={'md'} onChange={() => toggleColorMode()} />
+                                </Flex>
+                            )}
                             {item?.route !== '' && item?.route?.startsWith("https://") &&
                                 <a href={item.route} key={index}  >
                                     <Flex key={index} as={item?.type !== "Support & Help" ? "button" : "div"} alignItems={"center"} color={item?.type !== "Support & Help" ? bodyTextColor : bodyTextColor} my={item?.type !== "Support & Help" ? "0px" : "4"} fontWeight={item?.type !== "Support & Help" ? "400" : "bold"} fontSize={"15px"} py={"3"} gap={"1"}  >
