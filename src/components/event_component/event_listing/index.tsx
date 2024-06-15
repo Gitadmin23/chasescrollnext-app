@@ -66,7 +66,7 @@ function EventListing(props: Props) {
                             {results?.map((event: any, i: number) => {
                                 return (
                                     <GridItem key={i} w={["full", "full", "full", "full", "full"]}  >
-                                        <ExploreEventCard landing={limit} date={true} page={true} event={event} />
+                                        <ExploreEventCard limit={true} landing={limit} date={true} page={true} event={event} />
                                     </GridItem>
                                 )
                             })}
