@@ -13,8 +13,7 @@ import InterestedUsers from "../interested_users";
 import ShareEvent from "../share_event";
 import useSearchStore from "@/global-state/useSearchData";
 import { useDetails } from "@/global-state/useUserDetails";
-import BlurredImage from "../blurred_image";
-import { Log } from "victory";
+import BlurredImage from "../blurred_image"; 
 import useCustomTheme from "@/hooks/useTheme";
 import moment from "moment";
 import { textLimit } from "@/utils/textlimit";
@@ -31,6 +30,7 @@ interface Props {
   past?: boolean;
   dashboard?: boolean;
   landing?: boolean;
+  limit?: boolean
 }
 
 function ExploreEventCard(props: Props) {
@@ -46,6 +46,7 @@ function ExploreEventCard(props: Props) {
     past,
     dashboard,
     landing,
+    limit
   } = props;
 
   const router = useRouter();
@@ -84,19 +85,19 @@ function ExploreEventCard(props: Props) {
   };
 
   return (
-    <Box
+    <Flex
       boxShadow={page ? "md" : "none"}
       cursor={"pointer"}
       onClick={() => clickHandler()}
       py={searchbar ? (landing ? "0px" : "2") : ["6", "6", "4"]}
-      px={landing ? "" : ["6", "6", "4"]}
-      roundedBottom={"32px"}
-      flex={"1"}
+    //   px={landing ? "" : ["6", "6", "4"]}
+      roundedBottom={"32px"} 
       roundedTopLeft={"32px"}
       borderColor={borderColor}
       borderBottomWidth={searchbar ? " " : "0.5px"}
-      maxWidth={["400px", "400px", "full"]}
+    //   maxWidth={["full", "full", "full"]}
       width={"full"}
+      height={"full"}
     >
       <Flex
         flexDirection={["column", "column", page ? "column" : "row"]}
@@ -105,7 +106,7 @@ function ExploreEventCard(props: Props) {
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Box width={["full", "full", page ? "full" : "fit-content"]}>
+        <Box width={["full", "full", page ? "full" : "full"]}>
           {page ? (
             <BlurredImage
               height={
@@ -352,13 +353,12 @@ function ExploreEventCard(props: Props) {
           </Box>
         )}
         {landing && (
-          <Flex w={"full"} flexDir={"column"} px={"4"} pt={"6"}>
+          <Flex flexDir={"column"} w={"full"} height={"full"} px={"4"} pt={"6"}>
             <Flex
               w={"full"}
               gap={"4"}
               py={"1"}
-              borderBottomWidth={"1px"}
-              borderBottomColor={"#EFF1FE"}
+              pb={"4"}
             >
               <Flex w={"fit-content"} flexDir={"column"} fontWeight={"bold"}>
                 <Flex
@@ -382,21 +382,24 @@ function ExploreEventCard(props: Props) {
                   </Text>
                 </Flex>
               </Flex>
-              <Flex flexDir={"column"}>
+              <Flex w={"full"} flexDir={"column"}>
                 <Text lineHeight={"24px"} fontWeight={"700"} textAlign={"left"}>
-                  {textLimit(event?.eventName, 30)}
+                  {textLimit(event?.eventName, limit ? 30: 16)}
                 </Text>
                 <Text fontSize={"14px"}>
-                  {textLimit(event?.eventDescription, 70)}
+                  {textLimit(event?.eventDescription, limit ? 70: 35)}
                 </Text>
               </Flex>
             </Flex>
             <Flex
               w={"full"}
               h={"40px"}
-              mt={"2"}
+              mt={"auto"}
+              pt={"2"}
               justifyContent={"space-between"}
               alignItems={"center"}
+              borderTopWidth={"1px"}
+              borderTopColor={"#EFF1FE"}
             >
               <InterestedUsers
                 fontSize={16}
@@ -416,7 +419,7 @@ function ExploreEventCard(props: Props) {
           </Flex>
         )}
       </Flex>
-    </Box>
+    </Flex>
   );
 }
 
