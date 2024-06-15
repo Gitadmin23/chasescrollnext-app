@@ -27,7 +27,7 @@ export default function Faq() {
             <Flex w={"full"} h={"full"} flexDir={"column"} pr={["0px", "0px", "4"]} justifyContent={"center"} gap={["4", "4", "7"]} alignItems={"start"} >
                 <Text maxW={["190px", "190px", "347.48px"]} fontWeight={"semibold"} fontSize={["20px", "20px", "45px"]}  >Have questions? We have <span style={{ color: THEME?.COLORS?.chasescrollBlue }} >answers</span></Text>
                 <Text fontSize={["12px", "12px", "15.38px"]} lineHeight={["17px", "17px", "26px"]} fontWeight={"medium"} >Want to know more? You can email us anytime at <span style={{ color: THEME?.COLORS?.chasescrollBlue, fontWeight: "400" }} >support@chasescroll.com</span></Text>
-                <CustomButton onClick={() => router.push("/auth")} text={"Get Started"} width={"152px"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"52px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
+                <CustomButton onClick={() => router.push("/auth/signup")} text={"Get Started"} width={"152px"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"52px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
             </Flex>
             <Flex pl={["0px", "0px", "4"]} w={"full"} flexDir={"column"} alignItems={"center"} borderLeftWidth={["0px", "0px", "0px", "1px"]} borderLeftColor={"#E2E8F0"} >
                 {FAQDATA?.map((item: {
