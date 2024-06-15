@@ -109,7 +109,7 @@ function ViewTicket(props: Props) {
         <LoadingAnimation loading={isLoading} >
             <Flex p={"6"} shadow={"lg"} flexDirection={"column"} bg={"#eee"} roundedTop={"md"} width={"full"} alignItems={"center"} justifyContent={"center"} px={"2"} gap={"2"} >
                 <Flex  maxW={["750px"]} position={"relative"} gap={"4"} px={"4"} mb={"4"} width={"full"} justifyContent={"space-between"} alignItems={"center"} >
-                    <Box pos={"relative"} zIndex={"10"} onClick={() => click(false)} as='button' >
+                    <Box pos={"relative"} zIndex={"10"} onClick={click} as='button' >
                         <IoClose size={"30px"} />
                     </Box>
                     <Flex pos={"absolute"} w={"full"} justifyContent={"center"} >
