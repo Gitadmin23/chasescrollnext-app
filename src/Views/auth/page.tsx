@@ -32,11 +32,11 @@ const LINK2 = [
     link: "/auth",
     isExternal: false
   },
-  {
-    name: "Sign up",
-    link: "/auth/signup",
-    isExternal: true
-  },
+  // {
+  //   name: "Sign up",
+  //   link: "/auth/signup",
+  //   isExternal: true
+  // },
   {
     name: "Home",
     link: "/home",
@@ -259,15 +259,15 @@ function LoginPage() {
   }
 
   const tempFunc = () => {
-    // toast({
-    //   title: 'Infomation',
-    //   description: 'Please sign-up with google',
-    //   status: 'info',
-    //   isClosable: true,
-    //   duration: 5000,
-    //   position: 'top-right',
-    // }); 
-    router?.push("/auth/signup")
+    toast({
+      title: 'Infomation',
+      description: 'Please sign-up with google',
+      status: 'info',
+      isClosable: true,
+      duration: 5000,
+      position: 'top-right',
+    }); 
+    // router?.push("/auth/signup")
   }
 
   return renderForm(
@@ -300,21 +300,21 @@ function LoginPage() {
               <CustomInput name='username' isPassword={false} type='text' placeholder='Enter your Email or Username' />
               <CustomInput name='password' isPassword type='password' placeholder='Enter your password' />
 
-              <HStack justifyContent={'space-between'} spacing={0} width='100%' marginY='0px'>
-                <Link href='/auth/forgotpassword'>
+              <Flex gap={["5", "5", "0px"]} justifyContent={["start", "start", 'space-between']} flexDir={["column", "column", "row"]} width='100%' marginY='0px'>
+                <Link  href='/auth/forgotpassword'>
                   <CustomText color='brand.chasescrollBlue' fontSize={'sm'} fontFamily={'Satoshi-Regular'} textAlign={'left'}>
                     Forgot password ?
                   </CustomText>
                 </Link>
 
-                <CustomText  fontSize={'sm'} fontFamily={'Satoshi-Regular'}>
+                <CustomText textAlign={"right"} fontSize={'sm'} fontFamily={'Satoshi-Regular'}>
                   Dont have an account ?
-                  <span onClick={tempFunc} style={{color: THEME.COLORS.chasescrollBlue}}> Sign up</span>
+                  <span role='button' onClick={tempFunc} style={{color: THEME.COLORS.chasescrollBlue}}> Sign up</span>
                   {/*<Link href='/auth/signup'>*/}
                   {/*  <span style={{color: THEME.COLORS.chasescrollBlue}}> Sign up</span>*/}
                   {/*</Link>*/}
                 </CustomText>
-              </HStack>
+              </Flex>
 
               <CustomButton type='submit' text='Login' isLoading={isLoading} color='white' width='100%' borderRadius='10px' />
 
