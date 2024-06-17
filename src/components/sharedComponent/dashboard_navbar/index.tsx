@@ -81,7 +81,7 @@ function DashboardNavbar(props: Props) {
                 <HStack position={"absolute"} zIndex={"30"} top={"0px"} width='100%' height='80px' borderBottomWidth={'1px'} borderBottomColor={borderColor} backgroundColor={mainBackgroundColor} alignItems='center' justifyContent={'space-between'} paddingX={['20px', '40px']}>
 
                     <Flex alignItems={"center"} gap={["3", "3", "12"]}>
-                        <Flex role="button" width={"fit-content"} alignItems={"center"} gap={"1"} onClick={() => router.push("/dashboard/home")} justifyContent={'center'}>
+                        <Flex role="button" width={"fit-content"} alignItems={"center"} gap={"1"} onClick={() => router.push("/home")} justifyContent={'center'}>
                             <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
                             <CustomText fontFamily={'DM-Bold'} fontSize='lg' color={colorMode === 'light' ? primaryColor : bodyTextColor}>Chasescroll</CustomText>
                         </Flex>
