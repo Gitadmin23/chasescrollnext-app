@@ -69,15 +69,15 @@ function SelectTicket(props: Props) {
     }, [])
 
     const tempFunc = () => {
-        toast({
-            title: 'Infomation',
-            description: 'Please sign-up with google',
-            status: 'info',
-            isClosable: true,
-            duration: 5000,
-            position: 'top-right',
-        });
-        // router.push("/share/auth/signup/?type=EVENT&typeID=" + data?.id)
+        // toast({
+        //     title: 'Infomation',
+        //     description: 'Please sign-up with google',
+        //     status: 'info',
+        //     isClosable: true,
+        //     duration: 5000,
+        //     position: 'top-right',
+        // });
+        router.push("/share/auth/signup/?type=EVENT&typeID=" + data?.id)
     }
 
     return (

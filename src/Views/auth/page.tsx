@@ -32,11 +32,11 @@ const LINK2 = [
     link: "/auth",
     isExternal: false
   },
-  // {
-  //   name: "Sign up",
-  //   link: "/auth/signup",
-  //   isExternal: true
-  // },
+  {
+    name: "Sign up",
+    link: "/auth/signup",
+    isExternal: true
+  },
   {
     name: "Home",
     link: "/home",
@@ -259,15 +259,15 @@ function LoginPage() {
   }
 
   const tempFunc = () => {
-    toast({
-      title: 'Infomation',
-      description: 'Please sign-up with google',
-      status: 'info',
-      isClosable: true,
-      duration: 5000,
-      position: 'top-right',
-    }); 
-    // router?.push("/auth/signup")
+    // toast({
+    //   title: 'Infomation',
+    //   description: 'Please sign-up with google',
+    //   status: 'info',
+    //   isClosable: true,
+    //   duration: 5000,
+    //   position: 'top-right',
+    // }); 
+    router?.push("/auth/signup")
   }
 
   return renderForm(
