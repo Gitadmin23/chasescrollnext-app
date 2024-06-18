@@ -1,7 +1,7 @@
 export const URLS = {
     LOGIN: '/auth/signin',
     SIGNUP: '/auth/signup',
-    SEND_VERIFICATION_EMAIL: '/chasescroll/verification/send-email',
+    SEND_VERIFICATION_EMAIL: '/auth/verification/send-email',
     VERIFY_TOKEN: '/auth/verification/verify-token',
     RESET_PASSWORD: '/auth/verification/change-password',
     GET_POSTS: '/feed/get-user-and-friends-posts',
