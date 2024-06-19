@@ -48,15 +48,28 @@ function ChangePassword() {
 
     const { isLoading, mutate } = useMutation({
         mutationFn: (data: any) => httpService.put(`${URLS.CHANGE_PASSWORD}`, data),
-        onSuccess: () => {
-            toast({
-                title: 'Success',
-                description: 'Your password has been changed',
-                status: 'success',
-                position: 'top-right',
-                duration: 3000,
-                isClosable: true,
-            });
+        onSuccess: (data: any) => {
+            console.log(data?.data);
+            if (data?.data?.statusCode === 1) {
+                toast({
+                    title: 'Error',
+                    description: data?.data?.statusDescription+", Incorrect Old Password",
+                    status: 'error',
+                    position: 'top-right',
+                    duration: 3000,
+                    isClosable: true,
+                });
+            } else {
+                toast({
+                    title: 'Success',
+                    description: 'Your password has been changed',
+                    status: 'success',
+                    position: 'top-right',
+                    duration: 3000,
+                    isClosable: true,
+                });
+            }
+
         },
         onError: () => {
             toast({
@@ -69,15 +82,15 @@ function ChangePassword() {
             });
         }
     })
-  return renderForm(
-   <VStack width='100%' height={'100%'} bg={mainBackgroundColor}>
-        <HStack width={'100%'} height={'50px'} paddingLeft={'20px'}>
-            <ArrowLeft2 size='25px' color={bodyTextColor} variant='Outline' onClick={() => router.back()} />
-            <CustomText fontSize={'20px'} fontFamily={'DM-Bold'} color={bodyTextColor}>New Password</CustomText>
-        </HStack>
+    return renderForm(
+        <VStack width='100%' height={'100%'} bg={mainBackgroundColor}>
+            <HStack width={'100%'} height={'50px'} paddingLeft={'20px'}>
+                <ArrowLeft2 size='25px' color={bodyTextColor} variant='Outline' onClick={() => router.back()} />
+                <CustomText fontSize={'20px'} fontFamily={'DM-Bold'} color={bodyTextColor}>New Password</CustomText>
+            </HStack>
 
-        <HStack width='100%' flex='1' pb={"10"} justifyContent={'center'}>
-            <VStack maxW={"400px"} width={['100%']} height='100%' alignItems={'center'} spacing={5} paddingX={'20px'}>
+            <HStack width='100%' flex='1' pb={"10"} justifyContent={'center'}>
+                <VStack maxW={"400px"} width={['100%']} height='100%' alignItems={'center'} spacing={5} paddingX={'20px'}>
 
                     {/* HEADER */}
                     <VStack>
@@ -104,10 +117,10 @@ function ChangePassword() {
                         Submit
                     </Button>
 
-            </VStack>
-        </HStack>
-   </VStack>
-  )
+                </VStack>
+            </HStack>
+        </VStack>
+    )
 }
 
 export default ChangePassword
