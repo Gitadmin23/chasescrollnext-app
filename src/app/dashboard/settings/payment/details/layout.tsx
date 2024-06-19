@@ -12,7 +12,7 @@ import { IoIosArrowBack } from 'react-icons/io'
 
 function Layout({ children }: { children: ReactNode }) {
 
-    const { firstName, lastName, user } = useDetails((state) => state);
+    const { firstName, lastName, user, userId } = useDetails((state) => state);
     const router = useRouter()
 
     const { setCurrency } = useSettingsStore((state) => state);
@@ -36,9 +36,9 @@ function Layout({ children }: { children: ReactNode }) {
     return (
         <Flex flexDirection={"column"} height={"full"} width={"full"} overflowY={"auto"} bg={mainBackgroundColor} >
             <Flex justifyContent={"space-between"} py={"36px"} px={["6", "59px"]} width={"full"} alignItems={"center"} >
-                <Flex onClick={() => router.back()} as={"button"} gap={"3"} width={"fit-content"} alignItems={"center"}  >
-                    <IoIosArrowBack size="24px" />
-                    <Flex gap={"2"} justifyContent={"start"} alignItems={"center"} >
+                <Flex gap={"3"} width={"fit-content"} alignItems={"center"}  >
+                    <IoIosArrowBack role="button" onClick={() => router.back()} size="24px" />
+                    <Flex as={"button"} onClick={() => router.push(`/dashboard/profile/${userId}`)} gap={"2"} justifyContent={"start"} alignItems={"center"} >
                         <Box width={"fit-content"} >
                             <UserImage data={user} size={"46px"} font={"18px"} image={user?.data?.imgMain?.value} />
                         </Box>
