@@ -42,7 +42,18 @@ function ChangePassword() {
                 oldPassword: data.oldPassword,
                 newPassword: data.newPassword,
             }
-            mutate(obj);
+            if (data?.oldPassword === data?.newPassword) {
+                toast({
+                    title: 'Error',
+                    description: 'The new password cannot be the same as the old password.',
+                    status: 'error',
+                    position: 'top-right',
+                    duration: 3000,
+                    isClosable: true,
+                });
+            } else {
+                mutate(obj);
+            }
         }
     });
 
@@ -53,7 +64,7 @@ function ChangePassword() {
             if (data?.data?.statusCode === 1) {
                 toast({
                     title: 'Error',
-                    description: data?.data?.statusDescription+", Incorrect Old Password",
+                    description: data?.data?.statusDescription + ", Incorrect Old Password",
                     status: 'error',
                     position: 'top-right',
                     duration: 3000,
