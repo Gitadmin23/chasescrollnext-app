@@ -20,7 +20,7 @@ import useCustomTheme from '@/hooks/useTheme';
 
 function EditProfile() {
     const [user, setUser] = React.useState<IUser | null>(null);
-    const [pic, setPic] = React.useState<{ file: '', url: '' } | null>(null);
+    const [pic, setPic] = React.useState<{ file?: '', url: '' } | null>(null); 
     const [showEmail, setShowEmail] = React.useState(false);
     const { userId, firstName, lastName, username } = useDetails((state) => state);
     const { uploadedFile, fileUploadHandler, loading } = AWSHook();
@@ -41,11 +41,11 @@ function EditProfile() {
 
     const { renderForm, setValue, formState: { isDirty, }, watch, values } = useForm({
         defaultValues: {
-            firstName: user?.firstName,
-            lastName: user?.lastName,
+            firstName: firstName,
+            lastName: lastName,
             username: user?.username,
             website: user?.data?.webAddress?.value,
-            aboutme: user?.data?.about?.value,
+            aboutme: user?.data?.about?.value, 
         },
         validationSchema: editProfileSchema,
         submit: (data: {
@@ -68,7 +68,7 @@ function EditProfile() {
                     "data": {
                         "imgMain": {
                             objectPublic: true,
-                            "value": pic?.url ?? ''
+                            "value": pic?.url ?? data?.website
                         },
                         "webAddress": {
                             objectPublic: true,
@@ -94,13 +94,14 @@ function EditProfile() {
     //     s
     // }, [firstname])
 
-    const { isLoading, isError } = useQuery(['getUserDetails', userId], () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`), {
+    const { isLoading, isError, refetch } = useQuery(['getUserDetails', userId], () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`), {
         onSuccess: (data) => {
             console.log(data.data);
             setUser(data.data);
             setValue('firstName', data?.data?.firstName);
             setValue('lastName', data?.data?.lastName);
             setValue('username', data?.data?.username);
+            setValue('image', data?.data?.data?.imgMain?.value);
             setValue('website', data?.data?.data?.webAddress.value === ' ' ? null : data?.data?.data?.webAddress.value === null ? null : data?.data?.data?.webAddress.value);
             setValue('aboutme', data?.data?.data.about.value === ' ' ? null : data?.data?.data.about.value === null ? null : data?.data?.data.about.value);
         },
@@ -128,6 +129,7 @@ function EditProfile() {
                 isClosable: true,
                 duration: 3000,
             });
+            refetch()
             queryClient.invalidateQueries(['getUserDetails'])
         },
         onError: (error: any) => {
@@ -144,6 +146,8 @@ function EditProfile() {
 
     React.useEffect(() => {
         if (!loading) {
+            console.log(uploadedFile);
+            
             if (uploadedFile.length > 0) {
                 setPic(uploadedFile[0] as any);
             }
@@ -203,7 +207,7 @@ function EditProfile() {
                                     }
 
                                     {
-                                        user?.data.imgMain.value === null && pic !== null && (
+                                        user?.data.imgMain.value === null || pic !== null && (
                                             <Image alt='prifle' src={pic.url} width={'100%'} height={'100%'} objectFit={'cover'} />
                                         )
                                     }
@@ -218,12 +222,12 @@ function EditProfile() {
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
                                 <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>FirstName</CustomText>
-                                <CustomInput name='firstName' value={values?.firstName} isPassword={false} type='text' placeholder='' />
+                                <CustomInput name='firstName' value={values?.firstName ?? firstName} isPassword={false} type='text' placeholder='' />
                             </VStack>
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
                                 <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>LastName</CustomText>
-                                <CustomInput name='lastName' value={values?.lastName} isPassword={false} type='text' placeholder='' />
+                                <CustomInput name='lastName' value={values?.lastName ?? lastName} isPassword={false} type='text' placeholder='' />
                             </VStack>
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
