@@ -19,6 +19,7 @@ import {
   useToast,
   Image,
   useColorMode,
+  Skeleton,
 } from "@chakra-ui/react";
 import lodash, { uniq } from "lodash";
 import React from "react";
@@ -39,6 +40,8 @@ import { useShowHomeModal } from "./state";
 import Link from "next/link";
 import useCustomTheme from "@/hooks/useTheme";
 import UpcomingEvents from "@/components/home/UpcomingEvents";
+import LoadingAnimation from "@/components/sharedComponent/loading_animation";
+import InfiniteScrollerComponent from "@/hooks/infiniteScrollerComponent";
 
 function Home() {
   const [page, setPage] = React.useState(0);
@@ -86,21 +89,26 @@ function Home() {
     },
   );
 
-  const { isLoading, isError, refetch } = useQuery(
-    ["getPosts", page],
-    () =>
-      httpService.get(`${URLS.GET_PUBLIC_POST}`, {
-        params: {
-          page,
-        },
-      }),
-    {
-      onSuccess: (data) => {
-        setPosts(uniq([...posts, ...data?.data?.content]));
-        setHasNextPage(data.data.last ? false : true);
-      },
-    },
-  );
+  const { results, isLoading, ref, isRefetching, isError } = InfiniteScrollerComponent({ url: URLS.GET_PUBLIC_POST, limit: 10, filter: "id" })
+
+  // const { isLoading, isError, refetch, isRefetching } = useQuery(
+  //   ["getPosts", page],
+  //   () =>
+  //     httpService.get(`${URLS.GET_PUBLIC_POST}`, {
+  //       params: {
+  //         page,
+  //       },
+  //     }),
+  //   {
+  //     onSuccess: (data) => {
+  //       setPosts(uniq([...posts, ...data?.data?.content]));
+  //       setHasNextPage(data.data.last ? false : true);
+  //     },
+  //   },
+  // );
+
+  console.log(results);
+
 
   const lastChildRef = React.useCallback(
     (post: any) => {
@@ -169,6 +177,9 @@ function Home() {
     });
   }, [createPostMutation, post, userId]);
 
+  console.log();
+
+
   return (
     <HStack
       width="full"
@@ -190,10 +201,13 @@ function Home() {
         type="POST"
       />
 
-      <Box overflowY={"hidden"} height={"full"} width={["100%", "40%"]}>
+      <Box overflowY={"auto"} pos={"relative"} height={"full"} width={["100%", "40%"]}>
         <VStack
           width={"100%"}
           height="180px"
+          pos={"sticky"}
+          top={"0px"}
+          zIndex={"600"}
           paddingTop="20px"
           paddingLeft={"20px"}
           paddingRight={["20px", "0px"]}
@@ -252,14 +266,14 @@ function Home() {
                       {!Details?.data?.imgMain?.value.startsWith(
                         "https://",
                       ) && (
-                        <Image
-                          src={`${IMAGE_URL}${Details?.data.imgMain.value}`}
-                          alt="image"
-                          width={"100%"}
-                          height={"100%"}
-                          objectFit={"cover"}
-                        />
-                      )}
+                          <Image
+                            src={`${IMAGE_URL}${Details?.data.imgMain.value}`}
+                            alt="image"
+                            width={"100%"}
+                            height={"100%"}
+                            objectFit={"cover"}
+                          />
+                        )}
                     </>
                   )}
                 </Box>
@@ -334,62 +348,103 @@ function Home() {
         </VStack>
 
         <Box
-          flex="1"
           width={"full"}
-          height={"83%"}
-          overflow={"auto"}
+          height={"full"}
           paddingX="20px"
           paddingTop="0px"
-          paddingBottom={"520px"}
         >
-          {!isLoading && isError && (
-            <VStack width={"100%"} height={"100px"} justifyItems={"center"}>
-              <CustomText>An error occured please retry</CustomText>
-              <CustomButton
-                isLoading={isLoading}
-                text="Retry"
-                onClick={() => refetch()}
-                backgroundColor={THEME.COLORS.chasescrollButtonBlue}
-              />
+          <LoadingAnimation loading={isLoading} refeching={isRefetching} customLoader={
+            <Flex w={"full"} flexDir={"column"} gap={"6"} height={"full"} >
+              <Skeleton
+                w={"full"}
+                height={"350px"}
+                borderBottomLeftRadius={"20px"}
+                borderBottomRightRadius={"20px"}
+                borderTopLeftRadius={"20px"} />
+              <Skeleton
+                w={"full"}
+                height={"350px"}
+                borderBottomLeftRadius={"20px"}
+                borderBottomRightRadius={"20px"}
+                borderTopLeftRadius={"20px"} />
+              <Skeleton
+                w={"full"}
+                height={"350px"}
+                borderBottomLeftRadius={"20px"}
+                borderBottomRightRadius={"20px"}
+                borderTopLeftRadius={"20px"} />
+              <Skeleton
+                w={"full"}
+                height={"350px"}
+                borderBottomLeftRadius={"20px"}
+                borderBottomRightRadius={"20px"}
+                borderTopLeftRadius={"20px"} />
+              <Skeleton
+                w={"full"}
+                height={"350px"}
+                borderBottomLeftRadius={"20px"}
+                borderBottomRightRadius={"20px"}
+                borderTopLeftRadius={"20px"} />
+            </Flex>
+          } >
+            {!isLoading && isError && (
+              <VStack width={"100%"} height={"100px"} justifyItems={"center"}>
+                <CustomText>An error occured please retry</CustomText>
+                <CustomButton
+                  isLoading={isLoading}
+                  text="Retry"
+                  // onClick={() => refetch()}
+                  backgroundColor={THEME.COLORS.chasescrollButtonBlue}
+                />
+              </VStack>
+            )}
+            <VStack width={"100%"} height={["100%", "80%"]}>
+              {newIttem.map((item, i) => (
+                <ThreadCard post={item} key={i.toString()} />
+              ))}
+              {results.map((item: IMediaContent, i: number) => {
+                if (i === results?.length - 1) {
+                  return (
+                    <> 
+                      <ThreadCard
+                        key={i.toString()}
+                        post={item}
+                        ref={ref}
+                      />
+                      {isRefetching && (
+                        <Flex width={"full"} justifyContent={"center"} height={"auto"} fontSize={"20px"} py={"8"}  >
+                          <Spinner size={["md", "sm"]} color={'black'} />
+                        </Flex>
+                      )}
+                    </>
+                  );
+                } else {
+                  return (
+                    <>
+                      <ThreadCard
+                        key={i.toString()}
+                        post={item}
+                        ref={lastChildRef}
+                      />
+                      {i % 9 === 0 && (
+                        <Box
+                          display={["block", "none"]}
+                          width="100%"
+                          height={"500px"}
+                          marginY={"40px"}
+                        >
+                          <UpcomingEvents />
+                        </Box>
+                      )}
+                    </>
+                  );
+                }
+                // return <ThreadCard key={i.toString()} post={item} />;
+              })}
             </VStack>
-          )}
-          <VStack width={"100%"} height={["100%", "80%"]}>
-            {newIttem.map((item, i) => (
-              <ThreadCard post={item} key={i.toString()} />
-            ))}
-            {posts.map((item, i) => {
-              if (i === post?.length - 1) {
-                return (
-                  <ThreadCard
-                    key={i.toString()}
-                    post={item}
-                    ref={lastChildRef}
-                  />
-                );
-              } else {
-                return (
-                  <>
-                    <ThreadCard
-                      key={i.toString()}
-                      post={item}
-                      ref={lastChildRef}
-                    />
-                    {i % 9 === 0 && (
-                      <Box
-                        display={["block", "none"]}
-                        width="100%"
-                        height={"500px"}
-                        marginY={"40px"}
-                      >
-                        <UpcomingEvents />
-                      </Box>
-                    )}
-                  </>
-                );
-              }
-              // return <ThreadCard key={i.toString()} post={item} />;
-            })}
-          </VStack>
+          </LoadingAnimation>
+          {/* {!isLoading && isError && (
+          )} */}
         </Box>
       </Box>
 
