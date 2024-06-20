@@ -35,12 +35,12 @@ function LoadingAnimation(props: Props) {
                     {children}
                     {(!loading && refeching) && (
                         <Flex w={"full"} bg={secondaryBackgroundColor} height={"auto"} >
-                            {!customLoader && (
+                            {/* {!customLoader && ( */}
                                 <Flex width={"full"} justifyContent={"center"} height={fix_height ? "full" : "auto"} fontSize={"20px"} py={fix_height ? "" : "8"}  >
                                     <Spinner size={["md", "sm"]} color={color ? color : 'black'} />
                                 </Flex>
-                            )}
-                            {customLoader}
+                            {/* // )} */}
+                            {/* {customLoader} */}
                         </Flex>
                     )}
                 </>
