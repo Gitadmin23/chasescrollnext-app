@@ -74,6 +74,8 @@ function ReportBug({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
                 isClosable: true,
                 status: 'success',
             });
+            setValue("")
+            setTitle("")
             onClose();
         },
         onError: () => {
