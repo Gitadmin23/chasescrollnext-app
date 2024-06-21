@@ -4,6 +4,7 @@ import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 import UserImage from '@/components/sharedComponent/userimage';
 import { useDetails } from '@/global-state/useUserDetails';
 import useDebounce from '@/hooks/useDebounce';
+import useCustomTheme from '@/hooks/useTheme';
 import { Chat } from '@/models/Chat';
 import { IUser } from '@/models/User';
 import { URLS, WEBSITE_URL } from '@/services/urls';
@@ -11,6 +12,7 @@ import httpService from '@/utils/httpService';
 import { Avatar, Box, Button, Checkbox, HStack, Heading, Input, InputGroup, InputLeftElement, Spinner, Text, VStack, useToast } from '@chakra-ui/react'
 import React from 'react'
 import { FiSearch } from 'react-icons/fi';
+import { IoSearchOutline } from 'react-icons/io5';
 import { useMutation, useQuery } from 'react-query';
 
 interface Props { }
@@ -18,9 +20,9 @@ interface Props { }
 const UserCard = (props: IUser & { checked: boolean, handleCheck: (e: string) => void }) => {
     const { username, userId, data: { imgMain: { value: imgMain } }, firstName, lastName } = props;
     return (
-        <HStack width='100%' height={'60px'} justifyContent={'space-between'} paddingX='20px'>
+        <HStack width='100%' height={'60px'} justifyContent={'space-between'} >
             <HStack>
-                <UserImage data={props} image={props?.data?.imgMain?.value} size={"40px"} border={"2px"} font={"20px"}  />
+                <UserImage data={props} image={props?.data?.imgMain?.value} size={"40px"} border={"2px"} font={"20px"} />
                 {/* <Avatar src={`${CONFIG.RESOURCE_URL}${imgMain}`} size='sm' name={`${firstName} ${lastName}`} /> */}
                 <VStack alignItems={'flex-start'} spacing={0}>
                     <Heading fontSize={'16px'} color='black'>{firstName || ''} {lastName || ''}</Heading>
@@ -33,7 +35,7 @@ const UserCard = (props: IUser & { checked: boolean, handleCheck: (e: string) =>
     )
 }
 
-function SendMesageModal({ onClose, id, isprofile, type }: { 
+function SendMesageModal({ onClose, id, isprofile, type }: {
     onClose: () => void,
     id: string,
     isprofile?: boolean,
@@ -73,7 +75,7 @@ function SendMesageModal({ onClose, id, isprofile, type }: {
 
     const sendMessage = useMutation({
         mutationFn: (data: any) => httpService.post(`/chat/message`, data),
-        onSuccess: () => {   
+        onSuccess: () => {
             toast({
                 title: 'Success',
                 description: 'Message Sent',
@@ -82,6 +84,7 @@ function SendMesageModal({ onClose, id, isprofile, type }: {
                 duration: 5000,
                 position: 'top-right',
             });
+            onClose()
         }
     });
 
@@ -106,18 +109,20 @@ function SendMesageModal({ onClose, id, isprofile, type }: {
         }
     }
 
-    
+    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
 
     return (
-        <Box width={"full"} >
-            <InputGroup marginY='20px' borderLeftWidth={'0px'} borderRightWidth={'0px'} borderRadius={'0px'} borderTopWidth='0.5px' borderBottomWidth={'0.5px'} borderTopColor={'lightgrey'} borderBottomColor='lightgrey' >
-                <InputLeftElement>
-                    <FiSearch color='grey' fontSize='20px' />
-                </InputLeftElement>
-                <Input value={search} onChange={(e) => setSearch(e.target.value)} borderWidth={'0px'} borderRadius={'10px'} />
-            </InputGroup>
+        <Box width={"full"} > 
+            <Box px={"20px"}  marginY='20px' w={"full"} > 
+                <InputGroup width={["full", "full", "full"]} zIndex={"20"} position={"relative"} >
+                    <InputLeftElement pointerEvents='none'>
+                        <IoSearchOutline size={"25px"} color={bodyTextColor} />
+                    </InputLeftElement>
+                    <Input width={["full", "full", "full"]} value={search} color={bodyTextColor} onChange={(e) => setSearch(e.target.value)} type='text' borderColor={borderColor} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} _placeholder={{ color: bodyTextColor }} bgColor={secondaryBackgroundColor} placeholder='Search for users' />
+                </InputGroup>
+            </Box>
 
-            <Box width='100%' height='220px' overflowY='auto'> 
+            <Box width='100%' px={"20px"} height='220px' overflowY='auto'>
                 <LoadingAnimation loading={isLoading} >
                     {users.map((item, index) => (
                         <UserCard {...item} checked={userIds.includes(item.userId)} handleCheck={(e) => handleCheck(e)} key={index.toString()} />
