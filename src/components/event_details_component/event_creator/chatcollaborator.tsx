@@ -1,6 +1,7 @@
 import ChatBtn from '@/components/sharedComponent/chat_btn'
 import UserImage from '@/components/sharedComponent/userimage'
 import { useDetails } from '@/global-state/useUserDetails'
+import useCustomTheme from '@/hooks/useTheme'
 import { IUser } from '@/models/User'
 import { Flex, Box, Text } from '@chakra-ui/layout'
 import React from 'react'
@@ -19,8 +20,14 @@ export default function Chatcollaborator(props: IProps) {
 
     const { userId } = useDetails((state) => state);
 
+  
+    const { 
+        mainBackgroundColor, 
+        bodyTextColor
+      } = useCustomTheme();
+
     return (
-        <Flex flexDir={"column"} w={"full"} px={"2"} >
+        <Flex flexDir={"column"} w={"full"} px={"2"} bg={mainBackgroundColor}  >
             {admins?.filter((item: IUser) => item?.userId !== userId)?.map((item: IUser, index: number) => {
                 return (
                     <Flex key={index} py={"5"} w={"full"} borderTop={"0.5px solid #B6B6B6"} alignItems={"center"} px={"4"} justifyContent={"space-between"} >
