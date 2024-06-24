@@ -68,8 +68,7 @@ function SelectLocation(props: Props) {
                                 </label>
                                 <Select
                                     width={"180px"}
-                                    h={"45px"}
-                                    color={"brand.chasescrollDarkBlue"}
+                                    h={"45px"} 
                                     fontSize={"sm"}
                                     name='locationType'
                                     onChange={(e) => changeHandler(e.target.value)}
@@ -89,8 +88,7 @@ function SelectLocation(props: Props) {
                                         placeholder="Enter Event Location"
                                         mt={"sm"}
                                         fontSize={"sm"}
-                                        rounded={"md"}
-                                        color={"brand.chasescrollTextGrey"}
+                                        rounded={"md"} 
                                         p={"3"}
                                         width={"full"}
                                         // className="border w-full mt-4 text-sm rounded-md text-chasescrollTextGrey p-3"
@@ -114,8 +112,7 @@ function SelectLocation(props: Props) {
                                         type="text"
                                         h={"45px"}
                                         fontSize={"sm"}
-                                        rounded={"md"}
-                                        color={"brand.chasescrollTextGrey"}
+                                        rounded={"md"} 
                                         p={"3"}
                                         width={"full"}
                                         placeholder="Enter Online Link"
