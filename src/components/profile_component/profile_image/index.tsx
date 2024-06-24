@@ -11,6 +11,7 @@ import useCustomTheme from '@/hooks/useTheme';
 import { IMAGE_URL, URLS } from '@/services/urls';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
 import httpService from '@/utils/httpService';
+import { textLimit } from '@/utils/textlimit';
 import { Box, Flex, Image, Text, useColorMode, useToast } from '@chakra-ui/react'
 import { fstat } from 'fs';
 import { useRouter } from 'next/navigation';
@@ -136,7 +137,7 @@ function ProfileImage(props: Props) {
                     <Box color={"white"} >
                         <Text fontSize={"22px"} fontWeight={"bold"} >{capitalizeFLetter(data?.firstName) + " " + capitalizeFLetter(data?.lastName)}</Text>
 
-                        <Text fontSize={"sm"} >{data?.username}</Text>
+                        <Text fontSize={"sm"} >{data?.username?.includes("@gmail") ? textLimit(data?.username, 3) : data?.username}</Text>
                         {data?.showEmail && (
                             <Text fontSize={"sm"} >{data?.email}</Text>
                         )}

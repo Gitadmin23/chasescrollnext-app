@@ -53,7 +53,7 @@ function SelectDate(props: Props) {
             </Text>
             <DatePicker
                 id={name}
-                selected={data ? new Date(data) : new Date()}
+                selected={name === "End" ? new Date(eventdata.startDate) : data ? new Date(data) : new Date()}
                 dateFormat="MMM d, yyyy h:mm aa"
                 showTimeSelect
                 minDate={name === "End" ? new Date(eventdata.startDate) : new Date()}
