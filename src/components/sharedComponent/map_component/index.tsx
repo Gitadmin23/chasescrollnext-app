@@ -14,6 +14,7 @@ import CustomButton from '@/components/general/Button';
 import useEventStore from '@/global-state/useCreateEventState';
 import LoadingAnimation from '../loading_animation';
 import EventDirection from './event_direction';
+import useCustomTheme from '@/hooks/useTheme';
 
 interface Props {
   close?: any,
@@ -174,9 +175,13 @@ function MapComponent(props: Props) {
       });
     }
   }
+  
+  const { 
+    mainBackgroundColor, 
+  } = useCustomTheme();
 
   return (
-    <Box width={"full"} >
+    <Box width={"full"} bgColor={mainBackgroundColor} >
       <LoadingAnimation loading={!isLoaded} >
         <GoogleMap
           mapContainerStyle={containerStyle}
@@ -200,7 +205,7 @@ function MapComponent(props: Props) {
         </GoogleMap>
       </LoadingAnimation>
       {!view && (
-        <Flex w={"full"} justifyContent={hidesearch ? "between" : "end"} px={"4"} py={"2"} >
+        <Flex w={"full"} bgColor={mainBackgroundColor} justifyContent={hidesearch ? "between" : "end"} px={"4"} py={"2"} >
           {(hidesearch && !directionsResponse) && (
             <EventDirection latLng={latlng} myLocation={myLocaton} setResult={setDirectionsResponse} />
           )}

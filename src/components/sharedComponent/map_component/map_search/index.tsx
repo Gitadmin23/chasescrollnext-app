@@ -14,6 +14,7 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import { IoSearchOutline } from 'react-icons/io5';
 import useEventStore from '@/global-state/useCreateEventState';
+import useCustomTheme from '@/hooks/useTheme';
 
 interface Props {
     center: any,
@@ -53,8 +54,7 @@ function MapSearch(props: Props) {
         requestOptions: {
             location: new google.maps.LatLng(center),
             radius: 100 * 1000,
-        },
-
+        }, 
     });
 
     // https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
@@ -106,21 +106,24 @@ function MapSearch(props: Props) {
             location_address = value
         }
     })
-
+  
+    const { 
+      mainBackgroundColor, 
+    } = useCustomTheme();
 
     return (
         <Box w='full' mt={"4"} justifyContent={"center"} display={"flex"} >
-            <Box position={"relative"} bg={"white"} w={"70%"} zIndex={"20"} h={"45px"} rounded={"md"} >
+            <Box position={"relative"} bg={mainBackgroundColor} w={"70%"} zIndex={"20"} h={"45px"} rounded={"md"} >
 
                 <Box width={"full"} h={"45px"} position={"relative"} >
                     <InputGroup zIndex={"20"} position={"relative"} >
                         <InputLeftElement h={"45px"} pointerEvents='none'>
                             <IoSearchOutline size={"25px"} color='#5D70F9' />
                         </InputLeftElement>
-                        <Input value={value} h={"45px"} onChange={handleInput} type='text' borderColor={"brand.chasescrollBlue"} focusBorderColor={'brand.chasescrollBlue'} bgColor={"white"} placeholder='Search your location' />
+                        <Input value={value} h={"45px"} onChange={handleInput} type='text' borderColor={"brand.chasescrollBlue"} focusBorderColor={'brand.chasescrollBlue'} bgColor={mainBackgroundColor} placeholder='Search your location' />
                     </InputGroup>
                     {show && (
-                        <Box width={"full"} maxH={"250px"} overflowY={"auto"} zIndex={"20"} bg={"white"} px={"4"} display={"flex"} flexDir={"column"} alignItems={"start"} py={"2"} rounded={"md"} position={"absolute"} mt={"2"} >
+                        <Box width={"full"} bgColor={mainBackgroundColor} maxH={"250px"} overflowY={"auto"} zIndex={"20"} px={"4"} display={"flex"} flexDir={"column"} alignItems={"start"} py={"2"} rounded={"md"} position={"absolute"} mt={"2"} >
                             {/* <SearchComponent home={home} /> */}
                             {status !== "OK" && (
                                 <Box w={"full"} textAlign={"center"} as='button' py={"2"} >
@@ -130,7 +133,7 @@ function MapSearch(props: Props) {
                             {status === "OK" &&
                                 data.map((item: { description: string }, index: any) => {
                                     return (
-                                        <Box onClick={() => handleSelect(item?.description)} w={"full"} textAlign={"left"} as='button' py={"2"} key={index} >
+                                        <Box onClick={() => handleSelect(item?.description)} w={"full"} textAlign={"left"} as='button' bgColor={mainBackgroundColor} py={"2"} key={index} >
                                             {item?.description?.length > 50 ? item?.description?.substring(0, 50) + "..." : item?.description}
                                         </Box>
                                     )

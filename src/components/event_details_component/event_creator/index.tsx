@@ -16,6 +16,7 @@ import Chatcollaborator from './chatcollaborator';
 import CollaboratorBtn from '@/components/create_event_component/event_ticket/collaborators';
 import { CreateEvent } from '@/global-state/useCreateEventState';
 import { IoMdHelpCircleOutline } from 'react-icons/io';
+import { textLimit } from '@/utils/textlimit';
 
 interface Props {
     data: CreateEvent,
@@ -70,7 +71,7 @@ function EventCreator(props: Props) {
                     <Box as={"button"} onClick={clickHandler} >
                         <Text textAlign={"left"} display={["none", "block"]} fontWeight={"medium"} >{convener}</Text>
                         <Text textAlign={"left"} display={["block", "none"]} fontWeight={"medium"} >{convener?.length > 10 ? convener?.slice(0, 10) + "..." : convener}</Text>
-                        <Text textAlign={"left"} fontSize={"sm"} >{username}</Text>
+                        <Text textAlign={"left"} fontSize={"sm"} >{username?.includes("@gmail") ? textLimit(username, 4) : username}</Text>
                     </Box>
                     {isOrganizer && (
                         <Box display={["flex"]} gap={"2"} >
