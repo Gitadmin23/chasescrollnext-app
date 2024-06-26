@@ -67,9 +67,7 @@ function GetEventTicket(props: Props) {
     const clickHandler = (event: any) => {
         event.stopPropagation();
 
-        if (selectedTicket?.rerouteURL) {
-            clickThrough()
-        } else if (isBought) {
+        if (isBought) {
             setModalTab(carousel ? 6 : isBought ? 5 : 1)
             setShowModal(true)
         } else if (!selectedTicket?.ticketType) {
