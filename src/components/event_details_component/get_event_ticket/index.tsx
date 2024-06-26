@@ -67,9 +67,7 @@ function GetEventTicket(props: Props) {
     const clickHandler = (event: any) => {
         event.stopPropagation();
 
-        if (selectedTicket?.rerouteURL) {
-            clickThrough()
-        } else if (isBought) {
+        if (isBought) {
             setModalTab(carousel ? 6 : isBought ? 5 : 1)
             setShowModal(true)
         } else if (!selectedTicket?.ticketType) {
@@ -156,12 +154,12 @@ function GetEventTicket(props: Props) {
         <>
             {!carousel && (
                 <>
-                    {!selectedTicket?.rerouteURL ?
+                    {/* {!selectedTicket?.rerouteURL ? */}
                         <CustomButton backgroundColor={isBought ? "#3EC259" : ""} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} /> :
-                        <a href={selectedTicket?.rerouteURL} target="_blank" >
-                            <CustomButton backgroundColor={isBought ? "#3EC259" : ""} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} />
-                        </a>
-                    }
+                    {/* //     <a href={selectedTicket?.rerouteURL} target="_blank" >
+                    //         <CustomButton backgroundColor={isBought ? "#3EC259" : ""} opacity={(!selectedTicket?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!selectedTicket?.ticketType || selectedTicket?.ticketType || isBought) ? false : true} text={((isBought) ? "View" : isFree ? "Register" : "Buy") + " Ticket"} width={["full", "400px", "400px", "full"]} />
+                    //     </a>
+                    // } */}
                 </>
             )}
             {carousel && (
