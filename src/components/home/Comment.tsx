@@ -27,6 +27,7 @@ import { error } from "console";
 import _ from "lodash";
 import Link from "next/link";
 import useCustomTheme from "@/hooks/useTheme";
+import { useRouter } from "next/navigation";
 
 const SubCommentBox = React.forwardRef<
   HTMLDivElement,
@@ -63,6 +64,8 @@ const SubCommentBox = React.forwardRef<
     const { colorMode, toggleColorMode } = useColorMode();
 
     // GET SUBCOMMENTS
+
+    const router = useRouter()
 
     // mutateion
     const likeComment = useMutation({
@@ -162,6 +165,8 @@ const SubCommentBox = React.forwardRef<
               <VStack alignItems={"flex-start"} spacing={0} width="250px">
                 <CustomText
                   fontFamily={"DM-Bold"}
+                  cursor={"pointer"}
+                  onClick={()=> router?.push(`/dashboard/profile/${userId}`)}
                   color={
                     colorMode === "light"
                       ? "brand.chasescrollButtonBlue"
