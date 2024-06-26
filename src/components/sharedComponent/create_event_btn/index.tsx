@@ -110,13 +110,13 @@ function CreateEventBtn(props: Props) {
                         </Flex>
                         <Text textAlign={"left"} color={bodyTextColor} mt={"2"} fontSize={"12px"} >As the event owner, you play a crucial role in decision making and receiving payments from attendees who buy tickets for this event.</Text>
                     </Flex>
-                    <Flex as={"button"} onClick={()=> router.push("/dashboard/event/create_event_promotion")} w={"full"} py={"4"} mt={"5"} px={"2"} flexDir={"column"} rounded={"8px"} _hover={{borderColor: "#5D70F9"}} border={"1px"} borderColor={"transparent"}>
+                    {/* <Flex as={"button"} onClick={()=> router.push("/dashboard/event/create_event_promotion")} w={"full"} py={"4"} mt={"5"} px={"2"} flexDir={"column"} rounded={"8px"} _hover={{borderColor: "#5D70F9"}} border={"1px"} borderColor={"transparent"}>
                         <Flex gap={"1"} >
                             <Text color={colorMode === 'light' ? "#5465E0":headerTextColor} fontWeight={"bold"} fontSize={"sm"} >{`I'm just promoting this event. `}</Text>
                             <IoArrowForward size={"18px"} color={bodyTextColor} />
                         </Flex>
                         <Text textAlign={"left"} color={bodyTextColor} mt={"2"} fontSize={"12px"} >You serve as the promoter but you are not responsible for any significant decision making or major changes regarding the event.</Text>
-                    </Flex>
+                    </Flex> */}
                 </Flex>
             )}
             {open && (

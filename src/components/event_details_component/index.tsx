@@ -34,6 +34,7 @@ import { capitalizeFLetter } from '@/utils/capitalLetter'
 import { textLimit } from '@/utils/textlimit'
 import Scanner from '../modals/Events/Scanner'
 import CustomButton from '../general/Button'
+import useCustomTheme from '@/hooks/useTheme'
 
 interface Props {
     dynamic?: boolean
@@ -119,13 +120,17 @@ function EventDetails(props: Props) {
         }
     }, [])
 
+    const {
+        headerTextColor
+      } = useCustomTheme();
+
     return (
         <Box width={"full"} display={"flex"} flexDirection={"column"} pt={["", "", "2"]} position={"relative"} paddingBottom={"12"} >
             <Flex w={"full"} display={["flex", "flex", "none"]} px={"4"} justifyContent={"space-between"} alignItems={"center"} >
                 <Box as='button' onClick={() => clickHander()}>
-                    <MdArrowBackIos color={"#292D32"} size={"24px"} />
+                    <MdArrowBackIos color={headerTextColor} size={"24px"} />
                 </Box>
-                <Text color={"#121212"} fontWeight={"bold"} lineHeight={"22px"} >Event Details</Text>
+                <Text color={headerTextColor} fontWeight={"bold"} lineHeight={"22px"} >Event Details</Text>
                 <ShareEvent home={true} notext={true} data={dataInfo} id={dataInfo?.id} type="EVENT" eventName={textLimit(eventName, 20)} />
             </Flex>
             <Flex width={"full"} flexDirection={["column", "column", "row"]} alignItems={"start"} position={"relative"} justifyContent={"center"} >
