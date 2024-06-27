@@ -157,8 +157,8 @@ function SelectTicketNumber(props: Props) {
             <Flex alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"16px"} px={"8px"} py={"12px"} >
                 <EventImage borderWidth='2px' rounded='16px' width={"153px"} height={"127px"} data={data} />
                 <Flex height={"fit-content"} ml={"3"} flexDir={"column"} gap={"2px"} >
-                    <Text fontSize={"17px"} fontWeight={"bold"} >{textLimit(data?.eventName, 20)}</Text>
-                    <EventLocationDetail height='fit-content' location={data?.location} fontWeight={"medium"} color={"brand.chasescrollBlue"} fontsize='sm' noicon={true} locationType={data?.locationType} />
+                    <Text fontSize={"14px"} fontWeight={"bold"} >{textLimit(data?.eventName, 20)}</Text>
+                    <EventLocationDetail height='fit-content' location={data?.location} fontWeight={"medium"} color={"brand.chasescrollBlue"} fontsize='sm' noicon={false} locationType={data?.locationType} />
                     <Text>{textLimit(data?.eventDescription, 20)}</Text>
                     <Flex flexDir={"column"} >
                         <Text fontSize={"sm"} color={"brand.chasescrollBlue"} >{dateFormatMonthDay(data?.startDate)}</Text>
