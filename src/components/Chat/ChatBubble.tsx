@@ -11,7 +11,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import moment from 'moment';
 import { IoMdCloudDownload } from 'react-icons/io';
 import { THEME } from '@/theme';
-import { IoHeart } from 'react-icons/io5';
+import { IoCheckmarkDoneOutline, IoCheckmarkDoneSharp, IoHeart } from 'react-icons/io5';
 import { useCommunityPageState } from '@/components/Community/chat/state';
 import LinkExtractor, { handleLinks } from '@/components/general/LinkExtractor';
 import { ChatMessage } from '@/models/ChatMessage';
@@ -173,8 +173,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                     <CustomText color={self ? bodyTextColor:'lightgrey'} fontFamily={'DM-Medium'} fontSize={'10px'}>{formatTimeAgo(post?.createdDate)}</CustomText>
                    {!self && (
                      <HStack spacing={0}>
-                        <FiCheck fontSize='16px' color={'white'} />
-                        <FiCheck fontSize='16px' color={'white'} />
+                        <IoCheckmarkDoneSharp fontSize='16px' color={'white'} /> 
                     </HStack>   
                    )}
                 </HStack>
