@@ -1,7 +1,7 @@
 import CustomText from '@/components/general/Text'
 import { URLS } from '@/services/urls'
 import httpServiceGoogle from '@/utils/httpServiceGoogle'
-import { Button, Image, useToast } from '@chakra-ui/react'
+import { Button, Image, useColorMode, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useMutation } from 'react-query'
@@ -9,6 +9,7 @@ import { signIn, useSession, } from 'next-auth/react'
 import { useDetails } from '@/global-state/useUserDetails'
 import PageLoader from '../pageLoader'
 import useModalStore from '@/global-state/useModalSwitch'
+import useCustomTheme from '@/hooks/useTheme'
 
 interface Props {
     title: string,
@@ -34,8 +35,16 @@ function GoogleBtn(props: Props) {
     const toast = useToast();
     const router = useRouter();
     const { email, setAll } = useDetails((state) => state);
-
     const { googlesign, setGoogle } = useModalStore((state) => state);
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const token: any = sessionData;
     React.useEffect(() => {
@@ -124,7 +133,7 @@ function GoogleBtn(props: Props) {
         <>
             <Button onClick={handleGoogleSignIn} width={['100%', fixedwidth ? fixedwidth : '100%']} height={height ? height : '40px'} borderRadius={'8px'} border={border} _hover={{ backgroundColor: bgColor ? bgColor : "#1018280D" }} bg={bgColor ? bgColor : '#1018280D'} padding='8px 16px 8px 16px'>
                 <Image alt='google' src='/assets/svg/googlelogo.svg' />
-                <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color='#111111' fontWeight={'700'}>{title} with Google</CustomText>
+                <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color={'grey'} fontWeight={'700'}>{title} with Google</CustomText>
             </Button>
             {/* <PageLoader show={googlesign || localStorage.getItem('google') === "true"} /> */}
         </>
