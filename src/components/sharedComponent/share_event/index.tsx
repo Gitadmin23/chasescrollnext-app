@@ -70,6 +70,7 @@ function ShareEvent(props: Props) {
 
   return (
     <Box
+    
       width={"fit-content"}
       zIndex={"20"}
       mt={size === "18px" ? "10px" : "0px"}

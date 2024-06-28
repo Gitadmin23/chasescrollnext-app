@@ -207,7 +207,7 @@ function Home() {
           height="180px"
           pos={"sticky"}
           top={"0px"}
-          zIndex={"600"}
+          zIndex={"60"}
           paddingTop="20px"
           paddingLeft={"20px"}
           paddingRight={["20px", "0px"]}
