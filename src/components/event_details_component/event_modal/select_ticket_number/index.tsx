@@ -212,7 +212,7 @@ function SelectTicketNumber(props: Props) {
                         <PayStackBtn datainfo={data} selectedCategory={selectedTicket?.ticketType} ticketCount={numbOfTicket} />
                     )}
                     <Flex justifyContent={"center"} mt={"2"} >
-                        <Text textAlign={"center"} as={"button"} fontSize={"12px"} color={"#10182880"} onClick={() => next(2)} > Click to read  <span style={{ color: "#5D70F9", fontWeight: "700" }} >Chasescroll refund policy.</span></Text>
+                        <Text textAlign={"center"} as={"button"} fontSize={"12px"} color={headerTextColor} onClick={() => next(2)} > Click to read  <span style={{ color: "#5D70F9", fontWeight: "700" }} >Chasescroll refund policy.</span></Text>
                     </Flex>
                 </Box>
             </Flex>
