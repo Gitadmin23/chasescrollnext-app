@@ -52,6 +52,9 @@ function ShareCommunity() {
     }
   });
 
+
+  console.log(details);
+  
   const joinGroup = useMutation({
     mutationFn: () => httpService.post(`${URLS.JOIN_GROUP}`, {
       groupID: typeID,
@@ -185,7 +188,7 @@ function ShareCommunity() {
               )}
               {
                 details?.data?.imgSrc && (
-                  <Image src={`${IMAGE_URL}${details.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
+                  <Image src={`${details.data.imgSrc?.includes("http") ? "" : IMAGE_URL}${details.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
                 )
               }
             </Box>
@@ -252,7 +255,9 @@ function ShareCommunity() {
         <VStack width={['100%', '25%']} height={'100%'} >
 
           {/* header */}
-          <Button width='100%' height='40px' borderRadius='20px' isLoading={joinGroup.isLoading} type='button' variant={'solid'} bg='brand.chasescrollButtonBlue' color='white' onClick={handleJoin}>Join Community</Button>
+          {details?.joinStatus !== "CONNECTED" && (
+            <Button width='100%' height='40px' borderRadius='20px' isLoading={joinGroup.isLoading} type='button' variant={'solid'} bg='brand.chasescrollButtonBlue' color='white' onClick={handleJoin}>Join Community</Button>
+          )}
 
 
         </VStack>
