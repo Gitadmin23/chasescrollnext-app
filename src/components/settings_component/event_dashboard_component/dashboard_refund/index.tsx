@@ -59,7 +59,7 @@ function DashboardRefund(props: Props) {
     const { colorMode, toggleColorMode } = useColorMode();
 
     const toast = useToast()
-    const [size, setSize] = React.useState(100)
+    const [size, setSize] = React.useState(20)
     const [showBtn, setShowBtn] = React.useState(false)
     const [page, setPage] = React.useState(0)
     const [newData, setNewData] = React.useState([] as any)
