@@ -26,7 +26,7 @@ function InfiniteScrollerComponent(props: Props) {
     const [results, setResults] = React.useState([] as any) 
     const intObserver = React.useRef<IntersectionObserver>();
 
-    const { data, isLoading, refetch, isRefetching, isError } = useQuery([url], () => httpService.get(`${url}`, {
+    const { data, isLoading, refetch, isRefetching, isError } = useQuery([url, limit], () => httpService.get(`${url}`, {
         params: {
           size: size, 
         }

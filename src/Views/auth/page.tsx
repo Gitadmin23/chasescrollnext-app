@@ -44,12 +44,12 @@ const LINK2 = [
   },
   {
     name: "About us",
-    link: "/home/about",
+    link: "/home/about-us",
     isExternal: true
   },
   {
     name: "Policy",
-    link: "/home/privacy_poilcy",
+    link: "/home/privacy",
     isExternal: true
   },
   {
@@ -59,7 +59,7 @@ const LINK2 = [
   },
   {
     name: "Contact us",
-    link: "/home/contact",
+    link: "/home/contact-us",
     isExternal: true
   },
 ]

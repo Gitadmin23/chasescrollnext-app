@@ -14,7 +14,7 @@ import React from "react"
 
 export default function Home() {
     return (
-        <Flex flexDir={"column"} w={"full"} >
+        <Flex flexDir={"column"} color={"black"} w={"full"} >
             <HeroSection />
             <OurPartner />
             <InfoOnEvent />

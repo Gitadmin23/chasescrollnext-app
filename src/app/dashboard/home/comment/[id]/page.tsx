@@ -29,6 +29,7 @@ import { IComment } from "@/models/Comment";
 import _, { uniq, uniqBy } from "lodash";
 import Link from "next/link";
 import useCustomTheme from "@/hooks/useTheme";
+import UserImage from "@/components/sharedComponent/userimage";
 
 function Comment() {
   const [userComments, setUserComments] = React.useState<IComment[]>([]);
@@ -140,7 +141,7 @@ function Comment() {
         />
         <HStack width={"100%"}>
           <Link href={`/dashboard/profile/${user?.userId}`}>
-            <Box
+            {/* <Box
               width="42px"
               height="42px"
               borderRadius={"20px 0px 20px 20px"}
@@ -184,7 +185,8 @@ function Comment() {
                   )}
                 </>
               )}
-            </Box>
+            </Box> */}
+            <UserImage image={user?.data.imgMain.value} size={"42px"} data={user} />
           </Link>
 
           <InputGroup>

@@ -59,7 +59,7 @@ function DashboardRefund(props: Props) {
     const { colorMode, toggleColorMode } = useColorMode();
 
     const toast = useToast()
-    const [size, setSize] = React.useState(100)
+    const [size, setSize] = React.useState(20)
     const [showBtn, setShowBtn] = React.useState(false)
     const [page, setPage] = React.useState(0)
     const [newData, setNewData] = React.useState([] as any)
@@ -268,7 +268,7 @@ function DashboardRefund(props: Props) {
 
             <Flex py={"6"} gap={"4"} alignItems={"center"} >
                 <Flex width={"100px"} >
-                    Page: {data?.data?.totalPages}
+                    Page: {(Number(data?.data?.number)+1)+"/"+data?.data?.totalPages}
                 </Flex>
                 <Flex width={"fit-content"} gap={"5"} ml={"auto"} >
                     <CustomButton backgroundColor={mainBackgroundColor} fontWeight={"semibold"} borderWidth={'1px'} borderColor={borderColor} px={"10px"} color={headerTextColor} fontSize={"xs"} height={"35px"} rounded={"42px"} onClick={() => setPage((prev) => prev - 1)} disable={data?.data?.first ? true : false} text='Previous' />

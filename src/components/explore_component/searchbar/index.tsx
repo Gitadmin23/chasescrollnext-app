@@ -39,7 +39,7 @@ function SearchBar(props: Props) {
             {!change && (
                 <>
                     {search && (
-                        <Box width={"full"} zIndex={"20"} position={"absolute"} mt={"45px"} bg={secondaryBackgroundColor} >
+                        <Box width={"full"} zIndex={"1000"} position={"absolute"} mt={"45px"} bg={secondaryBackgroundColor} >
                             <SearchComponent home={home} />
                         </Box>
                     )}

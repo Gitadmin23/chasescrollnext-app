@@ -28,6 +28,7 @@ import _ from "lodash";
 import Link from "next/link";
 import useCustomTheme from "@/hooks/useTheme";
 import { useRouter } from "next/navigation";
+import UserImage from "../sharedComponent/userimage";
 
 const SubCommentBox = React.forwardRef<
   HTMLDivElement,
@@ -159,6 +160,8 @@ const SubCommentBox = React.forwardRef<
                   </>
                 )}
               </Box>
+
+            {/* <UserImage border={"1px"} image={data.imgMain.value} size={"42px"} data={data} /> */}
             </Link>
 
             <VStack alignItems={"flex-start"}>
@@ -261,6 +264,8 @@ const CommentBox = React.forwardRef<
     const [liked, setLiked] = React.useState<"LIKED" | "NOT_LIKED">(likeStatus);
     const [showMore, setShowMore] = React.useState(false);
     const [hasNextPage, setHasNextPage] = React.useState(false);
+
+    const router = useRouter()
 
     const toast = useToast();
     const intObserver = React.useRef<IntersectionObserver>();
@@ -415,63 +420,8 @@ const CommentBox = React.forwardRef<
           marginRight={["20px", "20px"]}
         >
           <HStack flex={1} alignItems={"flex-start"} overflow={"hidden"}>
-            <Link href={`/dashboard/profile/${userId}`}>
-              <Box
-                width="42px"
-                height="42px"
-                borderRadius={"20px 0px 20px 20px"}
-                borderWidth={"2px"}
-                borderColor={"#D0D4EB"}
-                overflow={"hidden"}
-              >
-                {data === null && (
-                  <VStack
-                    width={"100%"}
-                    height="100%"
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                  >
-                    <CustomText fontFamily={"DM-Regular"}>
-                      {username ? username[0].toUpperCase() : "USER"}
-                    </CustomText>
-                  </VStack>
-                )}
-                {data?.imgMain.value === null && (
-                  <VStack
-                    width={"100%"}
-                    height="100%"
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                  >
-                    <CustomText fontFamily={"DM-Regular"}>
-                      {firstName[0].toUpperCase()} {lastName[0].toUpperCase()}
-                    </CustomText>
-                  </VStack>
-                )}
-                {data.imgMain.value && (
-                  <>
-                    {data?.imgMain?.value.startsWith("https://") && (
-                      <Image
-                        src={`${data.imgMain.value}`}
-                        alt="image"
-                        width={"100%"}
-                        height={"100%"}
-                        objectFit={"cover"}
-                      />
-                    )}
-
-                    {!data?.imgMain?.value.startsWith("https://") && (
-                      <Image
-                        src={`${IMAGE_URL}${data.imgMain.value}`}
-                        alt="image"
-                        width={"100%"}
-                        height={"100%"}
-                        objectFit={"cover"}
-                      />
-                    )}
-                  </>
-                )}
-              </Box>
+            <Link href={`/dashboard/profile/${userId}`}> 
+              <UserImage border={"2px"} image={data.imgMain.value} size={"42px"} firstName={firstName} lastName={lastName} font={"20px"} /> 
             </Link>
 
             <VStack alignItems={"flex-start"} width={"70%"}>
@@ -487,6 +437,8 @@ const CommentBox = React.forwardRef<
                       ? "brand.chasescrollButtonBlue"
                       : bodyTextColor
                   }
+                  cursor={"pointer"}
+                  onClick={()=> router.push(`/dashboard/profile/${userId}`)}
                 >
                   {username && (
                     <>
