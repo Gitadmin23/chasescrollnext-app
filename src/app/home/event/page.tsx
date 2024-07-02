@@ -6,6 +6,7 @@ import OurPartner from "@/components/landing_component/home/ourpartner";
 import HomeLandingPageCarousel from "@/components/landing_component/home_carousel";
 import useSearchStore from "@/global-state/useSearchData";
 import { Flex, Text } from "@chakra-ui/react";
+import { useState } from "react";
 
 interface Props {
 
@@ -15,11 +16,8 @@ const Eventpage = () => {
 
     const { event_category } = useSearchStore((state) => state);
 
-    console.log(event_category);
-
-
     return (
-        <Flex flexDir={"column"} w={"full"}  >
+        <Flex flexDir={"column"} w={"full"} color={"black"}  >
             <Flex display={["flex", "flex", "none"]} pt={"4"} px={"6"} >
                 <SearchBar home={true} />
             </Flex>
@@ -32,10 +30,7 @@ const Eventpage = () => {
             {!event_category && (
                 <HomeLandingPageCarousel />
             )}
-            <Flex bg={"white"} py={[ "4", "4", "9"]} gap={"8"} flexDir={"column"} px={["6", "12"]} >
-                {/* <Flex display={["none", "none", "none", "flex"]} w={"full"} >
-                    <EventCategory />
-                </Flex> */}
+            <Flex bg={"white"} py={["4", "4", "9"]} gap={"8"} flexDir={"column"} px={["6", "12"]} >
                 <EventListing limit={true} />
             </Flex>
             <OurPartner />

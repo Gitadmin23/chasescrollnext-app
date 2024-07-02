@@ -71,7 +71,7 @@ function HomeNavbar() {
                 }) => {
                     return (
                         <Box onClick={() => router?.push(item?.link)} key={item?.label} as="button" _hover={{ color: THEME?.COLORS?.chasescrollBlue }} >
-                            <Text color={pathname === item?.link ? THEME?.COLORS?.chasescrollBlue : ""} lineHeight={"22.5px"} fontWeight={"semibold"} >{item?.label}</Text>
+                            <Text color={pathname === item?.link ? THEME?.COLORS?.chasescrollBlue : "#000"} lineHeight={"22.5px"} fontWeight={"semibold"} >{item?.label}</Text>
                         </Box>
                     )
                 })}
