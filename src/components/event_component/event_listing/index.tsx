@@ -78,20 +78,7 @@ function EventListing(props: Props) {
             params: {
                 size: size,
             }
-        }), {
-            onError: (error: any) => {
-                // toast({
-                //     status: "error",
-                //     title: error.response?.data,
-                // });
-            },
-            onSuccess: (data) => {
-                // setData(data.data);
-            }
-        })
-
-        console.log(data);
-        
+        }))
 
         return (
             <Flex width={"full"} justifyContent={"center"} mt={!event_category ? !limit ? "8" : "" : ""} py={"8"} px={"6px"} flexDirection={"column"} alignItems={"center"} >
