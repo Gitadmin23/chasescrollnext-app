@@ -4,24 +4,30 @@ import useSearchStore from '@/global-state/useSearchData'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
 import httpService from '@/utils/httpService'
 import { Box, Flex, Grid, GridItem, Skeleton, Text } from '@chakra-ui/react'
-import React, { useEffect } from 'react'
+import lodash from 'lodash' 
+import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
 interface Props {
-    limit?: boolean,
-    size?: number
+    limit?: boolean, 
+    landing?: boolean,
+    eventdashboard?: boolean
 }
 
-function EventListing(props: Props) {
+function  EventListing(props: Props) {
     const {
-        limit,
-        size
+        limit, 
+        landing,
+        eventdashboard
     } = props
     const { event_category } = useSearchStore((state) => state);
 
+    const router = useRouter()
+
     const InfiniteComponent = () => {
 
-        const { results, isLoading, ref, refetch, isRefetching } = InfiniteScrollerComponent({ url: `/events/events${event_category ? "?eventType=" + event_category : ""}`, limit: limit ? 50 : 10, filter: "id", newdata: event_category })
+        const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/events/events${event_category ? "?eventType=" + event_category : ""}`, limit: 20, filter: "id", newdata: event_category })
 
         return (
             <Flex width={"full"} justifyContent={"center"} mt={!event_category ? !limit ? "8" : "" : ""} py={"8"} px={"6px"} flexDirection={"column"} alignItems={"center"} >
@@ -53,13 +59,13 @@ function EventListing(props: Props) {
                                 if (results.length === i + 1) {
                                     return (
                                         <GridItem key={i} w={["full", "full", "full", "full", "full"]} ref={ref} >
-                                            <ExploreEventCard landing={true} date={true} page={true} event={event} />
+                                            <ExploreEventCard landing={landing} eventdashboard={eventdashboard} date={true} page={true} event={event} />
                                         </GridItem>
                                     )
                                 } else {
                                     return (
-                                        <GridItem key={i} w={["full", "full", "full", "full", "full"]}  >
-                                            <ExploreEventCard landing={true} date={true} page={true} event={event} />
+                                        <GridItem key={i + "last"} w={["full", "full", "full", "full", "full"]}  >
+                                            <ExploreEventCard landing={landing} eventdashboard={true} date={true} page={true} event={event} />
                                         </GridItem>
                                     )
                                 }
@@ -70,16 +76,10 @@ function EventListing(props: Props) {
             </Flex>
         )
     }
-    const LimitedComponent = () => {
-
-
-        // react query
-        const { data, isLoading, isRefetching } = useQuery(['eventdata', size], () => httpService.get(`/events/events${event_category ? "?eventType=" + event_category : ""}`, {
-            params: {
-                size: size,
-            }
-        }))
-
+    const LimitedComponent = () => { 
+ 
+        const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/events/events${event_category ? "?eventType=" + event_category : ""}`, limit: 20 , filter: "id", newdata: event_category })
+ 
         return (
             <Flex width={"full"} justifyContent={"center"} mt={!event_category ? !limit ? "8" : "" : ""} py={"8"} px={"6px"} flexDirection={"column"} alignItems={"center"} >
                 {!limit && (
@@ -103,19 +103,43 @@ function EventListing(props: Props) {
                             <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
                         </GridItem>
                     </Grid>
-                } refeching={isRefetching} length={data?.data?.content?.length} >
+                } refeching={isRefetching} length={results?.length} >
                     <>
                         <Grid width={["full", "full", "full", "full", "full"]} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(3, 1fr)']} gap={5}>
-                            {data?.data?.content?.map((event: any, i: number) => {
-                                return (
-                                    <GridItem key={i} w={["full", "full", "full", "full", "full"]}  >
-                                        <ExploreEventCard limit={true} landing={limit} date={true} page={true} event={event} />
-                                    </GridItem>
-                                )
+                            {results?.map((event: any, i: number) => {
+                                if (results.length === i + 1) {
+                                    if ((i + 1) >= 40) {
+                                        return (
+                                            <GridItem key={i + "last"} w={["full", "full", "full", "full", "full"]}  >
+                                                <ExploreEventCard landing={true} date={true} page={true} event={event} />
+                                            </GridItem>
+                                        )
+                                    } else {
+                                        return (
+                                            <GridItem ref={ref} key={i + "last"} w={["full", "full", "full", "full", "full"]}  >
+                                                <ExploreEventCard landing={true} date={true} page={true} event={event} />
+                                            </GridItem>
+                                        )
+                                    }
+                                } else {
+                                    return (
+                                        <GridItem key={i + "last"} w={["full", "full", "full", "full", "full"]}  >
+                                            <ExploreEventCard landing={true} date={true} page={true} event={event} />
+                                        </GridItem>
+                                    )
+                                }
                             })}
                         </Grid>
                     </>
                 </LoadingAnimation>
+                <Flex w={"full"} justifyContent={"center"}  >
+                    {results.length > 20 && (
+                        <Flex onClick={() => router?.push("/auth")} as={"button"} w={"200px"} fontWeight={"medium"} border={"1px solid #3C41F0"} justifyContent={"center"} color={"brand.chasescrollBlue"} mt={"8"} fontSize={"14px"} lineHeight={"20px"} px={"5"} height={"35px"} rounded={"8px"} alignItems={"center"} gap={"2"} >
+
+                            show more
+                        </Flex>
+                    )}
+                </Flex>
             </Flex>
         )
     }

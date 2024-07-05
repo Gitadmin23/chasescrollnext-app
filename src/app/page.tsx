@@ -91,15 +91,7 @@ const Eventpage = () => {
           <HomeLandingPageCarousel />
         )}
         <Flex bg={"white"} py={["4", "4", "9"]} gap={"8"} flexDir={"column"} px={["6", "12"]} >
-          <EventListing limit={true} size={size} />
-          <Flex w={"full"} justifyContent={"center"}  >
-            <Flex onClick={() => clickHander()} as={"button"} w={"200px"} fontWeight={"medium"} border={"1px solid #3C41F0"} justifyContent={"center"} color={"brand.chasescrollBlue"} fontSize={"14px"} lineHeight={"20px"} px={"5"} height={"35px"} rounded={"8px"} alignItems={"center"} gap={"2"} >
-              {size === 9 ?
-                "show more" :
-                "show less"
-              }
-            </Flex>
-          </Flex>
+          <EventListing limit={true} landing={true}/>
         </Flex>
         <OurPartner />
       </Flex>
