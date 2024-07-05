@@ -1,9 +1,10 @@
-import { InputElementProps } from '@chakra-ui/react';
+import { InputElementProps, useColorMode } from '@chakra-ui/react';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { InputGroup, Input, InputRightElement, VStack } from '@chakra-ui/react'
 import CustomText from '../general/Text';
+import useCustomTheme from '@/hooks/useTheme';
 
 interface IProps {
   isPassword: boolean;
@@ -14,13 +15,23 @@ interface IProps {
   value?: any,
   ref?: any,
   hint?: null | string;
+  textColor?: string;
 }
 
 
-export const CustomInput = ({ isPassword = false, name, type, placeholder, disable, value, ref, hint = null }: IProps) => {
+export const CustomInput = ({ isPassword = false, name, type, placeholder, disable, value, ref, hint = null, textColor }: IProps) => {
   const { register, formState: { errors }, setValue } = useFormContext();
   const [showPassword, setShowPassword] = React.useState(false);
   const [newValue, setNewValue] = React.useState(value);
+
+  const {
+    bodyTextColor,
+    primaryColor,
+    secondaryBackgroundColor,
+    mainBackgroundColor,
+    borderColor,
+} = useCustomTheme();
+const { colorMode, toggleColorMode } = useColorMode();
 
   const handleChangeName = (e: any) => {
     const value = e.target.value; 
@@ -60,6 +71,8 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
             value={newValue}
             disabled={disable}
             fontFamily={'Satoshi-Light'}
+            borderColor={borderColor}
+            color={textColor ?? 'black'}
             // value={value? value: ""}
             type={isPassword ? (showPassword ? 'text' : 'password') : type}
           /> :
@@ -70,11 +83,13 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
               pattern: /^[A-Za-z]+$/i
             })}
             placeholder={placeholder}
+            borderColor={borderColor}
             height={"45px"}
             data-date="DD MMMM YYYY"
             lang='pt_BR'
             disabled={disable}
             fontFamily={'Satoshi-Light'}
+            color={textColor ?? 'black'}
             // value={value? value: ""}
             type={isPassword ? (showPassword ? 'text' : 'password') : type}
           />

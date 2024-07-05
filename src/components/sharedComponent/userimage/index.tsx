@@ -6,12 +6,14 @@ import React from 'react'
 import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
-    data: any,
+    data?: any,
     image: any,
     size: any,
     font?: any,
     border?: any,
-    fontWeight?: any 
+    fontWeight?: any, 
+    firstName?: string,
+    lastName?: string
 }
 
 function UserImage(props: Props) {
@@ -21,7 +23,9 @@ function UserImage(props: Props) {
         size,
         font,
         border,
-        fontWeight, 
+        fontWeight,
+        firstName,
+        lastName
     } = props
 
     const {
@@ -44,7 +48,7 @@ function UserImage(props: Props) {
             }
             {image === null && (
                 <Flex justifyContent={"center"} alignItems={"center"} width={"full"} height={"full"} fontSize={font ? font : "30px"} fontWeight={fontWeight? fontWeight : "bold"} >
-                    <Text color={bodyTextColor}>{data?.firstName?.charAt(0).toUpperCase()}{data?.lastName?.charAt(0).toUpperCase()}</Text>
+                    <Text color={bodyTextColor}>{firstName?.charAt(0).toUpperCase() ?? data?.firstName?.charAt(0).toUpperCase()}{lastName?.charAt(0).toUpperCase() ?? data?.lastName?.charAt(0).toUpperCase()}</Text>
                 </Flex> 
             )}
         </Box>

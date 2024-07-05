@@ -16,7 +16,7 @@ import { useDetails } from "@/global-state/useUserDetails";
 import BlurredImage from "../blurred_image";
 import useCustomTheme from "@/hooks/useTheme";
 import moment from "moment";
-import { textLimit } from "@/utils/textlimit"; 
+import { textLimit } from "@/utils/textlimit";
 import ModalLayout from "../modal_layout";
 import CustomButton from "@/components/general/Button";
 import ViewTicket from "@/components/event_details_component/event_modal/view_ticket";
@@ -32,6 +32,7 @@ interface Props {
     profile?: boolean;
     past?: boolean;
     dashboard?: boolean;
+    eventdashboard?: boolean;
     landing?: boolean;
     limit?: boolean
 }
@@ -49,7 +50,8 @@ function ExploreEventCard(props: Props) {
         past,
         dashboard,
         landing,
-        limit
+        limit,
+        eventdashboard
     } = props;
 
     const router = useRouter();
@@ -57,7 +59,7 @@ function ExploreEventCard(props: Props) {
 
     const { userId, email } = useDetails((state) => state);
 
-    let token = localStorage.getItem("token"); 
+    let token = localStorage.getItem("token");
 
     const {
         bodyTextColor,
@@ -91,7 +93,7 @@ function ExploreEventCard(props: Props) {
 
     const viewTicket = (event: any) => {
         event.stopPropagation();
-        setShowModal((prev)=> !prev)
+        setShowModal((prev) => !prev)
     }
 
     return (
@@ -149,7 +151,7 @@ function ExploreEventCard(props: Props) {
                         />
                     )}
                 </Box>
-                {!landing && (
+                {(!landing && !eventdashboard) && (
                     <Box
                         width={
                             searchbar ? "full" : ["full", "full", page ? "full" : "full"]
@@ -206,41 +208,43 @@ function ExploreEventCard(props: Props) {
                                 </Text>
                             </Flex>
                         )}
-                        <Flex
-                            alignItems={"center"}
-                            width={"full"}
-                            pb={"1"}
-                            gap={"3"}
-                            justifyContent={"space-between"}
-                        >
-                            <EventLocationDetail
-                                iconsize={searchbar ? "16px" : "20px"}
-                                fontWeight={"medium"}
-                                fontsize={searchbar ? "13px" : page ? "14px" : "16px"}
-                                color={"rgba(18, 18, 18, 0.80)"}
-                                location={event?.location}
-                                locationType={event?.locationType}
-                                length={20}
-                            />
-                            {!draft && !profile && !my_event && (
-                                <Flex alignItems={"center"} gap={"3"}>
-                                    <ShareEvent
-                                        data={event}
-                                        type="EVENT"
-                                        size="18px"
-                                        id={event?.id}
-                                    />
-                                    {userId && email && !past && (
-                                        <SaveOrUnsaveBtn event={event} />
-                                    )}
-                                </Flex>
-                            )}
-                            {my_event &&
-                                !profile &&
-                                event?.isOrganizer &&
-                                !event?.isBought && <DeleteEvent draft={draft} event={event} />}
-                            {draft && <DeleteEvent draft={draft} event={event} />}
-                        </Flex>
+                        {!eventdashboard && (
+                            <Flex
+                                alignItems={"center"}
+                                width={"full"}
+                                pb={"1"}
+                                gap={"3"}
+                                justifyContent={"space-between"}
+                            >
+                                <EventLocationDetail
+                                    iconsize={searchbar ? "16px" : "20px"}
+                                    fontWeight={"medium"}
+                                    fontsize={searchbar ? "13px" : page ? "14px" : "16px"}
+                                    color={"rgba(18, 18, 18, 0.80)"}
+                                    location={event?.location}
+                                    locationType={event?.locationType}
+                                    length={20}
+                                />
+                                {!draft && !profile && !my_event && (
+                                    <Flex alignItems={"center"} gap={"3"}>
+                                        <ShareEvent
+                                            data={event}
+                                            type="EVENT"
+                                            size="18px"
+                                            id={event?.id}
+                                        />
+                                        {userId && email && !past && (
+                                            <SaveOrUnsaveBtn event={event} />
+                                        )}
+                                    </Flex>
+                                )}
+                                {my_event &&
+                                    !profile &&
+                                    event?.isOrganizer &&
+                                    !event?.isBought && <DeleteEvent draft={draft} event={event} />}
+                                {draft && <DeleteEvent draft={draft} event={event} />}
+                            </Flex>
+                        )}
                         {page && (
                             <InterestedUsers
                                 fontSize={14}
@@ -365,7 +369,8 @@ function ExploreEventCard(props: Props) {
                         )}
                     </Box>
                 )}
-                {landing && (
+
+                {/* {eventdashboard && (
                     <Flex flexDir={"column"} w={"full"} height={"full"} px={"4"} pt={"6"}>
                         <Flex
                             w={"full"}
@@ -403,6 +408,78 @@ function ExploreEventCard(props: Props) {
                                     {textLimit(event?.eventDescription, limit ? 70 : 35)}
                                 </Text>
                             </Flex>
+                        </Flex>
+                        <Flex
+                            w={"full"}
+                            h={"40px"}
+                            mt={"auto"}
+                            pt={"2"}
+                            justifyContent={"space-between"}
+                            alignItems={"center"}
+                            borderTopWidth={"1px"}
+                            borderTopColor={"#EFF1FE"}
+                        >
+                            <InterestedUsers
+                                fontSize={16}
+                                color={["white", "white", "#1732F7", "#1732F7", "#1732F7"]}
+                                event={event}
+                                border={"2px"}
+                                size={"32px"}
+                            />
+                            <Flex ml={"auto"}>
+                                <EventPrice
+                                    minPrice={event?.minPrice}
+                                    maxPrice={event?.maxPrice}
+                                    currency={event?.currency}
+                                />
+                            </Flex>
+                        </Flex>
+                    </Flex>
+                )} */}
+                {landing && (
+                    <Flex flexDir={"column"} w={"full"} height={"full"} px={"4"} pt={"6"}>
+                        <Flex
+                            w={"full"}
+                            gap={"4"}
+                            py={"1"}
+                            pb={"4"}
+                            alignItems={"center"}
+                        >
+                            <Flex w={"fit-content"} flexDir={"column"} fontWeight={"bold"}>
+                                <Flex
+                                    width={"50px"}
+                                    flexDir={"column"}
+                                    py={"2px"}
+                                    borderWidth={"1px"}
+                                    alignItems={"center"}
+                                    roundedBottom={"2xl"}
+                                    roundedTopLeft={"2xl"}
+                                >
+                                    <Text
+                                        fontSize={"11.37px"}
+                                        lineHeight={"14.81px"}
+                                        color={"#3D37F1"}
+                                    >
+                                        {moment(event?.startDate).format("MMM")}
+                                    </Text>
+                                    <Text fontSize={"28.43px"} mt={"-1"} lineHeight={"37.01px"}>
+                                        {moment(event?.startDate).format("D")}
+                                    </Text>
+                                </Flex>
+                            </Flex>
+                            <Flex w={"full"} flexDir={"column"}>
+                                <Text lineHeight={"24px"} fontWeight={"700"} textAlign={"left"}>
+                                    {textLimit(event?.eventName, limit ? 30 : 16)}
+                                </Text>
+                                <Text fontSize={"14px"}>
+                                    {textLimit(event?.eventDescription, limit ? 70 : 35)}
+                                </Text>
+                            </Flex>
+                            {eventdashboard && (
+                                <Box width={"fit-content"} >
+                                    <SaveOrUnsaveBtn event={event} />
+                                </Box>
+                            )}
                         </Flex>
                         <Flex
                             w={"full"}

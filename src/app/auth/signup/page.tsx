@@ -11,6 +11,7 @@ import {
   Flex,
   Box,
   Text,
+  useColorMode,
 } from "@chakra-ui/react";
 import CustomText from "@/components/general/Text";
 import { useForm } from "@/hooks/useForm";
@@ -29,6 +30,8 @@ import moment from "moment";
 
 import { DropdownDate } from "react-dropdown-date";
 import GoogleBtn from "@/components/sharedComponent/googlebtn";
+import useCustomTheme from '@/hooks/useTheme'
+
 
 function Signup() {
   const [email, setEmail] = React.useState("");
@@ -40,6 +43,15 @@ function Signup() {
   const router = useRouter();
   const [terms, setTerms] = React.useState(false);
   const toast = useToast();
+
+    const {
+      bodyTextColor,
+      primaryColor,
+      secondaryBackgroundColor,
+      mainBackgroundColor,
+      borderColor,
+  } = useCustomTheme();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const {
     renderForm,
@@ -230,11 +242,12 @@ function Signup() {
   return renderForm(
     <VStack
       width="100%"
-      height="100%"
+      height="auto"
       overflowY={"auto"}
       justifyContent={"center"}
       padding={["20px", "20px"]}
       py={["20px", "20px"]}
+      bg={'white'}
     >
       {/* <Box width={"fit-content"} > */}
       <Image
@@ -251,12 +264,12 @@ function Signup() {
       <VStack width={["100%", "100%", "500px", "500px"]}>
         <GoogleBtn title="Sign up" />
 
-        <CustomText fontFamily={"DM-Medium"} textAlign={"center"}>
+        <CustomText color='black'  fontFamily={"DM-Medium"} textAlign={"center"}>
           OR
         </CustomText>
 
         <Box width="full">
-          <CustomText fontSize={"sm"} mb={"1"}>
+          <CustomText color="black" fontSize={"sm"} mb={"1"}>
             Enter your email<span style={{ color: "#F04F4F" }}> *</span>
           </CustomText>
           <CustomInput
@@ -267,7 +280,7 @@ function Signup() {
           />
         </Box>
         <Box width="full">
-          <CustomText fontSize={"sm"} mb={"1"}>
+          <CustomText fontSize={"sm"} color='black'  mb={"1"}>
             Enter your username<span style={{ color: "#F04F4F" }}> *</span>
           </CustomText>
           <CustomInput
@@ -278,7 +291,7 @@ function Signup() {
           />
         </Box>
         <Box width="full">
-          <CustomText fontSize={"sm"} mb={"1"}>
+          <CustomText fontSize={"sm"} color='black'  mb={"1"}>
             Enter your firstname<span style={{ color: "#F04F4F" }}> *</span>
           </CustomText>
           <CustomInput
@@ -289,7 +302,7 @@ function Signup() {
           />
         </Box>
         <Box width="full">
-          <CustomText fontSize={"sm"} mb={"1"}>
+          <CustomText fontSize={"sm"} color='black'  mb={"1"}>
             Enter your lastname<span style={{ color: "#F04F4F" }}> *</span>
           </CustomText>
           <CustomInput
@@ -300,11 +313,18 @@ function Signup() {
           />
         </Box>
         <Box width="full">
-          <CustomText fontSize={"sm"} mb={"1"}>
+          <CustomText fontSize={"sm"} color='black' mb={"1"}>
             (Date of Birth)<span style={{ color: "#F04F4F" }}> *</span>
           </CustomText>
           {/* <CustomInput name='dob' isPassword={false} type='date' placeholder='DD/MM/YYYY (Date of Birth)' /> */}
           <DropdownDate
+            classes={{
+              year: 'dropdown-color',
+              month: 'dropdown-color',
+              monthContainer: 'dropdown-color',
+              day: 'dropdown-color'
+              
+            }}
             onMonthChange={(month: any) => {
               // optional
               formatDate(month, "month");
@@ -325,11 +345,12 @@ function Signup() {
                 day: day ? day : "select day",
               }
             }
+
           />
         </Box>
 
         <Box width="full">
-          <CustomText fontSize={"sm"} mb={"1"}>
+          <CustomText fontSize={"sm"} color='black' mb={"1"}>
             Enter Phone Number<span style={{ color: "#F04F4F" }}> *</span>
           </CustomText>
           <PhoneInput
@@ -342,6 +363,7 @@ function Signup() {
               height: "45px",
               borderWidth: "1px",
               borderColor: "lightgrey",
+              color: 'black'
             }}
             value={phone}
             onChange={(phone: any) => setPhone(phone)}
@@ -349,7 +371,7 @@ function Signup() {
         </Box>
 
         <Box width="full">
-          <CustomText fontSize={"sm"} mb={"1"}>
+          <CustomText fontSize={"sm"} color='black' mb={"1"}>
             Enter your password<span style={{ color: "#F04F4F" }}> *</span>
           </CustomText>
           <CustomInput
@@ -361,7 +383,7 @@ function Signup() {
         </Box>
 
         <Box width="full">
-          <CustomText fontSize={"sm"} mb={"1"}>
+          <CustomText fontSize={"sm"} color='black' mb={"1"}>
             Confirm password<span style={{ color: "#F04F4F" }}> *</span>
           </CustomText>
           <CustomInput
@@ -389,6 +411,7 @@ function Signup() {
             fontSize={"sm"}
             fontFamily={"Satoshi-Regular"}
             marginLeft="0px"
+            color='black' 
           >
             I accept the
             <Link href={"/home/terms"}>
@@ -425,6 +448,7 @@ function Signup() {
             fontSize={"sm"}
             fontFamily={"Satoshi-Regular"}
             marginLeft="0px"
+            color='black' 
           >
             Already have an account ?
           </CustomText>
@@ -441,7 +465,7 @@ function Signup() {
         </HStack>
       </VStack>
       {/* </Box> */}
-    </VStack>,
+    </VStack>
   );
 }
 

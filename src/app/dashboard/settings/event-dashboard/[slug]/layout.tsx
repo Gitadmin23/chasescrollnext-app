@@ -88,13 +88,13 @@ function Layout({ children, params }: {
             <LoadingAnimation loading={isLoading} >
                 <Box width={["full", "full", pathname?.includes("refund") ? "full" : "600px"]} px={"6"} py={"10"} position={"relative"} >
                     <Flex alignItems={"center"} gap={"4"} width={"full"} justifyContent={"center"}>
-                        <Box onClick={() => router.back()} as='button' position={"absolute"} zIndex={"10"} left={"0px"} width={"fit-content"} >
+                        <Box onClick={() => router.back()} as='button' position={"absolute"} zIndex={"10"} left={"4"} width={"fit-content"} >
                             <BsChevronLeft size={"25px"} color={bodyTextColor} />
                         </Box>
                         <Text textAlign={"center"} fontSize={"2xl"} fontWeight={"bold"} >{pathname?.includes("refund") ? "Attendees" : data?.eventName}</Text>
                     </Flex>
 
-                    {pathname?.includes("refund") && (
+                    {!pathname?.includes("refund") && (
                         <Flex width={"full"} flexDirection={"column"}  > 
                             <Flex mt={"6"} h={"5"} width={"full"} justifyContent={"center"} alignItems={"center"} position={"relative"} >
                                 <InterestedUsers fontSize={14} event={data} border={"2px"} size={"40px"} refund={true} />
