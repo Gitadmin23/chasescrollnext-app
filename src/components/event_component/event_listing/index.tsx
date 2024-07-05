@@ -1,6 +1,7 @@
 import ExploreEventCard from '@/components/sharedComponent/event_card'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import useSearchStore from '@/global-state/useSearchData'
+import { useDetails } from '@/global-state/useUserDetails'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
 import httpService from '@/utils/httpService'
 import { Box, Flex, Grid, GridItem, Skeleton, Text } from '@chakra-ui/react'
@@ -22,6 +23,7 @@ function  EventListing(props: Props) {
         eventdashboard
     } = props
     const { event_category } = useSearchStore((state) => state);
+    const { username } = useDetails((state) => state);
 
     const router = useRouter()
 
@@ -78,8 +80,10 @@ function  EventListing(props: Props) {
     }
     const LimitedComponent = () => { 
  
-        const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/events/events${event_category ? "?eventType=" + event_category : ""}`, limit: 20 , filter: "id", newdata: event_category })
+        const { data, results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/events/events${event_category ? "?eventType=" + event_category : ""}`, limit: 15 , filter: "id", newdata: event_category })
  
+        const token = localStorage.getItem("token")  
+
         return (
             <Flex width={"full"} justifyContent={"center"} mt={!event_category ? !limit ? "8" : "" : ""} py={"8"} px={"6px"} flexDirection={"column"} alignItems={"center"} >
                 {!limit && (
@@ -108,7 +112,7 @@ function  EventListing(props: Props) {
                         <Grid width={["full", "full", "full", "full", "full"]} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(3, 1fr)']} gap={5}>
                             {results?.map((event: any, i: number) => {
                                 if (results.length === i + 1) {
-                                    if ((i + 1) >= 40) {
+                                    if ((i + 1) >= 30) {
                                         return (
                                             <GridItem key={i + "last"} w={["full", "full", "full", "full", "full"]}  >
                                                 <ExploreEventCard landing={true} date={true} page={true} event={event} />
@@ -133,9 +137,8 @@ function  EventListing(props: Props) {
                     </>
                 </LoadingAnimation>
                 <Flex w={"full"} justifyContent={"center"}  >
-                    {results.length > 20 && (
-                        <Flex onClick={() => router?.push("/auth")} as={"button"} w={"200px"} fontWeight={"medium"} border={"1px solid #3C41F0"} justifyContent={"center"} color={"brand.chasescrollBlue"} mt={"8"} fontSize={"14px"} lineHeight={"20px"} px={"5"} height={"35px"} rounded={"8px"} alignItems={"center"} gap={"2"} >
-
+                    {((results.length > 15) && (data?.data?.last === false)) && (
+                        <Flex onClick={() => router?.push(token? "/dashboard/event":"/auth")} as={"button"} w={"200px"} fontWeight={"medium"} border={"1px solid #3C41F0"} justifyContent={"center"} color={"brand.chasescrollBlue"} mt={"8"} fontSize={"14px"} lineHeight={"20px"} px={"5"} height={"35px"} rounded={"8px"} alignItems={"center"} gap={"2"} >
                             show more
                         </Flex>
                     )}

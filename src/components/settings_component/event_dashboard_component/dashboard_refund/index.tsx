@@ -45,6 +45,8 @@ import { ArrowRight, BoxArrowIcon, LocationIcon, TicketBtnIcon } from '@/compone
 import { eventNames } from 'process'
 import { useRouter } from 'next/navigation'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
+import { PaginatedResponse } from '@/models/PaginatedResponse'
+import { IEventType } from '@/models/Event'
 
 interface Props {
     index: any
@@ -96,6 +98,7 @@ function DashboardRefund(props: Props) {
     const [open, setOpen] = useState(false)
 
     const [dataInfo, setData] = useState([] as any)
+    const [eventData, setEventData] = useState({} as IEventType)
 
     const { } = useQuery(['all-events-details' + index], () => httpService.get(URLS.All_EVENT + "?id=" + index), {
         onError: (error: any) => {
@@ -109,12 +112,26 @@ function DashboardRefund(props: Props) {
         }
     })
 
+    const { isLoading: loadingData, isRefetching: refechingDa } = useQuery(['all-events-details', index], () => httpService.get(URLS.All_EVENT + "?id=" + index), {
+        onError: (error: any) => {
+            toast({
+                status: "error",
+                title: error.response?.data,
+            });
+        },
+        onSuccess: (data: any) => {
+            // const item: PaginatedResponse<IEventType> = data.data;
+            setEventData(data?.data?.content[0]);
+        }
+    })
+
 
     const componentRef: any = React.useRef();
 
     const tableRef: any = React.useRef();
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
+        documentTitle: capitalizeFLetter(eventData?.eventName),
         pageStyle: `
           @page {
             size: Legal landscape
@@ -145,68 +162,70 @@ function DashboardRefund(props: Props) {
 
     return (
         <Flex ref={componentRef} width={"full"} flexDirection={"column"} >
-            <Flex pos={"relative"} width={"full"} alignItems={"center"} flexDir={["column", "column", "row"]} gap={"6"} >
-                <Flex width={["full", "full", "auto", "auto"]} gap={"3"} flexDirection={["row", "row", "row"]} pos={"relative"} borderWidth={"1px"} p={"2"} rounded={"4px"} >
-                    <EventImage data={data?.data?.content[0]?.event} width={["100px", "125px", "125px"]} height={["80px", "114px", "114px"]} />
-                    <Flex flexDir={"column"} >
-                        <Text fontSize={"lg"} fontWeight={"semibold"} >{textLimit(capitalizeFLetter(data?.data?.content[0]?.event?.eventName), 20)}</Text>
-                        <EventDate eventdashboard={true} date={data?.data?.content[0]?.event?.startDate} />
-                        <EventLocationDetail length={40} fontsize='12px' location={data?.data?.content[0]?.event?.location} locationType={data?.data?.content[0]?.event?.locationType} indetail={true} eventdashboard={true} />
-                        <Box mt={"1"} >
-                            <InterestedUsers fontSize={12} event={dataInfo} border={"2px"} size={"24px"} />
+            <LoadingAnimation loading={loadingData} >
+                <Flex pos={"relative"} width={"full"} alignItems={"center"} flexDir={["column", "column", "row"]} gap={"6"} >
+                    <Flex width={["auto", "auto", "auto", "auto"]} mr={["auto", "auto", "0px"]} gap={"3"} flexDirection={["row", "row", "row"]} pos={"relative"} borderWidth={"1px"} p={"2"} rounded={"4px"} >
+                        <EventImage data={eventData} width={["100px", "125px", "125px"]} height={["80px", "114px", "114px"]} />
+                        <Flex flexDir={"column"} >
+                            <Text fontSize={"lg"} fontWeight={"semibold"} >{textLimit(capitalizeFLetter(eventData?.eventName), 20)}</Text>
+                            <EventDate eventdashboard={true} date={eventData?.startDate} />
+                            <EventLocationDetail length={40} fontsize='12px' location={eventData?.location} locationType={eventData?.locationType} indetail={true} eventdashboard={true} />
+                            <Box mt={"1"} >
+                                <InterestedUsers fontSize={12} event={dataInfo} border={"2px"} size={"24px"} />
+                            </Box>
+                        </Flex>
+                        {/* <CustomButton text={"View Event"} backgroundColor={"#EFF1FE"} color={"#5D70F9"} pos={"absolute"} height={"32px"} fontSize={"xs"} insetX={"auto"} insetY={"auto"} mt={"auto"} right={"0px"} width={"114px"} transform={"rotate(-90deg)"} roundedBottom={"4px"} /> */}
+                        <Box as='button' display={["block", "block", "block"]} onClick={() => clickHandler()} ml={"auto"} height={"full"} >
+                            <TicketBtnIcon />
                         </Box>
-                    </Flex>
-                    {/* <CustomButton text={"View Event"} backgroundColor={"#EFF1FE"} color={"#5D70F9"} pos={"absolute"} height={"32px"} fontSize={"xs"} insetX={"auto"} insetY={"auto"} mt={"auto"} right={"0px"} width={"114px"} transform={"rotate(-90deg)"} roundedBottom={"4px"} /> */}
-                    <Box as='button' display={["block", "block", "block"]} onClick={() => clickHandler()} ml={"auto"} height={"full"} >
-                        <TicketBtnIcon />
-                    </Box>
 
-                    {/* <Flex onClick={() => clickHandler()} display={["block", "none", "none"]} as={"button"} w={["full", "full", "152px"]} fontWeight={"medium"} border={"1px solid #3C41F0"} justifyContent={"center"} color={"brand.chasescrollBlue"} fontSize={"14px"} lineHeight={"20px"} height={"44px"} rounded={"8px"} alignItems={"center"} gap={"2"} >
+                        {/* <Flex onClick={() => clickHandler()} display={["block", "none", "none"]} as={"button"} w={["full", "full", "152px"]} fontWeight={"medium"} border={"1px solid #3C41F0"} justifyContent={"center"} color={"brand.chasescrollBlue"} fontSize={"14px"} lineHeight={"20px"} height={"44px"} rounded={"8px"} alignItems={"center"} gap={"2"} >
                         View Event
                     </Flex> */}
-                </Flex>
-                <Flex display={["none", "none", "none", "flex"]} flexDir={"column"} gap={"4"} justifyContent={"center"} >
-                    <Flex color={"#101828"} alignItems={"center"} gap={"2"} >
-                        <Text>Home</Text>
-                        <ArrowRight />
-                        <Text>Attendees</Text>
                     </Flex>
-                    <Flex gap={"2"} alignItems={"center"}  >
-                        <Text fontSize={"sm"} >Members Roles</Text>
-                        <Select width={"fit-content"} outline={"none"} placeholder='All' value={memberRole} onChange={(e) => setMemberRoles(e.target?.value)} >
-                            <option value={"ADMIN"} >Organizer</option>
-                            <option value={"USER"} >Attendees</option>
-                            <option value={"COLLABORATOR"} >Volunter</option>
-                        </Select>
+                    <Flex display={["none", "none", "none", "flex"]} flexDir={"column"} gap={"4"} justifyContent={"center"} >
+                        <Flex color={"#101828"} alignItems={"center"} gap={"2"} >
+                            <Text>Home</Text>
+                            <ArrowRight />
+                            <Text>Attendees</Text>
+                        </Flex>
+                        <Flex gap={"2"} alignItems={"center"}  >
+                            <Text fontSize={"sm"} >Members Roles</Text>
+                            <Select width={"fit-content"} outline={"none"} placeholder='All' value={memberRole} onChange={(e) => setMemberRoles(e.target?.value)} >
+                                <option value={"ADMIN"} >Organizer</option>
+                                <option value={"USER"} >Attendees</option>
+                                <option value={"COLLABORATOR"} >Volunter</option>
+                            </Select>
+                        </Flex>
+                        <Flex gap={"2"} alignItems={"center"}  >
+                            <Text fontSize={"sm"} >Display</Text>
+                            <Select width={"fit-content"} outline={"none"} value={size} onChange={(e) => setSize(Number(e.target?.value))} >
+                                <option>10</option>
+                                <option>20</option>
+                                <option>30</option>
+                                <option>40</option>
+                                <option>50</option>
+                                <option>60</option>
+                                <option>70</option>
+                                <option>80</option>
+                                <option>90</option>
+                                <option>100</option>
+                            </Select>
+                        </Flex>
                     </Flex>
-                    <Flex gap={"2"} alignItems={"center"}  >
-                        <Text fontSize={"sm"} >Display</Text>
-                        <Select width={"fit-content"} outline={"none"} value={size} onChange={(e) => setSize(Number(e.target?.value))} >
-                            <option>10</option>
-                            <option>20</option>
-                            <option>30</option>
-                            <option>40</option>
-                            <option>50</option>
-                            <option>60</option>
-                            <option>70</option>
-                            <option>80</option>
-                            <option>90</option>
-                            <option>100</option>
-                        </Select>
-                    </Flex>
-                </Flex>
-                <Flex width={["full", "full", "auto", "auto"]} ml={["0px", "0px", "auto"]} justifyContent={["space-between", "space-between", "start"]} alignItems={"center"} gap={"4"} >
-                    <Text display={["flex", "flex", "none", "none"]} letterSpacing={"-0.08px"} lineHeight={"18px"} fontWeight={"500"} >Event Attendees</Text>
-                    <CustomButton onClick={()=> setOpen(true)} text={"Export"} width={"130px"} />
-                    {/* <Select width={"120px"} height={"45px"} placeholder='Sort by' >
+                    <Flex width={["full", "full", "auto", "auto"]} ml={["0px", "0px", "auto"]} justifyContent={["space-between", "space-between", "start"]} alignItems={"center"} gap={"4"} >
+                        <Text display={["flex", "flex", "none", "none"]} letterSpacing={"-0.08px"} lineHeight={"18px"} fontWeight={"500"} >Event Attendees</Text>
+                        <CustomButton onClick={() => setOpen(true)} text={"Export"} width={"130px"} />
+                        {/* <Select width={"120px"} height={"45px"} placeholder='Sort by' >
                             <option>test</option>
                         </Select> */}
+                    </Flex>
                 </Flex>
-            </Flex>
+            </LoadingAnimation>
             <Flex width={"full"} flexDir={"column"} my={["6", "0px", "0px"]} p={["0px", "6", "6"]} >
                 <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data?.data?.content?.length} >
 
-                    <TableContainer ref={componentRef} >
+                    <TableContainer >
                         <Table variant='simple' colorScheme="gray">
                             <TableCaption>
                                 <Box>
@@ -328,50 +347,50 @@ function DashboardRefund(props: Props) {
                             </Tbody>
                         </Table>
                     </TableContainer>
-                </LoadingAnimation>
-            </Flex> 
-
-            <Flex py={"6"} gap={"8"} flexDir={["column", "column", "row", "row"]} alignItems={"start"} justifyContent={"space-between"} >
-                <Flex fontSize={"12px"} color={bodyTextColor} lineHeight={"23px"} >
-                    Showing {(Number(data?.data?.numberOfElements))} items out of {data?.data?.totalElements} results found
-                </Flex>
-                <Flex gap={"5"} ml={"auto"} >
-                    <Box onClick={() => setPage((prev) => prev - 1)} as="button" cursor={data?.data?.first && "not-allowed"} transform={"rotate(180deg)"} disabled={data?.data?.first} _disabled={{ opacity: "20%" }} >
-                        <BoxArrowIcon />
-                    </Box>
-                    <Flex width={"26px"} border={(data?.data?.number + 1) === 1 ? "1px" : "0px"} rounded={"6px"} height={"24px"} justifyContent={"center"} alignItems={"center"} >
-                        1
+                    <Flex py={"6"} gap={"8"} flexDir={["column", "column", "row", "row"]} alignItems={"start"} justifyContent={"space-between"} >
+                        <Flex fontSize={"12px"} color={bodyTextColor} lineHeight={"23px"} >
+                            Showing {(Number(data?.data?.numberOfElements))} items out of {data?.data?.totalElements} results found
+                        </Flex>
+                        <Flex gap={"5"} ml={"auto"} >
+                            <Box onClick={() => setPage((prev) => prev - 1)} as="button" cursor={data?.data?.first && "not-allowed"} transform={"rotate(180deg)"} disabled={data?.data?.first} _disabled={{ opacity: "20%" }} >
+                                <BoxArrowIcon />
+                            </Box>
+                            <Flex width={"26px"} border={(data?.data?.number + 1) === 1 ? "1px" : "0px"} rounded={"6px"} height={"24px"} justifyContent={"center"} alignItems={"center"} >
+                                1
+                            </Flex>
+                            {(data?.data?.totalPages >= 2) && (
+                                <Flex as={"button"} onClick={() => setPage(1)} width={"26px"} border={(data?.data?.number + 1) === 2 ? "1px" : "0px"} rounded={"6px"} height={"24px"} justifyContent={"center"} alignItems={"center"} >
+                                    2
+                                </Flex>
+                            )}
+                            {(data?.data?.totalPages >= 3) && (
+                                <Flex as={"button"} onClick={() => setPage(2)} width={"26px"} border={(data?.data?.number + 1) === 3 ? "1px" : "0px"} rounded={"6px"} height={"24px"} justifyContent={"center"} alignItems={"center"} >
+                                    3
+                                </Flex>
+                            )}
+                            {(data?.data?.totalPages >= 4) && (
+                                <Flex as={"button"} onClick={() => setPage(3)} width={"26px"} border={(data?.data?.number + 1) === 4 ? "1px" : "0px"} rounded={"6px"} height={"24px"} justifyContent={"center"} alignItems={"center"} >
+                                    4
+                                </Flex>
+                            )}
+                            {(data?.data?.number + 1) > 4 &&
+                                <Flex width={"26px"} border={(data?.data?.number + 1) > 4 ? "1px" : "0px"} rounded={"6px"} height={"24px"} justifyContent={"center"} alignItems={"center"} >
+                                    ...
+                                </Flex>
+                            }
+                            {(data?.data?.number + 1) > 4 &&
+                                <Flex width={"26px"} border={"1px"} rounded={"6px"} height={"24px"} justifyContent={"center"} alignItems={"center"} >
+                                    {data?.data?.number + 1}
+                                </Flex>
+                            }
+                            <Box onClick={() => setPage((prev) => prev + 1)} as="button" cursor={data?.data?.last && "not-allowed"} disabled={data?.data?.last} _disabled={{ opacity: "20%" }} >
+                                <BoxArrowIcon />
+                            </Box>
+                        </Flex>
                     </Flex>
-                    {(data?.data?.totalPages >= 2) && (
-                        <Flex as={"button"} onClick={() => setPage(1)} width={"26px"} border={(data?.data?.number + 1) === 2 ? "1px" : "0px"} rounded={"6px"} height={"24px"} justifyContent={"center"} alignItems={"center"} >
-                            2
-                        </Flex>
-                    )}
-                    {(data?.data?.totalPages >= 3) && (
-                        <Flex as={"button"} onClick={() => setPage(2)} width={"26px"} border={(data?.data?.number + 1) === 3 ? "1px" : "0px"} rounded={"6px"} height={"24px"} justifyContent={"center"} alignItems={"center"} >
-                            3
-                        </Flex>
-                    )}
-                    {(data?.data?.totalPages >= 4) && (
-                        <Flex as={"button"} onClick={() => setPage(3)} width={"26px"} border={(data?.data?.number + 1) === 4 ? "1px" : "0px"} rounded={"6px"} height={"24px"} justifyContent={"center"} alignItems={"center"} >
-                            4
-                        </Flex>
-                    )}
-                    {(data?.data?.number + 1) > 4 &&
-                        <Flex width={"26px"} border={(data?.data?.number + 1) > 4 ? "1px" : "0px"} rounded={"6px"} height={"24px"} justifyContent={"center"} alignItems={"center"} >
-                            ...
-                        </Flex>
-                    }
-                    {(data?.data?.number + 1) > 4 &&
-                        <Flex width={"26px"} border={"1px"} rounded={"6px"} height={"24px"} justifyContent={"center"} alignItems={"center"} >
-                            {data?.data?.number + 1}
-                        </Flex>
-                    }
-                    <Box onClick={() => setPage((prev) => prev + 1)} as="button" cursor={data?.data?.last && "not-allowed"} disabled={data?.data?.last} _disabled={{ opacity: "20%" }} >
-                        <BoxArrowIcon />
-                    </Box>
-                </Flex>
+                </LoadingAnimation>
             </Flex>
+
             <ModalLayout open={open} close={setOpen}>
                 <Flex py={"8"} px={"6"} flexDirection={"column"} gap={"4"} width={"full"} justifyContent={"center"} alignItems={"center"} >
                     <CustomButton fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#FF6F61"} onClick={handlePrint} text='PDF' />
