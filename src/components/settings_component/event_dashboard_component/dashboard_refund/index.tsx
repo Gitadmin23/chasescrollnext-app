@@ -396,7 +396,7 @@ function DashboardRefund(props: Props) {
                     <CustomButton fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#FF6F61"} onClick={handlePrint} text='PDF' />
                     <Flex width={"full"} height={"1px"} bgColor={"#DDE6EB"} />
                     <CSVLink style={{ width: "100%" }} data={newData ? newData : []}
-                        filename={data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length) + "m.csv"} >
+                        filename={data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length) + ".csv"} >
                         <CustomButton fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#5D70F9"} text='CSV' />
 
                     </CSVLink>
