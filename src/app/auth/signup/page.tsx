@@ -242,7 +242,7 @@ function Signup() {
   return renderForm(
     <VStack
       width="100%"
-      height="100vh"
+      height="auto"
       overflowY={"auto"}
       justifyContent={"center"}
       padding={["20px", "20px"]}
