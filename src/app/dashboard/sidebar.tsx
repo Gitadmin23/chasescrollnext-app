@@ -72,7 +72,7 @@ const MenuItem = ({
         width="100%"
         height="70px"
         alignItems={"center"}
-        bg={active ? secondaryBackgroundColor: undefined}
+        bg={active ? secondaryBackgroundColor : undefined}
       >
         {icon}
         <CustomText fontFamily={"DM-Bold"} fontSize={"16px"}>
@@ -101,6 +101,11 @@ function Sidebar() {
 
   const logout = async () => {
     await signOut();
+
+    const keyToKeep = 'chakra-ui-color-mode';
+
+    // Retrieve the value of the key you want to keep
+    const valueToKeep = localStorage.getItem(keyToKeep);
     setAll({
       userId: "",
       dob: "",
@@ -111,6 +116,9 @@ function Sidebar() {
       publicProfile: "",
     });
     localStorage.clear();
+    if (valueToKeep !== null) {
+      localStorage.setItem(keyToKeep, valueToKeep);
+    }
     router.push("/auth");
   };
 
@@ -194,13 +202,13 @@ function Sidebar() {
                 Are you sure you want to logout?
               </CustomText>
               <VStack justifyContent={"center"} width={"100%"}>
-                <Button 
+                <Button
                   // outlineColor={"brand.chasescrollButtonBlue"}
                   borderColor={"brand.chasescrollButtonBlue"}
                   borderWidth={"1px"}
                   width="100%"
                   outline={"none"}
-                  _hover={{backgroundColor: "white"}}
+                  _hover={{ backgroundColor: "white" }}
                   bg={"white"}
                   height={"32px"}
                   color="brand.chasescrollButtonBlue"
@@ -208,10 +216,10 @@ function Sidebar() {
                 >
                   Cancel
                 </Button>
-                <Button 
+                <Button
                   borderColor={"red"}
                   borderWidth={"1px"}
-                  _hover={{backgroundColor: "red"}}
+                  _hover={{ backgroundColor: "red" }}
                   bg="red"
                   width="100%"
                   height={"40px"}
@@ -235,9 +243,9 @@ function Sidebar() {
           />
         ))}
 
-        <Flex paddingX={['20px', '40px']} gap={"4"} _hover={{backgroundColor: secondaryBackgroundColor }} width='100%' height='70px' alignItems={'center'}>
+        <Flex paddingX={['20px', '40px']} gap={"4"} _hover={{ backgroundColor: secondaryBackgroundColor }} width='100%' height='70px' alignItems={'center'}>
           <CustomText color={bodyTextColor} fontFamily={'DM-Bold'}>{'Dark Mode'}</CustomText>
-          <Switch isChecked={colorMode === 'dark'} size={'md'} onChange={() => toggleColorMode() }  />
+          <Switch isChecked={colorMode === 'dark'} size={'md'} onChange={() => toggleColorMode()} />
         </Flex>
 
       </VStack>

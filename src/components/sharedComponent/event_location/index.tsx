@@ -4,6 +4,7 @@ import { Box, Flex, Text, useColorMode } from "@chakra-ui/react";
 import React from "react";
 import { MdLocationPin } from "react-icons/md";
 import useCustomTheme from "@/hooks/useTheme";
+import { textLimit } from "@/utils/textlimit";
 
 interface Props {
   location: any;
@@ -15,6 +16,7 @@ interface Props {
   height?: string;
   indetail?: boolean;
   noicon?: boolean;
+  eventdashboard?: boolean;
   fontWeight?: string;
 }
 
@@ -29,6 +31,7 @@ function EventLocationDetail(props: Props) {
     indetail,
     height,
     noicon,
+    eventdashboard,
     fontWeight,
   } = props;
 
@@ -81,7 +84,7 @@ function EventLocationDetail(props: Props) {
               <p>
                 {location?.locationDetails?.length >= (length ? length : 17)
                   ? location?.locationDetails.slice(0, length ? length : 17) +
-                    "..."
+                  "..."
                   : location?.locationDetails}
               </p>
             )}
@@ -108,17 +111,23 @@ function EventLocationDetail(props: Props) {
         <Box
           display={"flex"}
           flexDirection={"column"}
-          borderBottomWidth={"1px"}
+          borderBottomWidth={eventdashboard ? "0px" : "1px"}
           borderBottomColor={borderColor}
           roundedBottom={"lg"}
-          py={"2"}
+          py={eventdashboard ? "0px" : "2"}
         >
-          <Text fontSize={"sm"} fontWeight={"semibold"}>
-            {"Event location"}
-          </Text>
-          <Flex width={"full"} gap={"3"} mt={"3"} alignItems={"center"}>
+          {!eventdashboard && (
+            <Text fontSize={"sm"} fontWeight={"semibold"}>
+              {"Event location"}
+            </Text>
+          )}
+          <Flex width={"full"} gap={eventdashboard ? "0px" : "3"} mt={eventdashboard ? "0px" : "3"} alignItems={"center"}>
             <Box width={"fit-content"}>
-              <LocationIcon className="" />
+              <Flex justifyContent={"start"} w={"27px"} > 
+                <Box ml={"-2px"} >
+                <LocationIcon />
+                </Box>
+              </Flex>
             </Box>
             <Box>
               <Text
@@ -128,14 +137,8 @@ function EventLocationDetail(props: Props) {
                 fontSize={fontsize ? fontsize : "sm"}
               >
                 {location?.locationDetails && (
-                  <p>
-                    {location?.locationDetails?.length >=
-                    (length ? length : 350)
-                      ? location?.locationDetails.slice(
-                          0,
-                          length ? length : 350,
-                        ) + "..."
-                      : location?.locationDetails}
+                  <p> 
+                     {textLimit(location?.locationDetails, length ?? 10)}
                   </p>
                 )}
                 {location?.toBeAnnounced && !location?.locationDetails && (

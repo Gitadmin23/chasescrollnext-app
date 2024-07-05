@@ -70,7 +70,7 @@ function EventComponent() {
       {!event_category && (
         <EventCarousel />
       )}
-      <EventListing />
+      <EventListing landing={true} eventdashboard={true} />
     </Box>
   )
 }
