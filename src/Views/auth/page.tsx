@@ -91,8 +91,15 @@ function LoginPage() {
   const { setAll } = useDetails((state) => state); 
 
 
-  React.useEffect(() => {
-    localStorage.clear()
+  React.useEffect(() => { 
+    const keyToKeep = 'chakra-ui-color-mode';
+
+    // Retrieve the value of the key you want to keep
+    const valueToKeep = localStorage.getItem(keyToKeep); 
+    localStorage.clear();
+    if (valueToKeep !== null) {
+      localStorage.setItem(keyToKeep, valueToKeep);
+    }
   }, []); 
 
   React.useEffect(() => {
