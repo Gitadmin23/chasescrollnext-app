@@ -33,7 +33,7 @@ function ShareCommunity() {
   const [search, setSearch] = React.useState('');
   const [mediaTab, setMediaTab] = React.useState(1);
   const router = useRouter();
-  const { userId } = useDetails((state) => state)
+  const userId = localStorage.getItem('user_id')?.toString()
 
   const admin = userId === details?.creator?.userId;
   const toast = useToast();
@@ -54,11 +54,11 @@ function ShareCommunity() {
 
 
   console.log(details);
-  
+
   const joinGroup = useMutation({
     mutationFn: () => httpService.post(`${URLS.JOIN_GROUP}`, {
       groupID: typeID,
-      joinID: userId
+      joinID: userId,
     }),
     onSuccess: (data) => {
       toast({
@@ -80,9 +80,12 @@ function ShareCommunity() {
       });
     }
   })
+  const userIdn = localStorage.getItem('user_id');
+
+  console.log(userIdn);
+  console.log(userId);
 
   const handleJoin = () => {
-    const userId = localStorage.getItem('user_id');
     if (!userId || userId === '') {
       toast({
         title: 'Warning',
@@ -95,7 +98,7 @@ function ShareCommunity() {
       sessionStorage.setItem('type', type as string);
       sessionStorage.setItem('typeID', typeID as string);
       router.push(`/share/auth/login?type=${type}&typeID=${typeID}`)
-    } else {
+    } else { 
       joinGroup.mutate()
     }
   }
@@ -255,9 +258,17 @@ function ShareCommunity() {
         <VStack width={['100%', '25%']} height={'100%'} >
 
           {/* header */}
-          {details?.joinStatus !== "CONNECTED" && (
-            <Button width='100%' height='40px' borderRadius='20px' isLoading={joinGroup.isLoading} type='button' variant={'solid'} bg='brand.chasescrollButtonBlue' color='white' onClick={handleJoin}>Join Community</Button>
-          )}
+          {/* {!admin && (
+            <> */}
+              {(userId) && (
+                <>
+                  {details?.joinStatus !== "CONNECTED" && (
+                    <Button width='100%' height='40px' borderRadius='20px' _hover={{ backgroundColor: "brand.chasescrollButtonBlue" }} isLoading={joinGroup.isLoading} type='button' variant={'solid'} bg='brand.chasescrollButtonBlue' color='white' onClick={handleJoin}>Join Community</Button>
+                  )}
+                </>
+              )}
+            {/* </>
+          )} */}
 
 
         </VStack>
