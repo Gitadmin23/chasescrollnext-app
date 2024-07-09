@@ -183,7 +183,7 @@ const createComment = useMutation({
           <Box width='30%' height='100%' borderRightColor={'lightgrey'} borderRightWidth={activeCommunity !== null ?'1px':'0px'} >
             <Sidebar />
           </Box>
-          <Box flex={1} height='90%' bg={secondaryBackgroundColor} borderWidth={activeCommunity !== null ? 0:1}  borderColor={ colorMode  === 'light' ? 'brand.chasescrollButtonBlue': borderColor}  borderRadius={activeCommunity !== null ? '0px':'20px'}>
+          <Box flex={1} height='100%' bg={secondaryBackgroundColor} borderWidth={activeCommunity !== null ? 0:1}  borderColor={ colorMode  === 'light' ? 'brand.chasescrollButtonBlue': borderColor}  borderRadius={activeCommunity !== null ? '0px':'20px'}>
             <MainArea />
           </Box>
 
@@ -198,7 +198,7 @@ const createComment = useMutation({
           )}
         {
           activeCommunity !== null && (
-            <VStack spacing={0} flex={1} height='82%' bg={secondaryBackgroundColor} borderWidth={activeCommunity !== null ? 0:1}  borderColor={ colorMode  === 'light' ? 'brand.chasescrollButtonBlue': borderColor} borderRadius={activeCommunity !== null ? '0px':'20px'}>
+            <VStack spacing={0} flex={1} height='100%' bg={secondaryBackgroundColor} borderWidth={activeCommunity !== null ? 0:1}  borderColor={ colorMode  === 'light' ? 'brand.chasescrollButtonBlue': borderColor} borderRadius={activeCommunity !== null ? '0px':'20px'}>
                 <MainArea />
             </VStack>
           )

@@ -25,7 +25,7 @@ const { colorMode, toggleColorMode } = useColorMode();
           <Box flex={0.25} overflow={'hidden'} height='100%' borderRightColor={borderColor} borderRightWidth={activeChat !== null ?'0.5px':'0px'} >
             <Sidebar />
           </Box>
-          <Box flex={0.75} overflow={'hidden'} height={['100%', '97%']} bg={secondaryBackgroundColor} borderWidth={activeChat !== null ? 0:0.5}  borderColor={colorMode === 'light' ? 'brand.chasescrollButtonBlue':borderColor}  borderRadius={activeChat !== null ? '0px':'20px'}>
+          <Box flex={0.75} overflow={'hidden'} height={['100%', '100%']} bg={secondaryBackgroundColor} borderWidth={activeChat !== null ? 0:0.5}  borderColor={colorMode === 'light' ? 'brand.chasescrollButtonBlue':borderColor}  borderRadius={activeChat !== null ? '0px':'20px'}>
             <MainArea />
           </Box>
 
