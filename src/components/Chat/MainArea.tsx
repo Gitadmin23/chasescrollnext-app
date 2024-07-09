@@ -1,5 +1,5 @@
 import CustomText from '@/components/general/Text';
-import { Box, Spinner, useColorMode, VStack } from '@chakra-ui/react';
+import { Box, Flex, Spinner, useColorMode, VStack } from '@chakra-ui/react';
 import React, { useEffect, useRef } from 'react'
 import { useCommunityPageState } from '../Community/chat/state';
 import { useChatPageState } from './state';
@@ -120,8 +120,9 @@ function MainArea() {
             </Box>
 
             {/* TEXTAREA */}
-
+            <Flex w={"full"} mt={"auto"} > 
             <TextArea />
+            </Flex>
         </VStack>
     )
 }
