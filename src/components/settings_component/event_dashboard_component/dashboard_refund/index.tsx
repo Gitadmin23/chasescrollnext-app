@@ -82,16 +82,6 @@ function DashboardRefund(props: Props) {
                 status: "error",
                 title: error.response?.data,
             });
-        },
-        onSuccess: (data) => {
-            console.log(data.data.content);
-            const codes = Object.entries(data.data.content)
-                .map(([key, value]: any) => {
-                    return { "Full Name": capitalizeFLetter(value?.user?.firstName) + " " + capitalizeFLetter(value?.user?.lastName), "User Name": value?.user?.username, "Email": value?.user?.email, "Ticket Type": value?.ticketType?.slice(0, 1)?.toUpperCase() + value?.ticketType?.slice(1, value?.ticketType?.length), "Created Date": dateFormat(value?.user?.createdDate) };
-                });
-            setNewData(codes)
-
-            // setData(data.data.content);
         }
     })
 
@@ -109,6 +99,48 @@ function DashboardRefund(props: Props) {
         },
         onSuccess: (data: any) => {
             setData(data?.data?.content[0]);
+        }
+    })
+
+    const { isLoading: loadingcsv, refetch } = useQuery(['downloadcsv'], () => httpService.get("/events/download-event-members/" + index), {
+        onError: (error: any) => {
+            toast({
+                status: "error",
+                title: error.response?.data,
+            });
+        },
+        onSuccess: (data: any) => { 
+
+            // Split the CSV string into rows
+            const rows = data?.data.trim().split('\n');
+
+            // Extract the header row
+            const header = rows.shift().split(',');
+
+            // Function to parse the date fields properly
+            const parseDate = (dateString: string) => {
+                const dateParts = dateString.split(',');
+                const timePart = dateParts.slice(3).join(',');
+                const datePart = dateParts.slice(1, 3).join(' ');
+                return `${dateParts[0]}, ${datePart}${timePart}`;
+            };
+
+            // Convert each row into an object
+            const datacsv = rows.map((row: any) => {
+                const fields = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g).map((field: any) => field.replace(/"/g, ''));
+                return {
+                    name: fields[0],
+                    username: fields[1],
+                    email: fields[2],
+                    tickettype: fields[3] === 'ORGANIZER' || fields[3] === 'VOLUNTEER' || fields[3] === 'ADMIN' ? '' : fields[3],
+                    ticketsbought: parseInt(fields[4]),
+                    date: parseDate(fields.slice(5).join(','))
+                };
+            });
+
+            setNewData(datacsv) 
+            
+
         }
     })
 
@@ -137,13 +169,7 @@ function DashboardRefund(props: Props) {
             size: Legal landscape
           }   
         `,
-    });
-
-    const printToPdf = () => {
-        setOpen(false)
-        handlePrint()
-    }
-
+    }); 
 
     const router = useRouter()
 
@@ -158,6 +184,11 @@ function DashboardRefund(props: Props) {
             router?.push(`/dashboard/event/details/${index}`)
         }
     }
+
+    const downloadCSV = () => {
+        refetch()
+    }
+
 
 
     return (
@@ -351,7 +382,7 @@ function DashboardRefund(props: Props) {
                         <Flex fontSize={"12px"} color={bodyTextColor} lineHeight={"23px"} >
                             Showing {(Number(data?.data?.numberOfElements))} items out of {data?.data?.totalElements} results found
                         </Flex>
-                        <Flex gap={"5"} ml={"auto"} >
+                        <Flex display={data?.data?.totalPages === 1 ? "none" : "flex"} gap={"5"} ml={"auto"} >
                             <Box onClick={() => setPage((prev) => prev - 1)} as="button" cursor={data?.data?.first && "not-allowed"} transform={"rotate(180deg)"} disabled={data?.data?.first} _disabled={{ opacity: "20%" }} >
                                 <BoxArrowIcon />
                             </Box>
@@ -397,9 +428,10 @@ function DashboardRefund(props: Props) {
                     <Flex width={"full"} height={"1px"} bgColor={"#DDE6EB"} />
                     <CSVLink style={{ width: "100%" }} data={newData ? newData : []}
                         filename={data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length) + ".csv"} >
-                        <CustomButton fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#5D70F9"} text='CSV' />
-
+                        <CustomButton onClick={downloadCSV} fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#5D70F9"} text='CSV' />
                     </CSVLink>
+
+
                 </Flex>
             </ModalLayout>
         </Flex >
