@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Modal, ModalOverlay, ModalBody, ModalContent, HStack, Select, VStack, Flex, Textarea, Button, useToast } from '@chakra-ui/react';
 import { FiX } from 'react-icons/fi';
 import CustomText from '@/components/general/Text';
@@ -79,6 +79,12 @@ function ReportGroupChatModal({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
         }
     }, [value, title, toast, mutate])
 
+
+    useEffect(()=> {
+        setValue('')
+        setTitle("")
+    }, [])
+      
   return (
     <Modal isOpen={isOpen} onClose={() => {
         onClose()
@@ -91,12 +97,11 @@ function ReportGroupChatModal({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
                 <HStack justifyContent={'space-between'} alignItems={'center'} width={'100%'}>
                         <FiX fontSize={'25px'} onClick={() => onClose()} />
                         <CustomText color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Medium'}>Report Group Chat</CustomText>
-                        <CustomText>{}</CustomText>
+                        {/* <CustomText>{}</CustomText> */}
                 </HStack>
 
                 <VStack width={'70%'} marginTop={'30px'}>
-                    <Select value={title} onChange={(e) => setTitle(e.target.value)} width={'100%'} height={'45px'} borderRadius={'10px'}>
-                            <option disabled selected>Report type</option>
+                    <Select placeholder='Report type' onChange={(e) => setTitle(e.target.value)} width={'100%'} height={'45px'} borderRadius={'10px'}> 
                             {REPORT_OPTIONS.map((option, index) => (
                                 <option key={index.toString()} value={option}>{option}</option>
                             ))}
