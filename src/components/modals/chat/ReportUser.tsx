@@ -160,10 +160,8 @@ function ReportUserModal({ isOpen, onClose, typeID, REPORT_TYPE }: IProps) {
                 width={"100%"}
                 height={"45px"}
                 borderRadius={"10px"}
-              >
-                <option disabled selected>
-                  Report type
-                </option>
+                placeholder="Report type"
+              > 
                 {REPORT_OPTIONS.map((option, index) => (
                   <option key={index.toString()} value={option}>
                     {option}

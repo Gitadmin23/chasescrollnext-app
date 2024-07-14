@@ -61,7 +61,7 @@ function Community() {
  
   return (
     <> 
-      <VStack width='100%' height='100vh' spacing={0}>
+      <VStack width='100%' height='' spacing={0}>
 
         <CommunityTab activeTab={activeTab} setActiveTab={handleTabChange} showModal={() => setShowModal(true)} />
 

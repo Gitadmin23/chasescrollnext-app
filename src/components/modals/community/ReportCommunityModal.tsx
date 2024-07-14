@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -97,6 +97,11 @@ function ReportCommunityModal({
     },
   });
 
+  useEffect(()=> {
+    setValue('')
+    setTitle("")
+  }, [])
+
   const createReport = React.useCallback(() => {
     if (value.length < 0 || title === "") {
       toast({
@@ -155,7 +160,7 @@ function ReportCommunityModal({
               >
                 Report Community
               </CustomText>
-              <CustomText>{}</CustomText>
+              {/* <CustomText>{}</CustomText> */}
             </HStack>
 
             <VStack width={"70%"} marginTop={"30px"}>
@@ -165,10 +170,8 @@ function ReportCommunityModal({
                 width={"100%"}
                 height={"45px"}
                 borderRadius={"10px"}
-              >
-                <option disabled selected>
-                  Report type
-                </option>
+                placeholder="Report type"
+              > 
                 {REPORT_OPTIONS.map((option, index) => (
                   <option key={index.toString()} value={option}>
                     {option}

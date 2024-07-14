@@ -184,7 +184,7 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                 </VStack>
 
                 <Box width={"fit-content"} >
-                    <UserImage size={"32px"} font={"13px"} border={"2px"} fontWeight={"medium"} data={post?.user} image={post?.user?.data?.imgMain?.value} />
+                    {/* <UserImage size={"32px"} font={"13px"} border={"2px"} fontWeight={"medium"} data={post?.user} image={post?.user?.data?.imgMain?.value} /> */}
                 </Box> 
 
 

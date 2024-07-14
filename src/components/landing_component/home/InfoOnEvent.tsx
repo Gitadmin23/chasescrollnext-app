@@ -40,7 +40,7 @@ export default function InfoOnEvent(){
                         <Text  fontSize={["12px", "12px", "19.53px"]} lineHeight={[ "17.15px", "17.15px", "28px" ]} color={"#1A202C"} >Enhanced event promotion and attendee engagement.</Text>
                     </Flex>
                 </Flex>
-                <CustomButton onClick={() => router.push("/auth")} text={"Get Started"} mt={"6"} width={[ "full", "full", "152px"]} backgroundColor={[ "white", "white" , THEME?.COLORS?.chasescrollButtonBlue+""]} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={[THEME?.COLORS?.chasescrollBlue, THEME?.COLORS?.chasescrollBlue, "white"]} borderRadius={"8px"} />
+                <CustomButton onClick={() => router.push("/auth/signup")} text={"Get Started"} mt={"6"} width={[ "full", "full", "152px"]} backgroundColor={[ "white", "white" , THEME?.COLORS?.chasescrollButtonBlue+""]} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={[THEME?.COLORS?.chasescrollBlue, THEME?.COLORS?.chasescrollBlue, "white"]} borderRadius={"8px"} />
             </Flex>
         </PictureAndText>
     )
