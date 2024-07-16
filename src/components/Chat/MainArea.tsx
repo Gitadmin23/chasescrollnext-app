@@ -45,6 +45,7 @@ function MainArea() {
             const item: PaginatedResponse<ChatMessage> = data.data;
             if (item?.content?.length > 0) {
                 if (item.content[0].id !== activeChat?.id) {
+                    divRef.current?.scrollIntoView({ behavior: 'smooth' });
                     setAll({ messages: item.content });
                 } else {
                     if (messages.length > 0) {
@@ -71,8 +72,11 @@ function MainArea() {
         });
         if (post) intObserver.current.observe(post);
 
-        divRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [isLoading, isRefetching, setAll, pageNumber, hasNext]);
+
+    useEffect(()=> { 
+        divRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [])
 
     if (activeChat === null) {
         return (
