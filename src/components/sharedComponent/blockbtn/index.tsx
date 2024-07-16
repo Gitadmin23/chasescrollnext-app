@@ -1,3 +1,4 @@
+import TextArea from '@/components/Chat/Textarea';
 import { useDetails } from '@/global-state/useUserDetails';
 import { BlockList } from '@/models/BlockList';
 import { PaginatedResponse } from '@/models/PaginatedResponse';
@@ -7,13 +8,15 @@ import { Box, Button, Flex, Text, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { CgMore } from "react-icons/cg";
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import LoadingAnimation from '../loading_animation';
 
 interface Props {
-    data: any,
-    user_index: any,
+    data?: any,
+    user_index?: any,
     setDeleted?: any,
     deleted?: any,
-    isprofile?: boolean
+    isprofile?: boolean,
+    isChat?: boolean
 }
 
 function BlockBtn(props: Props) {
@@ -22,7 +25,8 @@ function BlockBtn(props: Props) {
         user_index,
         setDeleted,
         deleted,
-        isprofile
+        isprofile,
+        isChat
     } = props
 
     const [showModal, setShowModal] = useState("0")
@@ -151,7 +155,7 @@ function BlockBtn(props: Props) {
                 <>
                     {ids.includes(user_index) && (
 
-                        <Button height={"fit-content"} _hover={{backgroundColor : "white"}} fontWeight={"normal"} bgColor={"white"} isLoading={isLoading || isRefetching || handleUnblock?.isLoading} onClick={() => handleUnblock.mutate()} fontSize={"md"} width={"full"}>
+                        <Button height={"fit-content"} _hover={{ backgroundColor: "white" }} fontWeight={"normal"} bgColor={"white"} isLoading={isLoading || isRefetching || handleUnblock?.isLoading} onClick={() => handleUnblock.mutate()} fontSize={"md"} width={"full"}>
 
                             Unblock
                         </Button>
@@ -164,17 +168,24 @@ function BlockBtn(props: Props) {
                         //     Block
                         // </Text>
 
-                        <Button height={"fit-content"} _hover={{backgroundColor : "white"}} fontWeight={"normal"} bgColor={"white"} isLoading={isLoading || isRefetching || handleBlock?.isLoading} onClick={() => handleBlock.mutate({
+                        <Button height={"fit-content"} _hover={{ backgroundColor: "white" }} fontWeight={"normal"} bgColor={"white"} isLoading={isLoading || isRefetching || handleBlock?.isLoading} onClick={() => handleBlock.mutate({
                             blockType: "USER",
                             typeID: user_index,
                         })} fontSize={"md"} width={"full"}>
 
-                             Block
+                            Block
                         </Button>
                     )}
                 </>
             )}
-            {!isprofile && (
+            {isChat && (
+                <LoadingAnimation loading={isLoading} >
+                    {!ids.includes(user_index) && (
+                        <TextArea />
+                    )}
+                </LoadingAnimation>
+            )}
+            {(!isprofile && !isChat) && (
                 <Box as="button" onClick={(e: any) => clickHandler(e)} ml={"auto"} >
                     <CgMore size={25} />
                 </Box>

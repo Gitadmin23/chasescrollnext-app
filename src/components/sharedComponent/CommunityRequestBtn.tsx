@@ -52,8 +52,7 @@ export default function (props: IProps) {
                 position: 'top-right',
             });
             setLoading("0") 
-			queryClient.invalidateQueries(["getMyCommunities"]) 
-        
+			queryClient.invalidateQueries(["getMyCommunities"])  
         }
     });
  
