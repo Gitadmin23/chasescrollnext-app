@@ -89,7 +89,7 @@ function JoinOrLeaveCommunityBtn(props: Props) {
     }, [data, LeaveCommunity, JoinCommunity, joined, user_index])
 
     return (
-        <Button onClick={handleCommunity} disabled={JoinCommunity.isLoading || LeaveCommunity.isLoading} width={width ? width : "120px"} height={height ? height : "45pc"} color={"white"} rounded={"md"} fontSize={font ? font : "sm"} bg={joined !== "NOT_CONNECTED"  ? "brand.chasescrollRed" : "brand.chasescrollBlue"} >
+        <Button onClick={handleCommunity} disabled={JoinCommunity.isLoading || LeaveCommunity.isLoading} width={width ? width : "120px"} height={height ? height : "45pc"} color={"white"} rounded={"full"} fontSize={font ? font : "xs"} bg={joined !== "NOT_CONNECTED"  ? "brand.chasescrollRed" : "brand.chasescrollBlue"} >
             {JoinCommunity.isLoading || LeaveCommunity.isLoading ? "Loading..." : joined === "NOT_CONNECTED" ? "Join" : "Leave"}
         </Button>
     )

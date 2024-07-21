@@ -1,6 +1,6 @@
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
-import { Box } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import React from 'react'
 import CommunityCard from '../other_components/community_card'
 import useSearchStore from '@/global-state/useSearchData'
@@ -20,7 +20,7 @@ function ExploreCommunity(props: Props) {
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/group/find-groups?searchText=${searchValue}`, limit: 10, filter: "id" })
 
     return (
-        <Box borderWidth={"0px"} width={"full"} p={"3"} >
+        <Flex borderWidth={"0px"} width={"full"} flexDirection={"column"} gap={"2"} p={"3"} >
             <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
                 {results?.map((community: any, i: number) => {
                     if (results?.length === i + 1) {
@@ -38,7 +38,7 @@ function ExploreCommunity(props: Props) {
                     }
                 })}
             </LoadingAnimation>
-        </Box>
+        </Flex>
     )
 }
 

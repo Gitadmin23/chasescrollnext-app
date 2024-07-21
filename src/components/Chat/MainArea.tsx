@@ -13,6 +13,7 @@ import { URLS } from '@/services/urls';
 import { uniqBy } from 'lodash';
 import ChatBubble from './ChatBubble';
 import useCustomTheme from '@/hooks/useTheme';
+import BlockBtn from '../sharedComponent/blockbtn';
 
 function MainArea() {
     const [messagess, setMessages] = React.useState<ChatMessage[]>([]);
@@ -43,8 +44,13 @@ function MainArea() {
         refetchInterval: 1000,
         onSuccess: (data) => {
             const item: PaginatedResponse<ChatMessage> = data.data;
+
+            console.log(item);
+            
+
             if (item?.content?.length > 0) {
                 if (item.content[0].id !== activeChat?.id) {
+                    divRef.current?.scrollIntoView({ behavior: 'smooth' });
                     setAll({ messages: item.content });
                 } else {
                     if (messages.length > 0) {
@@ -71,8 +77,7 @@ function MainArea() {
         });
         if (post) intObserver.current.observe(post);
 
-        divRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [isLoading, isRefetching, setAll, pageNumber, hasNext]);
+    }, [isLoading, isRefetching, setAll, pageNumber, hasNext]); 
 
     if (activeChat === null) {
         return (
@@ -103,9 +108,9 @@ function MainArea() {
                                     <ChatBubble index={index} id={undefined} key={index.toString()} message={item} />
                                 )}
 
-                                {index === messages.length - 1 && (
+                                {/* {index === messages.length - 1 && (
                                     <div ref={divRef} />
-                                )}
+                                )} */}
                             </>
                         )
                     })}
@@ -120,8 +125,9 @@ function MainArea() {
             </Box>
 
             {/* TEXTAREA */}
-            <Flex w={"full"} mt={"auto"} > 
-            <TextArea />
+            <Flex w={"full"} mt={"auto"} >
+                <BlockBtn isChat={true} user_index={activeChat?.otherUser?.userId} />
+            {/* <TextArea /> */}
             </Flex>
         </VStack>
     )

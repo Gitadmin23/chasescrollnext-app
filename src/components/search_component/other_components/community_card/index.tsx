@@ -5,6 +5,8 @@ import {Box, Flex, Text, useColorMode} from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import useCustomTheme from "@/hooks/useTheme";
+import { textLimit } from '@/utils/textlimit'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
 
 interface Props {
     data: any,
@@ -22,13 +24,9 @@ function CommunityCard(props: Props) {
     } = props
 
     const {
-        bodyTextColor,
-        primaryColor,
-        secondaryBackgroundColor,
-        mainBackgroundColor,
-        borderColor,
+        bodyTextColor, 
     } = useCustomTheme();
-    const { colorMode, toggleColorMode } = useColorMode();
+    const { colorMode } = useColorMode();
 
     const router = useRouter()
     
@@ -39,21 +37,21 @@ function CommunityCard(props: Props) {
     }
 
     return (
-        <Flex width={"full"} borderBottomWidth={searchbar ? "1px" : "0px"} roundedBottom={"2xl"} roundedTopLeft={"2xl"} justifyContent={"space-between"} alignItems={"center"} py={"2"} >
-            <Flex gap={searchbar ? "3": "6"} width={"full"}  alignItems={"center"}  >
+        <Flex width={"full"} borderBottomWidth={searchbar ? "1px" : "0px"} roundedBottom={"2xl"} roundedTopLeft={"2xl"} justifyContent={"space-between"} alignItems={"center"} py={"2"} gap={"2"} >
+            <Flex gap={searchbar ? "3": "3"} width={"full"}   >
                 <Box width={"fit-content"} >
-                    <CommunityImage data={data} size={searchbar?  "50px" : "70px"} font={searchbar ? "16px": "30px"} />
+                    <CommunityImage data={data} size={searchbar?  "50px" : "50px"} font={searchbar ? "16px": "30px"} />
                 </Box>
-                <Box  textAlign={"left"} mt={searchbar ? "0px": "-6px"} >
-                    <Text fontSize={searchbar ? "14px" :["16px", "16px"]} fontWeight={"medium"} >{data?.data?.name}</Text>
-                    <Text mb={"2px"} fontSize={searchbar ? "10px" : ["12px"]} fontWeight={"medium"} color={colorMode === 'light' ? "#2E2B2BAB":bodyTextColor} >{data?.data?.description}</Text>
+                <Box  maxW={"200px"} textAlign={"left"} mt={searchbar ? "0px": "-5px"} >
+                    <Text fontSize={searchbar ? "14px" :["16px", "16px"]} fontWeight={"medium"} >{textLimit(capitalizeFLetter(data?.data?.name), 20)}</Text>
+                    <Text mb={"2px"} fontSize={searchbar ? "10px" : ["12px"]} fontWeight={"medium"} color={colorMode === 'light' ? "#2E2B2BAB":bodyTextColor} >{textLimit(data?.data?.description, 100)}</Text>
                     <Box rounded={"2px"} bg={data?.data?.isPublic ? "brand.chasescrollPalePurple" : "#FBCDCD"} fontWeight={"semibold"} color={data?.data?.isPublic ? "brand.chasescrollBlue" : "#E90303"} fontSize={"10px"} py={"1"} display={"flex"} justifyContent={"center"} width={"50px"} >
                         {data?.data?.isPublic ? 'Public' : 'Private'}
                     </Box>
                 </Box>
             </Flex>
             {(!profile && !create) && (
-                <JoinOrLeaveCommunityBtn width={searchbar ? "120px" : "120px"} height={searchbar ? "30px" : "45px"} data={data} />
+                <JoinOrLeaveCommunityBtn width={searchbar ? "120px" : "120px"} height={searchbar ? "30px" : "34px"} data={data} />
             )}
         </Flex>
     )

@@ -18,7 +18,9 @@ interface Props {
     connects?: boolean,
     request?: boolean,
     refund?: boolean,
-    block?: boolean
+    block?: boolean,
+    community?: boolean,
+    role?: string
 }
 
 function PeopleCard(props: Props) {
@@ -30,7 +32,9 @@ function PeopleCard(props: Props) {
         request,
         connects,
         refund,
-        block
+        block,
+        community,
+        role
     } = props
 
     const [isFriend, setisFriend] = React.useState(person?.joinStatus)
@@ -82,11 +86,10 @@ function PeopleCard(props: Props) {
     const submit =()=> {
         setSearchValue("")
         router.push("/dashboard/profile/" + person?.userId)
-    }
-    
+    } 
 
     return (
-        <Flex as={"button"} onClick={() => submit()} _hover={{ backgroundColor: mainBackgroundColor }} px={"2"} width={"full"} justifyContent={"space-between"} alignItems={"center"} py={"4"} borderBottomWidth={"1px"} >
+        <Flex as={"button"} disabled={community} onClick={() => submit()} _hover={{ backgroundColor: community ? "transparent" : mainBackgroundColor }} px={"2"} width={"full"} justifyContent={"space-between"} alignItems={"center"} py={"4"} borderBottomWidth={"1px"} >
             <Flex width={["60vw", "fit-content"]} gap={"2"} alignItems={"center"} >
                 <Box> 
                     <UserImage fontWeight={"semibold"} border={search ? "1px" : "3px"} data={person} image={person?.data?.imgMain?.value} size={search ? "32px" : 50} font={search ? "[16px]" : '[30px]'} />
@@ -96,7 +99,7 @@ function PeopleCard(props: Props) {
                     <Text textAlign={"start"} fontSize={search ? "10px" : "12px"} fontWeight={search ? "medium" : "semibold"} color={"brand.chasescrollTextGrey2"} >@{person?.username?.length > 15 ? person?.username?.slice(0, 15) + "..." : person?.username}</Text>
                 </Box>
             </Flex>
-            {(!refund && !block)&& (
+            {(!refund && !block && !community)&& (
                 <> 
                     {isFriend !== "SELF" && (
                         <AddOrRemoveUserBtn index={index} connects={connects} request={request} profile={profile} search={search} width={request ? "85px" : search ? "85px" : '120px'} name={isFriend === "FRIEND_REQUEST_SENT" ? "Pending" : isFriend === "CONNECTED" ? "Disconnect" : "Connect"} setJoinStatus={setisFriend} user_index={person?.userId} />
@@ -107,6 +110,9 @@ function PeopleCard(props: Props) {
             {refund && (
                 <CustomButton isLoading={refundUser.isLoading} borderRadius={"md"} onClick={clickHandler} text='refund' color={"white"} backgroundColor={colorMode === 'light' ? "rgb(220 38 38)": mainBackgroundColor} height={"43px"} px={"4"} width={"fit-content"} />
             )} 
+            {(community && role === "ADMIN" ) && (
+                <Text fontSize={"12px"} color={"#5D70F9"} fontWeight={"700"} >Admin</Text>
+            )}
         </Flex>
     )
 }
