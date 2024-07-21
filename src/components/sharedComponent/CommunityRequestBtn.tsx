@@ -16,7 +16,7 @@ interface IRequest {
     resolve: boolean
 }
 
-export default function (props: IProps) {
+export default function CommunityRequestBtn(props: IProps) {
 
     const {
         setIndex,
@@ -51,7 +51,7 @@ export default function (props: IProps) {
                 duration: 5000,
                 position: 'top-right',
             });
-            setLoading("0")
+            setLoading("0") 
 			queryClient.invalidateQueries(["getMyCommunities"])  
         }
     });
