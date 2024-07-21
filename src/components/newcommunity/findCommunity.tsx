@@ -4,9 +4,7 @@ import ExploreCommunity from '../search_component/explore_communities'
 import useSearchStore from '@/global-state/useSearchData';
 import SearchBar from '../explore_component/searchbar';
 
-export default function FindCommunity() { 
-
-    const { search, setSearchValue } = useSearchStore((state) => state);
+export default function FindCommunity() {  
     
     return (
         <Flex w={"full"} h={"full"} alignItems={"center"} flexDir={"column"}  >

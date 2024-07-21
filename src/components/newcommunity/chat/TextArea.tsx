@@ -193,7 +193,7 @@ function CommunityTextArea() {
             }} placeholder={`Say something @${username}`} />
 
             { uploadedFile.length > 0 &&
-              <Box width={'100%'} height={'100px'} flex='1' display={'inline-block'} whiteSpace={'nowrap'}>
+              <Box position={"absolute"} bottom={"90px"} width={'100%'} height={'100px'} flex='1' display={'inline-block'} whiteSpace={'nowrap'}>
                 {
                   uploadedFile.map((item, index) => {
                     const __format__ = item.url.split('.');

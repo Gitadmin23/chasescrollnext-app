@@ -34,7 +34,8 @@ interface Props {
     dashboard?: boolean;
     eventdashboard?: boolean;
     landing?: boolean;
-    limit?: boolean
+    limit?: boolean,
+    landingcolor?: boolean
 }
 
 function ExploreEventCard(props: Props) {
@@ -51,7 +52,8 @@ function ExploreEventCard(props: Props) {
         dashboard,
         landing,
         limit,
-        eventdashboard
+        eventdashboard,
+        landingcolor
     } = props;
 
     const router = useRouter();
@@ -106,20 +108,22 @@ function ExploreEventCard(props: Props) {
             roundedBottom={"32px"}
             roundedTopLeft={"32px"}
             borderColor={borderColor}
+            color={landingcolor ? "black" :headerTextColor}
             borderBottomWidth={searchbar ? " " : "0.5px"}
-            maxWidth={["400px", "400px", "full"]}
+            // maxWidth={[landingcolor? "full":"400px", landing? "full":"400px", "full"]}
             width={"full"}
-            height={"full"}
+            height={"full"} 
         >
             <Flex
-                flexDirection={["column", "column", page ? "column" : "row"]}
+                flexDirection={[searchbar? "row":"column", searchbar? "row":"column", page ? "column" : "row"]}
                 width={"full"}
-                flex={"1"}
+                // flex={"1"}
                 alignItems={"center"}
+                color={landingcolor? "black" : ""}
 
-                justifyContent={"space-between"}
+                // justifyContent={searchbar? "":"space-between"}
             >
-                <Box width={["full", "full", page ? "full" : "fit-content"]}>
+                <Box width={[searchbar? "fit-content":"full", searchbar? "fit-content": "full", page ? "full" : "fit-content"]}>
                     {page ? (
                         <BlurredImage
                             height={
@@ -156,7 +160,7 @@ function ExploreEventCard(props: Props) {
                         width={
                             searchbar ? "full" : ["full", "full", page ? "full" : "full"]
                         }
-                        px={"4"}
+                        px={"4"} 
                         mt={["10px", "10px", page ? "10px" : "0px", page ? "10px" : "0px"]}
                         ml={["0px", "0px", page ? "0px" : "10px", page ? "0px" : "10px"]}
                     >
@@ -200,7 +204,7 @@ function ExploreEventCard(props: Props) {
                                     </Box>
                                 </Box>
                                 <Text
-                                    color={colorMode === "light" ? "gray.600" : bodyTextColor}
+                                    color={landingcolor? "black" : colorMode === "light" ? "gray.600" : bodyTextColor}
                                     fontSize={searchbar ? "13px" : "16px"}
                                     fontWeight={"medium"}
                                 >
@@ -217,10 +221,11 @@ function ExploreEventCard(props: Props) {
                                 justifyContent={"space-between"}
                             >
                                 <EventLocationDetail
+                                landingcolor={landingcolor}
                                     iconsize={searchbar ? "16px" : "20px"}
                                     fontWeight={"medium"}
                                     fontsize={searchbar ? "13px" : page ? "14px" : "16px"}
-                                    color={"rgba(18, 18, 18, 0.80)"}
+                                    color={landingcolor? "black" : "rgba(18, 18, 18, 0.80)"}
                                     location={event?.location}
                                     locationType={event?.locationType}
                                     length={20}
@@ -231,7 +236,7 @@ function ExploreEventCard(props: Props) {
                                             data={event}
                                             type="EVENT"
                                             size="18px"
-                                            id={event?.id}
+                                            id={event?.id} 
                                         />
                                         {userId && email && !past && (
                                             <SaveOrUnsaveBtn event={event} />

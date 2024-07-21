@@ -58,10 +58,7 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
         onError: (error: any) => {
             alert('An errror occured');
         }
-    });
-
-    console.log(comments);
-
+    }); 
 
     // MUTATIONS
     const likeMutation = useMutation({

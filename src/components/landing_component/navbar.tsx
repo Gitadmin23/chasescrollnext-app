@@ -54,7 +54,7 @@ function HomeNavbar() {
 
 
     return (
-        <Flex w={"full"} height={["64px", "64px", "101.03px"]} px={["6", "6", "12"]} bgColor={"white"} justifyContent={"space-between"} alignItems={"center"} >
+        <Flex w={"full"} color={"black"} height={["64px", "64px", "101.03px"]} px={["6", "6", "12"]} bgColor={"white"} justifyContent={"space-between"} alignItems={"center"} >
             <Flex onClick={()=> router.push("/")} as={"button"} alignItems={"center"} gap={"1"} >
                 <Image width={["32px", "32px", "60px"]} src={"/assets/logo.png"} alt="logo" />
                 <Text fontWeight={"bold"} fontSize={["14px", "14px", "16px"]} color={THEME.COLORS.chasescrollBlue} >Chasescroll</Text>
@@ -120,7 +120,7 @@ function HomeNavbar() {
                                 }) => {
                                     return (
                                         <Box onClick={() => clickHander(item?.link)} key={item?.label+item?.link} as="button" _hover={{ color: THEME?.COLORS?.chasescrollBlue }} >
-                                            <Text color={pathname === item?.link ? THEME?.COLORS?.chasescrollBlue : ""} lineHeight={"22.5px"} fontWeight={"semibold"} >{item?.label}</Text>
+                                            <Text color={pathname === item?.link ? THEME?.COLORS?.chasescrollBlue : "black"} lineHeight={"22.5px"} fontWeight={"semibold"} >{item?.label}</Text>
                                         </Box>
                                     )
                                 })}

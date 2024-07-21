@@ -29,7 +29,7 @@ import useCustomTheme from "@/hooks/useTheme";
 import CustomButton from '@/components/general/Button';
 import { useRouter } from 'next/navigation';
 import { EditIcon } from '@/components/svg';
-import CommunityInfo from './communityInfo';
+import CommunityInfo from '../communityInfo';
 
 
 

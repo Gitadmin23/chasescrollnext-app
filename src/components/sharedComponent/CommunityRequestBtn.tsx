@@ -51,7 +51,7 @@ export default function (props: IProps) {
                 duration: 5000,
                 position: 'top-right',
             });
-            setLoading("0") 
+            setLoading("0")
 			queryClient.invalidateQueries(["getMyCommunities"])  
         }
     });
@@ -73,10 +73,10 @@ export default function (props: IProps) {
 
     return (
         <Flex gap={"3"} fontSize={"sm"} >
-            <Button isDisabled={(resolveRequest?.isLoading && loading === "accept")} onClick={(e) => handleAcceptRequest(e)} fontSize={"sm"} maxW={"100px"} width={"full"} bgColor={primaryColor} color={'white'} height={"40px"} >
+            <Button isDisabled={(resolveRequest?.isLoading && loading === "accept")} onClick={(e) => handleAcceptRequest(e)} fontSize={"sm"} maxW={"120px"} width={"full"} bgColor={primaryColor} color={'white'} height={"30px"} >
                 {(resolveRequest?.isLoading && loading === "accept") ? "Loading..." : "Accept"}
             </Button>
-            <Button isDisabled={(resolveRequest?.isLoading && loading === "decline")} onClick={(e) => handleRejectRequest(e)} fontSize={"sm"} maxW={"100px"} width={"full"} bgColor={"#FCE7F3"} height={"40px"} color={"#DD2B2C"} >
+            <Button isDisabled={(resolveRequest?.isLoading && loading === "decline")} onClick={(e) => handleRejectRequest(e)} fontSize={"sm"} maxW={"120px"} width={"full"} bgColor={"#FCE7F3"} height={"30px"} color={"#DD2B2C"} >
                 {(resolveRequest?.isLoading && loading === "decline") ? "Loading..." : "Decline"}
             </Button>
         </Flex>

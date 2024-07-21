@@ -1,10 +1,13 @@
-import {Button, Flex, HStack } from '@chakra-ui/react';
+import {Box, Button, Flex, HStack } from '@chakra-ui/react';
 import React from 'react'  
 import useCustomTheme from "@/hooks/useTheme";
+import { IoMdArrowBack } from 'react-icons/io';
+import { IoArrowBack } from 'react-icons/io5';
 
 interface IProps {
     activeTab: number;
     setActiveTab: (num: number) => void; 
+    setShow?: any
 }
 
 const TAB_TITLES = [
@@ -30,20 +33,23 @@ const Tab = ({ title, isActive, onChange, index }: {
     )
 }
 
-function CommunityTab({ activeTab, setActiveTab }: IProps) { 
+function CommunityTab({ activeTab, setActiveTab, setShow }: IProps) { 
 
     const { 
         mainBackgroundColor, 
     } = useCustomTheme(); 
 
     return (
-        <HStack width='100%' bg={mainBackgroundColor} alignItems={'center'}  >
+        <Flex width='100%' bg={mainBackgroundColor} gap={"4"} alignItems={'center'}  >
+            <Box onClick={()=> setShow(false)} as='button' display={["block", "block", "none", "none", "none"]} >
+                <IoArrowBack size={"20px"} />
+            </Box>
             <Flex bg={mainBackgroundColor} gap={"4"} rounded={"md"} >
                 {TAB_TITLES.map((item, index) => (
                     <Tab index={index + 1} title={item} key={index.toString()} isActive={activeTab === index + 1} onChange={setActiveTab} />
                 ))}
             </Flex> 
-        </HStack>
+        </Flex>
     )
 }
 

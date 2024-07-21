@@ -13,6 +13,7 @@ import { uniqBy } from "lodash";
 import React from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useCommunityPageState } from '@/components/Community/chat/state';
+import { IMediaContent } from '@/models/MediaPost';
 
 
 const useCommunity = () => {
@@ -24,17 +25,29 @@ const useCommunity = () => {
     const [showEmoji, setShowEmoi] = React.useState(false);
     const intObserver = React.useRef<IntersectionObserver>();
     const queryClient = useQueryClient();
-  
-    const { drawerOpen, setAll, activeCommunity, activeMessageId, commentHasNext, commentPage, comments } = useCommunityPageState((state) => state);
+
+    const { setAll, activeCommunity, activeMessageId, commentHasNext, commentPage, comments } = useCommunityPageState((state) => state);
 
     const debounceValue = useDebounce(searchText, 500);
     const { userId } = useDetails((state) => state)
 
     const { results: communites, isLoading: loadingCommunity, ref: refCommunity, isRefetching: refectingCommunity } = InfiniteScrollerComponent({ url: `${URLS.JOINED_GROUPS}?userID=${userId}&searchText=${debounceValue ?? ""}`, limit: 15, filter: "id", newdata: debounceValue })
 
-    // comment
+    const { results: members, isLoading: loadingMembers, ref: refMembers, isRefetching: refectingMembers } = InfiniteScrollerComponent({ url: `${URLS.GET_GROUP_MEMBERS}?groupID=${activeCommunity?.id}`, limit: 15, filter: "id" })
+
+    const { results: mediaPosts, isLoading: loadingMediaPosts, ref: refMediaPosts, isRefetching: refectingMediaPosts } = InfiniteScrollerComponent({ url: `${URLS.GET_GROUP_MESSAGES}?groupID=${activeCommunity?.id}`, limit: 15, filter: "id" })
+
+    const { results: communityRequest, isLoading: loadingCommunityRequest, ref: refCommunityRequest, isRefetching: refectingCommunityRequest } = InfiniteScrollerComponent({ url: `${URLS.GET_GROUP_REQUESTS}/${userId}`, limit: 15, filter: "id" })
 
 
+    const media = () => {
+        if (mediaPosts.length < 1) return [];
+        return mediaPosts.filter((item: IMediaContent) => {
+            if (item.type === 'WITH_IMAGE' || item.type === 'WITH_VIDEO_POST') {
+                return item;
+            }
+        })
+    } 
 
     const getComments = useQuery(['getMessageComments', postID, commentPage], () => httpService.get(`${URLS.GET_ALL_COMMENTS}`, {
         params: {
@@ -47,21 +60,15 @@ const useCommunity = () => {
             const item: PaginatedResponse<IComment> = data.data;
             if (item.content.length > 0) {
                 if (item.content[0].id !== postID) {
-                    console.log(item.content[0].id);
-                    console.log(postID);
-                    
                     setAll({ comments: item.content });
                 } else {
                     if (comments.length > 0) {
                         const arr = [...comments, ...item?.content];
                         setAll({ comments: uniqBy(arr, 'id'), commentHasNext: item.last ? false : true })
                         setCommentData(uniqBy(arr, 'id'))
-                        console.log();
-                        
                     } else {
                         setAll({ comments: uniqBy(item?.content, 'id'), commentHasNext: item.last ? false : true })
                         setCommentData(uniqBy(item?.content, 'id'))
-                        console.log(item?.content);
                     }
                 }
             }
@@ -69,8 +76,21 @@ const useCommunity = () => {
         onError: () => { }
     }); 
 
-    console.log(comments);
-    
+    // const { isLoading, isRefetching } = useQuery(['getMyCommunities', page], () => httpService.get(`${URLS.GET_GROUP_REQUESTS}/${userId}`, {
+    //     params: {
+    //         page,
+    //         // size: 20,
+    //     }
+    // }), {
+    //     onSuccess: (data) => {
+    //         const contents: PaginatedResponse<ICommunityRequest> = data.data;
+    //         setIsLastPage(contents.last);
+    //         console.log(contents.content);
+
+    //         setCommunites(contents.content);
+    //     },
+    //     onError: () => { },
+    // });
 
     // muatation
     const createComment = useMutation({
@@ -103,7 +123,7 @@ const useCommunity = () => {
         postID: string,
         comment: string
     }) => {
-        if (comment === '') return; 
+        if (comment === '') return;
         createComment.mutate(data);
     }
 
@@ -122,7 +142,19 @@ const useCommunity = () => {
         setShowEmoi,
         createComment,
         commentData,
-        setpostID
+        setpostID,
+        members,
+        loadingMembers,
+        refectingMembers,
+        refMembers,
+        media,
+        loadingMediaPosts,
+        refMediaPosts,
+        refectingMediaPosts,
+        communityRequest,
+        loadingCommunityRequest,
+        refCommunityRequest,
+        refectingCommunityRequest
     };
 }
 
