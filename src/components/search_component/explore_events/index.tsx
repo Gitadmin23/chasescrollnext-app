@@ -7,11 +7,13 @@ import useSearchStore from '@/global-state/useSearchData'
 
 interface Props { 
     searchbar?: boolean
+    landing?: boolean
 }
 
 function ExploreEvent(props: Props) {
     const { 
-        searchbar
+        searchbar, 
+        landing
     } = props
  
     const searchValue = useSearchStore((state) => state.search);
@@ -21,18 +23,18 @@ function ExploreEvent(props: Props) {
     return (
         <Box width={"full"}  >
             <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
-                <Flex gap={"4"} flexDirection={"column"} > 
+                <Flex gap={"4"}  flexDirection={"column"} > 
                     {results?.map((event: any, i: number) => {
                         if (results.length === i + 1) {
                             return ( 
-                                <Box key={event?.userId} width={"full"} borderBottomWidth={searchbar ? "1px" : "0px"} ref={ref} >
-                                    <ExploreEventCard searchbar={searchbar} event={event} />
+                                <Box key={event?.userId} width={"full"} borderBottomColor={landing? "gray" : ""} borderBottomWidth={searchbar ? "1px" : "0px"} ref={ref} >
+                                    <ExploreEventCard landingcolor={landing} searchbar={searchbar} event={event} />
                                 </Box>
                             )
                         } else {
                             return (
-                                <Box key={event?.userId} width={"full"} borderBottomWidth={searchbar ? "1px" : "0px"}  >
-                                    <ExploreEventCard searchbar={searchbar} event={event} />
+                                <Box key={event?.userId} width={"full"} borderBottomColor={landing? "gray" : ""}  borderBottomWidth={searchbar ? "1px" : "0px"}  >
+                                    <ExploreEventCard landingcolor={landing} searchbar={searchbar} event={event} />
                                 </Box>
                             )
                         }

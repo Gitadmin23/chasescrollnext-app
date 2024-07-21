@@ -115,20 +115,20 @@ function  EventListing(props: Props) {
                                     if ((i + 1) >= 30) {
                                         return (
                                             <GridItem key={i + "last"} w={["full", "full", "full", "full", "full"]}  >
-                                                <ExploreEventCard landing={true} date={true} page={true} event={event} />
+                                                <ExploreEventCard landing={true} landingcolor={landing} date={true} page={true} event={event} />
                                             </GridItem>
                                         )
                                     } else {
                                         return (
                                             <GridItem ref={ref} key={i + "last"} w={["full", "full", "full", "full", "full"]}  >
-                                                <ExploreEventCard landing={true} date={true} page={true} event={event} />
+                                                <ExploreEventCard landing={true} landingcolor={landing} date={true} page={true} event={event} />
                                             </GridItem>
                                         )
                                     }
                                 } else {
                                     return (
                                         <GridItem key={i + "last"} w={["full", "full", "full", "full", "full"]}  >
-                                            <ExploreEventCard landing={true} date={true} page={true} event={event} />
+                                            <ExploreEventCard landing={true} landingcolor={landing}  date={true} page={true} event={event} />
                                         </GridItem>
                                     )
                                 }

@@ -53,6 +53,15 @@ export type ICommunity = {
     }
 }
 
+export type ICommunityRequest = {
+    createdBy: IUser;
+    createdOn: number;
+    id: string;  
+    requestType: string
+    requested: IUser;
+    typeID: string;
+}
+
 export type ICommunityMember = {
     active: boolean;
     createdOn: number;

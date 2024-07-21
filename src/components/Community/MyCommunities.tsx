@@ -54,9 +54,9 @@ function MyCommunities() {
         )}
         { !isLoading && !isError && communites.length > 0 && (
             <Box paddingX='20px' width='100%' height='100%' overflowX={'hidden'} overflowY={'auto'} >
-               { communites.map((item, index) => (
+               {/* { communites.map((item, index) => (
                 <CommunityCard key={index.toString()} community={item} hasJoined={true} />
-               ))}
+               ))} */}
             </Box>
         )}
     </VStack>

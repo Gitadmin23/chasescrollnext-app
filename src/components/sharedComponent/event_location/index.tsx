@@ -18,6 +18,7 @@ interface Props {
   noicon?: boolean;
   eventdashboard?: boolean;
   fontWeight?: string;
+  landingcolor?: boolean
 }
 
 function EventLocationDetail(props: Props) {
@@ -33,6 +34,7 @@ function EventLocationDetail(props: Props) {
     noicon,
     eventdashboard,
     fontWeight,
+    landingcolor
   } = props;
 
   const {
@@ -63,7 +65,7 @@ function EventLocationDetail(props: Props) {
                 alignItems={"center"}
               >
                 <LocationIcon
-                  color={colorMode === "light" ? primaryColor : bodyTextColor}
+                  color={landingcolor? "black" :colorMode === "light" ? primaryColor : bodyTextColor}
                   style={{
                     width: iconsize ? iconsize : "20px",
                     color: bodyTextColor,
@@ -76,7 +78,7 @@ function EventLocationDetail(props: Props) {
             textAlign={"left"}
             fontWeight={fontWeight ? fontWeight : "semibold"}
             color={
-              colorMode === "light" ? "brand.chasescrollBlue" : headerTextColor
+              landingcolor? "black" :colorMode === "light" ? "brand.chasescrollBlue" : headerTextColor
             }
             fontSize={fontsize ? fontsize : "sm"}
           >

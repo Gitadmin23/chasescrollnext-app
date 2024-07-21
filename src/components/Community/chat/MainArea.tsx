@@ -54,7 +54,7 @@ function MainArea() {
             const item: PaginatedResponse<IMediaContent> = data.data;
             if (item?.content?.length > 0) {
                 if (item.content[0].sourceId !== activeCommunity?.id) {
-                    setAll({ messages: item.content });
+                    setAll({ messages: item.content }); 
                 } else {
                     if (messages.length > 0) {
                         const arr = [...messages, ...item?.content];

@@ -8,12 +8,14 @@ import React, { useState } from 'react'
 import useCustomTheme from "@/hooks/useTheme";
 
 interface Props {
-    home?: boolean
+    home?: boolean,
+    landing?: boolean
 }
 
 function SearchComponent(props: Props) {
     const {
-        home
+        home,
+        landing
     } = props
 
     const [tab, setTab] = useState(home ? 1 : 0)
@@ -22,7 +24,7 @@ function SearchComponent(props: Props) {
     const { colorMode, toggleColorMode } = useColorMode();
 
     return (
-        <Flex width={"full"} bg={secondaryBackgroundColor} shadow={"lg"} roundedBottom={"lg"} maxHeight={"450px"} overflowX={"hidden"} overflowY={"auto"} justifyContent={"center"}   >
+        <Flex width={"full"} bg={landing ? "":secondaryBackgroundColor} shadow={"lg"} roundedBottom={"lg"} maxHeight={"450px"} overflowX={"hidden"} overflowY={"auto"} justifyContent={"center"}   >
             <Box width={["full", "full", "full"]} position={"relative"} >
                 {!home && (
                     <TabController tab={tab} setTab={setTab} />
@@ -32,7 +34,7 @@ function SearchComponent(props: Props) {
                         <ExploreUser />
                     )}
                     {tab === 1 && (
-                        <ExploreEvent searchbar={true} />
+                        <ExploreEvent landing={landing} searchbar={true} />
                     )}
                     {tab === 2 && (
                         <ExploreCommunity searchbar={true} />
