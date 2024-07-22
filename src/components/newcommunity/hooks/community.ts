@@ -36,13 +36,13 @@ const useCommunity = () => {
     const debounceValue = useDebounce(searchText, 500);
     const { userId } = useDetails((state) => state)
 
-    const { results: communites, isLoading: loadingCommunity, ref: refCommunity, isRefetching: refectingCommunity } = InfiniteScrollerComponent({ url: `${URLS.JOINED_GROUPS}?userID=${userId}&searchText=${debounceValue ?? ""}`, limit: 15, filter: "id", newdata: debounceValue })
+    const { results: communites, isLoading: loadingCommunity, ref: refCommunity, isRefetching: refectingCommunity, refetch: refetchCommunity } = InfiniteScrollerComponent({ url: `${URLS.JOINED_GROUPS}?userID=${userId}&searchText=${debounceValue ?? ""}`, limit: 15, filter: "id", newdata: debounceValue })
 
     const { results: members, isLoading: loadingMembers, ref: refMembers, isRefetching: refectingMembers, refetch } = InfiniteScrollerComponent({ url: `${URLS.GET_GROUP_MEMBERS}?groupID=${activeCommunity?.id}`, limit: 15, filter: "id" })
 
     const { results: mediaPosts, isLoading: loadingMediaPosts, ref: refMediaPosts, isRefetching: refectingMediaPosts } = InfiniteScrollerComponent({ url: `${URLS.GET_GROUP_MESSAGES}?groupID=${activeCommunity?.id}`, limit: 15, filter: "id" })
 
-    const { results: communityRequest, isLoading: loadingCommunityRequest, ref: refCommunityRequest, isRefetching: refectingCommunityRequest } = InfiniteScrollerComponent({ url: `${URLS.GET_GROUP_REQUESTS}/${userId}`, limit: 15, filter: "id" })
+    const { results: communityRequest, isLoading: loadingCommunityRequest, ref: refCommunityRequest, isRefetching: refectingCommunityRequest, refetch: requestRefetch } = InfiniteScrollerComponent({ url: `${URLS.GET_GROUP_REQUESTS}/${userId}`, limit: 15, filter: "id" })
 
 
     const media = () => {
@@ -164,8 +164,9 @@ const useCommunity = () => {
                 position: 'top-right',
                 duration: 5000,
             })
-            queryClient.invalidateQueries(['getJoinedGroups']);
-            setAll({ activeCommunity: null, pageNumber: 0, hasNext: false, messages: [] })
+            // queryClient.invalidateQueries(['getJoinedGroups']);
+            refetchCommunity()
+            setAll({ activeCommunity: null })
         },
         onError: () => {
             toast({
@@ -186,7 +187,8 @@ const useCommunity = () => {
                 duration: 5000,
             })
             queryClient.invalidateQueries(['getJoinedGroups']);
-            setAll({ activeCommunity: null, pageNumber: 0, hasNext: false, messages: [] })
+            refetchCommunity()
+            setAll({ activeCommunity: null })
         },
         onError: () => {
             toast({
@@ -208,6 +210,7 @@ const useCommunity = () => {
             groupID: activeCommunity?.id,
         }
     }), {
+        enabled: activeCommunity?.id ? true : false,
         onSuccess: (data) => {
             const item: PaginatedResponse<ICommunity> = data.data;
             // setDetails(item.content[0]);
@@ -240,6 +243,7 @@ const useCommunity = () => {
         refMediaPosts,
         refectingMediaPosts,
         communityRequest,
+        requestRefetch,
         loadingCommunityRequest,
         refCommunityRequest,
         refectingCommunityRequest,

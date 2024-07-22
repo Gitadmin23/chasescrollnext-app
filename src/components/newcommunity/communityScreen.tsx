@@ -17,22 +17,20 @@ export default function Mainscreen() {
     const { activeCommunity } = useCommunityPageState((state) => state);
     const handleTabChange = React.useCallback((tab: number) => {
         setActiveTab(tab);
-    }, [activeTab])
+    }, [activeTab]) 
+ 
+    const clickHander = () => {
+        setShow(false)
+        setActiveTab(0)
+    }
 
-    // useEffect(() => {
-    //     setActiveTab(0)
-    //     if (activeCommunity) {
-    //         setShow((prev) => !prev)
-    //     } else {
-    //         setShow(activeCommunity ? true : false)
-    //     }
-    // }, [activeCommunity])
-
-    // useEffect(() => {
-    //     if (activeTab !== 0) {
-    //         setShow(true)
-    //     }
-    // }, [activeTab])
+    useEffect(()=> {
+        if(!activeCommunity){
+            setShow(false)
+        }
+    }, [activeCommunity])
+     
+    
 
     return (
         <Flex w={"full"} h={"full"}  >
@@ -47,7 +45,7 @@ export default function Mainscreen() {
                 </Flex>
                 <Flex display={[activeTab === 0 ? "none" : "flex", activeTab === 0 ? "none" : "flex", "none", "none", "none"]} w={"full"} h={"fit-content"}  >
                     <Flex w={"full"} h={"72px"} px={"6"} gap={"6"} borderBottomWidth={"1px"} borderBottomColor={"#F1F1F1"} alignItems={"center"}  >
-                        <Box onClick={() => setShow(false)} as='button' display={["block", "block", "none", "none", "none"]} >
+                        <Box onClick={() => clickHander()} as='button' display={["block", "block", "none", "none", "none"]} >
                             <IoArrowBack size={"20px"} />
                         </Box >
                         <Text lineHeight={"36px"} fontSize={"20px"} fontWeight={"700"} >{activeTab === 1 ? "Find Community" : "Request"}</Text>

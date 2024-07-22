@@ -8,9 +8,10 @@ import { IoMenu } from 'react-icons/io5'
 interface IProps {
     tab: number
     setTab?: any, 
+    setShow?: any
 }
 
-export default function ListHeader({ tab, setTab }: IProps) {
+export default function ListHeader({ tab, setTab, setShow }: IProps) {
 
     const {
         bodyTextColor,
@@ -23,6 +24,7 @@ export default function ListHeader({ tab, setTab }: IProps) {
 
     const clickHander = (index: number)=> {
         setTab(index)
+        setShow(true)
         onClose()
     }
 

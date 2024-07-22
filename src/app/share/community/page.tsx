@@ -103,8 +103,7 @@ function ShareCommunity() {
       sessionStorage.setItem('typeID', typeID as string);
       router.push(`/share/auth/login?type=${type}&typeID=${typeID}`)
     } else {
-      joinGroup.mutate()
-
+      joinGroup.mutate() 
     }
   }
 
