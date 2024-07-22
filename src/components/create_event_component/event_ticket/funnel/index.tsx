@@ -1,4 +1,4 @@
-import CreateCommunity from '@/app/dashboard/community/create/page'
+import CreateCommunity from '@/app/dashboard/communityold/create/page'
 import CreateCommunityComponent from '@/components/Community/create_community'
 import CommunityCard from '@/components/search_component/other_components/community_card'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
