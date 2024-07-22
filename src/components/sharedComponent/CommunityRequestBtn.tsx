@@ -55,7 +55,10 @@ export default function CommunityRequestBtn(props: IProps) {
                 position: 'top-right',
             });
             setLoading("0") 
-            setIndex(dataInfo)
+
+            const clone = []
+            clone?.push(dataInfo)
+            setIndex(clone)
 			queryClient.invalidateQueries(["getMyCommunities"])  
         }
     });

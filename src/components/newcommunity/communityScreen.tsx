@@ -19,25 +19,25 @@ export default function Mainscreen() {
         setActiveTab(tab);
     }, [activeTab])
 
-    useEffect(() => {
-        setActiveTab(0)
-        if (activeCommunity) {
-            setShow((prev) => !prev)
-        } else {
-            setShow(activeCommunity ? true : false)
-        }
-    }, [activeCommunity])
+    // useEffect(() => {
+    //     setActiveTab(0)
+    //     if (activeCommunity) {
+    //         setShow((prev) => !prev)
+    //     } else {
+    //         setShow(activeCommunity ? true : false)
+    //     }
+    // }, [activeCommunity])
 
-    useEffect(() => {
-        if (activeTab !== 0) {
-            setShow(true)
-        }
-    }, [activeTab])
+    // useEffect(() => {
+    //     if (activeTab !== 0) {
+    //         setShow(true)
+    //     }
+    // }, [activeTab])
 
     return (
         <Flex w={"full"} h={"full"}  >
             <Flex width={["full", "full", "350px", "350px", "350px"]} display={[show ? "none" : "flex", show ? "none" : "flex", "flex", "flex", "flex"]} minHeight={"full"} borderRightWidth={"1px"} borderRightColor={"#F1F1F1"} >
-                <CommunityList tab={activeTab} setTab={setActiveTab} />
+                <CommunityList tab={activeTab} setTab={setActiveTab} setShow={setShow} />
             </Flex>
             <Flex width={["full", "full", "full"]} display={[!show ? "none" : "full", !show ? "none" : "full", "flex", "flex", "flex"]} flex={"1"} flexDir={"column"} minHeight={"full"} >
                 <Flex display={["none", "none", "flex", "flex", "flex"]} w={"full"} h={"fit-content"}  >
@@ -55,7 +55,7 @@ export default function Mainscreen() {
                 </Flex>
                 <Flex w={"full"} h={"full"} >
                     {activeTab === 0 && (
-                        <MainArea />
+                        <MainArea setShow={setShow} />
                     )}
                     {activeTab === 1 && (
                         <FindCommunity />

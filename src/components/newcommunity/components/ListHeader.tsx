@@ -7,7 +7,7 @@ import { IoMenu } from 'react-icons/io5'
 
 interface IProps {
     tab: number
-    setTab?: any
+    setTab?: any, 
 }
 
 export default function ListHeader({ tab, setTab }: IProps) {

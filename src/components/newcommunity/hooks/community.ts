@@ -2,18 +2,18 @@
 import { useDetails } from "@/global-state/useUserDetails";
 import InfiniteScrollerComponent from "@/hooks/infiniteScrollerComponent";
 import useDebounce from "@/hooks/useDebounce";
-import useCustomTheme from "@/hooks/useTheme";
 import { IComment } from "@/models/Comment";
-import { ICommunity } from "@/models/Communitty";
 import { PaginatedResponse } from "@/models/PaginatedResponse";
 import { URLS } from "@/services/urls";
 import httpService from "@/utils/httpService";
-import { useColorMode } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import { uniqBy } from "lodash";
 import React from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useCommunityPageState } from '@/components/Community/chat/state';
 import { IMediaContent } from '@/models/MediaPost';
+import AWSHook from "@/hooks/awsHook";
+import { ICommunity } from "@/models/Communitty";
 
 
 const useCommunity = () => {
@@ -25,6 +25,11 @@ const useCommunity = () => {
     const [showEmoji, setShowEmoi] = React.useState(false);
     const intObserver = React.useRef<IntersectionObserver>();
     const queryClient = useQueryClient();
+    const toast = useToast()
+    const [img, setImg] = React.useState('');
+    const [communityName, setCommunityName] = React.useState('');
+
+    const { uploadedFile, loading: loadingImage, fileUploadHandler } = AWSHook();
 
     const { setAll, activeCommunity, activeMessageId, commentHasNext, commentPage, comments } = useCommunityPageState((state) => state);
 
@@ -33,7 +38,7 @@ const useCommunity = () => {
 
     const { results: communites, isLoading: loadingCommunity, ref: refCommunity, isRefetching: refectingCommunity } = InfiniteScrollerComponent({ url: `${URLS.JOINED_GROUPS}?userID=${userId}&searchText=${debounceValue ?? ""}`, limit: 15, filter: "id", newdata: debounceValue })
 
-    const { results: members, isLoading: loadingMembers, ref: refMembers, isRefetching: refectingMembers } = InfiniteScrollerComponent({ url: `${URLS.GET_GROUP_MEMBERS}?groupID=${activeCommunity?.id}`, limit: 15, filter: "id" })
+    const { results: members, isLoading: loadingMembers, ref: refMembers, isRefetching: refectingMembers, refetch } = InfiniteScrollerComponent({ url: `${URLS.GET_GROUP_MEMBERS}?groupID=${activeCommunity?.id}`, limit: 15, filter: "id" })
 
     const { results: mediaPosts, isLoading: loadingMediaPosts, ref: refMediaPosts, isRefetching: refectingMediaPosts } = InfiniteScrollerComponent({ url: `${URLS.GET_GROUP_MESSAGES}?groupID=${activeCommunity?.id}`, limit: 15, filter: "id" })
 
@@ -74,25 +79,53 @@ const useCommunity = () => {
             }
         },
         onError: () => { }
-    }); 
+    });
 
-    // const { isLoading, isRefetching } = useQuery(['getMyCommunities', page], () => httpService.get(`${URLS.GET_GROUP_REQUESTS}/${userId}`, {
-    //     params: {
-    //         page,
-    //         // size: 20,
-    //     }
-    // }), {
-    //     onSuccess: (data) => {
-    //         const contents: PaginatedResponse<ICommunityRequest> = data.data;
-    //         setIsLastPage(contents.last);
-    //         console.log(contents.content);
+    const updateGroup = useMutation({
+        mutationFn: (data: any) => httpService.put(`${URLS.UPDATE_GROUP}`, data),
+        onSuccess: (data: any) => {
+            toast({
+                title: 'Success',
+                description: 'Update Successful',
+                status: 'success',
+                position: 'top-right',
+                duration: 5000,
+            }) 
+            community?.refetch()
+            refetch()
+        },
+        onError: () => {
+            toast({
+                title: 'Error',
+                description: 'An error occured while trying to update community info',
+                status: 'error',
+                position: 'top-right',
+                duration: 5000,
+            })
+        }
+    });
 
-    //         setCommunites(contents.content);
-    //     },
-    //     onError: () => { },
-    // });
+    const handleUpdateGroup = async (data: {
+        groupID: string,
+        groupData: {
+            imgSrc: string,
+            name: string
+        }
+    }) => {
+        const image = img !== '' ? img : activeCommunity?.data.imgSrc;
+        if (data?.groupData?.name === '') {
+            toast({
+                title: 'Warning',
+                description: 'Name cannot be empty',
+                status: 'warning',
+                position: 'top-right',
+                duration: 5000,
+            })
+            return;
+        }
+        updateGroup.mutate(data)
+    }
 
-    // muatation
     const createComment = useMutation({
         mutationFn: (data: {
             postID: string,
@@ -116,8 +149,51 @@ const useCommunity = () => {
         if (post) intObserver.current.observe(post);
     }, [getComments.isLoading, commentHasNext, setAll, commentPage]);
 
+    const leaveGroup = useMutation({
+        mutationFn: () => httpService.delete(`${URLS.LEAVE_GROUP}`, {
+            params: {
+                groupID: activeCommunity?.id,
+                userID: userId
+            }
+        }),
+        onSuccess: () => {
+            toast({
+                title: 'Success',
+                description: 'Successfully left the group',
+                status: 'success',
+                position: 'top-right',
+                duration: 5000,
+            })
+            queryClient.invalidateQueries(['getJoinedGroups']);
+            setAll({ activeCommunity: null, pageNumber: 0, hasNext: false, messages: [] })
+        },
+        onError: () => {
+            toast({
+                title: 'Error'
+            })
+        }
+    });
 
-    // functioons
+    const deleteGroup = useMutation({
+        mutationFn: () => httpService.delete(`${URLS.DELETE_GROUP}/${activeCommunity?.id}`, {
+        }),
+        onSuccess: () => {
+            toast({
+                title: 'Success',
+                description: 'Successfully deleted the group',
+                status: 'success',
+                position: 'top-right',
+                duration: 5000,
+            })
+            queryClient.invalidateQueries(['getJoinedGroups']);
+            setAll({ activeCommunity: null, pageNumber: 0, hasNext: false, messages: [] })
+        },
+        onError: () => {
+            toast({
+                title: 'Error'
+            })
+        }
+    });
 
     const handleCreateComment = (data: {
         postID: string,
@@ -126,6 +202,18 @@ const useCommunity = () => {
         if (comment === '') return;
         createComment.mutate(data);
     }
+
+    const community = useQuery(['getCommunity', activeCommunity?.id], () => httpService.get(`${URLS.GET_GROUP_BY_ID}`, {
+        params: {
+            groupID: activeCommunity?.id,
+        }
+    }), {
+        onSuccess: (data) => {
+            const item: PaginatedResponse<ICommunity> = data.data;
+            // setDetails(item.content[0]);
+            setAll({ activeCommunity: item.content[0]})
+        }
+    });
 
     return {
         communites,
@@ -154,7 +242,17 @@ const useCommunity = () => {
         communityRequest,
         loadingCommunityRequest,
         refCommunityRequest,
-        refectingCommunityRequest
+        refectingCommunityRequest,
+        handleUpdateGroup,
+        fileUploadHandler,
+        setCommunityName,
+        updateGroup,
+        leaveGroup,
+        deleteGroup,
+        activeCommunity,
+        communityName,
+        uploadedFile,
+        loadingImage
     };
 }
 
