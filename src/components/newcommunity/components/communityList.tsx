@@ -11,17 +11,23 @@ import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 
 interface IProps {
     tab: number
-    setTab?: any
+    setTab?: any, 
+    setShow?: any
 }
 
-export default function CommunityList({ tab, setTab }: IProps) {
+export default function CommunityList({ tab, setTab, setShow }: IProps) {
 
     const { communites, loadingCommunity, refCommunity, refectingCommunity } = useCommunity()
     const { setAll, activeCommunity } = useCommunityPageState((state) => state);
 
+    const clickHander = (item: any) => {
+        setAll({ activeCommunity: item, pageNumber: 0, messages: [], hasNext: false })
+        setShow(true)
+    }
+
     const ListCard = (item: ICommunity) => {
         return (
-            <Box as='button' onClick={() => setAll({ activeCommunity: item, pageNumber: 0, messages: [], hasNext: false })} w={"full"} borderBottomWidth={"1px"} borderBottomColor={"#F1F1F1"} py={"5"} >
+            <Box as='button' onClick={() => clickHander(item)} w={"full"} borderBottomWidth={"1px"} borderBottomColor={"#F1F1F1"} py={"5"} >
                 <Flex rounded={"24px"} textAlign={"left"} px={"4"} gap={"3"} py={"3"} w={"full"} _hover={{ backgroundColor: "#FAFAFAF5" }} backgroundColor={activeCommunity?.id === item?.id ? "#FAFAFAF5" : "transparent"}  >
                     <Box w={"42px"} pos={"relative"} h={"42px"} bgColor={"ButtonText"} borderWidth={'2px'} borderBottomLeftRadius={'20px'} borderBottomRadius={'20px'} borderTopLeftRadius={'20px'}>
                         <Flex bgColor={"#5465E0"} color={"white"} pos={"absolute"} zIndex={"10"} justifyContent={"center"} alignItems={"center"} top={"-2"} right={"-2"} rounded={"full"} w={"21px"} h={"21px"} fontSize={"7px"} fontWeight={"700"}  >
@@ -50,13 +56,13 @@ export default function CommunityList({ tab, setTab }: IProps) {
                     {communites?.map((item: ICommunity, index: number) => {
                         if (communites?.length === index + 1) {
                             return (
-                                <Box w={"full"} key={index} >
+                                <Box ref={refCommunity} w={"full"} key={index} >
                                     <ListCard {...item} />
                                 </Box>
                             )
                         } else {
                             return (
-                                <Box w={"full"} >
+                                <Box w={"full"} key={index} >
                                     <ListCard {...item} />
                                 </Box>
                             )

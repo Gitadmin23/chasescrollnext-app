@@ -22,7 +22,11 @@ import useCustomTheme from "@/hooks/useTheme";
 import CommunityTextArea from './TextArea';
 import { IoClose, IoCloseCircle } from 'react-icons/io5';
 
-function MainArea() {
+interface IProps {
+    setShow: any
+}
+
+function MainArea({setShow} : IProps) {
     const { activeCommunity, setAll, messages, pageNumber, hasNext, showEvents, events } = useCommunityPageState((state) => state);
 
     const [posts, setPosts] = React.useState<IMediaContent[]>([]);
@@ -124,7 +128,7 @@ function MainArea() {
             </Box>
             {showEvents && events.length > 0 && (
                 <Flex width='100%' maxWidth={'100%'} height={'115px'} pos={"relative"} zIndex={"10"} bg={secondaryBackgroundColor}  >
-                    <Box as='button' onClick={() => setAll({ showEvents: !showEvents })} pos={"absolute"} rounded={"full"} p={"6px"} borderWidth={"1px"} borderColor={"black"} top={"2"} right={"4"} >
+                    <Box as='button' onClick={() => setShow(false)} pos={"absolute"} rounded={"full"} p={"6px"} borderWidth={"1px"} borderColor={"black"} top={"2"} right={"4"} >
                         <IoClose />
                     </Box>
                     <Box paddingLeft='20px' paddingTop={'20px'} width='100%' height='100%' overflowX={'auto'} display={'inline-block'} whiteSpace={'break-spaces'}>

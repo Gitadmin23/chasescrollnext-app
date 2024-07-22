@@ -20,17 +20,17 @@ export default function CommunityRequest() {
                 <SearchBar />
             </Flex> */}
             <LoadingAnimation loading={loadingCommunityRequest} length={communityRequest?.length} refeching={refectingCommunityRequest} >
-                <Flex w={"full"} h={"auto"} flexDirection={"column"} overflowY={"auto"} pt={"8"} >
-                    {communityRequest?.filter((item: any) => !filter.includes(item?.id))?.map((item: ICommunityRequest, index: number) => {
+                <Flex w={"full"} h={"auto"} flexDirection={"column"} overflowY={"auto"} gap={"3"} pt={"8"} >
+                    {communityRequest?.map((item: ICommunityRequest, index: number) => {
                         if (communityRequest?.length === index + 1) {
                             return (
-                                <Box ref={refCommunityRequest} w={"full"} key={index}>
+                                <Box ref={refCommunityRequest} w={"full"} borderBottomWidth={"1px"} py={"3"} key={index}>
                                     <RequestCard community={item} setIndex={setFilter} />
                                 </Box>
                             )
                         } else {
                             return (
-                                <Box w={"full"} key={index}>
+                                <Box w={"full"} key={index} borderBottomWidth={"1px"} py={"3"} >
                                     <RequestCard community={item} setIndex={setFilter} />
                                 </Box>
                             )

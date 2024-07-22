@@ -24,7 +24,7 @@ function RequestCard({ community }: IProps) {
       <Flex ml={"4"} flexDirection={"column"} gap={"2"} pos={"relative"} >
         <CustomText fontFamily={'Satoshi-Bold'} fontSize={'20px'}>{textLimit(capitalizeFLetter(community?.createdBy?.firstName) + " " + capitalizeFLetter(community?.createdBy?.lastName), 20)}</CustomText>
         <CustomText fontFamily={'Satoshi-Regular'} fontSize={'16px'}>{textLimit(capitalizeFLetter(community?.createdBy?.username), 20)}</CustomText>
-        <CommunityRequestBtn index={community?.id} setIndex={setIndex} />
+        <CommunityRequestBtn data={community} index={community?.id} setIndex={setIndex} />
       </Flex>
     </Flex>
   )
