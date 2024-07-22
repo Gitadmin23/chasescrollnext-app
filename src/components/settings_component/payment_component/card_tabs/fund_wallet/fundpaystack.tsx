@@ -116,6 +116,8 @@ function Fundpaystack(props: Props) {
         if (fund) {
             payStackFundMutation.mutate(reference?.reference)
         } else {
+            console.log(reference);
+            
             payStackMutation.mutate(reference?.reference)
         }
     };

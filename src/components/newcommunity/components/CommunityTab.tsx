@@ -6,8 +6,7 @@ import { IoArrowBack } from 'react-icons/io5';
 
 interface IProps {
     activeTab: number;
-    setActiveTab: (num: number) => void; 
-    setShow?: any
+    setActiveTab: (num: number) => void;  
 }
 
 const TAB_TITLES = [
@@ -33,7 +32,7 @@ const Tab = ({ title, isActive, onChange, index }: {
     )
 }
 
-function CommunityTab({ activeTab, setActiveTab, setShow }: IProps) { 
+function CommunityTab({ activeTab, setActiveTab }: IProps) { 
 
     const { 
         mainBackgroundColor, 
@@ -41,7 +40,7 @@ function CommunityTab({ activeTab, setActiveTab, setShow }: IProps) {
 
     return (
         <Flex width='100%' bg={mainBackgroundColor} gap={"4"} alignItems={'center'}  >
-            <Box onClick={()=> setShow(false)} as='button' display={["block", "block", "none", "none", "none"]} >
+            <Box onClick={()=> setActiveTab(0)} as='button' display={["block", "block", "none", "none", "none"]} >
                 <IoArrowBack size={"20px"} />
             </Box>
             <Flex bg={mainBackgroundColor} gap={"4"} rounded={"md"} >
