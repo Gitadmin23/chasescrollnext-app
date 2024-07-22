@@ -1,4 +1,5 @@
 import useCustomTheme from '@/hooks/useTheme'
+import { ICommunityRequest } from '@/models/Communitty'
 import { URLS } from '@/services/urls'
 import httpService from '@/utils/httpService'
 import { Button, Flex, useColorMode, useToast } from '@chakra-ui/react'
@@ -8,7 +9,8 @@ import { useQueryClient, useMutation } from 'react-query'
 
 interface IProps {
     index: string,
-    setIndex: any
+    setIndex: any,
+    data: ICommunityRequest
 }
 
 interface IRequest {
@@ -20,7 +22,8 @@ export default function CommunityRequestBtn(props: IProps) {
 
     const {
         setIndex,
-        index
+        index,
+        data: dataInfo
     } = props
 
     const [loading, setLoading] = useState("0") 
@@ -52,6 +55,7 @@ export default function CommunityRequestBtn(props: IProps) {
                 position: 'top-right',
             });
             setLoading("0") 
+            setIndex(dataInfo)
 			queryClient.invalidateQueries(["getMyCommunities"])  
         }
     });

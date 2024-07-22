@@ -5,12 +5,18 @@ import { ListHeader, useCommunity } from '..'
 import { textLimit } from '@/utils/textlimit'
 import { ICommunity } from '@/models/Communitty'
 import { timeFormat } from '@/utils/dateFormat'
-import { IMAGE_URL } from '@/services/urls' 
+import { IMAGE_URL } from '@/services/urls'
 import { useCommunityPageState } from '@/components/Community/chat/state';
+import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 
-export default function CommunityList() {
+interface IProps {
+    tab: number
+    setTab?: any
+}
 
-    const { communites } = useCommunity()
+export default function CommunityList({ tab, setTab }: IProps) {
+
+    const { communites, loadingCommunity, refCommunity, refectingCommunity } = useCommunity()
     const { setAll, activeCommunity } = useCommunityPageState((state) => state);
 
     const ListCard = (item: ICommunity) => {
@@ -38,12 +44,26 @@ export default function CommunityList() {
 
     return (
         <Flex w={"full"} h={"full"} flexDir={"column"} >
-            <ListHeader />
-            <Flex w={"full"} h={"full"} flex={"1"} overflowY={"auto"} px={"5"} flexDir={"column"}  >
-                {communites?.map((item: ICommunity, index: number) => (
-                    <ListCard key={index} {...item} />
-                ))}
-            </Flex>
+            <ListHeader tab={tab} setTab={setTab} />
+            <LoadingAnimation loading={loadingCommunity} refeching={refectingCommunity} length={communites?.length} >
+                <Flex w={"full"} h={"full"} flex={"1"} overflowY={"auto"} px={"5"} flexDir={"column"}  >
+                    {communites?.map((item: ICommunity, index: number) => {
+                        if (communites?.length === index + 1) {
+                            return (
+                                <Box w={"full"} key={index} >
+                                    <ListCard {...item} />
+                                </Box>
+                            )
+                        } else {
+                            return (
+                                <Box w={"full"} >
+                                    <ListCard {...item} />
+                                </Box>
+                            )
+                        }
+                    })}
+                </Flex>
+            </LoadingAnimation>
         </Flex>
     )
 }

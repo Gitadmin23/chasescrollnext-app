@@ -30,6 +30,7 @@ import CustomButton from '@/components/general/Button';
 import { useRouter } from 'next/navigation';
 import { EditIcon } from '@/components/svg';
 import CommunityInfo from '../communityInfo';
+import { IoArrowBack } from 'react-icons/io5';
 
 
 
@@ -124,17 +125,16 @@ function CommunityChatHeader() {
 
   return (
     <Flex width='100%' height={'72px'} bg={"white"} alignItems={"center"} borderBottomWidth={'0.5px'} borderBottomColor={borderColor} paddingX={['0px', '20px']} justifyContent={'space-between'}>
-      <Box display={['block', 'none']}>
-        <ArrowLeft2 size={'20px'} variant='Outline' onClick={() => setAll({ activeCommunity: null })} />
-      </Box>
+      
       {/* {MODAL} */}
       <ReportCommunityModal isOpen={showModal} onClose={() => setShowModal(false)} typeID={activeCommunity?.id as string} REPORT_TYPE='REPORT_COMMUNITY' />
       <Flex gap={"3"} >
-        {/* <Link href={`/dashboard/community/info/${activeCommunity?.id}`}> */}
-        <Box w={"42px"} h={"42px"} bgColor={"ButtonText"} borderWidth={'1px'} borderBottomLeftRadius={'20px'} borderBottomRadius={'20px'} borderTopLeftRadius={'20px'} overflow={'hidden'}>
+      <Box onClick={() => setAll({ activeCommunity: null }) } as='button' display={["block", "block", "none", "none", "none"]} >
+        <IoArrowBack size={"20px"} />
+      </Box >
+        <Box w={"42px"} h={"42px"} ml={"2"} bgColor={"ButtonText"} borderWidth={'1px'} borderBottomLeftRadius={'20px'} borderBottomRadius={'20px'} borderTopLeftRadius={'20px'} overflow={'hidden'}>
           <Image src={`${activeCommunity?.data?.imgSrc?.includes("http") ? "" : IMAGE_URL}${activeCommunity?.data?.imgSrc}`} alt='image' style={{ width: '100%', height: '100%', objectFit: "cover" }} />
-        </Box>
-        {/* </Link> */}
+        </Box> 
         <VStack alignItems={'flex-start'} spacing={0}>
           <CustomText fontFamily={'DM-Medium'} fontSize={'16px'} >{activeCommunity?.data.name}</CustomText>
           <CustomText fontFamily={'DM-Regular'} fontSize={'12px'}>{activeCommunity?.data.memberCount} Members</CustomText>
