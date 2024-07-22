@@ -62,7 +62,7 @@ export default function CommunityList({ tab, setTab, setShow }: IProps) {
                             )
                         } else {
                             return (
-                                <Box w={"full"} >
+                                <Box w={"full"} key={index} >
                                     <ListCard {...item} />
                                 </Box>
                             )
