@@ -6,6 +6,7 @@ import { Button, Flex, useColorMode, useToast } from '@chakra-ui/react'
 import { AxiosError, AxiosResponse } from 'axios'
 import React, { useState } from 'react'
 import { useQueryClient, useMutation } from 'react-query'
+import { useCommunity } from '../newcommunity'
 
 interface IProps {
     index: string,
@@ -33,6 +34,8 @@ export default function CommunityRequestBtn(props: IProps) {
     const { colorMode, toggleColorMode } = useColorMode();
     const queryClient = useQueryClient();
 
+    const { requestRefetch } = useCommunity()
+
     const resolveRequest = useMutation({
         mutationFn: (data: IRequest) => httpService.post("/group/resolve-request", data),
         onError: (error: AxiosError<any, any>) => {
@@ -58,8 +61,9 @@ export default function CommunityRequestBtn(props: IProps) {
 
             const clone = []
             clone?.push(dataInfo)
-            setIndex(clone)
+            // setIndex(clone)
 			queryClient.invalidateQueries(["getMyCommunities"])  
+            requestRefetch()
         }
     });
  

@@ -23,7 +23,7 @@ import CommunityTextArea from './TextArea';
 import { IoClose, IoCloseCircle } from 'react-icons/io5';
 
 interface IProps {
-    setShow: any
+    setShow: any, 
 }
 
 function MainArea({setShow} : IProps) {
@@ -113,6 +113,11 @@ function MainArea({setShow} : IProps) {
         )
     }
 
+    const clickHander =()=> {
+        setAll({ activeCommunity: null })
+        setShow(false)
+    }
+
     return (
         <Flex w={"full"} h={"100%"} pos={"relative"} overflowY={"hidden"} flexDirection={"column"} >
             <Flex w={"full"} bgColor={"white"} pos={"relative"} zIndex={"10"} h={"fit-content"} >
@@ -128,7 +133,7 @@ function MainArea({setShow} : IProps) {
             </Box>
             {showEvents && events.length > 0 && (
                 <Flex width='100%' maxWidth={'100%'} height={'115px'} pos={"relative"} zIndex={"10"} bg={secondaryBackgroundColor}  >
-                    <Box as='button' onClick={() => setShow(false)} pos={"absolute"} rounded={"full"} p={"6px"} borderWidth={"1px"} borderColor={"black"} top={"2"} right={"4"} >
+                    <Box as='button' onClick={() => clickHander()} pos={"absolute"} rounded={"full"} p={"6px"} borderWidth={"1px"} borderColor={"black"} top={"2"} right={"4"} >
                         <IoClose />
                     </Box>
                     <Box paddingLeft='20px' paddingTop={'20px'} width='100%' height='100%' overflowX={'auto'} display={'inline-block'} whiteSpace={'break-spaces'}>

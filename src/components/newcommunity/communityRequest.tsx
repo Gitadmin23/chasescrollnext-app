@@ -21,7 +21,7 @@ export default function CommunityRequest() {
             </Flex> */}
             <LoadingAnimation loading={loadingCommunityRequest} length={communityRequest?.length} refeching={refectingCommunityRequest} >
                 <Flex w={"full"} h={"auto"} flexDirection={"column"} overflowY={"auto"} gap={"3"} pt={"8"} >
-                    {communityRequest?.map((item: ICommunityRequest, index: number) => {
+                    {communityRequest?.filter((item: any) => !filter?.includes(item?.id))?.map((item: ICommunityRequest, index: number) => {
                         if (communityRequest?.length === index + 1) {
                             return (
                                 <Box ref={refCommunityRequest} w={"full"} borderBottomWidth={"1px"} py={"3"} key={index}>

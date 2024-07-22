@@ -50,7 +50,7 @@ export default function CommunityList({ tab, setTab, setShow }: IProps) {
 
     return (
         <Flex w={"full"} h={"full"} flexDir={"column"} >
-            <ListHeader tab={tab} setTab={setTab} />
+            <ListHeader tab={tab} setTab={setTab} setShow={setShow} />
             <LoadingAnimation loading={loadingCommunity} refeching={refectingCommunity} length={communites?.length} >
                 <Flex w={"full"} h={"full"} flex={"1"} overflowY={"auto"} px={"5"} flexDir={"column"}  >
                     {communites?.map((item: ICommunity, index: number) => {
