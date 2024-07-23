@@ -115,7 +115,7 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
 
 
     return (
-        <HStack id={id} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.user.userId === myId ? 'flex-end' : 'flex-start'} flexDirection={self ? 'row' : 'row-reverse'} borderRadius='20px'>
+        <HStack id={id} bg={mainBackgroundColor} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.user.userId === myId ? 'flex-end' : 'flex-start'} flexDirection={self ? 'row' : 'row-reverse'} borderRadius='20px'>
 
             <HStack position={'relative'} width='fit-content' justifyContent={'space-between'} alignItems={'flex-start'} flexDirection={self ? 'row' : 'row-reverse'}>
 
@@ -133,8 +133,8 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                     </HStack>
                 )}
 
-                <VStack borderRadius='10px 20px 20px 0px' bg={"white"} shadow={"lg"} padding='10px' spacing={0} alignItems={self ? 'flex-end' : 'flex-start'} flexWrap={'wrap'} maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px' : '0px'} borderBottomRightRadius={self ? '0px' : '20px'} >
-                    <VStack width={'100%'} justifyContent={'flex-start'} alignItems={self ? 'flex-end' : 'flex-end'} spacing={0}>
+                <VStack borderRadius='10px 20px 20px 0px'  bg={secondaryBackgroundColor} shadow={"lg"} padding='10px' spacing={0} alignItems={self ? 'flex-end' : 'flex-start'} flexWrap={'wrap'} maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px' : '0px'} borderBottomRightRadius={self ? '0px' : '20px'} >
+                    <VStack width={'100%'} justifyContent={'flex-start'} alignItems={self ? 'flex-end' : 'flex-end'} mb={"2"} spacing={0}>
                         <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color={"#3C41F0"}  >
                             {textLimit(capitalizeFLetter(post?.user?.firstName) + " " + capitalizeFLetter(post?.user?.lastName), 20)}
                         </CustomText>

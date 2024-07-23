@@ -44,7 +44,7 @@ export default function CommunityInfo({ setTab }: IProps) {
             <Text color={"#2E2B2BB2"} pb={"6"} fontSize={"12px"} >{activeCommunity?.data?.memberCount} Members</Text>
             <Flex w={"fit-content"} gap={"3"} pb={"6"} > 
                 {!self && (
-                    <Button w={"76px"} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} bg={"white"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} isLoading={leaveGroup?.isLoading} isDisabled={leaveGroup?.isLoading} onClick={() => leaveGroup.mutate()} outline={"none"} _hover={{ backgroundColor: "transparent" }} backgroundColor={"transparent"}>
+                    <Button w={"76px"} bgColor={mainBackgroundColor} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} isLoading={leaveGroup?.isLoading} isDisabled={leaveGroup?.isLoading} onClick={() => leaveGroup.mutate()} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} >
                         <Flex justifyContent={"center"} alignItems={"center"} w={"30px"} h={"30px"} >
                             <ExitButton />
                         </Flex>
@@ -52,7 +52,7 @@ export default function CommunityInfo({ setTab }: IProps) {
                     </Button>
                 )}
                 {self && (
-                    <Button w={"76px"} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} bg={"white"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} isLoading={deleteGroup?.isLoading} isDisabled={deleteGroup?.isLoading} onClick={() => deleteGroup.mutate()} outline={"none"} _hover={{ backgroundColor: "transparent" }} backgroundColor={"transparent"}>
+                    <Button w={"76px"} bgColor={mainBackgroundColor} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} isLoading={deleteGroup?.isLoading} isDisabled={deleteGroup?.isLoading} onClick={() => deleteGroup.mutate()} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} >
 
                         <Flex justifyContent={"center"} alignItems={"center"} w={"30px"} h={"30px"} >
                             <DeleteButton />
@@ -61,7 +61,7 @@ export default function CommunityInfo({ setTab }: IProps) {
                     </Button>
                 )}
                 <ShareEvent community={true} type='COMMUNITY' id={activeCommunity?.id} showText={false} />
-                <Button onClick={() => setTab(true)} w={"76px"} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} bg={"white"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} outline={"none"} _hover={{ backgroundColor: "transparent" }} backgroundColor={"transparent"}>
+                <Button onClick={() => setTab(true)} w={"76px"} bgColor={mainBackgroundColor} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} >
                     <Flex justifyContent={"center"} alignItems={"center"} w={"30px"} h={"30px"} >
                         <EditButton />
                     </Flex>

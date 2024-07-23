@@ -92,6 +92,7 @@ const useCommunity = () => {
                 duration: 5000,
             }) 
             community?.refetch()
+            refetchCommunity()
             refetch()
         },
         onError: () => {

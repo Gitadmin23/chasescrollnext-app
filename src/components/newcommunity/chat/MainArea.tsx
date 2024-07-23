@@ -119,14 +119,14 @@ function MainArea({setShow} : IProps) {
     }
 
     return (
-        <Flex w={"full"} h={"100%"} pos={"relative"} overflowY={"hidden"} flexDirection={"column"} >
-            <Flex w={"full"} bgColor={"white"} pos={"relative"} zIndex={"10"} h={"fit-content"} >
+        <Flex w={"full"} h={"100%"} pos={"relative"} bg={mainBackgroundColor} overflowY={"hidden"} flexDirection={"column"} >
+            <Flex w={"full"} bgColor={mainBackgroundColor} pos={"relative"} zIndex={"10"} h={"fit-content"} >
                 <CommunityChatHeader />
                 <AddEventsModal isOpen={showEventModal} onClose={() => setShowEventModal(false)} />
             </Flex>
             <Box width={'fit-content'} bgColor={"#fcfcfc"} pos={"absolute"} top={"80px"} left={"2"} zIndex={"10"} height={'fit-content'} >
                 {activeCommunity.creator.userId === myId && (
-                    <Box>
+                    <Box bg={mainBackgroundColor} >
                         <Image onClick={() => setShowEventModal(true)} src='/assets/images/note-add.png' alt='logo' width={'30px'} height={'30px'} />
                     </Box>
                 )}
@@ -143,8 +143,8 @@ function MainArea({setShow} : IProps) {
                     </Box>
                 </Flex>
             )}
-            <Box pos={"absolute"} inset={"0px"} pt={"72px"} pb={"150px"} >
-                <Flex w={"full"} h={"full"} flexDir={"column"} gap={"5"} paddingX={['10px', '30px']} paddingY='4' bgColor={"#fcfcfc"} overflowY={"auto"} pos={"relative"} >
+            <Box pos={"absolute"} inset={"0px"} pt={"72px"} bg={mainBackgroundColor} pb={"150px"} >
+                <Flex w={"full"} h={"full"} flexDir={"column"} gap={"5"} paddingX={['10px', '30px']} paddingY='4' bgColor={mainBackgroundColor} overflowY={"auto"} pos={"relative"} >
 
                     {activeCommunity !== null && messages.length > 0 && messages.map((item, index) => {
                         return (

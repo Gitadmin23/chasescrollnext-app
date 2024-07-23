@@ -8,6 +8,7 @@ import { timeFormat } from '@/utils/dateFormat'
 import { IMAGE_URL } from '@/services/urls'
 import { useCommunityPageState } from '@/components/Community/chat/state';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
+import useCustomTheme from '@/hooks/useTheme'
 
 interface IProps {
     tab: number
@@ -20,15 +21,25 @@ export default function CommunityList({ tab, setTab, setShow }: IProps) {
     const { communites, loadingCommunity, refCommunity, refectingCommunity } = useCommunity()
     const { setAll, activeCommunity } = useCommunityPageState((state) => state);
 
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+        headerTextColor
+    } = useCustomTheme();
+
     const clickHander = (item: any) => {
         setAll({ activeCommunity: item, pageNumber: 0, messages: [], hasNext: false })
         setShow(true)
+        setTab(0)
     }
 
     const ListCard = (item: ICommunity) => {
         return (
-            <Box as='button' onClick={() => clickHander(item)} w={"full"} borderBottomWidth={"1px"} borderBottomColor={"#F1F1F1"} py={"5"} >
-                <Flex rounded={"24px"} textAlign={"left"} px={"4"} gap={"3"} py={"3"} w={"full"} _hover={{ backgroundColor: "#FAFAFAF5" }} backgroundColor={activeCommunity?.id === item?.id ? "#FAFAFAF5" : "transparent"}  >
+            <Box as='button' onClick={() => clickHander(item)} w={"full"} borderBottomWidth={"1px"} borderBottomColor={borderColor} py={"5"} >
+                <Flex rounded={"24px"} textAlign={"left"} px={"4"} gap={"3"} py={"3"} w={"full"} _hover={{ backgroundColor: borderColor }} backgroundColor={activeCommunity?.id === item?.id ? borderColor : "transparent"}  >
                     <Box w={"42px"} pos={"relative"} h={"42px"} bgColor={"ButtonText"} borderWidth={'2px'} borderBottomLeftRadius={'20px'} borderBottomRadius={'20px'} borderTopLeftRadius={'20px'}>
                         <Flex bgColor={"#5465E0"} color={"white"} pos={"absolute"} zIndex={"10"} justifyContent={"center"} alignItems={"center"} top={"-2"} right={"-2"} rounded={"full"} w={"21px"} h={"21px"} fontSize={"7px"} fontWeight={"700"}  >
                             +{item?.data?.memberCount}
@@ -38,8 +49,8 @@ export default function CommunityList({ tab, setTab, setShow }: IProps) {
                     <Flex flexDir={"column"} flex={"1"} >
                         <Text fontWeight={"700"} lineHeight={"24px"} >{textLimit(item?.data?.name, 25)}</Text>
                         <Text fontSize={"14px"} mt={"2px"} >{textLimit(item?.data?.description, 40)}</Text>
-                        <Flex color={"#101828B2"} alignItems={"center"} gap={"1"} >
-                            <Box w={"8px"} h={"8px"} rounded={"full"} bgColor={"#5465E0"} />
+                        <Flex color={headerTextColor} alignItems={"center"} gap={"1"} >
+                            <Box w={"8px"} h={"8px"} rounded={"full"} bgColor={primaryColor} />
                             <Text fontSize={"11px"} lineHeight={"13px"} letterSpacing={"0.07px"} >{timeFormat(item?.createdOn)}</Text>
                         </Flex>
                     </Flex>
@@ -49,7 +60,7 @@ export default function CommunityList({ tab, setTab, setShow }: IProps) {
     }
 
     return (
-        <Flex w={"full"} h={"full"} flexDir={"column"} >
+        <Flex w={"full"} h={"full"} flexDir={"column"} bg={mainBackgroundColor} >
             <ListHeader tab={tab} setTab={setTab} setShow={setShow} />
             <LoadingAnimation loading={loadingCommunity} refeching={refectingCommunity} length={communites?.length} >
                 <Flex w={"full"} h={"full"} flex={"1"} overflowY={"auto"} px={"5"} flexDir={"column"}  >

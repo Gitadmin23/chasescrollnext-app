@@ -4,6 +4,7 @@ import { useCommunity } from '..'
 import { FILE_FORMATS } from '@/utils/acceptedMediatypes'
 import { IMediaContent } from '@/models/MediaPost'
 import { IMAGE_URL } from '@/services/urls'
+import useCustomTheme from '@/hooks/useTheme'
 
 export default function MediaTab() {
 
@@ -12,6 +13,7 @@ export default function MediaTab() {
     const { media, loadingMediaPosts, refMediaPosts, refectingMediaPosts } = useCommunity()
 
     console.log(media());
+    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
 
 
     const MediaCard = (item: IMediaContent) => {
@@ -39,12 +41,12 @@ export default function MediaTab() {
                 <Flex as={"button"} onClick={() => setTab(0)} w={"full"} h={"full"} justifyContent={"center"} alignItems={"center"} fontSize={"14px"} fontWeight={"700"} color={tab === 0 ? "#5D70F9" : "#B3B3B3"} >
                     Media
                 </Flex>
-                <Flex as={"button"} disabled={true} cursor={"not-allowed"} onClick={() => setTab(1)} w={"full"} h={"full"} justifyContent={"center"} alignItems={"center"} fontSize={"14px"} fontWeight={"700"} color={tab === 1 ? "#5D70F9" : "#B3B3B3"} >
+                {/* <Flex as={"button"} disabled={true} cursor={"not-allowed"} onClick={() => setTab(1)} w={"full"} h={"full"} justifyContent={"center"} alignItems={"center"} fontSize={"14px"} fontWeight={"700"} color={tab === 1 ? "#5D70F9" : "#B3B3B3"} >
                     Files
                 </Flex>
                 <Flex as={"button"} disabled={true} cursor={"not-allowed"} onClick={() => setTab(2)} w={"full"} h={"full"} justifyContent={"center"} alignItems={"center"} fontSize={"14px"} fontWeight={"700"} color={tab === 2 ? "#5D70F9" : "#B3B3B3"} >
                     Links
-                </Flex>
+                </Flex> */}
             </Flex>
             {tab === 0 && (
                 <Grid templateColumns='repeat(2, 1fr)' mt={"6"} gap={"4"}>
