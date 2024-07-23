@@ -190,6 +190,8 @@ function CommunityTextArea() {
             <textarea value={text} onChange={(e) => setText(e.target.value)} style={{
               width: '100%', height: '80px',
               outline: 'none', resize: 'none',
+              backgroundColor: mainBackgroundColor,
+              padding: "8px"
             }} placeholder={`Say something @${username}`} />
 
             { uploadedFile.length > 0 &&

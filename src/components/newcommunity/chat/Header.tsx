@@ -58,7 +58,7 @@ function CommunityChatHeader() {
 
 
   return (
-    <Flex width='100%' height={'72px'} bg={"white"} alignItems={"center"} borderBottomWidth={'0.5px'} borderBottomColor={borderColor} paddingX={['0px', '20px']} justifyContent={'space-between'}>
+    <Flex width='100%' height={'72px'} bg={mainBackgroundColor} alignItems={"center"} borderBottomWidth={'0.5px'} borderBottomColor={borderColor} paddingX={['0px', '20px']} justifyContent={'space-between'}>
 
       {/* {MODAL} */}
       <ReportCommunityModal isOpen={showModal} onClose={() => setShowModal(false)} typeID={activeCommunity?.id as string} REPORT_TYPE='REPORT_COMMUNITY' />
@@ -76,7 +76,7 @@ function CommunityChatHeader() {
       </Flex>
 
       <Flex alignItems={"center"} gap={"4"} >
-        <CustomButton onClick={() => setOpen(true)} text={"Details"} color={"black"} fontSize={"sm"} width={"113px"} borderWidth={"1px"} borderColor={"#E7E7E7"} borderRadius={"full"} backgroundColor={"white"} />
+        <CustomButton onClick={() => setOpen(true)} text={"Details"} fontSize={"sm"} width={"113px"} borderWidth={"1px"} borderColor={borderColor} borderRadius={"full"} backgroundColor={mainBackgroundColor} />
         {/* <Button onClick={() => setTab(true)} w={"76px"} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} bg={"white"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} outline={"none"} _hover={{ backgroundColor: "transparent" }} backgroundColor={"transparent"}>
           <Flex justifyContent={"center"} alignItems={"center"} w={"30px"} h={"30px"} >
             <EditButton />

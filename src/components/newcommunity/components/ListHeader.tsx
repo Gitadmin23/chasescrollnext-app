@@ -15,7 +15,7 @@ export default function ListHeader({ tab, setTab, setShow }: IProps) {
 
     const {
         bodyTextColor,
-        secondaryBackgroundColor,
+        borderColor,
         mainBackgroundColor,
     } = useCustomTheme();
     const { onOpen, onClose, isOpen } = useDisclosure()
@@ -29,7 +29,7 @@ export default function ListHeader({ tab, setTab, setShow }: IProps) {
     }
 
     return (
-        <Flex w={"full"} h={"72px"} px={"6"} borderBottomWidth={"1px"} borderBottomColor={"#F1F1F1"} justifyContent={"space-between"} alignItems={"center"} >
+        <Flex w={"full"} h={"72px"} px={"6"} borderBottomWidth={"1px"} borderBottomColor={borderColor} justifyContent={"space-between"} alignItems={"center"} >
             <Flex alignItems={"center"} gap={"3"} >
                 <Popover
 
