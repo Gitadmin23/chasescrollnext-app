@@ -49,7 +49,7 @@ function CommunityChatHeader() {
 
   const {
     bodyTextColor,
-    primaryColor,
+    headerTextColor,
     secondaryBackgroundColor,
     mainBackgroundColor,
     borderColor,
@@ -76,7 +76,7 @@ function CommunityChatHeader() {
       </Flex>
 
       <Flex alignItems={"center"} gap={"4"} >
-        <CustomButton onClick={() => setOpen(true)} text={"Details"} fontSize={"sm"} width={"113px"} borderWidth={"1px"} borderColor={borderColor} borderRadius={"full"} backgroundColor={mainBackgroundColor} />
+        <CustomButton onClick={() => setOpen(true)} text={"Details"} fontSize={"sm"} width={"113px"} borderWidth={"1px"} borderColor={borderColor} borderRadius={"full"} backgroundColor={mainBackgroundColor} color={headerTextColor} />
         {/* <Button onClick={() => setTab(true)} w={"76px"} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} bg={"white"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} outline={"none"} _hover={{ backgroundColor: "transparent" }} backgroundColor={"transparent"}>
           <Flex justifyContent={"center"} alignItems={"center"} w={"30px"} h={"30px"} >
             <EditButton />
