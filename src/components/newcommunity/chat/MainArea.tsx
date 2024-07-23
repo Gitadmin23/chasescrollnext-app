@@ -144,7 +144,7 @@ function MainArea({setShow} : IProps) {
                 </Flex>
             )}
             <Box pos={"absolute"} inset={"0px"} pt={"72px"} bg={mainBackgroundColor} pb={"150px"} >
-                <Flex w={"full"} h={"full"} flexDir={"column"} gap={"5"} paddingX={['10px', '30px']} paddingY='4' bgColor={mainBackgroundColor} overflowY={"auto"} pos={"relative"} >
+                <Flex w={"full"} h={"full"} flexDir={"column-reverse"} gap={"5"} paddingX={['10px', '30px']} paddingY='4' bgColor={mainBackgroundColor} overflowY={"auto"} pos={"relative"} >
 
                     {activeCommunity !== null && messages.length > 0 && messages.map((item, index) => {
                         return (

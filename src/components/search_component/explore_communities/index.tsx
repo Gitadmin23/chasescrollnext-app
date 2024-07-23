@@ -6,18 +6,22 @@ import CommunityCard from '../other_components/community_card'
 import useSearchStore from '@/global-state/useSearchData'
 
 interface Props { 
-    searchbar?: boolean
+    searchbar?: boolean, 
+    community?: boolean,
+    searchData?: string
 }
 
 function ExploreCommunity(props: Props) {
     const { 
-        searchbar
+        searchbar,
+        community,
+        searchData
     } = props
 
     // const { search, setSearchValue } = useSearchStore((state) => state);
     const searchValue = useSearchStore((state) => state.search);
 
-    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/group/find-groups?searchText=${searchValue}`, limit: 10, filter: "id" })
+    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/group/find-groups?searchText=${community ? searchData : searchValue}`, limit: 10, filter: "id" })
 
     return (
         <Flex borderWidth={"0px"} width={"full"} flexDirection={"column"} gap={"2"} p={"3"} >
