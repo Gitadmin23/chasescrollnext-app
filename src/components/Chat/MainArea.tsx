@@ -98,7 +98,7 @@ function MainArea() {
             {/* MESSAGE AREA */}
 
             <Box flex='1' width={'100%'} overflowY={'auto'} overflowX={'hidden'} className={colorMode === 'light' ? 'chat-area' : ''} bg={mainBackgroundColor}>
-                <VStack spacing={6} paddingX={['10px', '10px']} paddingY='40px' alignItems={'flex-start'} width={'100%'} height={'100%'}>
+                <Flex gap={"4"} paddingX={['10px', '10px']} paddingY='40px' alignItems={'flex-start'} width={'100%'} flexDir={"column-reverse"} overflowY={"auto"} height={'100%'}>
                     {activeChat !== null && messages.length > 0 && messages.map((item, index) => {
                         return (
                             <>
@@ -116,12 +116,12 @@ function MainArea() {
                     })}
                     {
                         isLoading && (
-                            <VStack width='100%' height='50px' justifyContent={'center'} alignItems={'center'}>
+                            <Flex width='100%' height='50px' justifyContent={'center'} alignItems={'center'}>
                                 <Spinner size={'sm'} />
-                            </VStack>
+                            </Flex>
                         )
                     }
-                </VStack>
+                </Flex>
             </Box>
 
             {/* TEXTAREA */}

@@ -11,6 +11,7 @@ import router from 'next/router'
 import React, { useEffect } from 'react'
 import { LiaAngleDownSolid } from 'react-icons/lia'
 import useCustomTheme from "@/hooks/useTheme";
+import { dateFormat } from '@/utils/dateFormat'
 
 interface Props {
     ticket: any,
@@ -97,14 +98,27 @@ function SelectTicket(props: Props) {
                 <Box width={"full"} pl={"5"} borderWidth={"0px"} zIndex={"30"} top={"60px"} position={"absolute"} rounded={"lg"} >
                     <Flex gap={"3"} flexDirection={"column"} shadow={"lg"} width={"full"} borderColor={borderColor} padding={"4"} borderBottomWidth={"0px"} bg={secondaryBackgroundColor} rounded={"lg"}>
                         {ticket?.filter((item: any) => item?.ticketType)?.map((item: any, index: number) => {
-                            return (
-                                <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
-                                    {item?.totalNumberOfTickets === item?.ticketsSold ?
-                                        "Sold Out" :
-                                        item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
-                                    }
-                                </Button>
-                            )
+                            if(item?.ticketType === "Early Bird"){ 
+                                if(new Date() >= new Date(item?.startDate) && new Date() <= new Date(item?.endDate)){
+                                    return (
+                                        <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                            {item?.totalNumberOfTickets === item?.ticketsSold ?
+                                                "Sold Out" :
+                                                item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
+                                            }
+                                        </Button>
+                                    )
+                                }
+                            } else {
+                                return (
+                                    <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                        {item?.totalNumberOfTickets === item?.ticketsSold ?
+                                            "Sold Out" :
+                                            item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
+                                        }
+                                    </Button>
+                                )
+                            }
                         })}
                     </Flex>
                 </Box>

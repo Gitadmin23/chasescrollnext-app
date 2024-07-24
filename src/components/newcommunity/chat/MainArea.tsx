@@ -21,6 +21,7 @@ import Link from 'next/link';
 import useCustomTheme from "@/hooks/useTheme";
 import CommunityTextArea from './TextArea';
 import { IoClose, IoCloseCircle } from 'react-icons/io5';
+import { useCommunity } from '..';
 
 interface IProps {
     setShow: any, 
@@ -32,6 +33,8 @@ function MainArea({setShow} : IProps) {
     const [posts, setPosts] = React.useState<IMediaContent[]>([]);
     const [showEventModal, setShowEventModal] = React.useState(false);
     const [len, setLen] = React.useState(messages?.length);
+
+    const { communityEvent } = useCommunity()
 
     const {
         bodyTextColor,
@@ -114,7 +117,7 @@ function MainArea({setShow} : IProps) {
     }
 
     const clickHander =()=> {
-        setAll({ activeCommunity: null })
+        setAll({ showEvents: false })
         setShow(false)
     }
 
@@ -131,13 +134,13 @@ function MainArea({setShow} : IProps) {
                     </Box>
                 )}
             </Box>
-            {showEvents && events.length > 0 && (
-                <Flex width='100%' maxWidth={'100%'} height={'115px'} pos={"relative"} zIndex={"10"} bg={secondaryBackgroundColor}  >
+            {showEvents && communityEvent.length > 0 && (
+                <Flex width='100%' maxWidth={'100%'} height={'115px'} pos={"absolute"} top={"72px"} zIndex={"10"} bg={secondaryBackgroundColor}  >
                     <Box as='button' onClick={() => clickHander()} pos={"absolute"} rounded={"full"} p={"6px"} borderWidth={"1px"} borderColor={"black"} top={"2"} right={"4"} >
                         <IoClose />
                     </Box>
                     <Box paddingLeft='20px' paddingTop={'20px'} width='100%' height='100%' overflowX={'auto'} display={'inline-block'} whiteSpace={'break-spaces'}>
-                        {events.map((item, i) => (
+                        {communityEvent.map((item: any, i: number) => (
                             <EventCard event={item} key={i.toString()} index={i} />
                         ))}
                     </Box>

@@ -69,20 +69,7 @@ function SelectDate(props: Props) {
                 {data ? timeFormat(data) : ""}
             </Flex>
         )
-    }
-
-    // const clickHandler = () => {
-    //     if (name === "End" && !eventdata.startDate ) {
-    //         toast({
-    //             title: 'Error',
-    //             description: "Please enter your starting date",
-    //             status: 'error',
-    //             isClosable: true,
-    //             duration: 5002,
-    //             position: 'top-right',
-    //         });
-    //     }
-    // }
+    } 
 
     return (
         <Flex width={"full"} flexDirection={"column"} gap={"2"} py={"2"} >
