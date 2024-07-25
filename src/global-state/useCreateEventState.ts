@@ -10,10 +10,10 @@ type ticket = {
     maxTicketBuy: string | number,
     rerouteURL?: string
     ticketsSold?: 0, 
-    endDate: string | number,
-    endTime: string | number,
-    startDate: string | number,
-    startTime: string | number
+    endDate?: string | number,
+    endTime?: string | number,
+    startDate?: string | number,
+    startTime?: string | number
 }
 
 export type CreateEvent = {
