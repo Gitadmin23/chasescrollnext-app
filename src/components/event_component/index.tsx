@@ -54,7 +54,11 @@ function EventComponent() {
           ticketPrice: "",
           ticketType: "Regular",
           minTicketBuy: "",
-          maxTicketBuy: ""
+          maxTicketBuy: "",
+          startDate: 0,
+          startTime: 0,
+          endDate: 0,
+          endTime: 0
         },
       ],
       collaborators: [],

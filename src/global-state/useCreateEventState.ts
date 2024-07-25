@@ -9,7 +9,11 @@ type ticket = {
     minTicketBuy: string | number,
     maxTicketBuy: string | number,
     rerouteURL?: string
-    ticketsSold?: 0,
+    ticketsSold?: 0, 
+    endDate?: string | number,
+    endTime?: string | number,
+    startDate?: string | number,
+    startTime?: string | number
 }
 
 export type CreateEvent = {
@@ -117,7 +121,11 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
                 ticketType: "Regular",
                 minTicketBuy: "1",
                 maxTicketBuy: "",
-                rerouteURL: ""
+                rerouteURL: "", 
+                endDate: 0,
+                endTime: 0,
+                startDate: 0,
+                startTime: 0
             },
         ],
     },

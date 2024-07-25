@@ -42,7 +42,7 @@ export default function CommunityInfo({ setTab }: IProps) {
             </Box>
             <Text fontWeight={"700"} fontSize={"18px"} mt={"2"} >{activeCommunity?.data?.name}</Text>
             <Text color={"#2E2B2BB2"} pb={"6"} fontSize={"12px"} >{activeCommunity?.data?.memberCount} Members</Text>
-            <Flex w={"fit-content"} gap={"3"} pb={"6"} > 
+            <Flex w={"fit-content"} gap={"3"} pb={"6"} >
                 {!self && (
                     <Button w={"76px"} bgColor={mainBackgroundColor} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} isLoading={leaveGroup?.isLoading} isDisabled={leaveGroup?.isLoading} onClick={() => leaveGroup.mutate()} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} >
                         <Flex justifyContent={"center"} alignItems={"center"} w={"30px"} h={"30px"} >
@@ -61,12 +61,14 @@ export default function CommunityInfo({ setTab }: IProps) {
                     </Button>
                 )}
                 <ShareEvent community={true} type='COMMUNITY' id={activeCommunity?.id} showText={false} />
-                <Button onClick={() => setTab(true)} w={"76px"} bgColor={mainBackgroundColor} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} >
-                    <Flex justifyContent={"center"} alignItems={"center"} w={"30px"} h={"30px"} >
-                        <EditButton />
-                    </Flex>
-                    <Text fontWeight={"500"} fontSize={"13px"} textAlign={"center"} color={"#5D70F9"} >Edit</Text>
-                </Button>
+                {self && (
+                    <Button onClick={() => setTab(true)} w={"76px"} bgColor={mainBackgroundColor} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} >
+                        <Flex justifyContent={"center"} alignItems={"center"} w={"30px"} h={"30px"} >
+                            <EditButton />
+                        </Flex>
+                        <Text fontWeight={"500"} fontSize={"13px"} textAlign={"center"} color={"#5D70F9"} >Edit</Text>
+                    </Button>
+                )}
             </Flex>
             <Flex w={"full"} rounded={"32px"} maxH={"309px"} overflowY={"auto"} borderWidth={"1px"} p={"4"} borderColor={"#D0D4EB"} flexDir={"column"}  >
                 <LoadingAnimation length={members?.length} loading={loadingMembers} refeching={refectingMembers} >

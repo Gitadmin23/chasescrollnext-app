@@ -38,144 +38,12 @@ import { AiOutlinePushpin } from "react-icons/ai";
 import ModalLayout from "@/components/sharedComponent/modal_layout";
 import { boolean } from "zod";
 import useCustomTheme from "@/hooks/useTheme";
-
-const EventBox = ({ event }: { event: IEvent }) => {
-  const toast = useToast();
-  const queryClient = useQueryClient();
-  const { activeCommunity } = useCommunityPageState((state) => state);
-  const { userId } = useDetails((state) => state);
-
-  const {
-    bodyTextColor,
-    mainBackgroundColor,
-    headerTextColor,
-    secondaryBackgroundColor,
-    primaryColor,
-  } = useCustomTheme();
-  const { colorMode } = useColorMode();
-
-  const savedEvent = useMutation({
-    mutationFn: (data: any) => httpService.post(`${URLS.SAVE_EVENT}`, data),
-    onSuccess: (data) => {
-      toast({
-        title: "Success",
-        description: "Event saved!",
-        status: "success",
-        position: "top-right",
-        duration: 5000,
-      });
-      queryClient.invalidateQueries([`getAllMyEvents-${activeCommunity?.id}`]);
-      queryClient.invalidateQueries([`getMyEventsss`, userId]);
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "An error occured while trying to save an event",
-        status: "error",
-        position: "top-right",
-        duration: 5000,
-      });
-    },
-  });
-  return (
-    <HStack
-      pos={"relative"}
-      alignItems={"center"}
-      width="100%"
-      height={"130px"}
-      paddingY={"10px"}
-      borderBottomWidth={"1px"}
-      borderBottomColor={"lightgrey"}
-      justifyContent={"space-between"}
-    >
-      <HStack>
-        <Box
-          width="150px"
-          height={"110px"}
-          borderRadius={"10px"}
-          bg={"lightgrey"}
-          overflow={"hidden"}
-        >
-          <Image
-            alt="om"
-            src={`${IMAGE_URL}${event.currentPicUrl}`}
-            width="100%"
-            height="100%"
-            objectFit={"cover"}
-          />
-        </Box>
-
-        <VStack flex={1} alignItems={"flex-start"} spacing={2}>
-          <Box>
-            <CustomText
-              fontFamily={"DM-Bold"}
-              fontSize={"18px"}
-              color={bodyTextColor}
-            >
-              {event.eventName.length > 20
-                ? event.eventName.substring(0, 20) + "..."
-                : event.eventName}
-            </CustomText>
-
-            <CustomText
-              fontFamily={"DM-Regular"}
-              fontSize={"16px"}
-              color={bodyTextColor}
-            >
-              {event?.eventDescription?.length > 20
-                ? event?.eventDescription?.substring(0, 20) + "..."
-                : event?.eventDescription}
-            </CustomText>
-
-            <CustomText
-              fontFamily={"DM-Regular"}
-              marginTop={"10px"}
-              fontSize={"12px"}
-              color="brand.chasescrollButtonBlue"
-            >
-              {event?.location?.address?.length > 20
-                ? event?.location?.address?.substring(0, 20) + "..."
-                : event?.location?.address}
-            </CustomText>
-          </Box>
-        </VStack>
-      </HStack>
-      <Button
-        role="button"
-        position={"absolute"}
-        top={"auto"}
-        bottom={"auto"}
-        right={"5"}
-        onClick={() =>
-          savedEvent.mutate({
-            eventID: event.id,
-            typeID: activeCommunity?.id,
-            type: "EVENT",
-          })
-        }
-      >
-        {savedEvent.isLoading ? (
-          <Spinner size={"xs"} />
-        ) : (
-          <Flex
-            w={"full"}
-            color={"#5D70F9"}
-            gap={"1px"}
-            flexDir={"column"}
-            alignItems={"center"}
-          >
-            <AiOutlinePushpin />
-            <Text fontSize={"10px"}>Pin</Text>
-          </Flex>
-        )}
-      </Button>
-
-      {/* <Button
-                isLoading={savedEvent.isLoading}
-                width='100px' height='40px' borderRadius={'30px'} bg='brand.chasescrollButtonBlue' color='white' variant={'outline'} fontSize={'12px'}>Add</Button> */}
-    </HStack>
-  );
-};
+import EventImage from "@/components/sharedComponent/eventimage";
+import { textLimit } from "@/utils/textlimit";
+import { capitalizeFLetter } from "@/utils/capitalLetter";
+import EventLocationDetail from "@/components/sharedComponent/event_location";
+import LoadingAnimation from "@/components/sharedComponent/loading_animation";
+import { useCommunity } from "@/components/newcommunity";
 
 function AddEventsModal({
   isOpen,
@@ -196,8 +64,10 @@ function AddEventsModal({
     headerTextColor,
     secondaryBackgroundColor,
     primaryColor,
+    borderColor
   } = useCustomTheme();
   const { colorMode } = useColorMode();
+  const { communityEvent } = useCommunity()
 
   const debounceValue = useDebounce(search, 500);
   const { isLoading, isError } = useQuery(
@@ -216,14 +86,112 @@ function AddEventsModal({
         const ids = savedEvents.map((item) => item.id);
         setEvents(
           uniqBy(
-            item.content.filter((item) => !ids.includes(item.id)),
+            item.content.filter((item) => !communityEvent.includes(item.id)),
             "id",
           ),
         );
       },
-      onError: () => {},
+      onError: () => { },
     },
   );
+
+  const EventBox = ({ event }: { event: IEvent }) => {
+    const toast = useToast();
+    const queryClient = useQueryClient();
+    const { activeCommunity } = useCommunityPageState((state) => state);
+    const { userId } = useDetails((state) => state);
+
+
+    const {
+      bodyTextColor,
+      mainBackgroundColor,
+      headerTextColor,
+      secondaryBackgroundColor,
+      primaryColor,
+      borderColor
+    } = useCustomTheme();
+    const { colorMode } = useColorMode();
+
+    const savedEvent = useMutation({
+      mutationFn: (data: any) => httpService.post(`${URLS.SAVE_EVENT}`, data),
+      onSuccess: (data) => {
+        toast({
+          title: "Success",
+          description: "Event saved!",
+          status: "success",
+          position: "top-right",
+          duration: 5000,
+        });
+        
+        // queryClient.invalidateQueries([`getAllMyEvents-${activeCommunity?.id}`]);
+        // queryClient.invalidateQueries([`getMyEventsss`, userId]);
+      },
+      onError: () => {
+        toast({
+          title: "Error",
+          description: "An error occured while trying to save an event",
+          status: "error",
+          position: "top-right",
+          duration: 5000,
+        });
+      },
+    });
+    return ( 
+      <Flex w={"full"} alignItems={"center"} px={"2"} justifyContent={"space-between"} >
+        <Flex gap={"3"} align={"center"} >
+          <Flex width={"fit-content"} >
+            <EventImage
+              data={event}
+              width={"100px"}
+              height={"100px"}
+            />
+          </Flex>
+          <Flex flexDir={"column"} >
+            <Text fontSize={"18px"} fontWeight={"700"} >
+              {textLimit(capitalizeFLetter(event.eventName), 13)}
+            </Text>
+            <Text fontSize={"14px"} fontWeight={"400"} >
+              {textLimit(capitalizeFLetter(event.eventDescription), 60)}
+            </Text>
+            <EventLocationDetail
+              iconsize={"14px"}
+              fontWeight={"medium"}
+              fontsize={"14px"}
+              location={event?.location}
+              locationType={event?.locationType}
+              length={20}
+            />
+          </Flex>
+        </Flex>
+        <Button
+          role="button"
+          onClick={() =>
+            savedEvent.mutate({
+              eventID: event.id,
+              typeID: activeCommunity?.id,
+              type: "EVENT",
+            })
+          }
+        >
+          {savedEvent.isLoading ? (
+            <Spinner size={"xs"} />
+          ) : (
+            <Flex
+              w={"full"}
+              color={"#5D70F9"}
+              gap={"1px"}
+              flexDir={"column"}
+              alignItems={"center"}
+            >
+              <AiOutlinePushpin />
+              <Text fontSize={"10px"}>Pin</Text>
+            </Flex>
+          )}
+        </Button>
+      </Flex>
+    );
+  };
+
 
   return (
     <ModalLayout
@@ -261,25 +229,13 @@ function AddEventsModal({
       closeIcon={true}
     >
       <Box width="100%" height="450px" overflowY={"auto"} paddingX="20px">
-        {!isLoading && !isError && events.length < 1 && (
-          <VStack
-            width="100%"
-            height={"100%"}
-            justifyContent={"center"}
-            alignItems={"center"}
-          >
-            <CustomText
-              fontFamily={"DM-Regular"}
-              fontSize={"18px"}
-              color={bodyTextColor}
-            >
-              You have no Events to add!
-            </CustomText>
-          </VStack>
-        )}
+        <LoadingAnimation loading={isLoading} length={events?.length} >
         {events?.map((event: IEvent, index) => (
-          <EventBox key={index} event={event} />
+          <Flex key={index} w={"full"} py={"4"} borderBottomWidth={"1px"} borderBottomColor={borderColor} >
+            <EventBox event={event} />
+          </Flex>
         ))}
+        </LoadingAnimation>
       </Box>
     </ModalLayout>
   );

@@ -44,6 +44,7 @@ const useCommunity = () => {
 
     const { results: communityRequest, isLoading: loadingCommunityRequest, ref: refCommunityRequest, isRefetching: refectingCommunityRequest, refetch: requestRefetch } = InfiniteScrollerComponent({ url: `${URLS.GET_GROUP_REQUESTS}/${userId}`, limit: 15, filter: "id" })
 
+    const { results: communityEvent, isLoading: loadingCommunityEvent, ref: refCommunityEvent, isRefetching: refectingCommunityEvent, refetch: refectEvent } = InfiniteScrollerComponent({ url: `/events/get-saved-events?typeID=${activeCommunity?.id}`, limit: 15, filter: "id" })
 
     const media = () => {
         if (mediaPosts.length < 1) return [];
@@ -257,7 +258,10 @@ const useCommunity = () => {
         activeCommunity,
         communityName,
         uploadedFile,
-        loadingImage
+        loadingImage,
+        communityEvent,
+        loadingCommunityEvent,
+        refectEvent
     };
 }
 

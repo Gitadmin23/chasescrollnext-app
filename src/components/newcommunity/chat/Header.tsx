@@ -32,16 +32,16 @@ import { EditButton, EditIcon } from '@/components/svg';
 import CommunityInfo from '../communityInfo';
 import { IoArrowBack } from 'react-icons/io5';
 import EditComunity from '../communityInfo/editComunity';
+import { useCommunity } from '..';
 
 
 
 function CommunityChatHeader() {
   const { activeCommunity, setAll, events, eventHasNext, eventPageNumber, showEvents } = useCommunityPageState((state) => state);
   const { userId } = useDetails((state) => state);
-  const [showModal, setShowModal] = React.useState(false);
-  const queryClient = useQueryClient();
-  const toast = useToast();
-  const router = useRouter()
+  const [showModal, setShowModal] = React.useState(false); 
+
+  const { communityEvent } = useCommunity()
 
   const [open, setOpen] = useState(false)
 
@@ -54,8 +54,8 @@ function CommunityChatHeader() {
     mainBackgroundColor,
     borderColor,
   } = useCustomTheme();
-  const { colorMode, toggleColorMode } = useColorMode();
 
+  const { colorMode, toggleColorMode } = useColorMode(); 
 
   return (
     <Flex width='100%' height={'72px'} bg={mainBackgroundColor} alignItems={"center"} borderBottomWidth={'0.5px'} borderBottomColor={borderColor} paddingX={['0px', '20px']} justifyContent={'space-between'}>
@@ -77,19 +77,11 @@ function CommunityChatHeader() {
 
       <Flex alignItems={"center"} gap={"4"} >
         <CustomButton onClick={() => setOpen(true)} text={"Details"} fontSize={"sm"} width={"113px"} borderWidth={"1px"} borderColor={borderColor} borderRadius={"full"} backgroundColor={mainBackgroundColor} color={headerTextColor} />
-        {/* <Button onClick={() => setTab(true)} w={"76px"} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} bg={"white"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} outline={"none"} _hover={{ backgroundColor: "transparent" }} backgroundColor={"transparent"}>
-          <Flex justifyContent={"center"} alignItems={"center"} w={"30px"} h={"30px"} >
-            <EditButton />
-          </Flex>
-          <Text fontWeight={"500"} fontSize={"13px"} textAlign={"center"} color={"#5D70F9"} >Edit</Text>
-        </Button> */}
-        {events.length > 0 && (
+        {communityEvent.length > 0 && (
           <Box onClick={() => setAll({ showEvents: !showEvents })} cursor='pointer' position={'relative'} marginRight={'10px'} >
-
-            <Image src='/assets/images/note-add.png' alt='logo' width={'30px'} height={'30px'} />
-
+            <Image src='/assets/images/note-add.png' alt='logo' width={'30px'} height={'30px'} /> 
             <VStack justifyContent={'center'} alignItems={'center'} zIndex={'10'} position={'absolute'} top='-15px' right='-15px' bg='white' width='30px' height='30px' borderRadius={'15px'} shadow={'lg'}>
-              <CustomText fontFamily={'DM-Bold'} fontSize={'14px'} color='red'>{events.length}</CustomText>
+              <CustomText fontFamily={'DM-Bold'} fontSize={'14px'} color='red'>{communityEvent.length}</CustomText>
             </VStack>
 
           </Box>
