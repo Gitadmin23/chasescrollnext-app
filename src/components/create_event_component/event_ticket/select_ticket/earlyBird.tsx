@@ -115,7 +115,7 @@ export default function EarlyBird({ data, index }: IProps) {
         <Flex>
             <Flex as={"button"} onClick={() => clickHander()} alignItems={"center"} gap={"1"} px="6" h={"45px"} rounded={"12px"} bgColor={primaryColor} color={"white"} >
                 <Bird />
-                <Text fontWeight={"500"} fontSize={"14px"} >Early Bird</Text>
+                <Text fontWeight={"500"} fontSize={"14px"} >{eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? "Edit"  : ""} Early Bird</Text>
             </Flex>
             <ModalLayout bg={secondaryBackgroundColor} open={open} close={setOpen} >
                 <Flex p={"6"} w={"full"} flexDir={"column"} color={headerTextColor} >
@@ -153,8 +153,7 @@ export default function EarlyBird({ data, index }: IProps) {
                             </Box>
                             <Box width={"full"} >
                                 <label className="block text-gray-700 font-medium mb-2">
-                                    Total number of tickets available to be sold for your
-                                    events
+                                    Total number of early bird tickets available.
                                 </label>
                                 <Input
                                     h={"45px"}
@@ -202,7 +201,7 @@ export default function EarlyBird({ data, index }: IProps) {
                                 />
                             </Flex>
                         </Flex>
-                        <CustomButton onClick={() => setOpen(false)} text={"Close"} w={"full"} />
+                        <CustomButton onClick={() => setOpen(false)} backgroundColor={"#1732F70D"} borderWidth={"1px"} borderColor={"#1732F7"} color={"#5D70F9"} text={"Done"} w={"full"} />
                     </Flex>
                 </Flex>
             </ModalLayout>

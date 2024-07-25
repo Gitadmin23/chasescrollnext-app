@@ -1,7 +1,7 @@
 import CustomButton from '@/components/general/Button';
 import { AddIcon, SubtractIcon } from '@/components/svg';
 import useEventStore from '@/global-state/useCreateEventState';
-import { Box, Flex, Input, Select, useToast } from '@chakra-ui/react'
+import { Box, Flex, Input, Select, Text, useToast } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import EarlyBird from './earlyBird';
 
@@ -163,8 +163,9 @@ function SelectTicket(props: Props) {
 
 
     return (
-        <Flex flexDirection={"column"} gap={"4"} width={"full"} >
+        <Flex flexDirection={"column"} gap={"3"} width={"full"} >
             <EarlyBird />
+            <Text fontSize={"18px"} my={"1"} fontWeight={"600"} >Other Ticket Types</Text>
             {eventdata.productTypeData?.map((item, index) => {
                 if (item?.ticketType !== "Early Bird") {
                     return (
