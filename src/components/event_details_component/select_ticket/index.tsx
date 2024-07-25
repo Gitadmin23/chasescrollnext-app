@@ -11,7 +11,7 @@ import router from 'next/router'
 import React, { useEffect } from 'react'
 import { LiaAngleDownSolid } from 'react-icons/lia'
 import useCustomTheme from "@/hooks/useTheme";
-import { dateFormat } from '@/utils/dateFormat'
+import { dateFormat, timeFormat } from '@/utils/dateFormat'
 
 interface Props {
     ticket: any,
@@ -84,7 +84,7 @@ function SelectTicket(props: Props) {
     return (
         <Flex gap={"3"} position={"relative"} alignItems={"center"} justifyContent={"end"} pl={"5"}  >
             <Flex onClick={() => setShowModal(true)} as={"button"} borderColor={"brand.chasescrollBlue"} rounded={"lg"} borderWidth={"1px"} height={"49px"} width={"full"} justifyContent={"center"} alignItems={"center"} >
-                <Text fontSize={"sm"} color={colorMode === 'light' ? "brand.chasescrollBlue":bodyTextColor} >
+                <Text fontSize={"sm"} color={colorMode === 'light' ? "brand.chasescrollBlue" : bodyTextColor} >
                     {selectedticket?.ticketType ? selectedticket?.ticketType : "Select Ticket"}{" "}
                     {selectedticket?.ticketType ? formatNumber(selectedticket?.ticketPrice, currency === "USD" ? "$" : "₦") : ""}
                 </Text>
@@ -98,25 +98,30 @@ function SelectTicket(props: Props) {
                 <Box width={"full"} pl={"5"} borderWidth={"0px"} zIndex={"30"} top={"60px"} position={"absolute"} rounded={"lg"} >
                     <Flex gap={"3"} flexDirection={"column"} shadow={"lg"} width={"full"} borderColor={borderColor} padding={"4"} borderBottomWidth={"0px"} bg={secondaryBackgroundColor} rounded={"lg"}>
                         {ticket?.filter((item: any) => item?.ticketType)?.map((item: any, index: number) => {
-                            if(item?.ticketType === "Early Bird"){ 
-                                if(new Date() >= new Date(item?.startDate) && new Date() <= new Date(item?.endDate)){
+                            if (item?.ticketType === "Early Bird") {
+                                if (new Date() >= new Date(item?.startDate) && new Date() <= new Date(item?.endDate)) {
                                     return (
+                                        <Flex w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
+                                            <Button color={primaryColor} isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                                {item?.totalNumberOfTickets === item?.ticketsSold ?
+                                                    "Sold Out" :
+                                                    item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
+                                                }
+                                            </Button>
+                                            <Text color={primaryColor} textAlign={"center"} fontSize={"12px"} >Ends: {dateFormat(item?.endDate)} {timeFormat(item?.endDate)}</Text>
+                                        </Flex>
+                                    )
+                                }
+                            } else {
+                                return (
+                                    // <Flex w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
                                         <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                             {item?.totalNumberOfTickets === item?.ticketsSold ?
                                                 "Sold Out" :
                                                 item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
                                             }
                                         </Button>
-                                    )
-                                }
-                            } else {
-                                return (
-                                    <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
-                                        {item?.totalNumberOfTickets === item?.ticketsSold ?
-                                            "Sold Out" :
-                                            item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
-                                        }
-                                    </Button>
+                                    // {/* </Flex> */}
                                 )
                             }
                         })}

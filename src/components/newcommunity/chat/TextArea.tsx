@@ -17,7 +17,7 @@ import {
   Box,
   Button,
   Portal,
-  useToast, useColorMode
+  useToast, useColorMode, Flex
 } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { FiSend, FiSmile, FiPlusCircle } from 'react-icons/fi';
@@ -183,7 +183,7 @@ function CommunityTextArea() {
   return (
     <VStack width='100%' height={'150px'} bg='transparent' paddingY='10px' position={'relative'}>
       <input ref={ref as any} onChange={(e) => handleFilePic(e.target.files as FileList)} hidden type='file' accept={accept()} />
-      <VStack ref={containerRef as any} width={'100%'} height='100%' borderWidth={'0.5px'} bg={secondaryBackgroundColor} borderColor={borderColor} borderRadius={'10px'} paddingX='8px' paddingY='8px' position={'relative'}>
+      <VStack ref={containerRef as any} width={'100%'} height='100%' borderWidth={'0.5px'} borderColor={borderColor} borderRadius={'10px'} paddingX='8px' paddingY='8px' position={'relative'}>
 
         {showEmoji && (
           <Box position={'absolute'} height={'400px'} top='-450px' left={'0px'}>
@@ -199,15 +199,17 @@ function CommunityTextArea() {
         }} placeholder={`Say something @${username}`} />
 
         {uploadedFile.length > 0 &&
-          <Box position={"absolute"} bottom={"90px"} width={'100%'} height={'100px'} flex='1' display={'inline-block'} whiteSpace={'nowrap'}>
+          <Box position={"absolute"} left={"0px"} zIndex={'10'} top={"-150px"} width={"fit-content"} height={"fit-content"} flex='1' >
             {uploadedFile.map((item, index) => {
               const __format__ = item.url.split('.');
               const format = __format__[__format__.length - 1];
               if (IMAGE_FORM.includes(format)) {
                 return (
-                  <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
-                    <Image cursor={'pointer'} src={item.url} alt='image' key={index.toString()} objectFit={'cover'} width='60px' height='60px' borderRadius={'8px'} display={'inline'} marginRight={'10px'} />
-                  </MediaBox>
+                  <Flex w={"fit-content"} h={"fit-content"} rounded={"8px"} bg={secondaryBackgroundColor} p={"2"} > 
+                    <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
+                      <Image cursor={'pointer'} src={item.url} alt='image' key={index.toString()} objectFit={'cover'} width='100px' height='100px' borderRadius={'8px'} display={'inline'} marginRight={'10px'} />
+                    </MediaBox>
+                  </Flex>
                 )
               }
               if (VIDEO_FORM.includes(format)) {

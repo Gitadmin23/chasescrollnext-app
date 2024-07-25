@@ -8,7 +8,7 @@ function MediaBox({ children, onClose }: {
 }) {
     const [show, setShow] = React.useState(false);
   return (
-    <Box onMouseOver={() => setShow(true)} onMouseOut={() => setShow(false)} maxWidth={'200px'} height='100%' borderRadius={'5px'} position={'relative'} display={'inline-block'} marginRight={'10px'}>
+    <Box onMouseOver={() => setShow(true)} onMouseOut={() => setShow(false)} maxWidth={'200px'} height='100%' borderRadius={'5px'} position={'relative'} display={'inline-block'}>
         <Box >
          {children}
         </Box>
