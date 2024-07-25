@@ -56,7 +56,7 @@ function AddEventsModal({
   const { userId } = useDetails((state) => state);
   const [search, setSeearch] = React.useState("");
   const toast = useToast();
-  const { events: savedEvents } = useCommunityPageState((state) => state);
+  const { events: savedEvents } = useCommunityPageState((state) => state); 
 
   const {
     bodyTextColor,
@@ -67,7 +67,8 @@ function AddEventsModal({
     borderColor
   } = useCustomTheme();
   const { colorMode } = useColorMode();
-  const { communityEvent } = useCommunity()
+  const { communityEvent, refectEvent } = useCommunity()
+  const ids = communityEvent.map((item: any) => item.id);
 
   const debounceValue = useDebounce(search, 500);
   const { isLoading, isError } = useQuery(
@@ -83,10 +84,10 @@ function AddEventsModal({
     {
       onSuccess: (data) => {
         const item: PaginatedResponse<IEvent> = data.data;
-        const ids = savedEvents.map((item) => item.id);
+        const ids = communityEvent.map((item: any) => item.id);
         setEvents(
           uniqBy(
-            item.content.filter((item) => !communityEvent.includes(item.id)),
+            item.content,
             "id",
           ),
         );
@@ -122,7 +123,7 @@ function AddEventsModal({
           position: "top-right",
           duration: 5000,
         });
-        
+        refectEvent()
         // queryClient.invalidateQueries([`getAllMyEvents-${activeCommunity?.id}`]);
         // queryClient.invalidateQueries([`getMyEventsss`, userId]);
       },
@@ -230,7 +231,7 @@ function AddEventsModal({
     >
       <Box width="100%" height="450px" overflowY={"auto"} paddingX="20px">
         <LoadingAnimation loading={isLoading} length={events?.length} >
-        {events?.map((event: IEvent, index) => (
+        {events.filter((item) => !ids.includes(item.id))?.map((event: IEvent, index) => (
           <Flex key={index} w={"full"} py={"4"} borderBottomWidth={"1px"} borderBottomColor={borderColor} >
             <EventBox event={event} />
           </Flex>

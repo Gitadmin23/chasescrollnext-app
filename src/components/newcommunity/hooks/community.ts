@@ -18,7 +18,7 @@ import { ICommunity } from "@/models/Communitty";
 
 const useCommunity = () => {
 
-    const [searchText, setSearchText] = React.useState('');
+    const [searchTextMyCommunity, setSearchTextMyCommunity] = React.useState('');
     const [postID, setpostID] = React.useState('');
     const [comment, setComment] = React.useState<string>('');
     const [commentData, setCommentData] = React.useState(Array<any>);
@@ -33,7 +33,7 @@ const useCommunity = () => {
 
     const { setAll, activeCommunity, activeMessageId, commentHasNext, commentPage, comments } = useCommunityPageState((state) => state);
 
-    const debounceValue = useDebounce(searchText, 500);
+    const debounceValue = useDebounce(searchTextMyCommunity, 500);
     const { userId } = useDetails((state) => state)
 
     const { results: communites, isLoading: loadingCommunity, ref: refCommunity, isRefetching: refectingCommunity, refetch: refetchCommunity } = InfiniteScrollerComponent({ url: `${URLS.JOINED_GROUPS}?userID=${userId}&searchText=${debounceValue ?? ""}`, limit: 15, filter: "id", newdata: debounceValue })
@@ -222,10 +222,12 @@ const useCommunity = () => {
 
     return {
         communites,
+        searchTextMyCommunity,
         loadingCommunity,
         refectingCommunity,
         refCommunity,
-        setSearchText,
+        refetchCommunity,
+        setSearchTextMyCommunity,
         handleCreateComment,
         commentlastChildRef,
         getComments,
