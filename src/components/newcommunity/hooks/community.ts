@@ -226,6 +226,7 @@ const useCommunity = () => {
         loadingCommunity,
         refectingCommunity,
         refCommunity,
+        refetchCommunity,
         setSearchTextMyCommunity,
         handleCreateComment,
         commentlastChildRef,
