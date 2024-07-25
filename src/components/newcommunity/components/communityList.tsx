@@ -1,6 +1,6 @@
 "use client"
-import { Box, Flex, Image, Text } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Flex, Image, Input, InputGroup, InputLeftElement, Text } from '@chakra-ui/react'
+import React, { useState } from 'react'
 import { ListHeader, useCommunity } from '..'
 import { textLimit } from '@/utils/textlimit'
 import { ICommunity } from '@/models/Communitty'
@@ -9,16 +9,17 @@ import { IMAGE_URL } from '@/services/urls'
 import { useCommunityPageState } from '@/components/Community/chat/state';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import useCustomTheme from '@/hooks/useTheme'
+import { IoSearchOutline } from 'react-icons/io5'
 
 interface IProps {
     tab: number
-    setTab?: any, 
+    setTab?: any,
     setShow?: any
 }
 
 export default function CommunityList({ tab, setTab, setShow }: IProps) {
 
-    const { communites, loadingCommunity, refCommunity, refectingCommunity } = useCommunity()
+    const { communites, loadingCommunity, refCommunity, refectingCommunity, setSearchTextMyCommunity, searchTextMyCommunity } = useCommunity()
     const { setAll, activeCommunity } = useCommunityPageState((state) => state);
 
     const {
@@ -29,6 +30,8 @@ export default function CommunityList({ tab, setTab, setShow }: IProps) {
         borderColor,
         headerTextColor
     } = useCustomTheme();
+
+    const [search, setSearch] = useState("")
 
     const clickHander = (item: any) => {
         setAll({ activeCommunity: item, pageNumber: 0, messages: [], hasNext: false })
@@ -62,8 +65,16 @@ export default function CommunityList({ tab, setTab, setShow }: IProps) {
     return (
         <Flex w={"full"} h={"full"} flexDir={"column"} bg={mainBackgroundColor} >
             <ListHeader tab={tab} setTab={setTab} setShow={setShow} />
+            <Flex w={"full"} h={"72px"} borderBottomColor={borderColor} borderBottomWidth={"1px"} px={"6"} justifyContent={"center"} alignItems={"center"} >
+                <InputGroup width={["full", "full", "361px"]} zIndex={"20"} position={"relative"} >
+                    <InputLeftElement pointerEvents='none'>
+                        <IoSearchOutline size={"25px"} color={bodyTextColor} />
+                    </InputLeftElement>
+                    <Input width={["full", "full", "full"]} value={searchTextMyCommunity} color={bodyTextColor} onChange={(e) => setSearchTextMyCommunity(e.target.value)} type="search" borderColor={borderColor} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} _placeholder={{ color: bodyTextColor }} bgColor={secondaryBackgroundColor} placeholder='Search for Community' />
+                </InputGroup>
+            </Flex>
             <LoadingAnimation loading={loadingCommunity} refeching={refectingCommunity} length={communites?.length} >
-                <Flex w={"full"} h={"full"} flex={"1"} overflowY={"auto"} px={"5"} flexDir={"column"}  >
+                <Flex w={"full"} h={"auto"} overflowY={"auto"} px={"5"} flexDir={"column"}  >
                     {communites?.map((item: ICommunity, index: number) => {
                         if (communites?.length === index + 1) {
                             return (

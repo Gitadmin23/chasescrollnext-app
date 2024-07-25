@@ -79,12 +79,12 @@ function MainArea({setShow} : IProps) {
         onError: (error: any) => { }
     });
 
-    React.useEffect(() => {
-        if (messages?.length !== len) {
-            setLen(messages?.length);
-            document.querySelector('#lastMsg')?.scrollIntoView({ behavior: 'smooth' });
-        }
-    }, [messages, len])
+    // React.useEffect(() => {
+    //     if (messages?.length !== len) {
+    //         setLen(messages?.length);
+    //         document.querySelector('#lastMsg')?.scrollIntoView({ behavior: 'smooth' });
+    //     }
+    // }, [messages, len])
 
     const lastChildRef = React.useCallback((post: any) => {
         if (isLoading) return;
@@ -99,12 +99,12 @@ function MainArea({setShow} : IProps) {
     }, [isLoading, setAll, pageNumber, hasNext]);
 
 
-    React.useEffect(() => {
-        if (messages?.length !== len) {
-            setLen(messages?.length);
-            document.querySelector('#lastMsg')?.scrollIntoView({ behavior: 'smooth' });
-        }
-    }, [messages, len])
+    // React.useEffect(() => {
+    //     if (messages?.length !== len) {
+    //         setLen(messages?.length);
+    //         document.querySelector('#lastMsg')?.scrollIntoView({ behavior: 'smooth' });
+    //     }
+    // }, [messages, len])
 
     if (activeCommunity === null) {
         return (
