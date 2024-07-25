@@ -66,7 +66,8 @@ function MainArea({setShow} : IProps) {
                     setAll({ messages: item.content });
                 } else {
                     if (messages.length > 0) {
-                        const arr = [...messages, ...item?.content];
+                        const arr = [...messages];
+                        arr?.unshift(...item?.content)
                         setAll({ messages: uniqBy(arr, 'id'), hasNext: item.last ? false : true });
 
                     } else {

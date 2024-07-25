@@ -133,8 +133,8 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                     </HStack>
                 )}
 
-                <VStack borderRadius='10px 20px 20px 0px'  bg={secondaryBackgroundColor} shadow={"lg"} padding='10px' spacing={0} alignItems={self ? 'flex-end' : 'flex-start'} flexWrap={'wrap'} maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px' : '0px'} borderBottomRightRadius={self ? '0px' : '20px'} >
-                    <VStack width={'100%'} justifyContent={'flex-start'} alignItems={self ? 'flex-end' : 'flex-end'} mb={"2"} spacing={0}>
+                <VStack borderRadius='10px 20px 20px 0px'  bg={secondaryBackgroundColor} shadow={"lg"} padding='10px' spacing={0} alignItems={self ? 'flex-end' : 'flex-start'} flexWrap={'wrap'} maxW={'400px'} minW={'150px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px' : '0px'} borderBottomRightRadius={self ? '0px' : '20px'} >
+                    <VStack width={'100%'} justifyContent={'flex-start'} alignItems={self ? 'flex-end' : 'flex-start'} mb={"2"} spacing={0}>
                         <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color={"#3C41F0"}  >
                             {textLimit(capitalizeFLetter(post?.user?.firstName) + " " + capitalizeFLetter(post?.user?.lastName), 20)}
                         </CustomText>
@@ -167,8 +167,8 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                     )}
                     <Box padding='5px' width='100%'>
                         <CustomText fontFamily={'DM-Regular'} fontSize='14px'>
-                            {showMore ? handleLinks(post?.text) : post?.text.length > 500 ? handleLinks(post?.text.slice(0, 500) + '...') : handleLinks(post?.text)}
-                            {post?.text.length > 500 && (
+                            {showMore ? handleLinks(post?.text) : post?.text.length > 1024 ? handleLinks(post?.text.slice(0, 1024) + '...') : handleLinks(post?.text)}
+                            {post?.text.length > 1024 && (
                                 <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize: '12px', cursor: 'pointer' }} onClick={() => setShowMore(!showMore)} >{showMore ? 'Show Less' : 'Show More'}</span>
                             )}
                         </CustomText>
