@@ -84,8 +84,11 @@ function CommunityTextArea() {
   React.useEffect(() => {
     if (uploadedFile.length > 0) {
       handleFilePick(uploadedFile);
+
     } else {
       setFiles([]);
+      console.log("kill");
+      
     }
   }, [handleFilePick, uploadedFile])
 
@@ -185,6 +188,10 @@ function CommunityTextArea() {
   console.log(uploadedFile);
   console.log(files);
   
+  const removeHandler =(index: any )=> {
+    reset()
+    deleteFile(index)
+  }
   
 
   return (
@@ -212,14 +219,14 @@ function CommunityTextArea() {
               const format = __format__[__format__.length - 1];
               if (IMAGE_FORM.includes(format)) {
                 return ( 
-                    <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
+                    <MediaBox key={index.toString()} onClose={() => removeHandler(index)}>
                       <Image cursor={'pointer'} src={item.url} alt='image' key={index.toString()} objectFit={'cover'} width='100%' height='100%' borderRadius={'8px'}  marginRight={'10px'} />
                     </MediaBox> 
                 )
               }
               if (VIDEO_FORM.includes(format)) {
                 return (
-                  <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
+                  <MediaBox key={index.toString()} onClose={() => removeHandler(index)}>
                     <video key={index.toString()} controls style={{ width: '60px', height: '60px', borderRadius: '8px', marginRight: '10px' }}>
                       <source src={item.url} type='video/mp4' />
                     </video>
@@ -228,7 +235,7 @@ function CommunityTextArea() {
               }
               if (DOC_FORM.includes(format)) {
                 return (
-                  <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
+                  <MediaBox key={index.toString()} onClose={() => removeHandler(index)}>
                     <HStack width='100%' bg='whitesmoke' borderRadius={'10px'} padding='5px'>
                       <VStack cursor={'pointer'} width={'60px'} height={'60px'} borderRadius={'8px'} justifyContent={'center'} alignItems={'center'} bg='lightgrey'>
                         <CustomText fontFamily={'DM-Bold'} fontSize={'20px'}>{format.toUpperCase()}</CustomText>
@@ -242,7 +249,7 @@ function CommunityTextArea() {
                 )
               }
               return (
-                <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
+                <MediaBox key={index.toString()} onClose={() => removeHandler(index)}>
                   <HStack width='100%' bg='whitesmoke' borderRadius={'10px'} padding='5px'>
                     <VStack cursor={'pointer'} width={'60px'} height={'60px'} borderRadius={'8px'} justifyContent={'center'} alignItems={'center'} bg='lightgrey'>
                       <CustomText fontFamily={'DM-Bold'} fontSize={'20px'}>{format.toUpperCase()}</CustomText>
