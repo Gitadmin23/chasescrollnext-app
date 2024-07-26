@@ -101,7 +101,7 @@ function SelectTicket(props: Props) {
                             if (item?.ticketType === "Early Bird") {
                                 if (new Date() >= new Date(item?.startDate) && new Date() <= new Date(item?.endDate)) {
                                     return (
-                                        <Flex w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
+                                        <Flex key={index} w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
                                             <Button color={primaryColor} isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                                 {item?.totalNumberOfTickets === item?.ticketsSold ?
                                                     "Sold Out" :
