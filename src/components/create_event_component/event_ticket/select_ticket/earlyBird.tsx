@@ -4,11 +4,13 @@ import { Bird, CalendarIcon } from '@/components/svg'
 import useEventStore from '@/global-state/useCreateEventState'
 import useCustomTheme from '@/hooks/useTheme'
 import { dateFormat, timeFormat } from '@/utils/dateFormat'
-import { Box, Flex, Input, Text, useToast } from '@chakra-ui/react'
+import { Box, Button, Flex, Input, Text, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { PiTrashSimpleDuotone } from "react-icons/pi";
 import { IoIosClose } from 'react-icons/io'
+import { IoLogoTwitter } from 'react-icons/io5'
 
 interface IProps {
     data?: any,
@@ -17,7 +19,7 @@ interface IProps {
 
 export default function EarlyBird({ data, index }: IProps) {
 
-    const { primaryColor, secondaryBackgroundColor, headerTextColor } = useCustomTheme()
+    const { primaryColor, secondaryBackgroundColor, headerTextColor, mainBackgroundColor } = useCustomTheme()
 
     const { eventdata, updateEvent } = useEventStore((state) => state);
 
@@ -111,11 +113,26 @@ export default function EarlyBird({ data, index }: IProps) {
         }
     };
 
+    const removeHander = () => {
+        const clone = { ...eventdata }
+
+        clone?.productTypeData.shift()
+
+        updateEvent(clone)
+    }
+
     return (
         <Flex>
-            <Flex as={"button"} onClick={() => clickHander()} alignItems={"center"} gap={"1"} px="6" h={"45px"} rounded={"12px"} bgColor={primaryColor} color={"white"} >
-                <Bird />
-                <Text fontWeight={"500"} fontSize={"14px"} >{eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? "Edit"  : ""} Early Bird</Text>
+            <Flex gap={"1"}  >
+                <Flex as={"button"} onClick={() => clickHander()} alignItems={"center"} gap={"1"} px="6" h={"45px"} rounded={"12px"} bgColor={eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? primaryColor : mainBackgroundColor} borderColor={primaryColor} borderWidth={"1px"} color={eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? "white" : primaryColor} >
+                    <IoLogoTwitter size="23px" />
+                    <Text fontWeight={"500"} fontSize={"14px"} >{eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? "Edit" : ""} Early Bird</Text>
+                </Flex>
+                {eventdata?.productTypeData[0]?.ticketType === "Early Bird" && 
+                    <Flex as={"button"} onClick={()=> removeHander()} _hover={{ backgroundColor: "transparent" }} color={"red"} flexDir={"column"} justifyContent={"end"} mt={"7"} bg={"transparent"} h={"fit-content"} > 
+                        <PiTrashSimpleDuotone size={"15px"} />
+                    </Flex>
+                }
             </Flex>
             <ModalLayout bg={secondaryBackgroundColor} open={open} close={setOpen} >
                 <Flex p={"6"} w={"full"} flexDir={"column"} color={headerTextColor} >

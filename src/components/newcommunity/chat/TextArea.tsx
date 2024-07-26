@@ -17,7 +17,7 @@ import {
   Box,
   Button,
   Portal,
-  useToast, useColorMode
+  useToast, useColorMode, Flex
 } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { FiSend, FiSmile, FiPlusCircle } from 'react-icons/fi';
@@ -84,8 +84,11 @@ function CommunityTextArea() {
   React.useEffect(() => {
     if (uploadedFile.length > 0) {
       handleFilePick(uploadedFile);
+
     } else {
       setFiles([]);
+      console.log("kill");
+      
     }
   }, [handleFilePick, uploadedFile])
 
@@ -180,10 +183,21 @@ function CommunityTextArea() {
       }
     }
   }
+
+
+  console.log(uploadedFile);
+  console.log(files);
+  
+  const removeHandler =(index: any )=> {
+    reset()
+    deleteFile(index)
+  }
+  
+
   return (
     <VStack width='100%' height={'150px'} bg='transparent' paddingY='10px' position={'relative'}>
       <input ref={ref as any} onChange={(e) => handleFilePic(e.target.files as FileList)} hidden type='file' accept={accept()} />
-      <VStack ref={containerRef as any} width={'100%'} height='100%' borderWidth={'0.5px'} bg={secondaryBackgroundColor} borderColor={borderColor} borderRadius={'10px'} paddingX='8px' paddingY='8px' position={'relative'}>
+      <VStack ref={containerRef as any} width={'100%'} height='100%' borderWidth={'0.5px'} borderColor={borderColor} borderRadius={'10px'} paddingX='8px' paddingY='8px' position={'relative'}>
 
         {showEmoji && (
           <Box position={'absolute'} height={'400px'} top='-450px' left={'0px'}>
@@ -199,20 +213,20 @@ function CommunityTextArea() {
         }} placeholder={`Say something @${username}`} />
 
         {uploadedFile.length > 0 &&
-          <Box position={"absolute"} bottom={"90px"} width={'100%'} height={'100px'} flex='1' display={'inline-block'} whiteSpace={'nowrap'}>
+          <Box position={"absolute"} left={"0px"} rounded={"8px"} zIndex={'10'} backgroundColor={secondaryBackgroundColor} p={"2"} top={"-120px"} width={"fit-content"} height={"fit-content"} flex='1' >
             {uploadedFile.map((item, index) => {
               const __format__ = item.url.split('.');
               const format = __format__[__format__.length - 1];
               if (IMAGE_FORM.includes(format)) {
-                return (
-                  <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
-                    <Image cursor={'pointer'} src={item.url} alt='image' key={index.toString()} objectFit={'cover'} width='60px' height='60px' borderRadius={'8px'} display={'inline'} marginRight={'10px'} />
-                  </MediaBox>
+                return ( 
+                    <MediaBox key={index.toString()} onClose={() => removeHandler(index)}>
+                      <Image cursor={'pointer'} src={item.url} alt='image' key={index.toString()} objectFit={'cover'} width='100%' height='100%' borderRadius={'8px'}  marginRight={'10px'} />
+                    </MediaBox> 
                 )
               }
               if (VIDEO_FORM.includes(format)) {
                 return (
-                  <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
+                  <MediaBox key={index.toString()} onClose={() => removeHandler(index)}>
                     <video key={index.toString()} controls style={{ width: '60px', height: '60px', borderRadius: '8px', marginRight: '10px' }}>
                       <source src={item.url} type='video/mp4' />
                     </video>
@@ -221,7 +235,7 @@ function CommunityTextArea() {
               }
               if (DOC_FORM.includes(format)) {
                 return (
-                  <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
+                  <MediaBox key={index.toString()} onClose={() => removeHandler(index)}>
                     <HStack width='100%' bg='whitesmoke' borderRadius={'10px'} padding='5px'>
                       <VStack cursor={'pointer'} width={'60px'} height={'60px'} borderRadius={'8px'} justifyContent={'center'} alignItems={'center'} bg='lightgrey'>
                         <CustomText fontFamily={'DM-Bold'} fontSize={'20px'}>{format.toUpperCase()}</CustomText>
@@ -235,7 +249,7 @@ function CommunityTextArea() {
                 )
               }
               return (
-                <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
+                <MediaBox key={index.toString()} onClose={() => removeHandler(index)}>
                   <HStack width='100%' bg='whitesmoke' borderRadius={'10px'} padding='5px'>
                     <VStack cursor={'pointer'} width={'60px'} height={'60px'} borderRadius={'8px'} justifyContent={'center'} alignItems={'center'} bg='lightgrey'>
                       <CustomText fontFamily={'DM-Bold'} fontSize={'20px'}>{format.toUpperCase()}</CustomText>
@@ -249,6 +263,7 @@ function CommunityTextArea() {
               )
             })
             }
+            {/* <Box w={"100px"} h={"100px"} bg={"red"} /> */}
           </Box>
         }
 

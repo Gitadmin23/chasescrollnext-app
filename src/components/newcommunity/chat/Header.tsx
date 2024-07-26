@@ -7,6 +7,7 @@ import { PaginatedResponse } from '@/models/PaginatedResponse';
 import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import { THEME } from '@/theme';
 import httpService from '@/utils/httpService';
+import { IoClose } from 'react-icons/io5';
 import {
   HStack, VStack, Menu,
   MenuButton,
@@ -39,7 +40,7 @@ import { useCommunity } from '..';
 function CommunityChatHeader() {
   const { activeCommunity, setAll, events, eventHasNext, eventPageNumber, showEvents } = useCommunityPageState((state) => state);
   const { userId } = useDetails((state) => state);
-  const [showModal, setShowModal] = React.useState(false); 
+  const [showModal, setShowModal] = React.useState(false);
 
   const { communityEvent } = useCommunity()
 
@@ -55,7 +56,7 @@ function CommunityChatHeader() {
     borderColor,
   } = useCustomTheme();
 
-  const { colorMode, toggleColorMode } = useColorMode(); 
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <Flex width='100%' height={'72px'} bg={mainBackgroundColor} alignItems={"center"} borderBottomWidth={'0.5px'} borderBottomColor={borderColor} paddingX={['0px', '20px']} justifyContent={'space-between'}>
@@ -79,10 +80,18 @@ function CommunityChatHeader() {
         <CustomButton onClick={() => setOpen(true)} text={"Details"} fontSize={"sm"} width={"113px"} borderWidth={"1px"} borderColor={borderColor} borderRadius={"full"} backgroundColor={mainBackgroundColor} color={headerTextColor} />
         {communityEvent.length > 0 && (
           <Box onClick={() => setAll({ showEvents: !showEvents })} cursor='pointer' position={'relative'} marginRight={'10px'} >
-            <Image src='/assets/images/note-add.png' alt='logo' width={'30px'} height={'30px'} /> 
-            <VStack justifyContent={'center'} alignItems={'center'} zIndex={'10'} position={'absolute'} top='-15px' right='-15px' bg='white' width='30px' height='30px' borderRadius={'15px'} shadow={'lg'}>
-              <CustomText fontFamily={'DM-Bold'} fontSize={'14px'} color='red'>{communityEvent.length}</CustomText>
-            </VStack>
+            {showEvents ? (
+              <Box rounded={"full"} p={"6px"}  borderWidth={"1px"} borderColor={borderColor} >
+              <IoClose />
+              </Box>
+            ) : (
+              <Image src='/assets/images/note-add.png' alt='logo' width={'30px'} height={'30px'} />
+            )}
+            {!showEvents && (
+              <VStack justifyContent={'center'} alignItems={'center'} zIndex={'10'} position={'absolute'} top='-15px' right='-15px' bg='white' width='30px' height='30px' borderRadius={'15px'} shadow={'lg'}>
+                <CustomText fontFamily={'DM-Bold'} fontSize={'14px'} color='red'>{communityEvent.length}</CustomText>
+              </VStack>
+            )}
 
           </Box>
         )}
@@ -93,7 +102,7 @@ function CommunityChatHeader() {
         <DrawerContent bg={secondaryBackgroundColor}>
           <DrawerHeader >
             <Flex justifyContent={'space-between'}>
-              <Box onClick={() => setTab((prev) => !prev)} as='button' > 
+              <Box onClick={() => setTab((prev) => !prev)} as='button' >
                 {tab && (
                   <IoArrowBack size={"20px"} />
                 )}
@@ -110,7 +119,7 @@ function CommunityChatHeader() {
 
           <DrawerBody>
             {!tab && (
-              <CommunityInfo  setTab={setTab}/>
+              <CommunityInfo setTab={setTab} />
             )}
             {tab && (
               <EditComunity />

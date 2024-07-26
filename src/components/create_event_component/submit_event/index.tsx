@@ -4,7 +4,7 @@ import useEventStore, { CreateEvent } from '@/global-state/useCreateEventState';
 import { useDetails } from '@/global-state/useUserDetails';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import {Flex, useColorMode, useToast} from '@chakra-ui/react'
+import { Flex, useColorMode, useToast } from '@chakra-ui/react'
 import { AxiosError, AxiosResponse } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react'
@@ -198,13 +198,24 @@ function SubmitEvent(props: Iprops) {
 
             if (!item.totalNumberOfTickets) {
 
-                toast({
-                    description: "Please Enter Total Number Of Tickets",
-                    status: 'error',
-                    isClosable: true,
-                    duration: 5000,
-                    position: 'top-right',
-                }); return
+                if (item.ticketType === "Early Bird") {
+                    toast({
+                        description: "Please Enter Early Bird Total Number Of Tickets",
+                        status: 'error',
+                        isClosable: true,
+                        duration: 5000,
+                        position: 'top-right',
+                    }); return
+
+                } else {
+                    toast({
+                        description: eventdata?.productTypeData[0]?.ticketType ? "Please Enter Total Number Of Tickets" : "Please fill in Other Ticket details",
+                        status: 'error',
+                        isClosable: true,
+                        duration: 5000,
+                        position: 'top-right',
+                    }); return
+                }
             } else if (!item.ticketType) {
                 toast({
                     description: "Please Enter Ticket Type Or Name",
@@ -214,16 +225,58 @@ function SubmitEvent(props: Iprops) {
                     position: 'top-right',
                 }); return
             } else if (!item.minTicketBuy) {
+
+
+                if (item.ticketType === "Early Bird") {
+                    toast({
+                        description: "Please Enter Early Bird Minimum Ticket Buy",
+                        status: 'error',
+                        isClosable: true,
+                        duration: 5000,
+                        position: 'top-right',
+                    }); return
+
+                } else {
+                    toast({
+                        description: eventdata?.productTypeData[0]?.ticketType ? "Please Enter Minimum Ticket Buy" : "Please Enter Other Tickets Minimum Ticket Buy",
+                        status: 'error',
+                        isClosable: true,
+                        duration: 5000,
+                        position: 'top-right',
+                    }); return
+
+                }
+            } else if (!item.maxTicketBuy || Number(item.maxTicketBuy) === 0) {
+
+                if (item.ticketType === "Early Bird") {
+                    toast({
+                        description: "Please Enter Early Bird maximum number of ticket an attendee can purchase",
+                        status: 'error',
+                        isClosable: true,
+                        duration: 5000,
+                        position: 'top-right',
+                    }); return
+
+                } else {
+                    toast({
+                        description: eventdata?.productTypeData[0]?.ticketType ? "Please enter maximum number of ticket an attendee can purchase." : "Please Enter Other Tickets maximum ticket purchase",
+                        status: 'error',
+                        isClosable: true,
+                        duration: 5000,
+                        position: 'top-right',
+                    }); return
+                }
+            } else if (!item.startDate && item.ticketType === "Early Bird") {
                 toast({
-                    title: "Please Enter Minimum Ticket Buy",
+                    description: "Please Enter Start Date For Early Bird ",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
                     position: 'top-right',
                 }); return
-            } else if (!item.maxTicketBuy  || Number(item.maxTicketBuy) === 0) {
+            } else if (!item.endDate && item.ticketType === "Early Bird") {
                 toast({
-                    description: "Please enter maximum number of ticket an attendee can purchase.",
+                    description: "Please Enter End Date For Early Bird ",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
