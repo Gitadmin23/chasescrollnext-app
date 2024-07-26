@@ -22,12 +22,13 @@ import useCustomTheme from "@/hooks/useTheme";
 import CommunityTextArea from './TextArea';
 import { IoClose, IoCloseCircle } from 'react-icons/io5';
 import { useCommunity } from '..';
+import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 
 interface IProps {
-    setShow: any, 
+    setShow: any,
 }
 
-function MainArea({setShow} : IProps) {
+function MainArea({ setShow }: IProps) {
     const { activeCommunity, setAll, messages, pageNumber, hasNext, showEvents, events } = useCommunityPageState((state) => state);
 
     const [posts, setPosts] = React.useState<IMediaContent[]>([]);
@@ -51,7 +52,7 @@ function MainArea({setShow} : IProps) {
     const { userId: myId } = useDetails((state) => state)
 
     // queries
-    const { isLoading, } = useQuery([`getMessage-${activeCommunity?.id}`, activeCommunity?.id, pageNumber], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
+    const { isLoading, isRefetching } = useQuery([`getMessage-${activeCommunity?.id}`, activeCommunity?.id, pageNumber], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
         params: {
             groupID: activeCommunity?.id,
             page: pageNumber
@@ -117,7 +118,7 @@ function MainArea({setShow} : IProps) {
         )
     }
 
-    const clickHander =()=> {
+    const clickHander = () => {
         setAll({ showEvents: false })
         setShow(false)
     }
@@ -149,23 +150,24 @@ function MainArea({setShow} : IProps) {
             )}
             <Box pos={"absolute"} inset={"0px"} pt={"72px"} bg={mainBackgroundColor} pb={"150px"} >
                 <Flex w={"full"} h={"full"} flexDir={"column-reverse"} gap={"5"} paddingX={['10px', '30px']} paddingY='4' bgColor={mainBackgroundColor} overflowY={"auto"} pos={"relative"} >
-
-                    {activeCommunity !== null && messages.length > 0 && messages.map((item, index) => {
-                        return (
-                            <>
-                                {index === messages.length - 1 ? (
-                                    <MessageCard index={index} id='lastMsg' ref={lastChildRef} key={index.toString()} message={item} />
-                                ) : (
-                                    <MessageCard index={index} id={undefined} key={index.toString()} message={item} />
-                                )}
-                            </>
-                        )
-                    })}
-                    {isLoading && (
-                        <VStack width='100%' height='50px' justifyContent={'center'} alignItems={'center'}>
-                            <Spinner size={'sm'} />
-                        </VStack>
-                    )}
+                    <LoadingAnimation loading={isLoading} refeching={isRefetching} >
+                        {activeCommunity !== null && messages.length > 0 && messages.map((item, index) => {
+                            return (
+                                <>
+                                    {index === messages.length - 1 ? (
+                                        <MessageCard index={index} id='lastMsg' ref={lastChildRef} key={index.toString()} message={item} />
+                                    ) : (
+                                        <MessageCard index={index} id={undefined} key={index.toString()} message={item} />
+                                    )}
+                                </>
+                            )
+                        })}
+                        {isLoading && (
+                            <VStack width='100%' height='50px' justifyContent={'center'} alignItems={'center'}>
+                                <Spinner size={'sm'} />
+                            </VStack>
+                        )}
+                    </LoadingAnimation>
                 </Flex>
             </Box>
             <Flex width={"full"} height={"fit-content"} marginTop={"auto"} px={"3"} bottom={"0px"} >

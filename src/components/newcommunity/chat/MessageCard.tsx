@@ -84,11 +84,11 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
     const { userId: myId } = useDetails((state) => state)
     const self = message?.user?.userId === myId;
 
-    if (isLoading) {
-        return (
-            <CustomText>Loading...</CustomText>
-        )
-    }
+    // if (isLoading) {
+    //     return (
+    //         <CustomText>Loading...</CustomText>
+    //     )
+    // }
 
     const downloadFile = (url: string) => {
         const name = url.split('amazonaws.com/')[1]

@@ -180,6 +180,13 @@ function CommunityTextArea() {
       }
     }
   }
+
+
+  console.log(uploadedFile);
+  console.log(files);
+  
+  
+
   return (
     <VStack width='100%' height={'150px'} bg='transparent' paddingY='10px' position={'relative'}>
       <input ref={ref as any} onChange={(e) => handleFilePic(e.target.files as FileList)} hidden type='file' accept={accept()} />
@@ -199,17 +206,15 @@ function CommunityTextArea() {
         }} placeholder={`Say something @${username}`} />
 
         {uploadedFile.length > 0 &&
-          <Box position={"absolute"} left={"0px"} zIndex={'10'} top={"-150px"} width={"fit-content"} height={"fit-content"} flex='1' >
+          <Box position={"absolute"} left={"0px"} rounded={"8px"} zIndex={'10'} backgroundColor={secondaryBackgroundColor} p={"2"} top={"-120px"} width={"fit-content"} height={"fit-content"} flex='1' >
             {uploadedFile.map((item, index) => {
               const __format__ = item.url.split('.');
               const format = __format__[__format__.length - 1];
               if (IMAGE_FORM.includes(format)) {
-                return (
-                  <Flex w={"fit-content"} h={"fit-content"} rounded={"8px"} bg={secondaryBackgroundColor} p={"2"} > 
+                return ( 
                     <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
-                      <Image cursor={'pointer'} src={item.url} alt='image' key={index.toString()} objectFit={'cover'} width='100px' height='100px' borderRadius={'8px'} display={'inline'} marginRight={'10px'} />
-                    </MediaBox>
-                  </Flex>
+                      <Image cursor={'pointer'} src={item.url} alt='image' key={index.toString()} objectFit={'cover'} width='100%' height='100%' borderRadius={'8px'}  marginRight={'10px'} />
+                    </MediaBox> 
                 )
               }
               if (VIDEO_FORM.includes(format)) {
@@ -251,6 +256,7 @@ function CommunityTextArea() {
               )
             })
             }
+            {/* <Box w={"100px"} h={"100px"} bg={"red"} /> */}
           </Box>
         }
 
