@@ -137,14 +137,16 @@ function MainArea({ setShow }: IProps) {
                 )}
             </Box>
             {showEvents && communityEvent.length > 0 && (
-                <Flex width='100%' maxWidth={'100%'} height={'115px'} pos={"absolute"} top={"72px"} zIndex={"10"} bg={secondaryBackgroundColor}  >
-                    <Box as='button' onClick={() => clickHander()} pos={"absolute"} rounded={"full"} p={"6px"} borderWidth={"1px"} borderColor={"black"} top={"2"} right={"4"} >
+                <Flex width='100%' height={'115px'} pos={"absolute"} top={"72px"} zIndex={"10"} bg={secondaryBackgroundColor}  >
+                    {/* <Box as='button' onClick={() => clickHander()} pos={"absolute"} rounded={"full"} p={"6px"} zIndex={"10"} borderWidth={"1px"} borderColor={"black"} top={"-3"} right={"2"} >
                         <IoClose />
-                    </Box>
-                    <Box paddingLeft='20px' paddingTop={'20px'} width='100%' height='100%' overflowX={'auto'} display={'inline-block'} whiteSpace={'break-spaces'}>
-                        {communityEvent.map((item: any, i: number) => (
-                            <EventCard event={item} key={i.toString()} index={i} />
-                        ))}
+                    </Box> */}
+                    <Box paddingLeft='20px' paddingTop={'20px'} maxWidth='auto' height='100%' overflowX={'auto'} display={"flex"} overflowY={"hidden"} >
+                        <Flex w={"auto"} >
+                            {communityEvent.map((item: any, i: number) => (
+                                <EventCard event={item} key={i.toString()} index={i} />
+                            ))}
+                        </Flex>
                     </Box>
                 </Flex>
             )}
