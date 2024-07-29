@@ -81,8 +81,8 @@ function CommunityChatHeader() {
         {communityEvent.length > 0 && (
           <Box onClick={() => setAll({ showEvents: !showEvents })} cursor='pointer' position={'relative'} marginRight={'10px'} >
             {showEvents ? (
-              <Box rounded={"full"} p={"6px"}  borderWidth={"1px"} borderColor={borderColor} >
-              <IoClose />
+              <Box rounded={"full"} p={"6px"}  borderWidth={"1px"} borderColor={"red"} >
+              <IoClose color={"red"} />
               </Box>
             ) : (
               <Image src='/assets/images/note-add.png' alt='logo' width={'30px'} height={'30px'} />

@@ -217,6 +217,8 @@ const useCommunity = () => {
             const item: PaginatedResponse<ICommunity> = data.data;
             // setDetails(item.content[0]);
             setAll({ activeCommunity: item.content[0]})
+            queryClient.invalidateQueries([`getMessage-${activeCommunity?.id}`]);
+            // `}`
         }
     });
 

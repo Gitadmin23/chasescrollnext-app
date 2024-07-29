@@ -1,6 +1,6 @@
 import CustomText from '@/components/general/Text';
 import { Box, HStack, Spinner, VStack, Image, useColorMode, Flex, Text } from '@chakra-ui/react';
-import React from 'react'
+import React, { useRef } from 'react'
 import CommunityChatHeader from './Header';
 import TextArea from './TextArea';
 import httpService from '@/utils/httpService';
@@ -23,6 +23,7 @@ import CommunityTextArea from './TextArea';
 import { IoClose, IoCloseCircle } from 'react-icons/io5';
 import { useCommunity } from '..';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
+import { BsArrowLeftCircle, BsArrowRightCircle } from 'react-icons/bs';
 
 interface IProps {
     setShow: any,
@@ -34,6 +35,12 @@ function MainArea({ setShow }: IProps) {
     const [posts, setPosts] = React.useState<IMediaContent[]>([]);
     const [showEventModal, setShowEventModal] = React.useState(false);
     const [len, setLen] = React.useState(messages?.length);
+
+    const ref: any = useRef(null);
+
+    const scroll = (scrolloffset: number) => {
+        ref.current.scrollLeft += scrolloffset
+    };
 
     const { communityEvent } = useCommunity()
 
@@ -52,7 +59,7 @@ function MainArea({ setShow }: IProps) {
     const { userId: myId } = useDetails((state) => state)
 
     // queries
-    const { isLoading, isRefetching } = useQuery([`getMessage-${activeCommunity?.id}`, activeCommunity?.id, pageNumber], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
+    const { isLoading, isRefetching, refetch } = useQuery([`getMessage-${activeCommunity?.id}`, activeCommunity?.id, pageNumber], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
         params: {
             groupID: activeCommunity?.id,
             page: pageNumber
@@ -79,14 +86,7 @@ function MainArea({ setShow }: IProps) {
 
         },
         onError: (error: any) => { }
-    });
-
-    // React.useEffect(() => {
-    //     if (messages?.length !== len) {
-    //         setLen(messages?.length);
-    //         document.querySelector('#lastMsg')?.scrollIntoView({ behavior: 'smooth' });
-    //     }
-    // }, [messages, len])
+    }); 
 
     const lastChildRef = React.useCallback((post: any) => {
         if (isLoading) return;
@@ -118,10 +118,10 @@ function MainArea({ setShow }: IProps) {
         )
     }
 
-    const clickHander = () => {
-        setAll({ showEvents: false })
-        setShow(false)
-    }
+    // const clickHander = () => {
+    //     setAll({ showEvents: false })
+    //     setShow(false)
+    // }
 
     return (
         <Flex w={"full"} h={"100%"} pos={"relative"} bg={mainBackgroundColor} overflowY={"hidden"} flexDirection={"column"} >
@@ -138,16 +138,26 @@ function MainArea({ setShow }: IProps) {
             </Box>
             {showEvents && communityEvent.length > 0 && (
                 <Flex width='100%' height={'115px'} pos={"absolute"} top={"72px"} zIndex={"10"} bg={secondaryBackgroundColor}  >
-                    {/* <Box as='button' onClick={() => clickHander()} pos={"absolute"} rounded={"full"} p={"6px"} zIndex={"10"} borderWidth={"1px"} borderColor={"black"} top={"-3"} right={"2"} >
-                        <IoClose />
-                    </Box> */}
-                    <Box paddingLeft='20px' paddingTop={'20px'} maxWidth='auto' height='100%' overflowX={'auto'} display={"flex"} overflowY={"hidden"} >
-                        <Flex w={"auto"} >
+                    <Flex as={"button"} bgColor={secondaryBackgroundColor} rounded={"full"} onClick={() => scroll(-400)} left={"2"} justifyContent={"center"} alignItems={"center"} h={"fit-content"} zIndex={"20"} ml={"2"} my={"auto"} >
+                        <BsArrowLeftCircle size="25px" />
+                    </Flex>
+                    <Box px='2' ref={ref} position={"relative"} paddingTop={'20px'} maxWidth='auto' height='100%' overflowX={'auto'} display={"flex"} overflowY={"hidden"} scrollBehavior={"smooth"} sx={
+                        {
+                            '::-webkit-scrollbar': {
+                                display: 'none'
+                            }
+                        }
+                    }>
+
+                        <Flex w={"auto"}  >
                             {communityEvent.map((item: any, i: number) => (
                                 <EventCard event={item} key={i.toString()} index={i} />
                             ))}
                         </Flex>
                     </Box>
+                    <Flex as={"button"} bgColor={secondaryBackgroundColor} rounded={"full"} onClick={() => scroll(400)} right={"2"} justifyContent={"center"} alignItems={"center"} mr={"2"} h={"fit-content"} zIndex={"20"} my={"auto"} >
+                        <BsArrowRightCircle size="25px" />
+                    </Flex>
                 </Flex>
             )}
             <Box pos={"absolute"} inset={"0px"} pt={"72px"} bg={mainBackgroundColor} pb={"150px"} >
@@ -157,9 +167,9 @@ function MainArea({ setShow }: IProps) {
                             return (
                                 <>
                                     {index === messages.length - 1 ? (
-                                        <MessageCard index={index} id='lastMsg' ref={lastChildRef} key={index.toString()} message={item} />
+                                        <MessageCard refetch={refetch} index={index} id='lastMsg' ref={lastChildRef} key={index.toString()} message={item} />
                                     ) : (
-                                        <MessageCard index={index} id={undefined} key={index.toString()} message={item} />
+                                        <MessageCard refetch={refetch} index={index} id={undefined} key={index.toString()} message={item} />
                                     )}
                                 </>
                             )

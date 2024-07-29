@@ -433,6 +433,7 @@ export default function CollaboratorBtn(props: IProps) {
                         </Box>
                     </Box>
                 </Flex>
+                
                 <Flex px={"6"} py={"4"} flexDir={"column"} gap={"2"} bg={secondaryBackgroundColor}  >
                     {btn && (
                         <Flex rounded={"lg"} w={"full"} bg={"#EFF1FE"} py={"3px"} px={"9px"} >

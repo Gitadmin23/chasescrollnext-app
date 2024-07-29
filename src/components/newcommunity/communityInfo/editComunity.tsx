@@ -47,7 +47,7 @@ export default function EditComunity() {
                     name: communityName,
                     imgSrc: imgSrc
                 }
-            })} >Save</Button>
+            })} >Update</Button>
         </Flex>
     )
 }
