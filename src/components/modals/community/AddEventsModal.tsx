@@ -32,7 +32,7 @@ import { uniqBy } from "lodash";
 import React from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { FiSearch } from "react-icons/fi";
-import { IoPin, IoPinSharp } from "react-icons/io5";
+import { IoPin, IoPinSharp, IoSearchOutline } from "react-icons/io5";
 import { IoIosPin } from "react-icons/io";
 import { AiOutlinePushpin } from "react-icons/ai";
 import ModalLayout from "@/components/sharedComponent/modal_layout";
@@ -44,6 +44,8 @@ import { capitalizeFLetter } from "@/utils/capitalLetter";
 import EventLocationDetail from "@/components/sharedComponent/event_location";
 import LoadingAnimation from "@/components/sharedComponent/loading_animation";
 import { useCommunity } from "@/components/newcommunity";
+import { CloseIcon } from "@/components/svg";
+import InfiniteScrollerComponent from "@/hooks/infiniteScrollerComponent";
 
 function AddEventsModal({
   isOpen,
@@ -54,9 +56,9 @@ function AddEventsModal({
 }) {
   const [events, setEvents] = React.useState<IEvent[]>([]);
   const { userId } = useDetails((state) => state);
-  const [search, setSeearch] = React.useState("");
+  const [search, setSearch] = React.useState("");
   const toast = useToast();
-  const { events: savedEvents } = useCommunityPageState((state) => state); 
+  const { events: savedEvents } = useCommunityPageState((state) => state);
 
   const {
     bodyTextColor,
@@ -71,30 +73,35 @@ function AddEventsModal({
   const ids = communityEvent.map((item: any) => item.id);
 
   const debounceValue = useDebounce(search, 500);
-  const { isLoading, isError } = useQuery(
-    ["getMyEventsss", userId, debounceValue],
-    () =>
-      httpService.get(`${URLS.GET_EVENTS}`, {
-        params: {
-          // createdBy: userId,
-          page: 0,
-          eventName: debounceValue,
-        },
-      }),
-    {
-      onSuccess: (data) => {
-        const item: PaginatedResponse<IEvent> = data.data;
-        const ids = communityEvent.map((item: any) => item.id);
-        setEvents(
-          uniqBy(
-            item.content,
-            "id",
-          ),
-        );
-      },
-      onError: () => { },
-    },
-  );
+    // const { isError } = useQuery(
+    //   ["getMyEventsss", userId, debounceValue],
+    //   () =>
+    //     httpService.get(`${URLS.GET_EVENTS}`, {
+    //       params: {
+    //         // createdBy: userId,
+    //         page: 0,
+    //         eventName: debounceValue,
+    //       },
+    //     }),
+    //   {
+    //     onSuccess: (data) => {
+    //       const item: PaginatedResponse<IEvent> = data.data;
+    //       const ids = communityEvent.map((item: any) => item.id);
+    //       setEvents(
+    //         uniqBy(
+    //           item.content,
+    //           "id",
+    //         ),
+    //       );
+    //     },
+    //     onError: () => { },
+    //   },
+    // );
+
+
+  const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `${URLS.GET_EVENTS}?eventName=${debounceValue ?? ""}`, limit: 15, filter: "id", newdata: debounceValue })
+
+
 
   const EventBox = ({ event }: { event: IEvent }) => {
     const toast = useToast();
@@ -137,7 +144,7 @@ function AddEventsModal({
         });
       },
     });
-    return ( 
+    return (
       <Flex w={"full"} alignItems={"center"} px={"2"} justifyContent={"space-between"} >
         <Flex gap={"3"} align={"center"} >
           <Flex width={"fit-content"} >
@@ -200,42 +207,45 @@ function AddEventsModal({
       size={"lg"}
       close={onClose}
       bg={mainBackgroundColor}
-      title={
-        <VStack
-          paddingX="10px"
-          width="100%"
-          height={"100px"}
-          borderBottomWidth={"1px"}
-          borderBottomColor={"lightgrey"}
-          alignItems={"flex-start"}
-          justifyContent={"center"}
-          spacing={0}
-        >
-          <CustomText
-            fontFamily={"DM-Bold"}
-            fontSize={"20px"}
-            color={bodyTextColor}
-          >
-            Events
-          </CustomText>
-          <CustomText
-            fontFamily={"DM-Regular"}
-            fontSize={"15px"}
-            color={bodyTextColor}
-          >
-            Please select an event to add to your community
-          </CustomText>
-        </VStack>
-      }
-      closeIcon={true}
     >
-      <Box width="100%" height="450px" overflowY={"auto"} paddingX="20px">
-        <LoadingAnimation loading={isLoading} length={events?.length} >
-        {events.filter((item) => !ids.includes(item.id))?.map((event: IEvent, index) => (
-          <Flex key={index} w={"full"} py={"4"} borderBottomWidth={"1px"} borderBottomColor={borderColor} >
-            <EventBox event={event} />
-          </Flex>
-        ))}
+      <Flex w={"full"} px={"6"} pt={"4"} justifyContent={"space-between"} bg={mainBackgroundColor} >
+        <Box>
+          <Text color={colorMode === 'light' ? "#121212" : headerTextColor} fontSize={"24px"} lineHeight={"31.25px"} fontWeight={"bold"} >Add Event</Text>
+          <Text color={colorMode === 'light' ? "#626262" : bodyTextColor} lineHeight={"20.83px"} >Kindly select events for your community.</Text>
+        </Box>
+        <Box w={"fit-content"} >
+          <Box onClick={() => onClose()} as='button'>
+            <CloseIcon second={true} />
+          </Box>
+        </Box>
+      </Flex>
+      <Flex w={"full"} py={"5"} px={"6"} >
+        <InputGroup width={["full", "full", "full"]} zIndex={"20"} position={"relative"} >
+          <InputLeftElement pointerEvents='none'>
+            <IoSearchOutline size={"25px"} color='#B6B6B6' />
+          </InputLeftElement>
+          <Input width={["full", "full", "full"]} value={search} onChange={(e) => setSearch(e.target.value)} type="search" borderColor={borderColor} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} bgColor={mainBackgroundColor} placeholder='Search for users, event or...' />
+        </InputGroup>
+      </Flex>
+      <Box width="100%" height="450px" overflowY={"auto"} paddingX="6">
+        <LoadingAnimation loading={isLoading} length={results.filter((item: IEvent) => !ids.includes(item.id))?.length} refeching={isRefetching} >
+          {results.filter((item: IEvent) => !ids.includes(item.id))?.map((event: IEvent, index: number) => {
+            if (results.filter((item: IEvent) => !ids.includes(item.id))?.length === (index + 1)) { 
+              return ( 
+                <Flex ref={ref} key={index} w={"full"} py={"4"} borderBottomWidth={"1px"} borderBottomColor={borderColor} >
+                  <EventBox event={event} />
+                </Flex>
+              )
+            } else { 
+              console.log(event?.eventName);
+              
+              return ( 
+                <Flex key={index} w={"full"} py={"4"} borderBottomWidth={"1px"} borderBottomColor={borderColor} >
+                  <EventBox event={event} />
+                </Flex>
+              )
+            }
+          })}
         </LoadingAnimation>
       </Box>
     </ModalLayout>

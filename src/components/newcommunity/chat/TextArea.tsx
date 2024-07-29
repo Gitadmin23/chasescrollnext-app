@@ -227,7 +227,7 @@ function CommunityTextArea() {
               if (VIDEO_FORM.includes(format)) {
                 return (
                   <MediaBox key={index.toString()} onClose={() => removeHandler(index)}>
-                    <video key={index.toString()} controls style={{ width: '60px', height: '60px', borderRadius: '8px', marginRight: '10px' }}>
+                    <video key={index.toString()} controls style={{ width: '100px', height: '100px', borderRadius: '8px', marginRight: '10px' }}>
                       <source src={item.url} type='video/mp4' />
                     </video>
                   </MediaBox>

@@ -69,7 +69,7 @@ function EventTicketHeader(props: Props) {
             </label>
             <label
                 role='button'
-                onClick={() => HandleDeleteAllTicket("", 0)}
+                onClick={() => HandleDeleteAllTicket("Free", 0)}
                 style={{ color: isFree ? "#5D70F9" : "#667085", border: "1px solid #E2E8F0", width: "100%", padding: "4px", display: "flex", justifyContent: "center", alignItems: "center", gap: "8px", backgroundColor: isFree ? "#F7F8FF" : "", height: "45px", borderRadius: "8px" }}
                 htmlFor="isFree" >
                 <Checkbox

@@ -2,7 +2,7 @@ import { useCommunityPageState } from '@/components/Community/chat/state';
 import CommunityImage from '@/components/sharedComponent/community_image'
 import { DeleteButton, EditButton, ExitButton, PhotoIcon, SettingButton, ShareButton } from '@/components/svg';
 import useCustomTheme from '@/hooks/useTheme';
-import { Box, Button, Flex, Input, InputGroup, InputLeftElement, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Input, InputGroup, InputLeftElement, Text, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 
 import { useCommunity } from '..';
@@ -11,6 +11,8 @@ import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 import MediaTab from './mediaTab';
 import { useDetails } from '@/global-state/useUserDetails';
 import ShareEvent from '@/components/sharedComponent/share_event';
+import ModalLayout from '@/components/sharedComponent/modal_layout';
+import CustomText from '@/components/general/Text'; 
 
 interface IProps {
     setTab?: any
@@ -20,7 +22,8 @@ export default function CommunityInfo({ setTab }: IProps) {
 
     const { members, loadingMembers, refectingMembers, refMembers, deleteGroup, leaveGroup, activeCommunity } = useCommunity()
     // const { activeCommunity } = useCommunityPageState((state) => state);
-    // const [tab, setTab] = useState(false)
+    const [open, setOpen] = useState(false)
+    const [leave, setLeave] = useState(false)
     const { userId } = useDetails((state) => state);
 
     const [search, setSearchValue] = useState("")
@@ -44,7 +47,7 @@ export default function CommunityInfo({ setTab }: IProps) {
             <Text color={"#2E2B2BB2"} pb={"6"} fontSize={"12px"} >{activeCommunity?.data?.memberCount} Members</Text>
             <Flex w={"fit-content"} gap={"3"} pb={"6"} >
                 {!self && (
-                    <Button w={"76px"} bgColor={mainBackgroundColor} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} isLoading={leaveGroup?.isLoading} isDisabled={leaveGroup?.isLoading} onClick={() => leaveGroup.mutate()} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} >
+                    <Button w={"76px"} bgColor={mainBackgroundColor} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} onClick={() => setLeave(true)} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} >
                         <Flex justifyContent={"center"} alignItems={"center"} w={"30px"} h={"30px"} >
                             <ExitButton />
                         </Flex>
@@ -52,7 +55,7 @@ export default function CommunityInfo({ setTab }: IProps) {
                     </Button>
                 )}
                 {self && (
-                    <Button w={"76px"} bgColor={mainBackgroundColor} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} isLoading={deleteGroup?.isLoading} isDisabled={deleteGroup?.isLoading} onClick={() => deleteGroup.mutate()} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} >
+                    <Button w={"76px"} bgColor={mainBackgroundColor} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} onClick={() => setOpen(true)} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} >
 
                         <Flex justifyContent={"center"} alignItems={"center"} w={"30px"} h={"30px"} >
                             <DeleteButton />
@@ -90,6 +93,26 @@ export default function CommunityInfo({ setTab }: IProps) {
                 </LoadingAnimation>
             </Flex>
             <MediaTab />
+            <ModalLayout open={open} close={setOpen} size={"xs"} >  
+                <Flex width='100%' justifyContent={'center'} height='100%' alignItems={'center'} gap={"3"} p={"5"} flexDir={"column"} >
+                    <Image alt='delete' src='/assets/images/deleteaccount.svg' />
+                    <CustomText fontFamily='DM-Bold' textAlign={'center'} fontSize={'20px'}>Delete Group</CustomText>
+                    <CustomText fontFamily={'DM-Regular'} textAlign={'center'} fontSize={'16px'} color='grey'>Are you sure you want to delete this Group ? this action cannot be undone.</CustomText>
+
+                    <Button isDisabled={deleteGroup?.isLoading} isLoading={deleteGroup?.isLoading} onClick={() => deleteGroup.mutate()} width='100%' height='42px' bg='red' color="white" variant='solid'>Delete</Button>
+                    <Button onClick={() => setOpen(false)} width='100%' height='42px' borderWidth={'0px'} color="grey" variant='outline' outlineColor={'lightgrey'}>Cancel</Button>
+                </Flex>
+            </ModalLayout>
+            <ModalLayout open={leave} close={setLeave} size={"xs"} > 
+                <Flex width='100%' justifyContent={'center'} height='100%' alignItems={'center'} gap={"3"} p={"5"} flexDir={"column"}>
+                    <Image alt='delete' src='/assets/images/deleteaccount.svg' />
+                    <CustomText fontFamily='DM-Bold' textAlign={'center'} fontSize={'20px'}>Leave Group</CustomText>
+                    <CustomText fontFamily={'DM-Regular'} textAlign={'center'} fontSize={'16px'} color='grey'>Are you sure you want to leave this Group ? this action cannot be undone.</CustomText>
+
+                    <Button isDisabled={leaveGroup?.isLoading} isLoading={leaveGroup?.isLoading} onClick={() => leaveGroup.mutate()} width='100%' height='42px' bg='red' color="white" variant='solid'>Leave</Button>
+                    <Button onClick={() => setLeave(false)} width='100%' height='42px' borderWidth={'0px'} color="grey" variant='outline' outlineColor={'lightgrey'}>Cancel</Button>
+                </Flex>
+            </ModalLayout>
         </Flex>
     )
 }

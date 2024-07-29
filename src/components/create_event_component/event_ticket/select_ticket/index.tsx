@@ -164,8 +164,12 @@ function SelectTicket(props: Props) {
 
     return (
         <Flex flexDirection={"column"} gap={"3"} width={"full"} >
-            <EarlyBird />
-            <Text fontSize={"18px"} my={"1"} fontWeight={"600"} >Other Ticket Types</Text>
+            {eventdata?.productTypeData[0].ticketType !== "Free" && (
+                <EarlyBird />
+            )}
+            {eventdata?.productTypeData[0].ticketType !== "Free" && (
+                <Text fontSize={"18px"} my={"1"} fontWeight={"600"} >Other Ticket Types</Text>
+            )}
             {eventdata.productTypeData?.map((item, index) => {
                 if (item?.ticketType !== "Early Bird") {
                     return (
@@ -254,7 +258,7 @@ function SelectTicket(props: Props) {
                                 <label className="block text-gray-700 font-medium mb-2">
                                     Indicate the maximum number of tickets each user can
                                     purchase for your event
-                                </label> 
+                                </label>
                                 <Flex alignItems={"center"} rounded={"16px"} borderWidth={"1px"} borderColor={"#CDD3FD"} w={"full"} flexDir={"column"} py={"4"} >
                                     {/* <Text color={colorMode === 'light' ? "#667085" : bodyTextColor} > */}
                                     {/* Number of Tickets
@@ -271,7 +275,7 @@ function SelectTicket(props: Props) {
                                 </Flex>
                             </Flex>
                             {eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? (
-                                <> 
+                                <>
                                     {eventdata.productTypeData[index]?.ticketType && (
                                         <>
                                             {index !== 1 && (
@@ -280,8 +284,8 @@ function SelectTicket(props: Props) {
                                         </>
                                     )}
                                 </>
-                            ):(
-                                <> 
+                            ) : (
+                                <>
                                     {eventdata.productTypeData[index]?.ticketType && (
                                         <>
                                             {index !== 0 && (

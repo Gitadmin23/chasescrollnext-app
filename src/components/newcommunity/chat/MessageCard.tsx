@@ -5,7 +5,7 @@ import { IMediaContent } from '@/models/MediaPost'
 import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import { Avatar, HStack, VStack, Image, Box, Spinner, Text, useColorMode, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay } from '@chakra-ui/react';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FiHeart, FiMessageSquare, FiTrash2, FiX } from 'react-icons/fi'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import moment from 'moment';
@@ -22,18 +22,21 @@ import { capitalizeFLetter } from '@/utils/capitalLetter';
 import EmojiPicker from 'emoji-picker-react';
 import CommentCard from './CommentCard';
 import { useCommunity } from '..';
+import { useRouter } from 'next/navigation';
 
 interface IProps {
     message: IMediaContent;
     id: string | undefined;
     index?: number;
+    refetch?: any
 }
 
-const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = undefined, index }, ref) => {
+const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = undefined, index, refetch }, ref) => {
     const [post, setPost] = React.useState(message);
     const [shoowSubmenu, setShowSubmenu] = React.useState(false);
     const [showMore, setShowMore] = React.useState(false)
     const [open, setOpen] = React.useState(false)
+    const router = useRouter()
 
     const queryClient = useQueryClient();
     const { setAll, activeCommunity, removeMessage, comments } = useCommunityPageState((state) => state);
@@ -58,7 +61,11 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
         onError: (error: any) => {
             alert('An errror occured');
         }
-    }); 
+    });
+
+    useEffect(() => {
+        refetch()
+    }, [getComments])
 
     // MUTATIONS
     const likeMutation = useMutation({
@@ -113,29 +120,39 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
         setOpen(true)
     }
 
-
     return (
         <HStack id={id} bg={mainBackgroundColor} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.user.userId === myId ? 'flex-end' : 'flex-start'} flexDirection={self ? 'row' : 'row-reverse'} borderRadius='20px'>
 
             <HStack position={'relative'} width='fit-content' justifyContent={'space-between'} alignItems={'flex-start'} flexDirection={self ? 'row' : 'row-reverse'}>
 
                 {shoowSubmenu && (
-                    <HStack bg="white" borderRadius={'10px'} padding='5px' spacing={3} shadow={'md'} >
-                        {likeMutation.isLoading && <Spinner />}
-                        {!likeMutation.isLoading && <IoHeart onClick={() => likeMutation.mutate()} cursor='pointer' fontSize='20px' color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'} width={'20px'} height={'20px'} />}
-                        <Image role={"button"} src='/assets/images/message.png' alt='message' width={'20px'} height={'20px'} onClick={() => clickHandler()} />
+                    <HStack bg="white" borderRadius={'10px'} padding='5px' spacing={2} shadow={'md'} >
+                        {likeMutation.isLoading && <Spinner />} 
+                        {!likeMutation.isLoading &&
+                            // <Box w={"fit-content"} >
+                                <IoHeart onClick={() => likeMutation.mutate()} cursor='pointer' fontSize='20px' color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'} width={'20px'} height={'20px'} />
+                            // </Box>
+                            } 
+                        {/* <Box w={"fit-content"} > */}
+                            <Image role={"button"} src='/assets/images/message.png' alt='message' width={'20px'} height={'20px'} onClick={() => clickHandler()} />
+                        {/* </Box> */}
                         {self && (
                             <>
-                                {!deleeteMutation.isLoading && <FiTrash2 onClick={() => deleeteMutation.mutate()} fontSize='20px' color={'red'} cursor='pointer' />}
+                                {!deleeteMutation.isLoading &&
+
+                                    // <Box w={"fit-content"} >
+                                        <FiTrash2 onClick={() => deleeteMutation.mutate()} fontSize='20px' color={'red'} cursor='pointer' />
+                                    // </Box>
+                                }
                                 {deleeteMutation.isLoading && <Spinner size='xs' />}
                             </>
                         )}
                     </HStack>
                 )}
 
-                <VStack borderRadius='10px 20px 20px 0px'  bg={secondaryBackgroundColor} shadow={"lg"} padding='10px' spacing={0} alignItems={self ? 'flex-end' : 'flex-start'} flexWrap={'wrap'} maxW={'400px'} minW={'150px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px' : '0px'} borderBottomRightRadius={self ? '0px' : '20px'} >
+                <VStack borderRadius='10px 20px 20px 0px' bg={secondaryBackgroundColor} shadow={"lg"} padding='10px' spacing={0} alignItems={self ? 'flex-end' : 'flex-start'} flexWrap={'wrap'} maxW={['300px', '300px', '300px', '400px']} minW={['100px', '100px', '100px','150px']} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px' : '0px'} borderBottomRightRadius={self ? '0px' : '20px'} >
                     <VStack width={'100%'} justifyContent={'flex-start'} alignItems={self ? 'flex-end' : 'flex-start'} mb={"2"} spacing={0}>
-                        <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color={"#3C41F0"}  >
+                        <CustomText role='button' onClick={()=> router.push("/dashboard/profile/"+post.user?.userId)} fontFamily={'DM-Bold'} fontSize={'10px'} color={"#3C41F0"}  >
                             {textLimit(capitalizeFLetter(post?.user?.firstName) + " " + capitalizeFLetter(post?.user?.lastName), 20)}
                         </CustomText>
                     </VStack>
@@ -146,8 +163,8 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                             )}
                             {
                                 post.type === 'WITH_VIDEO_POST' && (
-                                    <video controls width={'100%'} height={'150px'} style={{ borderRadius: '20px' }}>
-                                        <source src={post.mediaRef} />
+                                    <video controls width={'100%'} height={'100px'} style={{ borderRadius: '20px' }}>
+                                        <source height={"100px"} src={post.mediaRef} />
                                     </video>
                                 )
                             }
@@ -177,7 +194,7 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                         <Text textAlign={self ? "left" : "right"} fontSize={'10px'}>{formatTimeAgo(post?.timeInMilliseconds)}</Text>
                     </VStack>
                     <HStack>
-                        <CustomText cursor='pointer' fontFamily={'DM-Regular'} fontSize='12px'>{post?.commentCount} <CustomText color={colorMode === 'light' ? 'brand.chasescrollButtonBlue' : bodyTextColor} display={'inline'} onClick={() => setAll({ activeMessageId: post.id, commentHasNext: false, commentPage: 0, comments: [], drawerOpen: true })}>Reply</CustomText> </CustomText>
+                        <CustomText cursor='pointer' fontFamily={'DM-Regular'} fontSize='12px'>{comments?.length} <CustomText color={colorMode === 'light' ? 'brand.chasescrollButtonBlue' : bodyTextColor} display={'inline'} onClick={() => setAll({ activeMessageId: post.id, commentHasNext: false, commentPage: 0, comments: [], drawerOpen: true })}>Reply</CustomText> </CustomText>
 
                         <CustomText cursor='pointer' fontFamily={'DM-Regular'} fontSize='12px'>{post?.likeCount} <CustomText color={colorMode === 'light' ? 'brand.chasescrollButtonBlue' : bodyTextColor} display={'inline'}>Likes</CustomText> </CustomText>
                     </HStack>

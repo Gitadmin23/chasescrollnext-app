@@ -3,12 +3,14 @@ import { IEvent } from '@/models/Events'
 import { IMAGE_URL, URLS } from '@/services/urls'
 import { THEME } from '@/theme'
 import httpService from '@/utils/httpService'
-import { Box, HStack, VStack, Image, useToast, Spinner } from '@chakra-ui/react'
+import { Box, HStack, VStack, Image, useToast, Spinner, Flex } from '@chakra-ui/react'
 import React from 'react'
 import { FiMapPin, FiMinus } from 'react-icons/fi'
 import { useMutation, useQueryClient } from 'react-query'
 import { useCommunityPageState } from './state'
 import Link from 'next/link'
+import { useDetails } from '@/global-state/useUserDetails'
+import { BsArrowLeftCircle } from 'react-icons/bs'
 
 function EventCard({
     event,
@@ -56,8 +58,11 @@ function EventCard({
 
     mutate(data);
   },[activeCommunity?.id, event?.id, mutate])
+
+  const { userId } = useDetails((state) => state);
+  
   return (
-    <VStack onMouseOver={() => setShow(true)} onMouseOut={() => setShow(false)} display={'inline-block'} position={'relative'} flexWrap={'wrap'} whiteSpace={'nowrap'} marginBottom={'20px'} marginRight={'20px'} width={'82px'} height='73px' borderRadius={'8px 0px 8px 8px'} borderWidth={'0.8px'} borderColor={'lightblue'} padding='2px'>
+    <VStack onMouseOver={() => setShow(true)} onMouseOut={() => setShow(false)} display={'inline-block'} position={'relative'}  flexWrap={'wrap'} whiteSpace={'nowrap'} marginBottom={'20px'} marginRight={'20px'} width={'82px'} height='73px' borderRadius={'8px 0px 8px 8px'} borderWidth={'0.8px'} borderColor={'lightblue'} padding='2px'>
        
        <Link href={`/dashboard/event/details/${event?.id}`}>
         <Box width='100%' height='60%' bg='lightgrey' borderRadius={'5px'}>
@@ -70,7 +75,7 @@ function EventCard({
             <FiMapPin color={THEME.COLORS.chasescrollButtonBlue} fontSize='7px'  />
             <CustomText color={THEME.COLORS.chasescrollButtonBlue} fontSize='8px'>{event?.location.address}</CustomText>
         </HStack> */}
-        {show && (
+        {(show && activeCommunity?.creator?.userId === userId) && (
             <VStack onClick={handleDelete} cursor={'pointer'} alignItems={'center'} justifyContent={'center'} width={'20px'} height={'20px'} borderRadius={'10px'} bg='red' position={'absolute'} top='-10px' right={'-10px'}>
               { isLoading && <Spinner size={'xs'} /> }
               { !isLoading && <FiMinus color='white' size='15px' /> }
