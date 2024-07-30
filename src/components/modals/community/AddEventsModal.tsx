@@ -219,12 +219,12 @@ function AddEventsModal({
           </Box>
         </Box>
       </Flex>
-      <Flex w={"full"} py={"5"} px={"6"} >
+      <Flex w={"full"} py={"5"} borderBottomWidth={"1px"} borderBottomColor={borderColor} px={"6"} >
         <InputGroup width={["full", "full", "full"]} zIndex={"20"} position={"relative"} >
           <InputLeftElement pointerEvents='none'>
             <IoSearchOutline size={"25px"} color='#B6B6B6' />
           </InputLeftElement>
-          <Input width={["full", "full", "full"]} value={search} onChange={(e) => setSearch(e.target.value)} type="search" borderColor={borderColor} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} bgColor={mainBackgroundColor} placeholder='Search for users, event or...' />
+          <Input width={["full", "full", "full"]} value={search} onChange={(e) => setSearch(e.target.value)} type="search" borderColor={borderColor} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} bgColor={mainBackgroundColor} placeholder='Search for event' />
         </InputGroup>
       </Flex>
       <Box width="100%" height="450px" overflowY={"auto"} paddingX="6">
@@ -236,9 +236,7 @@ function AddEventsModal({
                   <EventBox event={event} />
                 </Flex>
               )
-            } else { 
-              console.log(event?.eventName);
-              
+            } else {  
               return ( 
                 <Flex key={index} w={"full"} py={"4"} borderBottomWidth={"1px"} borderBottomColor={borderColor} >
                   <EventBox event={event} />

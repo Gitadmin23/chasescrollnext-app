@@ -31,7 +31,7 @@ function SuccessMessageCreateEvent(props: Props) {
     return (
         <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} bg={secondaryBackgroundColor} >
             <ThumbsUpIcon />
-            <Text fontSize={"22px"} color={headerTextColor} lineHeight={"26.4px"} fontWeight={"500"} mt={"4"} >Event {update ? "Updated" : "Created"} Successfully</Text>
+            <Text fontSize={"22px"} color={headerTextColor} lineHeight={"26.4px"} textAlign={"center"} fontWeight={"500"} mt={"4"} >Event {update ? "Updated" : "Created"} Successfully</Text>
             <Text fontSize={"14px"} color={bodyTextColor} maxW={"258px"} textAlign={"center"} mt={"2"} mb={"6"} lineHeight={"16.8px"} >Your event is now live. You may proceed to My Events to view it.</Text>
             <CustomButton borderWidth={"0px"} onClick={()=> router.push("/dashboard/event/my_event")} color={"white"} text='Proceed to My Event' w={"full"} />
         </Flex>

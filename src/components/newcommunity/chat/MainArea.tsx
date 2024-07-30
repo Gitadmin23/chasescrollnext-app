@@ -100,14 +100,6 @@ function MainArea({ setShow }: IProps) {
         if (post) intObserver.current.observe(post);
     }, [isLoading, setAll, pageNumber, hasNext]);
 
-
-    // React.useEffect(() => {
-    //     if (messages?.length !== len) {
-    //         setLen(messages?.length);
-    //         document.querySelector('#lastMsg')?.scrollIntoView({ behavior: 'smooth' });
-    //     }
-    // }, [messages, len])
-
     if (activeCommunity === null) {
         return (
             <Flex width='100%' height={'100%'} flexDirection={"column"} justifyContent={'center'} alignItems={'center'}>
@@ -116,13 +108,7 @@ function MainArea({ setShow }: IProps) {
                 <CustomText fontSize={'25px'} textAlign={'center'} fontFamily={'DM-Medium'} color='brand.chasescrollButtonBlue'>Gist with friends</CustomText>
             </Flex>
         )
-    }
-
-    // const clickHander = () => {
-    //     setAll({ showEvents: false })
-    //     setShow(false)
-    // }
-
+    } 
     return (
         <Flex w={"full"} h={"100%"} pos={"relative"} bg={mainBackgroundColor} overflowY={"hidden"} flexDirection={"column"} >
             <Flex w={"full"} bgColor={mainBackgroundColor} pos={"relative"} zIndex={"10"} h={"fit-content"} >
@@ -151,7 +137,7 @@ function MainArea({ setShow }: IProps) {
 
                         <Flex w={"auto"}  >
                             {communityEvent.map((item: any, i: number) => (
-                                <EventCard event={item} key={i.toString()} index={i} />
+                                <EventCard event={item} communityId={activeCommunity?.creator?.userId} key={i.toString()} index={i} />
                             ))}
                         </Flex>
                     </Box>

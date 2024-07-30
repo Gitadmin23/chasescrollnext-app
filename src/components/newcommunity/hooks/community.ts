@@ -265,7 +265,8 @@ const useCommunity = () => {
         loadingImage,
         communityEvent,
         loadingCommunityEvent,
-        refectEvent
+        refectEvent, 
+        mediaPosts
     };
 }
 
