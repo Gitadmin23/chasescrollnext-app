@@ -86,8 +86,7 @@ function CommunityTextArea() {
       handleFilePick(uploadedFile);
 
     } else {
-      setFiles([]);
-      console.log("kill");
+      setFiles([]); 
       
     }
   }, [handleFilePick, uploadedFile])
@@ -142,8 +141,7 @@ function CommunityTextArea() {
       const file = uploadedFile[0];
       if (file === undefined) return;
       const _format_ = file?.url?.split('.');
-      const format = _format_[_format_.length - 1];
-      console.log(format);
+      const format = _format_[_format_.length - 1]; 
       if (IMAGE_FORM.includes(format.toLowerCase())) {
         createPost.mutate({
           text,
@@ -183,10 +181,6 @@ function CommunityTextArea() {
       }
     }
   }
-
-
-  console.log(uploadedFile);
-  console.log(files);
   
   const removeHandler =(index: any )=> {
     reset()

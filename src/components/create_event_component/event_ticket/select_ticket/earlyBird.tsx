@@ -59,10 +59,21 @@ export default function EarlyBird({ data, index }: IProps) {
 
     const handleChangeEnd = (value: any) => {
         let clone: any = { ...eventdata }
-        clone.productTypeData[0]["endTime"] = Date.parse(new Date(value).toJSON())
-        clone.productTypeData[0]["endDate"] = Date.parse(new Date(value).toJSON())
 
-        updateEvent(clone)
+        if(eventdata?.productTypeData[0]?.startDate) {
+            if((new Date(eventdata?.productTypeData[0]?.startDate) ) < new Date(value)){
+                clone.productTypeData[0]["endTime"] = Date.parse(new Date(value).toJSON())
+                clone.productTypeData[0]["endDate"] = Date.parse(new Date(value).toJSON())
+                updateEvent(clone)
+            } else {
+                toast({
+                    status: "error",
+                    title: "Error",
+                    description: "End Date can not be less than Start Date",
+                    position: "top-right"
+                })
+            }
+        }
     };
 
     const clickHander = () => {
@@ -198,6 +209,7 @@ export default function EarlyBird({ data, index }: IProps) {
                                     dateFormat="MMM d, yyyy h:mm aa"
                                     showTimeSelect
                                     minDate={new Date()}
+                                    maxDate={new Date(eventdata?.startDate)}
                                     onChange={handleChange}
                                     customInput={<CustomInput />}
                                 />
@@ -212,7 +224,8 @@ export default function EarlyBird({ data, index }: IProps) {
                                     selected={eventdata.productTypeData[0]?.endDate ? new Date(eventdata.productTypeData[0]?.endDate) : eventdata.productTypeData[0]?.startDate ? new Date(eventdata.productTypeData[0]?.startDate) : new Date()}
                                     dateFormat="MMM d, yyyy h:mm aa"
                                     showTimeSelect
-                                    minDate={eventdata.productTypeData[0]?.startDate ? new Date(eventdata.productTypeData[0]?.startDate) : new Date()}
+                                    minDate={eventdata.productTypeData[0]?.startDate ? new Date(eventdata.productTypeData[0]?.startDate) : new Date()} 
+                                    maxDate={new Date(eventdata?.startDate)}
                                     onChange={handleChangeEnd}
                                     customInput={<CustomInputEnd />}
                                 />
