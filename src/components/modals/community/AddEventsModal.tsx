@@ -171,8 +171,15 @@ function AddEventsModal({
             />
           </Flex>
         </Flex>
-        <Button
+        <Box
           role="button"
+          backgroundColor={borderColor}
+          width={"10"}
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          height={"10"}
+          rounded={"8"}
           onClick={() =>
             savedEvent.mutate({
               eventID: event.id,
@@ -195,7 +202,7 @@ function AddEventsModal({
               <Text fontSize={"10px"}>Pin</Text>
             </Flex>
           )}
-        </Button>
+        </Box>
       </Flex>
     );
   };
