@@ -127,7 +127,7 @@ function MainArea({ setShow }: IProps) {
                     <Flex as={"button"} bgColor={secondaryBackgroundColor} rounded={"full"} onClick={() => scroll(-400)} left={"2"} justifyContent={"center"} alignItems={"center"} h={"fit-content"} zIndex={"20"} ml={"2"} my={"auto"} >
                         <BsArrowLeftCircle size="25px" />
                     </Flex>
-                    <Box px='2' ref={ref} position={"relative"} paddingTop={'20px'} maxWidth='auto' height='100%' overflowX={'auto'} display={"flex"} overflowY={"hidden"} scrollBehavior={"smooth"} sx={
+                    <Box px='2' ref={ref} position={"relative"} paddingTop={'20px'} w={"full"} maxWidth='full' height='100%' overflowX={'auto'} display={"flex"} overflowY={"hidden"} scrollBehavior={"smooth"} sx={
                         {
                             '::-webkit-scrollbar': {
                                 display: 'none'
@@ -137,7 +137,7 @@ function MainArea({ setShow }: IProps) {
 
                         <Flex w={"auto"}  >
                             {communityEvent.map((item: any, i: number) => (
-                                <EventCard event={item} communityId={activeCommunity?.creator?.userId} key={i.toString()} index={i} />
+                                <EventCard event={item} userId={activeCommunity?.creator?.userId} communityId={activeCommunity?.id} key={i.toString()} index={i} />
                             ))}
                         </Flex>
                     </Box>

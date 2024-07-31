@@ -11,14 +11,18 @@ import { useCommunityPageState } from './state'
 import Link from 'next/link'
 import { useDetails } from '@/global-state/useUserDetails'
 import { BsArrowLeftCircle } from 'react-icons/bs' 
+import { useCommunity } from '..'
 
 function EventCard({
     event,
     communityId,
+    userId: userIndex,
     index
-}: { event?: IEvent, communityId: any, index?: number }) {
+}: { event?: IEvent, userId: any, communityId: any, index?: number }) {
   const [loading, setLoading] = React.useState(false);
   const [show, setShow] = React.useState(false);
+
+  const { refectEvent } = useCommunity()
   
   const queryClient = useQueryClient();
   const toast = useToast();
@@ -27,8 +31,7 @@ function EventCard({
   const { mutate, isLoading } = useMutation({ 
     mutationFn: (data: any) => httpService.post(`${URLS.REMOVE_EVENT}`, data),
     onSuccess: () => {
-      queryClient.invalidateQueries(['getCommunityEvents']);
-      queryClient.invalidateQueries([`getAllMyEvents-${activeCommunity?.id}`])
+      refectEvent()
       removeEvent(index as number)
       toast({
         title: 'Success',
@@ -54,7 +57,7 @@ function EventCard({
     const data = {
       eventID: event?.id,
       type: 'EVENT',
-      typeID: activeCommunity?.id,
+      typeID: communityId,
     }
 
     mutate(data);
@@ -78,7 +81,7 @@ function EventCard({
 
         <CustomText fontFamily={'DM-Bold'} width={'100%'} wordBreak={'break-word'} color='black' fontSize={'10px'}>{(event?.eventName as string).length > 10 ? event?.eventName.substring(0, 10)+ '...': event?.eventName}</CustomText>
       
-        {(show && communityId === userId) && (
+        {(show && userIndex === userId) && (
             <VStack onClick={handleDelete} cursor={'pointer'} alignItems={'center'} justifyContent={'center'} width={'20px'} height={'20px'} borderRadius={'10px'} bg='red' position={'absolute'} top='-10px' right={'-10px'}>
               { isLoading && <Spinner size={'xs'} /> }
               { !isLoading && <FiMinus color='white' size='15px' /> }

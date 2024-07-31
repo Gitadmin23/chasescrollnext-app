@@ -99,7 +99,7 @@ function AddEventsModal({
     // );
 
 
-  const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `${URLS.GET_EVENTS}?eventName=${debounceValue ?? ""}`, limit: 15, filter: "id", newdata: debounceValue })
+  const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `${URLS.GET_EVENTS}?myEvents=true&eventName=${debounceValue ?? ""}`, limit: 15, filter: "id", newdata: debounceValue })
 
 
 
