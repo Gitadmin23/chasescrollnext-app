@@ -28,6 +28,8 @@ const useCommunity = () => {
     const toast = useToast()
     const [img, setImg] = React.useState('');
     const [communityName, setCommunityName] = React.useState('');
+    const [communityDescirption, setCommunityDescirption] = React.useState('');
+    const [isPublic, setIsPublic] = React.useState(false);
 
     const { uploadedFile, loading: loadingImage, fileUploadHandler } = AWSHook();
 
@@ -111,7 +113,9 @@ const useCommunity = () => {
         groupID: string,
         groupData: {
             imgSrc: string,
-            name: string
+            name: string,
+            description: string,
+            isPublic: boolean
         }
     }) => {
         const image = img !== '' ? img : activeCommunity?.data.imgSrc;
@@ -256,17 +260,21 @@ const useCommunity = () => {
         handleUpdateGroup,
         fileUploadHandler,
         setCommunityName,
+        setCommunityDescirption,
+        setIsPublic,
+        isPublic,
         updateGroup,
         leaveGroup,
         deleteGroup,
         activeCommunity,
         communityName,
+        communityDescirption,
         uploadedFile,
         loadingImage,
         communityEvent,
         loadingCommunityEvent,
         refectEvent, 
-        mediaPosts
+        mediaPosts,
     };
 }
 

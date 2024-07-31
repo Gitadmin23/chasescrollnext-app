@@ -12,13 +12,14 @@ import React, { useEffect } from 'react'
 import { LiaAngleDownSolid } from 'react-icons/lia'
 import useCustomTheme from "@/hooks/useTheme";
 import { dateFormat, timeFormat } from '@/utils/dateFormat'
+import { IEvent } from '@/models/Events'
 
 interface Props {
     ticket: any,
     selectedticket: any
     currency: any,
     setCategory: any,
-    data?: any
+    data?: IEvent
 }
 
 function SelectTicket(props: Props) {
@@ -98,7 +99,7 @@ function SelectTicket(props: Props) {
                 <Box width={"full"} pl={"5"} borderWidth={"0px"} zIndex={"30"} top={"60px"} position={"absolute"} rounded={"lg"} >
                     <Flex gap={"3"} flexDirection={"column"} shadow={"lg"} width={"full"} borderColor={borderColor} padding={"4"} borderBottomWidth={"0px"} bg={secondaryBackgroundColor} rounded={"lg"}>
                         {ticket?.filter((item: any) => item?.ticketType)?.map((item: any, index: number) => {
-                            if (item?.ticketType === "Early Bird") {
+                            if (item?.ticketType === "Early Bird" && (new Date(item?.endDate) === new Date(data?.endDate ?? ""))) {
                                 if (new Date() >= new Date(item?.startDate) && new Date() <= new Date(item?.endDate)) {
                                     return (
                                         <Flex key={index} w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
@@ -135,7 +136,7 @@ function SelectTicket(props: Props) {
                 <Flex w={"full"} flexDir={"column"} gap={"4"} p={"6"} >
                     <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"44.8px"} >Get Ticket</Text>
                     <Text color={"#62619.6px262"} textAlign={"center"} lineHeight={"22.4px"} >Please choose your option and proceed with Chasescroll.</Text>
-                    <GoogleBtn title='Sign up ' id={data?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' />
+                    <GoogleBtn title='Sign up ' id={data?.id ? true : false} height='50px' border='1px solid #B6B6B6' bgColor='white' />
                     <Flex justifyContent={"center"} gap={"2px"} alignItems={"center"} >
                         <Text color={"#BCBCBC"} fontSize={"14px"} lineHeight={"19.6px"} >OR</Text>
                     </Flex>

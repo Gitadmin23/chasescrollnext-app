@@ -12,7 +12,7 @@ import MediaTab from './mediaTab';
 import { useDetails } from '@/global-state/useUserDetails';
 import ShareEvent from '@/components/sharedComponent/share_event';
 import ModalLayout from '@/components/sharedComponent/modal_layout';
-import CustomText from '@/components/general/Text'; 
+import CustomText from '@/components/general/Text';
 
 interface IProps {
     setTab?: any
@@ -44,8 +44,12 @@ export default function CommunityInfo({ setTab }: IProps) {
                 {/* <Button width='100%' height='30px' variant={'solid'} isLoading={updateGroup.isLoading} onClick={handleUpdateGroup} >Save</Button> */}
             </Box>
             <Text fontWeight={"700"} fontSize={"18px"} mt={"2"} >{activeCommunity?.data?.name}</Text>
-            <Text color={"#2E2B2BB2"} pb={"6"} fontSize={"12px"} >{activeCommunity?.data?.memberCount} Members</Text>
-            <Flex w={"fit-content"} gap={"3"} pb={"6"} >
+            <Text color={"#2E2B2BB2"} pb={"3"} fontSize={"12px"} >{activeCommunity?.data?.memberCount} Members</Text>
+
+            <Box rounded={"2px"} bg={activeCommunity?.data?.isPublic ? "brand.chasescrollPalePurple" : "#FBCDCD"} fontWeight={"semibold"} color={activeCommunity?.data?.isPublic ? "brand.chasescrollBlue" : "#E90303"} fontSize={"12px"} py={"1"} display={"flex"} justifyContent={"center"} width={"70px"} >
+                {activeCommunity?.data?.isPublic ? 'Public' : 'Private'}
+            </Box>
+            <Flex w={"fit-content"} gap={"3"} py={"6"} >
                 {!self && (
                     <Button w={"76px"} bgColor={mainBackgroundColor} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} onClick={() => setLeave(true)} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} >
                         <Flex justifyContent={"center"} alignItems={"center"} w={"30px"} h={"30px"} >
@@ -93,7 +97,7 @@ export default function CommunityInfo({ setTab }: IProps) {
                 </LoadingAnimation>
             </Flex>
             <MediaTab />
-            <ModalLayout open={open} close={setOpen} size={"xs"} >  
+            <ModalLayout open={open} close={setOpen} size={"xs"} >
                 <Flex width='100%' justifyContent={'center'} height='100%' alignItems={'center'} gap={"3"} p={"5"} flexDir={"column"} >
                     <Image alt='delete' src='/assets/images/deleteaccount.svg' />
                     <CustomText fontFamily='DM-Bold' textAlign={'center'} fontSize={'20px'}>Delete Group</CustomText>
@@ -103,7 +107,7 @@ export default function CommunityInfo({ setTab }: IProps) {
                     <Button onClick={() => setOpen(false)} width='100%' height='42px' borderWidth={'0px'} color="grey" variant='outline' outlineColor={'lightgrey'}>Cancel</Button>
                 </Flex>
             </ModalLayout>
-            <ModalLayout open={leave} close={setLeave} size={"xs"} > 
+            <ModalLayout open={leave} close={setLeave} size={"xs"} >
                 <Flex width='100%' justifyContent={'center'} height='100%' alignItems={'center'} gap={"3"} p={"5"} flexDir={"column"}>
                     <Image alt='delete' src='/assets/images/deleteaccount.svg' />
                     <CustomText fontFamily='DM-Bold' textAlign={'center'} fontSize={'20px'}>Leave Group</CustomText>
