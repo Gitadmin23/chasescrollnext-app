@@ -69,9 +69,9 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
         }
     });
 
-    useEffect(() => {
-        refetch()
-    }, [getComments])
+    // useEffect(() => {
+    //     refetch()
+    // }, [getComments])
 
     // MUTATIONS
     const likeMutation = useMutation({

@@ -81,7 +81,7 @@ export default function CommunityList({ tab, setTab, setShow }: IProps) {
                     {communites?.map((item: ICommunity, index: number) => {
                         if (communites?.length === index + 1) {
                             return (
-                                <Box ref={refCommunity} w={"full"} key={index} >
+                                <Box  w={"full"} key={index} >
                                     <ListCard {...item} />
                                 </Box>
                             )

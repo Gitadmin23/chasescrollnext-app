@@ -46,6 +46,7 @@ import LoadingAnimation from "@/components/sharedComponent/loading_animation";
 import { useCommunity } from "@/components/newcommunity";
 import { CloseIcon } from "@/components/svg";
 import InfiniteScrollerComponent from "@/hooks/infiniteScrollerComponent";
+import useCommunityEvent from "@/components/newcommunity/hooks/communityEvent";
 
 function AddEventsModal({
   isOpen,
@@ -69,7 +70,7 @@ function AddEventsModal({
     borderColor
   } = useCustomTheme();
   const { colorMode } = useColorMode();
-  const { communityEvent, refectEvent } = useCommunity()
+  const { communityEvent, refectEvent } = useCommunityEvent()
   const ids = communityEvent.map((item: any) => item.id);
 
   const debounceValue = useDebounce(search, 500);
