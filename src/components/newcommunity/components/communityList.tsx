@@ -39,9 +39,12 @@ export default function CommunityList({ tab, setTab, setShow }: IProps) {
         setTab(0)
     }
 
+    console.log(activeCommunity);
+    
+
     const ListCard = (item: ICommunity) => {
         return (
-            <Box as='button' onClick={() => clickHander(item)} w={"full"} borderBottomWidth={"1px"} borderBottomColor={borderColor} py={"5"} >
+            <Box as='button' onClick={() => clickHander(item)} w={"full"} pos={"relative"} zIndex={"10"} borderBottomWidth={"1px"} borderBottomColor={borderColor} py={"5"} >
                 <Flex rounded={"24px"} textAlign={"left"} px={"4"} gap={"3"} py={"3"} w={"full"} _hover={{ backgroundColor: borderColor }} backgroundColor={activeCommunity?.id === item?.id ? borderColor : "transparent"}  >
                     <Box w={"42px"} pos={"relative"} h={"42px"} bgColor={"ButtonText"} borderWidth={'2px'} borderBottomLeftRadius={'20px'} borderBottomRadius={'20px'} borderTopLeftRadius={'20px'}>
                         {/* <Flex bgColor={"#5465E0"} color={"white"} pos={"absolute"} zIndex={"10"} justifyContent={"center"} alignItems={"center"} top={"-2"} right={"-2"} rounded={"full"} w={"21px"} h={"21px"} fontSize={"7px"} fontWeight={"700"}  >
