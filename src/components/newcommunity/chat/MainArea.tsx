@@ -24,6 +24,7 @@ import { IoClose, IoCloseCircle } from 'react-icons/io5';
 import { useCommunity } from '..';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 import { BsArrowLeftCircle, BsArrowRightCircle } from 'react-icons/bs';
+import useCommunityEvent from '../hooks/communityEvent';
 
 interface IProps {
     setShow: any,
@@ -42,7 +43,7 @@ function MainArea({ setShow }: IProps) {
         ref.current.scrollLeft += scrolloffset
     };
 
-    const { communityEvent } = useCommunity()
+    const { communityEvent } = useCommunityEvent()
 
     const {
         bodyTextColor,

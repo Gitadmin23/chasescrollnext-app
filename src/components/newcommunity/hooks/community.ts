@@ -171,7 +171,7 @@ const useCommunity = () => {
                 duration: 5000,
             })
             // queryClient.invalidateQueries(['getJoinedGroups']);
-            refetchCommunity()
+            // refetchCommunity()
             setAll({ activeCommunity: null })
         },
         onError: () => {
@@ -193,7 +193,7 @@ const useCommunity = () => {
                 duration: 5000,
             })
             queryClient.invalidateQueries(['getJoinedGroups']);
-            refetchCommunity()
+            // refetchCommunity()
             setAll({ activeCommunity: null })
         },
         onError: () => {
