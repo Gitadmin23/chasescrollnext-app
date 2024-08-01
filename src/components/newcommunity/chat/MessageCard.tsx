@@ -1,11 +1,10 @@
 /* eslint-disable react/display-name */
-import CustomText from '@/components/general/Text';
-import { useDetails } from '@/global-state/useUserDetails';
+import CustomText from '@/components/general/Text'; 
 import { IMediaContent } from '@/models/MediaPost'
 import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Avatar, HStack, VStack, Image, Box, Spinner, Text, useColorMode, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay } from '@chakra-ui/react';
-import React from 'react'
+import { Avatar, HStack, VStack, Image, Box, Spinner, Text, useColorMode, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, Flex } from '@chakra-ui/react';
+import React, { useEffect, useRef } from 'react'
 import { FiHeart, FiMessageSquare, FiTrash2, FiX } from 'react-icons/fi'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import moment from 'moment';
@@ -22,18 +21,28 @@ import { capitalizeFLetter } from '@/utils/capitalLetter';
 import EmojiPicker from 'emoji-picker-react';
 import CommentCard from './CommentCard';
 import { useCommunity } from '..';
+import { useRouter } from 'next/navigation';
+import { RiFolderVideoLine } from "react-icons/ri";
+import ModalLayout from '@/components/sharedComponent/modal_layout';
+
+import { useDetails } from '@/global-state/useUserDetails';
 
 interface IProps {
     message: IMediaContent;
     id: string | undefined;
     index?: number;
+    refetch?: any
 }
 
-const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = undefined, index }, ref) => {
+const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = undefined, index, refetch }, ref) => {
     const [post, setPost] = React.useState(message);
     const [shoowSubmenu, setShowSubmenu] = React.useState(false);
     const [showMore, setShowMore] = React.useState(false)
     const [open, setOpen] = React.useState(false)
+    const [show, setShow] = React.useState(false)
+    const router = useRouter()
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
 
     const queryClient = useQueryClient();
     const { setAll, activeCommunity, removeMessage, comments } = useCommunityPageState((state) => state);
@@ -58,7 +67,11 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
         onError: (error: any) => {
             alert('An errror occured');
         }
-    }); 
+    });
+
+    useEffect(() => {
+        refetch()
+    }, [getComments])
 
     // MUTATIONS
     const likeMutation = useMutation({
@@ -84,11 +97,11 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
     const { userId: myId } = useDetails((state) => state)
     const self = message?.user?.userId === myId;
 
-    if (isLoading) {
-        return (
-            <CustomText>Loading...</CustomText>
-        )
-    }
+    // if (isLoading) {
+    //     return (
+    //         <CustomText>Loading...</CustomText>
+    //     )
+    // }
 
     const downloadFile = (url: string) => {
         const name = url.split('amazonaws.com/')[1]
@@ -115,40 +128,55 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
 
 
     return (
-        <HStack id={id} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.user.userId === myId ? 'flex-end' : 'flex-start'} flexDirection={self ? 'row' : 'row-reverse'} borderRadius='20px'>
+        <HStack id={id} bg={mainBackgroundColor} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.user.userId === myId ? 'flex-end' : 'flex-start'} flexDirection={self ? 'row' : 'row-reverse'} borderRadius='20px'>
 
             <HStack position={'relative'} width='fit-content' justifyContent={'space-between'} alignItems={'flex-start'} flexDirection={self ? 'row' : 'row-reverse'}>
 
                 {shoowSubmenu && (
-                    <HStack bg="white" borderRadius={'10px'} padding='5px' spacing={3} shadow={'md'} >
+                    <HStack bg="white" borderRadius={'10px'} padding='5px' spacing={2} shadow={'md'} >
                         {likeMutation.isLoading && <Spinner />}
-                        {!likeMutation.isLoading && <IoHeart onClick={() => likeMutation.mutate()} cursor='pointer' fontSize='20px' color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'} width={'20px'} height={'20px'} />}
+                        {!likeMutation.isLoading &&
+                            // <Box w={"fit-content"} >
+                            <IoHeart onClick={() => likeMutation.mutate()} cursor='pointer' fontSize='20px' color={post?.likeStatus === 'LIKED' ? 'red' : 'grey'} width={'20px'} height={'20px'} />
+                            // </Box>
+                        }
+                        {/* <Box w={"fit-content"} > */}
                         <Image role={"button"} src='/assets/images/message.png' alt='message' width={'20px'} height={'20px'} onClick={() => clickHandler()} />
+                        {/* </Box> */}
                         {self && (
                             <>
-                                {!deleeteMutation.isLoading && <FiTrash2 onClick={() => deleeteMutation.mutate()} fontSize='20px' color={'red'} cursor='pointer' />}
+                                {!deleeteMutation.isLoading &&
+
+                                    // <Box w={"fit-content"} >
+                                    <FiTrash2 onClick={() => deleeteMutation.mutate()} fontSize='20px' color={'red'} cursor='pointer' />
+                                    // </Box>
+                                }
                                 {deleeteMutation.isLoading && <Spinner size='xs' />}
                             </>
                         )}
                     </HStack>
                 )}
 
-                <VStack borderRadius='10px 20px 20px 0px' bg={"white"} shadow={"lg"} padding='10px' spacing={0} alignItems={self ? 'flex-end' : 'flex-start'} flexWrap={'wrap'} maxW={'300px'} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px' : '0px'} borderBottomRightRadius={self ? '0px' : '20px'} >
-                    <VStack width={'100%'} justifyContent={'flex-start'} alignItems={self ? 'flex-end' : 'flex-end'} spacing={0}>
-                        <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color={"#3C41F0"}  >
+                <VStack borderRadius='10px 20px 20px 0px' bg={secondaryBackgroundColor} shadow={"lg"} padding='10px' spacing={0} alignItems={self ? 'flex-end' : 'flex-start'} flexWrap={'wrap'} maxW={['300px', '300px', '300px', '400px']} minW={['100px', '100px', '100px', '150px']} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px' : '0px'} borderBottomRightRadius={self ? '0px' : '20px'} >
+                    <VStack width={'100%'} justifyContent={'flex-start'} alignItems={self ? 'flex-end' : 'flex-start'} mb={"2"} spacing={0}>
+                        <CustomText role='button' onClick={() => router.push("/dashboard/profile/" + post.user?.userId)} fontFamily={'DM-Bold'} fontSize={'10px'} color={"#3C41F0"}  >
                             {textLimit(capitalizeFLetter(post?.user?.firstName) + " " + capitalizeFLetter(post?.user?.lastName), 20)}
                         </CustomText>
                     </VStack>
                     {post.mediaRef !== null && (
                         <>
                             {post.type === 'WITH_IMAGE' && (
-                                <Image onClick={handleImageClick} src={`${post?.mediaRef}`} alt='img' width={'100%'} height={'150px'} objectFit={'cover'} borderRadius={'20px'} />
+                                <Image onClick={() => setShow(true)} src={`${post?.mediaRef}`} alt='img' width={'100%'} height={'150px'} objectFit={'cover'} borderRadius={'20px'} />
                             )}
                             {
                                 post.type === 'WITH_VIDEO_POST' && (
-                                    <video controls width={'100%'} height={'150px'} style={{ borderRadius: '20px' }}>
-                                        <source src={post.mediaRef} />
-                                    </video>
+                                    <Flex as={"button"} onClick={() => setShow(true)} w={"250px"} h={"150px"} justifyContent={"center"} alignItems={"center"} rounded={"2xl"} bgColor={primaryColor} >
+                                        <RiFolderVideoLine size={"40px"} color={"white"} />
+                                        {/* {} */}
+                                    </Flex>
+                                    // <video controls width={'100%'} height={'100px'} style={{ borderRadius: '20px' }}>
+                                    //     <source height={"100px"} src={post.mediaRef} />
+                                    // </video>
                                 )
                             }
                             {
@@ -167,8 +195,8 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                     )}
                     <Box padding='5px' width='100%'>
                         <CustomText fontFamily={'DM-Regular'} fontSize='14px'>
-                            {showMore ? handleLinks(post?.text) : post?.text.length > 500 ? handleLinks(post?.text.slice(0, 500) + '...') : handleLinks(post?.text)}
-                            {post?.text.length > 500 && (
+                            {showMore ? handleLinks(post?.text) : post?.text.length > 1024 ? handleLinks(post?.text.slice(0, 1024) + '...') : handleLinks(post?.text)}
+                            {post?.text.length > 1024 && (
                                 <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize: '12px', cursor: 'pointer' }} onClick={() => setShowMore(!showMore)} >{showMore ? 'Show Less' : 'Show More'}</span>
                             )}
                         </CustomText>
@@ -177,7 +205,7 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                         <Text textAlign={self ? "left" : "right"} fontSize={'10px'}>{formatTimeAgo(post?.timeInMilliseconds)}</Text>
                     </VStack>
                     <HStack>
-                        <CustomText cursor='pointer' fontFamily={'DM-Regular'} fontSize='12px'>{post?.commentCount} <CustomText color={colorMode === 'light' ? 'brand.chasescrollButtonBlue' : bodyTextColor} display={'inline'} onClick={() => setAll({ activeMessageId: post.id, commentHasNext: false, commentPage: 0, comments: [], drawerOpen: true })}>Reply</CustomText> </CustomText>
+                        <CustomText cursor='pointer' fontFamily={'DM-Regular'} fontSize='12px'>{comments?.length} <CustomText color={colorMode === 'light' ? 'brand.chasescrollButtonBlue' : bodyTextColor} display={'inline'} onClick={() => setAll({ activeMessageId: post.id, commentHasNext: false, commentPage: 0, comments: [], drawerOpen: true })}>Reply</CustomText> </CustomText>
 
                         <CustomText cursor='pointer' fontFamily={'DM-Regular'} fontSize='12px'>{post?.likeCount} <CustomText color={colorMode === 'light' ? 'brand.chasescrollButtonBlue' : bodyTextColor} display={'inline'}>Likes</CustomText> </CustomText>
                     </HStack>
@@ -259,6 +287,20 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                 </DrawerContent>
             </Drawer>
             {/* END OF DRAWER */}
+
+            <ModalLayout title={"Media"} open={show} close={setShow} size={"lg"} >
+                <Flex h={"400px"} >
+
+                    {post.type === 'WITH_VIDEO_POST' && (
+                        <video controls width={'100%'} height={'100px'} style={{ borderRadius: '20px' }}>
+                            <source height={"100px"} src={post.mediaRef} />
+                        </video>
+                    )}
+                    {post.type === 'WITH_IMAGE' && (
+                        <Image onClick={() => setShow(true)} src={`${post?.mediaRef}`} alt='img' width={'100%'} height={'100%'} objectFit={'cover'} borderRadius={'20px'} />
+                    )}
+                </Flex>
+            </ModalLayout>
 
         </HStack>
     )

@@ -1,14 +1,17 @@
 import useCustomTheme from '@/hooks/useTheme'
+import { ICommunityRequest } from '@/models/Communitty'
 import { URLS } from '@/services/urls'
 import httpService from '@/utils/httpService'
 import { Button, Flex, useColorMode, useToast } from '@chakra-ui/react'
 import { AxiosError, AxiosResponse } from 'axios'
 import React, { useState } from 'react'
 import { useQueryClient, useMutation } from 'react-query'
+import { useCommunity } from '../newcommunity'
 
 interface IProps {
     index: string,
-    setIndex: any
+    setIndex: any,
+    data: ICommunityRequest
 }
 
 interface IRequest {
@@ -20,7 +23,8 @@ export default function CommunityRequestBtn(props: IProps) {
 
     const {
         setIndex,
-        index
+        index,
+        data: dataInfo
     } = props
 
     const [loading, setLoading] = useState("0") 
@@ -29,6 +33,8 @@ export default function CommunityRequestBtn(props: IProps) {
     const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
     const queryClient = useQueryClient();
+
+    const { requestRefetch } = useCommunity()
 
     const resolveRequest = useMutation({
         mutationFn: (data: IRequest) => httpService.post("/group/resolve-request", data),
@@ -52,7 +58,12 @@ export default function CommunityRequestBtn(props: IProps) {
                 position: 'top-right',
             });
             setLoading("0") 
+
+            const clone = []
+            clone?.push(dataInfo)
+            // setIndex(clone)
 			queryClient.invalidateQueries(["getMyCommunities"])  
+            requestRefetch()
         }
     });
  

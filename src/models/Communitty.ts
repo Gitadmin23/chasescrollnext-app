@@ -56,10 +56,10 @@ export type ICommunity = {
 export type ICommunityRequest = {
     createdBy: IUser;
     createdOn: number;
+    group: ICommunity
     id: string;  
     requestType: string
-    requested: IUser;
-    typeID: string;
+    requested: IUser; 
 }
 
 export type ICommunityMember = {

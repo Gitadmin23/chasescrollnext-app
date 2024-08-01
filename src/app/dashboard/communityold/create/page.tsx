@@ -26,7 +26,6 @@ import { useDetails } from '@/global-state/useUserDetails';
 import { useRouter } from 'next/navigation'
 import PromotionCreationModal from '@/components/modals/promotions/CreatePromitionModal';
 import useCustomTheme from "@/hooks/useTheme";
-import { BiCloudUpload } from "react-icons/bi";
 
 function CreateCommunity() {
     const [file, setFile] = React.useState<File | null>(null);
@@ -196,9 +195,8 @@ function CreateCommunity() {
                 <Box cursor={'pointer'} onClick={() => inputRef.current?.click()} width='100%' height="200px" borderWidth='2px' borderColor={borderColor} borderRadius={'20px'} borderStyle={'dashed'} overflow={'hidden'} bg={secondaryBackgroundColor} >
                     {url === '' && file === null && (
                         <VStack width='100%' height='100%' justifyContent={'center'} alignItems={'center'}>
-                            {/* <Image src='/assets/svg/folder-cloud.svg' alt='icon' width={50} height={50} /> */}
-                            <BiCloudUpload size={"45px"} />
-                            <CustomText fontFamily={'Satoshi-Regular'} color='black' fontSize={'md'}>Upload image here</CustomText>
+                            <Image src='/assets/svg/folder-cloud.svg' alt='icon' width={50} height={50} />
+                            <CustomText fontFamily={'Satoshi-Regular'} color='white' fontSize={'md'}>Upload image here</CustomText>
                         </VStack>
                     )}
                     {

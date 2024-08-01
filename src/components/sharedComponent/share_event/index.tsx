@@ -11,6 +11,7 @@ import {
   HomeShareIcon,
   MessageIcon,
   SafariIcon,
+  ShareButton,
   ShareIcon,
   WarningIcon,
 } from "@/components/svg";
@@ -31,6 +32,7 @@ interface Props {
   showText?: boolean;
   home?: boolean;
   notext?: boolean;
+  community?: boolean
 }
 
 function ShareEvent(props: Props) {
@@ -44,6 +46,7 @@ function ShareEvent(props: Props) {
     showText = true,
     home,
     notext,
+    community
   } = props;
 
   const [open, setOpen] = useState(false);
@@ -68,81 +71,96 @@ function ShareEvent(props: Props) {
     setOpen(true);
   };
 
+  console.log(open);
+
   return (
-    <Box
-    
-      width={"fit-content"}
-      zIndex={"20"}
-      mt={size === "18px" ? "10px" : "0px"}
-    >
-      {isprofile && !istext && (
-        <Box mt={"2px"} onClick={(e: any) => clickHandler(e)} as={"button"}>
-          <ShareIcon color={bodyTextColor} />
-        </Box>
-      )}
-      {isprofile && istext && (
-        <Text onClick={(e: any) => clickHandler(e)} as={"button"}>
-          Share
-        </Text>
-      )}
-      {!isprofile && (
-        <>
-          {home && (
-            <Flex
-              onClick={(e: any) => clickHandler(e)}
-              as="button"
-              w={"41px"}
-              height={"44px"}
-              justifyContent={"center"}
-              flexDir={"column"}
-              alignItems={"center"}
-            >
-              <Flex
-                width={"24px"}
-                h={"30px"}
-                justifyContent={"center"}
-                alignItems={"center"}
-              >
-                <HomeShareIcon color={bodyTextColor} />
-              </Flex>
-              {!notext && (
-                <CustomText
-                  textColor={
-                    colorMode === "light" ? "#00000099" : bodyTextColor
-                  }
-                  fontFamily={"DM-Bold"}
-                  fontSize="10px"
-                >
-                  share
-                </CustomText>
-              )}
-            </Flex>
-          )}
-          {!home && (
-            <Box
-              onClick={(e: any) => clickHandler(e)}
-              as="button"
-              display={"flex"}
-              alignItems={"center"}
-              flexDir={"column"}
-            >
-              <ShareIcon
-                width={size ? size : "24px"}
-                color={colorMode === "light" ? "#3C41F0" : bodyTextColor}
-              />
-              {showText && (
-                <Text
-                  color={colorMode === "light" ? "#3C41F0" : bodyTextColor}
-                  fontSize={"9px"}
-                  fontWeight={"semibold"}
-                >
-                  share
-                </Text>
-              )}
+    <>
+      {!community && (
+        <Box
+
+          width={"fit-content"}
+          zIndex={"20"}
+          mt={size === "18px" ? "10px" : "0px"}
+        >
+          {isprofile && !istext && (
+            <Box mt={"2px"} onClick={(e: any) => clickHandler(e)} as={"button"}>
+              <ShareIcon color={bodyTextColor} />
             </Box>
           )}
-        </>
+          {isprofile && istext && (
+            <Text onClick={(e: any) => clickHandler(e)} as={"button"}>
+              Share
+            </Text>
+          )}
+          {!isprofile && (
+            <>
+              {home && (
+                <Flex
+                  onClick={(e: any) => clickHandler(e)}
+                  as="button"
+                  w={"41px"}
+                  height={"44px"}
+                  justifyContent={"center"}
+                  flexDir={"column"}
+                  alignItems={"center"}
+                >
+                  <Flex
+                    width={"24px"}
+                    h={"30px"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                  >
+                    <HomeShareIcon color={bodyTextColor} />
+                  </Flex>
+                  {!notext && (
+                    <CustomText
+                      textColor={
+                        colorMode === "light" ? "#00000099" : bodyTextColor
+                      }
+                      fontFamily={"DM-Bold"}
+                      fontSize="10px"
+                    >
+                      share
+                    </CustomText>
+                  )}
+                </Flex>
+              )}
+              {!home && (
+                <Box
+                  onClick={(e: any) => clickHandler(e)}
+                  as="button"
+                  display={"flex"}
+                  alignItems={"center"}
+                  flexDir={"column"}
+                >
+                  <ShareIcon
+                    width={size ? size : "24px"}
+                    color={colorMode === "light" ? "#3C41F0" : bodyTextColor}
+                  />
+                  {showText && (
+                    <Text
+                      color={colorMode === "light" ? "#3C41F0" : bodyTextColor}
+                      fontSize={"9px"}
+                      fontWeight={"semibold"}
+                    >
+                      share
+                    </Text>
+                  )}
+                </Box>
+              )}
+            </>
+          )}
+        </Box>
       )}
+      {community && (
+        <Button onClick={() => setOpen(true)} w={"76px"} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} bg={mainBackgroundColor} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} >
+          <Flex justifyContent={"center"} alignItems={"center"} w={"30px"} color={"#5D70F9"} h={"30px"} >
+            <ShareButton />
+          </Flex>
+          <Text fontWeight={"500"} fontSize={"13px"} textAlign={"center"} color={"#5D70F9"} >Share</Text>
+        </Button>
+      )}
+
       <ModalLayout
         open={open}
         close={CloseModal}
@@ -170,7 +188,7 @@ function ShareEvent(props: Props) {
         )}
         {tab === 3 && <Qr_code data={data} close={CloseModal} id={id} />}
       </ModalLayout>
-    </Box>
+    </>
   );
 }
 

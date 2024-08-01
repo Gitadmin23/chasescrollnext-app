@@ -180,7 +180,7 @@ export default function UserComment() {
 
     return (
         <Flex w={"full"} flexDir={"column"} pt={["0px", "0px", "12"]} pb={["4", "4", "12"]} gap={"9"} >
-            <Flex ref={ref} w={"full"} overflowX={"auto"} scrollBehavior={"smooth"} px={"12"} sx={
+            <Flex ref={ref} w={"full"} overflowX={"auto"} px={"12"} scrollBehavior={"smooth"} sx={
                 {
                     '::-webkit-scrollbar': {
                         display: 'none'

@@ -17,9 +17,9 @@ import {
   Box,
   Button,
   Portal,
-  useToast, useColorMode
+  useToast, useColorMode, Flex
 } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FiSend, FiSmile, FiPlusCircle } from 'react-icons/fi';
 import { useMutation, useQueryClient } from 'react-query';
 import EmojiPicker from 'emoji-picker-react';
@@ -59,7 +59,7 @@ function CommunityTextArea() {
   } = useCustomTheme();
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const createPost   = useMutation({
+  const createPost = useMutation({
     mutationFn: (data: any) => httpService.post(`${URLS.CREATE_POST}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries([`getMessage-${activeCommunity?.id}`]);
@@ -68,7 +68,7 @@ function CommunityTextArea() {
       reset();
     },
     onError: () => {
-      toast({ 
+      toast({
         title: 'Error',
         description: 'An errorr occured',
         status: 'error',
@@ -84,8 +84,10 @@ function CommunityTextArea() {
   React.useEffect(() => {
     if (uploadedFile.length > 0) {
       handleFilePick(uploadedFile);
+
     } else {
-      setFiles([]);
+      setFiles([]); 
+      
     }
   }, [handleFilePick, uploadedFile])
 
@@ -110,18 +112,22 @@ function CommunityTextArea() {
       } else {
         return "application/*"
       }
-      
+
     }
   }, [uploadedFile])
 
- 
 
+  useEffect(() => {
+    uploadedFile.map((item, index) => {
+      deleteFile(index)
+    })
+  }, [activeCommunity])
 
   const submit = () => {
-    if (text ==='' && uploadedFile.length < 1) {
+    if (text === '' && uploadedFile.length < 1) {
       return
     }
-    if (loading){
+    if (loading) {
       return;
     }
     if (uploadedFile.length < 1) {
@@ -135,8 +141,7 @@ function CommunityTextArea() {
       const file = uploadedFile[0];
       if (file === undefined) return;
       const _format_ = file?.url?.split('.');
-      const format = _format_[_format_.length - 1];
-      console.log(format);
+      const format = _format_[_format_.length - 1]; 
       if (IMAGE_FORM.includes(format.toLowerCase())) {
         createPost.mutate({
           text,
@@ -176,111 +181,120 @@ function CommunityTextArea() {
       }
     }
   }
+  
+  const removeHandler =(index: any )=> {
+    reset()
+    deleteFile(index)
+  }
+  
+
   return (
-    <VStack width='100%' height={'150px'}  bg='transparent' paddingY='10px' position={'relative'}>
+    <VStack width='100%' height={'150px'} bg='transparent' paddingY='10px' position={'relative'}>
       <input ref={ref as any} onChange={(e) => handleFilePic(e.target.files as FileList)} hidden type='file' accept={accept()} />
-        <VStack ref={containerRef as any} width={'100%'} height='100%' borderWidth={'0.5px'} bg={secondaryBackgroundColor} borderColor={borderColor} borderRadius={'10px'} paddingX='8px' paddingY='8px' position={'relative'}>
+      <VStack ref={containerRef as any} width={'100%'} height='100%' borderWidth={'0.5px'} borderColor={borderColor} borderRadius={'10px'} paddingX='8px' paddingY='8px' position={'relative'}>
 
-            { showEmoji && (
-                <Box position={'absolute'} height={'400px'} top='-450px' left={'0px'}>
-                    <EmojiPicker  onEmojiClick={(e) => setText(prev => prev + e.emoji)} />
-                </Box>
-            )}
+        {showEmoji && (
+          <Box position={'absolute'} height={'400px'} top='-450px' left={'0px'}>
+            <EmojiPicker onEmojiClick={(e) => setText(prev => prev + e.emoji)} />
+          </Box>
+        )}
 
-            <textarea value={text} onChange={(e) => setText(e.target.value)} style={{
-              width: '100%', height: '80px',
-              outline: 'none', resize: 'none',
-            }} placeholder={`Say something @${username}`} />
+        <textarea value={text} onChange={(e) => setText(e.target.value)} style={{
+          width: '100%', height: '80px',
+          outline: 'none', resize: 'none',
+          backgroundColor: mainBackgroundColor,
+          padding: "8px"
+        }} placeholder={`Say something @${username}`} />
 
-            { uploadedFile.length > 0 &&
-              <Box position={"absolute"} bottom={"90px"} width={'100%'} height={'100px'} flex='1' display={'inline-block'} whiteSpace={'nowrap'}>
-                {
-                  uploadedFile.map((item, index) => {
-                    const __format__ = item.url.split('.');
-                    const format = __format__[__format__.length - 1];
-                    if (IMAGE_FORM.includes(format)) {
-                      return (
-                        <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
-                          <Image cursor={'pointer'} src={item.url} alt='image' key={index.toString()} objectFit={'cover'} width='60px' height='60px' borderRadius={'8px'} display={'inline'} marginRight={'10px'} />
-                        </MediaBox>
-                      )
-                    }
-                    if (VIDEO_FORM.includes(format)) {
-                      return (
-                        <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
-                          <video key={index.toString()} controls style={{ width: '60px', height: '60px', borderRadius: '8px', marginRight: '10px' }}>
-                            <source src={item.url} type='video/mp4'  />
-                          </video>
-                        </MediaBox>
-                      )
-                    }
-                    if (DOC_FORM.includes(format)) {
-                      return (
-                        <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
-                          <HStack width='100%' bg='whitesmoke' borderRadius={'10px'} padding='5px'>
-                            <VStack cursor={'pointer'}  width={'60px'} height={'60px'} borderRadius={'8px'} justifyContent={'center'} alignItems={'center'} bg='lightgrey'>
-                                <CustomText fontFamily={'DM-Bold'} fontSize={'20px'}>{format.toUpperCase()}</CustomText>
-                            </VStack>
-                            <VStack alignItems={'flex-start'}>
-                                <CustomText fontFamily={'DM-Regular'} color='brand.chasescrollButtonBlue'>{item.file.length > 10 ? item.file.substring(0, 10) + '...': item.file}</CustomText>
-                                <CustomText fontFamily={'DM-Bold'} fontSize='14px' color='grey'>{format.toUpperCase()}</CustomText>
-                            </VStack>
-                          </HStack>
-                        </MediaBox>
-                      )
-                    }
-                    return (
-                        <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
-                        <HStack width='100%' bg='whitesmoke' borderRadius={'10px'} padding='5px'>
-                          <VStack cursor={'pointer'}  width={'60px'} height={'60px'} borderRadius={'8px'} justifyContent={'center'} alignItems={'center'} bg='lightgrey'>
-                              <CustomText fontFamily={'DM-Bold'} fontSize={'20px'}>{format.toUpperCase()}</CustomText>
-                          </VStack>
-                          <VStack alignItems={'flex-start'}>
-                              <CustomText fontFamily={'DM-Regular'} color='brand.chasescrollButtonBlue'>{item.file.length > 10 ? item.file.substring(0, 10) + '...': item.file}</CustomText>
-                              <CustomText fontFamily={'DM-Bold'} fontSize='14px' color='grey'>{format.toUpperCase()}</CustomText>
-                          </VStack>
-                        </HStack>
-                      </MediaBox>
-                    )
-                  })
-                }
-              </Box>
+        {uploadedFile.length > 0 &&
+          <Box position={"absolute"} left={"0px"} rounded={"8px"} zIndex={'10'} backgroundColor={secondaryBackgroundColor} p={"2"} top={"-120px"} width={"fit-content"} height={"fit-content"} flex='1' >
+            {uploadedFile.map((item, index) => {
+              const __format__ = item.url.split('.');
+              const format = __format__[__format__.length - 1];
+              if (IMAGE_FORM.includes(format)) {
+                return ( 
+                    <MediaBox key={index.toString()} onClose={() => removeHandler(index)}>
+                      <Image cursor={'pointer'} src={item.url} alt='image' key={index.toString()} objectFit={'cover'} width='100%' height='100%' borderRadius={'8px'}  marginRight={'10px'} />
+                    </MediaBox> 
+                )
+              }
+              if (VIDEO_FORM.includes(format)) {
+                return (
+                  <MediaBox key={index.toString()} onClose={() => removeHandler(index)}>
+                    <video key={index.toString()} controls style={{ width: '100px', height: '100px', borderRadius: '8px', marginRight: '10px' }}>
+                      <source src={item.url} type='video/mp4' />
+                    </video>
+                  </MediaBox>
+                )
+              }
+              if (DOC_FORM.includes(format)) {
+                return (
+                  <MediaBox key={index.toString()} onClose={() => removeHandler(index)}>
+                    <HStack width='100%' bg='whitesmoke' borderRadius={'10px'} padding='5px'>
+                      <VStack cursor={'pointer'} width={'60px'} height={'60px'} borderRadius={'8px'} justifyContent={'center'} alignItems={'center'} bg='lightgrey'>
+                        <CustomText fontFamily={'DM-Bold'} fontSize={'20px'}>{format.toUpperCase()}</CustomText>
+                      </VStack>
+                      <VStack alignItems={'flex-start'}>
+                        <CustomText fontFamily={'DM-Regular'} color='brand.chasescrollButtonBlue'>{item.file.length > 10 ? item.file.substring(0, 10) + '...' : item.file}</CustomText>
+                        <CustomText fontFamily={'DM-Bold'} fontSize='14px' color='grey'>{format.toUpperCase()}</CustomText>
+                      </VStack>
+                    </HStack>
+                  </MediaBox>
+                )
+              }
+              return (
+                <MediaBox key={index.toString()} onClose={() => removeHandler(index)}>
+                  <HStack width='100%' bg='whitesmoke' borderRadius={'10px'} padding='5px'>
+                    <VStack cursor={'pointer'} width={'60px'} height={'60px'} borderRadius={'8px'} justifyContent={'center'} alignItems={'center'} bg='lightgrey'>
+                      <CustomText fontFamily={'DM-Bold'} fontSize={'20px'}>{format.toUpperCase()}</CustomText>
+                    </VStack>
+                    <VStack alignItems={'flex-start'}>
+                      <CustomText fontFamily={'DM-Regular'} color='brand.chasescrollButtonBlue'>{item.file.length > 10 ? item.file.substring(0, 10) + '...' : item.file}</CustomText>
+                      <CustomText fontFamily={'DM-Bold'} fontSize='14px' color='grey'>{format.toUpperCase()}</CustomText>
+                    </VStack>
+                  </HStack>
+                </MediaBox>
+              )
+            })
             }
+            {/* <Box w={"100px"} h={"100px"} bg={"red"} /> */}
+          </Box>
+        }
 
-            <HStack width='100%' alignItems={'center'} justifyContent={'space-between'}>
+        <HStack width='100%' alignItems={'center'} justifyContent={'space-between'}>
 
-                <HStack alignItems={'center'} >
+          <HStack alignItems={'center'} >
 
-                   <Popover isOpen={showUploader} placement='top' size={''}>
-                       <PopoverTrigger>
-                        <Box>
-                        { !loading && <Image onClick={() => setShowUploader(prev => !prev)} src='/assets/images/Add.png' alt='smile' width={'24px'} height={'24px'} /> }
-                          { loading && <Spinner size='md' />}
-                        </Box>
-                       </PopoverTrigger>
-                      <PopoverContent width='200px' height='70px'>
-                        <PopoverArrow />
-                        <PopoverBody>
-                          <CustomText>Attach</CustomText>
-                          <Divider orientation='horizontal' />
-                          <HStack cursor={'pointer'} onClick={() => ref?.current?.click()} flex='1' alignItems={'center'} height='70%'>
-                            <Image src='/assets/images/monitor.png' alt='img' width='20px' height='20px' />
-                            <CustomText>Upload from device</CustomText>
-                          </HStack>
-                        </PopoverBody>
-                      </PopoverContent>
-                   </Popover>
+            <Popover isOpen={showUploader} placement='top' size={''}>
+              <PopoverTrigger>
+                <Box>
+                  {!loading && <Image onClick={() => setShowUploader(prev => !prev)} src='/assets/images/Add.png' alt='smile' width={'24px'} height={'24px'} />}
+                  {loading && <Spinner size='md' />}
+                </Box>
+              </PopoverTrigger>
+              <PopoverContent width='200px' height='70px'>
+                <PopoverArrow />
+                <PopoverBody>
+                  <CustomText>Attach</CustomText>
+                  <Divider orientation='horizontal' />
+                  <HStack cursor={'pointer'} onClick={() => ref?.current?.click()} flex='1' alignItems={'center'} height='70%'>
+                    <Image src='/assets/images/monitor.png' alt='img' width='20px' height='20px' />
+                    <CustomText>Upload from device</CustomText>
+                  </HStack>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
 
-                   <Image src='/assets/images/Smiley.svg' alt='smile' width={'24px'} height={'24px'} onClick={() => setShowEmoi(prev => !prev)} />
+            <Image src='/assets/images/Smiley.svg' alt='smile' width={'24px'} height={'24px'} onClick={() => setShowEmoi(prev => !prev)} />
 
-                </HStack>
+          </HStack>
 
-                { !createPost.isLoading && <Image onClick={() => submit()} src='/assets/images/send.svg' alt='smile' width={'24px'} height={'24px'} /> }
-                { createPost.isLoading && <Spinner size='sm' />}
+          {!createPost.isLoading && <Image onClick={() => submit()} src='/assets/images/send.svg' alt='smile' width={'24px'} height={'24px'} />}
+          {createPost.isLoading && <Spinner size='sm' />}
 
-            </HStack>
+        </HStack>
 
-        </VStack>
+      </VStack>
     </VStack>
   )
 }

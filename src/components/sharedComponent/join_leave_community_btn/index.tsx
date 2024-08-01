@@ -1,3 +1,4 @@
+import { useCommunity } from '@/components/newcommunity';
 import { useDetails } from '@/global-state/useUserDetails';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
@@ -26,6 +27,8 @@ function JoinOrLeaveCommunityBtn(props: Props) {
     const [ joined, setJoined] = React.useState(data.joinStatus+"")
     const { userId: user_index } = useDetails((state) => state); 
 
+    const { refetchCommunity } = useCommunity()
+
     // save event
     const JoinCommunity = useMutation({
         mutationFn: (data: any) => httpService.post(URLS.JOIN_GROUP, data),
@@ -49,6 +52,7 @@ function JoinOrLeaveCommunityBtn(props: Props) {
                 position: 'top-right',
             });
             setJoined("CONNECTED") 
+            refetchCommunity()
         }
     });
 
@@ -74,6 +78,7 @@ function JoinOrLeaveCommunityBtn(props: Props) {
                 position: 'top-right',
             });
             setJoined("NOT_CONNECTED")
+            refetchCommunity()
         }
     }); 
 
@@ -90,7 +95,7 @@ function JoinOrLeaveCommunityBtn(props: Props) {
 
     return (
         <Button onClick={handleCommunity} disabled={JoinCommunity.isLoading || LeaveCommunity.isLoading} width={width ? width : "120px"} height={height ? height : "45pc"} color={"white"} rounded={"full"} fontSize={font ? font : "xs"} bg={joined !== "NOT_CONNECTED"  ? "brand.chasescrollRed" : "brand.chasescrollBlue"} >
-            {JoinCommunity.isLoading || LeaveCommunity.isLoading ? "Loading..." : joined === "NOT_CONNECTED" ? "Join" : "Leave"}
+            {JoinCommunity.isLoading || LeaveCommunity.isLoading ? "Loading..." : joined === "NOT_CONNECTED" ? "Join" : data?.data?.isPublic ? "Leave" : "Request Sent"}
         </Button>
     )
 }

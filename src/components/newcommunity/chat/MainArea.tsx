@@ -1,6 +1,6 @@
 import CustomText from '@/components/general/Text';
 import { Box, HStack, Spinner, VStack, Image, useColorMode, Flex, Text } from '@chakra-ui/react';
-import React from 'react'
+import React, { useRef } from 'react'
 import CommunityChatHeader from './Header';
 import TextArea from './TextArea';
 import httpService from '@/utils/httpService';
@@ -21,13 +21,28 @@ import Link from 'next/link';
 import useCustomTheme from "@/hooks/useTheme";
 import CommunityTextArea from './TextArea';
 import { IoClose, IoCloseCircle } from 'react-icons/io5';
+import { useCommunity } from '..';
+import LoadingAnimation from '@/components/sharedComponent/loading_animation';
+import { BsArrowLeftCircle, BsArrowRightCircle } from 'react-icons/bs';
 
-function MainArea() {
+interface IProps {
+    setShow: any,
+}
+
+function MainArea({ setShow }: IProps) {
     const { activeCommunity, setAll, messages, pageNumber, hasNext, showEvents, events } = useCommunityPageState((state) => state);
 
     const [posts, setPosts] = React.useState<IMediaContent[]>([]);
     const [showEventModal, setShowEventModal] = React.useState(false);
     const [len, setLen] = React.useState(messages?.length);
+
+    const ref: any = useRef(null);
+
+    const scroll = (scrolloffset: number) => {
+        ref.current.scrollLeft += scrolloffset
+    };
+
+    const { communityEvent } = useCommunity()
 
     const {
         bodyTextColor,
@@ -44,7 +59,7 @@ function MainArea() {
     const { userId: myId } = useDetails((state) => state)
 
     // queries
-    const { isLoading, } = useQuery([`getMessage-${activeCommunity?.id}`, activeCommunity?.id, pageNumber], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
+    const { isLoading, isRefetching, refetch } = useQuery([`getMessage-${activeCommunity?.id}`, activeCommunity?.id, pageNumber], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
         params: {
             groupID: activeCommunity?.id,
             page: pageNumber
@@ -59,7 +74,8 @@ function MainArea() {
                     setAll({ messages: item.content });
                 } else {
                     if (messages.length > 0) {
-                        const arr = [...messages, ...item?.content];
+                        const arr = [...messages];
+                        arr?.unshift(...item?.content)
                         setAll({ messages: uniqBy(arr, 'id'), hasNext: item.last ? false : true });
 
                     } else {
@@ -70,14 +86,7 @@ function MainArea() {
 
         },
         onError: (error: any) => { }
-    });
-
-    React.useEffect(() => {
-        if (messages?.length !== len) {
-            setLen(messages?.length);
-            document.querySelector('#lastMsg')?.scrollIntoView({ behavior: 'smooth' });
-        }
-    }, [messages, len])
+    }); 
 
     const lastChildRef = React.useCallback((post: any) => {
         if (isLoading) return;
@@ -91,14 +100,6 @@ function MainArea() {
         if (post) intObserver.current.observe(post);
     }, [isLoading, setAll, pageNumber, hasNext]);
 
-
-    React.useEffect(() => {
-        if (messages?.length !== len) {
-            setLen(messages?.length);
-            document.querySelector('#lastMsg')?.scrollIntoView({ behavior: 'smooth' });
-        }
-    }, [messages, len])
-
     if (activeCommunity === null) {
         return (
             <Flex width='100%' height={'100%'} flexDirection={"column"} justifyContent={'center'} alignItems={'center'}>
@@ -107,52 +108,64 @@ function MainArea() {
                 <CustomText fontSize={'25px'} textAlign={'center'} fontFamily={'DM-Medium'} color='brand.chasescrollButtonBlue'>Gist with friends</CustomText>
             </Flex>
         )
-    }
-
+    } 
     return (
-        <Flex w={"full"} h={"100%"} pos={"relative"} overflowY={"hidden"} flexDirection={"column"} >
-            <Flex w={"full"} bgColor={"white"} pos={"relative"} zIndex={"10"} h={"fit-content"} >
+        <Flex w={"full"} h={"100%"} pos={"relative"} bg={mainBackgroundColor} overflowY={"hidden"} flexDirection={"column"} >
+            <Flex w={"full"} bgColor={mainBackgroundColor} pos={"relative"} zIndex={"10"} h={"fit-content"} >
                 <CommunityChatHeader />
                 <AddEventsModal isOpen={showEventModal} onClose={() => setShowEventModal(false)} />
             </Flex>
             <Box width={'fit-content'} bgColor={"#fcfcfc"} pos={"absolute"} top={"80px"} left={"2"} zIndex={"10"} height={'fit-content'} >
                 {activeCommunity.creator.userId === myId && (
-                    <Box>
+                    <Box bg={mainBackgroundColor} >
                         <Image onClick={() => setShowEventModal(true)} src='/assets/images/note-add.png' alt='logo' width={'30px'} height={'30px'} />
                     </Box>
                 )}
             </Box>
-            {showEvents && events.length > 0 && (
-                <Flex width='100%' maxWidth={'100%'} height={'115px'} pos={"relative"} zIndex={"10"} bg={secondaryBackgroundColor}  >
-                    <Box as='button' onClick={() => setAll({ showEvents: !showEvents })} pos={"absolute"} rounded={"full"} p={"6px"} borderWidth={"1px"} borderColor={"black"} top={"2"} right={"4"} >
-                        <IoClose />
+            {showEvents && communityEvent.length > 0 && (
+                <Flex width='100%' height={'115px'} pos={"absolute"} top={"72px"} zIndex={"10"} bg={secondaryBackgroundColor}  >
+                    <Flex as={"button"} bgColor={secondaryBackgroundColor} rounded={"full"} onClick={() => scroll(-400)} left={"2"} justifyContent={"center"} alignItems={"center"} h={"fit-content"} zIndex={"20"} ml={"2"} my={"auto"} >
+                        <BsArrowLeftCircle size="25px" />
+                    </Flex>
+                    <Box px='2' ref={ref} position={"relative"} paddingTop={'20px'} w={"full"} maxWidth='full' height='100%' overflowX={'auto'} display={"flex"} overflowY={"hidden"} scrollBehavior={"smooth"} sx={
+                        {
+                            '::-webkit-scrollbar': {
+                                display: 'none'
+                            }
+                        }
+                    }>
+
+                        <Flex w={"auto"}  >
+                            {communityEvent.map((item: any, i: number) => (
+                                <EventCard event={item} userId={activeCommunity?.creator?.userId} communityId={activeCommunity?.id} key={i.toString()} index={i} />
+                            ))}
+                        </Flex>
                     </Box>
-                    <Box paddingLeft='20px' paddingTop={'20px'} width='100%' height='100%' overflowX={'auto'} display={'inline-block'} whiteSpace={'break-spaces'}>
-                        {events.map((item, i) => (
-                            <EventCard event={item} key={i.toString()} index={i} />
-                        ))}
-                    </Box>
+                    <Flex as={"button"} bgColor={secondaryBackgroundColor} rounded={"full"} onClick={() => scroll(400)} right={"2"} justifyContent={"center"} alignItems={"center"} mr={"2"} h={"fit-content"} zIndex={"20"} my={"auto"} >
+                        <BsArrowRightCircle size="25px" />
+                    </Flex>
                 </Flex>
             )}
-            <Box pos={"absolute"} inset={"0px"} pt={"72px"} pb={"150px"} >
-                <Flex w={"full"} h={"full"} flexDir={"column"} gap={"5"} paddingX={['10px', '30px']} paddingY='4' bgColor={"#fcfcfc"} overflowY={"auto"} pos={"relative"} >
-
-                    {activeCommunity !== null && messages.length > 0 && messages.map((item, index) => {
-                        return (
-                            <>
-                                {index === messages.length - 1 ? (
-                                    <MessageCard index={index} id='lastMsg' ref={lastChildRef} key={index.toString()} message={item} />
-                                ) : (
-                                    <MessageCard index={index} id={undefined} key={index.toString()} message={item} />
-                                )}
-                            </>
-                        )
-                    })}
-                    {isLoading && (
-                        <VStack width='100%' height='50px' justifyContent={'center'} alignItems={'center'}>
-                            <Spinner size={'sm'} />
-                        </VStack>
-                    )}
+            <Box pos={"absolute"} inset={"0px"} pt={"72px"} bg={mainBackgroundColor} pb={"150px"} >
+                <Flex w={"full"} h={"full"} flexDir={"column-reverse"} gap={"5"} paddingX={['10px', '30px']} paddingY='4' bgColor={mainBackgroundColor} overflowY={"auto"} pos={"relative"} >
+                    <LoadingAnimation loading={isLoading} refeching={isRefetching} >
+                        {activeCommunity !== null && messages.length > 0 && messages.map((item, index) => {
+                            return (
+                                <>
+                                    {index === messages.length - 1 ? (
+                                        <MessageCard refetch={refetch} index={index} id='lastMsg' ref={lastChildRef} key={index.toString()} message={item} />
+                                    ) : (
+                                        <MessageCard refetch={refetch} index={index} id={undefined} key={index.toString()} message={item} />
+                                    )}
+                                </>
+                            )
+                        })}
+                        {isLoading && (
+                            <VStack width='100%' height='50px' justifyContent={'center'} alignItems={'center'}>
+                                <Spinner size={'sm'} />
+                            </VStack>
+                        )}
+                    </LoadingAnimation>
                 </Flex>
             </Box>
             <Flex width={"full"} height={"fit-content"} marginTop={"auto"} px={"3"} bottom={"0px"} >

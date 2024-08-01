@@ -91,7 +91,7 @@ function LoginPage() {
   const router = useRouter();
   const { setAll } = useDetails((state) => state);
   const { data: sessionData, update } = useSession();
-  const { type, typeID, setAll: seType } = useShareState((state) => state);
+  // const { type, typeID, setAll: seType } = useShareState((state) => state);
   const query = useSearchParams();
 
   const handleGoogleSignIn = async () => {
@@ -104,14 +104,17 @@ function LoginPage() {
     }
   }
 
-  React.useEffect(() => {
-    const type = query?.get('type');
-    const typeID = query?.get('typeID');
+  // React.useEffect(() => {
+  //   const type = query?.get('type');
+  //   const typeID = query?.get('typeID');
 
-    if (type && typeID) {
-      seType({ type, typeID });
-    }
-  }, [query, seType, setAll])
+  //   if (type && typeID) {
+  //     seType({ type, typeID });
+  //   }
+  // }, [query, seType, setAll])
+
+  const type = sessionStorage.getItem('type');
+  const typeID = sessionStorage.getItem('typeID');
 
   React.useEffect(() => {
     const token: any = sessionData;

@@ -1,7 +1,7 @@
 
 'use client';
 import CustomText from '@/components/general/Text'
-import { Box, HStack, Spinner, VStack, InputGroup, InputLeftElement, Input, Image, Grid, GridItem, Button, useToast } from '@chakra-ui/react'
+import { Box, HStack, Spinner, VStack, InputGroup, InputLeftElement, Input, Image, Grid, GridItem, Button, useToast, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
 import { FiBell, FiChevronLeft, FiDownloadCloud, FiEdit2, FiLink, FiLogIn, FiSettings } from 'react-icons/fi'
 import { useParams, useRouter } from 'next/navigation'
@@ -21,6 +21,11 @@ import { uniqBy } from 'lodash';
 import ShareEvent from '@/components/sharedComponent/share_event';
 import { useSearchParams } from 'next/navigation'
 import { useShareState } from '../state';
+import LoadingAnimation from '@/components/sharedComponent/loading_animation';
+import CommunityImage from '@/components/sharedComponent/community_image';
+import PeopleCard from '@/components/search_component/other_components/people_card';
+import { textLimit } from '@/utils/textlimit';
+import { capitalizeFLetter } from '@/utils/capitalLetter';
 
 
 function ShareCommunity() {
@@ -51,19 +56,18 @@ function ShareCommunity() {
       setDetails(item.content[0]);
     }
   });
-
-
-  console.log(details);
-
   const joinGroup = useMutation({
     mutationFn: () => httpService.post(`${URLS.JOIN_GROUP}`, {
       groupID: typeID,
       joinID: userId,
     }),
     onSuccess: (data) => {
+
+      console.log(data);
+
       toast({
         title: 'Success',
-        description: 'You have joined the group',
+        description: details?.data?.isPublic ? "You have joined this group" : data?.data?.message,
         status: 'success',
         duration: 4000,
         position: 'top-right',
@@ -98,186 +102,39 @@ function ShareCommunity() {
       sessionStorage.setItem('type', type as string);
       sessionStorage.setItem('typeID', typeID as string);
       router.push(`/share/auth/login?type=${type}&typeID=${typeID}`)
-    } else { 
-      joinGroup.mutate()
+    } else {
+      joinGroup.mutate() 
     }
   }
-
-  const mediaposts = useQuery(['getMediaPosts', typeID], () => httpService.get(`${URLS.GET_GROUP_MESSAGES}`, {
-    params: {
-      groupID: typeID,
-    }
-  }), {
-    enabled: typeID !== null || typeID !== undefined,
-    onSuccess: (data) => {
-      const item: PaginatedResponse<IMediaContent> = data.data;
-      setPosts(uniqBy(item.content, 'id'));
-    }
-  });
-
-  const communityMembers = useQuery(['getCommunityMembers', typeID], () => httpService.get(`${URLS.GET_GROUP_MEMBERS}`, {
-    params: {
-      groupID: typeID,
-      page: 0,
-    }
-  }), {
-    enabled: typeID !== null || typeID !== undefined,
-    onSuccess: (data) => {
-      const item: PaginatedResponse<ICommunityMember> = data.data;
-      setMembers(prev => uniqBy([...prev, ...item.content], 'id'));
-    }
-  });
-
-  const admins = () => {
-    return members.filter((item) => item.role === 'ADMIN');
-  }
-
-  const users = () => {
-    return members.filter((item) => item.role === 'USER');
-  }
-
-  const media = () => {
-    if (posts.length < 1) return [];
-    return posts.filter((item) => {
-      if (item.type === 'WITH_IMAGE' || item.type === 'WITH_VIDEO_POST') {
-        return item;
-      }
-    })
-  }
-
-  const files = () => {
-    if (posts.length < 1) return [];
-    return posts.filter((item) => {
-      if (item.type === 'WITH_FILE') {
-        return item;
-      }
-    })
-  }
-
-  if (community.isLoading || communityMembers.isLoading) {
-    return (
-      <VStack width='100%' height={'100%'} justifyContent={'center'} alignItems={'center'}>
-        <Spinner />
-        <CustomText>Loading...</CustomText>
-      </VStack>
-    )
-  }
-
 
   return (
-    <Box overflowY='auto' width='100%' height='100%' bg='white' paddingTop='40px' paddingBottom={'100px'}>
-
-      <VStack width='100%'>
-
-
-        <VStack width={['100%', '25%']} height='100%' bg='white' paddingTop='20px' paddingX={['20px', '0px']}>
-
-          {/* HEADER SECTIOONS */}
-          <VStack alignItems={'center'} borderWidth={'1px'} borderRadius={'32px'} borderColor={'#D0D4EB'} width='100%' height={'auto'} padding='20px'>
-
-            <HStack justifyContent={'space-between'} width='100%'>
-              <FiChevronLeft color='black' fontSize='20px' onClick={() => router.back()} />
-              <CustomText fontFamily={'DM-Bold'} fontSize={'16px'}>Community Info</CustomText>
-              <Box>
-                {admin && <FiEdit2 color='black' fontSize='20px' />}
-              </Box>
-            </HStack>
-
-            <Box width='97px' height={'97px'} borderRadius={'999px 0px 999px 999px'} borderWidth={'3px'} borderColor={'#3C41F0'} overflow={'hidden'}>
-              {details?.data?.imgSrc === null && (
-                <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                  <CustomText fontFamily={'DM-Regular'}>{details.data.name[0].toUpperCase()}</CustomText>
-                </VStack>
-              )}
-              {
-                details?.data?.imgSrc && (
-                  <Image src={`${details.data.imgSrc?.includes("http") ? "" : IMAGE_URL}${details.data.imgSrc}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} />
-                )
-              }
+    <Flex w={"full"} bgColor={"white"} alignItems={"center"} flexDir={"column"} py={"10"} h={"100vh"} overflowY={"auto"} >
+      <LoadingAnimation loading={community?.isLoading} refeching={community?.isRefetching} >
+        <Flex maxW={"400px"} w={"full"} gap={"5"} alignItems={"center"} flexDirection={"column"}  >
+          <Flex p={"8"} roundedBottom={"32px"} roundedTopLeft={"32px"} borderWidth={"1px"} alignItems={"center"} flexDir={"column"} w={"full"} >
+            <Box w={"fit-content"} pos={"relative"} >
+              <CommunityImage src={details?.data?.imgSrc} rounded='36px' size={"150px"} />
             </Box>
-
-            <CustomText fontFamily={'DM-Bold'} fontSize={'18px'} color="brand.chasescrollButtonBlue" textAlign={'center'}>{details?.data?.name}</CustomText>
-            <CustomText textAlign={'center'} fontFamily={'DM-Light'} fontSize={'14px'} color={'black'}>{members.length} Members</CustomText>
-
-            <InputGroup>
-              <InputLeftElement>
-                <Image alt='searc' src='/assets/images/search-normal.png' width='20px' height='20px' />
-              </InputLeftElement>
-              <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder='search' />
-            </InputGroup>
-
-
-          </VStack>
-
-          {/* MEMBERS */}
-          <Box width='100%' height={'330px'} position={'relative'} zIndex={'10'} marginTop={'30px'} borderWidth={'1px'} borderRadius={'32px'} borderColor={'#D0D4EB'}>
-
-            <HStack justifyContent={'center'} bg='white' width='150px' position='absolute' left='40px' top='-20px' padding='10px'>
-              <CustomText fontFamily={'DM-Light'} color={THEME.COLORS.chasescrollButtonBlue} >Members</CustomText>
-            </HStack>
-
-            <Box paddingY={'30px'} width='100%' height={'100%'} paddingX='10px' overflowY='scroll'>
-
-
-
-              {admins().length > 0 && admins().filter((item) => {
-                if (search === '') {
-                  return item;
-                } else {
-                  if (item.user.firstName.toLowerCase().includes(search.toLowerCase()) || item.user.lastName.toLowerCase().includes(search.toLowerCase()) || item.user.username.toLowerCase().includes(search.toLowerCase())) {
-                    return item;
-                  }
-                }
-              }).map((item, index) => (
-                <MemberCard member={item} key={index.toString()} isAdmin />
-              ))}
-              {users().length > 0 && users().filter((item) => {
-                if (search === '') {
-                  return item;
-                } else {
-                  if (item.user.firstName.toLowerCase().includes(search.toLowerCase()) || item.user.lastName.toLowerCase().includes(search.toLowerCase()) || item.user.username.toLowerCase().includes(search.toLowerCase())) {
-                    return item;
-                  }
-                }
-              }).map((item, index) => (
-                <MemberCard member={item} key={index.toString()} isAdmin={false} />
-              ))}
-
-            </Box>
+            <Text fontWeight={"700"} fontSize={"18px"} mt={"2"} >{details?.data?.name}</Text>
+            <Text fontWeight={"400"} textAlign={"justify"} fontSize={"14px"} >{textLimit(capitalizeFLetter(details?.data?.description), 200)}</Text>
+            <Text color={"#2E2B2BB2"} fontSize={"12px"} >{details?.data?.memberCount} Members</Text>
+          </Flex>
+          <Box rounded={"2px"} bg={details?.data?.isPublic ? "brand.chasescrollPalePurple" : "#FBCDCD"} fontWeight={"semibold"} color={details?.data?.isPublic ? "brand.chasescrollBlue" : "#E90303"} fontSize={"12px"} py={"1"} display={"flex"} justifyContent={"center"} width={"70px"} >
+            {details?.data?.isPublic ? 'Public' : 'Private'}
           </Box>
+          <Flex w={"full"} rounded={"32px"} maxH={"309px"} overflowY={"auto"} borderWidth={"1px"} p={"4"} borderColor={"#D0D4EB"} flexDir={"column"}  >
+            <PeopleCard community={true} role={"ADMIN"} search={true} person={details?.creator} />
+          </Flex>
+          {(details?.joinStatus !== "CONNECTED") && (
+            <Button width='100%' maxW={"300px"} height='45px' mt={"3"} borderRadius='16px' _hover={{ backgroundColor: "brand.chasescrollButtonBlue" }} isLoading={joinGroup.isLoading} type='button' variant={'solid'} bg='brand.chasescrollButtonBlue' color='white' onClick={handleJoin}>Join Community</Button>
+          )}
+          {(details?.joinStatus === "CONNECTED") && (
+            <Button width='100%' maxW={"300px"} height='45px' mt={"3"} borderRadius='16px' _hover={{ backgroundColor: "brand.chasescrollButtonBlue" }} isLoading={joinGroup.isLoading} type='button' variant={'solid'} bg='brand.chasescrollButtonBlue' color='white' onClick={() => router.push(`/dashboard/community?activeID=${typeID}`)}>View Community</Button>
+          )}
+        </Flex>
+      </LoadingAnimation>
 
-
-
-        </VStack>
-
-      </VStack>
-
-      <VStack width='100%' height="auto" overflowY='auto' marginTop={'30px'} paddingTop='20px' paddingX={['20px', '0px']}>
-
-
-        <VStack width={['100%', '25%']} height={'100%'} >
-
-          {/* header */}
-          {/* {!admin && (
-            <> */}
-              {(userId) && (
-                <>
-                  {details?.joinStatus !== "CONNECTED" && (
-                    <Button width='100%' height='40px' borderRadius='20px' _hover={{ backgroundColor: "brand.chasescrollButtonBlue" }} isLoading={joinGroup.isLoading} type='button' variant={'solid'} bg='brand.chasescrollButtonBlue' color='white' onClick={handleJoin}>Join Community</Button>
-                  )}
-                </>
-              )}
-            {/* </>
-          )} */}
-
-
-        </VStack>
-
-
-      </VStack>
-
-
-    </Box>
+    </Flex>
   )
 }
 
