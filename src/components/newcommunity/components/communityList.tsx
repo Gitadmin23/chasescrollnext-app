@@ -10,6 +10,7 @@ import { useCommunityPageState } from '@/components/Community/chat/state';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import useCustomTheme from '@/hooks/useTheme'
 import { IoSearchOutline } from 'react-icons/io5'
+import { formatTimeAgo } from '@/utils/helpers'
 
 interface IProps {
     tab: number
@@ -52,12 +53,12 @@ export default function CommunityList({ tab, setTab, setShow }: IProps) {
                         </Flex> */}
                         <Image src={`${item?.data?.imgSrc?.includes("http") ? "" : IMAGE_URL}${item?.data?.imgSrc}`} alt='image' style={{ width: '100%', height: '100%', objectFit: "cover", borderRadius: "20px", borderTopRightRadius: "0px " }} />
                     </Box>
-                    <Flex flexDir={"column"} flex={"1"} >
+                    <Flex flexDir={"column"} flex={"1"} gap={"1"} >
                         <Text fontWeight={"700"} lineHeight={"24px"} >{textLimit(item?.data?.name, 25)}</Text>
                         <Text fontSize={"14px"} mt={"2px"} >{textLimit(item?.data?.description, 40)}</Text>
                         <Flex color={headerTextColor} alignItems={"center"} gap={"1"} >
                             <Box w={"8px"} h={"8px"} rounded={"full"} bgColor={primaryColor} />
-                            <Text fontSize={"11px"} lineHeight={"13px"} letterSpacing={"0.07px"} >{timeFormat(item?.createdOn)}</Text>
+                            <Text fontSize={"11px"} lineHeight={"13px"} letterSpacing={"0.07px"} >{formatTimeAgo(item?.lastModifiedDate)}</Text>
                         </Flex>
                     </Flex>
                 </Flex>

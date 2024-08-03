@@ -18,19 +18,22 @@ import { IUser } from '@/models/User'
 import { uniq } from 'lodash'
 import UserImage from '../sharedComponent/userimage'
 import useCustomTheme from '@/hooks/useTheme'
+import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
+import LoadingAnimation from '../sharedComponent/loading_animation'
+import useChat from './hooks/chat'
 
 
 const ARRAY = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const OnlineUser = ({ id, index }: { id: string, index: number }) => {
     const { setAll } = useChatPageState((state) => state)
-    const [user, setUser] = React.useState<IUser|null>(null);
-    const { isLoading, isError } =  useQuery(['getOnlineUserProfile', id], () => httpService.get(`${URLS.GET_PUBLIC_PROIFLE}/${id}`), {
+    const [user, setUser] = React.useState<IUser | null>(null);
+    const { isLoading, isError } = useQuery(['getOnlineUserProfile', id], () => httpService.get(`${URLS.GET_PUBLIC_PROIFLE}/${id}`), {
         onSuccess: (data) => {
             setUser(data?.data);
             console.log(data.data);
         },
-        onError: () => {},
+        onError: () => { },
     })
 
     // mutations
@@ -41,26 +44,26 @@ const OnlineUser = ({ id, index }: { id: string, index: number }) => {
             users: [
                 user?.userId
             ]
-          }),
-          onSuccess: (data) => {
+        }),
+        onSuccess: (data) => {
             setAll({ activeChat: data?.data, messages: [], pageNumber: 0, activeMessageId: undefined });
-          },
-          onError: () => {}
+        },
+        onError: () => { }
     });
 
     return (
-        <Box onClick={() => createChat.isLoading ? null: createChat.mutate()} cursor='pointer' width={'45px'} height='45px' position={'relative'} >
+        <Box onClick={() => createChat.isLoading ? null : createChat.mutate()} cursor='pointer' width={'45px'} height='45px' position={'relative'} >
             <Box width={'10px'} height={'10px'} borderRadius={'5px'} bg='brand.chasescrollButtonBlue' position={'absolute'} right='0px' top="-2px" />
-            { isLoading && (
+            {isLoading && (
                 <HStack justifyContent={'center'} alignItems={'center'} width='45px' height='45px' >
                     <Spinner />
                 </HStack>
-            ) }
-             { !isLoading && (
+            )}
+            {!isLoading && (
                 <HStack spacing={0} justifyContent={'center'} alignItems={'center'} width='45px' height='45px' >
                     <UserImage size={"40px"} border={"2px"} font={"16px"} data={user} image={user?.data?.imgMain?.value} />
                 </HStack>
-            ) }
+            )}
         </Box>
     )
 }
@@ -91,139 +94,52 @@ function Sidebar() {
     const { colorMode, toggleColorMode } = useColorMode();
 
     const getonlineUsers = useQuery(['onlineUser', userId], () => httpService.get(`${URLS.ONLINE_USERS}`), {
-        
+
         onSuccess: (data) => {
             const item: string[] = data.data;
-            setOnlineUsers(prev =>  uniq(item.filter((item) => !chatsIds.includes(item)) ));
+            setOnlineUsers(prev => uniq(item.filter((item) => !chatsIds.includes(item))));
         },
         onError: (error) => { },
     }) 
+
+  const { results, isLoading, isRefetching, chatref } = useChat()
     
-    const { isLoading, isError, } = useQuery(['getChats', userId, debounceValue], () => httpService.get(`${URLS.GET_CHATS}`, {
-        params: {
-            page: 0,
-            searchText: debounceValue,
-            size: 20,
-        }
-    }), {
-        onSuccess: (data) => {
-            const item: PaginatedResponse<Chat> = data.data;
-            setLast(item.last);
-            setChats(item.content);
-            console.log(item.content[0]);
-            //setAll({ chatsIds: item.content.map((itemm) => itemm?.otherUser?.userId )});
-        }
-    });
 
-    React.useEffect(() => {
-        const activeID = query?.get('activeID');
-        if (activeID && chats.length > 0) {
-            const activeChat = chats.filter((item) => item.id === activeID);
-            if (activeChat.length > 0) {
-                setAll({ activeChat: activeChat[0] })
-            }
-        }
-    }, [chats, query, setAll])
-
-    const lastChildRef = React.useCallback((post: any) => {
-        if (isLoading) return;
-        if (intObserver.current) intObserver.current.disconnect();
-        intObserver.current = new IntersectionObserver((posts) => {
-            if (posts[0].isIntersecting && last) {
-                setPage(prev => prev + 1);
-            }
-        });
-        if (post) intObserver.current.observe(post);
-    }, [isLoading, last, setPage]);
     return (
         <VStack width='100%' height={'100%'} paddingX={'0px'} overflow={'hidden'}>
 
-            <VStack width={'100%'} paddingX={'10px'}>
-
-                {/*/!* ONLINE USERS *!/*/}
-                {/*{*/}
-                {/*    !getonlineUsers.isLoading && !getonlineUsers.isError && onlineUsers.length > 0 && (*/}
-                {/*        <VStack width='100%' height={'120px'} paddingBottom={'10px'} alignItems={'flex-start'} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingTop={'10px'}>*/}
-
-                {/*            <Box width='100%' height={'100%'} overflowX={'auto'} display={'flex'} gap={"1"} paddingTop={'10px'} >*/}
-                {/*                {onlineUsers.map((item, index) => (*/}
-                {/*                    <OnlineUser id={item} index={index} key={index.toString()} /> */}
-                {/*                ))}*/}
-                {/*            </Box>*/}
-                {/*            <CustomText fontFamily={'Satoshi-Medium'} fontSize={'14px'}>Users Online</CustomText>*/}
-                {/*        </VStack>*/}
-                {/*    )*/}
-                {/*}*/}
+            <VStack width={'100%'} paddingX={'10px'}> 
 
                 <HStack width={'100%'} height={'60px'} justifyContent={'space-between'}>
 
                     <HStack alignItems={'center'}>
                         <CustomText fontFamily={'DM-Medium'} fontSize={'3xl'}>Chats</CustomText>
-                    </HStack>
-
-                    {/* <Button onClick={() => router.push('/dashboard/chats/create')} variant={'unstyled'} width='120px' height={'30px'} borderWidth={'1px'} borderRadius={'20px'} borderColor={'brand.chasescrollButtonBlue'} color='brand.chasescrollButtonBlue' >
-                        Create Group
-                    </Button> */}
+                    </HStack> 
 
                 </HStack>
 
                 {/* SEARCH BAR */}
                 <InputGroup>
                     <InputLeftElement>
-                        <SearchNormal1 size='25px' color={colorMode === 'light' ? THEME.COLORS.chasescrollButtonBlue: bodyTextColor} />
+                        <SearchNormal1 size='25px' color={colorMode === 'light' ? THEME.COLORS.chasescrollButtonBlue : bodyTextColor} />
                     </InputLeftElement>
                     <Input value={search} onChange={(e) => setSearch(e.target.value)} width='100%' height={'45px'} placeholder='search message' borderRadius={'10'} borderWidth={'0.5px'} borderColor={borderColor} bg={secondaryBackgroundColor} />
                 </InputGroup>
             </VStack>
 
             {/* CHATS */}
-            {
-                !isLoading && !isError && chats.length > 0 && (
-                    <Box width={'100%'} height={'100%'} overflowY={'auto'} paddingBottom={'100px'}>
-                        {
-                            !isLoading && !isError && chats.length > 0 && chats.sort((a: Chat, b: Chat) => {
-                                if (a?.lastModifiedDate > b?.lastModifiedDate) {
-                                    return -1
-                                } else {
-                                    return 1
-                                }
-                                return 0
-                            }).map((item, index) => {
-                                if (index === chats.length - 1) {
-                                    return <SidebarCard ref={lastChildRef} key={index.toString()} chat={item} />
-                                } else {
-                                    return <SidebarCard key={index.toString()} chat={item} />
-                                }
-                            })
+            <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} > 
+                <Box width={'100%'} height={'100%'} overflowY={'auto'} paddingBottom={'100px'}>
+                    {results.map((item: any, index: any) => {
+                        if (index === chats.length - 1) {
+                            return <SidebarCard ref={chatref} key={index.toString()} chat={item} />
+                        } else {
+                            return <SidebarCard key={index.toString()} chat={item} />
                         }
-                    </Box>
-                )
-            }
-
-            {
-                !isLoading && !isError && chats.length < 1 && search.length < 1 && (
-                    <HStack width={'100%'} height='50px' justifyContent={'center'} alignItems={'center'}>
-                        <CustomText fontFamily={'Satoshi-Medium'} fontSize={'18'} textAlign={'center'}>You do not have any active chat</CustomText>
-                    </HStack>
-                )
-            }
-
-{
-                !isLoading && !isError && chats.length < 1 && search.length > 0 && (
-                    <HStack width={'100%'} height='50px' justifyContent={'center'} alignItems={'center'}>
-                        <CustomText fontFamily={'Satoshi-Medium'} fontSize={'18'} textAlign={'center'}>No result for {search}</CustomText>
-                    </HStack>
-                )
-            }
-
-            {
-                !isLoading && isError && (
-                    <HStack width={'100%'} height='50px' justifyContent={'center'} alignItems={'center'}>
-                        <CustomText fontFamily={'Satoshi-Medium'} fontSize={'18'} textAlign={'center'}>An errorr occured</CustomText>
-                    </HStack>
-                )
-            }
-
+                    })
+                    }
+                </Box>
+            </LoadingAnimation>
         </VStack>
     )
 }

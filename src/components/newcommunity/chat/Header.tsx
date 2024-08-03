@@ -72,7 +72,10 @@ function CommunityChatHeader() {
         </Box>
         <VStack alignItems={'flex-start'} spacing={0}>
           <CustomText fontFamily={'DM-Medium'} fontSize={'16px'} >{activeCommunity?.data.name}</CustomText>
-          <CustomText fontFamily={'DM-Regular'} fontSize={'12px'}>{activeCommunity?.data.memberCount} Members</CustomText>
+          <VStack width='67px' height='21px' borderRadius={'4px'} justifyContent={'center'} alignItems={'center'} bg='#D0D4EB52' >
+            <CustomText fontSize={'10px'} color={colorMode === 'light' ? 'brand.chasescrollButtonBlue' : bodyTextColor} fontFamily={'DM-Regular'}>{activeCommunity?.data.memberCount} Members</CustomText>
+          </VStack>
+          {/* <CustomText fontFamily={'DM-Regular'} fontSize={'12px'}>{activeCommunity?.data.memberCount} Members</CustomText> */}
         </VStack>
       </Flex>
 
@@ -81,8 +84,8 @@ function CommunityChatHeader() {
         {communityEvent.length > 0 && (
           <Box onClick={() => setAll({ showEvents: !showEvents })} cursor='pointer' position={'relative'} marginRight={'10px'} >
             {showEvents ? (
-              <Box rounded={"full"} p={"6px"}  borderWidth={"1px"} borderColor={"red"} >
-              <IoClose color={"red"} />
+              <Box rounded={"full"} p={"6px"} borderWidth={"1px"} borderColor={"red"} >
+                <IoClose color={"red"} />
               </Box>
             ) : (
               <Image src='/assets/images/note-add.png' alt='logo' width={'30px'} height={'30px'} />

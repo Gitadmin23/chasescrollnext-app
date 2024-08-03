@@ -187,7 +187,7 @@ const useCommunity = () => {
         onSuccess: () => {
             toast({
                 title: 'Success',
-                description: 'Successfully deleted the group',
+                description: 'Community deleted',
                 status: 'success',
                 position: 'top-right',
                 duration: 5000,
