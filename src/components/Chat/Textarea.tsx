@@ -17,7 +17,7 @@ import { HStack, Input, Spinner, VStack, Popover,
   useToast,
   useColorMode
  } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useMutation, useQueryClient } from 'react-query';
 import EmojiPicker from 'emoji-picker-react';
 import CustomText from '@/components/general/Text';
@@ -25,6 +25,7 @@ import MediaBox from '../Community/chat/MediaBox';
 import AWSHook from '@/hooks/awsHook';
 import { useChatPageState } from './state';
 import useCustomTheme from '@/hooks/useTheme';
+import useChat from './hooks/chat';
 
 const IMAGE_FORM = ['jpeg', 'jpg', 'png', 'svg'];
 const VIDEO_FORM = ['mp4'];
@@ -56,30 +57,42 @@ function TextArea() {
 } = useCustomTheme();
 const { colorMode, toggleColorMode } = useColorMode();
 
-  const createPost   = useMutation({
-    mutationFn: (data: any) => httpService.post(`${URLS.CHAT_MESSGAE}`, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['getMessages']);
-      queryClient.invalidateQueries(['getChats']);
-      setText('');
-      setFiles([]);
-      reset();
-      setShowuploader(false)
-    },
-    onError: () => {
-      toast({ 
-        title: 'Error',
-        description: 'An errorr occured',
-        status: 'error',
-        position: 'top-right'
-      })
-    }
-  });
+  // const createPost   = useMutation({
+  //   mutationFn: (data: any) => httpService.post(`${URLS.CHAT_MESSGAE}`, data),
+  //   onSuccess: () => {
+  //     queryClient.refetchQueries(['getMessages']);
+  //     queryClient.invalidateQueries(['getChats']);
+  //     queryClient.invalidateQueries(['getMessages']); 
+  //     setText('');
+  //     setFiles([]);
+  //     reset();
+  //     setShowuploader(false)
+  //   },
+  //   onError: () => {
+  //     toast({ 
+  //       title: 'Error',
+  //       description: 'An errorr occured',
+  //       status: 'error',
+  //       position: 'top-right'
+  //     })
+  //   }
+  // });
+
+  const { createPost } = useChat()
 
   const handleFilePick = React.useCallback((uploaded: Array<any>) => {
     setFiles(prev => [...prev, ...uploaded]);
     setShowuploader(false);
   }, [])
+
+  useEffect(() => {
+    if(createPost?.isSuccess){
+      setText('');
+      setFiles([]);
+      reset();
+      setShowuploader(false)
+    }
+  }, [createPost?.isSuccess])
 
   React.useEffect(() => {
     if (uploadedFile.length > 0) {
@@ -168,11 +181,7 @@ const { colorMode, toggleColorMode } = useColorMode();
           chatID: activeChat?.id,
           media: file.url,
           multipleMediaRef: files.map((item) => item.url),
-      });
-        // createPost.mutate({
-        //     message: text,
-        //     chatID: activeChat?.id
-        // });
+      }); 
       }
     }
   }

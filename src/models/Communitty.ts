@@ -51,6 +51,7 @@ export type ICommunity = {
         password: string,
         picUrls: Array<string>,
     }
+    lastModifiedDate: number
 }
 
 export type ICommunityRequest = {
