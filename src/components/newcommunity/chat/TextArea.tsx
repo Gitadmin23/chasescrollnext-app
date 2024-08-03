@@ -60,7 +60,7 @@ function CommunityTextArea() {
   const { colorMode, toggleColorMode } = useColorMode();
 
   const createPost = useMutation({
-    mutationFn: (data: any) => httpService.post(`${URLS.CREATE_POST}`, data),
+    mutationFn: (data: any) => httpService.post(`/group/create-group-post`, data),
     onSuccess: () => {
       queryClient.invalidateQueries([`getMessage-${activeCommunity?.id}`]);
       setText('');
@@ -130,6 +130,17 @@ function CommunityTextArea() {
     if (loading) {
       return;
     }
+    // {
+    //   "text": "string",
+    //   "type": "WITH_IMAGE",
+    //   "isGroupFeed": true,
+    //   "sourceId": "string",
+    //   "mediaRef": "string",
+    //   "multipleMediaRef": [
+    //     "string"
+    //   ],
+    //   "videoLength": 0
+    // }
     if (uploadedFile.length < 1) {
       createPost.mutate({
         text,

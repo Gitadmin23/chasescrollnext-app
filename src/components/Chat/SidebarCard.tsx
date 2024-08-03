@@ -4,13 +4,15 @@ import { useDetails } from '@/global-state/useUserDetails'
 import { Chat } from '@/models/Chat'
 import { IMAGE_URL, URLS } from '@/services/urls'
 import httpService from '@/utils/httpService'
-import { Avatar, Box, HStack, VStack, Image, useColorMode } from '@chakra-ui/react'
+import { Avatar, Box, HStack, VStack, Image, useColorMode, Flex } from '@chakra-ui/react'
 import React from 'react'
 import { useQuery } from 'react-query'
 import { useChatPageState } from './state'
 import moment from 'moment'
 import UserImage from '../sharedComponent/userimage'
 import useCustomTheme from '@/hooks/useTheme'
+import { textLimit } from '@/utils/textlimit'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
 
 interface IProps {
     chat: Chat
@@ -47,10 +49,10 @@ const SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({ chat }, ref) => 
                     <UserImage size={"40px"} font={"16px"}  border={"2px"} data={chat?.otherUser} image={chat?.otherUser?.data?.imgMain?.value} />
                 </Box>
 
-                <VStack alignItems={'flex-start'} spacing={0}>
-                    <CustomText fontFamily={'DM-Medium'} fontSize={['12px', '14px']}>{chat?.type === 'GROUP' ? chat?.name.substring(0, 8) : name.length > 12 ? name.substring(0,12)+ '...': name}</CustomText>
+                <Flex flexDirection={"column"} >
+                    <CustomText fontFamily={'DM-Medium'} fontSize={['12px', '14px']}>{textLimit(capitalizeFLetter(`${chat?.otherUser?.firstName} ${chat?.otherUser?.lastName}`), 12)}</CustomText>
                     <CustomText fontFamily={'Satoshi-Light'} fontSize={'14px'}>{chat?.lastMessage && chat?.lastMessage?.length > 10 ? chat?.lastMessage?.substring(0, 10) + '...' : chat?.lastMessage}</CustomText>
-                </VStack>
+                </Flex>
             </HStack>
 
             <VStack alignItems={'flex-end'}>

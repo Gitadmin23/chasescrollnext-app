@@ -106,11 +106,7 @@ function MainArea() {
                                     <ChatBubble index={index} id='lastMsg' ref={lastChildRef} key={index.toString()} message={item} />
                                 ) : (
                                     <ChatBubble index={index} id={undefined} key={index.toString()} message={item} />
-                                )}
-
-                                {/* {index === messages.length - 1 && (
-                                    <div ref={divRef} />
-                                )} */}
+                                )} 
                             </>
                         )
                     })}
