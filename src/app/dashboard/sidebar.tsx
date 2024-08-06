@@ -123,11 +123,11 @@ function Sidebar() {
   };
 
   const routes: IRoute[] = [
-    {
-      route: "/dashboard/home",
-      icon: <HomeIcon />,
-      text: "Home",
-    },
+    // {
+    //   route: "/dashboard/home",
+    //   icon: <HomeIcon />,
+    //   text: "Home",
+    // },
     {
       route: "/dashboard/explore",
       icon: <SearchIcon />,
