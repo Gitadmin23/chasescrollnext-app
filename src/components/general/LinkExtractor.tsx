@@ -64,7 +64,7 @@ export const handleLinks = (text: string, showMore?: boolean) => {
     const regex = /(https?:\/\/[^\s]+)/g; // Regular expression to match words starting with a pound sign
     // const parts = text?.split(regex); // Split the text using the regex pattern
 
-    if (text.startsWith('http') || text.startsWith("www.")) {
+    if (text?.startsWith('http') || text?.startsWith("www.")) {
       return (
             <a href={text} target='_blank' style={{ fontFamily:'DM-Medium', color:'blue'}}>{showMore ? text : text.substring(0, 130)}</a>
       );
