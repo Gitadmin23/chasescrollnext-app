@@ -38,7 +38,8 @@ import useCustomTheme from "@/hooks/useTheme";
 type IProps = {
     btn?: boolean,
     data?: CreateEvent,
-    collaborate?: boolean
+    collaborate?: boolean,
+    addCollaborator?: boolean
 }
 
 export default function CollaboratorBtn(props: IProps) {
@@ -46,7 +47,8 @@ export default function CollaboratorBtn(props: IProps) {
     const {
         btn,
         data,
-        collaborate
+        collaborate,
+        addCollaborator
     } = props
 
     const {
@@ -86,7 +88,7 @@ export default function CollaboratorBtn(props: IProps) {
     //     }
     // });
 
-    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/user/search-users?searchText=${searchText}`, limit: 10, filter: "userId" })
+    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/user/search-users?searchText=${searchText}`, limit: 10, filter: "userId", name: "all-event" })
 
     const AddAdmin = (userIndex: string) => {
 
@@ -178,7 +180,7 @@ export default function CollaboratorBtn(props: IProps) {
 
 
     const UserCard = (props: IUser & { collaborators: boolean, admin: boolean }) => {
-        const { username, userId, data: { imgMain: { value: imgMain } }, firstName, lastName, collaborators, admin } = props;
+        const { username, userId, data: any, firstName, lastName, collaborators, admin } = props;
 
         const [show, setShow] = useState(false)
 
@@ -379,6 +381,9 @@ export default function CollaboratorBtn(props: IProps) {
         setSearch("")
     }
 
+    console.log(addCollaborator);
+    
+    console.log(results);
 
     return (
         <>
@@ -424,8 +429,8 @@ export default function CollaboratorBtn(props: IProps) {
             <ModalLayout open={open} close={setOpen} closeIcon={false} bg={secondaryBackgroundColor} >
                 <Flex w={"full"} px={"6"} pt={"8"} bg={secondaryBackgroundColor} >
                     <Box>
-                        <Text color={colorMode === 'light' ? "#121212":headerTextColor} fontSize={"24px"} lineHeight={"31.25px"} fontWeight={"bold"} >Select Collaborators</Text>
-                        <Text color={colorMode === 'light' ? "#626262":bodyTextColor} lineHeight={"20.83px"} >Kindly select users to collaborate with on this event and assign roles.</Text>
+                        <Text color={colorMode === 'light' ? "#121212" : headerTextColor} fontSize={"24px"} lineHeight={"31.25px"} fontWeight={"bold"} >Select Collaborators</Text>
+                        <Text color={colorMode === 'light' ? "#626262" : bodyTextColor} lineHeight={"20.83px"} >Kindly select users to collaborate with on this event and assign roles.</Text>
                     </Box>
                     <Box w={"fit-content"} >
                         <Box onClick={() => setOpen(false)} as='button'>
@@ -433,7 +438,7 @@ export default function CollaboratorBtn(props: IProps) {
                         </Box>
                     </Box>
                 </Flex>
-                
+
                 <Flex px={"6"} py={"4"} flexDir={"column"} gap={"2"} bg={secondaryBackgroundColor}  >
                     {btn && (
                         <Flex rounded={"lg"} w={"full"} bg={"#EFF1FE"} py={"3px"} px={"9px"} >
@@ -448,8 +453,7 @@ export default function CollaboratorBtn(props: IProps) {
                         <Input width={["full", "full", "full"]} value={search} onChange={(e) => setSearch(e.target.value)} type='text' borderColor={borderColor} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} bgColor={mainBackgroundColor} placeholder='Search for users, event or...' />
                     </InputGroup>
                 </Flex>
-
-                {!tab && (
+                {addCollaborator && (
                     <LoadingAnimation loading={isLoading} >
                         <Flex flexDir={"column"} gap={"4"} maxH={btn ? "200px" : "300px"} pb={"4"} px={"5"} overflowY={"auto"} >
                             <>
@@ -478,41 +482,75 @@ export default function CollaboratorBtn(props: IProps) {
                     </LoadingAnimation>
                 )}
 
-                {tab && (
+                {!addCollaborator && (
                     <>
-                        {(data?.admins && data?.collaborators) && (
-                            <>
-                                {(data?.admins?.length > 0 || data.collaborators.length > 0) ? (
+                        {!tab && (
+                            <LoadingAnimation loading={isLoading} >
+                                <Flex flexDir={"column"} gap={"4"} maxH={btn ? "200px" : "300px"} pb={"4"} px={"5"} overflowY={"auto"} >
                                     <>
-                                        {search ? (
-                                            <Flex flexDir={"column"} gap={"4"} maxH={"250px"} pb={"4"} px={"5"} overflowY={"auto"} >
-                                                {data?.admins?.filter((item: IUser) => item.firstName?.toLowerCase().includes(search?.toLowerCase()) || item.lastName?.toLowerCase().includes(search?.toLowerCase()) || item.email?.toLowerCase().includes(search?.toLowerCase()) || item.username?.toLowerCase().includes(search?.toLowerCase()))?.map((item, index) => (
-                                                    <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
-                                                ))}
-                                                {data?.collaborators?.filter((item: IUser) => item.firstName?.toLowerCase().includes(search?.toLowerCase()) || item.lastName?.toLowerCase().includes(search?.toLowerCase()) || item.email?.toLowerCase().includes(search?.toLowerCase()) || item.username?.toLowerCase().includes(search?.toLowerCase()))?.map((item, index) => (
-                                                    <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
-                                                ))}
-                                            </Flex>
-                                        ) : (
-                                            <Flex flexDir={"column"} gap={"4"} maxH={"250px"} pb={"4"} px={"5"} overflowY={"auto"} >
-                                                {data?.admins?.map((item, index) => (
-                                                    <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
-                                                ))}
-                                                {data?.collaborators?.map((item, index) => (
-                                                    <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
-                                                ))}
+                                        {results?.map((item: IUser, index: number) => {
+                                            if (results.length === index + 1) {
+                                                return (
+                                                    <Box key={index.toString()} width={"full"} ref={ref} >
+                                                        <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} />
+                                                    </Box>
+                                                )
+                                            } else {
+                                                return (
+                                                    <Box key={index.toString()} width={"full"} >
+                                                        <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} />
+                                                    </Box>
+                                                )
+                                            }
+                                        })}
+                                        {isRefetching && (
+                                            <Flex w={"full"} justifyContent={"center"} alignItems={"center"} py={"4"} >
+                                                <Spinner size={"sm"} />
                                             </Flex>
                                         )}
                                     </>
-                                ) : (
-                                    <Flex flexDir={"column"} gap={"4"} maxH={"250px"} h={"full"} justifyContent={"center"} alignItems={"center"} pb={"4"} px={"5"} overflowY={"auto"} >
-                                        <Text lineHeight={"20.83px"} >You don’t have any collaborators for this please go to your <span style={{ fontWeight: "bold" }} >network tab</span> to select collaborators </Text>
-                                    </Flex>
+                                </Flex>
+                            </LoadingAnimation>
+                        )}
+
+                        {tab && (
+                            <>
+                                {(data?.admins && data?.collaborators) && (
+                                    <>
+                                        {(data?.admins?.length > 0 || data.collaborators.length > 0) ? (
+                                            <>
+                                                {search ? (
+                                                    <Flex flexDir={"column"} gap={"4"} maxH={"250px"} pb={"4"} px={"5"} overflowY={"auto"} >
+                                                        {data?.admins?.filter((item: IUser) => item.firstName?.toLowerCase().includes(search?.toLowerCase()) || item.lastName?.toLowerCase().includes(search?.toLowerCase()) || item.email?.toLowerCase().includes(search?.toLowerCase()) || item.username?.toLowerCase().includes(search?.toLowerCase()))?.map((item, index) => (
+                                                            <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
+                                                        ))}
+                                                        {data?.collaborators?.filter((item: IUser) => item.firstName?.toLowerCase().includes(search?.toLowerCase()) || item.lastName?.toLowerCase().includes(search?.toLowerCase()) || item.email?.toLowerCase().includes(search?.toLowerCase()) || item.username?.toLowerCase().includes(search?.toLowerCase()))?.map((item, index) => (
+                                                            <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
+                                                        ))}
+                                                    </Flex>
+                                                ) : (
+                                                    <Flex flexDir={"column"} gap={"4"} maxH={"250px"} pb={"4"} px={"5"} overflowY={"auto"} >
+                                                        {data?.admins?.map((item, index) => (
+                                                            <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
+                                                        ))}
+                                                        {data?.collaborators?.map((item, index) => (
+                                                            <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
+                                                        ))}
+                                                    </Flex>
+                                                )}
+                                            </>
+                                        ) : (
+                                            <Flex flexDir={"column"} gap={"4"} maxH={"250px"} h={"full"} justifyContent={"center"} alignItems={"center"} pb={"4"} px={"5"} overflowY={"auto"} >
+                                                <Text lineHeight={"20.83px"} >You don’t have any collaborators for this please go to your <span style={{ fontWeight: "bold" }} >network tab</span> to select collaborators </Text>
+                                            </Flex>
+                                        )}
+                                    </>
                                 )}
                             </>
                         )}
                     </>
                 )}
+
                 {btn && (
                     <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg={mainBackgroundColor} py={'20px'} >
                         <CustomButton text={tab ? 'Update Role' : 'Assign Role'} disable={(eventdata?.admins?.length === data?.admins?.length) && (eventdata?.collaborators?.length === data?.collaborators?.length)} isLoading={updateUserEvent?.isLoading} onClick={() => updateEventCollaboration({ admins: eventdata?.admins, collaborators: eventdata?.collaborators, id: eventdata?.id })} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
