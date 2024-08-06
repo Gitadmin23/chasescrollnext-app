@@ -195,11 +195,11 @@ function Layout({ children }: {
                 {/* BOTTOM TAB */}
                 <PageLoader show={isLoading || !firstName} />
                 <HStack paddingX='20px' zIndex={"100"} position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg={mainBackgroundColor} borderTopWidth={1} borderTopColor={borderColor} display={['flex', 'flex', 'flex', 'none']}>
-                    {/* <Link href='/dashboard/home'>
+                    <Link href='/dashboard/home'>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('home') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('home') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
                             <HomeIcon />
                         </VStack>
-                    </Link> */}
+                    </Link>
 
                     <Link href='/dashboard/explore'>
                         <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('explore') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('explore') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>

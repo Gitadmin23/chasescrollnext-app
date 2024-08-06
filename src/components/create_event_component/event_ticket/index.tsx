@@ -34,7 +34,7 @@ function EventTicket(props: IProps) {
                         <FunnelBtn />
                     )}
                     {!promotion && (
-                        <CollaboratorBtn />
+                        <CollaboratorBtn addCollaborator={true} />
                     )}
                 </Flex>
                 <GetCommunity />
