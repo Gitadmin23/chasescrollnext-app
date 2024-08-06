@@ -191,7 +191,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
         alignItems={"center"}
       >
         <HStack>
-          <Link href={`/dashboard/profile/${post.user.userId}`}>
+          <Link href={`/dashboard/profile/${post?.user?.userId}`}>
             <Box
               width="42px"
               height="42px"
@@ -215,7 +215,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
               )}
               {post?.user?.data.imgMain.value && (
                 <>
-                  {post?.user?.data?.imgMain?.value.startsWith("https://") && (
+                  {post?.user?.data?.imgMain?.value?.startsWith("https://") && (
                     <Image
                       src={`${post?.user?.data.imgMain.value}`}
                       alt="image"
@@ -225,7 +225,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
                     />
                   )}
 
-                  {!post?.user?.data?.imgMain?.value.startsWith("https://") && (
+                  {!post?.user?.data?.imgMain?.value?.startsWith("https://") && (
                     <Image
                       src={`${IMAGE_URL}${post?.user?.data.imgMain.value}`}
                       alt="image"
@@ -240,14 +240,14 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
           </Link>
 
           <VStack spacing={0} alignItems={"flex-start"}>
-            <Link href={`/dashboard/profile/${post.user.userId}`}>
+            <Link href={`/dashboard/profile/${post?.user?.userId}`}>
               <CustomText
                 fontSize={"14px"}
                 fontFamily={"DM-Medium"}
                 color={bodyTextColor}
               >
                 {post?.user?.username[0].toUpperCase()}
-                {post?.user.username.substring(1)}
+                {post?.user?.username.substring(1)}
               </CustomText>
             </Link>
             {/* <CustomText fontSize='md' fontFamily={'DM-Regular'}>o2 Areana London</CustomText> */}
@@ -341,10 +341,10 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
       >
         {showAll
           ? handleLinks(post?.text, true)
-          : post?.text.length > 130
+          : post?.text?.length > 130
             ? handleLinks(post?.text)
             : handleLinks(post?.text, true)}
-        {post?.text.length > 130 && (
+        {post?.text?.length > 130 && (
           <span
             style={{
               fontFamily: "DM-Bold",
@@ -386,10 +386,10 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
           borderTopLeftRadius={"20px"}
           overflow={"hidden"}
         >
-          {post.mediaRef.startsWith("https://") && (
-            <VideoPlayer src={`${post.mediaRef}`} measureType="px" />
+          {post?.mediaRef?.startsWith("https://") && (
+            <VideoPlayer src={`${post?.mediaRef}`} measureType="px" />
           )}
-          {!post.mediaRef.startsWith("https://") && (
+          {!post?.mediaRef?.startsWith("https://") && (
             <VideoPlayer
               src={`${IMAGE_URL}${post.mediaRef}`}
               measureType="px"
