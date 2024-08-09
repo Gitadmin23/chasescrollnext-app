@@ -18,7 +18,7 @@ export default function NewPage() {
     return renderForm(
         <Flex w={"full"} height={"100vh"} >
             <Flex w={"full"} h={"full"} display={["none", "none", "none", "flex"]} justifyContent={"center"} alignItems={"center"} position={"relative"} >
-                <Image alt='bg' src='/images/login.jpeg' objectPosition={"left"} pos={"absolute"} inset={"0px"} h={"full"} objectFit={"cover"} />
+                <Image alt='bg' src='/images/loginimg.jpg' objectPosition={"left"} pos={"absolute"} inset={"0px"} h={"full"} objectFit={"cover"} />
                 <Image alt='bg' src='/images/bay.png' pos={"relative"} w={"70%"} objectFit={"contain"} />
             </Flex>
             <Flex justifyContent={"center"} alignItems={"center"} bgColor={"#FCFCFC"} h={"full"} w={"full"} >
