@@ -53,7 +53,7 @@ export default function NewPage() {
                     <Button type='submit' color={"white"} isLoading={isLoading} isDisabled={isLoading} mt={"4"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
                         <Text textAlign={"center"} fontWeight={"600"} >Sign in</Text>
                     </Button>
-                    <Text fontSize={"14px"} mt={"4"} >Don't have account ?  <span style={{ color: "#233DF3", fontWeight: "600" }} role='button' onClick={() => router?.push("/newauth/signup")} >Sign Up</span></Text>
+                    <Text fontSize={"14px"} mt={"4"} >{`Don't have account ?`} <span style={{ color: "#233DF3", fontWeight: "600" }} role='button' onClick={() => router?.push("/newauth/signup")} >Sign Up</span></Text>
                 </Flex>
             </Flex>
             <PageLoader show={isSuccess} />
