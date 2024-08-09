@@ -67,7 +67,7 @@ const exclude = ['Events', 'Sign up', 'Community', 'Sign up']
 
 
 function LoginPage() {
-  // const { getValues } = useForm()
+  
   const [showModal, setShowModal] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const [Loading, setLoading] = React.useState(false)

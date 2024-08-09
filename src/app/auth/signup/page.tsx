@@ -163,6 +163,7 @@ function Signup() {
     },
   });
 
+
   const { mutate, isLoading } = useMutation({
     mutationFn: (data) => unsecureHttpService.post(`${URLS.SIGNUP}`, data),
     onError: (error: any) => {
@@ -238,6 +239,9 @@ function Signup() {
       setday(item);
     }
   };
+
+  console.log(dob);
+  
 
   return renderForm(
     <VStack
@@ -344,8 +348,7 @@ function Signup() {
                 month: month ? month : "select month",
                 day: day ? day : "select day",
               }
-            }
-
+            } 
           />
         </Box>
 

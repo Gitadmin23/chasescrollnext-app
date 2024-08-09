@@ -1,7 +1,7 @@
 import CustomText from '@/components/general/Text'
 import { URLS } from '@/services/urls'
 import httpServiceGoogle from '@/utils/httpServiceGoogle'
-import { Button, Image, useColorMode, useToast } from '@chakra-ui/react'
+import { Button, Image, Text, useColorMode, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useMutation } from 'react-query'
@@ -10,6 +10,7 @@ import { useDetails } from '@/global-state/useUserDetails'
 import PageLoader from '../pageLoader'
 import useModalStore from '@/global-state/useModalSwitch'
 import useCustomTheme from '@/hooks/useTheme'
+import { GoogleIcon } from '@/components/svg'
 
 interface Props {
     title: string,
@@ -17,7 +18,8 @@ interface Props {
     height?: string,
     bgColor?: string,
     id?: boolean,
-    border?: string
+    border?: string,
+    newbtn?: boolean
 }
 
 function GoogleBtn(props: Props) {
@@ -27,10 +29,11 @@ function GoogleBtn(props: Props) {
         height,
         bgColor,
         id,
-        border
+        border,
+        newbtn
     } = props
 
-    const [checkData, setCheckData] = React.useState<any>({}); 
+    const [checkData, setCheckData] = React.useState<any>({});
     const { data: sessionData } = useSession();
     const toast = useToast();
     const router = useRouter();
@@ -50,14 +53,14 @@ function GoogleBtn(props: Props) {
     React.useEffect(() => {
         // console.log(token.token?.token.token.accessToken);
         if (sessionData !== null) {
-            if (token.token?.token?.token?.idToken) { 
+            if (token.token?.token?.token?.idToken) {
                 signinWithGoogle.mutate(token?.token?.token?.token?.idToken);
             }
-        } 
+        }
     }, [token])
 
-    useEffect(()=> {
-        if(!token){
+    useEffect(() => {
+        if (!token) {
             setGoogle(false)
         }
     }, [])
@@ -66,20 +69,20 @@ function GoogleBtn(props: Props) {
         const token: any = sessionData;
         if (token && token.token?.token.token.idToken) {
             console.log("first");
-            
+
             signinWithGoogle.mutate(token.token?.token.token.idToken);
         } else {
             setGoogle(true)
-            
+
             const dets = await signIn('google');
             console.log("second");
-            
+
             setCheckData(true);
         }
     }
 
     const signinWithGoogle = useMutation({
-    
+
         mutationFn: (data: string) => httpServiceGoogle.get(`${URLS.SIGN_IN_WTIH_CREDENTIALS}`, {
             headers: {
                 Authorization: `Bearer ${data}`,
@@ -114,7 +117,7 @@ function GoogleBtn(props: Props) {
         onError: (error: any) => {
             console.log(error);
             setGoogle(false)
-            
+
             toast({
                 title: 'Erroor',
                 description: 'An error occured, please try again',
@@ -131,10 +134,19 @@ function GoogleBtn(props: Props) {
 
     return (
         <>
-            <Button onClick={handleGoogleSignIn} width={['100%', fixedwidth ? fixedwidth : '100%']} height={height ? height : '40px'} borderRadius={'8px'} border={border} _hover={{ backgroundColor: bgColor ? bgColor : "#1018280D" }} bg={bgColor ? bgColor : '#1018280D'} padding='8px 16px 8px 16px'>
-                <Image alt='google' src='/assets/svg/googlelogo.svg' />
-                <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color={'grey'} fontWeight={'700'}>{title} with Google</CustomText>
-            </Button>
+            {newbtn && (
+                <Button onClick={handleGoogleSignIn} as={"button"} mt={"4"} h={"50px"} w={"full"} bgColor={"#F7F7F7"} rounded={"32px"} gap={"3"} justifyContent={"center"} alignItems={"center"} >
+                    <GoogleIcon />
+                    <Text fontSize={"14px"} color={"#111111"} textAlign={"center"} fontWeight={"500"} >Signup with Google</Text>
+                </Button>
+            )}
+            {!newbtn && (
+                <Button onClick={handleGoogleSignIn} width={['100%', fixedwidth ? fixedwidth : '100%']} height={height ? height : '40px'} borderRadius={'8px'} border={border} _hover={{ backgroundColor: bgColor ? bgColor : "#1018280D" }} bg={bgColor ? bgColor : '#1018280D'} padding='8px 16px 8px 16px'>
+                    <Image alt='google' src='/assets/svg/googlelogo.svg' />
+                    <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color={'grey'} fontWeight={'700'}>{title} with Google</CustomText>
+                </Button>
+            )}
+
             {/* <PageLoader show={googlesign || localStorage.getItem('google') === "true"} /> */}
         </>
     )

@@ -16,11 +16,12 @@ interface IProps {
   ref?: any,
   hint?: null | string;
   textColor?: string;
+  newbtn?: boolean
 }
 
 
-export const CustomInput = ({ isPassword = false, name, type, placeholder, disable, value, ref, hint = null, textColor }: IProps) => {
-  const { register, formState: { errors }, setValue } = useFormContext();
+export const CustomInput = ({ isPassword = false, name, type, placeholder, disable, newbtn, value, ref, hint = null, textColor }: IProps) => {
+  const { register, formState: { errors }, setValue, watch } = useFormContext();
   const [showPassword, setShowPassword] = React.useState(false);
   const [newValue, setNewValue] = React.useState(value);
 
@@ -44,6 +45,8 @@ const { colorMode, toggleColorMode } = useColorMode();
     }
   }; 
 
+  const newdata = watch(name)
+
 
   return (
     <VStack alignItems={'flex-start'} width='100%'>
@@ -65,12 +68,13 @@ const { colorMode, toggleColorMode } = useColorMode();
             width={'100%'} 
             onChange={handleChangeName}
             placeholder={placeholder}
-            height={"45px"}
             data-date="DD MMMM YYYY"
             lang='pt_BR'
-            value={newValue}
+            value={newValue ?? value}
             disabled={disable}
             fontFamily={'Satoshi-Light'}
+            height={"45px"}
+            rounded={newbtn ? "32px" : "8px"}
             borderColor={borderColor}
             color={textColor ?? 'black'}
             // value={value? value: ""}
@@ -87,10 +91,11 @@ const { colorMode, toggleColorMode } = useColorMode();
             height={"45px"}
             data-date="DD MMMM YYYY"
             lang='pt_BR'
+            rounded={newbtn ? "32px" : "8px"}
             disabled={disable}
             fontFamily={'Satoshi-Light'}
             color={textColor ?? 'black'}
-            // value={value? value: ""}
+            value={newdata}
             type={isPassword ? (showPassword ? 'text' : 'password') : type}
           />
         }
