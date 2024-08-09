@@ -15,13 +15,14 @@ type props = {
   close: any;
   size?: any;
   bg?: any;
-  rounded?: boolean;
+  rounded?: string;
   children: React.ReactNode;
   title?: any;
   titlecolor?: string;
   scrollBehavior?: "outside" | "inside";
   closeIcon?: boolean;
   titleAlign?: any;
+  onOverLay?: boolean
 };
 
 export default function ModalLayout({
@@ -36,6 +37,7 @@ export default function ModalLayout({
   scrollBehavior,
   titlecolor,
   titleAlign,
+  onOverLay
 }: props) {
   const {
     bodyTextColor,
@@ -54,16 +56,18 @@ export default function ModalLayout({
       size={size ? size : "md"}
       isOpen={open}
       isCentered
+      closeOnOverlayClick={onOverLay ? false : true}
     >
       <ModalOverlay />
       <ModalContent
         zIndex={10}
         backgroundColor={bg ? bg : mainBackgroundColor}
         maxHeight={"90vh"}
-        rounded={rounded ? "0px" : "6px"}
+        rounded={rounded ? rounded : "6px"}
         padding="0px"
         margin="16px"
         w="full"
+
         h={scrollBehavior ? "full" : "auto"}
       >
         {(title || closeIcon) && (
@@ -84,7 +88,7 @@ export default function ModalLayout({
         <ModalBody
           overflowX={"hidden"}
           backgroundColor={bg ? bg : "#fff"}
-          borderRadius={rounded ? "0px" : "8px"}
+          borderRadius={rounded ? rounded : "8px"}
           margin="0px"
           padding="0px"
           h={scrollBehavior ? "full" : "auto"}

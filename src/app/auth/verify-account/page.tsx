@@ -47,7 +47,7 @@ function VerifyAccount() {
 
 
     const toast = useToast();
-    const { mutate, isLoading } = useMutation({
+    const { mutate: verifyToken, isLoading: loadingVerify } = useMutation({
         mutationFn: (data: { token: string }) => httpService.post(`${URLS.VERIFY_TOKEN}`, data),
         onError: (error: any) => {
             toast({
@@ -73,8 +73,8 @@ function VerifyAccount() {
     });
 
     const hanldeSubmit = React.useCallback(() => {
-        mutate({ token: code })
-    }, [code, mutate])
+        verifyToken({ token: code })
+    }, [code, verifyToken])
 
   return (
     <VStack width='100%' height='100vh' justifyContent={'center'} padding={['20px', '0px']}>
@@ -97,7 +97,7 @@ function VerifyAccount() {
                 </PinInput>
             </HStack>
 
-            <CustomButton onClick={hanldeSubmit} type='button' text='Verify Code' isLoading={isLoading} color='white' width='100%' borderRadius='10px' />
+            <CustomButton onClick={hanldeSubmit} type='button' text='Verify Code' isLoading={loadingVerify} color='white' width='100%' borderRadius='10px' />
 
             { sendVerificatinEmail.isLoading && <CustomText textAlign={'center'}>Sending...</CustomText> }
             { !sendVerificatinEmail.isLoading && <CustomText color='brand.chasescrollButtonBlue' cursor={'pointer'} textAlign={'center'} fontFamily={'Satoshi-Regular'} fontSize={'18px'} onClick={() => sendVerificatinEmail.mutate(email as string)}>Resend Code</CustomText>}
