@@ -1,6 +1,6 @@
 import { useForm } from '@/hooks/useForm'
 import { forgotPasswordEmailValidation } from '@/services/validations';
-import { VStack, useToast } from '@chakra-ui/react'
+import { Button, VStack, useToast } from '@chakra-ui/react'
 import React from 'react'
 import { CustomInput } from '../Form/CustomInput';
 import CustomButton from '../general/Button';
@@ -48,9 +48,9 @@ function EnterEmail({ next }: {
         },
     });
   return renderForm(
-    <VStack width='100%'>
-        <CustomInput name='email' isPassword={false} type='text' placeholder='Enter your email' />
-        <CustomButton type='submit' text='Send code' isLoading={isLoading} color='white' width='100%' borderRadius='10px' />
+    <VStack width='100%' mt={"6"} >
+        <CustomInput name='email' newbtn={true} isPassword={false} type='text' placeholder='Enter your email' />
+        <Button type='submit' color={"white"} mt={"2"} isLoading={isLoading} isDisabled={isLoading}  _disabled={{ backgroundColor: "#233DF380" }} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={["20px", "20px", "32px"]} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >Send code</Button> 
     </VStack>   
   )
 }

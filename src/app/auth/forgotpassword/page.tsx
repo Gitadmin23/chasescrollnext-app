@@ -1,7 +1,7 @@
 "use client";
 import React from 'react'
 import Image from 'next/image';
-import { HStack, VStack, useToast } from '@chakra-ui/react';
+import { HStack, Text, VStack, useToast } from '@chakra-ui/react';
 import CustomText from '@/components/general/Text';
 import { useForm } from '@/hooks/useForm';
 import { signInValidation } from '@/services/validations';
@@ -39,12 +39,13 @@ function ForgotPassword() {
     }
   }, [page])
   return (
-    <VStack width='100%' height='100vh' justifyContent={'center'} padding={['20px', '0px']}>
+    <VStack width='100%' height='100vh' bg={"white"} justifyContent={'center'} padding={['20px', '0px']}>
 
       <Image src='/assets/images/chasescroll-logo.png' width={100} height={100} alt='chasescroll logo' />
-      <CustomText color='brand.chasescrollBlue' fontSize='xl' marginY='10px'>Reset your password</CustomText>
+        <Text fontSize={["20px", "20px", "32px"]} color={"#1F1F1F"} textAlign={"center"} fontWeight={"700"} >Reset your password</Text>
+      {/* <CustomText color='brand.chasescrollBlue' fontSize='xl' marginY='10px'>Reset your password</CustomText> */}
 
-      <VStack width={['100%', '100%', '25%', '25%']}>
+      <VStack maxW={"375px"} w={"full"}>
           {switchStage()}
       </VStack>
 

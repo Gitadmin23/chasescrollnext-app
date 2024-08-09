@@ -48,7 +48,7 @@ export default function NewPage() {
                             <Checkbox w={"16px"} rounded={"8px"} />
                             <Text >Remember me</Text>
                         </Flex>
-                        <Text as={"button"} color={"#233DF3"} >Forgotten Password</Text>
+                        <Text onClick={()=> router.push("/auth/forgotpassword")} as={"button"} type='button' color={"#233DF3"} >Forgotten Password</Text>
                     </Flex>
                     <Button type='submit' color={"white"} isLoading={isLoading} isDisabled={isLoading} mt={"4"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
                         <Text textAlign={"center"} fontWeight={"600"} >Sign in</Text>
