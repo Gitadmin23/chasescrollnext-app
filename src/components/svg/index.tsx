@@ -3469,9 +3469,9 @@ export const PlusIcon = () => (
 );
 
 export const CloseIcon = (props: {
-  color?: string,
-  size?: string,
-  second?: string
+  color?: any,
+  size?: any,
+  second?: any
 }) => {
   const { color, size, second } = props;
 
