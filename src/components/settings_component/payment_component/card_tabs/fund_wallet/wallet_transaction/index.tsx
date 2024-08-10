@@ -76,7 +76,7 @@ function WalletTransaction(props: Props) {
                                         {formatNumber(item?.payableAmount / 100 ?? item?.value / 100, item?.currency === "USD" ? "$" : "₦")}
                                     </Text>
                                     <Box width={"fit-content"} textAlign={"right"} fontWeight={"bold"} fontSize={"11px"} >
-                                        {item?.status === 'PAID' && <Text bgColor={"green.2001"} rounded={"lg"} px={"0px"} py={"0px"} textColor={"green.400"} >Succesful</Text>}
+                                        {item?.status === 'PAID' && <Text bgColor={"green.2001"} rounded={"lg"} px={"0px"} py={"0px"} textColor={"green.400"} >Successful</Text>}
                                         {item?.status === 'STARTED' && <Text bgColor={"yellow.2001"} rounded={"lg"} px={"0px"} py={"0px"} textColor={"yellow.400"} >pending</Text>}
                                         {item?.status === 'CANCELLED' && <Text bgColor={"red.2001"} rounded={"lg"} px={"0px"} py={"0px"} textColor={"red.400"} >cancelled</Text>}
                                         {item?.status === 'REFUNDED' && <Text bgColor={"red.2001"} rounded={"lg"} px={"0px"} py={"0px"} textColor={"red.400"} >refunded</Text>}

@@ -1,7 +1,7 @@
 "use client";
 import React from 'react'
 import Image from 'next/image';
-import { HStack, VStack, useToast } from '@chakra-ui/react';
+import { Button, Flex, HStack, VStack, useToast } from '@chakra-ui/react';
 import CustomText from '@/components/general/Text';
 import { useForm } from '@/hooks/useForm';
 import { resetValidation, signInValidation } from '@/services/validations';
@@ -55,13 +55,14 @@ function ResetPassword() {
         }
     });
   return renderForm(
-      <VStack width='100%'>
-            <CustomInput name='password' isPassword type='password' placeholder='Enter your password' />
-            <CustomInput name='confirmPassword' isPassword type='password' placeholder='Confirm password' />
+      <Flex flexDir={"column"} gap={"3"} mt={"6"} width='100%'>
+            <CustomInput newbtn={true} name='password' isPassword type='password' placeholder='Enter your password' />
+            <CustomInput newbtn={true} name='confirmPassword' isPassword type='password' placeholder='Confirm password' />
 
 
-            <CustomButton type='submit' text='Reset password' isLoading={isLoading} color='white' width='100%' borderRadius='10px' />
-      </VStack>
+            <Button type='submit' color={"white"} mt={"2"} isLoading={isLoading} isDisabled={isLoading}  _disabled={{ backgroundColor: "#233DF380" }} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={["20px", "20px", "32px"]} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >Reset password</Button> 
+            {/* <CustomButton type='submit' text='Reset password' isLoading={isLoading} color='white' width='100%' borderRadius='10px' /> */}
+      </Flex>
   )
 }
 
