@@ -7,6 +7,8 @@ import { CustomInput } from '@/components/Form/CustomInput'
 import useAuth from '@/hooks/useAuth'
 import PageLoader from '@/components/sharedComponent/pageLoader'
 import GoogleBtn from '@/components/sharedComponent/googlebtn'
+import { IoArrowForward } from 'react-icons/io5'
+import { IoIosArrowBack, IoMdArrowRoundBack } from 'react-icons/io'
 
 export default function NewPage() {
 
@@ -18,7 +20,12 @@ export default function NewPage() {
         <Flex w={"full"} height={"100vh"} >
             <Flex w={"full"} h={"full"} display={["none", "none", "none", "flex"]} justifyContent={"center"} alignItems={"center"} position={"relative"} >
                 <Image alt='bg' src='/images/loginimg.jpg' objectPosition={"left"} pos={"absolute"} inset={"0px"} h={"full"} objectFit={"cover"} />
-                <Image alt='bg' src='/images/bay.png' pos={"relative"} w={"70%"} objectFit={"contain"} />
+                <Image alt='bg' src='/images/bay.png' pos={"relative"} zIndex={"10"} w={"70%"} objectFit={"contain"} />
+                <Box pos={"absolute"} inset={"0px"} w={"full"} h={"full"} bg={"black"} opacity={"40%"} />
+                <Flex as={"button"} onClick={()=> router?.push("/home")} pos={"absolute"} top={"12"} color={"white"} fontSize={"16px"} fontWeight={"600"} zIndex={"5"} gap={"1"} alignItems={"center"} left={"12"} >
+                    <IoIosArrowBack size={"20px"} />
+                    Home
+                </Flex>
             </Flex>
             <Flex justifyContent={"center"} alignItems={"center"} bgColor={"#FCFCFC"} h={"full"} w={"full"} >
                 <Flex style={{ boxShadow: "0px 2px 8px 2px #00000003" }} flexDir={"column"} gap={"1"} justifyContent={"center"} alignItems={"center"} maxW={"500px"} p={"8"} rounded={"62px"} w={"full"} >
