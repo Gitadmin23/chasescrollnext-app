@@ -78,7 +78,7 @@ export default function SignupModal() {
                                 <Text fontSize={"lg"} >Report bad behaviour immediately</Text>
                             </Flex>
                         </Flex>
-                        <Button onClick={() => router?.push("/newauth")} color={"white"} mt={"6"}  _disabled={{ backgroundColor: "#233DF380" }} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={["20px", "20px", "32px"]} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
+                        <Button onClick={() => router?.push("/auth")} color={"white"} mt={"6"}  _disabled={{ backgroundColor: "#233DF380" }} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={["20px", "20px", "32px"]} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
                             <Text textAlign={"center"} fontWeight={"600"} >Continue</Text>
                         </Button>
                     </Flex>
