@@ -1,0 +1,96 @@
+import { ShareType } from '@/app/share/page';
+import { ShareIconTwo } from '@/components/svg';
+import useCustomTheme from '@/hooks/useTheme';
+import { Box, Drawer, DrawerBody, DrawerContent, DrawerOverlay, Flex, Text, useDisclosure } from '@chakra-ui/react'
+import React from 'react'
+import { IoClose } from 'react-icons/io5';
+import SendMesageModal from './send_to_app_user';
+import ShareToSocialMedia from './social_media_share';
+
+
+interface Props {
+    id: any;
+    istext?: boolean;
+    type: ShareType;
+    eventName?: string;
+    data?: any;
+    isprofile?: any
+}
+
+export default function ShareBtn(props: Props) {
+    const {
+        id,
+        istext,
+        eventName,
+        data,
+        isprofile
+    } = props;
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+
+    return (
+        <Flex w={"fit-content"} >
+            {!istext && (
+                <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
+                    <Flex
+                        width={"24px"}
+                        h={"30px"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        color={bodyTextColor}
+                        as={"button"}
+                        onClick={() => onOpen()}
+                    >
+                        <ShareIconTwo color={bodyTextColor} />
+                    </Flex>
+                </Flex>
+            )} 
+            {istext && (
+                <Flex   onClick={() => onOpen()} as={"button"} w={"full"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
+                    Share post
+                </Flex>
+            )}
+            <Drawer
+                isOpen={isOpen}
+                placement='right'
+                onClose={onClose}
+                size={"md"}
+            >
+                <DrawerOverlay />
+                <DrawerContent>
+                    <DrawerBody>
+                        <Flex py={"4"} w={"full"} height={"full"} flexDirection={"column"}  >
+                            <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
+                                <Flex flexDirection={"column"} >
+                                    <Text fontWeight={"600"} fontSize={"22px"} color={"#222222"} >Share post</Text>
+                                    <Text color={"#626262"} >Share via message</Text>
+                                </Flex>
+                                <Box as='button' onClick={onClose} >
+                                    <IoClose size="25px" />
+                                </Box>
+                            </Flex>
+                            <SendMesageModal
+                                type={props.type}
+                                isprofile={isprofile}
+                                id={id}
+                                onClose={onClose}
+                            />
+                            <ShareToSocialMedia id={id}
+                                type={props.type}
+                                isprofile={isprofile} data={data} />
+                        </Flex>
+                    </DrawerBody>
+                </DrawerContent>
+            </Drawer>
+
+        </Flex>
+    )
+}

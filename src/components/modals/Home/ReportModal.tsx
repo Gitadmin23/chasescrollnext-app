@@ -106,10 +106,10 @@ function ReportUserModal({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
   return (
     <Modal isOpen={isOpen} onClose={() => {
         onClose()
-        }} closeOnEsc={true} closeOnOverlayClick={true} size='2xl' isCentered>
+        }} closeOnEsc={true} closeOnOverlayClick={true} size='md' isCentered>
         <ModalOverlay />
         <ModalContent width={'100%'} bg={mainBackgroundColor} padding='0px' overflow={'hidden'} borderRadius={'10px'}>
-            <ModalBody width='100%' height='100%' paddingX='20px' overflow={'hidden'} paddingY='20px'>
+            <ModalBody width='100%' height='100%' paddingX='5' overflow={'hidden'} paddingY='20px'>
 
               <Flex width={'100%'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
                 <HStack justifyContent={'space-between'} alignItems={'center'} width={'100%'}>
@@ -118,22 +118,22 @@ function ReportUserModal({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
                         {/* <CustomText>{}</CustomText> */}
                 </HStack>
 
-                <VStack width={'70%'} marginTop={'30px'}>
-                    <Select value={title} onChange={(e) => setTitle(e.target.value)} width={'100%'} height={'45px'} borderRadius={'10px'}>
-                            <option disabled selected>Report type</option>
+                <VStack width={'100%'} px={"6"} marginTop={'30px'}>
+                    <Select value={title} onChange={(e) => setTitle(e.target.value)} width={'100%'} height={'45px'} borderRadius={'10px'} 
+                placeholder="Report type" > 
                             {REPORT_OPTIONS.map((option, index) => (
                                 <option key={index.toString()} value={option}>{option}</option>
                             ))}
                     </Select>
 
-                    <Textarea value={value} onChange={(e) => handleChange(e.target.value)} width={'100%'} borderRadius={'10px'} placeholder='Please provide some details' _focus={{ borderColor: 'brand.chasescrollButtonBlue'}} height={'300px'} />
+                    <Textarea value={value} onChange={(e) => handleChange(e.target.value)} width={'100%'} borderRadius={'10px'} placeholder='Please provide some details' _focus={{ borderColor: 'brand.chasescrollButtonBlue'}} height={'150px'} />
 
                     <HStack width='100%' justifyContent={'flex-end'}>
                         <CustomText>{value.length} / 300</CustomText>
                     </HStack>
+                <Button onClick={createReport} isLoading={isLoading} width='full' color='white' marginTop='30px' height='50px' bg='brand.chasescrollButtonBlue' variant={'solid'} borderRadius={'10px'}>Submit</Button>
                 </VStack>
 
-                <Button onClick={createReport} isLoading={isLoading} width='70%' color='white' marginTop='30px' height='50px' bg='brand.chasescrollButtonBlue' variant={'solid'} borderRadius={'10px'}>Submit</Button>
               </Flex>
 
             </ModalBody>

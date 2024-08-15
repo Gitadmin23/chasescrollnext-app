@@ -1,5 +1,5 @@
 "use client";
-import { Box, Button, Flex, Text, useColorMode } from "@chakra-ui/react";
+import { Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, Input, Text, useColorMode } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { FiUpload } from "react-icons/fi";
 import ModalLayout from "../modal_layout";
