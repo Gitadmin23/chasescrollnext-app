@@ -5,7 +5,7 @@ import { Play, Pause, Maximize2, VolumeSlash, VolumeHigh } from 'iconsax-react'
 import { THEME } from '@/theme';
 
 function VideoPlayer({
-    src, width = 100, height = 200, measureType = 'px'
+    src, width = 100, height = 350, measureType = 'px'
 }:{
     src: string,
     width?: number;
@@ -97,8 +97,8 @@ function VideoPlayer({
       };
 
   return (
-   <Box ref={boxRef as any} onDoubleClick={handleDoubleClick} onMouseOver={() => setShowControl(true)} onMouseOut={() => setShowControl(false)} width={'100%'} height={'100%'} maxH={'250px'} overflow={'hidden'} position={'relative'}>
-     <video ref={videoRef as any} style={{ width: '100%', height: '100%', maxHeight: '250px', zIndex: 1, }} onEnded={() => {
+   <Box ref={boxRef as any} onDoubleClick={handleDoubleClick} onMouseOver={() => setShowControl(true)} onMouseOut={() => setShowControl(false)} width={'100%'} height={'100%'} maxH={'full'} overflow={'hidden'} position={'relative'}>
+     <video ref={videoRef as any} style={{ width: '100%', height: '100%', zIndex: 1, }} onEnded={() => {
       setIsPlaying(false);
       videoRef?.current?.pause();
      }}>

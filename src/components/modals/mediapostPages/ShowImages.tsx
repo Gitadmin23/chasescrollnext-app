@@ -30,7 +30,7 @@ import CustomButton from '@/components/general/Button'
 import useCustomTheme from "@/hooks/useTheme";
 
 
-function ShowImages({ files, setImage, handleStage, stage, setEmpty, mutate, removeFile }: {files: File[], setImage: (files: FileList, go?: boolean) => void, handleStage: (page: number) => void, removeFile: (index: number) => void, stage: number, setEmpty: () => void, mutate: () => void}) {
+function ShowImages({ files, setImage, handleStage, stage, setEmpty, mutate, removeFile }: {files: File[], setImage: (files: FileList, go?: boolean) => void, handleStage: (page: number) => void, removeFile: (index: number) => void, stage: number, setEmpty: () => void, mutate:any}) {
   const [url, setUrl] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
   const inputRef = React.useRef<HTMLInputElement>();

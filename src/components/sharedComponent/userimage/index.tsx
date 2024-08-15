@@ -37,6 +37,9 @@ function UserImage(props: Props) {
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
 
+    console.log(image);
+    
+
     return (
         <Box roundedBottom={"64px"} roundedTopLeft={"64px"} borderColor={borderColor} w={size} h={size} bg={secondaryBackgroundColor} borderWidth={border? border :"4px"} >
             {image !== null &&

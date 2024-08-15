@@ -27,7 +27,7 @@ function CreateMediaPost({isOpen, onClose, mutate}:IProps) {
         mainBackgroundColor,
         borderColor,
     } = useCustomTheme();
-    const { colorMode, toggleColorMode } = useColorMode();
+    // const { colorMode, toggleColorMode } = useColorMode();
 
     const handleImagePicked = React.useCallback((Files: FileList, goNext?: boolean) => {
         console.log(Files)

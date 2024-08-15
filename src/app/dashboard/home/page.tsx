@@ -195,11 +195,11 @@ function Home() {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
       />
-      <PromotionCreationModal
+      {/* <PromotionCreationModal
         isOpen={showPromotion}
         onClose={() => setShow(false)}
         type="POST"
-      />
+      /> */}
 
       <Box overflowY={"auto"} pos={"relative"} height={"full"} width={["100%", "40%"]}>
         <VStack
