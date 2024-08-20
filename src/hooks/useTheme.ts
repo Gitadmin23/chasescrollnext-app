@@ -7,9 +7,9 @@ export default function useCustomTheme() {
     const primaryColor = useColorModeValue('#5D70F9', '#5D70F9');
     const bodyTextColor = useColorModeValue('grey', 'whitesmoke');
     const headerTextColor = useColorModeValue('black', 'white');
-    const inputBorderColor = useColorModeValue('lightgrey', '#D0D4EB');
-    const borderColor = useColorModeValue('#D0D4EB', 'grey')
-    
+    const inputBorderColor = useColorModeValue('#F2F3FB', '#D0D4EB');
+    const borderColor = useColorModeValue('#D0D4EB', 'grey') 
+
     return {
         mainBackgroundColor,
         secondaryBackgroundColor,

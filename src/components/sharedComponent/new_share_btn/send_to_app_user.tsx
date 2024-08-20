@@ -108,10 +108,10 @@ function SendMesageModal({ onClose, id, isprofile, type }: {
         }
     }
 
-    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+    const { bodyTextColor, mainBackgroundColor, borderColor } = useCustomTheme();
 
     return (
-        <Flex width={"full"} h={"full"} flexDir={"column"}  > 
+        <Flex width={"full"} h={"full"} position={"relative"} flexDir={"column"}  > 
             <Box  marginY='20px' w={"full"} > 
                 <InputGroup width={["full", "full", "full"]} h={"45px"} zIndex={"20"} position={"relative"} >
                     <InputLeftElement pointerEvents='none' mt={"3px"} pl={"4px"} >
@@ -121,14 +121,16 @@ function SendMesageModal({ onClose, id, isprofile, type }: {
                 </InputGroup>
             </Box>
 
-            <Box width='100%' height='220px' overflowY='auto'>
+            <Flex width='100%' height={"full"} flexDir={"column"} overflowY='auto'>
+                <Flex w={"full"} h={"fit-content"} flexDirection={"column"} >
                 <LoadingAnimation loading={isLoading} length={users?.length} >
                     {users.map((item, index) => (
                         <UserCard {...item} checked={userIds.includes(item.userId)} handleCheck={(e) => handleCheck(e)} key={index.toString()} />
                     ))}
                 </LoadingAnimation>
-            </Box>
-            <Box mt={"auto"} paddingTop={'20px'} zIndex={10} paddingBottom={'20px'} >
+                </Flex>
+            </Flex>
+            <Box mt={"auto"} position={"sticky"} bottom={"0px"} paddingTop={'20px'} zIndex={10} paddingBottom={'20px'} >
                 <CustomButton text='Share' borderRadius={"full"} onClick={handleShare} disable={userIds.length === 0} isLoading={chatCreationLoading || sendMessage.isLoading} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
             </Box>
         </Flex>

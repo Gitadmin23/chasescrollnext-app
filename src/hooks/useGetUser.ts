@@ -3,9 +3,9 @@ import { IUser } from "@/models/User";
 import { URLS } from "@/services/urls";
 import httpService from "@/utils/httpService";
 import React from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 
-const getUser = () => {
+const useGetUser = () => {
 
 
     const [user, setUser] = React.useState<IUser | null>(null);
@@ -42,4 +42,4 @@ const getUser = () => {
     };
 }
 
-export default getUser
+export default useGetUser

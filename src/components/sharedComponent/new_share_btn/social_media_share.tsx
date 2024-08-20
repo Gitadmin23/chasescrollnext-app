@@ -90,7 +90,7 @@ function ShareToSocialMedia(props: Props) {
         <Flex
             width={"full"}
             justifyContent={"center"}
-            pb={"7"}
+            height={"160px"} 
             px={"8"}
             flexDir={"column"}
         >

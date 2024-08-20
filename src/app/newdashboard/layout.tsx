@@ -1,15 +1,14 @@
 "use client"
 import { useDetails } from '@/global-state/useUserDetails'
-import { Box, Flex, HStack, Image, Link, VStack } from '@chakra-ui/react'
+import { Box, Flex, HStack, Image, Link, Text, VStack } from '@chakra-ui/react'
 import React, { ReactNode } from 'react'
 import { GrHomeRounded } from "react-icons/gr";
 import { FiSearch, FiCalendar, FiMessageCircle, FiUsers, FiUser } from 'react-icons/fi'
 import { IoCalendarOutline, IoSearchOutline } from 'react-icons/io5';
-import { SidebarCalendarIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarNotificationIcon, SidebarProfileIcon, SidebarSearchIcon, SidebarWalletIcon } from '@/components/svg/sidebarIcons';
+import { NewChatIcon, NewWalletIcon, SidebarCalendarIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarNotificationIcon, SidebarProfileIcon, SidebarSearchIcon, SidebarWalletIcon } from '@/components/svg/sidebarIcons';
 import { usePathname, useRouter } from 'next/navigation';
 import SearchBar from '@/components/explore_component/searchbar';
 import CustomButton from '@/components/general/Button';
-import getUser from '@/hooks/getUser';
 import { signOut } from 'next-auth/react';
 import UserImage from '@/components/sharedComponent/userimage';
 import CustomText from '@/components/general/Text';
@@ -17,6 +16,8 @@ import { HomeIcon, UsersIcon } from '@/components/svg';
 import { IMAGE_URL } from '@/services/urls';
 import { SearchNormal1, Calendar } from 'iconsax-react';
 import useCustomTheme from '@/hooks/useTheme';
+import getUser from '@/hooks/useGetUser';
+import CreateEventBtn from '@/components/sharedComponent/create_event_btn';
 
 export default function Layout({ children }: {
     children: ReactNode
@@ -78,7 +79,7 @@ export default function Layout({ children }: {
     const router = useRouter()
     const pathname = usePathname()
 
-    const { bodyTextColor, primaryColor,secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
 
     const logout = async () => {
         setAll({ userId: '', dob: '', email: '', username: '', firstName: '', lastName: '', publicProfile: '' });
@@ -99,7 +100,7 @@ export default function Layout({ children }: {
 
     return (
         <Flex w={"full"} h={"100vh"} bg={"white"} >
-            <Flex w={"fit-content"} h={"screen"} display={["none", "none", "none", "none", "flex"]} > 
+            <Flex w={"fit-content"} h={"screen"} display={["none", "none", "none", "flex", "flex"]} >
                 <Flex w={"110px"} h={"screen"} flexDir={"column"} py={"4"} alignItems={"center"} borderRightColor={"#CCCCCC"} borderRightWidth={"1px"} >
                     <Image alt='logo' src='/images/logo.png' w={"50px"} />
                     <Flex flexDir={"column"} alignItems={"center"} mt={"auto"} gap={"3"} >
@@ -125,47 +126,62 @@ export default function Layout({ children }: {
             <Flex w={"full"} height={"100vh"} pos={"relative"} flexDirection={"column"} >
                 <Flex w={"full"} h={"76px"} borderBottomColor={"#CCCCCC"} borderBottomWidth={"1px"} alignItems={"center"} px={"6"} justifyContent={"space-between"}  >
                     {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft") && (
-                        <Box display={["none", "none", "block"]} >
+                        <Box display={["none", "none", "none", "flex", "flex"]} >
                             <SearchBar home={true} />
                         </Box>
                     )}
-                    <CustomButton width={"180px"} text={"Create Event"} borderRadius={"full"} />
+                    <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"3"} >
+                        <Image alt='logo' src='/images/logo.png' w={"35.36px"} />
+                        <Text fontSize={"17px"} fontWeight={"700"} color={primaryColor} >Chasescroll</Text>
+                    </Flex>
+                    <Flex display={["none", "none", "none", "flex", "flex"]} >
+                        <CreateEventBtn btn={true} />
+                    </Flex>
+                    <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
+                        <CreateEventBtn mobile={true} />
+                        <Flex h={"20px"} alignItems={"center"} as='button' >
+                            <NewChatIcon />
+                        </Flex>
+                        <Flex h={"20px"} alignItems={"center"} as='button' >
+                            <NewWalletIcon />
+                        </Flex>
+                    </Flex>
                 </Flex>
-                <Flex w={"full"} h={"100vh"} pb={["70px", "70px", "70px", "70px", "0px"]} pos={"absolute"} top={"0px"} insetX={"0px"} pt={"76px"} >
+                <Flex w={"full"} h={"100vh"} pb={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"0px"} insetX={"0px"} pt={"76px"} >
                     {children}
                 </Flex>
             </Flex>
 
             <HStack paddingX='20px' zIndex={"100"} position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg={mainBackgroundColor} borderTopWidth={1} borderTopColor={borderColor} display={['flex', 'flex', 'flex', 'none']}>
-                    <Link href='/dashboard/home'>
-                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('home') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('home') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                            <HomeIcon />
-                        </VStack>
-                    </Link>
+                <Link href='/dashboard/home'>
+                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('home') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('home') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                        <HomeIcon />
+                    </VStack>
+                </Link>
 
-                    <Link href='/dashboard/explore'>
-                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('explore') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('explore') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                            <SearchNormal1 size='20px' />
-                        </VStack>
-                    </Link>
+                <Link href='/dashboard/explore'>
+                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('explore') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('explore') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                        <SearchNormal1 size='20px' />
+                    </VStack>
+                </Link>
 
-                    <Link href='/dashboard/event'>
-                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('event') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('event') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                            <Calendar size='20px' />
-                        </VStack>
-                    </Link>
+                <Link href='/dashboard/event'>
+                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('event') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('event') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                        <Calendar size='20px' />
+                    </VStack>
+                </Link>
 
-                    <Link href='/dashboard/community'>
-                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('community') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('community') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                            {/* <People size='20px' /> */}
-                            <UsersIcon />
-                        </VStack>
-                    </Link>
+                <Link href='/dashboard/community'>
+                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('community') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('community') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                        {/* <People size='20px' /> */}
+                        <UsersIcon />
+                    </VStack>
+                </Link>
 
-                    <Link href={userId ? `/dashboard/profile/${userId}` : ""}>
+                <Link href={userId ? `/dashboard/profile/${userId}` : ""}>
 
                     <UserImage size={"40px"} border={"1px"} font={"16px"} data={data} image={user?.data?.imgMain?.value} />
-                        {/* <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('profile') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('profile') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                    {/* <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('profile') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('profile') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
                             <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
                                 {user?.data.imgMain.value === null && (
                                     <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
@@ -182,8 +198,8 @@ export default function Layout({ children }: {
                                 }
                             </Box>
                         </VStack> */}
-                    </Link>
-                </HStack>
+                </Link>
+            </HStack>
         </Flex>
     )
 }

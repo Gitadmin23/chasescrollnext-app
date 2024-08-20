@@ -26,12 +26,8 @@ function EventTicketHeader(props: Props) {
                     totalNumberOfTickets: "",
                     ticketPrice: price,
                     ticketType: name,
-                    minTicketBuy: "",
-                    maxTicketBuy: "",
-                    startDate: 0,
-                    startTime: 0,
-                    endDate: 0,
-                    endTime: 0
+                    minTicketBuy: 1,
+                    maxTicketBuy: 1
                 }]
             })
         }

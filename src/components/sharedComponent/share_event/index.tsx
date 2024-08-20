@@ -13,6 +13,7 @@ import {
   SafariIcon,
   ShareButton,
   ShareIcon,
+  ShareIconTwo,
   WarningIcon,
 } from "@/components/svg";
 import { ShareType } from "@/app/share/page";
@@ -84,7 +85,7 @@ function ShareEvent(props: Props) {
         >
           {isprofile && !istext && (
             <Box mt={"2px"} onClick={(e: any) => clickHandler(e)} as={"button"}>
-              <ShareIcon color={bodyTextColor} />
+              <ShareIconTwo color={bodyTextColor} />
             </Box>
           )}
           {isprofile && istext && (
@@ -133,7 +134,7 @@ function ShareEvent(props: Props) {
                   alignItems={"center"}
                   flexDir={"column"}
                 >
-                  <ShareIcon
+                  <ShareIconTwo
                     width={size ? size : "24px"}
                     color={colorMode === "light" ? "#3C41F0" : bodyTextColor}
                   />
@@ -155,7 +156,7 @@ function ShareEvent(props: Props) {
       {community && (
         <Button onClick={() => setOpen(true)} w={"76px"} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} bg={mainBackgroundColor} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} >
           <Flex justifyContent={"center"} alignItems={"center"} w={"30px"} color={"#5D70F9"} h={"30px"} >
-            <ShareButton />
+              <ShareIconTwo color={"#5D70F9"} />
           </Flex>
           <Text fontWeight={"500"} fontSize={"13px"} textAlign={"center"} color={"#5D70F9"} >Share</Text>
         </Button>

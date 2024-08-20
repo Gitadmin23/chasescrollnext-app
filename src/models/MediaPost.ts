@@ -1,3 +1,5 @@
+import { IUser } from "./User";
+
 export interface IMediaPost {
     empty: boolean;
     first: boolean;
@@ -28,6 +30,35 @@ export interface IMediaPost {
     content: Array<IMediaContent>;
 }
 
+export interface IComment {
+    comment: string
+    data: any
+    id: string
+    likeCount: number
+    likeStatus: string
+    postID: string
+    subComments: IReply
+    time: any
+    timeInMilliseconds: number
+    user: IUser
+}
+
+export interface IReply {
+    content: Array<IReplyData>,
+    totalElements: number
+}
+export interface IReplyData { 
+    comment: string
+    commentID: string
+    data: any
+    id: string
+    likeCount: number
+    likeStatus: string
+    time: any
+    timeInMilliseconds: number,
+    user: IUser
+}
+
 export interface IMediaContent {
     commentCount: number;
     data: any;
@@ -49,8 +80,8 @@ export interface IMediaContent {
     videoLength: number;
     viewCount: number;
     viewStatus: string;
-    comments:{
-        content: Array<any>;
+    comments: {
+        content: Array<IComment>;
         empty: boolean;
         first: boolean;
         last: boolean;
@@ -102,7 +133,7 @@ export interface IMediaContent {
             country: {
                 value: string;
             },
-            favourites:{
+            favourites: {
                 value: string;
             },
             gender: {
@@ -132,6 +163,6 @@ export interface IMediaContent {
             work: {
                 value: string;
             }
-    }
-};
+        }
+    };
 }

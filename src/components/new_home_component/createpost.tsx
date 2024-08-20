@@ -2,7 +2,7 @@ import { useDetails } from '@/global-state/useUserDetails';
 import { Box, Flex, Image, Input, Spinner, Text, Textarea, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import UserImage from '../sharedComponent/userimage';
-import getUser from '@/hooks/getUser';
+import getUser from '@/hooks/useGetUser';
 import { NewPhotoIcon, NewSendIcon } from '../svg';
 import ModalLayout from '../sharedComponent/modal_layout';
 import { IoAdd, IoClose } from 'react-icons/io5';

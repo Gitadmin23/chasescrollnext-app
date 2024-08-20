@@ -15,6 +15,7 @@ import ShareBtn from '../sharedComponent/new_share_btn'
 import ModalLayout from '../sharedComponent/modal_layout'
 import CustomText from '../general/Text'
 import ReportUserModal from '../modals/Home/ReportModal'
+import CommentSection from './commentSection'
 
 
 export default function PostCard(props: IMediaContent) {
@@ -43,14 +44,15 @@ export default function PostCard(props: IMediaContent) {
 
     const { likesHandle, loadingLikes, liked, setLiked, setLikeCount, likeCount: count, deletePost, deletingPost, deleteModal, setDeleteModal } = useHome()
 
-    const [showReportModal, setShowReportModal] = useState(false);
-
+    const [showReportModal, setShowReportModal] = useState(false); 
+    const [open, setOpen] = useState(false)
+    const [openComments, setOpenComments] = useState(false)
+    
     useEffect(() => {
         setLiked(likeStatus ?? "")
         setLikeCount(likeCount ?? 0)
     }, [])
 
-    const [open, setOpen] = useState(false)
 
     const deleteHandler = () => {
         setOpen(false)
@@ -77,7 +79,7 @@ export default function PostCard(props: IMediaContent) {
                 </Flex>
                 <Text color={"#222222"} >{text}</Text>
                 {(type === "WITH_IMAGE" || type === "WITH_VIDEO_POST") &&
-                    <Flex w={"full"} h={"350px"} rounded={"16px"} roundedTopRight={"0px"}>
+                    <Flex w={"full"} h={["236px", "236px", "236px", "350px", "350px"]} rounded={"16px"} roundedTopRight={"0px"}>
                         {type === "WITH_VIDEO_POST" && (
                             <VideoPlayer
                                 src={`${IMAGE_URL}${mediaRef}`}
@@ -115,7 +117,7 @@ export default function PostCard(props: IMediaContent) {
                         }
                         <Text>{count}</Text>
                     </Flex>
-                    <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
+                    <Flex as={"button"} onClick={()=> setOpenComments(true)} w={"fit-content"} alignItems={"center"} gap={"2px"} >
                         <Flex
                             width={"24px"}
                             h={"30px"}
@@ -158,14 +160,16 @@ export default function PostCard(props: IMediaContent) {
                     <Button isDisabled={deletingPost} isLoading={deletingPost} onClick={() => deletePost(id)} width='100%' height='42px' bg='red' color="white" variant='solid'>Delete</Button>
                     <Button onClick={() => setDeleteModal(false)} width='100%' height='42px' borderWidth={'0px'} color="grey" variant='outline' outlineColor={'lightgrey'}>Cancel</Button>
                 </Flex>
-            </ModalLayout>
-
+            </ModalLayout> 
             <ReportUserModal
                 typeID={id}
                 REPORT_TYPE="REPORT_USER"
                 isOpen={showReportModal}
                 onClose={() => setShowReportModal(false)}
             />
+            <ModalLayout size={"2xl"} title={user?.username+" post"} open={openComments} close={setOpenComments} >
+                <CommentSection count={count} liked={liked} likesHandle={likesHandle} loadingLikes={loadingLikes} content={props} />
+            </ModalLayout>
         </Flex>
     )
 } 
