@@ -26,7 +26,7 @@ const useHome = () => {
     const [liked, setLiked] = useState("")
     const [likeCount, setLikeCount] = useState(0)
     const [files, setFiles] = React.useState<File[]>([]);
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false) 
 
     const [deleteModal, setDeleteModal] = useState(false)
 
@@ -74,9 +74,7 @@ const useHome = () => {
             setLikeCount(data?.data?.likeCount)
         },
         onError: () => { },
-    });
-
-
+    }); 
 
     const { isLoading: deletingPost, mutate: deletePost } = useMutation({
         mutationFn: (data: string) => httpService.delete(`${URLS.DELETE_POST}/${data}`),
@@ -178,6 +176,7 @@ const useHome = () => {
         loadingPost,
         postRef,
         refetchingPost,
+        refetch,
         loadingLikes,
         likesHandle,
         likedSuccess,

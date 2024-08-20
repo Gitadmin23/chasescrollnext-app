@@ -111,10 +111,12 @@ function LoginPage() {
   //   if (type && typeID) {
   //     seType({ type, typeID });
   //   }
-  // }, [query, seType, setAll])
+  // }, [query, seType, setAll]) 
+  const type = query?.get('type');
+  const typeID = query?.get('typeID');
 
-  const type = sessionStorage.getItem('type');
-  const typeID = sessionStorage.getItem('typeID');
+  // const type = sessionStorage.getItem('type');
+  // const typeID = sessionStorage.getItem('typeID');
 
   React.useEffect(() => {
     const token: any = sessionData;
@@ -420,8 +422,7 @@ function LoginPage() {
           })}
         </Flex>
       </Box>
-      {
-        showModal && (
+      {showModal && (
           <Box position={'absolute'} width='100%' height={'100vh'} bg='#0000007f' bottom='0px' left={'0px'} justifyContent={'center'} alignItems={'center'}>
 
             <div className=" w-[500px] bg-white rounded-lg " >

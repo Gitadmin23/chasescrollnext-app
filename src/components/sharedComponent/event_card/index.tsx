@@ -35,7 +35,8 @@ interface Props {
     eventdashboard?: boolean;
     landing?: boolean;
     limit?: boolean,
-    landingcolor?: boolean
+    landingcolor?: boolean,
+    upcoming?: boolean
 }
 
 function ExploreEventCard(props: Props) {
@@ -53,7 +54,8 @@ function ExploreEventCard(props: Props) {
         landing,
         limit,
         eventdashboard,
-        landingcolor
+        landingcolor,
+        upcoming
     } = props;
 
     const router = useRouter();
@@ -103,27 +105,28 @@ function ExploreEventCard(props: Props) {
             boxShadow={page ? "md" : "none"}
             cursor={"pointer"}
             onClick={() => clickHandler()}
-            py={searchbar ? (landing ? "0px" : "2") : ["6", "6", "4"]}
+            py={searchbar ? ((landing || upcoming ) ? "0px" : "2") : upcoming ? "0px" : ["6", "6", "4"]}
             //   px={landing ? "" : ["6", "6", "4"]}
             roundedBottom={"32px"}
             roundedTopLeft={"32px"}
             borderColor={borderColor}
-            color={landingcolor ? "black" :headerTextColor}
+            color={landingcolor ? "black" : headerTextColor}
             borderBottomWidth={searchbar ? " " : "0.5px"}
             // maxWidth={[landingcolor? "full":"400px", landing? "full":"400px", "full"]}
             width={"full"}
-            height={"full"} 
+            height={"full"}
+            position={"relative"}
         >
             <Flex
-                flexDirection={[searchbar? "row":"column", searchbar? "row":"column", page ? "column" : "row"]}
+                flexDirection={[searchbar ? "row" : "column", searchbar ? "row" : "column", page ? "column" : "row"]}
                 width={"full"}
                 // flex={"1"}
                 alignItems={"center"}
-                color={landingcolor? "black" : ""}
+                color={landingcolor ? "black" : ""}
 
-                // justifyContent={searchbar? "":"space-between"}
+            // justifyContent={searchbar? "":"space-between"}
             >
-                <Box width={[searchbar? "fit-content":"full", searchbar? "fit-content": "full", page ? "full" : "fit-content"]}>
+                <Box width={[searchbar ? "fit-content" : "full", searchbar ? "fit-content" : "full", page ? "full" : "fit-content"]}>
                     {page ? (
                         <BlurredImage
                             height={
@@ -155,12 +158,12 @@ function ExploreEventCard(props: Props) {
                         />
                     )}
                 </Box>
-                {(!landing && !eventdashboard) && (
+                {(!landing && !eventdashboard && !upcoming) && (
                     <Box
                         width={
                             searchbar ? "full" : ["full", "full", page ? "full" : "full"]
                         }
-                        px={"4"} 
+                        px={"4"}
                         mt={["10px", "10px", page ? "10px" : "0px", page ? "10px" : "0px"]}
                         ml={["0px", "0px", page ? "0px" : "10px", page ? "0px" : "10px"]}
                     >
@@ -204,7 +207,7 @@ function ExploreEventCard(props: Props) {
                                     </Box>
                                 </Box>
                                 <Text
-                                    color={landingcolor? "black" : colorMode === "light" ? "gray.600" : bodyTextColor}
+                                    color={landingcolor ? "black" : colorMode === "light" ? "gray.600" : bodyTextColor}
                                     fontSize={searchbar ? "13px" : "16px"}
                                     fontWeight={"medium"}
                                 >
@@ -221,11 +224,11 @@ function ExploreEventCard(props: Props) {
                                 justifyContent={"space-between"}
                             >
                                 <EventLocationDetail
-                                landingcolor={landingcolor}
+                                    landingcolor={landingcolor}
                                     iconsize={searchbar ? "16px" : "20px"}
                                     fontWeight={"medium"}
                                     fontsize={searchbar ? "13px" : page ? "14px" : "16px"}
-                                    color={landingcolor? "black" : "rgba(18, 18, 18, 0.80)"}
+                                    color={landingcolor ? "black" : "rgba(18, 18, 18, 0.80)"}
                                     location={event?.location}
                                     locationType={event?.locationType}
                                     length={20}
@@ -236,7 +239,7 @@ function ExploreEventCard(props: Props) {
                                             data={event}
                                             type="EVENT"
                                             size="18px"
-                                            id={event?.id} 
+                                            id={event?.id}
                                         />
                                         {userId && email && !past && (
                                             <SaveOrUnsaveBtn event={event} />
@@ -441,7 +444,7 @@ function ExploreEventCard(props: Props) {
                         </Flex>
                     </Flex>
                 )} */}
-                {landing && (
+                {(landing && !upcoming) && (
                     <Flex flexDir={"column"} w={"full"} height={"full"} px={"4"} pt={"6"}>
                         <Flex
                             w={"full"}
@@ -508,6 +511,140 @@ function ExploreEventCard(props: Props) {
                                     minPrice={event?.minPrice}
                                     maxPrice={event?.maxPrice}
                                     currency={event?.currency}
+                                />
+                            </Flex>
+                        </Flex>
+                    </Flex>
+                )}
+                {(!landing && upcoming) && (
+                    <Flex flexDir={"column"} w={"full"} height={"full"} px={"4"} pb={"4"} pt={"6"}>
+                        <Flex
+                            w={"full"}
+                            gap={"4"}
+                            py={"1"}
+                            pb={"4"}
+                            alignItems={"center"}
+                            justifyContent={"space-between"}
+                        >
+                            <Flex w={"fit-content"} position={"absolute"} top={"4"} right={"4"} flexDir={"column"} zIndex={"20"} fontWeight={"bold"}>
+                                <Flex
+                                    width={"60px"}
+                                    flexDir={"column"}
+                                    py={"4px"}
+                                    bgColor={"#5D70F9"}
+                                    alignItems={"center"}
+                                    roundedBottom={"20px"}
+                                    roundedTopLeft={"20px"}
+                                    color={"white"}
+                                >
+                                    <Text fontSize={"28.43px"} lineHeight={"37.01px"}>
+                                        {moment(event?.startDate).format("D")}
+                                    </Text>
+                                    <Text
+                                        fontSize={"11.37px"}
+                                        lineHeight={"14.81px"}
+                                        mt={"-1"}
+                                    >
+                                        {moment(event?.startDate).format("MMM")}
+                                    </Text>
+                                </Flex>
+                            </Flex>
+                            <Flex w={"fit-content"} flexDir={"column"}>
+                                <Text lineHeight={"24px"} fontWeight={"700"} textAlign={"left"}>
+                                    {textLimit(event?.eventName, limit ? 30 : 16)}
+                                </Text>
+                                <Text fontSize={"14px"}>
+
+                                    <EventLocationDetail
+                                        landingcolor={landingcolor}
+                                        iconsize={"17px"}
+                                        fontWeight={"medium"}
+                                        fontsize={"14px"}
+                                        height="auto"
+                                        color={landingcolor ? "black" : "rgba(18, 18, 18, 0.80)"}
+                                        location={event?.location}
+                                        locationType={event?.locationType}
+                                        length={20}
+                                    />
+                                </Text>
+                                <Text color={primaryColor} display={["none", "none", "none", "block", "block"]} fontWeight={"600"} fontSize={"14px"} >
+
+                                    <EventPrice
+                                        minPrice={event?.minPrice}
+                                        maxPrice={event?.maxPrice}
+                                        currency={event?.currency}
+                                    />
+                                </Text>
+                            </Flex>
+                            {eventdashboard && (
+                                <Box width={"fit-content"} >
+                                    <Text color={primaryColor} display={["block", "block", "block", "none", "none"]} fontWeight={"600"} fontSize={"14px"} >
+
+                                        <EventPrice
+                                            minPrice={event?.minPrice}
+                                            maxPrice={event?.maxPrice}
+                                            currency={event?.currency}
+                                        />
+                                    </Text>
+                                    <Box display={["none", "none", "none", "block", "block"]} >
+                                        <InterestedUsers
+                                            fontSize={16}
+                                            color={["white", "white", "#1732F7", "#1732F7", "#1732F7"]}
+                                            event={event}
+                                            border={"2px"}
+                                            size={"32px"}
+                                            refund={true}
+                                        />
+                                    </Box>
+                                </Box>
+                            )}
+                        </Flex>
+                        <Flex w={"full"} justifyContent={"space-between"} gap={"4"} pb={"2"} display={["flex", "flex", "flex", "none", "none"]}  >
+
+                            <Box width={"fit-content"}  >
+                                <InterestedUsers
+                                    fontSize={16}
+                                    color={["white", "white", "#1732F7", "#1732F7", "#1732F7"]}
+                                    event={event}
+                                    border={"2px"}
+                                    size={"32px"}
+                                    refund={true}
+                                />
+                            </Box>
+                            <Flex gap={"4"} alignItems={"center"} >
+                                <SaveOrUnsaveBtn event={event} />
+
+                                <ShareEvent
+                                    data={event}
+                                    type="EVENT"
+                                    // size="18px"
+                                    showText={false}
+                                    id={event?.id}
+                                />
+                            </Flex>
+                        </Flex>
+                        <Flex
+                            w={"full"}
+                            h={"auto"}
+                            mt={"auto"}
+                            pt={"2"}
+
+                            justifyContent={"space-between"}
+                            alignItems={"center"}
+                            // borderTopWidth={"1px"}
+                            // borderTopColor={"#EFF1FE"}
+                        >
+                            <CustomButton borderColor={primaryColor} borderWidth={"1px"} backgroundColor={((event?.minPrice === 0 && event?.maxPrice === 0) || (!event?.minPrice && !event?.maxPrice)) ? "white" : primaryColor} color={((event?.minPrice === 0 && event?.maxPrice === 0) || (!event?.minPrice && !event?.maxPrice)) ? primaryColor : "white"} text={((event?.minPrice === 0 && event?.maxPrice === 0) || (!event?.minPrice && !event?.maxPrice)) ? "Register" : "Buy Ticket"} width={["full", "full", "full", "130px", "130px"]} height={"45px"} fontSize={"sm"} borderRadius={"full"} />
+                            <Flex gap={"4"} display={["none", "none", "none", "flex", "flex"]} 
+                            pr={"3"}  >
+                                <SaveOrUnsaveBtn event={event} />
+
+                                <ShareEvent
+                                    data={event}
+                                    type="EVENT"
+                                    // size="18px"
+                                    showText={false}
+                                    id={event?.id}
                                 />
                             </Flex>
                         </Flex>

@@ -52,9 +52,9 @@ export default function ShareBtn(props: Props) {
                         <ShareIconTwo color={bodyTextColor} />
                     </Flex>
                 </Flex>
-            )} 
+            )}
             {istext && (
-                <Flex   onClick={() => onOpen()} as={"button"} w={"full"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
+                <Flex onClick={() => onOpen()} as={"button"} w={"full"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
                     Share post
                 </Flex>
             )}
@@ -66,8 +66,8 @@ export default function ShareBtn(props: Props) {
             >
                 <DrawerOverlay />
                 <DrawerContent>
-                    <DrawerBody>
-                        <Flex py={"4"} w={"full"} height={"full"} flexDirection={"column"}  >
+                    <DrawerBody overflowY={"hidden"} pos={"relative"} display={"flex"} flexDir={"column"} >
+                        <Flex pt={"4"} overflowY={"auto"} pos={"absolute"} inset={"0px"} bottom={"160px"} w={"full"} px={"6"} flexDirection={"column"}  >
                             <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                                 <Flex flexDirection={"column"} >
                                     <Text fontWeight={"600"} fontSize={"22px"} color={"#222222"} >Share post</Text>
@@ -83,6 +83,8 @@ export default function ShareBtn(props: Props) {
                                 id={id}
                                 onClose={onClose}
                             />
+                        </Flex> 
+                        <Flex w={"full"} bg={"white"} mt={"auto"} zIndex={"10"} >
                             <ShareToSocialMedia id={id}
                                 type={props.type}
                                 isprofile={isprofile} data={data} />

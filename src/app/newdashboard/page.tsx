@@ -16,17 +16,29 @@ export default function Home() {
                 <CreatePost />
                 <Flex w={"full"} h={"full"} flexDir={"column"} overflowY={"auto"} >
                     <LoadingAnimation loading={loadingPost} refeching={refetchingPost} >
-                        <Flex w={["full", "full", "full", "full", "619px"]} height={"fit-content"} gap={"5"} px={["4", "4", "4", "4","8"]} py={"8"} flexDir={"column"} >
+                        <Flex w={["full", "full", "full", "full", "619px"]} height={"fit-content"} gap={"5"} px={["4", "4", "4", "4", "8"]} py={"8"} flexDir={"column"} >
                             {postData?.map((item: IMediaContent, index: number) => {
                                 if (index === postData?.length - 1) {
                                     return (
-                                        <Box w={"full"} h={"fit-content"} ref={postRef} >
+                                        <Box key={index} w={"full"} h={"full"} ref={postRef} >
                                             <PostCard {...item} />
+                                            {(index + 1) % 6 === 0 && (
+                                                <Flex display={["flex", "flex", "flex", "none", "none"]} w={"full"} >
+                                                    <UpcomingEvent />
+                                                </Flex>
+                                            )}
                                         </Box>
                                     )
                                 } else {
                                     return (
-                                        <PostCard {...item} />
+                                        <Box key={index} w={"full"} h={"full"} >
+                                            <PostCard {...item} />
+                                            {(index + 1) % 6 === 0 && (
+                                                <Flex display={["flex", "flex", "flex", "none", "none"]}  w={"full"} >
+                                                    <UpcomingEvent />
+                                                </Flex>
+                                            )}
+                                        </Box>
                                     )
                                 }
                             })}

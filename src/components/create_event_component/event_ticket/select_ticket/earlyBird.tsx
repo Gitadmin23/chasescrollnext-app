@@ -85,11 +85,7 @@ export default function EarlyBird({ data, index }: IProps) {
                 ticketPrice: "",
                 ticketType: "Early Bird",
                 minTicketBuy: 1,
-                maxTicketBuy: 1,
-                endDate: 0,
-                endTime: 0,
-                startDate: 0,
-                startTime: 0
+                maxTicketBuy: 1, 
             }
             clone.productTypeData.unshift(ticket)
             console.log(clone);
