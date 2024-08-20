@@ -11,6 +11,9 @@ import UserImage from '../sharedComponent/userimage'
 import useGetUser from '@/hooks/useGetUser'
 import CommentInput from './commentInput'
 import CommentList from './commentList'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
+import { textLimit } from '@/utils/textlimit'
+import { CgMoreVertical } from 'react-icons/cg'
 
 interface IProps {
     content: IMediaContent,
@@ -45,72 +48,79 @@ export default function CommentSection(props: IProps) {
     const [replyData, setReplyData] = useState({} as any)
 
     return (
-        <Flex w={"full"} h={"full"} position={"relative"} flexDir={"column"} alignItems={"center"}pt={"4"} >
-            <Flex w={"full"} h={"full"} flexDirection={"column"} pb={"4"}  px={"6"}  >
-            {/* <Flex h={"fit-content"} flexDir={"column"} w={"full"} > */}
-            <Flex w={"full"} maxW={"578px"} borderWidth={"0.5px"} rounded={"36px"} p={"4"} roundedTopRight={"0px"} borderColor={"#EEEEEE"} h={"full"} flexDir={"column"} >
-                <Text color={"#222222"} >{content?.text}</Text>
-                {(content?.type === "WITH_IMAGE" || content?.type === "WITH_VIDEO_POST") &&
-                    <Flex w={"full"} h={["236px", "236px", "236px", "350px", "350px"]} rounded={"16px"} roundedTopRight={"0px"}>
-                        {content?.type === "WITH_VIDEO_POST" && (
-                            <VideoPlayer
-                                src={`${IMAGE_URL}${content?.mediaRef}`}
-                                measureType="px"
-                            />
-                        )}
-                        {content?.type === "WITH_IMAGE" && (
-                            <ImageSlider links={content?.multipleMediaRef} type="feed" />
-                        )}
-                    </Flex>
-                }
-                <Flex w={"full"} borderTopWidth={"0px"} pt={"4"} justifyContent={"space-between"} >
-                    <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
-                        {!loadingLikes ?
+        <Flex w={"full"} h={["100vh", "100vh", "full"]}  position={"relative"} flexDir={"column"} flex={"1"} justifyContent={"space-between"} alignItems={"center"} pt={"4"} >
+            <Flex w={"full"} h={"full"} alignItems={"center"} flexDirection={"column"} pb={"4"} gap={"4"} px={"6"}  >
+                {/* <Flex h={"fit-content"} flexDir={"column"} w={"full"} > */}
+                <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} roundedTopRight={"0px"} borderWidth={"1px"} borderColor={"#EAEBEDCC"} px={"4"} >
+                    <UserImage size={"55px"} data={content?.user} image={content?.user?.data?.imgMain?.value} />
+                    <Flex flexDir={"column"}  >
+                        <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(content?.user?.firstName) + " " + capitalizeFLetter(content?.user?.lastName), 40)}</Text>
+                        <Text color={"#222222"} fontSize={"14px"} >@{content?.user?.username}</Text>
+                    </Flex> 
+                </Flex>
+                <Flex w={"full"} maxW={"450px"} borderWidth={"0.5px"} rounded={"36px"} p={"4"} roundedTopRight={"0px"} borderColor={"#EEEEEE"} h={"auto"} flexDir={"column"} >
+                    <Text color={"#222222"} >{content?.text}</Text>
+                    {(content?.type === "WITH_IMAGE" || content?.type === "WITH_VIDEO_POST") &&
+                        <Flex w={"full"} h={["236px", "236px", "236px", "250px", "250px"]} rounded={"16px"} roundedTopRight={"0px"}>
+                            {content?.type === "WITH_VIDEO_POST" && (
+                                <VideoPlayer
+                                    src={`${IMAGE_URL}${content?.mediaRef}`}
+                                    measureType="px"
+                                />
+                            )}
+                            {content?.type === "WITH_IMAGE" && (
+                                <ImageSlider links={content?.multipleMediaRef} type="feed" />
+                            )}
+                        </Flex>
+                    }
+                    <Flex w={"full"} borderTopWidth={"0px"} pt={"4"} justifyContent={"space-between"} >
+                        <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
+                            {!loadingLikes ?
+                                <Flex
+                                    width={"24px"}
+                                    h={"30px"}
+                                    justifyContent={"center"}
+                                    alignItems={"center"}
+                                    as={"button"}
+                                    onClick={() => likesHandle(content?.id)}
+                                >
+                                    {liked !== "LIKED" && (
+                                        <HomeHeartIcon color={bodyTextColor} />
+                                    )}
+                                    {liked === "LIKED" && <HomeHeartFillIcon />}
+                                </Flex> :
+                                <Flex
+                                    width={"24px"}
+                                    h={"30px"}
+                                    justifyContent={"center"}
+                                    alignItems={"center"}>
+                                    <Spinner size={"sm"} />
+                                </Flex>
+                            }
+                            <Text>{count}</Text>
+                        </Flex>
+                        <Flex as={"button"} onClick={() => { setShow((prev) => !prev), setReplyData({} as any) }} w={"fit-content"} alignItems={"center"} gap={"2px"} >
                             <Flex
                                 width={"24px"}
                                 h={"30px"}
                                 justifyContent={"center"}
                                 alignItems={"center"}
-                                as={"button"}
-                                onClick={() => likesHandle(content?.id)}
+                                color={bodyTextColor}
                             >
-                                {liked !== "LIKED" && (
-                                    <HomeHeartIcon color={bodyTextColor} />
-                                )}
-                                {liked === "LIKED" && <HomeHeartFillIcon />}
-                            </Flex> :
-                            <Flex
-                                width={"24px"}
-                                h={"30px"}
-                                justifyContent={"center"}
-                                alignItems={"center"}>
-                                <Spinner size={"sm"} />
+                                <HomeCommentIcon color={bodyTextColor} />
                             </Flex>
-                        }
-                        <Text>{count}</Text>
-                    </Flex>
-                    <Flex as={"button"} onClick={()=> {setShow((prev) => !prev), setReplyData({} as any)}} w={"fit-content"} alignItems={"center"} gap={"2px"} >
-                        <Flex
-                            width={"24px"}
-                            h={"30px"}
-                            justifyContent={"center"}
-                            alignItems={"center"}
-                            color={bodyTextColor}
-                        >
-                            <HomeCommentIcon color={bodyTextColor} />
+                            <Text>{content?.commentCount}</Text>
                         </Flex>
-                        <Text>{content?.commentCount}</Text>
-                    </Flex>
-                    <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
-                        <ShareBtn type="POST" id={content?.id} />
+                        <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
+                            <ShareBtn type="POST" id={content?.id} />
+                        </Flex>
                     </Flex>
                 </Flex>
-            </Flex>
-            <CommentList replyData={replyData} setReply={setReplyData} data={content} showInput={setShow} />
-            {/* </Flex> */}
+                <CommentList replyData={replyData} setReply={setReplyData} data={content} showInput={setShow} />
+                {/* </Flex> */}
             </Flex>
             {show && (
-                <Flex w={"full"} bg={"white"} position={"sticky"} borderTopColor={borderColor} borderTopWidth={"1px"} bottom={"0px"} pt={"4"} pb={"6"} flexDir={"column"} gap={"4"} alignItems={"start"} >
+                <Flex w={"full"} bg={"white"} mt={"auto"} position={"sticky"} borderTopColor={borderColor} borderTopWidth={"1px"} bottom={"0px"} pt={"4"} pb={"6"} flexDir={"column"} gap={"4"} alignItems={"start"} >
                     <CommentInput setShow={setShow} replyData={replyData} data={content} user={user} />
                 </Flex>
             )}

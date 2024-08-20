@@ -167,7 +167,7 @@ export default function PostCard(props: IMediaContent) {
                 isOpen={showReportModal}
                 onClose={() => setShowReportModal(false)}
             />
-            <ModalLayout size={"2xl"} title={user?.username+" post"} open={openComments} close={setOpenComments} >
+            <ModalLayout closeIcon={true} size={["full", "full", "2xl"]} open={openComments} close={setOpenComments} >
                 <CommentSection count={count} liked={liked} likesHandle={likesHandle} loadingLikes={loadingLikes} content={props} />
             </ModalLayout>
         </Flex>

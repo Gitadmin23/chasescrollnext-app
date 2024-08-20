@@ -52,7 +52,7 @@ export default function CommentInput({ user, data, replyData, setShow }: IProps)
     return (
         <Flex w={"full"} height={"fit-content"} flexDir={"column"} px={"4"} gap={"3"} >
             {replyData?.data?.id && (
-                <Text>replying to <span style={{ color: primaryColor, fontWeight: "bold" }} >{replyData?.user?.username}</span> "{textLimit(replyData?.data?.comment, 20)}"</Text>
+                <Text>replying to <span style={{ color: primaryColor, fontWeight: "bold" }} >{replyData?.user?.username}</span> {`"${textLimit(replyData?.data?.comment, 20)}"`}</Text>
             )}
             <Flex pos={"relative"} w={"full"} gap={"1"} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
                 <Box w={"fit-content"} >
