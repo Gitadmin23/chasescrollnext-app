@@ -21,7 +21,7 @@ export default function Createpost() {
     const toast = useToast()
     const router = useRouter()
 
-    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor, inputBorderColor, headerTextColor } = useCustomTheme();
+    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor, inputBorderColor, headerTextColor, ticketBackgroundColor } = useCustomTheme();
 
     const { createPost, isLoading, post, setPost, handleImagePicked, files, removeFile, emptyFiles, createPostWithFiles, uploadingfile, open, setOpen, setFiles } = useHome()
 
@@ -62,7 +62,7 @@ export default function Createpost() {
     
 
     return (
-        <Flex w={["full", "full", "full", "full", "619px"]} pt={["4", "4", "4", "4", "8"]} px={["4", "4", "4", "4","8"]} >
+        <Flex bg={mainBackgroundColor} w={["full", "full", "full", "full", "619px"]} pt={["4", "4", "4", "4", "8"]} px={["4", "4", "4", "4","8"]} >
             <Flex w={"full"} p={"4"} gap={"2"} rounded={"12px"} flexDir={"column"} style={{ boxShadow: "0px 2px 2px 0px #00000008" }} bgColor={mainBackgroundColor} h={"fit-content"} >
                 <Flex pos={"relative"} w={"full"} bgColor={"#FBFBFB"} gap={"1"} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
                     <Box as={"button"} onClick={()=> router?.push(`/dashboard/profile/${user?.userId}`)}  w={"fit-content"} >
@@ -82,15 +82,15 @@ export default function Createpost() {
                 </Flex>
             </Flex>
             <ModalLayout open={open} rounded='32px' size={"lg"} close={closeHandler} >
-                <Flex p={"5"} flexDir={"column"} gap={"3"}   >
+                <Flex bg={mainBackgroundColor} p={"5"} flexDir={"column"} gap={"3"}   >
                     <Box as='button' onClick={closeHandler} >
                         <IoClose size={"25px"} />
                     </Box>
-                    <Flex pos={"relative"} w={"full"} bgColor={"#FBFBFB"} gap={"1"} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
+                    <Flex pos={"relative"} w={"full"} bgColor={bodyTextColor} gap={"1"} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
                         <Box w={"fit-content"} >
                             <UserImage size={"36px"} fontWeight={"500"} font={"14px"} border={"1.5px"} image={user?.data?.imgMain?.value} data={user} />
                         </Box>
-                        <Input value={post} onChange={(e) => setPost(e.target.value)} h={"45px"} w={"full"} borderWidth={"0px"} _hover={{ borderWidth: "0px", }} focusBorderColor='transparent' placeholder='Add your thought' _placeholder={{ color: "#00000033" }} />
+                        <Input value={post} onChange={(e) => setPost(e.target.value)} h={"45px"} w={"full"} borderWidth={"0px"} _hover={{ borderWidth: "0px", }} focusBorderColor='transparent' placeholder='Add your thought' color={"black"} _placeholder={{ color: "#00000033" }} />
                     </Flex>
                     <Flex w={"full"} h={"300px"} rounded={"8px"} >
                         <UploadImage handleImagePicked={handleImagePicked} files={files} fileIndex={fileIndex} setFileIndex={setFileIndex} />
