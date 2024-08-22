@@ -67,7 +67,7 @@ export default function ShareBtn(props: Props) {
                 <DrawerOverlay />
                 <DrawerContent>
                     <DrawerBody overflowY={"hidden"} pos={"relative"} display={"flex"} flexDir={"column"} >
-                        <Flex pt={"4"} overflowY={"auto"} pos={"absolute"} inset={"0px"} bottom={"160px"} w={"full"} px={"6"} flexDirection={"column"}  >
+                        <Flex pt={"4"} overflowY={"hidden"} pos={"absolute"} inset={"0px"} bottom={"160px"} w={"full"} px={"6"} flexDirection={"column"}  >
                             <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                                 <Flex flexDirection={"column"} >
                                     <Text fontWeight={"600"} fontSize={"22px"} color={"#222222"} >Share post</Text>

@@ -9,7 +9,7 @@ import { NewChatIcon, NewWalletIcon, SidebarCalendarIcon, SidebarEventIcon, Side
 import { usePathname, useRouter } from 'next/navigation';
 import SearchBar from '@/components/explore_component/searchbar';
 import CustomButton from '@/components/general/Button';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import UserImage from '@/components/sharedComponent/userimage';
 import CustomText from '@/components/general/Text';
 import { HomeIcon, UsersIcon } from '@/components/svg';
@@ -18,6 +18,8 @@ import { SearchNormal1, Calendar } from 'iconsax-react';
 import useCustomTheme from '@/hooks/useTheme';
 import getUser from '@/hooks/useGetUser';
 import CreateEventBtn from '@/components/sharedComponent/create_event_btn';
+import useModalStore from '@/global-state/useModalSwitch';
+import PageLoader from '@/components/sharedComponent/pageLoader';
 
 export default function Layout({ children }: {
     children: ReactNode
@@ -31,6 +33,7 @@ export default function Layout({ children }: {
 
     const { userId, setAll, user: data, } = useDetails((state) => state);
     const router = useRouter()
+    const { setGoogle } = useModalStore((state) => state);
     const pathname = usePathname()
 
     const routes: IRoute[] = [
@@ -82,21 +85,27 @@ export default function Layout({ children }: {
     const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
 
     const logout = async () => {
+
+        setGoogle(false)
         setAll({ userId: '', dob: '', email: '', username: '', firstName: '', lastName: '', publicProfile: '' });
         localStorage.clear();
         await signOut();
+        // router?.push("/auth")
+        
     }
+
+    const { status } = useSession();
 
 
     const Id = localStorage.getItem('user_id');
 
     React.useEffect(() => {
-        if (Id === null) {
+        if (!Id && status === "unauthenticated") {
             router.push('/auth')
         } else {
-            setAll({ userId: Id });
+            setAll({ userId: Id ?? "s" });
         }
-    }, [Id]);
+    }, [Id, status]);
 
     return (
         <Flex w={"full"} h={"100vh"} bg={"white"} >
@@ -123,7 +132,7 @@ export default function Layout({ children }: {
                                 <UserImage size={"36px"} border={"1px"} font={"16px"} data={data} image={user?.data?.imgMain?.value} />
                             </Flex>
 
-                            <Flex as={"button"} onClick={()=> logout} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
+                            <Flex as={"button"} onClick={logout} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
                                 <SidebarLogoutIcon />
                             </Flex>
                         </Flex>
@@ -198,7 +207,8 @@ export default function Layout({ children }: {
                     <UserImage size={"40px"} border={"1px"} font={"16px"} data={data} image={user?.data?.imgMain?.value} />
 
                 </Link>
-            </HStack>
+            </HStack> 
+            <PageLoader show={!data?.userId} />
         </Flex>
     )
 }
