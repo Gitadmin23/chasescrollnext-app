@@ -51,8 +51,8 @@ const useHome = () => {
             setPost("");
             reset()
             setOpen(false)
-            refetch()
-
+            refetch() 
+            emptyFiles() 
         },
         onError: () => {
             toast({

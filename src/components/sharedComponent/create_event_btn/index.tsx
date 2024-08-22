@@ -94,6 +94,10 @@ function CreateEventBtn(props: Props) {
         }
     }
 
+    const openHandler = () =>{ 
+        setOpen(false)
+        router.push("/dashboard/event/create_event")
+    }
 
     return (
         <Box w={"full"} h={"fit-content"} >
@@ -103,7 +107,7 @@ function CreateEventBtn(props: Props) {
                 </Flex>
             )}
             {btn && !mobile && (  
-                <CustomButton onClick={() => clickHander()}  width={"180px"} text={"Create Event"} borderRadius={"full"} />
+                <CustomButton onClick={() => clickHander()} pos={"relative"} zIndex={"20"} width={"180px"} text={"Create Event"} borderRadius={"full"} />
             )}
             {!btn && mobile && (  
                 <Flex h={"20px"} alignItems={"center"} onClick={() => clickHander()} as={"button"} >
@@ -111,7 +115,7 @@ function CreateEventBtn(props: Props) {
                 </Flex>
             )}
             {open && (
-                <Flex zIndex={"110"} position={"absolute"} top={"0px"} flexDir={"column"} right={"0px"} maxW={"374px"} w={"full"} py={"4"} px={"6"} bg={mainBackgroundColor} rounded={'8px'} >
+                <Flex zIndex={"110"} position={"absolute"} top={btn ? "70px": "0px"} flexDir={"column"} right={btn ? "6":"0px"} maxW={"374px"} w={"full"} py={"4"} px={"6"} bg={mainBackgroundColor} rounded={'8px'} >
                     <Flex w={"full"} alignItems={"center"} justifyContent={"space-between"} >
                         <Flex role="button" onClick={() => router.push("/dashboard/home")} justifyContent={'center'} gap={"2"} >
                             <Image src='/assets/images/chasescroll-logo.png' width={"24px"} height={"24px"} alt='logo' />
@@ -121,7 +125,7 @@ function CreateEventBtn(props: Props) {
                             <IoClose size="20px" color={bodyTextColor} />
                         </Box>
                     </Flex>
-                    <Flex as={"button"} onClick={() => router.push("/dashboard/event/create_event")} w={"full"} py={"4"} mt={"8"} px={"2"} flexDir={"column"} rounded={"8px"} _hover={{ borderColor: "#5D70F9" }} border={"1px"} borderColor={"transparent"} >
+                    <Flex as={"button"} onClick={() => openHandler()} w={"full"} py={"4"} mt={"8"} px={"2"} flexDir={"column"} rounded={"8px"} _hover={{ borderColor: "#5D70F9" }} border={"1px"} borderColor={"transparent"} >
                         <Flex gap={"1"} >
                             <Text color={colorMode === 'light' ? "#5465E0" : headerTextColor} fontWeight={"bold"} fontSize={"sm"} >Are you the owner of this event? </Text>
                             <IoArrowForward size={"18px"} color={bodyTextColor} />

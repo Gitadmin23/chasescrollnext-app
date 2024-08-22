@@ -27,7 +27,7 @@ function Layout({ children }: {
             {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion") && !pathname?.includes("/event/details") && !pathname?.includes("/event/pastdetails") ) && (
                 <Flex position={"relative"} width={"full"} justifyContent={"space-between"} gap={"4"} flexDir={["row", "row", "row"]} pb={"8"} alignItems={["start", "start" ,"center"]}  >
                     <SelectEventPage />
-                    <CreateEventBtn />
+                    {/* <CreateEventBtn /> */}
                 </Flex>
             )}
             {children}

@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/dashboard/home/comment/[id]", "src/components/customCarousel/index.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/olddashboard/home/comment/[id]", "src/components/customCarousel/index.jsx"],
   "exclude": ["node_modules"]
 }

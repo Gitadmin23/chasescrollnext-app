@@ -1,248 +1,203 @@
-"use client";
-
-import { Avatar, Box, Flex, Grid, HStack, VStack, useToast, Image, Button, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react'
+"use client"
+import { useDetails } from '@/global-state/useUserDetails'
+import { Box, Flex, HStack, Image, Link, Text, Tooltip, VStack } from '@chakra-ui/react'
 import React, { ReactNode } from 'react'
-import CustomText from '@/components/general/Text';
-import '../globals.css'
-// import { BellIcon, HomeIcon, MessageIcon, ProfileIcon2, SearchIcon, UsersIcon } from "../../../public/assets/svg";
-import { FiBell, FiPlusSquare, FiMessageCircle, FiHome, FiSearch, FiCalendar, FiUsers, FiPower, FiUser } from 'react-icons/fi';
-import { THEME } from '@/theme';
-import { usePathname, useRouter } from 'next/navigation'
-import Link from 'next/link';
-import ThreadCard from '@/components/home/ThreadCard';
-import Sidebar from './sidebar';
-import { useDetails } from '@/global-state/useUserDetails';
-import { useMutation, useQuery } from 'react-query';
-import httpService from '@/utils/httpService';
-import { IMAGE_URL, URLS } from '@/services/urls';
+import { GrHomeRounded } from "react-icons/gr";
+import { FiSearch, FiCalendar, FiMessageCircle, FiUsers, FiUser } from 'react-icons/fi'
+import { IoCalendarOutline, IoSearchOutline } from 'react-icons/io5';
+import { NewChatIcon, NewWalletIcon, SidebarCalendarIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarNotificationIcon, SidebarProfileIcon, SidebarSearchIcon, SidebarWalletIcon } from '@/components/svg/sidebarIcons';
+import { usePathname, useRouter } from 'next/navigation';
 import SearchBar from '@/components/explore_component/searchbar';
-import NotificationBar from '@/components/navbar/notification';
-import { Notification, Message, AddSquare, SearchNormal1, Calendar, People, Home, LogoutCurve, Warning2 } from 'iconsax-react'
-import { HomeIcon, UsersIcon } from '@/components/svg';
-import ImageModal from '@/components/general/ImageModal';
-import UserImage from '@/components/sharedComponent/userimage';
+import CustomButton from '@/components/general/Button';
 import { signOut } from 'next-auth/react';
-import LoadingAnimation from '@/components/sharedComponent/loading_animation';
-import DashboardNavbar from '@/components/sharedComponent/dashboard_navbar';
-import CopyRightText from '@/components/sharedComponent/CopyRightText';
-import PageLoader from '@/components/sharedComponent/pageLoader';
-import useCustomTheme from "@/hooks/useTheme";
-type IRoute = {
-    icon: ReactNode;
-    text: string;
-    route: string;
-}
+import UserImage from '@/components/sharedComponent/userimage';
+import CustomText from '@/components/general/Text';
+import { HomeIcon, UsersIcon } from '@/components/svg';
+import { IMAGE_URL } from '@/services/urls';
+import { SearchNormal1, Calendar } from 'iconsax-react';
+import useCustomTheme from '@/hooks/useTheme';
+import getUser from '@/hooks/useGetUser';
+import CreateEventBtn from '@/components/sharedComponent/create_event_btn';
 
-const MenuItem = ({
-    icon,
-    text,
-    active,
-    route,
-}: {
-    icon: any,
-    text: string;
-    active: boolean;
-    route: string;
-}) => {
-    return (
-        <Link href={route} style={{ width: '100%' }}>
-            <HStack paddingX={['20px', '40px']} color={active ? 'brand.chasescrollBlue' : 'grey'} width='100%' height='80px' alignItems={'center'}>
-                {icon}
-                <CustomText fontSize={'18px'}>{text}</CustomText>
-            </HStack>
-        </Link>
-    )
-}
-
-function Layout({ children }: {
+export default function Layout({ children }: {
     children: ReactNode
 }) {
-    const [id, setId] = React.useState<string | null>(null);
-    const pathname = usePathname();
-    const router = useRouter();
-    const toast = useToast();
-    const [showModal, setShowModal] = React.useState(false);
 
-    const { bodyTextColor, primaryColor,secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+    type IRoute = {
+        icon: ReactNode;
+        text: string;
+        route: string;
+    }
 
-    const { username, lastName, firstName, userId, setAll, user } = useDetails((state) => state);
+    const { userId, setAll, user: data, } = useDetails((state) => state);
+    const router = useRouter()
+    const pathname = usePathname()
 
-    const { isLoading } = useQuery(['getDetails', id], () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`), {
-        // enabled: id !== null,
-        onSuccess: (data) => {
-            setAll({
-                user: data?.data,
-                userId: data?.data?.userId,
-                firstName: data?.data?.firstName,
-                lastName: data?.data?.lastName,
-                email: data?.data?.email,
-                dob: data?.data?.dob,
-                username: data?.data?.username,
-            });
+    const routes: IRoute[] = [
+        {
+            route: '/dashboard',
+            icon: <SidebarHomeIcon color={pathname === "/dashboard" ? true : false} />,
+            text: 'Home'
         },
-        onError: (error) => {
-            // toast({
-            //     title: 'Error',
-            //     description: 'An error occured while updating your profile',
-            //     status: 'error',
-            //     position: 'top-right',
-            //     isClosable: true,
-            //     duration: 3000,
-            // });
-            router.push('/auth');
+        {
+            route: '/dashboard/explore',
+            icon: <SidebarSearchIcon color={pathname === "/dashboard/explore" ? true : false} />,
+            text: 'Explore'
         },
-    });
-    
+        {
+            route: '/dashboard/event',
+            icon: <SidebarCalendarIcon color={pathname === "/dashboard/event" ? true : false} />,
+            text: 'Events'
+        },
+        {
+            route: '/dashboard/chats',
+            icon: <SidebarMessageIcon color={pathname === "/dashboard/chats" ? true : false} />,
+            text: 'Chats'
+        },
+        {
+            route: '/dashboard/community',
+            icon: <SidebarEventIcon color={pathname === "/dashboard/community" ? true : false} />,
+            text: 'Community'
+        },
+        // {
+        //     route: '/dashboard/community',
+        //     icon: <SidebarNotificationIcon />,
+        //     text: 'Community'
+        // },
+        {
+            route: `/dashboard/profile/${userId}`,
+            icon: <SidebarProfileIcon color={pathname?.includes("profile") ? true : false} />,
+            text: 'Profile'
+        },
+        {
+            route: `/dashboard/settings/payment/details`,
+            icon: <SidebarWalletIcon color={pathname === "/dashboard/settings/payment/details" ? true : false} />,
+            text: 'Wallet'
+        }
+    ];
+
+    const { user } = getUser()
+
+
+    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+
+    const logout = async () => {
+        setAll({ userId: '', dob: '', email: '', username: '', firstName: '', lastName: '', publicProfile: '' });
+        localStorage.clear();
+        await signOut();
+    }
+
+
     const Id = localStorage.getItem('user_id');
 
     React.useEffect(() => {
         if (Id === null) {
             router.push('/auth')
         } else {
-            setId(Id as string);
             setAll({ userId: Id });
         }
     }, [Id]);
 
-
-    const routes: IRoute[] = [
-        {
-            route: '/dashboard/home',
-            icon: <FiHome fontSize='30px' />,
-            text: 'Home'
-        },
-        {
-            route: '/dashboard/explore',
-            icon: <FiSearch fontSize='30px' />,
-            text: 'Explore'
-        },
-        {
-            route: '/dashboard/event',
-            icon: <FiCalendar fontSize='30px' />,
-            text: 'Events'
-        },
-        {
-            route: '/dashboard/report',
-            icon: <FiMessageCircle fontSize='30px' />,
-            text: 'Dashboard'
-        },
-        {
-            route: '/dashboard/chats',
-            icon: <FiMessageCircle fontSize='30px' />,
-            text: 'Chats'
-        },
-        {
-            route: '/dashboard/community',
-            icon: <FiUsers fontSize='30px' />,
-            text: 'Community'
-        },
-        {
-            route: `/dashboard/profile/${userId}`,
-            icon: <FiUser fontSize='30px' />,
-            text: 'Profile'
-        }
-    ];
-
-    const logout = async () => {
-        setAll({ userId: '', dob: '', email: '', username: '', firstName: '', lastName: '', publicProfile: '' });
-        localStorage.clear();
-        await signOut();
-        // router.push('/auth');
-    }
-
     return (
-        <Box className='w-full h-screen'>
-            {/* MODALS */}
-            <ImageModal />
-            {/* MODAL */}
-            <Modal isOpen={showModal} onClose={() => setShowModal(false)} isCentered size='sm' closeOnOverlayClick={false} closeOnEsc={false}>
-                <ModalOverlay />
-                <ModalContent height={'300px'} borderRadius={'30px'}>
-                    <ModalBody width={'100%'} height={'100%'} borderRadius={'20px'}>
-                        <VStack width={'100%'} height={'100%'} justifyContent={'center'} spacing={6}>
-                            <VStack width='60px' height={'60px'} borderRadius={'30px'} justifyContent={'center'} bg='#df26263b'>
-                                <Warning2 color='red' size='30px' variant='Outline' />
-                            </VStack>
-                            <CustomText fontFamily={'DM-Medium'} fontSize={'18px'}>Are you sure you want to logout?</CustomText>
-                            <VStack justifyContent={'center'} width={'100%'} spacing={4} height={'120px'} >
-                                <Button variant={'outline'} outlineColor={'brand.chasescrollButtonBlue'} borderWidth={'0px'} width='100%' height={'32px'} color='brand.chasescrollButtonBlue' onClick={() => setShowModal(false)} >Cancel</Button>
-                                <Button variant={'solid'} bg='red' width='100%' height={'40px'} color='white' onClick={logout} >Log out</Button>
-                            </VStack>
-                        </VStack>
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
+        <Flex w={"full"} h={"100vh"} bg={"white"} >
+            {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
+                <Flex w={"fit-content"} h={"screen"} display={["none", "none", "none", "flex", "flex"]} >
+                    <Flex w={"110px"} h={"screen"} flexDir={"column"} py={"4"} alignItems={"center"} borderRightColor={"#CCCCCC"} borderRightWidth={"1px"} >
+                        <Image alt='logo' src='/images/logo.png' w={"50px"} />
+                        <Flex flexDir={"column"} alignItems={"center"} mt={"auto"} gap={"3"} >
+                            {routes?.map((item, index) => (
+                                <Flex as={"button"} onClick={() => router?.push(item?.route)} key={index} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
+                                    <Tooltip label={item?.text} fontSize='sm'>
+                                        <Box>
+                                            {item?.icon}
+                                        </Box>
+                                    </Tooltip>
+                                </Flex>
+                            ))}
 
-            <Grid h="100vh" w={"full"} overflowY={"hidden"} backgroundColor={mainBackgroundColor} >
+                            <Flex mt={"6"} flexDir={"column"} alignItems={"center"} >
+                                <Flex w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
+                                    <UserImage size={"36px"} border={"1px"} font={"16px"} data={data} image={user?.data?.imgMain?.value} />
+                                </Flex>
 
-                <LoadingAnimation loading={isLoading || !firstName} >
-                    {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
-                        <Flex w={"full"} position={"fixed"} zIndex={"100"} top={"0px"} bg={{mainBackgroundColor}} >
-                            <DashboardNavbar data={user} pathname={pathname} userId={userId} openmodal={setShowModal} image={user?.data.imgMain.value} />
+                                <Flex w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
+                                    <SidebarLogoutIcon />
+                                </Flex>
+                            </Flex>
+
                         </Flex>
-                    )}
-                    <Flex w="full" h="full" pt={(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion") ) ? "80px" : "0px"} pb={["70px", "70px", "70px", "0px"]} overflow={"hidden"} bg={"white"} >
-                        {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion") && !pathname?.includes("/dashboard/settings/event-dashboard")) && (
-                            <Box width={"fit-content"} display={['none', 'none', 'none', 'flex']} flexDir={"column"} >
-                                <Sidebar />
+                    </Flex>
+                </Flex>
+            )}
+            <Flex w={"full"} height={"100vh"} pos={"relative"} flexDirection={"column"} >
+                {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
+                    <Flex w={"full"} h={"76px"} borderBottomColor={"#CCCCCC"} borderBottomWidth={"1px"} alignItems={"center"} px={"6"} justifyContent={"space-between"}  >
+                        {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft") && (
+                            <Box display={["none", "none", "none", "flex", "flex"]} >
+                                <SearchBar home={true} />
                             </Box>
                         )}
-                        {children}
-
+                        <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"3"} >
+                            <Image alt='logo' src='/images/logo.png' w={"35.36px"} />
+                            <Text fontSize={"17px"} fontWeight={"700"} color={primaryColor} >Chasescroll</Text>
+                        </Flex>
+                        <Flex ml={"auto"} display={["none", "none", "none", "flex", "flex"]} >
+                            <CreateEventBtn btn={true} />
+                        </Flex>
+                        <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
+                            <CreateEventBtn mobile={true} />
+                            <Flex h={"20px"} alignItems={"center"} as='button' >
+                                <NewChatIcon />
+                            </Flex>
+                            <Flex h={"20px"} alignItems={"center"} as='button' >
+                                <NewWalletIcon />
+                            </Flex>
+                        </Flex>
                     </Flex>
+                )}
+                {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? (
+                    <Flex w={"full"} h={"100vh"} pb={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"0px"} insetX={"0px"} pt={"76px"} overflowY={"hidden"} >
+                        {children}
+                    </Flex>
+                ): (
+                    <Flex w={"full"} h={"100vh"} pb={["70px", "70px", "70px", "0px", "0px"]}  overflowY={"hidden"} >
+                        {children}
+                    </Flex>
+                )}
+            </Flex>
 
-                </LoadingAnimation>
-                {/* BOTTOM TAB */}
-                <PageLoader show={isLoading || !firstName} />
-                <HStack paddingX='20px' zIndex={"100"} position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg={mainBackgroundColor} borderTopWidth={1} borderTopColor={borderColor} display={['flex', 'flex', 'flex', 'none']}>
-                    <Link href='/dashboard/home'>
-                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('home') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('home') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                            <HomeIcon />
-                        </VStack>
-                    </Link>
+            <HStack paddingX='20px' zIndex={"100"} position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg={mainBackgroundColor} borderTopWidth={1} borderTopColor={borderColor} display={['flex', 'flex', 'flex', 'none']}>
+                <Link href='/dashboard/home'>
+                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('home') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('home') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                        <HomeIcon />
+                    </VStack>
+                </Link>
 
-                    <Link href='/dashboard/explore'>
-                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('explore') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('explore') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                            <SearchNormal1 size='20px' />
-                        </VStack>
-                    </Link>
+                <Link href='/dashboard/explore'>
+                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('explore') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('explore') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                        <SearchNormal1 size='20px' />
+                    </VStack>
+                </Link>
 
-                    <Link href='/dashboard/event'>
-                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('event') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('event') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                            <Calendar size='20px' />
-                        </VStack>
-                    </Link>
+                <Link href='/dashboard/event'>
+                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('event') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('event') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                        <Calendar size='20px' />
+                    </VStack>
+                </Link>
 
-                    <Link href='/dashboard/community'>
-                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('community') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('community') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                            {/* <People size='20px' /> */}
-                            <UsersIcon />
-                        </VStack>
-                    </Link>
+                <Link href='/dashboard/community'>
+                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('community') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('community') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                        {/* <People size='20px' /> */}
+                        <UsersIcon />
+                    </VStack>
+                </Link>
 
-                    <Link href={userId ? `/dashboard/profile/${userId}` : ""}>
-                        <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('profile') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('profile') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                            <Box width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-                                {user?.data.imgMain.value === null && (
-                                    <VStack width={'100%'} height='100%' fontFamily={''} justifyContent={'center'} alignItems={'center'}>
-                                        <CustomText fontFamily={'DM-Bold'} fontSize={'10px'} color={bodyTextColor}>{firstName[0]?.toUpperCase()} {lastName[0]?.toUpperCase()}</CustomText>
-                                    </VStack>
-                                )}
-                                {
-                                    user?.data.imgMain.value !== null && (
-                                        <>
-                                            {user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
-                                            {!user?.data.imgMain.value.startsWith('https://') && <Image alt='pic' src={`${IMAGE_URL}${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit='cover' />}
-                                        </>
-                                    )
-                                }
-                            </Box>
-                        </VStack>
-                    </Link>
-                </HStack>
-            </Grid>
-        </Box>
+                <Link href={userId ? `/dashboard/profile/${userId}` : ""}>
+
+                    <UserImage size={"40px"} border={"1px"} font={"16px"} data={data} image={user?.data?.imgMain?.value} />
+
+                </Link>
+            </HStack>
+        </Flex>
     )
 }
-
-export default Layout

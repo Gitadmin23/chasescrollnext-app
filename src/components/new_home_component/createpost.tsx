@@ -1,6 +1,6 @@
 import { useDetails } from '@/global-state/useUserDetails';
 import { Box, Flex, Image, Input, Spinner, Text, Textarea, useToast } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import UserImage from '../sharedComponent/userimage';
 import getUser from '@/hooks/useGetUser';
 import { NewPhotoIcon, NewSendIcon } from '../svg';
@@ -17,10 +17,8 @@ export default function Createpost() {
     // const [open, setOpen] = useState(false)
     const [fileIndex, setFileIndex] = useState(0)
     const toast = useToast()
-    const [url, setUrl] = React.useState('');
-    const [loading, setIsLoading] = React.useState(true);
 
-    const { createPost, isLoading, post, setPost, handleImagePicked, files, removeFile, emptyFiles, createPostWithFiles, uploadingfile, open, setOpen } = useHome()
+    const { createPost, isLoading, post, setPost, handleImagePicked, files, removeFile, emptyFiles, createPostWithFiles, uploadingfile, open, setOpen, setFiles } = useHome()
 
     const handlePick = React.useCallback((data: FileList) => {
         handleImagePicked(data);
@@ -41,19 +39,7 @@ export default function Createpost() {
                 position: "top-right"
             })
         }
-    };
-
-    React.useEffect(() => {
-        if (files.length > 0 && files[0].type.startsWith('video')) {
-            const fileReader = new FileReader();
-
-            fileReader.onload = () => {
-                setIsLoading(false);
-                setUrl(fileReader.result as string);
-            }
-            fileReader.readAsDataURL(files[fileIndex]);
-        }
-    }, [fileIndex]);
+    }; 
 
     const closeHandler = () => {
         setOpen(false)
@@ -61,6 +47,12 @@ export default function Createpost() {
         emptyFiles()
     }
 
+    useEffect(()=> {
+        setPost("")
+        emptyFiles()
+        setFiles([])
+    }, [open]) 
+    
     return (
         <Flex w={["full", "full", "full", "full", "619px"]} pt={["4", "4", "4", "4", "8"]} px={["4", "4", "4", "4","8"]} >
             <Flex w={"full"} p={"4"} gap={"2"} rounded={"12px"} flexDir={"column"} style={{ boxShadow: "0px 2px 2px 0px #00000008" }} h={"fit-content"} >
@@ -109,7 +101,7 @@ export default function Createpost() {
                                                         </Flex>
                                                         {files[0].type.startsWith('video') ? (
                                                             <video controls width={'100%'} height={'100%'}>
-                                                                <source src={url} type='video/mp4' />
+                                                                <source src={URL.createObjectURL(item)} type='video/*' />
                                                             </video>
                                                         ) : (
                                                             <Image src={URL.createObjectURL(item)} alt='image' width={'100%'} height={'100%'} rounded={"md"} roundedTopRight={"0px"} objectFit={'cover'} />

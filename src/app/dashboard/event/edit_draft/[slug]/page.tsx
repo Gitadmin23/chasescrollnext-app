@@ -116,14 +116,15 @@ function EditEvent({ params }: { params: { slug: string } }) {
               bgColor={mainBackgroundColor}
               rounded={["0px", "0px", "0px", "2xl"]}
               w={"full"}
-              h={["auto"]}
+              h={"auto"}
               overflowY={["auto"]}
             >
               <Box
                 bgColor={mainBackgroundColor}
                 w={"full"}
+                rounded={["0px", "0px", "0px", "2xl"]}
                 px={"3"}
-                h={["auto"]}
+                h={"full"}
               >
                 {tab === 0 && <EventTheme />}
                 {tab === 1 && <EventInformation />}
