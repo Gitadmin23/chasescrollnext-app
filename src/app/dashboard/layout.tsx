@@ -1,7 +1,7 @@
 "use client"
 import { useDetails } from '@/global-state/useUserDetails'
-import { Box, Flex, HStack, Image, Link, Switch, Text, Tooltip, VStack, useColorMode } from '@chakra-ui/react'
-import React, { ReactNode } from 'react'
+import { Box, Button, Flex, HStack, Image, Link, Switch, Text, Tooltip, VStack, useColorMode } from '@chakra-ui/react'
+import React, { ReactNode, useState } from 'react'
 import { GrHomeRounded } from "react-icons/gr";
 import { FiSearch, FiCalendar, FiMessageCircle, FiUsers, FiUser } from 'react-icons/fi'
 import { IoCalendarOutline, IoSearchOutline } from 'react-icons/io5';
@@ -14,12 +14,13 @@ import UserImage from '@/components/sharedComponent/userimage';
 import CustomText from '@/components/general/Text';
 import { HomeIcon, UsersIcon } from '@/components/svg';
 import { IMAGE_URL } from '@/services/urls';
-import { SearchNormal1, Calendar } from 'iconsax-react';
+import { SearchNormal1, Calendar, Warning2 } from 'iconsax-react';
 import useCustomTheme from '@/hooks/useTheme';
 import getUser from '@/hooks/useGetUser';
 import CreateEventBtn from '@/components/sharedComponent/create_event_btn';
 import useModalStore from '@/global-state/useModalSwitch';
 import PageLoader from '@/components/sharedComponent/pageLoader';
+import ModalLayout from '@/components/sharedComponent/modal_layout';
 
 export default function Layout({ children }: {
     children: ReactNode
@@ -32,6 +33,7 @@ export default function Layout({ children }: {
     }
 
     const { userId, setAll, user: data, } = useDetails((state) => state);
+    const [open, setOpen] = useState(false)
     const router = useRouter()
     const { setGoogle } = useModalStore((state) => state);
     const pathname = usePathname()
@@ -141,7 +143,7 @@ export default function Layout({ children }: {
                                 </Tooltip>
                             </Flex>
 
-                            <Flex as={"button"} onClick={logout} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
+                            <Flex as={"button"} onClick={()=> setOpen(true)} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
                                 <SidebarLogoutIcon />
                             </Flex>
                         </Flex>
@@ -217,7 +219,58 @@ export default function Layout({ children }: {
 
                 </Link>
             </HStack>
-            <PageLoader show={!data?.email} />
+            {/* <PageLoader show={!data?.email} /> */}
+            <ModalLayout size={"sm"} open={open} close={setOpen} > 
+                <VStack
+                    width={"100%"}
+                    height={"100%"}
+                    justifyContent={"center"}
+                    spacing={6}
+                    bgColor={mainBackgroundColor}
+                    p={"6"}
+                >
+                    <VStack
+                        width="60px"
+                        height={"60px"}
+                        borderRadius={"30px"}
+                        justifyContent={"center"}
+                        bg="#df26263b"
+                    >
+                        <Warning2 color="red" size="30px" variant="Outline" />
+                    </VStack>
+                    <CustomText fontFamily={"DM-Medium"} fontSize={"18px"}>
+                        Are you sure you want to logout?
+                    </CustomText>
+                    <VStack justifyContent={"center"} width={"100%"}>
+                        <Button
+                            // outlineColor={"brand.chasescrollButtonBlue"}
+                            borderColor={"brand.chasescrollButtonBlue"}
+                            borderWidth={"1px"}
+                            width="100%"
+                            outline={"none"}
+                            _hover={{ backgroundColor: "white" }}
+                            bg={"white"}
+                            height={"32px"}
+                            color="brand.chasescrollButtonBlue"
+                            onClick={() => setOpen(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            borderColor={"red"}
+                            borderWidth={"1px"}
+                            _hover={{ backgroundColor: "red" }}
+                            bg="red"
+                            width="100%"
+                            height={"40px"}
+                            color="white"
+                            onClick={logout}
+                        >
+                            Log out
+                        </Button>
+                    </VStack>
+                </VStack>
+            </ModalLayout>
         </Flex>
     )
 }
