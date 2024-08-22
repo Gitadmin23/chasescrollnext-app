@@ -167,10 +167,10 @@ export default function Layout({ children }: {
                         </Flex>
                         <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
                             <CreateEventBtn mobile={true} />
-                            <Flex h={"20px"} alignItems={"center"} as='button' >
+                            <Flex onClick={()=> router?.push("/dashboard/chats")} h={"20px"} alignItems={"center"} as='button' >
                                 <NewChatIcon />
                             </Flex>
-                            <Flex h={"20px"} alignItems={"center"} as='button' >
+                            <Flex onClick={()=> router?.push("/dashboard/settings/payment/details")} h={"20px"} alignItems={"center"} as='button' >
                                 <NewWalletIcon />
                             </Flex>
                         </Flex>
@@ -188,7 +188,7 @@ export default function Layout({ children }: {
             </Flex>
 
             <HStack paddingX='20px' zIndex={"100"} position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg={mainBackgroundColor} borderTopWidth={1} borderTopColor={borderColor} display={['flex', 'flex', 'flex', 'none']}>
-                <Link href='/dashboard/home'>
+                <Link href='/dashboard'>
                     <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('home') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('home') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
                         <HomeIcon />
                     </VStack>
