@@ -179,8 +179,8 @@ export default function PostCard(props: IMediaContent) {
             <ModalLayout closeIcon={true} size={["full", "full", "2xl"]} open={openComments} close={setOpenComments} >
                 <CommentSection count={count} liked={liked} likesHandle={likesHandle} loadingLikes={loadingLikes} content={props} />
             </ModalLayout>
-            <ModalLayout size={"xl"} open={openImage} close={setOpenImage} >
-                <Flex flexDir={"column"} px={"6"} pt={"8"} w={"full"} >
+            <ModalLayout size={"2xl"} open={openImage} close={setOpenImage} >
+                <Flex  bg={mainBackgroundColor} flexDir={"column"} px={"6"} pt={"8"} w={"full"} >
                     <ImageSlider objectFit={true} links={multipleMediaRef} type="feed" />
                     <Flex w={"full"} justifyContent={"end"} py={"4"} >
                         <CustomButton onClick={() => setOpenImage(false)} text={"Close"} width={"fit-content"} px={"7"} />
