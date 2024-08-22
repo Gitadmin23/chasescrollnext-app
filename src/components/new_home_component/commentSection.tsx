@@ -14,6 +14,7 @@ import CommentList from './commentList'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import { textLimit } from '@/utils/textlimit'
 import { CgMoreVertical } from 'react-icons/cg'
+import { useRouter } from 'next/navigation'
 
 interface IProps {
     content: IMediaContent,
@@ -46,17 +47,20 @@ export default function CommentSection(props: IProps) {
 
     const [show, setShow] = useState(false)
     const [replyData, setReplyData] = useState({} as any)
+    const router = useRouter()
 
     return (
-        <Flex w={"full"} h={["100vh", "100vh", "full"]}  position={"relative"} flexDir={"column"} flex={"1"} justifyContent={"space-between"} alignItems={"center"} pt={"4"} >
+        <Flex w={"full"} h={["100vh", "100vh", "full"]} position={"relative"} flexDir={"column"} flex={"1"} justifyContent={"space-between"} alignItems={"center"} pt={"4"} >
             <Flex w={"full"} h={"full"} alignItems={"center"} flexDirection={"column"} pb={"4"} gap={"4"} px={"6"}  >
                 {/* <Flex h={"fit-content"} flexDir={"column"} w={"full"} > */}
                 <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} roundedTopRight={"0px"} borderWidth={"1px"} borderColor={"#EAEBEDCC"} px={"4"} >
-                    <UserImage size={"55px"} data={content?.user} image={content?.user?.data?.imgMain?.value} />
-                    <Flex flexDir={"column"}  >
-                        <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(content?.user?.firstName) + " " + capitalizeFLetter(content?.user?.lastName), 40)}</Text>
-                        <Text color={"#222222"} fontSize={"14px"} >@{content?.user?.username}</Text>
-                    </Flex> 
+                    <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} gap={"3"} >
+                        <UserImage size={"55px"} data={content?.user} image={content?.user?.data?.imgMain?.value} />
+                        <Flex flexDir={"column"} alignItems={"start"}  >
+                            <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(content?.user?.firstName) + " " + capitalizeFLetter(content?.user?.lastName), 40)}</Text>
+                            <Text color={"#222222"} fontSize={"14px"} >@{content?.user?.username}</Text>
+                        </Flex>
+                    </Flex>
                 </Flex>
                 <Flex w={"full"} maxW={"450px"} borderWidth={"0.5px"} rounded={"36px"} p={"4"} roundedTopRight={"0px"} borderColor={"#EEEEEE"} h={"auto"} flexDir={"column"} >
                     <Text color={"#222222"} >{content?.text}</Text>

@@ -9,6 +9,7 @@ import { FiTrash2 } from 'react-icons/fi';
 import { IUser } from '@/models/User';
 import useComment from '@/hooks/useComment';
 import LoadingAnimation from '../sharedComponent/loading_animation';
+import { useRouter } from 'next/navigation';
 
 interface IProps {
     data: IMediaContent,
@@ -60,6 +61,7 @@ export default function CommentList({
         showInput(true)
     }
 
+    const router = useRouter()
 
     return (
         <Flex w={"full"} maxW={"578px"} pt={"4"} flexDir={"column"} alignItems={"start"} >
@@ -69,12 +71,12 @@ export default function CommentList({
                         return (
                             <Flex onMouseOver={() => setShowAction(item?.id)} onMouseLeave={() => setShowAction("")} key={index} flexDirection={"column"} gap={"6"}  >
                                 <Flex w={"full"} gap={"4"} >
-                                    <Flex w={"fit-content"} >
+                                    <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)}  w={"fit-content"} >
                                         <UserImage border="1.3px" font={"14px"} size={"33px"} image={item?.user?.data?.imgMain?.value} data={item?.user} />
                                     </Flex>
                                     <Flex flexDirection={"column"} w={"full"} minW={["fit-content", "200px", "300px"]}  >
                                         <Flex flexDir={"column"} bg={inputBorderColor} w={"full"} minW={["fit-content", "200px", "300px"]} rounded={"16px"} py={"2"} px={"3"} >
-                                            <Text fontWeight={"500"} >{item?.user?.username}</Text>
+                                            <Text role='button' onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} fontWeight={"500"} >{item?.user?.username}</Text>
                                             <Text color={bodyTextColor} fontSize={"14px"} >{item?.comment}</Text>
                                             <Flex w={"full"} justifyContent={"space-between"} mt={"2"} >
                                                 <Text fontSize={"12px"}>{moment(item?.timeInMilliseconds).fromNow()}</Text>
@@ -124,12 +126,12 @@ export default function CommentList({
                                             return (
                                                 <Flex key={subindex} w={"full"} onMouseOver={() => setShowActionReply(subitem?.id)} onMouseLeave={() => setShowActionReply("")} gap={"4"} >
 
-                                                    <Flex w={"fit-content"} >
+                                                    <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} w={"fit-content"} >
                                                         <UserImage border="1.3px" font={"14px"} size={"33px"} image={subitem?.user?.data?.imgMain?.value} data={subitem?.user} />
                                                     </Flex>
                                                     <Flex flexDirection={"column"} w={"full"} minW={["fit-content", "200px", "300px"]}  >
                                                         <Flex flexDir={"column"} bg={inputBorderColor} w={"full"} minW={["fit-content", "200px", "300px"]} rounded={"16px"} py={"2"} px={"3"} >
-                                                            <Text fontWeight={"500"} >{subitem?.user?.username}</Text>
+                                                            <Text role='button' onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} fontWeight={"500"} >{subitem?.user?.username}</Text>
                                                             <Text color={bodyTextColor} fontSize={"14px"} >{subitem?.comment}</Text>
                                                             <Flex w={"full"} justifyContent={"space-between"} mt={"2"} >
                                                                 <Text fontSize={"12px"}>{moment(subitem?.timeInMilliseconds).fromNow()}</Text>

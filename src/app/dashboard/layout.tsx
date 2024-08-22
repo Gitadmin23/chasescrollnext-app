@@ -119,14 +119,14 @@ export default function Layout({ children }: {
                         </Flex>
 
                         <Flex flexDir={"column"} alignItems={"center"} >
-                                <Flex w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
-                                    <UserImage size={"36px"} border={"1px"} font={"16px"} data={data} image={user?.data?.imgMain?.value} />
-                                </Flex>
-
-                                <Flex w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
-                                    <SidebarLogoutIcon />
-                                </Flex>
+                            <Flex as={"button"} onClick={()=> router?.push(`/dashboard/profile/${userId}`)} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
+                                <UserImage size={"36px"} border={"1px"} font={"16px"} data={data} image={user?.data?.imgMain?.value} />
                             </Flex>
+
+                            <Flex as={"button"} onClick={()=> logout} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
+                                <SidebarLogoutIcon />
+                            </Flex>
+                        </Flex>
                     </Flex>
                 </Flex>
             )}
