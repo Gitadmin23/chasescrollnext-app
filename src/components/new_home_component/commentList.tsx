@@ -64,9 +64,9 @@ export default function CommentList({
     const router = useRouter()
 
     return (
-        <Flex w={"full"} maxW={"578px"} pt={"4"} flexDir={"column"} alignItems={"start"} >
+        <Flex w={"full"} maxW={"578px"} pt={"4"} bg={mainBackgroundColor} flexDir={"column"} alignItems={"start"} >
             <LoadingAnimation loading={isLoading} refeching={isRefetching} >
-                <Flex w={"full"} gap={"4"} flexDirection={"column"} >
+                <Flex w={"full"} gap={"4"} bg={mainBackgroundColor} flexDirection={"column"} >
                     {commentsData?.map((item, index) => {
                         return (
                             <Flex onMouseOver={() => setShowAction(item?.id)} onMouseLeave={() => setShowAction("")} key={index} flexDirection={"column"} gap={"6"}  >
@@ -75,25 +75,25 @@ export default function CommentList({
                                         <UserImage border="1.3px" font={"14px"} size={"33px"} image={item?.user?.data?.imgMain?.value} data={item?.user} />
                                     </Flex>
                                     <Flex flexDirection={"column"} w={"full"} minW={["fit-content", "200px", "300px"]}  >
-                                        <Flex flexDir={"column"} bg={inputBorderColor} w={"full"} minW={["fit-content", "200px", "300px"]} rounded={"16px"} py={"2"} px={"3"} >
+                                        <Flex flexDir={"column"} bg={secondaryBackgroundColor} w={"full"} minW={["fit-content", "200px", "300px"]} rounded={"16px"} py={"2"} px={"3"} >
                                             <Text role='button' onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} fontWeight={"500"} >{item?.user?.username}</Text>
                                             <Text color={bodyTextColor} fontSize={"14px"} >{item?.comment}</Text>
                                             <Flex w={"full"} justifyContent={"space-between"} mt={"2"} >
                                                 <Text fontSize={"12px"}>{moment(item?.timeInMilliseconds).fromNow()}</Text>
                                             </Flex>
                                         </Flex>
-                                        <Flex w={"full"} mt={"1"} minW={["fit-content", "200px", "300px"]} gap={"6"} px={"3"} >
+                                        <Flex w={"full"} mt={"1"}  minW={["fit-content", "200px", "300px"]} gap={"6"} px={"3"} >
                                             <Text as={"button"} onClick={() => setShowReply((prev) => prev === item?.id ? "" : item?.id)} fontSize={"12px"}>{item?.subComments?.totalElements} reply</Text>
                                             <Text fontSize={"12px"} as={"button"} >{item?.likeCount} likes</Text>
                                         </Flex>
                                     </Flex>
                                     <Flex w={"fit-content"} >
-                                        <Flex w={"100px"} >
+                                        <Flex w={"100px"}  >
                                             {showAction === item?.id && (
-                                                <Flex w={"100px"} h={"fit-content"} >
-                                                    <Flex bg="white" borderRadius={'10px'} padding='5px' gap={"2"} shadow={'md'}  >
+                                                <Flex w={"100px"} h={"fit-content"}  >
+                                                    <Flex bg={"white"} borderRadius={'10px'} padding='5px' gap={"2"} shadow={'md'}  >
                                                         {likeComment?.isLoading ? (
-                                                            <Spinner size={"sm"} />
+                                                            <Spinner color={mainBackgroundColor}  size={"sm"} />
                                                         ) : (
                                                             <IoHeart
                                                                 onClick={() => likeComment.mutate(item?.id)}
@@ -106,7 +106,7 @@ export default function CommentList({
                                                         {item?.user?.userId === Id && (
                                                             <Flex as={"button"} >
                                                                 {deleteComment?.isLoading ? (
-                                                                    <Spinner size={"sm"} />
+                                                                    <Spinner color={mainBackgroundColor} size={"sm"} />
                                                                 ) : (
                                                                     <FiTrash2
                                                                         onClick={() => deleteComment.mutate(item?.id)}
@@ -130,7 +130,7 @@ export default function CommentList({
                                                         <UserImage border="1.3px" font={"14px"} size={"33px"} image={subitem?.user?.data?.imgMain?.value} data={subitem?.user} />
                                                     </Flex>
                                                     <Flex flexDirection={"column"} w={"full"} minW={["fit-content", "200px", "300px"]}  >
-                                                        <Flex flexDir={"column"} bg={inputBorderColor} w={"full"} minW={["fit-content", "200px", "300px"]} rounded={"16px"} py={"2"} px={"3"} >
+                                                        <Flex flexDir={"column"} bg={secondaryBackgroundColor} w={"full"} minW={["fit-content", "200px", "300px"]} rounded={"16px"} py={"2"} px={"3"} >
                                                             <Text role='button' onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} fontWeight={"500"} >{subitem?.user?.username}</Text>
                                                             <Text color={bodyTextColor} fontSize={"14px"} >{subitem?.comment}</Text>
                                                             <Flex w={"full"} justifyContent={"space-between"} mt={"2"} >
@@ -150,7 +150,7 @@ export default function CommentList({
                                                                     <Flex bg="white" borderRadius={'10px'} padding='5px' gap={"2"} shadow={'md'}  >
 
                                                                         {likeSubComment?.isLoading ? (
-                                                                            <Spinner size={"sm"} />
+                                                                            <Spinner color={mainBackgroundColor}  size={"sm"} />
                                                                         ) : (
                                                                             <IoHeart
                                                                                 onClick={() => likeSubComment.mutate(subitem?.id)}
@@ -160,7 +160,7 @@ export default function CommentList({
                                                                         {item?.user?.userId === Id && (
                                                                             <Flex as={"button"} >
                                                                                 {deleteSubComment?.isLoading ? (
-                                                                                    <Spinner size={"sm"} />
+                                                                                    <Spinner color={mainBackgroundColor} size={"sm"} />
                                                                                 ) : (
                                                                                     <FiTrash2
                                                                                         onClick={() => deleteSubComment.mutate(subitem?.id)}

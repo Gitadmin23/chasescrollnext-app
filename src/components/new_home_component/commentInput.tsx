@@ -56,20 +56,20 @@ export default function CommentInput({ user, data, replyData, setShow }: IProps)
     }
 
     return (
-        <Flex w={"full"} height={"fit-content"} flexDir={"column"} px={"4"} gap={"3"} >
+        <Flex w={"full"} height={"fit-content"} gap={"3"} bg={mainBackgroundColor} flexDir={"column"} px={"4"} >
             {replyData?.data?.id && (
                 <Text>replying to <span style={{ color: primaryColor, fontWeight: "bold" }} >{replyData?.user?.username}</span> {`"${textLimit(replyData?.data?.comment, 20)}"`}</Text>
             )}
             <Box onClick={clickHandler} as='button' position={"absolute"} top={"1"} right={"1"} >
                 <IoClose size={"20px"} />
             </Box>
-            <Flex pos={"relative"} w={"full"} gap={"1"} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
+            <Flex pos={"relative"} w={"full"} gap={"1"}  bg={mainBackgroundColor} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
                 <Box w={"fit-content"} >
                     <UserImage size={"36px"} fontWeight={"500"} font={"14px"} border={"1.5px"} image={user?.data?.imgMain?.value} data={user} />
                 </Box>
                 <Textarea
                     value={replyData?.data?.id ? subCommentsInput : commentsInput} onChange={(e) => changeHandler(e.target.value)}
-                    h={"45px"} w={"full"} bgColor={"#F2F3FB"} borderWidth={"0px"} _hover={{ borderWidth: "0px" }} focusBorderColor='transparent' placeholder='Add your thought' _placeholder={{ color: "#00000033" }} />
+                    h={"45px"} w={"full"} bgColor={"#F2F3FB"} borderWidth={"0px"} _hover={{ borderWidth: "0px" }} focusBorderColor='transparent' color={"black"} placeholder='Add your thought' _placeholder={{ color: "#00000033" }} />
                 {!replyData?.data?.id && (
                     <Box as='button' w={"fit-content"} mt={"auto"} >
                         {addComment?.isLoading ?

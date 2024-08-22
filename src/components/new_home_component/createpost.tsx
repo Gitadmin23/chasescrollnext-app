@@ -9,6 +9,7 @@ import { IoAdd, IoClose } from 'react-icons/io5';
 import useHome from '@/hooks/useHome';
 import UploadImage from './uploadImage';
 import { useRouter } from 'next/navigation';
+import useCustomTheme from '@/hooks/useTheme';
 
 export default function Createpost() {
 
@@ -19,6 +20,8 @@ export default function Createpost() {
     const [fileIndex, setFileIndex] = useState(0)
     const toast = useToast()
     const router = useRouter()
+
+    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor, inputBorderColor, headerTextColor } = useCustomTheme();
 
     const { createPost, isLoading, post, setPost, handleImagePicked, files, removeFile, emptyFiles, createPostWithFiles, uploadingfile, open, setOpen, setFiles } = useHome()
 
@@ -60,12 +63,12 @@ export default function Createpost() {
 
     return (
         <Flex w={["full", "full", "full", "full", "619px"]} pt={["4", "4", "4", "4", "8"]} px={["4", "4", "4", "4","8"]} >
-            <Flex w={"full"} p={"4"} gap={"2"} rounded={"12px"} flexDir={"column"} style={{ boxShadow: "0px 2px 2px 0px #00000008" }} h={"fit-content"} >
+            <Flex w={"full"} p={"4"} gap={"2"} rounded={"12px"} flexDir={"column"} style={{ boxShadow: "0px 2px 2px 0px #00000008" }} bgColor={mainBackgroundColor} h={"fit-content"} >
                 <Flex pos={"relative"} w={"full"} bgColor={"#FBFBFB"} gap={"1"} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
                     <Box as={"button"} onClick={()=> router?.push(`/dashboard/profile/${user?.userId}`)}  w={"fit-content"} >
                         <UserImage size={"36px"} fontWeight={"500"} font={"14px"} border={"1.5px"} image={user?.data?.imgMain?.value} data={user} />
                     </Box>
-                    <Textarea value={post} onChange={(e) => setPost(e.target.value)} h={"45px"} w={"full"} borderWidth={"0px"} _hover={{ borderWidth: "0px", }} focusBorderColor='transparent' placeholder='Add your thought' _placeholder={{ color: "#00000033" }} />
+                    <Textarea value={post} onChange={(e) => setPost(e.target.value)} h={"45px"} color={"black"} w={"full"} borderWidth={"0px"} _hover={{ borderWidth: "0px", }} focusBorderColor='transparent' placeholder='Add your thought' _placeholder={{ color: "#00000033" }} />
                     <Box onClick={clickHandler} as='button' w={"fit-content"} mt={"auto"} >
                         {isLoading ?
                             <Spinner size={"sm"} /> :
@@ -75,7 +78,7 @@ export default function Createpost() {
                 </Flex>
                 <Flex as={"button"} onClick={() => setOpen(true)} gap={"2"} alignItems={"center"} >
                     <NewPhotoIcon />
-                    <Text color={"#00000080"} mt={"3px"} fontSize={"14px"} >Add Photos /Video in your post</Text>
+                    <Text mt={"3px"} fontSize={"14px"} >Add Photos /Video in your post</Text>
                 </Flex>
             </Flex>
             <ModalLayout open={open} rounded='32px' size={"lg"} close={closeHandler} >

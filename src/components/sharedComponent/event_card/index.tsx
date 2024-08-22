@@ -104,6 +104,7 @@ function ExploreEventCard(props: Props) {
         <Flex
             boxShadow={page ? "md" : "none"}
             cursor={"pointer"}
+            bg={secondaryBackgroundColor}
             onClick={() => clickHandler()}
             py={searchbar ? ((landing || upcoming ) ? "0px" : "2") : upcoming ? "0px" : ["6", "6", "4"]}
             //   px={landing ? "" : ["6", "6", "4"]}

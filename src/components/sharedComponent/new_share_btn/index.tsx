@@ -66,11 +66,11 @@ export default function ShareBtn(props: Props) {
             >
                 <DrawerOverlay />
                 <DrawerContent>
-                    <DrawerBody overflowY={"hidden"} pos={"relative"} display={"flex"} flexDir={"column"} >
+                    <DrawerBody bg={mainBackgroundColor} overflowY={"hidden"} pos={"relative"} display={"flex"} flexDir={"column"} >
                         <Flex pt={"4"} overflowY={"hidden"} pos={"absolute"} inset={"0px"} bottom={"160px"} w={"full"} px={"6"} flexDirection={"column"}  >
                             <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                                 <Flex flexDirection={"column"} >
-                                    <Text fontWeight={"600"} fontSize={"22px"} color={"#222222"} >Share post</Text>
+                                    <Text fontWeight={"600"} fontSize={"22px"} >Share post</Text>
                                     <Text color={"#626262"} >Share via message</Text>
                                 </Flex>
                                 <Box as='button' onClick={onClose} >
@@ -84,7 +84,7 @@ export default function ShareBtn(props: Props) {
                                 onClose={onClose}
                             />
                         </Flex> 
-                        <Flex w={"full"} bg={"white"} mt={"auto"} zIndex={"10"} >
+                        <Flex w={"full"} mt={"auto"} zIndex={"10"} >
                             <ShareToSocialMedia id={id}
                                 type={props.type}
                                 isprofile={isprofile} data={data} />
