@@ -5,7 +5,7 @@ import { Button, Image, Text, useColorMode, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useMutation } from 'react-query'
-import { signIn, useSession, } from 'next-auth/react'
+import { signIn, useSession,  } from 'next-auth/react'
 import { useDetails } from '@/global-state/useUserDetails'
 import PageLoader from '../pageLoader'
 import useModalStore from '@/global-state/useModalSwitch'
@@ -34,7 +34,7 @@ function GoogleBtn(props: Props) {
     } = props
 
     const [checkData, setCheckData] = React.useState<any>({});
-    const { data: sessionData } = useSession();
+    const { data: sessionData, status } = useSession();
     const toast = useToast();
     const router = useRouter();
     const { email, setAll } = useDetails((state) => state);
@@ -52,18 +52,15 @@ function GoogleBtn(props: Props) {
     const token: any = sessionData;
     React.useEffect(() => {
         // console.log(token.token?.token.token.accessToken);
-        if (sessionData !== null) {
+        if (status === "authenticated") {
             if (token.token?.token?.token?.idToken) {
                 signinWithGoogle.mutate(token?.token?.token?.token?.idToken);
             }
         }
-    }, [token])
+    }, [status])  
 
-    useEffect(() => {
-        if (!token) {
-            setGoogle(false)
-        }
-    }, [])
+    console.log(status);
+    
 
     const handleGoogleSignIn = async () => {
         const token: any = sessionData;
@@ -72,10 +69,12 @@ function GoogleBtn(props: Props) {
 
             signinWithGoogle.mutate(token.token?.token.token.idToken);
         } else {
-            setGoogle(true)
+            // setGoogle(true)
 
-            const dets = await signIn('google');
-            console.log("second");
+            const dets = await signIn('google'); 
+
+            console.log(dets);
+            
 
             setCheckData(true);
         }
@@ -103,14 +102,17 @@ function GoogleBtn(props: Props) {
             localStorage.setItem('expires_in', data?.data?.expires_in);
             setAll({
                 firstName: data?.data?.firstName,
-                lastName: data?.data?.firstName,
+                lastName: data?.data?.lastName,
                 username: data?.data?.user_name,
                 userId: data?.data?.user_id,
             })
+
             if (id) {
                 router.push(`/dashboard/event/details/${id}`);
             } else {
-                router.push('/dashboard/event')
+                if(data?.data?.user_id && googlesign) {
+                    router.push('/dashboard/event')
+                }
             }
             setCheckData(data?.data)
         },
@@ -124,13 +126,10 @@ function GoogleBtn(props: Props) {
                 status: 'error',
             })
         }
-    })
+    }) 
 
-    // useEffect(() => {
-    //     if(googlesign){
-    //         router.push('/dashboard/event')
-    //     }
-    // }, [googlesign])
+    useEffect(()=> {
+    }, [])
 
     return (
         <>

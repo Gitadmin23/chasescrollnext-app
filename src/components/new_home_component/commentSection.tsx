@@ -50,20 +50,20 @@ export default function CommentSection(props: IProps) {
     const router = useRouter()
 
     return (
-        <Flex w={"full"} h={["100vh", "100vh", "full"]} position={"relative"} flexDir={"column"} flex={"1"} justifyContent={"space-between"} alignItems={"center"} pt={"4"} >
+        <Flex w={"full"} h={["100vh", "100vh", "full"]} gap={"4"} bg={mainBackgroundColor} position={"relative"} flexDir={"column"} flex={"1"} justifyContent={"space-between"} alignItems={"center"} pt={"4"} >
             <Flex w={"full"} h={"full"} alignItems={"center"} flexDirection={"column"} pb={"4"} gap={"4"} px={"6"}  >
                 {/* <Flex h={"fit-content"} flexDir={"column"} w={"full"} > */}
-                <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} roundedTopRight={"0px"} borderWidth={"1px"} borderColor={"#EAEBEDCC"} px={"4"} >
+                <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} roundedTopRight={"0px"} borderWidth={"1px"} borderColor={borderColor} px={"4"} >
                     <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} gap={"3"} >
                         <UserImage size={"55px"} data={content?.user} image={content?.user?.data?.imgMain?.value} />
                         <Flex flexDir={"column"} alignItems={"start"}  >
                             <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(content?.user?.firstName) + " " + capitalizeFLetter(content?.user?.lastName), 40)}</Text>
-                            <Text color={"#222222"} fontSize={"14px"} >@{content?.user?.username}</Text>
+                            <Text fontSize={"14px"} >@{content?.user?.username}</Text>
                         </Flex>
                     </Flex>
                 </Flex>
                 <Flex w={"full"} maxW={"450px"} borderWidth={"0.5px"} rounded={"36px"} p={"4"} roundedTopRight={"0px"} borderColor={"#EEEEEE"} h={"auto"} flexDir={"column"} >
-                    <Text color={"#222222"} >{content?.text}</Text>
+                    <Text >{content?.text}</Text>
                     {(content?.type === "WITH_IMAGE" || content?.type === "WITH_VIDEO_POST") &&
                         <Flex w={"full"} h={["236px", "236px", "236px", "250px", "250px"]} rounded={"16px"} roundedTopRight={"0px"}>
                             {content?.type === "WITH_VIDEO_POST" && (
@@ -124,7 +124,7 @@ export default function CommentSection(props: IProps) {
                 {/* </Flex> */}
             </Flex>
             {show && (
-                <Flex w={"full"} bg={"white"} mt={"auto"} position={"sticky"} borderTopColor={borderColor} borderTopWidth={"1px"} bottom={"0px"} pt={"4"} pb={"6"} flexDir={"column"} gap={"4"} alignItems={"start"} >
+                <Flex w={"full"} mt={"auto"} bg={mainBackgroundColor} position={"sticky"} borderTopColor={borderColor} borderTopWidth={"1px"} bottom={"0px"} pt={"4"} pb={"6"} flexDir={"column"} gap={"4"} alignItems={"start"} >
                     <CommentInput setShow={setShow} replyData={replyData} data={content} user={user} />
                 </Flex>
             )}

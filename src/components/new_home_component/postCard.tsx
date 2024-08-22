@@ -70,23 +70,23 @@ export default function PostCard(props: IMediaContent) {
     }
 
     return (
-        <Flex style={{ boxShadow: "0px 2px 8px 0px #0000000D" }} borderWidth={"0.5px"} borderColor={"#EEEEEE"} borderRadius={"36px"} borderTopRightRadius={"0px"} p={"5"} >
+        <Flex style={{ boxShadow: "0px 2px 8px 0px #0000000D" }} borderWidth={"0.5px"} bg={mainBackgroundColor} borderColor={borderColor} borderRadius={"36px"} borderTopRightRadius={"0px"} p={"5"} >
             <Flex w={"full"} gap={"3"} flexDir={"column"} >
-                <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} borderWidth={"1px"} borderColor={"#EAEBEDCC"} px={"4"} >
+                <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} borderWidth={"1px"} borderColor={borderColor} px={"4"} >
                     <Flex as={"button"} onClick={()=> router?.push(`/dashboard/profile/${user?.userId}`)} alignItems={"center"} gap={"3"} >
                         <UserImage size={"55px"} data={user} image={user?.data?.imgMain?.value} />
                         <Flex flexDir={"column"} textAlign={"left"}  >
                             <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 40)}</Text>
-                            <Text color={"#222222"} fontSize={"14px"} >@{user?.username}</Text>
+                            <Text fontSize={"14px"} >@{user?.username}</Text>
                         </Flex>
                     </Flex>
                     <Flex onClick={() => setOpen(true)} as={"button"} ml={"auto"} pr={"1"} >
                         <CgMoreVertical size={"25px"} />
                     </Flex>
                 </Flex>
-                <Text color={"#222222"} >{text}</Text>
+                <Text>{text}</Text>
                 {(type === "WITH_IMAGE" || type === "WITH_VIDEO_POST") &&
-                    <Flex w={"full"} h={["236px", "236px", "236px", "350px", "350px"]} rounded={"16px"} roundedTopRight={"0px"}>
+                    <Flex w={"full"} h={["236px", "236px", "236px", "350px", "350px"]} rounded={"16px"} borderWidth={"1px"} roundedTopRight={"0px"}>
                         {type === "WITH_VIDEO_POST" && (
                             <VideoPlayer
                                 src={`${mediaRef}`}
@@ -144,7 +144,7 @@ export default function PostCard(props: IMediaContent) {
                 </Flex>
             </Flex>
             <ModalLayout open={open} close={setOpen} size={"xs"} >
-                <Flex w={"full"} flexDir={"column"} >
+                <Flex w={"full"} flexDir={"column"} bg={mainBackgroundColor} >
                     <Flex as={"button"} w={"full"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
                         <ShareBtn type="POST" id={id} istext={true} />
                     </Flex>
@@ -154,20 +154,20 @@ export default function PostCard(props: IMediaContent) {
                     <Flex onClick={() => reportHandler()} as={"button"} w={"full"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
                         Report User
                     </Flex>
-                    <Flex onClick={() => setOpen(false)} as={"button"} w={"full"} color={"#E90303"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
+                    <Flex onClick={() => setOpen(false)} as={"button"} w={"full"} color={"#E90303"} h={"60px"} justifyContent={"center"} alignItems={"center"} >
                         Cancel
                     </Flex>
                 </Flex>
             </ModalLayout>
 
             <ModalLayout open={deleteModal} close={setDeleteModal} size={"xs"} >
-                <Flex width='100%' justifyContent={'center'} height='100%' alignItems={'center'} gap={"3"} p={"5"} flexDir={"column"} >
+                <Flex width='100%'  bg={mainBackgroundColor} justifyContent={'center'} height='100%' alignItems={'center'} gap={"3"} p={"5"} flexDir={"column"} >
                     <Image alt='delete' src='/assets/images/deleteaccount.svg' />
                     <CustomText fontFamily='DM-Bold' textAlign={'center'} fontSize={'20px'}>Delete Post</CustomText>
-                    <CustomText fontFamily={'DM-Regular'} textAlign={'center'} fontSize={'16px'} color='grey'>Are you sure you want to delete this Post? this action cannot be undone.</CustomText>
+                    <CustomText fontFamily={'DM-Regular'} textAlign={'center'} fontSize={'16px'} >Are you sure you want to delete this Post? this action cannot be undone.</CustomText>
 
                     <Button isDisabled={deletingPost} isLoading={deletingPost} onClick={() => deletePost(id)} width='100%' height='42px' bg='red' color="white" variant='solid'>Delete</Button>
-                    <Button onClick={() => setDeleteModal(false)} width='100%' height='42px' borderWidth={'0px'} color="grey" variant='outline' outlineColor={'lightgrey'}>Cancel</Button>
+                    <Button onClick={() => setDeleteModal(false)} width='100%' height='42px' borderWidth={'0px'} variant='outline' outlineColor={borderColor}>Cancel</Button>
                 </Flex>
             </ModalLayout>
             <ReportUserModal

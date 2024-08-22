@@ -2,6 +2,7 @@
 import { CreatePost, PostCard, UpcomingEvent } from '@/components/new_home_component'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import useHome from '@/hooks/useHome'
+import useCustomTheme from '@/hooks/useTheme'
 import { IMediaContent } from '@/models/MediaPost'
 import { Box, Flex } from '@chakra-ui/react'
 import React from 'react'
@@ -10,8 +11,9 @@ export default function Home() {
 
     const { postData, refetchingPost, loadingPost, postRef } = useHome()
 
+    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
     return (
-        <Flex w={"full"} height={"full"} >
+        <Flex w={"full"} height={"full"} bgColor={secondaryBackgroundColor} >
             <Flex w={["full", "full", "full", "55%", "full"]} h={"full"} flexDir={"column"} >
                 <CreatePost />
                 <Flex w={"full"} h={"full"} flexDir={"column"} overflowY={"auto"} >
@@ -46,7 +48,7 @@ export default function Home() {
                     </LoadingAnimation>
                 </Flex>
             </Flex>
-            <Flex h={"full"} borderLeftColor={"#CCCCCC"} borderLeftWidth={"1px"} w={["fit-content", "fit-content", "fit-content", "45%", "75%"]} display={["none", "none", "none", "flex", "flex"]} >
+            <Flex h={"full"} borderLeftColor={borderColor} borderLeftWidth={"1px"} w={["fit-content", "fit-content", "fit-content", "45%", "75%"]} display={["none", "none", "none", "flex", "flex"]} >
                 <Flex w={"full"} >
                     <UpcomingEvent />
                 </Flex>

@@ -19,12 +19,12 @@ interface Props { }
 const UserCard = (props: IUser & { checked: boolean, handleCheck: (e: string) => void }) => {
     const { username, userId, data: { imgMain: { value: imgMain } }, firstName, lastName } = props;
     return (
-        <HStack width='100%' height={'60px'} justifyContent={'space-between'} >
+        <HStack width='100%' height={'60px'} pr={"5"} justifyContent={'space-between'} >
             <HStack>
                 <UserImage data={props} image={props?.data?.imgMain?.value} size={"40px"} border={"2px"} font={"20px"} />
                 {/* <Avatar src={`${CONFIG.RESOURCE_URL}${imgMain}`} size='sm' name={`${firstName} ${lastName}`} /> */}
                 <VStack alignItems={'flex-start'} spacing={0}>
-                    <Heading fontSize={'16px'} color='black'>{firstName || ''} {lastName || ''}</Heading>
+                    <Heading fontSize={'16px'} >{firstName || ''} {lastName || ''}</Heading>
                     <Text color='grey' fontSize={'14px'}>@{username || ''}</Text>
                 </VStack>
             </HStack>
@@ -111,7 +111,7 @@ function SendMesageModal({ onClose, id, isprofile, type }: {
     const { bodyTextColor, mainBackgroundColor, borderColor } = useCustomTheme();
 
     return (
-        <Flex width={"full"} h={"full"} position={"relative"} flexDir={"column"}  > 
+        <Flex width={"full"} h={"full"} pb={"50px"} position={"relative"} flexDir={"column"}  > 
             <Box  marginY='20px' w={"full"} > 
                 <InputGroup width={["full", "full", "full"]} h={"45px"} zIndex={"20"} position={"relative"} >
                     <InputLeftElement pointerEvents='none' mt={"3px"} pl={"4px"} >
@@ -130,7 +130,7 @@ function SendMesageModal({ onClose, id, isprofile, type }: {
                 </LoadingAnimation>
                 </Flex>
             </Flex>
-            <Box mt={"auto"} position={"sticky"} bottom={"0px"} paddingTop={'20px'} zIndex={10} paddingBottom={'20px'} >
+            <Box mt={"auto"} position={"sticky"}  bottom={"-40px"} paddingTop={'20px'} zIndex={10} paddingBottom={'20px'} >
                 <CustomButton text='Share' borderRadius={"full"} onClick={handleShare} disable={userIds.length === 0} isLoading={chatCreationLoading || sendMessage.isLoading} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
             </Box>
         </Flex>
