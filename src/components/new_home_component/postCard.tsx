@@ -82,7 +82,7 @@ export default function PostCard(props: IMediaContent) {
                     <Flex w={"full"} h={["236px", "236px", "236px", "350px", "350px"]} rounded={"16px"} roundedTopRight={"0px"}>
                         {type === "WITH_VIDEO_POST" && (
                             <VideoPlayer
-                                src={`${IMAGE_URL}${mediaRef}`}
+                                src={`${mediaRef}`}
                                 measureType="px"
                             />
                         )}

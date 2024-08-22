@@ -71,8 +71,7 @@ export default function UploadImage({ handleImagePicked, files, fileIndex, setFi
                         <Gallery size={25} color={bodyTextColor} />
                         <Video size={25} color={bodyTextColor} />
                     </HStack>
-                    <CustomText fontFamily={'Satoshi-Regular'} width='50%' textAlign={'center'} fontSize={'md'} color={bodyTextColor}>You can drag your
-                        pictures and video here </CustomText>
+                    <CustomText fontFamily={'Satoshi-Regular'} width='50%' textAlign={'center'} fontSize={'md'} color={bodyTextColor}>Click to add pictures and video here </CustomText>
                 </Flex>
             ) : (
                 <Flex width={'100%'} height={'100%'} pos={"relative"} borderWidth={"1px"} justifyContent={"center"} alignItems={"center"} overflow={'hidden'} zIndex={2} rounded={"16px"} roundedTopRight={"0px"} >
@@ -82,7 +81,7 @@ export default function UploadImage({ handleImagePicked, files, fileIndex, setFi
 
                     {files[0].type.startsWith('video') ? (
                         <video controls width={'100%'} height={'100%'}>
-                            <source src={url} type='video/mp4' />
+                            <source src={URL.createObjectURL(files[fileIndex])} type='video/mp4' />
                         </video>
                     ) : (
                         <Image src={URL.createObjectURL(files[fileIndex])} alt='image' width={'100%'} height={'100%'} rounded={"16px"} roundedTopRight={"0px"} objectFit={'cover'} />

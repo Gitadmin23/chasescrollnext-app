@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import { useSearchParams } from 'next/navigation'
-import GetProfile from '@/app/dashboard/profile/get_profile'
+import GetProfile from '@/app/olddashboard/profile/get_profile'
 import ProfileHeader from '@/components/profile_component/profile_header';
 import ProfileImage from '@/components/profile_component/profile_image';
 import { Box } from '@chakra-ui/react';

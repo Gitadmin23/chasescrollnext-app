@@ -70,9 +70,9 @@ function EditEvent({ params }: { params: { slug: string } }) {
 
             <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"74px"} display={["none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]} >
                 <CreateEventHeader name="Edit Events" />
-                <Flex bgColor={"gray.300"} w={"full"} p={["0px", "0px", "0px", "3"]}   >
-                    <Flex bgColor={"white"} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} h={["auto"]} overflowY={["auto"]}>
-                        <Box bgColor={"white"} w={"full"} px={"3"} h={["auto"]} >
+                <Flex bgColor={"gray.300"} w={"full"} p={["0px", "0px", "0px", "3"]} overflowY={["auto"]}  >
+                    <Flex bgColor={"white"} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} h={"auto"} overflowY={["auto"]} >
+                        <Box bgColor={"white"} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} px={"3"} h={"full"} >
                             {tab === 0 && (
                                 <EventTheme />
                             )}

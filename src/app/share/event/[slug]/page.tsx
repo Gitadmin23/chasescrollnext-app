@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { useSearchParams } from 'next/navigation'
-import GetEventData from '@/app/dashboard/event/details/get_event_data';
+import GetEventData from '@/app/olddashboard/event/details/get_event_data';
 import { IMAGE_URL } from '@/services/urls';
 import type { Metadata } from 'next' 
 

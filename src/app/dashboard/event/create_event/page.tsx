@@ -31,11 +31,11 @@ function CreateEvent(props: Props) {
     return (
         <>
 
-            <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"74px"} display={["none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]} >
+            <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"76px"} display={["none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]}  >
                 <CreateEventHeader name="Create Events" />
-                <Flex bgColor={colorMode === 'light' ? "gray.300":secondaryBackgroundColor} w={"full"} p={["0px", "0px", "0px", "3"]}   >
-                    <Flex bgColor={colorMode === 'light' ? "white":mainBackgroundColor} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} h={["auto"]} overflowY={["auto"]}>
-                        <Box bgColor={colorMode === 'light' ? "white":mainBackgroundColor} w={"full"} px={"3"} h={["auto"]} >
+                <Flex bgColor={colorMode === 'light' ? "gray.300":secondaryBackgroundColor} w={"full"} p={["0px", "0px", "0px", "3"]} h={"full"}  >
+                    <Flex bgColor={colorMode === 'light' ? "white":mainBackgroundColor} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} h={"auto"} overflowY={"auto"} >
+                        <Box bgColor={colorMode === 'light' ? "white":mainBackgroundColor} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} px={"3"}  h={"fit-content"} >
                             {tab === 0 && (
                                 <EventTheme />
                             )}
