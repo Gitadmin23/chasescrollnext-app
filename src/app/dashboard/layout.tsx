@@ -68,11 +68,11 @@ export default function Layout({ children }: {
         //     icon: <SidebarNotificationIcon />,
         //     text: 'Community'
         // },
-        {
-            route: `/dashboard/profile/${userId}`,
-            icon: <SidebarProfileIcon color={pathname?.includes("profile") ? true : false} />,
-            text: 'Profile'
-        },
+        // {
+        //     route: `/dashboard/profile/${userId}`,
+        //     icon: <SidebarProfileIcon color={pathname?.includes("profile") ? true : false} />,
+        //     text: 'Profile'
+        // },
         {
             route: `/dashboard/settings/payment/details`,
             icon: <SidebarWalletIcon color={pathname === "/dashboard/settings/payment/details" ? true : false} />,
@@ -132,88 +132,92 @@ export default function Layout({ children }: {
 
                             <Flex w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
                                 <Switch isChecked={colorMode === 'dark'} size={'md'} onChange={() => toggleColorMode()} />
-                            </Flex> 
-                                <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${userId}`)} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
-                                    <UserImage size={"36px"} border={"1px"} font={"16px"} data={data} image={user?.data?.imgMain?.value} />
-                                </Flex>
+                            </Flex>
+                            <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${userId}`)} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
+                                <Tooltip label={"profile"} fontSize='sm'>
+                                    <Box>
+                                        <UserImage size={"36px"} border={"1px"} font={"16px"} data={data} image={user?.data?.imgMain?.value} />
+                                    </Box>
+                                </Tooltip>
+                            </Flex>
 
-                                <Flex as={"button"} onClick={logout} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
-                                    <SidebarLogoutIcon />
-                                </Flex>
+                            <Flex as={"button"} onClick={logout} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
+                                <SidebarLogoutIcon />
                             </Flex>
                         </Flex>
                     </Flex>
-            )}
-                    <Flex w={"full"} height={"100vh"} pos={"relative"} flexDirection={"column"} >
-                        {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
-                            <Flex w={"full"} h={"76px"} borderBottomColor={borderColor} borderBottomWidth={"1px"} alignItems={"center"} px={"6"} justifyContent={"space-between"}  >
-                                {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft") && (
-                                    <Box display={["none", "none", "none", "flex", "flex"]} >
-                                        <SearchBar home={true} />
-                                    </Box>
-                                )}
-                                <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"3"} >
-                                    <Image alt='logo' src='/images/logo.png' w={"35.36px"} />
-                                    <Text fontSize={"17px"} fontWeight={"700"} color={primaryColor} >Chasescroll</Text>
-                                </Flex>
-                                <Flex ml={"auto"} display={["none", "none", "none", "flex", "flex"]} >
-                                    <CreateEventBtn btn={true} />
-                                </Flex>
-                                <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
-                                    <CreateEventBtn mobile={true} />
-                                    <Flex h={"20px"} alignItems={"center"} as='button' >
-                                        <NewChatIcon />
-                                    </Flex>
-                                    <Flex h={"20px"} alignItems={"center"} as='button' >
-                                        <NewWalletIcon />
-                                    </Flex>
-                                </Flex>
-                            </Flex>
-                        )}
-                        {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? (
-                            <Flex w={"full"} h={"100vh"} pb={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"0px"} insetX={"0px"} pt={"76px"} overflowY={"hidden"} >
-                                {children}
-                            </Flex>
-                        ) : (
-                            <Flex w={"full"} h={"100vh"} pb={["70px", "70px", "70px", "0px", "0px"]} overflowY={"hidden"} >
-                                {children}
-                            </Flex>
-                        )}
-                    </Flex>
-
-                    <HStack paddingX='20px' zIndex={"100"} position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg={mainBackgroundColor} borderTopWidth={1} borderTopColor={borderColor} display={['flex', 'flex', 'flex', 'none']}>
-                        <Link href='/dashboard/home'>
-                            <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('home') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('home') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                                <HomeIcon />
-                            </VStack>
-                        </Link>
-
-                        <Link href='/dashboard/explore'>
-                            <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('explore') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('explore') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                                <SearchNormal1 size='20px' />
-                            </VStack>
-                        </Link>
-
-                        <Link href='/dashboard/event'>
-                            <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('event') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('event') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                                <Calendar size='20px' />
-                            </VStack>
-                        </Link>
-
-                        <Link href='/dashboard/community'>
-                            <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('community') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('community') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                                {/* <People size='20px' /> */}
-                                <UsersIcon />
-                            </VStack>
-                        </Link>
-
-                        <Link href={userId ? `/dashboard/profile/${userId}` : ""}>
-
-                            <UserImage size={"40px"} border={"1px"} font={"16px"} data={data} image={user?.data?.imgMain?.value} />
-
-                        </Link>
-                    </HStack>
-                    <PageLoader show={!data?.email} />
                 </Flex>
-            )
-            }
+            )}
+            <Flex w={"full"} height={"100vh"} pos={"relative"} flexDirection={"column"} >
+                {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
+                    <Flex w={"full"} h={"76px"} borderBottomColor={borderColor} borderBottomWidth={"1px"} alignItems={"center"} px={"6"} justifyContent={"space-between"}  >
+                        {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft") && (
+                            <Box display={["none", "none", "none", "flex", "flex"]} >
+                                <SearchBar home={true} />
+                            </Box>
+                        )}
+                        <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"3"} >
+                            <Image alt='logo' src='/images/logo.png' w={"35.36px"} />
+                            <Text fontSize={"17px"} fontWeight={"700"} color={primaryColor} >Chasescroll</Text>
+                        </Flex>
+                        <Flex ml={"auto"} display={["none", "none", "none", "flex", "flex"]} >
+                            <CreateEventBtn btn={true} />
+                        </Flex>
+                        <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
+                            <CreateEventBtn mobile={true} />
+                            <Flex h={"20px"} alignItems={"center"} as='button' >
+                                <NewChatIcon />
+                            </Flex>
+                            <Flex h={"20px"} alignItems={"center"} as='button' >
+                                <NewWalletIcon />
+                            </Flex>
+                        </Flex>
+                    </Flex>
+                )}
+                {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? (
+                    <Flex w={"full"} h={"100vh"} pb={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"0px"} insetX={"0px"} pt={"76px"} overflowY={"hidden"} >
+                        {children}
+                    </Flex>
+                ) : (
+                    <Flex w={"full"} h={"100vh"} pb={["70px", "70px", "70px", "0px", "0px"]} overflowY={"hidden"} >
+                        {children}
+                    </Flex>
+                )}
+            </Flex>
+
+            <HStack paddingX='20px' zIndex={"100"} position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg={mainBackgroundColor} borderTopWidth={1} borderTopColor={borderColor} display={['flex', 'flex', 'flex', 'none']}>
+                <Link href='/dashboard/home'>
+                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('home') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('home') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                        <HomeIcon />
+                    </VStack>
+                </Link>
+
+                <Link href='/dashboard/explore'>
+                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('explore') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('explore') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                        <SearchNormal1 size='20px' />
+                    </VStack>
+                </Link>
+
+                <Link href='/dashboard/event'>
+                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('event') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('event') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                        <Calendar size='20px' />
+                    </VStack>
+                </Link>
+
+                <Link href='/dashboard/community'>
+                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('community') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('community') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                        {/* <People size='20px' /> */}
+                        <UsersIcon />
+                    </VStack>
+                </Link>
+
+                <Link href={userId ? `/dashboard/profile/${userId}` : ""}>
+
+                    <UserImage size={"40px"} border={"1px"} font={"16px"} data={data} image={user?.data?.imgMain?.value} />
+
+                </Link>
+            </HStack>
+            <PageLoader show={!data?.email} />
+        </Flex>
+    )
+}
