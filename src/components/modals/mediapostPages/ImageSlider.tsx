@@ -1,34 +1,48 @@
-import { Box, VStack, Image, HStack, Button, useColorMode } from '@chakra-ui/react'
+import { Box, VStack, Image, HStack, Button, useColorMode, Flex } from '@chakra-ui/react'
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 import React from 'react'
 import { IMAGE_URL } from '@/services/urls'
 import { useImageModalState } from '@/components/general/ImageModal/imageModalState'
 import useCustomTheme from "@/hooks/useTheme";
+import VideoPlayer from '@/components/general/VideoPlayer'
 
-const FileViewer = ({ file, newupdate }: { file: File, newupdate?: boolean }) => {
+const FileViewer = ({ file, newupdate, objectFit }: { file: File, newupdate?: boolean, objectFit?: boolean }) => {
     return (
         <Box width={newupdate ? '100%' : '500px'} height={newupdate ? '100%' : '400px'} overflow={'hidden'} zIndex={2}>
-            <Image src={URL.createObjectURL(file)} alt='image' width={'100%'} height={'100%'} rounded={"16px"} roundedTopRight={"0px"} objectFit={'cover'} />
+            <Image src={URL.createObjectURL(file)} alt='image' width={'100%'} height={'100%'} rounded={"16px"} roundedTopRight={"0px"} objectFit={objectFit ? "contain" : 'cover'} />
         </Box>
     )
 }
 
 const ImageViewer = ({ file }: { file: string, }) => {
     return (
-        <Box width='100%' height='100%' overflow={'hidden'} zIndex={2}>
-            {file.startsWith('https://') && <Image src={`${file}`} alt='image' style={{ width: '100%', height: '100%' }} rounded={"16px"} roundedTopRight={"0px"} objectFit={'cover'} />}
-            {!file.startsWith('https://') && <Image src={`${IMAGE_URL}${file}`} alt='image' style={{ width: '100%', height: '100%' }} rounded={"16px"} roundedTopRight={"0px"} objectFit={'cover'} />}
-        </Box>
+        <Flex width='100%' height='100%' overflow={'hidden'} zIndex={2}>
+            {file?.substr(file.length - 3) === "mp4" ? (
+                <Box width='100%' height='100%'>
+                    <VideoPlayer
+                        src={`${file}`}
+                        measureType="px"
+                    />
+                </Box>
+            ) : (
+                <Box width='100%' height='100%' >
+                    {file.startsWith('https://') && <Image src={`${file}`} alt='image' w={"full"} h={"full"} rounded={"16px"} roundedTopRight={"0px"} objectFit={'cover'} />}
+                    {!file.startsWith('https://') && <Image src={`${IMAGE_URL}${file}`} alt='image' style={{ width: '100%', height: '100%' }} rounded={"16px"} roundedTopRight={"0px"} objectFit={'cover'} />}
+                </Box>
+            )
+            }
+        </Flex>
     )
 }
 
-function ImageSlider({ files, newupdate, type, links, setCurrentIndex }: {
+function ImageSlider({ files, newupdate, type, links, setCurrentIndex, objectFit }: {
     files?: File[],
     type: 'feed' | 'upload',
     links?: string[],
     goBack?: () => void,
     newupdate?: boolean,
-    setCurrentIndex?: (index: number) => void
+    setCurrentIndex?: (index: number) => void,
+    objectFit?: boolean
 }) {
     const [index, setIndex] = React.useState(0);
     const { setAll } = useImageModalState((state) => state);
@@ -41,7 +55,11 @@ function ImageSlider({ files, newupdate, type, links, setCurrentIndex }: {
         setAll({ images: links as string[], isOpen: true })
     }
 
-    const goForward = React.useCallback(() => {
+    console.log(links);
+
+
+    const goForward = React.useCallback((e: any) => {
+        e.stopPropagation()
         if (type === 'upload') {
             if (index < (files as File[])?.length - 1) {
                 setIndex(index + 1);
@@ -72,7 +90,8 @@ function ImageSlider({ files, newupdate, type, links, setCurrentIndex }: {
 
     }, [type, index, files, links])
 
-    const goBackward = React.useCallback(() => {
+    const goBackward = React.useCallback((e: any) => {
+        e.stopPropagation()
         if (type === 'upload') {
             if (index > 0) {
                 setIndex(index - 1);
@@ -104,30 +123,30 @@ function ImageSlider({ files, newupdate, type, links, setCurrentIndex }: {
     }, [index, type])
 
     return (
-        <VStack width='100%' height='100%' spacing={0} bg={mainBackgroundColor}>
+        <Flex flexDirection={"column"} width='100%' height='100%'>
 
             <HStack width={'100%'} height={(links as string[])?.length < 2 || (files as File[])?.length < 2 ? '100%' : '90%'} position={'relative'} zIndex={1}>
 
                 {/* LEFT ARROW */}
                 {type === 'feed' && (links as string[])?.length > 1 && (
-                    <VStack zIndex='10' height={'100%'} width={'50px'} left='0' position={'absolute'} justifyContent={'center'} alignItems={'center'} >
-                        <VStack cursor='pointer' justifyContent={'center'} width='40px' height={'40px'} borderRadius={'50%'} bg='#02020285' _hover={{ backgroundColor: '#02020285' }} onClick={goBackward} >
+                    <VStack  height={'100%'} width={'50px'} left='0' position={'absolute'} justifyContent={'center'} alignItems={'center'} >
+                        <VStack cursor='pointer' justifyContent={'center'} width='40px' height={'40px'} borderRadius={'50%'} position={"relative"} zIndex={"20"} bg='#02020285' _hover={{ backgroundColor: '#02020285' }} onClick={goBackward} >
                             <FiArrowLeft size={'30px'} color='white' />
                         </VStack>
                     </VStack>
                 )}
 
                 {type === 'upload' && (files as File[])?.length > 1 && (
-                    <VStack zIndex='10' height={'100%'} width={'50px'} left='0' position={'absolute'} justifyContent={'center'} alignItems={'center'} >
-                        <VStack cursor='pointer' justifyContent={'center'} width='40px' height={'40px'} borderRadius={'50%'} bg='#02020285' _hover={{ backgroundColor: '#02020285' }} onClick={goBackward} >
+                    <VStack  height={'100%'} width={'50px'} left='0' position={'absolute'} justifyContent={'center'} alignItems={'center'} >
+                        <VStack cursor='pointer' justifyContent={'center'} width='40px' height={'40px'} borderRadius={'50%'} position={"relative"} zIndex={"20"} bg='#02020285' _hover={{ backgroundColor: '#02020285' }} onClick={goBackward} >
                             <FiArrowLeft size={'30px'} color='white' />
                         </VStack>
                     </VStack>
                 )}
 
-                {type === 'upload' && <FileViewer file={(files as File[])[index]} />}
+                {type === 'upload' && <FileViewer file={(files as File[])[index]} objectFit={objectFit} />}
                 {type === 'feed' && (
-                    <Box width='100%' height='100%' onClick={handleImageClick}>
+                    <Box width='100%' height='100%' pos={"relative"} zIndex={"10"} onClick={handleImageClick}>
                         <ImageViewer file={(links as string[])[index]} />
                     </Box>
                 )}
@@ -135,15 +154,15 @@ function ImageSlider({ files, newupdate, type, links, setCurrentIndex }: {
                 {/* RIGHT ARROW */}
                 {type === 'upload' && (files as File[])?.length > 1 && (
                     <VStack zIndex='10' height={'100%'} width={'50px'} right='0' position='absolute' justifyContent={'center'} alignItems={'center'} >
-                        <VStack cursor='pointer' justifyContent={'center'} width='40px' height={'40px'} borderRadius={'50%'} bg='#02020285' _hover={{ backgroundColor: '#02020285' }} onClick={goForward} >
+                        <VStack cursor='pointer' justifyContent={'center'} width='40px'  position={"relative"} zIndex={"20"} height={'40px'} borderRadius={'50%'} bg='#02020285' _hover={{ backgroundColor: '#02020285' }} onClick={goForward} >
                             <FiArrowRight size={'30px'} color='white' />
                         </VStack>
                     </VStack>
                 )}
 
                 {type === 'feed' && (links as string[])?.length > 1 && (
-                    <VStack zIndex='10' height={'100%'} width={'50px'} right='0' position='absolute' justifyContent={'center'} alignItems={'center'} >
-                        <VStack cursor='pointer' justifyContent={'center'} width='40px' height={'40px'} borderRadius={'50%'} bg='#02020285' _hover={{ backgroundColor: '#02020285' }} onClick={goForward} >
+                    <VStack height={'100%'} width={'50px'} right='0' position='absolute' justifyContent={'center'} alignItems={'center'} >
+                        <VStack cursor='pointer' justifyContent={'center'} width='40px' position={"relative"} zIndex={"20"} height={'40px'} borderRadius={'50%'} bg='#02020285' _hover={{ backgroundColor: '#02020285' }} onClick={goForward} >
                             <FiArrowRight size={'30px'} color='white' />
                         </VStack>
                     </VStack>
@@ -167,7 +186,7 @@ function ImageSlider({ files, newupdate, type, links, setCurrentIndex }: {
                 </HStack>
             )}
 
-        </VStack>
+        </Flex>
     )
 }
 

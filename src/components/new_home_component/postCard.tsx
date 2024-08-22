@@ -9,13 +9,15 @@ import VideoPlayer from '../general/VideoPlayer'
 import ImageSlider from '../modals/mediapostPages/ImageSlider'
 import { HomeCommentIcon, HomeHeartFillIcon, HomeHeartIcon } from '../svg'
 import useCustomTheme from '@/hooks/useTheme'
-import useHome from '@/hooks/useHome' 
+import useHome from '@/hooks/useHome'
 import { CgMoreVertical } from 'react-icons/cg'
 import ShareBtn from '../sharedComponent/new_share_btn'
 import ModalLayout from '../sharedComponent/modal_layout'
 import CustomText from '../general/Text'
 import ReportUserModal from '../modals/Home/ReportModal'
 import CommentSection from './commentSection'
+import CustomButton from '../general/Button'
+import { useRouter } from 'next/navigation'
 
 
 export default function PostCard(props: IMediaContent) {
@@ -44,10 +46,13 @@ export default function PostCard(props: IMediaContent) {
 
     const { likesHandle, loadingLikes, liked, setLiked, setLikeCount, likeCount: count, deletePost, deletingPost, deleteModal, setDeleteModal } = useHome()
 
-    const [showReportModal, setShowReportModal] = useState(false); 
+    const [showReportModal, setShowReportModal] = useState(false);
     const [open, setOpen] = useState(false)
+    const [openImage, setOpenImage] = useState(false)
     const [openComments, setOpenComments] = useState(false)
-    
+
+    const router = useRouter()
+
     useEffect(() => {
         setLiked(likeStatus ?? "")
         setLikeCount(likeCount ?? 0)
@@ -68,10 +73,12 @@ export default function PostCard(props: IMediaContent) {
         <Flex style={{ boxShadow: "0px 2px 8px 0px #0000000D" }} borderWidth={"0.5px"} borderColor={"#EEEEEE"} borderRadius={"36px"} borderTopRightRadius={"0px"} p={"5"} >
             <Flex w={"full"} gap={"3"} flexDir={"column"} >
                 <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} borderWidth={"1px"} borderColor={"#EAEBEDCC"} px={"4"} >
-                    <UserImage size={"55px"} data={user} image={user?.data?.imgMain?.value} />
-                    <Flex flexDir={"column"}  >
-                        <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 40)}</Text>
-                        <Text color={"#222222"} fontSize={"14px"} >@{user?.username}</Text>
+                    <Flex as={"button"} onClick={()=> router?.push(`/dashboard/profile/${user?.userId}`)} alignItems={"center"} gap={"3"} >
+                        <UserImage size={"55px"} data={user} image={user?.data?.imgMain?.value} />
+                        <Flex flexDir={"column"} textAlign={"left"}  >
+                            <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 40)}</Text>
+                            <Text color={"#222222"} fontSize={"14px"} >@{user?.username}</Text>
+                        </Flex>
                     </Flex>
                     <Flex onClick={() => setOpen(true)} as={"button"} ml={"auto"} pr={"1"} >
                         <CgMoreVertical size={"25px"} />
@@ -87,7 +94,9 @@ export default function PostCard(props: IMediaContent) {
                             />
                         )}
                         {type === "WITH_IMAGE" && (
-                            <ImageSlider links={multipleMediaRef} type="feed" />
+                            <Flex w={"full"} as={"button"} onClick={() => setOpenImage(true)} >
+                                <ImageSlider links={multipleMediaRef} type="feed" />
+                            </Flex>
                         )}
                     </Flex>
                 }
@@ -117,7 +126,7 @@ export default function PostCard(props: IMediaContent) {
                         }
                         <Text>{count}</Text>
                     </Flex>
-                    <Flex as={"button"} onClick={()=> setOpenComments(true)} w={"fit-content"} alignItems={"center"} gap={"2px"} >
+                    <Flex as={"button"} onClick={() => setOpenComments(true)} w={"fit-content"} alignItems={"center"} gap={"2px"} >
                         <Flex
                             width={"24px"}
                             h={"30px"}
@@ -142,7 +151,7 @@ export default function PostCard(props: IMediaContent) {
                     <Flex onClick={() => deleteHandler()} as={"button"} w={"full"} color={"#E90303"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
                         Delete Content
                     </Flex>
-                    <Flex onClick={()=> reportHandler()} as={"button"} w={"full"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
+                    <Flex onClick={() => reportHandler()} as={"button"} w={"full"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
                         Report User
                     </Flex>
                     <Flex onClick={() => setOpen(false)} as={"button"} w={"full"} color={"#E90303"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
@@ -160,7 +169,7 @@ export default function PostCard(props: IMediaContent) {
                     <Button isDisabled={deletingPost} isLoading={deletingPost} onClick={() => deletePost(id)} width='100%' height='42px' bg='red' color="white" variant='solid'>Delete</Button>
                     <Button onClick={() => setDeleteModal(false)} width='100%' height='42px' borderWidth={'0px'} color="grey" variant='outline' outlineColor={'lightgrey'}>Cancel</Button>
                 </Flex>
-            </ModalLayout> 
+            </ModalLayout>
             <ReportUserModal
                 typeID={id}
                 REPORT_TYPE="REPORT_USER"
@@ -169,6 +178,14 @@ export default function PostCard(props: IMediaContent) {
             />
             <ModalLayout closeIcon={true} size={["full", "full", "2xl"]} open={openComments} close={setOpenComments} >
                 <CommentSection count={count} liked={liked} likesHandle={likesHandle} loadingLikes={loadingLikes} content={props} />
+            </ModalLayout>
+            <ModalLayout size={"xl"} open={openImage} close={setOpenImage} >
+                <Flex flexDir={"column"} px={"6"} pt={"8"} w={"full"} >
+                    <ImageSlider objectFit={true} links={multipleMediaRef} type="feed" />
+                    <Flex w={"full"} justifyContent={"end"} py={"4"} >
+                        <CustomButton onClick={() => setOpenImage(false)} text={"Close"} width={"fit-content"} px={"7"} />
+                    </Flex>
+                </Flex>
             </ModalLayout>
         </Flex>
     )

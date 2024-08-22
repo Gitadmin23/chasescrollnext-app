@@ -79,7 +79,7 @@ export default function UploadImage({ handleImagePicked, files, fileIndex, setFi
                         <FiArrowLeft size={'30px'} color='white' />
                     </Flex>
 
-                    {files[0].type.startsWith('video') ? (
+                    {files[fileIndex].type.startsWith('video') ? (
                         <video controls width={'100%'} height={'100%'}>
                             <source src={URL.createObjectURL(files[fileIndex])} type='video/mp4' />
                         </video>

@@ -8,6 +8,7 @@ import ModalLayout from '../sharedComponent/modal_layout';
 import { IoAdd, IoClose } from 'react-icons/io5';
 import useHome from '@/hooks/useHome';
 import UploadImage from './uploadImage';
+import { useRouter } from 'next/navigation';
 
 export default function Createpost() {
 
@@ -17,6 +18,7 @@ export default function Createpost() {
     // const [open, setOpen] = useState(false)
     const [fileIndex, setFileIndex] = useState(0)
     const toast = useToast()
+    const router = useRouter()
 
     const { createPost, isLoading, post, setPost, handleImagePicked, files, removeFile, emptyFiles, createPostWithFiles, uploadingfile, open, setOpen, setFiles } = useHome()
 
@@ -53,11 +55,14 @@ export default function Createpost() {
         setFiles([])
     }, [open]) 
     
+    console.log(files);
+    
+
     return (
         <Flex w={["full", "full", "full", "full", "619px"]} pt={["4", "4", "4", "4", "8"]} px={["4", "4", "4", "4","8"]} >
             <Flex w={"full"} p={"4"} gap={"2"} rounded={"12px"} flexDir={"column"} style={{ boxShadow: "0px 2px 2px 0px #00000008" }} h={"fit-content"} >
                 <Flex pos={"relative"} w={"full"} bgColor={"#FBFBFB"} gap={"1"} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
-                    <Box w={"fit-content"} >
+                    <Box as={"button"} onClick={()=> router?.push(`/dashboard/profile/${user?.userId}`)}  w={"fit-content"} >
                         <UserImage size={"36px"} fontWeight={"500"} font={"14px"} border={"1.5px"} image={user?.data?.imgMain?.value} data={user} />
                     </Box>
                     <Textarea value={post} onChange={(e) => setPost(e.target.value)} h={"45px"} w={"full"} borderWidth={"0px"} _hover={{ borderWidth: "0px", }} focusBorderColor='transparent' placeholder='Add your thought' _placeholder={{ color: "#00000033" }} />
@@ -99,7 +104,7 @@ export default function Createpost() {
                                                         <Flex as={"button"} onClick={() => removeFile(index)} w={"4"} h={"4"} color={"white"} bg={"black"} rounded={"full"} justifyContent={"center"} alignItems={"center"} pos={"absolute"} top={"-1"} right={"-1"} zIndex={"10"}  >
                                                             <IoClose size="15px" />
                                                         </Flex>
-                                                        {files[0].type.startsWith('video') ? (
+                                                        {files[index].type.startsWith('video') ? (
                                                             <video controls width={'100%'} height={'100%'}>
                                                                 <source src={URL.createObjectURL(item)} type='video/*' />
                                                             </video>

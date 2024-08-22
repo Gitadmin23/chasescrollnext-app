@@ -7,6 +7,7 @@ import useComment from '@/hooks/useComment'
 import { IComment, IMediaContent } from '@/models/MediaPost'
 import { textLimit } from '@/utils/textlimit'
 import useCustomTheme from '@/hooks/useTheme'
+import { IoClose } from 'react-icons/io5'
 
 interface IProps {
     user: IUser | null
@@ -49,11 +50,19 @@ export default function CommentInput({ user, data, replyData, setShow }: IProps)
         }
     }, [addComment?.isSuccess, createSubComment?.isSuccess])
 
+    const clickHandler = () => {
+        setShow(false)
+        setCommentsInput("")
+    }
+
     return (
         <Flex w={"full"} height={"fit-content"} flexDir={"column"} px={"4"} gap={"3"} >
             {replyData?.data?.id && (
                 <Text>replying to <span style={{ color: primaryColor, fontWeight: "bold" }} >{replyData?.user?.username}</span> {`"${textLimit(replyData?.data?.comment, 20)}"`}</Text>
             )}
+            <Box onClick={clickHandler} as='button' position={"absolute"} top={"1"} right={"1"} >
+                <IoClose size={"20px"} />
+            </Box>
             <Flex pos={"relative"} w={"full"} gap={"1"} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
                 <Box w={"fit-content"} >
                     <UserImage size={"36px"} fontWeight={"500"} font={"14px"} border={"1.5px"} image={user?.data?.imgMain?.value} data={user} />
