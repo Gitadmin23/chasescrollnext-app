@@ -102,9 +102,10 @@ export default function Layout({ children }: {
         <Flex w={"full"} h={"100vh"} bg={"white"} >
             {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
                 <Flex w={"fit-content"} h={"screen"} display={["none", "none", "none", "flex", "flex"]} >
-                    <Flex w={"110px"} h={"screen"} flexDir={"column"} py={"4"} alignItems={"center"} borderRightColor={"#CCCCCC"} borderRightWidth={"1px"} >
+                    <Flex w={"110px"} h={"screen"} gap={"4"} overflowY={"auto"} flexDir={"column"} py={"4"} alignItems={"center"} justifyContent={"space-between"} borderRightColor={"#CCCCCC"} borderRightWidth={"1px"} >
                         <Image alt='logo' src='/images/logo.png' w={"50px"} />
-                        <Flex flexDir={"column"} alignItems={"center"} mt={"auto"} gap={"3"} >
+                        <Flex flexDir={"column"} alignItems={"center"} gap={"3"} >
+
                             {routes?.map((item, index) => (
                                 <Flex as={"button"} onClick={() => router?.push(item?.route)} key={index} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
                                     <Tooltip label={item?.text} fontSize='sm'>
@@ -115,7 +116,9 @@ export default function Layout({ children }: {
                                 </Flex>
                             ))}
 
-                            <Flex mt={"6"} flexDir={"column"} alignItems={"center"} >
+                        </Flex>
+
+                        <Flex flexDir={"column"} alignItems={"center"} >
                                 <Flex w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
                                     <UserImage size={"36px"} border={"1px"} font={"16px"} data={data} image={user?.data?.imgMain?.value} />
                                 </Flex>
@@ -124,8 +127,6 @@ export default function Layout({ children }: {
                                     <SidebarLogoutIcon />
                                 </Flex>
                             </Flex>
-
-                        </Flex>
                     </Flex>
                 </Flex>
             )}
@@ -159,8 +160,8 @@ export default function Layout({ children }: {
                     <Flex w={"full"} h={"100vh"} pb={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"0px"} insetX={"0px"} pt={"76px"} overflowY={"hidden"} >
                         {children}
                     </Flex>
-                ): (
-                    <Flex w={"full"} h={"100vh"} pb={["70px", "70px", "70px", "0px", "0px"]}  overflowY={"hidden"} >
+                ) : (
+                    <Flex w={"full"} h={"100vh"} pb={["70px", "70px", "70px", "0px", "0px"]} overflowY={"hidden"} >
                         {children}
                     </Flex>
                 )}
