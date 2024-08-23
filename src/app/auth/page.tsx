@@ -1,7 +1,7 @@
 "use client"
 import { AppleIcon, GoogleIcon } from '@/components/svg'
 import { Button, Flex, Image, Text, Box, Input, Checkbox } from '@chakra-ui/react'
-import React from 'react' 
+import React from 'react'
 import { useRouter } from 'next/navigation'
 import { CustomInput } from '@/components/Form/CustomInput'
 import useAuth from '@/hooks/useAuth'
@@ -22,12 +22,16 @@ export default function NewPage() {
                 <Image alt='bg' src='/images/loginimg.jpg' objectPosition={"left"} pos={"absolute"} inset={"0px"} h={"full"} objectFit={"cover"} />
                 <Image alt='bg' src='/images/bay.png' pos={"relative"} zIndex={"10"} w={"70%"} objectFit={"contain"} />
                 <Box pos={"absolute"} inset={"0px"} w={"full"} h={"full"} bg={"black"} opacity={"40%"} />
-                <Flex as={"button"} type='button' onClick={()=> router?.push("/home")} pos={"absolute"} top={"12"} color={"white"} fontSize={"16px"} fontWeight={"600"} zIndex={"5"} gap={"1"} alignItems={"center"} left={"12"} >
+                <Flex as={"button"} type='button' onClick={() => router?.push("/home")} pos={"absolute"} top={"12"} color={"white"} fontSize={"16px"} fontWeight={"600"} zIndex={"5"} gap={"1"} alignItems={"center"} left={"12"} >
                     <IoIosArrowBack size={"20px"} />
                     Home
                 </Flex>
             </Flex>
-            <Flex justifyContent={"center"} alignItems={"center"} bgColor={"#FCFCFC"} h={"full"} w={"full"} >
+            <Flex justifyContent={"center"} alignItems={"center"} bgColor={"#FCFCFC"} h={"full"} w={"full"} position={"relative"} >
+                <Flex as={"button"} display={["flex", "flex", "flex", "none"]} type='button' onClick={() => router?.push("/home")} pos={"absolute"} top={"6"} color={"black"} fontSize={"16px"} fontWeight={"600"} zIndex={"5"} gap={"1"} alignItems={"center"} left={"6"} >
+                    <IoIosArrowBack size={"20px"} />
+                    Home
+                </Flex>
                 <Flex style={{ boxShadow: "0px 2px 8px 2px #00000003" }} flexDir={"column"} gap={"1"} justifyContent={"center"} alignItems={"center"} maxW={"500px"} p={"8"} rounded={"62px"} w={"full"} >
                     <Image alt='logo' src='/images/logo.png' />
                     <Text fontSize={"24px"} color={"#1F1F1F"} textAlign={"center"} fontWeight={"600"} >Welcome Chasescroll</Text>
@@ -54,7 +58,7 @@ export default function NewPage() {
                             <Checkbox w={"16px"} rounded={"8px"} />
                             <Text >Remember me</Text>
                         </Flex>
-                        <Text onClick={()=> router.push("/auth/forgotpassword")} as={"button"} type='button' color={"#233DF3"} >Forgotten Password</Text>
+                        <Text onClick={() => router.push("/auth/forgotpassword")} as={"button"} type='button' color={"#233DF3"} >Forgotten Password</Text>
                     </Flex>
                     <Button type='submit' color={"white"} isLoading={isLoading} isDisabled={isLoading} mt={"4"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
                         <Text textAlign={"center"} fontWeight={"600"} >Login</Text>
