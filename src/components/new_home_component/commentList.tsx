@@ -10,6 +10,7 @@ import { IUser } from '@/models/User';
 import useComment from '@/hooks/useComment';
 import LoadingAnimation from '../sharedComponent/loading_animation';
 import { useRouter } from 'next/navigation';
+import { textLimit } from '@/utils/textlimit';
 
 interface IProps {
     data: IMediaContent,
@@ -76,7 +77,7 @@ export default function CommentList({
                                     </Flex>
                                     <Flex flexDirection={"column"} w={"full"} minW={["fit-content", "200px", "300px"]}  >
                                         <Flex flexDir={"column"} bg={secondaryBackgroundColor} w={"full"} minW={["fit-content", "200px", "300px"]} rounded={"16px"} py={"2"} px={"3"} >
-                                            <Text role='button' onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} fontWeight={"500"} >{item?.user?.username}</Text>
+                                            <Text role='button' onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} fontWeight={"500"} >{textLimit(item?.user?.username, 15)}</Text>
                                             <Text color={bodyTextColor} fontSize={"14px"} >{item?.comment}</Text>
                                             <Flex w={"full"} justifyContent={"space-between"} mt={"2"} >
                                                 <Text fontSize={"12px"}>{moment(item?.timeInMilliseconds).fromNow()}</Text>
@@ -125,13 +126,12 @@ export default function CommentList({
                                         {item?.subComments?.content?.map((subitem, subindex) => {
                                             return (
                                                 <Flex key={subindex} w={"full"} onMouseOver={() => setShowActionReply(subitem?.id)} onMouseLeave={() => setShowActionReply("")} gap={"4"} >
-
                                                     <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} w={"fit-content"} >
                                                         <UserImage border="1.3px" font={"14px"} size={"33px"} image={subitem?.user?.data?.imgMain?.value} data={subitem?.user} />
                                                     </Flex>
                                                     <Flex flexDirection={"column"} w={"full"} minW={["fit-content", "200px", "300px"]}  >
                                                         <Flex flexDir={"column"} bg={secondaryBackgroundColor} w={"full"} minW={["fit-content", "200px", "300px"]} rounded={"16px"} py={"2"} px={"3"} >
-                                                            <Text role='button' onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} fontWeight={"500"} >{subitem?.user?.username}</Text>
+                                                            <Text role='button' onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} fontWeight={"500"} >{textLimit(item?.user?.username, 15)}</Text>
                                                             <Text color={bodyTextColor} fontSize={"14px"} >{subitem?.comment}</Text>
                                                             <Flex w={"full"} justifyContent={"space-between"} mt={"2"} >
                                                                 <Text fontSize={"12px"}>{moment(subitem?.timeInMilliseconds).fromNow()}</Text>

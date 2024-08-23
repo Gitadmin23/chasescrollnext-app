@@ -90,8 +90,7 @@ function ShareToSocialMedia(props: Props) {
         <Flex
             width={"full"}
             justifyContent={"center"}
-            height={"160px"} 
-            px={"8"}
+            height={"fit-content"}  
             flexDir={"column"}
         >
             <Text pt={"5"} pb={"8"} textAlign={"center"}>
@@ -143,7 +142,7 @@ function ShareToSocialMedia(props: Props) {
                                 </defs>
                             </svg>
                         </Flex>
-                        <Text color={"#121212"} fontSize={"12px"} >WhatsApp</Text>
+                        <Text color={"#121212"} fontSize={"10px"} >WhatsApp</Text>
                     </Flex>
                 </WhatsappShareButton>
                 <FacebookShareButton
@@ -186,7 +185,7 @@ function ShareToSocialMedia(props: Props) {
                                 </defs>
                             </svg>
                         </Flex>
-                        <Text color={"#121212"} fontSize={"12px"} >Facebook</Text>
+                        <Text color={"#121212"} fontSize={"10px"} >Facebook</Text>
                     </Flex>
                 </FacebookShareButton>
                 <LinkedinShareButton url={url_link}>
@@ -222,7 +221,7 @@ function ShareToSocialMedia(props: Props) {
                                 />
                             </svg>
                         </Flex>
-                        <Text color={"#121212"} fontSize={"12px"} >LinkedIn</Text>
+                        <Text color={"#121212"} fontSize={"10px"} >LinkedIn</Text>
                     </Flex>
                 </LinkedinShareButton>
                 <EmailShareButton url={url_link} subject="ChaseScroll Event">
@@ -251,7 +250,7 @@ function ShareToSocialMedia(props: Props) {
                                 </g>
                             </svg>
                         </Flex>
-                        <Text color={"#121212"} fontSize={"12px"} >Instagram</Text>
+                        <Text color={"#121212"} fontSize={"10px"} >Instagram</Text>
                     </Flex>
                 </EmailShareButton>
                 <Flex as={"button"} onClick={() => copyToClipboard(url_link)} rounded={"full"} justifyContent={"center"} alignItems={"center"} flexDir={"column"} width={"43px"}
@@ -259,7 +258,7 @@ function ShareToSocialMedia(props: Props) {
                     <Flex w={"43px"} height={"42px"} >
                         <CopyButton />
                     </Flex>
-                    <Text color={"#121212"} fontSize={"12px"} >Copy_Link</Text>
+                    <Text color={"#121212"} fontSize={"10px"} >Copy_Link</Text>
                 </Flex>
             </Flex>
         </Flex>
