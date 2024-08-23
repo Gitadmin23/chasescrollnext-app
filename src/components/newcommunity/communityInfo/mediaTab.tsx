@@ -10,6 +10,7 @@ import ModalLayout from '@/components/sharedComponent/modal_layout'
 import CustomText from '@/components/general/Text'
 import { THEME } from '@/theme'
 import { IoMdCloudDownload } from 'react-icons/io'
+import VideoPlayer from '@/components/general/VideoPlayer'
 
 export default function MediaTab() {
 
@@ -47,13 +48,16 @@ export default function MediaTab() {
         const __format__ = item.mediaRef?.split('.');
         const format = __format__[__format__?.length - 1];
         if (FILE_FORMATS.IMAGE_FORM.includes(format)) {
-            return <GridItem  as={"button"} onClick={() => clickHandler(item)} borderRadius={'5px'} overflow='hidden' width='100%' marginBottom='20px' height={'120px'} >
+            return <GridItem as={"button"} onClick={() => clickHandler(item)} borderRadius={'5px'} overflow='hidden' width='100%' marginBottom='20px' height={'120px'} >
                 {item.mediaRef.startsWith('https://') && <Image src={item.mediaRef} alt='image' />}
                 {!item.mediaRef.startsWith('https://') && <Image src={`${IMAGE_URL}${item.mediaRef}`} alt='image' />}
             </GridItem>
         } else if (FILE_FORMATS.VIDEO_FORM.includes(format)) {
             return <GridItem borderRadius={'5px'} maxH={'150px'} overflow='hidden' width='100%' height={'125px'} >
-
+                <VideoPlayer
+                    src={`${item.mediaRef}`}
+                    measureType="px"
+                />
                 <Flex as={"button"} onClick={() => clickHandler(item)} w={"100%"} h={"120px"} justifyContent={"center"} alignItems={"center"} rounded={"2xl"} bgColor={primaryColor} >
                     <RiFolderVideoLine size={"40px"} color={"white"} />
                     {/* {} */}
@@ -61,7 +65,7 @@ export default function MediaTab() {
             </GridItem>
         } else if (item.type === 'WITH_FILE') {
             console.log(item);
-            
+
             return (
                 <Flex as={"button"} shadow={"lg"} flexDir={"column"} justifyContent={"center"} alignItems={"center"} rounded={"5px"} width='100%' height={'120px'} >
                     <Box w={"fit-content"} onClick={() => downloadFile(item.mediaRef)}>

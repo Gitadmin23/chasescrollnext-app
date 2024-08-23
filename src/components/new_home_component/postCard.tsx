@@ -74,7 +74,7 @@ export default function PostCard(props: IMediaContent) {
             <Flex w={"full"} gap={"3"} flexDir={"column"} >
                 <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} borderWidth={"1px"} borderColor={borderColor} px={"4"} >
                     <Flex as={"button"} onClick={()=> router?.push(`/dashboard/profile/${user?.userId}`)} alignItems={"center"} gap={"3"} >
-                        <UserImage size={"55px"} data={user} image={user?.data?.imgMain?.value} />
+                        <UserImage size={"55px"} font={"20px"} data={user} image={user?.data?.imgMain?.value} />
                         <Flex flexDir={"column"} textAlign={"left"}  >
                             <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 40)}</Text>
                             <Text fontSize={"14px"} >@{user?.username}</Text>
@@ -176,8 +176,8 @@ export default function PostCard(props: IMediaContent) {
                 isOpen={showReportModal}
                 onClose={() => setShowReportModal(false)}
             />
-            <ModalLayout closeIcon={true} size={["full", "full", "2xl"]} open={openComments} close={setOpenComments} >
-                <CommentSection count={count} liked={liked} likesHandle={likesHandle} loadingLikes={loadingLikes} content={props} />
+            <ModalLayout size={["full", "full", "2xl"]} open={openComments} close={setOpenComments} >
+                <CommentSection close={setOpenComments} count={count} liked={liked} likesHandle={likesHandle} loadingLikes={loadingLikes} content={props} />
             </ModalLayout>
             <ModalLayout size={"2xl"} open={openImage} close={setOpenImage} >
                 <Flex  bg={mainBackgroundColor} flexDir={"column"} px={"6"} pt={"8"} w={"full"} >

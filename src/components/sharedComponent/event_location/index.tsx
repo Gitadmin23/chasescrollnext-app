@@ -84,10 +84,7 @@ function EventLocationDetail(props: Props) {
           >
             {location?.locationDetails && (
               <p>
-                {location?.locationDetails?.length >= (length ? length : 17)
-                  ? location?.locationDetails.slice(0, length ? length : 17) +
-                  "..."
-                  : location?.locationDetails}
+                {location?.locationDetails}
               </p>
             )}
             {location?.toBeAnnounced && !location?.locationDetails && (
@@ -140,7 +137,7 @@ function EventLocationDetail(props: Props) {
               >
                 {location?.locationDetails && (
                   <p> 
-                     {textLimit(location?.locationDetails, length ?? 10)}
+                     {location?.locationDetails}
                   </p>
                 )}
                 {location?.toBeAnnounced && !location?.locationDetails && (

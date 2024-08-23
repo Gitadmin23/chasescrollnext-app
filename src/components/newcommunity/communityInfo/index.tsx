@@ -13,6 +13,8 @@ import { useDetails } from '@/global-state/useUserDetails';
 import ShareEvent from '@/components/sharedComponent/share_event';
 import ModalLayout from '@/components/sharedComponent/modal_layout';
 import CustomText from '@/components/general/Text';
+import { textLimit } from '@/utils/textlimit';
+import { capitalizeFLetter } from '@/utils/capitalLetter';
 
 interface IProps {
     setTab?: any
@@ -39,8 +41,7 @@ export default function CommunityInfo({ setTab }: IProps) {
                 <CommunityImage src={activeCommunity?.data?.imgSrc} rounded='36px' size={"97px"} />
                 {/* <Box pos={"absolute"} bottom={"2"} right={"0"} >
                     <PhotoIcon />
-                </Box> */}
-
+                </Box> */} 
                 {/* <Button width='100%' height='30px' variant={'solid'} isLoading={updateGroup.isLoading} onClick={handleUpdateGroup} >Save</Button> */}
             </Box>
             <Text fontWeight={"700"} fontSize={"18px"} mt={"2"} >{activeCommunity?.data?.name}</Text>

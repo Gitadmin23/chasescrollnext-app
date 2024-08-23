@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import CustomText from '@/components/general/Text'; 
+import CustomText from '@/components/general/Text';
 import { IMediaContent } from '@/models/MediaPost'
 import { IMAGE_URL, RESOURCE_BASE_URL, URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
@@ -26,6 +26,7 @@ import { RiFolderVideoLine } from "react-icons/ri";
 import ModalLayout from '@/components/sharedComponent/modal_layout';
 
 import { useDetails } from '@/global-state/useUserDetails';
+import VideoPlayer from '@/components/general/VideoPlayer';
 
 interface IProps {
     message: IMediaContent;
@@ -170,8 +171,12 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                             )}
                             {
                                 post.type === 'WITH_VIDEO_POST' && (
-                                    <Flex as={"button"} onClick={() => setShow(true)} w={"250px"} h={"150px"} justifyContent={"center"} alignItems={"center"} rounded={"2xl"} bgColor={primaryColor} >
-                                        <RiFolderVideoLine size={"40px"} color={"white"} />
+                                    <Flex as={"button"} onClick={() => setShow(true)} w={"250px"} h={"150px"} justifyContent={"center"} alignItems={"center"} rounded={"2xl"} bgColor={mainBackgroundColor} >
+                                        {/* <RiFolderVideoLine size={"40px"} color={"white"} /> */}
+                                        <VideoPlayer
+                                            src={`${post?.mediaRef}`}
+                                            measureType="px"
+                                        />
                                         {/* {} */}
                                     </Flex>
                                     // <video controls width={'100%'} height={'100px'} style={{ borderRadius: '20px' }}>
@@ -292,9 +297,10 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                 <Flex h={"400px"} >
 
                     {post.type === 'WITH_VIDEO_POST' && (
-                        <video controls width={'100%'} height={'100px'} style={{ borderRadius: '20px' }}>
-                            <source height={"100px"} src={post.mediaRef} />
-                        </video>
+                        <VideoPlayer
+                            src={`${post?.mediaRef}`}
+                            measureType="px"
+                        />
                     )}
                     {post.type === 'WITH_IMAGE' && (
                         <Image onClick={() => setShow(true)} src={`${post?.mediaRef}`} alt='img' width={'100%'} height={'100%'} objectFit={'cover'} borderRadius={'20px'} />

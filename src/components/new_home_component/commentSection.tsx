@@ -15,13 +15,15 @@ import { capitalizeFLetter } from '@/utils/capitalLetter'
 import { textLimit } from '@/utils/textlimit'
 import { CgMoreVertical } from 'react-icons/cg'
 import { useRouter } from 'next/navigation'
+import { IoArrowBack } from 'react-icons/io5'
 
 interface IProps {
     content: IMediaContent,
     loadingLikes?: any,
     likesHandle?: any,
     liked?: any,
-    count?: any
+    count?: any,
+    close: any
 }
 
 export default function CommentSection(props: IProps) {
@@ -31,7 +33,8 @@ export default function CommentSection(props: IProps) {
         loadingLikes,
         likesHandle,
         liked,
-        count
+        count,
+        close
     } = props
 
     const { user } = useGetUser()
@@ -53,7 +56,8 @@ export default function CommentSection(props: IProps) {
         <Flex w={"full"} h={["100vh", "100vh", "full"]} gap={"4"} bg={mainBackgroundColor} position={"relative"} flexDir={"column"} flex={"1"} justifyContent={"space-between"} alignItems={"center"} pt={"4"} >
             <Flex w={"full"} h={"full"} alignItems={"center"} flexDirection={"column"} pb={"4"} gap={"4"} px={"6"}  >
                 {/* <Flex h={"fit-content"} flexDir={"column"} w={"full"} > */}
-                <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} roundedTopRight={"0px"} borderWidth={"1px"} borderColor={borderColor} px={"4"} >
+                <Flex alignItems={"center"} gap={"2"} h={"78px"} w={"full"} rounded={"full"} roundedTopRight={"0px"} borderWidth={"1px"} borderColor={borderColor} px={"4"} >
+                    <IoArrowBack role="button" onClick={()=> close(false)} size={"25px"} />
                     <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} gap={"3"} >
                         <UserImage size={"55px"} data={content?.user} image={content?.user?.data?.imgMain?.value} />
                         <Flex flexDir={"column"} alignItems={"start"}  >

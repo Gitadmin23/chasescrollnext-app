@@ -95,8 +95,8 @@ function CreateEventBtn(props: Props) {
     }
 
     const openHandler = () =>{ 
-        setOpen(false)
         router.push("/dashboard/event/create_event")
+        setOpen(false)
     }
 
     return (
@@ -115,7 +115,7 @@ function CreateEventBtn(props: Props) {
                 </Flex>
             )}
             {open && (
-                <Flex zIndex={"110"} position={"absolute"} top={btn ? "70px": "0px"} flexDir={"column"} right={btn ? "6":"0px"} maxW={"374px"} w={"full"} py={"4"} px={"6"} bg={mainBackgroundColor} rounded={'8px'} >
+                <Flex zIndex={"110"} position={"absolute"} top={(btn || mobile) ? "70px": "0px"} flexDir={"column"} right={btn ? "6": mobile ? "3" :"0px"} maxW={"374px"} w={"full"} py={"4"} px={"6"} bg={mainBackgroundColor} rounded={'8px'} >
                     <Flex w={"full"} alignItems={"center"} justifyContent={"space-between"} >
                         <Flex role="button" onClick={() => router.push("/dashboard/home")} justifyContent={'center'} gap={"2"} >
                             <Image src='/assets/images/chasescroll-logo.png' width={"24px"} height={"24px"} alt='logo' />

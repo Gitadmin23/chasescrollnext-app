@@ -14,7 +14,7 @@ import UserImage from '@/components/sharedComponent/userimage';
 import CustomText from '@/components/general/Text';
 import { HomeIcon, UsersIcon } from '@/components/svg';
 import { IMAGE_URL } from '@/services/urls';
-import { SearchNormal1, Calendar, Warning2 } from 'iconsax-react';
+import { SearchNormal1, Calendar, Warning2, LogoutCurve } from 'iconsax-react';
 import useCustomTheme from '@/hooks/useTheme';
 import getUser from '@/hooks/useGetUser';
 import CreateEventBtn from '@/components/sharedComponent/create_event_btn';
@@ -133,7 +133,11 @@ export default function Layout({ children }: {
                         <Flex flexDir={"column"} alignItems={"center"} >
 
                             <Flex w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
-                                <Switch isChecked={colorMode === 'dark'} size={'md'} onChange={() => toggleColorMode()} />
+                                <Tooltip label={"darkmode"} fontSize='sm'>
+                                    <Box>
+                                        <Switch isChecked={colorMode === 'dark'} size={'md'} onChange={() => toggleColorMode()} />
+                                    </Box>
+                                </Tooltip>
                             </Flex>
                             <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${userId}`)} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
                                 <Tooltip label={"profile"} fontSize='sm'>
@@ -143,8 +147,12 @@ export default function Layout({ children }: {
                                 </Tooltip>
                             </Flex>
 
-                            <Flex as={"button"} onClick={()=> setOpen(true)} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
-                                <SidebarLogoutIcon />
+                            <Flex as={"button"} onClick={() => setOpen(true)} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
+                                <Tooltip label={"logout"} fontSize='sm'>
+                                    <Box>
+                                        <SidebarLogoutIcon />
+                                    </Box>
+                                </Tooltip>
                             </Flex>
                         </Flex>
                     </Flex>
@@ -155,33 +163,36 @@ export default function Layout({ children }: {
                     <Flex w={"full"} h={"76px"} borderBottomColor={borderColor} borderBottomWidth={"1px"} alignItems={"center"} px={"6"} justifyContent={"space-between"}  >
                         {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft") && (
                             <Box display={["none", "none", "none", "flex", "flex"]} >
-                                <SearchBar home={true} />
+                                <SearchBar/>
                             </Box>
                         )}
-                        <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"3"} >
+                        <Flex as={"button"} onClick={() => router?.push("/dashboard")} display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"2"} >
                             <Image alt='logo' src='/images/logo.png' w={"35.36px"} />
                             <Text fontSize={"17px"} fontWeight={"700"} color={primaryColor} >Chasescroll</Text>
                         </Flex>
                         <Flex ml={"auto"} display={["none", "none", "none", "flex", "flex"]} >
                             <CreateEventBtn btn={true} />
                         </Flex>
-                        <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
+                        <Flex display={["flex", "flex", "flex", "none", "none"]} zIndex={20} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
                             <CreateEventBtn mobile={true} />
-                            <Flex onClick={()=> router?.push("/dashboard/chats")} h={"20px"} alignItems={"center"} as='button' >
+                            <Flex onClick={() => router?.push("/dashboard/chats")} h={"20px"} alignItems={"center"} as='button' >
                                 <NewChatIcon />
                             </Flex>
-                            <Flex onClick={()=> router?.push("/dashboard/settings/payment/details")} h={"20px"} alignItems={"center"} as='button' >
+                            <Flex onClick={() => router?.push("/dashboard/settings/payment/details")} h={"20px"} alignItems={"center"} as='button' >
                                 <NewWalletIcon />
+                            </Flex>
+                            <Flex>
+                                <LogoutCurve onClick={() => setOpen(true)} color='red' size={'20px'} variant='Outline' />
                             </Flex>
                         </Flex>
                     </Flex>
                 )}
                 {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? (
-                    <Flex w={"full"} h={"100vh"} pb={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"0px"} insetX={"0px"} pt={"76px"} overflowY={"hidden"} >
+                    <Flex w={"full"} h={"full"} pb={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"0px"} insetX={"0px"} pt={"76px"} overflowY={"hidden"} >
                         {children}
                     </Flex>
                 ) : (
-                    <Flex w={"full"} h={"100vh"} pb={["70px", "70px", "70px", "0px", "0px"]} overflowY={"hidden"} >
+                    <Flex w={"full"} h={["100vh"]} pb={["70px", "70px", "70px", "0px", "0px"]} overflowY={"hidden"} >
                         {children}
                     </Flex>
                 )}
@@ -189,7 +200,7 @@ export default function Layout({ children }: {
 
             <HStack paddingX='20px' zIndex={"100"} position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg={mainBackgroundColor} borderTopWidth={1} borderTopColor={borderColor} display={['flex', 'flex', 'flex', 'none']}>
                 <Link href='/dashboard'>
-                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('home') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('home') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname === "/dashboard" ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname === "/dashboard" ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
                         <HomeIcon />
                     </VStack>
                 </Link>
@@ -220,7 +231,7 @@ export default function Layout({ children }: {
                 </Link>
             </HStack>
             {/* <PageLoader show={!data?.email} /> */}
-            <ModalLayout size={"sm"} open={open} close={setOpen} > 
+            <ModalLayout size={"sm"} open={open} close={setOpen} >
                 <VStack
                     width={"100%"}
                     height={"100%"}

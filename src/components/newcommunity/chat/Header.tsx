@@ -34,6 +34,8 @@ import CommunityInfo from '../communityInfo';
 import { IoArrowBack } from 'react-icons/io5';
 import EditComunity from '../communityInfo/editComunity';
 import { useCommunity } from '..';
+import { textLimit } from '@/utils/textlimit';
+import { capitalizeFLetter } from '@/utils/capitalLetter';
 
 
 
@@ -71,7 +73,7 @@ function CommunityChatHeader() {
           <Image src={`${activeCommunity?.data?.imgSrc?.includes("http") ? "" : IMAGE_URL}${activeCommunity?.data?.imgSrc}`} alt='image' style={{ width: '100%', height: '100%', objectFit: "cover" }} />
         </Box>
         <VStack alignItems={'flex-start'} spacing={0}>
-          <CustomText fontFamily={'DM-Medium'} fontSize={'16px'} >{activeCommunity?.data.name}</CustomText>
+          <CustomText fontFamily={'DM-Medium'} fontSize={'16px'} >{textLimit(capitalizeFLetter(activeCommunity?.data?.name), 12)}</CustomText>
           <VStack width='67px' height='21px' borderRadius={'4px'} justifyContent={'center'} alignItems={'center'} bg='#D0D4EB52' >
             <CustomText fontSize={'10px'} color={colorMode === 'light' ? 'brand.chasescrollButtonBlue' : bodyTextColor} fontFamily={'DM-Regular'}>{activeCommunity?.data.memberCount} Members</CustomText>
           </VStack>
