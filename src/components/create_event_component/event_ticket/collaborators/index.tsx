@@ -76,7 +76,7 @@ export default function CollaboratorBtn(props: IProps) {
     // const toast = useToast()
 
     const [search, setSearch] = React.useState('');
-    const searchText = useDebounce(search, 1000);
+    // const searchText = useDebounce(search, 1000);
 
     // const { isError } = useQuery(['getUserFriends', searchText, userId], () => httpService.get(`/user/search-users`, {
     //     params: {
@@ -88,7 +88,7 @@ export default function CollaboratorBtn(props: IProps) {
     //     }
     // });
 
-    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/user/search-users?searchText=${searchText}`, limit: 10, filter: "userId", name: "all-event" })
+    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/user/search-users?searchText=${search}`, limit: 10, filter: "userId", name: "all-event", search: search })
 
     const AddAdmin = (userIndex: string) => {
 
@@ -541,7 +541,7 @@ export default function CollaboratorBtn(props: IProps) {
                                             </>
                                         ) : (
                                             <Flex flexDir={"column"} gap={"4"} maxH={"250px"} h={"full"} justifyContent={"center"} alignItems={"center"} pb={"4"} px={"5"} overflowY={"auto"} >
-                                                <Text lineHeight={"20.83px"} >You don’t have any collaborators for this please go to your <span style={{ fontWeight: "bold" }} >network tab</span> to select collaborators </Text>
+                                                <Text lineHeight={"20.83px"} >You don’t have any collaborators for this event, please go to your <span style={{ fontWeight: "bold" }} >network tab</span> to select collaborators </Text>
                                             </Flex>
                                         )}
                                     </>
