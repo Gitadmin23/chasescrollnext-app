@@ -76,8 +76,8 @@ export default function PostCard(props: IMediaContent) {
                     <Flex as={"button"} onClick={()=> router?.push(`/dashboard/profile/${user?.userId}`)} alignItems={"center"} gap={"3"} >
                         <UserImage size={"55px"} font={"20px"} data={user} image={user?.data?.imgMain?.value} />
                         <Flex flexDir={"column"} textAlign={"left"}  >
-                            <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 40)}</Text>
-                            <Text fontSize={"14px"} >@{user?.username}</Text>
+                            <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 30)}</Text>
+                            <Text fontSize={"14px"} >@{textLimit(user?.username, 20)}</Text>
                         </Flex>
                     </Flex>
                     <Flex onClick={() => setOpen(true)} as={"button"} ml={"auto"} pr={"1"} >

@@ -61,8 +61,8 @@ export default function CommentSection(props: IProps) {
                     <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} gap={"3"} >
                         <UserImage size={"55px"} data={content?.user} image={content?.user?.data?.imgMain?.value} />
                         <Flex flexDir={"column"} alignItems={"start"}  >
-                            <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(content?.user?.firstName) + " " + capitalizeFLetter(content?.user?.lastName), 40)}</Text>
-                            <Text fontSize={"14px"} >@{content?.user?.username}</Text>
+                            <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(content?.user?.firstName) + " " + capitalizeFLetter(content?.user?.lastName), 30)}</Text>
+                            <Text fontSize={"14px"} >@{textLimit(content?.user?.username, 20)}</Text>
                         </Flex>
                     </Flex>
                 </Flex>
