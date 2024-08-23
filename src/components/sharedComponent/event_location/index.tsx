@@ -11,6 +11,7 @@ interface Props {
   locationType?: any;
   fontsize?: string;
   length?: number;
+  isLimited?: boolean,
   color?: string;
   iconsize?: string;
   height?: string;
@@ -34,6 +35,7 @@ function EventLocationDetail(props: Props) {
     noicon,
     eventdashboard,
     fontWeight,
+    isLimited,
     landingcolor
   } = props;
 
@@ -65,7 +67,7 @@ function EventLocationDetail(props: Props) {
                 alignItems={"center"}
               >
                 <LocationIcon
-                  color={landingcolor? "black" :colorMode === "light" ? primaryColor : bodyTextColor}
+                  color={landingcolor ? "black" : colorMode === "light" ? primaryColor : bodyTextColor}
                   style={{
                     width: iconsize ? iconsize : "20px",
                     color: bodyTextColor,
@@ -78,14 +80,27 @@ function EventLocationDetail(props: Props) {
             textAlign={"left"}
             fontWeight={fontWeight ? fontWeight : "semibold"}
             color={
-              landingcolor? "black" :colorMode === "light" ? "brand.chasescrollBlue" : headerTextColor
+              landingcolor ? "black" : colorMode === "light" ? "brand.chasescrollBlue" : headerTextColor
             }
             fontSize={fontsize ? fontsize : "sm"}
           >
             {location?.locationDetails && (
-              <p>
-                {location?.locationDetails}
-              </p>
+              <>
+                {!isLimited ? (
+                  <Text >
+                    {location?.locationDetails} hell
+                  </Text>
+                ) : (
+                  <>
+                    <Text display={["block", "block", "none"]} >
+                      {textLimit(location?.locationDetails, 20)}
+                    </Text>
+                    <Text display={["none", "none", "block"]} >
+                      {textLimit(location?.locationDetails, 50)}
+                    </Text>
+                  </>
+                )}
+              </>
             )}
             {location?.toBeAnnounced && !location?.locationDetails && (
               <Text color={headerTextColor}>To Be Announced</Text>
@@ -120,11 +135,11 @@ function EventLocationDetail(props: Props) {
               {"Event location"}
             </Text>
           )}
-          <Flex width={"full"} gap={eventdashboard ? "0px" : "3"} mt={eventdashboard ? "0px" : "3"} alignItems={"center"}>
+          <Flex width={"full"} gap={eventdashboard ? "0px" : "3"} mt={eventdashboard ? "0px" : "3"} alignItems={"start"}>
             <Box width={"fit-content"}>
-              <Flex justifyContent={"start"} w={"27px"} > 
+              <Flex justifyContent={"start"} w={"27px"} >
                 <Box ml={"-2px"} >
-                <LocationIcon />
+                  <LocationIcon />
                 </Box>
               </Flex>
             </Box>
@@ -136,9 +151,22 @@ function EventLocationDetail(props: Props) {
                 fontSize={fontsize ? fontsize : "sm"}
               >
                 {location?.locationDetails && (
-                  <p> 
-                     {location?.locationDetails}
-                  </p>
+                  <>
+                    {!isLimited ? (
+                      <Text >
+                        {location?.locationDetails}
+                      </Text>
+                    ) : (
+                      <>
+                        <Text display={["block", "block", "none"]} >
+                          {textLimit(location?.locationDetails, 20)}
+                        </Text>
+                        <Text display={["none", "none", "block"]} >
+                          {textLimit(location?.locationDetails, 50)}
+                        </Text>
+                      </>
+                    )}
+                  </>
                 )}
                 {location?.toBeAnnounced && !location?.locationDetails && (
                   <Text color={bodyTextColor}>To Be Announced</Text>

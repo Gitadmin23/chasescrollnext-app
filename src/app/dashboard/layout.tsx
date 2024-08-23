@@ -109,7 +109,7 @@ export default function Layout({ children }: {
             setAll({ userId: Id ?? "s" });
         }
     }, [Id, status]);
- 
+
     return (
         <Flex w={"full"} h={"100vh"} bg={mainBackgroundColor} >
             {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
@@ -163,26 +163,29 @@ export default function Layout({ children }: {
                     <Flex w={"full"} h={"76px"} borderBottomColor={borderColor} borderBottomWidth={"1px"} alignItems={"center"} px={"6"} justifyContent={"space-between"}  >
                         {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft") && (
                             <Box display={["none", "none", "none", "flex", "flex"]} >
-                                <SearchBar/>
+                                <SearchBar />
                             </Box>
                         )}
                         <Flex as={"button"} onClick={() => router?.push("/dashboard")} display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"2"} >
                             <Image alt='logo' src='/images/logo.png' w={"35.36px"} />
-                            <Text fontSize={"17px"} fontWeight={"700"} color={primaryColor} >Chasescroll</Text>
+                            {/* <Text fontSize={"17px"} fontWeight={"700"} color={primaryColor} >Chasescroll</Text> */}
                         </Flex>
                         <Flex ml={"auto"} display={["none", "none", "none", "flex", "flex"]} >
                             <CreateEventBtn btn={true} />
                         </Flex>
-                        <Flex display={["flex", "flex", "flex", "none", "none"]} zIndex={20} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
+                        <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"3"} >
                             <CreateEventBtn mobile={true} />
-                            <Flex onClick={() => router?.push("/dashboard/chats")} h={"20px"} alignItems={"center"} as='button' >
-                                <NewChatIcon />
-                            </Flex>
-                            <Flex onClick={() => router?.push("/dashboard/settings/payment/details")} h={"20px"} alignItems={"center"} as='button' >
-                                <NewWalletIcon />
-                            </Flex>
-                            <Flex>
-                                <LogoutCurve onClick={() => setOpen(true)} color='red' size={'20px'} variant='Outline' />
+                            <Flex  zIndex={20} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
+
+                                <Flex onClick={() => router?.push("/dashboard/chats")} h={"20px"} alignItems={"center"} as='button' >
+                                    <NewChatIcon />
+                                </Flex>
+                                <Flex onClick={() => router?.push("/dashboard/settings/payment/details")} h={"20px"} alignItems={"center"} as='button' >
+                                    <NewWalletIcon />
+                                </Flex>
+                                <Flex>
+                                    <LogoutCurve onClick={() => setOpen(true)} color='red' size={'20px'} variant='Outline' />
+                                </Flex>
                             </Flex>
                         </Flex>
                     </Flex>

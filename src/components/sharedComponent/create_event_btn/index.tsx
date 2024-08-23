@@ -110,9 +110,10 @@ function CreateEventBtn(props: Props) {
                 <CustomButton onClick={() => clickHander()} pos={"relative"} zIndex={"20"} width={"180px"} text={"Create Event"} borderRadius={"full"} />
             )}
             {!btn && mobile && (  
-                <Flex h={"20px"} alignItems={"center"} onClick={() => clickHander()} as={"button"} >
-                    <AddEventIcon />
-                </Flex>
+                // <Flex h={"20px"} alignItems={"center"} onClick={() => clickHander()} as={"button"} >
+                //     <AddEventIcon />
+                // </Flex>
+                <CustomButton onClick={() => clickHander()} fontSize={"xs"} pos={"relative"} height={"35px"} zIndex={"20"} width={"fit-content"} text={"Create Event"} borderRadius={"full"} />
             )}
             {open && (
                 <Flex zIndex={"110"} position={"absolute"} top={(btn || mobile) ? "70px": "0px"} flexDir={"column"} right={btn ? "6": mobile ? "3" :"0px"} maxW={"374px"} w={"full"} py={"4"} px={"6"} bg={mainBackgroundColor} rounded={'8px'} >

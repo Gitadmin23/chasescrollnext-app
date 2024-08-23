@@ -70,24 +70,27 @@ function ExploreCarousel(props: Props) {
                                                     <Text fontSize={["11px", "11px", "13px"]} color={bodyTextColor} mt={"-8px"} >{moment(item?.startDate).format("MMM")}</Text>
                                                 </Box>
                                             </Box>
-                                            <Box width={"full"} pb={"10px"} px={"1"} >
-                                                <Flex color={colorMode === 'light' ? "#121212" : bodyTextColor} fontSize={["16px", "16px", "20px"]} bg={secondaryBackgroundColor} alignItems={"center"} justifyContent={"space-between"} fontWeight={"medium"} pt={"3"}  >
-                                                    <Text display={["none", "none", "block"]} >{textLimit(item?.eventName, 40)}</Text>
-                                                    <Text display={["block", "block", "none"]}  >{item.eventName?.length >= 17 ? item.eventName.slice(0, 17) + "..." : item.eventName}</Text>
+                                            <Flex width={"full"} pt={"4"} pb={"1"} px={"1"} flexDirection={"column"} gap={"1"} >
+                                                <Flex color={colorMode === 'light' ? "#121212" : bodyTextColor} flexDir={["column", "column", "row"]} fontSize={["16px", "16px", "20px"]} bg={secondaryBackgroundColor} alignItems={["start", "start", "center"]} justifyContent={"space-between"} fontWeight={"medium"} gap={"1"} >
+                                                    <Text fontSize={"large"} display={["none", "none", "block"]} fontWeight={"semibold"} >{textLimit(item?.eventName, 40)}</Text>
+                                                    <Text fontSize={"large"} display={["block", "block", "none"]} fontWeight={"semibold"} >{textLimit(item?.eventName, 20)}</Text>
                                                     <EventPrice minPrice={item?.minPrice} maxPrice={item?.maxPrice} currency={item?.currency} />
-                                                    {/* <EventPrice maxPrice={item?.maxPrice} currency={item?.currency} /> */}
                                                 </Flex>
-                                                <Flex alignItems={"center"} width={"full"} py={"2"} gap={"3"} justifyContent={"space-between"} >
+                                                <Flex alignItems={"start"} flexDir={"column"} width={"full"} gap={"2"} justifyContent={"space-between"} >
                                                     <Box display={"flex"} flexDirection={"column"} gap={"2"} >
-                                                        <EventLocationDetail fontWeight={"medium"} fontsize={"16px"} color={"rgba(18, 18, 18, 0.80)"} location={item?.location} locationType={item?.locationType} length={20} />
-                                                        <InterestedUsers refund={false} fontSize={16} event={item} border={"2px"} size={"32px"} />
+                                                        <EventLocationDetail  height='fit-content' fontWeight={"medium"} fontsize={"16px"} color={"rgba(18, 18, 18, 0.80)"} location={item?.location} locationType={item?.locationType} length={20} isLimited={true} />
                                                     </Box>
-                                                    <Flex alignItems={"center"} gap={"3"} >
-                                                        <ShareEvent data={item} type="EVENT" size='18px' id={item?.id} />
-                                                        <SaveOrUnsaveBtn event={item} />
+                                                    <Flex alignItems={"center"} w={"full"} justifyContent={"space-between"} gap={"3"} >
+                                                        <InterestedUsers refund={true} fontSize={16} event={item} border={"2px"} size={"32px"} />
+                                                        <Flex ml={"auto"} alignItems={"center"} gap={"3"}  >
+                                                            <ShareEvent data={item} type="EVENT" size='18px' id={item?.id} eventName={item?.eventName} />
+                                                            {/* {(userId && email) && ( */}
+                                                                <SaveOrUnsaveBtn event={item} />
+                                                            {/* )} */}
+                                                        </Flex>
                                                     </Flex>
                                                 </Flex>
-                                            </Box>
+                                            </Flex>
                                         </Box>
                                     </>
                                 )
