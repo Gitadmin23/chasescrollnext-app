@@ -80,7 +80,7 @@ export default function CommentList({
                                     <Flex flexDirection={"column"} w={"full"} maxW={["fit-content", "200px", "300px"]}  >
                                         <Flex flexDir={"column"} bg={secondaryBackgroundColor} w={"full"} maxW={["fit-content", "200px", "300px"]} rounded={"16px"} py={"2"} px={"3"} >
                                             <Text role='button' onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} fontWeight={"500"} >{textLimit(item?.user?.username, 15)}</Text>
-                                            <Text color={bodyTextColor} fontSize={"14px"} >{(item?.comment?.length > 100 && showText !== item?.id) ? textLimit(item?.comment, 100) : item?.comment} <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === item?.id ? "" : item?.id)} >{item?.id === showText ? "show less" : "show more"}</p></Text>
+                                            <Text color={bodyTextColor} fontSize={"14px"} >{(item?.comment?.length > 100 && showText !== item?.id) ? textLimit(item?.comment, 100) : item?.comment} {item?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === item?.id ? "" : item?.id)} >{item?.id === showText ? "show less" : "show more"}</p>}</Text>
                                             <Flex w={"full"} justifyContent={"space-between"} mt={"2"} >
                                                 <Text fontSize={"12px"}>{moment(item?.timeInMilliseconds).fromNow()}</Text>
                                             </Flex>
@@ -136,7 +136,7 @@ export default function CommentList({
                                                             <Text role='button' onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} fontWeight={"500"} >{textLimit(item?.user?.username, 15)}</Text>
                                                             {/* <Text color={bodyTextColor} fontSize={"14px"} >{subitem?.comment}</Text> */}
 
-                                                            <Text color={bodyTextColor} fontSize={"14px"} >{(subitem?.comment?.length > 100 && showReplies !== subitem?.id) ? textLimit(subitem?.comment, 100) : subitem?.comment} <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowReplies((prev) => prev === subitem?.id ? "" : subitem?.id)} >{subitem?.id === showReplies ? "show less" : "show more"}</p></Text>
+                                                            <Text color={bodyTextColor} fontSize={"14px"} >{(subitem?.comment?.length > 100 && showReplies !== subitem?.id) ? textLimit(subitem?.comment, 100) : subitem?.comment} {subitem?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowReplies((prev) => prev === subitem?.id ? "" : subitem?.id)} >{subitem?.id === showReplies ? "show less" : "show more"}</p>}</Text>
                                                             <Flex w={"full"} justifyContent={"space-between"} mt={"2"} >
                                                                 <Text fontSize={"12px"}>{moment(subitem?.timeInMilliseconds).fromNow()}</Text>
                                                                 {/* <Text fontSize={"12px"} as={"button"} >{subitem?.likeCount} likes</Text> */}
