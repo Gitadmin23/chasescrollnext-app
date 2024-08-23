@@ -80,7 +80,7 @@ function ExploreCarousel(props: Props) {
                                                 <Flex alignItems={"center"} width={"full"} py={"2"} gap={"3"} justifyContent={"space-between"} >
                                                     <Box display={"flex"} flexDirection={"column"} gap={"2"} >
                                                         <EventLocationDetail fontWeight={"medium"} fontsize={"16px"} color={"rgba(18, 18, 18, 0.80)"} location={item?.location} locationType={item?.locationType} length={20} />
-                                                        <InterestedUsers fontSize={16} event={item} border={"2px"} size={"32px"} />
+                                                        <InterestedUsers refund={false} fontSize={16} event={item} border={"2px"} size={"32px"} />
                                                     </Box>
                                                     <Flex alignItems={"center"} gap={"3"} >
                                                         <ShareEvent data={item} type="EVENT" size='18px' id={item?.id} />
