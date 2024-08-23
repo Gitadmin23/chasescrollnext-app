@@ -109,7 +109,7 @@ export default function Layout({ children }: {
             setAll({ userId: Id ?? "s" });
         }
     }, [Id, status]);
-
+ 
     return (
         <Flex w={"full"} h={"100vh"} bg={mainBackgroundColor} >
             {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (

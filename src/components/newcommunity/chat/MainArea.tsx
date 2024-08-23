@@ -125,7 +125,7 @@ function MainArea({ setShow }: IProps) {
             </Box>
             {showEvents && communityEvent.length > 0 && (
                 <Flex width='100%' height={'115px'} pos={"absolute"} top={"72px"} zIndex={"10"} bg={secondaryBackgroundColor}  >
-                    <Flex as={"button"} bgColor={secondaryBackgroundColor} rounded={"full"} onClick={() => scroll(-400)} left={"2"} justifyContent={"center"} alignItems={"center"} h={"fit-content"} zIndex={"20"} ml={"2"} my={"auto"} >
+                    <Flex as={"button"} display={[communityEvent.length > 3 ? "flex" : "none",communityEvent.length > 4 ? "flex" : "none", communityEvent.length > 6 ? "flex" : "none"]} bgColor={secondaryBackgroundColor} rounded={"full"} onClick={() => scroll(-400)} left={"2"} justifyContent={"center"} alignItems={"center"} h={"fit-content"} zIndex={"20"} ml={"2"} my={"auto"} >
                         <BsArrowLeftCircle size="25px" />
                     </Flex>
                     <Box px='2' ref={ref} position={"relative"} paddingTop={'20px'} w={"full"} maxWidth='full' height='100%' overflowX={'auto'} display={"flex"} overflowY={"hidden"} scrollBehavior={"smooth"} sx={
@@ -142,7 +142,7 @@ function MainArea({ setShow }: IProps) {
                             ))}
                         </Flex>
                     </Box>
-                    <Flex as={"button"} bgColor={secondaryBackgroundColor} rounded={"full"} onClick={() => scroll(400)} right={"2"} justifyContent={"center"} alignItems={"center"} mr={"2"} h={"fit-content"} zIndex={"20"} my={"auto"} >
+                    <Flex as={"button"} display={[communityEvent.length > 3 ? "flex" : "none",communityEvent.length > 4 ? "flex" : "none", communityEvent.length > 6 ? "flex" : "none"]} bgColor={secondaryBackgroundColor} rounded={"full"} onClick={() => scroll(400)} right={"2"} justifyContent={"center"} alignItems={"center"} mr={"2"} h={"fit-content"} zIndex={"20"} my={"auto"} >
                         <BsArrowRightCircle size="25px" />
                     </Flex>
                 </Flex>
