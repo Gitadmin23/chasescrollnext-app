@@ -195,11 +195,15 @@ function SubmitEvent(props: Iprops) {
         } else {
             return getValidationTicketBtn()
         }
-    }
+    } 
+
+    console.log(eventdata?.productTypeData[0].totalNumberOfTickets);
+    
+
     const getValidationTicket: any = () => {
         return eventdata?.productTypeData?.every((item: any, index: number) => {
 
-            if (!item.totalNumberOfTickets) {
+            if (item.totalNumberOfTickets === "0" || !item.totalNumberOfTickets) {
 
                 if (item.ticketType === "Early Bird") {
                     toast({
@@ -285,7 +289,10 @@ function SubmitEvent(props: Iprops) {
                     duration: 5000,
                     position: 'top-right',
                 }); return
-            } else if (getValidationTicketBtn()) {
+            } else if (item.ticketType === "Early Bird" && item.ticketPrice === 0) {
+                setOpenEarlyBird(true)
+                return
+            }  else if (getValidationTicketBtn()) {
                 toast({
                     description: "Please Fill Ticket Information ",
                     status: 'error',
@@ -319,11 +326,28 @@ function SubmitEvent(props: Iprops) {
         })
     }
 
+    const submitEarlyBird = () => {
+
+        if (pathname?.includes("edit_event")) {
+            if (image) {
+                const fd = new FormData();
+                fd.append("file", image);
+                uploadImage.mutate(fd)
+            } else {
+                updateUserEvent.mutate(eventdata)
+            }
+        } else {
+            createEventFromDraft.mutate(eventdata)
+        }
+    }
+
     const getValidationTicketBtn: any = () => {
 
         return eventdata?.productTypeData?.every((item: any, index: number) => {
 
-            if (!item.totalNumberOfTickets) {
+            if (Number(item.totalNumberOfTickets) === 0 || !item.totalNumberOfTickets) {
+                return true
+            } else if (eventdata?.productTypeData[0].totalNumberOfTickets === "0" && item.ticketType === "Early Bird") {
                 return true
             } else if (!item.ticketType) {
                 return true
@@ -342,6 +366,9 @@ function SubmitEvent(props: Iprops) {
             }
         })
     }
+
+    console.log(getValidationTicketBtn());
+    
 
     const getValidationTicketNotification: any = () => {
         return eventdata?.productTypeData?.every((item: any) => {
@@ -558,15 +585,16 @@ function SubmitEvent(props: Iprops) {
             getValidationInfo()
         } else {
 
-            if(eventdata?.productTypeData[0].ticketType === "Early Bird"){
-                if(eventdata?.productTypeData[0].ticketPrice === 0) {
-                    setOpenEarlyBird(true)
-                } else {
-                    getValidationTicket()  
-                }
-            } else {  
-                getValidationTicket()
-            }
+            getValidationTicket()
+            // if (eventdata?.productTypeData[0].ticketType === "Early Bird") {
+            //     if (eventdata?.productTypeData[0].ticketPrice === 0) {
+            //         setOpenEarlyBird(true)
+            //     } else {
+            //         getValidationTicket()
+            //     }
+            // } else {
+            //     getValidationTicket()
+            // }
         }
     }, [saveToDraft, uploadImage, createEventFromDraft])
 
@@ -624,7 +652,7 @@ function SubmitEvent(props: Iprops) {
                             height={"40px"}
                             color="white"
                             isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading}
-                            onClick={getValidationTicket}
+                            onClick={submitEarlyBird}
                         >
                             Yes
                         </Button>
