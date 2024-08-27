@@ -28,7 +28,7 @@ function UpcomingEvent(props: Props) {
         <Flex width={"full"} bg={mainBackgroundColor} justifyContent={"center"} pt={"8"} h={"full"} flexDirection={"column"} >
             <Text fontWeight={"semibold"} textAlign={"left"} fontSize={"20px"} mt={"15px"} pb={["4", "4", "4", "10", "10"]} ml={"8"}>{"Upcoming Event"}</Text>
 
-            <Flex w={"full"} flexDirection={["row", "row", "row", "column", "column"]} h={"full"} overflowY={"auto"} pb={["3", "3", "3", "0px", "0px"]} overflowX={"auto"} 
+            <Flex w={"full"} gap={"4"} flexDirection={["row", "row", "row", "column", "column"]} h={"full"} overflowY={"auto"} pb={["3", "3", "3", "0px", "0px"]} overflowX={"auto"} 
             // sx={
             //     {
             //         '::-webkit-scrollbar': {

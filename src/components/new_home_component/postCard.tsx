@@ -46,6 +46,7 @@ export default function PostCard(props: IMediaContent) {
 
     const { likesHandle, loadingLikes, liked, setLiked, setLikeCount, likeCount: count, deletePost, deletingPost, deleteModal, setDeleteModal } = useHome()
 
+    const Id = localStorage.getItem('user_id');
     const [showReportModal, setShowReportModal] = useState(false);
     const [open, setOpen] = useState(false)
     const [openImage, setOpenImage] = useState(false)
@@ -73,11 +74,15 @@ export default function PostCard(props: IMediaContent) {
         <Flex style={{ boxShadow: "0px 2px 8px 0px #0000000D" }} borderWidth={"0.5px"} bg={mainBackgroundColor} borderColor={borderColor} borderRadius={"36px"} borderTopRightRadius={"0px"} p={"5"} >
             <Flex w={"full"} gap={"3"} flexDir={"column"} >
                 <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} borderWidth={"1px"} borderColor={borderColor} px={"4"} >
-                    <Flex as={"button"} onClick={()=> router?.push(`/dashboard/profile/${user?.userId}`)} alignItems={"center"} gap={"3"} >
+                    <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} alignItems={"center"} gap={"3"} >
                         <UserImage size={"55px"} font={"20px"} data={user} image={user?.data?.imgMain?.value} />
-                        <Flex flexDir={"column"} textAlign={"left"}  >
-                            <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 30)}</Text>
-                            <Text fontSize={"14px"} >@{textLimit(user?.username, 20)}</Text>
+                        <Flex display={["none", "none", "block"]} flexDir={"column"} textAlign={"left"}  >
+                            <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 15)}</Text>
+                            <Text fontSize={"14px"} >@{textLimit(user?.username, 12)}</Text>
+                        </Flex>
+                        <Flex display={["block", "block", "none"]} flexDir={"column"} textAlign={"left"}  >
+                            <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 15)}</Text>
+                            <Text fontSize={"14px"} >@{textLimit(user?.username, 12)}</Text>
                         </Flex>
                     </Flex>
                     <Flex onClick={() => setOpen(true)} as={"button"} ml={"auto"} pr={"1"} >
@@ -148,9 +153,11 @@ export default function PostCard(props: IMediaContent) {
                     <Flex as={"button"} w={"full"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
                         <ShareBtn type="POST" id={id} istext={true} />
                     </Flex>
-                    <Flex onClick={() => deleteHandler()} as={"button"} w={"full"} color={"#E90303"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
-                        Delete Content
-                    </Flex>
+                    {user?.userId === Id && 
+                        <Flex onClick={() => deleteHandler()} as={"button"} w={"full"} color={"#E90303"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
+                            Delete Content
+                        </Flex>
+                    }
                     <Flex onClick={() => reportHandler()} as={"button"} w={"full"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
                         Report User
                     </Flex>
@@ -161,7 +168,7 @@ export default function PostCard(props: IMediaContent) {
             </ModalLayout>
 
             <ModalLayout open={deleteModal} close={setDeleteModal} size={"xs"} >
-                <Flex width='100%'  bg={mainBackgroundColor} justifyContent={'center'} height='100%' alignItems={'center'} gap={"3"} p={"5"} flexDir={"column"} >
+                <Flex width='100%' bg={mainBackgroundColor} justifyContent={'center'} height='100%' alignItems={'center'} gap={"3"} p={"5"} flexDir={"column"} >
                     <Image alt='delete' src='/assets/images/deleteaccount.svg' />
                     <CustomText fontFamily='DM-Bold' textAlign={'center'} fontSize={'20px'}>Delete Post</CustomText>
                     <CustomText fontFamily={'DM-Regular'} textAlign={'center'} fontSize={'16px'} >Are you sure you want to delete this Post? this action cannot be undone.</CustomText>
@@ -180,7 +187,7 @@ export default function PostCard(props: IMediaContent) {
                 <CommentSection close={setOpenComments} count={count} liked={liked} likesHandle={likesHandle} loadingLikes={loadingLikes} content={props} />
             </ModalLayout>
             <ModalLayout size={"2xl"} open={openImage} close={setOpenImage} >
-                <Flex  bg={mainBackgroundColor} flexDir={"column"} px={"6"} pt={"8"} w={"full"} >
+                <Flex bg={mainBackgroundColor} flexDir={"column"} px={"6"} pt={"8"} w={"full"} >
                     <ImageSlider objectFit={true} links={multipleMediaRef} type="feed" />
                     <Flex w={"full"} justifyContent={"end"} py={"4"} >
                         <CustomButton onClick={() => setOpenImage(false)} text={"Close"} width={"fit-content"} px={"7"} />

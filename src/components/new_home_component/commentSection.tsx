@@ -58,7 +58,7 @@ export default function CommentSection(props: IProps) {
                 {/* <Flex h={"fit-content"} flexDir={"column"} w={"full"} > */}
                 <Flex alignItems={"center"} gap={"2"} h={"78px"} w={"full"} rounded={"full"} roundedTopRight={"0px"} borderWidth={"1px"} borderColor={borderColor} px={"4"} >
                     <IoArrowBack role="button" onClick={()=> close(false)} size={"25px"} />
-                    <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} gap={"3"} >
+                    <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${content?.user?.userId}`)} gap={"3"} >
                         <UserImage size={"55px"} data={content?.user} image={content?.user?.data?.imgMain?.value} />
                         <Flex flexDir={"column"} alignItems={"start"}  >
                             <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(content?.user?.firstName) + " " + capitalizeFLetter(content?.user?.lastName), 30)}</Text>
