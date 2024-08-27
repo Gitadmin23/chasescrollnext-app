@@ -82,7 +82,7 @@ export default function EarlyBird({ data, index }: IProps) {
             const clone = { ...eventdata }
             const ticket = {
                 totalNumberOfTickets: "",
-                ticketPrice: "",
+                ticketPrice: 0,
                 ticketType: "Early Bird",
                 minTicketBuy: 1,
                 maxTicketBuy: 1, 

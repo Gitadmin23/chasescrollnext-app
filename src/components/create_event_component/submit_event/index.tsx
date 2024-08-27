@@ -4,7 +4,7 @@ import useEventStore, { CreateEvent } from '@/global-state/useCreateEventState';
 import { useDetails } from '@/global-state/useUserDetails';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Flex, useColorMode, useToast } from '@chakra-ui/react'
+import { Button, Flex, VStack, useColorMode, useToast } from '@chakra-ui/react'
 import { AxiosError, AxiosResponse } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react'
@@ -12,6 +12,8 @@ import { useMutation } from 'react-query';
 import SuccessMessageCreateEvent from '../success_message';
 import { IUser } from '@/models/User';
 import useCustomTheme from "@/hooks/useTheme";
+import CustomText from '@/components/general/Text';
+import { Warning2 } from 'iconsax-react';
 
 interface Iprops {
     type?: any,
@@ -40,6 +42,7 @@ function SubmitEvent(props: Iprops) {
     const pathname = usePathname();
 
     const [open, setOpen] = useState(false)
+    const [openEarlyBird, setOpenEarlyBird] = useState(false)
 
     // const []
     const toast = useToast()
@@ -292,7 +295,7 @@ function SubmitEvent(props: Iprops) {
                 });
                 return
             } else {
-                if (getValidationTicketNotification() === false) {
+                if (getValidationTicketNotification() === false && item.ticketType !== "Early Bird") {
                     toast({
                         status: "error",
                         title: "Error",
@@ -375,8 +378,10 @@ function SubmitEvent(props: Iprops) {
             } else {
                 if (image && !eventdata?.currentPicUrl) {
                     createDraft.mutate(newObj)
+                    setOpenEarlyBird(false)
                 } else if (image && eventdata?.currentPicUrl) {
                     saveToDraft.mutate(newObj)
+                    setOpenEarlyBird(false)
                 }
             }
         }
@@ -552,7 +557,16 @@ function SubmitEvent(props: Iprops) {
         } else if (tab === 1) {
             getValidationInfo()
         } else {
-            getValidationTicket()
+
+            if(eventdata?.productTypeData[0].ticketType === "Early Bird"){
+                if(eventdata?.productTypeData[0].ticketPrice === 0) {
+                    setOpenEarlyBird(true)
+                } else {
+                    getValidationTicket()  
+                }
+            } else {  
+                getValidationTicket()
+            }
         }
     }, [saveToDraft, uploadImage, createEventFromDraft])
 
@@ -564,6 +578,58 @@ function SubmitEvent(props: Iprops) {
 
             <ModalLayout close={setOpen} open={open} bg={secondaryBackgroundColor} >
                 <SuccessMessageCreateEvent update={(pathname?.includes("edit_event_data") || pathname?.includes("edit_event")) ? true : false} />
+            </ModalLayout>
+            <ModalLayout close={setOpenEarlyBird} open={openEarlyBird} size={"sm"} bg={secondaryBackgroundColor} >
+                <VStack
+                    width={"100%"}
+                    height={"100%"}
+                    justifyContent={"center"}
+                    spacing={6}
+                    bgColor={mainBackgroundColor}
+                    p={"6"}
+                >
+                    <VStack
+                        width="60px"
+                        height={"60px"}
+                        borderRadius={"30px"}
+                        justifyContent={"center"}
+                        bg="#df26263b"
+                    >
+                        <Warning2 color="red" size="30px" variant="Outline" />
+                    </VStack>
+                    <CustomText fontFamily={"DM-Medium"} textAlign={"center"} fontSize={"18px"}>
+                        Are you sure you want to set your Early Bird price to N0.00?
+                    </CustomText>
+                    <VStack justifyContent={"center"} width={"100%"}>
+                        <Button
+                            // outlineColor={"brand.chasescrollButtonBlue"}
+                            borderColor={"brand.chasescrollButtonBlue"}
+                            borderWidth={"1px"}
+                            width="100%"
+                            outline={"none"}
+                            _hover={{ backgroundColor: "white" }}
+                            bg={"white"}
+                            height={"32px"}
+                            color="brand.chasescrollButtonBlue"
+                            onClick={() => setOpenEarlyBird(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            borderColor={primaryColor}
+                            borderWidth={"1px"}
+                            _hover={{ backgroundColor: primaryColor }}
+                            bg={primaryColor}
+                            width="100%"
+                            height={"40px"}
+                            color="white"
+                            isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading}
+                            onClick={getValidationTicket}
+                        >
+                            Yes
+                        </Button>
+                    </VStack>
+                </VStack>
             </ModalLayout>
         </Flex>
     )
