@@ -195,10 +195,10 @@ function SubmitEvent(props: Iprops) {
         } else {
             return getValidationTicketBtn()
         }
-    } 
+    }
 
     console.log(eventdata?.productTypeData[0].totalNumberOfTickets);
-    
+
 
     const getValidationTicket: any = () => {
         return eventdata?.productTypeData?.every((item: any, index: number) => {
@@ -289,10 +289,7 @@ function SubmitEvent(props: Iprops) {
                     duration: 5000,
                     position: 'top-right',
                 }); return
-            } else if (item.ticketType === "Early Bird" && item.ticketPrice === 0) {
-                setOpenEarlyBird(true)
-                return
-            }  else if (getValidationTicketBtn()) {
+            } else if (getValidationTicketBtn()) {
                 toast({
                     description: "Please Fill Ticket Information ",
                     status: 'error',
@@ -302,7 +299,7 @@ function SubmitEvent(props: Iprops) {
                 });
                 return
             } else {
-                if (getValidationTicketNotification() === false && item.ticketType !== "Early Bird") {
+                if (getValidationTicketNotification() === false) {
                     toast({
                         status: "error",
                         title: "Error",
@@ -310,7 +307,10 @@ function SubmitEvent(props: Iprops) {
                         position: "top-right"
                     })
                 } else {
-                    if (pathname?.includes("edit_event")) {
+                    if (item.ticketType === "Early Bird" && item.ticketPrice === 0) {
+                        setOpenEarlyBird(true)
+                        return
+                    } else if (pathname?.includes("edit_event")) {
                         if (image) {
                             const fd = new FormData();
                             fd.append("file", image);
@@ -318,8 +318,8 @@ function SubmitEvent(props: Iprops) {
                         } else {
                             updateUserEvent.mutate(eventdata)
                         }
-                    } else {
-                        createEventFromDraft.mutate(eventdata)
+                    } else {  
+                        createEventFromDraft.mutate(eventdata) 
                     }
                 }
             }
@@ -336,7 +336,7 @@ function SubmitEvent(props: Iprops) {
             } else {
                 updateUserEvent.mutate(eventdata)
             }
-        } else {
+        } else { 
             createEventFromDraft.mutate(eventdata)
         }
     }
@@ -368,12 +368,16 @@ function SubmitEvent(props: Iprops) {
     }
 
     console.log(getValidationTicketBtn());
-    
+
 
     const getValidationTicketNotification: any = () => {
         return eventdata?.productTypeData?.every((item: any) => {
             if (type !== "Free") {
-                return (Number(item.ticketPrice) === 0 || !item.ticketPrice) ? false : true
+                if (item.ticketType === "Early Bird" && Number(item.ticketPrice) === 0) {
+                    return true
+                } else {
+                    return (Number(item.ticketPrice) === 0 || !item.ticketPrice) ? false : true
+                }
             } else {
                 return true
             }
