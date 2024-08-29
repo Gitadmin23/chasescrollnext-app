@@ -43,7 +43,7 @@ function EventPrice(props: Props) {
                             )}
                             {minPrice !== maxPrice && (
                                 <>
-                                    {minPrice ? DataFormater(minPrice, currency === "USD" ? "$" : "₦") : "0"}
+                                    {minPrice ? DataFormater(minPrice, currency === "USD" ? "$" : "₦") : minPrice === 0 ? "Free" :  "0"}
                                     {" - "}
                                     {maxPrice ? DataFormater(maxPrice, currency === "USD" ? "$" : "₦") : "0"}
                                 </>

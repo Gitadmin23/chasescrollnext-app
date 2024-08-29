@@ -7,6 +7,7 @@ import InfoOnFriend from "@/components/landing_component/home/InfoOnFriend"
 import DiscoverApp from "@/components/landing_component/home/discoverApp"
 import HeroSection from "@/components/landing_component/home/herosection" 
 import OurPartner from "@/components/landing_component/home/ourpartner"
+import SuccessStory from "@/components/landing_component/home/successStory"
 import UserComment from "@/components/landing_component/home/userComment"
 import VersionInfo from "@/components/landing_component/home/versionInfo"
 import { Flex } from "@chakra-ui/react"
@@ -20,6 +21,7 @@ export default function Home() {
             <InfoOnEvent />
             <InfoOnFriend />
             <InfoOnCommunity />
+            {/* <SuccessStory /> */}
             <VersionInfo />
             <DiscoverApp />
             <UserComment />

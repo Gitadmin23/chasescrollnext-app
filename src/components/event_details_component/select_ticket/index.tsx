@@ -13,6 +13,7 @@ import { LiaAngleDownSolid } from 'react-icons/lia'
 import useCustomTheme from "@/hooks/useTheme";
 import { dateFormat, timeFormat } from '@/utils/dateFormat'
 import { IEvent } from '@/models/Events'
+import EventPrice from '@/components/sharedComponent/event_price'
 
 interface Props {
     ticket: any,
@@ -106,6 +107,10 @@ function SelectTicket(props: Props) {
                                             <Button color={primaryColor} isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                                 {item?.totalNumberOfTickets === item?.ticketsSold ?
                                                     "Sold Out" :
+                                                    // <Flex gap={"1"} >
+                                                    //     {item?.ticketType+" "} 
+                                                    // <EventPrice minPrice={item?.minPrice} maxPrice={item?.maxPrice} currency={currency} />
+                                                    // </Flex>
                                                     item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
                                                 }
                                             </Button>
@@ -116,12 +121,12 @@ function SelectTicket(props: Props) {
                             } else {
                                 return (
                                     // <Flex w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
-                                        <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
-                                            {item?.totalNumberOfTickets === item?.ticketsSold ?
-                                                "Sold Out" :
-                                                item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
-                                            }
-                                        </Button>
+                                    <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                        {item?.totalNumberOfTickets === item?.ticketsSold ?
+                                            "Sold Out" :
+                                            item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
+                                        }
+                                    </Button>
                                     // {/* </Flex> */}
                                 )
                             }

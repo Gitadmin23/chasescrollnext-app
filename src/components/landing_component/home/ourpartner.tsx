@@ -36,7 +36,7 @@ export default function OurPartner() {
                 </Box>
             </Flex>
             <Flex width={"full"} alignItems={"center"} flexDir={"column"} gap={"6"} justifyContent={"center"} height={["136px", "146px", "345px"]} >
-                <Text maxW={"913px"} fontSize={["20px", "20px", "45px"]} lineHeight={["24.2px", "24.2px", "54.46px"]} textAlign={"center"} fontWeight={"semibold"} >Let <span style={{ color: THEME?.COLORS?.chasescrollBlue }} >Chasescroll</span> Power your Event with our Amazing features</Text>
+                <Text maxW={"913px"} fontSize={["20px", "20px", "45px"]} lineHeight={["24.2px", "24.2px", "54.46px"]} textAlign={"center"} fontWeight={"semibold"} >Take control of your events with <span style={{ color: THEME?.COLORS?.chasescrollBlue }} >Chasescroll</span></Text>
             </Flex>
         </Flex>
     )

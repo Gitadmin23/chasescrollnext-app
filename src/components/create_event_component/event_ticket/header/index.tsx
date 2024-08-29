@@ -39,7 +39,7 @@ function EventTicketHeader(props: Props) {
 
     React.useEffect(() => {
         setIsFree(eventdata?.productTypeData[0]?.ticketPrice === 0 ? true : false)
-        if(eventdata?.productTypeData[0]?.ticketPrice === 0 ){
+        if((eventdata?.productTypeData[0]?.ticketPrice === 0 && eventdata?.productTypeData[0]?.ticketType !== "Early Bird") ){
             type("Free")
         } else {
             type("Regular")
