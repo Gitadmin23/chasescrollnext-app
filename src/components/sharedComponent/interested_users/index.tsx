@@ -45,7 +45,7 @@ function InterestedUsers(props: Props) {
                         </Box>
                     }
                     {!refund && (
-                        <CustomText color={color ? color : primaryColor} ml={"2"} fontSize={(fontSize - 2) + "px"}  fontFamily={'DM-Bold'}>
+                        <CustomText color={primaryColor} ml={"2"} fontSize={(fontSize - 2) + "px"}  fontFamily={'DM-Bold'}>
                             Interested
                         </CustomText>
                     )}

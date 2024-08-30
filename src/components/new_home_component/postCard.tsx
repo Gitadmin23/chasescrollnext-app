@@ -18,6 +18,7 @@ import ReportUserModal from '../modals/Home/ReportModal'
 import CommentSection from './commentSection'
 import CustomButton from '../general/Button'
 import { useRouter } from 'next/navigation'
+import moment from 'moment'
 
 
 export default function PostCard(props: IMediaContent) {
@@ -32,7 +33,8 @@ export default function PostCard(props: IMediaContent) {
         likeStatus,
         likeCount,
         commentCount,
-        id
+        id,
+        timeInMilliseconds
     } = props
 
     const {
@@ -74,22 +76,24 @@ export default function PostCard(props: IMediaContent) {
         <Flex style={{ boxShadow: "0px 2px 8px 0px #0000000D" }} borderWidth={"0.5px"} bg={mainBackgroundColor} borderColor={borderColor} borderRadius={"36px"} borderTopRightRadius={"0px"} p={"5"} >
             <Flex w={"full"} gap={"3"} flexDir={"column"} >
                 <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} borderWidth={"1px"} borderColor={borderColor} px={"4"} >
-                    <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} alignItems={"center"} gap={"3"} >
-                        <UserImage size={"55px"} font={"20px"} data={user} image={user?.data?.imgMain?.value} />
+                    <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} alignItems={"center"} gap={["1", "1", "3"]} >
+                        <UserImage size={["40px", "55px", "55px"]} border={"1.5px"} font={"20px"} data={user} image={user?.data?.imgMain?.value} />
                         <Flex display={["none", "none", "block"]} flexDir={"column"} textAlign={"left"}  >
                             <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 15)}</Text>
-                            <Text fontSize={"14px"} >@{textLimit(user?.username, 12)}</Text>
+                            <Text mt={"-4px"} fontSize={"14px"} >@{textLimit(user?.username, 12)}</Text>
+                            <Text fontSize={"8px"} color={bodyTextColor} >{moment(timeInMilliseconds).fromNow()}</Text>
                         </Flex>
                         <Flex display={["block", "block", "none"]} flexDir={"column"} textAlign={"left"}  >
-                            <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 15)}</Text>
-                            <Text fontSize={"14px"} >@{textLimit(user?.username, 12)}</Text>
+                            <Text color={"#233DF3"} fontSize={"14px"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 15)}</Text>
+                            <Text mt={"-4px"} fontSize={"10px"} >@{textLimit(user?.username, 12)}</Text>
+                            <Text fontSize={"8px"} color={bodyTextColor} >{moment(timeInMilliseconds).fromNow()}</Text>
                         </Flex>
                     </Flex>
                     <Flex onClick={() => setOpen(true)} as={"button"} ml={"auto"} pr={"1"} >
                         <CgMoreVertical size={"25px"} />
                     </Flex>
                 </Flex>
-                <Text>{text}</Text>
+                <Text fontSize={["14px", "14px", "16px"]} >{text}</Text>
                 {(type === "WITH_IMAGE" || type === "WITH_VIDEO_POST") &&
                     <Flex w={"full"} h={["236px", "236px", "236px", "350px", "350px"]} rounded={"16px"} borderWidth={"1px"} roundedTopRight={"0px"}>
                         {type === "WITH_VIDEO_POST" && (
@@ -105,22 +109,42 @@ export default function PostCard(props: IMediaContent) {
                         )}
                     </Flex>
                 }
-                <Flex w={"full"} borderTopWidth={"1px"} pt={"4"} justifyContent={"space-between"} >
-                    <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
+                <Flex w={"full"} borderTopWidth={"1px"} pt={"4"} alignContent={"center"} justifyContent={"space-between"} >
+                    <Flex
+                        as={"button"}
+                        onClick={() => likesHandle(id)}
+                        justifyContent={"center"} 
+                        h={["26px", "26px", "30px"]}
+                        alignItems={"center"} w={"fit-content"} gap={["3px", "2px", "2px"]} >
                         {!loadingLikes ?
-                            <Flex
-                                width={"24px"}
-                                h={"30px"}
-                                justifyContent={"center"}
-                                alignItems={"center"}
-                                as={"button"}
-                                onClick={() => likesHandle(id)}
-                            >
-                                {liked !== "LIKED" && (
-                                    <HomeHeartIcon color={bodyTextColor} />
-                                )}
-                                {liked === "LIKED" && <HomeHeartFillIcon />}
-                            </Flex> :
+                            <Flex width={"fit-content"} h={"fit-content"} >
+                                <Flex
+                                    width={["20px", "20px", "24px"]}
+                                    display={["none", "block", "block"]}
+                                    justifyContent={"center"}
+                                    alignItems={"center"}
+                                >
+                                    {liked !== "LIKED" && (
+                                        <HomeHeartIcon color={bodyTextColor} />
+                                    )}
+                                    {liked === "LIKED" && <HomeHeartFillIcon />}
+                                </Flex>
+                                <Flex
+                                    width={["20px", "20px", "24px"]}
+                                    h={["26px", "26px", "30px"]}
+                                    display={["block", "none", "none"]}
+                                    justifyContent={"center"}
+                                    alignItems={"center"}
+                                    as={"button"}
+                                    onClick={() => likesHandle(id)}
+                                >
+                                    {liked !== "LIKED" && (
+                                        <HomeHeartIcon size='20px' color={bodyTextColor} />
+                                    )}
+                                    {liked === "LIKED" && <HomeHeartFillIcon size='20px' />}
+                                </Flex>
+                            </Flex>
+                            :
                             <Flex
                                 width={"24px"}
                                 h={"30px"}
@@ -131,19 +155,34 @@ export default function PostCard(props: IMediaContent) {
                         }
                         <Text>{count}</Text>
                     </Flex>
-                    <Flex as={"button"} onClick={() => setOpenComments(true)} w={"fit-content"} alignItems={"center"} gap={"2px"} >
+                    <Flex as={"button"}
+                        pt={"2px"}
+                        justifyContent={"center"} 
+                        h={["26px", "26px", "30px"]}
+                        alignItems={"center"}
+                        onClick={() => setOpenComments(true)} w={"fit-content"} gap={["3px", "2px", "2px"]} >
                         <Flex
-                            width={"24px"}
-                            h={"30px"}
+                            width={["20px", "20px", "24px"]} 
+                            display={["none", "block", "block"]}
                             justifyContent={"center"}
                             alignItems={"center"}
                             color={bodyTextColor}
                         >
                             <HomeCommentIcon color={bodyTextColor} />
                         </Flex>
+                        <Flex
+                            width={["20px", "20px", "24px"]} 
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                            color={bodyTextColor}
+                            display={["block", "none", "none"]}
+                        >
+                            <HomeCommentIcon size='20px' color={bodyTextColor} />
+                        </Flex>
                         <Text>{commentCount}</Text>
                     </Flex>
-                    <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
+                    <Flex w={"fit-content"} alignItems={"center"} 
+                            h={["26px", "26px", "30px"]} gap={"2px"} >
                         <ShareBtn type="POST" id={id} />
                     </Flex>
                 </Flex>
@@ -153,7 +192,7 @@ export default function PostCard(props: IMediaContent) {
                     <Flex as={"button"} w={"full"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
                         <ShareBtn type="POST" id={id} istext={true} />
                     </Flex>
-                    {user?.userId === Id && 
+                    {user?.userId === Id &&
                         <Flex onClick={() => deleteHandler()} as={"button"} w={"full"} color={"#E90303"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
                             Delete Content
                         </Flex>

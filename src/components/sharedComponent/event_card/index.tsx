@@ -590,7 +590,7 @@ function ExploreEventCard(props: Props) {
                                     <Box display={["none", "none", "none", "block", "block"]} >
                                         <InterestedUsers
                                             fontSize={16}
-                                            color={["white", "white", "#1732F7", "#1732F7", "#1732F7"]}
+                                            // color={["#1732F7", "#1732F7", "#1732F7", "#1732F7", "#1732F7"]}
                                             event={event}
                                             border={"2px"}
                                             size={"32px"}
@@ -605,7 +605,7 @@ function ExploreEventCard(props: Props) {
                             <Box width={"fit-content"}  >
                                 <InterestedUsers
                                     fontSize={16}
-                                    color={["white", "white", "#1732F7", "#1732F7", "#1732F7"]}
+                                    // color={["#1732F7", "#1732F7", "#1732F7", "#1732F7", "#1732F7"]}
                                     event={event}
                                     border={"2px"}
                                     size={"32px"}
