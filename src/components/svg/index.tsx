@@ -1677,10 +1677,9 @@ export const CameraIcon = () => (
   </svg>
 );
 
-export const HomeHeartIcon = ({ color = "" }: { color?: string }) => (
+export const HomeHeartIcon = ({ color = "", size }: { color?: string, size?: string }) => (
   <svg
-    width="24"
-    height="24"
+    style={{ width: size ?? "24px" }}
     viewBox="0 0 24 24"
     fill={"none"}
     xmlns="http://www.w3.org/2000/svg"
@@ -1735,12 +1734,13 @@ export const CollaboratorIcon = () => (
 
 export const HomeHeartFillIcon = ({
   color = "#FF0000",
+  size
 }: {
   color?: string;
+  size?: string
 }) => (
   <svg
-    width="24"
-    height="24"
+    style={{ width: size ?? "24px" }}
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -1755,10 +1755,9 @@ export const HomeHeartFillIcon = ({
   </svg>
 );
 
-export const HomeCommentIcon = ({ color }: { color?: string }) => (
+export const HomeCommentIcon = ({ color, size }: { color?: string, size?: string }) => (
   <svg
-    width="24"
-    height="25"
+    style={{ width: size ?? "24px" }}
     viewBox="0 0 24 25"
     fill={color ?? "none"}
     xmlns="http://www.w3.org/2000/svg"
