@@ -27,8 +27,8 @@ function EventHeader(props: Props) {
         <Flex mt={"12"} justifyContent={"space-between"} alignItems={"center"}>
             <Box> 
                 <Text display={["none", "none", "block"]} fontSize={"24px"} fontWeight={"bold"} >{capitalizeFLetter(name)}</Text>
-                <Text display={["block", "block", "none"]} fontSize={"18px"} fontWeight={"bold"} >{capitalizeFLetter(textLimit(name, 30))}</Text>
-                <Text fontSize={["16px", "16px", "20px"]} fontWeight={"semibold"} color={"brand.chasescrollBlue"} >
+                <Text display={["block", "block", "none"]} fontSize={["14px", "14px", "18px"]} fontWeight={["medium", "bold", "bold"]} >{capitalizeFLetter(textLimit(name, 30))}</Text>
+                <Text fontSize={["13px", "13px", "20px"]} fontWeight={["medium", "semibold", "semibold"]} color={"brand.chasescrollBlue"} >
                     <EventPrice minPrice={minPrice} maxPrice={maxPrice} currency={currency} />
                 </Text>
             </Box>
