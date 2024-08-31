@@ -82,7 +82,7 @@ function EventLocationDetail(props: Props) {
             color={
               landingcolor ? "black" : colorMode === "light" ? "brand.chasescrollBlue" : headerTextColor
             }
-            fontSize={fontsize ? fontsize : "sm"}
+            fontSize={["13px", "14px", "14px"]}
           >
             {location?.locationDetails && (
               <>
@@ -148,7 +148,7 @@ function EventLocationDetail(props: Props) {
                 textAlign={"left"}
                 fontWeight={["medium", "semibold", "semibold"]}
                 color={color ? color : bodyTextColor}
-                fontSize={fontsize ? fontsize : "sm"}
+                fontSize={["13px", "14px", "14px"]}
               >
                 {location?.locationDetails && (
                   <>
