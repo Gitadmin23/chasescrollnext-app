@@ -31,7 +31,7 @@ function EventDate(props: Props) {
 
     return (
         <Box display={"flex"} flexDirection={dashboard ? "row" : "column"} gap={dashboard ? "2" : "0px"} borderBottomWidth={(dashboard || eventdashboard) ? "0px" : "1px"} borderBottomColor={"#B6B6B6"} roundedBottom={["0px", "0px", "lg"]} px={(dashboard || eventdashboard) ? "0px" : "2"} alignItems={dashboard ? "center" : "start"} pb={dashboard ? "0px" : "2"} >
-            <Text fontSize={"sm"} ml={dashboard ? "0px" : "3"} fontWeight={"semibold"} >{name}</Text>
+            <Text fontSize={"sm"} ml={dashboard ? "0px" : "3"} fontWeight={["medium", "semibold", "semibold"]} >{name}</Text>
             <Flex width={dashboard ? "auto" : "full"} gap={eventdashboard ? "0px" : "3"} mt={(dashboard || eventdashboard) ? "0px" : "3"} alignItems={"center"} >
                 {!dashboard && (
                     <>
@@ -47,8 +47,8 @@ function EventDate(props: Props) {
                 )}
                 {!eventdashboard && (
                     <Flex flexDirection={dashboard ? "row" : "column"} gap={dashboard ? "2" : "0px"} alignItems={dashboard ? "center" : "flex-start"} >
-                        <Text fontWeight={["medium", "medium", "bold"]} color={"brand.chasescrollBlue"} >{dateFormat(date)}</Text>
-                        <Text fontWeight={["medium", "medium", "semibold"]} fontSize={"sm"} color={"brand.chasescrollTextGrey2"} >{timeFormat(date)} ({new Date(date).toLocaleTimeString('en-us', { timeZoneName: 'short' }).split(' ')[2]})</Text>
+                        <Text fontSize={["13px", "13px", "14px"]} fontWeight={["medium", "medium", "bold"]} color={"brand.chasescrollBlue"} >{dateFormat(date)}</Text>
+                        <Text fontSize={["13px", "13px", "14px"]} fontWeight={["medium", "medium", "semibold"]} color={"brand.chasescrollTextGrey2"} >{timeFormat(date)} ({new Date(date).toLocaleTimeString('en-us', { timeZoneName: 'short' }).split(' ')[2]})</Text>
                     </Flex>
                 )}
                 {eventdashboard && (

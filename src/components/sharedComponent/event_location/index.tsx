@@ -88,7 +88,7 @@ function EventLocationDetail(props: Props) {
               <>
                 {!isLimited ? (
                   <Text >
-                    {location?.locationDetails} hell
+                    {location?.locationDetails}
                   </Text>
                 ) : (
                   <>
@@ -131,7 +131,7 @@ function EventLocationDetail(props: Props) {
           py={eventdashboard ? "0px" : "2"}
         >
           {!eventdashboard && (
-            <Text fontSize={"sm"} fontWeight={"semibold"}>
+            <Text fontSize={"sm"} fontWeight={["medium", "medium", "semibold"]}>
               {"Event location"}
             </Text>
           )}
@@ -146,7 +146,7 @@ function EventLocationDetail(props: Props) {
             <Box>
               <Text
                 textAlign={"left"}
-                fontWeight={"semibold"}
+                fontWeight={["medium", "semibold", "semibold"]}
                 color={color ? color : bodyTextColor}
                 fontSize={fontsize ? fontsize : "sm"}
               >
@@ -158,10 +158,10 @@ function EventLocationDetail(props: Props) {
                       </Text>
                     ) : (
                       <>
-                        <Text display={["block", "block", "none"]} >
+                        <Text fontSize={["13px", "14px", "14px"]} display={["block", "block", "none"]} >
                           {textLimit(location?.locationDetails, 20)}
                         </Text>
-                        <Text display={["none", "none", "block"]} >
+                        <Text fontSize={["13px", "14px", "14px"]} display={["none", "none", "block"]} >
                           {textLimit(location?.locationDetails, 50)}
                         </Text>
                       </>

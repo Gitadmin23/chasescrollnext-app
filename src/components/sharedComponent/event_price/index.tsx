@@ -30,7 +30,7 @@ function EventPrice(props: Props) {
     }
 
     return (
-        <Text>
+        <Text >
             {!indetail && (
                 <>
                     {(minPrice === 0 && maxPrice === 0) || (!minPrice && !maxPrice) ?
