@@ -76,8 +76,10 @@ function EventCarousel(props: Props) {
                                             <Flex width={"full"} pt={"4"} pb={"1"} px={"1"} flexDirection={"column"} gap={"1"} >
                                                 <Flex color={colorMode === 'light' ? "#121212" : bodyTextColor} flexDir={["column", "column", "row"]} fontSize={["16px", "16px", "20px"]} bg={secondaryBackgroundColor} alignItems={["start", "start", "center"]} justifyContent={"space-between"} fontWeight={"medium"} gap={"1"} >
                                                     <Text fontSize={"large"} display={["none", "none", "block"]} fontWeight={"semibold"} >{textLimit(item?.eventName, 40)}</Text>
-                                                    <Text fontSize={"large"} display={["block", "block", "none"]} fontWeight={"semibold"} >{textLimit(item?.eventName, 20)}</Text>
-                                                    <EventPrice minPrice={item?.minPrice} maxPrice={item?.maxPrice} currency={item?.currency} />
+                                                    <Text fontSize={"14px"} display={["block", "block", "none"]} fontWeight={"medium"} >{textLimit(item?.eventName, 20)}</Text>
+                                                    <Flex mt="-4px" >
+                                                        <EventPrice minPrice={item?.minPrice} maxPrice={item?.maxPrice} currency={item?.currency} />
+                                                    </Flex>
                                                 </Flex>
                                                 <Flex alignItems={"start"} flexDir={"column"} width={"full"} gap={"2"} justifyContent={"space-between"} >
                                                     <Box display={"flex"} flexDirection={"column"} gap={"2"} >

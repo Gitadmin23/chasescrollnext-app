@@ -70,8 +70,8 @@ function EventCreator(props: Props) {
                     </Flex>
                     <Box as={"button"} onClick={clickHandler} >
                         <Text textAlign={"left"} display={["none", "block"]} fontWeight={"medium"} >{convener}</Text>
-                        <Text textAlign={"left"} display={["block", "none"]} fontWeight={"medium"} >{convener?.length > 10 ? convener?.slice(0, 10) + "..." : convener}</Text>
-                        <Text textAlign={"left"} fontSize={"sm"} >{username?.includes("@gmail") ? textLimit(username, 4) : username}</Text>
+                        <Text textAlign={"left"} display={["block", "none"]} fontWeight={"medium"} fontSize={"14px"} >{convener?.length > 10 ? convener?.slice(0, 10) + "..." : convener}</Text>
+                        <Text textAlign={"left"} mt={"-2px"} fontSize={["13px", "13px", "sm"]} >{username?.includes("@gmail") ? textLimit(username, 4) : username}</Text>
                     </Box>
                     {isOrganizer && (
                         <Box display={["flex"]} gap={"2"} >

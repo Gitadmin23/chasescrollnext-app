@@ -25,8 +25,8 @@ function OtherEventInfo(props: Props) {
 
     return (
         <Box width={"full"} py={"3"} >
-            <Text fontSize={"18px"} fontWeight={"bold"} color={headerTextColor}  >{name}</Text>
-            <Text fontWeight={"medium"} mt={"2"} color={colorMode === 'light' ? "#5B5858":bodyTextColor} >{data}</Text>
+            <Text fontSize={["14px", "14px", "18px"]} fontWeight={["medium", "bold", "bold"]} color={headerTextColor}  >{name}</Text>
+            <Text fontWeight={"medium"} fontSize={["13px", "13px", "16px"]} mt={"2"} color={colorMode === 'light' ? "#5B5858":bodyTextColor} >{data}</Text>
         </Box>
     )
 }
