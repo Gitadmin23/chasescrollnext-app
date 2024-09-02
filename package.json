@@ -72,6 +72,7 @@
     "react-qr-code": "^2.0.12",
     "react-query": "^3.39.3",
     "react-rating-stars-component": "^2.2.0",
+    "react-select": "^5.8.0",
     "react-share": "^4.4.1",
     "react-swipeable": "^7.0.1",
     "react-to-print": "^2.14.15",

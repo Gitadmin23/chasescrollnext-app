@@ -114,7 +114,7 @@ function SelectTicket(props: Props) {
                                                     item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
                                                 }
                                             </Button>
-                                            <Text color={primaryColor} textAlign={"center"} fontSize={"12px"} >Ends: {dateFormat(item?.endDate)} {timeFormat(item?.endDate)}</Text>
+                                            <Text color={"white"} px={"2"} rounded={"4px"} bg={"red"} textAlign={"center"} fontSize={"12px"} >Ends: {dateFormat(item?.endDate)} {timeFormat(item?.endDate)}</Text>
                                         </Flex>
                                     )
                                 }

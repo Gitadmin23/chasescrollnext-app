@@ -96,7 +96,7 @@ function EventLocationDetail(props: Props) {
                       {textLimit(location?.locationDetails, 20)}
                     </Text>
                     <Text display={["none", "none", "block"]} >
-                      {textLimit(location?.locationDetails, 50)}
+                      {textLimit(location?.locationDetails, length ?? 35)}
                     </Text>
                   </>
                 )}
@@ -153,7 +153,7 @@ function EventLocationDetail(props: Props) {
                 {location?.locationDetails && (
                   <>
                     {!isLimited ? (
-                      <Text >
+                      <Text color={primaryColor} >
                         {location?.locationDetails}
                       </Text>
                     ) : (
@@ -162,7 +162,7 @@ function EventLocationDetail(props: Props) {
                           {textLimit(location?.locationDetails, 20)}
                         </Text>
                         <Text fontSize={["13px", "14px", "14px"]} display={["none", "none", "block"]} >
-                          {textLimit(location?.locationDetails, 50)}
+                          {textLimit(location?.locationDetails, length ?? 35)}
                         </Text>
                       </>
                     )}
