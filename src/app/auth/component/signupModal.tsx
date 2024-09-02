@@ -9,9 +9,8 @@ import useAuth from '@/hooks/useAuth'
 import VerifyForm from './verifyForm'
 import { useRouter } from 'next/navigation'
 
-export default function SignupModal() {
+export default function SignupModal({ open, setOpen, index, hide }: { open: boolean, setOpen: (by: boolean) => void, index?: string, hide?: boolean }) {
 
-    const [open, setOpen] = useState(false)
     const [tab, setTab] = useState(false)
     const [showMessage, setShowMessage] = useState(false)
 
@@ -20,10 +19,12 @@ export default function SignupModal() {
     const router = useRouter()
 
     return (
-        <Flex w={"full"} >
-            <Button onClick={() => setOpen(true)} mt={"4"} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
-                <Text color={"white"} textAlign={"center"} fontWeight={"600"} >Create Account</Text>
-            </Button>
+        <Flex w={hide ? " auto ": "full"} >
+            {!hide && (
+                <Button onClick={() => setOpen(true)} mt={"4"} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
+                    <Text color={"white"} textAlign={"center"} fontWeight={"600"} >Create Account</Text>
+                </Button>
+            )}
             <ModalLayout onOverLay={showVerify} size={["full", "full", "lg"]} open={open} close={setOpen} rounded={"32px"} >
                 <Flex w={"full"} h={["100vh", "100vh", "auto"]} justifyContent={"center"} alignItems={"center"} >
                     <Flex w={"full"} px={"10"} py={"10"} flexDir={"column"} alignItems={"center"} >
@@ -51,7 +52,7 @@ export default function SignupModal() {
                             <SignForm tab={tab} setTab={setTab} setShowVerify={setShowVerify} />
                         )}
                         {showVerify && (
-                            <VerifyForm setOpen={setOpen} setShowMessage={setShowMessage} setShowVerify={setShowVerify} setTab={setTab} />
+                            <VerifyForm index={index} setOpen={setOpen} setShowMessage={setShowMessage} setShowVerify={setShowVerify} setTab={setTab} />
                         )}
                     </Flex>
                 </Flex>
@@ -78,7 +79,7 @@ export default function SignupModal() {
                                 <Text fontSize={"lg"} >Report bad behaviour immediately</Text>
                             </Flex>
                         </Flex>
-                        <Button onClick={() => router?.push("/auth")} color={"white"} mt={"6"}  _disabled={{ backgroundColor: "#233DF380" }} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={["20px", "20px", "32px"]} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
+                        <Button onClick={() => router?.push("/auth")} color={"white"} mt={"6"} _disabled={{ backgroundColor: "#233DF380" }} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={["20px", "20px", "32px"]} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
                             <Text textAlign={"center"} fontWeight={"600"} >Continue</Text>
                         </Button>
                     </Flex>

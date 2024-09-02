@@ -2,10 +2,10 @@ import CustomText from '@/components/general/Text'
 import { URLS } from '@/services/urls'
 import httpServiceGoogle from '@/utils/httpServiceGoogle'
 import { Button, Image, Text, useColorMode, useToast } from '@chakra-ui/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useMutation } from 'react-query'
-import { signIn, useSession,  } from 'next-auth/react'
+import { signIn, useSession, } from 'next-auth/react'
 import { useDetails } from '@/global-state/useUserDetails'
 import PageLoader from '../pageLoader'
 import useModalStore from '@/global-state/useModalSwitch'
@@ -18,6 +18,7 @@ interface Props {
     height?: string,
     bgColor?: string,
     id?: boolean,
+    index?: string,
     border?: string,
     newbtn?: boolean
 }
@@ -29,6 +30,7 @@ function GoogleBtn(props: Props) {
         height,
         bgColor,
         id,
+        index,
         border,
         newbtn
     } = props
@@ -46,39 +48,20 @@ function GoogleBtn(props: Props) {
         secondaryBackgroundColor,
         mainBackgroundColor,
         borderColor,
-    } = useCustomTheme();
-    const { colorMode, toggleColorMode } = useColorMode();
+    } = useCustomTheme(); 
 
-    const token: any = sessionData;
-    React.useEffect(() => {
-        // console.log(token.token?.token.token.accessToken);
-        if (status === "authenticated") {
-            if (token.token?.token?.token?.idToken) {
-                signinWithGoogle.mutate(token?.token?.token?.token?.idToken);
-            }
-        }
-    }, [status])  
+    const token: any = sessionData; 
 
-    console.log(status);
-    
-
-    const handleGoogleSignIn = async () => {
-        const token: any = sessionData;
-        if (token && token.token?.token.token.idToken) {
-            console.log("first");
-
-            signinWithGoogle.mutate(token.token?.token.token.idToken);
-        } else {
-            // setGoogle(true)
-
-            const dets = await signIn('google'); 
-
-            console.log(dets);
-            
-
-            setCheckData(true);
-        }
+    const handleGoogleSignIn = async () => {  
+        await signIn('google'); 
     }
+
+    useEffect(() => {
+        if (status === "authenticated") {
+            // Redirect to another page once authenticated
+            signinWithGoogle.mutate(token.token?.token.token.idToken) 
+        }
+    }, [status, router]);
 
     const signinWithGoogle = useMutation({
 
@@ -108,9 +91,9 @@ function GoogleBtn(props: Props) {
             })
 
             if (id) {
-                router.push(`/dashboard/event/details/${id}`);
+                router.push(`/dashboard/event/details/${index}`);
             } else {
-                if(data?.data?.user_id && googlesign) {
+                if (data?.data?.user_id && googlesign) {
                     router.push('/dashboard/event')
                 }
             }
@@ -128,9 +111,6 @@ function GoogleBtn(props: Props) {
         }
     }) 
 
-    useEffect(()=> {
-    }, [])
-
     return (
         <>
             {newbtn && (
@@ -146,7 +126,7 @@ function GoogleBtn(props: Props) {
                 </Button>
             )}
 
-            {/* <PageLoader show={googlesign || localStorage.getItem('google') === "true"} /> */}
+            <PageLoader show={token?.token?.token.token.idToken ? true : false} />
         </>
     )
 }

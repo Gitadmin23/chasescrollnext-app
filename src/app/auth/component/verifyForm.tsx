@@ -1,19 +1,26 @@
 import useAuth from '@/hooks/useAuth'
 import { Flex, HStack, PinInput, PinInputField, Button, Text } from '@chakra-ui/react'
 import email from 'next-auth/providers/email'
+import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react'
 
 interface IProps {
     setOpen: (by: boolean) => void;
     setTab: (by: boolean) => void;
     setShowVerify: (by: boolean) => void;
-    setShowMessage: (by: boolean) => void
+    setShowMessage: (by: boolean) => void,
+    index?: string
 }
 
-export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMessage }: IProps) {
+export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMessage, index }: IProps) {
 
 
     const { code, setCode, hanldeSubmit, verifySuccess, loadingVerify, email, sendingVerify, sendSuccess, sendVerify, initialTime, setInitialTime, startTimer, setStartTimer } = useAuth() 
+    
+    const pathname = usePathname()
+
+    const router = useRouter()
 
     const clickHandler = () => {
         hanldeSubmit()
@@ -21,10 +28,14 @@ export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMess
 
     useEffect(() => {
         if (verifySuccess) {
-            setOpen(false)
-            setTab(false)
-            setShowVerify(false)
-            setShowMessage(true)
+            if(pathname?.includes("event")){
+                router.push(`/share/auth/login?type=EVENT&typeID=${index}`);
+            } else {
+                setOpen(false)
+                setTab(false)
+                setShowVerify(false)
+                setShowMessage(true)
+            }
         }
     }, [verifySuccess])
 
