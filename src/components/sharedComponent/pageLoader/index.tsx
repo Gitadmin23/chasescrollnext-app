@@ -41,8 +41,9 @@ export default function PageLoader({ show }: IProps) {
                             transition={{
                                 duration: 1, // Duration of each cycle
                                 ease: "easeInOut",
-                                loop: Infinity, // Loop indefinitely
-                                repeatDelay: 0.1 // Delay of 1 second before repeating
+                                repeat: Infinity, // Repeat indefinitely
+                                repeatType: "loop", // Loop the animation
+                                repeatDelay: 0.1 // Delay of 0.1 seconds before repeating
                             }}
                         />
                         <motion.div
@@ -63,8 +64,9 @@ export default function PageLoader({ show }: IProps) {
                             transition={{
                                 duration: 1, // Duration of each cycle
                                 ease: "easeInOut",
-                                loop: Infinity, // Loop indefinitely
-                                repeatDelay: 0.5 // Delay of 1 second before repeating
+                                repeat: Infinity, // Repeat indefinitely
+                                repeatType: "loop", // Loop the animation
+                                repeatDelay: 0.1 // Delay of 0.1 seconds before repeating
                             }}
                         />
                         <motion.div
@@ -85,8 +87,9 @@ export default function PageLoader({ show }: IProps) {
                             transition={{
                                 duration: 1, // Duration of each cycle
                                 ease: "easeInOut",
-                                loop: Infinity, // Loop indefinitely
-                                repeatDelay: 0.5 // Delay of 1 second before repeating
+                                repeat: Infinity, // Repeat indefinitely
+                                repeatType: "loop", // Loop the animation
+                                repeatDelay: 0.1 // Delay of 0.1 seconds before repeating
                             }}
                         />
                     </Flex>

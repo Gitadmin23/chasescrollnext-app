@@ -2,18 +2,15 @@ import CustomButton from '@/components/general/Button'
 import CustomText from '@/components/general/Text'
 import GoogleBtn from '@/components/sharedComponent/googlebtn'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
-import useModalStore from '@/global-state/useModalSwitch'
 import { useDetails } from '@/global-state/useUserDetails'
 import { formatNumber } from '@/utils/numberFormat'
 import { Box, Button, Flex, Text, useColorMode, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
-import router from 'next/router'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LiaAngleDownSolid } from 'react-icons/lia'
 import useCustomTheme from "@/hooks/useTheme";
 import { dateFormat, timeFormat } from '@/utils/dateFormat'
-import { IEvent } from '@/models/Events'
-import EventPrice from '@/components/sharedComponent/event_price'
+import SignupModal from '@/app/auth/component/signupModal'
 
 interface Props {
     ticket: any,
@@ -40,9 +37,11 @@ function SelectTicket(props: Props) {
         borderColor,
         headerTextColor
     } = useCustomTheme();
-    const { colorMode, toggleColorMode } = useColorMode();
+    // const { colorMode, toggleColorMode } = useColorMode();
 
     const [showModal, setShowModal] = React.useState(false)
+
+    const [openSignUp, setOpenSignUp] = useState(false)
     const [open, setOpen] = React.useState(false)
     const token = sessionStorage.getItem('tp_token')
     const { userId: user_index } = useDetails((state) => state);
@@ -71,22 +70,15 @@ function SelectTicket(props: Props) {
         setCategory({} as any)
     }, [])
 
-    const tempFunc = () => {
-        // toast({
-        //     title: 'Infomation',
-        //     description: 'Please sign-up with google',
-        //     status: 'info',
-        //     isClosable: true,
-        //     duration: 5000,
-        //     position: 'top-right',
-        // });
-        router.push("/share/auth/signup/?type=EVENT&typeID=" + data?.id)
+    const signUpHandler = (item: boolean) => {
+        setOpen(false)
+        setOpenSignUp(item)
     }
 
     return (
         <Flex gap={"3"} position={"relative"} alignItems={"center"} justifyContent={"end"} pl={"5"}  >
             <Flex onClick={() => setShowModal(true)} as={"button"} borderColor={"brand.chasescrollBlue"} rounded={"lg"} borderWidth={"1px"} height={"49px"} width={"full"} justifyContent={"center"} alignItems={"center"} >
-                <Text fontSize={"sm"} color={colorMode === 'light' ? "brand.chasescrollBlue" : bodyTextColor} >
+                <Text fontSize={"sm"} color={"brand.chasescrollBlue"} >
                     {selectedticket?.ticketType ? selectedticket?.ticketType : "Select Ticket"}{" "}
                     {selectedticket?.ticketType ? formatNumber(selectedticket?.ticketPrice, currency === "USD" ? "$" : "₦") : ""}
                 </Text>
@@ -141,13 +133,14 @@ function SelectTicket(props: Props) {
                 <Flex w={"full"} flexDir={"column"} gap={"4"} p={"6"} >
                     <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"44.8px"} >Get Ticket</Text>
                     <Text color={"#62619.6px262"} textAlign={"center"} lineHeight={"22.4px"} >Please choose your option and proceed with Chasescroll.</Text>
-                    <GoogleBtn title='Sign up ' id={data?.id ? true : false} height='50px' border='1px solid #B6B6B6' bgColor='white' />
+                    <GoogleBtn title='Sign up ' id={data?.id ? true : false} index={data?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' />
                     <Flex justifyContent={"center"} gap={"2px"} alignItems={"center"} >
                         <Text color={"#BCBCBC"} fontSize={"14px"} lineHeight={"19.6px"} >OR</Text>
                     </Flex>
                     {/* <CustomButton backgroundColor={"#EDEFFF"} color={"#5465E0"} fontWeight={"400"} onClick={() => router.push("/share/auth/login/?type=EVENT&typeID=" + data?.id)} text={"Get Temporary Account"} /> */}
                     <CustomButton backgroundColor={"#EDEFFF"} color={"#5465E0"} fontWeight={"400"} onClick={() => router.push("/share/auth/temporary-account/?type=EVENT&typeID=" + data?.id)} text={"Get Temporary Account"} />
-                    <CustomButton backgroundColor={"#5D70F9"} color={"white"} onClick={() => tempFunc()} text={"Sign up"} />
+                    <CustomButton backgroundColor={"#5D70F9"} color={"white"} onClick={() => signUpHandler(true)} text={"Sign up"} />
+                    {/* <SignupModal index={data?.id} open={openSignUp} setOpen={signUpHandler} /> */}
                     <Flex>
                         <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'} marginLeft='0px'>
                             Already have an account?
@@ -156,6 +149,9 @@ function SelectTicket(props: Props) {
                     </Flex>
                 </Flex>
             </ModalLayout>
+            {openSignUp && (
+                <SignupModal hide={true} index={data?.id} open={openSignUp} setOpen={signUpHandler} />
+            )}
         </Flex>
     )
 }
