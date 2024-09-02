@@ -2,7 +2,7 @@ import CustomText from '@/components/general/Text'
 import { URLS } from '@/services/urls'
 import httpServiceGoogle from '@/utils/httpServiceGoogle'
 import { Button, Image, Text, useColorMode, useToast } from '@chakra-ui/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useMutation } from 'react-query'
 import { signIn, useSession,  } from 'next-auth/react'
@@ -39,6 +39,7 @@ function GoogleBtn(props: Props) {
     const router = useRouter();
     const { email, setAll } = useDetails((state) => state);
     const { googlesign, setGoogle } = useModalStore((state) => state);
+    const query = useSearchParams();
 
     const {
         bodyTextColor,
@@ -60,6 +61,8 @@ function GoogleBtn(props: Props) {
     }, [status])  
 
     console.log(status);
+    const type = query?.get('type');
+    const typeID = query?.get('typeID');
     
 
     const handleGoogleSignIn = async () => {
@@ -78,7 +81,7 @@ function GoogleBtn(props: Props) {
 
             setCheckData(true);
         }
-    }
+    } 
 
     const signinWithGoogle = useMutation({
 
@@ -107,8 +110,8 @@ function GoogleBtn(props: Props) {
                 userId: data?.data?.user_id,
             })
 
-            if (id) {
-                router.push(`/dashboard/event/details/${id}`);
+            if (typeID) {
+                router.push(`/dashboard/event/details/${typeID}`);
             } else {
                 if(data?.data?.user_id && googlesign) {
                     router.push('/dashboard/event')
