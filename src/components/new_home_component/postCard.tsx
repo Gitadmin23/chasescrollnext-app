@@ -76,7 +76,7 @@ export default function PostCard(props: IMediaContent) {
     }
 
     return (
-        <Flex style={{ boxShadow: "0px 2px 8px 0px #0000000D" }} borderWidth={"0.5px"} bg={mainBackgroundColor} borderColor={borderColor} borderRadius={"36px"} borderTopRightRadius={"0px"} p={"5"} >
+        <Flex style={{ boxShadow: "0px 2px 8px 0px #0000000D" }} w={"full"} borderWidth={"0.5px"} bg={mainBackgroundColor} borderColor={borderColor} borderRadius={"36px"} borderTopRightRadius={"0px"} p={"5"} >
             <Flex w={"full"} gap={"3"} flexDir={"column"} >
                 <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} borderWidth={"1px"} borderColor={borderColor} px={"4"} >
                     <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} alignItems={"center"} gap={["1", "1", "3"]} >
@@ -108,7 +108,7 @@ export default function PostCard(props: IMediaContent) {
                             />
                         )}
                         {type === "WITH_IMAGE" && (
-                            <Flex w={"full"} as={"button"} onClick={() => setOpenImage(true)} >
+                            <Flex w={"full"} as={"button"} onClick={() => setOpenImage(pathname?.includes("profile") ? false : true)} >
                                 <ImageSlider links={multipleMediaRef} type="feed" />
                             </Flex>
                         )}
