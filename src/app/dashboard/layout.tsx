@@ -2,24 +2,18 @@
 import { useDetails } from '@/global-state/useUserDetails'
 import { Box, Button, Flex, HStack, Image, Link, Switch, Text, Tooltip, VStack, useColorMode } from '@chakra-ui/react'
 import React, { ReactNode, useState } from 'react'
-import { GrHomeRounded } from "react-icons/gr";
-import { FiSearch, FiCalendar, FiMessageCircle, FiUsers, FiUser } from 'react-icons/fi'
-import { IoCalendarOutline, IoSearchOutline } from 'react-icons/io5';
 import { NewChatIcon, NewWalletIcon, SidebarCalendarIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarNotificationIcon, SidebarProfileIcon, SidebarSearchIcon, SidebarWalletIcon } from '@/components/svg/sidebarIcons';
 import { usePathname, useRouter } from 'next/navigation';
-import SearchBar from '@/components/explore_component/searchbar';
-import CustomButton from '@/components/general/Button';
+import SearchBar from '@/components/explore_component/searchbar'; 
 import { signOut, useSession } from 'next-auth/react';
 import UserImage from '@/components/sharedComponent/userimage';
 import CustomText from '@/components/general/Text';
-import { HomeIcon, UsersIcon } from '@/components/svg';
-import { IMAGE_URL } from '@/services/urls';
+import { HomeIcon, UsersIcon } from '@/components/svg'; 
 import { SearchNormal1, Calendar, Warning2, LogoutCurve } from 'iconsax-react';
 import useCustomTheme from '@/hooks/useTheme';
 import getUser from '@/hooks/useGetUser';
 import CreateEventBtn from '@/components/sharedComponent/create_event_btn';
-import useModalStore from '@/global-state/useModalSwitch';
-import PageLoader from '@/components/sharedComponent/pageLoader';
+import useModalStore from '@/global-state/useModalSwitch'; 
 import ModalLayout from '@/components/sharedComponent/modal_layout';
 
 export default function Layout({ children }: {
