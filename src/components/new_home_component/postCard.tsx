@@ -17,7 +17,7 @@ import CustomText from '../general/Text'
 import ReportUserModal from '../modals/Home/ReportModal'
 import CommentSection from './commentSection'
 import CustomButton from '../general/Button'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import moment from 'moment'
 
 
@@ -54,6 +54,9 @@ export default function PostCard(props: IMediaContent) {
     const [openImage, setOpenImage] = useState(false)
     const [openComments, setOpenComments] = useState(false)
 
+    const pathname = usePathname()
+
+
     const router = useRouter()
 
     useEffect(() => {
@@ -89,9 +92,11 @@ export default function PostCard(props: IMediaContent) {
                             <Text fontSize={"8px"} color={bodyTextColor} >{moment(timeInMilliseconds).fromNow()}</Text>
                         </Flex>
                     </Flex>
-                    <Flex onClick={() => setOpen(true)} as={"button"} ml={"auto"} pr={"1"} >
-                        <CgMoreVertical size={"25px"} />
-                    </Flex>
+                    {!pathname?.includes("profile") &&(
+                        <Flex onClick={() => setOpen(true)} as={"button"} ml={"auto"} pr={"1"} >
+                            <CgMoreVertical size={"25px"} />
+                        </Flex>
+                    )}
                 </Flex>
                 <Text fontSize={["14px", "14px", "16px"]} >{text}</Text>
                 {(type === "WITH_IMAGE" || type === "WITH_VIDEO_POST") &&
@@ -113,7 +118,7 @@ export default function PostCard(props: IMediaContent) {
                     <Flex
                         as={"button"}
                         onClick={() => likesHandle(id)}
-                        justifyContent={"center"} 
+                        justifyContent={"center"}
                         h={["26px", "26px", "30px"]}
                         alignItems={"center"} w={"fit-content"} gap={["3px", "2px", "2px"]} >
                         {!loadingLikes ?
@@ -157,12 +162,12 @@ export default function PostCard(props: IMediaContent) {
                     </Flex>
                     <Flex as={"button"}
                         pt={"2px"}
-                        justifyContent={"center"} 
+                        justifyContent={"center"}
                         h={["26px", "26px", "30px"]}
                         alignItems={"center"}
                         onClick={() => setOpenComments(true)} w={"fit-content"} gap={["3px", "2px", "2px"]} >
                         <Flex
-                            width={["20px", "20px", "24px"]} 
+                            width={["20px", "20px", "24px"]}
                             display={["none", "block", "block"]}
                             justifyContent={"center"}
                             alignItems={"center"}
@@ -171,7 +176,7 @@ export default function PostCard(props: IMediaContent) {
                             <HomeCommentIcon color={bodyTextColor} />
                         </Flex>
                         <Flex
-                            width={["20px", "20px", "24px"]} 
+                            width={["20px", "20px", "24px"]}
                             justifyContent={"center"}
                             alignItems={"center"}
                             color={bodyTextColor}
@@ -181,8 +186,8 @@ export default function PostCard(props: IMediaContent) {
                         </Flex>
                         <Text>{commentCount}</Text>
                     </Flex>
-                    <Flex w={"fit-content"} alignItems={"center"} 
-                            h={["26px", "26px", "30px"]} gap={"2px"} >
+                    <Flex w={"fit-content"} alignItems={"center"}
+                        h={["26px", "26px", "30px"]} gap={"2px"} >
                         <ShareBtn type="POST" id={id} />
                     </Flex>
                 </Flex>
