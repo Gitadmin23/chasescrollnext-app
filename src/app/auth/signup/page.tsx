@@ -1,7 +1,7 @@
 "use client"
 import { GoogleIcon, AppleIcon } from '@/components/svg'
 import { Flex, Button, Image, Text, Box } from '@chakra-ui/react' 
-import React from 'react'
+import React, { useState } from 'react'
 import SignupModal from '../component/signupModal'
 import { useRouter } from 'next/navigation'
 import GoogleBtn from '@/components/sharedComponent/googlebtn'
@@ -10,6 +10,7 @@ import { IoIosArrowBack } from 'react-icons/io'
 export default function Sigup() {
 
     const router = useRouter()
+    const [open, setOpen] = useState(false)
 
     return (
         <Flex w={"full"} height={"100vh"} >
@@ -37,7 +38,7 @@ export default function Sigup() {
                         <Box width={"400px"} height={"1px"} pos={"absolute"} top={"3"} bgColor={"#BCBCBC"} />
                         <Text px={"2"} bg={"white"} pos={"relative"} color={"#BCBCBC"} zIndex={"10"} >OR</Text>
                     </Flex> 
-                    <SignupModal />
+                    <SignupModal open={open} setOpen={setOpen} />
                     <Flex px={"12"} my={"3"} >
                         <Text fontSize={"14px"} color={"#434344"} >By signing up, you agree to the Terms of Service and  Privacy Policy , including Cookie Use.</Text>
                     </Flex>

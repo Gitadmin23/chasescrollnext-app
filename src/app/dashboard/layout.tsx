@@ -33,7 +33,7 @@ export default function Layout({ children }: {
     }
 
     const { userId, setAll, user: data, } = useDetails((state) => state);
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false) 
     const router = useRouter()
     const { setGoogle } = useModalStore((state) => state);
     const pathname = usePathname()
@@ -87,12 +87,10 @@ export default function Layout({ children }: {
 
     const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
 
-    const logout = async () => {
-
-        setGoogle(false)
-        setAll({ userId: '', dob: '', email: '', username: '', firstName: '', lastName: '', publicProfile: '' });
-        localStorage.clear();
+    const logout = async () => { 
         await signOut();
+        setAll({ userId: '', dob: '', email: '', username: '', firstName: '', lastName: '', publicProfile: '' });
+        localStorage.clear(); 
         // router?.push("/auth")
 
     }
@@ -103,15 +101,16 @@ export default function Layout({ children }: {
     const Id = localStorage.getItem('user_id');
 
     React.useEffect(() => {
-        if (!Id && status === "unauthenticated") {
+        if ((status === "unauthenticated" && !Id)) {
             router.push('/auth')
         } else {
-            setAll({ userId: Id ?? "s" });
+            setAll({ userId: Id ?? "" }); 
         }
-    }, [Id, status]);
+    }, [Id, status, router]); 
+    
 
     return (
-        <Flex w={"full"} h={"100vh"} bg={mainBackgroundColor} >
+        <Flex w={"full"} h={"100vh"} bg={mainBackgroundColor} > 
             {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
                 <Flex w={"fit-content"} h={"screen"} display={["none", "none", "none", "flex", "flex"]} >
                     <Flex w={"110px"} h={"screen"} gap={"4"} overflowY={"auto"} flexDir={"column"} py={"4"} alignItems={"center"} justifyContent={"space-between"} borderRightColor={borderColor} borderRightWidth={"1px"} >

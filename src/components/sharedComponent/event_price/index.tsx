@@ -6,7 +6,8 @@ interface Props {
     maxPrice: any,
     minPrice?: any,
     currency: any,
-    indetail?: boolean
+    indetail?: boolean,
+    font?: any
 }
 
 function EventPrice(props: Props) {
@@ -14,7 +15,8 @@ function EventPrice(props: Props) {
         maxPrice,
         minPrice,
         currency,
-        indetail
+        indetail,
+        font
     } = props 
 
     const DataFormater = (number: number, prefix: string) => {
@@ -30,7 +32,7 @@ function EventPrice(props: Props) {
     }
 
     return (
-        <Text fontSize={["13px", "13px", "16px"]} >
+        <Text fontSize={font ? font : ["13px", "13px", "16px"]} >
             {!indetail && (
                 <>
                     {(minPrice === 0 && maxPrice === 0) || (!minPrice && !maxPrice) ?

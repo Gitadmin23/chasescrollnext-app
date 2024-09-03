@@ -6,7 +6,7 @@ import { useToast } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { useMutation } from "react-query";
 import { useForm } from "./useForm";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import httpService, { unsecureHttpService } from "@/utils/httpService";
 import moment from "moment";
 
@@ -26,6 +26,9 @@ const useAuth = () => {
     const [code, setCode] = useState('');
     const [initialTime, setInitialTime] = useState(0);
     const [startTimer, setStartTimer] = useState(false);
+    const query = useSearchParams();
+    const type = query?.get('type');
+    const typeID = query?.get('typeID');
 
     let email = localStorage.getItem('email')?.toString();
 
@@ -56,17 +59,27 @@ const useAuth = () => {
                 router.push('/auth/verify-account');
             } else {
 
-                localStorage.setItem('token', data?.data?.access_token);
-                localStorage.setItem('refresh_token', data?.data?.refresh_token);
-                localStorage.setItem('user_id', data?.data?.user_id);
-                localStorage.setItem('expires_in', data?.data?.expires_in);
                 setAll({
                     firstName: data?.data?.firstName,
                     lastName: data?.data?.firstName,
                     username: data?.data?.user_name,
                     userId: data?.data?.user_id,
                 })
-                router.push('/dashboard/event')
+
+                localStorage.setItem('token', data?.data?.access_token);
+                localStorage.setItem('refresh_token', data?.data?.refresh_token);
+                localStorage.setItem('user_id', data?.data?.user_id);
+                localStorage.setItem('expires_in', data?.data?.expires_in);
+
+                if (type) {
+                    if (type === "EVENT") {
+                        router.push(`/dashboard/event/details/${typeID}`);
+                    } else {
+                        router.push(`/share?type=${type}&typeID=${typeID}`);
+                    }
+                } else {
+                    router.push('/dashboard/event')
+                }
             }
 
         }
@@ -86,6 +99,7 @@ const useAuth = () => {
             });
         },
         onSuccess: (data) => {
+
         },
     });
 

@@ -106,7 +106,7 @@ function ExploreEventCard(props: Props) {
             cursor={"pointer"}
             bg={secondaryBackgroundColor}
             onClick={() => clickHandler()}
-            py={searchbar ? ((landing || upcoming ) ? "0px" : "2") : upcoming ? "0px" : ["6", "6", "4"]}
+            py={searchbar ? ((landing || upcoming) ? "0px" : "2") : upcoming ? "0px" : ["6", "6", "4"]}
             //   px={landing ? "" : ["6", "6", "4"]}
             roundedBottom={"32px"}
             roundedTopLeft={"32px"}
@@ -132,7 +132,7 @@ function ExploreEventCard(props: Props) {
                         <BlurredImage
                             height={
                                 searchbar
-                                    ? "80px"
+                                    ? "100px"
                                     : [
                                         "230px",
                                         "230px",
@@ -146,10 +146,10 @@ function ExploreEventCard(props: Props) {
                             date={date}
                             data={event}
                             searchbar={searchbar}
-                            width={searchbar ? "90px" : ["full", "full", page ? "full" : "230px"]}
+                            width={searchbar ? "110px" : ["full", "full", page ? "full" : "230px"]}
                             height={
                                 searchbar
-                                    ? "80px"
+                                    ? "100px"
                                     : [
                                         "230px",
                                         "230px",
@@ -164,25 +164,27 @@ function ExploreEventCard(props: Props) {
                         width={
                             searchbar ? "full" : ["full", "full", page ? "full" : "full"]
                         }
-                        px={"4"}
+                        px={searchbar ? "2" : "4"}
                         mt={["10px", "10px", page ? "10px" : "0px", page ? "10px" : "0px"]}
-                        ml={["0px", "0px", page ? "0px" : "10px", page ? "0px" : "10px"]}
+                    ml={searchbar ? "2" :["0px", "0px", page ? "0px" : "10px", page ? "0px" : "10px"]}
                     >
                         <Flex
                             fontWeight={"semibold"}
                             width={"full"}
+                            flexDir={"column"}
                             justifyContent={"space-between"}
                             borderBottomColor={"#D0D4EB"}
                             borderBottom={search ? "1px" : "0px"}
                             pb={"1"}
                         >
-                            <Text fontSize={searchbar ? "16px" : "18px"}>
+                            <Text fontSize={searchbar ? ["14px", "14px", "14px"] : "18px"}>
                                 {event.eventName?.length >= 17
                                     ? event.eventName.slice(0, 13) + "..."
                                     : event.eventName}
                             </Text>
-                            <Box fontSize={searchbar ? "14px" : "14px"}>
+                            <Box fontSize={searchbar ? ["13px", "13px", "14px"] : "14px"}>
                                 <EventPrice
+                                    font={["13px", "13px", "13px"]}
                                     minPrice={event?.minPrice}
                                     maxPrice={event?.maxPrice}
                                     currency={event?.currency}
@@ -193,7 +195,7 @@ function ExploreEventCard(props: Props) {
                             <Flex
                                 alignItems={"center"}
                                 width={"full"}
-                                mt={searchbar ? "-4px" : "10px"}
+                                mt={searchbar ? "4px" : "10px"}
                                 mb={"4px"}
                                 gap={"1"}
                             >
@@ -232,9 +234,11 @@ function ExploreEventCard(props: Props) {
                                     color={landingcolor ? "black" : "rgba(18, 18, 18, 0.80)"}
                                     location={event?.location}
                                     locationType={event?.locationType}
-                                    length={20}
+                                    isLimited={true}
+                                    height="fit-content"
+                                    length={25}
                                 />
-                                {!draft && !profile && !my_event && (
+                                {(!draft && !profile && !my_event && !searchbar) && (
                                     <Flex alignItems={"center"} gap={"3"}>
                                         <ShareEvent
                                             data={event}
@@ -565,7 +569,7 @@ function ExploreEventCard(props: Props) {
                                         color={landingcolor ? "black" : "rgba(18, 18, 18, 0.80)"}
                                         location={event?.location}
                                         locationType={event?.locationType}
-                                        length={20}
+                                        isLimited={true}
                                     />
                                 </Text>
                                 <Text color={primaryColor} display={["none", "none", "none", "block", "block"]} fontWeight={"600"} fontSize={"14px"} >
@@ -632,12 +636,12 @@ function ExploreEventCard(props: Props) {
 
                             justifyContent={"space-between"}
                             alignItems={"center"}
-                            // borderTopWidth={"1px"}
-                            // borderTopColor={"#EFF1FE"}
+                        // borderTopWidth={"1px"}
+                        // borderTopColor={"#EFF1FE"}
                         >
                             <CustomButton borderColor={primaryColor} borderWidth={"1px"} backgroundColor={((event?.minPrice === 0 && event?.maxPrice === 0) || (!event?.minPrice && !event?.maxPrice)) ? "white" : primaryColor} color={((event?.minPrice === 0 && event?.maxPrice === 0) || (!event?.minPrice && !event?.maxPrice)) ? primaryColor : "white"} text={((event?.minPrice === 0 && event?.maxPrice === 0) || (!event?.minPrice && !event?.maxPrice)) ? "Register" : "Buy Ticket"} width={["full", "full", "full", "130px", "130px"]} height={"45px"} fontSize={"sm"} borderRadius={"full"} />
-                            <Flex gap={"4"} display={["none", "none", "none", "flex", "flex"]} 
-                            pr={"3"}  >
+                            <Flex gap={"4"} display={["none", "none", "none", "flex", "flex"]}
+                                pr={"3"}  >
                                 <SaveOrUnsaveBtn event={event} />
 
                                 <ShareEvent
