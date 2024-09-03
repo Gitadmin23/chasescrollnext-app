@@ -1,5 +1,5 @@
 import { CancelIcon } from '@/components/svg'
-import { Box, Flex, Image, Link, Text } from '@chakra-ui/react'
+import { Box, Flex, Image } from '@chakra-ui/react'
 import React, { ReactNode } from 'react'
 import { BsChevronLeft } from 'react-icons/bs'
 
