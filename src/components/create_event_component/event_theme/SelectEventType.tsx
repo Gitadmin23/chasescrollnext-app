@@ -94,7 +94,7 @@ export default function SelectEventType({ options }: { options: Array<Obj> }) {
                             }}
                         />
                     </Flex>
-                    <Flex flexDir={"column"} style={{ maxHeight: '250px', overflowY: 'auto' }}>
+                    <Flex flexDir={"column"} style={{ maxHeight: '200px', overflowY: 'auto' }}>
                         {filteredOptions.length > 0 ? (
                             filteredOptions.map(option => (
                                 <div
