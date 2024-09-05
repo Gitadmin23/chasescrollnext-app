@@ -92,11 +92,9 @@ export default function PostCard(props: IMediaContent) {
                             <Text fontSize={"8px"} color={bodyTextColor} >{moment(timeInMilliseconds).fromNow()}</Text>
                         </Flex>
                     </Flex>
-                    {!pathname?.includes("profile") &&(
-                        <Flex onClick={() => setOpen(true)} as={"button"} ml={"auto"} pr={"1"} >
-                            <CgMoreVertical size={"25px"} />
-                        </Flex>
-                    )}
+                    <Flex onClick={() => setOpen(true)} as={"button"} ml={"auto"} pr={"1"} >
+                        <CgMoreVertical size={"25px"} />
+                    </Flex>
                 </Flex>
                 <Text fontSize={["14px", "14px", "16px"]} >{text}</Text>
                 {(type === "WITH_IMAGE" || type === "WITH_VIDEO_POST") &&
