@@ -14,6 +14,7 @@ import { uniqBy } from 'lodash';
 import ChatBubble from './ChatBubble';
 import useCustomTheme from '@/hooks/useTheme';
 import BlockBtn from '../sharedComponent/blockbtn';
+import LoadingAnimation from '../sharedComponent/loading_animation';
 
 function MainArea() {
     const [messagess, setMessages] = React.useState<ChatMessage[]>([]);
@@ -34,7 +35,7 @@ function MainArea() {
 
 
     // queries
-    const { isLoading, isRefetching } = useQuery(['getMessages', activeChat?.id, pageNumber], () => httpService.get(`${URLS.CHAT_MESSGAE}`, {
+    const { isLoading, isRefetching, isFetching, refetch } = useQuery(['getMessages', activeChat?.id, pageNumber], () => httpService.get(`${URLS.CHAT_MESSGAE}`, {
         params: {
             chatID: activeChat?.id,
             page: pageNumber
@@ -46,7 +47,7 @@ function MainArea() {
             const item: PaginatedResponse<ChatMessage> = data.data;
 
             console.log(item);
-            
+
 
             if (item?.content?.length > 0) {
                 if (item.content[0].id !== activeChat?.id) {
@@ -77,7 +78,7 @@ function MainArea() {
         });
         if (post) intObserver.current.observe(post);
 
-    }, [isLoading, isRefetching, setAll, pageNumber, hasNext]); 
+    }, [isLoading, isRefetching, setAll, pageNumber, hasNext]);
 
     if (activeChat === null) {
         return (
@@ -98,32 +99,34 @@ function MainArea() {
             {/* MESSAGE AREA */}
 
             <Box flex='1' width={'100%'} overflowY={'auto'} overflowX={'hidden'} className={colorMode === 'light' ? 'chat-area' : ''} bg={mainBackgroundColor}>
-                <Flex gap={"4"} paddingX={['10px', '10px']} paddingY='40px' alignItems={'flex-start'} width={'100%'} flexDir={"column-reverse"} overflowY={"auto"} height={'100%'}>
-                    {activeChat !== null && messages.length > 0 && messages.map((item, index) => {
-                        return (
-                            <>
-                                {index === messages.length - 1 ? (
-                                    <ChatBubble index={index} id='lastMsg' ref={lastChildRef} key={index.toString()} message={item} />
-                                ) : (
-                                    <ChatBubble index={index} id={undefined} key={index.toString()} message={item} />
-                                )} 
-                            </>
-                        )
-                    })}
-                    {
-                        isLoading && (
-                            <Flex width='100%' height='50px' justifyContent={'center'} alignItems={'center'}>
-                                <Spinner size={'sm'} />
-                            </Flex>
-                        )
-                    }
-                </Flex>
+                <LoadingAnimation loading={isLoading} >
+                    <Flex gap={"4"} paddingX={['10px', '10px']} paddingY='40px' alignItems={'flex-start'} width={'100%'} flexDir={"column-reverse"} overflowY={"auto"} height={'100%'}>
+                        {activeChat !== null && messages.length > 0 && messages.map((item, index) => {
+                            return (
+                                <>
+                                    {index === messages.length - 1 ? (
+                                        <ChatBubble index={index} refetch={refetch} id='lastMsg' ref={lastChildRef} key={index.toString()} message={item} />
+                                    ) : (
+                                        <ChatBubble index={index} refetch={refetch} id={undefined} key={index.toString()} message={item} />
+                                    )}
+                                </>
+                            )
+                        })}
+                        {/* {
+                            isFetching && (
+                                <Flex width='100%' height='50px' justifyContent={'center'} alignItems={'center'}>
+                                    <Spinner size={'sm'} />
+                                </Flex>
+                            )
+                        } */}
+                    </Flex>
+                </LoadingAnimation>
             </Box>
 
             {/* TEXTAREA */}
             <Flex w={"full"} mt={"auto"} >
                 <BlockBtn isChat={true} user_index={activeChat?.otherUser?.userId} />
-            {/* <TextArea /> */}
+                {/* <TextArea /> */}
             </Flex>
         </VStack>
     )
