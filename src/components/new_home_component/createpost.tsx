@@ -21,7 +21,7 @@ export default function Createpost() {
     const toast = useToast()
     const router = useRouter()
 
-    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor, inputBorderColor, headerTextColor, ticketBackgroundColor } = useCustomTheme();
+    const { bodyTextColor, inputColor, secondaryBackgroundColor, mainBackgroundColor, borderColor, inputBorderColor, headerTextColor, inputtextColor } = useCustomTheme();
 
     const { createPost, isLoading, post, setPost, handleImagePicked, files, removeFile, emptyFiles, createPostWithFiles, uploadingfile, open, setOpen, setFiles } = useHome()
 
@@ -64,11 +64,11 @@ export default function Createpost() {
     return (
         <Flex bg={mainBackgroundColor} w={["full", "full", "full", "full", "619px"]} pt={["4", "4", "4", "4", "8"]} px={["4", "4", "4", "4","8"]} >
             <Flex w={"full"} p={"4"} gap={"2"} rounded={"12px"} flexDir={"column"} style={{ boxShadow: "0px 2px 2px 0px #00000008" }} bgColor={mainBackgroundColor} h={"fit-content"} >
-                <Flex pos={"relative"} w={"full"} bgColor={secondaryBackgroundColor} gap={"1"} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
+                <Flex pos={"relative"} w={"full"} bgColor={inputColor} gap={"1"} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
                     <Box as={"button"} onClick={()=> router?.push(`/dashboard/profile/${user?.userId}`)}  w={"fit-content"} >
                         <UserImage size={"36px"} fontWeight={"500"} font={"14px"} border={"1.5px"} image={user?.data?.imgMain?.value} data={user} />
                     </Box>
-                    <Textarea value={post} onChange={(e) => setPost(e.target.value)} h={"45px"} color={"black"} w={"full"} borderWidth={"0px"} _hover={{ borderWidth: "0px", }} focusBorderColor='transparent' placeholder={`Share your thought ${!user?.username?.includes(".com") ? user?.username : ""}`} _placeholder={{ color: "#00000033" }} />
+                    <Textarea value={post} onChange={(e) => setPost(e.target.value)} h={"45px"} bgColor={inputColor} color={inputtextColor} w={"full"} borderWidth={"0px"} _hover={{ borderWidth: "0px", }} focusBorderColor='transparent' placeholder={`Share your thought ${!user?.username?.includes(".com") ? user?.username : ""}`} _placeholder={{ color: "#00000033" }} />
                     <Box onClick={clickHandler} as='button' w={"fit-content"} mt={"auto"} >
                         {isLoading ?
                             <Spinner size={"sm"} /> :
@@ -86,11 +86,11 @@ export default function Createpost() {
                     <Box as='button' onClick={closeHandler} >
                         <IoClose size={"25px"} />
                     </Box>
-                    <Flex pos={"relative"} w={"full"} bgColor={secondaryBackgroundColor} gap={"1"} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
+                    <Flex pos={"relative"} w={"full"} bgColor={inputColor} color={inputtextColor} gap={"1"} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
                         <Box w={"fit-content"} >
                             <UserImage size={"36px"} fontWeight={"500"} font={"14px"} border={"1.5px"} image={user?.data?.imgMain?.value} data={user} />
                         </Box>
-                        <Input value={post} onChange={(e) => setPost(e.target.value)} h={"45px"} w={"full"} borderWidth={"0px"} _hover={{ borderWidth: "0px", }} focusBorderColor='transparent' placeholder={`Share your thought ${!user?.username?.includes(".com") ? user?.username : ""}`} color={"black"} _placeholder={{ color: "#00000033" }} />
+                        <Input value={post} onChange={(e) => setPost(e.target.value)} h={"45px"} w={"full"} borderWidth={"0px"} _hover={{ borderWidth: "0px", }} focusBorderColor='transparent' placeholder={`Share your thought ${!user?.username?.includes(".com") ? user?.username : ""}`} />
                     </Flex>
                     <Flex w={"full"} h={"300px"} rounded={"8px"} >
                         <UploadImage handleImagePicked={handleImagePicked} files={files} fileIndex={fileIndex} setFileIndex={setFileIndex} />
