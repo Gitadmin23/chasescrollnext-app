@@ -133,13 +133,16 @@ function ProfileImage(props: Props) {
                 <Box position={"absolute"} bottom={"170px"} left={"8"} zIndex={"20"} >
                     <UserImage data={data} image={data?.data?.imgMain?.value} size={["120px", "150px"]} font={["30px", '60px']} />
                 </Box>
-                <Flex zIndex={"20"} width={"full"} bottom={"0px"} insetX={"0px"} bg={"#00000099"} px={["6", "6", "9"]} height={"150px"} justifyContent={"space-between"} position={"absolute"} alignItems={"center"} >
+                <Flex zIndex={"20"} width={"full"} bottom={"0px"} insetX={"0px"} bg={"#00000099"} px={["3", "6", "9"]} height={"150px"} justifyContent={"space-between"} position={"absolute"} alignItems={"center"} >
                     <Box color={"white"} >
-                        <Text fontSize={"22px"} fontWeight={"bold"} >{capitalizeFLetter(data?.firstName) + " " + capitalizeFLetter(data?.lastName)}</Text>
+                        <Text fontSize={"22px"} fontWeight={"bold"} >{textLimit(capitalizeFLetter(data?.firstName) + " " + capitalizeFLetter(data?.lastName), 15)}</Text>
 
                         <Text fontSize={"sm"} >{data?.username?.includes("@gmail") ? textLimit(data?.username, 3) : data?.username}</Text>
                         {data?.showEmail && (
-                            <Text fontSize={"sm"} >{data?.email}</Text>
+                            <Text fontSize={"sm"} display={["none", "none", "block"]} >{data?.email}</Text>
+                        )}
+                        {data?.showEmail && (
+                            <Text fontSize={"sm"} display={["block", "block", "none"]} >{textLimit(data?.email, 23)}</Text>
                         )}
                         {(data?.data?.mobilePhone?.value && data?.showEmail) && (
                             <Text fontSize={"sm"} >Phone : {data?.data?.mobilePhone?.value}</Text>
@@ -153,7 +156,9 @@ function ProfileImage(props: Props) {
                             </>
                         )}
                         {data?.data?.webAddress?.value && (
-                            <Text fontSize={"sm"} >Website : {data?.data?.webAddress?.value ?? ""}</Text>
+                            <a href={data?.data?.webAddress?.value} target="_blank" >
+                                <Text fontSize={"sm"} color={primaryColor} >Website : {textLimit(data?.data?.webAddress?.value, 25)}</Text>
+                            </a>
                         )}
                     </Box>
                     {userId === user_index && (

@@ -116,7 +116,7 @@ function GoogleBtn(props: Props) {
             {newbtn && (
                 <Button onClick={handleGoogleSignIn} as={"button"} mt={"4"} h={"50px"} w={"full"} bgColor={"#F7F7F7"} rounded={"32px"} gap={"3"} justifyContent={"center"} alignItems={"center"} >
                     <GoogleIcon />
-                    <Text fontSize={"14px"} color={"#111111"} textAlign={"center"} fontWeight={"500"} >Signup with Google</Text>
+                    <Text fontSize={"14px"} color={"#111111"} textAlign={"center"} fontWeight={"500"} >{title ?? "Signup"} with Google</Text>
                 </Button>
             )}
             {!newbtn && (

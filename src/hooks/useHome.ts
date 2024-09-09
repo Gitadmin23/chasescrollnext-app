@@ -69,12 +69,18 @@ const useHome = () => {
     const { mutate: likesHandle, isLoading: loadingLikes, isSuccess: likedSuccess } = useMutation({
         mutationFn: (data: string) => httpService.post(`${URLS.LIKE_POST}/${data}`),
         onSuccess: (data: any) => {
-            refetch()
+            // refetch()
             setLiked(data?.data?.likeStatus)
             setLikeCount(data?.data?.likeCount)
-        },
+        }, 
+        retry: false,
         onError: () => { },
     }); 
+
+
+    const handleLikedPost = React.useCallback((data: string) => {
+        likesHandle(data)
+    }, []);
 
     const { isLoading: deletingPost, mutate: deletePost } = useMutation({
         mutationFn: (data: string) => httpService.delete(`${URLS.DELETE_POST}/${data}`),
@@ -198,7 +204,8 @@ const useHome = () => {
         deletingPost,
         deletePost,
         setDeleteModal,
-        deleteModal
+        deleteModal,
+        handleLikedPost
     };
 }
 

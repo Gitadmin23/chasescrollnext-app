@@ -38,7 +38,7 @@ function LoginPage() {
                       <GoogleIcon />
                       <Text fontSize={"14px"} color={"#111111"} textAlign={"center"} fontWeight={"500"} >Signup with Google</Text>
                   </Button>  */}
-          <GoogleBtn title="" newbtn={true} />
+          <GoogleBtn title="Sign in" newbtn={true} />
           <Flex mt={"2"} flexDirection={"column"} pos={"relative"} alignItems={"center"} >
             <Box maxW={"400px"} w={"70vw"} height={"1px"} pos={"absolute"} top={"3"} bgColor={"#BCBCBC"} />
             <Text px={"2"} bg={"white"} pos={"relative"} color={"#BCBCBC"} zIndex={"10"} >OR</Text>
