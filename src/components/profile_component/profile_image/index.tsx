@@ -157,7 +157,7 @@ function ProfileImage(props: Props) {
                         )}
                         {data?.data?.webAddress?.value && (
                             <a href={data?.data?.webAddress?.value} target="_blank" >
-                                <Text fontSize={"sm"} color={primaryColor} >Website : {textLimit(data?.data?.webAddress?.value, 25)}</Text>
+                                <Text fontSize={"sm"} >Website : <span style={{ color:`${primaryColor}` }} >{textLimit(data?.data?.webAddress?.value, 25)}</span></Text>
                             </a>
                         )}
                     </Box>
