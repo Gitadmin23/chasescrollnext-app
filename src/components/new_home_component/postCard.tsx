@@ -115,6 +115,7 @@ export default function PostCard(props: IMediaContent) {
                     <Flex
                         as={"button"}
                         onClick={() => likesHandle(id)}
+                        disabled={loadingLikes}
                         justifyContent={"center"}
                         h={["26px", "26px", "30px"]}
                         alignItems={"center"} w={"fit-content"} gap={["3px", "2px", "2px"]} >
