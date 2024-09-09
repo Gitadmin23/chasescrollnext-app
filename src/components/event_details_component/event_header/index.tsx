@@ -25,14 +25,16 @@ function EventHeader(props: Props) {
 
     return (
         <Flex mt={"12"} justifyContent={"space-between"} alignItems={"center"}>
-            <Box> 
+            <Box>
                 <Text display={["none", "none", "block"]} fontSize={"24px"} fontWeight={"bold"} >{capitalizeFLetter(name)}</Text>
                 <Text display={["block", "block", "none"]} fontSize={["14px", "14px", "18px"]} fontWeight={["medium", "bold", "bold"]} >{capitalizeFLetter(textLimit(name, 30))}</Text>
                 <Text fontSize={["13px", "13px", "20px"]} fontWeight={["medium", "semibold", "semibold"]} color={"brand.chasescrollBlue"} >
                     <EventPrice minPrice={minPrice} maxPrice={maxPrice} currency={currency} />
                 </Text>
             </Box>
-            <InterestedUsers fontSize={16} event={event} border={"2px"} size={"38px"} refund={true} />
+            {event?.attendeesVisibility && (
+                <InterestedUsers fontSize={16} event={event} border={"2px"} size={"38px"} refund={true} />
+            )}
         </Flex>
     )
 }

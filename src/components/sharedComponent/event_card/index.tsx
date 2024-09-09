@@ -508,13 +508,15 @@ function ExploreEventCard(props: Props) {
                             borderTopWidth={"1px"}
                             borderTopColor={"#EFF1FE"}
                         >
-                            <InterestedUsers
-                                fontSize={16}
-                                color={["white", "white", "#1732F7", "#1732F7", "#1732F7"]}
-                                event={event}
-                                border={"2px"}
-                                size={"32px"}
-                            />
+                            {event?.attendeesVisibility && (
+                                <InterestedUsers
+                                    fontSize={16}
+                                    color={["white", "white", "#1732F7", "#1732F7", "#1732F7"]}
+                                    event={event}
+                                    border={"2px"}
+                                    size={"32px"}
+                                />
+                            )}
                             <Flex ml={"auto"}>
                                 <EventPrice
                                     minPrice={event?.minPrice}
