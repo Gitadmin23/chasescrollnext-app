@@ -54,8 +54,7 @@ export default function PostCard(props: IMediaContent) {
     const [openImage, setOpenImage] = useState(false)
     const [openComments, setOpenComments] = useState(false)
 
-    const pathname = usePathname()
-
+    const pathname = usePathname() 
 
     const router = useRouter()
 
