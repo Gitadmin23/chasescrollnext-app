@@ -54,7 +54,7 @@ export default function PostCard(props: IMediaContent) {
     const [openImage, setOpenImage] = useState(false)
     const [openComments, setOpenComments] = useState(false)
 
-    const pathname = usePathname() 
+    const pathname = usePathname()
 
     const router = useRouter()
 
@@ -113,14 +113,14 @@ export default function PostCard(props: IMediaContent) {
                 }
                 <Flex w={"full"} borderTopWidth={"1px"} pt={"4"} alignContent={"center"} justifyContent={"space-between"} >
                     <Flex
-                        as={"button"}
-                        onClick={() => likesHandle(id)}
-                        disabled={loadingLikes}
                         justifyContent={"center"}
                         h={["26px", "26px", "30px"]}
                         alignItems={"center"} w={"fit-content"} gap={["3px", "2px", "2px"]} >
                         {!loadingLikes ?
-                            <Flex width={"fit-content"} h={"fit-content"} >
+                            <Flex
+                                as={"button"}
+                                onClick={() => likesHandle(id)}
+                                disabled={loadingLikes} width={"fit-content"} h={"fit-content"} >
                                 <Flex
                                     width={["20px", "20px", "24px"]}
                                     display={["none", "block", "block"]}
