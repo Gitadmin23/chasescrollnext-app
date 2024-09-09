@@ -166,7 +166,7 @@ function ExploreEventCard(props: Props) {
                         }
                         px={searchbar ? "2" : "4"}
                         mt={["10px", "10px", page ? "10px" : "0px", page ? "10px" : "0px"]}
-                    ml={searchbar ? "2" :["0px", "0px", page ? "0px" : "10px", page ? "0px" : "10px"]}
+                        ml={searchbar ? "2" : ["0px", "0px", page ? "0px" : "10px", page ? "0px" : "10px"]}
                     >
                         <Flex
                             fontWeight={"semibold"}
@@ -259,12 +259,16 @@ function ExploreEventCard(props: Props) {
                             </Flex>
                         )}
                         {page && (
-                            <InterestedUsers
-                                fontSize={14}
-                                event={event}
-                                border={"2px"}
-                                size={"28px"}
-                            />
+                            <>
+                                {event?.attendeesVisibility && (
+                                    <InterestedUsers
+                                        fontSize={14}
+                                        event={event}
+                                        border={"2px"}
+                                        size={"28px"}
+                                    />
+                                )}
+                            </>
                         )}
 
                         {(my_event || past) && (
@@ -592,14 +596,16 @@ function ExploreEventCard(props: Props) {
                                         />
                                     </Text>
                                     <Box display={["none", "none", "none", "block", "block"]} >
-                                        <InterestedUsers
-                                            fontSize={16}
-                                            // color={["#1732F7", "#1732F7", "#1732F7", "#1732F7", "#1732F7"]}
-                                            event={event}
-                                            border={"2px"}
-                                            size={"32px"}
-                                            refund={true}
-                                        />
+                                        {event?.attendeesVisibility && (
+                                            <InterestedUsers
+                                                fontSize={16}
+                                                // color={["#1732F7", "#1732F7", "#1732F7", "#1732F7", "#1732F7"]}
+                                                event={event}
+                                                border={"2px"}
+                                                size={"32px"}
+                                                refund={true}
+                                            />
+                                        )}
                                     </Box>
                                 </Box>
                             )}
@@ -607,14 +613,16 @@ function ExploreEventCard(props: Props) {
                         <Flex w={"full"} justifyContent={"space-between"} gap={"4"} pb={"2"} display={["flex", "flex", "flex", "none", "none"]}  >
 
                             <Box width={"fit-content"}  >
-                                <InterestedUsers
-                                    fontSize={16}
-                                    // color={["#1732F7", "#1732F7", "#1732F7", "#1732F7", "#1732F7"]}
-                                    event={event}
-                                    border={"2px"}
-                                    size={"32px"}
-                                    refund={true}
-                                />
+                                {event?.attendeesVisibility && (
+                                    <InterestedUsers
+                                        fontSize={16}
+                                        // color={["#1732F7", "#1732F7", "#1732F7", "#1732F7", "#1732F7"]}
+                                        event={event}
+                                        border={"2px"}
+                                        size={"32px"}
+                                        refund={true}
+                                    />
+                                )}
                             </Box>
                             <Flex gap={"4"} alignItems={"center"} >
                                 <SaveOrUnsaveBtn event={event} />
