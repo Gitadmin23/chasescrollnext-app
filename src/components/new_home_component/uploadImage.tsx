@@ -75,10 +75,11 @@ export default function UploadImage({ handleImagePicked, files, fileIndex, setFi
                 </Flex>
             ) : (
                 <Flex width={'100%'} height={'100%'} pos={"relative"} borderWidth={"1px"} justifyContent={"center"} alignItems={"center"} overflow={'hidden'} zIndex={2} rounded={"16px"} roundedTopRight={"0px"} >
-                    <Flex onClick={goBack} pos={"absolute"} left={"1"} as='button' width='40px' height={'40px'} borderRadius={'50%'} bg='#02020285' _hover={{ backgroundColor: '#02020285' }} zIndex={"10"} justifyContent={"center"} alignItems={"center"} >
-                        <FiArrowLeft size={'30px'} color='white' />
-                    </Flex>
-
+                    {files?.length > 1 && (
+                        <Flex onClick={goBack} pos={"absolute"} left={"1"} as='button' width='40px' height={'40px'} borderRadius={'50%'} bg='#02020285' _hover={{ backgroundColor: '#02020285' }} zIndex={"10"} justifyContent={"center"} alignItems={"center"} >
+                            <FiArrowLeft size={'30px'} color='white' />
+                        </Flex>
+                    )} 
                     {files[fileIndex].type.startsWith('video') ? (
                         <video controls width={'100%'} height={'100%'}>
                             <source src={URL.createObjectURL(files[fileIndex])} type='video/mp4' />
@@ -86,9 +87,11 @@ export default function UploadImage({ handleImagePicked, files, fileIndex, setFi
                     ) : (
                         <Image src={URL.createObjectURL(files[fileIndex])} alt='image' width={'100%'} height={'100%'} rounded={"16px"} roundedTopRight={"0px"} objectFit={'cover'} />
                     )}
-                    <Flex onClick={goForward} pos={"absolute"} right={"1"} as='button' width='40px' height={'40px'} borderRadius={'50%'} bg='#02020285' _hover={{ backgroundColor: '#02020285' }} zIndex={"10"} justifyContent={"center"} alignItems={"center"} >
-                        <FiArrowRight size={'30px'} color='white' />
-                    </Flex>
+                    {files?.length > 1 && (
+                        <Flex onClick={goForward} pos={"absolute"} right={"1"} as='button' width='40px' height={'40px'} borderRadius={'50%'} bg='#02020285' _hover={{ backgroundColor: '#02020285' }} zIndex={"10"} justifyContent={"center"} alignItems={"center"} >
+                            <FiArrowRight size={'30px'} color='white' />
+                        </Flex>
+                    )}
                 </Flex>
             )}
         </>
