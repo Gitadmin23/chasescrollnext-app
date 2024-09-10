@@ -48,7 +48,7 @@ export default function CommentSection(props: IProps) {
         headerTextColor
     } = useCustomTheme();
 
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(true)
     const [replyData, setReplyData] = useState({} as any)
     const router = useRouter()
 

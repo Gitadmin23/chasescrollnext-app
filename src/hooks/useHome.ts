@@ -26,7 +26,7 @@ const useHome = () => {
     const [liked, setLiked] = useState("")
     const [likeCount, setLikeCount] = useState(0)
     const [files, setFiles] = React.useState<File[]>([]);
-    const [open, setOpen] = useState(false) 
+    const [open, setOpen] = useState(false)
 
     const [deleteModal, setDeleteModal] = useState(false)
 
@@ -51,8 +51,8 @@ const useHome = () => {
             setPost("");
             reset()
             setOpen(false)
-            refetch() 
-            emptyFiles() 
+            refetch()
+            emptyFiles()
         },
         onError: () => {
             toast({
@@ -68,15 +68,14 @@ const useHome = () => {
 
     const { mutate: likesHandle, isLoading: loadingLikes, isSuccess: likedSuccess } = useMutation({
         mutationFn: (data: string) => httpService.post(`${URLS.LIKE_POST}/${data}`),
-        onSuccess: (data: any) => {
-            // refetch()
+        onSuccess: (data: any) => { 
+//   queryClient.invalidateQueries([`getPostById-${post?.id}`]);
             setLiked(data?.data?.likeStatus)
             setLikeCount(data?.data?.likeCount)
-        }, 
+        },
         retry: false,
         onError: () => { },
-    }); 
-
+    });
 
     const handleLikedPost = React.useCallback((data: string) => {
         likesHandle(data)
