@@ -31,6 +31,8 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
     secondaryBackgroundColor,
     mainBackgroundColor,
     borderColor,
+    inputtextColor,
+    inputColor
 } = useCustomTheme();
 const { colorMode, toggleColorMode } = useColorMode();
 
@@ -77,6 +79,7 @@ const { colorMode, toggleColorMode } = useColorMode();
             rounded={newbtn ? "32px" : "8px"}
             borderColor={borderColor}
             color={textColor ?? 'black'}
+            bgColor={inputColor}
             // value={value? value: ""}
             type={isPassword ? (showPassword ? 'text' : 'password') : type}
           /> :
@@ -91,6 +94,7 @@ const { colorMode, toggleColorMode } = useColorMode();
             height={"45px"}
             data-date="DD MMMM YYYY"
             lang='pt_BR'
+            bgColor={inputColor}
             rounded={newbtn ? "32px" : "8px"}
             disabled={disable}
             fontFamily={'Satoshi-Light'}

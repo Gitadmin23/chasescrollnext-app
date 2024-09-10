@@ -38,6 +38,8 @@ function EditProfile() {
         secondaryBackgroundColor,
         mainBackgroundColor,
         borderColor,
+        inputColor,
+        inputtextColor
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
 
@@ -234,7 +236,7 @@ function EditProfile() {
                                     enableSearch
                                     // style={{ width: '100%', height: '45px', borderWidth: '1px', borderRadius: '5px', borderColor: 'lightgrey', padding: '10px' }}
                                     containerStyle={{ width: '100%', height: '45px', }}
-                                    inputStyle={{ width: "100%", height: "45px", borderWidth: '1px', borderColor: borderColor, background: mainBackgroundColor }}
+                                    inputStyle={{ width: "100%", height: "45px", borderWidth: '1px', borderColor: borderColor, background: mainBackgroundColor, borderRadius: "999px" }}
                                     dropdownStyle={{ backgroundColor: mainBackgroundColor }}
                                     searchStyle={{ background: secondaryBackgroundColor }}
                                     buttonStyle={{ color: bodyTextColor }}
@@ -249,7 +251,7 @@ function EditProfile() {
                                 <CustomSelect name='gender' option={['Male', 'Female']} isPassword={false} type='text' placeholder='' />
                             </VStack>
 
-                            <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
+                            <VStack alignItems={'flex-start'} color={"black"} width={'100%'} spacing={0}>
                                 <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Date of birth</CustomText>
                                 <DropdownDate
                                     onMonthChange={(month: any) => {

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import UserImage from '../sharedComponent/userimage'
 import { textLimit } from '@/utils/textlimit'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
-import { IMAGE_URL } from '@/services/urls'
+import { IMAGE_URL, URLS } from '@/services/urls'
 import VideoPlayer from '../general/VideoPlayer'
 import ImageSlider from '../modals/mediapostPages/ImageSlider'
 import { HomeCommentIcon, HomeHeartFillIcon, HomeHeartIcon } from '../svg'
@@ -19,6 +19,8 @@ import CommentSection from './commentSection'
 import CustomButton from '../general/Button'
 import { usePathname, useRouter } from 'next/navigation'
 import moment from 'moment'
+import httpService from '@/utils/httpService'
+import { useQuery } from 'react-query'
 
 
 export default function PostCard(props: IMediaContent) {
@@ -54,15 +56,27 @@ export default function PostCard(props: IMediaContent) {
     const [openImage, setOpenImage] = useState(false)
     const [openComments, setOpenComments] = useState(false)
 
-    const pathname = usePathname()
 
+
+    const { } = useQuery(
+        [`getPostById-${id}`, id],
+        () => httpService.get(`${URLS.GET_POST_BY_ID}/${id}`),
+        {
+            onSuccess: (data: any) => {
+                setLikeCount(data?.data?.likeCount) 
+                setLiked(data?.data?.likeStatus); 
+            },
+        },
+    );
+
+    const pathname = usePathname()
 
     const router = useRouter()
 
-    useEffect(() => {
-        setLiked(likeStatus ?? "")
-        setLikeCount(likeCount ?? 0)
-    }, [])
+    // useEffect(() => {
+    //     setLiked(likeStatus ?? "")
+    //     setLikeCount(likeCount ?? 0)
+    // }, [])
 
 
     const deleteHandler = () => {
@@ -114,13 +128,14 @@ export default function PostCard(props: IMediaContent) {
                 }
                 <Flex w={"full"} borderTopWidth={"1px"} pt={"4"} alignContent={"center"} justifyContent={"space-between"} >
                     <Flex
-                        as={"button"}
-                        onClick={() => likesHandle(id)}
                         justifyContent={"center"}
                         h={["26px", "26px", "30px"]}
                         alignItems={"center"} w={"fit-content"} gap={["3px", "2px", "2px"]} >
                         {!loadingLikes ?
-                            <Flex width={"fit-content"} h={"fit-content"} >
+                            <Flex
+                                as={"button"}
+                                onClick={() => likesHandle(id)}
+                                disabled={loadingLikes} width={"fit-content"} h={"fit-content"} >
                                 <Flex
                                     width={["20px", "20px", "24px"]}
                                     display={["none", "block", "block"]}

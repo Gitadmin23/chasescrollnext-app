@@ -19,6 +19,8 @@ const useChat = () => {
     const debounceValue = useDebounce(search);
     const { results, isLoading, ref: chatref, isRefetching, refetch } = InfiniteScrollerComponent({ url: `${URLS.GET_CHATS}?searchText=${debounceValue ?? ""}`, limit: 15, filter: "id", newdata: debounceValue, name: "getMessages" })
 
+    console.log(results);
+    
  
     const toast = useToast(); 
    
@@ -38,13 +40,31 @@ const useChat = () => {
       }
     }); 
 
+
+    const deleteMutation = useMutation({
+      mutationFn: (data: any) => httpService.delete(`${URLS.DELETE_MESSAGE}`, {
+          params: {
+              messageID: data,
+          },
+      }),
+      onSuccess: () => {
+        refetch()
+          // removeMessage(index as number);
+          //   queryClient.invalidateQueries([`getMessages`]);
+      },
+      onError: () => {
+          // alert('An error occurred');
+      }
+  });
+
     return { 
         results,
         isLoading,
         chatref, 
         isRefetching,
         refetch, 
-        createPost
+        createPost,
+        deleteMutation
     };
 }
 

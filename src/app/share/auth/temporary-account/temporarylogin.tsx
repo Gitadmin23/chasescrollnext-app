@@ -87,7 +87,7 @@ export default function Temporarylogin() {
         <CustomInput name='firstName' isPassword={false} type='text' placeholder='Enter your First Name' />
         <CustomInput name='lastName' isPassword={false} type='text' placeholder='Enter your Last Name' />
         <CustomInput name='email' isPassword={false} type='text' placeholder='Enter your Email' />
-        <CustomButton type='submit' text='Process' isLoading={isLoading} color='white' width='100%' borderRadius='10px' />
+        <CustomButton type='submit' text='Proceed' isLoading={isLoading} color='white' width='100%' borderRadius='10px' />
       </Flex>
     </Flex>
   )

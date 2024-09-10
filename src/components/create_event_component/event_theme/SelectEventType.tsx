@@ -39,7 +39,7 @@ export default function SelectEventType({ options }: { options: Array<Obj> }) {
         setIsOpen(false);
     };
 
-    console.log(eventdata?.eventType);
+    console.log(eventdata);
     
 
     return (
