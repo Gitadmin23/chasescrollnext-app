@@ -1,5 +1,5 @@
 import { IMediaContent } from '@/models/MediaPost'
-import { Button, Flex, Image, Spinner, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Spinner, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import UserImage from '../sharedComponent/userimage'
 import { textLimit } from '@/utils/textlimit'
@@ -17,10 +17,12 @@ import CustomText from '../general/Text'
 import ReportUserModal from '../modals/Home/ReportModal'
 import CommentSection from './commentSection'
 import CustomButton from '../general/Button'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import moment from 'moment'
 import httpService from '@/utils/httpService'
 import { useQuery } from 'react-query'
+import { IoArrowBack } from 'react-icons/io5'
+import { useDetails } from '@/global-state/useUserDetails'
 
 
 export default function PostCard(props: IMediaContent) {
@@ -56,6 +58,13 @@ export default function PostCard(props: IMediaContent) {
     const [openImage, setOpenImage] = useState(false)
     const [openComments, setOpenComments] = useState(false)
 
+    let token = localStorage.getItem('token') + "";
+
+    const query = useSearchParams();
+    const typeName = query?.get('type');
+    const typeID = query?.get('typeID');
+
+    const { user: data, } = useDetails((state) => state);
 
 
     const { } = useQuery(
@@ -63,8 +72,8 @@ export default function PostCard(props: IMediaContent) {
         () => httpService.get(`${URLS.GET_POST_BY_ID}/${id}`),
         {
             onSuccess: (data: any) => {
-                setLikeCount(data?.data?.likeCount) 
-                setLiked(data?.data?.likeStatus); 
+                setLikeCount(data?.data?.likeCount)
+                setLiked(data?.data?.likeStatus);
             },
         },
     );
@@ -72,12 +81,6 @@ export default function PostCard(props: IMediaContent) {
     const pathname = usePathname()
 
     const router = useRouter()
-
-    // useEffect(() => {
-    //     setLiked(likeStatus ?? "")
-    //     setLikeCount(likeCount ?? 0)
-    // }, [])
-
 
     const deleteHandler = () => {
         setOpen(false)
@@ -89,26 +92,50 @@ export default function PostCard(props: IMediaContent) {
         setShowReportModal(true)
     }
 
+    const clickHandleLike = (id: string) => {
+        if (!token) {
+            router?.push(`/share/auth/login?type=${typeName}&typeID=${typeID}`)
+        } else {
+            likesHandle(id)
+        }
+    }
+
+    const clickHandleComment = () => {
+        if (!token) {
+            router?.push(`/share/auth/login?type=${typeName}&typeID=${typeID}`)
+        } else {
+            setOpenComments(true)
+        }
+    }
+
     return (
         <Flex style={{ boxShadow: "0px 2px 8px 0px #0000000D" }} w={"full"} borderWidth={"0.5px"} bg={mainBackgroundColor} borderColor={borderColor} borderRadius={"36px"} borderTopRightRadius={"0px"} p={"5"} >
             <Flex w={"full"} gap={"3"} flexDir={"column"} >
                 <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} borderWidth={"1px"} borderColor={borderColor} px={"4"} >
-                    <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} alignItems={"center"} gap={["1", "1", "3"]} >
-                        <UserImage size={["40px", "55px", "55px"]} border={"1.5px"} font={"20px"} data={user} image={user?.data?.imgMain?.value} />
-                        <Flex display={["none", "none", "block"]} flexDir={"column"} textAlign={"left"}  >
-                            <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 15)}</Text>
-                            <Text mt={"-4px"} fontSize={"14px"} >@{textLimit(user?.username, 12)}</Text>
-                            <Text fontSize={"8px"} color={bodyTextColor} >{moment(timeInMilliseconds).fromNow()}</Text>
-                        </Flex>
-                        <Flex display={["block", "block", "none"]} flexDir={"column"} textAlign={"left"}  >
-                            <Text color={"#233DF3"} fontSize={"14px"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 15)}</Text>
-                            <Text mt={"-4px"} fontSize={"10px"} >@{textLimit(user?.username, 12)}</Text>
-                            <Text fontSize={"8px"} color={bodyTextColor} >{moment(timeInMilliseconds).fromNow()}</Text>
+                    <Flex alignItems={"center"} gap={["1", "1", "1"]} >
+                        {(pathname?.includes("share") && data?.email) && (
+                            <Box as='button' onClick={() => router.push("/dashboard")} >
+                                <IoArrowBack role="button" size={"25px"} />
+                            </Box>
+                        )}
+                        <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} gap={"3"} >
+                            <UserImage size={"55px"} data={user} image={user?.data?.imgMain?.value} />
+                            <Flex display={["none", "none", "block"]} flexDir={"column"} textAlign={"left"}  >
+                                <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 15)}</Text>
+                                <Text fontSize={"14px"} >@{textLimit(user?.username, 20)}</Text>
+                            </Flex>
+                            <Flex display={["block", "block", "none"]} flexDir={"column"} textAlign={"left"}  >
+                                <Text color={"#233DF3"} fontSize={"14px"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 15)}</Text>
+                                <Text mt={"-4px"} fontSize={"10px"} >@{textLimit(user?.username, 12)}</Text>
+                                <Text fontSize={"8px"} color={bodyTextColor} >{moment(timeInMilliseconds).fromNow()}</Text>
+                            </Flex>
                         </Flex>
                     </Flex>
-                    <Flex onClick={() => setOpen(true)} as={"button"} ml={"auto"} pr={"1"} >
-                        <CgMoreVertical size={"25px"} />
-                    </Flex>
+                    {data?.email && (
+                        <Flex onClick={() => setOpen(true)} as={"button"} ml={"auto"} pr={"1"} >
+                            <CgMoreVertical size={"25px"} />
+                        </Flex>
+                    )}
                 </Flex>
                 <Text fontSize={["14px", "14px", "16px"]} >{text}</Text>
                 {(type === "WITH_IMAGE" || type === "WITH_VIDEO_POST") &&
@@ -134,7 +161,7 @@ export default function PostCard(props: IMediaContent) {
                         {!loadingLikes ?
                             <Flex
                                 as={"button"}
-                                onClick={() => likesHandle(id)}
+                                onClick={() => clickHandleLike(id)}
                                 disabled={loadingLikes} width={"fit-content"} h={"fit-content"} >
                                 <Flex
                                     width={["20px", "20px", "24px"]}
@@ -154,7 +181,7 @@ export default function PostCard(props: IMediaContent) {
                                     justifyContent={"center"}
                                     alignItems={"center"}
                                     as={"button"}
-                                    onClick={() => likesHandle(id)}
+                                    onClick={() => clickHandleLike(id)}
                                 >
                                     {liked !== "LIKED" && (
                                         <HomeHeartIcon size='20px' color={bodyTextColor} />
@@ -178,7 +205,7 @@ export default function PostCard(props: IMediaContent) {
                         justifyContent={"center"}
                         h={["26px", "26px", "30px"]}
                         alignItems={"center"}
-                        onClick={() => setOpenComments(true)} w={"fit-content"} gap={["3px", "2px", "2px"]} >
+                        onClick={() => clickHandleComment()} w={"fit-content"} gap={["3px", "2px", "2px"]} >
                         <Flex
                             width={["20px", "20px", "24px"]}
                             display={["none", "block", "block"]}
@@ -199,9 +226,9 @@ export default function PostCard(props: IMediaContent) {
                         </Flex>
                         <Text>{commentCount}</Text>
                     </Flex>
-                    <Flex w={"fit-content"} alignItems={"center"}
+                    <Flex w={"fit-content"} cursor={data?.email ? "pointer" : "not-allowed"} alignItems={"center"}
                         h={["26px", "26px", "30px"]} gap={"2px"} >
-                        <ShareBtn type="POST" id={id} />
+                        <ShareBtn disable={!token ? true : false} type="POST" id={id} />
                     </Flex>
                 </Flex>
             </Flex>
@@ -241,7 +268,7 @@ export default function PostCard(props: IMediaContent) {
                 onClose={() => setShowReportModal(false)}
             />
             <ModalLayout size={["full", "full", "2xl"]} open={openComments} close={setOpenComments} >
-                <CommentSection close={setOpenComments} count={count} liked={liked} likesHandle={likesHandle} loadingLikes={loadingLikes} content={props} />
+                <CommentSection close={setOpenComments} count={count} liked={liked} likesHandle={clickHandleLike} loadingLikes={loadingLikes} content={props} />
             </ModalLayout>
             <ModalLayout size={"2xl"} open={openImage} close={setOpenImage} >
                 <Flex bg={mainBackgroundColor} flexDir={"column"} px={"6"} pt={"8"} w={"full"} >

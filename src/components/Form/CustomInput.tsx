@@ -1,4 +1,4 @@
-import { InputElementProps, useColorMode } from '@chakra-ui/react';
+import { Flex, InputElementProps, useColorMode } from '@chakra-ui/react';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
@@ -7,7 +7,7 @@ import CustomText from '../general/Text';
 import useCustomTheme from '@/hooks/useTheme';
 
 interface IProps {
-  isPassword: boolean;
+  isPassword?: boolean;
   name: string;
   type: 'text' | 'phone' | 'email' | 'date' | 'password'
   placeholder: string,
@@ -33,19 +33,19 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
     borderColor,
     inputtextColor,
     inputColor
-} = useCustomTheme();
-const { colorMode, toggleColorMode } = useColorMode();
+  } = useCustomTheme();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const handleChangeName = (e: any) => {
-    const value = e.target.value; 
+    const value = e.target.value;
 
     // Regex pattern to only allow letters
     const regex = /^[a-zA-Z]*$/;
     if (regex.test(value)) {
-      setValue(name, value); 
-      setNewValue(value)            
+      setValue(name, value);
+      setNewValue(value)
     }
-  }; 
+  };
 
   const newdata = watch(name)
 
@@ -56,18 +56,23 @@ const { colorMode, toggleColorMode } = useColorMode();
         {isPassword && (
           <InputRightElement>
             {isPassword && (
-              <div
-                className="absolute right-2 top-2 cursor-pointer text-chasescrollTextGrey opacity-70 pt-1"
-                onClick={() => setShowPassword(!showPassword)}
-              >
+              <Flex
+                h={"45px"}
+                px={"5"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                as={"button"}
+                pt={"3px"}
+                type='button'
+                onClick={() => setShowPassword(!showPassword)}  >
                 {!showPassword ? <FiEyeOff /> : <FiEye />}
-              </div>
+              </Flex> 
             )}
           </InputRightElement>
         )}
         {name === "firstName" || name === "lastName" ?
           <Input
-            width={'100%'} 
+            width={'100%'}
             onChange={handleChangeName}
             placeholder={placeholder}
             data-date="DD MMMM YYYY"
