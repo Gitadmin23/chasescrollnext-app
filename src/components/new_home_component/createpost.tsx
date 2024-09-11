@@ -58,9 +58,8 @@ export default function Createpost() {
         setFiles([])
     }, [open]) 
     
-    const { user: userdata, } = useDetails((state) => state); 
+    const { user: userdata, } = useDetails((state) => state);  
     
-
     return (
         <Flex bg={mainBackgroundColor} w={["full", "full", "full", "full", "619px"]} pt={["4", "4", "4", "4", "8"]} px={["4", "4", "4", "4","8"]} >
             <Flex w={"full"} p={"4"} gap={"2"} rounded={"12px"} flexDir={"column"} style={{ boxShadow: "0px 2px 2px 0px #00000008" }} bgColor={mainBackgroundColor} h={"fit-content"} >
