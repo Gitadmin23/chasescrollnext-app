@@ -58,7 +58,7 @@ export default function Createpost() {
         setFiles([])
     }, [open]) 
     
-    console.log(files);
+    const { user: userdata, } = useDetails((state) => state); 
     
 
     return (
@@ -66,7 +66,7 @@ export default function Createpost() {
             <Flex w={"full"} p={"4"} gap={"2"} rounded={"12px"} flexDir={"column"} style={{ boxShadow: "0px 2px 2px 0px #00000008" }} bgColor={mainBackgroundColor} h={"fit-content"} >
                 <Flex pos={"relative"} w={"full"} bgColor={inputColor} gap={"1"} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
                     <Box as={"button"} onClick={()=> router?.push(`/dashboard/profile/${user?.userId}`)}  w={"fit-content"} >
-                        <UserImage size={"36px"} fontWeight={"500"} font={"14px"} border={"1.5px"} image={user?.data?.imgMain?.value} data={user} />
+                        <UserImage size={"36px"} fontWeight={"500"} font={"14px"} border={"1.5px"} image={userdata?.data?.imgMain?.value ?? user?.data?.imgMain?.value} data={userdata ?? user} />
                     </Box>
                     <Textarea value={post} onChange={(e) => setPost(e.target.value)} h={"45px"} bgColor={inputColor} color={inputtextColor} w={"full"} borderWidth={"0px"} _hover={{ borderWidth: "0px", }} focusBorderColor='transparent' placeholder={`Share your thought ${!user?.username?.includes(".com") ? user?.username : ""}`} _placeholder={{ color: "#00000033" }} />
                     <Box onClick={clickHandler} as='button' w={"fit-content"} mt={"auto"} >

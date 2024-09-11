@@ -8,6 +8,7 @@ import httpService from '@/utils/httpService';
 import { URLS } from '@/services/urls';
 import CustomText from '@/components/general/Text';
 import ThreadCard from '@/components/home/ThreadCard';
+import { PostCard } from '@/components/new_home_component';
 
 
 function SharePost() {
@@ -27,7 +28,7 @@ function SharePost() {
   })
   return (
     <VStack width='100%' height={'100%'} alignItems={'center'}>
-      <Box width={['100%', '25%']} height='100%'>
+      <Box width={['100%', '450px']} pt={"5"} height='100%'>
         { isLoading && (
           <VStack width='100%' height='300px' justifyContent={'center'} alignItems={'center'}>
             <Spinner size={'lg'} />
@@ -43,7 +44,7 @@ function SharePost() {
         }
         {
           !isLoading && !isError && post !== null && (
-            <ThreadCard post={post} />
+            <PostCard {...post} />
           )
         }
       </Box>
