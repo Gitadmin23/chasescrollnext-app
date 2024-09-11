@@ -2,13 +2,13 @@ import { CustomInput } from '@/components/Form/CustomInput'
 import CustomButton from '@/components/general/Button'
 import httpService, { unsecureHttpService } from '@/utils/httpService';
 import { signInTemporaryValidation } from '@/services/validations';
-import { Flex, Image, Text, useToast } from '@chakra-ui/react'
+import { Button, Flex, Image, Text, useToast } from '@chakra-ui/react'
 import React from 'react'
 import { useMutation } from 'react-query';
 import { useForm } from '@/hooks/useForm';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useShareState } from '../../state';
-import { useDetails } from '@/global-state/useUserDetails'; 
+import { useDetails } from '@/global-state/useUserDetails';
 
 export default function Temporarylogin() {
 
@@ -53,7 +53,7 @@ export default function Temporarylogin() {
       console.log(data?.data?.access_token);
 
       sessionStorage.setItem('tp_token', data?.data?.access_token);
-      sessionStorage.setItem('refresh_token', data?.data?.refresh_token); 
+      sessionStorage.setItem('refresh_token', data?.data?.refresh_token);
       sessionStorage.setItem('user_id', data?.data?.user_id);
       sessionStorage.setItem('expires_in', data?.data?.expires_in);
       //   setAll({
@@ -80,14 +80,32 @@ export default function Temporarylogin() {
   });
 
   return renderForm(
-    <Flex w={"full"} h={"100vh"} justifyContent={"center"} alignItems={"center"} >
-      <Flex w={"400px"} flexDir={"column"} alignItems={"center"} gap={"4"} >
+    <Flex w={"full"} justifyContent={"center"} alignItems={"center"} >
+      <Flex w={"400px"} flexDir={"column"} alignItems={"center"} gap={"3"} >
         <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='chasescroll logo' />
-        <Text textAlign={"center"} fontSize={"24"} fontWeight={"700"} color={"#5465E0"} >Fill in your infomation to buy ticket</Text>
-        <CustomInput name='firstName' isPassword={false} type='text' placeholder='Enter your First Name' />
+
+        <Text fontSize={"20px"} color={"#1F1F1F"} textAlign={"center"} fontWeight={"600"} >Fill in your infomation to buy ticket</Text>
+        {/* <Text textAlign={"center"} fontSize={"24"} fontWeight={"700"} color={"#5465E0"} >Fill in your infomation to buy ticket</Text> */}
+
+        <Flex flexDir={"column"} mt={"4"} gap={"1"} w={"full"} >
+          <Text color={"#1F1F1F"} ml={"1"} >First Name</Text>
+          <CustomInput newbtn={true} name='firstName' type='text' placeholder='Enter your First Name' />
+        </Flex>
+        <Flex flexDir={"column"} gap={"1"} w={"full"} >
+          <Text color={"#1F1F1F"} ml={"1"} >Last Name</Text>
+          <CustomInput newbtn={true} name='lastName' type='text' placeholder='Enter your Last Name' />
+        </Flex>
+        <Flex flexDir={"column"} gap={"1"} w={"full"} >
+          <Text color={"#1F1F1F"} ml={"1"} >Email</Text>
+          <CustomInput newbtn={true} name='email' type='text' placeholder='Enter your Email' />
+        </Flex>
+        <Button type='submit' color={"white"} isLoading={isLoading} isDisabled={isLoading} mt={"4"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
+          <Text textAlign={"center"} fontWeight={"600"} >Submit</Text>
+        </Button>
+        {/* <CustomInput name='firstName' isPassword={false} type='text' placeholder='Enter your First Name' />
         <CustomInput name='lastName' isPassword={false} type='text' placeholder='Enter your Last Name' />
-        <CustomInput name='email' isPassword={false} type='text' placeholder='Enter your Email' />
-        <CustomButton type='submit' text='Proceed' isLoading={isLoading} color='white' width='100%' borderRadius='10px' />
+        <CustomInput name='email' isPassword={false} type='text' placeholder='Enter your Email' /> */}
+        {/* <CustomButton type='submit' text='Proceed' isLoading={isLoading} color='white' width='100%' borderRadius='10px' /> */}
       </Flex>
     </Flex>
   )

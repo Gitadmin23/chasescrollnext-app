@@ -17,6 +17,7 @@ import {IEventType} from "@/models/Event";
 import {PaginatedResponse} from "@/models/PaginatedResponse";
 import {useDetails} from "@/global-state/useUserDetails";
 import Scanner from "@/components/modals/Events/Scanner";
+import useCustomTheme from '@/hooks/useTheme'
 
 interface Props {
     event_index: any,
@@ -78,11 +79,12 @@ function GetEventData(props: Props) {
         }
     }, [pathname]); 
 
-    console.log(isAdmin);
-    
+    const {
+        mainBackgroundColor
+      } = useCustomTheme();
 
     return (
-        <Box width={"full"}  >
+        <Box bgColor={mainBackgroundColor} width={"full"}  >
             <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data !== null} >
                 <EventDetails
                     dynamic={dynamic}
