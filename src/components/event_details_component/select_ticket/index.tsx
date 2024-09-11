@@ -131,21 +131,26 @@ function SelectTicket(props: Props) {
             )}
             <ModalLayout open={open} close={setOpen} title='' closeIcon={true} >
                 <Flex w={"full"} flexDir={"column"} gap={"4"} p={"6"} >
-                    <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"44.8px"} >Get Ticket</Text>
-                    <Text color={"#62619.6px262"} textAlign={"center"} lineHeight={"22.4px"} >Please choose your option and proceed with Chasescroll.</Text>
-                    <GoogleBtn title='Sign up ' id={data?.id ? true : false} index={data?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' />
+                    <Flex flexDir={"column"} justifyContent={"center"} > 
+                    <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"32px"} >Get Ticket</Text>
+                    <Text color={"#626262"} textAlign={"center"}>Please choose your option and proceed with Chasescroll.</Text>
+                    </Flex>
+                    <GoogleBtn newbtn title='Sign in' id={data?.id ? true : false} index={data?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' />
                     <Flex justifyContent={"center"} gap={"2px"} alignItems={"center"} >
                         <Text color={"#BCBCBC"} fontSize={"14px"} lineHeight={"19.6px"} >OR</Text>
-                    </Flex>
-                    {/* <CustomButton backgroundColor={"#EDEFFF"} color={"#5465E0"} fontWeight={"400"} onClick={() => router.push("/share/auth/login/?type=EVENT&typeID=" + data?.id)} text={"Get Temporary Account"} /> */}
-                    <CustomButton backgroundColor={"#EDEFFF"} color={"#5465E0"} fontWeight={"400"} onClick={() => router.push("/share/auth/temporary-account/?type=EVENT&typeID=" + data?.id)} text={"Get Temporary Account"} />
-                    <CustomButton backgroundColor={"#5D70F9"} color={"white"} onClick={() => signUpHandler(true)} text={"Sign up"} />
+                    </Flex> 
+                    <Button onClick={() => router.push("/share/auth/temporary-account/?type=EVENT&typeID=" + data?.id)} backgroundColor={"#EDEFFF"} color={"#5465E0"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#EDEFFF"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#EDEFFF" }} justifyContent={"center"} alignItems={"center"} >
+                        <Text textAlign={"center"} fontWeight={"600"} >Get Temporary Account</Text>
+                    </Button>
+                    <Button onClick={() => signUpHandler(true)} color={"white"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
+                        <Text textAlign={"center"} fontWeight={"600"} >Sign up</Text>
+                    </Button>
                     {/* <SignupModal index={data?.id} open={openSignUp} setOpen={signUpHandler} /> */}
                     <Flex>
                         <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'} marginLeft='0px'>
                             Already have an account?
                         </CustomText>
-                        <CustomText onClick={() => router.push("/share/auth/login/?type=EVENT&typeID=" + data?.id)} ml={"4px"} fontSize={'sm'} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} cursor='pointer'>Log in</CustomText>
+                        <CustomText onClick={() => router.push("/share/auth/login/?type=EVENT&typeID=" + data?.id)} fontWeight={"700"} ml={"4px"} fontSize={'sm'} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} cursor='pointer'>Log in</CustomText>
                     </Flex>
                 </Flex>
             </ModalLayout>

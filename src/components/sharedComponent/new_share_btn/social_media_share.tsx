@@ -93,10 +93,10 @@ function ShareToSocialMedia(props: Props) {
             height={"fit-content"}  
             flexDir={"column"}
         >
-            <Text pt={"5"} pb={"8"} textAlign={"center"}>
+            <Text pt={"0"} pb={"6"} textAlign={"center"}>
                 Or
             </Text>
-            <Flex width={"full"} justifyContent={"space-between"}>
+            <Flex width={"full"} pb={"5"} justifyContent={"space-between"}>
                 <WhatsappShareButton url={url_link}>
                     <Flex as={"button"}  w={"43px"} flexDir={"column"} alignItems={"center"} >
                         <Flex w={"43px"} height={"42px"} >

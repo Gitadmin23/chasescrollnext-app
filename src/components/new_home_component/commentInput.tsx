@@ -8,6 +8,7 @@ import { IComment, IMediaContent } from '@/models/MediaPost'
 import { textLimit } from '@/utils/textlimit'
 import useCustomTheme from '@/hooks/useTheme'
 import { IoClose } from 'react-icons/io5'
+import { useDetails } from '@/global-state/useUserDetails'
 
 interface IProps {
     user: IUser | null
@@ -55,6 +56,8 @@ export default function CommentInput({ user, data, replyData, setShow }: IProps)
         setCommentsInput("")
     }
 
+    const { user: userdata, } = useDetails((state) => state); 
+
     return (
         <Flex w={"full"} height={"fit-content"} gap={"3"} bg={mainBackgroundColor} flexDir={"column"} px={"4"} >
             {replyData?.data?.id && (
@@ -65,7 +68,7 @@ export default function CommentInput({ user, data, replyData, setShow }: IProps)
             </Box>
             <Flex pos={"relative"} w={"full"} gap={"1"}  bg={mainBackgroundColor} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
                 <Box w={"fit-content"} >
-                    <UserImage size={"36px"} fontWeight={"500"} font={"14px"} border={"1.5px"} image={user?.data?.imgMain?.value} data={user} />
+                    <UserImage size={"36px"} fontWeight={"500"} font={"14px"} border={"1.5px"} image={userdata?.data?.imgMain?.value ?? user?.data?.imgMain?.value} data={userdata ?? user} />
                 </Box>
                 <Textarea
                     value={replyData?.data?.id ? subCommentsInput : commentsInput} onChange={(e) => changeHandler(e.target.value)}

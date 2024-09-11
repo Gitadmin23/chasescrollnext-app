@@ -2,19 +2,21 @@ import { useDetails } from "@/global-state/useUserDetails";
 import { IUser } from "@/models/User";
 import { URLS } from "@/services/urls";
 import httpService from "@/utils/httpService";
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 
 const useGetUser = () => {
 
 
     const [user, setUser] = React.useState<IUser | null>(null);
-    const { username, lastName, firstName, userId, setAll } = useDetails((state) => state);
+    const { setAll, email } = useDetails((state) => state);
+    const token = localStorage.getItem('token')+"";
 
-    const { isLoading: loadingUserInfo, isRefetching: refechingUserInfo } = useQuery(
+    const { isLoading: loadingUserInfo, isRefetching: refechingUserInfo, refetch } = useQuery(
         ["getUserDetails"],
         () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`, {}),
         {
+            enabled: token ? false : true,
             onSuccess: (data) => {
                 setUser(data.data);
 
@@ -34,6 +36,12 @@ const useGetUser = () => {
             // refetchOnReconnect: false, // Disable refetching on reconnect
         },
     );
+
+    useEffect(()=> {
+        if(!email && token) {
+            refetch()
+        }
+    }, [email, token, refetch])
 
     return {
         user,

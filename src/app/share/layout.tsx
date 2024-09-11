@@ -4,6 +4,7 @@ import React from 'react'
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation'
 import { useShareState } from './state';
+import getUser from '@/hooks/useGetUser';
 
 
 type Props = {
@@ -32,7 +33,10 @@ function ShareLayout({
       }
     }
     
-  }, [router, setAll, type, typeID, query, eventName])
+  }, [router, setAll, type, typeID, query, eventName]) 
+
+  const { user } = getUser()
+  
   return (
     <VStack width={'100%'} height={'100vh'} alignItems={'center'}>
       <Box width={['100%', '100%']}  height='100%' overflowY={'auto'}>
@@ -42,4 +46,4 @@ function ShareLayout({
   )
 }
 
-export default ShareLayout
+export default ShareLayout 

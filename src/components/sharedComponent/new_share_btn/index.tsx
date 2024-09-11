@@ -14,7 +14,8 @@ interface Props {
     type: ShareType;
     eventName?: string;
     data?: any;
-    isprofile?: any
+    isprofile?: any,
+    disable?: boolean,
 }
 
 export default function ShareBtn(props: Props) {
@@ -22,6 +23,7 @@ export default function ShareBtn(props: Props) {
         id,
         istext,
         eventName,
+        disable,
         data,
         isprofile
     } = props;
@@ -47,6 +49,8 @@ export default function ShareBtn(props: Props) {
                         alignItems={"center"}
                         color={bodyTextColor}
                         as={"button"}
+                        disabled={disable}
+                        cursor={disable ? "not-allowed" : "pointer"}
                         onClick={() => onOpen()}
                     >
                         <ShareIconTwo color={bodyTextColor} />
@@ -54,7 +58,9 @@ export default function ShareBtn(props: Props) {
                 </Flex>
             )}
             {istext && (
-                <Flex onClick={() => onOpen()} as={"button"} w={"full"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
+                <Flex  onClick={() => onOpen()} as={"button"}
+                cursor={disable ? "not-allowed" : "pointer"}
+                disabled={disable} w={"full"} h={"60px"} borderColor={borderColor} borderBottomWidth={"1px"} justifyContent={"center"} alignItems={"center"} >
                     Share post
                 </Flex>
             )}

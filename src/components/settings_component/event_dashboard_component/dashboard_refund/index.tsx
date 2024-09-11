@@ -9,6 +9,7 @@ import RefundBtn from '@/components/sharedComponent/refundbtn'
 import httpService from '@/utils/httpService'
 import {
     Box,
+    Checkbox,
     Flex,
     Select,
     Table,
@@ -24,7 +25,7 @@ import {
     useColorMode,
     useToast
 } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { FcApproval, FcRight } from "react-icons/fc";
 import { useReactToPrint } from 'react-to-print'
@@ -67,7 +68,14 @@ function DashboardRefund(props: Props) {
     const [showBtn, setShowBtn] = React.useState(false)
     const [page, setPage] = React.useState(0)
     const [newData, setNewData] = React.useState([] as any)
+    const [filteredData, setFilteredData] = React.useState([] as any)
     const [memberRole, setMemberRoles] = React.useState("")
+    const [showUserName, setShowUserName] = React.useState(true)
+    const [showEmail, setShowEmail] = React.useState(true)
+    const [showDate, setShowDate] = React.useState(true)
+    const [showTicketType, setShowTicketType] = React.useState(true)
+    const [showNumberOfTicket, setShowNumberOfTicket] = React.useState(true)
+    const [showStatus, setShowStatus] = React.useState(true)
 
     // react query
     const { isLoading, isRefetching, data } = useQuery(['get-event-members' + size + page, index, memberRole], () => httpService.get('/events/get-event-members/' + index, {
@@ -109,7 +117,7 @@ function DashboardRefund(props: Props) {
                 title: error.response?.data,
             });
         },
-        onSuccess: (data: any) => { 
+        onSuccess: (data: any) => {
 
             // Split the CSV string into rows
             const rows = data?.data.trim().split('\n');
@@ -138,11 +146,39 @@ function DashboardRefund(props: Props) {
                 };
             });
 
-            setNewData(datacsv) 
-            
+            console.log(datacsv);
+
+
+            setNewData(datacsv)
+
 
         }
     })
+
+    useEffect(() => {
+
+        const filteredData = newData.map((item: any) =>
+            Object.keys(item).reduce((acc: any, key: any) => { 
+                    if ((key !== 'email' && !showEmail)) {
+                        acc[key] = item[key];
+                    } else if ((key !== 'username' && !showUserName)) {
+                        acc[key] = item[key];
+                    } else if ((key !== 'tickettype' && !showTicketType)) {
+                        acc[key] = item[key];
+                    } else if ((key !== 'date' && !showDate)) {
+                        acc[key] = item[key];
+                    } else if ((key !== 'ticketsbought' && !showNumberOfTicket)) {
+                        acc[key] = item[key];
+                    }
+                return acc;
+            }, {})
+        );
+
+        setFilteredData(filteredData);
+        console.log(filteredData);
+        (filteredData);
+
+    }, [showDate, showNumberOfTicket, showEmail, showStatus, showStatus, showTicketType, showUserName])
 
     const { isLoading: loadingData, isRefetching: refechingDa } = useQuery(['all-events-details', index], () => httpService.get(URLS.All_EVENT + "?id=" + index), {
         onError: (error: any) => {
@@ -169,7 +205,7 @@ function DashboardRefund(props: Props) {
             size: Legal landscape
           }   
         `,
-    }); 
+    });
 
     const router = useRouter()
 
@@ -189,8 +225,6 @@ function DashboardRefund(props: Props) {
         refetch()
     }
 
-
-
     return (
         <Flex ref={componentRef} width={"full"} flexDirection={"column"} >
             <LoadingAnimation loading={loadingData} >
@@ -209,10 +243,6 @@ function DashboardRefund(props: Props) {
                         <Box as='button' display={["block", "block", "block"]} onClick={() => clickHandler()} ml={"auto"} height={"full"} >
                             <TicketBtnIcon />
                         </Box>
-
-                        {/* <Flex onClick={() => clickHandler()} display={["block", "none", "none"]} as={"button"} w={["full", "full", "152px"]} fontWeight={"medium"} border={"1px solid #3C41F0"} justifyContent={"center"} color={"brand.chasescrollBlue"} fontSize={"14px"} lineHeight={"20px"} height={"44px"} rounded={"8px"} alignItems={"center"} gap={"2"} >
-                        View Event
-                    </Flex> */}
                     </Flex>
                     <Flex display={["none", "none", "none", "flex"]} flexDir={"column"} gap={"4"} justifyContent={"center"} >
                         <Flex color={"#101828"} alignItems={"center"} gap={"2"} >
@@ -268,41 +298,73 @@ function DashboardRefund(props: Props) {
                             </TableCaption>
                             <Thead bgColor={"#FAFAFB"} >
                                 <Tr>
-                                    <Th>USERNAME</Th>
-                                    <Th>EMAIL ADDRESS</Th>
-                                    <Th>Date & TIME</Th>
-                                    <Th>Ticket type</Th>
-                                    <Th>NO. TICKET</Th>
-                                    <Th>STATUS</Th>
+                                    <Th>
+                                        <Flex gap={"3"}>
+                                            USERNAME
+                                            <Checkbox onChange={(e) => setShowUserName(e.target.checked)} isChecked={showUserName} />
+                                        </Flex>
+                                    </Th>
+                                    <Th>
+                                        <Flex gap={"3"}>
+                                            EMAIL ADDRESS
+                                            <Checkbox onChange={(e) => setShowEmail(e.target.checked)} isChecked={showEmail} />
+                                        </Flex>
+                                    </Th>
+                                    <Th>
+                                        <Flex gap={"3"}>
+                                            Date & TIME
+                                            <Checkbox onChange={(e) => setShowDate(e.target.checked)} isChecked={showDate} />
+                                        </Flex>
+                                    </Th>
+                                    <Th>
+                                        <Flex gap={"3"}>
+                                            Ticket type
+                                            <Checkbox onChange={(e) => setShowTicketType(e.target.checked)} isChecked={showTicketType} />
+                                        </Flex>
+                                    </Th>
+                                    <Th>
+                                        <Flex gap={"3"}>
+                                            NO. TICKET
+                                            <Checkbox onChange={(e) => setShowNumberOfTicket(e.target.checked)} isChecked={showNumberOfTicket} />
+                                        </Flex>
+                                    </Th>
+                                    <Th>
+                                        <Flex gap={"3"}>
+                                            STATUS
+                                            <Checkbox onChange={(e) => setShowStatus(e.target.checked)} isChecked={showStatus} />
+                                        </Flex>
+                                    </Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
                                 {data?.data?.content?.map((person: any, i: number) => {
                                     return (
                                         <Tr key={i} >
-                                            <Td>{person?.user?.username}</Td>
-                                            <Td fontSize={"14px"}>{person?.user?.email}</Td>
-                                            <Td fontSize={"14px"}>{dateFormat(person?.createdDate)}</Td>
-                                            {person?.ticketType && (
+                                            <Td>{showUserName ? person?.user?.username : ""}</Td>
+                                            <Td fontSize={"14px"}>{showEmail ? person?.user?.email : ""}</Td>
+                                            <Td fontSize={"14px"}>{showDate ? dateFormat(person?.createdDate) : ""}</Td>
+                                            {(person?.ticketType) && (
                                                 <Td fontSize={"14px"}>
-                                                    <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} >
-                                                        {person?.ticketType?.slice(0, 1)?.toUpperCase() + person?.ticketType?.slice(1, person?.ticketType?.length)}
-                                                    </Flex>
+                                                    {showTicketType && (
+                                                        <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} >
+                                                            {person?.ticketType?.slice(0, 1)?.toUpperCase() + person?.ticketType?.slice(1, person?.ticketType?.length)}
+                                                        </Flex>
+                                                    )}
                                                 </Td>
                                             )}
-                                            {!person?.ticketType && (
+                                            {(!person?.ticketType) && (
                                                 <Td>
-                                                    {(person?.role === "ADMIN" && person?.createdBy?.email === person?.user?.email) && (
+                                                    {(person?.role === "ADMIN" && person?.createdBy?.email === person?.user?.email && showTicketType) && (
                                                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"brand.chasescrollBlue"} >
                                                             Organizer
                                                         </Flex>
                                                     )}
-                                                    {(person?.role === "ADMIN" && person?.createdBy?.email !== person?.user?.email) && (
+                                                    {(person?.role === "ADMIN" && person?.createdBy?.email !== person?.user?.email && showTicketType) && (
                                                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"#3EC30F"} >
                                                             Admin
                                                         </Flex>
                                                     )}
-                                                    {person?.role === "COLLABORATOR" && (
+                                                    {(person?.role === "COLLABORATOR" && showTicketType) && (
                                                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#FDF3CF6B"} color={"#FDB806"} >
                                                             Volunteer
                                                         </Flex>
@@ -311,61 +373,62 @@ function DashboardRefund(props: Props) {
                                                 </Td>
                                             )}
                                             <Td textAlign={"center"} fontSize={"xs"} >
-                                                {person?.ticketNumber !== 0 ? person?.ticketNumber : ""}
+                                                {(person?.ticketNumber !== 0 && showNumberOfTicket) ? person?.ticketNumber : ""}
                                             </Td>
                                             <Td>
-                                                <>
-                                                    {person?.ticketScanInfoList?.map((item: {
-                                                        scanTime: Array<any>,
-                                                        scanned: boolean
-                                                    }, index: number) => {
-                                                        return (
-                                                            <>
-                                                                {item?.scanTime?.length > 0 &&
-                                                                    <Flex key={index} fontSize={"xs"} mt={index === 0 ? "0px" : "4"} flexDir={"column"} gap={"2"} >
-                                                                        <Text fontWeight={"bold"} >Ticket {index + 1} (MM-DD-YY)</Text>
-                                                                        <Flex flexDir={"column"} gap={"1"} >
-                                                                            {item?.scanTime?.map((time: number, indexkey: number) => {
+                                                {showStatus &&
+                                                    <>
+                                                        {person?.ticketScanInfoList?.map((item: {
+                                                            scanTime: Array<any>,
+                                                            scanned: boolean
+                                                        }, index: number) => {
+                                                            return (
+                                                                <>
+                                                                    {item?.scanTime?.length > 0 &&
+                                                                        <Flex key={index} fontSize={"xs"} mt={index === 0 ? "0px" : "4"} flexDir={"column"} gap={"2"} >
+                                                                            <Text fontWeight={"bold"} >Ticket {index + 1} (MM-DD-YY)</Text>
+                                                                            <Flex flexDir={"column"} gap={"1"} >
+                                                                                {item?.scanTime?.map((time: number, indexkey: number) => {
 
-                                                                                return (
-                                                                                    <Flex key={indexkey} gap={"1"} w={"200px"} justifyContent={"space-between"} alignItems={"center"}>
+                                                                                    return (
+                                                                                        <Flex key={indexkey} gap={"1"} w={"200px"} justifyContent={"space-between"} alignItems={"center"}>
 
-                                                                                        <Text >{time ? dateFormatDashboad(time) : ""} {time ? timeFormat(time) : ""} </Text>
-                                                                                        {((new Date(item?.scanTime[indexkey])?.getDate() >= new Date(data?.data?.content[0]?.event?.startDate)?.getDate()) && ((new Date(item?.scanTime[indexkey])?.getDate()) <= new Date(data?.data?.content[0]?.event?.endDate)?.getDate())) ? (
+                                                                                            <Text >{time ? dateFormatDashboad(time) : ""} {time ? timeFormat(time) : ""} </Text>
+                                                                                            {((new Date(item?.scanTime[indexkey])?.getDate() >= new Date(data?.data?.content[0]?.event?.startDate)?.getDate()) && ((new Date(item?.scanTime[indexkey])?.getDate()) <= new Date(data?.data?.content[0]?.event?.endDate)?.getDate())) ? (
 
-                                                                                            <>
-                                                                                                {indexkey !== 0 ? (
-                                                                                                    <Flex w={"fit-content"} >
-                                                                                                        {new Date(item?.scanTime[indexkey])?.getDate() === new Date(item?.scanTime[indexkey - 1])?.getDate() && (
-                                                                                                            <IoMdCloseCircle color='FF0000' size={"20px"} />
-                                                                                                        )}
-                                                                                                        {(new Date(item?.scanTime[indexkey])?.getDate() !== new Date(item?.scanTime[indexkey - 1])?.getDate()) && (
+                                                                                                <>
+                                                                                                    {indexkey !== 0 ? (
+                                                                                                        <Flex w={"fit-content"} >
+                                                                                                            {new Date(item?.scanTime[indexkey])?.getDate() === new Date(item?.scanTime[indexkey - 1])?.getDate() && (
+                                                                                                                <IoMdCloseCircle color='FF0000' size={"20px"} />
+                                                                                                            )}
+                                                                                                            {(new Date(item?.scanTime[indexkey])?.getDate() !== new Date(item?.scanTime[indexkey - 1])?.getDate()) && (
+                                                                                                                <FcApproval size={"20px"} />
+                                                                                                            )}
+                                                                                                        </Flex>
+                                                                                                    ) :
+                                                                                                        <Flex w={"fit-content"} >
                                                                                                             <FcApproval size={"20px"} />
-                                                                                                        )}
-                                                                                                    </Flex>
-                                                                                                ) :
-                                                                                                    <Flex w={"fit-content"} >
-                                                                                                        <FcApproval size={"20px"} />
-                                                                                                    </Flex>
-                                                                                                }
-                                                                                            </>
-                                                                                        ) :
-                                                                                            <Flex w={"fit-content"} >
-                                                                                                <IoMdCloseCircle color='FF0000' size={"20px"} />
-                                                                                            </Flex>
-                                                                                        }
+                                                                                                        </Flex>
+                                                                                                    }
+                                                                                                </>
+                                                                                            ) :
+                                                                                                <Flex w={"fit-content"} >
+                                                                                                    <IoMdCloseCircle color='FF0000' size={"20px"} />
+                                                                                                </Flex>
+                                                                                            }
 
-                                                                                    </Flex>
-                                                                                )
-                                                                            })}
+                                                                                        </Flex>
+                                                                                    )
+                                                                                })}
+                                                                            </Flex>
                                                                         </Flex>
-                                                                    </Flex>
-                                                                }
-                                                            </>
-                                                        )
-                                                    })}
-                                                </>
-                                                {/* )} */}
+                                                                    }
+                                                                </>
+                                                            )
+                                                        })}
+                                                    </>
+                                                }
                                             </Td>
                                             {showBtn && (
                                                 <Td >
@@ -426,7 +489,7 @@ function DashboardRefund(props: Props) {
                 <Flex py={"8"} px={"6"} flexDirection={"column"} gap={"4"} width={"full"} justifyContent={"center"} alignItems={"center"} >
                     <CustomButton fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#FF6F61"} onClick={handlePrint} text='PDF' />
                     <Flex width={"full"} height={"1px"} bgColor={"#DDE6EB"} />
-                    <CSVLink style={{ width: "100%" }} data={newData ? newData : []}
+                    <CSVLink style={{ width: "100%" }} data={filteredData[0]?.name ? filteredData: newData[0]?.name ? newData : []}
                         filename={data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length) + ".csv"} >
                         <CustomButton onClick={downloadCSV} fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#5D70F9"} text='CSV' />
                     </CSVLink>

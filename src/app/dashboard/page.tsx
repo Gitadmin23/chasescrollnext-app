@@ -4,16 +4,17 @@ import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import useHome from '@/hooks/useHome'
 import useCustomTheme from '@/hooks/useTheme'
 import { IMediaContent } from '@/models/MediaPost'
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Flex, useColorMode } from '@chakra-ui/react'
 import React from 'react'
 
 export default function Home() {
 
     const { postData, refetchingPost, loadingPost, postRef } = useHome()
 
+    const { colorMode } = useColorMode();
     const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
     return (
-        <Flex w={"full"} height={"full"} bgColor={secondaryBackgroundColor} >
+        <Flex w={"full"} height={"full"} bgColor={colorMode !== "dark" ? mainBackgroundColor : mainBackgroundColor} >
             <Flex w={["full", "full", "full", "55%", "full"]} h={"full"} flexDir={"column"} >
                 <CreatePost />
                 <Flex w={"full"} h={"full"} flexDir={"column"} overflowY={"auto"} >
