@@ -59,13 +59,12 @@ export default function PostCard(props: IMediaContent) {
     const [openComments, setOpenComments] = useState(false)
 
     let token = localStorage.getItem('token') + "";
-
+ 
     const query = useSearchParams();
     const typeName = query?.get('type');
     const typeID = query?.get('typeID');
 
-    const { user: data, } = useDetails((state) => state);
-
+    const { user: data, } = useDetails((state) => state); 
 
     const { } = useQuery(
         [`getPostById-${id}`, id],
@@ -93,7 +92,7 @@ export default function PostCard(props: IMediaContent) {
     }
 
     const clickHandleLike = (id: string) => {
-        if (!token) {
+        if (token === null || data === null) {
             router?.push(`/share/auth/login?type=${typeName}&typeID=${typeID}`)
         } else {
             likesHandle(id)
@@ -101,7 +100,7 @@ export default function PostCard(props: IMediaContent) {
     }
 
     const clickHandleComment = () => {
-        if (!token) {
+        if (token === null || data === null) {
             router?.push(`/share/auth/login?type=${typeName}&typeID=${typeID}`)
         } else {
             setOpenComments(true)
