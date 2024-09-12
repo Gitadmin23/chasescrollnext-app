@@ -16,7 +16,7 @@ const useGetUser = () => {
         ["getUserDetails"],
         () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`, {}),
         {
-            enabled: token ? false : true,
+            // enabled: token ? false : true,
             onSuccess: (data) => {
                 setUser(data.data);
 
