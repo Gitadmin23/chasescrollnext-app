@@ -40,15 +40,7 @@ function GoogleBtn(props: Props) {
     const toast = useToast();
     const router = useRouter();
     const { email, setAll } = useDetails((state) => state);
-    const { googlesign, setGoogle } = useModalStore((state) => state);
-
-    const {
-        bodyTextColor,
-        primaryColor,
-        secondaryBackgroundColor,
-        mainBackgroundColor,
-        borderColor,
-    } = useCustomTheme(); 
+    const { googlesign, setGoogle } = useModalStore((state) => state); 
 
     const token: any = sessionData; 
 
