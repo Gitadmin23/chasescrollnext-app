@@ -7,20 +7,11 @@ import React from 'react'
 import ExploreEventCard from '../event_card';
 import LoadingAnimation from '../loading_animation';
 import { boolean } from 'zod';
-import NewEventCard from '../event_card/newEventCard';
+import NewEventCard from '../event_card/newEventCard'; 
 
-interface Props {
-    user_index: any,
-    myevent?: boolean,
-    profile?: boolean, 
-}
-
-function GetEventById(props: Props) {
-    const {
-        user_index 
-    } = props 
-
-    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.JOINED_EVENT+ user_index, limit: 10, filter: "id" })
+function PastEventById() {
+    
+    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.PAST_EVENT, limit: 10, filter: "id" })
 
     return (
         <HStack height={"fit-content"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"}  >
@@ -53,4 +44,4 @@ function GetEventById(props: Props) {
     )
 }
 
-export default GetEventById
+export default PastEventById

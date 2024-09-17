@@ -140,9 +140,9 @@ function ShareEvent(props: Props) {
                   flexDir={"column"}
                 >
                   {newbtn && (
-                    <NewShareIcon
+                    <ShareIconTwo
                       width={size ? size : "24px"}
-                      color={color ? color : colorMode !== "light" ? "#3C41F0" : ""}
+                      color={color ? colorMode !== "light" ? "#3C41F0" : color : colorMode === "light" ? "#3C41F0" : bodyTextColor}
                     />
                   )}
                   {!newbtn && (
