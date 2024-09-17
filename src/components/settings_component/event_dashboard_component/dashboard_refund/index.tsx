@@ -208,9 +208,7 @@ function DashboardRefund(props: Props) {
             size: Legal landscape
           }   
         `,
-    });
-
-    const router = useRouter() 
+    }); 
 
     const downloadCSV = () => {
         refetch()
