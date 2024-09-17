@@ -38,7 +38,7 @@ function ProfileImage(props: Props) {
     const { userId, user } = useDetails((state) => state);
 
     const {
-        bodyTextColor,
+        headerTextColor,
         primaryColor,
         secondaryBackgroundColor,
         mainBackgroundColor,
@@ -78,63 +78,63 @@ function ProfileImage(props: Props) {
     }
 
     console.log(data);
-    
+
 
     return (
         <LoadingAnimation loading={isLoading} >
-            <Box position={"relative"} bg={secondaryBackgroundColor} height={"442px"} >
-                {data?.data === null && (
-                    <Box width='full' height='full' bg='brand.chascrollButtonBlue' position={"absolute"} zIndex={"10"} inset={"0px"}></Box>
-                )}
-                {(data?.data?.imgMain?.value || (userId === user_index && user?.data?.imgMain?.value)) && (
-                    <>
-                        <Image id='img_blur' objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={(data?.data?.imgMain?.value?.includes('http') ? data?.data?.imgMain?.value : (IMAGE_URL + data?.data?.imgMain?.value))} alt='profile' />
-
-                    </>
-                )}
-                <Box position={"relative"} zIndex={"10"} width={"fit-content"} pt={"8"} ml={"auto"} mr={"9"} >
-                    {userId !== user_index && (
-                        <Flex as={"button"} onClick={() => clickHandler()} bgColor={"#00000099"} width={"32px"} rounded={"full"} height={"32px"} justifyContent={"center"} alignItems={"center"} >
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M9 5.25C8.58579 5.25 8.25 5.58579 8.25 6C8.25 6.41421 8.58579 6.75 9 6.75H15C15.4142 6.75 15.75 6.41421 15.75 6C15.75 5.58579 15.4142 5.25 15 5.25H9Z" fill="white" />
-                                <path d="M5 11.25C4.58579 11.25 4.25 11.5858 4.25 12C4.25 12.4142 4.58579 12.75 5 12.75H19C19.4142 12.75 19.75 12.4142 19.75 12C19.75 11.5858 19.4142 11.25 19 11.25H5Z" fill="white" />
-                                <path d="M9 17.25C8.58579 17.25 8.25 17.5858 8.25 18C8.25 18.4142 8.58579 18.75 9 18.75H15C15.4142 18.75 15.75 18.4142 15.75 18C15.75 17.5858 15.4142 17.25 15 17.25H9Z" fill="white" />
-                            </svg>
-                        </Flex>
+            <Flex w={"full"} flexDir={"column"} p={"4"} gap={"4"} > 
+                <Box position={"relative"} bg={secondaryBackgroundColor} w={"full"} flexDir={"column"} display={"flex"} roundedTopLeft={"0px"} rounded={"18px"} height={"320px"} >
+                    {data?.data === null && (
+                        <Box width='full' height='full' bg='brand.chascrollButtonBlue' position={"absolute"} zIndex={"10"} inset={"0px"}></Box>
                     )}
-                    {userId === user_index && (
-                        <CustomButton onClick={() => clickHandler()} borderWidth={"1px"} color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"4"} rounded={"8px"} width={"fit-content"}
-                            text={
-                                <Flex gap={"1"} alignItems={"center"} >
-                                    <IoMdSettings size="25px" fontSize='30px' /> 
-                                    Settings
-                                </Flex>} />
-                        // <Flex as={"button"} onClick={() => clickHandler()} bgColor={"#00000099"} width={"32px"} rounded={"full"} height={"32px"} justifyContent={"center"} alignItems={"center"} >
-                        //     <IoMdSettings size="25px" fontSize='30px' color='white' />
-                        // </Flex>
+                    {(data?.data?.imgMain?.value || (userId === user_index && user?.data?.imgMain?.value)) && (
+                        <>
+                            <Image rounded={"18px"} roundedTopLeft={"0px"} objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={(data?.data?.imgMain?.value?.includes('http') ? data?.data?.imgMain?.value : (IMAGE_URL + data?.data?.imgMain?.value))} alt='profile' />
+                            
+                        </>
                     )}
-                    {showModal && (
-                        <Box width={"127px"} zIndex={"20"} position={"absolute"} top={"70px"} right={"0px"} shadow={"lg"} bg={"white"} rounded={"16px"} >
-                            <Flex width={"full"} justifyContent={"center"} borderBottomColor={"#0000001F"} borderBottomWidth={"1px"} py={"2"} >
-                                <BlockBtn data={data} isprofile={true} user_index={user_index} />
+                    <Box position={"relative"} zIndex={"10"} width={"fit-content"} pt={"3"} ml={"auto"} mr={"9"} >
+                        {userId !== user_index && (
+                            <Flex as={"button"} onClick={() => clickHandler()} bgColor={"#00000099"} width={"32px"} rounded={"full"} height={"32px"} justifyContent={"center"} alignItems={"center"} >
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 5.25C8.58579 5.25 8.25 5.58579 8.25 6C8.25 6.41421 8.58579 6.75 9 6.75H15C15.4142 6.75 15.75 6.41421 15.75 6C15.75 5.58579 15.4142 5.25 15 5.25H9Z" fill="white" />
+                                    <path d="M5 11.25C4.58579 11.25 4.25 11.5858 4.25 12C4.25 12.4142 4.58579 12.75 5 12.75H19C19.4142 12.75 19.75 12.4142 19.75 12C19.75 11.5858 19.4142 11.25 19 11.25H5Z" fill="white" />
+                                    <path d="M9 17.25C8.58579 17.25 8.25 17.5858 8.25 18C8.25 18.4142 8.58579 18.75 9 18.75H15C15.4142 18.75 15.75 18.4142 15.75 18C15.75 17.5858 15.4142 17.25 15 17.25H9Z" fill="white" />
+                                </svg>
                             </Flex>
-                            <Flex width={"full"} justifyContent={"center"} borderBottomWidth={"1px"} py={"2"} >
-                                <ShareEvent type='PROFILE' isprofile={true} istext={true} id={user_index} />
-                            </Flex>
-                            <Flex onClick={() => setShowModal((prev) => !prev)} color={"#E90303"} as={"button"} width={"full"} justifyContent={"center"} borderBottomWidth={"0px"} py={"2"} >
-                                <Text>Cancel</Text>
-                            </Flex>
-                        </Box>
-                    )}
-                    {showModal && (
-                        <Box onClick={() => setShowModal((prev) => !prev)} inset={"0px"} position={"fixed"} zIndex={"10"} bg={"black"} opacity={"0.3"} />
-                    )}
+                        )}
+                        {userId === user_index && (
+                            <CustomButton onClick={() => clickHandler()} borderWidth={"1px"} color={"#5465E0"} mt={"3"} backgroundColor={"#FFF"} fontWeight={"bold"} px={"4"} borderRadius={"64px"} width={"fit-content"}
+                                text={
+                                    <Flex gap={"1"} alignItems={"center"} >
+                                        <IoMdSettings size="25px" fontSize='30px' />
+                                        Settings
+                                    </Flex>} /> 
+                        )}
+                        {showModal && (
+                            <Box width={"127px"} zIndex={"20"} position={"absolute"} top={"70px"} right={"0px"} shadow={"lg"} bg={"white"} rounded={"16px"} >
+                                <Flex width={"full"} justifyContent={"center"} borderBottomColor={"#0000001F"} borderBottomWidth={"1px"} py={"2"} >
+                                    <BlockBtn data={data} isprofile={true} user_index={user_index} />
+                                </Flex>
+                                <Flex width={"full"} justifyContent={"center"} borderBottomWidth={"1px"} py={"2"} >
+                                    <ShareEvent type='PROFILE' isprofile={true} istext={true} id={user_index} />
+                                </Flex>
+                                <Flex onClick={() => setShowModal((prev) => !prev)} color={"#E90303"} as={"button"} width={"full"} justifyContent={"center"} borderBottomWidth={"0px"} py={"2"} >
+                                    <Text>Cancel</Text>
+                                </Flex>
+                            </Box>
+                        )}
+                        {showModal && (
+                            <Box onClick={() => setShowModal((prev) => !prev)} inset={"0px"} position={"fixed"} zIndex={"10"} bg={"black"} opacity={"0.3"} />
+                        )}
+                    </Box>
+                    <Box  zIndex={"30"} mt={"auto"} mb={"4"} ml={"4"} >
+                        <UserImage data={data} rounded='99999px' allrounded={true} image={data?.data?.imgMain?.value} size={["120px", "150px"]} font={["30px", '60px']} />
+                    </Box>
+                    <Flex w={"full"} h={"full"} bg={"red"} opacity={"0.3%"} inset={"0px"}  zIndex={"50"} position={"absolute"} />
                 </Box>
-                <Box position={"absolute"} bottom={"170px"} left={"8"} zIndex={"20"} >
-                    <UserImage data={data} image={data?.data?.imgMain?.value} size={["120px", "150px"]} font={["30px", '60px']} />
-                </Box>
-                <Flex zIndex={"20"} width={"full"} bottom={"0px"} insetX={"0px"} bg={"#00000099"} px={["3", "6", "9"]} height={"150px"} justifyContent={"space-between"} position={"absolute"} alignItems={"center"} >
-                    <Box color={"white"} >
+                <Flex zIndex={"20"} width={"full"} rounded={"16px"} insetX={"0px"} bg={secondaryBackgroundColor} px={["3", "6", "9"]} height={"150px"} justifyContent={"space-between"} alignItems={"center"} >
+                    <Box color={headerTextColor} >
                         <Text fontSize={"22px"} fontWeight={"bold"} >{textLimit(capitalizeFLetter(data?.firstName) + " " + capitalizeFLetter(data?.lastName), 15)}</Text>
 
                         <Text fontSize={"sm"} >{data?.username?.includes("@gmail") ? textLimit(data?.username, 3) : data?.username}</Text>
@@ -157,7 +157,7 @@ function ProfileImage(props: Props) {
                         )}
                         {data?.data?.webAddress?.value && (
                             <a href={data?.data?.webAddress?.value} target="_blank" >
-                                <Text fontSize={"sm"} >Website : <span style={{ color:`${primaryColor}` }} >{textLimit(data?.data?.webAddress?.value, 25)}</span></Text>
+                                <Text fontSize={"sm"} >Website : <span style={{ color: `${primaryColor}` }} >{textLimit(data?.data?.webAddress?.value, 25)}</span></Text>
                             </a>
                         )}
                     </Box>
@@ -187,7 +187,7 @@ function ProfileImage(props: Props) {
                         </Box>
                     </ModalLayout>
                 </Flex>
-            </Box>
+            </Flex>
         </LoadingAnimation>
     )
 }

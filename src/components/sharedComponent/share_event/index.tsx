@@ -10,6 +10,7 @@ import {
   ExplorerIcon,
   HomeShareIcon,
   MessageIcon,
+  NewShareIcon,
   SafariIcon,
   ShareButton,
   ShareIcon,
@@ -33,7 +34,9 @@ interface Props {
   showText?: boolean;
   home?: boolean;
   notext?: boolean;
-  community?: boolean
+  community?: boolean;
+  color?: string;
+  newbtn?: boolean
 }
 
 function ShareEvent(props: Props) {
@@ -47,7 +50,9 @@ function ShareEvent(props: Props) {
     showText = true,
     home,
     notext,
-    community
+    community,
+    color,
+    newbtn
   } = props;
 
   const [open, setOpen] = useState(false);
@@ -134,10 +139,18 @@ function ShareEvent(props: Props) {
                   alignItems={"center"}
                   flexDir={"column"}
                 >
-                  <ShareIconTwo
-                    width={size ? size : "24px"}
-                    color={colorMode === "light" ? "#3C41F0" : bodyTextColor}
-                  />
+                  {newbtn && (
+                    <NewShareIcon
+                      width={size ? size : "24px"}
+                      color={color ? color : colorMode !== "light" ? "#3C41F0" : ""}
+                    />
+                  )}
+                  {!newbtn && (
+                    <ShareIconTwo
+                      width={size ? size : "24px"}
+                      color={color ? colorMode !== "light" ? "#3C41F0" : color : colorMode === "light" ? "#3C41F0" : bodyTextColor}
+                    />
+                  )}
                   {showText && (
                     <Text
                       color={colorMode === "light" ? "#3C41F0" : bodyTextColor}
@@ -156,7 +169,7 @@ function ShareEvent(props: Props) {
       {community && (
         <Button onClick={() => setOpen(true)} w={"76px"} h={"64px"} display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"0px"} bg={mainBackgroundColor} rounded={"12px"} style={{ boxShadow: "0px 1px 3px 1px #0000001A" }} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} >
           <Flex justifyContent={"center"} alignItems={"center"} w={"30px"} color={"#5D70F9"} h={"30px"} >
-              <ShareIconTwo color={"#5D70F9"} />
+            <ShareIconTwo color={"#5D70F9"} />
           </Flex>
           <Text fontWeight={"500"} fontSize={"13px"} textAlign={"center"} color={"#5D70F9"} >Share</Text>
         </Button>

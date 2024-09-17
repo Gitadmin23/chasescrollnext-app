@@ -105,7 +105,7 @@ function EventLocationDetail(props: Props) {
             {location?.toBeAnnounced && !location?.locationDetails && (
               <Text color={headerTextColor}>To Be Announced</Text>
             )}
-            {location?.link && (
+            {/* {location?.link && (
               <Text
                 as={"button"}
                 onClick={(e) => clickHandler(location?.link, e)}
@@ -117,7 +117,7 @@ function EventLocationDetail(props: Props) {
               >
                 Join Online
               </Text>
-            )}
+            )} */}
           </Flex>
         </Flex>
       )}
@@ -171,7 +171,7 @@ function EventLocationDetail(props: Props) {
                 {location?.toBeAnnounced && !location?.locationDetails && (
                   <Text color={bodyTextColor}>To Be Announced</Text>
                 )}
-                {location?.link && (
+                {/* {location?.link && (
                   <Text
                     as={"button"}
                     onClick={(e) => clickHandler(location?.link, e)}
@@ -179,7 +179,7 @@ function EventLocationDetail(props: Props) {
                   >
                     Join Online
                   </Text>
-                )}
+                )} */}
               </Text>
             </Box>
           </Flex>

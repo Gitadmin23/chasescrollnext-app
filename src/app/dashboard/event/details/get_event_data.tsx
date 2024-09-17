@@ -1,5 +1,4 @@
 "use client"
-import EventDetails from '@/components/event_details_component'
 import CustomButton from '@/components/general/Button'
 import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
@@ -18,6 +17,7 @@ import { PaginatedResponse } from "@/models/PaginatedResponse";
 import { useDetails } from "@/global-state/useUserDetails";
 import Scanner from "@/components/modals/Events/Scanner";
 import useCustomTheme from '@/hooks/useTheme'
+import EventDetail from '@/components/new_event_details/eventDetail'
 
 interface Props {
     event_index: any,
@@ -31,7 +31,7 @@ function GetEventData(props: Props) {
     } = props
     const toast = useToast()
     const { userId } = useDetails((state) => state);
-    const [data, setData] = React.useState<IEventType | null>(null);
+    const [data, setData] = React.useState<IEventType | any>(null);
     const [show, setShow] = useState(false);
     const pathname = usePathname()
     const [isCollaborator, setIsCollaborator] = React.useState(false);
@@ -87,30 +87,7 @@ function GetEventData(props: Props) {
     return (
         <Box width={"full"} bgColor={mainBackgroundColor}  >
             <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data !== null} >
-                <EventDetails
-                    dynamic={dynamic}
-                    dataInfo={data}
-                    eventID={data?.id}
-                    isBought={data?.isBought}
-                    eventName={data?.eventName}
-                    about={data?.eventDescription}
-                    banner={data?.currentPicUrl ? data?.currentPicUrl : ""}
-                    isFree={data?.isFree}
-                    timeAndDate={data?.startDate}
-                    endtimeAndDate={data?.endDate}
-                    location={data?.location}
-                    locationType={data?.locationType}
-                    convener={capitalizeFLetter(data?.createdBy?.firstName) + " " + capitalizeFLetter(data?.createdBy?.lastName)}
-                    username={data?.createdBy?.username}
-                    userBy={data?.createdBy?.userId}
-                    ticketInfo={data?.productTypeData}
-                    eventLogo={data?.createdBy?.data?.imgMain?.value}
-                    price={data?.productTypeData}
-                    currency={data?.currency}
-                    isOrganizer={data?.isOrganizer}
-                    minPrice={data?.minPrice}
-                    maxPrice={data?.maxPrice}
-                    ticketBought={data?.ticketBought} attendees={undefined} />
+                <EventDetail {...data} />
             </LoadingAnimation>
             <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} />
 

@@ -12,6 +12,7 @@ import {
     Checkbox,
     Flex,
     Select,
+    Switch,
     Table,
     TableCaption,
     TableContainer,
@@ -48,6 +49,7 @@ import { useRouter } from 'next/navigation'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { PaginatedResponse } from '@/models/PaginatedResponse'
 import { IEventType } from '@/models/Event'
+import moment from 'moment'
 
 interface Props {
     index: any
@@ -60,6 +62,7 @@ function DashboardRefund(props: Props) {
 
     const {
         bodyTextColor,
+        borderColor
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
 
@@ -158,18 +161,18 @@ function DashboardRefund(props: Props) {
     useEffect(() => {
 
         const filteredData = newData.map((item: any) =>
-            Object.keys(item).reduce((acc: any, key: any) => { 
-                    if ((key !== 'email' && !showEmail)) {
-                        acc[key] = item[key];
-                    } else if ((key !== 'username' && !showUserName)) {
-                        acc[key] = item[key];
-                    } else if ((key !== 'tickettype' && !showTicketType)) {
-                        acc[key] = item[key];
-                    } else if ((key !== 'date' && !showDate)) {
-                        acc[key] = item[key];
-                    } else if ((key !== 'ticketsbought' && !showNumberOfTicket)) {
-                        acc[key] = item[key];
-                    }
+            Object.keys(item).reduce((acc: any, key: any) => {
+                if ((key !== 'email' && !showEmail)) {
+                    acc[key] = item[key];
+                } else if ((key !== 'username' && !showUserName)) {
+                    acc[key] = item[key];
+                } else if ((key !== 'tickettype' && !showTicketType)) {
+                    acc[key] = item[key];
+                } else if ((key !== 'date' && !showDate)) {
+                    acc[key] = item[key];
+                } else if ((key !== 'ticketsbought' && !showNumberOfTicket)) {
+                    acc[key] = item[key];
+                }
                 return acc;
             }, {})
         );
@@ -228,58 +231,82 @@ function DashboardRefund(props: Props) {
     return (
         <Flex ref={componentRef} width={"full"} flexDirection={"column"} >
             <LoadingAnimation loading={loadingData} >
-                <Flex pos={"relative"} width={"full"} alignItems={"center"} flexDir={["column", "column", "row"]} gap={"6"} >
-                    <Flex width={["auto", "auto", "auto", "auto"]} mr={["auto", "auto", "0px"]} gap={"3"} flexDirection={["row", "row", "row"]} pos={"relative"} borderWidth={"1px"} p={"2"} rounded={"4px"} >
-                        <EventImage data={eventData} width={["100px", "125px", "125px"]} height={["80px", "114px", "114px"]} />
-                        <Flex flexDir={"column"} >
-                            <Text fontSize={"lg"} fontWeight={"semibold"} >{textLimit(capitalizeFLetter(eventData?.eventName), 20)}</Text>
-                            <EventDate eventdashboard={true} date={eventData?.startDate} />
-                            <EventLocationDetail length={40} fontsize='12px' location={eventData?.location} locationType={eventData?.locationType} indetail={true} eventdashboard={true} />
-                            <Box mt={"1"} >
-                                <InterestedUsers fontSize={12} event={dataInfo} border={"2px"} size={"24px"} />
+                <Flex pos={"relative"} width={"full"} rounded={"8px"} borderWidth={"1px"} borderColor={borderColor} p={["2", "2", "4", "6"]} alignItems={"center"} flexDir={["column", "column", "row"]} gap={"6"} >
+                    <Flex width={["full", "full", "auto", "auto"]} mr={["auto", "auto", "0px"]} gap={"3"} flexDirection={["column", "column", "row", "row"]} pos={"relative"} p={"2"} rounded={"4px"} >
+                        <EventImage data={eventData} width={["full", "full", "247px", "247px"]} height={["150px", "200px", "170px", "170px"]} />
+                        <Flex flexDir={"column"} gap={"2"} w={["full", "full", "fit-content", "fit-content"]} >
+                            <Text fontSize={["lg", "lg", "32px"]} fontWeight={"semibold"} >{textLimit(capitalizeFLetter(eventData?.eventName), 20)}</Text>
+                            {/* <EventDate eventdashboard={true} date={eventData?.startDate} />
+                            <EventLocationDetail length={40} fontsize='12px' location={eventData?.location} locationType={eventData?.locationType} indetail={true} eventdashboard={true} /> */}
+                            <Box  >
+                                <InterestedUsers fontSize={15} event={dataInfo} border={"2px"} size={"30px"} />
                             </Box>
+                            <Flex minW={["100px", "100px", "150px"]} gap={"2"} alignItems={"center"} maxW={["full", "full", "200px", "200px"]} >
+                                <Flex w={"fit-content"} flexDir={"column"} fontWeight={"bold"}>
+                                    <Flex
+                                        width={"50px"}
+                                        flexDir={"column"}
+                                        py={"2px"}
+                                        borderWidth={"1px"}
+                                        alignItems={"center"}
+                                        roundedBottom={"2xl"}
+                                        roundedTopLeft={"2xl"}
+                                    >
+                                        <Text
+                                            fontSize={"11.37px"}
+                                            lineHeight={"14.81px"}
+                                            color={"#3D37F1"}
+                                        >
+                                            {moment(dataInfo?.startDate).format("MMM")}
+                                        </Text>
+                                        <Text fontSize={"28.43px"} mt={"-1"} lineHeight={"37.01px"}>
+                                            {moment(dataInfo?.startDate).format("D")}
+                                        </Text>
+                                    </Flex>
+                                </Flex>
+                                <Text fontSize={"14px"} display={["flex", "flex", "none", "none"]} >{textLimit(eventData.eventDescription, 100)}</Text>
+                                <Text fontSize={"14px"} display={["none", "none", "flex", "flex"]} >{textLimit(eventData.eventDescription, 50)}</Text>
+                            </Flex>
                         </Flex>
-                        {/* <CustomButton text={"View Event"} backgroundColor={"#EFF1FE"} color={"#5D70F9"} pos={"absolute"} height={"32px"} fontSize={"xs"} insetX={"auto"} insetY={"auto"} mt={"auto"} right={"0px"} width={"114px"} transform={"rotate(-90deg)"} roundedBottom={"4px"} /> */}
-                        <Box as='button' display={["block", "block", "block"]} onClick={() => clickHandler()} ml={"auto"} height={"full"} >
-                            <TicketBtnIcon />
+                        <Box w={["50px"]} display={["none", "none", "block"]} pos={"relative"} >
+                            <Box w={["fit-content"]} position={"relative"} top={"0px"} >
+                                <CustomButton text={"View Event"} backgroundColor={"#EFF1FE"} transform={["rotate(-90deg)"]} left={["-45px"]} top={["50px"]} position={["relative", "relative", "absolute"]} color={"#5D70F9"} height={"45px"} fontSize={"xs"} width={"140px"} roundedBottom={"4px"} />
+                            </Box>
+                        </Box>
+                        <Box w={["full"]} display={["block", "block", "none"]} position={"relative"} top={"0px"} >
+                            <CustomButton text={"View Event"} backgroundColor={"#EFF1FE"} color={"#5D70F9"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />
                         </Box>
                     </Flex>
-                    <Flex display={["none", "none", "none", "flex"]} flexDir={"column"} gap={"4"} justifyContent={"center"} >
-                        <Flex color={"#101828"} alignItems={"center"} gap={"2"} >
-                            <Text>Home</Text>
-                            <ArrowRight />
-                            <Text>Attendees</Text>
+                    <Flex flexDir={["column", "column", "column", "column", "row"]} ml={["0px", "0px", "auto", "auto"]} gap={"4"} >
+                        <Flex display={["none", "none", "none", "flex", "flex"]} rounded={"8px"} borderWidth={"1px"} borderColor={borderColor} p={"4"} flexDir={"column"} gap={"4"} justifyContent={"center"} >
+                            <Flex gap={"2"} alignItems={"center"}  >
+                                <Text w={"100px"} fontSize={"sm"} >Members Roles</Text>
+                                <Select width={"fit-content"} outline={"none"} placeholder='All' value={memberRole} onChange={(e) => setMemberRoles(e.target?.value)} >
+                                    <option value={"ADMIN"} >Organizer</option>
+                                    <option value={"USER"} >Attendees</option>
+                                    <option value={"COLLABORATOR"} >Volunter</option>
+                                </Select>
+                            </Flex>
+                            <Flex gap={"2"} alignItems={"center"}  >
+                                <Text w={"100px"} fontSize={"sm"} >Display</Text>
+                                <Select width={"fit-content"} outline={"none"} value={size} onChange={(e) => setSize(Number(e.target?.value))} >
+                                    <option>10</option>
+                                    <option>20</option>
+                                    <option>30</option>
+                                    <option>40</option>
+                                    <option>50</option>
+                                    <option>60</option>
+                                    <option>70</option>
+                                    <option>80</option>
+                                    <option>90</option>
+                                    <option>100</option>
+                                </Select>
+                            </Flex>
                         </Flex>
-                        <Flex gap={"2"} alignItems={"center"}  >
-                            <Text fontSize={"sm"} >Members Roles</Text>
-                            <Select width={"fit-content"} outline={"none"} placeholder='All' value={memberRole} onChange={(e) => setMemberRoles(e.target?.value)} >
-                                <option value={"ADMIN"} >Organizer</option>
-                                <option value={"USER"} >Attendees</option>
-                                <option value={"COLLABORATOR"} >Volunter</option>
-                            </Select>
+                        <Flex width={["full", "full", "auto", "auto"]} ml={["0px", "0px", "auto"]} justifyContent={["space-between", "space-between", "start"]} alignItems={"center"} gap={"4"} >
+                            <Text display={["flex", "flex", "none", "none"]} letterSpacing={"-0.08px"} lineHeight={"18px"} fontWeight={"500"} >Event Attendees</Text>
+                            <CustomButton onClick={() => setOpen(true)} text={"Export"} width={"130px"} />
                         </Flex>
-                        <Flex gap={"2"} alignItems={"center"}  >
-                            <Text fontSize={"sm"} >Display</Text>
-                            <Select width={"fit-content"} outline={"none"} value={size} onChange={(e) => setSize(Number(e.target?.value))} >
-                                <option>10</option>
-                                <option>20</option>
-                                <option>30</option>
-                                <option>40</option>
-                                <option>50</option>
-                                <option>60</option>
-                                <option>70</option>
-                                <option>80</option>
-                                <option>90</option>
-                                <option>100</option>
-                            </Select>
-                        </Flex>
-                    </Flex>
-                    <Flex width={["full", "full", "auto", "auto"]} ml={["0px", "0px", "auto"]} justifyContent={["space-between", "space-between", "start"]} alignItems={"center"} gap={"4"} >
-                        <Text display={["flex", "flex", "none", "none"]} letterSpacing={"-0.08px"} lineHeight={"18px"} fontWeight={"500"} >Event Attendees</Text>
-                        <CustomButton onClick={() => setOpen(true)} text={"Export"} width={"130px"} />
-                        {/* <Select width={"120px"} height={"45px"} placeholder='Sort by' >
-                            <option>test</option>
-                        </Select> */}
                     </Flex>
                 </Flex>
             </LoadingAnimation>
@@ -301,37 +328,37 @@ function DashboardRefund(props: Props) {
                                     <Th>
                                         <Flex gap={"3"}>
                                             USERNAME
-                                            <Checkbox onChange={(e) => setShowUserName(e.target.checked)} isChecked={showUserName} />
+                                            <Switch onChange={(e) => setShowUserName(e.target.checked)} isChecked={showUserName} />
                                         </Flex>
                                     </Th>
                                     <Th>
                                         <Flex gap={"3"}>
                                             EMAIL ADDRESS
-                                            <Checkbox onChange={(e) => setShowEmail(e.target.checked)} isChecked={showEmail} />
+                                            <Switch onChange={(e) => setShowEmail(e.target.checked)} isChecked={showEmail} />
                                         </Flex>
                                     </Th>
                                     <Th>
                                         <Flex gap={"3"}>
                                             Date & TIME
-                                            <Checkbox onChange={(e) => setShowDate(e.target.checked)} isChecked={showDate} />
+                                            <Switch onChange={(e) => setShowDate(e.target.checked)} isChecked={showDate} />
                                         </Flex>
                                     </Th>
                                     <Th>
                                         <Flex gap={"3"}>
                                             Ticket type
-                                            <Checkbox onChange={(e) => setShowTicketType(e.target.checked)} isChecked={showTicketType} />
+                                            <Switch onChange={(e) => setShowTicketType(e.target.checked)} isChecked={showTicketType} />
                                         </Flex>
                                     </Th>
                                     <Th>
                                         <Flex gap={"3"}>
                                             NO. TICKET
-                                            <Checkbox onChange={(e) => setShowNumberOfTicket(e.target.checked)} isChecked={showNumberOfTicket} />
+                                            <Switch onChange={(e) => setShowNumberOfTicket(e.target.checked)} isChecked={showNumberOfTicket} />
                                         </Flex>
                                     </Th>
                                     <Th>
                                         <Flex gap={"3"}>
                                             STATUS
-                                            <Checkbox onChange={(e) => setShowStatus(e.target.checked)} isChecked={showStatus} />
+                                            <Switch onChange={(e) => setShowStatus(e.target.checked)} isChecked={showStatus} />
                                         </Flex>
                                     </Th>
                                 </Tr>
@@ -489,7 +516,7 @@ function DashboardRefund(props: Props) {
                 <Flex py={"8"} px={"6"} flexDirection={"column"} gap={"4"} width={"full"} justifyContent={"center"} alignItems={"center"} >
                     <CustomButton fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#FF6F61"} onClick={handlePrint} text='PDF' />
                     <Flex width={"full"} height={"1px"} bgColor={"#DDE6EB"} />
-                    <CSVLink style={{ width: "100%" }} data={filteredData[0]?.name ? filteredData: newData[0]?.name ? newData : []}
+                    <CSVLink style={{ width: "100%" }} data={filteredData[0]?.name ? filteredData : newData[0]?.name ? newData : []}
                         filename={data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length) + ".csv"} >
                         <CustomButton onClick={downloadCSV} fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#5D70F9"} text='CSV' />
                     </CSVLink>

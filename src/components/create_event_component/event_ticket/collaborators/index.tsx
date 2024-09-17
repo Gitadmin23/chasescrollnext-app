@@ -34,10 +34,11 @@ import { useRouter } from 'next/navigation'
 import { IoMdHelpCircleOutline } from 'react-icons/io'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
 import useCustomTheme from "@/hooks/useTheme";
+import { IEventType } from '@/models/Event'
 
 type IProps = {
     btn?: boolean,
-    data?: CreateEvent,
+    data?: IEventType,
     collaborate?: boolean,
     addCollaborator?: boolean
 }
