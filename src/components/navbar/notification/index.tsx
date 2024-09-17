@@ -70,15 +70,7 @@ function NotificationBar(props: Props) {
                 <PopoverBody width='100%' padding='5px' height={'auto'} overflowY={'auto'}>
                     <NotificationPage isLoading={isLoading} />
                 </PopoverBody>
-             </PopoverContent>
-            {/* {active && (
-                <Box width={"380px"} left={['-270px','-350px']} borderRadius={'10px'} maxHeight={'500px'} zIndex={"2000"} position={"absolute"} mt={"2"} >
-                    
-                </Box>
-            )} 
-            {active && (
-                <Box onClick={()=> setActive(false)} bgColor={"black"} opacity={"0.3"} zIndex={"1000"} position={"fixed"} inset={"0px"} />
-            )} */}
+             </PopoverContent> 
         </Popover >
     )
 }

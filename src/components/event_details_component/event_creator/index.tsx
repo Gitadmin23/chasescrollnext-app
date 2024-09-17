@@ -19,7 +19,7 @@ import { IoMdHelpCircleOutline } from 'react-icons/io';
 import { textLimit } from '@/utils/textlimit';
 
 interface Props {
-    data: CreateEvent,
+    data: IEventType,
     convener: string,
     username: string,
     isOrganizer: any,

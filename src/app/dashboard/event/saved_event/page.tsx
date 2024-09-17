@@ -1,6 +1,7 @@
 'use client'
 import SearchBar from '@/components/explore_component/searchbar'
 import ExploreEventCard from '@/components/sharedComponent/event_card'
+import NewEventCard from '@/components/sharedComponent/event_card/newEventCard'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import useSearchStore from '@/global-state/useSearchData'
 import { useDetails } from '@/global-state/useUserDetails'
@@ -22,7 +23,7 @@ function SavedEvent(props: Props) {
     return (
         <Flex height={"fit-content"} flexDir={"column"} width={"full"} overflowX={"hidden"} overflowY={"auto"} alignItems={"center"}  >
             <SearchBar change={true} />
-            <Box width={["full", "full", "700px"]} position={"relative"} mx={"auto"} >
+            <Box width={["full", "full", "700px"]} pt={"6"} position={"relative"} mx={"auto"} >
                 <Box width={"full"}  >
                     <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
                         <Flex gap={"4"} flexDirection={"column"} >
@@ -30,13 +31,15 @@ function SavedEvent(props: Props) {
                                 if (results.length === i + 1) {
                                     return (
                                         <Box key={event?.userId} width={"full"} ref={ref} >
-                                            <ExploreEventCard event={event} />
+                                            {/* <ExploreEventCard event={event} /> */}
+                                            <NewEventCard {...event} />
                                         </Box>
                                     )
                                 } else {
                                     return (
                                         <Box key={event?.userId} width={"full"}  >
-                                            <ExploreEventCard  event={event} />
+                                            {/* <ExploreEventCard  event={event} /> */}
+                                            <NewEventCard {...event} />
                                         </Box>
                                     )
                                 }

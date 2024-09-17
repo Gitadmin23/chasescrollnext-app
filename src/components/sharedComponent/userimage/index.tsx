@@ -13,7 +13,9 @@ interface Props {
     border?: any,
     fontWeight?: any, 
     firstName?: string,
-    lastName?: string
+    lastName?: string,
+    allrounded?: boolean,
+    rounded?: string
 }
 
 function UserImage(props: Props) {
@@ -25,7 +27,9 @@ function UserImage(props: Props) {
         border,
         fontWeight,
         firstName,
-        lastName
+        lastName,
+        allrounded,
+        rounded,
     } = props
 
     const {
@@ -38,12 +42,12 @@ function UserImage(props: Props) {
     const { colorMode, toggleColorMode } = useColorMode();
     
     return (
-        <Box roundedBottom={"64px"} roundedTopLeft={"64px"} borderColor={borderColor} w={size} h={size} bg={secondaryBackgroundColor} borderWidth={border? border :"4px"} >
+        <Box roundedBottom={rounded ?? "64px"} roundedTopLeft={rounded ?? "64px"} roundedTopRight={allrounded ? rounded ? rounded : "64px" : "0px" } borderColor={borderColor} w={size} h={size} bg={secondaryBackgroundColor} borderWidth={border? border :"4px"} >
             {image !== null &&
                 <>
-                    { (image?.includes('http')) && <Image style={{ borderBottomLeftRadius: "64px", borderBottomRightRadius: "64px", borderTopLeftRadius: "64px" }} objectFit="cover" alt={"I"} width={"full"} height={"full"} src={image?.replace("http://ec2-3-128-192-61.us-east-2.compute.amazonaws.com:8080/resource-api/download/", "https://chaseenv.chasescroll.com/resource-api/download/")} /> } 
+                    { (image?.includes('http')) && <Image style={{ borderBottomLeftRadius: rounded ?? "64px", borderBottomRightRadius: rounded ?? "64px", borderTopLeftRadius: rounded ?? "64px", borderTopRightRadius: allrounded ? rounded ? rounded : "64px" : "0px" }} objectFit="cover" alt={"I"} width={"full"} height={"full"} src={image?.replace("http://ec2-3-128-192-61.us-east-2.compute.amazonaws.com:8080/resource-api/download/", "https://chaseenv.chasescroll.com/resource-api/download/")} /> } 
 
-                    { !image?.includes('http') && <Image style={{ borderBottomLeftRadius: "64px", borderBottomRightRadius: "64px", borderTopLeftRadius: "64px" }} objectFit="cover" alt={"I"} width={"full"} height={"full"} src={IMAGE_URL + image} /> }
+                    { !image?.includes('http') && <Image style={{ borderBottomLeftRadius: rounded ?? "64px", borderBottomRightRadius: rounded ?? "64px", borderTopLeftRadius: rounded ?? "64px", borderTopRightRadius: allrounded ? rounded ? rounded : "64px" : "0px" }} objectFit="cover" alt={"I"} width={"full"} height={"full"} src={IMAGE_URL + image} /> }
                 </>
             }
             {image === null && (

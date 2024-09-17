@@ -1,5 +1,6 @@
 "use client"
 import EventDetails from '@/components/event_details_component'
+import EventDetail from '@/components/new_event_details/eventDetail'
 import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import usePaystackStore from '@/global-state/usePaystack'
@@ -42,7 +43,8 @@ function GetEventData(props: Props) {
     return (
         <Box width={"full"}  >
             <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data?.length} >
-                <EventDetails
+                <EventDetail {...data} />
+                {/* <EventDetails
                     dynamic={dynamic}
                     dataInfo={data}
                     eventID={data?.id}
@@ -65,7 +67,7 @@ function GetEventData(props: Props) {
                     isOrganizer={data?.isOrganizer}
                     minPrice={data?.minPrice}
                     maxPrice={data?.maxPrice}
-                    ticketBought={data?.ticketBought} attendees={undefined} />
+                    ticketBought={data?.ticketBought} attendees={undefined} /> */}
             </LoadingAnimation> 
             <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} />
         </Box>
