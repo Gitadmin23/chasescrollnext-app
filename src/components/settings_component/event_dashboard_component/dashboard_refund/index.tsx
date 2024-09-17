@@ -210,19 +210,7 @@ function DashboardRefund(props: Props) {
         `,
     });
 
-    const router = useRouter()
-
-    const clickHandler = () => {
-
-        const today = new Date()
-        const eventDate = new Date(data?.data?.content[0]?.event?.endDate)
-
-        if (today > eventDate) {
-            router?.push(`/dashboard/event/pastdetails/${index}`)
-        } else {
-            router?.push(`/dashboard/event/details/${index}`)
-        }
-    }
+    const router = useRouter() 
 
     const downloadCSV = () => {
         refetch()
