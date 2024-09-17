@@ -74,21 +74,25 @@ export default function EventDetail(props: IEventType) {
                 <Button color={headerTextColor} fontSize={"12px"} w={"112px"} bgColor={"#233DF30D"} rounded={"32px"} h={"38px"} >
                     Trending
                 </Button>
-                <Flex w={"fit-content"} h={"fit-content"} gap={"4"} pt={"10"} >
-                    <SaveOrUnsaveBtn color={headerTextColor} event={props} size='20' />
-                    <ShareEvent newbtn={true} showText={false} data={props} id={id} type="EVENT" eventName={textLimit(eventName, 17)} />
-                </Flex>
+                {!pathname?.includes("past") && (
+                    <Flex w={"fit-content"} h={"fit-content"} gap={"4"} pt={"10"} >
+                        <SaveOrUnsaveBtn color={headerTextColor} event={props} size='20' />
+                        <ShareEvent newbtn={true} showText={false} data={props} id={id} type="EVENT" eventName={textLimit(eventName, 17)} />
+                    </Flex>
+                )}
             </Flex>
             <Flex flexDirection={["column", "column", "column", "row", "row"]} w={"full"} gap={["6", "6", "6", "10", "10"]} >
                 <Flex w={"full"} flexDir={"column"} gap={"5"} >
 
+                    <EventCreator {...props} />
                     <Flex w={"full"} justifyContent={"space-between"} >
-                        <Text >{dateFormat(startDate)}</Text>
+                        {/* <Text >{dateFormat(startDate)}</Text> */}
+
+                        {/* Event Name */}
+                        <Text fontSize={"32px"} fontWeight={"semibold"} >{eventName}</Text>
                         <InterestedUsers fontSize={16} event={props} border={"2px"} size={"38px"} refund={true} />
                     </Flex>
 
-                    {/* Event Name */}
-                    <Text fontSize={"32px"} fontWeight={"semibold"} >{eventName}</Text>
 
                     {/* Event Description */}
                     <Flex flexDir={"column"} >
@@ -118,8 +122,6 @@ export default function EventDetail(props: IEventType) {
 
                     </Flex>
 
-                    <EventCreator {...props} />
-
                     {/* Event Online link */}
                     {/* {(location?.link && isBought && isOrganizer) && ( */}
                     {(location?.link) && (
@@ -136,8 +138,8 @@ export default function EventDetail(props: IEventType) {
                                         <Text fontSize={"14px"} color={primaryColor} >{location?.link}</Text>
                                     </a>
                                 )}
-                                {!isBought && ( 
-                                        <Text fontSize={"14px"} color={primaryColor} >Register To View Link</Text> 
+                                {!isBought && (
+                                    <Text fontSize={"14px"} color={primaryColor} >Register To View Link</Text>
                                 )}
                             </Flex>
                         </Flex>

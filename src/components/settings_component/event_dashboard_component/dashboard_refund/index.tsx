@@ -227,7 +227,7 @@ function DashboardRefund(props: Props) {
                             <Box  >
                                 <InterestedUsers fontSize={15} event={dataInfo} border={"2px"} size={"30px"} />
                             </Box>
-                            <Flex minW={["100px", "100px", "150px"]} gap={"2"} alignItems={"center"} maxW={["full", "full", "200px", "200px"]} >
+                            <Flex minW={["100px", "100px", "200px", "200px"]} gap={"2"} alignItems={"center"} maxW={["full", "full", "250px", "250px"]} >
                                 <Flex w={"fit-content"} flexDir={"column"} fontWeight={"bold"}>
                                     <Flex
                                         width={"50px"}

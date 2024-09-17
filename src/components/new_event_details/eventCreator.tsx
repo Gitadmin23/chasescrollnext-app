@@ -55,7 +55,7 @@ export default function EventCreator(props: IEventType) {
                     {(collaborators || admins) && (
                         <>
                             {(collaborators?.length !== 0 || admins?.length !== 0) && (
-                                <Box role='button' onClick={() => setOpen(true)} top={"0px"} roundedBottom={"64px"} border={"2px solid #5D70F9"} width={"50px"} fontWeight={"bold"} height={"50px"} fontSize={"15px"} pr={"-3px"} pb={"-2px"} roundedTopLeft={"64px"} ml={"-20px"} display={'flex'} bgColor={"#FFF"} color={"#5D70F9"} justifyContent={"center"} alignItems={"center"} >
+                                <Box role='button' onClick={() => setOpen(true)} top={"0px"} roundedBottom={"64px"} border={"2px solid #5D70F9"} width={"50px"} fontWeight={"bold"} height={"50px"} fontSize={"15px"} pr={"-3px"} pb={"-2px"} roundedTopLeft={"64px"} ml={"-20px"} display={'flex'} bgColor={mainBackgroundColor} color={"#5D70F9"} justifyContent={"center"} alignItems={"center"} >
                                     {"+" + formatNumberWithK(((admins ? admins?.length : 0) + (collaborators ? collaborators?.length : 0)))}
                                 </Box>
                             )}

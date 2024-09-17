@@ -87,19 +87,19 @@ export default function NewEventCard(props: IEventType) {
                 <Box w={["50px"]} ml={"auto"} display={["none", "none", "block"]} pos={"relative"} >
                     <Box w={["fit-content"]} position={"relative"} top={"0px"} >
                         {!isOrganizer && (
-                            <CustomButton text={new Date(endDate) < (new Date()) ? "Attended" : pathname?.includes("save") ? "Saved" : pathname?.includes("draft") ? "Draft" : "Attending"} backgroundColor={new Date(endDate) < (new Date()) ? "red" : "#EFF1FE"} transform={["rotate(-90deg)"]} left={["-45px"]} top={["60px"]} position={["relative", "relative", "absolute"]} color={new Date(endDate) < (new Date()) ? "white" : "#5D70F9"} height={"45px"} fontSize={"xs"} width={"140px"} roundedBottom={"4px"} />
+                            <CustomButton text={new Date(endDate) < (new Date()) ? "Attended" : pathname?.includes("save") ? "Saved" : pathname?.includes("draft") ? "Draft" : "Attending"} backgroundColor={new Date(endDate) < (new Date()) ? "#FBCDCD" : "#EFF1FE"} transform={["rotate(-90deg)"]} left={["-45px"]} top={["60px"]} position={["relative", "relative", "absolute"]} color={new Date(endDate) < (new Date()) ? "red" : "#5D70F9"} height={"45px"} fontSize={"xs"} width={"140px"} roundedBottom={"4px"} />
                         )}
                         {isOrganizer && (
-                            <CustomButton text={"Organizer"} backgroundColor={primaryColor} transform={["rotate(-90deg)"]} left={["-45px"]} top={["60px"]} position={["relative", "relative", "absolute"]} color={"white"} height={"45px"} fontSize={"xs"} width={"140px"} roundedBottom={"4px"} />
+                            <CustomButton text={"Organizer"} backgroundColor={new Date(endDate) < (new Date()) ? "#FBCDCD" : primaryColor} transform={["rotate(-90deg)"]} left={["-45px"]} top={["60px"]} position={["relative", "relative", "absolute"]} color={new Date(endDate) < (new Date()) ? "red" : "white"} height={"45px"} fontSize={"xs"} width={"140px"} roundedBottom={"4px"} />
                         )}
                     </Box>
                 </Box>
                 <Box w={["full"]} display={["block", "block", "none"]} position={"relative"} top={"0px"} >
                     {!isOrganizer && (
-                        <CustomButton text={new Date(endDate) < (new Date()) ? "Attended" : pathname?.includes("save") ? "Saved" : pathname?.includes("draft") ? "Draft" : "Attending"} backgroundColor={new Date(endDate) < (new Date()) ? "red" : "#EFF1FE"} color={new Date(endDate) < (new Date()) ? "white" : "#5D70F9"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />
+                        <CustomButton text={new Date(endDate) < (new Date()) ? "Attended" : pathname?.includes("save") ? "Saved" : pathname?.includes("draft") ? "Draft" : "Attending"} backgroundColor={new Date(endDate) < (new Date()) ? "#FBCDCD" : "#EFF1FE"} color={new Date(endDate) < (new Date()) ? "red" : "#5D70F9"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />
                     )}
                     {isOrganizer && (
-                        <CustomButton text={"Organizer"} backgroundColor={primaryColor} color={"white"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />
+                        <CustomButton text={"Organizer"} backgroundColor={new Date(endDate) < (new Date()) ? "#FBCDCD" : primaryColor} color={new Date(endDate) < (new Date()) ? "red" : "white"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />
                     )}
                 </Box>
             </Flex>

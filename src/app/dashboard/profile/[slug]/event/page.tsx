@@ -1,5 +1,6 @@
 "use client"
 import GetEventById from '@/components/sharedComponent/user_event_by_id'
+import PastEventById from '@/components/sharedComponent/user_event_by_id/pastEventById';
 import useCustomTheme from '@/hooks/useTheme';
 import { Button, Flex } from '@chakra-ui/react'
 import React, { useState } from 'react'
@@ -27,12 +28,17 @@ function Network({ params }: { params: { slug: string } }) {
                             My Event
                         </Button>
                         <Button onClick={() => setTab(true)} _hover={{}} width={["150px", "200px", "200px"]} height={"43px"} bgColor={tab ? mainBackgroundColor : secondaryBackgroundColor} color={tab ? "brand.chasescrollBlue" : bodyTextColor} >
-                            Past
+                            Past Event
                         </Button>
                     </Flex>
                 </Flex>
             </Flex>
-            <GetEventById profile={true} past={tab} user_index={params?.slug} />
+            {!tab && (
+                <GetEventById profile={true} user_index={params?.slug} />
+            )}
+            {tab && (
+                <PastEventById />
+            )}
         </Flex>
     )
 }

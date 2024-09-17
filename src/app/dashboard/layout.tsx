@@ -108,7 +108,9 @@ export default function Layout({ children }: {
             {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
                 <Flex w={"fit-content"} h={"screen"} display={["none", "none", "none", "flex", "flex"]} >
                     <Flex w={"110px"} h={"screen"} gap={"4"} overflowY={"auto"} flexDir={"column"} py={"4"} alignItems={"center"} justifyContent={"space-between"} borderRightColor={borderColor} borderRightWidth={"1px"} >
-                        <Image alt='logo' src='/images/logo.png' w={"50px"} />
+                        <Box as='button' onClick={()=> router?.push("/")} > 
+                            <Image alt='logo' src='/images/logo.png' w={"50px"} />
+                        </Box>
                         <Flex flexDir={"column"} alignItems={"center"} gap={"3"} >
 
                             {routes?.map((item, index) => (
