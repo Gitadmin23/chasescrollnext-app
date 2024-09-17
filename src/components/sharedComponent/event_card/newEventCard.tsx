@@ -1,10 +1,6 @@
-import page from '@/app/page';
-import searchbar from '@/components/explore_component/searchbar';
 import { IEventType } from '@/models/Event';
 import { Box, Flex, Text } from '@chakra-ui/react'
-import React from 'react'
-import { date } from 'zod';
-import BlurredImage from '../blurred_image';
+import React from 'react' 
 import EventImage from '../eventimage';
 import CustomButton from '@/components/general/Button';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
@@ -24,13 +20,8 @@ export default function NewEventCard(props: IEventType) {
         id
     } = props;
 
-    const {
-        bodyTextColor,
-        primaryColor,
-        secondaryBackgroundColor,
-        mainBackgroundColor,
-        borderColor,
-        headerTextColor,
+    const { 
+        primaryColor, 
     } = useCustomTheme();
 
     const router = useRouter()
