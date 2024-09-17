@@ -21,8 +21,7 @@ interface Props {
 export default function ShareBtn(props: Props) {
     const {
         id,
-        istext,
-        eventName,
+        istext, 
         disable,
         data,
         isprofile
@@ -31,9 +30,7 @@ export default function ShareBtn(props: Props) {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const {
-        bodyTextColor,
-        primaryColor,
-        secondaryBackgroundColor,
+        bodyTextColor, 
         mainBackgroundColor,
         borderColor,
     } = useCustomTheme();
