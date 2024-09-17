@@ -21,8 +21,7 @@ interface Props {
 export default function ShareBtn(props: Props) {
     const {
         id,
-        istext,
-        eventName,
+        istext, 
         disable,
         data,
         isprofile
