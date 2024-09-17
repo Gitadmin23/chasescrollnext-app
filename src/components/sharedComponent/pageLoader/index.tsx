@@ -1,9 +1,7 @@
-import CustomText from '@/components/general/Text'
-// import { Image } from '@chakra-ui/next-js'
-import { Flex, Image } from '@chakra-ui/react'
+
+import { Flex } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import React from 'react'
-import { ThreeDots } from "react-loader-spinner"
+import React from 'react' 
 
 type IProps = {
     show: boolean
