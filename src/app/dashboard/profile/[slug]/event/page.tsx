@@ -32,7 +32,7 @@ function Network({ params }: { params: { slug: string } }) {
                     </Flex>
                 </Flex>
             </Flex>
-            <GetEventById profile={true} user_index={params?.slug} />
+            <GetEventById profile={true} past={tab} user_index={params?.slug} />
         </Flex>
     )
 }

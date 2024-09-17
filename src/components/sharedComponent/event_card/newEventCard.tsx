@@ -21,7 +21,8 @@ export default function NewEventCard(props: IEventType) {
         eventDescription,
         eventName,
         isOrganizer,
-        id
+        id,
+        endDate
     } = props;
 
     const {
@@ -39,7 +40,7 @@ export default function NewEventCard(props: IEventType) {
     const clickHandler = () => {
         if(pathname?.includes("draft")) { 
             router?.push(`/dashboard/event/edit_draft/${id}`)
-        } else if(pathname?.includes("past")) {
+        } else if(new Date(endDate) < (new Date())) {
             router?.push(`/dashboard/event/pastdetails/${id}`)
         } else {
             router?.push(`/dashboard/event/details/${id}`)
@@ -86,7 +87,7 @@ export default function NewEventCard(props: IEventType) {
                 <Box w={["50px"]} ml={"auto"} display={["none", "none", "block"]} pos={"relative"} >
                     <Box w={["fit-content"]} position={"relative"} top={"0px"} >
                         {!isOrganizer && (
-                            <CustomButton text={pathname?.includes("past") ? "Attended" : pathname?.includes("save") ? "Saved" : pathname?.includes("draft") ? "Draft" : "Attending"} backgroundColor={"#EFF1FE"} transform={["rotate(-90deg)"]} left={["-45px"]} top={["60px"]} position={["relative", "relative", "absolute"]} color={"#5D70F9"} height={"45px"} fontSize={"xs"} width={"140px"} roundedBottom={"4px"} />
+                            <CustomButton text={new Date(endDate) < (new Date()) ? "Attended" : pathname?.includes("save") ? "Saved" : pathname?.includes("draft") ? "Draft" : "Attending"} backgroundColor={new Date(endDate) < (new Date()) ? "red" : "#EFF1FE"} transform={["rotate(-90deg)"]} left={["-45px"]} top={["60px"]} position={["relative", "relative", "absolute"]} color={new Date(endDate) < (new Date()) ? "white" : "#5D70F9"} height={"45px"} fontSize={"xs"} width={"140px"} roundedBottom={"4px"} />
                         )}
                         {isOrganizer && (
                             <CustomButton text={"Organizer"} backgroundColor={primaryColor} transform={["rotate(-90deg)"]} left={["-45px"]} top={["60px"]} position={["relative", "relative", "absolute"]} color={"white"} height={"45px"} fontSize={"xs"} width={"140px"} roundedBottom={"4px"} />
@@ -95,7 +96,7 @@ export default function NewEventCard(props: IEventType) {
                 </Box>
                 <Box w={["full"]} display={["block", "block", "none"]} position={"relative"} top={"0px"} >
                     {!isOrganizer && (
-                        <CustomButton text={pathname?.includes("past") ? "Attended" : pathname?.includes("save") ? "Saved" : pathname?.includes("draft") ? "Draft" : "Attending"} backgroundColor={"#EFF1FE"} color={"#5D70F9"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />
+                        <CustomButton text={new Date(endDate) < (new Date()) ? "Attended" : pathname?.includes("save") ? "Saved" : pathname?.includes("draft") ? "Draft" : "Attending"} backgroundColor={new Date(endDate) < (new Date()) ? "red" : "#EFF1FE"} color={new Date(endDate) < (new Date()) ? "white" : "#5D70F9"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />
                     )}
                     {isOrganizer && (
                         <CustomButton text={"Organizer"} backgroundColor={primaryColor} color={"white"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />

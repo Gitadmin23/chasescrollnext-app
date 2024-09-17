@@ -40,7 +40,8 @@ export default function EventDetail(props: IEventType) {
     const {
         headerTextColor,
         primaryColor,
-        mainBackgroundColor
+        mainBackgroundColor,
+        secondaryBackgroundColor
     } = useCustomTheme();
 
     const router = useRouter()
@@ -130,12 +131,17 @@ export default function EventDetail(props: IEventType) {
                                         <LinkIcon />
                                     </Flex>
                                 </Flex>
-                                <a href={location?.link}  >
-                                    <Text fontSize={"14px"} color={primaryColor} >{location?.link}</Text>
-                                </a>
+                                {isBought && (
+                                    <a href={location?.link}  >
+                                        <Text fontSize={"14px"} color={primaryColor} >{location?.link}</Text>
+                                    </a>
+                                )}
+                                {!isBought && ( 
+                                        <Text fontSize={"14px"} color={primaryColor} >Register To View Link</Text> 
+                                )}
                             </Flex>
                         </Flex>
-                    )} 
+                    )}
                     {/* </Grid> */}
                     {location?.address && (
                         <Flex w={"full"} flexDir={"column"} gap={"2"} >
@@ -146,8 +152,8 @@ export default function EventDetail(props: IEventType) {
                 </Flex>
                 <Flex maxW={["full", "full", "full", "430px", "430px"]} flexDir={"column"} gap={"6"} w={"full"} >
 
-                    <Flex display={["none", "none", "none", "flex", "flex"]} pos={["sticky", "sticky", "sticky", "relative", "relative"]} bottom={"0px"} w={"full"} mt={"8"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} borderWidth={(pathname?.includes("past") && !isOrganizer) ? "0px" : "1px"} borderColor={"#DEDEDE"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
-                        {(!pathname?.includes("past") || isOrganizer )&& (
+                    <Flex display={["none", "none", "none", "flex", "flex"]} bg={mainBackgroundColor} zIndex={"50"} pos={["sticky", "sticky", "sticky", "relative", "relative"]} bottom={"0px"} w={"full"} mt={"8"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} borderWidth={(pathname?.includes("past") && !isOrganizer) ? "0px" : "1px"} borderColor={"#DEDEDE"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
+                        {(!pathname?.includes("past") || isOrganizer) && (
                             <Text fontWeight={"600"} fontSize={"18px"} >{(isOrganizer) ? " Option " : "Ticket  Available"}</Text>
                         )}
                         {(!isBought && !isOrganizer && !pathname?.includes("past")) && (
@@ -162,7 +168,7 @@ export default function EventDetail(props: IEventType) {
                     </Flex>
                     <Flex flexDir={"column"} gap={"4"} >
                         <Text fontWeight={"medium"} >Tags</Text>
-                        <Button color={headerTextColor} fontSize={"12px"} w={"fit-content"} px={"3"} bgColor={"#F7F7F7"} rounded={"32px"} h={"38px"} >
+                        <Button color={headerTextColor} fontSize={"12px"} w={"fit-content"} px={"3"} bgColor={secondaryBackgroundColor} rounded={"32px"} h={"38px"} >
                             {eventType?.replace("_", " ")}
                         </Button>
                     </Flex>

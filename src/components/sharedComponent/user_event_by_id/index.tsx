@@ -12,17 +12,17 @@ import NewEventCard from '../event_card/newEventCard';
 interface Props {
     user_index: any,
     myevent?: boolean,
-    profile?: boolean
+    profile?: boolean,
+    past?: boolean
 }
 
 function GetEventById(props: Props) {
     const {
         user_index,
-        myevent,
-        profile
+        past
     } = props 
 
-    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.JOINED_EVENT + user_index, limit: 10, filter: "id" })
+    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: (past ? URLS.PAST_EVENT : URLS.JOINED_EVENT+ user_index) , limit: 10, filter: "id" })
 
     return (
         <HStack height={"fit-content"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"}  >
