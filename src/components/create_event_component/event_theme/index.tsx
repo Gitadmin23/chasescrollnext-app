@@ -6,8 +6,7 @@ import React, { useState } from 'react'
 import { useQuery } from 'react-query';
 import SelectImage from './select_image';
 import SubmitTheme from '../submit_event';
-import useCustomTheme from "@/hooks/useTheme";
-import Select from 'react-select';
+import useCustomTheme from "@/hooks/useTheme"; 
 import SelectEventType from './SelectEventType';
 
 function EventTheme() {

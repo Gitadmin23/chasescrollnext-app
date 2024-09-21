@@ -12,7 +12,7 @@ import { Box, Flex, useColorMode, useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { focusManager, useQuery } from "react-query";
 
-interface Props {}
+interface Props { }
 
 function EditEvent({ params }: { params: { slug: string } }) {
   focusManager.setFocused(false);
@@ -62,7 +62,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
           attendeesVisibility: data?.data?.content[0]?.attendeesVisibility,
           minPrice: data?.data?.content[0]?.minPrice,
           maxPrice: data?.data?.content[0]?.maxPrice,
-          startTime:(new Date() >= new Date(data?.data?.content[0]?.startTime) ? null : data?.data?.content[0]?.startTime),
+          startTime: (new Date() >= new Date(data?.data?.content[0]?.startTime) ? null : data?.data?.content[0]?.startTime),
           endTime: (new Date() >= new Date(data?.data?.content[0]?.endTime) ? null : data?.data?.content[0]?.endTime),
           startDate: (new Date() >= new Date(data?.data?.content[0]?.startDate) ? null : data?.data?.content[0]?.startDate),
           endDate: (new Date() >= new Date(data?.data?.content[0]?.endDate) ? null : data?.data?.content[0]?.endDate),
@@ -99,7 +99,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
   return (
     <>
       <LoadingAnimation loading={isLoading}>
-        <Flex
+        {/* <Flex
           width={"full"}
           h={["auto", "auto", "auto", "100vh"]}
           pt={"74px"}
@@ -157,6 +157,37 @@ function EditEvent({ params }: { params: { slug: string } }) {
                   : false
               }
             />
+          )}
+        </Box> */}
+
+        <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"76px"} display={["none", "none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]}  >
+          <CreateEventHeader name="Edit Events Draft" />
+          <Flex bgColor={colorMode === 'light' ? "gray.300" : secondaryBackgroundColor} w={"full"} p={["0px", "0px", "0px", "3"]} h={"full"}  >
+            <Flex bgColor={colorMode === 'light' ? "white" : mainBackgroundColor} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} h={"auto"} overflowY={"auto"} >
+              <Box bgColor={colorMode === 'light' ? "white" : mainBackgroundColor} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} px={"3"} h={"fit-content"} >
+                {tab === 0 && (
+                  <EventTheme />
+                )}
+                {tab === 1 && (
+                  <EventInformation />
+                )}
+                {tab === 2 && (
+                  <EventTicket />
+                )}
+              </Box>
+            </Flex>
+          </Flex>
+        </Flex>
+        <Box width={"full"} display={["block", "block", "block", "block", "none"]}  >
+          <CreateEventHeader name="Edit Events Draft" />
+          {tab === 0 && (
+            <EventTheme />
+          )}
+          {tab === 1 && (
+            <EventInformation />
+          )}
+          {tab === 2 && (
+            <EventTicket />
           )}
         </Box>
       </LoadingAnimation>

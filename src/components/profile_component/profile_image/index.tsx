@@ -12,8 +12,7 @@ import { IMAGE_URL, URLS } from '@/services/urls';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
 import httpService from '@/utils/httpService';
 import { textLimit } from '@/utils/textlimit';
-import { Box, Flex, Image, Text, useColorMode, useToast } from '@chakra-ui/react'
-import { fstat } from 'fs';
+import { Box, Flex, Image, Text, useColorMode, useToast } from '@chakra-ui/react' ;
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { IoMdSettings } from 'react-icons/io';
@@ -89,7 +88,7 @@ function ProfileImage(props: Props) {
                     )}
                     {(data?.data?.imgMain?.value || (userId === user_index && user?.data?.imgMain?.value)) && (
                         <>
-                            <Image rounded={"18px"} roundedTopLeft={"0px"} objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={(data?.data?.imgMain?.value?.includes('http') ? data?.data?.imgMain?.value : (IMAGE_URL + data?.data?.imgMain?.value))} alt='profile' />
+                            <Image id='img_blur' rounded={"18px"} roundedTopLeft={"0px"} objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={(data?.data?.imgMain?.value?.includes('http') ? data?.data?.imgMain?.value : (IMAGE_URL + data?.data?.imgMain?.value))} alt='profile' />
                             
                         </>
                     )}
@@ -130,8 +129,7 @@ function ProfileImage(props: Props) {
                     </Box>
                     <Box  zIndex={"30"} mt={"auto"} mb={"4"} ml={"4"} >
                         <UserImage data={data} rounded='99999px' allrounded={true} image={data?.data?.imgMain?.value} size={["120px", "150px"]} font={["30px", '60px']} />
-                    </Box>
-                    <Flex w={"full"} h={"full"} bg={"red"} opacity={"0.3%"} inset={"0px"}  zIndex={"50"} position={"absolute"} />
+                    </Box> 
                 </Box>
                 <Flex zIndex={"20"} width={"full"} rounded={"16px"} insetX={"0px"} bg={secondaryBackgroundColor} px={["3", "6", "9"]} height={"150px"} justifyContent={"space-between"} alignItems={"center"} >
                     <Box color={headerTextColor} >
@@ -155,8 +153,9 @@ function ProfileImage(props: Props) {
                                     <Text onClick={() => clickMore()} as={data?.data?.about?.value?.length > 18 ? "button" : "text"} fontSize={"sm"} >Bio : {data?.data?.about?.value}</Text>}
                             </>
                         )}
+                        {/* http://localhost:3000/dashboard/profile/656e3121e0c4bd60fb27a4ad/event */}
                         {data?.data?.webAddress?.value && (
-                            <a href={data?.data?.webAddress?.value} target="_blank" >
+                            <a href={"http://"+data?.data?.webAddress?.value}  rel="noopener" target="_blank" >
                                 <Text fontSize={"sm"} >Website : <span style={{ color: `${primaryColor}` }} >{textLimit(data?.data?.webAddress?.value, 25)}</span></Text>
                             </a>
                         )}

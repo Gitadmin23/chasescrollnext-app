@@ -17,6 +17,13 @@ import useModalStore from '@/global-state/useModalSwitch';
 import ModalLayout from '@/components/sharedComponent/modal_layout';
 import NotificationPage from '@/components/notification/NotificationsPage';
 import NotificationBar from '@/components/notification';
+import { useQuery } from 'react-query';
+import httpService from '@/utils/httpService';
+import { URLS } from '@/services/urls';
+import { PaginatedResponse } from '@/models/PaginatedResponse';
+import { INotification } from '@/models/Notifications';
+import { useNotification } from '@/global-state/useNotification';
+import useNotificationHook from '@/hooks/useNotificationHook';
 
 export default function Layout({ children }: {
     children: ReactNode
@@ -32,7 +39,7 @@ export default function Layout({ children }: {
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
     const router = useRouter()
-    const { setGoogle } = useModalStore((state) => state);
+    const { setGoogle, notifyModal, setNotifyModal } = useModalStore((state) => state);
     const pathname = usePathname()
 
     const { colorMode, toggleColorMode } = useColorMode();
@@ -79,7 +86,7 @@ export default function Layout({ children }: {
     const { user } = getUser()
 
 
-    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor, headerTextColor } = useCustomTheme();
 
     const logout = async () => {
         await signOut();
@@ -102,13 +109,14 @@ export default function Layout({ children }: {
         }
     }, [Id, status, router]);
 
-
+    const { count } = useNotificationHook() 
+    
     return (
         <Flex w={"full"} h={"100vh"} bg={mainBackgroundColor} >
             {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
                 <Flex w={"fit-content"} h={"screen"} display={["none", "none", "none", "flex", "flex"]} >
                     <Flex w={"110px"} h={"screen"} gap={"4"} overflowY={"auto"} flexDir={"column"} py={"4"} alignItems={"center"} justifyContent={"space-between"} borderRightColor={borderColor} borderRightWidth={"1px"} >
-                        <Box as='button' onClick={()=> router?.push("/")} > 
+                        <Box as='button' onClick={() => router?.push("/")} >
                             <Image alt='logo' src='/images/logo.png' w={"50px"} />
                         </Box>
                         <Flex flexDir={"column"} alignItems={"center"} gap={"3"} >
@@ -125,12 +133,17 @@ export default function Layout({ children }: {
                                         </Flex>
                                     )}
                                     {item?.text === "Notification" && (
-                                        <Flex as={"button"} onClick={() => setShow(true)} key={index} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
+                                        <Flex as={"button"} onClick={() => setNotifyModal(true)} key={index} w={"75px"} h={"56px"} position={"relative"} justifyContent={"center"} alignItems={"center"} >
                                             <Tooltip label={item?.text} fontSize='sm'>
                                                 <Box>
                                                     {item?.icon}
                                                 </Box>
                                             </Tooltip>
+                                            {count && (
+                                                <Flex w={"5"} h={"5"} rounded={"full"} bg={primaryColor} color={"white"} justifyContent={"center"} position={"absolute"} top={"1"} right={"2"} alignItems={"center"} fontWeight={"semibold"} fontSize={"12px"}  >
+                                                    {count}
+                                                </Flex>
+                                            )}
                                         </Flex>
                                     )}
                                 </>
@@ -294,7 +307,7 @@ export default function Layout({ children }: {
                 </VStack>
             </ModalLayout>
 
-            <ModalLayout open={show} size={"lg"} title={"Notification"} close={setShow} >
+            <ModalLayout open={notifyModal} size={"xl"} title={"Notification"} close={setNotifyModal} >
                 <NotificationBar />
             </ModalLayout>
         </Flex>

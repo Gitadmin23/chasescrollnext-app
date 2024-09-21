@@ -138,7 +138,7 @@ export default function CollaboratorBtn(props: IProps) {
     const AddCollaborators = (userIndex: string) => {
 
         let admin = !eventdata?.admins ? [] : [...eventdata?.admins]
-        let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators]
+        let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators] 
 
         let clone = { ...eventdata }
 
@@ -180,8 +180,13 @@ export default function CollaboratorBtn(props: IProps) {
     }
 
 
-    const UserCard = (props: IUser & { collaborators: boolean, admin: boolean }) => {
-        const { username, userId, data: any, firstName, lastName, collaborators, admin } = props;
+
+        console.log(eventdata);
+        // console.log(admin);
+
+
+    const UserCard = (props: IUser & { collaborators: boolean, admin: boolean, pending?: boolean }) => {
+        const { username, userId, data: any, firstName, lastName, collaborators, admin, pending } = props;
 
         const [show, setShow] = useState(false)
 
@@ -190,6 +195,8 @@ export default function CollaboratorBtn(props: IProps) {
 
             let admin = !eventdata?.admins ? [] : [...eventdata?.admins]
             let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators]
+            let acceptedAmins = !eventdata?.acceptedAmins ? [] : [...eventdata?.acceptedAmins]
+            let acceptedCollaborators = !eventdata?.acceptedCollaborators ? [] : [...eventdata?.acceptedCollaborators]
 
 
             if (show || collaborators || admin) {
@@ -208,13 +215,30 @@ export default function CollaboratorBtn(props: IProps) {
                     // clone?.collaborators?.filter((id) => id !== userIndex)
 
                     updateEvent(clone);
+                } else if (eventdata?.acceptedAmins?.includes(userIndex)) {
+
+                    const index = acceptedAmins.indexOf(userIndex);
+                    clone?.acceptedAmins.splice(index, 1);
+
+                    // clone?.collaborators?.filter((id) => id !== userIndex)
+
+                    updateEvent(clone);
+                } else if (eventdata?.acceptedCollaborators?.includes(userIndex)) {
+
+                    const index = acceptedCollaborators.indexOf(userIndex);
+                    clone?.acceptedCollaborators.splice(index, 1);
+
+                    // clone?.collaborators?.filter((id) => id !== userIndex)
+
+                    updateEvent(clone);
                 }
             }
             setShow((prev) => !prev)
         }
+        
 
         return (
-            <Flex width='100%' height={'fit-content'} flexDir={"column"} rounded={"16px"} borderColor={borderColor} borderWidth={"1px"} justifyContent={'space-between'} padding='15px'>
+            <Flex bgColor={mainBackgroundColor} width='100%' height={'fit-content'} flexDir={"column"} rounded={"16px"} borderColor={borderColor} borderWidth={"1px"} justifyContent={'space-between'} padding='15px'>
                 <Flex as={"button"} onClick={() => removeHandler(userId)} justifyContent={'space-between'} w={"full"} alignItems={"center"}  >
                     <Flex gap={"1"} height={"full"} alignItems={"center"} >
                         <Box w={"fit-content"} >
@@ -288,12 +312,16 @@ export default function CollaboratorBtn(props: IProps) {
                 location: data?.location,
                 productTypeData: data?.productTypeData,
                 collaborators: data?.collaborators,
+                acceptedAmins: data?.acceptedAmins,
+                acceptedCollaborators: data?.acceptedCollaborators,
                 admins: data?.admins
             }
 
 
             const admin: any = []
             const collaborator: any = []
+            const acceptedAmins: any = []
+            const acceptedCollaborators: any = []
 
             clone?.admins?.map((item: IUser) => {
                 return admin.push(item?.userId)
@@ -302,8 +330,17 @@ export default function CollaboratorBtn(props: IProps) {
                 return collaborator.push(item?.userId)
             })
 
+            clone?.acceptedAmins?.map((item: IUser) => {
+                return acceptedAmins.push(item?.userId)
+            })
+            clone?.acceptedCollaborators?.map((item: IUser) => {
+                return acceptedCollaborators.push(item?.userId)
+            })
+
             clone.admins = admin
             clone.collaborators = collaborator
+            clone.acceptedAmins = acceptedAmins
+            clone.acceptedCollaborators = acceptedCollaborators
 
             updateEvent(clone)
         }
@@ -327,12 +364,10 @@ export default function CollaboratorBtn(props: IProps) {
         },
         onSuccess: (message: AxiosResponse<any>) => {
             queryClient.invalidateQueries(['all-events-details'])
-
-            // router.refresh(
-
+ 
             toast({
                 title: 'Success',
-                description: "Event has been updated successfully",
+                description: "Updated Event",
                 status: 'success',
                 isClosable: true,
                 duration: 5000,
@@ -380,11 +415,7 @@ export default function CollaboratorBtn(props: IProps) {
     const changeTabHandler = (item: boolean) => {
         setTab(item)
         setSearch("")
-    }
-
-    console.log(addCollaborator);
-    
-    console.log(results);
+    } 
 
     return (
         <>
@@ -516,9 +547,9 @@ export default function CollaboratorBtn(props: IProps) {
 
                         {tab && (
                             <>
-                                {(data?.admins && data?.collaborators) && (
+                                {(data?.admins && data?.collaborators && data?.acceptedAmins && data?.acceptedCollaborators) && (
                                     <>
-                                        {(data?.admins?.length > 0 || data.collaborators.length > 0) ? (
+                                        {(data?.admins?.length > 0 || data.collaborators.length > 0 || data.acceptedAmins.length > 0 || data.acceptedCollaborators.length > 0) ? (
                                             <>
                                                 {search ? (
                                                     <Flex flexDir={"column"} gap={"4"} maxH={"250px"} pb={"4"} px={"5"} overflowY={"auto"} >
@@ -537,6 +568,12 @@ export default function CollaboratorBtn(props: IProps) {
                                                         {data?.collaborators?.map((item, index) => (
                                                             <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
                                                         ))}
+                                                        {data?.acceptedAmins?.map((item, index) => (
+                                                            <UserCard {...item} collaborators={eventdata?.acceptedCollaborators?.includes(item.userId)} admin={eventdata?.acceptedAmins?.includes(item.userId)} key={index.toString()} />
+                                                        ))}
+                                                        {data?.acceptedCollaborators?.map((item, index) => (
+                                                            <UserCard {...item} collaborators={eventdata?.acceptedCollaborators?.includes(item.userId)} admin={eventdata?.acceptedCollaborators?.includes(item.userId)} key={index.toString()} />
+                                                        ))}
                                                     </Flex>
                                                 )}
                                             </>
@@ -554,7 +591,7 @@ export default function CollaboratorBtn(props: IProps) {
 
                 {btn && (
                     <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg={mainBackgroundColor} py={'20px'} >
-                        <CustomButton text={tab ? 'Update Role' : 'Assign Role'} disable={(eventdata?.admins?.length === data?.admins?.length) && (eventdata?.collaborators?.length === data?.collaborators?.length)} isLoading={updateUserEvent?.isLoading} onClick={() => updateEventCollaboration({ admins: eventdata?.admins, collaborators: eventdata?.collaborators, id: eventdata?.id })} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
+                        <CustomButton text={tab ? 'Update Role' : 'Assign Role'} disable={(eventdata?.admins?.length === data?.admins?.length) && (eventdata?.collaborators?.length === data?.collaborators?.length) && (eventdata?.acceptedAmins?.length === data?.acceptedAmins?.length) && (eventdata?.acceptedCollaborators?.length === data?.acceptedCollaborators?.length)} isLoading={updateUserEvent?.isLoading} onClick={() => updateEventCollaboration({ admins: eventdata?.admins, collaborators: eventdata?.collaborators, id: eventdata?.id, acceptedAmins: eventdata?.acceptedAmins, acceptedCollaborators: eventdata?.acceptedCollaborators })} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
                     </Box>
                 )}
 

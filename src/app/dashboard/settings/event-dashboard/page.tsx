@@ -1,5 +1,6 @@
 "use client"
 import ExploreEventCard from '@/components/sharedComponent/event_card'
+import NewEventCard from '@/components/sharedComponent/event_card/newEventCard'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import { useDetails } from '@/global-state/useUserDetails'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
@@ -31,7 +32,7 @@ function EventDashboard(props: Props) {
 
     return (
         <Box height={"auto"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"} position={"relative"} bg={mainBackgroundColor}  > 
-            <Box width={["full", "full", "600px"]} px={"6"} py={"10"} position={"relative"} >
+            <Box width={["full", "full", "60%"]} px={"6"} py={"10"} position={"relative"} >
                 <Flex alignItems={"center"} gap={"4"} width={"full"} justifyContent={"center"} paddingBottom={"6"}> 
                     <Box onClick={()=> router.back()} as='button' position={"absolute"} zIndex={"10"} left={"0px"} width={"fit-content"} >
                         <BsChevronLeft color={bodyTextColor} size={"25px"} />
@@ -45,13 +46,13 @@ function EventDashboard(props: Props) {
                                 if (results.length === i + 1) {
                                     return (
                                         <Box key={event?.userId} width={"full"} ref={ref} >
-                                            <ExploreEventCard event={event} dashboard={true} profile={true} />
+                                            <NewEventCard {...event} />
                                         </Box>
                                     )
                                 } else {
                                     return (
                                         <Box key={event?.userId} width={"full"}  >
-                                            <ExploreEventCard event={event}  dashboard={true} profile={true} />
+                                            <NewEventCard {...event} />
                                         </Box>
                                     )
                                 }

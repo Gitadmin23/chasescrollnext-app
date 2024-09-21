@@ -9,7 +9,7 @@ import { dateFormatMonthDay } from '@/utils/dateFormat'
 import httpService from '@/utils/httpService'
 import { formatNumber } from '@/utils/numberFormat'
 import { textLimit } from '@/utils/textlimit'
-import {Box, Flex, Text, useColorMode, useToast} from '@chakra-ui/react'
+import { Box, Flex, Text, useColorMode, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
@@ -156,7 +156,9 @@ function SelectTicketNumber(props: Props) {
     return (
         <Box width={"full"} bg={mainBackgroundColor} px={"8"} py={"6"} >
             <Flex alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"16px"} px={"8px"} py={"12px"} >
-                <EventImage borderWidth='2px' rounded='16px' width={"153px"} height={"127px"} data={data} />
+                <Box w={"fit-content"} >
+                    <EventImage borderWidth='2px' rounded='16px' width={"153px"} height={"127px"} data={data} />
+                </Box>
                 <Flex height={"fit-content"} ml={"3"} flexDir={"column"} gap={"2px"} >
                     <Text fontSize={"14px"} fontWeight={"bold"} >{textLimit(data?.eventName, 20)}</Text>
                     <EventLocationDetail isLimited={true} height='fit-content' location={data?.location} fontWeight={"medium"} color={"brand.chasescrollBlue"} fontsize='sm' noicon={false} locationType={data?.locationType} />
@@ -169,7 +171,7 @@ function SelectTicketNumber(props: Props) {
             </Flex>
             <Flex flexDirection={"column"} pt={"3"} pb={"5"} alignItems={"center"} >
                 <Flex alignItems={"center"} rounded={"16px"} borderWidth={"1px"} borderColor={"#CDD3FD"} w={"full"} flexDir={"column"} py={"4"} >
-                    <Text color={colorMode === 'light' ? "#667085":bodyTextColor} >
+                    <Text color={colorMode === 'light' ? "#667085" : bodyTextColor} >
                         Number of Tickets
                     </Text>
                     <Flex gap={"5"} alignItems={"center"} py={"1"}  >

@@ -1,4 +1,4 @@
-import {IUser} from "@/models/User";
+import { IUser } from "@/models/User";
 
 export interface IEventType {
     id: string,
@@ -9,7 +9,7 @@ export interface IEventType {
     isDeleted: boolean;
     picUrls: string[],
     eventMemberRole: string;
-    eventName: string; 
+    eventName: string;
     joinSetting: string;
     eventDescription: string;
     eventType: string;
@@ -38,7 +38,7 @@ export interface IEventType {
     endDate: any;
     expirationDate: string;
     memberCount: number;
-    location: { 
+    location: {
         toBeAnnounced: boolean
         locationDetails?: string,
         link?: string,
@@ -48,19 +48,21 @@ export interface IEventType {
     },
     productTypeData: IProductTypeData[],
     interestedUsers: IUser[],
-    collaborators: IUser[],
-    admins: IUser[]
+    collaborators: IUser[]
+    admins: IUser[];
+    acceptedAmins: IUser[]
+    acceptedCollaborators: IUser[]
 
 }
 
-interface IProductTypeData  {
+interface IProductTypeData {
     totalNumberOfTickets: string | number,
     ticketPrice: string | number,
     ticketType: string,
     minTicketBuy: string | number,
     maxTicketBuy: string | number,
     rerouteURL?: string
-    ticketsSold?: 0, 
+    ticketsSold?: 0,
     endDate?: string | number,
     endTime?: string | number,
     startDate?: string | number,
