@@ -21,7 +21,7 @@ function Draft(props: Props) {
 
     return (
         <HStack height={"fit-content"} display={"flex"} width={"full"} flexDir={"column"} overflowY={"auto"} justifyContent={"center"}  >
-            <SearchBar change={true} />
+            <SearchBar change={true} event={true} />
             <Box width={["full", "full", "700px"]} position={"relative"} >
                 <Box width={"full"}  >
                     <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >

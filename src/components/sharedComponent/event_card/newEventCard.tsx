@@ -38,9 +38,9 @@ export default function NewEventCard(props: IEventType) {
     const pathname = usePathname()
 
     const clickHandler = () => {
-        if(pathname?.includes("draft")) { 
+        if (pathname?.includes("draft")) {
             router?.push(`/dashboard/event/edit_draft/${id}`)
-        } else if(new Date(endDate) < (new Date())) {
+        } else if (new Date(endDate) < (new Date())) {
             router?.push(`/dashboard/event/pastdetails/${id}`)
         } else {
             router?.push(`/dashboard/event/details/${id}`)
@@ -48,7 +48,7 @@ export default function NewEventCard(props: IEventType) {
     }
 
     return (
-        <Flex as={"button"} onClick={clickHandler} w={"full"} flexDir={["row"]} rounded={"16px"}  > 
+        <Flex as={"button"} onClick={clickHandler} w={"full"} flexDir={["row"]} rounded={"16px"}  >
             <Flex width={["full", "full", "full", "full"]} borderWidth={"1px"} rounded={"16px"} borderColor={"#E8E8E8"} gap={"3"} flexDirection={["column", "column", "row", "row"]} pos={"relative"} p={"4"} >
                 <EventImage data={props} width={["full", "full", "247px", "247px"]} borderWidth='2px' height={["150px", "200px", "170px", "170px"]} />
                 <Flex flexDir={"column"} gap={"2"} textAlign={"left"} height={"fit-content"} my={"auto"} w={["full", "full", "fit-content", "fit-content"]} >
@@ -58,28 +58,31 @@ export default function NewEventCard(props: IEventType) {
                         {/* <SaveOrUnsaveBtn event={props} /> */}
                     </Flex>
                     <Flex gap={"2"} alignItems={"center"} w={"full"} >
-                        <Flex flexDir={"column"} fontWeight={"bold"}>
-                            <Flex
-                                width={"50px"}
-                                flexDir={"column"}
-                                py={"2px"}
-                                borderWidth={"1px"}
-                                alignItems={"center"}
-                                roundedBottom={"2xl"}
-                                roundedTopLeft={"2xl"}
-                            >
-                                <Text
-                                    fontSize={"11.37px"}
-                                    lineHeight={"14.81px"}
-                                    color={"#3D37F1"}
+                        {props?.startDate && (
+                            <Flex flexDir={"column"} fontWeight={"bold"}>
+                                <Flex
+                                    width={"50px"}
+                                    flexDir={"column"}
+                                    py={"2px"}
+                                    borderWidth={"1px"}
+                                    alignItems={"center"}
+                                    roundedBottom={"2xl"}
+                                    roundedTopLeft={"2xl"}
                                 >
-                                    {moment(props?.startDate).format("MMM")}
-                                </Text>
-                                <Text fontSize={"28.43px"} mt={"-1"} lineHeight={"37.01px"}>
-                                    {moment(props?.startDate).format("D")}
-                                </Text>
+
+                                    <Text
+                                        fontSize={"11.37px"}
+                                        lineHeight={"14.81px"}
+                                        color={"#3D37F1"}
+                                    >
+                                        {moment(props?.startDate).format("MMM")}
+                                    </Text>
+                                    <Text fontSize={"28.43px"} mt={"-1"} lineHeight={"37.01px"}>
+                                        {moment(props?.startDate).format("D")}
+                                    </Text>
+                                </Flex>
                             </Flex>
-                        </Flex>
+                        )}
                         <Text fontSize={"14px"} display={["flex", "flex", "none", "none"]} >{textLimit(eventDescription, 100)}</Text>
                         <Text fontSize={"14px"} display={["none", "none", "flex", "flex"]} >{textLimit(eventDescription, 50)}</Text>
                     </Flex>

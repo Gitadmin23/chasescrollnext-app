@@ -1,117 +1,105 @@
 import CustomText from "@/components/general/Text";
 import { INotification } from "@/models/Notifications";
 import {
-  Avatar,
   Box,
   HStack,
-  VStack,
-  Image,
   useColorMode,
+  Flex,
+  Button,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import moment from "moment";
-import { IMAGE_URL, URLS } from "@/services/urls";
 import { useRouter } from "next/navigation";
 import { useDetails } from "@/global-state/useUserDetails";
-import { useMutation, useQueryClient } from "react-query";
-import httpService from "@/utils/httpService";
-import { User } from "iconsax-react";
 import useCustomTheme from "@/hooks/useTheme";
+import useModalStore from "@/global-state/useModalSwitch";
+import UserImage from "../sharedComponent/userimage";
+import useNotificationHook from "@/hooks/useNotificationHook";
 
 function NotificationCard({ notification }: { notification: INotification }) {
+
   const router = useRouter();
   const { userId } = useDetails((state) => state);
-  const queryClient = useQueryClient();
 
   const {
-    bodyTextColor,
     primaryColor,
     secondaryBackgroundColor,
     mainBackgroundColor,
     borderColor,
     headerTextColor,
   } = useCustomTheme();
-  const { colorMode, toggleColorMode } = useColorMode();
 
-  const markAsRead = useMutation({
-    mutationFn: (data: string[]) =>
-      httpService.put(
-        `${URLS.MARK_NOTIFICATIONS_AS_READ}?notificationIDs=${data}&read=true`,
-      ),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(["getNotifications"]);
-    },
-    onError: () => { },
-  });
+  const { colorMode } = useColorMode();
+  const { setNotifyModal } = useModalStore((state) => state)
+  const { joinEvent, rejectEvent, markAsRead, setIndex, setStatus, status } = useNotificationHook()
+
+  useEffect(() => {
+    setIndex(notification?.id)
+    setStatus(notification?.status)
+  }, [])
 
   const handleClick = () => {
     switch (notification.type) {
       case "CHAT": {
         router.push(`/dashboard/chats?activeID=${notification.typeID}`);
         markAsRead.mutate([notification.id]);
+        setNotifyModal(false)
+        break;
+      }
+      case "GROUP_REQUEST_ACCEPTED": {
+        router.push(`/dashboard/community?activeID=${notification.typeID}`);
+        markAsRead.mutate([notification.id]);
+        setNotifyModal(false)
         break;
       }
       case "EVENT": {
         router.push(`/dashboard/event/details/${notification.typeID}`);
         markAsRead.mutate([notification.id]);
+        setNotifyModal(false)
         break;
       }
       case "FRIEND_REQUEST": {
         router.push(`/dashboard/profile/${userId}/network?tab=request`);
         markAsRead.mutate([notification.id]);
+        setNotifyModal(false)
         break;
       }
       case "GROUP_REQUEST": {
         router.push(`/dashboard/community?tab=request`);
         markAsRead.mutate([notification.id]);
+        setNotifyModal(false)
         break;
       }
+      case "COLLABORATOR_MEMBER_INVITE_ACCEPTED" : {
+        router.push(`/dashboard/event/details/${notification.typeID}`)
+        markAsRead.mutate([notification.id]);
+        setNotifyModal(false)
+        break;
+      } 
+      case "ADMIN_MEMBER_INVITE_ACCEPTED": {
+        router.push(`/dashboard/event/details/${notification.typeID}`)
+        markAsRead.mutate([notification.id]);
+        setNotifyModal(false)
+        break;
+      } 
       case "GROUP": {
         router.push(`/dashboard/community?activeID=${notification.typeID}`);
         markAsRead.mutate([notification.id]);
+        setNotifyModal(false)
         break;
       }
       default: {
         break;
       }
-    }
-  };
-
-
-  const ImageWithFallback = ({ src, fallbackSrc, alt }: { src: string; fallbackSrc: string; alt: string }) => {
-    const [imgSrc, setImgSrc] = useState(src);
-
-    const handleError = () => {
-      console.log(fallbackSrc);
-
-      setImgSrc(fallbackSrc);  // Switch to fallback image when error occurs
-    };
-
-    return (
-      <>
-        {imgSrc ?
-          <VStack
-            width="100%"
-            height={"100%"}
-            justifyContent={"center"}
-            alignItems={"center"}
-          >
-            <User size={"20px"} variant="Outline" />
-          </VStack> :
-
-          <Image src={imgSrc} alt={alt}
-            width="100%"
-            height={"100%"}
-            objectFit={"cover"} onError={handleError} />
-        }
-      </>
-    )
+    } 
   };
 
   return (
     <HStack
+      as={"button"}
       onClick={handleClick}
-      alignItems={"center"}
+      textAlign={"left"}
+      // alignItems={"center"}
       spacing={0}
       justifyContent={"space-between"}
       width="100%"
@@ -121,78 +109,16 @@ function NotificationCard({ notification }: { notification: INotification }) {
       borderBottomColor={borderColor}
       paddingX="10px"
       bg={
-        notification.status === "UNREAD"
+        status === "UNREAD"
           ? mainBackgroundColor
           : secondaryBackgroundColor
       }
     >
-      <Box
-        width="32px"
-        height="32px"
-        borderRadius={"36px 0px 36px 36px"}
-        borderWidth={"1px"}
-        borderColor={borderColor}
-        overflow={"hidden"}
-      >
-        {notification?.createdBy?.data !== null &&
-          !notification?.createdBy?.data?.imgMain?.value === null && (
-            <VStack
-              width="100%"
-              height="100%"
-              color="red"
-              justifyContent={"center"}
-              alignItems="center"
-            >
-              <CustomText
-                color={bodyTextColor}
-                fontSize={"18px"}
-                fontFamily={"DM-Bold"}
-              >
-                {notification?.createdBy?.firstName[0].toUpperCase()}{" "}
-                {notification?.createdBy?.lastName[0].toUpperCase()}
-              </CustomText>
-            </VStack>
-          )}
-        {notification?.createdBy?.data !== null &&
-          notification?.createdBy?.data?.imgMain?.value !== null && (
-            <>
-              {notification?.createdBy?.data.imgMain.value.includes(
-                "https://",
-              ) && (
-                  <ImageWithFallback
-                    alt="img"
-                    src={`${notification?.createdBy?.data?.imgMain?.value}`}
-                    fallbackSrc="img"
-                  />
-                )}
-
-              {!notification?.createdBy?.data.imgMain.value.includes(
-                "https://",
-              ) && (
-                  <ImageWithFallback
-                    alt="img"
-                    src={`${IMAGE_URL}${notification?.createdBy?.data?.imgMain?.value}`}
-                    fallbackSrc="img"
-                  />
-                )}
-            </>
-          )}
-        {notification.createdBy.data === null && (
-          <VStack
-            width="100%"
-            height={"100%"}
-            justifyContent={"center"}
-            alignItems={"center"}
-          >
-            <User size={"20px"} variant="Outline" />
-          </VStack>
-        )}
+      <Box width={"fit-content"} >
+        <UserImage size={"50px"} border={"2px"} image={notification?.createdBy?.data?.imgMain.value} data={notification?.createdBy} />
       </Box>
-      <VStack
-        alignItems={"flex-start"}
-        spacing={0}
-        width="70%"
-        flexWrap={"wrap"}
+      <Flex
+        w={"full"} flexDir={"column"}
         paddingX="10px"
       >
         <CustomText
@@ -206,15 +132,35 @@ function NotificationCard({ notification }: { notification: INotification }) {
         >
           {notification.title}
         </CustomText>
-        <CustomText fontSize={"14px"} fontFamily={"DM-Regular"} width="100%">
-          {notification.message.length > 50
-            ? notification.message.substring(0, 50) + "..."
-            : notification.message}
-        </CustomText>
-      </VStack>
-      <CustomText fontSize={"12px"} fontFamily={"DM-Regular"}>
-        {moment(notification.createdDate).fromNow(false)}
-      </CustomText>
+        {(notification?.type === "ADMIN_MEMBER_INVITE_REQUEST" || notification?.type === "COLLABORATOR_MEMBER_INVITE_REQUEST") ? (
+          <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>
+            {notification.message}
+          </CustomText>
+        ) : (
+          <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>
+            {notification.message.length > 40
+              ? notification.message.substring(0, 40) + "..."
+              : notification.message}
+          </CustomText>
+        )}
+        <Flex gap={"8"} mt={"1"} alignItems={"center"} >
+          {((notification?.type === "ADMIN_MEMBER_INVITE_REQUEST" || notification?.type === "COLLABORATOR_MEMBER_INVITE_REQUEST") && status === "UNREAD") && (
+            <Flex gap={"3"} >
+              <Button isLoading={joinEvent?.isLoading} isDisabled={joinEvent?.isLoading} onClick={() => joinEvent.mutate({
+                id: notification.typeID,
+                "resolve": true
+              })} h={"30px"} rounded={"64px"} fontSize={"12px"} w={"fit-content"} outline={"none"} _hover={{ backgroundColor: primaryColor }} color={"white"} bgColor={primaryColor} borderWidth={"1px"} borderColor={primaryColor} px={"6"} >Accept</Button>
+              <Button isLoading={rejectEvent?.isLoading} isDisabled={rejectEvent?.isLoading} onClick={() => rejectEvent.mutate({
+                id: notification?.typeID,
+                "resolve": false
+              })} h={"30px"} rounded={"64px"} fontSize={"12px"} w={"fit-content"} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} color={primaryColor} bgColor={mainBackgroundColor} borderWidth={"1px"} borderColor={borderColor} px={"6"} >Decline</Button>
+            </Flex>
+          )}
+          <CustomText fontSize={"10px"} fontFamily={"DM-Regular"}>
+            {moment(notification.createdDate).fromNow(false)}
+          </CustomText>
+        </Flex>
+      </Flex>
     </HStack>
   );
 }

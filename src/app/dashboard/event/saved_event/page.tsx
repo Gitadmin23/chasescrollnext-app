@@ -22,7 +22,7 @@ function SavedEvent(props: Props) {
  
     return (
         <Flex height={"fit-content"} flexDir={"column"} width={"full"} overflowX={"hidden"} overflowY={"auto"} alignItems={"center"}  >
-            <SearchBar change={true} />
+            <SearchBar change={true} event={true} />
             <Box width={["full", "full", "700px"]} pt={"6"} position={"relative"} mx={"auto"} >
                 <Box width={"full"}  >
                     <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >

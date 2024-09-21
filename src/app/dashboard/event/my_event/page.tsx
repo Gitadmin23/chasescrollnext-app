@@ -22,7 +22,7 @@ function MyEvent(props: Props) {
 
     return (
         <HStack height={"fit-content"} display={"flex"} flexDir={"column"} overflowX={"hidden"}  width={"full"} overflowY={"auto"} justifyContent={"center"}  >
-            <SearchBar change={true} />
+            <SearchBar change={true} event={true} />
             <Box width={["full", "full", "700px"]} pt={"6"} position={"relative"} >
                 <Box width={"full"}  >
                     <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >

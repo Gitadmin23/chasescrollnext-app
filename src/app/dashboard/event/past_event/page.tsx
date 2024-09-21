@@ -20,7 +20,7 @@ function PastEvent(props: Props) {
 
     return (
         <HStack height={"fit-content"} display={"flex"} flexDir={"column"} width={"full"} overflowY={"auto"} overflowX={"hidden"} justifyContent={"center"}  >
-            <SearchBar change={true} />
+            <SearchBar change={true} event={true}/>
             <Box width={["full", "full", "700px"]} position={"relative"} pt={"6"} >
                 <Box width={"full"}  >
                     <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >

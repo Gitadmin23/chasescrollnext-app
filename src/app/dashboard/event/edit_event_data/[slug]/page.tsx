@@ -5,15 +5,26 @@ import EventTheme from '@/components/create_event_component/event_theme'
 import EventTicket from '@/components/create_event_component/event_ticket'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import useEventStore from '@/global-state/useCreateEventState'
+import useCustomTheme from '@/hooks/useTheme'
 import { URLS } from '@/services/urls'
 import httpService from '@/utils/httpService'
-import { Box, Flex, useToast } from '@chakra-ui/react'
+import { Box, Flex, useColorMode, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { focusManager, useQuery } from 'react-query'
 
 interface Props { }
 
 function EditEvent({ params }: { params: { slug: string } }) {
+
+
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme();
+    const { colorMode } = useColorMode();
 
     focusManager.setFocused(false)
     const { tab, updateEvent, changeTab } = useEventStore((state) => state);
@@ -68,7 +79,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
     return (
         <LoadingAnimation loading={isLoading}>
 
-            <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"74px"} display={["none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]} >
+            {/* <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"74px"} display={["none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]} >
                 <CreateEventHeader name="Edit Events" />
                 <Flex bgColor={"gray.300"} w={"full"} p={["0px", "0px", "0px", "3"]}   >
                     <Flex bgColor={"white"} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} h={["auto"]} overflowY={["auto"]}>
@@ -85,23 +96,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
                         </Box>
                     </Flex>
                 </Flex>
-            </Flex>
-            {/* <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"74px"} display={["none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]} >
-                <CreateEventHeader name="Edit Events" />
-                <Flex bgColor={"gray.300"} w={"full"} p={["0px", "0px", "0px", "3"]} overflowY={["auto"]}  >
-                    <Flex bgColor={"white"} w={"full"} px={"3"} h={["fit-content"]} rounded={["0px", "0px", "0px", "2xl"]} >
-                        {tab === 0 && (
-                            <EventTheme />
-                        )}
-                        {tab === 1 && (
-                            <EventInformation />
-                        )}
-                        {tab === 2 && (
-                            <EventTicket promotion={(data?.data?.content[0]?.productTypeData[0]?.ticketType === "Promotion" || data?.data?.content[0]?.productTypeData[0]?.rerouteURL) ? true : false} />
-                        )}
-                    </Flex>
-                </Flex>
-            </Flex> */}
+            </Flex> 
             <Box width={"full"} display={["block", "block", "block", "none"]}  >
                 <CreateEventHeader name="Edit Events" />
                 {tab === 0 && (
@@ -113,22 +108,39 @@ function EditEvent({ params }: { params: { slug: string } }) {
                 {tab === 2 && (
                     <EventTicket promotion={(data?.data?.content[0]?.productTypeData[0]?.ticketType === "Promotion" || data?.data?.content[0]?.productTypeData[0]?.rerouteURL) ? true : false} />
                 )}
+            </Box> */}
+
+            <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"76px"} display={["none", "none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]}  >
+                <CreateEventHeader name="Edit Events" />
+                <Flex bgColor={colorMode === 'light' ? "gray.300" : secondaryBackgroundColor} w={"full"} p={["0px", "0px", "0px", "3"]} h={"full"}  >
+                    <Flex bgColor={colorMode === 'light' ? "white" : mainBackgroundColor} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} h={"auto"} overflowY={"auto"} >
+                        <Box bgColor={colorMode === 'light' ? "white" : mainBackgroundColor} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} px={"3"} h={"fit-content"} >
+                            {tab === 0 && (
+                                <EventTheme />
+                            )}
+                            {tab === 1 && (
+                                <EventInformation />
+                            )}
+                            {tab === 2 && (
+                                <EventTicket />
+                            )}
+                        </Box>
+                    </Flex>
+                </Flex>
+            </Flex>
+            <Box width={"full"} display={["block", "block", "block", "block", "none"]}  >
+                <CreateEventHeader name="Edit Events" />
+                {tab === 0 && (
+                    <EventTheme />
+                )}
+                {tab === 1 && (
+                    <EventInformation />
+                )}
+                {tab === 2 && (
+                    <EventTicket />
+                )}
             </Box>
         </LoadingAnimation>
-        // <LoadingAnimation loading={isLoading}>
-        //     <Box width={"full"} >
-        //         <CreateEventHeader />
-        //         {tab === 0 && (
-        //             <EventTheme />
-        //         )}
-        //         {tab === 1 && (
-        //             <EventInformation />
-        //         )}
-        //         {tab === 2 && (
-        //             <EventTicket promotion={(data?.data?.content[0]?.productTypeData[0]?.ticketType === "Promotion" || data?.data?.content[0]?.productTypeData[0]?.rerouteURL) ? true : false} />
-        //         )}
-        //     </Box>
-        // </LoadingAnimation>
     )
 }
 

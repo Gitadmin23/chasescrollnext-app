@@ -5,14 +5,15 @@ import { Chat } from '@/models/Chat'
 import { IMAGE_URL, URLS } from '@/services/urls'
 import httpService from '@/utils/httpService'
 import { Avatar, Box, HStack, VStack, Image, useColorMode, Flex } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { useChatPageState } from './state'
 import moment from 'moment'
 import UserImage from '../sharedComponent/userimage'
 import useCustomTheme from '@/hooks/useTheme'
 import { textLimit } from '@/utils/textlimit'
-import { capitalizeFLetter } from '@/utils/capitalLetter'
+import { capitalizeFLetter } from '@/utils/capitalLetter' 
+import { useRouter, useSearchParams } from 'next/navigation'
 
 interface IProps {
     chat: Chat
@@ -22,6 +23,8 @@ const SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({ chat }, ref) => 
     const { setAll, activeChat } = useChatPageState((state) => state);
     const [count, setCount] = React.useState(0);
     const [name, setName] = React.useState(`${chat?.otherUser?.firstName} ${chat?.otherUser?.lastName}`);
+
+    const router = useRouter()
 
     const {
         bodyTextColor,
@@ -41,8 +44,19 @@ const SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({ chat }, ref) => 
             setCount(data.data);
         }
     })
+    
+    const query = useSearchParams();
+    const type = query?.get('activeID');
+ 
+    useEffect(()=> {
+        if(type === chat?.id){
+            setAll({ activeChat: chat, messages: [], pageNumber: 0, hasNext: false })
+        }
+    }, [type, setAll, router, chat?.id, query])
+    
+
     return (
-        <HStack onClick={() => setAll({ activeChat: chat, messages: [], pageNumber: 0, hasNext: false })} ref={ref} width='100%' height='60px' borderRadius={'8px'} alignItems={'center'} justifyContent={'space-between'} bg={activeChat?.id === chat?.id ? secondaryBackgroundColor : mainBackgroundColor} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingRight={'10px'} cursor={'pointer'}>
+        <HStack onClick={()=> router.push(`/dashboard/chats?activeID=${chat?.id}`)} ref={ref} width='100%' height='60px' borderRadius={'8px'} alignItems={'center'} justifyContent={'space-between'} bg={activeChat?.id === chat?.id ? secondaryBackgroundColor : mainBackgroundColor} borderBottomWidth={'1px'} borderBottomColor={'lightgrey'} paddingRight={'10px'} cursor={'pointer'}>
 
             <HStack>
                 <Box width={"fit-content"} overflow={'hidden'}>
