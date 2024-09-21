@@ -87,6 +87,8 @@ function CreateEventBtn(props: Props) {
                         rerouteURL: ""
                     },
                 ],
+                acceptedAmins: [],
+                acceptedCollaborators: []
             })
             // router.push("/dashboard/event/create_event")
         } else {

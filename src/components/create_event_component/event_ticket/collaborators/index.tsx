@@ -177,12 +177,7 @@ export default function CollaboratorBtn(props: IProps) {
             updateEvent(clone);
 
         }
-    }
-
-
-
-        console.log(eventdata);
-        // console.log(admin);
+    } 
 
 
     const UserCard = (props: IUser & { collaborators: boolean, admin: boolean, pending?: boolean }) => {

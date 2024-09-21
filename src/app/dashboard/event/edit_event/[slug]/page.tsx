@@ -25,7 +25,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
         borderColor,
     } = useCustomTheme();
     const { colorMode } = useColorMode();
-    
+
     focusManager.setFocused(false)
     const { tab, updateEvent, changeTab } = useEventStore((state) => state);
     const toast = useToast()
@@ -64,8 +64,10 @@ function EditEvent({ params }: { params: { slug: string } }) {
                 // expirationDate: "",
                 location: data?.data?.content[0]?.location,
                 productTypeData: data?.data?.content[0]?.productTypeData,
-                collaborators: data?.data?.content?.collaborators,
-                admins: data?.data?.content?.collaborators
+                collaborators: data?.data?.content[0]?.collaborators,
+                admins: data?.data?.content[0]?.collaborators,
+                acceptedCollaborators: data?.data?.content[0]?.acceptedCollaborators,
+                acceptedAmins: data?.data?.content[0]?.acceptedCollaborators,
             })
 
         }
@@ -109,12 +111,12 @@ function EditEvent({ params }: { params: { slug: string } }) {
                     <EventTicket promotion={(data?.data?.content[0]?.productTypeData[0]?.ticketType === "Promotion" || data?.data?.content[0]?.productTypeData[0]?.rerouteURL) ? true : false} />
                 )}
             </Box> */}
-            
-            <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"76px"} display={["none", "none", "none",  "none", "flex"]} flexDir={["column", "column", "column", "row"]}  >
+
+            <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"76px"} display={["none", "none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]}  >
                 <CreateEventHeader name="Edit Events" />
-                <Flex bgColor={colorMode === 'light' ? "gray.300":secondaryBackgroundColor} w={"full"} p={["0px", "0px", "0px", "3"]} h={"full"}  >
-                    <Flex bgColor={colorMode === 'light' ? "white":mainBackgroundColor} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} h={"auto"} overflowY={"auto"} >
-                        <Box bgColor={colorMode === 'light' ? "white":mainBackgroundColor} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} px={"3"}  h={"fit-content"} >
+                <Flex bgColor={colorMode === 'light' ? "gray.300" : secondaryBackgroundColor} w={"full"} p={["0px", "0px", "0px", "3"]} h={"full"}  >
+                    <Flex bgColor={colorMode === 'light' ? "white" : mainBackgroundColor} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} h={"auto"} overflowY={"auto"} >
+                        <Box bgColor={colorMode === 'light' ? "white" : mainBackgroundColor} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} px={"3"} h={"fit-content"} >
                             {tab === 0 && (
                                 <EventTheme />
                             )}
@@ -127,8 +129,8 @@ function EditEvent({ params }: { params: { slug: string } }) {
                         </Box>
                     </Flex>
                 </Flex>
-            </Flex> 
-            <Box width={"full"} display={["block", "block", "block",  "block", "none"]}  >
+            </Flex>
+            <Box width={"full"} display={["block", "block", "block", "block", "none"]}  >
                 <CreateEventHeader name="Edit Events" />
                 {tab === 0 && (
                     <EventTheme />
@@ -140,7 +142,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
                     <EventTicket />
                 )}
             </Box>
-        </LoadingAnimation> 
+        </LoadingAnimation>
     )
 }
 

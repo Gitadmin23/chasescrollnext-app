@@ -71,6 +71,8 @@ function EditEvent({ params }: { params: { slug: string } }) {
           productTypeData: data?.data?.content[0]?.productTypeData,
           collaborators: data?.data?.content[0]?.collaborators,
           admins: data?.data?.content[0]?.admins,
+          acceptedAmins: data?.data?.content[0]?.acceptedCollaborators,
+          acceptedCollaborators: data?.data?.content[0]?.acceptedCollaborators
         };
 
         const admin: any = [];

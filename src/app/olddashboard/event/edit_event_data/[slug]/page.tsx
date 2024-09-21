@@ -54,7 +54,9 @@ function EditEvent({ params }: { params: { slug: string } }) {
                 location: data?.data?.content[0]?.location,
                 productTypeData: data?.data?.content[0]?.productTypeData,
                 collaborators: data?.data?.content?.collaborators,
-                admins: data?.data?.content?.collaborators
+                admins: data?.data?.content?.collaborators,
+                acceptedCollaborators: data?.data?.content[0]?.acceptedCollaborators,
+                acceptedAmins: data?.data?.content[0]?.acceptedCollaborators,
             })
 
         }

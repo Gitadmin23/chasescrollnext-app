@@ -62,7 +62,9 @@ function EventComponent() {
         },
       ],
       collaborators: [],
-      admins: []
+      admins: [],
+      acceptedAmins: [],
+      acceptedCollaborators: []
     });
   }, [])
 
