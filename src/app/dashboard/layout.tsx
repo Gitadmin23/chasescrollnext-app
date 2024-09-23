@@ -51,12 +51,12 @@ export default function Layout({ children }: {
         },
         {
             route: '/dashboard/explore',
-            icon: <SidebarSearchIcon color={pathname === "/dashboard/explore" ? true : false} />,
+            icon: <SidebarSearchIcon color={pathname?.includes("explore") ? true : false} />,
             text: 'Explore'
         },
         {
             route: '/dashboard/event',
-            icon: <SidebarCalendarIcon color={pathname === "/dashboard/event" ? true : false} />,
+            icon: <SidebarCalendarIcon color={pathname?.includes("event") ? true : false} />,
             text: 'Events'
         },
         {

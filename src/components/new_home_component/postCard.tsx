@@ -56,6 +56,7 @@ export default function PostCard(props: IMediaContent) {
     const [showReportModal, setShowReportModal] = useState(false);
     const [open, setOpen] = useState(false)
     const [openImage, setOpenImage] = useState(false)
+    const [numberComments, setNumberComments] = useState(false)
     const [openComments, setOpenComments] = useState(false)
 
     let token = localStorage.getItem('token') + "";
@@ -73,6 +74,8 @@ export default function PostCard(props: IMediaContent) {
             onSuccess: (data: any) => {
                 setLikeCount(data?.data?.likeCount)
                 setLiked(data?.data?.likeStatus);
+                setNumberComments(data?.data?.comments?.numberOfElements);
+                
             },
         },
     );
@@ -223,7 +226,7 @@ export default function PostCard(props: IMediaContent) {
                         >
                             <HomeCommentIcon size='20px' color={bodyTextColor} />
                         </Flex>
-                        <Text>{commentCount}</Text>
+                        <Text>{numberComments}</Text>
                     </Flex>
                     <Flex w={"fit-content"} cursor={data?.email ? "pointer" : "not-allowed"} alignItems={"center"}
                         h={["26px", "26px", "30px"]} gap={"2px"} >

@@ -130,11 +130,11 @@ function NotificationCard({ notification }: { notification: INotification }) {
               : headerTextColor
           }
         >
-          {notification.title}
+          {notification.title?.replaceAll("Collaborator", "Volunteer")?.replaceAll("collaborator", "Volunteer")}
         </CustomText>
         {(notification?.type === "ADMIN_MEMBER_INVITE_REQUEST" || notification?.type === "COLLABORATOR_MEMBER_INVITE_REQUEST") ? (
           <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>
-            {notification.message}
+            {notification.message?.replaceAll("Collaborator", "volunteer")?.replaceAll("collaborator", "volunteer")}
           </CustomText>
         ) : (
           <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>

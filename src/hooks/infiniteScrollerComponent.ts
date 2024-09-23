@@ -12,7 +12,8 @@ interface Props {
     newdata?: any,
     array?: any,
     name?: any,
-    search?: string
+    search?: string,
+    refetchInterval?: number
 }
 
 function InfiniteScrollerComponent(props: Props) {
@@ -22,7 +23,8 @@ function InfiniteScrollerComponent(props: Props) {
         limit,
         array, 
         name,
-        search
+        search,
+        refetchInterval
     } = props
 
     const [size, setSize] = React.useState(limit)
@@ -38,7 +40,7 @@ function InfiniteScrollerComponent(props: Props) {
         onError: (error: AxiosError<any, any>) => {
           // toast.error(error.response?.data);
         }, 
-        
+        refetchInterval: refetchInterval ? refetchInterval : false,
         onSuccess: (data: any) => {   
           if(!array) { 
             if(isRefetching){

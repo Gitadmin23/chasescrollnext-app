@@ -58,7 +58,7 @@ export default function EventDetail(props: IEventType) {
     }
 
     console.log(props);
-    
+
 
     return (
         <Flex w={"full"} flexDir={"column"} gap={["6", "6", "6", "10", "10"]} pos={"relative"} >
@@ -93,7 +93,9 @@ export default function EventDetail(props: IEventType) {
 
                         {/* Event Name */}
                         <Text fontSize={"32px"} fontWeight={"semibold"} >{eventName}</Text>
-                        <InterestedUsers fontSize={16} event={props} border={"2px"} size={"38px"} refund={true} />
+                        {props?.attendeesVisibility && (
+                            <InterestedUsers fontSize={16} event={props} border={"2px"} size={"38px"} refund={true} />
+                        )}
                     </Flex>
 
 
