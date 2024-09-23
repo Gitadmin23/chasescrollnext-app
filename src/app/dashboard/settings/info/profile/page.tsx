@@ -20,7 +20,7 @@ import useCustomTheme from '@/hooks/useTheme';
 
 function EditProfile() {
     const [user, setUser] = React.useState<IUser | null>(null);
-    const [pic, setPic] = React.useState<{ file?: '', url: '' } | null>(null); 
+    const [pic, setPic] = React.useState(null); 
     const [showEmail, setShowEmail] = React.useState(false);
     const { userId, firstName, lastName, username } = useDetails((state) => state);
     const { uploadedFile, fileUploadHandler, loading } = AWSHook();
@@ -68,7 +68,7 @@ function EditProfile() {
                     "data": {
                         "imgMain": {
                             objectPublic: true,
-                            "value": pic?.url ?? data?.website
+                            "value": pic ?? data?.website
                         },
                         "webAddress": {
                             objectPublic: true,
@@ -149,7 +149,8 @@ function EditProfile() {
             console.log(uploadedFile);
             
             if (uploadedFile.length > 0) {
-                setPic(uploadedFile[0] as any);
+                
+                setPic(uploadedFile[0]?.url as any);
             }
         }
     }, [uploadedFile, loading])
@@ -208,7 +209,7 @@ function EditProfile() {
 
                                     {
                                         user?.data.imgMain.value === null || pic !== null && (
-                                            <Image alt='prifle' src={pic.url} width={'100%'} height={'100%'} objectFit={'cover'} />
+                                            <Image alt='prifle' src={pic} width={'100%'} height={'100%'} objectFit={'cover'} />
                                         )
                                     }
 

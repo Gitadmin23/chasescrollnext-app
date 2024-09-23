@@ -82,7 +82,7 @@ function SelectLocation(props: Props) {
                             {(selectType === "Physical Location" || selectType === "Hybrid Location" || eventdata?.location?.locationDetails) && (
                                 <Box width={"full"} mt={"4"}  >
                                     <Text>Enter Address</Text>
-                                    <Input
+                                    {/* <Input
                                         type="text"
                                         h={"45px"}
                                         placeholder="Enter Event Location"
@@ -101,7 +101,7 @@ function SelectLocation(props: Props) {
                                             }
                                         })}
                                         value={eventdata?.location?.locationDetails}
-                                    />
+                                    /> */}
                                     <SelectMap />
                                 </Box>
                             )}
