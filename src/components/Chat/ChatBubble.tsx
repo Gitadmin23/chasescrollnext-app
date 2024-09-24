@@ -150,7 +150,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                     {post.media !== null && (
                         <>
                             {post.mediaType === 'PICTURE' && (
-                                <Image onClick={handleImageClick} src={`${post?.media}`} alt='img' width={'100%'} height={'150px'} objectFit={'cover'} borderRadius={'20px'} />
+                                <Image onClick={handleImageClick} src={`${post?.media?.startsWith('https://') ? post?.media : IMAGE_URL+post?.media}`} alt='img' width={'100%'} height={'150px'} objectFit={'cover'} borderRadius={'20px'} />
                             )}
                             {
                                 post.mediaType === 'VIDEO' && (
@@ -159,7 +159,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                                             <source src={post.media} />
                                         </video> */}
                                         <VideoPlayer
-                                            src={`${post?.media}`}
+                                            src={`${post?.media?.startsWith('https://') ? post?.media : IMAGE_URL+post?.media}`}
                                             measureType="px"
                                         />
                                     </Box>
@@ -176,7 +176,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                                     //     </Box>
                                     // </HStack>
                                     <Flex w={"full"} maxW={"250px"} alignItems={"center"} px={"2"} h={"full"}  >
-                                        <Flex flexDir={"column"} alignItems={"center"} flex='0.2' as='button' onClick={() => downloadFile(post.media)}>
+                                        <Flex flexDir={"column"} alignItems={"center"} flex='0.2' as='button' onClick={() => downloadFile(post?.media?.startsWith('https://') ? post?.media : IMAGE_URL+post?.media)}>
                                             <IoMdCloudDownload color={THEME.COLORS.chasescrollButtonBlue} fontSize='40px' />
                                             <CustomText textAlign={"center"} mt={"-2px"} width='80%' color="brand.chasescrollButtonBlue" fontFamily={'DM-Bold'} fontSize={'16px'}>{FileExtentions(post.media)}</CustomText>
                                         </Flex>
@@ -250,7 +250,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
 
                 <ModalLayout title={"Media"} open={show} close={setShow} size={"lg"} >
                     <Flex h={"400px"} >
-                        <Image onClick={() => setShow(true)} src={`${post?.media}`} alt='img' width={'100%'} height={'100%'} objectFit={'cover'} borderRadius={'20px'} />
+                        <Image onClick={() => setShow(true)} src={`${post?.media?.startsWith('https://') ? post?.media : IMAGE_URL+post?.media}`} alt='img' width={'100%'} height={'100%'} objectFit={'cover'} borderRadius={'20px'} />
                     </Flex>
                 </ModalLayout>
 

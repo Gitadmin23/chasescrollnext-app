@@ -1,5 +1,5 @@
 import { useDetails } from '@/global-state/useUserDetails';
-import { URLS } from '@/services/urls';
+import { IMAGE_URL, URLS } from '@/services/urls';
 import { THEME } from '@/theme';
 import httpService from '@/utils/httpService';
 import {
@@ -38,7 +38,7 @@ const DOC_FORM = ['pdf', 'doc'];
 function CommunityTextArea() {
   const [text, setText] = React.useState('');
   const [showEmoji, setShowEmoi] = React.useState(false);
-  const [files, setFiles] = React.useState<Array<{ file: string, url: string }>>([]);
+  const [files, setFiles] = React.useState<Array<any>>([]);
   const [showUploader, setShowUploader] = React.useState(false);
   const toast = useToast();
   const { username } = useDetails((state) => state)
@@ -103,7 +103,7 @@ function CommunityTextArea() {
     } else {
       // check file type
       const file = uploadedFile[0];
-      const _format_ = file?.url?.split('.');
+      const _format_ = file?.split('.');
       const format = _format_[_format_.length - 1];
       if (IMAGE_FORM.includes(format.toLowerCase())) {
         return "image/*"
@@ -151,7 +151,7 @@ function CommunityTextArea() {
     } else {
       const file = uploadedFile[0];
       if (file === undefined) return;
-      const _format_ = file?.url?.split('.');
+      const _format_ = file?.split('.');
       const format = _format_[_format_.length - 1]; 
       if (IMAGE_FORM.includes(format.toLowerCase())) {
         createPost.mutate({
@@ -159,8 +159,8 @@ function CommunityTextArea() {
           type: 'WITH_IMAGE',
           isGroupFeed: true,
           sourceId: activeCommunity?.id,
-          mediaRef: file.url,
-          multipleMediaRef: files.map((item) => item.url),
+          mediaRef: file,
+          multipleMediaRef: files.map((item) => item),
         });
       } else if (VIDEO_FORM.includes(format.toLowerCase())) {
         createPost.mutate({
@@ -168,8 +168,8 @@ function CommunityTextArea() {
           type: 'WITH_VIDEO_POST',
           isGroupFeed: true,
           sourceId: activeCommunity?.id,
-          mediaRef: file.url,
-          multipleMediaRef: files.map((item) => item.url),
+          mediaRef: file,
+          multipleMediaRef: files.map((item) => item),
         });
       } else if (DOC_FORM.includes(format.toLowerCase())) {
         createPost.mutate({
@@ -177,7 +177,7 @@ function CommunityTextArea() {
           type: 'WITH_FILE',
           isGroupFeed: true,
           sourceId: activeCommunity?.id,
-          mediaRef: file.url,
+          mediaRef: file,
           multipleMediaRef: files.map((item) => item.url),
         });
       } else {
@@ -186,7 +186,7 @@ function CommunityTextArea() {
           type: 'WITH_FILE',
           isGroupFeed: true,
           sourceId: activeCommunity?.id,
-          mediaRef: file.url,
+          mediaRef: file,
           multipleMediaRef: files.map((item) => item.url),
         });
       }
@@ -220,12 +220,13 @@ function CommunityTextArea() {
         {uploadedFile.length > 0 &&
           <Box position={"absolute"} left={"0px"} rounded={"8px"} zIndex={'10'} backgroundColor={secondaryBackgroundColor} p={"2"} top={"-120px"} width={"fit-content"} height={"fit-content"} flex='1' >
             {uploadedFile.map((item, index) => {
-              const __format__ = item.url.split('.');
+              const __format__ = item.split('.');
               const format = __format__[__format__.length - 1];
+
               if (IMAGE_FORM.includes(format)) {
                 return ( 
                     <MediaBox key={index.toString()} onClose={() => removeHandler(index)}>
-                      <Image cursor={'pointer'} src={item.url} alt='image' key={index.toString()} objectFit={'cover'} width='100%' height='100%' borderRadius={'8px'}  marginRight={'10px'} />
+                      <Image cursor={'pointer'} src={item.startsWith('https://') ? item : IMAGE_URL+item} alt='image' key={index.toString()} objectFit={'cover'} width='100%' height='100%' borderRadius={'8px'}  marginRight={'10px'} />
                     </MediaBox> 
                 )
               }
@@ -233,7 +234,7 @@ function CommunityTextArea() {
                 return (
                   <MediaBox key={index.toString()} onClose={() => removeHandler(index)}>
                     <video key={index.toString()} controls style={{ width: '100px', height: '100px', borderRadius: '8px', marginRight: '10px' }}>
-                      <source src={item.url} type='video/mp4' />
+                      <source src={item.startsWith('https://') ? item : IMAGE_URL+item} type='video/mp4' />
                     </video>
                   </MediaBox>
                 )
@@ -246,7 +247,7 @@ function CommunityTextArea() {
                         <CustomText fontFamily={'DM-Bold'} fontSize={'20px'}>{format.toUpperCase()}</CustomText>
                       </VStack>
                       <VStack alignItems={'flex-start'}>
-                        <CustomText fontFamily={'DM-Regular'} color='brand.chasescrollButtonBlue'>{item.file.length > 10 ? item.file.substring(0, 10) + '...' : item.file}</CustomText>
+                        <CustomText fontFamily={'DM-Regular'} color='brand.chasescrollButtonBlue'>{item?.length > 10 ? item.substring(0, 10) + '...' : item}</CustomText>
                         <CustomText fontFamily={'DM-Bold'} fontSize='14px' color='grey'>{format.toUpperCase()}</CustomText>
                       </VStack>
                     </HStack>

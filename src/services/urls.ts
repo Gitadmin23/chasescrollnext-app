@@ -13,6 +13,7 @@ export const URLS = {
     CREATE_POST: '/feed/create-post',
     UPLOAD_VIDEO: '/resource-api/upload-video',
     UPLOAD_IMAGE: '/resource-api/upload-image',
+    UPLOAD_IMAGE_ARRAY: '/resource-api/upload',
     GET_ALL_COMMENTS: '/feed/get-all-comments/',
     ADD_COMMENT: '/feed/add-comment',
     LIKE_COMMENT: '/feed/like-comment',
