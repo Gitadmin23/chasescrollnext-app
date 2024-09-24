@@ -1,6 +1,6 @@
 'use client';
 import { Box, Button, HStack, Image, Spinner, VStack, useColorMode, useToast } from '@chakra-ui/react'
-import React, { useEffect } from 'react'
+import React, { use, useEffect } from 'react'
 import { ArrowLeft2, ArrowRight2, Camera } from 'iconsax-react'
 import CustomText from '@/components/general/Text'
 import { THEME } from '@/theme'
@@ -47,6 +47,7 @@ function EditProfile() {
             username: user?.username,
             website: user?.data?.webAddress?.value,
             aboutme: user?.data?.about?.value,
+            image: user?.data?.imgMain?.value
         },
         validationSchema: editProfileSchema,
         submit: (data: {
@@ -54,7 +55,8 @@ function EditProfile() {
             lastName: string,
             username: string,
             website: string,
-            aboutme: string
+            aboutme: string,
+            image: string
         }) => {
             if (loading || isLoading || !isValid) {
                 return;
@@ -69,7 +71,7 @@ function EditProfile() {
                     "data": {
                         "imgMain": {
                             objectPublic: true,
-                            "value": pic ?? data?.website
+                            "value": pic ? pic : data?.image
                         },
                         "webAddress": {
                             objectPublic: true,
