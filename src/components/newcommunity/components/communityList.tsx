@@ -1,6 +1,6 @@
 "use client"
 import { Box, Flex, Image, Input, InputGroup, InputLeftElement, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ListHeader, useCommunity } from '..'
 import { textLimit } from '@/utils/textlimit'
 import { ICommunity } from '@/models/Communitty'
@@ -11,6 +11,7 @@ import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import useCustomTheme from '@/hooks/useTheme'
 import { IoSearchOutline } from 'react-icons/io5'
 import { formatTimeAgo } from '@/utils/helpers'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 interface IProps {
     tab: number
@@ -40,12 +41,32 @@ export default function CommunityList({ tab, setTab, setShow }: IProps) {
         setTab(0)
     }
 
-    console.log(activeCommunity);
-    
+    const query = useSearchParams();
+    const type = query?.get('activeID');
+
+    const router = useRouter()
+
+    useEffect(() => {
+
+        {communites?.map((item: ICommunity, index: number) => {
+                if (type === item?.id) {
+                    clickHander(item)
+                }
+            })
+        }
+    }, [type, router, loadingCommunity])
+
 
     const ListCard = (item: ICommunity) => {
+
+        // useEffect(() => {
+        //     if (type === item?.id) {
+        //         clickHander(item)
+        //     }
+        // }, [type])
+
         return (
-            <Box as='button' onClick={() => clickHander(item)} w={"full"} pos={"relative"} zIndex={"10"} borderBottomWidth={"1px"} borderBottomColor={borderColor} py={"5"} >
+            <Box as='button' onClick={() => router.push(`/dashboard/community?activeID=${item?.id}`)} w={"full"} pos={"relative"} zIndex={"10"} borderBottomWidth={"1px"} borderBottomColor={borderColor} py={"5"} >
                 <Flex rounded={"24px"} textAlign={"left"} px={"4"} gap={"3"} py={"3"} w={"full"} _hover={{ backgroundColor: borderColor }} backgroundColor={activeCommunity?.id === item?.id ? borderColor : "transparent"}  >
                     <Box w={"42px"} pos={"relative"} h={"42px"} bgColor={"ButtonText"} borderWidth={'2px'} borderBottomLeftRadius={'20px'} borderBottomRadius={'20px'} borderTopLeftRadius={'20px'}>
                         {/* <Flex bgColor={"#5465E0"} color={"white"} pos={"absolute"} zIndex={"10"} justifyContent={"center"} alignItems={"center"} top={"-2"} right={"-2"} rounded={"full"} w={"21px"} h={"21px"} fontSize={"7px"} fontWeight={"700"}  >
@@ -81,8 +102,9 @@ export default function CommunityList({ tab, setTab, setShow }: IProps) {
                 <Flex w={"full"} h={"auto"} overflowY={"auto"} px={"5"} flexDir={"column"}  >
                     {communites?.map((item: ICommunity, index: number) => {
                         if (communites?.length === index + 1) {
+
                             return (
-                                <Box  w={"full"} key={index} >
+                                <Box w={"full"} key={index} >
                                     <ListCard {...item} />
                                 </Box>
                             )

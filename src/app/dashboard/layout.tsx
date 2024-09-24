@@ -2,19 +2,28 @@
 import { useDetails } from '@/global-state/useUserDetails'
 import { Box, Button, Flex, HStack, Image, Link, Switch, Text, Tooltip, VStack, useColorMode } from '@chakra-ui/react'
 import React, { ReactNode, useState } from 'react'
-import { NewChatIcon, NewWalletIcon, SidebarCalendarIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarNotificationIcon, SidebarProfileIcon, SidebarSearchIcon, SidebarWalletIcon } from '@/components/svg/sidebarIcons';
+import { NewChatIcon, NewWalletIcon, NotificationIcon, SidebarCalendarIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarNotificationIcon, SidebarProfileIcon, SidebarSearchIcon, SidebarWalletIcon } from '@/components/svg/sidebarIcons';
 import { usePathname, useRouter } from 'next/navigation';
-import SearchBar from '@/components/explore_component/searchbar'; 
+import SearchBar from '@/components/explore_component/searchbar';
 import { signOut, useSession } from 'next-auth/react';
 import UserImage from '@/components/sharedComponent/userimage';
 import CustomText from '@/components/general/Text';
-import { HomeIcon, UsersIcon } from '@/components/svg'; 
-import { SearchNormal1, Calendar, Warning2, LogoutCurve } from 'iconsax-react';
+import { HomeIcon, UsersIcon } from '@/components/svg';
+import { SearchNormal1, Calendar, Warning2, LogoutCurve, Notification } from 'iconsax-react';
 import useCustomTheme from '@/hooks/useTheme';
 import getUser from '@/hooks/useGetUser';
 import CreateEventBtn from '@/components/sharedComponent/create_event_btn';
-import useModalStore from '@/global-state/useModalSwitch'; 
+import useModalStore from '@/global-state/useModalSwitch';
 import ModalLayout from '@/components/sharedComponent/modal_layout';
+import NotificationPage from '@/components/notification/NotificationsPage';
+import NotificationBar from '@/components/notification';
+import { useQuery } from 'react-query';
+import httpService from '@/utils/httpService';
+import { URLS } from '@/services/urls';
+import { PaginatedResponse } from '@/models/PaginatedResponse';
+import { INotification } from '@/models/Notifications';
+import { useNotification } from '@/global-state/useNotification';
+import useNotificationHook from '@/hooks/useNotificationHook';
 
 export default function Layout({ children }: {
     children: ReactNode
@@ -27,9 +36,10 @@ export default function Layout({ children }: {
     }
 
     const { userId, setAll, user: data, } = useDetails((state) => state);
-    const [open, setOpen] = useState(false) 
+    const [open, setOpen] = useState(false)
+    const [show, setShow] = useState(false)
     const router = useRouter()
-    const { setGoogle } = useModalStore((state) => state);
+    const { setGoogle, notifyModal, setNotifyModal } = useModalStore((state) => state);
     const pathname = usePathname()
 
     const { colorMode, toggleColorMode } = useColorMode();
@@ -41,12 +51,12 @@ export default function Layout({ children }: {
         },
         {
             route: '/dashboard/explore',
-            icon: <SidebarSearchIcon color={pathname === "/dashboard/explore" ? true : false} />,
+            icon: <SidebarSearchIcon color={pathname?.includes("explore") ? true : false} />,
             text: 'Explore'
         },
         {
             route: '/dashboard/event',
-            icon: <SidebarCalendarIcon color={pathname === "/dashboard/event" ? true : false} />,
+            icon: <SidebarCalendarIcon color={pathname?.includes("event") ? true : false} />,
             text: 'Events'
         },
         {
@@ -59,16 +69,11 @@ export default function Layout({ children }: {
             icon: <SidebarEventIcon color={pathname === "/dashboard/community" ? true : false} />,
             text: 'Community'
         },
-        // {
-        //     route: '/dashboard/community',
-        //     icon: <SidebarNotificationIcon />,
-        //     text: 'Community'
-        // },
-        // {
-        //     route: `/dashboard/profile/${userId}`,
-        //     icon: <SidebarProfileIcon color={pathname?.includes("profile") ? true : false} />,
-        //     text: 'Profile'
-        // },
+        {
+            route: '',
+            icon: <NotificationIcon color={pathname === "/dashboard/notification" ? true : false} />,
+            text: 'Notification'
+        },
         {
             route: `/dashboard/settings/payment/details`,
             icon: <SidebarWalletIcon color={pathname === "/dashboard/settings/payment/details" ? true : false} />,
@@ -76,15 +81,17 @@ export default function Layout({ children }: {
         }
     ];
 
+
+    // <Notification color={THEME.COLORS.chasescrollBlue} size='30px' variant='Outline' onClick={() => setActive(prev => !prev)} />
     const { user } = getUser()
 
 
-    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor, headerTextColor } = useCustomTheme();
 
-    const logout = async () => { 
+    const logout = async () => {
         await signOut();
         setAll({ userId: '', dob: '', email: '', username: '', firstName: '', lastName: '', publicProfile: '' });
-        localStorage.clear(); 
+        localStorage.clear();
         // router?.push("/auth")
 
     }
@@ -98,27 +105,48 @@ export default function Layout({ children }: {
         if ((status === "unauthenticated" && !Id)) {
             router.push('/auth')
         } else {
-            setAll({ userId: Id ?? "" }); 
+            setAll({ userId: Id ?? "" });
         }
-    }, [Id, status, router]); 
-    
+    }, [Id, status, router]);
 
+    const { count } = useNotificationHook() 
+    
     return (
-        <Flex w={"full"} h={"100vh"} bg={mainBackgroundColor} > 
+        <Flex w={"full"} h={"100vh"} bg={mainBackgroundColor} >
             {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
                 <Flex w={"fit-content"} h={"screen"} display={["none", "none", "none", "flex", "flex"]} >
                     <Flex w={"110px"} h={"screen"} gap={"4"} overflowY={"auto"} flexDir={"column"} py={"4"} alignItems={"center"} justifyContent={"space-between"} borderRightColor={borderColor} borderRightWidth={"1px"} >
-                        <Image alt='logo' src='/images/logo.png' w={"50px"} />
+                        <Box as='button' onClick={() => router?.push("/")} >
+                            <Image alt='logo' src='/images/logo.png' w={"50px"} />
+                        </Box>
                         <Flex flexDir={"column"} alignItems={"center"} gap={"3"} >
 
                             {routes?.map((item, index) => (
-                                <Flex as={"button"} onClick={() => router?.push(item?.route)} key={index} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
-                                    <Tooltip label={item?.text} fontSize='sm'>
-                                        <Box>
-                                            {item?.icon}
-                                        </Box>
-                                    </Tooltip>
-                                </Flex>
+                                <>
+                                    {item?.text !== "Notification" && (
+                                        <Flex as={"button"} onClick={() => router?.push(item?.route)} key={index} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
+                                            <Tooltip label={item?.text} fontSize='sm'>
+                                                <Box>
+                                                    {item?.icon}
+                                                </Box>
+                                            </Tooltip>
+                                        </Flex>
+                                    )}
+                                    {item?.text === "Notification" && (
+                                        <Flex as={"button"} onClick={() => setNotifyModal(true)} key={index} w={"75px"} h={"56px"} position={"relative"} justifyContent={"center"} alignItems={"center"} >
+                                            <Tooltip label={item?.text} fontSize='sm'>
+                                                <Box>
+                                                    {item?.icon}
+                                                </Box>
+                                            </Tooltip>
+                                            {count && (
+                                                <Flex w={"5"} h={"5"} rounded={"full"} bg={primaryColor} color={"white"} justifyContent={"center"} position={"absolute"} top={"1"} right={"2"} alignItems={"center"} fontWeight={"semibold"} fontSize={"12px"}  >
+                                                    {count}
+                                                </Flex>
+                                            )}
+                                        </Flex>
+                                    )}
+                                </>
                             ))}
 
                         </Flex>
@@ -168,7 +196,7 @@ export default function Layout({ children }: {
                         </Flex>
                         <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"3"} >
                             <CreateEventBtn mobile={true} />
-                            <Flex  zIndex={20} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
+                            <Flex zIndex={20} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
 
                                 <Flex onClick={() => router?.push("/dashboard/chats")} h={"20px"} alignItems={"center"} as='button' >
                                     <NewChatIcon />
@@ -277,6 +305,10 @@ export default function Layout({ children }: {
                         </Button>
                     </VStack>
                 </VStack>
+            </ModalLayout>
+
+            <ModalLayout open={notifyModal} size={"xl"} title={"Notification"} close={setNotifyModal} >
+                <NotificationBar />
             </ModalLayout>
         </Flex>
     )

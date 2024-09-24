@@ -167,7 +167,7 @@ const useHome = () => {
                 isGroupFeed: false,
                 sourceId: Id,
                 mediaRef: uploadedFile[0].url,
-                multipleMediaRef: uploadedFile.map((item) => item.url),
+                multipleMediaRef: uploadedFile.map((item) => item),
             }
             createPost({ ...obj });
         }

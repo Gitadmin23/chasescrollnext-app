@@ -52,7 +52,8 @@ function EventDate(props: Props) {
                     </Flex>
                 )}
                 {eventdashboard && (
-                    <Text fontSize={"12px"} color={bodyTextColor} >{dateFormat(date)} {timeFormat(date)} ({new Date(date).toLocaleTimeString('en-us', { timeZoneName: 'short' }).split(' ')[2]})</Text>
+                    <Text fontSize={"12px"} color={bodyTextColor} >{dateFormat(date)} 
+            </Text>
                 )}
             </Flex>
         </Box>

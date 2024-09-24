@@ -7,25 +7,24 @@ import React from 'react'
 import ExploreEventCard from '../event_card';
 import LoadingAnimation from '../loading_animation';
 import { boolean } from 'zod';
+import NewEventCard from '../event_card/newEventCard';
 
 interface Props {
     user_index: any,
     myevent?: boolean,
-    profile?: boolean
+    profile?: boolean, 
 }
 
 function GetEventById(props: Props) {
     const {
-        user_index,
-        myevent,
-        profile
+        user_index 
     } = props 
 
-    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.JOINED_EVENT + user_index, limit: 10, filter: "id" })
+    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.JOINED_EVENT+ user_index, limit: 10, filter: "id" })
 
     return (
         <HStack height={"fit-content"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"}  >
-            <Box width={["full", "full", "600px"]} px={"6"} position={"relative"} >
+            <Box width={["full", "full", "full", "70%", "70%"]} px={"6"} position={"relative"} >
                 <Box width={"full"}  >
                     <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
                         <Flex gap={"4"} flexDirection={"column"} >
@@ -33,13 +32,15 @@ function GetEventById(props: Props) {
                                 if (results.length === i + 1) {
                                     return (
                                         <Box key={event?.userId} width={"full"} ref={ref} >
-                                            <ExploreEventCard my_event={myevent} profile={profile} event={event} />
+                                            {/* <ExploreEventCard my_event={myevent} profile={profile} event={event} /> */}
+                                            <NewEventCard  {...event}/>
                                         </Box>
                                     )
                                 } else {
                                     return (
                                         <Box key={event?.userId} width={"full"}  >
-                                            <ExploreEventCard my_event={myevent} profile={profile} event={event} />
+                                            {/* <ExploreEventCard my_event={myevent} profile={profile} event={event} /> */}
+                                            <NewEventCard  {...event}/>
                                         </Box>
                                     )
                                 }

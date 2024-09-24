@@ -1,4 +1,5 @@
 import useEventStore from '@/global-state/useCreateEventState';
+import useCustomTheme from '@/hooks/useTheme';
 import { Flex } from '@chakra-ui/react';
 import React, { useState } from 'react'
 import { IoArrowDown, IoChevronDown, IoChevronUp } from 'react-icons/io5';
@@ -26,6 +27,14 @@ export default function SelectEventType({ options }: { options: Array<Obj> }) {
         option.label.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const {
+        bodyTextColor,
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        borderColor,
+    } = useCustomTheme(); 
+
     const handleOptionClick = (option: any) => {
         console.log(option);
         
@@ -43,7 +52,7 @@ export default function SelectEventType({ options }: { options: Array<Obj> }) {
     
 
     return (
-        <Flex pos={"relative"} rounded={"sm"} w={"full"} >
+        <Flex pos={"relative"}  rounded={"sm"} w={"full"} >
             <Flex
                 w={"full"}
                 onClick={() => setIsOpen(!isOpen)}
@@ -74,7 +83,7 @@ export default function SelectEventType({ options }: { options: Array<Obj> }) {
                         right: '0',
                         border: '1px solid #ccc',
                         borderRadius: '4px',
-                        backgroundColor: '#fff',
+                        backgroundColor: mainBackgroundColor,
                         zIndex: 1000
                     }}
                 >
@@ -83,14 +92,15 @@ export default function SelectEventType({ options }: { options: Array<Obj> }) {
                             type="text"
                             placeholder="Search..."
                             value={searchTerm}
+                            
                             onChange={(e) => setSearchTerm(e.target.value)}
                             style={{
                                 width: '90%',
                                 padding: '10px',
                                 boxSizing: 'border-box',
                                 border: '1px solid #ccc',
-                                borderRadius: "8px"
-
+                                borderRadius: "8px",
+                                background: secondaryBackgroundColor
                             }}
                         />
                     </Flex>

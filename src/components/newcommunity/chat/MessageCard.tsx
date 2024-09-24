@@ -167,14 +167,14 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                     {post.mediaRef !== null && (
                         <>
                             {post.type === 'WITH_IMAGE' && (
-                                <Image onClick={() => setShow(true)} src={`${post?.mediaRef}`} alt='img' width={'100%'} height={'150px'} objectFit={'cover'} borderRadius={'20px'} />
+                                <Image onClick={() => setShow(true)} src={`${post?.mediaRef.startsWith('https://') ? post?.mediaRef : IMAGE_URL+post?.mediaRef}`} alt='img' width={'100%'} height={'150px'} objectFit={'cover'} borderRadius={'20px'} />
                             )}
                             {
                                 post.type === 'WITH_VIDEO_POST' && (
                                     <Flex as={"button"} onClick={() => setShow(true)} w={"250px"} h={"150px"} justifyContent={"center"} alignItems={"center"} rounded={"2xl"} bgColor={mainBackgroundColor} >
                                         {/* <RiFolderVideoLine size={"40px"} color={"white"} /> */}
                                         <VideoPlayer
-                                            src={`${post?.mediaRef}`}
+                                            src={`${post?.mediaRef.startsWith('https://') ? post?.mediaRef : IMAGE_URL+post?.mediaRef}`}
                                             measureType="px"
                                         />
                                         {/* {} */}
@@ -187,11 +187,11 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                             {
                                 post.type === 'WITH_FILE' && (
                                     <HStack width='100%' height={'100px'} >
-                                        <Box flex='0.2' onClick={() => downloadFile(post.mediaRef)}>
+                                        <Box flex='0.2' onClick={() => downloadFile(post?.mediaRef.startsWith('https://') ? post?.mediaRef : IMAGE_URL+post?.mediaRef)}>
                                             <IoMdCloudDownload color={THEME.COLORS.chasescrollButtonBlue} fontSize='40px' />
                                         </Box>
                                         <Box width='100%'>
-                                            <CustomText width='80%' color="brand.chasescrollButtonBlue" fontFamily={'DM-Bold'} fontSize={'16px'}>{FileExtentions(post.mediaRef)}</CustomText>
+                                            <CustomText width='80%' color="brand.chasescrollButtonBlue" fontFamily={'DM-Bold'} fontSize={'16px'}>{FileExtentions(post?.mediaRef.startsWith('https://') ? post?.mediaRef : IMAGE_URL+post?.mediaRef)}</CustomText>
                                         </Box>
                                     </HStack>
                                 )

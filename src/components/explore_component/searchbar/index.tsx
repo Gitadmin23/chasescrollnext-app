@@ -4,19 +4,21 @@ import {InputGroup, InputLeftElement, Input, Box, Flex, useColorMode} from '@cha
 import { usePathname } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { IoSearchOutline } from 'react-icons/io5'
-import useCustomTheme from "@/hooks/useTheme";
+import useCustomTheme from "@/hooks/useTheme"; 
 
 interface Props {
     home?: boolean,
     change?: boolean,
-    landing?: boolean
+    landing?: boolean,
+    event?: boolean
 }
 
 function SearchBar(props: Props) {
     const {
         home,
         change,
-        landing
+        landing,
+        event
     } = props
 
     const { search, setSearchValue } = useSearchStore((state) => state);
@@ -36,7 +38,7 @@ function SearchBar(props: Props) {
                 <InputLeftElement pointerEvents='none'>
                     <IoSearchOutline size={"25px"} color={landing? "black":bodyTextColor} />
                 </InputLeftElement>
-                <Input width={["full", "full", "361px"]} value={search} color={landing? "black" :bodyTextColor} onChange={(e) => setSearchValue(e.target.value)} type='text' borderColor={borderColor} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} _placeholder={{ color: landing? "black" :bodyTextColor }} bgColor={landing ?  "white":secondaryBackgroundColor} placeholder='Search for users, event or...' />
+                <Input width={["full", "full", "361px"]} value={search} color={landing? "black" :bodyTextColor} onChange={(e) => setSearchValue(e.target.value)} type='text' borderColor={borderColor} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} _placeholder={{ color: landing? "black" :bodyTextColor }} bgColor={landing ?  "white":secondaryBackgroundColor} placeholder={event ? 'Search for events' : 'Search for users, event or...'} />
             </InputGroup>
             {!change && (
                 <>

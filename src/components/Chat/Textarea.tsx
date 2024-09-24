@@ -1,5 +1,5 @@
 import { useDetails } from '@/global-state/useUserDetails';
-import { URLS } from '@/services/urls';
+import { IMAGE_URL, URLS } from '@/services/urls';
 import { THEME } from '@/theme';
 import httpService from '@/utils/httpService';
 import { HStack, Input, Spinner, VStack, Popover,
@@ -36,7 +36,7 @@ function TextArea() {
   const [text, setText] = React.useState('');
   const [showEmoji, setShowEmoi] = React.useState(false);
   const [showUploader, setShowuploader] = React.useState(false);
-  const [files, setFiles] = React.useState<Array<{ file: string, url: string }>>([]);
+  const [files, setFiles] = React.useState<Array<any>>([]);
   const toast = useToast();
   const { username } = useDetails((state) => state)
 
@@ -113,7 +113,7 @@ const { colorMode, toggleColorMode } = useColorMode();
     } else {
       // check file type
       const file = uploadedFile[0];
-      const _format_ = file?.url?.split('.');
+      const _format_ = file?.split('.');
       const format = _format_[_format_.length - 1];
       if (IMAGE_FORM.includes(format.toLowerCase())) {
         return "image/*"
@@ -147,7 +147,7 @@ const { colorMode, toggleColorMode } = useColorMode();
     } else {
       const file = uploadedFile[0];
       if (file === undefined) return;
-      const _format_ = file?.url?.split('.');
+      const _format_ = file?.split('.');
       const format = _format_[_format_.length - 1];
       console.log(format);
       if (IMAGE_FORM.includes(format.toLowerCase())) {
@@ -155,16 +155,16 @@ const { colorMode, toggleColorMode } = useColorMode();
           message: text,
           mediaType: 'PICTURE',
           chatID: activeChat?.id,
-          media: file.url,
-          multipleMediaRef: files.map((item) => item.url),
+          media: file,
+          multipleMediaRef: files.map((item) => item),
         });
       } else if (VIDEO_FORM.includes(format.toLowerCase())) {
         createPost.mutate({
             message: text,
             mediaType: 'VIDEO',
             chatID: activeChat?.id,
-            media: file.url,
-            multipleMediaRef: files.map((item) => item.url),
+            media: file,
+            multipleMediaRef: files.map((item) => item),
         });
       } else if (DOC_FORM.includes(format.toLowerCase())) {
         createPost.mutate({
@@ -172,7 +172,7 @@ const { colorMode, toggleColorMode } = useColorMode();
             mediaType: 'DOCUMENT',
             chatID: activeChat?.id,
             media: file.url,
-            multipleMediaRef: files.map((item) => item.url),
+            multipleMediaRef: files.map((item) => item),
         });
       } else {
         createPost.mutate({
@@ -180,7 +180,7 @@ const { colorMode, toggleColorMode } = useColorMode();
           mediaType: 'DOCUMENT',
           chatID: activeChat?.id,
           media: file.url,
-          multipleMediaRef: files.map((item) => item.url),
+          multipleMediaRef: files.map((item) => item),
       }); 
       }
     }
@@ -206,12 +206,12 @@ const { colorMode, toggleColorMode } = useColorMode();
               <Box width={'100%'} height={'100px'} flex='1' display={'inline-block'} whiteSpace={'nowrap'}>
                 {
                   uploadedFile.map((item, index) => {
-                    const __format__ = item.url.split('.');
+                    const __format__ = item.split('.');
                     const format = __format__[__format__.length - 1];
                     if (IMAGE_FORM.includes(format)) {
                       return (
                         <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
-                          <Image cursor={'pointer'} src={item.url} alt='image' key={index.toString()} objectFit={'cover'} width='60px' height='60px' borderRadius={'8px'} display={'inline'} marginRight={'10px'} />
+                          <Image cursor={'pointer'} src={item.startsWith('https://') ? item : IMAGE_URL+item} alt='image' key={index.toString()} objectFit={'cover'} width='60px' height='60px' borderRadius={'8px'} display={'inline'} marginRight={'10px'} />
                         </MediaBox>
                       )
                     }
@@ -219,7 +219,7 @@ const { colorMode, toggleColorMode } = useColorMode();
                       return (
                         <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
                           <video key={index.toString()} controls style={{ width: '60px', height: '60px', borderRadius: '8px', marginRight: '10px' }}>
-                            <source src={item.url} type='video/mp4'  />
+                            <source src={item.startsWith('https://') ? item : IMAGE_URL+item} type='video/mp4'  />
                           </video>
                         </MediaBox>
                       )
@@ -232,7 +232,7 @@ const { colorMode, toggleColorMode } = useColorMode();
                                 <CustomText fontFamily={'DM-Bold'} fontSize={'20px'}>{format.toUpperCase()}</CustomText>
                             </VStack>
                             <VStack alignItems={'flex-start'}>
-                                <CustomText fontFamily={'DM-Regular'} color='brand.chasescrollButtonBlue'>{item.file.length > 10 ? item.file.substring(0, 10) + '...': item.file}</CustomText>
+                                <CustomText fontFamily={'DM-Regular'} color='brand.chasescrollButtonBlue'>{item.length > 10 ? item.substring(0, 10) + '...': item}</CustomText>
                                 <CustomText fontFamily={'DM-Bold'} fontSize='14px' color='grey'>{format.toUpperCase()}</CustomText>
                             </VStack>
                           </HStack>

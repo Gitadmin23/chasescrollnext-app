@@ -3,6 +3,7 @@ import React from 'react'
 import useCustomTheme from "@/hooks/useTheme";
 import { IoMdArrowBack } from 'react-icons/io';
 import { IoArrowBack } from 'react-icons/io5';
+import { useRouter } from 'next/navigation';
 
 interface IProps {
     activeTab: number;
@@ -38,14 +39,29 @@ function CommunityTab({ activeTab, setActiveTab }: IProps) {
         mainBackgroundColor, 
     } = useCustomTheme(); 
 
+    const router = useRouter()
+
+    const clickHandler = (item: any) => { 
+        if(item === 2) {
+            router.push("/dashboard/community?tab=request")
+        } else {
+            router.push("/dashboard/community?tab=find")
+        }
+    }
+
+    const backHandler = () => { 
+        router.push("/dashboard/community")
+        setActiveTab(0)
+    }
+
     return (
         <Flex width='100%' bg={mainBackgroundColor} gap={"4"} alignItems={'center'}  >
-            <Box onClick={()=> setActiveTab(0)} as='button' display={["block", "block", "none", "none", "none"]} >
+            <Box onClick={backHandler} as='button' display={["block", "block", "none", "none", "none"]} >
                 <IoArrowBack size={"20px"} />
             </Box>
             <Flex bg={mainBackgroundColor} gap={"4"} rounded={"md"} >
                 {TAB_TITLES.map((item, index) => (
-                    <Tab index={index + 1} title={item} key={index.toString()} isActive={activeTab === index + 1} onChange={setActiveTab} />
+                    <Tab index={index + 1} title={item} key={index.toString()} isActive={activeTab === index + 1} onChange={clickHandler} />
                 ))}
             </Flex> 
         </Flex>

@@ -948,6 +948,25 @@ export const ShareIcon = (props: any) => {
   );
 };
 
+
+export const NewSaveIcon = (props: any) => {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15.8334 17.5L10.0001 14.1667L4.16675 17.5V4.16667C4.16675 3.72464 4.34234 3.30072 4.6549 2.98816C4.96746 2.67559 5.39139 2.5 5.83341 2.5H14.1667C14.6088 2.5 15.0327 2.67559 15.3453 2.98816C15.6578 3.30072 15.8334 3.72464 15.8334 4.16667V17.5Z" stroke={props?.color ? props?.color : "#626262"} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  )
+}
+
+export const NewShareIcon = (props: any) => {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3.33325 10V16.6667C3.33325 17.1087 3.50885 17.5326 3.82141 17.8452C4.13397 18.1577 4.55789 18.3333 4.99992 18.3333H14.9999C15.4419 18.3333 15.8659 18.1577 16.1784 17.8452C16.491 17.5326 16.6666 17.1087 16.6666 16.6667V10" stroke={props?.color ? props?.color : "#626262"} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M13.3334 4.99935L10.0001 1.66602L6.66675 4.99935" stroke={props?.color ? props?.color : "#626262"} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M10 1.66602V12.4993" stroke={props?.color ? props?.color : "#626262"} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  )
+}
+
 export const ScanIcon = ({ color }: { color?: string }) => {
   return (
     <svg
@@ -2390,6 +2409,12 @@ export const UsersIcon = () => (
     />
   </svg>
 );
+
+export const LinkIcon = () => (
+  <svg width="22" height="14" viewBox="0 0 22 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13.99 12.5H15.5C18.52 12.5 21 10.03 21 7C21 3.98 18.53 1.5 15.5 1.5H13.99M8 1.5H6.5C5.04212 1.50264 3.64471 2.08295 2.61383 3.11383C1.58295 4.14471 1.00264 5.54212 1 7C1 10.02 3.47 12.5 6.5 12.5H8M7 7H15" stroke="#5465E0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+)
 
 export const CalendarIcon = () => (
   <svg

@@ -3,7 +3,7 @@ import { AddIcon, SubtractIcon } from '@/components/svg';
 import useEventStore from '@/global-state/useCreateEventState';
 import { Box, Flex, Input, Select, Text, useToast } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
-import EarlyBird from './earlyBird';
+import EarlyBird from './earlyBird'; 
 
 interface Props {
     type?: string,

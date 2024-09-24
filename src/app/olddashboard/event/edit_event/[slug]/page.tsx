@@ -53,8 +53,10 @@ function EditEvent({ params }: { params: { slug: string } }) {
                 // expirationDate: "",
                 location: data?.data?.content[0]?.location,
                 productTypeData: data?.data?.content[0]?.productTypeData,
-                collaborators: data?.data?.content?.collaborators,
-                admins: data?.data?.content?.collaborators
+                collaborators: data?.data?.content[0]?.collaborators,
+                admins: data?.data?.content[0]?.collaborators,
+                acceptedCollaborators: data?.data?.content[0]?.acceptedCollaborators,
+                acceptedAmins: data?.data?.content[0]?.acceptedCollaborators,
             })
 
         }

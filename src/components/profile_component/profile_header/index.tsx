@@ -27,7 +27,7 @@ function ProfileHeader(props: Props) {
     const { colorMode, toggleColorMode } = useColorMode();
 
     return (
-        <Flex bgColor={secondaryBackgroundColor} justifyContent={"space-between"} borderBottomWidth={"0.5px"} borderBottomColor={borderColor} py={"6"} px={["4", "20"]} >  
+        <Flex bgColor={mainBackgroundColor} justifyContent={"space-between"} borderBottomWidth={"0.5px"} borderBottomColor={borderColor} py={"6"} px={["4", "20"]} >  
             {/* <HeaderLayout name='Posts' count='230' icon={<PostGridIcon />} link='' />  */}
             <PostHeader user_index={user_index} /> 
             <NetworkHeader user_index={user_index} /> 

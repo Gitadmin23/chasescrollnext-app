@@ -20,6 +20,8 @@ export type CreateEvent = {
     id?: string
     picUrls: Array<any>,
     collaborators: Array<any>,
+    acceptedAmins:  Array<any>,
+    acceptedCollaborators:  Array<any>,
     admins: Array<any>,
     eventType: string,
     eventName: string,
@@ -87,6 +89,8 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
         ],
         admins: [
         ],
+        acceptedAmins:  [],
+        acceptedCollaborators:  [],
         eventType: "",
         eventName: "",
         eventDescription: "",

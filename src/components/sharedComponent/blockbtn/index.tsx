@@ -9,6 +9,7 @@ import React, { useState } from 'react'
 import { CgMore } from "react-icons/cg";
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import LoadingAnimation from '../loading_animation';
+import useCustomTheme from '@/hooks/useTheme';
 
 interface Props {
     data?: any,
@@ -37,8 +38,7 @@ function BlockBtn(props: Props) {
     const { userId } = useDetails((state) => state);
     const queryClient = useQueryClient()
 
-    console.log(data);
-
+    const { bodyTextColor, mainBackgroundColor, borderColor } = useCustomTheme();
 
     const self = userId === user_index;
 
@@ -55,11 +55,7 @@ function BlockBtn(props: Props) {
             });
             setIds(ids);
         }
-    });
-
-    console.log(user_index);
-
-    console.log(ids);
+    }); 
 
 
     const handleBlock = useMutation({
@@ -155,7 +151,7 @@ function BlockBtn(props: Props) {
                 <>
                     {ids.includes(user_index) && (
 
-                        <Button height={"fit-content"} _hover={{ backgroundColor: "white" }} fontWeight={"normal"} bgColor={"white"} isLoading={isLoading || isRefetching || handleUnblock?.isLoading} onClick={() => handleUnblock.mutate()} fontSize={"md"} width={"full"}>
+                        <Button height={"fit-content"} _hover={{ backgroundColor: mainBackgroundColor }} fontWeight={"normal"} bgColor={mainBackgroundColor} isLoading={isLoading || isRefetching || handleUnblock?.isLoading} onClick={() => handleUnblock.mutate()} fontSize={"md"} width={"full"}>
 
                             Unblock
                         </Button>
@@ -168,7 +164,7 @@ function BlockBtn(props: Props) {
                         //     Block
                         // </Text>
 
-                        <Button height={"fit-content"} _hover={{ backgroundColor: "white" }} fontWeight={"normal"} bgColor={"white"} isLoading={isLoading || isRefetching || handleBlock?.isLoading} onClick={() => handleBlock.mutate({
+                        <Button height={"fit-content"} _hover={{ backgroundColor: mainBackgroundColor }} fontWeight={"normal"} bgColor={mainBackgroundColor} isLoading={isLoading || isRefetching || handleBlock?.isLoading} onClick={() => handleBlock.mutate({
                             blockType: "USER",
                             typeID: user_index,
                         })} fontSize={"md"} width={"full"}>
@@ -192,7 +188,7 @@ function BlockBtn(props: Props) {
             )}
             {showModal === user_index && (
                 <Box position={"absolute"} zIndex={"20"} right={"0px"} left={"0px"} top={"25px"}  >
-                    <Button onClick={(e) => blockSuggestion(e)} fontSize={"sm"} width={"full"}>
+                    <Button onClick={(e) => blockSuggestion(e)} fontSize={"sm"}  _hover={{ backgroundColor: mainBackgroundColor }} bgColor={mainBackgroundColor} width={"full"}>
                         {loading === user_index ? "Loading.." : "Block"}
                     </Button>
                 </Box>

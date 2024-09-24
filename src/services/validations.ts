@@ -97,6 +97,7 @@ const editProfileSchema = z.object({
     username: z.string().nonempty("Your username cannot be blank").min(3),
     website: z.string().min(0).optional().nullable(),
     aboutme: z.string().min(0).optional().nullable(),
+    image: z.string().min(0).optional().nullable(),
 });
 
 const editPersonalInfoSchema = z.object({

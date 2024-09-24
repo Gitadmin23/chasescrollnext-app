@@ -20,6 +20,7 @@ import { textLimit } from "@/utils/textlimit";
 import ModalLayout from "../modal_layout";
 import CustomButton from "@/components/general/Button";
 import ViewTicket from "@/components/event_details_component/event_modal/view_ticket";
+import { capitalizeFLetter } from "@/utils/capitalLetter";
 
 interface Props {
     event: any;
@@ -107,13 +108,11 @@ function ExploreEventCard(props: Props) {
             bg={secondaryBackgroundColor}
             onClick={() => clickHandler()}
             py={searchbar ? ((landing || upcoming) ? "0px" : "2") : upcoming ? "0px" : ["6", "6", "4"]}
-            //   px={landing ? "" : ["6", "6", "4"]}
             roundedBottom={"32px"}
             roundedTopLeft={"32px"}
             borderColor={borderColor}
             color={landingcolor ? "black" : headerTextColor}
             borderBottomWidth={searchbar ? " " : "0.5px"}
-            // maxWidth={[landingcolor? "full":"400px", landing? "full":"400px", "full"]}
             width={"full"}
             height={"full"}
             position={"relative"}
@@ -121,11 +120,8 @@ function ExploreEventCard(props: Props) {
             <Flex
                 flexDirection={[searchbar ? "row" : "column", searchbar ? "row" : "column", page ? "column" : "row"]}
                 width={"full"}
-                // flex={"1"}
                 alignItems={"center"}
                 color={landingcolor ? "black" : ""}
-
-            // justifyContent={searchbar? "":"space-between"}
             >
                 <Box width={[searchbar ? "fit-content" : "full", searchbar ? "fit-content" : "full", page ? "full" : "fit-content"]}>
                     {page ? (
@@ -272,187 +268,41 @@ function ExploreEventCard(props: Props) {
                         )}
 
                         {(my_event || past) && (
-                            <Flex
-                                justifyContent={"space-between"}
-                                gap={"3"}
-                                flexDirection={"column"}
-                                width={"full"}
-                            >
-                                {!past && (
-                                    <Flex
-                                        gap={"2"}
-                                        fontSize={"sm"}
-                                        alignItems={"center"}
-                                        color={bodyTextColor}
-                                    >
-                                        <Text>Category:</Text>
-                                        <Text color={"brand.chasescrollBlue"} fontWeight={"bold"}>
-                                            {event?.eventType?.replace("_", " ")}
-                                        </Text>
+                            <Flex flexDir={"column"} gap={"2"} w={["full", "full", "fit-content", "fit-content"]} >
+                                <Text fontSize={["lg", "lg", "32px"]} fontWeight={"semibold"} >{textLimit(capitalizeFLetter(event?.eventName), 20)}</Text>
+                                <Box  >
+                                    <InterestedUsers fontSize={15} event={event} border={"2px"} size={"30px"} />
+                                </Box>
+                                <Flex minW={["100px", "100px", "150px"]} gap={"2"} alignItems={"center"} maxW={["full", "full", "200px", "200px"]} >
+                                    <Flex w={"fit-content"} flexDir={"column"} fontWeight={"bold"}>
+                                        <Flex
+                                            width={"50px"}
+                                            flexDir={"column"}
+                                            py={"2px"}
+                                            borderWidth={"1px"}
+                                            alignItems={"center"}
+                                            roundedBottom={"2xl"}
+                                            roundedTopLeft={"2xl"}
+                                        >
+                                            <Text
+                                                fontSize={"11.37px"}
+                                                lineHeight={"14.81px"}
+                                                color={"#3D37F1"}
+                                            >
+                                                {moment(event?.startDate).format("MMM")}
+                                            </Text>
+                                            <Text fontSize={"28.43px"} mt={"-1"} lineHeight={"37.01px"}>
+                                                {moment(event?.startDate).format("D")}
+                                            </Text>
+                                        </Flex>
                                     </Flex>
-                                )}
-                                <Flex
-                                    alignItems={"center"}
-                                    gap={"3"}
-                                    justifyContent={[
-                                        "space-between",
-                                        "space-between",
-                                        "space-between",
-                                        "",
-                                    ]}
-                                >
-                                    {event?.isOrganizer &&
-                                        !event?.admins?.some((obj: any) =>
-                                            Object.values(obj).some(
-                                                (val) =>
-                                                    typeof val === "string" && val.includes(userId),
-                                            ),
-                                        ) &&
-                                        !event?.collaborators?.some((obj: any) =>
-                                            Object?.values(obj)?.some(
-                                                (val) =>
-                                                    typeof val === "string" && val?.includes(userId),
-                                            ),
-                                        ) && (
-                                            <Flex
-                                                rounded={"md"}
-                                                px={"2"}
-                                                py={"1"}
-                                                width={"fit-content"}
-                                                bgColor={past ? "#F04F4F" : "brand.chasescrollBgBlue"}
-                                                color={past ? "white" : "brand.chasescrollBlue"}
-                                                gap={"2"}
-                                                fontSize={"sm"}
-                                                alignItems={"center"}
-                                            >
-                                                {event?.isOrganizer
-                                                    ? "Organizer"
-                                                    : past
-                                                        ? "Attended"
-                                                        : "Attending"}
-                                            </Flex>
-                                        )}
-                                    {event?.admins?.some((obj: any) =>
-                                        Object?.values(obj)?.some(
-                                            (val) => typeof val === "string" && val?.includes(userId),
-                                        ),
-                                    ) && (
-                                            <Flex
-                                                height={"23px"}
-                                                px={"2"}
-                                                justifyContent={"center"}
-                                                alignItems={"center"}
-                                                fontWeight={"bold"}
-                                                fontSize={"xs"}
-                                                rounded={"32px"}
-                                                bg={"#DCF9CF66"}
-                                                color={"#3EC30F"}
-                                            >
-                                                Admin
-                                            </Flex>
-                                        )}
-                                    {event?.collaborators?.some((obj: any) =>
-                                        Object?.values(obj)?.some(
-                                            (val) => typeof val === "string" && val.includes(userId),
-                                        ),
-                                    ) && (
-                                            <Flex
-                                                height={"23px"}
-                                                px={"2"}
-                                                justifyContent={"center"}
-                                                alignItems={"center"}
-                                                fontWeight={"bold"}
-                                                fontSize={"xs"}
-                                                rounded={"32px"}
-                                                bg={"#FDF3CF6B"}
-                                                color={"#FDB806"}
-                                            >
-                                                Volunteer
-                                            </Flex>
-                                        )}
-                                    {my_event && (
-                                        <ShareEvent
-                                            data={event}
-                                            type="EVENT"
-                                            size="18px"
-                                            id={event?.id}
-                                        />
-                                    )}
-                                    {(my_event && !event?.isOrganizer) && (
-                                        <CustomButton backgroundColor={"#3EC259"} onClick={viewTicket} px={"4"} text={"View Ticket"} width={"auto"} />
-                                    )}
+                                    <Text fontSize={"14px"} display={["flex", "flex", "none", "none"]} >{textLimit(event.eventDescription, 100)}</Text>
+                                    <Text fontSize={"14px"} display={["none", "none", "flex", "flex"]} >{textLimit(event.eventDescription, 50)}</Text>
                                 </Flex>
                             </Flex>
                         )}
                     </Box>
                 )}
-
-                {/* {eventdashboard && (
-                    <Flex flexDir={"column"} w={"full"} height={"full"} px={"4"} pt={"6"}>
-                        <Flex
-                            w={"full"}
-                            gap={"4"}
-                            py={"1"}
-                            pb={"4"}
-                        >
-                            <Flex w={"fit-content"} flexDir={"column"} fontWeight={"bold"}>
-                                <Flex
-                                    width={"50px"}
-                                    flexDir={"column"}
-                                    py={"2px"}
-                                    borderWidth={"1px"}
-                                    alignItems={"center"}
-                                    roundedBottom={"2xl"}
-                                    roundedTopLeft={"2xl"}
-                                >
-                                    <Text
-                                        fontSize={"11.37px"}
-                                        lineHeight={"14.81px"}
-                                        color={"#3D37F1"}
-                                    >
-                                        {moment(event?.startDate).format("MMM")}
-                                    </Text>
-                                    <Text fontSize={"28.43px"} mt={"-1"} lineHeight={"37.01px"}>
-                                        {moment(event?.startDate).format("D")}
-                                    </Text>
-                                </Flex>
-                            </Flex>
-                            <Flex w={"full"} flexDir={"column"}>
-                                <Text lineHeight={"24px"} fontWeight={"700"} textAlign={"left"}>
-                                    {textLimit(event?.eventName, limit ? 30 : 16)}
-                                </Text>
-                                <Text fontSize={"14px"}>
-                                    {textLimit(event?.eventDescription, limit ? 70 : 35)}
-                                </Text>
-                            </Flex>
-                        </Flex>
-                        <Flex
-                            w={"full"}
-                            h={"40px"}
-                            mt={"auto"}
-                            pt={"2"}
-                            justifyContent={"space-between"}
-                            alignItems={"center"}
-                            borderTopWidth={"1px"}
-                            borderTopColor={"#EFF1FE"}
-                        >
-                            <InterestedUsers
-                                fontSize={16}
-                                color={["white", "white", "#1732F7", "#1732F7", "#1732F7"]}
-                                event={event}
-                                border={"2px"}
-                                size={"32px"}
-                            />
-                            <Flex ml={"auto"}>
-                                <EventPrice
-                                    minPrice={event?.minPrice}
-                                    maxPrice={event?.maxPrice}
-                                    currency={event?.currency}
-                                />
-                            </Flex>
-                        </Flex>
-                    </Flex>
-                )} */}
                 {(landing && !upcoming) && (
                     <Flex flexDir={"column"} w={"full"} height={"full"} px={"4"} pt={"6"}>
                         <Flex

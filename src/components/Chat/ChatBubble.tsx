@@ -25,6 +25,7 @@ import ModalLayout from '../sharedComponent/modal_layout';
 import VideoPlayer from '../general/VideoPlayer';
 import useChat from './hooks/chat';
 import { textLimit } from '@/utils/textlimit';
+import { useSearchParams } from 'next/navigation';
 
 interface IProps {
     message: ChatMessage;
@@ -33,11 +34,14 @@ interface IProps {
     refetch?: any
 }
 
-const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = undefined, index, refetch }, ref) => {
+const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = undefined, index }, ref) => {
     const [post, setPost] = React.useState(message);
     const [shoowSubmenu, setShowSubmenu] = React.useState(false);
     const [showAll, setShowAll] = React.useState(false);
     const [showDelete, setShowDelete] = React.useState(false);
+
+    console.log(post);
+    
 
     const {
         bodyTextColor,
@@ -47,6 +51,8 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
         borderColor,
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
+    const query = useSearchParams();
+    const type = query?.get('activeID');
 
     const queryClient = useQueryClient();
     const { setAll, activeChat, removeMessage } = useChatPageState((state) => state);
@@ -55,7 +61,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
     const { isLoading } = useQuery([`getSingleChat-${post.id}`, message?.id], () => httpService.get(`${URLS.CHAT_MESSGAE}`, {
         params: {
             messageID: message.id,
-            chatID: activeChat?.id,
+            chatID: type,
         }
     }), {
         onSuccess: (data) => {
@@ -63,7 +69,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
             setPost(item.content[0]);
         },
         onError: (error: any) => {
-            alert('An errror occured');
+            // alert('An errror occured');
         }
     });
 
@@ -80,6 +86,9 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
         }
     });
 
+
+    const { deleteMutation } = useChat()
+
     // const deleteMutation = useMutation({
     //     mutationFn: () => httpService.delete(`${URLS.DELETE_MESSAGE}`, {
     //         params: {
@@ -88,6 +97,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
     //     }),
     //     onSuccess: () => {
     //         removeMessage(index as number);
+    //         refetch()
     //           queryClient.invalidateQueries([`getMessages`]);
     //     },
     //     onError: () => {
@@ -96,17 +106,15 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
     // });
 
 
-    const { deleteMutation } = useChat()
-
     const [show, setShow] = useState(false)
     const { userId: myId } = useDetails((state) => state)
     const self = message?.createdBy?.userId === myId;
 
-    useEffect(() => {
-        if (deleteMutation?.isSuccess) {
-            refetch()
-        }
-    }, [deleteMutation?.isSuccess])
+    // useEffect(() => {
+    //     if (deleteMutation?.isSuccess) {
+    //         removeMessage(index as number); 
+    //     }
+    // }, [deleteMutation?.isSuccess])
 
     const downloadFile = (url: string) => {
         const name = url.split('amazonaws.com/')[1]
@@ -142,7 +150,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                     {post.media !== null && (
                         <>
                             {post.mediaType === 'PICTURE' && (
-                                <Image onClick={handleImageClick} src={`${post?.media}`} alt='img' width={'100%'} height={'150px'} objectFit={'cover'} borderRadius={'20px'} />
+                                <Image onClick={handleImageClick} src={`${post?.media?.startsWith('https://') ? post?.media : IMAGE_URL+post?.media}`} alt='img' width={'100%'} height={'150px'} objectFit={'cover'} borderRadius={'20px'} />
                             )}
                             {
                                 post.mediaType === 'VIDEO' && (
@@ -151,7 +159,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                                             <source src={post.media} />
                                         </video> */}
                                         <VideoPlayer
-                                            src={`${post?.media}`}
+                                            src={`${post?.media?.startsWith('https://') ? post?.media : IMAGE_URL+post?.media}`}
                                             measureType="px"
                                         />
                                     </Box>
@@ -168,7 +176,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                                     //     </Box>
                                     // </HStack>
                                     <Flex w={"full"} maxW={"250px"} alignItems={"center"} px={"2"} h={"full"}  >
-                                        <Flex flexDir={"column"} alignItems={"center"} flex='0.2' as='button' onClick={() => downloadFile(post.media)}>
+                                        <Flex flexDir={"column"} alignItems={"center"} flex='0.2' as='button' onClick={() => downloadFile(post?.media?.startsWith('https://') ? post?.media : IMAGE_URL+post?.media)}>
                                             <IoMdCloudDownload color={THEME.COLORS.chasescrollButtonBlue} fontSize='40px' />
                                             <CustomText textAlign={"center"} mt={"-2px"} width='80%' color="brand.chasescrollButtonBlue" fontFamily={'DM-Bold'} fontSize={'16px'}>{FileExtentions(post.media)}</CustomText>
                                         </Flex>
@@ -197,7 +205,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                             ) : (
                                 <>
                                     {showAll ? (post?.message) : textLimit(post?.message, 500)}
-                                    {post?.message.length > 500 && (
+                                    {post?.message?.length > 500 && (
                                         <span style={{ fontFamily: 'DM-Bold', fontSize: '12px', cursor: 'pointer' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
                                     )}
                                 </>
@@ -242,7 +250,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
 
                 <ModalLayout title={"Media"} open={show} close={setShow} size={"lg"} >
                     <Flex h={"400px"} >
-                        <Image onClick={() => setShow(true)} src={`${post?.media}`} alt='img' width={'100%'} height={'100%'} objectFit={'cover'} borderRadius={'20px'} />
+                        <Image onClick={() => setShow(true)} src={`${post?.media?.startsWith('https://') ? post?.media : IMAGE_URL+post?.media}`} alt='img' width={'100%'} height={'100%'} objectFit={'cover'} borderRadius={'20px'} />
                     </Flex>
                 </ModalLayout>
 

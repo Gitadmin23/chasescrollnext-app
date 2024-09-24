@@ -10,6 +10,7 @@ import { useCommunityPageState } from '@/components/Community/chat/state';
 import CommunityRequest from './communityRequest'
 import { IoArrowBack } from 'react-icons/io5'
 import useCustomTheme from '@/hooks/useTheme'
+import { useSearchParams } from 'next/navigation'
 
 export default function Mainscreen() {
 
@@ -25,6 +26,9 @@ export default function Mainscreen() {
         setActiveTab(0)
     }
 
+    const query = useSearchParams();
+    const type = query?.get('tab');
+
     useEffect(() => {
         if (!activeCommunity) {
             setShow(false)
@@ -32,13 +36,20 @@ export default function Mainscreen() {
     }, [activeCommunity])
 
 
-    const {
-        bodyTextColor,
-        primaryColor,
-        secondaryBackgroundColor,
+    const { 
         mainBackgroundColor,
         borderColor,
     } = useCustomTheme();
+
+    useEffect(() => {
+        if (type === "request") {
+            setShow(false)
+            handleTabChange(2)
+        } else if (type === "find") {
+            setShow(false)
+            handleTabChange(1)
+        }
+    }, [type, setActiveTab, query, setShow])
 
 
     return (

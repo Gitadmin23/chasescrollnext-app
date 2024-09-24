@@ -9,13 +9,13 @@ import usePaystackStore from '@/global-state/usePaystack'
 import { URLS } from '@/services/urls'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import httpService from '@/utils/httpService'
-import {Box, Button, Flex, Text, useToast} from '@chakra-ui/react'
+import { Box, Button, Flex, Text, useToast } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useQuery, focusManager } from 'react-query'
-import {IEventType} from "@/models/Event";
-import {PaginatedResponse} from "@/models/PaginatedResponse";
-import {useDetails} from "@/global-state/useUserDetails";
+import { IEventType } from "@/models/Event";
+import { PaginatedResponse } from "@/models/PaginatedResponse";
+import { useDetails } from "@/global-state/useUserDetails";
 import Scanner from "@/components/modals/Events/Scanner";
 import useCustomTheme from '@/hooks/useTheme'
 
@@ -29,9 +29,9 @@ function GetEventData(props: Props) {
         event_index,
         dynamic
     } = props
-    const toast = useToast() 
+    const toast = useToast()
     const { userId } = useDetails((state) => state);
-    const [data, setData] = React.useState<IEventType| null>(null);
+    const [data, setData] = React.useState<IEventType | null>(null);
     const [show, setShow] = useState(false);
     const pathname = usePathname()
     const [isCollaborator, setIsCollaborator] = React.useState(false);
@@ -44,7 +44,7 @@ function GetEventData(props: Props) {
 
     focusManager.setFocused(false)
     // react query
-    const { isLoading, isRefetching } = useQuery(['all-events-details' ,  event_index], () => httpService.get(URLS.All_EVENT + "?id=" + event_index), {
+    const { isLoading, isRefetching } = useQuery(['all-events-details', event_index], () => httpService.get(URLS.All_EVENT + "?id=" + event_index), {
         onError: (error: any) => {
             toast({
                 status: "error",
@@ -66,22 +66,22 @@ function GetEventData(props: Props) {
         }
     })
 
-    let token = sessionStorage.getItem('tp_token')+"";
+    let token = sessionStorage.getItem('tp_token') + "";
 
-    let clicked = sessionStorage.getItem('clicked')+"";
-    
+    let clicked = sessionStorage.getItem('clicked') + "";
 
-    useEffect(()=> {
-        if(!pathname?.includes("dashboard") && !token){
-            if(clicked !== "true"){
+
+    useEffect(() => {
+        if (!pathname?.includes("dashboard") && !token) {
+            if (clicked !== "true") {
                 setShow(true)
             }
         }
-    }, [pathname]); 
+    }, [pathname]);
 
     const {
         mainBackgroundColor
-      } = useCustomTheme();
+    } = useCustomTheme();
 
     return (
         <Box bgColor={mainBackgroundColor} width={"full"}  >
@@ -123,7 +123,7 @@ function GetEventData(props: Props) {
                         <SafariIcon />
                         <ExplorerIcon />
                     </Flex>
-                    <CustomButton onClick={()=> setShow(false)} text={"Close"} backgroundColor={"transparent"} border={"1px solid #5465E0"} color={"#5465E0"} />
+                    <CustomButton onClick={() => setShow(false)} text={"Close"} backgroundColor={"transparent"} border={"1px solid #5465E0"} color={"#5465E0"} />
                 </Flex>
             </ModalLayout>
         </Box>
