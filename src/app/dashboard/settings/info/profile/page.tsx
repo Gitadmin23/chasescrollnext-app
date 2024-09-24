@@ -71,7 +71,7 @@ function EditProfile() {
                     "data": {
                         "imgMain": {
                             objectPublic: true,
-                            "value": pic ?? data?.image
+                            "value": pic ? pic : data?.image
                         },
                         "webAddress": {
                             objectPublic: true,
