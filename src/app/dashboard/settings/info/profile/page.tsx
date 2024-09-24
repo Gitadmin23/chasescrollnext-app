@@ -17,13 +17,14 @@ import AWSHook from '@/hooks/awsHook';
 import { useRouter } from 'next/navigation'
 import { isValid } from 'zod';
 import useCustomTheme from '@/hooks/useTheme';
+import UserImage from '@/components/sharedComponent/userimage';
 
 function EditProfile() {
     const [user, setUser] = React.useState<IUser | null>(null);
-    const [pic, setPic] = React.useState(null); 
+    const [pic, setPic] = React.useState("");
     const [showEmail, setShowEmail] = React.useState(false);
     const { userId, firstName, lastName, username } = useDetails((state) => state);
-    const { uploadedFile, fileUploadHandler, loading } = AWSHook();
+    const { uploadedFile, fileUploadHandler, loading, reset } = AWSHook();
     const queryClient = useQueryClient();
 
     const ref = React.useRef<HTMLInputElement>(null);
@@ -45,7 +46,7 @@ function EditProfile() {
             lastName: lastName,
             username: user?.username,
             website: user?.data?.webAddress?.value,
-            aboutme: user?.data?.about?.value, 
+            aboutme: user?.data?.about?.value,
         },
         validationSchema: editProfileSchema,
         submit: (data: {
@@ -147,10 +148,10 @@ function EditProfile() {
     React.useEffect(() => {
         if (!loading) {
             console.log(uploadedFile);
-            
+
             if (uploadedFile.length > 0) {
-                
-                setPic(uploadedFile[0]?.url as any);
+                setPic(uploadedFile[0] as any);
+                // reset()
             }
         }
     }, [uploadedFile, loading])
@@ -159,6 +160,7 @@ function EditProfile() {
     const handleChange = (files: FileList) => {
         fileUploadHandler(files);
     }
+
     if (isLoading) {
         return (
             <VStack width='100%' height='100%' justifyContent={'center'} alignItems={'center'} bg={mainBackgroundColor}>
@@ -191,28 +193,13 @@ function EditProfile() {
 
                             {/* IMAGE */}
                             <Box width='144px' height='144px' overflow={'hidden'} position={'relative'}>
-                                <Box width={'144px'} height={'144px'} borderRadius={'50px 0px 50px 50px'} overflow={'hidden'} borderWidth={'3px'} borderColor={'#CFD4DF'}>
-                                    {user?.data.imgMain.value !== null && pic === null && (
-                                        <>
-                                            {user?.data?.imgMain.value.startsWith('https://') && <Image alt='prifle' src={`${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit={'cover'} />}
-                                            {!user?.data?.imgMain.value.startsWith('https://') && <Image alt='prifle' src={`${IMAGE_URL}${user?.data.imgMain.value}`} width={'100%'} height={'100%'} objectFit={'cover'} />}
-                                        </>
-                                    )}
-                                    {
-                                        user?.data.imgMain.value === null && pic === null && (
-                                            <HStack width='100%' height={'100%'} alignItems={'center'} justifyContent={'center'}>
-                                                <CustomText fontSize={'30px'} fontFamily={'DM-Bold'} color='brand.chasescrollButtonBlue'>{user?.firstName[0].toUpperCase()}</CustomText>
-                                                <CustomText fontSize={'30px'} fontFamily={'DM-Bold'} color='brand.chasescrollButtonBlue'>{user?.lastName[0].toUpperCase()}</CustomText>
-                                            </HStack>
-                                        )
-                                    }
+                                <Box width={'144px'} height={'144px'} overflow={'hidden'} >
+                                    {pic ?
 
-                                    {
-                                        user?.data.imgMain.value === null || pic !== null && (
-                                            <Image alt='prifle' src={pic} width={'100%'} height={'100%'} objectFit={'cover'} />
-                                        )
-                                    }
+                                        <UserImage size={"144px"} data={user} rounded='50px' image={pic?.startsWith('https://') ? pic : IMAGE_URL + pic} /> :
 
+                                        <UserImage size={"144px"} data={user} rounded='50px' image={values?.image?.startsWith('https://') ? values?.image : IMAGE_URL + values?.image} />
+                                    }
                                 </Box>
 
                                 <Box onClick={() => ref.current?.click()} position={'absolute'} right={'0px'} bottom='0px' width='30px' height={'30px'} borderRadius={'15px'} bg='white' shadow='lg' display={'flex'} justifyContent={'center'} alignItems={'center'}>

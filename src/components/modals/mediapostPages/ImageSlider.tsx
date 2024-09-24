@@ -53,10 +53,7 @@ function ImageSlider({ files, newupdate, type, links, setCurrentIndex, objectFit
 
     const handleImageClick = () => {
         setAll({ images: links as string[], isOpen: true })
-    }
-
-    console.log(links);
-
+    } 
 
     const goForward = React.useCallback((e: any) => {
         e.stopPropagation()

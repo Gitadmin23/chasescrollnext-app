@@ -3,6 +3,7 @@ import { Box, HStack, VStack } from '@chakra-ui/react';
 import React, { useRef } from 'react'
 import { Play, Pause, Maximize2, VolumeSlash, VolumeHigh } from 'iconsax-react'
 import { THEME } from '@/theme';
+import { IMAGE_URL } from '@/services/urls';
 
 function VideoPlayer({
   src, width = 100, height = 350, measureType = 'px', rounded = "0px"
@@ -108,7 +109,7 @@ function VideoPlayer({
         setIsPlaying(false);
         videoRef?.current?.pause();
       }}>
-        <source type='video/mp4' src={src} />
+        <source type='video/mp4' src={src.startsWith('https://') ? src : src.startsWith('http://') ? src : IMAGE_URL+src} />
       </video>
       {
         showControl && (
