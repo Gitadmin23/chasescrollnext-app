@@ -125,6 +125,7 @@ export default function PostCard(props: IMediaContent) {
                             <Flex display={["none", "none", "block"]} flexDir={"column"} textAlign={"left"}  >
                                 <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 15)}</Text>
                                 <Text fontSize={"14px"} >@{textLimit(user?.username, 20)}</Text>
+                                <Text fontSize={"8px"} color={bodyTextColor} >{moment(timeInMilliseconds).fromNow()}</Text>
                             </Flex>
                             <Flex display={["block", "block", "none"]} flexDir={"column"} textAlign={"left"}  >
                                 <Text color={"#233DF3"} fontSize={"14px"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 15)}</Text>
@@ -144,7 +145,7 @@ export default function PostCard(props: IMediaContent) {
                     <Flex w={"full"} h={["236px", "236px", "236px", "350px", "350px"]} rounded={"16px"} borderWidth={"1px"} roundedTopRight={"0px"}>
                         {type === "WITH_VIDEO_POST" && (
                             <VideoPlayer
-                                src={`${mediaRef}`}
+                                src={`${mediaRef ? mediaRef : multipleMediaRef[0]}`}
                                 measureType="px"
                             />
                         )}
