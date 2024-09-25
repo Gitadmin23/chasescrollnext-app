@@ -274,7 +274,7 @@ export default function PostCard(props: IMediaContent) {
             </ModalLayout>
             <ModalLayout size={"2xl"} open={openImage} close={setOpenImage} >
                 <Flex bg={mainBackgroundColor} flexDir={"column"} px={"6"} pt={"8"} w={"full"} >
-                    <ImageSlider objectFit={true} links={multipleMediaRef} type="feed" />
+                    <ImageSlider objectFit={true} limited={true} links={multipleMediaRef} type="feed" />
                     <Flex w={"full"} justifyContent={"end"} py={"4"} >
                         <CustomButton onClick={() => setOpenImage(false)} text={"Close"} width={"fit-content"} px={"7"} />
                     </Flex>
