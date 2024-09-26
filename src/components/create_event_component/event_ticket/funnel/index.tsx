@@ -50,7 +50,7 @@ function FunnelBtn(props: Props) {
             </Flex>
             <ModalLayout open={open} close={setOpen} size={"full"} title='Communities' bg={mainBackgroundColor} titlecolor={bodyTextColor}   >
                 {tab === 0 && (
-                    <Flex width={"full"} flexDir={"column"}  >
+                    <Flex width={"full"} flexDir={"column"} px={"4"} >
                         <Flex as={"button"} color={bodyTextColor} onClick={()=> setTab(1)} width={"full"} py={"3"} justifyContent={"end"} alignItems={"center"} gap={"3"} pr={"12"} >
                             <AddIcon color={bodyTextColor} />
                             Add community
