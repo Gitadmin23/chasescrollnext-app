@@ -61,9 +61,9 @@ function ProfileComponent(props: Props) {
                                 {item?.type === "WITH_IMAGE" && (
                                     <ImageSlider links={item?.multipleMediaRef} type="feed" />
                                 )}
-                                {item.type === 'WITH_VIDEO_POST' && item?.mediaRef &&
+                                {item.type === 'WITH_VIDEO_POST' && (item?.mediaRef || item?.multipleMediaRef[0]) &&
                                     <VideoPlayer
-                                        src={`${item?.mediaRef}`}
+                                        src={`${item?.mediaRef ? item?.mediaRef : item?.multipleMediaRef[0]}`}
                                         measureType="px"
                                         rounded='24px'
                                     />

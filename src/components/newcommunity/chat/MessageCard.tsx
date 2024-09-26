@@ -303,7 +303,7 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                         />
                     )}
                     {post.type === 'WITH_IMAGE' && (
-                        <Image onClick={() => setShow(true)} src={`${post?.mediaRef}`} alt='img' width={'100%'} height={'100%'} objectFit={'cover'} borderRadius={'20px'} />
+                        <Image onClick={() => setShow(true)} src={`${post?.mediaRef.startsWith('https://') ? post?.mediaRef : IMAGE_URL+post?.mediaRef}`} alt='img' width={'100%'} height={'100%'} objectFit={'cover'} borderRadius={'20px'} />
                     )}
                 </Flex>
             </ModalLayout>

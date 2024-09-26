@@ -14,7 +14,7 @@ const FileViewer = ({ file, newupdate, objectFit }: { file: File, newupdate?: bo
     )
 }
 
-const ImageViewer = ({ file }: { file: string, }) => {
+const ImageViewer = ({ file, limited }: { file: string, limited?: boolean }) => {
     return (
         <Flex width='100%' height='100%' overflow={'hidden'} zIndex={2}>
             {file?.substr(file.length - 3) === "mp4" ? (
@@ -25,7 +25,7 @@ const ImageViewer = ({ file }: { file: string, }) => {
                     />
                 </Box>
             ) : (
-                <Box width='100%' height='100%' >
+                <Box width='100%' height={limited ? '400px' : '100%'} >
                     {file.startsWith('https://') && <Image src={`${file}`} alt='image' w={"full"} h={"full"} rounded={"16px"} roundedTopRight={"0px"} objectFit={'cover'} />}
                     {!file.startsWith('https://') && <Image src={`${IMAGE_URL}${file}`} alt='image' style={{ width: '100%', height: '100%' }} rounded={"16px"} roundedTopRight={"0px"} objectFit={'cover'} />}
                 </Box>
@@ -35,14 +35,15 @@ const ImageViewer = ({ file }: { file: string, }) => {
     )
 }
 
-function ImageSlider({ files, newupdate, type, links, setCurrentIndex, objectFit }: {
+function ImageSlider({ files, newupdate, type, links, setCurrentIndex, objectFit, limited }: {
     files?: File[],
     type: 'feed' | 'upload',
     links?: string[],
     goBack?: () => void,
     newupdate?: boolean,
     setCurrentIndex?: (index: number) => void,
-    objectFit?: boolean
+    objectFit?: boolean,
+    limited?: boolean
 }) {
     const [index, setIndex] = React.useState(0);
     const { setAll } = useImageModalState((state) => state);
@@ -144,7 +145,7 @@ function ImageSlider({ files, newupdate, type, links, setCurrentIndex, objectFit
                 {type === 'upload' && <FileViewer file={(files as File[])[index]} objectFit={objectFit} />}
                 {type === 'feed' && (
                     <Box width='100%' height='100%' pos={"relative"} zIndex={"10"} onClick={handleImageClick}>
-                        <ImageViewer file={(links as string[])[index]} />
+                        <ImageViewer limited={limited} file={(links as string[])[index]} />
                     </Box>
                 )}
 
