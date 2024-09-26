@@ -19,9 +19,10 @@ function SelectImage(props: Props) {
         const selected = e.target.files[0];
         
 
-        console.log(selected?.size === 107787);
+        console.log(selected.type);
+
         
-        const TYPES = ["image/png", "image/jpg", "image/jpeg"];
+        const TYPES = ["image/png", "image/jpg", "image/jpeg", "image/webp", "image/svg+xml"];
         if(selected?.size > 800000) {
 
             toast({

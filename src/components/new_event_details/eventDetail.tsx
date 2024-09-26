@@ -60,6 +60,7 @@ export default function EventDetail(props: IEventType) {
     console.log(props);
 
 
+
     return (
         <Flex w={"full"} flexDir={"column"} gap={["6", "6", "6", "10", "10"]} pos={"relative"} >
             <Flex w={"full"} display={["flex", "flex", "flex"]} pos={"relative"} justifyContent={"center"} alignItems={"center"} >
@@ -184,11 +185,21 @@ export default function EventDetail(props: IEventType) {
             <EventMap height={"350px"} latlng={location?.latlng ?? ""} />
 
             <Flex display={["flex", "flex", "flex", "none", "none"]} pos={["sticky", "sticky", "sticky", "relative", "relative"]} bgColor={mainBackgroundColor} bottom={"0px"} w={"full"} mt={"8"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} style={{ border: "1px solid #DEDEDE", boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
-                <Text fontWeight={"600"} fontSize={"18px"} >Ticket  Available</Text>
-                {!isBought && (
+                {(!pathname?.includes("past") || isOrganizer) && (
+                    <Text fontWeight={"600"} fontSize={"18px"} >{(isOrganizer) ? " " : "Ticket  Available"}</Text>
+                )}
+                {(!pathname?.includes("past") || isOrganizer) && (
+                    <Text fontWeight={"600"} fontSize={"18px"} >{(isOrganizer) ? " " : "Ticket  Available"}</Text>
+                )}
+                {(!isBought && !isOrganizer && !pathname?.includes("past")) && (
                     <SelectTicket data={props} currency={currency} ticket={productTypeData} />
                 )}
-                <GetEventTicket {...props} />
+                {(!isOrganizer && !pathname?.includes("past")) && (
+                    <GetEventTicket {...props} />
+                )}
+                {isOrganizer && (
+                    <OrganizeBtn {...props} />
+                )}
             </Flex>
         </Flex>
     )
