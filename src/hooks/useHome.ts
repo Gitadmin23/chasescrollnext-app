@@ -166,7 +166,7 @@ const useHome = () => {
                 type: files[0].type.startsWith('image') ? 'WITH_IMAGE' : 'WITH_VIDEO_POST',
                 isGroupFeed: false,
                 sourceId: Id,
-                mediaRef: uploadedFile[0].url,
+                mediaRef: uploadedFile[0],
                 multipleMediaRef: uploadedFile.map((item) => item),
             }
             createPost({ ...obj });
