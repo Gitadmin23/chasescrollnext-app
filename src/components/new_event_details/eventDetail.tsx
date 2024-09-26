@@ -184,13 +184,10 @@ export default function EventDetail(props: IEventType) {
             </Flex>
             <EventMap height={"350px"} latlng={location?.latlng ?? ""} />
 
-            <Flex display={["flex", "flex", "flex", "none", "none"]} pos={["sticky", "sticky", "sticky", "relative", "relative"]} bgColor={mainBackgroundColor} bottom={"0px"} w={"full"} mt={"8"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} style={{ border: "1px solid #DEDEDE", boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
+            <Flex display={["flex", "flex", "flex", "none", "none"]} zIndex={"100"} pos={["sticky", "sticky", "sticky", "relative", "relative"]} bgColor={mainBackgroundColor} bottom={"0px"} w={"full"} mt={"8"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} style={{ border: "1px solid #DEDEDE", boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
                 {(!pathname?.includes("past") || isOrganizer) && (
                     <Text fontWeight={"600"} fontSize={"18px"} >{(isOrganizer) ? " " : "Ticket  Available"}</Text>
-                )}
-                {(!pathname?.includes("past") || isOrganizer) && (
-                    <Text fontWeight={"600"} fontSize={"18px"} >{(isOrganizer) ? " " : "Ticket  Available"}</Text>
-                )}
+                )} 
                 {(!isBought && !isOrganizer && !pathname?.includes("past")) && (
                     <SelectTicket data={props} currency={currency} ticket={productTypeData} />
                 )}

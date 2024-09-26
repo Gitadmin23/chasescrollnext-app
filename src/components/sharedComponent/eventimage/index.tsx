@@ -10,7 +10,8 @@ interface Props {
     date?: boolean,
     searchbar?: boolean,
     borderWidth?: string,
-    rounded?: string
+    rounded?: string,
+    maxW?: Array<string>
 }
 
 function EventImage(props: Props) {
@@ -21,11 +22,12 @@ function EventImage(props: Props) {
         date,
         borderWidth,
         searchbar,
-        rounded
+        rounded,
+        maxW,
     } = props
 
     return (
-        <Box roundedBottom={rounded ? rounded : "32px"} position={"relative"} roundedTopLeft={rounded ? rounded : "32px"} borderColor={"#D0D4EB"} w={width} h={height} borderWidth={searchbar ? "3px" : borderWidth ? borderWidth : "5px"} >
+        <Box maxWidth={maxW ? maxW : "full"} roundedBottom={rounded ? rounded : "32px"} position={"relative"} roundedTopLeft={rounded ? rounded : "32px"} borderColor={"#D0D4EB"} w={width} h={height} borderWidth={searchbar ? "3px" : borderWidth ? borderWidth : "5px"} >
             <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={data?.currentPicUrl} width={"full"} height={"full"} src={IMAGE_URL + data?.currentPicUrl} />
             {date && (
                 <Box color={"#121212"} roundedBottom={"8px"} roundedTopLeft={"8px"} fontWeight={"semibold"} position={"absolute"} bottom={"10px"} left={"10px"} width={"36px"} height={"36px"} bgColor={"white"} >
