@@ -115,7 +115,7 @@ function NotificationCard({ notification }: { notification: INotification }) {
       }
     >
       <Box width={"fit-content"} >
-        <UserImage size={"50px"} border={"2px"} image={notification?.createdBy?.data?.imgMain.value} data={notification?.createdBy} />
+        <UserImage size={"50px"} font={"20px"} border={"2px"} image={notification?.createdBy?.data?.imgMain.value} data={notification?.createdBy} />
       </Box>
       <Flex
         w={"full"} flexDir={"column"}
@@ -123,14 +123,14 @@ function NotificationCard({ notification }: { notification: INotification }) {
       >
         <CustomText
           fontSize={"14px"}
-          fontFamily={"DM-Medium"}
+          fontFamily={status === "UNREAD" ? "DM-Bold" : "DM-Light"}
           color={
             colorMode === "light"
               ? "brand.chasescrollButtonBlue"
               : headerTextColor
           }
         >
-          {notification.title?.replaceAll("Collaborator", "Volunteer")?.replaceAll("collaborator", "Volunteer")}
+          {(notification.title === "New message" ? notification.title+" by "+notification?.createdBy?.firstName+" "+notification.createdBy?.lastName: notification.title)?.replaceAll("Collaborator", "Volunteer")?.replaceAll("collaborator", "Volunteer")}
         </CustomText>
         {(notification?.type === "ADMIN_MEMBER_INVITE_REQUEST" || notification?.type === "COLLABORATOR_MEMBER_INVITE_REQUEST") ? (
           <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>
