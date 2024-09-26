@@ -15,6 +15,7 @@ import useCustomTheme from "@/hooks/useTheme";
 import useModalStore from "@/global-state/useModalSwitch";
 import UserImage from "../sharedComponent/userimage";
 import useNotificationHook from "@/hooks/useNotificationHook";
+import { textLimit } from "@/utils/textlimit";
 
 function NotificationCard({ notification }: { notification: INotification }) {
 
@@ -130,7 +131,7 @@ function NotificationCard({ notification }: { notification: INotification }) {
               : headerTextColor
           }
         >
-          {(notification.title === "New message" ? notification.title+" by "+notification?.createdBy?.firstName+" "+notification.createdBy?.lastName: notification.title)?.replaceAll("Collaborator", "Volunteer")?.replaceAll("collaborator", "Volunteer")}
+          {(notification.title === "New message" ? status === "UNREAD" ? notification.title+" From "+notification?.createdBy?.firstName+" "+notification.createdBy?.lastName : notification?.createdBy?.firstName+" "+notification.createdBy?.lastName : notification.title)?.replaceAll("Collaborator", "Volunteer")?.replaceAll("collaborator", "Volunteer")}
         </CustomText>
         {(notification?.type === "ADMIN_MEMBER_INVITE_REQUEST" || notification?.type === "COLLABORATOR_MEMBER_INVITE_REQUEST") ? (
           <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>
@@ -138,9 +139,8 @@ function NotificationCard({ notification }: { notification: INotification }) {
           </CustomText>
         ) : (
           <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>
-            {notification.message.length > 40
-              ? notification.message.substring(0, 40) + "..."
-              : notification.message}
+            
+              {textLimit((notification.message)?.replaceAll("New message on chat "+notification?.createdBy?.firstName+" "+notification.createdBy?.lastName, ""),40)}
           </CustomText>
         )}
         <Flex gap={"8"} mt={"1"} alignItems={"center"} >

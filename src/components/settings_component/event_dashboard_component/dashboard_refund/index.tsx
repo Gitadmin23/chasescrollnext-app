@@ -208,7 +208,7 @@ function DashboardRefund(props: Props) {
             size: Legal landscape
           }   
         `,
-    }); 
+    });
 
     const downloadCSV = () => {
         refetch()
@@ -217,41 +217,43 @@ function DashboardRefund(props: Props) {
     return (
         <Flex ref={componentRef} width={"full"} flexDirection={"column"} >
             <LoadingAnimation loading={loadingData} >
-                <Flex pos={"relative"} width={"full"} rounded={"8px"} borderWidth={"1px"} borderColor={borderColor} p={["2", "2", "4", "6"]} alignItems={"center"} flexDir={["column", "column", "row"]} gap={["2", "2", "6", "6"]} >
+                <Flex pos={"relative"} maxW={["500px", "full", "full", "full"]} width={"full"} rounded={"8px"} borderWidth={"1px"} borderColor={borderColor} p={["2", "2", "4", "6"]} alignItems={["start", "start", "center", "center"]} flexDir={["column", "column", "row"]} gap={["2", "2", "6", "6"]} >
                     <Flex width={["full", "full", "auto", "auto"]} mr={["auto", "auto", "0px"]} gap={"3"} flexDirection={["column", "column", "row", "row"]} pos={"relative"} p={"2"} rounded={"4px"} >
-                        <EventImage data={eventData} width={["full", "full", "247px", "247px"]} height={["150px", "200px", "170px", "170px"]} />
-                        <Flex flexDir={"column"} gap={"2"} w={["full", "full", "fit-content", "fit-content"]} >
-                            <Text fontSize={["lg", "lg", "32px"]} fontWeight={"semibold"} >{textLimit(capitalizeFLetter(eventData?.eventName), 20)}</Text>
-                            {/* <EventDate eventdashboard={true} date={eventData?.startDate} />
+                        <Flex alignItems={"center"} w={"full"} gap={"4"} flexDirection={["row", "row", "row", "row"]} >
+                            <EventImage data={eventData} width={["full", "full", "247px", "247px"]} height={["150px", "200px", "170px", "170px"]} />
+                            <Flex flexDir={"column"} gap={"2"} w={["full", "full", "fit-content", "fit-content"]} >
+                                <Text fontSize={["lg", "lg", "32px"]} fontWeight={"semibold"} >{textLimit(capitalizeFLetter(eventData?.eventName), 20)}</Text>
+                                {/* <EventDate eventdashboard={true} date={eventData?.startDate} />
                             <EventLocationDetail length={40} fontsize='12px' location={eventData?.location} locationType={eventData?.locationType} indetail={true} eventdashboard={true} /> */}
-                            <Box  >
-                                <InterestedUsers fontSize={15} event={dataInfo} border={"2px"} size={"30px"} />
-                            </Box>
-                            <Flex minW={["100px", "100px", "200px", "200px"]} gap={"2"} alignItems={"center"} maxW={["full", "full", "250px", "250px"]} >
-                                <Flex w={"fit-content"} flexDir={"column"} fontWeight={"bold"}>
-                                    <Flex
-                                        width={"50px"}
-                                        flexDir={"column"}
-                                        py={"2px"}
-                                        borderWidth={"1px"}
-                                        alignItems={"center"}
-                                        roundedBottom={"2xl"}
-                                        roundedTopLeft={"2xl"}
-                                    >
-                                        <Text
-                                            fontSize={"11.37px"}
-                                            lineHeight={"14.81px"}
-                                            color={"#3D37F1"}
+                                <Box  >
+                                    <InterestedUsers fontSize={15} event={dataInfo} border={"2px"} size={"30px"} />
+                                </Box>
+                                <Flex minW={["100px", "100px", "200px", "200px"]} gap={"2"} alignItems={"center"} maxW={["full", "full", "250px", "250px"]} >
+                                    <Flex w={"fit-content"} flexDir={"column"} fontWeight={"bold"}>
+                                        <Flex
+                                            width={"50px"}
+                                            flexDir={"column"}
+                                            py={"2px"}
+                                            borderWidth={"1px"}
+                                            alignItems={"center"}
+                                            roundedBottom={"2xl"}
+                                            roundedTopLeft={"2xl"}
                                         >
-                                            {moment(dataInfo?.startDate).format("MMM")}
-                                        </Text>
-                                        <Text fontSize={"28.43px"} mt={"-1"} lineHeight={"37.01px"}>
-                                            {moment(dataInfo?.startDate).format("D")}
-                                        </Text>
+                                            <Text
+                                                fontSize={"11.37px"}
+                                                lineHeight={"14.81px"}
+                                                color={"#3D37F1"}
+                                            >
+                                                {moment(dataInfo?.startDate).format("MMM")}
+                                            </Text>
+                                            <Text fontSize={"28.43px"} mt={"-1"} lineHeight={"37.01px"}>
+                                                {moment(dataInfo?.startDate).format("D")}
+                                            </Text>
+                                        </Flex>
                                     </Flex>
+                                    <Text fontSize={"14px"} display={["flex", "flex", "none", "none"]} >{textLimit(eventData.eventDescription, 100)}</Text>
+                                    <Text fontSize={"14px"} display={["none", "none", "flex", "flex"]} >{textLimit(eventData.eventDescription, 50)}</Text>
                                 </Flex>
-                                <Text fontSize={"14px"} display={["flex", "flex", "none", "none"]} >{textLimit(eventData.eventDescription, 100)}</Text>
-                                <Text fontSize={"14px"} display={["none", "none", "flex", "flex"]} >{textLimit(eventData.eventDescription, 50)}</Text>
                             </Flex>
                         </Flex>
                         <Box w={["50px"]} display={["none", "none", "block"]} pos={"relative"} >
@@ -289,8 +291,8 @@ function DashboardRefund(props: Props) {
                                 </Select>
                             </Flex>
                         </Flex>
-                        <Flex width={["full", "full", "auto", "auto"]} h={"fit-content"} px={["2", "2", "0px", "0px"]} pb={["2", "2", "0px", "0px"]}  ml={["0px", "0px", "auto"]} gap={"4"} > 
-                            <CustomButton onClick={() => setOpen(true)} text={"Export"} width={["100%", "100%", "130px","130px"]} />
+                        <Flex width={["full", "full", "auto", "auto"]} h={"fit-content"} px={["2", "2", "0px", "0px"]} pb={["2", "2", "0px", "0px"]} ml={["0px", "0px", "auto"]} gap={"4"} >
+                            <CustomButton onClick={() => setOpen(true)} text={"Export"} width={["100%", "100%", "130px", "130px"]} />
                         </Flex>
                     </Flex>
                 </Flex>
@@ -299,7 +301,7 @@ function DashboardRefund(props: Props) {
                 <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data?.data?.content?.length} >
 
                     <TableContainer >
-                        <Table variant='simple' borderWidth={"1px"} colorScheme="gray">
+                        <Table variant='simple' borderWidth={"1px"} borderColor={borderColor} colorScheme="gray">
                             <TableCaption>
                                 <Box>
                                     Powered By Chasescroll
@@ -310,42 +312,42 @@ function DashboardRefund(props: Props) {
                             </TableCaption>
                             <Thead bgColor={"#FAFAFB"} >
                                 <Tr>
-                                    <Th borderRightWidth={"1px"} >
+                                    <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
-                                            S/N 
+                                            S/N
                                         </Flex>
                                     </Th>
-                                    <Th borderRightWidth={"1px"} >
+                                    <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
                                             USERNAME
                                             <Switch onChange={(e) => setShowUserName(e.target.checked)} isChecked={showUserName} />
                                         </Flex>
                                     </Th>
-                                    <Th borderRightWidth={"1px"} >
+                                    <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
                                             EMAIL ADDRESS
                                             <Switch onChange={(e) => setShowEmail(e.target.checked)} isChecked={showEmail} />
                                         </Flex>
                                     </Th>
-                                    <Th borderRightWidth={"1px"} >
+                                    <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
                                             Date & TIME
                                             <Switch onChange={(e) => setShowDate(e.target.checked)} isChecked={showDate} />
                                         </Flex>
                                     </Th>
-                                    <Th borderRightWidth={"1px"} >
+                                    <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
                                             Ticket type
                                             <Switch onChange={(e) => setShowTicketType(e.target.checked)} isChecked={showTicketType} />
                                         </Flex>
                                     </Th>
-                                    <Th borderRightWidth={"1px"} >
+                                    <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
                                             NO. TICKET
                                             <Switch onChange={(e) => setShowNumberOfTicket(e.target.checked)} isChecked={showNumberOfTicket} />
                                         </Flex>
                                     </Th>
-                                    <Th>
+                                    <Th borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
                                             STATUS
                                             <Switch onChange={(e) => setShowStatus(e.target.checked)} isChecked={showStatus} />
@@ -357,12 +359,12 @@ function DashboardRefund(props: Props) {
                                 {data?.data?.content?.map((person: any, i: number) => {
                                     return (
                                         <Tr key={i} >
-                                            <Td borderRightWidth={"1px"} >{(page * size) + (i+1)}</Td>
-                                            <Td borderRightWidth={"1px"} >{showUserName ? person?.user?.username : ""}</Td>
-                                            <Td borderRightWidth={"1px"} fontSize={"14px"}>{showEmail ? person?.user?.email : ""}</Td>
-                                            <Td borderRightWidth={"1px"} fontSize={"14px"}>{showDate ? dateFormat(person?.createdDate) : ""}</Td>
+                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{(page * size) + (i + 1)}</Td>
+                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{showUserName ? person?.user?.username : ""}</Td>
+                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showEmail ? person?.user?.email : ""}</Td>
+                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showDate ? dateFormat(person?.createdDate) : ""}</Td>
                                             {(person?.ticketType) && (
-                                                <Td borderRightWidth={"1px"} fontSize={"14px"}>
+                                                <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>
                                                     {showTicketType && (
                                                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} >
                                                             {person?.ticketType?.slice(0, 1)?.toUpperCase() + person?.ticketType?.slice(1, person?.ticketType?.length)}
@@ -371,7 +373,7 @@ function DashboardRefund(props: Props) {
                                                 </Td>
                                             )}
                                             {(!person?.ticketType) && (
-                                                <Td borderRightWidth={"1px"} >
+                                                <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                                     {(person?.role === "ADMIN" && person?.createdBy?.email === person?.user?.email && showTicketType) && (
                                                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"brand.chasescrollBlue"} >
                                                             Organizer
@@ -390,10 +392,10 @@ function DashboardRefund(props: Props) {
 
                                                 </Td>
                                             )}
-                                            <Td borderRightWidth={"1px"} textAlign={"center"} fontSize={"xs"} >
+                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} textAlign={"center"} fontSize={"xs"} >
                                                 {(person?.ticketNumber !== 0 && showNumberOfTicket) ? person?.ticketNumber : ""}
                                             </Td>
-                                            <Td borderRightWidth={showBtn ? "1px" : "0px"} >
+                                            <Td borderBottomWidth={"1px"} borderRightWidth={showBtn ? "1px" : "0px"} >
                                                 {showStatus &&
                                                     <>
                                                         {person?.ticketScanInfoList?.map((item: {
@@ -449,7 +451,7 @@ function DashboardRefund(props: Props) {
                                                 }
                                             </Td>
                                             {showBtn && (
-                                                <Td >
+                                                <Td borderBottomWidth={"1px"} >
                                                     <RefundBtn person={person} index={index} />
                                                 </Td>
                                             )}
