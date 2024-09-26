@@ -66,13 +66,13 @@ export default function EventCreator(props: IEventType) {
                 </Flex>
                 <Box as={"button"} onClick={clickHandler} >
                     <Text textAlign={"left"} display={["none", "block"]} fontWeight={"medium"} >{capitalizeFLetter(createdBy?.firstName) + " " + capitalizeFLetter(createdBy?.lastName)}</Text>
-                    <Text textAlign={"left"} display={["block", "none"]} fontWeight={"medium"} fontSize={"14px"} >{textLimit(capitalizeFLetter(createdBy?.firstName) + " " + capitalizeFLetter(createdBy?.lastName), 15)}</Text>
-                    <Text textAlign={"left"} mt={"-2px"} fontSize={["13px", "13px", "sm"]} >{createdBy?.username?.includes("@gmail") ? textLimit(createdBy?.username, 4) : createdBy?.username}</Text>
+                    <Text textAlign={"left"} display={["block", "none"]} fontWeight={"medium"} fontSize={"14px"} >{textLimit(capitalizeFLetter(createdBy?.firstName) + " " + capitalizeFLetter(createdBy?.lastName), 10)}</Text>
+                    <Text textAlign={"left"} mt={"-2px"} fontSize={["13px", "13px", "sm"]} >{createdBy?.username?.includes("@gmail") ? textLimit(createdBy?.username, 4) : textLimit(createdBy?.username, 10)}</Text>
                 </Box>
             </Flex>
-            <Flex rounded={"64px"} h={"47px"} ml={"auto"} bgColor={mainBackgroundColor} p={"12px"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
+            <Flex rounded={"64px"} h={"47px"} ml={"auto"} bgColor={mainBackgroundColor} px={["3", "3", "5", "5"]} py={"12px"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
                 {createdBy?.userId !== user_index ? (
-                    <Flex color={"#5465E0"} rounded={"32px"} justifyContent={"center"} alignItems={"center"} gap={"8"} py={"8px"} px={"16px"} >
+                    <Flex color={"#5465E0"} rounded={"32px"} justifyContent={"center"} alignItems={"center"} gap={["4", "4", "5", "5"]} py={"8px"} >
                         <ChatBtn userId={createdBy?.userId ?? ""} />
                         <AddOrRemoveUserBtn icon={true} name={(isFriend === "FRIEND_REQUEST_RECIEVED" || isFriend === "FRIEND_REQUEST_SENT" || isFriend === "CONNECTED" || isFriend === "CONNECTFriend") ? isFriend === "FRIEND_REQUEST_SENT" ? "Pending" : isFriend === "CONNECTFriend" ? "Disconnect" : "Disconnect" : "Connect"} setJoinStatus={setisFriend} user_index={createdBy?.userId} />
                     </Flex>

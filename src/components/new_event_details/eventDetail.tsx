@@ -93,7 +93,7 @@ export default function EventDetail(props: IEventType) {
                         {/* <Text >{dateFormat(startDate)}</Text> */}
 
                         {/* Event Name */}
-                        <Text fontSize={"32px"} fontWeight={"semibold"} >{eventName}</Text>
+                        <Text fontSize={["20px", "20px", "32px", "32px"]} lineHeight={["26px", "26px", "36px", "36px"]} fontWeight={"semibold"} >{eventName}</Text>
                         {props?.attendeesVisibility && (
                             <InterestedUsers fontSize={16} event={props} border={"2px"} size={"38px"} refund={true} />
                         )}
