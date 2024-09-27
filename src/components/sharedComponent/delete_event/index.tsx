@@ -27,7 +27,7 @@ function DeleteEvent(props: Props) {
 
     // detete event
     const deleteEvent = useMutation({
-        mutationFn: () => httpService.delete((draft ? "/events/delete-draft/" :"/events/delete-event/") + event.id),
+        mutationFn: () => httpService.delete((draft ? "/events/delete-draft/" : "/events/delete-event/") + event.id),
         onError: (error: AxiosError<any, any>) => {
             toast({
                 title: 'Error',
@@ -39,22 +39,34 @@ function DeleteEvent(props: Props) {
             });
         },
         onSuccess: (data: AxiosResponse<any>) => {
-            toast({
-                title: 'Success',
-                description: data.data?.message,
-                status: 'success',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
+            if (data?.data?.message === "Could not delete event") {
+                toast({
+                    title: 'Error',
+                    description: "Event can't be deleted, someone has registered for this event.",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                }); 
+            } else {
+
+                toast({
+                    title: 'Success',
+                    description: data.data?.message,
+                    status: 'success',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+            }
             queryClient.refetchQueries(URLS.GET_DRAFT + "?createdBy=" + user_index)
             queryClient.refetchQueries("/events/drafts")
-            
+
             queryClient.refetchQueries(URLS.JOINED_EVENT + user_index)
             setOpen(false)
         }
     });
-    
+
     const [open, setOpen] = useState(false)
 
     const handleDelete = React.useCallback((e: any) => {
@@ -75,8 +87,8 @@ function DeleteEvent(props: Props) {
         //     )}
         // </Box>
         <>
-        
-        {(event?.isOrganizer || pathname?.includes("draft")) && (
+
+            {(event?.isOrganizer || pathname?.includes("draft")) && (
                 <Flex pos={"absolute"} right={["6", "6", "16", "16"]} zIndex={"100"} top={["6", "6", "1", "1"]} >
                     <Box>
                         <Popover isOpen={open} onClose={() => setOpen(false)} >
@@ -90,14 +102,14 @@ function DeleteEvent(props: Props) {
                                 {/* <PopoverCloseButton />
                                 <PopoverHeader>Confirmation!</PopoverHeader> */}
                                 <PopoverBody w={"fit-content"} pos={"relative"} zIndex={"100"} >
-                                    <Button onClick={handleDelete} isLoading={deleteEvent.isLoading} isDisabled={deleteEvent.isLoading} bg={"transparent"} px={"6"} >Delete Event</Button>
+                                    <Button onClick={handleDelete} isLoading={deleteEvent.isLoading} color={"red"} isDisabled={deleteEvent.isLoading} bg={"transparent"} px={"6"} >Delete Event</Button>
                                 </PopoverBody>
                             </PopoverContent>
                         </Popover>
                     </Box>
                 </Flex>
             )}
-            </>
+        </>
     )
 }
 
