@@ -2,7 +2,7 @@ import useCustomTheme from '@/hooks/useTheme';
 import { IEventType } from '@/models/Event'
 import { textLimit } from '@/utils/textlimit';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react'
-import React from 'react'
+import React, { useState } from 'react'
 import { MdArrowBackIos } from 'react-icons/md';
 import BlurredImage from '../sharedComponent/blurred_image';
 import ShareEvent from '../sharedComponent/share_event';
@@ -34,7 +34,8 @@ export default function EventDetail(props: IEventType) {
         productTypeData,
         eventType,
         isBought,
-        isOrganizer
+        isOrganizer, 
+        maxPrice
     } = props
 
     const {
@@ -47,6 +48,13 @@ export default function EventDetail(props: IEventType) {
     const router = useRouter()
     const pathname = usePathname()
 
+    const [ show, setShow ] = useState(false)
+
+    const handerTicket = () => {
+        setShow(true)
+        router?.push("/")
+    }
+
     const { userId, email } = useDetails((state) => state);
 
     const clickHander = () => {
@@ -55,11 +63,7 @@ export default function EventDetail(props: IEventType) {
         } else {
             router.back()
         }
-    }
-
-    console.log(props);
-
-
+    } 
 
     return (
         <Flex w={"full"} flexDir={"column"} gap={["6", "6", "6", "10", "10"]} pos={"relative"} >
@@ -139,13 +143,13 @@ export default function EventDetail(props: IEventType) {
                                         <LinkIcon />
                                     </Flex>
                                 </Flex>
-                                {isBought && (
+                                {(isBought || isOrganizer) && (
                                     <a href={location?.link}  >
                                         <Text fontSize={"14px"} color={primaryColor} >{location?.link}</Text>
                                     </a>
                                 )}
-                                {!isBought && (
-                                    <Text fontSize={"14px"} color={primaryColor} >Register To View Link</Text>
+                                {(!isBought && !isOrganizer) && (
+                                    <Text  fontSize={"14px"} color={primaryColor} >{maxPrice ? "Buy Ticket" : "Register Ticket"} To View Link</Text>
                                 )}
                             </Flex>
                         </Flex>

@@ -1,13 +1,16 @@
 import { useDetails } from '@/global-state/useUserDetails';
+import { IEventType } from '@/models/Event';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Box, Spinner, useToast } from '@chakra-ui/react';
+import { Box, Button, Flex, Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverTrigger, Spinner, useToast } from '@chakra-ui/react';
 import { AxiosError, AxiosResponse } from 'axios';
-import React from 'react'
+import { usePathname } from 'next/navigation';
+import React, { useState } from 'react'
+import { IoIosMore } from 'react-icons/io';
 import { useMutation, useQueryClient } from 'react-query';
 
 interface Props {
-    event: any,
+    event: IEventType,
     draft?: boolean
 }
 
@@ -17,6 +20,7 @@ function DeleteEvent(props: Props) {
         draft
     } = props
 
+    const pathname = usePathname()
     const toast = useToast()
     const queryClient = useQueryClient()
     const { userId: user_index } = useDetails((state) => state);
@@ -47,21 +51,53 @@ function DeleteEvent(props: Props) {
             queryClient.refetchQueries("/events/drafts")
             
             queryClient.refetchQueries(URLS.JOINED_EVENT + user_index)
+            setOpen(false)
         }
     });
+    
+    const [open, setOpen] = useState(false)
 
-    const handleSave = React.useCallback((e: any) => {
+    const handleDelete = React.useCallback((e: any) => {
         e.stopPropagation();
         deleteEvent.mutate()
     }, [deleteEvent])
 
+    const openHandler = (item: any) => {
+        item.stopPropagation();
+        setOpen(true)
+    }
+
     return (
-        <Box as='button' onClick={handleSave} color={"brand.chasescrollRed"} borderWidth={"1px"} borderColor={"brand.chasescrollRed"} fontWeight={"semibold"} width={"fit-content"} display={"flex"} justifyContent={"center"} fontSize={"xs"} px="3" rounded={"full"} alignItems={"center"} disabled={deleteEvent.isLoading} >
-            {(deleteEvent.isLoading) && <Spinner size='sm' color="brand.chasesccrollButtonBlue" />}
-            {(!deleteEvent.isLoading) && (
-                "delete"
+        // <Box as='button' onClick={handleDelete} color={"brand.chasescrollRed"} borderWidth={"1px"} borderColor={"brand.chasescrollRed"} fontWeight={"semibold"} width={"fit-content"} display={"flex"} justifyContent={"center"} fontSize={"xs"} px="3" rounded={"full"} alignItems={"center"} disabled={deleteEvent.isLoading} >
+        //     {(deleteEvent.isLoading) && <Spinner size='sm' color="brand.chasesccrollButtonBlue" />}
+        //     {(!deleteEvent.isLoading) && (
+        //         "delete"
+        //     )}
+        // </Box>
+        <>
+        
+        {(event?.isOrganizer || pathname?.includes("draft")) && (
+                <Flex pos={"absolute"} right={["6", "6", "16", "16"]} zIndex={"100"} top={["6", "6", "1", "1"]} >
+                    <Box>
+                        <Popover isOpen={open} onClose={() => setOpen(false)} >
+                            <PopoverTrigger >
+                                <Button onClick={openHandler} bg={"white"}  >
+                                    <IoIosMore size={"30px"} />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent w={"fit-content"} >
+                                <PopoverArrow />
+                                {/* <PopoverCloseButton />
+                                <PopoverHeader>Confirmation!</PopoverHeader> */}
+                                <PopoverBody w={"fit-content"} pos={"relative"} zIndex={"100"} >
+                                    <Button onClick={handleDelete} isLoading={deleteEvent.isLoading} isDisabled={deleteEvent.isLoading} bg={"transparent"} px={"6"} >Delete Event</Button>
+                                </PopoverBody>
+                            </PopoverContent>
+                        </Popover>
+                    </Box>
+                </Flex>
             )}
-        </Box>
+            </>
     )
 }
 

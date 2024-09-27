@@ -106,7 +106,7 @@ function ExploreEventCard(props: Props) {
             boxShadow={page ? "md" : "none"}
             cursor={"pointer"}
             bg={secondaryBackgroundColor}
-            onClick={() => clickHandler()}
+            onClick={clickHandler}
             py={searchbar ? ((landing || upcoming) ? "0px" : "2") : upcoming ? "0px" : ["6", "6", "4"]}
             roundedBottom={"32px"}
             roundedTopLeft={"32px"}
