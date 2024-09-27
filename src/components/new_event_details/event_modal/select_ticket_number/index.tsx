@@ -209,7 +209,7 @@ function SelectTicketNumber(props: Props) {
                         {/* <Text>{selectedTicket?.ticketPrice === 0 ? data?.currency === "USD" ? "$0" : "₦0" : formatNumber((data?.currency === "USD" ? usdtotal : (nairatotal < 2500 ? nairatotalnew : nairatotal)), data?.currency === "USD" ? "$" : "₦")}</Text> */}
                     </Flex>
                     {price === 0 && (
-                        <CustomButton isLoading={createTicket?.isLoading} onClick={clickHandler} text='Pay now' width={["full", "full"]} />
+                        <CustomButton isLoading={createTicket?.isLoading} onClick={clickHandler} text='Register now' width={["full", "full"]} />
                     )}
                     {price > 0 && (
                         <PayStackBtn datainfo={data} selectedCategory={selectedTicket?.ticketType} ticketCount={numbOfTicket} />
