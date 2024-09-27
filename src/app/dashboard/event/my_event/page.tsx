@@ -1,6 +1,5 @@
 'use client'
-import SearchBar from '@/components/explore_component/searchbar'
-import ExploreEventCard from '@/components/sharedComponent/event_card'
+import SearchBar from '@/components/explore_component/searchbar' 
 import NewEventCard from '@/components/sharedComponent/event_card/newEventCard'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import useSearchStore from '@/global-state/useSearchData'

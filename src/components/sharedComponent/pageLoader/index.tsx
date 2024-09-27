@@ -1,9 +1,7 @@
-import CustomText from '@/components/general/Text'
-// import { Image } from '@chakra-ui/next-js'
-import { Flex, Image } from '@chakra-ui/react'
+
+import { Flex } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import React from 'react'
-import { ThreeDots } from "react-loader-spinner"
+import React from 'react' 
 
 type IProps = {
     show: boolean
@@ -12,14 +10,7 @@ type IProps = {
 export default function PageLoader({ show }: IProps) {
     return (
         <>
-            {show && (
-                // <Flex position={"fixed"} zIndex={"500"} inset={"0px"} w={"full"} bgColor={"white"} justifyContent={"center"} alignItems={"center"} height={"full"} >
-
-                //     <Flex role="button" width={"fit-content"} alignItems={"center"} gap={"1"} justifyContent={'center'}>
-                //         <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
-                //         <CustomText fontFamily={'Satoshi-Regular'} fontSize='lg' color='#12299C'>Chasescroll</CustomText>
-                //     </Flex>
-                // </Flex>
+            {show && ( 
                 <Flex position={"fixed"} zIndex={"500"} inset={"0px"} w={"full"} bgColor={"white"} justifyContent={"center"} alignItems={"center"} height={"full"} >
                     <Flex gap={"6"} w={"fit-content"} >
 
