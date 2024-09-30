@@ -88,7 +88,7 @@ function DeleteEvent(props: Props) {
         // </Box>
         <>
 
-            {(event?.isOrganizer || pathname?.includes("draft")) && (
+            {((event?.isOrganizer && !pathname?.includes("past")) || pathname?.includes("draft")) && (
                 <Flex pos={"absolute"} right={["6", "6", "16", "16"]} zIndex={"100"} top={["6", "6", "1", "1"]} >
                     <Box>
                         <Popover isOpen={open} onClose={() => setOpen(false)} >
