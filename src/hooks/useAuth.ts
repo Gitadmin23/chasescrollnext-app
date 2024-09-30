@@ -334,8 +334,7 @@ const useAuth = () => {
         }
     });
 
-    const watchEmail = watch("email");
-    console.log(watchEmail);
+    const watchEmail = watch("email"); 
 
     return {
         renderForm,

@@ -477,7 +477,7 @@ export default function CollaboratorBtn(props: IProps) {
                         <InputLeftElement pointerEvents='none'>
                             <IoSearchOutline size={"25px"} color='#B6B6B6' />
                         </InputLeftElement>
-                        <Input width={["full", "full", "full"]} value={search} onChange={(e) => setSearch(e.target.value)} type='text' borderColor={borderColor} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} bgColor={mainBackgroundColor} placeholder='Search for users, event or...' />
+                        <Input width={["full", "full", "full"]} value={search} onChange={(e) => setSearch(e.target.value)} type='text' borderColor={borderColor} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} bgColor={mainBackgroundColor} placeholder='Search for users' />
                     </InputGroup>
                 </Flex>
                 {addCollaborator && (
