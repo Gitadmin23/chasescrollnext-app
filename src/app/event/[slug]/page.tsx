@@ -3,7 +3,7 @@ import React from 'react'
 import { IMAGE_URL } from '@/services/urls';
 import type { Metadata } from 'next'
 import GetEventData from '@/app/dashboard/event/details/get_event_data';
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 // import GetEventData from '@/app/olddashboard/event/details/get_event_data'; 
 
 type Props = {
@@ -54,9 +54,8 @@ export async function generateMetadata(
 function ShareEvent({ params }: Props) {
 
   return (
-    <Flex p={"6"} >
-
-      <GetEventData dynamic={true} event_index={params.slug} />
+    <Flex width={"full"} h={"100vh"} p={"6"} > 
+      <GetEventData dynamic={true} event_index={params.slug} /> 
     </Flex>
   )
 }

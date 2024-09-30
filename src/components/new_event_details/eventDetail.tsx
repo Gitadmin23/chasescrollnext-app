@@ -165,13 +165,13 @@ export default function EventDetail(props: IEventType) {
                 <Flex maxW={["full", "full", "full", "430px", "430px"]} flexDir={"column"} gap={"6"} w={"full"} >
 
                     <Flex display={["none", "none", "none", "flex", "flex"]} bg={mainBackgroundColor} zIndex={"50"} pos={["sticky", "sticky", "sticky", "relative", "relative"]} bottom={"0px"} w={"full"} mt={"8"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} borderWidth={(pathname?.includes("past") && !isOrganizer) ? "0px" : "1px"} borderColor={"#DEDEDE"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
-                        {(!pathname?.includes("past") || isOrganizer) && (
+                        {/* {(!pathname?.includes("past") || isOrganizer) && ( */}
                             <Text fontWeight={"600"} fontSize={"18px"} >{(isOrganizer) ? " " : "Ticket  Available"}</Text>
-                        )}
+                        {/* )} */}
                         {(!isBought && !isOrganizer && !pathname?.includes("past")) && (
                             <SelectTicket data={props} currency={currency} ticket={productTypeData} />
                         )}
-                        {(!isOrganizer && !pathname?.includes("past")) && (
+                        {(!isOrganizer) && (
                             <GetEventTicket {...props} />
                         )}
                         {isOrganizer && (
@@ -188,14 +188,14 @@ export default function EventDetail(props: IEventType) {
             </Flex>
             <EventMap height={"350px"} latlng={location?.latlng ?? ""} />
 
-            <Flex display={["flex", "flex", "flex", "none", "none"]} zIndex={"100"} pos={["sticky", "sticky", "sticky", "relative", "relative"]} bgColor={mainBackgroundColor} bottom={"0px"} w={"full"} mt={"8"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} style={{ border: "1px solid #DEDEDE", boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
-                {(!pathname?.includes("past") || isOrganizer) && (
+            <Flex display={["flex", "flex", "flex", "none", "none"]} zIndex={"100"} pos= {["sticky", "sticky", "sticky", "relative", "relative"]} bgColor={mainBackgroundColor} bottom={"3"} w={"full"} mt={"8"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} style={{ border: "1px solid #DEDEDE", boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
+                {/* {(!pathname?.includes("past") || isOrganizer) && ( */}
                     <Text fontWeight={"600"} fontSize={"18px"} >{(isOrganizer) ? " " : "Ticket  Available"}</Text>
-                )} 
+                {/* )}  */}
                 {(!isBought && !isOrganizer && !pathname?.includes("past")) && (
                     <SelectTicket data={props} currency={currency} ticket={productTypeData} />
                 )}
-                {(!isOrganizer && !pathname?.includes("past")) && (
+                {(!isOrganizer) && (
                     <GetEventTicket {...props} />
                 )}
                 {isOrganizer && (
