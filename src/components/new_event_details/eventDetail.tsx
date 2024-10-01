@@ -187,7 +187,7 @@ export default function EventDetail(props: IEventType) {
                 </Flex>
             </Flex>
             <EventMap height={"350px"} latlng={location?.latlng ?? ""} />
-            <Box display={["flex", "flex", "flex", "none", "none"]} h={"200px"} />
+            <Box display={["flex", "flex", "flex", "none", "none"]} h={"300px"} />
             <Flex display={["flex", "flex", "flex", "none", "none"]} zIndex={"100"} pos= {["fixed", "fixed", "fixed", "relative", "relative"]} bgColor={mainBackgroundColor} bottom={pathname?.includes("detail") ? "80px" : "30px"} left={"4"} right={"4"}  mt={"8"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} style={{ border: "1px solid #DEDEDE", boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
                 {/* {(!pathname?.includes("past") || isOrganizer) && ( */}
                     <Text fontWeight={"600"} fontSize={"18px"} >{(isOrganizer) ? " " : "Ticket  Available"}</Text>
