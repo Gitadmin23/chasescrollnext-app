@@ -74,9 +74,7 @@ function ProfileImage(props: Props) {
         } else {
             setOpen(false)
         }
-    }
-
-    console.log(data);
+    } 
 
 
     return (

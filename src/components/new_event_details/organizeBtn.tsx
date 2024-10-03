@@ -7,14 +7,18 @@ import { FiAlertCircle } from "react-icons/fi";
 import useCustomTheme from "@/hooks/useTheme";
 import { IEventType } from '@/models/Event'
 import { THEME } from '@/theme'
+import EventQrCode from '../event_details_component/event_qrcode'
+import Scanner from '../modals/Events/Scanner'
 
 function OrganizeBtn(props: IEventType) {
     const {
         isOrganizer,
+        eventMemberRole,
+        startDate,
+        endDate
     } = props
 
-    const { bodyTextColor } = useCustomTheme();
-    const { colorMode } = useColorMode();
+    const [showScanner, setShowScanner] = React.useState(false);
 
     const router = useRouter()
     const [listOfClicks, setListOfClicks] = useState(0)
@@ -39,14 +43,18 @@ function OrganizeBtn(props: IEventType) {
 
     return (
         <Box my={"auto"} >
-            {(isOrganizer) && (
-                <Flex flexDirection={["column", "column"]} width={"full"} justifyContent={"center"} alignItems={"center"} gap={"3"} >
-                    <Button onClick={() => router.push("/dashboard/settings/event-dashboard/" + props?.id)} width={"full"} borderColor={"brand.chasescrollBlue"} borderWidth={"1px"} bgColor={"white"} borderRadius={"32px"} height={"57px"} color={"brand.chasescrollBlue"} fontSize={"sm"} fontWeight={"semibold"} _hover={{ backgroundColor: "white" }} >My Dashboard</Button>
-                    {!pathname?.includes("pastdetails") && (
-                        <Button isDisabled={pathname?.includes("pastdetails") ? true : false} borderRadius={"32px"} onClick={() => clickHandler()} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} borderColor={"brand.chasescrollBlue"} width={"full"} bg={"brand.chasescrollBlue"} height={"57px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} _hover={{ backgroundColor: THEME.COLORS?.chasescrollBlue }} >Edit Event</Button>
-                    )}
-                </Flex>
-            )}
+            <Flex flexDirection={["column", "column"]} width={"full"} justifyContent={"center"} alignItems={"center"} gap={"3"} >
+                {(isOrganizer || eventMemberRole === "ADMIN") && (
+                    <Flex flexDirection={["column", "column"]} width={"full"} justifyContent={"center"} alignItems={"center"} gap={"3"} >
+                        <Button onClick={() => router.push("/dashboard/settings/event-dashboard/" + props?.id)} width={"full"} borderColor={"brand.chasescrollBlue"} borderWidth={"1px"} bgColor={"white"} borderRadius={"32px"} height={"57px"} color={"brand.chasescrollBlue"} fontSize={"sm"} fontWeight={"semibold"} _hover={{ backgroundColor: "white" }} >My Dashboard</Button>
+                        {!pathname?.includes("pastdetails") && (
+                            <Button isDisabled={pathname?.includes("pastdetails") ? true : false} borderRadius={"32px"} onClick={() => clickHandler()} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} borderColor={"brand.chasescrollBlue"} width={"full"} bg={"brand.chasescrollBlue"} height={"57px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} _hover={{ backgroundColor: THEME.COLORS?.chasescrollBlue }} >Edit Event</Button>
+                        )}
+                    </Flex>
+                )}
+                <CustomButton display={['block', 'none']} onClick={() => setShowScanner(true)} color={"#12299C"} borderRadius={"32px"} text='Scan Ticket' w={"full"} backgroundColor={"white"} border={"1px solid #12299C75"} height={"57px"} fontSize={"sm"} />
+
+            </Flex>
             <ModalLayout open={open} close={setOpen} title='' >
                 <Box px={"4"} pt={"5"} pb={"5"} >
                     <Flex color={"brand.chasescrollRed"} width={"full"} pb={"4"} justifyContent={"center"} >
@@ -59,6 +67,7 @@ function OrganizeBtn(props: IEventType) {
                     </Flex>
                 </Box>
             </ModalLayout>
+            <Scanner isOpen={showScanner} eventID={props?.id} startDate={startDate} endDate={endDate} onClose={() => setShowScanner(false)} />
         </Box>
     )
 }
