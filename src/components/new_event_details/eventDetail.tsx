@@ -34,9 +34,13 @@ export default function EventDetail(props: IEventType) {
         productTypeData,
         eventType,
         isBought,
-        isOrganizer, 
-        maxPrice
+        isOrganizer,
+        maxPrice,
+        eventMemberRole
     } = props
+
+    console.log(eventMemberRole);
+
 
     const {
         headerTextColor,
@@ -48,7 +52,7 @@ export default function EventDetail(props: IEventType) {
     const router = useRouter()
     const pathname = usePathname()
 
-    const [ show, setShow ] = useState(false)
+    const [show, setShow] = useState(false)
 
     const handerTicket = () => {
         setShow(true)
@@ -63,7 +67,7 @@ export default function EventDetail(props: IEventType) {
         } else {
             router.back()
         }
-    } 
+    }
 
     return (
         <Flex w={"full"} flexDir={"column"} pb={"8"} gap={["6", "6", "6", "10", "10"]} pos={"relative"} >
@@ -149,7 +153,7 @@ export default function EventDetail(props: IEventType) {
                                     </a>
                                 )}
                                 {(!isBought && !isOrganizer) && (
-                                    <Text  fontSize={"14px"} color={primaryColor} >{maxPrice ? "Buy Ticket" : "Register Ticket"} To View Link</Text>
+                                    <Text fontSize={"14px"} color={primaryColor} >{maxPrice ? "Buy Ticket" : "Register Ticket"} To View Link</Text>
                                 )}
                             </Flex>
                         </Flex>
@@ -163,21 +167,22 @@ export default function EventDetail(props: IEventType) {
                     )}
                 </Flex>
                 <Flex maxW={["full", "full", "full", "430px", "430px"]} flexDir={"column"} gap={"6"} w={"full"} >
-
-                    <Flex display={["none", "none", "none", "flex", "flex"]} bg={mainBackgroundColor} zIndex={"50"} pos={["sticky", "sticky", "sticky", "relative", "relative"]} bottom={"0px"} w={"full"} mt={"8"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} borderWidth={(pathname?.includes("past") && !isOrganizer) ? "0px" : "1px"} borderColor={"#DEDEDE"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
-                        {/* {(!pathname?.includes("past") || isOrganizer) && ( */}
-                            <Text fontWeight={"600"} fontSize={"18px"} >{(isOrganizer) ? " " : "Ticket  Available"}</Text>
-                        {/* )} */}
-                        {(!isBought && !isOrganizer && !pathname?.includes("past")) && (
-                            <SelectTicket data={props} currency={currency} ticket={productTypeData} />
-                        )}
-                        {(!isOrganizer) && (
-                            <GetEventTicket {...props} />
-                        )}
-                        {isOrganizer && (
-                            <OrganizeBtn {...props} />
-                        )}
-                    </Flex>
+                    {eventMemberRole !== "COLLABORATOR" && (
+                        <Flex display={["none", "none", "none", "flex", "flex"]} bg={mainBackgroundColor} zIndex={"50"} pos={["relative"]} bottom={"0px"} w={"full"} mt={"8"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} borderWidth={(pathname?.includes("past") && !isOrganizer) ? "0px" : "1px"} borderColor={"#DEDEDE"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
+                            {/* {(!pathname?.includes("past") || isOrganizer) && ( */}
+                            <Text fontWeight={"600"} fontSize={"18px"} >{(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") ? " " : "Ticket  Available"}</Text>
+                            {/* )} */}
+                            {(!isBought && (!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && !pathname?.includes("past")) && (
+                                <SelectTicket data={props} currency={currency} ticket={productTypeData} />
+                            )}
+                            {(!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && (
+                                <GetEventTicket {...props} />
+                            )}
+                            {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") && (
+                                <OrganizeBtn {...props} />
+                            )}
+                        </Flex>
+                    )}
                     <Flex flexDir={"column"} gap={"4"} >
                         <Text fontWeight={"medium"} >Tags</Text>
                         <Button color={headerTextColor} fontSize={"12px"} w={"fit-content"} px={"3"} bgColor={secondaryBackgroundColor} rounded={"32px"} h={"38px"} >
@@ -188,17 +193,17 @@ export default function EventDetail(props: IEventType) {
             </Flex>
             <EventMap height={"350px"} latlng={location?.latlng ?? ""} />
             <Box display={["flex", "flex", "flex", "none", "none"]} h={"300px"} />
-            <Flex display={["flex", "flex", "flex", "none", "none"]} zIndex={"100"} pos= {["fixed", "fixed", "fixed", "relative", "relative"]} bgColor={mainBackgroundColor} bottom={pathname?.includes("detail") ? "80px" : "30px"} left={"4"} right={"4"}  mt={"8"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} style={{ border: "1px solid #DEDEDE", boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
+            <Flex display={["flex", "flex", "flex", "none", "none"]} zIndex={"100"} pos={["fixed", "fixed", "fixed", "relative", "relative"]} bgColor={mainBackgroundColor} bottom={pathname?.includes("detail") ? "80px" : "30px"} left={"4"} right={"4"} mt={"8"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} style={{ border: "1px solid #DEDEDE", boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
                 {/* {(!pathname?.includes("past") || isOrganizer) && ( */}
-                    <Text fontWeight={"600"} fontSize={"18px"} >{(isOrganizer) ? " " : "Ticket  Available"}</Text>
+                <Text fontWeight={"600"} fontSize={"18px"} >{(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") ? " " : "Ticket  Available"}</Text>
                 {/* )}  */}
-                {(!isBought && !isOrganizer && !pathname?.includes("past")) && (
+                {(!isBought && (!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && !pathname?.includes("past")) && (
                     <SelectTicket data={props} currency={currency} ticket={productTypeData} />
                 )}
-                {(!isOrganizer) && (
+                {(!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && (
                     <GetEventTicket {...props} />
                 )}
-                {isOrganizer && (
+                {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") && (
                     <OrganizeBtn {...props} />
                 )}
             </Flex>
