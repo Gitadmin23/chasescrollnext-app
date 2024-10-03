@@ -93,13 +93,7 @@ function GoogleBtn(props: Props) {
         },
         onError: (error: any) => {
             console.log(error);
-            setGoogle(false)
-
-            toast({
-                title: 'Erroor',
-                description: 'An error occured, please try again',
-                status: 'error',
-            })
+            setGoogle(false) 
         }
     }) 
 
