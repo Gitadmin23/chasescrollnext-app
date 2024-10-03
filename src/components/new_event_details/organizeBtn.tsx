@@ -52,7 +52,7 @@ function OrganizeBtn(props: IEventType) {
                         )}
                     </Flex>
                 )}
-                <CustomButton display={['block', 'none']} onClick={() => setShowScanner(true)} color={"#12299C"} borderRadius={"32px"} text='Scan Ticket' w={"full"} backgroundColor={"white"} border={"1px solid #12299C75"} height={"57px"} fontSize={"sm"} />
+                <CustomButton display={["block", "block", "block", "none", "none"]} onClick={() => setShowScanner(true)} color={"#12299C"} borderRadius={"32px"} text='Scan Ticket' w={"full"} backgroundColor={"white"} border={"1px solid #12299C75"} height={"57px"} fontSize={"sm"} />
 
             </Flex>
             <ModalLayout open={open} close={setOpen} title='' >
