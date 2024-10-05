@@ -89,7 +89,7 @@ function SelectTicket(props: Props) {
                     <LiaAngleDownSolid />
                 </Flex>
             ) : (
-                <> 
+                <Flex w={"full"} flexDir={"column"} > 
                     {ticket?.filter((item: any) => item?.ticketType)?.map((item: any, index: number) => {
                         if (item?.ticketType === "Early Bird" && (new Date(item?.endDate) !== new Date(data?.endDate))) {
                             if ((new Date() >= new Date(item?.startDate)) && new Date() <= new Date(item?.endDate)) {
@@ -117,7 +117,7 @@ function SelectTicket(props: Props) {
                             )
                         }
                     })}
-                </>
+                </Flex>
             )}
             {showModal && (
                 <Box shadow={"xl"} width={"full"} borderWidth={"0px"} zIndex={"30"} top={["0px", "0px", "0px", "100px", "100px"]} position={["relative", "relative", "relative", "absolute", "absolute"]} rounded={"lg"} >
