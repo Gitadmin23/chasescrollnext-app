@@ -37,10 +37,7 @@ export default function EventDetail(props: IEventType) {
         isOrganizer,
         maxPrice,
         eventMemberRole
-    } = props
-
-    console.log(eventMemberRole);
-
+    } = props 
 
     const {
         headerTextColor,
@@ -67,7 +64,7 @@ export default function EventDetail(props: IEventType) {
         } else {
             router.back()
         }
-    }
+    } 
 
     return (
         <Flex w={"full"} flexDir={"column"} pb={"8"} gap={["6", "6", "6", "10", "10"]} pos={"relative"} >

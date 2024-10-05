@@ -41,7 +41,6 @@ function UserExploreCard(props: Props) {
         mainBackgroundColor,
         borderColor,
     } = useCustomTheme();
-    const { colorMode, toggleColorMode } = useColorMode();
 
     return (
         <Flex as={"button"} alignItems={"center"} onClick={()=> router.push("/dashboard/profile/" + userId)} flexDirection={"column"} width={"180px"} gap={"12px"}  roundedBottom={"24px"} roundedTopLeft={"24px"} shadow={"lg"} p={"12px"} pb={"24px"} bg={secondaryBackgroundColor}>

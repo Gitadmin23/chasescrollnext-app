@@ -138,7 +138,7 @@ export default function CollaboratorBtn(props: IProps) {
     const AddCollaborators = (userIndex: string) => {
 
         let admin = !eventdata?.admins ? [] : [...eventdata?.admins]
-        let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators] 
+        let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators]
 
         let clone = { ...eventdata }
 
@@ -156,10 +156,10 @@ export default function CollaboratorBtn(props: IProps) {
 
                 const index = collaborators.indexOf(userIndex);
                 clone?.collaborators.splice(index, 1);
-                // clone?.collaborators?.filter((id) => id !== userIndex)
-                clone.collaborators = [...collaborators, userIndex]
+                // clone?.collaborators?.filter((id) => id !== userIndex) 
             }
             updateEvent(clone);
+            
 
         } else if (eventdata?.collaborators?.includes(userIndex)) {
 
@@ -177,14 +177,93 @@ export default function CollaboratorBtn(props: IProps) {
             updateEvent(clone);
 
         }
-    } 
+
+    }
+
+    const AddActiveAdmin = (userIndex: string) => {
+
+        let admin = !eventdata?.acceptedAmins ? [] : [...eventdata?.acceptedAmins]
+        let collaborators = !eventdata?.acceptedCollaborators ? [] : [...eventdata?.acceptedCollaborators]
+
+        let clone = { ...eventdata }
+
+        if (eventdata?.acceptedCollaborators?.includes(userIndex)) {
 
 
-    const UserCard = (props: IUser & { collaborators: boolean, admin: boolean, pending?: boolean }) => {
-        const { username, userId, data: any, firstName, lastName, collaborators, admin, pending } = props;
+            const index = collaborators.indexOf(userIndex);
+            clone?.acceptedCollaborators.splice(index, 1);
+
+            if (!eventdata?.acceptedAmins?.includes(userIndex)) {
+
+                clone.acceptedAmins = [...admin, userIndex]
+            } else {
+
+                const index = admin.indexOf(userIndex);
+                clone?.acceptedAmins.splice(index, 1);
+                clone.acceptedCollaborators = [...collaborators, userIndex]
+            }
+
+            updateEvent(clone)
+
+
+        } else if (eventdata?.acceptedAmins?.includes(userIndex)) {
+
+
+            const index = admin.indexOf(userIndex);
+            clone?.acceptedAmins.splice(index, 1);
+
+            updateEvent(clone);
+        } else {
+
+            clone.acceptedAmins = [...admin, userIndex]
+
+
+            updateEvent(clone);
+
+        }
+    }
+
+    const AddActiveCollaborators = (userIndex: string) => {
+
+        let admin = !eventdata?.acceptedAmins ? [] : [...eventdata?.acceptedAmins]
+        let collaborators = !eventdata?.acceptedCollaborators ? [] : [...eventdata?.acceptedCollaborators]
+
+        let clone = { ...eventdata }
+
+        if (eventdata?.acceptedAmins?.includes(userIndex)) {
+ 
+            const index = admin.indexOf(userIndex);
+            clone?.acceptedAmins.splice(index, 1);
+
+            if (!eventdata?.acceptedCollaborators?.includes(userIndex)) {
+
+                clone.acceptedCollaborators = [...collaborators, userIndex]
+            } else { 
+                const index = collaborators.indexOf(userIndex);
+                clone?.acceptedCollaborators.splice(index, 1);
+                // clone?.collaborators?.filter((id) => id !== userIndex)
+                clone.acceptedCollaborators = [...collaborators, userIndex]
+            } 
+            updateEvent(clone);
+
+        } else if (eventdata?.acceptedCollaborators?.includes(userIndex)) {
+
+            const index = collaborators.indexOf(userIndex);
+            clone?.acceptedCollaborators.splice(index, 1); 
+            updateEvent(clone);
+        } else {
+
+            clone.acceptedCollaborators = [...collaborators, userIndex] 
+            updateEvent(clone);
+
+        }
+    }
+
+
+    const UserCard = (props: IUser & { collaborators: boolean, admin: boolean, active?: boolean, collaborator?: boolean }) => {
+        const { username, userId, data, firstName, lastName, collaborators, admin, active, collaborator } = props;
 
         const [show, setShow] = useState(false)
-
         const removeHandler = (userIndex: string) => {
             let clone = { ...eventdata }
 
@@ -228,26 +307,29 @@ export default function CollaboratorBtn(props: IProps) {
                     updateEvent(clone);
                 }
             }
+
             setShow((prev) => !prev)
         }
-        
 
         return (
             <Flex bgColor={mainBackgroundColor} width='100%' height={'fit-content'} flexDir={"column"} rounded={"16px"} borderColor={borderColor} borderWidth={"1px"} justifyContent={'space-between'} padding='15px'>
                 <Flex as={"button"} onClick={() => removeHandler(userId)} justifyContent={'space-between'} w={"full"} alignItems={"center"}  >
-                    <Flex gap={"1"} height={"full"} alignItems={"center"} >
+                    <Flex gap={"2"} height={"full"} alignItems={"center"} >
                         <Box w={"fit-content"} >
-                            <UserImage data={props} image={props?.data?.imgMain?.value} size={"40px"} border={"2px"} font={"20px"} />
+                            <UserImage data={props} image={props?.data?.imgMain?.value} size={"50px"} border={"2px"} font={"20px"} />
                         </Box>
                         {/* <Avatar src={`${CONFIG.RESOURCE_URL}${imgMain}`} size='sm' name={`${firstName} ${lastName}`} /> */}
                         <VStack alignItems={'flex-start'} spacing={0}>
                             <Heading fontSize={'16px'} color={headerTextColor}>{firstName || ''} {lastName || ''}</Heading>
                             <Text fontSize={'14px'} color={bodyTextColor}>@{textLimit(username, 12) || ''}</Text>
+                            {collaborator && (
+                                <Text fontSize={'14px'} color={headerTextColor}>Status: <span style={{ color: active ? "#3EC30F" : "#FDB806" }} >{!active ? "pending" : "active"}</span></Text>
+                            )}
                         </VStack>
                     </Flex>
                     <Checkbox isChecked={show || collaborators || admin} rounded={"full"} onChange={(e) => removeHandler(userId)} />
                 </Flex>
-                {(show || collaborators || admin) && (
+                {((show || collaborators || admin) && !active) && (
                     <Flex gap={"6"} pt={"4"} justifyContent={"center"} alignItems={"center"} >
 
                         <Flex as='button' onClick={() => AddAdmin(userId)} alignItems={"center"} gap={"2"} >
@@ -259,6 +341,27 @@ export default function CollaboratorBtn(props: IProps) {
                             </Flex>
                         </Flex>
                         <Flex as='button' onClick={() => AddCollaborators(userId)} alignItems={"center"} gap={"2"} >
+                            <Text>Volunteer</Text>
+                            <Flex as='button' w={"24px"} h={"24px"} rounded={"full"} borderWidth={"2px"} borderColor={collaborators ? "#5465E0" : "#8AA7C5"} alignItems={"center"} justifyContent={"center"} >
+                                {collaborators && (
+                                    <Box w={"9.6px"} h={"9.6px"} bgColor={"#5465E0"} rounded={"full"} />
+                                )}
+                            </Flex>
+                        </Flex>
+                    </Flex>
+                )}
+                {((show || collaborators || admin) && active) && (
+                    <Flex gap={"6"} pt={"4"} justifyContent={"center"} alignItems={"center"} >
+
+                        <Flex as='button' onClick={() => AddActiveAdmin(userId)} alignItems={"center"} gap={"2"} >
+                            <Text>Admin</Text>
+                            <Flex as='button' w={"24px"} h={"24px"} rounded={"full"} borderWidth={"2px"} borderColor={admin ? "#5465E0" : "#8AA7C5"} alignItems={"center"} justifyContent={"center"} >
+                                {admin && (
+                                    <Box w={"9.6px"} h={"9.6px"} bgColor={"#5465E0"} rounded={"full"} />
+                                )}
+                            </Flex>
+                        </Flex>
+                        <Flex as='button' onClick={() => AddActiveCollaborators(userId)} alignItems={"center"} gap={"2"} >
                             <Text>Volunteer</Text>
                             <Flex as='button' w={"24px"} h={"24px"} rounded={"full"} borderWidth={"2px"} borderColor={collaborators ? "#5465E0" : "#8AA7C5"} alignItems={"center"} justifyContent={"center"} >
                                 {collaborators && (
@@ -359,7 +462,7 @@ export default function CollaboratorBtn(props: IProps) {
         },
         onSuccess: (message: AxiosResponse<any>) => {
             queryClient.invalidateQueries(['all-events-details'])
- 
+
             toast({
                 title: 'Success',
                 description: "Updated Event",
@@ -410,7 +513,7 @@ export default function CollaboratorBtn(props: IProps) {
     const changeTabHandler = (item: boolean) => {
         setTab(item)
         setSearch("")
-    } 
+    }
 
     return (
         <>
@@ -558,16 +661,16 @@ export default function CollaboratorBtn(props: IProps) {
                                                 ) : (
                                                     <Flex flexDir={"column"} gap={"4"} maxH={"250px"} pb={"4"} px={"5"} overflowY={"auto"} >
                                                         {data?.admins?.map((item, index) => (
-                                                            <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
+                                                            <UserCard collaborator={true} {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
                                                         ))}
                                                         {data?.collaborators?.map((item, index) => (
-                                                            <UserCard {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
+                                                            <UserCard collaborator={true} {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
                                                         ))}
                                                         {data?.acceptedAmins?.map((item, index) => (
-                                                            <UserCard {...item} collaborators={eventdata?.acceptedCollaborators?.includes(item.userId)} admin={eventdata?.acceptedAmins?.includes(item.userId)} key={index.toString()} />
+                                                            <UserCard collaborator={true} active={true} {...item} collaborators={eventdata?.acceptedCollaborators?.includes(item.userId)} admin={eventdata?.acceptedAmins?.includes(item.userId)} key={index.toString()} />
                                                         ))}
                                                         {data?.acceptedCollaborators?.map((item, index) => (
-                                                            <UserCard {...item} collaborators={eventdata?.acceptedCollaborators?.includes(item.userId)} admin={eventdata?.acceptedCollaborators?.includes(item.userId)} key={index.toString()} />
+                                                            <UserCard collaborator={true} active={true} {...item} collaborators={eventdata?.acceptedCollaborators?.includes(item.userId)} admin={eventdata?.acceptedAmins?.includes(item.userId)} key={index.toString()} />
                                                         ))}
                                                     </Flex>
                                                 )}
