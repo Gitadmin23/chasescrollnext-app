@@ -185,7 +185,7 @@ export default function CollaboratorBtn(props: IProps) {
 
     const AddActiveAdmin = (userIndex: string) => {
 
-        let admin = !eventdata?.acceptedAmins ? [] : [...eventdata?.acceptedAmins]
+        let admin = !eventdata?.acceptedAdmins ? [] : [...eventdata?.acceptedAdmins]
         let collaborators = !eventdata?.acceptedCollaborators ? [] : [...eventdata?.acceptedCollaborators]
 
         let clone = { ...eventdata }
@@ -196,29 +196,29 @@ export default function CollaboratorBtn(props: IProps) {
             const index = collaborators.indexOf(userIndex);
             clone?.acceptedCollaborators.splice(index, 1);
 
-            if (!eventdata?.acceptedAmins?.includes(userIndex)) {
+            if (!eventdata?.acceptedAdmins?.includes(userIndex)) {
 
-                clone.acceptedAmins = [...admin, userIndex]
+                clone.acceptedAdmins = [...admin, userIndex]
             } else {
 
                 const index = admin.indexOf(userIndex);
-                clone?.acceptedAmins.splice(index, 1);
+                clone?.acceptedAdmins.splice(index, 1);
                 clone.acceptedCollaborators = [...collaborators, userIndex]
             }
 
             updateEvent(clone)
 
 
-        } else if (eventdata?.acceptedAmins?.includes(userIndex)) {
+        } else if (eventdata?.acceptedAdmins?.includes(userIndex)) {
 
 
             const index = admin.indexOf(userIndex);
-            clone?.acceptedAmins.splice(index, 1);
+            clone?.acceptedAdmins.splice(index, 1);
 
             updateEvent(clone);
         } else {
 
-            clone.acceptedAmins = [...admin, userIndex]
+            clone.acceptedAdmins = [...admin, userIndex]
 
 
             updateEvent(clone);
@@ -228,15 +228,15 @@ export default function CollaboratorBtn(props: IProps) {
 
     const AddActiveCollaborators = (userIndex: string) => {
 
-        let admin = !eventdata?.acceptedAmins ? [] : [...eventdata?.acceptedAmins]
+        let admin = !eventdata?.acceptedAdmins ? [] : [...eventdata?.acceptedAdmins]
         let collaborators = !eventdata?.acceptedCollaborators ? [] : [...eventdata?.acceptedCollaborators]
 
         let clone = { ...eventdata }
 
-        if (eventdata?.acceptedAmins?.includes(userIndex)) {
+        if (eventdata?.acceptedAdmins?.includes(userIndex)) {
  
             const index = admin.indexOf(userIndex);
-            clone?.acceptedAmins.splice(index, 1);
+            clone?.acceptedAdmins.splice(index, 1);
 
             if (!eventdata?.acceptedCollaborators?.includes(userIndex)) {
 
@@ -272,7 +272,7 @@ export default function CollaboratorBtn(props: IProps) {
 
             let admin = !eventdata?.admins ? [] : [...eventdata?.admins]
             let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators]
-            let acceptedAmins = !eventdata?.acceptedAmins ? [] : [...eventdata?.acceptedAmins]
+            let acceptedAdmins = !eventdata?.acceptedAdmins ? [] : [...eventdata?.acceptedAdmins]
             let acceptedCollaborators = !eventdata?.acceptedCollaborators ? [] : [...eventdata?.acceptedCollaborators]
 
 
@@ -292,10 +292,10 @@ export default function CollaboratorBtn(props: IProps) {
                     // clone?.collaborators?.filter((id) => id !== userIndex)
 
                     updateEvent(clone);
-                } else if (eventdata?.acceptedAmins?.includes(userIndex)) {
+                } else if (eventdata?.acceptedAdmins?.includes(userIndex)) {
 
-                    const index = acceptedAmins.indexOf(userIndex);
-                    clone?.acceptedAmins.splice(index, 1);
+                    const index = acceptedAdmins.indexOf(userIndex);
+                    clone?.acceptedAdmins.splice(index, 1);
 
                     // clone?.collaborators?.filter((id) => id !== userIndex)
 
@@ -434,7 +434,7 @@ export default function CollaboratorBtn(props: IProps) {
                 location: data?.location,
                 productTypeData: data?.productTypeData,
                 collaborators: data?.collaborators,
-                acceptedAmins: data?.acceptedAmins,
+                acceptedAdmins: data?.acceptedAdmins,
                 acceptedCollaborators: data?.acceptedCollaborators,
                 admins: data?.admins
             }
@@ -442,7 +442,7 @@ export default function CollaboratorBtn(props: IProps) {
 
             const admin: any = []
             const collaborator: any = []
-            const acceptedAmins: any = []
+            const acceptedAdmins: any = []
             const acceptedCollaborators: any = []
 
             clone?.admins?.map((item: IUser) => {
@@ -452,8 +452,8 @@ export default function CollaboratorBtn(props: IProps) {
                 return collaborator.push(item?.userId)
             })
 
-            clone?.acceptedAmins?.map((item: IUser) => {
-                return acceptedAmins.push(item?.userId)
+            clone?.acceptedAdmins?.map((item: IUser) => {
+                return acceptedAdmins.push(item?.userId)
             })
             clone?.acceptedCollaborators?.map((item: IUser) => {
                 return acceptedCollaborators.push(item?.userId)
@@ -461,7 +461,7 @@ export default function CollaboratorBtn(props: IProps) {
 
             clone.admins = admin
             clone.collaborators = collaborator
-            clone.acceptedAmins = acceptedAmins
+            clone.acceptedAdmins = acceptedAdmins
             clone.acceptedCollaborators = acceptedCollaborators
 
             updateEvent(clone)
@@ -669,9 +669,9 @@ export default function CollaboratorBtn(props: IProps) {
 
                         {tab && (
                             <>
-                                {(data?.admins && data?.collaborators && data?.acceptedAmins && data?.acceptedCollaborators) && (
+                                {(data?.admins && data?.collaborators && data?.acceptedAdmins && data?.acceptedCollaborators) && (
                                     <>
-                                        {(data?.admins?.length > 0 || data.collaborators.length > 0 || data.acceptedAmins.length > 0 || data.acceptedCollaborators.length > 0) ? (
+                                        {(data?.admins?.length > 0 || data.collaborators.length > 0 || data.acceptedAdmins.length > 0 || data.acceptedCollaborators.length > 0) ? (
                                             <>
                                                 {search ? (
                                                     <Flex flexDir={"column"} gap={"4"} maxH={"250px"} pb={"4"} px={"5"} overflowY={"auto"} >
@@ -690,11 +690,11 @@ export default function CollaboratorBtn(props: IProps) {
                                                         {data?.collaborators?.map((item, index) => (
                                                             <UserCard collaborator={true} {...item} collaborators={eventdata?.collaborators?.includes(item.userId)} admin={eventdata?.admins?.includes(item.userId)} key={index.toString()} />
                                                         ))}
-                                                        {data?.acceptedAmins?.map((item, index) => (
-                                                            <UserCard collaborator={true} active={true} {...item} collaborators={eventdata?.acceptedCollaborators?.includes(item.userId)} admin={eventdata?.acceptedAmins?.includes(item.userId)} key={index.toString()} />
+                                                        {data?.acceptedAdmins?.map((item, index) => (
+                                                            <UserCard collaborator={true} active={true} {...item} collaborators={eventdata?.acceptedCollaborators?.includes(item.userId)} admin={eventdata?.acceptedAdmins?.includes(item.userId)} key={index.toString()} />
                                                         ))}
                                                         {data?.acceptedCollaborators?.map((item, index) => (
-                                                            <UserCard collaborator={true} active={true} {...item} collaborators={eventdata?.acceptedCollaborators?.includes(item.userId)} admin={eventdata?.acceptedAmins?.includes(item.userId)} key={index.toString()} />
+                                                            <UserCard collaborator={true} active={true} {...item} collaborators={eventdata?.acceptedCollaborators?.includes(item.userId)} admin={eventdata?.acceptedAdmins?.includes(item.userId)} key={index.toString()} />
                                                         ))}
                                                     </Flex>
                                                 )}
@@ -713,7 +713,7 @@ export default function CollaboratorBtn(props: IProps) {
 
                 {btn && (
                     <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg={mainBackgroundColor} py={'20px'} >
-                        <CustomButton text={tab ? 'Update Role' : 'Assign Role'} disable={(eventdata?.admins?.length === data?.admins?.length) && (eventdata?.collaborators?.length === data?.collaborators?.length) && (eventdata?.acceptedAmins?.length === data?.acceptedAmins?.length) && (eventdata?.acceptedCollaborators?.length === data?.acceptedCollaborators?.length)} isLoading={updateUserEvent?.isLoading} onClick={() => updateEventCollaboration({ admins: eventdata?.admins, collaborators: eventdata?.collaborators, id: eventdata?.id, acceptedAmins: eventdata?.acceptedAmins, acceptedCollaborators: eventdata?.acceptedCollaborators })} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
+                        <CustomButton text={tab ? 'Update Role' : 'Assign Role'} disable={(eventdata?.admins?.length === data?.admins?.length) && (eventdata?.collaborators?.length === data?.collaborators?.length) && (eventdata?.acceptedAdmins?.length === data?.acceptedAdmins?.length) && (eventdata?.acceptedCollaborators?.length === data?.acceptedCollaborators?.length)} isLoading={updateUserEvent?.isLoading} onClick={() => updateEventCollaboration({ admins: eventdata?.admins, collaborators: eventdata?.collaborators, id: eventdata?.id, acceptedAdmins: eventdata?.acceptedAdmins, acceptedCollaborators: eventdata?.acceptedCollaborators })} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
                     </Box>
                 )}
 

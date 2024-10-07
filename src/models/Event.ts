@@ -50,7 +50,7 @@ export interface IEventType {
     interestedUsers: IUser[],
     collaborators: IUser[]
     admins: IUser[];
-    acceptedAmins: IUser[]
+    acceptedAdmins: IUser[]
     acceptedCollaborators: IUser[]
 
 }

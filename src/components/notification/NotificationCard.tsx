@@ -140,7 +140,7 @@ function NotificationCard({ notification }: { notification: INotification }) {
         ) : (
           <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>
             
-              {textLimit((notification.message)?.replaceAll("New message on chat "+notification?.createdBy?.firstName+" "+notification.createdBy?.lastName, ""),40)}
+              {textLimit((notification.message)?.replaceAll("New message on chat "+notification?.createdBy?.firstName+" "+notification.createdBy?.lastName, ""),70)}
           </CustomText>
         )}
         <Flex gap={"8"} mt={"1"} alignItems={"center"} >
