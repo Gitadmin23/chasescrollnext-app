@@ -133,6 +133,7 @@ export default function CollaboratorBtn(props: IProps) {
             updateEvent(clone);
 
         }
+        console.log(clone);
     }
 
     const AddCollaborators = (userIndex: string) => {
@@ -177,6 +178,8 @@ export default function CollaboratorBtn(props: IProps) {
             updateEvent(clone);
 
         }
+        console.log(clone);
+        
 
     }
 
@@ -327,9 +330,9 @@ export default function CollaboratorBtn(props: IProps) {
                             )}
                         </VStack>
                     </Flex>
-                    <Checkbox isChecked={show || collaborators || admin} rounded={"full"} onChange={(e) => removeHandler(userId)} />
+                    <Checkbox isChecked={show || admin || collaborators} rounded={"full"} onChange={(e) => removeHandler(userId)} />
                 </Flex>
-                {((show || collaborators || admin) && !active) && (
+                {((show || admin || collaborators) && !collaborator) && (
                     <Flex gap={"6"} pt={"4"} justifyContent={"center"} alignItems={"center"} >
 
                         <Flex as='button' onClick={() => AddAdmin(userId)} alignItems={"center"} gap={"2"} >
@@ -350,7 +353,28 @@ export default function CollaboratorBtn(props: IProps) {
                         </Flex>
                     </Flex>
                 )}
-                {((show || collaborators || admin) && active) && (
+                {((show || admin || collaborators) && (collaborator && !active)) && (
+                    <Flex gap={"6"} pt={"4"} justifyContent={"center"} alignItems={"center"} >
+
+                        <Flex as='button' onClick={() => AddAdmin(userId)} alignItems={"center"} gap={"2"} >
+                            <Text>Admin</Text>
+                            <Flex as='button' w={"24px"} h={"24px"} rounded={"full"} borderWidth={"2px"} borderColor={admin ? "#5465E0" : "#8AA7C5"} alignItems={"center"} justifyContent={"center"} >
+                                {admin && (
+                                    <Box w={"9.6px"} h={"9.6px"} bgColor={"#5465E0"} rounded={"full"} />
+                                )}
+                            </Flex>
+                        </Flex>
+                        <Flex as='button' onClick={() => AddCollaborators(userId)} alignItems={"center"} gap={"2"} >
+                            <Text>Volunteer</Text>
+                            <Flex as='button' w={"24px"} h={"24px"} rounded={"full"} borderWidth={"2px"} borderColor={collaborators ? "#5465E0" : "#8AA7C5"} alignItems={"center"} justifyContent={"center"} >
+                                {collaborators && (
+                                    <Box w={"9.6px"} h={"9.6px"} bgColor={"#5465E0"} rounded={"full"} />
+                                )}
+                            </Flex>
+                        </Flex>
+                    </Flex>
+                )}
+                {((show || collaborators || admin) && (collaborator && active)) && (
                     <Flex gap={"6"} pt={"4"} justifyContent={"center"} alignItems={"center"} >
 
                         <Flex as='button' onClick={() => AddActiveAdmin(userId)} alignItems={"center"} gap={"2"} >
