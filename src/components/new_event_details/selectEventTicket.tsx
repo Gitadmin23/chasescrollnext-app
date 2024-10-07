@@ -75,6 +75,13 @@ function SelectTicket(props: Props) {
         setOpenSignUp(item)
     }
 
+    useEffect(()=> { 
+        if(ticket?.length === 1){
+            clickHandler(ticket[0])
+        }
+    }, [ticket])
+
+
     return (
         <Flex gap={"3"} position={"relative"} flexDir={"column"} alignItems={"center"} justifyContent={"end"}  >
             {ticket?.length > 1 ? (
