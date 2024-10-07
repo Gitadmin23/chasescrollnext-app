@@ -99,7 +99,7 @@ export default function NewEventCard(props: IEventType) {
                     </Box>
                 </Box>
                 <Box w={["full"]} display={["block", "block", "none"]} position={"relative"} top={"0px"} >
-                    {(!isOrganizer && (eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR")) && (
+                    {(!isOrganizer && (eventMemberRole !== "ADMIN"  && eventMemberRole !== "COLLABORATOR")) && (
                         <CustomButton text={new Date(endDate) < (new Date()) ? "Attended" : pathname?.includes("save") ? "Saved" : pathname?.includes("draft") ? "Draft" : "Attending"} backgroundColor={new Date(endDate) < (new Date()) ? "#FBCDCD" : "#EFF1FE"} color={new Date(endDate) < (new Date()) ? "red" : "#5D70F9"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />
                     )}
                     {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") && (

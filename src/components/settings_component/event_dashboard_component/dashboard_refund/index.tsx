@@ -363,7 +363,7 @@ function DashboardRefund(props: Props) {
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{showUserName ? person?.user?.username : ""}</Td>
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showEmail ? person?.user?.email : ""}</Td>
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showDate ? dateFormat(person?.createdDate) : ""}</Td>
-                                            {(person?.ticketType) && (
+                                            {(person?.ticketType && person?.role !== "ADMIN" && person?.role !== "COLLABORATOR") && (
                                                 <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>
                                                     {showTicketType && (
                                                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} >
@@ -372,14 +372,14 @@ function DashboardRefund(props: Props) {
                                                     )}
                                                 </Td>
                                             )}
-                                            {(!person?.ticketType) && (
+                                            {(!person?.ticketType || person?.role === "ADMIN" || person?.role === "COLLABORATOR") && (
                                                 <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >
-                                                    {(person?.role === "ADMIN" && person?.createdBy?.email === person?.user?.email && showTicketType) && (
+                                                    {(person?.role === "ADMIN" && person?.ticketScanInfoList.length === 0 && showTicketType) && (
                                                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"brand.chasescrollBlue"} >
                                                             Organizer
                                                         </Flex>
                                                     )}
-                                                    {(person?.role === "ADMIN" && person?.createdBy?.email !== person?.user?.email && showTicketType) && (
+                                                    {(person?.role === "ADMIN" && person?.ticketScanInfoList.length > 0 && showTicketType) && (
                                                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"#3EC30F"} >
                                                             Admin
                                                         </Flex>
