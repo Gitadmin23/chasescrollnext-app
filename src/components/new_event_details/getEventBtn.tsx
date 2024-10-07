@@ -102,9 +102,12 @@ function GetEventTicket(props: IEventType) {
         setModalTab(4)
     }
 
+    console.log(ticketType);
+    
+
     return (
         <>
-            <CustomButton backgroundColor={"#233DF3"} borderRadius={"32px"} opacity={(!ticketType?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!ticketType?.ticketType || ticketType?.ticketType || isBought) ? false : true} text={((isBought) ? "View Ticket" : isFree ? "Check out " : "Check out ")} width={["full"]} height={"57px"} fontSize={"sm"} fontWeight={"semibold"} />
+            <CustomButton backgroundColor={"#233DF3"} borderRadius={"32px"} opacity={(!ticketType?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!ticketType?.ticketType || ticketType?.ticketType || isBought) ? false : true} text={((isBought) ? "View Ticket" : isFree ? "Register" : "Check out ")} width={["full"]} height={"57px"} fontSize={"sm"} fontWeight={"semibold"} />
 
             <ModalLayout size={modalTab === 5 ? ["md", "md", "3xl"] : "md"} title={modalTab === 6 ? "Ticket available for this event" : ""} open={showModal} close={setShowModal} >
                 {modalTab === 1 && (

@@ -323,7 +323,7 @@ export default function CollaboratorBtn(props: IProps) {
                             <Heading fontSize={'16px'} color={headerTextColor}>{firstName || ''} {lastName || ''}</Heading>
                             <Text fontSize={'14px'} color={bodyTextColor}>@{textLimit(username, 12) || ''}</Text>
                             {collaborator && (
-                                <Text fontSize={'14px'} color={headerTextColor}>Status: <span style={{ color: active ? "#3EC30F" : "#FDB806" }} >{!active ? "pending" : "active"}</span></Text>
+                                <Text fontSize={'14px'} color={headerTextColor}>Status: <span style={{ color: active ? "#3EC30F" : "#FDB806" }} >{!active ? "Pending" : "Active"}</span></Text>
                             )}
                         </VStack>
                     </Flex>
@@ -465,7 +465,7 @@ export default function CollaboratorBtn(props: IProps) {
 
             toast({
                 title: 'Success',
-                description: "Updated Event",
+                description: "Event Role Updated",
                 status: 'success',
                 isClosable: true,
                 duration: 5000,
