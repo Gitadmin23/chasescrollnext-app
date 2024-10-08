@@ -99,10 +99,10 @@ function SelectTicket(props: Props) {
                 <Flex w={"full"} flexDir={"column"} > 
                     {ticket?.filter((item: any) => item?.ticketType)?.map((item: any, index: number) => {
                         if (item?.ticketType === "Early Bird" && (new Date(item?.endDate) !== new Date(data?.endDate))) {
-                            if ((new Date() >= new Date(item?.startDate)) && new Date() <= new Date(item?.endDate)) {
+                            // if ((new Date() >= new Date(item?.startDate)) && new Date() <= new Date(item?.endDate)) {
                                 return (
                                     <Flex key={index} w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
-                                        <Button color={primaryColor} isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                        <Button disabled={(new Date() >= new Date(item?.startDate)) && new Date() <= new Date(item?.endDate)} color={primaryColor} isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                             {item?.totalNumberOfTickets === item?.ticketsSold ?
                                                 "Sold Out" :
                                                 item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
@@ -111,7 +111,7 @@ function SelectTicket(props: Props) {
                                         <Text color={"white"} px={"2"} rounded={"4px"} bg={"red"} textAlign={"center"} fontSize={"12px"} >Ends: {dateFormat(item?.endDate)} {timeFormat(item?.endDate)}</Text>
                                     </Flex>
                                 )
-                            }
+                            // }
                         } else {
                             return (
                                 // <Flex w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
