@@ -4,8 +4,9 @@ import EventInformation from '@/components/create_event_component/event_informat
 import EventTheme from '@/components/create_event_component/event_theme'
 import EventTicket from '@/components/create_event_component/event_ticket'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
-import useEventStore from '@/global-state/useCreateEventState'
+import useEventStore, { CreateEvent } from '@/global-state/useCreateEventState'
 import useCustomTheme from '@/hooks/useTheme'
+import { IUser } from '@/models/User'
 import { URLS } from '@/services/urls'
 import httpService from '@/utils/httpService'
 import { Box, Flex, useColorMode, useToast } from '@chakra-ui/react'
@@ -38,7 +39,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
         },
         onSuccess: (data: any) => {
 
-            updateEvent({
+            const clone: CreateEvent = {
                 id: data?.data?.content[0]?.id,
                 picUrls: data?.data?.content[0]?.picUrls,
                 eventType: data?.data?.content[0]?.eventType,
@@ -65,10 +66,36 @@ function EditEvent({ params }: { params: { slug: string } }) {
                 location: data?.data?.content[0]?.location,
                 productTypeData: data?.data?.content[0]?.productTypeData,
                 collaborators: data?.data?.content[0]?.collaborators,
-                admins: data?.data?.content[0]?.collaborators,  
-                acceptedCollaborators: data?.data?.content[0]?.acceptedCollaborators,
                 acceptedAdmins: data?.data?.content[0]?.acceptedAdmins,
+                acceptedCollaborators: data?.data?.content[0]?.acceptedCollaborators,
+                admins: data?.data?.content[0]?.admins
+            }
+ 
+            const admin: any = []
+            const collaborator: any = []
+            const acceptedAdmins: any = []
+            const acceptedCollaborators: any = []
+
+            clone?.admins?.map((item: IUser) => {
+                return admin.push(item?.userId)
             })
+            clone?.collaborators?.map((item: IUser) => {
+                return collaborator.push(item?.userId)
+            })
+
+            clone?.acceptedAdmins?.map((item: IUser) => {
+                return acceptedAdmins.push(item?.userId)
+            })
+            clone?.acceptedCollaborators?.map((item: IUser) => {
+                return acceptedCollaborators.push(item?.userId)
+            })
+
+            clone.admins = admin
+            clone.collaborators = collaborator
+            clone.acceptedAdmins = acceptedAdmins
+            clone.acceptedCollaborators = acceptedCollaborators
+
+            updateEvent(clone) 
 
         }
     })

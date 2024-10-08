@@ -488,7 +488,7 @@ function SubmitEvent(props: Iprops) {
                 productTypeData: data?.data?.productTypeData,
                 collaborators: data?.data?.collaborators,
                 admins: data?.data?.admins,
-                acceptedAmins: data?.data?.acceptedAmins,
+                acceptedAdmins: data?.data?.acceptedAdmins,
                 acceptedCollaborators: data?.data?.acceptedCollaborators
             }
 
