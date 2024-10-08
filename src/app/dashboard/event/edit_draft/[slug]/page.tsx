@@ -77,6 +77,8 @@ function EditEvent({ params }: { params: { slug: string } }) {
 
         const admin: any = []; 
         const collaborator: any = []; 
+        const acceptedAdmins: any = []; 
+        const acceptedCollaborators: any = []; 
 
         clone?.admins?.map((item: IUser) => {
           return admin.push(item?.userId);
@@ -85,9 +87,20 @@ function EditEvent({ params }: { params: { slug: string } }) {
           return collaborator.push(item?.userId);
         }); 
 
+        clone?.acceptedAdmins?.map((item: IUser) => {
+          return acceptedAdmins.push(item?.userId);
+        });
+        clone?.acceptedCollaborators?.map((item: IUser) => {
+          return acceptedCollaborators.push(item?.userId);
+        }); 
+
         clone.admins = admin;
 
         clone.collaborators = collaborator; 
+
+        clone.acceptedAdmins = acceptedAdmins;
+
+        clone.acceptedCollaborators = acceptedCollaborators; 
 
         updateEvent(clone);
       },

@@ -188,7 +188,7 @@ export default function CollaboratorBtn(props: IProps) {
         let admin = !eventdata?.acceptedAdmins ? [] : [...eventdata?.acceptedAdmins]
         let collaborators = !eventdata?.acceptedCollaborators ? [] : [...eventdata?.acceptedCollaborators]
 
-        let clone = { ...eventdata }
+        let clone: any = { ...eventdata }
 
         if (eventdata?.acceptedCollaborators?.includes(userIndex)) {
 
@@ -231,7 +231,7 @@ export default function CollaboratorBtn(props: IProps) {
         let admin = !eventdata?.acceptedAdmins ? [] : [...eventdata?.acceptedAdmins]
         let collaborators = !eventdata?.acceptedCollaborators ? [] : [...eventdata?.acceptedCollaborators]
 
-        let clone = { ...eventdata }
+        let clone: any = { ...eventdata }
 
         if (eventdata?.acceptedAdmins?.includes(userIndex)) {
  
@@ -268,7 +268,7 @@ export default function CollaboratorBtn(props: IProps) {
 
         const [show, setShow] = useState(false)
         const removeHandler = (userIndex: string) => {
-            let clone = { ...eventdata }
+            let clone: any = { ...eventdata }
 
             let admin = !eventdata?.admins ? [] : [...eventdata?.admins]
             let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators]

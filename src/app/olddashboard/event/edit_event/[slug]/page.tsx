@@ -56,7 +56,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
                 collaborators: data?.data?.content[0]?.collaborators,
                 admins: data?.data?.content[0]?.collaborators,
                 acceptedCollaborators: data?.data?.content[0]?.acceptedCollaborators,
-                acceptedAmins: data?.data?.content[0]?.acceptedCollaborators,
+                acceptedAdmins: data?.data?.content[0]?.acceptedAdmins,
             })
 
         }
