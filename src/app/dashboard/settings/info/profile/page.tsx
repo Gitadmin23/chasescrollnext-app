@@ -199,9 +199,11 @@ function EditProfile() {
                                     {pic ?
 
                                         <UserImage size={"144px"} data={user} rounded='50px' image={pic?.startsWith('https://') ? pic : IMAGE_URL + pic} /> :
-
-                                        <UserImage size={"144px"} data={user} rounded='50px' image={values?.image?.startsWith('https://') ? values?.image : IMAGE_URL + values?.image} />
+                                        values?.image ?
+                                        <UserImage size={"144px"} data={user} rounded='50px' image={values?.image?.startsWith('https://') ? values?.image : IMAGE_URL + values?.image} />:
+                                        <UserImage size={"144px"} data={user} rounded='50px' image={null} />
                                     }
+                                    {/* <UserImage size={"144px"} data={user} rounded='50px' image={null} /> */}
                                 </Box>
 
                                 <Box onClick={() => ref.current?.click()} position={'absolute'} right={'0px'} bottom='0px' width='30px' height={'30px'} borderRadius={'15px'} bg='white' shadow='lg' display={'flex'} justifyContent={'center'} alignItems={'center'}>
