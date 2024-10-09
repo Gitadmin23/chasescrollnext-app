@@ -137,6 +137,11 @@ function NotificationCard({ notification }: { notification: INotification }) {
           <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>
             {notification.message?.replaceAll("Collaborator", "volunteer")?.replaceAll("collaborator", "volunteer")}
           </CustomText>
+        ) : notification?.type === "EVENT_ROLE_UPDATE" ? (
+          <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>
+            
+              {notification.message}
+          </CustomText>
         ) : (
           <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>
             

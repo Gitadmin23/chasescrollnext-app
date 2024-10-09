@@ -24,6 +24,8 @@ export default function NewEventCard(props: IEventType) {
 
     const { 
         primaryColor, 
+        borderColor,
+        secondaryBackgroundColor
     } = useCustomTheme();
 
     const router = useRouter()
@@ -50,7 +52,7 @@ export default function NewEventCard(props: IEventType) {
         <Flex as={"button"} onClick={clickHandler} w={"full"} flexDir={["row"]} rounded={"16px"} pos={"relative"} >
 
             <DeleteEvent draft={pathname?.includes("draft") ? true : false} event={props} />
-            <Flex width={["full", "full", "full", "full"]} borderWidth={"1px"} rounded={"16px"} borderColor={"#E8E8E8"} gap={"3"} flexDirection={["column", "column", "row", "row"]} pos={"relative"} p={"4"} >
+            <Flex width={["full", "full", "full", "full"]} borderWidth={"1px"} rounded={"16px"} borderColor={borderColor} gap={"3"} flexDirection={["column", "column", "row", "row"]} pos={"relative"} p={"4"} >
                 <EventImage data={props} width={["full", "full", "247px", "247px"]} borderWidth='2px' height={["150px", "200px", "170px", "170px"]} />
                 <Flex flexDir={"column"} gap={"2"} textAlign={"left"} height={"fit-content"} my={"auto"} w={["full", "full", "fit-content", "fit-content"]} >
                     <Text fontSize={["lg", "lg", "25px"]} lineHeight={["20px", "20px", "30px"]} fontWeight={"semibold"} >{textLimit(capitalizeFLetter(eventName), 20)}</Text>
