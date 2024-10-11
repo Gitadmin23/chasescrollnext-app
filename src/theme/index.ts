@@ -1,7 +1,7 @@
 import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
-import { DM_Sans } from 'next/font/google'
+import { Raleway } from 'next/font/google'
  
-const dm_sans = DM_Sans({
+const raleway = Raleway({
   subsets: ['latin'],
   display: 'swap',
 })
@@ -68,8 +68,8 @@ export const theme = extendTheme({
         }
     },
     fonts: {
-        heading: "DM-San",
-        body: "DM-San",
+        heading: raleway.style.fontFamily,
+        body: raleway.style.fontFamily,
     },
 });
 
@@ -106,7 +106,7 @@ export const darkTheme = extendTheme({
         }
     },
     fonts: {
-        heading: "DM-San",
-        body: "DM-San",
+        heading: raleway.style.fontFamily,
+        body: raleway.style.fontFamily,
     },
 });
