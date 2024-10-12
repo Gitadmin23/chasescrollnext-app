@@ -71,23 +71,36 @@ function EditEvent({ params }: { params: { slug: string } }) {
           productTypeData: data?.data?.content[0]?.productTypeData,
           collaborators: data?.data?.content[0]?.collaborators,
           admins: data?.data?.content[0]?.admins,
-          acceptedAmins: data?.data?.content[0]?.acceptedCollaborators,
+          acceptedAdmins: data?.data?.content[0]?.acceptedAdmins,
           acceptedCollaborators: data?.data?.content[0]?.acceptedCollaborators
         };
 
-        const admin: any = [];
-        const collaborator: any = [];
+        const admin: any = []; 
+        const collaborator: any = []; 
+        const acceptedAdmins: any = []; 
+        const acceptedCollaborators: any = []; 
 
         clone?.admins?.map((item: IUser) => {
           return admin.push(item?.userId);
         });
         clone?.collaborators?.map((item: IUser) => {
           return collaborator.push(item?.userId);
+        }); 
+
+        clone?.acceptedAdmins?.map((item: IUser) => {
+          return acceptedAdmins.push(item?.userId);
         });
+        clone?.acceptedCollaborators?.map((item: IUser) => {
+          return acceptedCollaborators.push(item?.userId);
+        }); 
 
         clone.admins = admin;
 
-        clone.collaborators = collaborator;
+        clone.collaborators = collaborator; 
+
+        clone.acceptedAdmins = acceptedAdmins;
+
+        clone.acceptedCollaborators = acceptedCollaborators; 
 
         updateEvent(clone);
       },

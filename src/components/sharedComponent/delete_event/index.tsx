@@ -1,4 +1,5 @@
 import { useDetails } from '@/global-state/useUserDetails';
+import useCustomTheme from '@/hooks/useTheme';
 import { IEventType } from '@/models/Event';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
@@ -24,6 +25,10 @@ function DeleteEvent(props: Props) {
     const toast = useToast()
     const queryClient = useQueryClient()
     const { userId: user_index } = useDetails((state) => state);
+
+    const {  
+        secondaryBackgroundColor
+    } = useCustomTheme();
 
     // detete event
     const deleteEvent = useMutation({
@@ -93,7 +98,7 @@ function DeleteEvent(props: Props) {
                     <Box>
                         <Popover isOpen={open} onClose={() => setOpen(false)} >
                             <PopoverTrigger >
-                                <Button onClick={openHandler} bg={"white"}  >
+                                <Button onClick={openHandler} bg={secondaryBackgroundColor} _hover={{backgroundColor: secondaryBackgroundColor}}  >
                                     <IoIosMore size={"30px"} />
                                 </Button>
                             </PopoverTrigger>

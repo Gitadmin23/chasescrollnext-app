@@ -1,28 +1,21 @@
 "use client"
 import { useDetails } from '@/global-state/useUserDetails'
-import { Box, Button, Flex, HStack, Image, Link, Switch, Text, Tooltip, VStack, useColorMode } from '@chakra-ui/react'
+import { Box, Button, Flex, HStack, Image, Link, Switch, Tooltip, VStack, useColorMode } from '@chakra-ui/react'
 import React, { ReactNode, useState } from 'react'
-import { NewChatIcon, NewWalletIcon, NotificationIcon, SidebarCalendarIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarNotificationIcon, SidebarProfileIcon, SidebarSearchIcon, SidebarWalletIcon } from '@/components/svg/sidebarIcons';
+import { NewChatIcon, NewWalletIcon, NotificationIcon, SidebarCalendarIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarSearchIcon, SidebarWalletIcon } from '@/components/svg/sidebarIcons';
 import { usePathname, useRouter } from 'next/navigation';
 import SearchBar from '@/components/explore_component/searchbar';
 import { signOut, useSession } from 'next-auth/react';
 import UserImage from '@/components/sharedComponent/userimage';
 import CustomText from '@/components/general/Text';
 import { HomeIcon, UsersIcon } from '@/components/svg';
-import { SearchNormal1, Calendar, Warning2, LogoutCurve, Notification } from 'iconsax-react';
+import { SearchNormal1, Calendar, Warning2, LogoutCurve } from 'iconsax-react';
 import useCustomTheme from '@/hooks/useTheme';
 import getUser from '@/hooks/useGetUser';
 import CreateEventBtn from '@/components/sharedComponent/create_event_btn';
 import useModalStore from '@/global-state/useModalSwitch';
-import ModalLayout from '@/components/sharedComponent/modal_layout';
-import NotificationPage from '@/components/notification/NotificationsPage';
-import NotificationBar from '@/components/notification';
-import { useQuery } from 'react-query';
-import httpService from '@/utils/httpService';
-import { URLS } from '@/services/urls';
-import { PaginatedResponse } from '@/models/PaginatedResponse';
-import { INotification } from '@/models/Notifications';
-import { useNotification } from '@/global-state/useNotification';
+import ModalLayout from '@/components/sharedComponent/modal_layout'; 
+import NotificationBar from '@/components/notification'; 
 import useNotificationHook from '@/hooks/useNotificationHook';
 
 export default function Layout({ children }: {
@@ -36,8 +29,7 @@ export default function Layout({ children }: {
     }
 
     const { userId, setAll, user: data, } = useDetails((state) => state);
-    const [open, setOpen] = useState(false)
-    const [show, setShow] = useState(false)
+    const [open, setOpen] = useState(false) 
     const router = useRouter()
     const { setGoogle, notifyModal, setNotifyModal } = useModalStore((state) => state);
     const pathname = usePathname()

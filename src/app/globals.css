@@ -1,69 +1,91 @@
 @font-face {
   font-family: 'DM-Bold';
-  src: url(../../public/assets/fonts/DMSans-Bold.ttf);
+  src: url(../../public/assets/fonts/Raleway-Bold.ttf);
 }
 
 @font-face {
   font-family: 'DM-Medium';
-  src: url(../../public/assets/fonts/DMSans-Medium.ttf);
+  src: url(../../public/assets/fonts/Raleway-Medium.ttf);
 }
 
 @font-face {
   font-family: 'DM-Light';
-  src: url(../../public/assets/fonts/DMSans-Light.ttf);
+  src: url(../../public/assets/fonts/Raleway-Light.ttf);
 }
 
 @font-face {
   font-family: 'DM-Regular';
-  src: url(../../public/assets/fonts/DMSans-Regular.ttf);
-}
-
-@font-face {
-  font-family: 'DM-San';
-  src: url(../../public/assets/fonts/DMSans[opsz,wght].ttf);
+  src: url(../../public/assets/fonts/Raleway-Regular.ttf);
 }
 
 @font-face {
   font-family: 'Rubik-Regular';
-  src: url(../../public/assets/fonts/Rubik-Regular.ttf);
+  src: url(../../public/assets/fonts/Raleway-Regular.ttf);
 }
 
 @font-face {
   font-family: 'Rubik-Nedium';
-  src: url(../../public/assets/fonts/Rubik-SemiBold.ttf);
+  src: url(../../public/assets/fonts/Raleway-SemiBold.ttf);
 }
 
 @font-face {
   font-family: 'Rubik-Light';
-  src: url(../../public/assets/fonts/Rubik-Light.ttf);
+  src: url(../../public/assets/fonts/Raleway-Light.ttf);
 }
 
 @font-face {
   font-family: 'Satoshi-bold';
-  src: url(../../public/assets/fonts/Satoshi-Bold.ttf);
-} 
+  src: url(../../public/assets/fonts/Raleway-Bold.ttf);
+}
 
 @font-face {
   font-family: 'Satoshi-Medium';
-  src: url(../../public/assets/fonts/Satoshi-Medium.ttf);
+  src: url(../../public/assets/fonts/Raleway-Medium.ttf);
 }
 
 @font-face {
   font-family: 'Satoshi-Regular';
-  src: url(../../public/assets/fonts/Satoshi-Regular.ttf);
+  src: url(../../public/assets/fonts/Raleway-Regular.ttf);
 }
 
 @font-face {
   font-family: 'Satoshi-Light';
-  src: url(../../public/assets/fonts/Satoshi-Light.ttf);
+  src: url(../../public/assets/fonts/Raleway-Light.ttf);
 }
 
+@font-face {
+  font-family: 'Raleway';
+  src: url('/public/assets/fonts/Raleway-Light.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Raleway';
+  src: url('/public/assets/fonts/Raleway-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Raleway';
+  src: url('/public/assets/fonts/Raleway-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Raleway';
+  src: url('/public/assets/fonts/Raleway-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
 
 .dropdown-color {
   color: black;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900');
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities; */
@@ -85,6 +107,7 @@ body {
   /* background-color: black;  */
   /* Include padding and border in the element's total width and height */
 }
+
 :root {
   color-scheme: light !important;
 }

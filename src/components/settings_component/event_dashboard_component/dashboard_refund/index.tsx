@@ -183,6 +183,9 @@ function DashboardRefund(props: Props) {
 
     }, [showDate, showNumberOfTicket, showEmail, showStatus, showStatus, showTicketType, showUserName])
 
+    console.log(data?.data?.content);
+    
+
     const { isLoading: loadingData, isRefetching: refechingDa } = useQuery(['all-events-details', index], () => httpService.get(URLS.All_EVENT + "?id=" + index), {
         onError: (error: any) => {
             toast({
@@ -374,12 +377,12 @@ function DashboardRefund(props: Props) {
                                             )}
                                             {(!person?.ticketType || person?.role === "ADMIN" || person?.role === "COLLABORATOR") && (
                                                 <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >
-                                                    {(person?.role === "ADMIN" && person?.ticketScanInfoList.length === 0 && showTicketType) && (
+                                                    {(person?.user?.userId === person?.event?.createdBy && showTicketType) && (
                                                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"brand.chasescrollBlue"} >
                                                             Organizer
                                                         </Flex>
                                                     )}
-                                                    {(person?.role === "ADMIN" && person?.ticketScanInfoList.length > 0 && showTicketType) && (
+                                                    {(person?.role === "ADMIN" && person?.user?.userId !== person?.event?.createdBy && showTicketType) && (
                                                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"#3EC30F"} >
                                                             Admin
                                                         </Flex>

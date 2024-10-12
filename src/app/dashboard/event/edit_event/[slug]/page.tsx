@@ -66,14 +66,14 @@ function EditEvent({ params }: { params: { slug: string } }) {
                 location: data?.data?.content[0]?.location,
                 productTypeData: data?.data?.content[0]?.productTypeData,
                 collaborators: data?.data?.content[0]?.collaborators,
-                acceptedAmins: data?.data?.content[0]?.acceptedAmins,
+                acceptedAdmins: data?.data?.content[0]?.acceptedAdmins,
                 acceptedCollaborators: data?.data?.content[0]?.acceptedCollaborators,
                 admins: data?.data?.content[0]?.admins
             }
  
             const admin: any = []
             const collaborator: any = []
-            const acceptedAmins: any = []
+            const acceptedAdmins: any = []
             const acceptedCollaborators: any = []
 
             clone?.admins?.map((item: IUser) => {
@@ -83,8 +83,8 @@ function EditEvent({ params }: { params: { slug: string } }) {
                 return collaborator.push(item?.userId)
             })
 
-            clone?.acceptedAmins?.map((item: IUser) => {
-                return acceptedAmins.push(item?.userId)
+            clone?.acceptedAdmins?.map((item: IUser) => {
+                return acceptedAdmins.push(item?.userId)
             })
             clone?.acceptedCollaborators?.map((item: IUser) => {
                 return acceptedCollaborators.push(item?.userId)
@@ -92,7 +92,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
 
             clone.admins = admin
             clone.collaborators = collaborator
-            clone.acceptedAmins = acceptedAmins
+            clone.acceptedAdmins = acceptedAdmins
             clone.acceptedCollaborators = acceptedCollaborators
 
             updateEvent(clone)

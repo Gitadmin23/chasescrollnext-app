@@ -19,7 +19,7 @@ export default function EventCreator(props: IEventType) {
     const {
         collaborators,
         admins,
-        acceptedAmins,
+        acceptedAdmins,
         acceptedCollaborators,
         createdBy,
         id
@@ -47,18 +47,18 @@ export default function EventCreator(props: IEventType) {
         primaryColor,
         mainBackgroundColor,
         secondaryBackgroundColor
-    } = useCustomTheme();
+    } = useCustomTheme(); 
 
     return (
         <Flex w={"full"} bgColor={secondaryBackgroundColor} rounded={"64px"} alignItems={"center"} h={"86px"} px={"4"} py={"3"} >
             <Flex position={"relative"} border={"0px solid #CDD3FD"} rounded={"full"} alignItems={"center"} gap={"3"} >
                 <Flex width={"fit-content"} position={"relative"} >
                     <UserImage border={"1px"} size={"50px"} font={"16px"} image={createdBy?.data?.imgMain?.value} data={createdBy} />
-                    {(acceptedCollaborators || acceptedAmins) && (
+                    {(acceptedCollaborators || acceptedAdmins ) && (
                         <>
-                            {(acceptedCollaborators?.length !== 0 || acceptedAmins?.length !== 0) && (
+                            {(acceptedCollaborators?.length !== 0 || acceptedAdmins?.length !== 0) && (
                                 <Box role='button' onClick={() => setOpen(true)} top={"0px"} roundedBottom={"64px"} border={"2px solid #5D70F9"} width={"50px"} fontWeight={"bold"} height={"50px"} fontSize={"15px"} pr={"-3px"} pb={"-2px"} roundedTopLeft={"64px"} ml={"-20px"} display={'flex'} bgColor={mainBackgroundColor} color={"#5D70F9"} justifyContent={"center"} alignItems={"center"} >
-                                    {"+" + formatNumberWithK(((acceptedAmins ? acceptedAmins?.length : 0) + (acceptedCollaborators ? acceptedCollaborators?.length : 0)))}
+                                    {"+" + formatNumberWithK(((acceptedAdmins ? acceptedAdmins?.length : 0) + (acceptedCollaborators ? acceptedCollaborators?.length : 0)))}
                                 </Box>
                             )}
                         </>
@@ -81,7 +81,7 @@ export default function EventCreator(props: IEventType) {
                         <>
 
                             {((collaborators || admins) && !pathname?.includes("pastdetails")) && (
-                                <CollaboratorBtn collaborate={acceptedCollaborators?.length !== 0 || acceptedAmins?.length !== 0} btn={true} data={props} />
+                                <CollaboratorBtn collaborate={acceptedCollaborators?.length !== 0 || acceptedAdmins?.length !== 0} btn={true} data={props} />
                             )}
                         </>
                     )
@@ -89,7 +89,7 @@ export default function EventCreator(props: IEventType) {
             </Flex>
 
             <ModalLayout open={open} close={setOpen} title='Event Organizers' >
-                <Chatcollaborator admins={acceptedAmins} collaborators={acceptedCollaborators} />
+                <Chatcollaborator admins={acceptedAdmins} collaborators={acceptedCollaborators} />
             </ModalLayout>
         </Flex>
     )

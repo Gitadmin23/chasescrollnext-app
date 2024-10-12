@@ -66,6 +66,9 @@ export default function EventDetail(props: IEventType) {
         }
     } 
 
+    console.log(props);
+    
+
     return (
         <Flex w={"full"} flexDir={"column"} pb={"8"} gap={["6", "6", "6", "10", "10"]} pos={"relative"} >
             <Flex w={"full"} display={["flex", "flex", "flex"]} pos={"relative"} justifyContent={"center"} alignItems={"center"} >

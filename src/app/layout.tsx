@@ -2,9 +2,7 @@ import type { Metadata } from 'next'
 import { Providers } from './Provider'
 import './globals.css';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import { Viewport } from 'next/dist/lib/metadata/types/extra-types';
-import { Flex } from '@chakra-ui/react';
+import { authOptions } from '@/pages/api/auth/[...nextauth]'; 
 import { GoogleAuthProvider } from '@/utils/GoogleProvider';
 
 const APP_NAME = "Chasescroll";
