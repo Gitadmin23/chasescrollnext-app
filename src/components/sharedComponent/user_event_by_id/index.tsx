@@ -26,7 +26,7 @@ function GetEventById(props: Props) {
         <HStack height={"fit-content"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"}  >
             <Box width={["full", "full", "full", "70%", "70%"]} px={"6"} position={"relative"} >
                 <Box width={"full"}  >
-                    <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
+                    <LoadingAnimation  withimg={true} loading={isLoading} refeching={isRefetching} length={results?.length} >
                         <Flex gap={"4"} flexDirection={"column"} >
                             {results?.map((event: any, i: number) => {
                                 if (results.length === i + 1) {

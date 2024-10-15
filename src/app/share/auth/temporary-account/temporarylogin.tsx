@@ -42,30 +42,42 @@ export default function Temporarylogin() {
       });
     },
     onSuccess: (data) => {
-      toast({
-        title: 'Success',
-        description: 'Login successful',
-        status: 'success',
-        isClosable: true,
-        duration: 5000,
-        position: 'top-right',
-      });
-      console.log(data?.data?.access_token);
+      console.log(data?.data?.message);
+      if (data?.data?.message === 'You already have an account') {
 
-      sessionStorage.setItem('tp_token', data?.data?.access_token);
-      sessionStorage.setItem('refresh_token', data?.data?.refresh_token);
-      sessionStorage.setItem('user_id', data?.data?.user_id);
-      sessionStorage.setItem('expires_in', data?.data?.expires_in);
-      //   setAll({
-      //     firstName: data?.data?.firstName,
-      //     lastName: data?.data?.firstName,
-      //     username: data?.data?.user_name,
-      //     userId: data?.data?.user_id,
-      //   })
-      const typee = sessionStorage.getItem('type');
-      const typeIDD = sessionStorage.getItem('typeID');
+        toast({
+          title: 'Error',
+          description: data?.data?.message,
+          status: 'error',
+          isClosable: true,
+          duration: 5000,
+          position: 'top-right',
+        });
+      } else {
 
-      router.push(`/event/${typeID}`);
+        toast({
+          title: 'Success',
+          description: 'Login successful',
+          status: 'success',
+          isClosable: true,
+          duration: 5000,
+          position: 'top-right',
+        });
+        sessionStorage.setItem('tp_token', data?.data?.access_token);
+        sessionStorage.setItem('refresh_token', data?.data?.refresh_token);
+        sessionStorage.setItem('user_id', data?.data?.user_id);
+        sessionStorage.setItem('expires_in', data?.data?.expires_in);
+        setAll({
+          firstName: data?.data?.firstName,
+          lastName: data?.data?.firstName,
+          username: data?.data?.user_name,
+          userId: data?.data?.user_id,
+        })
+        const typee = sessionStorage.getItem('type');
+        const typeIDD = sessionStorage.getItem('typeID');
+
+        router.push(`/event/${typeID}`);
+      }
     }
   });
 
