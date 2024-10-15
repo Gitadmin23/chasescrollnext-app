@@ -24,7 +24,7 @@ function Draft(props: Props) {
             <SearchBar change={true} event={true} />
             <Box width={["full", "full", "700px"]} position={"relative"} >
                 <Box width={"full"}  >
-                    <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
+                    <LoadingAnimation  withimg={true} loading={isLoading} refeching={isRefetching} length={results?.length} >
                         <Flex gap={"4"} flexDirection={"column"} >
                             {results?.map((event: any, i: number) => {
                                 if (results.length === i + 1) {

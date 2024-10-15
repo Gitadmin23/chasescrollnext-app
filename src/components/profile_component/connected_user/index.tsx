@@ -23,7 +23,7 @@ function ConnectedUser(props: Props) {
 
     return (
         <Flex width={["full", "450px"]} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} >
-            <LoadingAnimation length={results?.length} loading={isLoading} refeching={isRefetching} >
+            <LoadingAnimation withimg={true} length={results?.length} loading={isLoading} refeching={isRefetching} >
                 {results?.map((person: any, i: number) => {
                     if (results.length === i + 1) {
                         return (

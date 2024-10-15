@@ -1,5 +1,5 @@
 import useCustomTheme from '@/hooks/useTheme';
-import { Flex, Spinner, Text } from '@chakra-ui/react'
+import { Flex, Image, Spinner, Text } from '@chakra-ui/react'
 import React from 'react'
 
 interface Props {
@@ -9,7 +9,8 @@ interface Props {
     length?: any,
     fix_height?: boolean,
     color?: string,
-    customLoader?: React.ReactNode, 
+    customLoader?: React.ReactNode,
+    withimg?: boolean
 }
 
 function LoadingAnimation(props: Props) {
@@ -21,11 +22,13 @@ function LoadingAnimation(props: Props) {
         refeching,
         fix_height,
         color,
-        customLoader, 
+        customLoader,
+        withimg
     } = props
 
-    const { 
-        secondaryBackgroundColor, 
+    const {
+        secondaryBackgroundColor,
+        mainBackgroundColor
     } = useCustomTheme();
 
     return (
@@ -36,9 +39,9 @@ function LoadingAnimation(props: Props) {
                     {(!loading && refeching) && (
                         <Flex w={"full"} bg={secondaryBackgroundColor} height={"auto"} >
                             {/* {!customLoader && ( */}
-                                <Flex width={"full"} justifyContent={"center"} height={fix_height ? "full" : "auto"} fontSize={"20px"} py={fix_height ? "" : "8"}  >
-                                    <Spinner size={["md", "sm"]} color={color ? color : 'black'} />
-                                </Flex>
+                            <Flex width={"full"} justifyContent={"center"} height={fix_height ? "full" : "auto"} fontSize={"20px"} py={fix_height ? "" : "8"}  >
+                                <Spinner size={["md", "sm"]} color={color ? color : 'black'} />
+                            </Flex>
                             {/* // )} */}
                             {/* {customLoader} */}
                         </Flex>
@@ -48,9 +51,15 @@ function LoadingAnimation(props: Props) {
 
             {(!loading && !refeching) && (
                 <>
-                    {length === 0 && (
-                        <Flex width={"full"}  bg={secondaryBackgroundColor} justifyContent={"center"} fontSize={"20px"} py={"4"}  >
+                    {(length === 0 && !withimg) && (
+                        <Flex width={"full"} bg={secondaryBackgroundColor} justifyContent={"center"} fontSize={"20px"} py={"4"}  >
                             <Text>No Records Found</Text>
+                        </Flex>
+                    )}
+                    {(length === 0 && withimg) && (
+                        <Flex width={"full"} flexDir={"column"} bg={mainBackgroundColor} alignItems={"center"} py={"4"}  >
+                            <Image src={"/images/folder.png"} alt="folder" width={"350px"} />
+                            <Text>You dont have any record yet</Text>
                         </Flex>
                     )}
                 </>
@@ -58,7 +67,7 @@ function LoadingAnimation(props: Props) {
             {loading && (
                 <Flex w={"full"} height={"auto"} >
                     {!customLoader && (
-                        <Flex width={"full"}  bg={secondaryBackgroundColor} justifyContent={"center"} height={fix_height ? "full" : "auto"} fontSize={"20px"} py={fix_height ? "" : "8"}  >
+                        <Flex width={"full"} bg={secondaryBackgroundColor} justifyContent={"center"} height={fix_height ? "full" : "auto"} fontSize={"20px"} py={fix_height ? "" : "8"}  >
                             <Spinner size={["md", "sm"]} color={color ? color : 'black'} />
                         </Flex>
                     )}
