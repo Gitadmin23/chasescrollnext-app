@@ -18,7 +18,7 @@ function Community({ params }: { params: { slug: string } }) {
             {/* <Box width={["full", "full", "fit-content"]} px={"6"} position={"relative"} py={"6"} > */}
 
             <Grid width={"fit-content"} templateColumns={['repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)', 'repeat(3, 1fr)']} gap={6} >
-                <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
+                <LoadingAnimation  withimg={true} loading={isLoading} refeching={isRefetching} length={results?.length} >
                     {results?.map((community: any, i: number) => {
                         if (results?.length === i + 1) {
                             return (

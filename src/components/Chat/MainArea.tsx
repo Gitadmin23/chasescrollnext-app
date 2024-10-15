@@ -1,5 +1,5 @@
 import CustomText from '@/components/general/Text';
-import { Box, Flex, Spinner, useColorMode, VStack } from '@chakra-ui/react';
+import { Box, Flex, Image, Spinner, Text, useColorMode, VStack } from '@chakra-ui/react';
 import React, { useEffect, useRef } from 'react'
 import { useCommunityPageState } from '../Community/chat/state';
 import { useChatPageState } from './state';
@@ -90,10 +90,14 @@ function MainArea() {
 
     if (activeChat === null) {
         return (
-            <VStack width='100%' height={'100%'} justifyContent={'center'} alignItems={'center'}>
-                <CustomText fontSize={'25px'} textAlign={'center'} fontFamily={'Satoshi-Medium'} color='brand.chasescrollButtonBlue'>Start Conversations</CustomText>
+            <VStack width='100%' height={'100%'} bg={mainBackgroundColor} justifyContent={'center'} alignItems={'center'}>
+                {/* <CustomText fontSize={'25px'} textAlign={'center'} fontFamily={'Satoshi-Medium'} color='brand.chasescrollButtonBlue'>Start Conversations</CustomText>
 
-                <CustomText fontSize={'25px'} textAlign={'center'} fontFamily={'Satoshi-Medium'} color='brand.chasescrollButtonBlue'>Gist with friends</CustomText>
+                <CustomText fontSize={'25px'} textAlign={'center'} fontFamily={'Satoshi-Medium'} color='brand.chasescrollButtonBlue'>Gist with friends</CustomText> */}
+                <Flex width={"full"} flexDir={"column"} bg={mainBackgroundColor} alignItems={"center"} py={"4"}  >
+                    <Image src={"/images/folder.png"} alt="folder" width={"350px"} />
+                    <Text>Start conversations with your network</Text>
+                </Flex>
             </VStack>
         )
     } 

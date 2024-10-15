@@ -87,7 +87,7 @@ function MainArea({ setShow }: IProps) {
 
         },
         onError: (error: any) => { }
-    }); 
+    });
 
     const lastChildRef = React.useCallback((post: any) => {
         if (isLoading) return;
@@ -104,12 +104,16 @@ function MainArea({ setShow }: IProps) {
     if (activeCommunity === null) {
         return (
             <Flex width='100%' height={'100%'} flexDirection={"column"} justifyContent={'center'} alignItems={'center'}>
-                <CustomText fontSize={'25px'} textAlign={'center'} fontFamily={'DM-Medium'} color='brand.chasescrollButtonBlue'>Start conversations</CustomText>
+                {/* <CustomText fontSize={'25px'} textAlign={'center'} fontFamily={'DM-Medium'} color='brand.chasescrollButtonBlue'>Start conversations</CustomText>
 
-                <CustomText fontSize={'25px'} textAlign={'center'} fontFamily={'DM-Medium'} color='brand.chasescrollButtonBlue'>Gist with friends</CustomText>
+                <CustomText fontSize={'25px'} textAlign={'center'} fontFamily={'DM-Medium'} color='brand.chasescrollButtonBlue'>Gist with friends</CustomText> */}
+                <Flex width={"full"} flexDir={"column"} bg={mainBackgroundColor} alignItems={"center"} py={"4"}  >
+                    <Image src={"/images/folder.png"} alt="folder" width={"350px"} />
+                    <Text>Start conversations with your community</Text>
+                </Flex>
             </Flex>
         )
-    } 
+    }
     return (
         <Flex w={"full"} h={"100%"} pos={"relative"} bg={mainBackgroundColor} overflowY={"hidden"} flexDirection={"column"} >
             <Flex w={"full"} bgColor={mainBackgroundColor} pos={"relative"} zIndex={"10"} h={"fit-content"} >
@@ -125,7 +129,7 @@ function MainArea({ setShow }: IProps) {
             </Box>
             {showEvents && communityEvent.length > 0 && (
                 <Flex width='100%' height={'115px'} pos={"absolute"} top={"72px"} zIndex={"10"} bg={secondaryBackgroundColor}  >
-                    <Flex as={"button"} display={[communityEvent.length > 3 ? "flex" : "none",communityEvent.length > 4 ? "flex" : "none", communityEvent.length > 6 ? "flex" : "none"]} bgColor={secondaryBackgroundColor} rounded={"full"} onClick={() => scroll(-400)} left={"2"} justifyContent={"center"} alignItems={"center"} h={"fit-content"} zIndex={"20"} ml={"2"} my={"auto"} >
+                    <Flex as={"button"} display={[communityEvent.length > 3 ? "flex" : "none", communityEvent.length > 4 ? "flex" : "none", communityEvent.length > 6 ? "flex" : "none"]} bgColor={secondaryBackgroundColor} rounded={"full"} onClick={() => scroll(-400)} left={"2"} justifyContent={"center"} alignItems={"center"} h={"fit-content"} zIndex={"20"} ml={"2"} my={"auto"} >
                         <BsArrowLeftCircle size="25px" />
                     </Flex>
                     <Box px='2' ref={ref} position={"relative"} paddingTop={'20px'} w={"full"} maxWidth='full' height='100%' overflowX={'auto'} display={"flex"} overflowY={"hidden"} scrollBehavior={"smooth"} sx={
@@ -142,7 +146,7 @@ function MainArea({ setShow }: IProps) {
                             ))}
                         </Flex>
                     </Box>
-                    <Flex as={"button"} display={[communityEvent.length > 3 ? "flex" : "none",communityEvent.length > 4 ? "flex" : "none", communityEvent.length > 6 ? "flex" : "none"]} bgColor={secondaryBackgroundColor} rounded={"full"} onClick={() => scroll(400)} right={"2"} justifyContent={"center"} alignItems={"center"} mr={"2"} h={"fit-content"} zIndex={"20"} my={"auto"} >
+                    <Flex as={"button"} display={[communityEvent.length > 3 ? "flex" : "none", communityEvent.length > 4 ? "flex" : "none", communityEvent.length > 6 ? "flex" : "none"]} bgColor={secondaryBackgroundColor} rounded={"full"} onClick={() => scroll(400)} right={"2"} justifyContent={"center"} alignItems={"center"} mr={"2"} h={"fit-content"} zIndex={"20"} my={"auto"} >
                         <BsArrowRightCircle size="25px" />
                     </Flex>
                 </Flex>
