@@ -43,6 +43,19 @@ const useGetUser = () => {
         }
     }, [email, token, refetch])
 
+
+    useEffect(()=> { 
+        setAll({
+            user: user,
+            userId: user?.userId,
+            firstName: user?.firstName,
+            lastName: user?.lastName,
+            email: user?.email,
+            dob: user?.dob,
+            username: user?.username,
+        });
+    }, [user])
+
     return {
         user,
         loadingUserInfo,
