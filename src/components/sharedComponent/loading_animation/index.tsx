@@ -41,9 +41,7 @@ function LoadingAnimation(props: Props) {
                             {/* {!customLoader && ( */}
                             <Flex width={"full"} justifyContent={"center"} height={fix_height ? "full" : "auto"} fontSize={"20px"} py={fix_height ? "" : "8"}  >
                                 <Spinner size={["md", "sm"]} color={color ? color : 'black'} />
-                            </Flex>
-                            {/* // )} */}
-                            {/* {customLoader} */}
+                            </Flex> 
                         </Flex>
                     )}
                 </>
