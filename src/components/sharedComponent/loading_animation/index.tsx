@@ -57,7 +57,7 @@ function LoadingAnimation(props: Props) {
                     {(length === 0 && withimg) && (
                         <Flex width={"full"} flexDir={"column"} bg={mainBackgroundColor} alignItems={"center"} py={"4"}  >
                             <Image src={"/images/folder.png"} alt="folder" width={"350px"} />
-                            <Text>You don't have any record yet</Text>
+                            <Text>{`You don't have any record yet`}</Text>
                         </Flex>
                     )}
                 </>
