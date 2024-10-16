@@ -4,6 +4,7 @@ import NewEventCard from '@/components/sharedComponent/event_card/newEventCard'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import { useDetails } from '@/global-state/useUserDetails'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
+import useGetUser from '@/hooks/useGetUser'
 import useCustomTheme from '@/hooks/useTheme'
 import { URLS } from '@/services/urls'
 import { Box, Flex, HStack, Text, useColorMode } from '@chakra-ui/react'
@@ -27,7 +28,8 @@ function EventDashboard(props: Props) {
     const { colorMode, toggleColorMode } = useColorMode();
   
     const { userId: user_index } = useDetails((state) => state);
-    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.All_EVENT+"?createdBy="+user_index, limit: 10, filter: "id" })
+    const { user } = useGetUser()
+    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.All_EVENT+"?createdBy="+user?.userId+"&myEvents=true", limit: 10, filter: "id" })
     const router = useRouter();
 
     return (
@@ -65,4 +67,5 @@ function EventDashboard(props: Props) {
     )
 }
 
-export default EventDashboard
+export default EventDashboard 
+
