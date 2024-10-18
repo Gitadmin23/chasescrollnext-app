@@ -98,7 +98,7 @@ function AddBankInfo(props: Props) {
       setAccountName("");
       toast({
         title: "Error",
-        description: "Error Occurred",
+        description: "Invaild Bank Details",
         status: "error",
         isClosable: true,
         duration: 5000,

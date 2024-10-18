@@ -322,16 +322,16 @@ function DashboardRefund(props: Props) {
                                     </Th>
                                     <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
-                                            USERNAME
+                                            FullName
                                             <Switch onChange={(e) => setShowUserName(e.target.checked)} isChecked={showUserName} />
                                         </Flex>
-                                    </Th>
+                                    </Th> 
                                     <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
                                             EMAIL ADDRESS
                                             <Switch onChange={(e) => setShowEmail(e.target.checked)} isChecked={showEmail} />
                                         </Flex>
-                                    </Th>
+                                    </Th> 
                                     <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
                                             Date & TIME
@@ -363,7 +363,7 @@ function DashboardRefund(props: Props) {
                                     return (
                                         <Tr key={i} >
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{(page * size) + (i + 1)}</Td>
-                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{showUserName ? person?.user?.username : ""}</Td>
+                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{showUserName ? capitalizeFLetter(person?.user?.firstName)+" "+capitalizeFLetter(person?.user?.lastName)  : ""}</Td> 
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showEmail ? person?.user?.email : ""}</Td>
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showDate ? dateFormat(person?.createdDate) : ""}</Td>
                                             {(person?.ticketType && person?.role !== "ADMIN" && person?.role !== "COLLABORATOR") && (
