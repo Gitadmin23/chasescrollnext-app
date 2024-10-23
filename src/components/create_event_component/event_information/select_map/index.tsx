@@ -29,7 +29,7 @@ function SelectMap(props: Props) {
                 placeholder="Enter Event Location"
                 mt={"sm"}
                 fontSize={"sm"}
-                rounded={"md"}
+                rounded={"full"}
                 p={"3"}
                 // disabled={true}
                 onChange={changeHandler}

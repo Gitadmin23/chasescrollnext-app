@@ -60,7 +60,7 @@ export default function SelectEventType({ options }: { options: Array<Obj> }) {
                     padding: '10px',
                     paddingRight: "0px",
                     border: '1px solid #ccc',
-                    borderRadius: '4px',
+                    borderRadius: '999px',
                     cursor: 'pointer'
                 }}
                 pos={"relative"}

@@ -42,6 +42,7 @@ export interface IEventType {
         toBeAnnounced: boolean
         locationDetails?: string,
         link?: string,
+        links?: Array<string>,
         address?: string,
         latlng?: string,
         placeIds?: string

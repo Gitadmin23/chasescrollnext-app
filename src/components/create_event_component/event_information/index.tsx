@@ -36,7 +36,7 @@ function EventInformation() {
                 </Flex>
                 <SelectLocation />
                 <Flex w={"full"} gap={"4"}  my={"4"} >
-                    <CustomButton onClick={()=> changeTab(0)} text={"Back"} width={"full"} backgroundColor={"#EFF1FE80"} color={"#5465E0"} />
+                    <CustomButton onClick={()=> changeTab(0)} text={"Back"} width={"full"} borderRadius={"999px"} backgroundColor={"#EFF1FE80"} color={"#5465E0"} />
                     <SubmitEvent type={""} />
                 </Flex>
             </Flex>

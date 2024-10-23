@@ -48,7 +48,7 @@ function EventTicket(props: IProps) {
                 <GetCommunity />
 
                 <Flex w={"full"} gap={"4"} my={"4"} >
-                    <CustomButton onClick={() => changeTab(1)} text={"Back"} width={"full"} backgroundColor={"#EFF1FE80"} color={"#5465E0"} />
+                    <CustomButton onClick={() => changeTab(1)} text={"Back"} width={"full"} backgroundColor={"#EFF1FE80"} borderRadius={"full"} color={"#5465E0"} />
                     <SubmitEvent promotion={promotion} type={isFree} />
                 </Flex>
             </Flex>

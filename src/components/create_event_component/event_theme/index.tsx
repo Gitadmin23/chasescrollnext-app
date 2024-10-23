@@ -113,13 +113,14 @@ function EventTheme() {
                                 name="eventName"
                                 border={"1px solid #E2E8F0"}
                                 focusBorderColor={"#E2E8F0"}
+                                rounded={"full"}
                                 onChange={(e) => handleChangeLimit(e, 150)}
                                 value={eventdata?.eventName} />
                             <Text fontSize={"sm"} >{eventdata?.eventName?.length ? eventdata?.eventName?.length : "0"} {"/ 150"}</Text>
                         </Flex>
                         <Flex width={"full"} gap={"1"} flexDirection={"column"} >
                             <Text color={"brand.chasescrollTextGrey"} >Attendee Visibility</Text>
-                            <label htmlFor="showAttendees" style={{ display: "flex", height: "42px", alignItems: "center", justifyContent: "space-between", borderRadius: "4px", width: "100%", paddingLeft: "16px", paddingRight: "16px", padding: "8px", backgroundColor: colorMode === 'light' ? "#DCDEE4" : secondaryBackgroundColor }} >
+                            <label htmlFor="showAttendees" style={{ display: "flex", height: "42px", alignItems: "center", justifyContent: "space-between", borderRadius: "999px", width: "100%", paddingLeft: "16px", paddingRight: "16px", padding: "8px", backgroundColor: colorMode === 'light' ? "#DCDEE4" : secondaryBackgroundColor }} >
                                 <h3>Show</h3>
                                 <Switch
                                     onChange={(e) => updateEvent({
@@ -181,6 +182,7 @@ function EventTheme() {
                                 name="eventDescription"
                                 border={"1px solid #E2E8F0"}
                                 focusBorderColor={"#E2E8F0"}
+                                rounded={"24px"}
                                 value={eventdata?.eventDescription}
                                 onChange={(e) => handleChangeLimit(e, 1500)}
                                 className="outline-none w-full h-20 text-sm"

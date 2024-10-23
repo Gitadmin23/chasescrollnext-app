@@ -183,6 +183,15 @@ export const GallaryIcon = () => (
   </svg>
 )
 
+export const QuestionTwoIcon = () => (
+  <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g id="Frame">
+      <path id="Vector" d="M17.5 18.43H13.5L9.05 21.39C8.89982 21.4901 8.72528 21.5476 8.545 21.5563C8.36472 21.5649 8.18546 21.5245 8.02635 21.4393C7.86724 21.3541 7.73424 21.2273 7.64154 21.0725C7.54884 20.9176 7.49992 20.7405 7.5 20.56V18.43C4.5 18.43 2.5 16.43 2.5 13.43V7.42999C2.5 4.42999 4.5 2.42999 7.5 2.42999H17.5C20.5 2.42999 22.5 4.42999 22.5 7.42999V13.43C22.5 16.43 20.5 18.43 17.5 18.43Z" stroke="#5D70F9" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+      <path id="Vector_2" d="M12.5001 11.36V11.15C12.5001 10.47 12.9201 10.11 13.3401 9.81998C13.7501 9.53998 14.1601 9.17999 14.1601 8.51999C14.1601 7.59999 13.4201 6.85999 12.5001 6.85999C11.5801 6.85999 10.8401 7.59999 10.8401 8.51999M12.4951 13.75H12.5051" stroke="#5D70F9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+  </svg>
+)
+
 export const WalletIcon2 = () => (
   <svg
     width="30"

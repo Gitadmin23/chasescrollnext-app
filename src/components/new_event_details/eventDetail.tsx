@@ -37,7 +37,7 @@ export default function EventDetail(props: IEventType) {
         isOrganizer,
         maxPrice,
         eventMemberRole
-    } = props 
+    } = props
 
     const {
         headerTextColor,
@@ -64,10 +64,10 @@ export default function EventDetail(props: IEventType) {
         } else {
             router.back()
         }
-    } 
+    }
 
     console.log(props);
-    
+
 
     return (
         <Flex w={"full"} flexDir={"column"} pb={"8"} gap={["6", "6", "6", "10", "10"]} pos={"relative"} >
@@ -141,7 +141,65 @@ export default function EventDetail(props: IEventType) {
                     {(location?.link) && (
                         <Flex w={"full"} flexDir={"column"} gap={"2"} >
                             <Text fontSize={"16px"} fontWeight={"medium"} >Join Online</Text>
-                            <Flex alignItems={"center"} gap={"2"} >
+                            {(!isBought && !isOrganizer) ? (
+
+                                <Flex alignItems={"center"} gap={"2"} >
+                                    <Flex w={"fit-content"} >
+                                        <Flex w={"8"} h={"8"} color={primaryColor} justifyContent={"center"} alignItems={"center"} >
+                                            <LinkIcon />
+                                        </Flex>
+                                    </Flex>
+                                    {(isBought || isOrganizer) && (
+                                        <a href={location?.link}  >
+                                            <Text fontSize={"14px"} color={primaryColor} >{location?.link}</Text>
+                                        </a>
+                                    )}
+                                    {(!isBought && !isOrganizer) && (
+                                        <Text fontSize={"14px"} color={primaryColor} >{maxPrice ? "Buy Ticket" : "Register Ticket"} To View Link</Text>
+                                    )}
+                                </Flex>
+                            ) : (
+                                <>
+                                    {location?.links ? (
+                                        <>
+                                            {(location?.links?.length > 0) && (
+                                                <>
+                                                    {location?.links?.map((item, index) => {
+                                                        return (
+                                                            <Flex key={index} alignItems={"center"} gap={"2"} >
+                                                                <Flex w={"fit-content"} >
+                                                                    <Flex w={"8"} h={"8"} color={primaryColor} justifyContent={"center"} alignItems={"center"} >
+                                                                        <LinkIcon />
+                                                                    </Flex>
+                                                                </Flex>
+                                                                {(isBought || isOrganizer) && (
+                                                                    <a href={item}  >
+                                                                        <Text fontSize={"14px"} color={primaryColor} >{item}</Text>
+                                                                    </a>
+                                                                )}
+                                                            </Flex>
+                                                        )
+                                                    })}
+                                                </>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <Flex alignItems={"center"} gap={"2"} >
+                                            <Flex w={"fit-content"} >
+                                                <Flex w={"8"} h={"8"} color={primaryColor} justifyContent={"center"} alignItems={"center"} >
+                                                    <LinkIcon />
+                                                </Flex>
+                                            </Flex>
+                                            {(isBought || isOrganizer) && (
+                                                <a href={location?.link}  >
+                                                    <Text fontSize={"14px"} color={primaryColor} >{location?.link}</Text>
+                                                </a>
+                                            )}
+                                        </Flex>
+                                    )}
+                                </>
+                            )}
+                            {/* <Flex alignItems={"center"} gap={"2"} >
                                 <Flex w={"fit-content"} >
                                     <Flex w={"8"} h={"8"} color={primaryColor} justifyContent={"center"} alignItems={"center"} >
                                         <LinkIcon />
@@ -155,7 +213,7 @@ export default function EventDetail(props: IEventType) {
                                 {(!isBought && !isOrganizer) && (
                                     <Text fontSize={"14px"} color={primaryColor} >{maxPrice ? "Buy Ticket" : "Register Ticket"} To View Link</Text>
                                 )}
-                            </Flex>
+                            </Flex> */}
                         </Flex>
                     )}
                     {/* </Grid> */}

@@ -1,9 +1,9 @@
 import CustomButton from '@/components/general/Button';
 import { AddIcon, SubtractIcon } from '@/components/svg';
 import useEventStore from '@/global-state/useCreateEventState';
-import { Box, Flex, Input, Select, Text, useToast } from '@chakra-ui/react'
-import React, { useEffect } from 'react'
-import EarlyBird from './earlyBird'; 
+import { Box, Flex, Input, Select, Switch, Text, useToast } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
+import EarlyBird from './earlyBird';
 
 interface Props {
     type?: string,
@@ -18,6 +18,8 @@ function SelectTicket(props: Props) {
 
     const { eventdata, updateEvent } = useEventStore((state) => state);
     const toast = useToast()
+
+    const [donate, setDonate] = useState(false)
 
     const handleChange = (index: any, name: any, value: any) => {
         let clone: any = { ...eventdata }
@@ -164,8 +166,50 @@ function SelectTicket(props: Props) {
 
     return (
         <Flex flexDirection={"column"} gap={"3"} width={"full"} >
-            {eventdata?.productTypeData[0].ticketType !== "Free" && (
+            {eventdata?.productTypeData[0].ticketType !== "Free" ? (
                 <EarlyBird />
+            ) : (
+                <Flex justifyContent={"space-between"} py={"4"} alignItems={"center"} >
+                    <Text fontWeight={"700"} >Do you which to accept donations for this event?</Text>
+                    <Switch isChecked={donate} onChange={(e) => setDonate((prev) => !prev)} />
+                </Flex>
+            )}
+
+            {donate && ( 
+                <Flex width={"full"} flexDir={["column", "column", "row"]} pb={"3"} gap={"3"} >
+                    <Box width={"full"}>
+                        <label className="block text-gray-700 font-medium mb-2">
+                            Donations Target
+                        </label>
+                        <Flex >
+                            <Input
+                                h={"45px"}
+                                type="text"
+                                border={"1px solid #E2E8F0"}
+                                focusBorderColor={"#E2E8F0"}
+                                onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
+                                rounded={"full"}
+                                name="ticketType"
+                            />
+                        </Flex>
+                    </Box>
+                    <Box width={"full"} >
+                        <label className="block text-gray-700 font-medium mb-2">
+                            Purpose for Donation
+                        </label>
+                        <Flex gap={"2"} >
+                            <Input
+                                h={"45px"}
+                                rounded={"full"}
+                                type="number"
+                                width={"full"}
+                                border={"1px solid #E2E8F0"}
+                                focusBorderColor={"#E2E8F0"}
+                                placeholder="e.g Wedding, building project etc"
+                            />
+                        </Flex>
+                    </Box>
+                </Flex>
             )}
             {eventdata?.productTypeData[0].ticketType !== "Free" && (
                 <Text fontSize={"18px"} my={"1"} fontWeight={"600"} >Other Ticket Types</Text>
@@ -185,6 +229,7 @@ function SelectTicket(props: Props) {
                                             h={"45px"}
                                             type="text"
                                             border={"1px solid #E2E8F0"}
+                                            rounded={"full"}
                                             focusBorderColor={"#E2E8F0"}
                                             placeholder="https//"
                                             value={eventdata.productTypeData[index]?.rerouteURL ?? ""}
@@ -205,6 +250,7 @@ function SelectTicket(props: Props) {
                                             type="text"
                                             border={"1px solid #E2E8F0"}
                                             focusBorderColor={"#E2E8F0"}
+                                            rounded={"full"}
                                             placeholder="Enter Name"
                                             value={eventdata.productTypeData[index]?.ticketType ?? ""}
                                             name="ticketType"
@@ -219,6 +265,7 @@ function SelectTicket(props: Props) {
                                     <Flex gap={"2"} >
                                         <Input
                                             h={"45px"}
+                                            rounded={"full"}
                                             type="number"
                                             onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                             width={"full"}
@@ -242,6 +289,7 @@ function SelectTicket(props: Props) {
                                 <Input
                                     h={"45px"}
                                     type="number"
+                                    rounded={"full"}
                                     onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                     border={"1px solid #E2E8F0"}
                                     focusBorderColor={"#E2E8F0"}
@@ -259,7 +307,7 @@ function SelectTicket(props: Props) {
                                     Indicate the maximum number of tickets each user can
                                     purchase for your event
                                 </label>
-                                <Flex alignItems={"center"} rounded={"16px"} borderWidth={"1px"} borderColor={"#CDD3FD"} w={"full"} flexDir={"column"} py={"4"} >
+                                <Flex alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#CDD3FD"} w={"full"} flexDir={"column"} py={"4"} >
                                     {/* <Text color={colorMode === 'light' ? "#667085" : bodyTextColor} > */}
                                     {/* Number of Tickets
                                         </Text> */}
@@ -301,7 +349,7 @@ function SelectTicket(props: Props) {
                 }
             })}
 
-            <CustomButton onClick={() => HandleAddTicket(eventdata?.productTypeData?.length)} text='+ Add New Ticket Type' color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
+            <CustomButton borderRadius={"full"} onClick={() => HandleAddTicket(eventdata?.productTypeData?.length)} text='+ Add New Ticket Type' color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
 
             <Box>
                 <label className="block text-gray-700 font-medium ">
@@ -311,6 +359,7 @@ function SelectTicket(props: Props) {
                     h={"45px"}
                     border={"1px solid #E2E8F0"}
                     focusBorderColor={"#E2E8F0"}
+                    rounded={"full"}
                     placeholder="Select ticket currency"
                     value={eventdata.currency}
                     name="currency"

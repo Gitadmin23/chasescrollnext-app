@@ -48,6 +48,7 @@ export type CreateEvent = {
         toBeAnnounced: boolean
         locationDetails?: string,
         link?: string,
+        links?: Array<string>,
         address?: string,
         latlng?: string,
         placeIds?: string
@@ -114,6 +115,7 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
             toBeAnnounced: false,
             locationDetails: "",
             link: "",
+            links: [""],
             address: "",
             latlng: ""
         },
