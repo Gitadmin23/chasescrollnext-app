@@ -170,7 +170,7 @@ function SelectLocation(props: Props) {
                                     <Flex flexDir={"column"} gap={"4"} >
                                         {links?.map((item: string, index: number) => {
                                             return (
-                                                <Flex gap={"3"} w={"full"} alignItems={"center"} >
+                                                <Flex key={index} gap={"3"} w={"full"} alignItems={"center"} >
                                                     <Input
                                                         type="text"
                                                         h={"45px"}
