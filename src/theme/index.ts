@@ -1,10 +1,10 @@
 import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
-import { Raleway } from 'next/font/google'
+// import { Raleway } from 'next/font/google'
  
-const raleway = Raleway({
-  subsets: ['latin'],
-  display: 'swap',
-})
+// const raleway = Raleway({
+//   subsets: ['latin'],
+//   display: 'swap',
+// })
 
 export const THEME = {
     COLORS: {
@@ -67,10 +67,10 @@ export const theme = extendTheme({
             borderColor: '#D0D4EB',
         }
     },
-    fonts: {
-        heading: raleway.style.fontFamily,
-        body: raleway.style.fontFamily,
-    },
+    // fonts: {
+    //     heading: raleway.style.fontFamily,
+    //     body: raleway.style.fontFamily,
+    // },
 });
 
 export const darkTheme = extendTheme({
@@ -105,8 +105,8 @@ export const darkTheme = extendTheme({
             borderColor: '#D0D4EB',
         }
     },
-    fonts: {
-        heading: raleway.style.fontFamily,
-        body: raleway.style.fontFamily,
-    },
+    // fonts: {
+    //     heading: raleway.style.fontFamily,
+    //     body: raleway.style.fontFamily,
+    // },
 });

@@ -1,7 +1,9 @@
 import useEventStore from '@/global-state/useCreateEventState';
 import { Box, Checkbox, Flex, Input, Select, Text, Textarea } from '@chakra-ui/react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SelectMap from '../select_map';
+import { IoAdd, IoClose } from 'react-icons/io5';
+import useCustomTheme from '@/hooks/useTheme';
 
 interface Props { }
 
@@ -11,6 +13,19 @@ function SelectLocation(props: Props) {
     const { eventdata, updateEvent } = useEventStore((state) => state);
     const [selectType, setSelectType] = useState("")
 
+    const [links, setLink] = useState<Array<string>>([])
+
+    const {
+        primaryColor
+    } = useCustomTheme()
+
+    useEffect(() => {
+        if (eventdata?.location?.links) {
+            if (eventdata?.location?.links?.length > 0) {
+                setLink([...eventdata?.location?.links])
+            }
+        }
+    }, [])
 
 
     const handleToBeAnnounced = (event: any) => {
@@ -55,6 +70,49 @@ function SelectLocation(props: Props) {
         }
     }, [eventdata?.location?.link, eventdata?.location?.locationDetails])
 
+    const linkChangeHandler = (item: any, index: number) => {
+        const clone = [...links]
+
+        clone[index] = item 
+
+        updateEvent({
+            ...eventdata,
+            location: {
+                ...eventdata.location,
+                link: clone[0],
+                links: clone
+            }
+        })
+        setLink(clone)
+        // set
+    }
+    // Function to add a new string
+    const addString = () => {
+        setLink((prevStrings) => [...prevStrings, ""]);
+    };
+
+    const removeString = (index: number) => {
+
+        const clone = [...links]
+        clone.splice(index, 1);
+
+
+        updateEvent({
+            ...eventdata,
+            location: {
+                ...eventdata.location,
+                link: clone[0],
+                links: clone
+            }
+        })
+        setLink(clone)
+ 
+    };
+
+    console.log(eventdata);
+    
+
+
     return (
         <Box width={"full"}>
             <Box width={"full"} >
@@ -68,9 +126,10 @@ function SelectLocation(props: Props) {
                                 </label>
                                 <Select
                                     width={"180px"}
-                                    h={"45px"} 
+                                    h={"45px"}
                                     fontSize={"sm"}
                                     name='locationType'
+                                    rounded={"full"}
                                     onChange={(e) => changeHandler(e.target.value)}
                                     value={selectType} >
                                     <option value="">add location</option>
@@ -82,51 +141,64 @@ function SelectLocation(props: Props) {
                             {(selectType === "Physical Location" || selectType === "Hybrid Location" || eventdata?.location?.locationDetails) && (
                                 <Box width={"full"} mt={"4"}  >
                                     <Text>Enter Address</Text>
-                                    {/* <Input
-                                        type="text"
-                                        h={"45px"}
-                                        placeholder="Enter Event Location"
-                                        mt={"sm"}
-                                        fontSize={"sm"}
-                                        rounded={"md"} 
-                                        p={"3"}
-                                        width={"full"}
-                                        // className="border w-full mt-4 text-sm rounded-md text-chasescrollTextGrey p-3"
-                                        name="locationDetails"
-                                        onChange={({ target: { value } }) => updateEvent({
-                                            ...eventdata,
-                                            location: {
-                                                ...eventdata.location,
-                                                locationDetails: value
-                                            }
-                                        })}
-                                        value={eventdata?.location?.locationDetails}
-                                    /> */}
                                     <SelectMap />
                                 </Box>
                             )}
                             {(selectType === "Online Location" || selectType === "Hybrid Location" || eventdata?.location?.link) && (
                                 <Box width={"full"} mt={"4"} >
                                     <Text mb={"2"} >Enter Online Url</Text>
-                                    <Input
-                                        type="text"
-                                        h={"45px"}
-                                        fontSize={"sm"}
-                                        rounded={"md"} 
-                                        p={"3"}
-                                        width={"full"}
-                                        placeholder="Enter Online Link"
-                                        name="organizer"
-                                        onChange={({ target: { value } }) => updateEvent({
-                                            ...eventdata,
-                                            location: {
-                                                ...eventdata.location,
-                                                link: value
-                                            }
+                                    {links?.length <= 0 && (
+                                        <Input
+                                            type="text"
+                                            h={"45px"}
+                                            fontSize={"sm"}
+                                            p={"3"}
+                                            width={"full"}
+                                            rounded={"full"}
+                                            placeholder="Enter Online Link"
+                                            name="organizer"
+                                            onChange={({ target: { value } }) => updateEvent({
+                                                ...eventdata,
+                                                location: {
+                                                    ...eventdata.location,
+                                                    link: value
+                                                }
+                                            })}
+                                            value={eventdata?.location?.link}
+                                        />
+                                    )}
+                                    <Flex flexDir={"column"} gap={"4"} >
+                                        {links?.map((item: string, index: number) => {
+                                            return (
+                                                <Flex key={index} gap={"3"} w={"full"} alignItems={"center"} >
+                                                    <Input
+                                                        type="text"
+                                                        h={"45px"}
+                                                        fontSize={"sm"}
+                                                        p={"3"}
+                                                        width={"full"}
+                                                        rounded={"full"}
+                                                        placeholder="Enter Online Link"
+                                                        name="organizer"
+                                                        onChange={({ target: { value } }) => linkChangeHandler(value, index)}
+                                                        value={item}
+                                                    />
+                                                    {links?.length > 1 && (
+                                                        <Flex onClick={() => removeString(index)} role='button'  >
+                                                            <IoClose size={"25px"} />
+                                                        </Flex>
+                                                    )}
+                                                </Flex>
+                                            )
                                         })}
-                                        value={eventdata?.location?.link}
-                                    />
+                                    </Flex>
                                 </Box>
+                            )}
+                            {(selectType === "Online Location" || selectType === "Hybrid Location" || eventdata?.location?.link) && (
+                                <Flex role='button' onClick={() => addString()} gap={"3"} mt={"5"} alignItems={"center"} >
+                                    <IoAdd size="20px" color={primaryColor} />
+                                    <Text color={primaryColor} fontWeight={"600"} >Add New Meeting link</Text>
+                                </Flex>
                             )}
                         </Box>
                     </Box>
@@ -153,6 +225,7 @@ function SelectLocation(props: Props) {
                     width={"full"}
                     px={"4"}
                     py={"2"}
+                    rounded={"24px"}
                     // className="border w-full px-4 py-2 outline-none"
                     rows={4}
                     cols={48}

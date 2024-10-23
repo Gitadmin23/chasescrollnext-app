@@ -3,7 +3,7 @@ import CustomButton from '@/components/general/Button'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import UserImage from '@/components/sharedComponent/userimage'
-import { CloseIcon, CollaboratorIcon } from '@/components/svg'
+import { CloseIcon, CollaboratorIcon, QuestionTwoIcon } from '@/components/svg'
 import useEventStore, { CreateEvent } from '@/global-state/useCreateEventState'
 import { useDetails } from '@/global-state/useUserDetails'
 import useDebounce from '@/hooks/useDebounce'
@@ -562,7 +562,7 @@ export default function CollaboratorBtn(props: IProps) {
                         </Flex>
 
                         <Box onClick={() => setShow(true)} color={"gray.500"} as='button' >
-                            <IoMdHelpCircleOutline size={"20px"} />
+                            <QuestionTwoIcon/>
                         </Box>
                     </Flex>
                     <Flex gap={"3"} >

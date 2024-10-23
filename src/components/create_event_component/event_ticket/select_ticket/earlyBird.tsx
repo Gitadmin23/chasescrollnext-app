@@ -29,7 +29,7 @@ export default function EarlyBird({ data, index }: IProps) {
 
     const CustomInput = ({ value, onClick }: any) => {
         return (
-            <Flex onClick={onClick} as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"4px"} fontSize={"sm"} h={"50px"}  >
+            <Flex onClick={onClick} as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"full"} fontSize={"sm"} h={"50px"}  >
                 <CalendarIcon />
                 {eventdata.productTypeData[0]?.startDate ? dateFormat(eventdata.productTypeData[0]?.startDate) : "Select Date And Time"}
                 {" "}
@@ -40,7 +40,7 @@ export default function EarlyBird({ data, index }: IProps) {
 
     const CustomInputEnd = ({ value, onClick }: any) => {
         return (
-            <Flex onClick={onClick} as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"4px"} fontSize={"sm"} h={"50px"}  >
+            <Flex onClick={onClick} as={"button"} rounded={"full"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} fontSize={"sm"} h={"50px"}  >
                 <CalendarIcon />
                 {eventdata.productTypeData[0]?.endDate ? dateFormat(eventdata.productTypeData[0]?.endDate) : "Select Date And Time"}
                 {" "}
@@ -131,7 +131,7 @@ export default function EarlyBird({ data, index }: IProps) {
     return (
         <Flex>
             <Flex gap={"1"}  >
-                <Flex as={"button"} onClick={() => clickHander()} alignItems={"center"} gap={"1"} px="6" h={"45px"} rounded={"12px"} bgColor={eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? primaryColor : mainBackgroundColor} borderColor={primaryColor} borderWidth={"1px"} color={eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? "white" : primaryColor} >
+                <Flex as={"button"} onClick={() => clickHander()} alignItems={"center"} gap={"1"} px="6" h={"45px"} rounded={"full"} bgColor={eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? primaryColor : mainBackgroundColor} borderColor={primaryColor} borderWidth={"1px"} color={eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? "white" : primaryColor} >
                     <IoLogoTwitter size="23px" />
                     <Text fontWeight={"500"} fontSize={"14px"} >{eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? "Edit" : ""} Early Bird</Text>
                 </Flex>
@@ -168,6 +168,7 @@ export default function EarlyBird({ data, index }: IProps) {
                                         border={"1px solid #E2E8F0"}
                                         focusBorderColor={"#E2E8F0"}
                                         placeholder="Enter amount"
+                                        rounded={"full"}
                                         value={eventdata.productTypeData[0]?.ticketPrice ?? ""}
                                         disabled={false}
                                         name="ticketPrice"
@@ -185,6 +186,7 @@ export default function EarlyBird({ data, index }: IProps) {
                                     onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                     border={"1px solid #E2E8F0"}
                                     focusBorderColor={"#E2E8F0"}
+                                    rounded={"full"}
                                     placeholder=" Type in available quantity"
                                     // value={eventdata.totalTicketAvailable}
                                     value={eventdata.productTypeData[0]?.totalNumberOfTickets ?? ""}
@@ -227,7 +229,7 @@ export default function EarlyBird({ data, index }: IProps) {
                                 />
                             </Flex>
                         </Flex>
-                        <CustomButton onClick={() => setOpen(false)} backgroundColor={"#1732F70D"} borderWidth={"1px"} borderColor={"#1732F7"} color={"#5D70F9"} text={"Done"} w={"full"} />
+                        <CustomButton onClick={() => setOpen(false)} backgroundColor={"#1732F70D"} borderWidth={"1px"} borderColor={"#1732F7"} color={"#5D70F9"} text={"Done"} borderRadius={"full"} w={"full"} />
                     </Flex>
                 </Flex>
             </ModalLayout>
