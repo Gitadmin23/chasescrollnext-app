@@ -178,7 +178,7 @@ function SelectLocation(props: Props) {
                                                         p={"3"}
                                                         width={"full"}
                                                         rounded={"full"}
-                                                        placeholder="Enter Online Link"
+                                                        placeholder="https://exmaple.com"
                                                         name="organizer"
                                                         onChange={({ target: { value } }) => linkChangeHandler(value, index)}
                                                         value={item}

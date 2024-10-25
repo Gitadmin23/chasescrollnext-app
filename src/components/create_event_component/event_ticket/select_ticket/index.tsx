@@ -160,9 +160,7 @@ function SelectTicket(props: Props) {
             ...eventdata,
             productTypeData: myArr
         })
-    }
-    console.log(eventdata?.productTypeData);
-
+    } 
 
     return (
         <Flex flexDirection={"column"} gap={"3"} width={"full"} >
@@ -184,9 +182,10 @@ function SelectTicket(props: Props) {
                         <Flex >
                             <Input
                                 h={"45px"}
-                                type="text"
+                                type="number"
                                 border={"1px solid #E2E8F0"}
                                 focusBorderColor={"#E2E8F0"}
+                                placeholder='₦0.00'
                                 onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                 rounded={"full"}
                                 name="ticketType"
