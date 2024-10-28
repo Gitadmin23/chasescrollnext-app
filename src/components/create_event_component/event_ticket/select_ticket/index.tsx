@@ -161,8 +161,8 @@ function SelectTicket(props: Props) {
             productTypeData: myArr
         })
     }
-    console.log(eventdata?.productTypeData);
 
+    console.log(eventdata);
 
     return (
         <Flex flexDirection={"column"} gap={"3"} width={"full"} >
@@ -171,11 +171,15 @@ function SelectTicket(props: Props) {
             ) : (
                 <Flex justifyContent={"space-between"} py={"4"} alignItems={"center"} >
                     <Text fontWeight={"700"} >Do you which to accept donations for this event?</Text>
-                    <Switch isChecked={donate} onChange={(e) => setDonate((prev) => !prev)} />
+                    <Switch isChecked={eventdata?.donationEnabled} onChange={(e) =>
+                        updateEvent({
+                            ...eventdata,
+                            donationEnabled: !eventdata?.donationEnabled
+                        })} />
                 </Flex>
             )}
 
-            {donate && ( 
+            {eventdata?.donationEnabled && (
                 <Flex width={"full"} flexDir={["column", "column", "row"]} pb={"3"} gap={"3"} >
                     <Box width={"full"}>
                         <label className="block text-gray-700 font-medium mb-2">
@@ -184,9 +188,14 @@ function SelectTicket(props: Props) {
                         <Flex >
                             <Input
                                 h={"45px"}
-                                type="text"
+                                type="number"
                                 border={"1px solid #E2E8F0"}
                                 focusBorderColor={"#E2E8F0"}
+                                placeholder='₦0.00'
+                                onChange={(e)=> updateEvent({
+                                    ...eventdata,
+                                    donationTargetAmount: e.target.value
+                                })}
                                 onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                 rounded={"full"}
                                 name="ticketType"
@@ -201,8 +210,12 @@ function SelectTicket(props: Props) {
                             <Input
                                 h={"45px"}
                                 rounded={"full"}
-                                type="number"
+                                type="text"
                                 width={"full"}
+                                onChange={(e)=> updateEvent({
+                                    ...eventdata,
+                                    donationName: e.target.value
+                                })}
                                 border={"1px solid #E2E8F0"}
                                 focusBorderColor={"#E2E8F0"}
                                 placeholder="e.g Wedding, building project etc"

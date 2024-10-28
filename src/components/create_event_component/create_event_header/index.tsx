@@ -154,6 +154,8 @@ function CreateEventHeader({ name }: IProps) {
     const statusHandler =(item: number)=> {
         if(tab === 0) { 
             getValidationThemeClick(item)
+        } else if(tab === 2) {
+            getValidationThemeClick(item)
         } else {
             getValidationInfoClick()
         }

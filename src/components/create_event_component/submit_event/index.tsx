@@ -139,13 +139,24 @@ function SubmitEvent(props: Iprops) {
                 return
             } else {
 
-                if (pathname?.includes("edit_event_data")) {
-                    updateUserEvent.mutate(eventdata)
-                } else if (pathname?.includes("edit_event")) {
-                    changeTab(2)
-                } else {
-                    saveToDraft.mutate(eventdata)
+                if(getValidationLinkBtn() === false){
+                    toast({
+                        description: "Please Enter a Valid Event Link",
+                        status: 'error',
+                        isClosable: true,
+                        duration: 5000,
+                        position: 'top-right',
+                    });
+                } else { 
+                    if (pathname?.includes("edit_event_data")) {
+                        updateUserEvent.mutate(eventdata)
+                    } else if (pathname?.includes("edit_event")) {
+                        changeTab(2)
+                    } else {
+                        saveToDraft.mutate(eventdata)
+                    }
                 }
+                
             }
         } else {
             if (pathname?.includes("edit_event")) {
@@ -355,6 +366,10 @@ function SubmitEvent(props: Iprops) {
                 return true
             } else if (!item.maxTicketBuy) {
                 return true
+            } else if (eventdata?.donationEnabled) {
+                if(!eventdata?.donationName || !eventdata?.donationTargetAmount){
+                    return true
+                }
             } else if (promotion) {
                 if (!item.rerouteURL) {
                     return true
@@ -363,6 +378,17 @@ function SubmitEvent(props: Iprops) {
                 return false
             } else {
                 return true
+            }
+        })
+    }
+
+    const getValidationLinkBtn: any = () => {
+
+        return eventdata?.location?.links?.every((item, index) => {
+            if((item?.includes("https://")) || (item?.includes("http://")) || (item?.includes("www."))){
+                return true
+            } else {
+                return false
             }
         })
     }

@@ -1,15 +1,29 @@
+import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { GallaryIcon } from '@/components/svg'
 import useCustomTheme from '@/hooks/useTheme'
-import { Button, Flex, Input, Radio, RadioGroup, Text, Textarea } from '@chakra-ui/react'
-import React from 'react' 
+import { Button, Flex, Input, Radio, RadioGroup, Select, Text, Textarea } from '@chakra-ui/react'
+import React, { useState } from 'react'
+import { IoAdd } from 'react-icons/io5'
+import { DayAvaliable } from '.'
+import { IoIosCheckmarkCircle } from 'react-icons/io'
+import { useRouter } from 'next/navigation'
 
-export default function InformationTab({setTab}: {setTab: (by: number) => void}) {
+export default function InformationTab() {
 
     const {
         borderColor,
-        mainBackgroundColor,
         primaryColor
     } = useCustomTheme()
+
+    const [open, setOpen] = useState(false)
+    const [modal, setModal] = useState(false)
+
+    const clickHander = (item: boolean) => {
+        setOpen(item)
+        setModal(!item)
+    }
+
+    const router = useRouter()
 
     return (
         <Flex w={"full"} h={"full"} >
@@ -21,8 +35,12 @@ export default function InformationTab({setTab}: {setTab: (by: number) => void})
                 </Flex>
             </Flex>
             <Flex w={"full"} h={"full"} justifyContent={"center"} alignItems={"center"} overflowY={"auto"} >
-                <Flex maxW={"438px"} w={"full"} height={"auto"} gap={"5"} flexDir={"column"} py={"8"} > 
-                    <Flex w={"full"} py={"8"} flexDirection={"column"} mt={"20"} rounded={"16px"} borderStyle={"dotted"} borderWidth={"0.38px"} borderColor={borderColor} justifyContent={"center"} alignItems={"center"}  >
+                <Flex maxW={"438px"} w={"full"} height={"full"} gap={"5"} flexDir={"column"} py={"8"} >
+                    <Flex flexDir={"column"} gap={"3"} >
+                        <Text fontSize={"24px"} fontWeight={"600"} >{`Let’s get you started`}</Text>
+                        <Text fontSize={"14px"} fontWeight={"400"} >{`Your address will be provided to client  only after they've booked for your services`}</Text>
+                    </Flex>
+                    <Flex w={"full"} py={"8"} flexDirection={"column"} rounded={"16px"} borderStyle={"dotted"} borderWidth={"0.38px"} borderColor={borderColor} justifyContent={"center"} alignItems={"center"}  >
                         <GallaryIcon />
                         <Text mt={"4"} fontSize={"14px"} fontWeight={"medium"} >Drag pictures here to upload</Text>
                         <Text fontSize={"8px"} >You need at least 6 pictures</Text>
@@ -33,31 +51,65 @@ export default function InformationTab({setTab}: {setTab: (by: number) => void})
                         <Text>Business Name*</Text>
                         <Input h={"44px"} />
                     </Flex>
+                    <RadioGroup >
+                        <Flex direction='row' gap={"4"}>
+                            <Radio value='1'>Physical Venue</Radio>
+                            <Radio value='2'>Online</Radio>
+                        </Flex>
+                    </RadioGroup>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                        <Text>Add business description</Text>
-                        <Text fontSize={"12px"} >Let customers learn more about your business by adding a description to your booking profile</Text>
-                        <Textarea />
-                    </Flex>
-
-                    <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                        <Text>Location For your Business/Booking*</Text>
-                        <Text fontSize={"12px"} >{`This location will show up on your Chasescroll ‘My Booking’ profile for customers to see when looking for your business`}</Text>
-                        <RadioGroup >
-                            <Flex direction='row'>
-                                <Radio value='1'>Physical Venue</Radio>
-                                <Radio value='2'>Online</Radio>
-                            </Flex>
-                        </RadioGroup>
-                    </Flex>
-                    <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                        <Text>Business Name*</Text>
+                        <Text>Business Address</Text>
                         <Input h={"44px"} />
                     </Flex>
-                    <Button onClick={()=> setTab(1)} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"49px"} _hover={{backgroundColor: primaryColor}} >
-                        Next
-                    </Button>
+                    <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
+                        <Text>Business Phone Number</Text>
+                        <Input h={"44px"} />
+                    </Flex>
+                    <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
+                        <Text>Business Email Address</Text>
+                        <Input h={"44px"} />
+                    </Flex>
+                    <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
+                        <Text>Business Website (optional)</Text>
+                        <Input h={"44px"} />
+                        <Flex gap={"2"} mt={"2"} as={"button"} alignItems={"center"} >
+                            <IoAdd size={"25px"} color={primaryColor} />
+                            <Text>Add social Handle </Text>
+                        </Flex>
+                    </Flex>
+                    <Flex gap={"4"} >
+                        <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
+                            <Text>Select your socials type</Text>
+                            <Select h={"44px"} />
+                        </Flex>
+                        <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
+                            <Text>Social Media handle</Text>
+                            <Input h={"44px"} />
+                        </Flex>
+                    </Flex>
+                    <Flex gap={"2"} mt={"2"} as={"button"} alignItems={"center"} >
+                        <IoAdd size={"25px"} color={primaryColor} />
+                        <Text>Business Hours and time </Text>
+                    </Flex>
+                    <Flex w={"full"} h={"100px"} pb={"9"} >
+                        <Button onClick={() => setOpen(true)} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"49px"} _hover={{ backgroundColor: primaryColor }} >
+                            Create Business
+                        </Button>
+                    </Flex>
                 </Flex>
             </Flex>
+            <ModalLayout size={"xl"} open={open} close={setOpen} >
+                <DayAvaliable close={setOpen} setTab={clickHander} />
+            </ModalLayout>
+
+            <ModalLayout open={modal} close={setModal} closeIcon={true}>
+                <Flex w={"full"} flexDir={"column"} alignItems={"center"} py={"5"} >
+                    <IoIosCheckmarkCircle size={"100px"} color={"#46CC6B"} />
+                    <Text fontWeight={"600"} fontSize={"24px"} >Congratulations Miracle!</Text>
+                    <Text textAlign={"center"} maxW={"350px"} fontWeight={"400"} >{`You’ve successfully Create your Business. Kindly click on the create services to get started.`}</Text>
+                    <Button onClick={()=> router?.push("/dashboard/newbooking/create/services")} height={"50px"} mt={"4"} borderWidth={"1px"} w={"200px"} rounded={"full"} borderColor={primaryColor} bgColor={primaryColor} color={"white"} _hover={{ backgroundColor: primaryColor }} >Create services </Button>
+                </Flex>
+            </ModalLayout>
         </Flex>
     )
 } 
