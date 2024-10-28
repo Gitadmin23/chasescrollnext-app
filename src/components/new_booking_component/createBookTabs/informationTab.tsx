@@ -6,12 +6,12 @@ import React, { useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { DayAvaliable } from '.'
 import { IoIosCheckmarkCircle } from 'react-icons/io'
+import { useRouter } from 'next/navigation'
 
-export default function InformationTab({ setTab }: { setTab: (by: number) => void }) {
+export default function InformationTab() {
 
     const {
         borderColor,
-        mainBackgroundColor,
         primaryColor
     } = useCustomTheme()
 
@@ -22,6 +22,8 @@ export default function InformationTab({ setTab }: { setTab: (by: number) => voi
         setOpen(item)
         setModal(!item)
     }
+
+    const router = useRouter()
 
     return (
         <Flex w={"full"} h={"full"} >
@@ -89,10 +91,10 @@ export default function InformationTab({ setTab }: { setTab: (by: number) => voi
                         <IoAdd size={"25px"} color={primaryColor} />
                         <Text>Business Hours and time </Text>
                     </Flex>
-                    <Flex w={"full"} h={"100px"} pb={"9"} > 
-                    <Button onClick={() => setOpen(true)} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"49px"} _hover={{ backgroundColor: primaryColor }} >
-                        Create Business
-                    </Button>
+                    <Flex w={"full"} h={"100px"} pb={"9"} >
+                        <Button onClick={() => setOpen(true)} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"49px"} _hover={{ backgroundColor: primaryColor }} >
+                            Create Business
+                        </Button>
                     </Flex>
                 </Flex>
             </Flex>
@@ -105,7 +107,7 @@ export default function InformationTab({ setTab }: { setTab: (by: number) => voi
                     <IoIosCheckmarkCircle size={"100px"} color={"#46CC6B"} />
                     <Text fontWeight={"600"} fontSize={"24px"} >Congratulations Miracle!</Text>
                     <Text textAlign={"center"} maxW={"350px"} fontWeight={"400"} >{`You’ve successfully Create your Business. Kindly click on the create services to get started.`}</Text>
-                    <Button height={"50px"} mt={"4"} borderWidth={"1px"} w={"200px"} rounded={"full"} borderColor={primaryColor} bgColor={primaryColor} color={"white"} _hover={{ backgroundColor: primaryColor }} >Create services </Button>
+                    <Button onClick={()=> router?.push("/dashboard/newbooking/create/services")} height={"50px"} mt={"4"} borderWidth={"1px"} w={"200px"} rounded={"full"} borderColor={primaryColor} bgColor={primaryColor} color={"white"} _hover={{ backgroundColor: primaryColor }} >Create services </Button>
                 </Flex>
             </ModalLayout>
         </Flex>

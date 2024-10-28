@@ -16,7 +16,8 @@ import useModalStore from "@/global-state/useModalSwitch";
 import { useRouter } from "next/navigation";
 import { SuccessIcon } from "@/components/svg";
 import useCustomTheme from "@/hooks/useTheme";
-import { IEventType } from "@/models/Event"; 
+import { IEventType } from "@/models/Event";
+import { ImTicket } from "react-icons/im";
 
 function GetEventTicket(props: IEventType) {
     const {
@@ -26,7 +27,7 @@ function GetEventTicket(props: IEventType) {
         id
     } = props;
 
-    const { secondaryBackgroundColor } = useCustomTheme();
+    const { primaryColor } = useCustomTheme();
     // const [stripePromise, setStripePromise] = React?.useState(() => loadStripe(STRIPE_KEY))
 
     const { showModal, setShowModal } = useModalStore((state) => state);
@@ -100,14 +101,21 @@ function GetEventTicket(props: IEventType) {
             setShowModal(true)
         }
         setModalTab(4)
-    }
-
-    console.log(ticketType);
-    
+    } 
 
     return (
         <>
-            <CustomButton backgroundColor={"#233DF3"} borderRadius={"32px"} opacity={(!ticketType?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!ticketType?.ticketType || ticketType?.ticketType || isBought) ? false : true} text={((isBought) ? "View Ticket" : isFree ? "Register" : "Check out ")} width={["full"]} height={"57px"} fontSize={"sm"} fontWeight={"semibold"} />
+
+            <Flex w={"full"} display={[isBought ? "none" : "block", "block", "block", "block"]} >
+                <CustomButton backgroundColor={"#233DF3"} borderRadius={"32px"} opacity={(!ticketType?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(!ticketType?.ticketType || ticketType?.ticketType || isBought) ? false : true} text={((isBought) ? "View Ticket" : isFree ? "Register" : "Check out ")} width={["full"]} height={"57px"} fontSize={"sm"} fontWeight={"semibold"} />
+            </Flex>
+
+            {isBought &&
+                <Flex onClick={clickHandler} as={"button"} w={"50px"} h={"50px"} borderWidth={"1px"} borderColor={primaryColor} justifyContent={"center"} alignItems={"center"} rounded={"13px"} display={["Flex", "none", "none", "none"]}  >
+                    {/* <IoTicket size={"30px"} color={primaryColor} /> */}
+                    <ImTicket size={"30px"} color={primaryColor} />
+                </Flex>
+            }
 
             <ModalLayout size={modalTab === 5 ? ["md", "md", "3xl"] : "md"} title={modalTab === 6 ? "Ticket available for this event" : ""} open={showModal} close={setShowModal} >
                 {modalTab === 1 && (

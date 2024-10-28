@@ -176,6 +176,27 @@ export const DownArrowIcon = () => (
   </svg>
 );
 
+export const DashboardOrganizerIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z" stroke="#5D70F9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M7.33008 14.4898L9.71008 11.3998C10.0501 10.9598 10.6801 10.8798 11.1201 11.2198L12.9501 12.6598C13.3901 12.9998 14.0201 12.9198 14.3601 12.4898L16.6701 9.50977" stroke="#5D70F9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+)
+
+export const DashboardEditIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path d="M11 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22H15C20 22 22 20 22 15V13" stroke="#5D70F9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M16.0399 3.02025L8.15988 10.9003C7.85988 11.2003 7.55988 11.7903 7.49988 12.2203L7.06988 15.2303C6.90988 16.3203 7.67988 17.0803 8.76988 16.9303L11.7799 16.5003C12.1999 16.4403 12.7899 16.1403 13.0999 15.8403L20.9799 7.96025C22.3399 6.60025 22.9799 5.02025 20.9799 3.02025C18.9799 1.02025 17.3999 1.66025 16.0399 3.02025Z" stroke="#5D70F9" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M14.9099 4.15039C15.2415 5.32786 15.8699 6.40046 16.7349 7.26544C17.5998 8.13042 18.6724 8.7588 19.8499 9.09039" stroke="#5D70F9" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+)
+
+export const DashboardScannerIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+    <path d="M2.5 9V7C2.5 4 4.5 2 7.5 2H17.5C20.5 2 22.5 4 22.5 7V9M2.5 15V17C2.5 20 4.5 22 7.5 22H17.5C20.5 22 22.5 20 22.5 17V15M2.5 12H22.5" stroke="#5D70F9" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+)
+
 export const GallaryIcon = () => (
   <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M8.33859 6.33865C8.33917 6.86785 8.1295 7.3756 7.75571 7.75021C7.38192 8.12482 6.87462 8.3356 6.34542 8.33618C5.81622 8.33676 5.30846 8.12709 4.93385 7.7533C4.55924 7.37951 4.34846 6.87221 4.34788 6.34301C4.34731 5.81381 4.55698 5.30605 4.93077 4.93144C5.30456 4.55683 5.81186 4.34605 6.34106 4.34547C6.87026 4.3449 7.37801 4.55457 7.75262 4.92836C8.12723 5.30215 8.33801 5.80945 8.33859 6.33865Z" fill="#7C7C7C" />
