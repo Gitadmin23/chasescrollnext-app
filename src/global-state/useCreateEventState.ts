@@ -54,7 +54,10 @@ export type CreateEvent = {
         placeIds?: string
     },
     productTypeData: Array<ticket>,
-    createdBy?: IUser
+    createdBy?: IUser,
+    donationName?: string,
+    donationTargetAmount?: string,
+    donationEnabled?: boolean
 } 
 
 type State = {

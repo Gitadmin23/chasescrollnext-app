@@ -366,6 +366,10 @@ function SubmitEvent(props: Iprops) {
                 return true
             } else if (!item.maxTicketBuy) {
                 return true
+            } else if (eventdata?.donationEnabled) {
+                if(!eventdata?.donationName || !eventdata?.donationTargetAmount){
+                    return true
+                }
             } else if (promotion) {
                 if (!item.rerouteURL) {
                     return true
