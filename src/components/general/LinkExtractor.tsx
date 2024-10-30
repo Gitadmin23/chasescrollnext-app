@@ -66,7 +66,7 @@ export const handleLinks = (text: string, showMore?: boolean) => {
 
     if (text?.includes('http') || text?.includes("www.")) {
       return (
-            <a href={text} target='_blank' style={{ fontFamily:'DM-Medium', color:'blue'}}>{showMore ? text : text.substring(0, 130)}</a>
+            <a href={text} target='_blank' style={{ fontFamily:'DM-Medium', color:'blue', textDecoration: "underline"}}>{showMore ? text : text.substring(0, 130)}</a>
       );
     } else {
       return <CustomText>{showMore ? text : text.substring(0, 130)}</CustomText> // Preserve non-matched parts

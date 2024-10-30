@@ -1,5 +1,5 @@
 import { IMediaContent } from '@/models/MediaPost'
-import { Box, Button, Flex, Image, Spinner, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Link, Spinner, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import UserImage from '../sharedComponent/userimage'
 import { textLimit } from '@/utils/textlimit'
@@ -60,12 +60,12 @@ export default function PostCard(props: IMediaContent) {
     const [openComments, setOpenComments] = useState(false)
 
     let token = localStorage.getItem('token') + "";
- 
+
     const query = useSearchParams();
     const typeName = query?.get('type');
     const typeID = query?.get('typeID');
 
-    const { user: data, } = useDetails((state) => state); 
+    const { user: data, } = useDetails((state) => state);
 
     const { } = useQuery(
         [`getPostById-${id}`, id],
@@ -75,7 +75,7 @@ export default function PostCard(props: IMediaContent) {
                 setLikeCount(data?.data?.likeCount)
                 setLiked(data?.data?.likeStatus);
                 setNumberComments(data?.data?.comments?.numberOfElements);
-                
+
             },
         },
     );
@@ -140,7 +140,14 @@ export default function PostCard(props: IMediaContent) {
                         </Flex>
                     )}
                 </Flex>
-                <Text fontSize={["14px", "14px", "16px"]} >{text}</Text>
+                {(text?.includes("https://") || text?.includes("http://") || text?.includes("www.")) ?
+                    (
+                        <Link href={text} target={"_blank"} textDecor={"underline"} color={primaryColor} fontSize={["14px", "14px", "16px"]} >{text}</Link>
+                    ) :
+                    ( 
+                        <Text fontSize={["14px", "14px", "16px"]} >{text}</Text>
+                    )
+                }
                 {(type === "WITH_IMAGE" || type === "WITH_VIDEO_POST") &&
                     <Flex w={"full"} h={["236px", "236px", "236px", "350px", "350px"]} rounded={"16px"} borderWidth={"1px"} roundedTopRight={"0px"}>
                         {type === "WITH_VIDEO_POST" && (
