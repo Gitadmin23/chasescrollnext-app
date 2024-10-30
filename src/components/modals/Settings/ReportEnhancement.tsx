@@ -34,7 +34,7 @@ const REPORT_OPTIONS = [
     'Support',
 ]
 
-function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
+function ReportEnhancement({ isOpen, onClose, typeID, REPORT_TYPE }: IProps) {
     const [value, setValue] = React.useState('');
     const [title, setTitle] = React.useState('');
 
@@ -49,13 +49,21 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
 
-    const handleChange = React.useCallback((e:string) => {
-        if (value.length < 300) {
+    const handleChange = React.useCallback((e: string) => {
+        if (e?.length - 1 < 300) {
             setValue(e)
+        } else {
+            toast({
+                title: 'error',
+                description: 'Oops! Your message is too long. Please keep it under 300 characters.',
+                position: 'top-right',
+                isClosable: true,
+                status: 'error',
+            });
         }
     }, [value]);
 
-    useEffect(()=> { 
+    useEffect(() => {
         setValue("")
         setTitle("")
     }, [isOpen])
@@ -112,49 +120,54 @@ function ReportEnhancement({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
         }
     }, [value.length, title, toast, mutate])
 
-    const closeHandler =()=> {
+    const closeHandler = () => {
         setValue("")
         setTitle("")
         onClose()
     }
+    
+    useEffect(()=> {
+        setTitle("")
+        setValue("")
+    }, [])
 
-  return (
-    <Modal isOpen={isOpen} onClose={() => {
-        closeHandler()
+    return (
+        <Modal isOpen={isOpen} onClose={() => {
+            closeHandler()
         }} closeOnEsc={true} closeOnOverlayClick={true} size='2xl' isCentered>
-        <ModalOverlay />
-        <ModalContent width={'100%'} bg={secondaryBackgroundColor} padding='0px' overflow={'hidden'} borderRadius={'10px'}>
-            <ModalBody width='100%' height='100%' paddingX='20px' overflow={'hidden'} paddingY='20px'>
+            <ModalOverlay />
+            <ModalContent width={'100%'} bg={secondaryBackgroundColor} padding='0px' overflow={'hidden'} borderRadius={'10px'}>
+                <ModalBody width='100%' height='100%' paddingX='20px' overflow={'hidden'} paddingY='20px'>
 
-              <Flex width={'100%'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
-                <HStack justifyContent={'space-between'} alignItems={'center'} width={'100%'}>
-                        <FiX fontSize={'25px'} onClick={() => onClose()} />
-                        <CustomText color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Medium'}>Report Enhancement</CustomText>
-                        {/* <CustomText>{}</CustomText> */}
-                </HStack>
+                    <Flex width={'100%'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+                        <HStack justifyContent={'space-between'} alignItems={'center'} width={'100%'}>
+                            <FiX fontSize={'25px'} onClick={() => onClose()} />
+                            <CustomText color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Medium'}>Report Enhancement</CustomText>
+                            {/* <CustomText>{}</CustomText> */}
+                        </HStack>
 
-                <VStack width={'70%'} marginTop={'30px'}>
-                    <Select value={title} onChange={(e) => setTitle(e.target.value)} width={'100%'} height={'45px'} borderRadius={'10px'}>
-                            <option value={""}  selected>Report type</option>
-                            {REPORT_OPTIONS.map((option, index) => (
-                                <option key={index.toString()} value={option}>{option}</option>
-                            ))}
-                    </Select>
+                        <VStack width={'70%'} marginTop={'30px'}>
+                            <Select value={title} onChange={(e) => setTitle(e.target.value)} width={'100%'} height={'45px'} borderRadius={'10px'}>
+                                <option value={""} selected>Report type</option>
+                                {REPORT_OPTIONS.map((option, index) => (
+                                    <option key={index.toString()} value={option}>{option}</option>
+                                ))}
+                            </Select>
 
-                    <Textarea value={value} onChange={(e) => handleChange(e.target.value)} width={'100%'} borderRadius={'10px'} placeholder='Please provide some details' _focus={{ borderColor: 'brand.chasescrollButtonBlue'}} height={'300px'} />
+                            <Textarea value={value} onChange={(e) => handleChange(e.target.value)} width={'100%'} borderRadius={'10px'} placeholder='Please provide some details' _focus={{ borderColor: 'brand.chasescrollButtonBlue' }} height={'300px'} />
 
-                    <HStack width='100%' justifyContent={'flex-end'}>
-                        <CustomText>{value.length} / 300</CustomText>
-                    </HStack>
-                </VStack>
+                            <HStack width='100%' justifyContent={'flex-end'}>
+                                <CustomText>{value.length} / 300</CustomText>
+                            </HStack>
+                        </VStack>
 
-                <Button onClick={createReport} isLoading={isLoading} isDisabled={(value === "") ? true : ( title === "") ? true : false} width='70%' color='white' marginTop='30px' height='50px' bg='brand.chasescrollButtonBlue' variant={'solid'} borderRadius={'10px'}>Submit</Button>
-              </Flex>
+                        <Button onClick={createReport} isLoading={isLoading} isDisabled={(value === "") ? true : (title === "") ? true : false} width='70%' color='white' marginTop='30px' height='50px' bg='brand.chasescrollButtonBlue' variant={'solid'} borderRadius={'10px'}>Submit</Button>
+                    </Flex>
 
-            </ModalBody>
-        </ModalContent>
-    </Modal>
-  )
+                </ModalBody>
+            </ModalContent>
+        </Modal>
+    )
 }
 
 export default ReportEnhancement
