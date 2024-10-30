@@ -65,7 +65,7 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
                 pt={"3px"}
                 type='button'
                 onClick={() => setShowPassword(!showPassword)}  >
-                {!showPassword ? <FiEyeOff /> : <FiEye />}
+                {!showPassword ? <FiEyeOff color={"black"} /> : <FiEye color={"black"} />}
               </Flex> 
             )}
           </InputRightElement>
