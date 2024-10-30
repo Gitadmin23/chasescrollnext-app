@@ -26,6 +26,7 @@ import VideoPlayer from '../general/VideoPlayer';
 import useChat from './hooks/chat';
 import { textLimit } from '@/utils/textlimit';
 import { useSearchParams } from 'next/navigation';
+import CustomButton from '../general/Button';
 
 interface IProps {
     message: ChatMessage;
@@ -41,7 +42,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
     const [showDelete, setShowDelete] = React.useState(false);
 
     console.log(post);
-    
+
 
     const {
         bodyTextColor,
@@ -145,21 +146,21 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                     </>
                 )}
 
-                <VStack borderRadius='10px 20px 20px 0px' bg={self ? secondaryBackgroundColor : 'brand.chasescrollButtonBlue'} padding='5px' spacing={0} alignItems={self ? 'flex-end' : 'flex-start'} flexWrap={'wrap'} maxW={['300px', '350px']} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px' : '0px'} borderBottomRightRadius={self ? '0px' : '20px'} >
+                <VStack borderRadius='10px 20px 20px 0px' bg={self ? secondaryBackgroundColor : borderColor} padding='5px' spacing={0} alignItems={self ? 'flex-end' : 'flex-start'} flexWrap={'wrap'} maxW={['300px', '350px']} minW={'250px'} borderTopLeftRadius={'20px'} borderTopRightRadius={'20px'} borderBottomLeftRadius={self ? '20px' : '0px'} borderBottomRightRadius={self ? '0px' : '20px'} >
 
                     {post.media !== null && (
                         <>
                             {post.mediaType === 'PICTURE' && (
-                                <Image onClick={handleImageClick} src={`${post?.media?.startsWith('https://') ? post?.media : IMAGE_URL+post?.media}`} alt='img' width={'100%'} height={'150px'} objectFit={'cover'} borderRadius={'20px'} />
+                                <Image onClick={handleImageClick} src={`${post?.media?.startsWith('https://') ? post?.media : IMAGE_URL + post?.media}`} alt='img' width={'100%'} height={'150px'} objectFit={'cover'} borderRadius={'20px'} />
                             )}
                             {
                                 post.mediaType === 'VIDEO' && (
-                                    <Box width='100%' height='100%' maxH={'150px'} overflow={'hidden'}>
+                                    <Box width='100%' height='300px' overflow={'hidden'}>
                                         {/* <video controls width={'100%'} height={'150px'} style={{ borderRadius: '20px', maxHeight: '150px' }}>
                                             <source src={post.media} />
                                         </video> */}
                                         <VideoPlayer
-                                            src={`${post?.media?.startsWith('https://') ? post?.media : IMAGE_URL+post?.media}`}
+                                            src={`${post?.media?.startsWith('https://') ? post?.media : IMAGE_URL + post?.media}`}
                                             measureType="px"
                                         />
                                     </Box>
@@ -176,7 +177,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                                     //     </Box>
                                     // </HStack>
                                     <Flex w={"full"} maxW={"250px"} alignItems={"center"} px={"2"} h={"full"}  >
-                                        <Flex flexDir={"column"} alignItems={"center"} flex='0.2' as='button' onClick={() => downloadFile(post?.media?.startsWith('https://') ? post?.media : IMAGE_URL+post?.media)}>
+                                        <Flex flexDir={"column"} alignItems={"center"} flex='0.2' as='button' onClick={() => downloadFile(post?.media?.startsWith('https://') ? post?.media : IMAGE_URL + post?.media)}>
                                             <IoMdCloudDownload color={THEME.COLORS.chasescrollButtonBlue} fontSize='40px' />
                                             <CustomText textAlign={"center"} mt={"-2px"} width='80%' color="brand.chasescrollButtonBlue" fontFamily={'DM-Bold'} fontSize={'16px'}>{FileExtentions(post.media)}</CustomText>
                                         </Flex>
@@ -200,7 +201,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                             {/* {post?.message.length > 500 && (
                                 <span style={{ fontFamily: 'DM-Bold', color: THEME.COLORS.chasescrollButtonBlue, fontSize: '12px', cursor: 'pointer' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
                             )} */}
-                            {(post?.message)?.includes('http') || (post?.message)?.includes("www.") ? (
+                            {(post?.message)?.includes('https://') || (post?.message)?.includes('http://') || (post?.message)?.includes("www.") ? (
                                 handleLinks(post?.message)
                             ) : (
                                 <>
@@ -219,7 +220,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                         <CustomText color={self ? bodyTextColor : 'lightgrey'} fontFamily={'DM-Medium'} fontSize={'10px'}>{formatTimeAgo(post?.createdDate)}</CustomText>
                         {!self && (
                             <HStack spacing={0}>
-                                <IoCheckmarkDoneSharp fontSize='16px' color={'white'} />
+                                <IoCheckmarkDoneSharp fontSize='16px' />
                             </HStack>
                         )}
                     </HStack>
@@ -249,8 +250,13 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
 
 
                 <ModalLayout title={"Media"} open={show} close={setShow} size={"lg"} >
-                    <Flex h={"400px"} >
-                        <Image onClick={() => setShow(true)} src={`${post?.media?.startsWith('https://') ? post?.media : IMAGE_URL+post?.media}`} alt='img' width={'100%'} height={'100%'} objectFit={'cover'} borderRadius={'20px'} />
+                    <Flex w={"full"} flexDir={"column"} pb={"4"} gap={"4"} bgColor={mainBackgroundColor} px={"4"} >
+                        <Flex h={"450px"} py={"4"} rounded={"16px"} bgColor={secondaryBackgroundColor} justifyContent={"center"} alignItems={"center"} >
+                            <Image onClick={() => setShow(true)} src={`${post?.media?.startsWith('https://') ? post?.media : IMAGE_URL + post?.media}`} alt='img' rounded={"16px"} width={'100%'} height={'100%'} objectFit={"contain"}/>
+                        </Flex>
+                        <Flex w={"full"} justifyContent={"end"} py={"2"}>
+                            <CustomButton onClick={()=> setShow(false)} text={"Close"} width={"150px"} />
+                        </Flex>
                     </Flex>
                 </ModalLayout>
 

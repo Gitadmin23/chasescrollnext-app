@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
     Modal,
     ModalOverlay,
@@ -54,8 +54,16 @@ function ReportBug({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
     const { colorMode, toggleColorMode } = useColorMode();
 
     const handleChange = React.useCallback((e:string) => {
-        if (value.length < 300) {
+        if (e?.length-1 < 300) {
             setValue(e)
+        } else { 
+            toast({
+                title: 'error',
+                description: 'Oops! Your message is too long. Please keep it under 300 characters.',
+                position: 'top-right',
+                isClosable: true,
+                status: 'error',
+            });
         }
     }, [value]);
 
@@ -116,6 +124,11 @@ function ReportBug({isOpen, onClose, typeID, REPORT_TYPE}:IProps) {
         setTitle("")
         onClose()
     }
+
+    useEffect(()=> {
+        setTitle("")
+        setValue("")
+    }, [])
 
   return (
     <Modal isOpen={isOpen} onClose={() => {

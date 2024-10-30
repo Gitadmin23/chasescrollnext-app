@@ -243,7 +243,7 @@ function ExploreEventCard(props: Props) {
                                             id={event?.id}
                                         />
                                         {userId && email && !past && (
-                                            <SaveOrUnsaveBtn event={event} />
+                                            <SaveOrUnsaveBtn color={headerTextColor} event={event} />
                                         )}
                                     </Flex>
                                 )}
@@ -344,7 +344,7 @@ function ExploreEventCard(props: Props) {
                             </Flex>
                             {eventdashboard && (
                                 <Box width={"fit-content"} >
-                                    <SaveOrUnsaveBtn event={event} />
+                                    <SaveOrUnsaveBtn color={headerTextColor} event={event} />
                                 </Box>
                             )}
                         </Flex>
@@ -477,7 +477,7 @@ function ExploreEventCard(props: Props) {
                                 )}
                             </Box>
                             <Flex gap={"4"} alignItems={"center"} >
-                                <SaveOrUnsaveBtn event={event} />
+                                <SaveOrUnsaveBtn color={headerTextColor} event={event} />
 
                                 <ShareEvent
                                     data={event}
@@ -502,7 +502,7 @@ function ExploreEventCard(props: Props) {
                             <CustomButton borderColor={primaryColor} borderWidth={"1px"} backgroundColor={((event?.minPrice === 0 && event?.maxPrice === 0) || (!event?.minPrice && !event?.maxPrice)) ? "white" : primaryColor} color={((event?.minPrice === 0 && event?.maxPrice === 0) || (!event?.minPrice && !event?.maxPrice)) ? primaryColor : "white"} text={((event?.minPrice === 0 && event?.maxPrice === 0) || (!event?.minPrice && !event?.maxPrice)) ? "Register" : "Buy Ticket"} width={["full", "full", "full", "130px", "130px"]} height={"45px"} fontSize={"sm"} borderRadius={"full"} />
                             <Flex gap={"4"} display={["none", "none", "none", "flex", "flex"]}
                                 pr={"3"}  >
-                                <SaveOrUnsaveBtn event={event} />
+                                <SaveOrUnsaveBtn color={headerTextColor} event={event} />
 
                                 <ShareEvent
                                     data={event}
