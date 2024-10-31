@@ -6,6 +6,8 @@ import CustomButton from "../general/Button";
 import { usePathname, useRouter } from "next/navigation";
 import SearchBar from "../explore_component/searchbar";
 import { HambergerMenu } from "iconsax-react";
+import { jwtDecode } from "jwt-decode"
+
 
 function HomeNavbar() {
 
@@ -40,12 +42,40 @@ function HomeNavbar() {
         }
     ]
 
-    let token = localStorage.getItem("token")
+    const [token, setToken]  = React.useState<string|null>(() => localStorage.getItem("token"));
+    const [refresh_token, setRefreshToken] = React.useState(() => localStorage.getItem("refresh_token"))
+
+    console.log(`TOEkEN => ${token}`);
 
     const pathname = usePathname();
     const router = useRouter();
 
     const { isOpen, onOpen, onClose } = useDisclosure()
+
+    React.useEffect(() => {
+        // Add token verification
+        const verifyToken = () => {
+            try {
+                if (!token) return;
+
+                const decoded = jwtDecode(token);
+                const refresh_token = localStorage.getItem("refresh_token");
+                // Check if token is expired
+                if (decoded.exp && decoded.exp * 1000 < Date.now()) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('refresh_token');
+                    router.push('/auth'); // or wherever you want to redirect
+                }
+            } catch (error) {
+                console.error('Token verification failed:', error);
+                localStorage.removeItem('your_token_key');
+                router.push('/auth');
+            }
+        }
+
+        verifyToken();
+        window.scrollTo(0, 0);
+    }, [token])
 
     const clickHander = (item: string) => {
         router?.push(item)
