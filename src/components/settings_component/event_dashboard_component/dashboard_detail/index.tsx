@@ -77,7 +77,7 @@ function DashboardDetail(props: Props) {
             </Flex> */}
             <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"} >
                 <CustomButton onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} width={"200px"} text="View Attendees" />
-                <CustomButton width={"200px"} backgroundColor={"#E4E6F9"} color={primaryColor} text="My Donations" />
+                {/* <CustomButton width={"200px"} backgroundColor={"#E4E6F9"} color={primaryColor} text="My Donations" /> */}
             </Flex>
 
             <Flex width={"full"} borderTopWidth={"1px"} borderBottomWidth={"1px"} borderColor={colorMode === 'light' ? "#D0D4EB" : borderColor} justifyContent={"center"} mt={"8"} py={"7"} px={"4"} >
