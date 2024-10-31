@@ -603,7 +603,7 @@ function DashboardRefund(props: Props) {
                             </Flex>
                         )}
                         {!communityQuery.isLoading && communities.length > 0 && communities.map((item, index) => (
-                            <Box as='button' onClick={() => addCommunityFunnel.mutate(item?.id)} w={"full"} pos={"relative"} zIndex={"10"} borderBottomWidth={"1px"} borderBottomColor={borderColor} py={"5"} >
+                            <Box as='button' key={index.toString()} onClick={() => addCommunityFunnel.mutate(item?.id)} w={"full"} pos={"relative"} zIndex={"10"} borderBottomWidth={"1px"} borderBottomColor={borderColor} py={"5"} >
                                 <Flex rounded={"24px"} textAlign={"left"} px={"4"} gap={"3"} py={"3"} w={"full"} _hover={{ backgroundColor: borderColor }} backgroundColor={"transparent"}  >
                                     <Box w={"42px"} pos={"relative"} h={"42px"} bgColor={"ButtonText"} borderWidth={'2px'} borderBottomLeftRadius={'20px'} borderBottomRadius={'20px'} borderTopLeftRadius={'20px'}>
                                         <Image src={`${item?.data?.imgSrc?.includes("http") ? "" : IMAGE_URL}${item?.data?.imgSrc}`} alt='image' style={{ width: '100%', height: '100%', objectFit: "cover", borderRadius: "20px", borderTopRightRadius: "0px " }} />
