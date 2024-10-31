@@ -72,13 +72,13 @@ function DashboardDetail(props: Props) {
 
     return (
         <Flex width={"full"} flexDirection={"column"} >
-            {/* <Flex onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} as={"button"} width={"fit-content"} mt={"8"} gap={"2"} alignItems={"center"} bgColor={secondaryBackgroundColor} borderColor={borderColor} borderWidth={"1px"} _hover={{ background: "#5D70F9", color: "white" }} color={bodyTextColor} py={"2px"} px={"2"} fontSize={"13px"} fontWeight={"medium"} rounded={"md"} >
+            <Flex onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} as={"button"} width={"fit-content"} mt={"8"} gap={"2"} alignItems={"center"} bgColor={secondaryBackgroundColor} borderColor={borderColor} borderWidth={"1px"} _hover={{ background: "#5D70F9", color: "white" }} color={bodyTextColor} py={"2px"} px={"2"} fontSize={"13px"} fontWeight={"medium"} rounded={"md"} >
                 View Attendees
-            </Flex> */}
-            <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"} >
-                <CustomButton onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} width={"200px"} text="View Attendees" />
-                {/* <CustomButton width={"200px"} backgroundColor={"#E4E6F9"} color={primaryColor} text="My Donations" /> */}
             </Flex>
+            {/* <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"} >
+                <CustomButton onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} width={"200px"} text="View Attendees" />
+                <CustomButton width={"200px"} backgroundColor={"#E4E6F9"} color={primaryColor} text="My Donations" />
+            </Flex> */}
 
             <Flex width={"full"} borderTopWidth={"1px"} borderBottomWidth={"1px"} borderColor={colorMode === 'light' ? "#D0D4EB" : borderColor} justifyContent={"center"} mt={"8"} py={"7"} px={"4"} >
                 <Box position={"relative"} rounded={"36px"} maxW={["100vw", "100vw", "700px"]} px={"8"} py={"6"} width={"fit-content"} bgColor={colorMode === 'light' ? "#D0F2D9" : secondaryBackgroundColor} >
