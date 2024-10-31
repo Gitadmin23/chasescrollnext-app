@@ -43,7 +43,6 @@ export default function LandingPageLayout({ children }: IProps) {
                 
                 // Check if token is expired
                 if (decoded.exp && decoded.exp * 1000 < Date.now()) {
-
                     localStorage.removeItem('token');
                     localStorage.removeItem('refresh_token');
                     router.push('/auth'); // or wherever you want to redirect
@@ -86,3 +85,7 @@ export default function LandingPageLayout({ children }: IProps) {
         </Box>
     )
 }
+
+
+
+
