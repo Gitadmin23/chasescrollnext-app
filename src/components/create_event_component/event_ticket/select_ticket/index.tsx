@@ -170,12 +170,12 @@ function SelectTicket(props: Props) {
                 <EarlyBird />
             ) : (
                 <Flex justifyContent={"space-between"} py={"4"} alignItems={"center"} >
-                    <Text fontWeight={"700"} >Do you which to accept donations for this event?</Text>
+                    {/* <Text fontWeight={"700"} >Do you which to accept donations for this event?</Text>
                     <Switch isChecked={eventdata?.donationEnabled} onChange={(e) =>
                         updateEvent({
                             ...eventdata,
                             donationEnabled: !eventdata?.donationEnabled
-                        })} />
+                        })} /> */}
                 </Flex>
             )}
 

@@ -18,6 +18,7 @@ import { SuccessIcon } from "@/components/svg";
 import useCustomTheme from "@/hooks/useTheme";
 import { IEventType } from "@/models/Event";
 import { ImTicket } from "react-icons/im";
+import { HiOutlineTicket } from "react-icons/hi";
 
 function GetEventTicket(props: IEventType) {
     const {
@@ -27,7 +28,7 @@ function GetEventTicket(props: IEventType) {
         id
     } = props;
 
-    const { primaryColor } = useCustomTheme();
+    const { primaryColor, borderColor } = useCustomTheme();
     // const [stripePromise, setStripePromise] = React?.useState(() => loadStripe(STRIPE_KEY))
 
     const { showModal, setShowModal } = useModalStore((state) => state);
@@ -101,7 +102,7 @@ function GetEventTicket(props: IEventType) {
             setShowModal(true)
         }
         setModalTab(4)
-    } 
+    }
 
     return (
         <>
@@ -111,9 +112,13 @@ function GetEventTicket(props: IEventType) {
             </Flex>
 
             {isBought &&
-                <Flex onClick={clickHandler} as={"button"} w={"50px"} h={"50px"} borderWidth={"1px"} borderColor={primaryColor} justifyContent={"center"} alignItems={"center"} rounded={"13px"} display={["Flex", "none", "none", "none"]}  >
-                    {/* <IoTicket size={"30px"} color={primaryColor} /> */}
-                    <ImTicket size={"30px"} color={primaryColor} />
+                <Flex w={"fit-content"} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} p={"2"} rounded={"13px"} flexDir={"column"} justifyContent={"center"} alignItems={"center"} display={["flex", "none", "none", "none"]} gap={"1px"} >
+
+                    <Flex onClick={clickHandler} as={"button"} flexDir={"column"} justifyContent={"center"} alignItems={"center"} rounded={"13px"}  >
+                        {/* <IoTicket size={"30px"} color={primaryColor} /> */}
+                        <HiOutlineTicket size={"35px"} color={primaryColor} />
+                    </Flex>
+                    <Text fontSize={"12px"} >View Ticket</Text>
                 </Flex>
             }
 
