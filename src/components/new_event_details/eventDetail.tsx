@@ -19,6 +19,8 @@ import useModalStore from '@/global-state/useModalSwitch';
 import SelectTicket from './selectEventTicket';
 import GetEventTicket from './getEventBtn';
 import OrganizeBtn from './organizeBtn';
+import DonationBtn from './donationBtn';
+import EventPrice from '../sharedComponent/event_price';
 
 
 
@@ -36,7 +38,8 @@ export default function EventDetail(props: IEventType) {
         isBought,
         isOrganizer,
         maxPrice,
-        eventMemberRole
+        eventMemberRole,
+        donationEnabled
     } = props
 
     const {
@@ -65,8 +68,6 @@ export default function EventDetail(props: IEventType) {
             router.back()
         }
     }
-
-    console.log(props);
 
 
     return (
@@ -97,15 +98,23 @@ export default function EventDetail(props: IEventType) {
                 <Flex w={"full"} flexDir={"column"} gap={"5"} >
 
                     <EventCreator {...props} />
-                    <Flex w={"full"} justifyContent={"space-between"} >
-                        {/* <Text >{dateFormat(startDate)}</Text> */}
-
+                    <Flex w={"full"} justifyContent={"space-between"} gap={"7"} >
+                        
                         {/* Event Name */}
                         <Text fontSize={["20px", "20px", "32px", "32px"]} lineHeight={["26px", "26px", "36px", "36px"]} fontWeight={"semibold"} >{eventName}</Text>
-                        {props?.attendeesVisibility && (
-                            <InterestedUsers fontSize={16} event={props} border={"2px"} size={"38px"} refund={true} />
-                        )}
+                        
+                        <EventPrice
+                            font={["13px", "13px", "18px"]}
+                            minPrice={props?.minPrice}
+                            maxPrice={props?.maxPrice}
+                            currency={props?.currency}
+                        />
                     </Flex>
+                    {props?.attendeesVisibility && (
+                        <Flex>
+                            <InterestedUsers fontSize={16} event={props} border={"2px"} size={"38px"} refund={true} />
+                        </Flex>
+                    )}
 
 
                     {/* Event Description */}
@@ -199,21 +208,6 @@ export default function EventDetail(props: IEventType) {
                                     )}
                                 </>
                             )}
-                            {/* <Flex alignItems={"center"} gap={"2"} >
-                                <Flex w={"fit-content"} >
-                                    <Flex w={"8"} h={"8"} color={primaryColor} justifyContent={"center"} alignItems={"center"} >
-                                        <LinkIcon />
-                                    </Flex>
-                                </Flex>
-                                {(isBought || isOrganizer) && (
-                                    <a href={location?.link}  >
-                                        <Text fontSize={"14px"} color={primaryColor} >{location?.link}</Text>
-                                    </a>
-                                )}
-                                {(!isBought && !isOrganizer) && (
-                                    <Text fontSize={"14px"} color={primaryColor} >{maxPrice ? "Buy Ticket" : "Register Ticket"} To View Link</Text>
-                                )}
-                            </Flex> */}
                         </Flex>
                     )}
                     {/* </Grid> */}
@@ -225,7 +219,7 @@ export default function EventDetail(props: IEventType) {
                     )}
                 </Flex>
                 <Flex maxW={["full", "full", "full", "430px", "430px"]} flexDir={"column"} gap={"6"} w={"full"} >
-                    {eventMemberRole !== "COLLABORATOR" && (
+                    {((eventMemberRole !== "COLLABORATOR" && eventMemberRole !== "ADMIN") || !isOrganizer) && (
                         <Flex display={["none", "none", "none", "flex", "flex"]} bg={mainBackgroundColor} zIndex={"50"} pos={["relative"]} bottom={"0px"} w={"full"} mt={"8"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} borderWidth={(pathname?.includes("past") && !isOrganizer) ? "0px" : "1px"} borderColor={"#DEDEDE"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
                             {/* {(!pathname?.includes("past") || isOrganizer) && ( */}
                             <Text fontWeight={"600"} fontSize={"18px"} >{(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") ? " " : "Ticket  Available"}</Text>
@@ -236,9 +230,15 @@ export default function EventDetail(props: IEventType) {
                             {(!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && (
                                 <GetEventTicket {...props} />
                             )}
-                            {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") && (
-                                <OrganizeBtn {...props} />
+                            {donationEnabled && (
+                                <DonationBtn {...props} />
                             )}
+                        </Flex>
+                    )}
+
+                    {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") && (
+                        <Flex w={"full"} bgColor={secondaryBackgroundColor} display={["none", "none", "flex", "flex"]} rounded={"64px"} alignItems={"center"} h={"86px"} px={"4"} py={"3"} justifyContent={"center"} >
+                            <OrganizeBtn {...props} />
                         </Flex>
                     )}
                     <Flex flexDir={"column"} gap={"4"} >
@@ -251,7 +251,7 @@ export default function EventDetail(props: IEventType) {
             </Flex>
             <EventMap height={"350px"} latlng={location?.latlng ?? ""} />
             <Box display={["flex", "flex", "flex", "none", "none"]} h={"300px"} />
-            <Flex w={[!isBought ? "full" : "fit-content"]} display={["flex", "flex", "flex", "none", "none"]} zIndex={"100"} pos={["fixed", "fixed", "fixed", "relative", "relative"]} bgColor={[mainBackgroundColor]} bottom={pathname?.includes("detail") ? "80px" : "30px"} left={[isBought ? "auto" : "4", "4", "4", "4"]} right={"4"} mt={isBought ? "0px" : "8"} flexDir={"column"} rounded={isBought ? "13px" : "16px"} gap={"3"} pb={isBought ? "0px" : "3"} p={[isBought ? "0px" : "1", "3", "3", "3"]} style={{ border: isBought ? "" : `1px solid #DEDEDE`, boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
+            <Flex w={[!isBought ? "auto" : "fit-content"]} display={["flex", "flex", "flex", "none", "none"]} zIndex={"100"} pos={["fixed", "fixed", "fixed", "relative", "relative"]} bgColor={[mainBackgroundColor]} bottom={pathname?.includes("detail") ? "80px" : "30px"} left={[isBought ? "auto" : "4", "4", "4", "4"]} right={"4"} mt={isBought ? "0px" : "8"} flexDir={"column"} rounded={isBought ? "13px" : "16px"} gap={"3"} pb={isBought ? "0px" : "3"} p={[isBought ? "0px" : "1", "3", "3", "3"]} style={{ border: isBought ? "" : `1px solid #DEDEDE`, boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
                 {!isBought && (
                     <Text fontWeight={"600"} fontSize={"18px"} >{(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR" || isBought) ? " " : "Ticket  Available"}</Text>
                 )}

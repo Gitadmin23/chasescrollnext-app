@@ -74,7 +74,8 @@ function ExploreEventCard(props: Props) {
         borderColor,
         headerTextColor,
     } = useCustomTheme();
-    const { colorMode, toggleColorMode } = useColorMode();
+    
+    const { colorMode } = useColorMode();
 
     const clickHandler = () => {
         if (draft) {
