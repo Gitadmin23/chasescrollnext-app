@@ -4,12 +4,65 @@ import React, { useEffect, useRef, useState } from 'react'
 import FooterLandingPage from './footer'
 import HomeNavbar from './navbar'
 import { useRouter } from 'next/navigation'
+import { jwtDecode } from "jwt-decode"
+import { useMutation } from 'react-query'
+import httpService from '@/utils/httpService'
+import { URLS } from '@/services/urls'
+
 
 interface IProps {
     children: React.ReactNode
 }
 
 export default function LandingPageLayout({ children }: IProps) {
+    const [token, setToken]  = React.useState<string|null>(() => localStorage.getItem("token"));
+
+    const refreshTokenMutation = useMutation({
+        mutationFn: (data: string) => httpService.post(`${URLS.auth}/refresh-token`, {
+            refreshToken: data,
+        }),
+        onSuccess: (data) => {
+            console.log(data?.data)
+        },
+        onError: (error) => {
+
+        }
+    })
+
+    React.useEffect(() => {
+        // Add token verification
+        const verifyToken = () => {
+            try {
+                if (!token) return;
+
+                const decoded = jwtDecode(token);
+
+                console.log('---------DECODED TOKEN----------');
+                console.log(decoded);
+                const refreshToken = localStorage.getItem("refresh_token");
+                
+                // Check if token is expired
+                if (decoded.exp && decoded.exp * 1000 < Date.now()) {
+
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('refresh_token');
+                    router.push('/auth'); // or wherever you want to redirect
+                } else {
+                    router.push('/dashboard');
+                }
+            } catch (error) {
+                console.error('Token verification failed:', error);
+                localStorage.removeItem('token');
+                router.push('/auth');
+            }
+        }
+
+        if (token) {
+            verifyToken();
+        }
+
+        window.scrollTo(0, 0);
+    }, [token])
 
     const router = useRouter();
 
