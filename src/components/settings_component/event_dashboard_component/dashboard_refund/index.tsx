@@ -9,9 +9,11 @@ import RefundBtn from '@/components/sharedComponent/refundbtn'
 import httpService from '@/utils/httpService'
 import {
     Box,
+    Button,
     Checkbox,
     Flex,
     Select,
+    Spinner,
     Switch,
     Table,
     TableCaption,
@@ -24,10 +26,11 @@ import {
     Thead,
     Tr,
     useColorMode,
-    useToast
+    useToast,
+    Image
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { FcApproval, FcRight } from "react-icons/fc";
 import { useReactToPrint } from 'react-to-print'
 
@@ -42,7 +45,7 @@ import { IoIosArrowDropright, IoMdArrowDropright, IoMdCloseCircle } from 'react-
 import useCustomTheme from "@/hooks/useTheme";
 import { textLimit } from '@/utils/textlimit'
 import InterestedUsers from '@/components/sharedComponent/interested_users'
-import { URLS } from '@/services/urls'
+import { IMAGE_URL, URLS } from '@/services/urls'
 import { ArrowRight, BoxArrowIcon, LocationIcon, TicketBtnIcon } from '@/components/svg'
 import { eventNames } from 'process'
 import { useRouter } from 'next/navigation'
@@ -50,6 +53,13 @@ import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { PaginatedResponse } from '@/models/PaginatedResponse'
 import { IEventType } from '@/models/Event'
 import moment from 'moment'
+import { useDetails } from '@/global-state/useUserDetails'
+import { ICommunity } from '@/models/Communitty'
+import CustomText from '@/components/general/Text'
+import { formatTimeAgo } from '@/utils/helpers'
+import router from 'next/router'
+import { uniqBy } from 'lodash'
+import { IEvent } from '@/models/Events'
 
 interface Props {
     index: any
@@ -78,9 +88,54 @@ function DashboardRefund(props: Props) {
     const [showDate, setShowDate] = React.useState(true)
     const [showTicketType, setShowTicketType] = React.useState(true)
     const [showNumberOfTicket, setShowNumberOfTicket] = React.useState(true)
-    const [showStatus, setShowStatus] = React.useState(true)
+    const [showStatus, setShowStatus] = React.useState(true);
+    const [showCommunityModal, setShowCommunityModal] = React.useState(false);
+    const [communities, setCommunities] = React.useState<ICommunity[]>([]);
+    const [communityPage, setCommunityPage] = React.useState(0);
+    const [hasMore, setHasMore] = React.useState(true);
+    const [event, setEvent] = React.useState<IEventType|null>(null)
+
+    const { userId } = useDetails();
+
+    
+    const {
+        primaryColor,
+        secondaryBackgroundColor,
+        mainBackgroundColor,
+        headerTextColor
+    } = useCustomTheme();
 
     // react query
+
+    const communityQuery = useQuery(['get-communities', userId], () => httpService.get(`${URLS.GROUP}`, {
+        params: {
+            creatorID: userId,
+            size: 30,
+        }
+    }), {
+        onSuccess: (data) => {
+            const item: PaginatedResponse<ICommunity> = data?.data;
+            setCommunities((prev) => uniqBy([...prev, ...item?.content], 'id'));
+            if (item?.last) {
+                setHasMore(false);
+            }
+            console.log(item);
+        }
+    });
+
+    const getEvent = useQuery(['get-event', index], () => httpService.get(`${URLS.GET_EVENTS}`, {
+        params: {
+            id: index
+        }
+    }), {
+        onSuccess: (data) => {
+            const item: PaginatedResponse<any> = data?.data;
+            console.log(item?.content);
+            console.log('---------EVENT DETAILS--------');
+            setEvent(item?.content[0]?.event); 
+        }
+    })
+
     const { isLoading, isRefetching, data } = useQuery(['get-event-members' + size + page, index, memberRole], () => httpService.get('/events/get-event-members/' + index, {
         params: {
             size: size,
@@ -156,6 +211,29 @@ function DashboardRefund(props: Props) {
 
 
         }
+    });
+
+    const addCommunityFunnel = useMutation({
+        mutationFn: (data: string) => httpService.put(`${URLS.UPDATE_EVENT}`, {
+            id: index,
+            eventFunnelGroupID: data,
+        }),
+        onSuccess: (data) => {
+            toast({
+                title: 'Success',
+                description: 'Community Funnel Added successfully',
+                position: 'top-right',
+                status: 'success'
+            })
+        },
+        onError: (error) => {
+            toast({
+                title: 'Error',
+                description: 'An Error occured while trying to convert the attendee list',
+                position: 'top-right',
+                status: 'error'
+            })
+        }
     })
 
     useEffect(() => {
@@ -220,6 +298,12 @@ function DashboardRefund(props: Props) {
     return (
         <Flex ref={componentRef} width={"full"} flexDirection={"column"} >
             <LoadingAnimation loading={loadingData} >
+                    {!getEvent.isLoading && event && event?.eventFunnelGroupID  && (
+                        <Flex width='full' height='50px' justifyContent={'center'} alignItems={'center'}>
+                            <CustomText>Would you like to convert your attendees to a community?</CustomText>
+                            <Button onClick={() => setShowCommunityModal(true)}>Convert To a Community</Button>
+                        </Flex>
+                    )}
                 <Flex pos={"relative"} maxW={["500px", "full", "full", "full"]} width={"full"} rounded={"8px"} borderWidth={"1px"} borderColor={borderColor} p={["2", "2", "4", "6"]} alignItems={["start", "start", "center", "center"]} flexDir={["column", "column", "row"]} gap={["2", "2", "6", "6"]} >
                     <Flex width={["full", "full", "auto", "auto"]} mr={["auto", "auto", "0px"]} gap={"3"} flexDirection={["column", "column", "row", "row"]} pos={"relative"} p={"2"} rounded={"4px"} >
                         <Flex alignItems={"center"} w={"full"} gap={"4"} flexDirection={["row", "row", "row", "row"]} >
@@ -505,8 +589,38 @@ function DashboardRefund(props: Props) {
                             </Box>
                         </Flex>
                     </Flex>
+                  
                 </LoadingAnimation>
             </Flex>
+
+            <ModalLayout open={showCommunityModal} close={() => setShowCommunityModal(false)}>
+                <Flex py={"8"} px={"6"} flexDirection={"column"} gap={"4"} width={"full"} justifyContent={"center"} alignItems={"center"} >
+                        <CustomText fontFamily={'DM-Regular'}>Add Event members to community</CustomText>
+                        {communityQuery.isLoading && (
+                            <Flex width={'100%'} height={'100px'} justifyContent={'center'} alignItems={'center'}>
+                                <Spinner />
+                                <CustomText fontFamily={'DM-Regular'}>Loading Communities</CustomText>
+                            </Flex>
+                        )}
+                        {!communityQuery.isLoading && communities.length > 0 && communities.map((item, index) => (
+                            <Box as='button' onClick={() => addCommunityFunnel.mutate(item?.id)} w={"full"} pos={"relative"} zIndex={"10"} borderBottomWidth={"1px"} borderBottomColor={borderColor} py={"5"} >
+                                <Flex rounded={"24px"} textAlign={"left"} px={"4"} gap={"3"} py={"3"} w={"full"} _hover={{ backgroundColor: borderColor }} backgroundColor={"transparent"}  >
+                                    <Box w={"42px"} pos={"relative"} h={"42px"} bgColor={"ButtonText"} borderWidth={'2px'} borderBottomLeftRadius={'20px'} borderBottomRadius={'20px'} borderTopLeftRadius={'20px'}>
+                                        <Image src={`${item?.data?.imgSrc?.includes("http") ? "" : IMAGE_URL}${item?.data?.imgSrc}`} alt='image' style={{ width: '100%', height: '100%', objectFit: "cover", borderRadius: "20px", borderTopRightRadius: "0px " }} />
+                                    </Box>
+                                    <Flex flexDir={"column"} flex={"1"} gap={"1"} >
+                                        <Text fontWeight={"700"} lineHeight={"24px"} >{textLimit(item?.data?.name, 25)}</Text>
+                                        <Text fontSize={"14px"} mt={"2px"} >{textLimit(item?.data?.description, 40)}</Text>
+                                        <Flex color={headerTextColor} alignItems={"center"} gap={"1"} >
+                                            <Box w={"8px"} h={"8px"} rounded={"full"} bgColor={primaryColor} />
+                                            <Text fontSize={"11px"} lineHeight={"13px"} letterSpacing={"0.07px"} >{formatTimeAgo(item?.lastModifiedDate)}</Text>
+                                        </Flex>
+                                    </Flex>
+                                </Flex>
+                            </Box>
+                        ))}
+                </Flex>
+            </ModalLayout>
 
             <ModalLayout open={open} close={setOpen}>
                 <Flex py={"8"} px={"6"} flexDirection={"column"} gap={"4"} width={"full"} justifyContent={"center"} alignItems={"center"} >
