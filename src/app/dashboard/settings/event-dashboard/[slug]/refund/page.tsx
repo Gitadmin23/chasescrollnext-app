@@ -6,18 +6,7 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 import { BsChevronLeft } from 'react-icons/bs'
 
-function Page({ params }: { params: { slug: string } }) {
-
-    const router = useRouter()
-
-    const {
-        bodyTextColor,
-        primaryColor,
-        secondaryBackgroundColor,
-        mainBackgroundColor,
-        borderColor,
-        headerTextColor
-    } = useCustomTheme();
+function Page({ params }: { params: { slug: string } }) { 
 
     return (
         <Box width={"full"} py={"8"} > 

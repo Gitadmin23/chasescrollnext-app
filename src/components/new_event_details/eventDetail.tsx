@@ -230,17 +230,19 @@ export default function EventDetail(props: IEventType) {
                             {(!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && (
                                 <GetEventTicket {...props} />
                             )}
-                            {donationEnabled && (
-                                <DonationBtn {...props} />
-                            )}
                         </Flex>
                     )}
-
                     {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") && (
                         <Flex w={"full"} bgColor={secondaryBackgroundColor} display={["none", "none", "flex", "flex"]} rounded={"64px"} alignItems={"center"} h={"86px"} px={"4"} py={"3"} justifyContent={"center"} >
                             <OrganizeBtn {...props} />
                         </Flex>
                     )}
+                    <Flex> 
+                        {(donationEnabled || isOrganizer) && (
+                            <DonationBtn {...props} />
+                        )}
+                    </Flex>
+
                     <Flex flexDir={"column"} gap={"4"} >
                         <Text fontWeight={"medium"} >Tags</Text>
                         <Button color={headerTextColor} fontSize={"12px"} w={"fit-content"} px={"3"} bgColor={secondaryBackgroundColor} rounded={"32px"} h={"38px"} >
@@ -269,7 +271,7 @@ export default function EventDetail(props: IEventType) {
                 </Flex>
             )}
             {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") && (
-                <Flex w={"auto"} bgColor={secondaryBackgroundColor} display={["flex", "flex", "flex", "none", "none"]} zIndex={"100"} pos={["fixed", "fixed", "fixed", "relative", "relative"]} rounded={"64px"} alignItems={"center"} h={"86px"} px={"4"} py={"3"} justifyContent={"center"} left={"4"} right={"4"}  bottom={pathname?.includes("detail") ? "80px" : "30px"} >
+                <Flex w={"auto"} bgColor={secondaryBackgroundColor} display={["flex", "flex", "none", "none"]} zIndex={"100"} pos={["fixed", "fixed", "fixed", "relative", "relative"]} rounded={"64px"} alignItems={"center"} h={"86px"} px={"4"} py={"3"} justifyContent={"center"} left={"4"} right={"4"} bottom={pathname?.includes("detail") ? "80px" : "30px"} >
                     <OrganizeBtn {...props} />
                 </Flex>
             )}

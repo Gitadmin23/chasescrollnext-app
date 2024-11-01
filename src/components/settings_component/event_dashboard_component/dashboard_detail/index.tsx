@@ -1,7 +1,7 @@
 'use client'
 import { formatNumberWithK, numberFormat, numberFormatDollar, numberFormatNaire } from '@/utils/formatNumberWithK'
 import httpService from '@/utils/httpService'
-import { Box, Flex, Image, Text, useColorMode } from '@chakra-ui/react'
+import { Box, Flex, Image, Text, useColorMode, useToast } from '@chakra-ui/react'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -11,6 +11,8 @@ import { VictoryArea, VictoryChart, VictoryPie, VictoryTheme } from "victory";
 import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Line } from 'recharts';
 import useCustomTheme from "@/hooks/useTheme";
 import CustomButton from '@/components/general/Button'
+import { URLS } from '@/services/urls'
+import { IEventType } from '@/models/Event'
 // import { AreaChart, Area } from 'recharts';
 
 interface Props {
@@ -31,7 +33,10 @@ function DashboardDetail(props: Props) {
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
 
+    const toast = useToast() 
+
     const [history, setHistory] = React.useState([] as any)
+    const [eventData, setEventData] = React.useState<IEventType>({} as IEventType)
     const router = useRouter()
 
     const { isLoading } = useQuery(['history' + index], () => httpService.get('/payments/analytics/tickets', {
@@ -47,6 +52,19 @@ function DashboardDetail(props: Props) {
 
             console.log(data?.data);
 
+        }
+    })
+
+    const { isLoading: loadingData, isRefetching: refechingDa } = useQuery(['all-events-details', index], () => httpService.get(URLS.All_EVENT + "?id=" + index), {
+        onError: (error: any) => {
+            toast({
+                status: "error",
+                title: error.response?.data,
+            });
+        },
+        onSuccess: (data: any) => {
+            // const item: PaginatedResponse<IEventType> = data.data;
+            setEventData(data?.data?.content[0]);
         }
     })
 
@@ -67,18 +85,21 @@ function DashboardDetail(props: Props) {
 
     const scroll = (scrolloffset: number) => {
         ref.current.scrollLeft += scrolloffset
-    };
+    }; 
+
 
 
     return (
         <Flex width={"full"} flexDirection={"column"} >
-            <Flex onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} as={"button"} width={"fit-content"} mt={"8"} gap={"2"} alignItems={"center"} bgColor={secondaryBackgroundColor} borderColor={borderColor} borderWidth={"1px"} _hover={{ background: "#5D70F9", color: "white" }} color={bodyTextColor} py={"2px"} px={"2"} fontSize={"13px"} fontWeight={"medium"} rounded={"md"} >
-                View Attendees
+
+            <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"} >
+                <Flex onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} as={"button"} width={"fit-content"} mt={"8"} gap={"2"} alignItems={"center"} bgColor={secondaryBackgroundColor} borderColor={borderColor} borderWidth={"1px"} _hover={{ background: "#5D70F9", color: "white" }} color={bodyTextColor} py={"2px"} px={"2"} fontSize={"13px"} fontWeight={"medium"} rounded={"md"} >
+                    View Attendees
+                </Flex>
+                <Flex onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/donate")} as={"button"} width={"fit-content"} mt={"8"} gap={"2"} alignItems={"center"} bgColor={primaryColor} borderColor={borderColor} borderWidth={"1px"} _hover={{ background: "#5D70F9", color: "white" }} color={"white"} py={"2px"} px={"2"} fontSize={"13px"} fontWeight={"medium"} rounded={"md"} >
+                    View Donation
+                </Flex>
             </Flex>
-            {/* <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"} >
-                <CustomButton onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} width={"200px"} text="View Attendees" />
-                <CustomButton width={"200px"} backgroundColor={"#E4E6F9"} color={primaryColor} text="My Donations" />
-            </Flex> */}
 
             <Flex width={"full"} borderTopWidth={"1px"} borderBottomWidth={"1px"} borderColor={colorMode === 'light' ? "#D0D4EB" : borderColor} justifyContent={"center"} mt={"8"} py={"7"} px={"4"} >
                 <Box position={"relative"} rounded={"36px"} maxW={["100vw", "100vw", "700px"]} px={"8"} py={"6"} width={"fit-content"} bgColor={colorMode === 'light' ? "#D0F2D9" : secondaryBackgroundColor} >
@@ -116,8 +137,8 @@ function DashboardDetail(props: Props) {
                                 <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalPendingSales)}</Text>
                             </Box>
                             <Box pt={"3px"} w={"100px"} px={"1"} borderRight={"1px"} borderColor={borderColor}  >
-                                <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Revenue(₦)</Text>
-                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalActiveSales)}</Text>
+                                <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >{eventData?.donationEnabled ? "Donated(₦)" : "Revenue(₦)"}</Text>
+                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{eventData.donationEnabled ? formatNumberWithK(eventData?.totalDonated):formatNumberWithK(history?.totalActiveSales)}</Text>
                             </Box>
                             <Box pt={"3px"} px={"4"} borderColor={borderColor}  >
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Available</Text>
@@ -140,7 +161,7 @@ function DashboardDetail(props: Props) {
                         <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
                     </Box>
                 </Box>
-            </Flex> 
+            </Flex>
             <Box width={"full"} borderBottomWidth={"1px"} borderBottomColor={"#D0D4EB"} mt={"8"} py={"7"} px={"4"} >
 
                 <ResponsiveContainer width="100%" height={500}>
