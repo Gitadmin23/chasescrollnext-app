@@ -86,7 +86,7 @@ function Layout({ children, params }: {
         <Box height={"auto"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"} position={"relative"} bg={mainBackgroundColor}  >
 
             <LoadingAnimation loading={isLoading} >
-                <Box width={["full", "full", pathname?.includes("refund") ? "full" : "600px"]} px={"6"} py={"10"} position={"relative"} >
+                <Box width={["full", "full", (pathname?.includes("refund") || pathname?.includes("donate")) ? "full" : "600px"]} px={"6"} py={"10"} position={"relative"} >
                     <Flex alignItems={"center"} gap={"4"} width={"full"} justifyContent={"center"}>
                         <Box onClick={() => router.back()} as='button' position={"absolute"} zIndex={"10"} left={"4"} width={"fit-content"} >
                             <BsChevronLeft size={"25px"} color={bodyTextColor} />
@@ -94,7 +94,7 @@ function Layout({ children, params }: {
                         <Text textAlign={"center"} fontSize={"2xl"} fontWeight={"bold"} >{pathname?.includes("refund") ? "Attendees" : data?.eventName}</Text>
                     </Flex>
 
-                    {!pathname?.includes("refund") && (
+                    {(!pathname?.includes("refund") && !pathname?.includes("donate")) && (
                         <Flex width={"full"} flexDirection={"column"}  > 
                             <Flex mt={"6"} h={"5"} width={"full"} justifyContent={"center"} alignItems={"center"} position={"relative"} >
                                 <InterestedUsers fontSize={14} event={data} border={"2px"} size={"40px"} refund={true} />

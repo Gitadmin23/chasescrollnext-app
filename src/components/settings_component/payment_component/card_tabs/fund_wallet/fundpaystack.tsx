@@ -2,7 +2,7 @@ import httpService from '@/utils/httpService';
 import React, { useState } from 'react'
 import { usePaystackPayment } from "react-paystack";
 import { useMutation, useQueryClient } from "react-query";
-import {Button, Flex, Text, useColorMode, useToast} from '@chakra-ui/react'
+import { Button, Flex, Text, useColorMode, useToast } from '@chakra-ui/react'
 import useSettingsStore from '@/global-state/useSettingsState';
 import { useRouter } from 'next/navigation';
 import ModalLayout from '@/components/sharedComponent/modal_layout';
@@ -16,11 +16,12 @@ interface Props {
     config: any,
     setConfig: any,
     fund?: boolean,
-    id?: any
+    id?: any,
+    donation?: boolean
 }
 
 function Fundpaystack(props: Props) {
-    const { config, setConfig, fund, id } = props;
+    const { config, setConfig, fund, id, donation } = props;
 
     const {
         bodyTextColor,
@@ -117,7 +118,7 @@ function Fundpaystack(props: Props) {
             payStackFundMutation.mutate(reference?.reference)
         } else {
             console.log(reference);
-            
+
             payStackMutation.mutate(reference?.reference)
         }
     };
@@ -148,7 +149,7 @@ function Fundpaystack(props: Props) {
     const { setModalTab } = useStripeStore((state: any) => state);
     const { setShowModal } = useModalStore((state) => state);
 
-    const clickHandler = ()=> {
+    const clickHandler = () => {
         setOpen(false)
         setModalTab(5)
         setShowModal(true)
@@ -158,10 +159,10 @@ function Fundpaystack(props: Props) {
         <>
             <ModalLayout open={open} close={setOpen} bg={secondaryBackgroundColor}>
                 <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
-                        <SuccessIcon />
-                        <Text fontSize={"24px"} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"500"} mt={"4"} >Ticket Purchase Successful</Text>
-                        <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Congratulations! you can also find your ticket on the Chasescroll app, on the details page click on the view ticket button.`}</Text>
-                        <CustomButton onClick={() => clickHandler()} color={"#FFF"} text='View Ticket' w={"full"} backgroundColor={"#3EC259"} />
+                    <SuccessIcon />
+                    <Text fontSize={"24px"} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"500"} mt={"4"} >{donation ? "Donated Successful" : "Ticket Purchase Successful"}</Text>
+                    <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Congratulations! you can also find your ticket on the Chasescroll app, on the details page click on the view ticket button.`}</Text>
+                    <CustomButton onClick={() => clickHandler()} color={"#FFF"} text='View Ticket' w={"full"} backgroundColor={"#3EC259"} />
                 </Flex> 
             </ModalLayout>
             {/* <Button onClick={()=> clickHandler()} bgColor={"blue.400"} color={"white"} >Pay</Button> */}

@@ -50,6 +50,8 @@ import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { PaginatedResponse } from '@/models/PaginatedResponse'
 import { IEventType } from '@/models/Event'
 import moment from 'moment'
+import { formatNumber } from '@/utils/numberFormat'
+import CircularProgressBar from '@/components/sharedComponent/circleGraph'
 
 interface Props {
     index: any
@@ -81,7 +83,7 @@ function DashboardDonation(props: Props) {
     const [showStatus, setShowStatus] = React.useState(true)
 
     // react query
-    const { isLoading, isRefetching, data } = useQuery(['get-event-members' + size + page, index, memberRole], () => httpService.get('/events/get-event-members/' + index, {
+    const { isLoading, isRefetching, data } = useQuery(['donation' + size + page, index, memberRole], () => httpService.get('/payments/orders?typeID' + index, {
         params: {
             size: size,
             page: page,
@@ -100,6 +102,8 @@ function DashboardDonation(props: Props) {
 
     const [dataInfo, setData] = useState([] as any)
     const [eventData, setEventData] = useState({} as IEventType)
+
+    const router = useRouter()
 
     const { } = useQuery(['all-events-details' + index], () => httpService.get(URLS.All_EVENT + "?id=" + index), {
         onError: (error: any) => {
@@ -183,9 +187,6 @@ function DashboardDonation(props: Props) {
 
     }, [showDate, showNumberOfTicket, showEmail, showStatus, showStatus, showTicketType, showUserName])
 
-    console.log(data?.data?.content);
-    
-
     const { isLoading: loadingData, isRefetching: refechingDa } = useQuery(['all-events-details', index], () => httpService.get(URLS.All_EVENT + "?id=" + index), {
         onError: (error: any) => {
             toast({
@@ -219,8 +220,9 @@ function DashboardDonation(props: Props) {
 
     return (
         <Flex ref={componentRef} width={"full"} flexDirection={"column"} >
+            <Text fontSize={"24px"} fontWeight={"600"} >Event Donation</Text>
             <LoadingAnimation loading={loadingData} >
-                <Flex pos={"relative"} maxW={["500px", "full", "full", "full"]} width={"full"} rounded={"8px"} borderWidth={"1px"} borderColor={borderColor} p={["2", "2", "4", "6"]} alignItems={["start", "start", "center", "center"]} flexDir={["column", "column", "row"]} gap={["2", "2", "6", "6"]} >
+                <Flex pos={"relative"} maxW={["500px", "full", "full", "full"]} width={"full"} rounded={"8px"} mt={"6"} borderWidth={"1px"} borderColor={borderColor} p={["2", "2", "4", "6"]} alignItems={["start", "start", "center", "center"]} flexDir={["column", "column", "row"]} gap={["2", "2", "6", "6"]} >
                     <Flex width={["full", "full", "auto", "auto"]} mr={["auto", "auto", "0px"]} gap={"3"} flexDirection={["column", "column", "row", "row"]} pos={"relative"} p={"2"} rounded={"4px"} >
                         <Flex alignItems={"center"} w={"full"} gap={"4"} flexDirection={["row", "row", "row", "row"]} >
                             <EventImage data={eventData} width={["full", "full", "247px", "247px"]} height={["150px", "200px", "170px", "170px"]} />
@@ -261,11 +263,11 @@ function DashboardDonation(props: Props) {
                         </Flex>
                         <Box w={["50px"]} display={["none", "none", "block"]} pos={"relative"} >
                             <Box w={["fit-content"]} position={"relative"} top={"0px"} >
-                                <CustomButton text={"View Event"} backgroundColor={"#EFF1FE"} transform={["rotate(-90deg)"]} left={["-45px"]} top={["50px"]} position={["relative", "relative", "absolute"]} color={"#5D70F9"} height={"45px"} fontSize={"xs"} width={"140px"} roundedBottom={"4px"} />
+                                <CustomButton onClick={() => router?.push("/dashboard/event/details/" + eventData?.id)} text={"View Event"} backgroundColor={"#EFF1FE"} transform={["rotate(-90deg)"]} left={["-45px"]} top={["50px"]} position={["relative", "relative", "absolute"]} color={"#5D70F9"} height={"45px"} fontSize={"xs"} width={"140px"} roundedBottom={"4px"} />
                             </Box>
                         </Box>
                         <Box w={["full"]} display={["block", "block", "none"]} position={"relative"} top={"0px"} >
-                            <CustomButton text={"View Event"} backgroundColor={"#EFF1FE"} color={"#5D70F9"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />
+                            <CustomButton onClick={() => router?.push("/dashboard/event/details/" + eventData?.id)} text={"View Event"} backgroundColor={"#EFF1FE"} color={"#5D70F9"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />
                         </Box>
                     </Flex>
                     <Flex w={["full", "full", "auto", "auto"]} flexDir={["column", "column", "column", "column", "row"]} alignItems={"center"} ml={["0px", "0px", "auto", "auto"]} gap={"4"} >
@@ -299,8 +301,21 @@ function DashboardDonation(props: Props) {
                         </Flex>
                     </Flex>
                 </Flex>
+                <Flex flexDir={"column"} w={"full"} gap={"4"} rounded={"12px"} pt={"4"} >
+                    <Text fontWeight={"600"} >Donations</Text>
+                    <Flex alignItems={"center"} flexDir={["column", "column", "row"]} gap={"6"} justifyContent={"space-between"} bgColor={"#F4F4F499"} rounded={"12px"} py={3} px={6} >
+                        <Flex flexDir={"column"} gap={"2"} >
+                            <Text fontWeight={"600"} >{eventData?.donationName}</Text>
+                            <Text fontSize={"14px"} >Target {formatNumber(eventData?.donationTargetAmount)}</Text>
+                        </Flex>
+                        <Flex flexDir={"column"} gap={"2"} alignItems={"center"} >
+                            <CircularProgressBar progress={(Number(eventData?.totalDonated) / Number(eventData?.donationTargetAmount)) * 100 > 100 ? 100 : (Number(eventData?.totalDonated) / Number(eventData?.donationTargetAmount)) * 100} />
+                            <Text fontSize={"14px"} >Total Amount Donated: {formatNumber(eventData?.totalDonated+10000000)}</Text>
+                        </Flex>
+                    </Flex>
+                </Flex>
             </LoadingAnimation>
-            <Flex width={"full"} flexDir={"column"} my={["6", "0px", "0px"]} p={["0px", "6", "6"]} >
+            <Flex width={"full"} flexDir={"column"} my={["6", "0px", "0px"]} py={["0px", "6", "6"]} >
                 <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data?.data?.content?.length} >
 
                     <TableContainer >
@@ -325,13 +340,13 @@ function DashboardDonation(props: Props) {
                                             FullName
                                             <Switch onChange={(e) => setShowUserName(e.target.checked)} isChecked={showUserName} />
                                         </Flex>
-                                    </Th> 
+                                    </Th>
                                     <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
                                             EMAIL ADDRESS
                                             <Switch onChange={(e) => setShowEmail(e.target.checked)} isChecked={showEmail} />
                                         </Flex>
-                                    </Th> 
+                                    </Th>
                                     <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
                                             Date & TIME
@@ -340,20 +355,8 @@ function DashboardDonation(props: Props) {
                                     </Th>
                                     <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
-                                            Ticket type
+                                            AMOUNT DONATED
                                             <Switch onChange={(e) => setShowTicketType(e.target.checked)} isChecked={showTicketType} />
-                                        </Flex>
-                                    </Th>
-                                    <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
-                                        <Flex gap={"3"}>
-                                            NO. TICKET
-                                            <Switch onChange={(e) => setShowNumberOfTicket(e.target.checked)} isChecked={showNumberOfTicket} />
-                                        </Flex>
-                                    </Th>
-                                    <Th borderBottomWidth={"1px"} >
-                                        <Flex gap={"3"}>
-                                            STATUS
-                                            <Switch onChange={(e) => setShowStatus(e.target.checked)} isChecked={showStatus} />
                                         </Flex>
                                     </Th>
                                 </Tr>
@@ -363,101 +366,13 @@ function DashboardDonation(props: Props) {
                                     return (
                                         <Tr key={i} >
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{(page * size) + (i + 1)}</Td>
-                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{showUserName ? capitalizeFLetter(person?.user?.firstName)+" "+capitalizeFLetter(person?.user?.lastName)  : ""}</Td> 
-                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showEmail ? person?.user?.email : ""}</Td>
+                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{showUserName ? capitalizeFLetter(person?.buyer?.firstName) + " " + capitalizeFLetter(person?.buyer?.lastName) : ""}</Td>
+                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showEmail ? person?.buyer?.email : ""}</Td>
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showDate ? dateFormat(person?.createdDate) : ""}</Td>
-                                            {(person?.ticketType && person?.role !== "ADMIN" && person?.role !== "COLLABORATOR") && (
-                                                <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>
-                                                    {showTicketType && (
-                                                        <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} >
-                                                            {person?.ticketType?.slice(0, 1)?.toUpperCase() + person?.ticketType?.slice(1, person?.ticketType?.length)}
-                                                        </Flex>
-                                                    )}
-                                                </Td>
-                                            )}
-                                            {(!person?.ticketType || person?.role === "ADMIN" || person?.role === "COLLABORATOR") && (
-                                                <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >
-                                                    {(person?.user?.userId === person?.event?.createdBy && showTicketType) && (
-                                                        <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"brand.chasescrollBlue"} >
-                                                            Organizer
-                                                        </Flex>
-                                                    )}
-                                                    {(person?.role === "ADMIN" && person?.user?.userId !== person?.event?.createdBy && showTicketType) && (
-                                                        <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"#3EC30F"} >
-                                                            Admin
-                                                        </Flex>
-                                                    )}
-                                                    {(person?.role === "COLLABORATOR" && showTicketType) && (
-                                                        <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#FDF3CF6B"} color={"#FDB806"} >
-                                                            Volunteer
-                                                        </Flex>
-                                                    )}
-
-                                                </Td>
-                                            )}
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} textAlign={"center"} fontSize={"xs"} >
-                                                {(person?.ticketNumber !== 0 && showNumberOfTicket) ? person?.ticketNumber : ""}
+                                                {formatNumber(person?.orderTotal)}
                                             </Td>
-                                            <Td borderBottomWidth={"1px"} borderRightWidth={showBtn ? "1px" : "0px"} >
-                                                {showStatus &&
-                                                    <>
-                                                        {person?.ticketScanInfoList?.map((item: {
-                                                            scanTime: Array<any>,
-                                                            scanned: boolean
-                                                        }, index: number) => {
-                                                            return (
-                                                                <>
-                                                                    {item?.scanTime?.length > 0 &&
-                                                                        <Flex key={index} fontSize={"xs"} mt={index === 0 ? "0px" : "4"} flexDir={"column"} gap={"2"} >
-                                                                            <Text fontWeight={"bold"} >Ticket {index + 1} (MM-DD-YY)</Text>
-                                                                            <Flex flexDir={"column"} gap={"1"} >
-                                                                                {item?.scanTime?.map((time: number, indexkey: number) => {
 
-                                                                                    return (
-                                                                                        <Flex key={indexkey} gap={"1"} w={"200px"} justifyContent={"space-between"} alignItems={"center"}>
-
-                                                                                            <Text >{time ? dateFormatDashboad(time) : ""} {time ? timeFormat(time) : ""} </Text>
-                                                                                            {((new Date(item?.scanTime[indexkey])?.getDate() >= new Date(data?.data?.content[0]?.event?.startDate)?.getDate()) && ((new Date(item?.scanTime[indexkey])?.getDate()) <= new Date(data?.data?.content[0]?.event?.endDate)?.getDate())) ? (
-
-                                                                                                <>
-                                                                                                    {indexkey !== 0 ? (
-                                                                                                        <Flex w={"fit-content"} >
-                                                                                                            {new Date(item?.scanTime[indexkey])?.getDate() === new Date(item?.scanTime[indexkey - 1])?.getDate() && (
-                                                                                                                <IoMdCloseCircle color='FF0000' size={"20px"} />
-                                                                                                            )}
-                                                                                                            {(new Date(item?.scanTime[indexkey])?.getDate() !== new Date(item?.scanTime[indexkey - 1])?.getDate()) && (
-                                                                                                                <FcApproval size={"20px"} />
-                                                                                                            )}
-                                                                                                        </Flex>
-                                                                                                    ) :
-                                                                                                        <Flex w={"fit-content"} >
-                                                                                                            <FcApproval size={"20px"} />
-                                                                                                        </Flex>
-                                                                                                    }
-                                                                                                </>
-                                                                                            ) :
-                                                                                                <Flex w={"fit-content"} >
-                                                                                                    <IoMdCloseCircle color='FF0000' size={"20px"} />
-                                                                                                </Flex>
-                                                                                            }
-
-                                                                                        </Flex>
-                                                                                    )
-                                                                                })}
-                                                                            </Flex>
-                                                                        </Flex>
-                                                                    }
-                                                                </>
-                                                            )
-                                                        })}
-                                                    </>
-                                                }
-                                            </Td>
-                                            {showBtn && (
-                                                <Td borderBottomWidth={"1px"} >
-                                                    <RefundBtn person={person} index={index} />
-                                                </Td>
-                                            )}
                                         </Tr>
                                     )
                                 })}
@@ -511,11 +426,11 @@ function DashboardDonation(props: Props) {
             <ModalLayout open={open} close={setOpen}>
                 <Flex py={"8"} px={"6"} flexDirection={"column"} gap={"4"} width={"full"} justifyContent={"center"} alignItems={"center"} >
                     <CustomButton fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#FF6F61"} onClick={handlePrint} text='PDF' />
-                    <Flex width={"full"} height={"1px"} bgColor={"#DDE6EB"} />
-                    <CSVLink style={{ width: "100%" }} data={filteredData[0]?.name ? filteredData : newData[0]?.name ? newData : []}
+                    {/* <Flex width={"full"} height={"1px"} bgColor={"#DDE6EB"} /> */}
+                    {/* <CSVLink style={{ width: "100%" }} data={filteredData[0]?.name ? filteredData : newData[0]?.name ? newData : []}
                         filename={data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length) + ".csv"} >
                         <CustomButton onClick={downloadCSV} fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#5D70F9"} text='CSV' />
-                    </CSVLink>
+                    </CSVLink> */}
 
 
                 </Flex>
