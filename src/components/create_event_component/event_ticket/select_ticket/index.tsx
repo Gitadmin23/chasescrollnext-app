@@ -161,21 +161,19 @@ function SelectTicket(props: Props) {
             productTypeData: myArr
         })
     }
-
-    console.log(eventdata);
-
+ 
     return (
         <Flex flexDirection={"column"} gap={"3"} width={"full"} >
             {eventdata?.productTypeData[0].ticketType !== "Free" ? (
                 <EarlyBird />
             ) : (
                 <Flex justifyContent={"space-between"} py={"4"} alignItems={"center"} >
-                    {/* <Text fontWeight={"700"} >Do you which to accept donations for this event?</Text>
+                    <Text fontWeight={"700"} >Do you which to accept donations for this event?</Text>
                     <Switch isChecked={eventdata?.donationEnabled} onChange={(e) =>
                         updateEvent({
                             ...eventdata,
                             donationEnabled: !eventdata?.donationEnabled
-                        })} /> */}
+                        })} />
                 </Flex>
             )}
 

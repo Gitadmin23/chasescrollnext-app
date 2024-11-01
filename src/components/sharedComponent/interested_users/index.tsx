@@ -24,7 +24,7 @@ function InterestedUsers(props: Props) {
         color
     } = props
 
-    const { bodyTextColor, primaryColor,secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+    const { primaryColor } = useCustomTheme();
 
     return (
         <>

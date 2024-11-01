@@ -55,7 +55,8 @@ export interface IEventType {
     acceptedCollaborators: IUser[] 
     donationName: string,
     donationTargetAmount: string,
-    donationEnabled: boolean
+    donationEnabled: boolean,
+    totalDonated: string
 }
 
 interface IProductTypeData {

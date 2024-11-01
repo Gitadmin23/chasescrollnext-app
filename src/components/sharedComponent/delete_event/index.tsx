@@ -27,7 +27,8 @@ function DeleteEvent(props: Props) {
     const { userId: user_index } = useDetails((state) => state);
 
     const {  
-        secondaryBackgroundColor
+        secondaryBackgroundColor,
+        mainBackgroundColor
     } = useCustomTheme();
 
     // detete event
@@ -94,11 +95,11 @@ function DeleteEvent(props: Props) {
         <>
 
             {((event?.isOrganizer && !pathname?.includes("past")) || pathname?.includes("draft")) && (
-                <Flex pos={"absolute"} right={["6", "6", "16", "16"]} zIndex={"100"} top={["6", "6", "1", "1"]} >
+                <Flex pos={"absolute"} right={["6", "6", "20", "20"]} zIndex={"100"} top={["6", "6", "1", "1"]} >
                     <Box>
                         <Popover isOpen={open} onClose={() => setOpen(false)} >
                             <PopoverTrigger >
-                                <Button onClick={openHandler} bg={secondaryBackgroundColor} _hover={{backgroundColor: secondaryBackgroundColor}}  >
+                                <Button onClick={openHandler} bg={mainBackgroundColor} _hover={{backgroundColor: mainBackgroundColor}}  >
                                     <IoIosMore size={"30px"} />
                                 </Button>
                             </PopoverTrigger>

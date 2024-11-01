@@ -139,7 +139,7 @@ function SubmitEvent(props: Iprops) {
                 return
             } else {
 
-                if(getValidationLinkBtn() === false){
+                if(getValidationLinkBtn() === false && eventdata?.location?.link){
                     toast({
                         description: "Please Enter a Valid Event Link",
                         status: 'error',
@@ -206,9 +206,7 @@ function SubmitEvent(props: Iprops) {
         } else {
             return getValidationTicketBtn()
         }
-    }
-
-    console.log(eventdata?.productTypeData[0].totalNumberOfTickets);
+    } 
 
 
     const getValidationTicket: any = () => {
@@ -384,16 +382,14 @@ function SubmitEvent(props: Iprops) {
 
     const getValidationLinkBtn: any = () => {
 
-        return eventdata?.location?.links?.every((item, index) => {
+        return eventdata?.location?.links?.every((item, index) => { 
             if((item?.includes("https://")) || (item?.includes("http://")) || (item?.includes("www."))){
                 return true
             } else {
                 return false
             }
         })
-    }
-
-    console.log(getValidationTicketBtn());
+    } 
 
 
     const getValidationTicketNotification: any = () => {
