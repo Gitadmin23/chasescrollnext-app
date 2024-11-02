@@ -95,7 +95,7 @@ export default function DonationBtn(props: IEventType) {
             {!isOrganizer && (
                 <Button onClick={() => setOpen(true)} width={"full"} borderColor={"brand.chasescrollBlue"} borderWidth={"1px"} bgColor={"#EFF5F8"} borderRadius={"32px"} height={"57px"} color={"brand.chasescrollBlue"} fontSize={"sm"} fontWeight={"semibold"} _hover={{ backgroundColor: "#EFF5F8" }} >Donate Now</Button>
             )}
-            {(isBought || isOrganizer || Number(totalDonated) > 0) && (
+            {(isBought || isOrganizer || totalDonated) && (
                 <Flex flexDir={"column"} w={"full"} gap={"4"} bgColor={"#F4F4F499"} rounded={"12px"} p={"4"} >
                     <Text fontWeight={"600"} >Donations</Text>
                     <Flex alignItems={"center"} justifyContent={"space-between"} >
@@ -106,7 +106,7 @@ export default function DonationBtn(props: IEventType) {
                                 <Text fontSize={"14px"} >Target {formatNumber(donationTargetAmount)}</Text>
                             </Flex>
                         </Flex>
-                        <CircularProgressBar progress={(Number(totalDonated) / Number(donationTargetAmount)) * 100 > 100 ? 100 : (Number(totalDonated) / Number(donationTargetAmount)) * 100} />
+                        <CircularProgressBar progress={(Number(totalDonated) / Number(donationTargetAmount)) * 100 > 100 ? 100 : Number(((Number(totalDonated) / Number(donationTargetAmount)) * 100)?.toFixed(2))} />
                     </Flex>
                 </Flex>
             )}
