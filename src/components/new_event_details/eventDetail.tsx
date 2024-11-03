@@ -230,6 +230,11 @@ export default function EventDetail(props: IEventType) {
                             {(!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && (
                                 <GetEventTicket {...props} />
                             )}
+                            <Flex>
+                                {(donationEnabled || isOrganizer) && (
+                                    <DonationBtn {...props} />
+                                )}
+                            </Flex>
                         </Flex>
                     )}
                     {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") && (
@@ -237,7 +242,8 @@ export default function EventDetail(props: IEventType) {
                             <OrganizeBtn {...props} />
                         </Flex>
                     )}
-                    <Flex> 
+
+                    <Flex display={["flex", "flex", "flex", "none", "none"]}  >
                         {(donationEnabled || isOrganizer) && (
                             <DonationBtn {...props} />
                         )}
