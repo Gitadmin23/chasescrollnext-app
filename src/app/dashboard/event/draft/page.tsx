@@ -20,7 +20,7 @@ function Draft(props: Props) {
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.GET_DRAFT + (search ? "?searchText="+search : ""), limit: 10, filter: "id" })
 
     return (
-        <HStack height={"fit-content"} display={"flex"} width={"full"} flexDir={"column"} overflowY={"auto"} justifyContent={"center"}  >
+        <HStack height={"fit-content"} display={"flex"} width={"full"} flexDir={"column"} overflowX={"hidden"} overflowY={"auto"} justifyContent={"center"}  >
             <SearchBar change={true} event={true} />
             <Box width={["full", "full", "700px"]} position={"relative"} >
                 <Box width={"full"}  >

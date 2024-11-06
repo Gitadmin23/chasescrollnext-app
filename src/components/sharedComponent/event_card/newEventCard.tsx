@@ -55,10 +55,10 @@ export default function NewEventCard(props: IEventType) {
 
             <DeleteEvent draft={pathname?.includes("draft") ? true : false} event={props} />
             <Flex width={["full", "full", "full", "full"]} borderWidth={"1px"} rounded={"16px"} borderColor={borderColor} gap={"3"} flexDirection={["column", "column", "row", "row"]} pos={"relative"} p={"4"} >
-                <Flex w={"fit-content"} >
-                    <EventImage data={props} width={["full", "full", "247px", "247px"]} borderWidth='2px' height={["150px", "200px", "170px", "170px"]} />
+                <Flex w={["full", "full", "fit-content", "fit-content"]} >
+                    <EventImage data={props} width={["full", "full", "247px", "247px"]} borderWidth='2px' height={["150px", "300px", "170px", "170px"]} />
                 </Flex>
-                <Flex flexDir={"column"} gap={"2"} textAlign={"left"} height={"fit-content"} my={"auto"} w={["full", "full", "fit-content", "full"]} >
+                <Flex flexDir={"column"} gap={"2"} textAlign={"left"} height={"fit-content"} my={"auto"} w={["full", "full", "fit-content", "full"]} flex={"1"}  >
                     <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                         <Text fontSize={["lg", "lg", "25px"]} lineHeight={["20px", "20px", "30px"]} fontWeight={"semibold"} >{textLimit(capitalizeFLetter(eventName), 20)}</Text>
                         <EventPrice
@@ -105,24 +105,30 @@ export default function NewEventCard(props: IEventType) {
                         <Text fontSize={"14px"} display={["none", "none", "flex", "flex"]} >{textLimit(eventDescription, 50)}</Text>
                     </Flex>
                 </Flex>
-                <Flex w={"fit-content"} >
-                    <Box w={["50px"]} ml={"auto"} display={["none", "none", "block"]} pos={"relative"} >
+                <Flex w={"fit-content"} display={["none", "none", "flex", "flex"]}>
+                    <Box w={["50px"]} ml={"auto"}  pos={"relative"} >
                         <Box w={["fit-content"]} position={"relative"} top={"0px"} >
-                            {(!isOrganizer && (eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR")) && (
+                            {(!isOrganizer && (eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && !pathname?.includes("draft")) && (
                                 <CustomButton text={new Date(endDate) < (new Date()) ? "Attended" : pathname?.includes("save") ? "Saved" : pathname?.includes("draft") ? "Draft" : "Attending"} backgroundColor={new Date(endDate) < (new Date()) ? "#FBCDCD" : "#EFF1FE"} transform={["rotate(-90deg)"]} left={["-45px"]} top={["60px"]} position={["relative", "relative", "absolute"]} color={new Date(endDate) < (new Date()) ? "red" : "#5D70F9"} height={"45px"} fontSize={"xs"} width={"140px"} roundedBottom={"4px"} />
                             )}
-                            {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") && (
+                            {pathname?.includes("draft") && (
+                                <CustomButton text={"Draft"} backgroundColor={"#EFF1FE"} transform={["rotate(-90deg)"]} left={["-45px"]} top={["60px"]} position={["relative", "relative", "absolute"]} color={"#5D70F9"} height={"45px"} fontSize={"xs"} width={"140px"} roundedBottom={"4px"} />
+                            )}
+                            {((isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") && !pathname?.includes("draft")) && (
                                 <CustomButton text={isOrganizer ? "Organizer" : eventMemberRole === "ADMIN" ? "Admin" : eventMemberRole === "COLLABORATOR" ? "Volunteer" : ""} backgroundColor={new Date(endDate) < (new Date()) ? "#FBCDCD" : "#EFF1FE"} transform={["rotate(-90deg)"]} left={["-45px"]} top={["60px"]} position={["relative", "relative", "absolute"]} color={new Date(endDate) < (new Date()) ? "red" : "#5D70F9"} height={"45px"} fontSize={"xs"} width={"140px"} roundedBottom={"4px"} />
                             )}
                         </Box>
                     </Box>
                 </Flex>
-                <Flex w={"fit-content"} >
-                    <Box w={["full"]} display={["block", "block", "none"]} position={"relative"} top={"0px"} >
-                        {(!isOrganizer && (eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR")) && (
+                <Flex w={"full"} display={["flex", "flex", "none", "none"]} >
+                    <Box w={["full"]} position={"relative"} top={"0px"} >
+                        {(!isOrganizer && (eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && !pathname?.includes("draft")) && (
                             <CustomButton text={new Date(endDate) < (new Date()) ? "Attended" : pathname?.includes("save") ? "Saved" : pathname?.includes("draft") ? "Draft" : "Attending"} backgroundColor={new Date(endDate) < (new Date()) ? "#FBCDCD" : "#EFF1FE"} color={new Date(endDate) < (new Date()) ? "red" : "#5D70F9"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />
                         )}
-                        {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") && (
+                        {pathname?.includes("draft") && (
+                            <CustomButton text={"Draft"} backgroundColor={"#EFF1FE"} color={"#5D70F9"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />
+                        )}
+                        {((isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") && !pathname?.includes("draft")) && (
                             <CustomButton text={isOrganizer ? "Organizer" : eventMemberRole === "ADMIN" ? "Admin" : eventMemberRole === "COLLABORATOR" ? "Volunteer" : ""} backgroundColor={new Date(endDate) < (new Date()) ? "#FBCDCD" : "#EFF1FE"} color={new Date(endDate) < (new Date()) ? "red" : "#5D70F9"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />
                         )}
                     </Box>
