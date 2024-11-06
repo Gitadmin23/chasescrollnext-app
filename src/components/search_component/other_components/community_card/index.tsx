@@ -36,8 +36,11 @@ function CommunityCard(props: Props) {
         router.push("/dashboard/profile/")
     }
 
+    console.log(data);
+    
+
     return (
-        <Flex width={"full"} borderBottomWidth={searchbar ? "1px" : "0px"} roundedBottom={"2xl"} roundedTopLeft={"2xl"} justifyContent={"space-between"} alignItems={"center"} py={"2"} gap={"2"} >
+        <Flex onClick={()=> router?.push(`/dashboard/community?activeID=${data?.id}`)} width={"full"} role='button' borderBottomWidth={searchbar ? "1px" : "0px"} roundedBottom={"2xl"} roundedTopLeft={"2xl"} justifyContent={"space-between"} alignItems={"center"} py={"2"} gap={"2"} >
             <Flex gap={searchbar ? "3": "3"} width={"full"}   >
                 <Box width={"fit-content"} >
                     <CommunityImage data={data} size={searchbar?  "50px" : "50px"} font={searchbar ? "16px": "30px"} />

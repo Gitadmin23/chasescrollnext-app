@@ -52,6 +52,7 @@ import { IEventType } from '@/models/Event'
 import moment from 'moment'
 import { formatNumber } from '@/utils/numberFormat'
 import CircularProgressBar from '@/components/sharedComponent/circleGraph'
+import DonateUsers from '@/components/sharedComponent/donateUser'
 
 interface Props {
     index: any
@@ -304,13 +305,16 @@ function DashboardDonation(props: Props) {
                 <Flex flexDir={"column"} w={"full"} gap={"4"} rounded={"12px"} pt={"4"} >
                     <Text fontWeight={"600"} >Donations</Text>
                     <Flex alignItems={"center"} flexDir={["column", "column", "row"]} gap={"6"} justifyContent={"space-between"} bgColor={"#F4F4F499"} rounded={"12px"} py={3} px={6} >
-                        <Flex flexDir={"column"} gap={"2"} >
-                            <Text fontWeight={"600"} >{eventData?.donationName}</Text>
-                            <Text fontSize={"14px"} >Target {formatNumber(eventData?.donationTargetAmount)}</Text>
+                        <Flex justifyContent={"center"} alignItems={"center"} gap={"2"} >
+                            <DonateUsers size={"50px"} event={eventData} fontSize={14} border='1px' />
+                            <Flex flexDir={"column"} gap={"2"} >
+                                <Text fontWeight={"600"} >{eventData?.donationName}</Text>
+                                <Text fontSize={"14px"} >Target {formatNumber(eventData?.donationTargetAmount)}</Text>
+                            </Flex>
                         </Flex>
                         <Flex flexDir={"column"} gap={"2"} alignItems={"center"} >
                             <CircularProgressBar progress={(Number(eventData?.totalDonated) / Number(eventData?.donationTargetAmount)) * 100 > 100 ? 100 : (Number(eventData?.totalDonated) / Number(eventData?.donationTargetAmount)) * 100} />
-                            <Text fontSize={"14px"} >Total Amount Donated: {formatNumber(eventData?.totalDonated+10000000)}</Text>
+                            <Text fontSize={"14px"} >Total Amount Donated: {formatNumber(eventData?.totalDonated + 10000000)}</Text>
                         </Flex>
                     </Flex>
                 </Flex>

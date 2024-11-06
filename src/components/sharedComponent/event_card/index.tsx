@@ -4,7 +4,7 @@ import SaveOrUnsaveBtn from "@/components/sharedComponent/save_unsave_event_btn"
 import { dateFormat } from "@/utils/dateFormat";
 import { Box, Flex, Text, useColorMode } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
 import EventPrice from "../event_price";
 import DeleteEvent from "../delete_event";
@@ -92,7 +92,6 @@ function ExploreEventCard(props: Props) {
         } else {
             router.push("/dashboard/event/details/" + event?.id);
         }
-        setSearchValue("");
     };
 
     const [showModal, setShowModal] = useState(false)
@@ -101,6 +100,10 @@ function ExploreEventCard(props: Props) {
         event.stopPropagation();
         setShowModal((prev) => !prev)
     }
+
+    // useEffect(()=> {
+    //     setSearchValue("");
+    // }, [])
 
     return (
         <Flex

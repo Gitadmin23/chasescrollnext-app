@@ -56,7 +56,9 @@ function SelectTicket(props: Props) {
             setShowModal(false)
         } else {
             if (!user_index) {
-                setOpen(true)
+                if (ticket?.length > 1) {
+                    setOpen(true)
+                }
                 setTicketType(item)
                 // router.push("/share/auth/?type=EVENT&typeID=" + data?.id)
             } else {
@@ -75,15 +77,12 @@ function SelectTicket(props: Props) {
         setOpenSignUp(item)
     }
 
-    useEffect(()=> { 
-        if(ticket?.length === 1){
+    useEffect(() => {
+        if (ticket?.length === 1) {
             clickHandler(ticket[0])
         }
-    }, [ticket])
-
-    console.log(ticket);
-    
-
+    }, [ticket]) 
+ 
     return (
         <Flex gap={"3"} position={"relative"} flexDir={"column"} alignItems={"center"} justifyContent={"end"}  >
             {ticket?.length > 1 ? (
@@ -95,24 +94,26 @@ function SelectTicket(props: Props) {
                             {ticketType?.ticketType ? formatNumber(ticketType?.ticketPrice, currency === "USD" ? "$" : "₦") : ""}
                         </Text>
                     </Flex>
-                    <LiaAngleDownSolid />
+                    <Flex transform={showModal ? "rotate(180deg)" : "rotate(0deg)"} > 
+                        <LiaAngleDownSolid />
+                    </Flex>
                 </Flex>
             ) : (
-                <Flex w={"full"} flexDir={"column"} > 
+                <Flex w={"full"} flexDir={"column"} >
                     {ticket?.map((item: any, index: number) => {
                         if (item?.ticketType === "Early Bird") {
                             // if ((new Date() >= new Date(item?.startDate)) && new Date() <= new Date(item?.endDate)) {
-                                return (
-                                    <Flex key={index} w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
-                                        <Button disabled={(new Date() >= new Date(item?.startDate)) && new Date() <= new Date(item?.endDate)} color={primaryColor} isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
-                                            {item?.totalNumberOfTickets === item?.ticketsSold ?
-                                                "Sold Out" :
-                                                item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
-                                            }
-                                        </Button>
-                                        <Text color={"white"} px={"2"} rounded={"4px"} bg={"red"} textAlign={"center"} fontSize={"12px"} >Ends: {dateFormat(item?.endDate)} {timeFormat(item?.endDate)}</Text>
-                                    </Flex>
-                                )
+                            return (
+                                <Flex key={index} w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
+                                    <Button disabled={(new Date() >= new Date(item?.startDate)) && new Date() <= new Date(item?.endDate)} color={primaryColor} isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                        {item?.totalNumberOfTickets === item?.ticketsSold ?
+                                            "Sold Out" :
+                                            item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
+                                        }
+                                    </Button>
+                                    <Text color={"white"} px={"2"} rounded={"4px"} bg={"red"} textAlign={"center"} fontSize={"12px"} >Ends: {dateFormat(item?.endDate)} {timeFormat(item?.endDate)}</Text>
+                                </Flex>
+                            )
                             // }
                         } else {
                             return (
@@ -131,22 +132,22 @@ function SelectTicket(props: Props) {
             {showModal && (
                 <Box shadow={"xl"} width={"full"} borderWidth={"0px"} zIndex={"30"} top={["0px", "0px", "0px", "100px", "100px"]} position={["relative", "relative", "relative", "absolute", "absolute"]} rounded={"lg"} >
                     <Flex maxH={"400px"} overflowY={"auto"} overflowX={"hidden"} gap={"3"} pos={"relative"} flexDirection={"column"} shadow={"lg"} width={"full"} borderColor={borderColor} padding={"4"} borderBottomWidth={"0px"} bg={mainBackgroundColor} rounded={"lg"}>
-                        <Flex as={"button"} onClick={() => setShowModal(false)} w={"8"} h={"8"} ml={"auto"} bg={secondaryBackgroundColor} rounded={"full"} shadow={"2xl"} justifyContent={"center"} alignItems={"center"} >
+                        {/* <Flex as={"button"} onClick={() => setShowModal(false)} w={"8"} h={"8"} ml={"auto"} bg={secondaryBackgroundColor} rounded={"full"} shadow={"2xl"} justifyContent={"center"} alignItems={"center"} >
                             <IoClose color={headerTextColor} />
-                        </Flex>
+                        </Flex> */}
                         {ticket?.filter((item: any) => item?.ticketType)?.map((item: any, index: number) => {
-                            if (item?.ticketType === "Early Bird") { 
-                                    return (
-                                        <Flex key={index} w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
-                                            <Button color={primaryColor} isDisabled={(item?.totalNumberOfTickets === item?.ticketsSold) || !((new Date() >= new Date(item?.startDate)) && new Date() <= new Date(item?.endDate))} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
-                                                {(item?.totalNumberOfTickets === item?.ticketsSold) ?
-                                                    "Sold Out" :
-                                                    item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
-                                                }
-                                            </Button>
-                                            <Text color={"white"} px={"2"} rounded={"4px"} bg={"red"} textAlign={"center"} fontSize={"12px"} >Ends: {dateFormat(item?.endDate)} {timeFormat(item?.endDate)}</Text>
-                                        </Flex>
-                                    ) 
+                            if (item?.ticketType === "Early Bird") {
+                                return (
+                                    <Flex key={index} w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
+                                        <Button color={primaryColor} isDisabled={(item?.totalNumberOfTickets === item?.ticketsSold) || !((new Date() >= new Date(item?.startDate)) && new Date() <= new Date(item?.endDate))} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                            {(item?.totalNumberOfTickets === item?.ticketsSold) ?
+                                                "Sold Out" :
+                                                item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
+                                            }
+                                        </Button>
+                                        <Text color={"white"} px={"2"} rounded={"4px"} bg={"red"} textAlign={"center"} fontSize={"12px"} >Ends: {dateFormat(item?.endDate)} {timeFormat(item?.endDate)}</Text>
+                                    </Flex>
+                                )
                             } else {
                                 return (
                                     // <Flex w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >

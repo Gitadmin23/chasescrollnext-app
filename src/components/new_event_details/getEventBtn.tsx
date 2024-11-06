@@ -1,5 +1,5 @@
 import ModalLayout from "@/components/sharedComponent/modal_layout";
-import { Box, Flex, Text, useColorMode, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, useColorMode, useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
 import PaymentMethod from "./event_modal/payment_method";
 import SelectTicketNumber from "./event_modal/select_ticket_number";
@@ -19,6 +19,9 @@ import useCustomTheme from "@/hooks/useTheme";
 import { IEventType } from "@/models/Event";
 import { ImTicket } from "react-icons/im";
 import { HiOutlineTicket } from "react-icons/hi";
+import GoogleBtn from "../sharedComponent/googlebtn";
+import SignupModal from "@/app/auth/component/signupModal";
+import CustomText from "../general/Text";
 
 function GetEventTicket(props: IEventType) {
     const {
@@ -29,6 +32,8 @@ function GetEventTicket(props: IEventType) {
     } = props;
 
     const { primaryColor, borderColor } = useCustomTheme();
+    const [openSignUp, setOpenSignUp] = useState(false)
+    const [open, setOpen] = React.useState(false)
     // const [stripePromise, setStripePromise] = React?.useState(() => loadStripe(STRIPE_KEY))
 
     const { showModal, setShowModal } = useModalStore((state) => state);
@@ -59,7 +64,8 @@ function GetEventTicket(props: IEventType) {
                 setModalTab(isBought ? 5 : 1);
                 setShowModal(true);
             } else if (!user_index) {
-                router.push("/share/auth/login?type=EVENT&typeID=" + id);
+                // router.push("/share/auth/login?type=EVENT&typeID=" + id);
+                setOpen(true)
             } else {
                 setModalTab(isBought ? 5 : 1);
                 setShowModal(true);
@@ -102,6 +108,11 @@ function GetEventTicket(props: IEventType) {
             setShowModal(true)
         }
         setModalTab(4)
+    }
+
+    const signUpHandler = (item: boolean) => {
+        setOpen(false)
+        setOpenSignUp(item)
     }
 
     return (
@@ -153,6 +164,35 @@ function GetEventTicket(props: IEventType) {
                     </Flex>
                 )}
             </ModalLayout>
+
+            <ModalLayout open={open} close={setOpen} title='' closeIcon={true} >
+                <Flex w={"full"} flexDir={"column"} gap={"4"} p={"6"} >
+                    <Flex flexDir={"column"} justifyContent={"center"} >
+                        <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"32px"} >Get Ticket</Text>
+                        <Text color={"#626262"} textAlign={"center"}>Please choose your option and proceed with Chasescroll.</Text>
+                    </Flex>
+                    <GoogleBtn newbtn title='Sign in' id={props?.id ? true : false} index={props?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' />
+                    <Flex justifyContent={"center"} gap={"2px"} alignItems={"center"} >
+                        <Text color={"#BCBCBC"} fontSize={"14px"} lineHeight={"19.6px"} >OR</Text>
+                    </Flex>
+                    <Button onClick={() => router.push("/share/auth/temporary-account/?type=EVENT&typeID=" + props?.id)} backgroundColor={"#EDEFFF"} color={"#5465E0"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#EDEFFF"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#EDEFFF" }} justifyContent={"center"} alignItems={"center"} >
+                        <Text textAlign={"center"} fontWeight={"600"} >Get Temporary Account</Text>
+                    </Button>
+                    <Button onClick={() => signUpHandler(true)} color={"white"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
+                        <Text textAlign={"center"} fontWeight={"600"} >Sign up</Text>
+                    </Button>
+                    {/* <SignupModal index={props?.id} open={openSignUp} setOpen={signUpHandler} /> */}
+                    <Flex>
+                        <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'} marginLeft='0px'>
+                            Already have an account?
+                        </CustomText>
+                        <CustomText onClick={() => router.push("/share/auth/login/?type=EVENT&typeID=" + props?.id)} fontWeight={"700"} ml={"4px"} fontSize={'sm'} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} cursor='pointer'>Log in</CustomText>
+                    </Flex>
+                </Flex>
+            </ModalLayout>
+            {openSignUp && (
+                <SignupModal hide={true} index={props?.id} open={openSignUp} setOpen={signUpHandler} />
+            )}
         </>
     )
 }
