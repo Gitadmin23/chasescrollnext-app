@@ -27,8 +27,17 @@ import {
     Tr,
     useColorMode,
     useToast,
-    Image
+    Image,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuItemOption,
+    MenuGroup,
+    MenuOptionGroup,
+    MenuDivider,
 } from '@chakra-ui/react'
+
 import React, { useEffect, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { FcApproval, FcRight } from "react-icons/fc";
@@ -60,6 +69,10 @@ import { formatTimeAgo } from '@/utils/helpers'
 import router from 'next/router'
 import { uniqBy } from 'lodash'
 import { IEvent } from '@/models/Events'
+import { ITicket } from '@/models/Ticket'
+import { FiChevronDown } from 'react-icons/fi'
+import CreateCommunityModal from '@/components/Community/CreateCommunityModal'
+import { IEventAnalysis } from '@/models/IEventAnalysis'
 
 interface Props {
     index: any
@@ -93,11 +106,15 @@ function DashboardRefund(props: Props) {
     const [communities, setCommunities] = React.useState<ICommunity[]>([]);
     const [communityPage, setCommunityPage] = React.useState(0);
     const [hasMore, setHasMore] = React.useState(true);
-    const [event, setEvent] = React.useState<IEventType|null>(null)
+    const [event, setEvent] = React.useState<IEventType | null>(null);
+    const [tickets, setTickets] = React.useState<ITicket[]>([]);
+    const [selectedTicketType, setSelectedTicketType] = React.useState('All');
+    const [showCommunityCreationModal, setShowCommunityCreationModal] = React.useState(false);
+    const [eventAnaylysis, setEventAnalysis] = React.useState<IEventAnalysis|null>(null);
 
     const { userId } = useDetails();
 
-    
+
     const {
         primaryColor,
         secondaryBackgroundColor,
@@ -123,16 +140,43 @@ function DashboardRefund(props: Props) {
         }
     });
 
-    const getEvent = useQuery(['get-event', index], () => httpService.get(`${URLS.GET_EVENTS}`, {
+    const analysisQuery = useQuery(['get-analysis', index], () => httpService.get(`${URLS.eventAnalysis}`, {
+        params: {
+        typeID: index
+        }
+    }), {
+        onSuccess: (data) => {
+            setEventAnalysis(data?.data);
+        }
+    });
+
+    const getTicketsQuery = useQuery(['get-tikcets', index], () => httpService.get(`${URLS.tickets}`, {
+        params: {
+            eventID: index
+        }
+    }), {
+        onSuccess: (data) => {
+            const item: PaginatedResponse<ITicket> = data?.data;
+            setTickets((prev) => uniqBy([...prev, ...item?.content], 'id'));
+        },
+        onError: (error) => {
+            toast({
+                title: 'Error occured while getting tickets',
+                description: 'An error occured while getting tickets',
+                status: 'error',
+                position: "top-right",
+            })
+        }
+    })
+
+    const getEvent = useQuery([`get-event-by-event-id-${index}`, index], () => httpService.get(`${URLS.GET_EVENTS}`, {
         params: {
             id: index
         }
     }), {
         onSuccess: (data) => {
             const item: PaginatedResponse<any> = data?.data;
-            console.log(item?.content);
-            console.log('---------EVENT DETAILS--------');
-            setEvent(item?.content[0]?.event); 
+            setEvent(item?.content[0]);
         }
     })
 
@@ -262,7 +306,7 @@ function DashboardRefund(props: Props) {
     }, [showDate, showNumberOfTicket, showEmail, showStatus, showStatus, showTicketType, showUserName])
 
     console.log(data?.data?.content);
-    
+
 
     const { isLoading: loadingData, isRefetching: refechingDa } = useQuery(['all-events-details', index], () => httpService.get(URLS.All_EVENT + "?id=" + index), {
         onError: (error: any) => {
@@ -298,12 +342,15 @@ function DashboardRefund(props: Props) {
     return (
         <Flex ref={componentRef} width={"full"} flexDirection={"column"} >
             <LoadingAnimation loading={loadingData} >
-                    {!getEvent.isLoading && event && event?.eventFunnelGroupID  && (
-                        <Flex width='full' height='50px' justifyContent={'center'} alignItems={'center'}>
-                            <CustomText>Would you like to convert your attendees to a community?</CustomText>
-                            <Button onClick={() => setShowCommunityModal(true)}>Convert To a Community</Button>
+                {!getEvent.isLoading && !event?.eventFunnelGroupID && (
+                    <Flex width='full' height='70px' marginBottom={'20px'} justifyContent={'center'} direction='column' alignItems={'center'}>
+                        <CustomText>Would you like to convert your attendees to a community?</CustomText>
+                        <Flex gap={3} marginTop={'10px'} direction={['column', 'row']}>
+                            <Button onClick={() => setShowCommunityCreationModal(true)} mt='5px' >Convert to a new community</Button>
+                            <Button onClick={() => setShowCommunityModal(true)} mt='5px' >Convert to an existing community</Button>
                         </Flex>
-                    )}
+                    </Flex>
+                )}
                 <Flex pos={"relative"} maxW={["500px", "full", "full", "full"]} width={"full"} rounded={"8px"} borderWidth={"1px"} borderColor={borderColor} p={["2", "2", "4", "6"]} alignItems={["start", "start", "center", "center"]} flexDir={["column", "column", "row"]} gap={["2", "2", "6", "6"]} >
                     <Flex width={["full", "full", "auto", "auto"]} mr={["auto", "auto", "0px"]} gap={"3"} flexDirection={["column", "column", "row", "row"]} pos={"relative"} p={"2"} rounded={"4px"} >
                         <Flex alignItems={"center"} w={"full"} gap={"4"} flexDirection={["row", "row", "row", "row"]} >
@@ -341,6 +388,9 @@ function DashboardRefund(props: Props) {
                                     <Text fontSize={"14px"} display={["flex", "flex", "none", "none"]} >{textLimit(eventData.eventDescription, 100)}</Text>
                                     <Text fontSize={"14px"} display={["none", "none", "flex", "flex"]} >{textLimit(eventData.eventDescription, 50)}</Text>
                                 </Flex>
+                                {eventAnaylysis && (
+                                    <Text fontWeight={'bold'}>Total Revenue - ₦{eventAnaylysis?.totalActiveSales ?? 0}</Text>
+                                )}
                             </Flex>
                         </Flex>
                         <Box w={["50px"]} display={["none", "none", "block"]} pos={"relative"} >
@@ -409,13 +459,13 @@ function DashboardRefund(props: Props) {
                                             FullName
                                             <Switch onChange={(e) => setShowUserName(e.target.checked)} isChecked={showUserName} />
                                         </Flex>
-                                    </Th> 
+                                    </Th>
                                     <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
                                             EMAIL ADDRESS
                                             <Switch onChange={(e) => setShowEmail(e.target.checked)} isChecked={showEmail} />
                                         </Flex>
-                                    </Th> 
+                                    </Th>
                                     <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
                                             Date & TIME
@@ -423,8 +473,23 @@ function DashboardRefund(props: Props) {
                                         </Flex>
                                     </Th>
                                     <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
-                                        <Flex gap={"3"}>
-                                            Ticket type
+                                        <Flex gap={"3"} alignItems={'center'}>
+                                            {event?.productTypeData?.length > 1 && (
+                                                <>
+                                                    <Menu>
+                                                        <MenuButton as={Button} rightIcon={<FiChevronDown size={25}/>} fontSize={'12px'}>
+                                                            {selectedTicketType === 'All' ? 'TICKET TYPE':selectedTicketType}
+                                                        </MenuButton>
+                                                        <MenuList>
+                                                            <MenuItem onClick={() => setSelectedTicketType('All')}>All</MenuItem>
+                                                            {event?.productTypeData.map((item, index) => (
+                                                                <MenuItem key={index.toString()} onClick={() => setSelectedTicketType(item?.ticketType)}>{item?.ticketType}</MenuItem>
+                                                            ))}
+                                                        </MenuList>
+                                                    </Menu>
+                                                </>
+                                            )}
+                                            {event?.productTypeData?.length < 2 && 'Ticket type'}
                                             <Switch onChange={(e) => setShowTicketType(e.target.checked)} isChecked={showTicketType} />
                                         </Flex>
                                     </Th>
@@ -443,11 +508,17 @@ function DashboardRefund(props: Props) {
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {data?.data?.content?.map((person: any, i: number) => {
+                                {data?.data?.content?.filter((item: any) => {
+                                    if (selectedTicketType === 'All') {
+                                        return item;
+                                    } else {
+                                        return item?.ticketType === selectedTicketType || !item?.ticketType ? item:null;
+                                    }
+                                }).map((person: any, i: number) => {
                                     return (
                                         <Tr key={i} >
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{(page * size) + (i + 1)}</Td>
-                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{showUserName ? capitalizeFLetter(person?.user?.firstName)+" "+capitalizeFLetter(person?.user?.lastName)  : ""}</Td> 
+                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{showUserName ? capitalizeFLetter(person?.user?.firstName) + " " + capitalizeFLetter(person?.user?.lastName) : ""}</Td>
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showEmail ? person?.user?.email : ""}</Td>
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showDate ? dateFormat(person?.createdDate) : ""}</Td>
                                             {(person?.ticketType && person?.role !== "ADMIN" && person?.role !== "COLLABORATOR") && (
@@ -589,37 +660,41 @@ function DashboardRefund(props: Props) {
                             </Box>
                         </Flex>
                     </Flex>
-                  
+
                 </LoadingAnimation>
             </Flex>
 
             <ModalLayout open={showCommunityModal} close={() => setShowCommunityModal(false)}>
                 <Flex py={"8"} px={"6"} flexDirection={"column"} gap={"4"} width={"full"} justifyContent={"center"} alignItems={"center"} >
-                        <CustomText fontFamily={'DM-Regular'}>Add Event members to community</CustomText>
-                        {communityQuery.isLoading && (
-                            <Flex width={'100%'} height={'100px'} justifyContent={'center'} alignItems={'center'}>
-                                <Spinner />
-                                <CustomText fontFamily={'DM-Regular'}>Loading Communities</CustomText>
-                            </Flex>
-                        )}
-                        {!communityQuery.isLoading && communities.length > 0 && communities.map((item, index) => (
-                            <Box as='button' key={index.toString()} onClick={() => addCommunityFunnel.mutate(item?.id)} w={"full"} pos={"relative"} zIndex={"10"} borderBottomWidth={"1px"} borderBottomColor={borderColor} py={"5"} >
-                                <Flex rounded={"24px"} textAlign={"left"} px={"4"} gap={"3"} py={"3"} w={"full"} _hover={{ backgroundColor: borderColor }} backgroundColor={"transparent"}  >
-                                    <Box w={"42px"} pos={"relative"} h={"42px"} bgColor={"ButtonText"} borderWidth={'2px'} borderBottomLeftRadius={'20px'} borderBottomRadius={'20px'} borderTopLeftRadius={'20px'}>
-                                        <Image src={`${item?.data?.imgSrc?.includes("http") ? "" : IMAGE_URL}${item?.data?.imgSrc}`} alt='image' style={{ width: '100%', height: '100%', objectFit: "cover", borderRadius: "20px", borderTopRightRadius: "0px " }} />
-                                    </Box>
-                                    <Flex flexDir={"column"} flex={"1"} gap={"1"} >
-                                        <Text fontWeight={"700"} lineHeight={"24px"} >{textLimit(item?.data?.name, 25)}</Text>
-                                        <Text fontSize={"14px"} mt={"2px"} >{textLimit(item?.data?.description, 40)}</Text>
-                                        <Flex color={headerTextColor} alignItems={"center"} gap={"1"} >
-                                            <Box w={"8px"} h={"8px"} rounded={"full"} bgColor={primaryColor} />
-                                            <Text fontSize={"11px"} lineHeight={"13px"} letterSpacing={"0.07px"} >{formatTimeAgo(item?.lastModifiedDate)}</Text>
-                                        </Flex>
+                    <CustomText fontFamily={'DM-Regular'}>Add Event members to community</CustomText>
+                    {communityQuery.isLoading && (
+                        <Flex width={'100%'} height={'100px'} justifyContent={'center'} alignItems={'center'}>
+                            <Spinner />
+                            <CustomText fontFamily={'DM-Regular'}>Loading Communities</CustomText>
+                        </Flex>
+                    )}
+                    {!communityQuery.isLoading && communities.length > 0 && communities.map((item, index) => (
+                        <Box as='button' key={index.toString()} onClick={() => addCommunityFunnel.mutate(item?.id)} w={"full"} pos={"relative"} zIndex={"10"} borderBottomWidth={"1px"} borderBottomColor={borderColor} py={"5"} >
+                            <Flex rounded={"24px"} textAlign={"left"} px={"4"} gap={"3"} py={"3"} w={"full"} _hover={{ backgroundColor: borderColor }} backgroundColor={"transparent"}  >
+                                <Box w={"42px"} pos={"relative"} h={"42px"} bgColor={"ButtonText"} borderWidth={'2px'} borderBottomLeftRadius={'20px'} borderBottomRadius={'20px'} borderTopLeftRadius={'20px'}>
+                                    <Image src={`${item?.data?.imgSrc?.includes("http") ? "" : IMAGE_URL}${item?.data?.imgSrc}`} alt='image' style={{ width: '100%', height: '100%', objectFit: "cover", borderRadius: "20px", borderTopRightRadius: "0px " }} />
+                                </Box>
+                                <Flex flexDir={"column"} flex={"1"} gap={"1"} >
+                                    <Text fontWeight={"700"} lineHeight={"24px"} >{textLimit(item?.data?.name, 25)}</Text>
+                                    <Text fontSize={"14px"} mt={"2px"} >{textLimit(item?.data?.description, 40)}</Text>
+                                    <Flex color={headerTextColor} alignItems={"center"} gap={"1"} >
+                                        <Box w={"8px"} h={"8px"} rounded={"full"} bgColor={primaryColor} />
+                                        <Text fontSize={"11px"} lineHeight={"13px"} letterSpacing={"0.07px"} >{formatTimeAgo(item?.lastModifiedDate)}</Text>
                                     </Flex>
                                 </Flex>
-                            </Box>
-                        ))}
+                            </Flex>
+                        </Box>
+                    ))}
                 </Flex>
+            </ModalLayout>
+
+            <ModalLayout open={showCommunityCreationModal} close={() => setShowCommunityCreationModal(false)}>
+               <CreateCommunityModal eventId={index} onClose={() => setShowCommunityCreationModal(false)} />
             </ModalLayout>
 
             <ModalLayout open={open} close={setOpen}>

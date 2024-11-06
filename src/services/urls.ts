@@ -2,6 +2,8 @@ export const URLS = {
     LOGIN: '/auth/signin',
     SIGNUP: '/auth/signup',
     auth: '/auth',
+    tickets: '/events/get-event-tickets',
+    eventAnalysis: '/payments/analytics/tickets',
     GROUP: '/group/group',
     SEND_VERIFICATION_EMAIL: '/auth/verification/send-email',
     VERIFY_TOKEN: '/auth/verification/verify-token',
