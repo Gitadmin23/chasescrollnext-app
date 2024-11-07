@@ -230,19 +230,19 @@ export default function EventDetail(props: IEventType) {
                             {(!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && (
                                 <GetEventTicket {...props} />
                             )}
-                            <Flex>
+                            {/* <Flex>
                                 {(donationEnabled || isOrganizer) && (
                                     <DonationBtn {...props} />
                                 )}
-                            </Flex>
+                            </Flex> */}
                         </Flex>
                     )}
-
+{/* 
                     <Flex display={["flex", "flex", "flex", "none", "none"]}  >
                         {(donationEnabled || isOrganizer) && (
                             <DonationBtn {...props} />
                         )}
-                    </Flex>
+                    </Flex> */}
 
                     {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") && (
                         <Flex w={"full"} bgColor={secondaryBackgroundColor} display={["none", "none", "flex", "flex"]} rounded={"64px"} alignItems={"center"} h={"86px"} px={"4"} py={"3"} justifyContent={"center"} >

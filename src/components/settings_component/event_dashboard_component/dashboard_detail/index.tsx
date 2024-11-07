@@ -96,9 +96,9 @@ function DashboardDetail(props: Props) {
                 <Flex onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} as={"button"} width={"fit-content"} mt={"8"} gap={"2"} alignItems={"center"} bgColor={secondaryBackgroundColor} borderColor={borderColor} borderWidth={"1px"} _hover={{ background: "#5D70F9", color: "white" }} color={bodyTextColor} py={"2px"} px={"2"} fontSize={"13px"} fontWeight={"medium"} rounded={"md"} >
                     View Attendees
                 </Flex>
-                <Flex onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/donate")} as={"button"} width={"fit-content"} mt={"8"} gap={"2"} alignItems={"center"} bgColor={primaryColor} borderColor={borderColor} borderWidth={"1px"} _hover={{ background: "#5D70F9", color: "white" }} color={"white"} py={"2px"} px={"2"} fontSize={"13px"} fontWeight={"medium"} rounded={"md"} >
+                {/* <Flex onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/donate")} as={"button"} width={"fit-content"} mt={"8"} gap={"2"} alignItems={"center"} bgColor={primaryColor} borderColor={borderColor} borderWidth={"1px"} _hover={{ background: "#5D70F9", color: "white" }} color={"white"} py={"2px"} px={"2"} fontSize={"13px"} fontWeight={"medium"} rounded={"md"} >
                     View Donation
-                </Flex>
+                </Flex> */}
             </Flex>
 
             <Flex width={"full"} borderTopWidth={"1px"} borderBottomWidth={"1px"} borderColor={colorMode === 'light' ? "#D0D4EB" : borderColor} justifyContent={"center"} mt={"8"} py={"7"} px={"4"} >

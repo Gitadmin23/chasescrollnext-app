@@ -26,7 +26,7 @@ function Layout({ children }: {
                         <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
                     </Flex>
                 </Box>
-                <Box overflow={"hidden"} h={"full"} bg={mainBackgroundColor}>
+                <Box overflow={"hidden"} h={"100vh"} bg={mainBackgroundColor}>
                     {children}
                 </Box>
             </Flex>

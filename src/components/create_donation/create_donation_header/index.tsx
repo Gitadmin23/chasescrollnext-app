@@ -164,7 +164,7 @@ function CreateDonationHeader({ name }: IProps) {
     return (
         <Flex position={"relative"} h={["fit-content", "fit-content", "fit-content", "fit-content", "100vh"]} width={["full", "full", "full", "full", "546px"]} >
             <Flex pos={"absolute"} display={["none", "none", "none", "none", "flex"]} top={"4"} w={"full"} h={"30px"} justifyContent={"center"} alignItems={"center"} >
-                <Text fontWeight={"bold"} fontSize={"20px"} >Create Donation</Text>
+                <Text fontWeight={"bold"} fontSize={"20px"} >Create Fundraising</Text>
             </Flex>
             <Flex as={"button"} w={"fit-content"} onClick={() => router?.back()} left={"6"} justifyContent={"center"} alignItems={"center"} height={"30px"} pos={"absolute"} display={["none", "none", "none", "none", "flex"]} top={"18px"}  >
                 <IoArrowBack size={"25px"} />
