@@ -119,7 +119,7 @@ function GetEventTicket(props: IEventType) {
         <>
 
             <Flex w={"full"} display={[isBought ? "none" : "block", "block", "block", "block"]} >
-                <CustomButton backgroundColor={"#233DF3"} borderRadius={"32px"} opacity={(!ticketType?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={((ticketType?.totalNumberOfTickets === ticketType?.ticketsSold) && !isBought) ? true : (!ticketType?.ticketType || ticketType?.ticketType || isBought) ? false : true} text={((ticketType?.totalNumberOfTickets === ticketType?.ticketsSold) ? "Ticket Sold Out" : (isBought) ? "View Ticket" : isFree ? "Register" : "Check out ")} width={["full"]} height={"57px"} fontSize={"sm"} fontWeight={"semibold"} />
+                <CustomButton backgroundColor={"#233DF3"} borderRadius={"32px"} opacity={(!ticketType?.ticketType && !isBought) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={((ticketType?.totalNumberOfTickets === ticketType?.ticketsSold) && !isBought) ? true : (!ticketType?.ticketType || ticketType?.ticketType || isBought) ? false : true} text={(((ticketType?.totalNumberOfTickets === ticketType?.ticketsSold) && !isBought) ? "Ticket Sold Out" : (isBought) ? "View Ticket" : isFree ? "Register" : "Check out ")} width={["full"]} height={"57px"} fontSize={"sm"} fontWeight={"semibold"} />
             </Flex>
 
             {isBought &&
