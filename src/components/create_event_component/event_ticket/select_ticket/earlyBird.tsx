@@ -11,6 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { PiTrashSimpleDuotone } from "react-icons/pi";
 import { IoIosClose } from 'react-icons/io'
 import { IoLogoTwitter } from 'react-icons/io5'
+import { usePathname } from 'next/navigation'
 
 interface IProps {
     data?: any,
@@ -19,6 +20,8 @@ interface IProps {
 
 export default function EarlyBird({ data, index }: IProps) {
 
+
+    const pathname = usePathname();
     const { primaryColor, secondaryBackgroundColor, headerTextColor, mainBackgroundColor } = useCustomTheme()
 
     const { eventdata, updateEvent } = useEventStore((state) => state);
@@ -131,12 +134,12 @@ export default function EarlyBird({ data, index }: IProps) {
     return (
         <Flex>
             <Flex gap={"1"}  >
-                <Flex as={"button"} onClick={() => clickHander()} alignItems={"center"} gap={"1"} px="6" h={"45px"} rounded={"full"} bgColor={eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? primaryColor : mainBackgroundColor} borderColor={primaryColor} borderWidth={"1px"} color={eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? "white" : primaryColor} >
+                <Flex as={"button"} disabled={pathname?.includes("edit_event")} _disabled={{opacity: "0.2", cursor: "not-allowed"}} onClick={() => clickHander()} alignItems={"center"} gap={"1"} px="6" h={"45px"} rounded={"full"} bgColor={eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? primaryColor : mainBackgroundColor} borderColor={primaryColor} borderWidth={"1px"} color={eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? "white" : primaryColor} >
                     <IoLogoTwitter size="23px" />
                     <Text fontWeight={"500"} fontSize={"14px"} >{eventdata?.productTypeData[0]?.ticketType === "Early Bird" ? "Edit" : ""} Early Bird</Text>
                 </Flex>
                 {eventdata?.productTypeData[0]?.ticketType === "Early Bird" && 
-                    <Flex as={"button"} onClick={()=> removeHander()} _hover={{ backgroundColor: "transparent" }} color={"red"} flexDir={"column"} justifyContent={"end"} mt={"7"} bg={"transparent"} h={"fit-content"} > 
+                    <Flex as={"button"} onClick={()=> removeHander()} disabled={pathname?.includes("edit_event")} _disabled={{opacity: "0.2", cursor: "not-allowed"}} _hover={{ backgroundColor: "transparent" }} color={"red"} flexDir={"column"} justifyContent={"end"} mt={"7"} bg={"transparent"} h={"fit-content"} > 
                         <PiTrashSimpleDuotone size={"15px"} />
                     </Flex>
                 }
