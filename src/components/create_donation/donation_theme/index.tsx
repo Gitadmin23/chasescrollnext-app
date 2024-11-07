@@ -7,10 +7,10 @@ import { useQuery } from 'react-query';
 import SelectImage from './select_image';
 import SubmitTheme from '../submit_event';
 import useCustomTheme from "@/hooks/useTheme";
-import CustomButton from '@/components/general/Button';
-import FunnelBtn from '../event_ticket/funnel';
-import CollaboratorBtn from '../event_ticket/collaborators';
-import GetCommunity from '../event_ticket/funnel/get_community';
+import CustomButton from '@/components/general/Button'; 
+import FunnelBtn from '@/components/create_event_component/event_ticket/funnel';
+import CollaboratorBtn from '@/components/create_event_component/event_ticket/collaborators';
+import GetCommunity from '@/components/create_event_component/event_ticket/funnel/get_community';
 
 function DonationTheme() {
 
