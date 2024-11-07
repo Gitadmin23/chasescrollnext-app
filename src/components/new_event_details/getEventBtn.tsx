@@ -113,10 +113,7 @@ function GetEventTicket(props: IEventType) {
     const signUpHandler = (item: boolean) => {
         setOpen(false)
         setOpenSignUp(item)
-    }
-
-    console.log(ticketType);
-    
+    } 
 
     return (
         <>
