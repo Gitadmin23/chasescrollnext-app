@@ -543,7 +543,7 @@ export default function CollaboratorBtn(props: IProps) {
         <>
             {btn && (
                 <>
-                    <Button onClick={() => clickHandler()} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{collaborate ? "Edit" : "Add"} Collaborator</Button>
+                    <Button onClick={() => clickHandler()} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{collaborate ? "Edit" : "Invite"} Collaborator</Button>
                 </>
             )}
             {!btn && (
