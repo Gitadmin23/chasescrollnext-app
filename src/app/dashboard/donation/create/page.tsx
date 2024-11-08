@@ -39,13 +39,7 @@ export default function CreateDonation() {
                 <CreateDonationHeader name="Create Fundraising" />
                 {tab === 0 && (
                     <DonationTheme />
-                )}
-                {/* {tab === 1 && (
-                    <EventInformation />
-                )}
-                {tab === 2 && (
-                    <EventTicket />
-                )} */}
+                )} 
             </Box>
         </>
     )
