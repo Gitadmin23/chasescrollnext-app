@@ -244,7 +244,7 @@ function SelectTicket(props: Props) {
                                             type="text"
                                             border={"1px solid #E2E8F0"}
                                             rounded={"full"}
-                                            disabled={pathname?.includes("edit_event") ? true : false}
+                                            disabled={pathname?.includes("edit_event_data") ? true : false}
                                             focusBorderColor={"#E2E8F0"}
                                             placeholder="https//"
                                             value={eventdata.productTypeData[index]?.rerouteURL ?? ""}
@@ -265,7 +265,7 @@ function SelectTicket(props: Props) {
                                             type="text"
                                             border={"1px solid #E2E8F0"}
                                             focusBorderColor={"#E2E8F0"}
-                                            disabled={pathname?.includes("edit_event") ? true : false}
+                                            disabled={pathname?.includes("edit_event_data") ? true : false}
                                             rounded={"full"}
                                             placeholder="Enter Name"
                                             value={eventdata.productTypeData[index]?.ticketType ?? ""}
@@ -289,7 +289,7 @@ function SelectTicket(props: Props) {
                                             focusBorderColor={"#E2E8F0"}
                                             placeholder="Enter amount"
                                             value={eventdata.productTypeData[index]?.ticketPrice ?? ""}
-                                            disabled={(type === "Free" || pathname?.includes("edit_event"))? true : false}
+                                            disabled={(type === "Free" || pathname?.includes("edit_event_data"))? true : false}
                                             name="ticketPrice"
                                             onChange={e => handleChange(index, "ticketPrice", e.target.value)}
                                         />
@@ -328,11 +328,11 @@ function SelectTicket(props: Props) {
                                     {/* Number of Tickets
                                         </Text> */}
                                     <Flex gap={"5"} alignItems={"center"} py={"1"}  >
-                                        <Box disabled={(eventdata.productTypeData[index]?.maxTicketBuy === 0 || pathname?.includes("edit_event"))} _disabled={{opacity: "0.2", cursor: "not-allowed"}} onClick={() => MaxTicketHandler(index, "subtract")} as='button' >
+                                        <Box disabled={(eventdata.productTypeData[index]?.maxTicketBuy === 0 || pathname?.includes("edit_event_data"))} _disabled={{opacity: "0.2", cursor: "not-allowed"}} onClick={() => MaxTicketHandler(index, "subtract")} as='button' >
                                             <SubtractIcon />
                                         </Box>
                                         {eventdata.productTypeData[index]?.maxTicketBuy ?? 0}
-                                        <Box disabled={pathname?.includes("edit_event")} _disabled={{opacity: "0.2", cursor: "not-allowed"}}onClick={() => MaxTicketHandler(index, "add")} as='button' >
+                                        <Box disabled={pathname?.includes("edit_event_data")} _disabled={{opacity: "0.2", cursor: "not-allowed"}}onClick={() => MaxTicketHandler(index, "add")} as='button' >
                                             <AddIcon />
                                         </Box>
                                     </Flex>
@@ -343,7 +343,7 @@ function SelectTicket(props: Props) {
                                     {eventdata.productTypeData[index]?.ticketType && (
                                         <>
                                             {index !== 1 && (
-                                                <CustomButton disable={pathname?.includes("edit_event")} _disabled={{opacity: "0.2", cursor: "not-allowed"}} onClick={() => HandleDeleteTicket(eventdata.productTypeData[index]?.ticketType)} backgroundColor={"brand.chasescrollRed"} width={"fit-content"} text='Remove Ticket' />
+                                                <CustomButton disable={pathname?.includes("edit_event_data")} _disabled={{opacity: "0.2", cursor: "not-allowed"}} onClick={() => HandleDeleteTicket(eventdata.productTypeData[index]?.ticketType)} backgroundColor={"brand.chasescrollRed"} width={"fit-content"} text='Remove Ticket' />
                                             )}
                                         </>
                                     )}
@@ -353,7 +353,7 @@ function SelectTicket(props: Props) {
                                     {eventdata.productTypeData[index]?.ticketType && (
                                         <>
                                             {index !== 0 && (
-                                                <CustomButton  disable={pathname?.includes("edit_event")}  onClick={() => HandleDeleteTicket(eventdata.productTypeData[index]?.ticketType)} backgroundColor={"brand.chasescrollRed"} width={"fit-content"} text='Remove Ticket' />
+                                                <CustomButton  disable={pathname?.includes("edit_event_data")}  onClick={() => HandleDeleteTicket(eventdata.productTypeData[index]?.ticketType)} backgroundColor={"brand.chasescrollRed"} width={"fit-content"} text='Remove Ticket' />
                                             )}
                                         </>
                                     )}
@@ -365,7 +365,7 @@ function SelectTicket(props: Props) {
                 }
             })}
 
-            <CustomButton borderRadius={"full"} disable={pathname?.includes("edit_event")} onClick={() => HandleAddTicket(eventdata?.productTypeData?.length)} text='+ Add New Ticket Type' color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
+            <CustomButton borderRadius={"full"} disable={pathname?.includes("edit_event_data")} onClick={() => HandleAddTicket(eventdata?.productTypeData?.length)} text='+ Add New Ticket Type' color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
 
             <Box>
                 <label className="block text-gray-700 font-medium ">

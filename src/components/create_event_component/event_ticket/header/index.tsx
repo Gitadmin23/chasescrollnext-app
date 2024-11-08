@@ -92,10 +92,10 @@ function EventTicketHeader(props: Props) {
         //     </label>
         // </Flex>
         <Flex w={"full"} h={"auto"} borderWidth={"1px"} borderColor={borderColor} bgColor={mainBackgroundColor} rounded={"36px"} p={"3"} >
-            <Flex as={"button"} disabled={pathname?.includes("edit_event")} _disabled={{opacity: "0.2", cursor: "not-allowed"}} onClick={() => HandleDeleteAllTicket("", 100)} role='button' w={"full"} h={"53px"} bgColor={!isFree ? secondaryBackgroundColor : mainBackgroundColor} color={!isFree ? primaryColor: headerTextColor} fontWeight={"500"} justifyContent={"center"} alignItems={"center"} rounded={"36px"} >
+            <Flex as={"button"} disabled={pathname?.includes("edit_event_data")} _disabled={{opacity: "0.2", cursor: "not-allowed"}} onClick={() => HandleDeleteAllTicket("", 100)} role='button' w={"full"} h={"53px"} bgColor={!isFree ? secondaryBackgroundColor : mainBackgroundColor} color={!isFree ? primaryColor: headerTextColor} fontWeight={"500"} justifyContent={"center"} alignItems={"center"} rounded={"36px"} >
                 Paid
             </Flex>
-            <Flex as={"button"} disabled={pathname?.includes("edit_event")} _disabled={{opacity: "0.2", cursor: "not-allowed"}} onClick={() => HandleDeleteAllTicket("Free", 0)} role='button' w={"full"} h={"53px"} bgColor={isFree ? secondaryBackgroundColor : mainBackgroundColor} color={isFree ? primaryColor: headerTextColor} fontWeight={"500"} justifyContent={"center"} alignItems={"center"} rounded={"36px"} >
+            <Flex as={"button"} disabled={pathname?.includes("edit_event_data")} _disabled={{opacity: "0.2", cursor: "not-allowed"}} onClick={() => HandleDeleteAllTicket("Free", 0)} role='button' w={"full"} h={"53px"} bgColor={isFree ? secondaryBackgroundColor : mainBackgroundColor} color={isFree ? primaryColor: headerTextColor} fontWeight={"500"} justifyContent={"center"} alignItems={"center"} rounded={"36px"} >
                 Free
             </Flex>
         </Flex>
