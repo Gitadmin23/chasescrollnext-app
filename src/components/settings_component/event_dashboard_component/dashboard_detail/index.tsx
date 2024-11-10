@@ -1,7 +1,7 @@
 'use client'
 import { formatNumberWithK, numberFormat, numberFormatDollar, numberFormatNaire } from '@/utils/formatNumberWithK'
 import httpService from '@/utils/httpService'
-import { Box, Flex, Image, Text, useColorMode, useToast } from '@chakra-ui/react'
+import { Box, Flex, HStack, Image, Select, Text, useColorMode, useToast } from '@chakra-ui/react'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -12,7 +12,10 @@ import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, L
 import useCustomTheme from "@/hooks/useTheme";
 import CustomButton from '@/components/general/Button'
 import { URLS } from '@/services/urls'
-import { IEventType } from '@/models/Event'
+import { IEventType, IProductTypeData } from '@/models/Event'
+import { ITicket } from '@/models/Ticket'
+import { PaginatedResponse } from '@/models/PaginatedResponse'
+import { IHistoryData, IHistoryDataTicket } from '@/models/HistoryData'
 // import { AreaChart, Area } from 'recharts';
 
 interface Props {
@@ -36,21 +39,38 @@ function DashboardDetail(props: Props) {
     const toast = useToast() 
 
     const [history, setHistory] = React.useState([] as any)
-    const [eventData, setEventData] = React.useState<IEventType>({} as IEventType)
-    const router = useRouter()
+    const [historyData, setHistoryData] = React.useState<IHistoryData | null>(null)
+    const [historyTickets, setHistoryTickets] = React.useState<IHistoryDataTicket[]>([])
+    const [eventData, setEventData] = React.useState<IEventType>({} as IEventType);
+    const [tickets, setTickets] = React.useState<IProductTypeData[]>([]);
+    const [activeTicketName, setActiveTicketName] = React.useState('All');
+;    const router = useRouter()
+
+    React.useEffect(() => {
+        if (activeTicketName === 'All') {
+            setHistory(historyData)
+        } else {
+            const item: IHistoryDataTicket = historyTickets.filter((item) => item?.ticketType === activeTicketName)[0];
+            setHistory(item);
+        }
+    }, [activeTicketName, historyData, historyTickets]);
 
     const { isLoading } = useQuery(['history' + index], () => httpService.get('/payments/analytics/tickets', {
         params: {
-            eventID: index
+            typeID: index
         }
     }), {
         onError: (error: AxiosError<any, any>) => {
             console.error(error.response?.data);
         },
         onSuccess: (data) => {
-            setHistory(data.data);
+            const item: IHistoryData = data?.data;
+            setHistoryData(item);
+            setHistoryTickets(item?.tickets);
 
-            console.log(data?.data);
+            if (history?.length && history?.length < 1) {
+                setHistory(item);
+            }
 
         }
     })
@@ -63,8 +83,9 @@ function DashboardDetail(props: Props) {
             });
         },
         onSuccess: (data: any) => {
-            // const item: PaginatedResponse<IEventType> = data.data;
+            const item: PaginatedResponse<IEventType> = data.data;
             setEventData(data?.data?.content[0]);
+            setTickets(item.content[0].productTypeData);
         }
     })
 
@@ -103,6 +124,7 @@ function DashboardDetail(props: Props) {
 
             <Flex width={"full"} borderTopWidth={"1px"} borderBottomWidth={"1px"} borderColor={colorMode === 'light' ? "#D0D4EB" : borderColor} justifyContent={"center"} mt={"8"} py={"7"} px={"4"} >
                 <Box position={"relative"} rounded={"36px"} maxW={["100vw", "100vw", "700px"]} px={"8"} py={"6"} width={"fit-content"} bgColor={colorMode === 'light' ? "#D0F2D9" : secondaryBackgroundColor} >
+                    <HStack justifyContent={'space-between'} alignItems={'center'}>
                     <Flex alignItems={"center"} gap={"2"}>
                         <Flex width={"10"} height={"10"} bgColor={"#101828"} rounded={"full"} justifyContent={"center"} alignItems={"center"} >
                             <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -116,6 +138,15 @@ function DashboardDetail(props: Props) {
                         </Flex>
                         <Text fontSize={"15px"} fontWeight={"medium"} >Tickets</Text>
                     </Flex>
+
+                    <Select onChange={(e) => setActiveTicketName(e.target.value)} value={activeTicketName} minWidth={'124px'} maxWidth={'160px'} height={'38px'} borderRadius={'32px'} borderWidth={'0.4px'} borderColor={'#878B93'}>
+                        <option key={index.toString()} value={'All'} selected>All</option>
+                        {tickets.map((ticket, index) => (
+                            <option key={index.toString()} value={ticket.ticketType}>{ticket.ticketType}</option>
+                        ))}
+                    </Select>
+
+                    </HStack>
                     <Flex ref={ref} pt={"7"} mx={"6"} scrollBehavior={"smooth"} overflowX={"auto"} alignItems={"center"} sx={
                         {
                             '::-webkit-scrollbar': {
@@ -173,7 +204,7 @@ function DashboardDetail(props: Props) {
                             left: 20,
                             bottom: 5,
                         }}
-                        data={history.tickets}
+                        data={historyTickets ?? []}
                     >
                         <XAxis tickFormatter={DataFormater} dataKey="ticketType" />
                         <YAxis />
