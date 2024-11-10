@@ -110,7 +110,7 @@ function DashboardRefund(props: Props) {
     const [tickets, setTickets] = React.useState<ITicket[]>([]);
     const [selectedTicketType, setSelectedTicketType] = React.useState('All');
     const [showCommunityCreationModal, setShowCommunityCreationModal] = React.useState(false);
-    const [eventAnaylysis, setEventAnalysis] = React.useState<IEventAnalysis|null>(null);
+    const [eventAnaylysis, setEventAnalysis] = React.useState<IEventAnalysis | null>(null);
 
     const { userId } = useDetails();
 
@@ -142,7 +142,7 @@ function DashboardRefund(props: Props) {
 
     const analysisQuery = useQuery(['get-analysis', index], () => httpService.get(`${URLS.eventAnalysis}`, {
         params: {
-        typeID: index
+            typeID: index
         }
     }), {
         onSuccess: (data) => {
@@ -473,25 +473,27 @@ function DashboardRefund(props: Props) {
                                         </Flex>
                                     </Th>
                                     <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
-                                        <Flex gap={"3"} alignItems={'center'}>
-                                            {event?.productTypeData?.length > 1 && (
-                                                <>
-                                                    <Menu>
-                                                        <MenuButton as={Button} rightIcon={<FiChevronDown size={25}/>} fontSize={'12px'}>
-                                                            {selectedTicketType === 'All' ? 'TICKET TYPE':selectedTicketType}
-                                                        </MenuButton>
-                                                        <MenuList>
-                                                            <MenuItem onClick={() => setSelectedTicketType('All')}>All</MenuItem>
-                                                            {event?.productTypeData.map((item, index) => (
-                                                                <MenuItem key={index.toString()} onClick={() => setSelectedTicketType(item?.ticketType)}>{item?.ticketType}</MenuItem>
-                                                            ))}
-                                                        </MenuList>
-                                                    </Menu>
-                                                </>
-                                            )}
-                                            {event?.productTypeData?.length < 2 && 'Ticket type'}
-                                            <Switch onChange={(e) => setShowTicketType(e.target.checked)} isChecked={showTicketType} />
-                                        </Flex>
+                                        {event?.productTypeData && (
+                                            <Flex gap={"3"} alignItems={'center'}>
+                                                {event?.productTypeData?.length > 1 && (
+                                                    <>
+                                                        <Menu>
+                                                            <MenuButton as={Button} rightIcon={<FiChevronDown size={25} />} fontSize={'12px'}>
+                                                                {selectedTicketType === 'All' ? 'TICKET TYPE' : selectedTicketType}
+                                                            </MenuButton>
+                                                            <MenuList>
+                                                                <MenuItem onClick={() => setSelectedTicketType('All')}>All</MenuItem>
+                                                                {event?.productTypeData.map((item, index) => (
+                                                                    <MenuItem key={index.toString()} onClick={() => setSelectedTicketType(item?.ticketType)}>{item?.ticketType}</MenuItem>
+                                                                ))}
+                                                            </MenuList>
+                                                        </Menu>
+                                                    </>
+                                                )}
+                                                {event?.productTypeData?.length < 2 && 'Ticket type'}
+                                                <Switch onChange={(e) => setShowTicketType(e.target.checked)} isChecked={showTicketType} />
+                                            </Flex>
+                                        )}
                                     </Th>
                                     <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
@@ -512,7 +514,7 @@ function DashboardRefund(props: Props) {
                                     if (selectedTicketType === 'All') {
                                         return item;
                                     } else {
-                                        return item?.ticketType === selectedTicketType || !item?.ticketType ? item:null;
+                                        return item?.ticketType === selectedTicketType || !item?.ticketType ? item : null;
                                     }
                                 }).map((person: any, i: number) => {
                                     return (
@@ -694,7 +696,7 @@ function DashboardRefund(props: Props) {
             </ModalLayout>
 
             <ModalLayout open={showCommunityCreationModal} close={() => setShowCommunityCreationModal(false)}>
-               <CreateCommunityModal eventId={index} onClose={() => setShowCommunityCreationModal(false)} />
+                <CreateCommunityModal eventId={index} onClose={() => setShowCommunityCreationModal(false)} />
             </ModalLayout>
 
             <ModalLayout open={open} close={setOpen}>

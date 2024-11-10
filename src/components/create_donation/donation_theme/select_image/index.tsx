@@ -1,15 +1,20 @@
 import { PictureIcon } from '@/components/svg'
 import useEventStore from '@/global-state/useCreateEventState';
+import useDonationStore from '@/global-state/useDonationState';
 import { IMAGE_URL } from '@/services/urls';
 import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react'
 import React from 'react'
 
-interface Props { }
+interface Props {
+    donation?: boolean
+ }
 
 function SelectImage(props: Props) {
-    const { } = props
+    const { 
+        donation
+    } = props
 
-    const { eventdata, updateImage, image } = useEventStore((state) => state);
+    const { eventdata, updateImage, image } = useEventStore((state) => state); 
     const [selectedImageFile, setSelectedImageFile] = React.useState('');
 
     const toast = useToast()

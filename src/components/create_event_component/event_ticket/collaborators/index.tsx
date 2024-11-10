@@ -543,7 +543,7 @@ export default function CollaboratorBtn(props: IProps) {
         <>
             {btn && (
                 <>
-                    <Button onClick={() => clickHandler()} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{collaborate ? "Edit" : "Add"} Collaborator</Button>
+                    <Button onClick={() => clickHandler()} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{collaborate ? "Edit" : "Invite"} Collaborator</Button>
                 </>
             )}
             {!btn && (
@@ -552,7 +552,7 @@ export default function CollaboratorBtn(props: IProps) {
                         <Flex onClick={() => setOpen(true)} as={'button'} gap={"1"} alignItems={"center"} mr={"auto"} >
                             <CollaboratorIcon />
                             {(eventdata?.admins?.length <= 0 && eventdata?.collaborators?.length <= 0) && (
-                                <Text color={"#1732F7"} lineHeight={"22px"} >Add Collaborators and Teams</Text>
+                                <Text color={"#1732F7"} lineHeight={"22px"} >Invite Collaborators and Teams</Text>
                             )}
                             {(eventdata?.admins?.length > 0 || eventdata?.collaborators?.length > 0) && (
                                 <Flex alignItems={"center"} gap={"2"} >
@@ -583,7 +583,7 @@ export default function CollaboratorBtn(props: IProps) {
             <ModalLayout open={open} close={setOpen} closeIcon={false} bg={secondaryBackgroundColor} >
                 <Flex w={"full"} px={"6"} pt={"8"} bg={secondaryBackgroundColor} >
                     <Box>
-                        <Text color={colorMode === 'light' ? "#121212" : headerTextColor} fontSize={"24px"} lineHeight={"31.25px"} fontWeight={"bold"} >Select Collaborators</Text>
+                        <Text color={colorMode === 'light' ? "#121212" : headerTextColor} fontSize={"24px"} lineHeight={"31.25px"} fontWeight={"bold"} >Invite Collaborators</Text>
                         <Text color={colorMode === 'light' ? "#626262" : bodyTextColor} lineHeight={"20.83px"} >Kindly select users to collaborate with on this event and assign roles.</Text>
                     </Box>
                     <Box w={"fit-content"} >
@@ -719,7 +719,7 @@ export default function CollaboratorBtn(props: IProps) {
 
                 {!btn && (
                     <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg={mainBackgroundColor} py={'20px'} >
-                        <CustomButton text='Done' onClick={() => setOpen(false)} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
+                        <CustomButton text='Send invite' onClick={() => setOpen(false)} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
                     </Box>
                 )}
             </ModalLayout>

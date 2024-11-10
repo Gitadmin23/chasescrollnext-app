@@ -26,7 +26,7 @@ function Layout({ children }: {
                         <Image src='/assets/images/chasescroll-logo.png' width={50} height={50} alt='logo' />
                     </Flex>
                 </Box>
-                <Box overflow={"hidden"} h={"full"} bg={mainBackgroundColor}>
+                <Box overflow={"hidden"} h={"100vh"} bg={mainBackgroundColor}>
                     {children}
                 </Box>
             </Flex>
@@ -36,7 +36,7 @@ function Layout({ children }: {
                         <Link href={'/dashboard/event'} display={"flex"} px={"3"} height={"full"} left={"0px"} justifyContent={"center"} alignItems={"center"} position={"absolute"} zIndex={"10"} >
                             <BsChevronLeft size={"25px"} />
                         </Link>
-                        <Text fontWeight={"bold"} fontSize={"20px"} color={bodyTextColor} >Create Events</Text>
+                        <Text fontWeight={"bold"} fontSize={"20px"} color={bodyTextColor} >Create Fundraising</Text>
                     </Flex>
                 </Box>
                 <Box flex={1} pb={["8", "8", "8", "8", "0px"]} bg={mainBackgroundColor} >

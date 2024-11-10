@@ -360,7 +360,7 @@ function ExploreEventCard(props: Props) {
                             justifyContent={"space-between"}
                             alignItems={"center"}
                             borderTopWidth={"1px"}
-                            borderTopColor={"#EFF1FE"}
+                            borderTopColor={borderColor}
                         >
                             {event?.attendeesVisibility && (
                                 <InterestedUsers

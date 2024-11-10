@@ -4,6 +4,7 @@ import useEventStore from '@/global-state/useCreateEventState';
 import { Box, Flex, Input, Select, Switch, Text, useToast } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import EarlyBird from './earlyBird';
+import { usePathname } from 'next/navigation';
 
 interface Props {
     type?: string,
@@ -18,6 +19,8 @@ function SelectTicket(props: Props) {
 
     const { eventdata, updateEvent } = useEventStore((state) => state);
     const toast = useToast()
+
+    const pathname = usePathname();
 
     const [donate, setDonate] = useState(false)
 
@@ -168,16 +171,16 @@ function SelectTicket(props: Props) {
                 <EarlyBird />
             ) : (
                 <Flex justifyContent={"space-between"} py={"4"} alignItems={"center"} >
-                    <Text fontWeight={"700"} >Do you which to accept donations for this event?</Text>
+                    {/* <Text fontWeight={"700"} >Do you which to accept donations for this event?</Text>
                     <Switch isChecked={eventdata?.donationEnabled} onChange={(e) =>
                         updateEvent({
                             ...eventdata,
                             donationEnabled: !eventdata?.donationEnabled
-                        })} />
+                        })} /> */}
                 </Flex>
             )}
 
-            {eventdata?.donationEnabled && (
+            {/* {eventdata?.donationEnabled && (
                 <Flex width={"full"} flexDir={["column", "column", "row"]} pb={"3"} gap={"3"} >
                     <Box width={"full"}>
                         <label className="block text-gray-700 font-medium mb-2">
@@ -221,7 +224,7 @@ function SelectTicket(props: Props) {
                         </Flex>
                     </Box>
                 </Flex>
-            )}
+            )} */}
             {eventdata?.productTypeData[0].ticketType !== "Free" && (
                 <Text fontSize={"18px"} my={"1"} fontWeight={"600"} >Other Ticket Types</Text>
             )}
@@ -233,7 +236,7 @@ function SelectTicket(props: Props) {
                             {promotion && (
                                 <Box width={"full"}>
                                     <label className="block text-gray-700 font-medium mb-2">
-                                        Add event owner’s website/link where attendees can  get the ticket.
+                                        {`Add event owner’s website/link where attendees can  get the ticket.`}
                                     </label>
                                     <Flex >
                                         <Input
@@ -241,6 +244,7 @@ function SelectTicket(props: Props) {
                                             type="text"
                                             border={"1px solid #E2E8F0"}
                                             rounded={"full"}
+                                            disabled={pathname?.includes("edit_event_data") ? true : false}
                                             focusBorderColor={"#E2E8F0"}
                                             placeholder="https//"
                                             value={eventdata.productTypeData[index]?.rerouteURL ?? ""}
@@ -261,6 +265,7 @@ function SelectTicket(props: Props) {
                                             type="text"
                                             border={"1px solid #E2E8F0"}
                                             focusBorderColor={"#E2E8F0"}
+                                            disabled={pathname?.includes("edit_event_data") ? true : false}
                                             rounded={"full"}
                                             placeholder="Enter Name"
                                             value={eventdata.productTypeData[index]?.ticketType ?? ""}
@@ -277,14 +282,14 @@ function SelectTicket(props: Props) {
                                         <Input
                                             h={"45px"}
                                             rounded={"full"}
-                                            type="number"
+                                            type="number" 
                                             onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                             width={"full"}
                                             border={"1px solid #E2E8F0"}
                                             focusBorderColor={"#E2E8F0"}
                                             placeholder="Enter amount"
                                             value={eventdata.productTypeData[index]?.ticketPrice ?? ""}
-                                            disabled={type === "Free" ? true : false}
+                                            disabled={(type === "Free" || pathname?.includes("edit_event_data"))? true : false}
                                             name="ticketPrice"
                                             onChange={e => handleChange(index, "ticketPrice", e.target.value)}
                                         />
@@ -323,11 +328,11 @@ function SelectTicket(props: Props) {
                                     {/* Number of Tickets
                                         </Text> */}
                                     <Flex gap={"5"} alignItems={"center"} py={"1"}  >
-                                        <Box disabled={eventdata.productTypeData[index]?.maxTicketBuy === 0} onClick={() => MaxTicketHandler(index, "subtract")} as='button' >
+                                        <Box disabled={(eventdata.productTypeData[index]?.maxTicketBuy === 0 || pathname?.includes("edit_event_data"))} _disabled={{opacity: "0.2", cursor: "not-allowed"}} onClick={() => MaxTicketHandler(index, "subtract")} as='button' >
                                             <SubtractIcon />
                                         </Box>
                                         {eventdata.productTypeData[index]?.maxTicketBuy ?? 0}
-                                        <Box onClick={() => MaxTicketHandler(index, "add")} as='button' >
+                                        <Box disabled={pathname?.includes("edit_event_data")} _disabled={{opacity: "0.2", cursor: "not-allowed"}}onClick={() => MaxTicketHandler(index, "add")} as='button' >
                                             <AddIcon />
                                         </Box>
                                     </Flex>
@@ -338,7 +343,7 @@ function SelectTicket(props: Props) {
                                     {eventdata.productTypeData[index]?.ticketType && (
                                         <>
                                             {index !== 1 && (
-                                                <CustomButton onClick={() => HandleDeleteTicket(eventdata.productTypeData[index]?.ticketType)} backgroundColor={"brand.chasescrollRed"} width={"fit-content"} text='Remove Ticket' />
+                                                <CustomButton disable={pathname?.includes("edit_event_data")} _disabled={{opacity: "0.2", cursor: "not-allowed"}} onClick={() => HandleDeleteTicket(eventdata.productTypeData[index]?.ticketType)} backgroundColor={"brand.chasescrollRed"} width={"fit-content"} text='Remove Ticket' />
                                             )}
                                         </>
                                     )}
@@ -348,7 +353,7 @@ function SelectTicket(props: Props) {
                                     {eventdata.productTypeData[index]?.ticketType && (
                                         <>
                                             {index !== 0 && (
-                                                <CustomButton onClick={() => HandleDeleteTicket(eventdata.productTypeData[index]?.ticketType)} backgroundColor={"brand.chasescrollRed"} width={"fit-content"} text='Remove Ticket' />
+                                                <CustomButton  disable={pathname?.includes("edit_event_data")}  onClick={() => HandleDeleteTicket(eventdata.productTypeData[index]?.ticketType)} backgroundColor={"brand.chasescrollRed"} width={"fit-content"} text='Remove Ticket' />
                                             )}
                                         </>
                                     )}
@@ -360,7 +365,7 @@ function SelectTicket(props: Props) {
                 }
             })}
 
-            <CustomButton borderRadius={"full"} onClick={() => HandleAddTicket(eventdata?.productTypeData?.length)} text='+ Add New Ticket Type' color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
+            <CustomButton borderRadius={"full"} disable={pathname?.includes("edit_event_data")} onClick={() => HandleAddTicket(eventdata?.productTypeData?.length)} text='+ Add New Ticket Type' color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
 
             <Box>
                 <label className="block text-gray-700 font-medium ">

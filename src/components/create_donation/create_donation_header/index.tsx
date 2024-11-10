@@ -164,7 +164,7 @@ function CreateDonationHeader({ name }: IProps) {
     return (
         <Flex position={"relative"} h={["fit-content", "fit-content", "fit-content", "fit-content", "100vh"]} width={["full", "full", "full", "full", "546px"]} >
             <Flex pos={"absolute"} display={["none", "none", "none", "none", "flex"]} top={"4"} w={"full"} h={"30px"} justifyContent={"center"} alignItems={"center"} >
-                <Text fontWeight={"bold"} fontSize={"20px"} >Create Donation</Text>
+                <Text fontWeight={"bold"} fontSize={"20px"} >Create Fundraising</Text>
             </Flex>
             <Flex as={"button"} w={"fit-content"} onClick={() => router?.back()} left={"6"} justifyContent={"center"} alignItems={"center"} height={"30px"} pos={"absolute"} display={["none", "none", "none", "none", "flex"]} top={"18px"}  >
                 <IoArrowBack size={"25px"} />
@@ -175,7 +175,7 @@ function CreateDonationHeader({ name }: IProps) {
                         Tells more about your Fundraising.
                     </Text>
                     <Text mt={"4"} fontWeight={"400"} color={bodyTextColor} lineHeight={"19.6px"} fontSize={"14px"} >
-                        Whether it's a conference, seminar, or celebration, let us in on the details. Your event matters, and we're here to ensure it gets the spotlight it deserves
+                        {`Whether it's a conference, seminar, or celebration, let us in on the details. Your event matters, and we're here to ensure it gets the spotlight it deserves`}
                     </Text>
                 </Flex>
             </Flex>

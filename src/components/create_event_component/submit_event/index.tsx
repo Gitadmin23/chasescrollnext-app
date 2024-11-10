@@ -149,7 +149,7 @@ function SubmitEvent(props: Iprops) {
                     });
                 } else { 
                     if (pathname?.includes("edit_event_data")) {
-                        updateUserEvent.mutate(eventdata)
+                        changeTab(2)
                     } else if (pathname?.includes("edit_event")) {
                         changeTab(2)
                     } else {

@@ -92,7 +92,7 @@ function OrganizeBtn(props: IEventType) {
                     <Flex color={"brand.chasescrollRed"} width={"full"} pb={"4"} justifyContent={"center"} >
                         <FiAlertCircle size={"60px"} />
                     </Flex>
-                    <Text fontWeight={"medium"} textAlign={"center"} >You can only edit the date, time and location of this event because people have already bought tickets to this event.</Text>
+                    <Text fontWeight={"medium"} textAlign={"center"} >{`You can only edit the DATE, TIME, LOCATION and INCREASE NUMBER OF AVAILABLE TICKETS for this event. You already have existing attendees for this event.`}</Text>
                     <Flex w={"full"} gap={"4"} mt={"6"} >
                         <CustomButton onClick={() => setOpen(false)} backgroundColor={"brand.chasescrollRed"} width={"full"} text='Cancel' />
                         <CustomButton onClick={() => router.push("/dashboard/event/edit_event_data/" + props?.id)} text='Continue' width={"full"} />

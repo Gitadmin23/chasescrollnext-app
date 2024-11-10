@@ -1,6 +1,7 @@
 import useEventStore from '@/global-state/useCreateEventState';
 import useCustomTheme from '@/hooks/useTheme';
 import { Checkbox, Flex } from '@chakra-ui/react';
+import { usePathname } from 'next/navigation';
 import React, { useState } from 'react'
 
 interface Props { 
@@ -14,6 +15,8 @@ function EventTicketHeader(props: Props) {
 
     const { eventdata, updateEvent } = useEventStore((state) => state);
     const [isFree, setIsFree] = useState(false)
+
+    const pathname = usePathname();
 
     const {
         mainBackgroundColor, 
@@ -89,10 +92,10 @@ function EventTicketHeader(props: Props) {
         //     </label>
         // </Flex>
         <Flex w={"full"} h={"auto"} borderWidth={"1px"} borderColor={borderColor} bgColor={mainBackgroundColor} rounded={"36px"} p={"3"} >
-            <Flex onClick={() => HandleDeleteAllTicket("", 100)} role='button' w={"full"} h={"53px"} bgColor={!isFree ? secondaryBackgroundColor : mainBackgroundColor} color={!isFree ? primaryColor: headerTextColor} fontWeight={"500"} justifyContent={"center"} alignItems={"center"} rounded={"36px"} >
+            <Flex as={"button"} disabled={pathname?.includes("edit_event_data")} _disabled={{opacity: "0.2", cursor: "not-allowed"}} onClick={() => HandleDeleteAllTicket("", 100)} role='button' w={"full"} h={"53px"} bgColor={!isFree ? secondaryBackgroundColor : mainBackgroundColor} color={!isFree ? primaryColor: headerTextColor} fontWeight={"500"} justifyContent={"center"} alignItems={"center"} rounded={"36px"} >
                 Paid
             </Flex>
-            <Flex onClick={() => HandleDeleteAllTicket("Free", 0)} role='button' w={"full"} h={"53px"} bgColor={isFree ? secondaryBackgroundColor : mainBackgroundColor} color={isFree ? primaryColor: headerTextColor} fontWeight={"500"} justifyContent={"center"} alignItems={"center"} rounded={"36px"} >
+            <Flex as={"button"} disabled={pathname?.includes("edit_event_data")} _disabled={{opacity: "0.2", cursor: "not-allowed"}} onClick={() => HandleDeleteAllTicket("Free", 0)} role='button' w={"full"} h={"53px"} bgColor={isFree ? secondaryBackgroundColor : mainBackgroundColor} color={isFree ? primaryColor: headerTextColor} fontWeight={"500"} justifyContent={"center"} alignItems={"center"} rounded={"36px"} >
                 Free
             </Flex>
         </Flex>
