@@ -1,3 +1,4 @@
+import { IUser } from "./User"
 
 export type IDonation = {
     creatorID: string,
@@ -14,3 +15,31 @@ export type IDonation = {
     endDate: any,
     fundRaiserGroupId: string
 }
+
+export type IDonationList = {
+    creatorID: string,
+    name: string,
+    bannerImage: string,
+    description: string,
+    goal: number,
+    total: number,
+    visibility: "PUBLIC" | "PRIVATE" | null,
+    collaborators: Array<string>,
+    purpose: string,
+    funnelID?: string,
+    funnelType: "EVENT",
+    endDate: any,
+    fundRaiserGroupId: string,
+    createdBy: IUser,
+    createdDate: number,
+    fundRaisers: any,
+    fundRasingGroupId: string, 
+    id: string,
+    isDeleted: boolean,
+    lastModifiedBy: any,
+    lastModifiedDate:  any,
+    returnMessage:  string,
+    status: any,
+    statusCode: number,
+    user: IUser, 
+}    
