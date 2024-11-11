@@ -204,7 +204,7 @@ export default function Layout({ children }: {
                     </Flex>
                 )}
                 {(pathname !== ("/dashboard/donation/create") && pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? (
-                    <Flex w={"full"} h={"100vh"} pb={["70px", "70px", "70px", "0px", "0px"]} top={"0px"} insetX={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" :["76px", "76px", "76px", "0px", "0px"]} overflowY={"hidden"} >
+                    <Flex w={"full"} h={"full"} pb={["70px", "70px", "70px", "0px", "0px"]} top={"0px"} insetX={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" :["76px", "76px", "76px", "0px", "0px"]} overflowY={"hidden"} >
                         {children}
                     </Flex>
                 ) : (
