@@ -177,7 +177,7 @@ function SubmitEvent(props: Iprops) {
     return (
         <Flex w={"full"} alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} >
 
-            <CustomButton borderWidth={"0px"} backgroundColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={uploadImage?.isLoading || createDonation?.isLoading} onClick={handleClick} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={"300px"}
+            <CustomButton borderWidth={"0px"} backgroundColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={createDonation?.isLoading} onClick={handleClick} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={"300px"}
                 text={'Submit'} />
 
             <ModalLayout close={setOpen} open={open} bg={secondaryBackgroundColor} >

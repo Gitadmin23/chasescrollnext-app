@@ -59,7 +59,7 @@ export interface IEventType {
     totalDonated: string
 }
 
-interface IProductTypeData {
+export interface IProductTypeData {
     totalNumberOfTickets: string | number,
     ticketPrice: string | number,
     ticketType: string,

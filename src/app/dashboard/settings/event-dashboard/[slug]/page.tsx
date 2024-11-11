@@ -6,11 +6,7 @@ import { Box, useColorMode } from "@chakra-ui/react"
 export default function EventDetailsPage({ params }: { params: { slug: string } }) { 
 
   const {
-    bodyTextColor,
-    primaryColor,
-    secondaryBackgroundColor,
     mainBackgroundColor,
-    borderColor,
 } = useCustomTheme();
 const { colorMode, toggleColorMode } = useColorMode();
 
