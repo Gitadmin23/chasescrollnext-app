@@ -12,7 +12,7 @@ export default function Donation() {
     } = useCustomTheme()
 
     return (
-        <Flex w={"full"} px={"6"} pt={"12"} >
+        <Flex w={"full"} px={"6"} pt={"12"} flexDir={"column"} >
             <Flex pb={"2"} w={"full"} h={"fit-content"} borderBottomWidth={"1px"} borderColor={borderColor} >
                 <Text fontSize={"24px"} fontWeight={"700"} ><span style={{color: primaryColor}} >Chasescroll</span> Fund Raising</Text>
             </Flex>
