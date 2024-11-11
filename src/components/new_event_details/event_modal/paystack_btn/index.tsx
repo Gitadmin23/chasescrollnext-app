@@ -43,9 +43,7 @@ function PayStackBtn(props: Props) {
                 amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
                 reference: data?.data?.content?.orderCode
             });
-            setShowModal(false)
-
-
+            setShowModal(false) 
         },
         onError: (error) => {
             // console.log(error);
