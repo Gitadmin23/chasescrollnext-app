@@ -173,7 +173,7 @@ export default function Layout({ children }: {
             )}
             <Flex w={"full"} height={"100vh"} pos={"relative"} flexDirection={"column"} >
                 {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
-                    <Flex w={"full"} h={"76px"} pos={"sticky"} top={"0px"} borderBottomColor={borderColor} borderBottomWidth={"1px"} alignItems={"center"} px={"6"} justifyContent={"space-between"}  >
+                    <Flex w={"full"} h={"76px"}  pos={['fixed', 'fixed','fixed', "sticky", "sticky"]} zIndex={"100"} insetX={"0px"} top={"0px"} borderBottomColor={borderColor} borderBottomWidth={"1px"} alignItems={"center"} px={"6"} justifyContent={"space-between"}  >
                         {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft") && (
                             <Box display={["none", "none", "none", "flex", "flex"]} >
                                 <SearchBar />
