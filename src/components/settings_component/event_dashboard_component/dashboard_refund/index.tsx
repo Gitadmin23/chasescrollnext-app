@@ -342,7 +342,7 @@ function DashboardRefund(props: Props) {
     return (
         <Flex ref={componentRef} width={"full"} flexDirection={"column"} >
             <LoadingAnimation loading={loadingData} >
-                {!getEvent.isLoading && !event?.eventFunnelGroupID && (
+                {/* {!getEvent.isLoading && !event?.eventFunnelGroupID && (
                     <Flex width='full' height='70px' marginBottom={'20px'} justifyContent={'center'} direction='column' alignItems={'center'}>
                         <CustomText>Would you like to convert your attendees to a community?</CustomText>
                         <Flex gap={3} marginTop={'10px'} direction={['column', 'row']}>
@@ -350,7 +350,7 @@ function DashboardRefund(props: Props) {
                             <Button onClick={() => setShowCommunityModal(true)} mt='5px' >Convert to an existing community</Button>
                         </Flex>
                     </Flex>
-                )}
+                )} */}
                 <Flex pos={"relative"} maxW={["500px", "full", "full", "full"]} width={"full"} rounded={"8px"} borderWidth={"1px"} borderColor={borderColor} p={["2", "2", "4", "6"]} alignItems={["start", "start", "center", "center"]} flexDir={["column", "column", "row"]} gap={["2", "2", "6", "6"]} >
                     <Flex width={["full", "full", "auto", "auto"]} mr={["auto", "auto", "0px"]} gap={"3"} flexDirection={["column", "column", "row", "row"]} pos={"relative"} p={"2"} rounded={"4px"} >
                         <Flex alignItems={"center"} w={"full"} gap={"4"} flexDirection={["row", "row", "row", "row"]} >

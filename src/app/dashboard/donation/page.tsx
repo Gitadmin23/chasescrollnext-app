@@ -16,8 +16,8 @@ export default function Donation() {
             <Flex pb={"2"} w={"full"} h={"fit-content"} borderBottomWidth={"1px"} borderColor={borderColor} >
                 <Text fontSize={"24px"} fontWeight={"700"} ><span style={{color: primaryColor}} >Chasescroll</span> Fund Raising</Text>
             </Flex>
-            <Flex py={"4"} >
-                <Text  >Fund Raising Campaign  ongoing </Text>
+            <Flex py={"4"}>
+                <Text>Fund Raising Campaign  ongoing </Text>
             </Flex>
         </Flex>
     )
