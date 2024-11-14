@@ -23,9 +23,9 @@ export default function CreateDonation() {
 
     return (
         <>
-            <Flex width={"full"} pos={"relative"} h={["auto", "auto", "auto", "100vh", "100vh"]} display={["none", "none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]}  >
+            <Flex width={"full"}  pt={"74px"} h={["auto", "auto", "auto", "100vh", "100vh"]} display={["none", "none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]}  >
                 <CreateDonationHeader name="Create Fundraising" />
-                <Flex bgColor={colorMode === 'light' ? "gray.300" : secondaryBackgroundColor} w={"full"} p={["0px", "0px", "0px", "3"]} h={"100vh"}  >
+                <Flex bgColor={colorMode === 'light' ? "gray.300" : secondaryBackgroundColor} w={"full"} p={["0px", "0px", "0px", "3"]} h={"full"}  >
                     <Flex bgColor={colorMode === 'light' ? "white" : mainBackgroundColor} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} h={"auto"} overflowY={"auto"} >
                         <Box bgColor={colorMode === 'light' ? "white" : mainBackgroundColor} rounded={["0px", "0px", "0px", "2xl"]} w={"full"} px={"3"} h={"fit-content"} >
                             {tab === 0 && (
