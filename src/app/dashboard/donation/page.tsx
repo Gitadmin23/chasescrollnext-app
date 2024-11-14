@@ -52,12 +52,12 @@ export default function Donation() {
     return (
         <Flex w={"full"} px={"6"} py={"12"} flexDir={"column"} overflowY={"auto"} >
             <Flex pb={"2"} w={"full"} h={"fit-content"} borderBottomWidth={"1px"} borderColor={borderColor} >
-                <Text fontSize={"24px"} fontWeight={"700"} ><span style={{ color: primaryColor }} >Chasescroll</span> Fund Raising</Text>
+                <Text fontSize={"24px"} fontWeight={"700"} ><span style={{ color: primaryColor }} >Chasescroll</span> Fundraising</Text>
             </Flex>
             <Flex py={"4"} gap={["4", "4", "6", "6"]} flexDir={["column", "column", "row", "row"]} alignItems={["start", "start", "center", "center"]} >
-                <Text  >Fund Raising Campaign  ongoing </Text>
-                <CustomButton mt={"2"} text={"New fund raising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={"#F6F7FA"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"fit-content"} />
-                <CustomButton text={"My fund raising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={secondaryBackgroundColor} borderRadius={"32px"} fontWeight={"600"} color={headerTextColor} width={"fit-content"} />
+                <Text  >Fundraising Campaign ongoing </Text>
+                <CustomButton mt={["2", "2", "0px", "0px"]} text={"New fundraising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={"#F6F7FA"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"fit-content"} />
+                <CustomButton text={"My fundraising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={secondaryBackgroundColor} borderRadius={"32px"} fontWeight={"600"} color={headerTextColor} width={"fit-content"} />
             </Flex> 
             <LoadingAnimation loading={isLoading} >
                 <Grid w={"full"} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} gap={6} >
@@ -80,7 +80,7 @@ export default function Donation() {
                                         <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
                                         <Text fontWeight={"700"} >{item?.name}</Text>
                                     </Flex>
-                                    <Flex w={"full"} borderWidth={"1px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
+                                    <Flex w={"full"} borderWidth={item?.fundRasingGroupId?.id ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
                                         {item?.fundRasingGroupId?.id && (
                                             <Flex gap={"1"} alignItems={"center"} >
                                                 <IoInformationCircleOutline />

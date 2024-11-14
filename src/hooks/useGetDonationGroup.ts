@@ -17,7 +17,11 @@ const useGetDonationGroup = (id?: string) => {
 
     const { isLoading, isRefetching, refetch } = useQuery(
         ["getDonationGroup", id],
-        () => httpService.get(`/fund-raiser-group/search`),
+        () => httpService.get(`/fund-raiser-group/search`, {
+            params: {
+                size: 40
+            }
+        }),
         {
             onSuccess: (data) => {
                 setData(data?.data?.content)

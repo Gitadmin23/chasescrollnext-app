@@ -45,7 +45,7 @@ export default function DonationDetails({ id }: { id: string }) {
                             <Flex as={"button"} onClick={() => router?.back()} >
                                 <IoArrowBack size={"30px"} />
                             </Flex>
-                            <Text fontWeight={"700"} fontSize={"24px"} >Fund Raising Details</Text>
+                            <Text fontWeight={"700"} fontSize={"24px"} >Fundraising Details</Text>
                         </Flex>
                         <Flex w={'full'} h={"350px"} rounded={"8px"} >
                             <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} />

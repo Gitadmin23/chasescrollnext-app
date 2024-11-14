@@ -17,6 +17,7 @@ const useGetDonationList = (id?: string) => {
         () => httpService.get(`/fund-raiser/search${id ? "?id=" + id : ""}`, {
             params: {
                 size: 30,
+                page: id ? 0 : 42
             }
         }),
         { 
