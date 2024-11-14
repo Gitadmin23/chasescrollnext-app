@@ -14,10 +14,14 @@ const useGetDonationList = (id?: string) => {
 
     const { isLoading, isRefetching, refetch } = useQuery(
         ["getDonationList", id],
-        () => httpService.get(`/fund-raiser/search${id ? "?id=" + id : ""}`),
+        () => httpService.get(`/fund-raiser/search${id ? "?id=" + id : ""}`, {
+            params: {
+                size: 30
+            }
+        }),
         { 
             onSuccess: (data) => {  
-                
+
                 if (id) {
                     setSingleData(data?.data?.content[0])
                 } else {

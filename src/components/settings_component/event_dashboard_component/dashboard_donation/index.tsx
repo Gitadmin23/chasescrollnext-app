@@ -138,11 +138,11 @@ function DashboardDonation(props: Props) {
                         </Flex>
                         <Box w={["50px"]} display={["none", "none", "block"]} pos={"relative"} >
                             <Box w={["fit-content"]} position={"relative"} top={"0px"} >
-                                <CustomButton onClick={() => router?.push("/dashboard/donation/" + item?.id)} text={"View Event"} backgroundColor={"#EFF1FE"} transform={["rotate(-90deg)"]} left={["-45px"]} top={["50px"]} position={["relative", "relative", "absolute"]} color={"#5D70F9"} height={"45px"} fontSize={"xs"} width={"140px"} roundedBottom={"4px"} />
+                                <CustomButton onClick={() => router?.push("/dashboard/donation/" + item?.id)} text={"View Donation"} backgroundColor={"#EFF1FE"} transform={["rotate(-90deg)"]} left={["-45px"]} top={["50px"]} position={["relative", "relative", "absolute"]} color={"#5D70F9"} height={"45px"} fontSize={"xs"} width={"140px"} roundedBottom={"4px"} />
                             </Box>
                         </Box>
                         <Box w={["full"]} display={["block", "block", "none"]} position={"relative"} top={"0px"} >
-                            <CustomButton onClick={() => router?.push("/dashboard/donation/" + item?.id)} text={"View Event"} backgroundColor={"#EFF1FE"} color={"#5D70F9"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />
+                            <CustomButton onClick={() => router?.push("/dashboard/donation/" + item?.id)} text={"View Donation"} backgroundColor={"#EFF1FE"} color={"#5D70F9"} height={"45px"} fontSize={"xs"} width={"full"} roundedBottom={"4px"} />
                         </Box>
                     </Flex>
                     <Flex w={["full", "full", "auto", "auto"]} flexDir={["column", "column", "column", "column", "row"]} alignItems={"center"} ml={["0px", "0px", "auto", "auto"]} gap={"4"} >

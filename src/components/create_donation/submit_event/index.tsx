@@ -7,7 +7,7 @@ import httpService from '@/utils/httpService';
 import { Button, Flex, VStack, useColorMode, useToast } from '@chakra-ui/react'
 import { AxiosError, AxiosResponse } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMutation } from 'react-query';
 import SuccessMessageCreateEvent from '../success_message';
 import { IUser } from '@/models/User';
@@ -37,7 +37,10 @@ function SubmitEvent(props: Iprops) {
     const { userId: user_index } = useDetails((state) => state);
     const pathname = usePathname();
 
+    const router = useRouter()
+
     const [open, setOpen] = useState(false)
+    const [stopData, setstopData] = useState(false)
     const [uploadedImage, setUploadedImage] = useState<Array<string>>([])
 
     // const []
@@ -91,9 +94,6 @@ function SubmitEvent(props: Iprops) {
                 });
                 return
             } else {
-                // const fd = new FormData();
-                // fd.append("file", image);
-                // uploadImage.mutate(fd)
                 createFundraisingData()
             }
         })
@@ -169,33 +169,32 @@ function SubmitEvent(props: Iprops) {
                 position: 'top-right',
             });
         },
-        onSuccess: (newdata: any) => {
-
-            console.log(newdata?.data);
-
+        onSuccess: async (newdata: any) => {
             const values: any = Object.values(newdata?.data);
-            console.log(values);
             setUploadedImage(values)
 
             const clone = [...data]
-            values?.map((item: string, index: number)=> {
 
-                clone[index] = {...clone[index], bannerImage: item}
+            await values?.map((item: string, index: number) => {
 
-            }) 
+                clone[index] = { ...clone[index], bannerImage: item }
+
+            })
+
             updateDontion(clone)
 
             if (values?.length === 2) {
-                createGroupDonation.mutate({
+                await createGroupDonation.mutateAsync({
                     creatorID: data[0]?.creatorID,
                     name: data[0]?.name,
                     bannerImage: uploadedImage[0],
                     description: data[0].description
                 })
             } else {
-                let newObj: any = { ...data, bannerImage: newdata?.data?.fileName }
-                createDonation.mutate(newObj)
-            } 
+                let newObj: any = [...data]
+                newObj[0] = { ...data[0], bannerImage: values[0] }
+                createDonation.mutate({ items: newObj })
+            }
         }
     });
 
@@ -217,29 +216,15 @@ function SubmitEvent(props: Iprops) {
                 position: 'top-right',
             });
         },
-        onSuccess: (idData) => {
-            toast({
-                title: 'Success',
-                description: "Fund Raisier Created",
-                status: 'success',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-
-            const clone = [...data]
-
-            console.log(idData);
-            
-            if(data[0]?.bannerImage) {
-
-                data?.map((item, index) => {
-                    clone[index] = { ...clone[index], fundRaiserGroupId: idData?.data?.id}
-                }) 
-                 
-                createDonation.mutate({ items: clone })
-
-            }
+        onSuccess: () => {
+            // toast({
+            //     title: 'Success',
+            //     description: "Fund Raisier Created",
+            //     status: 'success',
+            //     isClosable: true,
+            //     duration: 5000,
+            //     position: 'top-right',
+            // }); 
         }
     });
 
@@ -265,6 +250,8 @@ function SubmitEvent(props: Iprops) {
                 duration: 5000,
                 position: 'top-right',
             });
+
+            router?.push("/dashboard/donation")
         }
     });
 
@@ -278,13 +265,25 @@ function SubmitEvent(props: Iprops) {
             fd.append("files[]", item);
         })
         uploadImage.mutate(fd)
-    }
+    } 
 
+    useEffect(() => {
+        if (uploadedImage?.length > 0 && createGroupDonation?.isSuccess) {
+            if (!stopData) {
+                const clone = [...data] 
+                data?.map((item, index) => {
+                    clone[index] = { ...clone[index], fundRaiserGroupId: createGroupDonation?.data?.data?.id, bannerImage: uploadedImage[index] }
+                })
+                createDonation.mutate({ items: clone })
+                setstopData(true)
+            }
+        }
+    }, [uploadedImage, createGroupDonation])
 
     return (
         <Flex w={"full"} alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} >
 
-            <CustomButton borderWidth={"0px"} backgroundColor={(getValidationAll() || getValidationImageBtn()) ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={createDonation?.isLoading} onClick={handleClick} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={"300px"}
+            <CustomButton borderWidth={"0px"} backgroundColor={(getValidationAll() || getValidationImageBtn()) ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={createDonation?.isLoading || uploadImage?.isLoading || createGroupDonation?.isLoading} onClick={handleClick} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={"300px"}
                 text={'Submit'} />
 
             <ModalLayout close={setOpen} open={open} bg={secondaryBackgroundColor} >
