@@ -64,7 +64,7 @@ function DonationTheme() {
                     </Text>
                 </Box>
                 {data?.map((item, index) => (
-                    <Flex maxW={["full", "full", "full", "1000px"]} py={"6"} width={"full"} h={"full"} gap={"8"} flexDirection={["column", "column", "column"]} alignItems={"center"} justifyContent={"center"}          >
+                    <Flex key={index} maxW={["full", "full", "full", "1000px"]} py={"6"} width={"full"} h={"full"} gap={"8"} flexDirection={["column", "column", "column"]} alignItems={"center"} justifyContent={"center"}          >
                         <Flex flexDirection={"column"} width={"full"} gap={"4"} >
                             <SelectImage index={index} />
                             <Flex width={"full"} gap={"1"} flexDirection={"column"} >
