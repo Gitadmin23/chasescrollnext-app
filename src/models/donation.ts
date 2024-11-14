@@ -8,12 +8,12 @@ export type IDonation = {
     goal: number,
     total: number,
     visibility: "PUBLIC" | "PRIVATE",
-    collaborators: Array<string>,
+    collaborators?: Array<string>,
     purpose: string,
     funnelID?: string,
-    funnelType: "EVENT",
+    funnelType?: "EVENT" | "COMMUNITY",
     endDate: any,
-    fundRaiserGroupId: string
+    fundRaiserGroupId?: string
 }
 
 export type IDonationList = {
@@ -28,18 +28,32 @@ export type IDonationList = {
     purpose: string,
     funnelID?: string,
     funnelType: "EVENT",
-    endDate: any,
-    fundRaiserGroupId: string,
+    endDate: any, 
     createdBy: IUser,
     createdDate: number,
     fundRaisers: any,
-    fundRasingGroupId: string, 
+    fundRasingGroupId: IDonationGroupData,
     id: string,
     isDeleted: boolean,
     lastModifiedBy: any,
-    lastModifiedDate:  any,
-    returnMessage:  string,
+    lastModifiedDate: any,
+    returnMessage: string,
     status: any,
     statusCode: number,
-    user: IUser, 
-}    
+    user: IUser,
+}
+
+export type IDonationGroupData = {
+    id: string,
+    createdDate: any,
+    createdAt: any,
+    lastModifiedBy: null,
+    createdBy: string,
+    lastModifiedDate: any,
+    isDeleted: boolean,
+    status: "ACTIVE",
+    creatorID: string,
+    name: string,
+    bannerImage: string,
+    description: string,
+} 
