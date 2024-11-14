@@ -1,3 +1,5 @@
+import DonationDetails from '@/components/donation/donationDetails'
+import { Flex } from '@chakra-ui/react'
 import React from 'react'
 
 type Props = {
@@ -5,12 +7,15 @@ type Props = {
     searchParams?: { [key: string]: string | string[] | undefined }
 }
 
-export async function generateMetadata(
+export default async function generateMetadata(
     { params }: Props,
 ) {
     // read route params
     const id = params.slug
+ 
     return (
-        <div>page</div>
+        <Flex w={"full"} overflowY={"auto"} >
+            <DonationDetails id={id} />
+        </Flex>
     )
 }

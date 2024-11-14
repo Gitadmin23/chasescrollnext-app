@@ -6,27 +6,31 @@ import httpService from "@/utils/httpService";
 import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 
-const useGetDonationList = () => {
+const useGetDonationList = (id?: string) => {
 
 
-    const [data, setData] = React.useState<Array<IDonationList>>([]); 
+    const [data, setData] = React.useState<Array<IDonationList>>([]);
+    const [singleData, setSingleData] = React.useState<IDonationList>({} as IDonationList);
 
     const { isLoading, isRefetching, refetch } = useQuery(
-        ["getDonationList"],
-        () => httpService.get(`/fund-raiser/search`),
-        {
-            // enabled: token ? false : true,
-            onSuccess: (data) => {
-                console.log(data?.data?.content);
+        ["getDonationList", id],
+        () => httpService.get(`/fund-raiser/search${id ? "?id=" + id : ""}`),
+        { 
+            onSuccess: (data) => {  
                 
-                setData(data.data?.content); 
-            }, 
+                if (id) {
+                    setSingleData(data?.data?.content[0])
+                } else {
+                    setData(data.data?.content);
+                }
+            },
         },
-    ); 
+    );
 
     return {
         data,
         isLoading,
+        singleData,
         refetch
     };
 }
