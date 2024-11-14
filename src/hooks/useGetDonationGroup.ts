@@ -13,7 +13,6 @@ interface IProps {
 
 const useGetDonationGroup = (id?: string) => {
 
-
     const [data, setData] = React.useState<Array<IProps>>([]);
 
     const { isLoading, isRefetching, refetch } = useQuery(
