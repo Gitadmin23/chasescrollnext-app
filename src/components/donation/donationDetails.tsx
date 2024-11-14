@@ -18,6 +18,7 @@ import usePaystackStore from '@/global-state/usePaystack';
 import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
 import useGetDonationGroup from '@/hooks/useGetDonationGroup';
 import { IoArrowBack } from 'react-icons/io5';
+import DonateUsers from '../sharedComponent/donateUser';
 
 export default function DonationDetails({ id }: { id: string }) {
 
@@ -56,10 +57,15 @@ export default function DonationDetails({ id }: { id: string }) {
                                     <Text fontSize={"24px"} fontWeight={"700"} >{item?.name}</Text>
                                 </Flex>
                                 <DonationGraph item={item} />
-                                <Flex flexDir={"column"} >
-                                    <Text fontWeight={"600"} >People who donated</Text>
-                                    <Text fontSize={"12px"} color={bodyTextColor} >350 users donated already</Text>
-                                </Flex>
+                                {/* <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
+
+                                    <Flex flexDir={"column"} >
+                                        <Text fontWeight={"600"} >People who donated</Text>
+                                        <Text fontSize={"12px"} color={bodyTextColor} >350 users donated already</Text>
+                                    </Flex> */}
+
+                                    <DonateUsers donationDetail={true} size={"50px"} event={item} fontSize={14} border='1px' />
+                                {/* </Flex> */}
                                 <Flex justifyContent={"space-between"} alignItems={"center"} >
                                     <Text fontWeight={"500"} >Date Created</Text>
                                     <Text fontSize={"14px"} >{dateFormat(item?.createdDate)}</Text>
@@ -83,12 +89,12 @@ export default function DonationDetails({ id }: { id: string }) {
                                 </Flex>
                             ) : (
                                 <Flex bg={mainBackgroundColor} insetX={"6"} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative", "relative"]} w={["fit-content", "fit-content", "fit-content", "fit-content", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
-                                    <Flex width={["full", "full", "full", "450px", "450px"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} flexDir={"column"} w={"full"} overflowX={"hidden"} gap={"3"} p={"5"}  > 
+                                    <Flex width={["full", "full", "full", "450px", "450px"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} flexDir={"column"} w={"full"} overflowX={"hidden"} gap={"3"} p={"5"}  >
 
-                                        <Button borderWidth={"1px"} onClick={()=> router?.push("/dashboard/settings/payment/details")} borderColor={primaryColor} w={"full"} h={"50px"} rounded={"32px"} color={primaryColor} fontWeight={"600"} bgColor={"#EFF5F8"} _hover={{ backgroundColor: "#EFF5F8" }} >
+                                        <Button borderWidth={"1px"} onClick={() => router?.push("/dashboard/settings/payment/details")} borderColor={primaryColor} w={"full"} h={"50px"} rounded={"32px"} color={primaryColor} fontWeight={"600"} bgColor={"#EFF5F8"} _hover={{ backgroundColor: "#EFF5F8" }} >
                                             Withdraw Cash
                                         </Button>
-                                        <Button  onClick={()=> router?.push(`/dashboard/settings/event-dashboard/${item?.id}/donate`)} w={"full"} h={"50px"} rounded={"32px"} color={"white"} fontWeight={"600"} bgColor={primaryColor} _hover={{ backgroundColor: primaryColor }} >
+                                        <Button onClick={() => router?.push(`/dashboard/settings/event-dashboard/${item?.id}/donate`)} w={"full"} h={"50px"} rounded={"32px"} color={"white"} fontWeight={"600"} bgColor={primaryColor} _hover={{ backgroundColor: primaryColor }} >
                                             Dashboard
                                         </Button>
                                     </Flex>

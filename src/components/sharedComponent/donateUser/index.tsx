@@ -8,14 +8,17 @@ import httpService from '@/utils/httpService';
 import { IEventType } from '@/models/Event';
 import { useQuery } from 'react-query';
 import { IUser } from '@/models/User';
+import { formatNumber } from '@/utils/numberFormat';
+import LoadingAnimation from '../loading_animation';
 
 interface Props {
-    event: IEventType,
+    event: any,
     size?: any,
     border?: string,
     fontSize: number,
     refund?: boolean,
-    color?: any
+    color?: any,
+    donationDetail?: boolean
 }
 
 function DonateUsers(props: Props) {
@@ -23,23 +26,36 @@ function DonateUsers(props: Props) {
         event,
         size,
         border,
-        fontSize, 
+        fontSize,
+        donationDetail
     } = props
 
     const { primaryColor } = useCustomTheme();
 
 
     // react query
-    const { isLoading, isRefetching, data } = useQuery(['donation', event?.id], () => httpService.get('/payments/orders?typeID' + event?.id, {
+    const { isLoading, isRefetching, data } = useQuery(['donation', event?.id], () => httpService.get('/payments/orders', {
         params: {
+            typeID: event?.id,
             size: 10,
-            page: 1, 
+            page: 0,
         }
     }))
- 
+
+    const {
+        bodyTextColor
+    } = useCustomTheme()
+
     return (
-        <>
-            {/* {event?.interestedUsers?.length > 0 && ( */}
+        <LoadingAnimation loading={isLoading} >
+            <Flex w={donationDetail ? "full" : "fit-content"} justifyContent={"space-between"} alignItems={"center"} >
+                {donationDetail && (
+                    <Flex flexDir={"column"} >
+                        <Text fontWeight={"600"} >People who donated</Text>
+                        <Text fontSize={"12px"} color={bodyTextColor} >{formatNumber(data?.data?.totalElements, "")} users donated already</Text>
+                    </Flex>
+                )}
+
                 <Flex alignItems={"center"} >
                     {data?.data?.content?.map((item: {
                         buyer: IUser
@@ -56,10 +72,10 @@ function DonateUsers(props: Props) {
                         <Box roundedBottom={"64px"} width={size} fontWeight={"bold"} height={size} fontSize={(fontSize - 2) + "px"} pr={"-3px"} pb={"-2px"} roundedTopLeft={"64px"} ml={"-35px"} display={'flex'} bgColor={"#3C41F0"} color={"#fff"} justifyContent={"center"} alignItems={"center"} >
                             {"+" + formatNumberWithK(data?.data?.totalElements - 3)}
                         </Box>
-                    } 
+                    }
                 </Flex>
-            {/* )} */}
-        </>
+            </Flex>
+        </LoadingAnimation>
     )
 }
 
