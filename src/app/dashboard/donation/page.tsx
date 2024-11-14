@@ -14,6 +14,7 @@ import useCustomTheme from '@/hooks/useTheme'
 import { IDonationList } from '@/models/donation'
 import { IMAGE_URL } from '@/services/urls'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
+import { dateFormat } from '@/utils/dateFormat'
 import { formatNumber } from '@/utils/numberFormat'
 import { textLimit } from '@/utils/textlimit'
 import { Flex, Grid, GridItem, Image, Text } from '@chakra-ui/react'
@@ -71,7 +72,7 @@ export default function Donation() {
                                         <UserImage size={"45px"} font={"20px"} data={item?.createdBy} image={item?.createdBy?.data?.imgMain?.value} border={"1px"} />
                                         <Flex display={["none", "none", "block"]} flexDir={"column"} textAlign={"left"}  >
                                             <Text color={"#233DF3"} fontSize={"14px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(item?.createdBy?.firstName) + " " + capitalizeFLetter(item?.createdBy?.lastName), 15)}</Text>
-                                            <Text fontSize={"12px"} color={bodyTextColor} >{moment(item?.createdDate).fromNow()}</Text>
+                                            <Text fontSize={"12px"} color={bodyTextColor} >{dateFormat(item?.createdDate)}</Text>
                                         </Flex>
                                     </Flex>
                                     <Flex w={'full'} h={"150px"} rounded={"8px"} >

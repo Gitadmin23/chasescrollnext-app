@@ -82,8 +82,9 @@ function DashboardDonation(props: Props) {
     const [showTicketType, setShowTicketType] = React.useState(true) 
 
     // react query
-    const { isLoading, isRefetching, data } = useQuery(['donation' + size + page, index], () => httpService.get('/payments/orders?typeID' + index, {
+    const { isLoading, isRefetching, data } = useQuery(['donationOrder' + size + page, index], () => httpService.get('/payments/orders', {
         params: {
+            typeID: index,
             size: size,
             page: page, 
         }
