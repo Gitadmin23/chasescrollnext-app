@@ -14,14 +14,12 @@ import useCustomTheme from '@/hooks/useTheme'
 import { IDonationList } from '@/models/donation'
 import { IMAGE_URL } from '@/services/urls'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
-import { dateFormat } from '@/utils/dateFormat'
-import { formatNumber } from '@/utils/numberFormat'
+import { dateFormat } from '@/utils/dateFormat' 
 import { textLimit } from '@/utils/textlimit'
-import { Flex, Grid, GridItem, Image, Text } from '@chakra-ui/react'
-import moment from 'moment'
+import { Flex, Grid, GridItem, Image, Text } from '@chakra-ui/react' 
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
-import { IoClose, IoInformationCircle, IoInformationCircleOutline } from 'react-icons/io5'
+import { IoClose, IoInformationCircleOutline } from 'react-icons/io5'
 
 export default function Donation() {
 
