@@ -30,8 +30,7 @@ function DonationTheme() {
             name: "",
             bannerImage: "",
             description: "",
-            goal: 0,
-            total: 0,
+            goal: "",
             visibility: "PUBLIC",
             purpose: "",
             endDate: "",
@@ -49,8 +48,19 @@ function DonationTheme() {
             creatorID: user_id
         }
         updateDontion(clone)
-
     };
+
+    const HandleDeleteTicket = (index: any) => {
+
+        let myArr = [...data]
+
+        myArr.splice(index, 1);
+
+        updateDontion(myArr)
+    }
+
+    console.log(data);
+
 
     return (
         <Flex px={"4"} justifyContent={"center"} pt={"10"} >
@@ -64,7 +74,7 @@ function DonationTheme() {
                     </Text>
                 </Box>
                 {data?.map((item, index) => (
-                    <Flex key={index} maxW={["full", "full", "full", "1000px"]} py={"6"} width={"full"} h={"full"} gap={"8"} flexDirection={["column", "column", "column"]} alignItems={"center"} justifyContent={"center"}          >
+                    <Flex key={index} maxW={["full", "full", "full", "1000px"]} pt={"6"} width={"full"} h={"full"} gap={"8"} flexDirection={["column", "column", "column"]} alignItems={"center"} justifyContent={"center"}          >
                         <Flex flexDirection={"column"} width={"full"} gap={"4"} >
                             <SelectImage index={index} />
                             <Flex width={"full"} gap={"1"} flexDirection={"column"} >
@@ -135,7 +145,6 @@ function DonationTheme() {
                             </Flex>
                         </Flex>
                         <Flex flexDirection={"column"} h={"full"} width={"full"} gap={"6"} >
-                            <CustomButton onClick={() => HandleAddTicket(index)} borderRadius={"full"} text='+ Add New Fundraising' color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
                             <Flex flexDirection={"column"} gap={"2"} >
                                 <Text fontWeight={"600"} >Fundraising Visibility</Text>
                                 <label htmlFor="publicVisibility" style={{ display: "flex", justifyContent: "space-between", borderBottomWidth: "1px", fontSize: "14px", padding: "8px" }} role='button' >
@@ -165,6 +174,9 @@ function DonationTheme() {
                                     />
                                 </label>
                             </Flex>
+                            {index > 0 && (
+                                <CustomButton onClick={() => HandleDeleteTicket(index)} backgroundColor={"brand.chasescrollRed"} width={"fit-content"} text='Remove Fundraising' />
+                            )}
                             <Flex flexDir={["column", "column", "row"]} justifyContent={"space-between"} mt={"5"} gap={["4", "4", "4"]} >
                                 <FunnelBtn index={index} />
                                 <Text color={"gray"} fontWeight={"800"} >|</Text>
@@ -175,11 +187,14 @@ function DonationTheme() {
                     </Flex>
                 ))}
 
+                <Flex w={"full"} gap={"4"} mb={6} >
+                    <CustomButton onClick={() => HandleAddTicket(data?.length-1)} borderRadius={"full"} text='+ Add New Fundraising' color={"#5465E0"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
+                </Flex>
                 <Flex w={"full"} gap={"4"} mb={12} >
                     <SubmitTheme type={""} />
                 </Flex>
             </Flex>
-        </Flex> 
+        </Flex>
     )
 }
 

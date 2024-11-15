@@ -19,6 +19,7 @@ import Fundpaystack from '../settings_component/payment_component/card_tabs/fund
 import useGetDonationGroup from '@/hooks/useGetDonationGroup';
 import { IoArrowBack } from 'react-icons/io5';
 import DonateUsers from '../sharedComponent/donateUser';
+import { DashboardEditIcon, DashboardOrganizerIcon, DashboardScannerIcon, WalletIcon, WalletIcon2 } from '../svg';
 
 export default function DonationDetails({ id }: { id: string }) {
 
@@ -36,6 +37,12 @@ export default function DonationDetails({ id }: { id: string }) {
 
     const userId = localStorage.getItem('user_id') + "";
 
+
+    const clickHandler = () => {
+
+    }
+
+
     return (
         <Flex w={"full"} pos={"relative"} flexDir={"column"} overflowY={"auto"} >
             <LoadingAnimation loading={isLoading} >
@@ -51,7 +58,7 @@ export default function DonationDetails({ id }: { id: string }) {
                             <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} />
                         </Flex>
                         <Flex w={"full"} flexDir={["column", "column", "column", "row", "row"]} >
-                            <Flex w={"full"} flexDir={"column"} gap={"4"} pb={"6"} pr={"6"} borderColor={borderColor} >
+                            <Flex w={"full"} flexDir={"column"} gap={"4"} pb={"6"} pr={["0px", "0px", "0px", "6", "6"]} borderColor={borderColor} >
                                 <Flex flexDir={"column"} >
                                     <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
                                     <Text fontSize={"24px"} fontWeight={"700"} >{item?.name}</Text>
@@ -64,7 +71,7 @@ export default function DonationDetails({ id }: { id: string }) {
                                         <Text fontSize={"12px"} color={bodyTextColor} >350 users donated already</Text>
                                     </Flex> */}
 
-                                    <DonateUsers donationDetail={true} size={"50px"} event={item} fontSize={14} border='1px' />
+                                <DonateUsers donationDetail={true} size={"50px"} event={item} fontSize={14} border='1px' />
                                 {/* </Flex> */}
                                 <Flex justifyContent={"space-between"} alignItems={"center"} >
                                     <Text fontWeight={"500"} >Date Created</Text>
@@ -84,31 +91,48 @@ export default function DonationDetails({ id }: { id: string }) {
                                 </Flex>
                             </Flex>
                             {userId !== item?.createdBy?.userId ? (
-                                <Flex bg={mainBackgroundColor} insetX={"6"} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative", "relative"]} w={["fit-content", "fit-content", "fit-content", "fit-content", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
+                                <Flex bg={mainBackgroundColor} insetX={"6"} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative", "relative"]} w={["auto", "auto", "auto", "fit-content", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
                                     <DonationPayment data={item} />
                                 </Flex>
                             ) : (
-                                <Flex bg={mainBackgroundColor} insetX={"6"} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative", "relative"]} w={["fit-content", "fit-content", "fit-content", "fit-content", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
-                                    <Flex width={["full", "full", "full", "450px", "450px"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} flexDir={"column"} w={"full"} overflowX={"hidden"} gap={"3"} p={"5"}  >
+                                <Flex bg={mainBackgroundColor} insetX={"6"} mt={["0px","0px","0px","16","16"]} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative", "relative"]} w={["auto", "auto", "fit-content", "fit-content", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
+                                    <Flex width={["full", "full", "full", "450px", "450px"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"8px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} px={["3", "3", "5", "5"]} p={"5"}  >
 
-                                        <Button borderWidth={"1px"} onClick={() => router?.push("/dashboard/settings/payment/details")} borderColor={primaryColor} w={"full"} h={"50px"} rounded={"32px"} color={primaryColor} fontWeight={"600"} bgColor={"#EFF5F8"} _hover={{ backgroundColor: "#EFF5F8" }} >
+                                        {/* <Button borderWidth={"1px"} onClick={() => router?.push("/dashboard/settings/payment/details")} borderColor={primaryColor} w={"full"} h={"50px"} rounded={"32px"} color={primaryColor} fontWeight={"600"} bgColor={"#EFF5F8"} _hover={{ backgroundColor: "#EFF5F8" }} >
                                             Withdraw Cash
                                         </Button>
                                         <Button onClick={() => router?.push(`/dashboard/settings/event-dashboard/${item?.id}/donate`)} w={"full"} h={"50px"} rounded={"32px"} color={"white"} fontWeight={"600"} bgColor={primaryColor} _hover={{ backgroundColor: primaryColor }} >
                                             Dashboard
-                                        </Button>
+                                        </Button> */}
+
+                                        <Flex width={["full"]} justifyContent={"space-between"} alignItems={"center"} gap={"3"}    >
+                                            <Flex bgColor={mainBackgroundColor} p={"2"} rounded={"2xl"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} as={"button"} onClick={() => router?.push(`/dashboard/settings/event-dashboard/${item?.id}/donate`)} gap={"4px"} flexDir={"column"} alignItems={"center"} justifyContent={"center"} >
+                                                <DashboardOrganizerIcon />
+                                                <Text fontSize={"12px"} fontWeight={"500"} >Dashboard</Text>
+                                            </Flex>
+                                            <Flex bgColor={mainBackgroundColor} p={"2"} rounded={"2xl"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} as={"button"} onClick={() => clickHandler()} gap={"4px"} flexDir={"column"} alignItems={"center"} justifyContent={"center"}>
+                                                <DashboardEditIcon />
+                                                <Text fontSize={"12px"} fontWeight={"500"} >Edit Event</Text>
+                                            </Flex>
+                                            <Flex bgColor={mainBackgroundColor} p={"2"} rounded={"2xl"} as={"button"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} onClick={() => router?.push("/dashboard/settings/payment/details")} gap={"4px"} flexDir={"column"} alignItems={"center"} >
+                                                <WalletIcon color='#5D70F9' />
+                                                <Text fontSize={"12px"} fontWeight={"500"} >Withdraw Cash</Text>
+                                            </Flex>
+                                        </Flex>
                                     </Flex>
+
                                 </Flex>
                             )}
                         </Flex>
                         {item?.fundRasingGroupId?.id && (
                             <DonationItemList singleData={item} details={true} />
                         )}
+                        <Flex w={"full"} h={"200px"} display={["block", "block", "none", "none", "none"]} />
                     </Flex>
                 )}
             </LoadingAnimation>
             <Fundpaystack id={item?.id} config={configPaystack} setConfig={setPaystackConfig} donation={donation} />
-            <Flex w={"full"} h={"700px"} />
+
         </Flex>
     )
 }

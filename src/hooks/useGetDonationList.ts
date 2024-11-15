@@ -2,8 +2,9 @@ import { useDetails } from "@/global-state/useUserDetails";
 import { IUser } from "@/models/User";
 import { IDonationList } from "@/models/donation";
 import { URLS } from "@/services/urls";
+import { cleanup } from "@/utils/cleanupObj";
 import httpService from "@/utils/httpService";
-import React, { useEffect } from "react";
+import React from "react";
 import { useQuery } from "react-query";
 
 const useGetDonationList = (id?: string) => {
@@ -14,11 +15,11 @@ const useGetDonationList = (id?: string) => {
 
     const { isLoading, isRefetching, refetch } = useQuery(
         ["getDonationList", id],
-        () => httpService.get(`/fund-raiser/search${id ? "?id=" + id : ""}`, {
-            params: {
-                size: 30,
-                page: id ? 0 : 42
-            }
+        () => httpService.get(`/fund-raiser/search`, {
+            params: cleanup({
+                size: 40, 
+                id: id
+            })
         }),
         { 
             onSuccess: (data) => {  

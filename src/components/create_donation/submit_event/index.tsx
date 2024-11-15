@@ -47,10 +47,10 @@ function SubmitEvent(props: Iprops) {
     const toast = useToast()
 
     const getValidationTheme = () => {
-        data?.every((item) => {
+        data?.every((item, index) => {
             if (!item?.name) {
                 toast({
-                    description: "Please Enter Fund Raisier Name",
+                    description: "Please Enter Fundraising Name",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -59,7 +59,7 @@ function SubmitEvent(props: Iprops) {
                 return
             } else if (!item?.goal) {
                 toast({
-                    description: "Please Enter Fund Raisier Goal",
+                    description: "Please Enter Fundraising Goal",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -68,7 +68,25 @@ function SubmitEvent(props: Iprops) {
                 return
             } else if (!item?.description) {
                 toast({
-                    description: "Please Enter Fund Raisier Description",
+                    description: "Please Enter Fundraising Description",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            } else if (!item?.purpose) {
+                toast({
+                    description: "Please Enter Fundraising Purpose",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            } else if (!item?.goal) {
+                toast({
+                    description: "Please Enter Fundraising Target",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
@@ -86,37 +104,32 @@ function SubmitEvent(props: Iprops) {
                 return
             } else if (!getValidationImageBtn) {
                 toast({
-                    description: "Please Enter Fund Raisier Image",
+                    description: "Please Enter Fundraising Image",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
                     position: 'top-right',
                 });
                 return
-            } else {
-                createFundraisingData()
-            }
-        })
-    }
-
-
-    const getValidationImage = () => {
-        image?.every((item) => {
-            if (!item) {
+            } else if (getValidationThemeBtn()) { 
                 toast({
-                    description: "Please Enter Fund Raisier Image",
+                    description: "Please Fill Fundraising Information ",
                     status: 'error',
                     isClosable: true,
                     duration: 5000,
                     position: 'top-right',
                 });
-                return
+                return 
+            } else {
+                console.log("works");
+                
+                // createFundraisingData()
             }
         })
-    }
+    } 
 
     const getValidationThemeBtn = () => {
-        return data?.every((item) => {
+        return data?.every((item, index) => {
             if (!item?.name) {
                 return true
             } else if (!item?.purpose) {
@@ -128,11 +141,13 @@ function SubmitEvent(props: Iprops) {
             } else if (!item?.goal) {
                 return true
             }
-            //  else if (!image?.name) {
-            //     return true
-            // } 
-            else {
+             else if (!getValidationImageBtn) {
+                return true
+            } else if (data.length === index + 1) { 
                 return false
+            } 
+            else {
+                return true
             }
         })
     }
@@ -147,9 +162,9 @@ function SubmitEvent(props: Iprops) {
         })
     }
 
-    const getValidationAll = () => {
-        return getValidationThemeBtn()
-    }
+    // const getValidationAll = () => {
+    //     return getValidationThemeBtn()
+    // }
 
     // Upload Image
     const uploadImage = useMutation({
@@ -280,10 +295,14 @@ function SubmitEvent(props: Iprops) {
         }
     }, [uploadedImage, createGroupDonation])
 
+    console.log(getValidationThemeBtn());
+    console.log(getValidationImageBtn());
+    
+
     return (
         <Flex w={"full"} alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} >
 
-            <CustomButton borderWidth={"0px"} backgroundColor={(getValidationAll() || getValidationImageBtn()) ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={createDonation?.isLoading || uploadImage?.isLoading || createGroupDonation?.isLoading} onClick={handleClick} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={"300px"}
+            <CustomButton borderWidth={"0px"} backgroundColor={(getValidationThemeBtn() || getValidationImageBtn()) ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={createDonation?.isLoading || uploadImage?.isLoading || createGroupDonation?.isLoading} onClick={handleClick} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={["full","full","300px","300px"]}
                 text={'Submit'} />
 
             <ModalLayout close={setOpen} open={open} bg={secondaryBackgroundColor} >
