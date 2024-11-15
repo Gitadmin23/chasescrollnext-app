@@ -120,10 +120,8 @@ function SubmitEvent(props: Iprops) {
                     position: 'top-right',
                 });
                 return 
-            } else {
-                console.log("works");
-                
-                // createFundraisingData()
+            } else { 
+                createFundraisingData()
             }
         })
     } 
