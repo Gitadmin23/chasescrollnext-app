@@ -17,6 +17,8 @@ import ModalLayout from '../sharedComponent/modal_layout'
 import { useRouter } from 'next/navigation'
 import DonationGroupModal from './donationGroupModal'
 import { dateFormat } from '@/utils/dateFormat'
+import DonationPayment from './donationPayment'
+import DonationBtn from './donationBtn'
 
 export default function DonationItemList({ details, singleData }: { details?: boolean, singleData?: IDonationList }) {
 
@@ -80,7 +82,7 @@ export default function DonationItemList({ details, singleData }: { details?: bo
                                         </Flex>
                                         <DonationGraph item={item} />
                                         {userId !== item?.createdBy?.userId && (
-                                            <CustomButton text={"Donate now"} height={"50px"} backgroundColor={"#F6F7FA"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                                            <DonationBtn {...item} />
                                         )}
                                     </Flex>
                                 </GridItem>
@@ -119,7 +121,7 @@ export default function DonationItemList({ details, singleData }: { details?: bo
                                                 </Flex>
                                                 <DonationGraph item={item} />
                                                 {userId !== singleData?.createdBy?.userId && (
-                                                    <CustomButton text={"Donate now"} height={"50px"} backgroundColor={"#F6F7FA"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                                                    <DonationBtn {...item} />
                                                 )}
                                             </Flex>
                                         )

@@ -15,7 +15,7 @@ import { IDonationList } from '@/models/donation'
 import CustomButton from '../general/Button'
 import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
 
-export default function DonationBtn(props: IDonationList) {
+export default function DonationBtn(props: any) {
 
     const {
         createdBy,
@@ -97,7 +97,7 @@ export default function DonationBtn(props: IDonationList) {
     return (
         <Flex w={"full"} flexDir={"column"} gap={"6"} >
 
-            {userId !== props?.createdBy.userId && (
+            {userId !== props?.createdBy?.userId && (
                 <CustomButton onClick={() => setOpen(true)} text={"Donate now"} height={"50px"} backgroundColor={"#F6F7FA"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
             )}
 

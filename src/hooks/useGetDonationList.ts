@@ -18,7 +18,8 @@ const useGetDonationList = (id?: string) => {
         () => httpService.get(`/fund-raiser/search`, {
             params: cleanup({
                 size: 40, 
-                id: id
+                id: id,
+                page: 0
             })
         }),
         { 

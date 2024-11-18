@@ -13,7 +13,7 @@ import FunnelBtn from '../funnel';
 import CollaboratorBtn from '../collaborators';
 import GetCommunity from '../funnel/get_community';
 
-function DonationTheme() {
+function DonationTheme({id} : {id?: string}) {
 
     const { data, updateDontion } = useDonationStore((state) => state)
 
@@ -57,10 +57,7 @@ function DonationTheme() {
         myArr.splice(index, 1);
 
         updateDontion(myArr)
-    }
-
-    console.log(data);
-
+    } 
 
     return (
         <Flex px={"4"} justifyContent={"center"} pt={"10"} >
@@ -191,7 +188,7 @@ function DonationTheme() {
                     <CustomButton onClick={() => HandleAddTicket(data?.length-1)} borderRadius={"full"} text='+ Add New Fundraising' color={"#5465E0"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
                 </Flex>
                 <Flex w={"full"} gap={"4"} mb={12} >
-                    <SubmitTheme type={""} />
+                    <SubmitTheme id={id} type={""} />
                 </Flex>
             </Flex>
         </Flex>

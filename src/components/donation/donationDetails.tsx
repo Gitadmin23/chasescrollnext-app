@@ -110,7 +110,7 @@ export default function DonationDetails({ id }: { id: string }) {
                                                 <DashboardOrganizerIcon />
                                                 <Text fontSize={"12px"} fontWeight={"500"} >Dashboard</Text>
                                             </Flex>
-                                            <Flex bgColor={mainBackgroundColor} p={"2"} rounded={"2xl"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} as={"button"} onClick={() => clickHandler()} gap={"4px"} flexDir={"column"} alignItems={"center"} justifyContent={"center"}>
+                                            <Flex bgColor={mainBackgroundColor} p={"2"} rounded={"2xl"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} as={"button"} onClick={() => router?.push(`/dashboard/donation/edit/${item?.id}`)} gap={"4px"} flexDir={"column"} alignItems={"center"} justifyContent={"center"}>
                                                 <DashboardEditIcon />
                                                 <Text fontSize={"12px"} fontWeight={"500"} >Edit Event</Text>
                                             </Flex>

@@ -17,6 +17,7 @@ import { Warning2 } from 'iconsax-react';
 import useDonationStore from '@/global-state/useDonationState';
 
 interface Iprops {
+    id?: string
     type?: any,
     promotion?: boolean,
 }
@@ -24,6 +25,7 @@ interface Iprops {
 function SubmitEvent(props: Iprops) {
 
     const {
+        id,
         type,
         promotion,
     } = props
@@ -111,7 +113,7 @@ function SubmitEvent(props: Iprops) {
                     position: 'top-right',
                 });
                 return
-            } else if (getValidationThemeBtn()) { 
+            } else if (getValidationThemeBtn()) {
                 toast({
                     description: "Please Fill Fundraising Information ",
                     status: 'error',
@@ -119,12 +121,12 @@ function SubmitEvent(props: Iprops) {
                     duration: 5000,
                     position: 'top-right',
                 });
-                return 
-            } else { 
+                return
+            } else {
                 createFundraisingData()
             }
         })
-    } 
+    }
 
     const getValidationThemeBtn = () => {
         return data?.every((item, index) => {
@@ -139,11 +141,11 @@ function SubmitEvent(props: Iprops) {
             } else if (!item?.goal) {
                 return true
             }
-             else if (!getValidationImageBtn) {
+            else if (!getValidationImageBtn) {
                 return true
-            } else if (data.length === index + 1) { 
+            } else if (data.length === index + 1) {
                 return false
-            } 
+            }
             else {
                 return true
             }
@@ -159,10 +161,6 @@ function SubmitEvent(props: Iprops) {
             }
         })
     }
-
-    // const getValidationAll = () => {
-    //     return getValidationThemeBtn()
-    // }
 
     // Upload Image
     const uploadImage = useMutation({
@@ -230,14 +228,7 @@ function SubmitEvent(props: Iprops) {
             });
         },
         onSuccess: () => {
-            // toast({
-            //     title: 'Success',
-            //     description: "Fund Raisier Created",
-            //     status: 'success',
-            //     isClosable: true,
-            //     duration: 5000,
-            //     position: 'top-right',
-            // }); 
+
         }
     });
 
@@ -268,22 +259,61 @@ function SubmitEvent(props: Iprops) {
         }
     });
 
+    // Create Draft 
+    const editDonation = useMutation({
+        mutationFn: (payload: any) => httpService.post(`/fund-raiser/edit/${id}`, payload),
+        onError: (error: AxiosError<any, any>) => {
+            toast({
+                title: 'Error',
+                description: error?.response?.data?.message,
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        },
+        onSuccess: () => {
+            toast({
+                title: 'Success',
+                description: "Fund Raisier Created",
+                status: 'success',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+
+            router?.push("/dashboard/donation/"+id)
+        }
+    });
+
     const handleClick = React.useCallback(() => {
         getValidationTheme()
     }, [uploadImage])
 
     const createFundraisingData = () => {
-        const fd = new FormData();
-        image?.map((item, index) => {
-            fd.append("files[]", item);
-        })
-        uploadImage.mutate(fd)
-    } 
+        if (!pathname?.includes("edit_event")) {
+            const fd = new FormData();
+            image?.map((item, index) => {
+                fd.append("files[]", item);
+            })
+            uploadImage.mutate(fd)
+        } else {
+            if (image?.length > 0) {
+                const fd = new FormData();
+                image?.map((item, index) => {
+                    fd.append("files[]", item);
+                })
+                uploadImage.mutate(fd)
+            } else {
+                editDonation?.mutate(data)
+            }
+        }
+    }
 
     useEffect(() => {
         if (uploadedImage?.length > 0 && createGroupDonation?.isSuccess) {
             if (!stopData) {
-                const clone = [...data] 
+                const clone = [...data]
                 data?.map((item, index) => {
                     clone[index] = { ...clone[index], fundRaiserGroupId: createGroupDonation?.data?.data?.id, bannerImage: uploadedImage[index] }
                 })
@@ -293,14 +323,10 @@ function SubmitEvent(props: Iprops) {
         }
     }, [uploadedImage, createGroupDonation])
 
-    console.log(getValidationThemeBtn());
-    console.log(getValidationImageBtn());
-    
-
     return (
         <Flex w={"full"} alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} >
 
-            <CustomButton borderWidth={"0px"} backgroundColor={(getValidationThemeBtn() || getValidationImageBtn()) ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={createDonation?.isLoading || uploadImage?.isLoading || createGroupDonation?.isLoading} onClick={handleClick} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={["full","full","300px","300px"]}
+            <CustomButton borderWidth={"0px"} backgroundColor={(getValidationThemeBtn() || getValidationImageBtn()) ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={createDonation?.isLoading || uploadImage?.isLoading || createGroupDonation?.isLoading} onClick={handleClick} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={["full", "full", "300px", "300px"]}
                 text={'Submit'} />
 
             <ModalLayout close={setOpen} open={open} bg={secondaryBackgroundColor} >
