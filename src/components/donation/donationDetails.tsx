@@ -20,6 +20,7 @@ import useGetDonationGroup from '@/hooks/useGetDonationGroup';
 import { IoArrowBack } from 'react-icons/io5';
 import DonateUsers from '../sharedComponent/donateUser';
 import { DashboardEditIcon, DashboardOrganizerIcon, DashboardScannerIcon, WalletIcon, WalletIcon2 } from '../svg';
+import ShareEvent from '../sharedComponent/share_event';
 
 export default function DonationDetails({ id }: { id: string }) {
 
@@ -29,7 +30,8 @@ export default function DonationDetails({ id }: { id: string }) {
         borderColor,
         bodyTextColor,
         primaryColor,
-        mainBackgroundColor
+        mainBackgroundColor,
+        secondaryBackgroundColor
     } = useCustomTheme()
 
     const router = useRouter()
@@ -57,13 +59,16 @@ export default function DonationDetails({ id }: { id: string }) {
                         <Flex w={'full'} h={"350px"} rounded={"8px"} >
                             <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} />
                         </Flex>
-                        <Flex w={"full"} flexDir={["column", "column", "column", "row", "row"]} >
+                        <Flex w={["full", "full", "full", "full"]} flexDir={["column", "column", "row", "row"]} >
                             <Flex w={"full"} flexDir={"column"} gap={"4"} pb={"6"} pr={["0px", "0px", "0px", "6", "6"]} borderColor={borderColor} >
-                                <Flex flexDir={"column"} >
-                                    <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
-                                    <Text fontSize={"24px"} fontWeight={"700"} >{item?.name}</Text>
+                                <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
+                                    <Flex flexDir={"column"} >
+                                        <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
+                                        <Text fontSize={"24px"} fontWeight={"700"} >{item?.name}</Text>
+                                    </Flex> 
+                                    <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
                                 </Flex>
-                                <DonationGraph item={item} />
+                                <DonationGraph rounded='64px' item={item} />
                                 {/* <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
 
                                     <Flex flexDir={"column"} >
@@ -84,7 +89,7 @@ export default function DonationDetails({ id }: { id: string }) {
 
                                 <Flex as={"button"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.createdBy?.userId}`)} gap={"3"} >
                                     <UserImage size={"45px"} font={"20px"} data={item?.createdBy} image={item?.createdBy?.data?.imgMain?.value} border={"1px"} />
-                                    <Flex display={["none", "none", "block"]} flexDir={"column"} textAlign={"left"}  >
+                                    <Flex display={["block"]} flexDir={"column"} textAlign={"left"}  >
                                         <Text color={"#233DF3"} fontSize={"14px"} fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.createdBy?.firstName) + " " + capitalizeFLetter(item?.createdBy?.lastName), 15)}</Text>
                                         <Text fontSize={"12px"} color={primaryColor} fontWeight={"600"} textDecoration={"underline"} >View Profile</Text>
                                     </Flex>
@@ -95,8 +100,8 @@ export default function DonationDetails({ id }: { id: string }) {
                                     <DonationPayment data={item} />
                                 </Flex>
                             ) : (
-                                <Flex bg={mainBackgroundColor} insetX={"6"} mt={["0px","0px","0px","16","16"]} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative", "relative"]} w={["auto", "auto", "fit-content", "fit-content", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
-                                    <Flex width={["full", "full", "full", "450px", "450px"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"8px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} px={["3", "3", "5", "5"]} p={"5"}  >
+                                <Flex bg={mainBackgroundColor} insetX={"6"} mt={["0px", "0px", "16", "16"]} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
+                                    <Flex bgColor={secondaryBackgroundColor} w={["full", "full", "full", "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"64px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} px={["3", "3", "5", "5"]} p={"5"}  >
 
                                         {/* <Button borderWidth={"1px"} onClick={() => router?.push("/dashboard/settings/payment/details")} borderColor={primaryColor} w={"full"} h={"50px"} rounded={"32px"} color={primaryColor} fontWeight={"600"} bgColor={"#EFF5F8"} _hover={{ backgroundColor: "#EFF5F8" }} >
                                             Withdraw Cash

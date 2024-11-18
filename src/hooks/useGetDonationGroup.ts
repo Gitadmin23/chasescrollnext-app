@@ -25,10 +25,7 @@ const useGetDonationGroup = (id?: string) => {
             })
         }),
         {
-            onSuccess: (data) => {
-
-                console.log(data?.data?.content);
-                
+            onSuccess: (data) => { 
                 setData(data?.data?.content)
             }
         },
