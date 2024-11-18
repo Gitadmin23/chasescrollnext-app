@@ -17,7 +17,7 @@ function SelectImage(props: Props) {
     } = props
  
     const [selectedImageFile, setSelectedImageFile] = React.useState('');
-    const { image, updateImage } = useDonationStore((state) => state)
+    const { image, updateImage, data } = useDonationStore((state) => state)
 
     const toast = useToast()
 
@@ -56,7 +56,7 @@ function SelectImage(props: Props) {
     return (
         <Flex width={"full"} flexDirection={"column"} gap={"4"} alignItems={"center"} >
             <Flex as={"button"} width={["full", "361px"]} height={"228px"} border={"1px dashed #D0D4EB"} roundedBottom={"32px"} roundedTopLeft={"32px"} justifyContent={"center"} alignItems={"center"} >
-                {(!selectedImageFile) && (
+                {(!selectedImageFile && !data[index]?.bannerImage) && (
                     <label role='button' style={{ width: "100%", display: "grid", height: "100%", placeItems: "center", gap: "16px" }} >
                         <Box width={"full"} >
                             <Text fontSize={"sm"} >Click to upload image</Text>
@@ -72,9 +72,9 @@ function SelectImage(props: Props) {
                         />
                     </label>
                 )}
-                {(selectedImageFile) && (
+                {(selectedImageFile || data[index]?.bannerImage) && (
                     <label role='button' style={{ width: "100%", display: "grid", height: "228px", placeItems: "center", gap: "16px" }} >
-                        <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={"eventimage"} width={"full"} height={"228px"} src={selectedImageFile} />
+                        <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={"eventimage"} width={"full"} height={"228px"} src={selectedImageFile ? selectedImageFile : IMAGE_URL + data[index]?.bannerImage} />
                         <input
                             type="file"
                             id="image"

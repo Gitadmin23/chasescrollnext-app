@@ -6,7 +6,7 @@ import { Button, Flex, Input, Text, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
 
-export default function DonationPayment({ data }: { data: IDonationList }) {
+export default function DonationPayment({ data }: { data?: IDonationList }) {
 
     const [open, setOpen] = useState(false)
 
@@ -76,7 +76,7 @@ export default function DonationPayment({ data }: { data: IDonationList }) {
             price: Number(value),
             currency: "NGN",
             orderType: "DONATION",
-            typeID: data?.id
+            typeID: data?.id+""
         })
     }, [data?.id, value])  
 

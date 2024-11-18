@@ -10,6 +10,7 @@ import { useReactToPrint } from "react-to-print";
 import { exportComponentAsJPEG } from "react-component-export-image";
 import CopyRightText from "@/components/sharedComponent/CopyRightText";
 import useCustomTheme from "@/hooks/useTheme";
+import { textLimit } from "@/utils/textlimit";
 
 interface Props {
   id: string | number;
@@ -93,11 +94,9 @@ function Qr_code(props: Props) {
             color={"white"}
             width={"full"}
           >
-            <Text fontSize={"14px"}>Event Name</Text>
+            <Text fontSize={"14px"}>{data?.eventName ? "Event" : "Fundraising"} Name</Text>
             <Text fontSize={"18px"} fontWeight={"bold"}>
-              {data?.eventName?.length >= 25
-                ? data?.eventName?.slice(0, 25) + "..."
-                : data?.eventName}
+              {textLimit(data?.eventName ? data?.eventName : data?.name, 20)}
             </Text>
           </Flex>
           <Flex justifyContent={"center"} flex={1} width={"full"} pt={"6"}>
@@ -116,13 +115,13 @@ function Qr_code(props: Props) {
                   width: "100%",
                   zIndex: 20,
                 }}
-                value={`${WEBSITE_URL}/event/${id}`}
+                value={`${WEBSITE_URL}${data?.eventName ? "/event/" : "/donation/"}${id}`}
                 viewBox={`0 0 256 256`}
               />
             </Box>
           </Flex>
           <Text mt={"4"} color={bodyTextColor}>
-            Scan here and get Your Event Link
+            Scan here and get Your {data?.eventName ? "Event" : "Fundraising"} Link
           </Text>
           <Text fontSize={"xs"} textAlign={"center"}>
             <CopyRightText />

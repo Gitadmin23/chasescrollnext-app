@@ -5,14 +5,14 @@ import React from 'react'
 import CircularProgressBar from '../sharedComponent/circleGraph'
 import useCustomTheme from '@/hooks/useTheme'
 
-export default function DonationGraph( { item } : {item : IDonationList}) {
+export default function DonationGraph( { item, rounded } : {item : IDonationList, rounded?: string}) {
 
     const {
         bodyTextColor, borderColor
     } = useCustomTheme()
 
     return (
-        <Flex w={"full"} borderWidth={"1px"} alignItems={"center"} borderColor={borderColor} rounded={"8px"} py={"3"} px={"8px"} justifyContent={"space-between"} >
+        <Flex w={"full"} borderWidth={"1px"} alignItems={"center"} borderColor={borderColor} rounded={rounded ? rounded : "8px"} py={"3"} px={rounded ? "20px" : "8px"} justifyContent={"space-between"} >
             <Flex flexDirection={"column"} >
                 <Text color={bodyTextColor} >Target</Text>
                 <Text fontWeight={"600"} >{formatNumber(item?.goal)}</Text>
