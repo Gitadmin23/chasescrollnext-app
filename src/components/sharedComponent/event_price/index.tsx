@@ -20,11 +20,11 @@ function EventPrice(props: Props) {
     } = props 
 
     const DataFormater = (number: number, prefix: string) => {
-        if(number > 1000000000){
+        if(number >= 1000000000){
           return (prefix)+(number/1000000000)?.toString() + 'B';
-        }else if(number > 1000000){
+        }else if(number >= 1000000){
           return (prefix)+(number/1000000)?.toString() + 'M';
-        }else if(number > 1000){
+        }else if(number >= 1000){
           return (prefix)+(number/1000)?.toString() + 'K';
         }else{
           return (prefix)+(number ? number : 0)?.toString();
