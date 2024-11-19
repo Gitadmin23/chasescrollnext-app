@@ -1,5 +1,5 @@
 
-export const formatNumberWithK = (number: any) =>{
+export const formatNumberWithK = (num: any) =>{
     // if(number === 0 || !number) {
     //     return "0"
     // } else {
