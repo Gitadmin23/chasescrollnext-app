@@ -8,7 +8,7 @@ export type IDonation = {
     goal: any,
     total?: number,
     visibility: "PUBLIC" | "PRIVATE" | null,
-    collaborators?: Array<string>,
+    collaborators: Array<any>,
     purpose: string,
     funnelID?: string,
     funnelType?: "EVENT" | "COMMUNITY",

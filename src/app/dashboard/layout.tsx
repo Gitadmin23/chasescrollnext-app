@@ -8,7 +8,7 @@ import SearchBar from '@/components/explore_component/searchbar';
 import { signOut, useSession } from 'next-auth/react';
 import UserImage from '@/components/sharedComponent/userimage';
 import CustomText from '@/components/general/Text';
-import { HomeIcon, UsersIcon } from '@/components/svg';
+import { DashboardMenuIcon, HomeIcon, UsersIcon } from '@/components/svg';
 import { SearchNormal1, Calendar, Warning2, LogoutCurve } from 'iconsax-react';
 import useCustomTheme from '@/hooks/useTheme';
 import getUser from '@/hooks/useGetUser';
@@ -18,6 +18,7 @@ import ModalLayout from '@/components/sharedComponent/modal_layout';
 import NotificationBar from '@/components/notification';
 import useNotificationHook from '@/hooks/useNotificationHook';
 import CustomButton from '@/components/general/Button';
+import DashboardMenuBtn from '@/components/sharedComponent/dashboard_menu_btn';
 
 export default function Layout({ children }: {
     children: ReactNode
@@ -186,11 +187,19 @@ export default function Layout({ children }: {
                         </Flex>
                         <Flex ml={"auto"} gap={"3"} display={["none", "none", "none", "flex", "flex"]} >
                             <CreateEventBtn btn={true} />
-                            <CustomButton onClick={() => router.push('/dashboard/donation/create')} pos={"relative"} zIndex={"20"} width={"180px"} backgroundColor={secondaryBackgroundColor} color={headerTextColor} text={"Fundraising"} borderRadius={"full"} />
+
+                            <Flex onClick={() => router.push('/dashboard/donation')} as={"button"} pos={"relative"} height={"45px"} zIndex={"20"} width={"180px"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
+                                Fundraising
+                            </Flex>
+                            {/* <CustomButton onClick={() => router.push('/dashboard/donation')} pos={"relative"} zIndex={"20"} width={"180px"} backgroundColor={secondaryBackgroundColor} color={headerTextColor} text={"Fundraising"} borderRadius={"full"} /> */}
                         </Flex>
                         <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"3"} >
-                            <CreateEventBtn mobile={true} /> 
-                            <Flex zIndex={20} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
+                            <CreateEventBtn mobile={true} />
+
+                            <Flex onClick={() => router.push('/dashboard/donation')} as={"button"} fontSize={"xs"} pos={"relative"} height={"35px"} zIndex={"20"} width={"fit-content"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
+                                Fundraising
+                            </Flex>
+                            {/* <Flex zIndex={20} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
 
                                 <Flex onClick={() => router?.push("/dashboard/chats")} h={"20px"} alignItems={"center"} as='button' >
                                     <NewChatIcon />
@@ -201,8 +210,12 @@ export default function Layout({ children }: {
                                 <Flex>
                                     <LogoutCurve onClick={() => setOpen(true)} color='red' size={'20px'} variant='Outline' />
                                 </Flex>
-                            </Flex>
+                            </Flex> */}
+                            <DashboardMenuBtn />
                         </Flex>
+                        {/* <Flex display={["flex", "flex", "flex", "none", "none"]}  >
+                            <DashboardMenuBtn />
+                        </Flex> */}
                     </Flex>
                 )}
                 {(pathname !== ("/dashboard/donation/create") && !pathname?.includes("/donation/edit") && pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? (

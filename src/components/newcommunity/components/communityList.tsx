@@ -91,7 +91,7 @@ export default function CommunityList({ tab, setTab, setShow }: IProps) {
         <Flex w={"full"} h={"full"} flexDir={"column"} bg={mainBackgroundColor} >
             <ListHeader tab={tab} setTab={setTab} setShow={setShow} />
             <Flex w={"full"} h={"72px"} borderBottomColor={borderColor} borderBottomWidth={"1px"} px={"6"} justifyContent={"center"} alignItems={"center"} >
-                <InputGroup width={["full", "full", "361px"]} zIndex={"20"} position={"relative"} >
+                <InputGroup width={["full", "full", "361px"]} position={"relative"} >
                     <InputLeftElement pointerEvents='none'>
                         <IoSearchOutline size={"25px"} color={bodyTextColor} />
                     </InputLeftElement>

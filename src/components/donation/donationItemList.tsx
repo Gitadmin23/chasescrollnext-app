@@ -22,7 +22,9 @@ import DonationBtn from './donationBtn'
 import ShareEvent from '../sharedComponent/share_event'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
 
-export default function DonationItemList({ details, singleData }: { details?: boolean, singleData?: IDonationList }) {
+
+
+export default function DonationItemList({ details, singleData, creator }: { details?: boolean, singleData?: IDonationList, creator?: boolean }) {
 
     const { data, isLoading } = useGetDonationList()
     const {
@@ -32,15 +34,15 @@ export default function DonationItemList({ details, singleData }: { details?: bo
         mainBackgroundColor
     } = useCustomTheme()
 
+
+    const userId = localStorage.getItem('user_id') + "";
     const [selected, setSelected] = useState({} as IDonationList)
     const { data: groupData, isLoading: loading, isRefetching } = useGetDonationGroup(singleData?.fundRasingGroupId?.id)
     const [open, setOpen] = useState(false)
 
-    const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/fund-raiser/search`, limit: 20, filter: "id" })
+    const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/fund-raiser/search${creator ? "?creatorID="+userId : ""}`, limit: 20, filter: "id" })
 
     const router = useRouter()
-
-    const userId = localStorage.getItem('user_id') + "";
 
     const clickHander = (item: IDonationList, index: string) => {
         if (item?.fundRasingGroupId?.id) {
@@ -54,7 +56,7 @@ export default function DonationItemList({ details, singleData }: { details?: bo
     return (
         <Flex w={"full"} flexDir={"column"} gap={"5"} >
             {!details && (
-                <LoadingAnimation loading={loadingList} refeching={refetchingList} >
+                <LoadingAnimation loading={loadingList} refeching={refetchingList} length={results?.length} withimg={true} >
                     <Grid w={"full"} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} gap={6} >
                         {results?.map((item: IDonationList, index: number) => {
                             if(results?.length === index + 1) {

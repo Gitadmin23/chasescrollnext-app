@@ -96,7 +96,7 @@ export default function DonationDetails({ id }: { id: string }) {
                                 </Flex>
                             </Flex>
                             {userId !== item?.createdBy?.userId ? (
-                                <Flex bg={mainBackgroundColor} insetX={"6"} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative", "relative"]} w={["auto", "auto", "auto", "fit-content", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
+                                <Flex bg={mainBackgroundColor} insetX={"6"} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
                                     <DonationPayment data={item} />
                                 </Flex>
                             ) : (

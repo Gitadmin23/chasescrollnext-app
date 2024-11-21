@@ -12,6 +12,7 @@ import SelectDonationDate from '../select_date';
 import FunnelBtn from '../funnel';
 import CollaboratorBtn from '../collaborators';
 import GetCommunity from '../funnel/get_community';
+import DonationCollaborator from '../donationCollaborator';
 
 function DonationTheme({id} : {id?: string}) {
 
@@ -34,6 +35,7 @@ function DonationTheme({id} : {id?: string}) {
             visibility: "PUBLIC",
             purpose: "",
             endDate: "",
+            collaborators: []
         }
         updateDontion(myArr)
     }
@@ -177,7 +179,7 @@ function DonationTheme({id} : {id?: string}) {
                             <Flex flexDir={["column", "column", "row"]} justifyContent={"space-between"} mt={"5"} gap={["4", "4", "4"]} >
                                 <FunnelBtn index={index} />
                                 <Text color={"gray"} fontWeight={"800"} >|</Text>
-                                <CollaboratorBtn addCollaborator={true} />
+                                <DonationCollaborator index={index} />
                             </Flex>
                             <GetCommunity />
                         </Flex>

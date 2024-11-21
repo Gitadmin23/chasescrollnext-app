@@ -15,6 +15,7 @@ import useCustomTheme from "@/hooks/useTheme";
 import CustomText from '@/components/general/Text';
 import { Warning2 } from 'iconsax-react';
 import useDonationStore from '@/global-state/useDonationState';
+import AWSHook from '@/hooks/awsHook';
 
 interface Iprops {
     id?: string
@@ -39,17 +40,19 @@ function SubmitEvent(props: Iprops) {
     const { userId: user_index } = useDetails((state) => state);
     const pathname = usePathname();
 
+    const { fileUploadHandler, loading, uploadedFile, reset, deleteFile } = AWSHook();
+
     const router = useRouter()
 
     const [open, setOpen] = useState(false)
-    const [stopData, setstopData] = useState(false)
     const [uploadedImage, setUploadedImage] = useState<Array<string>>([])
+
+    const [payload, setPayload] = useState([] as any)
 
     // const []
     const toast = useToast()
-
     const getValidationTheme = () => {
-        data?.every((item, index) => {
+        payload.every((item: any) => {
             if (!item?.name) {
                 toast({
                     description: "Please Enter Fundraising Name",
@@ -58,15 +61,8 @@ function SubmitEvent(props: Iprops) {
                     duration: 5000,
                     position: 'top-right',
                 });
-                return
-            } else if (!item?.goal) {
-                toast({
-                    description: "Please Enter Fundraising Goal",
-                    status: 'error',
-                    isClosable: true,
-                    duration: 5000,
-                    position: 'top-right',
-                });
+                console.log("name");
+
                 return
             } else if (!item?.description) {
                 toast({
@@ -76,6 +72,7 @@ function SubmitEvent(props: Iprops) {
                     duration: 5000,
                     position: 'top-right',
                 });
+                console.log("des");
                 return
             } else if (!item?.purpose) {
                 toast({
@@ -85,6 +82,7 @@ function SubmitEvent(props: Iprops) {
                     duration: 5000,
                     position: 'top-right',
                 });
+                console.log("purpose");
                 return
             } else if (!item?.goal) {
                 toast({
@@ -94,6 +92,7 @@ function SubmitEvent(props: Iprops) {
                     duration: 5000,
                     position: 'top-right',
                 });
+                console.log("goal");
                 return
             } else if (!item?.endDate) {
                 toast({
@@ -103,8 +102,9 @@ function SubmitEvent(props: Iprops) {
                     duration: 5000,
                     position: 'top-right',
                 });
+                console.log("endDate");
                 return
-            } else if (!getValidationImageBtn) {
+            } else if (getValidationImageBtn() && !pathname?.includes("edit")) {
                 toast({
                     description: "Please Enter Fundraising Image",
                     status: 'error',
@@ -112,6 +112,7 @@ function SubmitEvent(props: Iprops) {
                     duration: 5000,
                     position: 'top-right',
                 });
+                console.log("image");
                 return
             } else if (getValidationThemeBtn()) {
                 toast({
@@ -129,7 +130,7 @@ function SubmitEvent(props: Iprops) {
     }
 
     const getValidationThemeBtn = () => {
-        return data?.every((item, index) => {
+        return payload?.every((item: any, index: number) => {
             if (!item?.name) {
                 return true
             } else if (!item?.purpose) {
@@ -141,7 +142,7 @@ function SubmitEvent(props: Iprops) {
             } else if (!item?.goal) {
                 return true
             }
-            else if (!getValidationImageBtn) {
+            else if (getValidationImageBtn() && !pathname?.includes("edit")) {
                 return true
             } else if (data.length === index + 1) {
                 return false
@@ -162,53 +163,6 @@ function SubmitEvent(props: Iprops) {
         })
     }
 
-    // Upload Image
-    const uploadImage = useMutation({
-        mutationFn: (data: any) => httpService.post("/resource-api/upload/" + user_index, data,
-            {
-                headers: {
-                    'Content-Type': image[0].type,
-                }
-            }),
-        onError: (error: AxiosError<any, any>) => {
-            toast({
-                title: 'Error',
-                description: error?.response?.data?.message,
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-        },
-        onSuccess: async (newdata: any) => {
-            const values: any = Object.values(newdata?.data);
-            setUploadedImage(values)
-
-            const clone = [...data]
-
-            await values?.map((item: string, index: number) => {
-
-                clone[index] = { ...clone[index], bannerImage: item }
-
-            })
-
-            updateDontion(clone)
-
-            if (values?.length === 2) {
-                await createGroupDonation.mutateAsync({
-                    creatorID: data[0]?.creatorID,
-                    name: data[0]?.name,
-                    bannerImage: uploadedImage[0],
-                    description: data[0].description
-                })
-            } else {
-                let newObj: any = [...data]
-                newObj[0] = { ...data[0], bannerImage: values[0] }
-                createDonation.mutate({ items: newObj })
-            }
-        }
-    });
-
     // Create Draft 
     const createGroupDonation = useMutation({
         mutationFn: (data: {
@@ -227,8 +181,14 @@ function SubmitEvent(props: Iprops) {
                 position: 'top-right',
             });
         },
-        onSuccess: () => {
+        onSuccess: (groupData) => {
 
+            const clone = [...data]
+            uploadedFile?.map((item, index) => {
+                clone[index] = { ...clone[index], fundRaiserGroupId: groupData?.data?.id, bannerImage: item }
+            })
+            createDonation.mutate({ items: clone })
+            // setstopData(true)
         }
     });
 
@@ -248,7 +208,7 @@ function SubmitEvent(props: Iprops) {
         onSuccess: (data: AxiosResponse<any>) => {
             toast({
                 title: 'Success',
-                description: "Fund Raisier Created",
+                description: "Fundraisier Created",
                 status: 'success',
                 isClosable: true,
                 duration: 5000,
@@ -261,8 +221,11 @@ function SubmitEvent(props: Iprops) {
 
     // Create Draft 
     const editDonation = useMutation({
-        mutationFn: (payload: any) => httpService.post(`/fund-raiser/edit/${id}`, payload),
+        mutationFn: (payload: any) => httpService.put(`/fund-raiser/edit/${id}`, payload),
         onError: (error: AxiosError<any, any>) => {
+
+            console.log("work");
+
             toast({
                 title: 'Error',
                 description: error?.response?.data?.message,
@@ -275,59 +238,69 @@ function SubmitEvent(props: Iprops) {
         onSuccess: () => {
             toast({
                 title: 'Success',
-                description: "Fund Raisier Created",
+                description: "Updated Fundraisier",
                 status: 'success',
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
             });
 
-            router?.push("/dashboard/donation/"+id)
+            router?.push("/dashboard/donation/" + id)
         }
     });
 
-    const handleClick = React.useCallback(() => {
-        getValidationTheme()
-    }, [uploadImage])
+    // const handleClick = React.useCallback(() => {
+    //     getValidationTheme()
+    // }, [])
 
     const createFundraisingData = () => {
-        if (!pathname?.includes("edit_event")) {
-            const fd = new FormData();
-            image?.map((item, index) => {
-                fd.append("files[]", item);
-            })
-            uploadImage.mutate(fd)
+        if (!pathname?.includes("edit")) {
+            fileUploadHandler(image)
         } else {
             if (image?.length > 0) {
-                const fd = new FormData();
-                image?.map((item, index) => {
-                    fd.append("files[]", item);
-                })
-                uploadImage.mutate(fd)
+                fileUploadHandler(image)
             } else {
-                editDonation?.mutate(data)
+                editDonation?.mutate({ ...data[0] })
             }
         }
     }
 
     useEffect(() => {
-        if (uploadedImage?.length > 0 && createGroupDonation?.isSuccess) {
-            if (!stopData) {
-                const clone = [...data]
-                data?.map((item, index) => {
-                    clone[index] = { ...clone[index], fundRaiserGroupId: createGroupDonation?.data?.data?.id, bannerImage: uploadedImage[index] }
-                })
-                createDonation.mutate({ items: clone })
-                setstopData(true)
+        setPayload(data)
+    }, [data])
+
+    useEffect(() => {
+        if (uploadedFile?.length > 2) {
+            createGroupDonation.mutateAsync({
+                creatorID: data[0]?.creatorID,
+                name: data[0]?.name,
+                bannerImage: uploadedImage[0],
+                description: data[0].description
+            })
+        } else if (uploadedFile?.length > 0) {
+            let newObj: any = [...data]
+            newObj[0] = { ...data[0], bannerImage: uploadedFile[0] }
+            if (!pathname?.includes("edit")) {
+                createDonation.mutate({ items: newObj })
+
+            } else {
+                console.log(newObj[0]);
+
+                editDonation?.mutate({ ...newObj[0] })
             }
+            reset()
         }
-    }, [uploadedImage, createGroupDonation])
+    }, [uploadedFile])
 
     return (
         <Flex w={"full"} alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} >
-
-            <CustomButton borderWidth={"0px"} backgroundColor={(getValidationThemeBtn() || getValidationImageBtn()) ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={createDonation?.isLoading || uploadImage?.isLoading || createGroupDonation?.isLoading} onClick={handleClick} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={["full", "full", "300px", "300px"]}
-                text={'Submit'} />
+            {!pathname?.includes("edit") ? (
+                <CustomButton borderWidth={"0px"} backgroundColor={(getValidationThemeBtn() || getValidationImageBtn()) ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={createDonation?.isLoading || loading || createGroupDonation?.isLoading} onClick={getValidationTheme} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={["full", "full", "300px", "300px"]}
+                    text={'Submit'} />
+            ) : (
+                <CustomButton borderWidth={"0px"} backgroundColor={(getValidationThemeBtn()) ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={createDonation?.isLoading || loading || createGroupDonation?.isLoading} onClick={getValidationTheme} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={["full", "full", "300px", "300px"]}
+                    text={'Update'} />
+            )}
 
             <ModalLayout close={setOpen} open={open} bg={secondaryBackgroundColor} >
                 <SuccessMessageCreateEvent update={(pathname?.includes("edit_event_data") || pathname?.includes("edit_event")) ? true : false} />

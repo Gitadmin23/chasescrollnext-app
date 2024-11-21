@@ -14,157 +14,16 @@ interface IProps {
 function CreateDonationHeader({ name }: IProps) {
 
     const {
-        bodyTextColor,
-        primaryColor,
-        secondaryBackgroundColor,
-        mainBackgroundColor,
-        borderColor,
+        bodyTextColor, 
         headerTextColor
-    } = useCustomTheme();
-    const { colorMode, toggleColorMode } = useColorMode();
+    } = useCustomTheme(); 
 
-    const { eventdata, changeTab, image, tab } = useEventStore((state) => state);
-
-    const toast = useToast()
-
-    const pathname = usePathname();
-
-    const router = useRouter()
-
-    const getValidationInfoClick = () => {
-        if (pathname?.includes("edit_event_data")) {
-            toast({
-                description: "Complete all fields in the information section to continue.",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else {
-            if (!eventdata?.startDate) {
-                toast({
-                    description: "Complete all fields in the information section to continue.",
-                    status: 'error',
-                    isClosable: true,
-                    duration: 5000,
-                    position: 'top-right',
-                });
-                return
-            } else if (!eventdata?.endDate) {
-                toast({
-                    description: "Complete all fields in the information section to continue.",
-                    status: 'error',
-                    isClosable: true,
-                    duration: 5000,
-                    position: 'top-right',
-                });
-                return
-            } else if (eventdata?.startDate > eventdata?.endDate) {
-                toast({
-                    description: "Complete all fields in the information section to continue.",
-                    status: 'error',
-                    isClosable: true,
-                    duration: 5000,
-                    position: 'top-right',
-                });
-                return
-            } else if (!eventdata?.location?.toBeAnnounced) {
-                if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
-                    toast({
-                        description: "Complete all fields in the information section to continue.",
-                        status: 'error',
-                        isClosable: true,
-                        duration: 5000,
-                        position: 'top-right',
-                    });
-                    return
-                } else {
-                    changeTab(2)
-                }
-            } else {
-                changeTab(2)
-            }
-        }
-    }
-
-    const clickHandler = () => {
-        if (pathname?.includes("edit_event_data")) {
-            toast({
-                description: "You can only edit the information tab because users have already bought this event",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else {
-            changeTab(0)
-        }
-    }
-
-    const getValidationThemeClick = (item?: number) => {
-        if (!pathname?.includes("edit_event_data")) {
-            if (!eventdata?.eventName) {
-                toast({
-                    description: "Complete all fields in the Themes section to continue.",
-                    status: 'error',
-                    isClosable: true,
-                    duration: 5000,
-                    position: 'top-right',
-                });
-                return
-            } else if (!eventdata?.eventType) {
-                toast({
-                    description: "Complete all fields in the Themes section to continue.e",
-                    status: 'error',
-                    isClosable: true,
-                    duration: 5000,
-                    position: 'top-right',
-                });
-                return
-            } else if (!eventdata?.eventDescription) {
-                toast({
-                    description: "Complete all fields in the Themes section to continue.",
-                    status: 'error',
-                    isClosable: true,
-                    duration: 5000,
-                    position: 'top-right',
-                });
-                return
-            } else if (!image && !eventdata?.currentPicUrl) {
-                toast({
-                    description: "Complete all fields in the Themes section to continue.",
-                    status: 'error',
-                    isClosable: true,
-                    duration: 5000,
-                    position: 'top-right',
-                });
-                return
-            } else {
-                if (item === 1) {
-                    changeTab(1)
-                } else {
-                    getValidationInfoClick()
-                }
-            }
-        }
-    }
-
-    const statusHandler = (item: number) => {
-        if (tab === 0) {
-            getValidationThemeClick(item)
-        } else if (tab === 2) {
-            getValidationThemeClick(item)
-        } else {
-            getValidationInfoClick()
-        }
-    }
+    const router = useRouter() 
 
     return (
         <Flex position={"relative"} h={["fit-content", "fit-content", "fit-content", "fit-content", "100vh"]} width={["full", "full", "full", "full", "546px"]} >
             <Flex pos={"absolute"} display={["none", "none", "none", "none", "flex"]} top={"4"} w={"full"} h={"30px"} justifyContent={"center"} alignItems={"center"} >
-                <Text fontWeight={"bold"} fontSize={"20px"} >Create Fundraising</Text>
+                <Text fontWeight={"bold"} fontSize={"20px"} >{name}</Text>
             </Flex>
             <Flex as={"button"} w={"fit-content"} onClick={() => router?.back()} left={"6"} justifyContent={"center"} alignItems={"center"} height={"30px"} pos={"absolute"} display={["none", "none", "none", "none", "flex"]} top={"18px"}  >
                 <IoArrowBack size={"25px"} />

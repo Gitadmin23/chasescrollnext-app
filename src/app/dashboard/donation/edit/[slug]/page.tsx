@@ -30,19 +30,25 @@ export default function CreateDonation({ params }: Props) {
 
     React.useEffect(() => {
         if (!isLoading) {
-            updateDontion([{
-                bannerImage: item?.bannerImage,
-                creatorID: item?.createdBy?.userId,
-                description: item?.description,
-                endDate: item?.endDate,
-                goal: item?.goal,
-                name: item?.name,
-                purpose: item?.purpose,
-                visibility: item?.visibility,
-                funnelID: item?.funnelID
-            }])
+            if(!data[0]?.name){
+                updateDontion([{
+                    bannerImage: item?.bannerImage,
+                    creatorID: item?.createdBy?.userId,
+                    description: item?.description,
+                    endDate: item?.endDate,
+                    goal: item?.goal,
+                    name: item?.name,
+                    purpose: item?.purpose,
+                    visibility: item?.visibility,
+                    funnelID: item?.funnelID,
+                    collaborators: item?.collaborators ? item?.collaborators : []
+                }])
+            }
         }
-    }, [isLoading])
+    }, [isLoading, item])
+
+    console.log(item);
+    
 
     return (
         <LoadingAnimation loading={isLoading} >

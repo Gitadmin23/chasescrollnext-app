@@ -31,12 +31,8 @@ function SelectDonationDate(props: Props) {
         } 
         updateDontion(clone)
 
-    }
-
-    console.log(data);
+    } 
     
-    
-
     const CustomInput = ({ value, onClick }: any) => {
         return (
             <Flex onClick={onClick} as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"full"} fontSize={"sm"} h={"50px"}  >
