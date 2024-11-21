@@ -18,8 +18,7 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
         headerTextColor
     } = useCustomTheme()
 
-    const donate = [
-        "NGN 500",
+    const donate = [ 
         "NGN 1000",
         "NGN 1500",
         "NGN 2000",
@@ -81,21 +80,16 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
     }, [data?.id, value])  
 
     return (
-        <Flex maxW={["full", "full", "full", "450px", "450px"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} flexDir={"column"} w={"full"} overflowX={"hidden"} gap={"3"} p={"5"}  >
+        <Flex w={["full", "full", "full", "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]}  shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} p={"5"}  >
             <Text fontSize={"18px"} fontWeight={"600"} >Enter the Amount</Text>
-            <Flex w={"full"} gap={"2"} overflowX={"auto"} sx={{
-                '::-webkit-scrollbar': {
-                    display: 'none'
-                }
-            }}>
-                <Flex w={"fit-content"} gap={"2"}>
+             
+                <Flex w={"fit-content"} flexWrap={"wrap"} gap={"2"}>
                     {donate?.map((item) => (
                         <Flex key={item} as={"button"} onClick={() => setValue(item?.replace("NGN ", ""))} rounded={"32px"} h={"25px"} w={"80px"} borderWidth={"2px"} justifyContent={"center"} alignItems={"center"} color={item.replace("NGN ", "") === value ? primaryColor : headerTextColor} borderColor={item.replace("NGN ", "") === value ? primaryColor : borderColor} fontSize={"12px"} fontWeight={"600"}  >
                             {item}
                         </Flex>
                     ))}
-                </Flex>
-            </Flex>
+                </Flex> 
             <Flex w={"full"} h={"50px"} pos={"relative"} >
                 <Input value={value} placeholder='0' onChange={(e) => setValue(e.target.value)} w={"full"} h={"50px"} rounded={"32px"} pl={"8"} borderColor={borderColor} type='number' borderWidth={"1px"} />
                 <Flex w={"fit-content"} h={"50px"} pos={"absolute"} justifyContent={"center"} alignItems={"center"} px={"4"} >

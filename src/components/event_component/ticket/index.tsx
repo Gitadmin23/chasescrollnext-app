@@ -207,7 +207,7 @@ export default function Ticket({ ticket, showStatus = false, approved, close }: 
                         <Flex p={"2"} width={"full"} flexDirection={"column"} gap={"4"} fontSize={"xs"} >
                             <Flex flexDirection={"column"} gap={"2"} >
                                 <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Place</Text>
-                                <EventLocationDetail color={"brand.chasescrollTextGrey"} fontsize={"xs"} location={ticket?.event?.location} fontWeight={"medium"} noicon={true} locationType={ticket?.event?.locationType} />
+                                <EventLocationDetail isLimited={true} color={"brand.chasescrollTextGrey"} fontsize={"xs"} location={ticket?.event?.location} fontWeight={"medium"} noicon={true} locationType={ticket?.event?.locationType} />
                             </Flex>
                             <Flex flexDirection={"column"} gap={"2"} >
                                 <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Order ID</Text>

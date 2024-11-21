@@ -47,8 +47,7 @@ function SelectImage(props: Props) {
                     setSelectedImageFile(reader.result)
                 }
                 reader.readAsDataURL(selected)
-            } else {
-                console.log('Error')
+            } else { 
             }
         }
     } 

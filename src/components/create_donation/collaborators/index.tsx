@@ -64,6 +64,7 @@ export default function CollaboratorBtn(props: IProps) {
 
     const [open, setOpen] = useState(false)
     const [tab, setTab] = useState(false)
+    const [search, setSearch] = React.useState(''); 
     const [users, setUsers] = React.useState<IUser[]>([]);
     const [usersFilter, setUserFilter] = React.useState<IUser[]>([]);
     const { eventdata, updateEvent } = useEventStore((state) => state);
@@ -76,7 +77,6 @@ export default function CollaboratorBtn(props: IProps) {
     const { userId } = useDetails((state) => state);
     // const toast = useToast()
 
-    const [search, setSearch] = React.useState(''); 
 
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/user/search-users?searchText=${search}`, limit: 10, filter: "userId", name: "all-event", search: search })
 
@@ -121,8 +121,7 @@ export default function CollaboratorBtn(props: IProps) {
 
             updateEvent(clone);
 
-        }
-        console.log(clone);
+        } 
     }
 
     const AddCollaborators = (userIndex: string) => {
@@ -386,77 +385,7 @@ export default function CollaboratorBtn(props: IProps) {
                 )}
             </Flex>
         )
-    }
-
-    const clickHandler = () => {
-
-        setTab(false)
-        setOpen(true)
-        setSearch("")
-
-        if (data?.eventName) {
-
-            const clone: CreateEvent = {
-                id: data?.id,
-                picUrls: data?.picUrls,
-                eventType: data?.eventType,
-                eventName: data?.eventName,
-                eventDescription: data?.eventDescription,
-                joinSetting: data?.joinSetting,
-                locationType: data?.locationType,
-                currency: data?.currency,
-                currentPicUrl: data?.currentPicUrl,
-                eventFunnelGroupID: data?.eventFunnelGroupID,
-                mediaType: data?.mediaType,
-                currentVideoUrl: data?.currentVideoUrl,
-                isPublic: data?.isPublic,
-                isExclusive: data?.isExclusive,
-                mask: data?.mask,
-                attendeesVisibility: data?.attendeesVisibility,
-                minPrice: data?.minPrice,
-                maxPrice: data?.maxPrice,
-                startTime: data?.startTime,
-                endTime: data?.endTime,
-                startDate: data?.startDate,
-                endDate: data?.endDate,
-                // expirationDate: "",
-                location: data?.location,
-                productTypeData: data?.productTypeData,
-                collaborators: data?.collaborators,
-                acceptedAdmins: data?.acceptedAdmins,
-                acceptedCollaborators: data?.acceptedCollaborators,
-                admins: data?.admins
-            }
-
-
-            const admin: any = []
-            const collaborator: any = []
-            const acceptedAdmins: any = []
-            const acceptedCollaborators: any = []
-
-            clone?.admins?.map((item: IUser) => {
-                return admin.push(item?.userId)
-            })
-            clone?.collaborators?.map((item: IUser) => {
-                return collaborator.push(item?.userId)
-            })
-
-            clone?.acceptedAdmins?.map((item: IUser) => {
-                return acceptedAdmins.push(item?.userId)
-            })
-            clone?.acceptedCollaborators?.map((item: IUser) => {
-                return acceptedCollaborators.push(item?.userId)
-            })
-
-            clone.admins = admin
-            clone.collaborators = collaborator
-            clone.acceptedAdmins = acceptedAdmins
-            clone.acceptedCollaborators = acceptedCollaborators
-
-            updateEvent(clone)
-        }
-
-    }
+    } 
 
     const toast = useToast()
 
@@ -530,11 +459,11 @@ export default function CollaboratorBtn(props: IProps) {
 
     return (
         <>
-            {btn && (
+            {/* {btn && (
                 <>
                     <Button onClick={() => clickHandler()} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{collaborate ? "Edit" : "Invite"} Collaborator</Button>
                 </>
-            )}
+            )} */}
             {!btn && (
                 <Flex flexDir={"column"} w={"fit-content"} gap={"3"} alignItems={"end"} >
                     <Flex gap={"3"} alignItems={"center"} >

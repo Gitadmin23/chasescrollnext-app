@@ -37,6 +37,7 @@ function DonateUsers(props: Props) {
     const { isLoading, isRefetching, data } = useQuery(['donation', event?.id], () => httpService.get('/payments/orders', {
         params: {
             typeID: event?.id,
+            orderStatus: "PAID", 
             size: 10,
             page: 0,
         }

@@ -57,14 +57,14 @@ const AWSHook = () => {
         }
     });
 
-    const fileUploadHandler = (files: FileList) => {
+    const fileUploadHandler = (files: any) => {
         console.log(files);
         setLoading(true);
         console.time('upload');
 
 
         const fd = new FormData();
-        Array.from(files).map((file) => {
+        Array.from(files).map((file: any) => {
             fd.append("files[]", file);
         })
         uploadImage.mutate({
