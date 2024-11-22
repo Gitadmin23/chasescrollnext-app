@@ -104,6 +104,60 @@ const useNotificationHook = () => {
         onError: () => { },
     });
 
+    const joinAndRejectFundraising = useMutation({
+        mutationFn: (data: {
+            id: string,
+            accepted: boolean
+        }) =>
+            httpService.put(
+                `/collaborator-request/accept-or-delcine`, data
+            ),
+        onSuccess: (data: any) => {
+            console.log(data?.data.updated);
+            if (data?.data.updated) {
+                markAsRead.mutate([index]);
+                refetch()
+            } else {
+                toast({
+                    title: "error",
+                    description: "Error occured ",
+                    status: "error",
+                    isClosable: true,
+                    duration: 5000,
+                    position: "top-right",
+                });
+            }
+        },
+        onError: () => { },
+    });
+
+    const rejectFundraising = useMutation({
+        mutationFn: (data: {
+            id: string,
+            accepted: boolean
+        }) =>
+            httpService.post(
+                `/collaborator-request/accept-or-delcine`, data
+            ),
+        onSuccess: (data: any) => {
+            console.log(data?.data.updated);
+            if (data?.data.updated) {
+                markAsRead.mutate([index]);
+                refetch()
+            } else {
+                toast({
+                    title: "error",
+                    description: "Error occured ",
+                    status: "error",
+                    isClosable: true,
+                    duration: 5000,
+                    position: "top-right",
+                });
+            }
+        },
+        onError: () => { },
+    });
+
     return {
         results,
         isLoading,
@@ -114,7 +168,8 @@ const useNotificationHook = () => {
         count,
         markAsRead,
         setStatus,
-        status
+        status,
+        joinAndRejectFundraising
     };
 }
 
