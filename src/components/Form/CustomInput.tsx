@@ -1,4 +1,4 @@
-import { Flex, InputElementProps, useColorMode } from '@chakra-ui/react';
+import { Flex, InputElementProps, useColorMode, Text, HStack } from '@chakra-ui/react';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
@@ -8,6 +8,9 @@ import useCustomTheme from '@/hooks/useTheme';
 
 interface IProps {
   isPassword?: boolean;
+  label?: string;
+  labelTextSize?: string;
+  required?: boolean;
   name: string;
   type: 'text' | 'phone' | 'email' | 'date' | 'password'
   placeholder: string,
@@ -20,7 +23,7 @@ interface IProps {
 }
 
 
-export const CustomInput = ({ isPassword = false, name, type, placeholder, disable, newbtn, value, ref, hint = null, textColor }: IProps) => {
+export const CustomInput = ({ isPassword = false, name, type, placeholder, disable, newbtn, value, ref, hint = null, textColor, label, labelTextSize = '16px', required = false }: IProps) => {
   const { register, formState: { errors }, setValue, watch } = useFormContext();
   const [showPassword, setShowPassword] = React.useState(false);
   const [newValue, setNewValue] = React.useState(value);
@@ -52,6 +55,13 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
 
   return (
     <VStack alignItems={'flex-start'} width='100%'>
+      {label && (
+        <HStack>
+          <Text fontSize={labelTextSize}>{label}
+          </Text>
+          {required && <Text color="red">*</Text>}
+        </HStack>
+      )}
       <InputGroup>
         {isPassword && (
           <InputRightElement>
@@ -84,7 +94,7 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
             rounded={newbtn ? "32px" : "8px"}
             borderColor={borderColor}
             color={textColor ?? 'black'}
-            bgColor={inputColor}
+            bgColor={'transparent'}
             // value={value? value: ""}
             type={isPassword ? (showPassword ? 'text' : 'password') : type}
           /> :

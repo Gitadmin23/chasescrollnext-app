@@ -124,10 +124,13 @@ const changePasswordSchema = z.object({
 
 
 const createBusinessValidation = z.object({
-    buisnessName: z.string().nonempty(),
-    description: z.string().nonempty(),
+    businessName: z.string().min(3, 'Invalid business name'),
+    description: z.string().min(3, 'Invalid description'),
     phone: z.string().min(11, 'invalid phone number'),
-    email: z.string().email().nonempty(),
+    email: z.string().email().min(6, 'invalid email'),
+    address: z.string().min(3, 'Invalid address'),
+    website: z.string().url('Please enter a valid website URL').min(4, 'Invalid Website link')
+    
 });
 
 export {
