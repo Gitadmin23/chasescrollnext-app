@@ -1,3 +1,5 @@
+import { IBuisness } from './Business';
+import { IService } from './Service';
 import { IUser } from './User';
 
 export type IBooking = {
@@ -6,18 +8,13 @@ export type IBooking = {
     lastModifiedBy: IUser;
     createdBy: IUser;
     lastModifiedDate: number;
-    isDeleted: boolean;
-    status: 'ACTIVE';
-    statusCode: number;
-    returnMessage: string;
-    userID: IUser;
-    vendorID: string;
-    serviceID: string;
-    bookingType: string;
-    bookingTime: {
-        startTime: number,
-        endTime: number,
-        availabilityDayOfWeek: 0
-    };
+    vendor: IBuisness;
+    user: IUser;
+    businessOwner: IUser;
+    services: Array<IService>;
+    bookingStatus: 'PENDING'|'IN_PROGRESS'|'AWAITING_CONFIRMATION'|'COMPLETED'|'COMPLETED_WITH_ISSUES'|'APPROVED'|'REJECTED',
     description: string;
+    price: number;
+    isCompleted: boolean;
+    hasPaid: boolean;
 }

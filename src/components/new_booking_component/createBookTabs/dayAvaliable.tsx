@@ -1,10 +1,11 @@
 import useCustomTheme from '@/hooks/useTheme'
-import { Box, Button, Checkbox, Flex, Input, Text, border } from '@chakra-ui/react'
+import { Box, Button, Checkbox, Flex, HStack, Input, Text, border } from '@chakra-ui/react'
 import React from 'react'
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from 'react-icons/io';
 import { IoAdd, IoClose, IoCopy, IoCopyOutline } from 'react-icons/io5'
+import { IDayOfTheWeek } from '../createServices';
 
-export default function DayAvaliable({ close, setTab }: { close: (by: boolean) => void; setTab: (by: boolean) => void }) {
+export default function DayAvaliable({ close, setTab, days, handleCheck }: { close: (by: boolean) => void; setTab: (by: boolean) => void, days: IDayOfTheWeek[], handleCheck: ({ index, type,isChecked, value }: { index: number, type: 'startTime'|'endTime'|'dayOfTheWeek'|'checked', isChecked: boolean, value: string }) => void }) {
 
     const {
         borderColor,
@@ -22,6 +23,32 @@ export default function DayAvaliable({ close, setTab }: { close: (by: boolean) =
         "Sat"
     ]
 
+    const getDay = (day: number) => {
+        switch(day) {
+            case 0:{
+                return 'Sunday';
+            }
+            case 1: {
+                return 'Monday';
+            }
+            case 2: {
+                return 'Tuesday';
+            }
+            case 3: {
+                return 'Wednesday';
+            }
+            case 4: {
+                return 'Thursday';
+            }
+            case 5: {
+                return 'Friday';
+            }
+            case 6: {
+                return 'Saturday';
+            }
+        }
+    }
+
     return (
         <Flex justifyContent={"center"} w={"full"} height={"full"} px={"6"} py={"8"} >
             <Flex w={"full"} flexDir={"column"} gap={"6"} >
@@ -35,20 +62,22 @@ export default function DayAvaliable({ close, setTab }: { close: (by: boolean) =
                     </Flex>
                 </Flex>
                 <Flex w={"full"} justifyContent={"space-between"}  >
-                    <Flex gap={"4"} style={{ boxShadow: "0px 20.62px 72.18px 0px #C2C2C21A" }} rounded={"16px"} borderWidth={"0.38px"} borderColor={borderColor} w={"fit-content"} flexDir={"column"} px={"14"} py={"8"} >
-                        {array?.map((item) => {
+                    <Flex gap={"4"} style={{ boxShadow: "0px 20.62px 72.18px 0px #C2C2C21A" }} rounded={"16px"} borderWidth={"0.38px"} borderColor={borderColor} w={["full", "fit-content"]} flexDir={"column"} px={"14"} py={"8"} >
+                        {days?.map((item, index) => {
                             return (
-                                <Flex key={item} gap={"3"} alignItems={"center"}  >
-                                    <Flex w={"20"} gap={"3"} >
-                                        <Checkbox />
-                                        <Text>{item}</Text>
+                                <Flex key={index.toString()} gap={"3"} flexDir={['column', 'row']} alignItems={['flex-start', "center"]} justifyContent={['flex-start', 'space-between']}  >
+                                    <Flex w={"25"} gap={"3"} >
+                                        <Checkbox isChecked={item.checked} onChange={(e) => handleCheck({ index, type: 'checked', value: e.target.value, isChecked: !item?.checked  })} />
+                                        <Text>{getDay(item?.dayOFTheWeek)}</Text>
                                     </Flex>
-                                    <Input type="time" w={"106px"} h={"40px"} rounded={"full"} borderWidth={"0.83px"} borderColor={borderColor} />
-                                    -
-                                    <Input type="time" w={"106px"} h={"40px"} rounded={"full"} borderWidth={"0.83px"} borderColor={borderColor} />
-                                    <Box as="button" ml={"5"} >
-                                        <IoClose size={"25px"} />
-                                    </Box>
+                                    <HStack spacing={2}>
+                                        <Input value={item?.startTime} onChange={(e) => handleCheck({ index, type: 'startTime', value: e.target.value, isChecked: item?.checked })} type="time" w={"106px"} h={"40px"} rounded={"full"} borderWidth={"0.83px"} borderColor={borderColor} />
+                                        -
+                                        <Input value={item?.endTime} onChange={(e) => handleCheck({ index, type: 'endTime', value: e.target.value, isChecked: item?.checked })} type="time" w={"106px"} h={"40px"} rounded={"full"} borderWidth={"0.83px"} borderColor={borderColor} />
+                                        <Box as="button" ml={"5"} >
+                                            <IoClose size={"25px"} />
+                                        </Box>
+                                    </HStack>
                                 </Flex>
                             )
                         })}
@@ -65,7 +94,10 @@ export default function DayAvaliable({ close, setTab }: { close: (by: boolean) =
                     </Flex> */}
                 </Flex>
                 <Flex w={"full"} justifyContent={"space-between"} mt={"4px"} >
-                    <Button onClick={() => setTab(false)} height={"55px"} borderWidth={"1px"} w={"full"} rounded={"full"} borderColor={primaryColor} bgColor={primaryColor} color={"white"} _hover={{ backgroundColor: primaryColor }} >Set Availability</Button>
+                    <Button onClick={() => {
+                        console.log(days);
+                        close(false);
+                        }} height={"55px"} borderWidth={"1px"} w={"full"} rounded={"full"} borderColor={primaryColor} bgColor={primaryColor} color={"white"} _hover={{ backgroundColor: primaryColor }} >Set Availability</Button>
                 </Flex>
             </Flex>
         </Flex>
