@@ -1,5 +1,6 @@
+'use client';
 import React from 'react'
-import { Box, SimpleGrid, Spinner, Text, VStack } from '@chakra-ui/react'
+import { Box, SimpleGrid, Spinner, Text, useToast, VStack } from '@chakra-ui/react'
 import { IBuisness } from '@/models/Business'
 import httpService from '@/utils/httpService';
 import { useQuery } from 'react-query';
@@ -9,8 +10,15 @@ import { uniqBy } from 'lodash';
 import { useDetails } from '@/global-state/useUserDetails';
 import { IBooking } from '@/models/Booking';
 import BookingCard from '@/components/booking_component/BookingCard';
+import { useParams, useRouter } from 'next/navigation';
 
 function Bookings() {
+    
+    const param = useParams();
+    const toast = useToast();
+    const router = useRouter();
+    const id = param?.id;
+    
     const [businesses, setBusinesses] = React.useState<IBooking[]>([]);
     const [page, setPage] = React.useState(0);
     const [hasMore, setHasMore] = React.useState(true);
@@ -18,7 +26,7 @@ function Bookings() {
 
     const { isLoading, } = useQuery(['get-my-businesses', page], () => httpService.get('/booking/search', {
         params: {
-            userID: userId,
+            vendorID: id,
             page,
             size: 20,
         }
@@ -37,7 +45,7 @@ function Bookings() {
         {!isLoading && businesses.length > 0 && (
             <SimpleGrid columns={[1, 3]} gap={[2, 4]}>
                 {businesses.map((item, index) => (
-                    <BookingCard booking={item} business={item?.vendor} isVendor={false} />
+                    <BookingCard booking={item} business={item?.vendor} isVendor={true} />
                 ))}
             </SimpleGrid>
         )}

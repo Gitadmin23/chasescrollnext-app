@@ -126,7 +126,7 @@ function CreateBookingModal({
                     <Box w='full' h='full' borderWidth={'1.5px'} borderColor={borderColor} borderRadius={'10px'} p='20px'>
                         <Flex gap={3} pb='10px' borderBottomWidth={'1px'} borderBottomColor={borderColor} alignItems='center'>
                             <Box w='30%' h='100px' borderRadius={'15px'} overflow={'hidden'} py='5px'>
-                                <Image src={IMAGE_URL + service?.vendor?.bannerImage} alt='banner image' w='100%' h='full' />
+                                <Image src={service?.vendor?.bannerImage.startsWith('http') ? service?.vendor?.bannerImage : IMAGE_URL + service?.vendor?.bannerImage} alt='banner image' w='100%' h='full' />
                             </Box>
                             <VStack alignItems='flex-start' spacing={-2}>
                                 <Text fontWeight={700}>{service?.vendor?.businessName}</Text>

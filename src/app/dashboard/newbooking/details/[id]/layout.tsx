@@ -145,10 +145,14 @@ export default function Layout({ children }: {
                     </Flex>
                 </Flex>
             </Flex>
-            <Flex w={"full"} mt={"10"} borderBottomColor={borderColor} borderBottomWidth={["1px", '0px']} py={"4"} justifyContent={"space-between"} >
-                <Text onClick={() => setTab(0)} as={"button"} color={tab === 0 ? primaryColor : headerTextColor} textDecoration={tab === 0 ? "underline" : "underline"} >MY SERVICES</Text>
-                {/* <Text onClick={() => setTab(1)} as={"button"} color={tab === 1 ? primaryColor : headerTextColor} textDecoration={tab === 1 ? "underline" : ""} >PORTFOLIO</Text>
-                <Text onClick={() => setTab(2)} as={"button"} color={tab === 2 ? primaryColor : headerTextColor} textDecoration={tab === 2 ? "underline" : ""} >DETAILS</Text>
+            <Flex w={"full"} mt={"10"} borderBottomColor={borderColor} borderBottomWidth={["1px", '0px']} py={"4"} justifyContent={"flex-start"} gap={3}>
+                <Text onClick={() => {
+                    router.push(`/dashboard/newbooking/details/${id}`);;
+                    setTab(0)}} as={"button"} color={tab === 0 ? primaryColor : headerTextColor} textDecoration={tab === 0 ? "underline" : ""} >MY SERVICES</Text>
+                <Text onClick={() => {
+                    router.push(`/dashboard/newbooking/details/${id}/bookings`);
+                    setTab(1)}} as={"button"} color={tab === 1 ? primaryColor : headerTextColor} textDecoration={tab === 1 ? "underline" : ""} >BOOKINGS</Text>
+                {/* <Text onClick={() => setTab(2)} as={"button"} color={tab === 2 ? primaryColor : headerTextColor} textDecoration={tab === 2 ? "underline" : ""} >DETAILS</Text>
                 <Text onClick={() => setTab(3)} as={"button"} color={tab === 3 ? primaryColor : headerTextColor} textDecoration={tab === 3 ? "underline" : ""} >REVIEWS</Text> */}
             </Flex>
             <Flex w={"full"} h={"fit-content"}  >

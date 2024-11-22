@@ -23,7 +23,7 @@ export default function Booking() {
 
     return (
         <VStack w={"full"} h="full" alignItems='flex-start' px='20px' overflowY={"auto"} bgColor={mainBackgroundColor} >
-           <HStack w='full' justifyContent={'space-between'} alignItems={'center'} h='60px' borderBottomWidth={'0.4px'} borderBottomColor={borderColor}>
+           <Flex flexDir={['row']} w='full' justifyContent={'space-between'} alignItems={'center'} h='60px' borderBottomWidth={'0.4px'} borderBottomColor={borderColor}>
                 <Text fontWeight={700} fontSize={16}>
                     <span style={{ color: primaryColor}}>Chasescroll</span>
                     <span style={{ marginLeft: '10px' }}>Business</span>
@@ -32,25 +32,27 @@ export default function Booking() {
                 <Button onClick={() => router.push('/dashboard/newbooking/create')} px='10px' h='32px' borderRadius={'full'} bg={secondaryBackgroundColor}>
                     <Text color={primaryColor} fontSize={14} fontWeight={600} >Create Business</Text>
                 </Button>
-           </HStack>
+           </Flex>
 
-           <HStack mt='20px' spacing={4}>
+           <Flex flexDir={['column', 'row']}  mt='20px' gap={4}>
                 <Text fontWeight={500} fontSize='14px'>See all Listings on chasescroll</Text>
 
-                <Button onClick={() => setActive(1)} px='10px' h='32px' borderRadius={'full'} bg={active === 1 ? primaryColor : secondaryBackgroundColor}>
-                    <Text color={active === 1 ? 'white' : headerTextColor} fontSize={14} fontWeight={600} >All Business</Text>
-                </Button>
+                <HStack spacing={4}>
+                    <Button onClick={() => setActive(1)} px='10px' h='32px' borderRadius={'full'} bg={active === 1 ? primaryColor : secondaryBackgroundColor}>
+                        <Text color={active === 1 ? 'white' : headerTextColor} fontSize={14} fontWeight={600} >All Business</Text>
+                    </Button>
 
-                <Button onClick={() => setActive(2)} px='10px' h='32px' borderRadius={'full'} bg={active === 2 ? primaryColor : secondaryBackgroundColor}>
-                    <Text color={active === 2 ? 'white' : headerTextColor} fontSize={14} fontWeight={600} >My Business</Text>
-                </Button>
+                    <Button onClick={() => setActive(2)} px='10px' h='32px' borderRadius={'full'} bg={active === 2 ? primaryColor : secondaryBackgroundColor}>
+                        <Text color={active === 2 ? 'white' : headerTextColor} fontSize={14} fontWeight={600} >My Business</Text>
+                    </Button>
 
-                <Button onClick={() => setActive(3)} px='10px' h='32px' borderRadius={'full'} bg={active === 3 ? primaryColor : secondaryBackgroundColor}>
-                    <Text color={active === 3 ? 'white' : headerTextColor} fontSize={14} fontWeight={600} >My Bookings</Text>
-                </Button>
-           </HStack>
+                    <Button onClick={() => setActive(3)} px='10px' h='32px' borderRadius={'full'} bg={active === 3 ? primaryColor : secondaryBackgroundColor}>
+                        <Text color={active === 3 ? 'white' : headerTextColor} fontSize={14} fontWeight={600} >My Bookings</Text>
+                    </Button>
+                </HStack>
+           </Flex>
 
-           <Box flex={1} w='full' h='full' bg='red'>
+           <Box flex={1} w='full' h='full'>
             {active === 1 && <Businesses /> }
             {active === 2 && <MyBusiness />}
             {active === 3 && <Bookings /> }
