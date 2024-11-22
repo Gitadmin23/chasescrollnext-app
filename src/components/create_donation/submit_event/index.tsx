@@ -260,6 +260,8 @@ function SubmitEvent(props: Iprops) {
             if (image?.length > 0) {
                 fileUploadHandler(image)
             } else {
+                console.log(data[0]);
+                
                 editDonation?.mutate({ ...data[0] })
             }
         }
@@ -283,9 +285,7 @@ function SubmitEvent(props: Iprops) {
             if (!pathname?.includes("edit")) {
                 createDonation.mutate({ items: newObj })
 
-            } else {
-                console.log(newObj[0]);
-
+            } else { 
                 editDonation?.mutate({ ...newObj[0] })
             }
             reset()

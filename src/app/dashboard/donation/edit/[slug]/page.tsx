@@ -6,6 +6,7 @@ import useEventStore from '@/global-state/useCreateEventState';
 import useDonationStore from '@/global-state/useDonationState';
 import useGetDonationList from '@/hooks/useGetDonationList';
 import useCustomTheme from '@/hooks/useTheme';
+import { IUser } from '@/models/User';
 import { Box, Flex, useColorMode } from '@chakra-ui/react'
 import React from 'react'
 
@@ -31,7 +32,8 @@ export default function CreateDonation({ params }: Props) {
     React.useEffect(() => {
         if (!isLoading) {
             if(!data[0]?.name){
-                updateDontion([{
+
+                const clone = [{
                     bannerImage: item?.bannerImage,
                     creatorID: item?.createdBy?.userId,
                     description: item?.description,
@@ -40,14 +42,22 @@ export default function CreateDonation({ params }: Props) {
                     name: item?.name,
                     purpose: item?.purpose,
                     visibility: item?.visibility,
-                    funnelID: item?.funnelID,
-                    collaborators: item?.collaborators ? item?.collaborators : []
-                }])
+                    funnelID: item?.funnelID, 
+                    collaborators: [] as any
+                }]
+
+                const collaborators: Array<string> = []
+                 
+                item.collaborators?.map((item: any) => {
+                    return collaborators.push(item?.userId+"")
+                }) 
+
+                clone[0].collaborators = [...collaborators] 
+
+                updateDontion(clone)
             }
         }
-    }, [isLoading, item])
-
-    console.log(item);
+    }, [isLoading, item]) 
     
 
     return (
