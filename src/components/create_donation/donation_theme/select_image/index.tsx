@@ -6,26 +6,24 @@ import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react'
 import React from 'react'
 
 interface Props {
-    donation?: boolean
+    donation?: boolean,
+    index: number
  }
 
 function SelectImage(props: Props) {
     const { 
-        donation
+        donation,
+        index
     } = props
-
-    const { eventdata, updateImage, image } = useEventStore((state) => state); 
+ 
     const [selectedImageFile, setSelectedImageFile] = React.useState('');
+    const { image, updateImage, data } = useDonationStore((state) => state)
 
     const toast = useToast()
 
     const handleImageChange = (e: any) => {
 
-        const selected = e.target.files[0];
-        
-
-        console.log(selected.type);
-
+        const selected = e.target.files[0]; 
         
         const TYPES = ["image/png", "image/jpg", "image/jpeg", "image/webp", "image/svg+xml"];
         if(selected?.size > 800000) {
@@ -40,15 +38,16 @@ function SelectImage(props: Props) {
             });
         } else {
             if (selected && TYPES.includes(selected.type)) {
-                updateImage(selected)
+                const clone = [...image]
+                clone[index] = selected
+                updateImage(clone)
                 // handleFileChange(e)
                 const reader: any = new FileReader();
                 reader.onloadend = () => {
                     setSelectedImageFile(reader.result)
                 }
                 reader.readAsDataURL(selected)
-            } else {
-                console.log('Error')
+            } else { 
             }
         }
     } 
@@ -56,7 +55,7 @@ function SelectImage(props: Props) {
     return (
         <Flex width={"full"} flexDirection={"column"} gap={"4"} alignItems={"center"} >
             <Flex as={"button"} width={["full", "361px"]} height={"228px"} border={"1px dashed #D0D4EB"} roundedBottom={"32px"} roundedTopLeft={"32px"} justifyContent={"center"} alignItems={"center"} >
-                {(!selectedImageFile && !eventdata?.currentPicUrl) && (
+                {(!selectedImageFile && !data[index]?.bannerImage) && (
                     <label role='button' style={{ width: "100%", display: "grid", height: "100%", placeItems: "center", gap: "16px" }} >
                         <Box width={"full"} >
                             <Text fontSize={"sm"} >Click to upload image</Text>
@@ -72,9 +71,9 @@ function SelectImage(props: Props) {
                         />
                     </label>
                 )}
-                {(selectedImageFile || eventdata?.currentPicUrl) && (
+                {(selectedImageFile || data[index]?.bannerImage) && (
                     <label role='button' style={{ width: "100%", display: "grid", height: "228px", placeItems: "center", gap: "16px" }} >
-                        <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={"eventimage"} width={"full"} height={"228px"} src={selectedImageFile ? selectedImageFile : IMAGE_URL + eventdata?.currentPicUrl} />
+                        <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={"eventimage"} width={"full"} height={"228px"} src={selectedImageFile ? selectedImageFile : IMAGE_URL + data[index]?.bannerImage} />
                         <input
                             type="file"
                             id="image"

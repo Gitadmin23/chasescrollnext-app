@@ -102,7 +102,7 @@ function CreateEventBtn(props: Props) {
     }
 
     return (
-        <Box w={"full"} h={"fit-content"} >
+        <Box w={"fit-content"} h={"fit-content"} >
             {!btn && !mobile && ( 
                 <Flex onClick={() => clickHander()} as={"button"} w={["full", "full", "152px"]} ml={["0px", "0px", "auto"]} fontWeight={"medium"} border={"1px solid #3C41F0"} justifyContent={"center"} color={"brand.chasescrollBlue"} fontSize={"14px"} lineHeight={"20px"} height={"44px"} rounded={"8px"} alignItems={"center"} gap={"2"} >
                     Create Event
@@ -115,7 +115,7 @@ function CreateEventBtn(props: Props) {
                 // <Flex h={"20px"} alignItems={"center"} onClick={() => clickHander()} as={"button"} >
                 //     <AddEventIcon />
                 // </Flex>
-                <CustomButton onClick={() => clickHander()} fontSize={"xs"} pos={"relative"} height={"35px"} zIndex={"20"} width={"fit-content"} text={"Create Event"} borderRadius={"full"} />
+                <CustomButton onClick={() => clickHander()} fontSize={"xs"} pos={"relative"} height={"35px"} zIndex={"20"} width={"fit-content"} px={"3"} text={"Create Event"} borderRadius={"full"} />
             )}
             {open && (
                 <Flex zIndex={"110"} position={"absolute"} top={(btn || mobile) ? "70px": "0px"} flexDir={"column"} right={btn ? "6": mobile ? "3" :"0px"} maxW={"374px"} w={"full"} py={"4"} px={"6"} bg={mainBackgroundColor} rounded={'8px'} >

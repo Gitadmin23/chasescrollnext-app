@@ -38,7 +38,7 @@ function SendMessage(props: Props) {
 
   const url_link =
     type === "EVENT"
-      ? `${WEBSITE_URL}/event/${id}`
+      ? `${WEBSITE_URL}${data?.eventName ? "/event/" : "/donation/"}${id}`
       : `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`;
 
   const handleType = () => {
@@ -121,30 +121,40 @@ function SendMessage(props: Props) {
         >
           <Flex alignItems={"center"} mb={"8px"} gap={"4"}>
             <Box width={"120px"} height={"80px"} rounded={"8px"}>
-              <Image
-                style={{
-                  borderBottomLeftRadius: "8px",
-                  borderBottomRightRadius: "8px",
-                  borderTopLeftRadius: "8px",
-                }}
-                objectFit="cover"
-                alt={data?.currentPicUrl}
-                width={"full"}
-                height={"full"}
-                src={IMAGE_URL + data?.currentPicUrl}
-              />
+              {data?.name && (
+                <Image rounded={"8px"} objectFit="cover" alt={data?.name} width={"full"} height={"full"} src={IMAGE_URL + data?.bannerImage} />
+              )}
+              {!data?.name && (
+                <Image
+                  style={{
+                    borderBottomLeftRadius: "8px",
+                    borderBottomRightRadius: "8px",
+                    borderTopLeftRadius: "8px",
+                  }}
+                  objectFit="cover"
+                  alt={data?.currentPicUrl}
+                  width={"full"}
+                  height={"full"}
+                  src={IMAGE_URL + data?.currentPicUrl}
+                />
+              )}
             </Box>
             <Box color={"white"} fontWeight={"semibold"}>
-              <Text>{textLimit(data?.eventName, 20)}</Text>
-              <Flex>
-                <Text>
-                  <EventPrice
-                    minPrice={data?.minPrice}
-                    maxPrice={data?.maxPrice}
-                    currency={data?.currency}
-                  />
-                </Text>
-              </Flex>
+              <Text>{textLimit(data?.eventName ? data?.eventName : data?.name, 20)}</Text>
+              {data?.name && (
+                <Text>{textLimit(data?.description, 30)}</Text>
+              )}
+              {data?.eventName && (
+                <Flex>
+                  <Text>
+                    <EventPrice
+                      minPrice={data?.minPrice}
+                      maxPrice={data?.maxPrice}
+                      currency={data?.currency}
+                    />
+                  </Text>
+                </Flex>
+              )}
             </Box>
           </Flex>
           <CopyButtton rounded={"32px"} text={url_link} />
@@ -352,33 +362,7 @@ function SendMessage(props: Props) {
               fill="white"
             />
           </svg>
-        </LinkedinShareButton>
-        {/* <svg xmlns="http://www.w3.org/2000/svg" width="43" height="42" viewBox="0 0 43 42" fill="none">
-                    <rect x="3.125" y="2.625" width="36.75" height="36.75" rx="6" fill="url(#paint0_radial_1180_46682)" />
-                    <path d="M3.125 21C3.125 10.8518 11.3518 2.625 21.5 2.625C31.6482 2.625 39.875 10.8518 39.875 21C39.875 31.1482 31.6482 39.375 21.5 39.375C11.3518 39.375 3.125 31.1482 3.125 21Z" fill="url(#paint1_radial_1180_46682)" />
-                    <rect x="3.125" y="2.625" width="36.75" height="36.75" rx="18.375" fill="url(#paint2_radial_1180_46682)" />
-                    <path d="M30.6875 13.7812C30.6875 14.8686 29.8061 15.75 28.7188 15.75C27.6314 15.75 26.75 14.8686 26.75 13.7812C26.75 12.6939 27.6314 11.8125 28.7188 11.8125C29.8061 11.8125 30.6875 12.6939 30.6875 13.7812Z" fill="white" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M21.5 27.5625C25.1244 27.5625 28.0625 24.6244 28.0625 21C28.0625 17.3756 25.1244 14.4375 21.5 14.4375C17.8756 14.4375 14.9375 17.3756 14.9375 21C14.9375 24.6244 17.8756 27.5625 21.5 27.5625ZM21.5 24.9375C23.6746 24.9375 25.4375 23.1746 25.4375 21C25.4375 18.8254 23.6746 17.0625 21.5 17.0625C19.3254 17.0625 17.5625 18.8254 17.5625 21C17.5625 23.1746 19.3254 24.9375 21.5 24.9375Z" fill="white" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.375 20.475C8.375 16.0646 8.375 13.8594 9.23332 12.1748C9.98833 10.693 11.193 9.48833 12.6748 8.73332C14.3594 7.875 16.5646 7.875 20.975 7.875H22.025C26.4354 7.875 28.6406 7.875 30.3252 8.73332C31.807 9.48833 33.0117 10.693 33.7667 12.1748C34.625 13.8594 34.625 16.0646 34.625 20.475V21.525C34.625 25.9354 34.625 28.1406 33.7667 29.8252C33.0117 31.307 31.807 32.5117 30.3252 33.2667C28.6406 34.125 26.4354 34.125 22.025 34.125H20.975C16.5646 34.125 14.3594 34.125 12.6748 33.2667C11.193 32.5117 9.98833 31.307 9.23332 29.8252C8.375 28.1406 8.375 25.9354 8.375 21.525V20.475ZM20.975 10.5H22.025C24.2735 10.5 25.802 10.502 26.9835 10.5986C28.1344 10.6926 28.7229 10.863 29.1334 11.0722C30.1213 11.5756 30.9244 12.3787 31.4278 13.3665C31.637 13.7771 31.8074 14.3656 31.9014 15.5165C31.998 16.698 32 18.2265 32 20.475V21.525C32 23.7735 31.998 25.302 31.9014 26.4835C31.8074 27.6344 31.637 28.2229 31.4278 28.6334C30.9244 29.6213 30.1213 30.4244 29.1334 30.9278C28.7229 31.137 28.1344 31.3074 26.9835 31.4014C25.802 31.498 24.2735 31.5 22.025 31.5H20.975C18.7265 31.5 17.198 31.498 16.0165 31.4014C14.8656 31.3074 14.2771 31.137 13.8665 30.9278C12.8787 30.4244 12.0756 29.6213 11.5722 28.6334C11.363 28.2229 11.1926 27.6344 11.0986 26.4835C11.002 25.302 11 23.7735 11 21.525V20.475C11 18.2265 11.002 16.698 11.0986 15.5165C11.1926 14.3656 11.363 13.7771 11.5722 13.3665C12.0756 12.3787 12.8787 11.5756 13.8665 11.0722C14.2771 10.863 14.8656 10.6926 16.0165 10.5986C17.198 10.502 18.7265 10.5 20.975 10.5Z" fill="white" />
-                    <defs>
-                        <radialGradient id="paint0_radial_1180_46682" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(16.25 30.1875) rotate(-55.3758) scale(33.4945)">
-                            <stop stop-color="#B13589" />
-                            <stop offset="0.79309" stop-color="#C62F94" />
-                            <stop offset="1" stop-color="#8A3AC8" />
-                        </radialGradient>
-                        <radialGradient id="paint1_radial_1180_46682" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(14.9375 40.6875) rotate(-65.1363) scale(29.6549)">
-                            <stop stop-color="#E0E8B7" />
-                            <stop offset="0.444662" stop-color="#FB8A2E" />
-                            <stop offset="0.71474" stop-color="#E2425C" />
-                            <stop offset="1" stop-color="#E2425C" stop-opacity="0" />
-                        </radialGradient>
-                        <radialGradient id="paint2_radial_1180_46682" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1.15625 3.9375) rotate(-8.1301) scale(51.0443 10.9178)">
-                            <stop offset="0.156701" stop-color="#406ADC" />
-                            <stop offset="0.467799" stop-color="#6A45BE" />
-                            <stop offset="1" stop-color="#6A45BE" stop-opacity="0" />
-                        </radialGradient>
-                    </defs>
-                </svg> */}
+        </LinkedinShareButton> 
         <EmailShareButton url={url_link} subject="ChaseScroll Event">
           <svg
             width="43"

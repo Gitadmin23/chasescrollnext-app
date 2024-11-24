@@ -1,3 +1,4 @@
+import usePaystackStore from '@/global-state/usePaystack'
 import { useDetails } from '@/global-state/useUserDetails'
 import useCustomTheme from '@/hooks/useTheme'
 import { IBooking } from '@/models/Booking'
@@ -8,7 +9,7 @@ import httpService from '@/utils/httpService'
 import { VStack, HStack, Box, Text, Image, Flex, useToast, Button } from '@chakra-ui/react'
 import moment from 'moment'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 
 export interface ICategory {
@@ -17,7 +18,7 @@ export interface ICategory {
 }
 
 const ServiceCard = ({ serviceID }: { serviceID: string }) => {
-    const [category, setCategory] = React.useState<ICategory|null>(null);
+    const [category, setCategory] = React.useState<ICategory | null>(null);
 
     const {
         primaryColor, secondaryBackgroundColor,
@@ -36,7 +37,7 @@ const ServiceCard = ({ serviceID }: { serviceID: string }) => {
             const item: ICategory = data?.data[0];
             setCategory(item);
         },
-        onError: (error: any) => {},
+        onError: (error: any) => { },
     })
     return (
         <VStack w='auto' h='25px' px='10px' borderRadius={'full'} borderWidth={'1px'} borderColor={borderColor} justifyContent={'center'} alignItems={'center'} flexShrink={0}>
@@ -49,6 +50,9 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
     const toast = useToast()
     const router = useRouter();
     const { userId } = useDetails((state) => state);
+
+    const [loading, setLoading] = useState(false)
+    const [loadingReject, setLoadingReject] = useState(false)
 
     const {
         primaryColor, secondaryBackgroundColor,
@@ -73,6 +77,8 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                 isClosable: true,
                 duration: 5000,
             })
+            setLoading(false)
+            setLoadingReject(false)
         }
     });
 
@@ -111,7 +117,58 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
         }
     });
 
-    const handlePayment = () => {}
+    const clickHandle = (item: boolean) => {
+        if (item) {
+            setLoading(true)
+        } else {
+            setLoadingReject(true)
+        }
+        vendorAcceptOrDecline.mutate(item)
+    }
+    const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
+
+
+    const { setPaystackConfig, setBooking } = usePaystackStore((state) => state);
+
+    const payForTicket = useMutation({
+        mutationFn: (data: {
+            seller: string,
+            price: number,
+            currency: string,
+            orderType: "BOOKING",
+            typeID: string
+        }) => httpService.post(`/payments/createCustomOrder`, data),
+        onSuccess: (data: any) => {
+            setPaystackConfig({
+                publicKey: PAYSTACK_KEY,
+                email: data?.data?.content?.email,
+                amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+                reference: data?.data?.content?.orderCode
+            });
+            setBooking(true) 
+        },
+        onError: (error) => {
+            // console.log(error);
+            toast({
+                title: 'Error',
+                description: "Error occured",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        },
+    });
+    
+    const handlePayment = () => { 
+        payForTicket.mutate({
+            seller: userId,
+            price: Number(booking?.price),
+            currency: "NGN",
+            orderType: "BOOKING",
+            typeID: booking?.id + ""
+        })
+    }
 
     return (
         <VStack w='full' h='auto' borderWidth={'0.5px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'} spacing={3}>
@@ -146,8 +203,8 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                 </HStack>
 
                 <HStack w='full' justifyContent={'space-between'}>
-                    <Text fontSize={'14px'}>Phone</Text>                  
-                    <Text fontSize={'12px'}>{booking?.user?.data?.mobilePhone?.value ?? 'None'}</Text>                
+                    <Text fontSize={'14px'}>Phone</Text>
+                    <Text fontSize={'12px'}>{booking?.user?.data?.mobilePhone?.value ?? 'None'}</Text>
                 </HStack>
             </VStack>
 
@@ -172,38 +229,38 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                 </HStack>
             </Box>
 
-            
+
 
             <Box h='10px' />
             {!isVendor && (
                 <>
                     {booking.bookingStatus === 'PENDING' && (
-                        <Button disabled w='full' h='34px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={secondaryBackgroundColor}>
-                            <Text fontSize={'14px'} color={primaryColor}>Booking Request Pending</Text>
+                        <Button disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={secondaryBackgroundColor}>
+                            <Text fontSize={'14px'} color={primaryColor}>Awaiting Vendor Approval</Text>
                         </Button>
                     )}
                     {booking.bookingStatus === 'REJECTED' && (
-                        <Button disabled w='full' h='34px' borderRadius='full' borderWidth={'1px'} borderColor={'red'} bg={'red'}>
-                            <Text fontSize={'14px'} color={'white'}>Declined</Text>
+                        <Button disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
+                            <Text fontSize={'14px'} color={primaryColor}>Rejected</Text>
                         </Button>
                     )}
                     {booking.bookingStatus === 'APPROVED' && !booking?.hasPaid && (
-                        <Button onClick={() => handlePayment()} w='full' h='34px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                        <Button isLoading={payForTicket?.isLoading} isDisabled={payForTicket?.isLoading} onClick={() => handlePayment()} w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                             <Text fontSize={'14px'} color={'white'}>Make Payment</Text>
                         </Button>
                     )}
-                     {booking.bookingStatus === 'IN_PROGRESS' && (
-                        <Button disabled w='full' h='34px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                    {booking.bookingStatus === 'IN_PROGRESS' && (
+                        <Button disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                             <Text fontSize={'14px'} color={'white'}>{booking?.bookingStatus?.replaceAll('_', ' ')}</Text>
                         </Button>
                     )}
-                     {booking.bookingStatus === 'AWAITING_CONFIRMATION' && booking.isCompleted && (
+                    {booking.bookingStatus === 'AWAITING_CONFIRMATION' && booking.isCompleted && (
                         <>
-                            <Button isLoading={userMarkAsDone.isLoading} onClick={() => userMarkAsDone.mutate(false)} w='full' h='34px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                            <Button isLoading={userMarkAsDone.isLoading} onClick={() => userMarkAsDone.mutate(false)} w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                                 <Text fontSize={'14px'} color={'white'}>Mark As Done</Text>
                             </Button>
 
-                            <Button isLoading={userMarkAsDone.isLoading} onClick={() => userMarkAsDone.mutate(true)}  w='full' h='34px' borderRadius='full' borderWidth={'1px'} borderColor={'red'} bg={mainBackgroundColor}>
+                            <Button isLoading={userMarkAsDone.isLoading} onClick={() => userMarkAsDone.mutate(true)} w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={'red'} bg={mainBackgroundColor}>
                                 <Text fontSize={'14px'} color={'red'}>Done with Issues</Text>
                             </Button>
                         </>
@@ -215,17 +272,17 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                 <>
                     {booking.bookingStatus === 'PENDING' && (
                         <>
-                        <Button isLoading={vendorAcceptOrDecline.isLoading} onClick={() => vendorAcceptOrDecline.mutate(true)} w='full' h='34px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={secondaryBackgroundColor}>
-                            <Text fontSize={'14px'} color={primaryColor}>Accept</Text>
-                        </Button>
+                            <Button isLoading={vendorAcceptOrDecline.isLoading || loading} onClick={() => clickHandle(true)} w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={"#F7FBFE"} _hover={{ backgroundColor: "#F7FBFE" }}>
+                                <Text fontSize={'14px'} color={primaryColor}>Approve</Text>
+                            </Button>
 
-                        <Button isLoading={vendorAcceptOrDecline.isLoading} onClick={() => vendorAcceptOrDecline.mutate(false)} w='full' h='34px' borderRadius='full' borderWidth={'1px'} borderColor={'red'} bg={mainBackgroundColor}>
-                            <Text fontSize={'14px'} color={'red'}>Decline</Text>
-                        </Button>
+                            <Button isLoading={vendorAcceptOrDecline.isLoading || loadingReject} onClick={() => clickHandle(false)} w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={'red'} bg={mainBackgroundColor} _hover={{ backgroundColor: mainBackgroundColor }} >
+                                <Text fontSize={'14px'} color={'red'}>Reject</Text>
+                            </Button>
                         </>
                     )}
                     {booking.bookingStatus === 'IN_PROGRESS' && booking.hasPaid && (
-                        <Button isLoading={vendorMarkAsDone.isLoading} onClick={() => vendorMarkAsDone.mutate()} w='full' h='34px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                        <Button isLoading={vendorMarkAsDone.isLoading} onClick={() => vendorMarkAsDone.mutate()} w='full' h='50px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                             <Text fontSize={'14px'} color={'white'}>Mark As Done</Text>
                         </Button>
                     )}
@@ -236,7 +293,7 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                     )}
                 </>
             )}
-            
+
         </VStack>
     )
 }

@@ -33,8 +33,7 @@ function SubmitEvent(props: Iprops) {
         secondaryBackgroundColor,
         mainBackgroundColor,
         borderColor,
-    } = useCustomTheme();
-    const { colorMode, toggleColorMode } = useColorMode();
+    } = useCustomTheme(); 
 
     const { eventdata, image, tab, updateEvent, changeTab } = useEventStore((state) => state);
     const { userId: user_index } = useDetails((state) => state);
@@ -602,8 +601,7 @@ function SubmitEvent(props: Iprops) {
                 }
             }
         }
-        return obj
-
+        return obj 
     }
 
     const handleClick = React.useCallback(() => {

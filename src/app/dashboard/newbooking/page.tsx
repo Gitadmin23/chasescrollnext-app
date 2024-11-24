@@ -22,8 +22,8 @@ export default function Booking() {
     const router = useRouter()
 
     return (
-        <VStack w={"full"} h="auto" alignItems='flex-start' px='20px' overflowY={"auto"} bgColor={mainBackgroundColor} >
-           <Flex flexDir={['row']} w='full' justifyContent={'space-between'} alignItems={'center'} h='60px' borderBottomWidth={'0.4px'} borderBottomColor={borderColor}>
+        <VStack w={"full"} h="full" alignItems='flex-start' px='20px' overflowY={"auto"} bgColor={mainBackgroundColor} >
+           <Flex flexDir={['row']} w='full' justifyContent={'space-between'} alignItems={'center'} py={"5"} borderBottomWidth={'0.4px'} borderBottomColor={borderColor}>
                 <Text fontWeight={700} fontSize={16}>
                     <span style={{ color: primaryColor}}>Chasescroll</span>
                     <span style={{ marginLeft: '10px' }}>Business</span>
@@ -34,10 +34,10 @@ export default function Booking() {
                 </Button>
            </Flex>
 
-           <Flex flexDir={['column', 'row']}  mt='20px' gap={4}>
+           <Flex flexDir={['column', 'row']} alignItems={["start","center","center"]}  mt='20px' gap={4}>
                 <Text fontWeight={500} fontSize='14px'>See all Listings on chasescroll</Text>
 
-                <HStack spacing={4}>
+                <HStack spacing={[2, 4, 4]}>
                     <Button onClick={() => setActive(1)} px='10px' h='32px' borderRadius={'full'} bg={active === 1 ? primaryColor : secondaryBackgroundColor}>
                         <Text color={active === 1 ? 'white' : headerTextColor} fontSize={14} fontWeight={600} >All Business</Text>
                     </Button>

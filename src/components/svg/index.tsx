@@ -191,9 +191,24 @@ export const DashboardEditIcon = () => (
   </svg>
 )
 
+export const DonationIcon = () => (
+  <svg width="12" height="15" viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8.02323 3.19033L5.9999 1.16699L3.97656 3.19033M5.9999 6.83366V1.22366" stroke="black" stroke-width="0.75" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M2 7.5H3V4.5H4L5.71 7.5H8V4.5H9V7.5H10V8.5H9V9.5H10V10.5H9V13.5H8L6.285 10.5H4V13.5H3V10.5H2V9.5H3V8.5H2V7.5ZM4 7.5H4.565L4 6.515V7.5ZM4 8.5V9.5H5.71L5.14 8.5H4ZM8 11.5V10.5H7.425L8 11.5ZM6.28 8.5L6.855 9.5H8V8.5H6.28Z" fill="black" />
+  </svg>
+)
+
 export const DashboardScannerIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
     <path d="M2.5 9V7C2.5 4 4.5 2 7.5 2H17.5C20.5 2 22.5 4 22.5 7V9M2.5 15V17C2.5 20 4.5 22 7.5 22H17.5C20.5 22 22.5 20 22.5 17V15M2.5 12H22.5" stroke="#5D70F9" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+)
+
+export const DashboardMenuIcon = () => (
+  <svg width="40" viewBox="0 0 51 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="40" rx="16" fill="#FAFAFA" />
+    <rect x="0.25" y="0.25" width="50.5" height="43.5" rx="15.75" stroke="#ACACB0" stroke-opacity="0.5" stroke-width="0.5" />
+    <path d="M16.5 17H34.5M16.5 22H34.5M16.5 27H34.5" stroke="#222222" stroke-width="1.5" stroke-linecap="round" />
   </svg>
 )
 
@@ -1951,7 +1966,10 @@ export const DebitCardIcon = () => (
   </svg>
 );
 
-export const WalletIcon = () => (
+export const WalletIcon = (
+  { color }:
+    { color?: string }
+) => (
   <svg
     width="24"
     height="24"
@@ -1961,21 +1979,21 @@ export const WalletIcon = () => (
   >
     <path
       d="M13 9H7"
-      stroke="#292D32"
+      stroke={color ? color : "#292D32"}
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M22.0002 10.9692V13.0292C22.0002 13.5792 21.5602 14.0292 21.0002 14.0492H19.0402C17.9602 14.0492 16.9702 13.2592 16.8802 12.1792C16.8202 11.5492 17.0602 10.9592 17.4802 10.5492C17.8502 10.1692 18.3602 9.94922 18.9202 9.94922H21.0002C21.5602 9.96922 22.0002 10.4192 22.0002 10.9692Z"
-      stroke="#292D32"
+      stroke={color ? color : "#292D32"}
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M17.48 10.55C17.06 10.96 16.82 11.55 16.88 12.18C16.97 13.26 17.96 14.05 19.04 14.05H21V15.5C21 18.5 19 20.5 16 20.5H7C4 20.5 2 18.5 2 15.5V8.5C2 5.78 3.64 3.88 6.19 3.56C6.45 3.52 6.72 3.5 7 3.5H16C16.26 3.5 16.51 3.50999 16.75 3.54999C19.33 3.84999 21 5.76 21 8.5V9.95001H18.92C18.36 9.95001 17.85 10.17 17.48 10.55Z"
-      stroke="#292D32"
+      stroke={color ? color : "#292D32"}
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
