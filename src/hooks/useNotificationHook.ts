@@ -104,7 +104,7 @@ const useNotificationHook = () => {
         onError: () => { },
     });
 
-    const joinAndRejectFundraising = useMutation({
+    const joinFundraising = useMutation({
         mutationFn: (data: {
             id: string,
             accepted: boolean
@@ -169,7 +169,8 @@ const useNotificationHook = () => {
         markAsRead,
         setStatus,
         status,
-        joinAndRejectFundraising
+        joinFundraising,
+        rejectFundraising
     };
 }
 

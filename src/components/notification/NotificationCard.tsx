@@ -32,7 +32,7 @@ function NotificationCard({ notification }: { notification: INotification }) {
 
   const { colorMode } = useColorMode();
   const { setNotifyModal } = useModalStore((state) => state)
-  const { joinEvent, rejectEvent, markAsRead, setIndex, setStatus, status, joinAndRejectFundraising } = useNotificationHook()
+  const { joinEvent, rejectEvent, markAsRead, setIndex, setStatus, status, joinFundraising, rejectFundraising } = useNotificationHook()
 
   useEffect(() => {
     setIndex(notification?.id)
@@ -163,11 +163,11 @@ function NotificationCard({ notification }: { notification: INotification }) {
           )}
           {(notification?.type === "DONATION_COLLABORATOR_REQUEST" && status === "UNREAD") && (
             <Flex gap={"3"} >
-              <Button isLoading={joinAndRejectFundraising?.isLoading} isDisabled={joinAndRejectFundraising?.isLoading} onClick={() => joinAndRejectFundraising.mutate({
+              <Button isLoading={joinFundraising?.isLoading} isDisabled={joinFundraising?.isLoading} onClick={() => joinFundraising.mutate({
                 id: notification.typeID,
                 accepted: true
               })} h={"30px"} rounded={"64px"} fontSize={"12px"} w={"fit-content"} outline={"none"} _hover={{ backgroundColor: primaryColor }} color={"white"} bgColor={primaryColor} borderWidth={"1px"} borderColor={primaryColor} px={"6"} >Accept</Button>
-              <Button isLoading={joinAndRejectFundraising?.isLoading} isDisabled={joinAndRejectFundraising?.isLoading} onClick={() => joinAndRejectFundraising.mutate({
+              <Button isLoading={rejectFundraising?.isLoading} isDisabled={rejectFundraising?.isLoading} onClick={() => rejectFundraising.mutate({
                 id: notification?.typeID,
                 accepted: false
               })} h={"30px"} rounded={"64px"} fontSize={"12px"} w={"fit-content"} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} color={primaryColor} bgColor={mainBackgroundColor} borderWidth={"1px"} borderColor={borderColor} px={"6"} >Decline</Button>

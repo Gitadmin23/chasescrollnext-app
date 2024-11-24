@@ -17,11 +17,12 @@ interface Props {
     setConfig: any,
     fund?: boolean,
     id?: any,
-    donation?: boolean
+    donation?: boolean,
+    booking?: boolean
 }
 
 function Fundpaystack(props: Props) {
-    const { config, setConfig, fund, id, donation } = props;
+    const { config, setConfig, fund, id, donation, booking } = props;
 
     const {
         bodyTextColor,
@@ -160,9 +161,9 @@ function Fundpaystack(props: Props) {
             <ModalLayout open={open} close={setOpen} bg={secondaryBackgroundColor} closeIcon={true} >
                 <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
                     <SuccessIcon />
-                    <Text fontSize={"24px"} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"500"} mt={"4"} >{donation ? "Donated Successful" : "Ticket Purchase Successful"}</Text>
-                    <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{donation ? `Thank you! Your generous donation makes a real difference. We’re so grateful for your support!` : `Congratulations! you can also find your ticket on the Chasescroll app, on the details page click on the view ticket button.`}</Text>
-                    {!donation && (
+                    <Text fontSize={"24px"} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"500"} mt={"4"} >{donation ? "Donated Successful" : booking ? "Booking Successful" : "Ticket Purchase Successful"}</Text>
+                    <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{donation ? `Thank you! Your generous donation makes a real difference. We’re so grateful for your support!` :booking ? `Thank you!`  : `Congratulations! you can also find your ticket on the Chasescroll app, on the details page click on the view ticket button.`}</Text>
+                    {(!donation && !booking) && (
                         <CustomButton onClick={() => clickHandler()} color={"#FFF"} text={'View Ticket'} w={"full"} backgroundColor={"#3EC259"} />
                     )}
                 </Flex>

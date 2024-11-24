@@ -21,7 +21,7 @@ export default function MyDonation() {
     const router = useRouter()
 
     return (
-        <Flex w={"full"} px={"6"} py={"12"} flexDir={"column"} overflowY={"auto"} >
+        <Flex w={"full"} overflowX={"hidden"} px={"6"} py={"12"} flexDir={"column"} overflowY={"auto"} >
             <Flex pb={"2"} w={"full"} h={"fit-content"} flexDirection={["column", "row", "row", "row"]} gap={"2"} justifyContent={"space-between"} borderBottomWidth={"1px"} borderColor={borderColor} >
                 <Text fontSize={"24px"} fontWeight={"700"} ><span style={{ color: primaryColor }} >Chasescroll</span> Fundraising</Text>
                 <CustomButton onClick={() => router?.push("/dashboard/donation/create")} text={"Create Fundraising"} px={"4"} height={"45px"} fontSize={"sm"} borderRadius={"32px"} fontWeight={"600"} width={"fit-content"} />

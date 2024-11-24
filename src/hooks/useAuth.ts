@@ -74,6 +74,8 @@ const useAuth = () => {
                 if (type) {
                     if (type === "EVENT") {
                         router.push(`/dashboard/event/details/${typeID}`);
+                    } else if (type === "DONATION") {
+                        router.push(`/dashboard/donation/${typeID}`);
                     } else {
                         router.push(`/share?type=${type}&typeID=${typeID}`);
                     }

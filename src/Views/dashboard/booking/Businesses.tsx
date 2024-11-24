@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, SimpleGrid, Spinner, Text, VStack } from '@chakra-ui/react'
+import { Box, Flex, SimpleGrid, Spinner, Text, VStack } from '@chakra-ui/react'
 import { IBuisness } from '@/models/Business'
 import httpService from '@/utils/httpService';
 import { useQuery } from 'react-query';
@@ -29,9 +29,9 @@ function Businesses() {
         }
     })
   return (
-    <Box w='full' h='full' pt='30px'>
+    <Flex flexDirection={"column"} w='full' h='full' pt='8'>
         {!isLoading && businesses.length > 0 && (
-            <SimpleGrid columns={[1, 3]} gap={[2, 4]}>
+            <SimpleGrid columns={[1, 3]} pb={8} gap={[2, 4]}>
                 {businesses.map((item, index) => (
                     <BusinessCard key={index.toString()} business={item} />
                 ))}
@@ -50,7 +50,7 @@ function Businesses() {
                 <Text>Loading Businesses</Text>
             </VStack>
         )}
-    </Box>
+    </Flex>
   )
 }
 
