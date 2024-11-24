@@ -12,6 +12,7 @@ import { IBuisness } from '@/models/Business';
 import { useQuery } from 'react-query';
 import httpService from '@/utils/httpService';
 import { IMAGE_URL, RESOURCE_BASE_URL } from '@/services/urls';
+import { Calendar, Location } from 'iconsax-react';
 
 
 export default function Layout({ children }: {
@@ -95,18 +96,22 @@ export default function Layout({ children }: {
                     </Flex>
                     <Flex w={"full"} gap={"6"} >
                         <Flex flexDir={"column"} gap={"2"} >
-                            {/* <Text fontSize={"14px"} fontWeight={"500"} >Business Opening Days & Time</Text>
+                            <Text fontSize={"14px"} fontWeight={"500"} >Business Opening Days & Time</Text>
                             <Flex alignItems={"center"} gap={"3"} >
-                                <Flex w={"10"} h={"10"} rounded={"8px"} bg={"#F7FBFE"} />
+                                <Flex w={"10"} h={"10"} rounded={"8px"} bg={"#F7FBFE"} alignItems={'center'} justifyContent={'center'} >
+                                    <Calendar size={'20px'} color={primaryColor} variant='Linear' />
+                                </Flex>
                                 <Text fontWeight={"600"} fontSize={"14px"} color={primaryColor} >Mon-Fri 7am-6pm Daily</Text>
-                            </Flex> */}
+                            </Flex>
                         </Flex>
                         <Flex flexDir={"column"} gap={"2"} >
-                            {/* <Text fontSize={"14px"} fontWeight={"500"} >Location</Text>
+                            <Text fontSize={"14px"} fontWeight={"500"} >Location</Text>
                             <Flex alignItems={"center"} gap={"3"} >
-                                <Flex w={"10"} h={"10"} rounded={"8px"} bg={"#F7FBFE"} />
-                                <Text fontWeight={"400"} fontSize={"14px"} >{business?.address}</Text>
-                            </Flex> */}
+                                <Flex w={"10"} h={"10"} rounded={"8px"} bg={"#F7FBFE"} alignItems={'center'} justifyContent={'center'} >
+                                    <Location size={'20px'} color={primaryColor} variant='Linear' />
+                                </Flex>
+                                <Text fontWeight={"400"} fontSize={"14px"} >{business?.address ?? 'Online'}</Text>
+                            </Flex>
                         </Flex>
                     </Flex>
                 </Flex>

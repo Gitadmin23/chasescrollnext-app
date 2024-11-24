@@ -22,7 +22,8 @@ function CreateBookingModal({
         primaryColor,
         borderColor,
         headerTextColor,
-        bodyTextColor
+        bodyTextColor,
+        mainBackgroundColor
     } = useCustomTheme();
 
     // states
@@ -89,7 +90,7 @@ function CreateBookingModal({
  
     return (
         <ModalLayout open={show} close={onClose} closeIcon size={['md', '3xl']}>
-            <Flex flexDir={['column', 'row']} pb='20px' px={['20px', '20px']} gap={8}>
+            <Flex flexDir={['column', 'row']} pb='20px' px={['20px', '20px']} gap={8} bg={mainBackgroundColor}>
                 <VStack w='full' h='full' px={'10px'} alignItems={'flex-start'}>
                     <Text fontSize="12px" color={'grey'}>List your order</Text>
 
@@ -100,15 +101,14 @@ function CreateBookingModal({
                     </VStack>
 
                 
-
                     <Box w='full' py='10px' borderBottomWidth={'1px'} borderBottomColor={borderColor}>
                         <Text fontWeight="600" fontSize={'14px'}>Service Type</Text>
-                        <Text color='black'>{service?.service?.category.toUpperCase()}</Text>
+                        <Text color={headerTextColor}>{service?.service?.category.toUpperCase()}</Text>
                     </Box>
 
                     <Box w='full' py='10px' borderBottomWidth={'1px'} borderBottomColor={borderColor}>
                         <Text  fontWeight="600" fontSize={'14px'}>Date</Text>
-                        <Text color='black'>{moment().format('MMMM Do, YYYY')}</Text>
+                        <Text color={headerTextColor}>{moment().format('MMMM Do, YYYY')}</Text>
                     </Box>
 
                     <HStack justifyContent={'space-between'} w='full' alignItems={'center'}>

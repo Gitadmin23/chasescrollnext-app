@@ -74,7 +74,7 @@ function BusinessCard({ business }: { business: IBuisness }) {
                 </VStack>
             </HStack>
 
-            <Box w='full' h='100px' borderRadius={'10px'} overflow={'hidden'}>
+            <Box w='full' h='150px' borderRadius={'10px'} overflow={'hidden'}>
                 <Image src={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt="banner image" w='full' h='full' objectFit={'cover'} />
             </Box>
 

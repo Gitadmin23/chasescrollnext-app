@@ -22,7 +22,7 @@ export default function Booking() {
     const router = useRouter()
 
     return (
-        <VStack w={"full"} h="full" alignItems='flex-start' px='20px' overflowY={"auto"} bgColor={mainBackgroundColor} >
+        <VStack w={"full"} h="auto" alignItems='flex-start' px='20px' overflowY={"auto"} bgColor={mainBackgroundColor} >
            <Flex flexDir={['row']} w='full' justifyContent={'space-between'} alignItems={'center'} h='60px' borderBottomWidth={'0.4px'} borderBottomColor={borderColor}>
                 <Text fontWeight={700} fontSize={16}>
                     <span style={{ color: primaryColor}}>Chasescroll</span>

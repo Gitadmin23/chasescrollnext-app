@@ -24,19 +24,19 @@ const ServiceListCard = ({ service }: { service: IService }) => {
     const { userId } = useDetails((state) => state);
 
     return (
-        <HStack justifyContent={'space-between'} marginBottom={'20px'} minH={'100px'} maxH={'150px'} alignItems={'center'} borderWidth={1} borderColor={borderColor} px={['10px']} borderBottomLeftRadius={'10px'} borderBottomRightRadius={'10px'}>
+        <HStack w={['100%', '50%']} justifyContent={'space-between'} marginBottom={'20px'} minH={'100px'} maxH={'150px'} alignItems={'center'} borderWidth={'0.4px'} borderColor={'#EAEBEDCC'} px={['10px']} borderBottomLeftRadius={'10px'} borderBottomRightRadius={'10px'}>
             <CreateBookingModal show={show} onClose={() => setShow(false)} service={service} />
             <VStack alignItems={'flex-start'}>
                 <HStack>
-                    <Text fontSize={'16px'}>{service?.service?.category.toUpperCase() ?? 'DJ'}</Text>
-                    {service?.hasFixedPrice && <Text color={primaryColor} fontSize={'14px'}>Price : NGN {service?.price}</Text>}
+                    <Text fontSize={'18px'} fontWeight={600}>{service?.service?.category.toUpperCase() ?? 'DJ'} - </Text>
+                     <Text color={primaryColor} fontSize={'14px'}> NGN {service?.price ?? 'Contact Vendor'}</Text>
                 </HStack>
-                <Text cursor={'pointer'} textDecoration={'underline'} color={primaryColor} fontSize={'14px'} onClick={() => router.push(`/dashboard/newbooking/details/service/${service?.id}`)}>View Details</Text>
+                <Text cursor={'pointer'} color={primaryColor} fontSize={'14px'} onClick={() => router.push(`/dashboard/newbooking/details/service/${service?.id}`)}>View Service</Text>
             </VStack>
 
             {userId !== service?.vendor?.userID && (
                 <Button w='120px' h='36px' onClick={() => setShow(true)} borderRadius={'full'} backgroundColor={primaryColor} color='white'>
-                    <Text fontSize={'12px'}>{service?.hasFixedPrice ? 'Book Service' : 'Contact Vendor'}</Text>
+                    <Text fontSize={'12px'}>{service?.hasFixedPrice ? 'Place Order' : 'Place Order'}</Text>
                 </Button>
             )}
         </HStack>
@@ -81,13 +81,15 @@ function BusinessDetailsPage() {
     });
     return (
         <Flex flexDirection="column" w='full' h='full'>
-            <Flex gap={"2"} mt={"2"} as={"button"} alignItems={"center"} onClick={() => router.push(`/dashboard/newbooking/create/${id}/services`)} borderBottomColor={borderColor} borderBottomWidth={'1px'} marginBottom={'20px'} pb='10px'>
+            <Flex gap={"2"} mt={"2"} as={"button"} alignItems={"center"} onClick={() => router.push(`/dashboard/newbooking/create/${id}/services`)} borderBottomColor={borderColor} borderBottomWidth={'0px'} marginBottom={'20px'} pb='10px'>
                 <IoAdd size={"25px"} color={primaryColor} />
-                <Text>Add Service </Text>
+                <Text fontSize={'14px'} color={primaryColor}>Add Service </Text>
             </Flex>
-            {!isLoading && services.length > 0 && services.map((item, index) => (
-                <ServiceListCard key={index.toString()} service={item} />
-            ))}
+            <VStack alignItems={['flex-start', 'center']}>
+                {!isLoading && services.length > 0 && services.map((item, index) => (
+                    <ServiceListCard key={index.toString()} service={item} />
+                ))}
+            </VStack>
         </Flex>
     )
 }
