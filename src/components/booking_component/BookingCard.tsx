@@ -180,7 +180,7 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                 </VStack>
             </HStack>
 
-            <Box w='full' h='100px' borderRadius={'10px'} overflow={'hidden'}>
+            <Box w='full' h='150px' borderRadius={'10px'} overflow={'hidden'}>
                 <Image src={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt="banner image" w='full' h='full' objectFit={'cover'} />
             </Box>
 
@@ -284,6 +284,11 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                     {booking.bookingStatus === 'IN_PROGRESS' && booking.hasPaid && (
                         <Button isLoading={vendorMarkAsDone.isLoading} onClick={() => vendorMarkAsDone.mutate()} w='full' h='50px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                             <Text fontSize={'14px'} color={'white'}>Mark As Done</Text>
+                        </Button>
+                    )}
+                     {booking.bookingStatus === 'APPROVED' && !booking?.hasPaid && (
+                        <Button disabled onClick={() => handlePayment()} w='full' h='34px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                            <Text fontSize={'14px'} color={'white'}>Awaiting Payment</Text>
                         </Button>
                     )}
                 </>
