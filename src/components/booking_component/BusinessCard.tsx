@@ -65,7 +65,7 @@ function BusinessCard({ business }: { business: IBuisness }) {
     } = useCustomTheme()
 
     return (
-        <VStack w='full' h='auto' borderWidth={'0.5px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'}>
+        <VStack style={{boxShadow: "0px 4px 4px 0px #0000000D"}} w='full' h='auto' borderWidth={'0.5px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'}>
             <HStack w='full'>
                 <Box w='30px' h='30px' borderBottomLeftRadius={'50px'} borderTopLeftRadius={'50px'} borderBottomRightRadius={'50px'} overflow={'hidden'} bg={secondaryBackgroundColor}></Box>
                 <VStack spacing={-5} alignItems={'flex-start'}>
@@ -106,7 +106,7 @@ function BusinessCard({ business }: { business: IBuisness }) {
                 </Flex>
             </VStack>
             <Box h='10px' />
-            <Button onClick={() => router.push(`/dashboard/newbooking/details/${business?.id}`)} w='full' h='34px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={secondaryBackgroundColor}>
+            <Button onClick={() => router.push(`/dashboard/newbooking/details/${business?.id}`)} w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={"#F7FBFE"} _hover={{ backgroundColor: "#F7FBFE" }}>
                 <Text fontSize={'14px'} color={primaryColor}>View Business</Text>
             </Button>
         </VStack>

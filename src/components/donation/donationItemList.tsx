@@ -21,6 +21,7 @@ import DonationPayment from './donationPayment'
 import DonationBtn from './donationBtn'
 import ShareEvent from '../sharedComponent/share_event'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
+import DeleteEvent from '../sharedComponent/delete_event'
 
 
 
@@ -40,7 +41,7 @@ export default function DonationItemList({ details, singleData, creator }: { det
     const { data: groupData, isLoading: loading, isRefetching } = useGetDonationGroup(singleData?.fundRasingGroupId?.id)
     const [open, setOpen] = useState(false)
 
-    const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/fund-raiser/search${creator ? "?creatorID="+userId : ""}`, limit: 20, filter: "id" })
+    const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/fund-raiser/search${creator ? "?creatorID=" + userId : ""}`, limit: 20, filter: "id", name: "donationlist" })
 
     const router = useRouter()
 
@@ -59,81 +60,86 @@ export default function DonationItemList({ details, singleData, creator }: { det
                 <LoadingAnimation loading={loadingList} refeching={refetchingList} length={results?.length} withimg={true} >
                     <Grid w={"full"} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} gap={6} >
                         {results?.map((item: IDonationList, index: number) => {
-                            if(results?.length === index + 1) {
+                            if (results?.length === index + 1) {
                                 return (
-                                    <GridItem ref={ref} key={index} >
-                                        <Flex w={"full"} gap={"4"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
-    
-                                            <Flex as={"button"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.createdBy?.userId}`)} gap={"3"} >
+                                    // <GridItem w={"full"}  >
+                                    <Flex w={"full"} ref={ref} key={index} pos={"relative"} gap={"4"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
+                                        <Flex w={"full"} pos={"relative"} alignItems={"center"} justifyContent={"space-between"} >
+                                            <Flex as={"button"} w={"fit-content"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.createdBy?.userId}`)} gap={"3"} >
                                                 <UserImage size={"45px"} font={"20px"} data={item?.createdBy} image={item?.createdBy?.data?.imgMain?.value} border={"1px"} />
                                                 <Flex display={["none", "none", "block"]} flexDir={"column"} textAlign={"left"}  >
                                                     <Text color={"#233DF3"} fontSize={"14px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(item?.createdBy?.firstName) + " " + capitalizeFLetter(item?.createdBy?.lastName), 15)}</Text>
                                                     <Text fontSize={"12px"} color={bodyTextColor} >{dateFormat(item?.createdBy)}</Text>
                                                 </Flex>
                                             </Flex>
-                                            <Flex w={'full'} h={"150px"} rounded={"8px"} >
-                                                <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} />
-                                            </Flex>
-                                            <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
-                                                <Flex flexDir={"column"} >
-                                                    <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
-                                                    <Text fontWeight={"700"} >{item?.name}</Text>
-                                                </Flex>
-                                                <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
-                                            </Flex>
-                                            <Flex w={"full"} borderWidth={item?.fundRasingGroupId?.id ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
-                                                {item?.fundRasingGroupId?.id && (
-                                                    <Flex gap={"1"} alignItems={"center"} >
-                                                        <IoInformationCircleOutline />
-                                                        <Text fontSize={"12px"} >More fundraising available  </Text>
-                                                    </Flex>
-                                                )}
-                                                <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
-                                            </Flex>
-                                            <DonationGraph item={item} />
-                                            {userId !== item?.createdBy?.userId && (
-                                                <DonationBtn {...item} />
-                                            )}
+                                            <DeleteEvent donation={true} event={item} />
                                         </Flex>
-                                    </GridItem>
+                                        <Flex w={'full'} h={"150px"} pos={"relative"} rounded={"8px"} >
+
+                                            <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} />
+                                        </Flex>
+                                        <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
+                                            <Flex flexDir={"column"} >
+                                                <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
+                                                <Text fontWeight={"700"} >{item?.name}</Text>
+                                            </Flex>
+                                            <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                        </Flex>
+                                        <Flex w={"full"} borderWidth={item?.fundRasingGroupId?.id ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
+                                            {item?.fundRasingGroupId?.id && (
+                                                <Flex gap={"1"} alignItems={"center"} >
+                                                    <IoInformationCircleOutline />
+                                                    <Text fontSize={"12px"} >More fundraising available  </Text>
+                                                </Flex>
+                                            )}
+                                            <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
+                                        </Flex>
+                                        <DonationGraph item={item} />
+                                        {userId !== item?.createdBy?.userId && (
+                                            <DonationBtn {...item} />
+                                        )}
+                                    </Flex>
+                                    // </GridItem>
                                 )
                             } else {
                                 return (
-                                    <GridItem key={index} >
-                                        <Flex w={"full"} gap={"4"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
-    
-                                            <Flex as={"button"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.createdBy?.userId}`)} gap={"3"} >
+                                    // <GridItem w={"full"} key={index} >
+                                    <Flex w={"full"} key={index} gap={"4"} pos={"relative"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
+                                        <Flex w={"full"} pos={"relative"} alignItems={"center"} justifyContent={"space-between"} >
+                                            <Flex as={"button"} w={"fit-content"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.createdBy?.userId}`)} gap={"3"} >
                                                 <UserImage size={"45px"} font={"20px"} data={item?.createdBy} image={item?.createdBy?.data?.imgMain?.value} border={"1px"} />
                                                 <Flex display={["none", "none", "block"]} flexDir={"column"} textAlign={"left"}  >
                                                     <Text color={"#233DF3"} fontSize={"14px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(item?.createdBy?.firstName) + " " + capitalizeFLetter(item?.createdBy?.lastName), 15)}</Text>
                                                     <Text fontSize={"12px"} color={bodyTextColor} >{dateFormat(item?.createdBy)}</Text>
                                                 </Flex>
                                             </Flex>
-                                            <Flex w={'full'} h={"150px"} rounded={"8px"} >
-                                                <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} />
-                                            </Flex>
-                                            <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
-                                                <Flex flexDir={"column"} >
-                                                    <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
-                                                    <Text fontWeight={"700"} >{item?.name}</Text>
-                                                </Flex>
-                                                <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
-                                            </Flex>
-                                            <Flex w={"full"} borderWidth={item?.fundRasingGroupId?.id ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
-                                                {item?.fundRasingGroupId?.id && (
-                                                    <Flex gap={"1"} alignItems={"center"} >
-                                                        <IoInformationCircleOutline />
-                                                        <Text fontSize={"12px"} >More fundraising available  </Text>
-                                                    </Flex>
-                                                )}
-                                                <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
-                                            </Flex>
-                                            <DonationGraph item={item} />
-                                            {userId !== item?.createdBy?.userId && (
-                                                <DonationBtn {...item} />
-                                            )}
+                                            <DeleteEvent donation={true} event={item} />
                                         </Flex>
-                                    </GridItem>
+                                        <Flex w={'full'} h={"150px"} rounded={"8px"} >
+                                            <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} />
+                                        </Flex>
+                                        <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
+                                            <Flex flexDir={"column"} >
+                                                <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
+                                                <Text fontWeight={"700"} >{item?.name}</Text>
+                                            </Flex>
+                                            <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                        </Flex>
+                                        <Flex w={"full"} borderWidth={item?.fundRasingGroupId?.id ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
+                                            {item?.fundRasingGroupId?.id && (
+                                                <Flex gap={"1"} alignItems={"center"} >
+                                                    <IoInformationCircleOutline />
+                                                    <Text fontSize={"12px"} >More fundraising available  </Text>
+                                                </Flex>
+                                            )}
+                                            <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
+                                        </Flex>
+                                        <DonationGraph item={item} />
+                                        {userId !== item?.createdBy?.userId && (
+                                            <DonationBtn {...item} />
+                                        )}
+                                    </Flex>
+                                    // </GridItem>
                                 )
                             }
                         })}

@@ -1,6 +1,7 @@
 import { useDetails } from '@/global-state/useUserDetails';
 import useCustomTheme from '@/hooks/useTheme';
 import { IEventType } from '@/models/Event';
+import { IDonationList } from '@/models/donation';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import { Box, Button, Flex, Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverTrigger, Spinner, useToast } from '@chakra-ui/react';
@@ -11,14 +12,16 @@ import { IoIosMore } from 'react-icons/io';
 import { useMutation, useQueryClient } from 'react-query';
 
 interface Props {
-    event: IEventType,
-    draft?: boolean
+    event: IEventType | IDonationList | any,
+    draft?: boolean,
+    donation?: boolean
 }
 
 function DeleteEvent(props: Props) {
     const {
         event,
-        draft
+        draft,
+        donation
     } = props
 
     const pathname = usePathname()
@@ -33,12 +36,12 @@ function DeleteEvent(props: Props) {
 
     // detete event
     const deleteEvent = useMutation({
-        mutationFn: () => httpService.delete((draft ? "/events/delete-draft/" : "/events/delete-event/") + event.id),
+        mutationFn: () => httpService.delete((draft ? `/events/delete-draft/${event.id}` : donation ? `/fund-raiser/${event?.id}?id=${event?.id}` : `/events/delete-event/${event.id}`)),
         onError: (error: AxiosError<any, any>) => {
             toast({
                 title: 'Error',
                 description: error?.response?.data?.message,
-                status: 'success',
+                status: 'error',
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
@@ -67,6 +70,7 @@ function DeleteEvent(props: Props) {
             }
             queryClient.refetchQueries(URLS.GET_DRAFT + "?createdBy=" + user_index)
             queryClient.refetchQueries("/events/drafts")
+            queryClient.refetchQueries("donationlist")
 
             queryClient.refetchQueries(URLS.JOINED_EVENT + user_index)
             setOpen(false)
@@ -85,6 +89,9 @@ function DeleteEvent(props: Props) {
         setOpen(true)
     }
 
+    console.log(event);
+    
+
     return (
         // <Box as='button' onClick={handleDelete} color={"brand.chasescrollRed"} borderWidth={"1px"} borderColor={"brand.chasescrollRed"} fontWeight={"semibold"} width={"fit-content"} display={"flex"} justifyContent={"center"} fontSize={"xs"} px="3" rounded={"full"} alignItems={"center"} disabled={deleteEvent.isLoading} >
         //     {(deleteEvent.isLoading) && <Spinner size='sm' color="brand.chasesccrollButtonBlue" />}
@@ -94,8 +101,8 @@ function DeleteEvent(props: Props) {
         // </Box>
         <>
 
-            {((event?.isOrganizer && !pathname?.includes("past")) || pathname?.includes("draft")) && (
-                <Flex pos={"absolute"} right={["6", "6", "20", "20"]} zIndex={"100"} top={["6", "6", "1", "1"]} >
+            {((event?.isOrganizer && !pathname?.includes("past")) || pathname?.includes("draft") || pathname?.includes("mydonation")) && (
+                <Flex pos={pathname?.includes("mydonation") ? "relative" : "absolute"} right={pathname?.includes("mydonation") ? "0px" : ["6", "6", "20", "20"]}  zIndex={"100"} top={["6", "6", "1", "1"]} >
                     <Box>
                         <Popover isOpen={open} onClose={() => setOpen(false)} >
                             <PopoverTrigger >
@@ -108,7 +115,7 @@ function DeleteEvent(props: Props) {
                                 {/* <PopoverCloseButton />
                                 <PopoverHeader>Confirmation!</PopoverHeader> */}
                                 <PopoverBody w={"fit-content"} pos={"relative"} zIndex={"100"} >
-                                    <Button onClick={handleDelete} isLoading={deleteEvent.isLoading} color={"red"} isDisabled={deleteEvent.isLoading} bg={"transparent"} px={"6"} >Delete Event</Button>
+                                    <Button onClick={handleDelete} fontSize={pathname?.includes("mydonation") ? "12px" : "14px"} isLoading={deleteEvent.isLoading} color={"red"} isDisabled={deleteEvent.isLoading} bg={"transparent"} px={pathname?.includes("mydonation") ? "3" : "6"} >Delete  {pathname?.includes("mydonation") ? "Fundraising" : "Event"}</Button>
                                 </PopoverBody>
                             </PopoverContent>
                         </Popover>

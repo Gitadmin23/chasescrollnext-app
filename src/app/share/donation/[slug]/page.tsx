@@ -38,7 +38,7 @@ export async function generateMetadata(
         title: product?.content?.length > 0 ? product?.content[0]?.name : "",
         description: product?.content?.length > 0 ? product?.content[0]?.description : "",
         images: [{
-          url: IMAGE_URL + product?.content?.length > 0 ? product?.content[0]?.bannerImage : "",
+          url: IMAGE_URL + (product?.content?.length > 0 ? product?.content[0]?.bannerImage : ""),
         }],
       },
     }

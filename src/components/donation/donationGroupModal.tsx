@@ -26,9 +26,7 @@ export default function DonationGroupModal({ selectedData }: { selectedData: IDo
                 if (index === 0) {
                     return (
                         <Flex key={index} w={"full"} flexDir={"column"} gap={"4"} >
-                            {item?.fundRaisers?.map((items, indexs) => {
-                                console.log(items?.id);
-                                
+                            {item?.fundRaisers?.map((items, indexs) => { 
                                 return (
                                     <Flex role="button" flexDir={["column", "column", "row"]} onClick={() => router?.push("/dashboard/donation/" + items?.id)} key={indexs} w={"full"} rounded={"16px"} gap={"4"} borderWidth={"1px"} borderColor={borderColor} p={"4"} alignItems={"center"} >
                                         <Flex w={"fit-content"} >
