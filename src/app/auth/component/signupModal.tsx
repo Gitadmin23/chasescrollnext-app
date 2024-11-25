@@ -9,7 +9,7 @@ import useAuth from '@/hooks/useAuth'
 import VerifyForm from './verifyForm'
 import { useRouter } from 'next/navigation'
 
-export default function SignupModal({ open, setOpen, index, hide }: { open: boolean, setOpen: (by: boolean) => void, index?: string, hide?: boolean}) {
+export default function SignupModal({ open, setOpen, index, hide, type }: { open: boolean, setOpen: (by: boolean) => void, index?: string, hide?: boolean, type?: "DONATION"}) {
 
     const [tab, setTab] = useState(false)
     const [showMessage, setShowMessage] = useState(false)
@@ -17,6 +17,14 @@ export default function SignupModal({ open, setOpen, index, hide }: { open: bool
     const [showVerify, setShowVerify] = useState(false)
 
     const router = useRouter()
+
+    const clickHandler =()=> {
+        if(type === "DONATION"){
+            router?.push(("/share/auth/login/?type=DONATION&typeID=" + index))
+        } else {
+            router?.push(("/share/auth/login/?type=EVENT&typeID=" + index))
+        }
+    }
 
     return (
         <Flex w={hide ? " auto ": "full"} >
@@ -79,7 +87,7 @@ export default function SignupModal({ open, setOpen, index, hide }: { open: bool
                                 <Text fontSize={"lg"} >Report bad behaviour immediately</Text>
                             </Flex>
                         </Flex>
-                        <Button onClick={() => router?.push("/auth")} color={"white"} mt={"6"} _disabled={{ backgroundColor: "#233DF380" }} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={["20px", "20px", "32px"]} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
+                        <Button onClick={clickHandler} color={"white"} mt={"6"} _disabled={{ backgroundColor: "#233DF380" }} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={["20px", "20px", "32px"]} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
                             <Text textAlign={"center"} fontWeight={"600"} >Continue</Text>
                         </Button>
                     </Flex>
