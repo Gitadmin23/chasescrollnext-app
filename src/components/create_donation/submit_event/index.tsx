@@ -272,7 +272,7 @@ function SubmitEvent(props: Iprops) {
     }, [data])
 
     useEffect(() => {
-        if (uploadedFile?.length > 2) {
+        if (uploadedFile?.length > 1) {
             createGroupDonation.mutateAsync({
                 creatorID: data[0]?.creatorID,
                 name: data[0]?.name,
