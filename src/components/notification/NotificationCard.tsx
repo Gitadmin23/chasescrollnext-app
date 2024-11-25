@@ -138,13 +138,11 @@ function NotificationCard({ notification }: { notification: INotification }) {
             {notification.message?.replaceAll("Collaborator", "volunteer")?.replaceAll("collaborator", "volunteer")}
           </CustomText>
         ) : notification?.type === "EVENT_ROLE_UPDATE" ? (
-          <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>
-
+          <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}> 
             {notification.message}
           </CustomText>
         ) : (
-          <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>
-
+          <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}> 
             {textLimit((notification.message)?.replaceAll("New message on chat " + notification?.createdBy?.firstName + " " + notification.createdBy?.lastName, ""), 70)}
           </CustomText>
         )}

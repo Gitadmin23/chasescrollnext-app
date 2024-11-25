@@ -40,7 +40,7 @@ function Bookings() {
             {!isLoading && businesses.length > 0 && (
                 <SimpleGrid columns={[1, 3]} gap={[2, 4]}>
                     {businesses.map((item, index) => (
-                        <BookingCard key={index.toString()} booking={item} business={item?.vendor} isVendor={false} />
+                        <BookingCard key={index} booking={item} business={item?.vendor} isVendor={false} />
                     ))}
                 </SimpleGrid>
             )}

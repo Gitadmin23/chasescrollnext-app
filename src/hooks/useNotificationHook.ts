@@ -110,7 +110,7 @@ const useNotificationHook = () => {
             accepted: boolean
         }) =>
             httpService.put(
-                `/collaborator-request/accept-or-delcine`, data
+                `/collaborator-request/accept-or-decline`, data
             ),
         onSuccess: (data: any) => {
             console.log(data?.data.updated);
@@ -136,8 +136,8 @@ const useNotificationHook = () => {
             id: string,
             accepted: boolean
         }) =>
-            httpService.post(
-                `/collaborator-request/accept-or-delcine`, data
+            httpService.put(
+                `/collaborator-request/accept-or-decline`, data
             ),
         onSuccess: (data: any) => {
             console.log(data?.data.updated);
