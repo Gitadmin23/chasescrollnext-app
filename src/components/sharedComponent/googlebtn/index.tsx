@@ -20,7 +20,8 @@ interface Props {
     id?: boolean,
     index?: string,
     border?: string,
-    newbtn?: boolean
+    newbtn?: boolean,
+    type?: "DONATION"
 }
 
 function GoogleBtn(props: Props) {
@@ -32,7 +33,8 @@ function GoogleBtn(props: Props) {
         id,
         index,
         border,
-        newbtn
+        newbtn,
+        type
     } = props
 
     const [checkData, setCheckData] = React.useState<any>({});
@@ -83,7 +85,11 @@ function GoogleBtn(props: Props) {
             })
 
             if (id) {
-                router.push(`/dashboard/event/details/${index}`);
+                if(type === "DONATION") {
+                    router.push(`/dashboard/donation/${index}`);
+                } else { 
+                    router.push(`/dashboard/event/details/${index}`);
+                }
             } else {
                 if (data?.data?.user_id && googlesign) {
                     router.push('/dashboard/event')
