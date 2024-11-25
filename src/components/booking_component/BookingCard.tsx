@@ -282,13 +282,18 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                         </>
                     )}
                     {booking.bookingStatus === 'IN_PROGRESS' && booking.hasPaid && (
-                        <Button isLoading={vendorMarkAsDone.isLoading} onClick={() => vendorMarkAsDone.mutate()} w='full' h='50px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                        <Button isLoading={vendorMarkAsDone.isLoading} onClick={() => vendorMarkAsDone.mutate()} w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                             <Text fontSize={'14px'} color={'white'}>Mark As Done</Text>
                         </Button>
                     )}
-                     {booking.bookingStatus === 'APPROVED' && !booking?.hasPaid && (
-                        <Button disabled onClick={() => handlePayment()} w='full' h='34px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                    {booking.bookingStatus === 'APPROVED' && !booking?.hasPaid && (
+                        <Button disabled  w='full' h='50px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                             <Text fontSize={'14px'} color={'white'}>Awaiting Payment</Text>
+                        </Button>
+                    )}
+                      {booking.bookingStatus === 'AWAITING_CONFIRMATION' && booking.isCompleted && (
+                        <Button disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                            <Text fontSize={'14px'} color={'white'}>Awaiting User Confirmation</Text>
                         </Button>
                     )}
                 </>
