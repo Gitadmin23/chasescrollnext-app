@@ -90,10 +90,10 @@ function EventCarousel(props: Props) {
                                                             <InterestedUsers refund={true} fontSize={16} event={item} border={"2px"} size={"32px"} />
                                                         )}
                                                         <Flex ml={"auto"} alignItems={"center"} gap={"3"}  >
-                                                            <ShareEvent data={item} type="EVENT" size='18px' id={item?.id} eventName={item?.eventName} />
                                                             {(userId && email) && (
                                                                 <SaveOrUnsaveBtn event={item} />
                                                             )}
+                                                            <ShareEvent data={item} type="EVENT" size='18px' id={item?.id} eventName={item?.eventName} />
                                                         </Flex>
                                                     </Flex>
                                                 </Flex>
