@@ -171,7 +171,7 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
     }
 
     return (
-        <VStack w='full' h='auto' borderWidth={'0.5px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'} spacing={3}>
+        <VStack style={{boxShadow: "0px 4px 4px 0px #0000000D"}} w='full' h='auto' borderWidth={'0.5px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'} spacing={3}>
             <HStack w='full'>
                 <Box w='30px' h='30px' borderBottomLeftRadius={'50px'} borderTopLeftRadius={'50px'} borderBottomRightRadius={'50px'} overflow={'hidden'} bg={secondaryBackgroundColor}></Box>
                 <VStack spacing={-5} alignItems={'flex-start'}>

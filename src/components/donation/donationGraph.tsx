@@ -12,7 +12,7 @@ export default function DonationGraph( { item, rounded } : {item : IDonationList
     } = useCustomTheme()
 
     return (
-        <Flex w={"full"} borderWidth={"1px"} alignItems={"center"} borderColor={borderColor} rounded={rounded ? rounded : "8px"} py={"3"} px={rounded ? "20px" : "8px"} justifyContent={"space-between"} >
+        <Flex w={"full"} borderWidth={"1px"} alignItems={"center"} borderColor={borderColor} rounded={rounded ? rounded : "8px"} h={"90px"} px={rounded ? "20px" : "8px"} justifyContent={"space-between"} >
             <Flex flexDirection={"column"} >
                 <Text color={bodyTextColor} >Target</Text>
                 <Text fontWeight={"600"} >{formatNumber(item?.goal)}</Text>

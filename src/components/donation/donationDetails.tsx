@@ -36,13 +36,22 @@ export default function DonationDetails({ id }: { id: string }) {
 
     const router = useRouter()
     const { configPaystack, setPaystackConfig, donation } = usePaystackStore((state) => state);
+    const [isCollaborator, setCollaborate] = useState<Array<any>>([])
 
     const userId = localStorage.getItem('user_id') + "";
 
+    useEffect(() => {
+        if (isCollaborator?.length <= 0) {
+            const collaborators: Array<string> = []
 
-    const clickHandler = () => {
+            item.collaborators?.map((item: any) => {
+                return collaborators.push(item?.userId + "")
+            })
 
-    }
+            setCollaborate(collaborators)
+        }
+
+    }, [item])
 
 
     return (
@@ -59,23 +68,17 @@ export default function DonationDetails({ id }: { id: string }) {
                         <Flex w={'full'} h={"350px"} rounded={"8px"} >
                             <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} />
                         </Flex>
+                        <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
+                            <Flex flexDir={"column"} >
+                                <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
+                                <Text fontSize={"24px"} fontWeight={"700"} >{item?.name}</Text>
+                            </Flex>
+                            <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                        </Flex>
                         <Flex w={["full", "full", "full", "full"]} flexDir={["column", "column", "row", "row"]} >
                             <Flex w={"full"} flexDir={"column"} gap={"4"} pb={"6"} pr={["0px", "0px", "0px", "6", "6"]} borderColor={borderColor} >
-                                <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
-                                    <Flex flexDir={"column"} >
-                                        <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
-                                        <Text fontSize={"24px"} fontWeight={"700"} >{item?.name}</Text>
-                                    </Flex> 
-                                    <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
-                                </Flex>
-                                <DonationGraph rounded='64px' item={item} />
-                                {/* <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
 
-                                    <Flex flexDir={"column"} >
-                                        <Text fontWeight={"600"} >People who donated</Text>
-                                        <Text fontSize={"12px"} color={bodyTextColor} >350 users donated already</Text>
-                                    </Flex> */}
-
+                                <DonationGraph rounded='64px' item={item} /> 
                                 <DonateUsers donationDetail={true} size={"50px"} event={item} fontSize={14} border='1px' />
                                 {/* </Flex> */}
                                 <Flex justifyContent={"space-between"} alignItems={"center"} >
@@ -95,37 +98,31 @@ export default function DonationDetails({ id }: { id: string }) {
                                     </Flex>
                                 </Flex>
                             </Flex>
-                            {userId !== item?.createdBy?.userId ? (
-                                <Flex bg={mainBackgroundColor} insetX={"6"} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
-                                    <DonationPayment data={item} />
-                                </Flex>
-                            ) : (
-                                <Flex bg={mainBackgroundColor} insetX={"6"} mt={["0px", "0px", "16", "16"]} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
-                                    <Flex bgColor={secondaryBackgroundColor} w={["full", "full", "full", "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"64px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} px={["3", "3", "5", "5"]} p={"5"}  >
+                            {((userId === item?.createdBy?.userId) || (isCollaborator?.includes(userId))) ? (
 
-                                        {/* <Button borderWidth={"1px"} onClick={() => router?.push("/dashboard/settings/payment/details")} borderColor={primaryColor} w={"full"} h={"50px"} rounded={"32px"} color={primaryColor} fontWeight={"600"} bgColor={"#EFF5F8"} _hover={{ backgroundColor: "#EFF5F8" }} >
-                                            Withdraw Cash
-                                        </Button>
-                                        <Button onClick={() => router?.push(`/dashboard/settings/event-dashboard/${item?.id}/donate`)} w={"full"} h={"50px"} rounded={"32px"} color={"white"} fontWeight={"600"} bgColor={primaryColor} _hover={{ backgroundColor: primaryColor }} >
-                                            Dashboard
-                                        </Button> */}
+                                <Flex bg={["transparent", "transparent", mainBackgroundColor, mainBackgroundColor]} insetX={"3"} mt={["0px", "0px", "0px", "0px"]} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
+                                    <Flex bgColor={secondaryBackgroundColor} w={["full", "full", "full", "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"64px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} px={["3", "3", "5", "5"]} h={"90px"} justifyContent={"center"} >
 
                                         <Flex width={["full"]} justifyContent={"space-between"} alignItems={"center"} gap={"3"}    >
-                                            <Flex bgColor={mainBackgroundColor} p={"2"} rounded={"2xl"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} as={"button"} onClick={() => router?.push(`/dashboard/settings/event-dashboard/${item?.id}/donate`)} gap={"4px"} flexDir={"column"} alignItems={"center"} justifyContent={"center"} >
+                                            <Flex bgColor={mainBackgroundColor} w={"80px"} py={"2"} rounded={"2xl"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} as={"button"} onClick={() => router?.push(`/dashboard/settings/event-dashboard/${item?.id}/donate`)} gap={"4px"} flexDir={"column"} alignItems={"center"} justifyContent={"center"} >
                                                 <DashboardOrganizerIcon />
                                                 <Text fontSize={"12px"} fontWeight={"500"} >Dashboard</Text>
                                             </Flex>
-                                            <Flex bgColor={mainBackgroundColor} p={"2"} rounded={"2xl"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} as={"button"} onClick={() => router?.push(`/dashboard/donation/edit/${item?.id}`)} gap={"4px"} flexDir={"column"} alignItems={"center"} justifyContent={"center"}>
+                                            <Flex disabled={isCollaborator?.includes(userId)} bgColor={mainBackgroundColor} w={"80px"} py={"2"} rounded={"2xl"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} as={"button"} onClick={() => router?.push(`/dashboard/donation/edit/${item?.id}`)} gap={"4px"} flexDir={"column"} alignItems={"center"} justifyContent={"center"}>
                                                 <DashboardEditIcon />
-                                                <Text fontSize={"12px"} fontWeight={"500"} >Edit Event</Text>
+                                                <Text fontSize={"12px"} fontWeight={"500"} >Edit</Text>
                                             </Flex>
-                                            <Flex bgColor={mainBackgroundColor} p={"2"} rounded={"2xl"} as={"button"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} onClick={() => router?.push("/dashboard/settings/payment/details")} gap={"4px"} flexDir={"column"} alignItems={"center"} >
+                                            <Flex disabled={isCollaborator?.includes(userId)} bgColor={mainBackgroundColor} w={"80px"} py={"2"} rounded={"2xl"} as={"button"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} onClick={() => router?.push("/dashboard/settings/payment/details")} gap={"4px"} flexDir={"column"} alignItems={"center"} >
                                                 <WalletIcon color='#5D70F9' />
-                                                <Text fontSize={"12px"} fontWeight={"500"} >Withdraw Cash</Text>
+                                                <Text fontSize={"12px"} fontWeight={"500"} >Cash Out</Text>
                                             </Flex>
                                         </Flex>
                                     </Flex>
 
+                                </Flex>
+                            ) : (
+                                <Flex bg={mainBackgroundColor} insetX={"6"} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
+                                    <DonationPayment data={item} />
                                 </Flex>
                             )}
                         </Flex>
