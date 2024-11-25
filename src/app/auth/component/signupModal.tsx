@@ -9,7 +9,7 @@ import useAuth from '@/hooks/useAuth'
 import VerifyForm from './verifyForm'
 import { useRouter } from 'next/navigation'
 
-export default function SignupModal({ open, setOpen, index, hide }: { open: boolean, setOpen: (by: boolean) => void, index?: string, hide?: boolean }) {
+export default function SignupModal({ open, setOpen, index, hide }: { open: boolean, setOpen: (by: boolean) => void, index?: string, hide?: boolean}) {
 
     const [tab, setTab] = useState(false)
     const [showMessage, setShowMessage] = useState(false)
