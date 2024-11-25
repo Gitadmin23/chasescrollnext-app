@@ -100,7 +100,7 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
     });
 
     const userMarkAsDone = useMutation({
-        mutationFn: (data: boolean) => httpService.put('/booking/vendor-mark-as-done', {
+        mutationFn: (data: boolean) => httpService.put('/booking/user-mark-as-done', {
             bookingID: booking?.id,
             completedWithIssues: data,
             userID: userId,
