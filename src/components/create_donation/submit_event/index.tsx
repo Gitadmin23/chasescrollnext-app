@@ -279,7 +279,7 @@ function SubmitEvent(props: Iprops) {
                 bannerImage: uploadedImage[0],
                 description: data[0].description
             })
-        } else if (uploadedFile?.length > 0) {
+        } else if (uploadedFile?.length === 1) {
             let newObj: any = [...data]
             newObj[0] = { ...data[0], bannerImage: uploadedFile[0] }
             if (!pathname?.includes("edit")) {
