@@ -51,8 +51,8 @@ export default function DonationDetail(
     const id = params.slug
  
     return (
-        <Flex w={"full"} overflowY={"auto"} >
+        <div style={{ width: '100%', overflowY: 'auto' }} >
             <DonationDetails id={id} />
-        </Flex>
+        </div>
     )
 }

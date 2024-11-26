@@ -100,7 +100,7 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
     });
 
     const userMarkAsDone = useMutation({
-        mutationFn: (data: boolean) => httpService.put('/booking/vendor-mark-as-done', {
+        mutationFn: (data: boolean) => httpService.put('/booking/user-mark-as-done', {
             bookingID: booking?.id,
             completedWithIssues: data,
             userID: userId,
@@ -265,6 +265,20 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                             </Button>
                         </>
                     )}
+                    {
+                        booking.bookingStatus === "COMPLETED" && (
+                            <Button disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                <Text fontSize={'14px'} color={'white'}>Completed</Text>
+                            </Button>
+                        )
+                    }
+                     {
+                        booking.bookingStatus === "COMPLETED_WITH_ISSUES" && (
+                            <Button disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                <Text fontSize={'14px'} color={'white'}>Raise Complain</Text>
+                            </Button>
+                        )
+                    }
                 </>
             )}
 
@@ -282,15 +296,34 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                         </>
                     )}
                     {booking.bookingStatus === 'IN_PROGRESS' && booking.hasPaid && (
-                        <Button isLoading={vendorMarkAsDone.isLoading} onClick={() => vendorMarkAsDone.mutate()} w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                        <Button isLoading={vendorMarkAsDone.isLoading} onClick={() => vendorMarkAsDone.mutate()} w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                             <Text fontSize={'14px'} color={'white'}>Mark As Done</Text>
                         </Button>
                     )}
-                     {booking.bookingStatus === 'APPROVED' && !booking?.hasPaid && (
-                        <Button disabled onClick={() => handlePayment()} w='full' h='34px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                    {booking.bookingStatus === 'APPROVED' && !booking?.hasPaid && (
+                        <Button disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                             <Text fontSize={'14px'} color={'white'}>Awaiting Payment</Text>
                         </Button>
                     )}
+                      {booking.bookingStatus === 'AWAITING_CONFIRMATION' && booking.isCompleted && (
+                        <Button disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                            <Text fontSize={'14px'} color={'white'}>Awaiting User Confirmation</Text>
+                        </Button>
+                    )}
+                    {
+                        booking.bookingStatus === "COMPLETED" && (
+                            <Button disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                <Text fontSize={'14px'} color={'white'}>Completed</Text>
+                            </Button>
+                        )
+                    }
+                     {
+                        booking.bookingStatus === "COMPLETED_WITH_ISSUES" && (
+                            <Button disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                <Text fontSize={'14px'} color={'white'}>Raise Complain</Text>
+                            </Button>
+                        )
+                    }
                 </>
             )}
 
