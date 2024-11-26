@@ -34,7 +34,7 @@ function CreateDonationHeader({ name }: IProps) {
                         Tells more about your Fundraising.
                     </Text>
                     <Text mt={"4"} fontWeight={"400"} color={bodyTextColor} lineHeight={"19.6px"} fontSize={"14px"} >
-                        {`Whether it's a conference, seminar, or celebration, let us in on the details. Your event matters, and we're here to ensure it gets the spotlight it deserves`}
+                        {`Whether it is a crowdfunding, community fundraising or charity fundraising, let us in on the details. Your fundraising matters and we're here to ensure it gets the spotlight it deserves.`}
                     </Text>
                 </Flex>
             </Flex>

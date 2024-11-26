@@ -73,7 +73,7 @@ function SelectImage(props: Props) {
                 )}
                 {(selectedImageFile || data[index]?.bannerImage) && (
                     <label role='button' style={{ width: "100%", display: "grid", height: "228px", placeItems: "center", gap: "16px" }} >
-                        <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={"eventimage"} width={"full"} height={"228px"} src={selectedImageFile ? selectedImageFile : IMAGE_URL + data[index]?.bannerImage} />
+                        <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={"eventimage"} width={"full"} height={"228px"} src={data[index]?.bannerImage ? IMAGE_URL + data[index]?.bannerImage : selectedImageFile } />
                         <input
                             type="file"
                             id="image"
