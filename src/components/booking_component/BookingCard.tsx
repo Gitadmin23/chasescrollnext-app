@@ -265,6 +265,20 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                             </Button>
                         </>
                     )}
+                    {
+                        booking.bookingStatus === "COMPLETED" && (
+                            <Button disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                <Text fontSize={'14px'} color={'white'}>Completed</Text>
+                            </Button>
+                        )
+                    }
+                     {
+                        booking.bookingStatus === "COMPLETED_WITH_ISSUES" && (
+                            <Button disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                <Text fontSize={'14px'} color={'white'}>Raise Complain</Text>
+                            </Button>
+                        )
+                    }
                 </>
             )}
 
@@ -287,7 +301,7 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                         </Button>
                     )}
                     {booking.bookingStatus === 'APPROVED' && !booking?.hasPaid && (
-                        <Button disabled  w='full' h='50px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                        <Button disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                             <Text fontSize={'14px'} color={'white'}>Awaiting Payment</Text>
                         </Button>
                     )}
@@ -296,6 +310,20 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                             <Text fontSize={'14px'} color={'white'}>Awaiting User Confirmation</Text>
                         </Button>
                     )}
+                    {
+                        booking.bookingStatus === "COMPLETED" && (
+                            <Button disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                <Text fontSize={'14px'} color={'white'}>Completed</Text>
+                            </Button>
+                        )
+                    }
+                     {
+                        booking.bookingStatus === "COMPLETED_WITH_ISSUES" && (
+                            <Button disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                <Text fontSize={'14px'} color={'white'}>Raise Complain</Text>
+                            </Button>
+                        )
+                    }
                 </>
             )}
 
