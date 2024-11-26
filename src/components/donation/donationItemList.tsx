@@ -22,10 +22,11 @@ import DonationBtn from './donationBtn'
 import ShareEvent from '../sharedComponent/share_event'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
 import DeleteEvent from '../sharedComponent/delete_event'
+import useSearchStore from '@/global-state/useSearchData'
 
 
 
-export default function DonationItemList({ details, singleData, creator }: { details?: boolean, singleData?: IDonationList, creator?: boolean }) {
+export default function DonationItemList({ details, singleData, creator, publicData }: { details?: boolean, singleData?: IDonationList, creator?: boolean, publicData?: boolean }) {
 
     const { data, isLoading } = useGetDonationList()
     const {
@@ -36,12 +37,15 @@ export default function DonationItemList({ details, singleData, creator }: { det
     } = useCustomTheme()
 
 
+    const { search } = useSearchStore((state) => state);
+
+
     const userId = localStorage.getItem('user_id') + "";
     const [selected, setSelected] = useState({} as IDonationList)
     const { data: groupData, isLoading: loading, isRefetching } = useGetDonationGroup(singleData?.fundRasingGroupId?.id)
     const [open, setOpen] = useState(false)
 
-    const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/fund-raiser/search${creator ? "?creatorID=" + userId : ""}`, limit: 20, filter: "id", name: "donationlist" })
+    const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/fund-raiser/search${search ? `?name=${search}` : ``}${creator ? "?creatorID=" + userId : ``}`, limit: 20, filter: "id", name: "donationlist", search: search })
 
     const router = useRouter()
 

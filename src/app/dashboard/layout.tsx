@@ -178,7 +178,7 @@ export default function Layout({ children }: {
                     <Flex w={"full"} h={"76px"} pos={['fixed', 'fixed', 'fixed', "sticky", "sticky"]} bgColor={mainBackgroundColor} zIndex={"100"} insetX={"0px"} top={"0px"} borderBottomColor={borderColor} borderBottomWidth={"1px"} alignItems={"center"} px={"6"} justifyContent={"space-between"}  >
                         {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft") && (
                             <Box display={["none", "none", "none", "flex", "flex"]} >
-                                <SearchBar />
+                                <SearchBar fundraising={pathname?.includes("/donation")} change={pathname?.includes("/donation")? true: false} />
                             </Box>
                         )}
                         <Flex as={"button"} onClick={() => router?.push("/dashboard")} display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"2"} >
