@@ -21,6 +21,7 @@ import { IoArrowBack } from 'react-icons/io5';
 import DonateUsers from '../sharedComponent/donateUser';
 import { DashboardEditIcon, DashboardOrganizerIcon, DashboardScannerIcon, WalletIcon, WalletIcon2 } from '../svg';
 import ShareEvent from '../sharedComponent/share_event';
+import useDonationStore from '@/global-state/useDonationState';
 
 export default function DonationDetails({ id }: { id: string }) {
 
@@ -39,6 +40,22 @@ export default function DonationDetails({ id }: { id: string }) {
     const [isCollaborator, setCollaborate] = useState<Array<any>>([])
 
     const userId = localStorage.getItem('user_id') + "";
+
+    const { updateDontion } = useDonationStore((state) => state) 
+
+    useEffect(() => {
+        updateDontion([{
+            "visibility": "PUBLIC",
+            creatorID: userId,
+            name: "",
+            bannerImage: "",
+            description: "",
+            endDate: "",
+            goal: "",
+            purpose: "",
+            collaborators: []
+        }])
+    }, [])
 
     useEffect(() => {
         if (isCollaborator?.length <= 0) {

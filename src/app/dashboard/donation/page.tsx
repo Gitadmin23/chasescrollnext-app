@@ -2,6 +2,7 @@
 import DonationItemList from '@/components/donation/donationItemList'
 import CustomButton from '@/components/general/Button'
 import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
+import useDonationStore from '@/global-state/useDonationState'
 import usePaystackStore from '@/global-state/usePaystack'
 import useSearchStore from '@/global-state/useSearchData'
 import useCustomTheme from '@/hooks/useTheme'
@@ -29,7 +30,25 @@ export default function Donation() {
 
     useEffect(() => {
         setSearchValue("")
-    }, [path])
+    }, [path]) 
+
+    const { updateDontion } = useDonationStore((state) => state)
+
+    const user_id = localStorage.getItem("user_id") + ""
+
+    useEffect(() => {
+        updateDontion([{
+            "visibility": "PUBLIC",
+            creatorID: user_id,
+            name: "",
+            bannerImage: "",
+            description: "",
+            endDate: "",
+            goal: "",
+            purpose: "",
+            collaborators: []
+        }])
+    }, [])
 
     return (
         <Flex w={"full"} px={"6"} pt={["6", "6", "12", "12"]} pb={"12"} flexDir={"column"} overflowY={"auto"} >
