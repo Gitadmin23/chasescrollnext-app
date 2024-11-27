@@ -31,7 +31,7 @@ function CreateDonationHeader({ name }: IProps) {
             <Flex justifyContent={"center"} alignItems={"center"} flexDir={"column"} px={["4", "4", "4", "12"]} py={"5"} h={["fit-content", "fit-content", "fit-content", "fit-content", "100vh"]} width={["full", "full", "full", "full", "546px"]}  >
                 <Flex maxW={["full", "full", "full", "full", "420px"]} w={"full"} fontWeight={"700"} flexDir={"column"} > 
                     <Text color={headerTextColor} fontSize={["24px", "24px", "24px", "38px"]} lineHeight={["33.6px", "33.6px", "33.6px", "40px"]} >
-                        Tells more about your Fundraising.
+                        Tells Us More About Your Fundraising.
                     </Text>
                     <Text mt={"4"} fontWeight={"400"} color={bodyTextColor} lineHeight={"19.6px"} fontSize={"14px"} >
                         {`Whether it is a crowdfunding, community fundraising or charity fundraising, let us in on the details. Your fundraising matters and we're here to ensure it gets the spotlight it deserves.`}
