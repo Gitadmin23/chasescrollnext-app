@@ -77,7 +77,7 @@ export default function DonationDetails({ id }: { id: string }) {
                 {item && (
                     <Flex flexDir={"column"} w={"full"} gap={"6"} p={"6"} >
                         <Flex gap={4} alignItems={"center"} >
-                            <Flex as={"button"} onClick={() => router?.back()} >
+                            <Flex as={"button"} onClick={() => router?.push("/dashboard/donation")} >
                                 <IoArrowBack size={"30px"} />
                             </Flex>
                             <Text fontWeight={"700"} fontSize={"24px"} >Fundraising Details</Text>
