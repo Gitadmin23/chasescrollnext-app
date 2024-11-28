@@ -85,6 +85,7 @@ function DashboardDonation(props: Props) {
     const { isLoading, isRefetching, data } = useQuery(['donationOrder' + size + page, index], () => httpService.get('/payments/orders', {
         params: {
             typeID: index,
+            orderStatus: "PAID",
             size: size,
             page: page, 
         }
@@ -223,7 +224,7 @@ function DashboardDonation(props: Props) {
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{(page * size) + (i + 1)}</Td>
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{showUserName ? capitalizeFLetter(person?.buyer?.firstName) + " " + capitalizeFLetter(person?.buyer?.lastName) : ""}</Td>
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showEmail ? person?.buyer?.email : ""}</Td>
-                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showDate ? dateFormat(person?.createdDate) : ""}</Td>
+                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showDate ? dateFormat(person?.createdDate)+" "+timeFormat(person?.createdDate) : ""}</Td>
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} textAlign={"center"} fontSize={"xs"} >
                                                 {formatNumber(person?.orderTotal)}
                                             </Td>

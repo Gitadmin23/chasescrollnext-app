@@ -23,6 +23,7 @@ import ShareEvent from '../sharedComponent/share_event'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
 import DeleteEvent from '../sharedComponent/delete_event'
 import useSearchStore from '@/global-state/useSearchData'
+import BlurredImage from '../sharedComponent/blurred_image'
 
 
 
@@ -59,7 +60,7 @@ export default function DonationItemList({ details, singleData, creator, publicD
     }
 
     console.log(results);
-    
+
 
     return (
         <Flex w={"full"} flexDir={"column"} gap={"5"} >
@@ -81,13 +82,15 @@ export default function DonationItemList({ details, singleData, creator, publicD
                                             </Flex>
                                             <DeleteEvent donation={true} event={item} />
                                         </Flex>
-                                        <Flex as={"button"} onClick={() => clickHander(item, item?.id)} w={'full'} h={"150px"} pos={"relative"} rounded={"8px"} > 
-                                            <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} />
+                                        <Flex as={"button"} onClick={() => clickHander(item, item?.id)} w={'full'} h={"200px"} pos={"relative"} rounded={"8px"} >
+
+                                            <BlurredImage height={["200px"]} image={item?.bannerImage} />
+                                            {/* <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} /> */}
                                         </Flex>
                                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                                             <Flex flexDir={"column"} >
                                                 <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
-                                                <Text fontWeight={"700"} >{item?.name}</Text>
+                                                <Text fontWeight={"700"} >{textLimit(item?.name, 35)}</Text>
                                             </Flex>
                                             <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
                                         </Flex>
@@ -121,13 +124,15 @@ export default function DonationItemList({ details, singleData, creator, publicD
                                             </Flex>
                                             <DeleteEvent donation={true} event={item} />
                                         </Flex>
-                                        <Flex as={"button"} onClick={() => clickHander(item, item?.id)} w={'full'} h={"150px"} rounded={"8px"} >
-                                            <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} />
+                                        <Flex as={"button"} onClick={() => clickHander(item, item?.id)} w={'full'} h={"200px"} rounded={"8px"} >
+
+                                            <BlurredImage height={["200px"]} image={item?.bannerImage} />
+                                            {/* <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} /> */}
                                         </Flex>
                                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                                             <Flex flexDir={"column"} >
                                                 <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
-                                                <Text fontWeight={"700"} >{item?.name}</Text>
+                                                <Text fontWeight={"700"} >{textLimit(item?.name, 35)}</Text>
                                             </Flex>
                                             <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
                                         </Flex>
@@ -164,13 +169,15 @@ export default function DonationItemList({ details, singleData, creator, publicD
                                     {groupItem?.fundRaisers?.map((item, index) => {
                                         return (
                                             <Flex key={index} minW={"400px"} gap={"4"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
-                                                <Flex as={"button"} onClick={() => clickHander(item, item?.id)} w={'full'} h={"150px"} rounded={"8px"} >
-                                                    <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} />
+                                                <Flex as={"button"} onClick={() => clickHander(item, item?.id)} w={'full'} h={"200px"} rounded={"8px"} >
+
+                                                    <BlurredImage height={["200px"]} image={item?.bannerImage} />
+                                                    {/* <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} /> */}
                                                 </Flex>
                                                 <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                                                     <Flex flexDir={"column"} >
                                                         <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
-                                                        <Text fontWeight={"700"} >{item?.name}</Text>
+                                                        <Text fontWeight={"700"} >{textLimit(item?.name, 35)}</Text>
                                                     </Flex>
                                                     <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
                                                 </Flex>
