@@ -120,7 +120,7 @@ export default function DonationCollaborator({ index }: { index: number }) {
                 <Flex gap={"3"} >
                     {data[index]?.collaborators?.length > 0 && (
                         <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"#3EC30F"} >
-                            {data[index]?.collaborators?.length + " Volunteer" + (data[index]?.collaborators.length > 1 ? "s" : "")}
+                            {data[index]?.collaborators?.length + " Admin" + (data[index]?.collaborators.length > 1 ? "s" : "")}
                         </Flex>
                     )}
                 </Flex>
@@ -129,7 +129,7 @@ export default function DonationCollaborator({ index }: { index: number }) {
                 <Flex w={"full"} px={"6"} pt={"8"} bg={secondaryBackgroundColor} >
                     <Box>
                         <Text color={colorMode === 'light' ? "#121212" : headerTextColor} fontSize={"24px"} lineHeight={"31.25px"} fontWeight={"bold"} >Invite Collaborators</Text>
-                        <Text color={colorMode === 'light' ? "#626262" : bodyTextColor} lineHeight={"20.83px"} >Kindly select users to collaborate with on this Fundraisier and assign roles.</Text>
+                        <Text color={colorMode === 'light' ? "#626262" : bodyTextColor} lineHeight={"20.83px"} >Kindly select users to collaborate with on this Fundraising.</Text>
                     </Box>
                     <Box w={"fit-content"} >
                         <Box onClick={() => setOpen(false)} as='button'>
