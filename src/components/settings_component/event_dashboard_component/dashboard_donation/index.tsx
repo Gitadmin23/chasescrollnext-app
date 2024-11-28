@@ -226,7 +226,7 @@ function DashboardDonation(props: Props) {
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showEmail ? person?.buyer?.email : ""}</Td>
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showDate ? dateFormat(person?.createdDate)+" "+timeFormat(person?.createdDate) : ""}</Td>
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} textAlign={"center"} fontSize={"xs"} >
-                                                {formatNumber(person?.orderTotal)}
+                                                {showTicketType ? formatNumber(person?.orderTotal) : ""}
                                             </Td>
 
                                         </Tr>
