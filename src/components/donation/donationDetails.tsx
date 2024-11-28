@@ -1,7 +1,7 @@
 "use client"
 import useGetDonationList from '@/hooks/useGetDonationList';
 import { IMAGE_URL } from '@/services/urls';
-import { Button, Flex, Image, Text } from '@chakra-ui/react'
+import { Flex, Image, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import LoadingAnimation from '../sharedComponent/loading_animation';
 import useCustomTheme from '@/hooks/useTheme';
@@ -9,19 +9,19 @@ import DonationGraph from './donationGraph';
 import { dateFormat } from '@/utils/dateFormat';
 import UserImage from '../sharedComponent/userimage';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
-import { textLimit } from '@/utils/textlimit';
-import moment from 'moment';
+import { textLimit } from '@/utils/textlimit'; 
 import { useRouter } from 'next/navigation';
 import DonationPayment from './donationPayment';
 import DonationItemList from './donationItemList';
 import usePaystackStore from '@/global-state/usePaystack';
-import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
-import useGetDonationGroup from '@/hooks/useGetDonationGroup';
+import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'; 
 import { IoArrowBack } from 'react-icons/io5';
 import DonateUsers from '../sharedComponent/donateUser';
-import { DashboardEditIcon, DashboardOrganizerIcon, DashboardScannerIcon, WalletIcon, WalletIcon2 } from '../svg';
+import { DashboardEditIcon, DashboardOrganizerIcon, WalletIcon } from '../svg';
 import ShareEvent from '../sharedComponent/share_event';
 import useDonationStore from '@/global-state/useDonationState';
+import EventImage from '../sharedComponent/eventimage';
+import BlurredImage from '../sharedComponent/blurred_image';
 
 export default function DonationDetails({ id }: { id: string }) {
 
@@ -83,7 +83,9 @@ export default function DonationDetails({ id }: { id: string }) {
                             <Text fontWeight={"700"} fontSize={"24px"} >Fundraising Details</Text>
                         </Flex>
                         <Flex w={'full'} h={"350px"} rounded={"8px"} >
-                            <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} />
+                            {/* <EventImage data={item} width={"full"} height={"350px"} /> */}
+                            <BlurredImage height={["350px"]} image={item?.bannerImage} />
+                            {/* <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} /> */}
                         </Flex>
                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                             <Flex flexDir={"column"} >

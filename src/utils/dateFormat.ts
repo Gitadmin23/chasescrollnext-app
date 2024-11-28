@@ -21,4 +21,4 @@ export function dateFormatDay(date: any) {
 }
 
 export const timeFormat = (isoString: any) =>
-  moment(isoString).format("h.mm A")
+  moment(isoString).format("h:mm A")
