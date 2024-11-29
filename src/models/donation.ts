@@ -41,6 +41,7 @@ export type IDonationList = {
     status: any,
     statusCode: number,
     user: IUser,
+    isCollaborator: boolean
 }
 
 export type IDonationGroupData = {

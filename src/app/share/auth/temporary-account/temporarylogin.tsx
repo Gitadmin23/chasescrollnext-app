@@ -75,8 +75,11 @@ export default function Temporarylogin() {
         })
         const typee = sessionStorage.getItem('type');
         const typeIDD = sessionStorage.getItem('typeID');
-
-        router.push(`/event/${typeID}`);
+        if(type  === "DONATION"){
+          router.push(`/donation/${typeID}`);
+        } else {
+          router.push(`/event/${typeID}`);
+        }
       }
     }
   });

@@ -178,7 +178,7 @@ export default function Layout({ children }: {
                     <Flex w={"full"} h={"76px"} pos={['fixed', 'fixed', 'fixed', "sticky", "sticky"]} bgColor={mainBackgroundColor} zIndex={"100"} insetX={"0px"} top={"0px"} borderBottomColor={borderColor} borderBottomWidth={"1px"} alignItems={"center"} px={"6"} justifyContent={"space-between"}  >
                         {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft") && (
                             <Box display={["none", "none", "none", "flex", "flex"]} >
-                                <SearchBar />
+                                <SearchBar fundraising={pathname?.includes("/donation")} change={pathname?.includes("/donation")? true: false} />
                             </Box>
                         )}
                         <Flex as={"button"} onClick={() => router?.push("/dashboard")} display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"2"} >
@@ -188,7 +188,7 @@ export default function Layout({ children }: {
                         <Flex ml={"auto"} gap={"3"} display={["none", "none", "none", "flex", "flex"]} >
                             <CreateEventBtn btn={true} />
 
-                            <Flex onClick={() => router.push('/dashboard/donation')} as={"button"} pos={"relative"} height={"45px"} zIndex={"20"} width={"180px"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
+                            <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} pos={"relative"} height={"45px"} zIndex={"20"} width={"180px"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor :headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
                                 Fundraising
                             </Flex>
                             {/* <CustomButton onClick={() => router.push('/dashboard/donation')} pos={"relative"} zIndex={"20"} width={"180px"} backgroundColor={secondaryBackgroundColor} color={headerTextColor} text={"Fundraising"} borderRadius={"full"} /> */}
@@ -196,7 +196,7 @@ export default function Layout({ children }: {
                         <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"3"} >
                             <CreateEventBtn mobile={true} />
 
-                            <Flex onClick={() => router.push('/dashboard/donation')} as={"button"} fontSize={"xs"} pos={"relative"} height={"35px"} zIndex={"20"} width={"fit-content"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
+                            <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} fontSize={"xs"} pos={"relative"} height={"35px"} zIndex={"20"} width={"fit-content"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor : headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
                                 Fundraising
                             </Flex>
                             {/* <Flex zIndex={20} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >

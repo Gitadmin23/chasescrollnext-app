@@ -61,8 +61,7 @@ export default function CreateDonation({ params }: Props) {
     
 
     return (
-        <LoadingAnimation loading={isLoading} >
-
+        <LoadingAnimation loading={isLoading} > 
             <Flex width={"full"} pt={"74px"} h={["auto", "auto", "auto", "100vh", "100vh"]} display={["none", "none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]}  >
                 <CreateDonationHeader name="Edit Fundraising" />
                 <Flex bgColor={colorMode === 'light' ? "gray.300" : secondaryBackgroundColor} w={"full"} p={["0px", "0px", "0px", "3"]} h={"full"}  >

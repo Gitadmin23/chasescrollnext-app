@@ -39,6 +39,7 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
 
     const userId = localStorage.getItem('user_id') + "";
     const { userId: user_index } = useDetails((state) => state);
+    const token = sessionStorage.getItem('tp_token')
 
     const { setPaystackConfig, setDonation } = usePaystackStore((state) => state);
 
@@ -78,7 +79,7 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
     });
 
     const clickHandler = () => {
-        if(user_index) {
+        if(user_index || token) {
             payForTicket.mutate({
                 seller: userId,
                 price: Number(value),
@@ -123,11 +124,11 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
                         <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"32px"} >Get Ticket</Text>
                         <Text color={"#626262"} textAlign={"center"}>Please choose your option and proceed with Chasescroll.</Text>
                     </Flex>
-                    <GoogleBtn newbtn title='Sign in' id={data?.id ? true : false} index={data?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' />
+                    <GoogleBtn newbtn title='Sign in' type="DONATION" id={data?.id ? true : false} index={data?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' />
                     <Flex justifyContent={"center"} gap={"2px"} alignItems={"center"} >
                         <Text color={"#BCBCBC"} fontSize={"14px"} lineHeight={"19.6px"} >OR</Text>
                     </Flex>
-                    <Button onClick={() => router.push("/share/auth/temporary-account/?type=EVENT&typeID=" + data?.id)} backgroundColor={"#EDEFFF"} color={"#5465E0"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#EDEFFF"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#EDEFFF" }} justifyContent={"center"} alignItems={"center"} >
+                    <Button onClick={() => router.push("/share/auth/temporary-account/?type=DONATION&typeID=" + data?.id)} backgroundColor={"#EDEFFF"} color={"#5465E0"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#EDEFFF"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#EDEFFF" }} justifyContent={"center"} alignItems={"center"} >
                         <Text textAlign={"center"} fontWeight={"600"} >Get Temporary Account</Text>
                     </Button>
                     <Button onClick={() => signUpHandler(true)} color={"white"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
