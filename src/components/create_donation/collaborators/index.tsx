@@ -64,7 +64,7 @@ export default function CollaboratorBtn(props: IProps) {
 
     const [open, setOpen] = useState(false)
     const [tab, setTab] = useState(false)
-    const [search, setSearch] = React.useState(''); 
+    const [search, setSearch] = React.useState('');
     const [users, setUsers] = React.useState<IUser[]>([]);
     const [usersFilter, setUserFilter] = React.useState<IUser[]>([]);
     const { eventdata, updateEvent } = useEventStore((state) => state);
@@ -121,7 +121,7 @@ export default function CollaboratorBtn(props: IProps) {
 
             updateEvent(clone);
 
-        } 
+        }
     }
 
     const AddCollaborators = (userIndex: string) => {
@@ -148,7 +148,7 @@ export default function CollaboratorBtn(props: IProps) {
                 // clone?.collaborators?.filter((id) => id !== userIndex) 
             }
             updateEvent(clone);
-            
+
 
         } else if (eventdata?.collaborators?.includes(userIndex)) {
 
@@ -167,7 +167,7 @@ export default function CollaboratorBtn(props: IProps) {
 
         }
         console.log(clone);
-        
+
 
     }
 
@@ -222,29 +222,29 @@ export default function CollaboratorBtn(props: IProps) {
         let clone: any = { ...eventdata }
 
         if (eventdata?.acceptedAdmins?.includes(userIndex)) {
- 
+
             const index = admin.indexOf(userIndex);
             clone?.acceptedAdmins.splice(index, 1);
 
             if (!eventdata?.acceptedCollaborators?.includes(userIndex)) {
 
                 clone.acceptedCollaborators = [...collaborators, userIndex]
-            } else { 
+            } else {
                 const index = collaborators.indexOf(userIndex);
                 clone?.acceptedCollaborators.splice(index, 1);
                 // clone?.collaborators?.filter((id) => id !== userIndex)
                 clone.acceptedCollaborators = [...collaborators, userIndex]
-            } 
+            }
             updateEvent(clone);
 
         } else if (eventdata?.acceptedCollaborators?.includes(userIndex)) {
 
             const index = collaborators.indexOf(userIndex);
-            clone?.acceptedCollaborators.splice(index, 1); 
+            clone?.acceptedCollaborators.splice(index, 1);
             updateEvent(clone);
         } else {
 
-            clone.acceptedCollaborators = [...collaborators, userIndex] 
+            clone.acceptedCollaborators = [...collaborators, userIndex]
             updateEvent(clone);
 
         }
@@ -385,7 +385,7 @@ export default function CollaboratorBtn(props: IProps) {
                 )}
             </Flex>
         )
-    } 
+    }
 
     const toast = useToast()
 
@@ -480,7 +480,7 @@ export default function CollaboratorBtn(props: IProps) {
                         </Flex>
 
                         <Box onClick={() => setShow(true)} color={"gray.500"} as='button' >
-                            <QuestionTwoIcon/>
+                            <QuestionTwoIcon />
                         </Box>
                     </Flex>
                     <Flex gap={"3"} >
@@ -502,7 +502,9 @@ export default function CollaboratorBtn(props: IProps) {
                 <Flex w={"full"} px={"6"} pt={"8"} bg={secondaryBackgroundColor} >
                     <Box>
                         <Text color={colorMode === 'light' ? "#121212" : headerTextColor} fontSize={"24px"} lineHeight={"31.25px"} fontWeight={"bold"} >Invite Collaborators</Text>
-                        <Text color={colorMode === 'light' ? "#626262" : bodyTextColor} lineHeight={"20.83px"} >Kindly select users to collaborate with on this event and assign roles.</Text>
+                        <Text color={colorMode === 'light' ? "#626262" : bodyTextColor} lineHeight={"20.83px"} >Fundraising organizers can manage individual and team access to the fundraising dashboard.
+                            <br /><br />
+                            When you make someone an Admin to your fundraising, they have full access to your fundraising dashboard such as donors lists and donation records.</Text>
                     </Box>
                     <Box w={"fit-content"} >
                         <Box onClick={() => setOpen(false)} as='button'>
