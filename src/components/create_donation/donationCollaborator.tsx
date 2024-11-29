@@ -241,8 +241,8 @@ export default function DonationCollaborator({ index, update, singleData }: { in
 
             <ModalLayout open={show} close={setShow} titleAlign='left' titlecolor='brand.chasescrollButtonBlue' title={"Adding Collaborator"}>
                 <Box px={"6"} pb={"6"} >
-                    <Text color={"gray.500"} >{"Event owners can manage individual and team access to the event dashboard. When you make someone an Admin to your event, they have full access to your event dashboard such as attendees lists, ticket sales, transactions and also the event scanner to assist with scanning the tickets at the event. "}</Text>
-                    <Text mt={"6"} color={"gray.500"} >{"When you make them volunteers, they can only have access to the event scanner in order to assist with validating and checking in attendee’s tickets using their mobile phone camera."}</Text>
+                    <Text color={"gray.500"} >{"Fundraising organizers can manage individual and team access to the fundraising dashboard."}</Text>
+                    <Text mt={"6"} color={"gray.500"} >{"When you make someone an Admin to your fundraising, they have full access to your fundraising dashboard such as donors lists and donation records."}</Text>
                 </Box>
             </ModalLayout>
         </Flex>
