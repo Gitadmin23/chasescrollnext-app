@@ -1,5 +1,6 @@
 "use client"
 import DonationItemList from '@/components/donation/donationItemList'
+import SelectDonationPage from '@/components/donation/select_donation_page'
 import CustomButton from '@/components/general/Button'
 import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
 import useDonationStore from '@/global-state/useDonationState'
@@ -65,10 +66,10 @@ export default function Donation() {
                 <CustomButton onClick={() => router?.push("/dashboard/donation/create")} text={"Create Fundraising"} px={"4"} height={"45px"} fontSize={"sm"} borderRadius={"32px"} fontWeight={"600"} width={"fit-content"} />
             </Flex>
             <Flex py={"4"} pb={"8"} gap={["4", "4", "6", "6"]} flexDir={["column", "row", "row", "row"]} alignItems={["start", "center", "center", "center"]} >
-                <Text >Fundraising Campaign ongoing </Text>
                 <Flex  mt={["2", "0px", "0px", "0px"]} flexDir={["row", "row", "row", "row"]} alignItems={"center"} gap={["4", "4", "6", "6"]}>
-                    <CustomButton text={"New fundraising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={"#F6F7FA"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"fit-content"} />
-                    <CustomButton onClick={() => router?.push("/dashboard/donation/mydonation")} text={"My fundraising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={secondaryBackgroundColor} borderRadius={"32px"} fontWeight={"600"} color={headerTextColor} width={"fit-content"} />
+                    {/* <CustomButton text={"All Fundraising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={"#F6F7FA"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"fit-content"} />
+                    <CustomButton onClick={() => router?.push("/dashboard/donation/mydonation")} text={"My Fundraising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={secondaryBackgroundColor} borderRadius={"32px"} fontWeight={"600"} color={headerTextColor} width={"fit-content"} /> */}
+                 <SelectDonationPage />
                 </Flex>
             </Flex>
             <DonationItemList publicData={true} />
