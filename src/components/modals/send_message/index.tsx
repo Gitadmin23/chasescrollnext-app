@@ -41,6 +41,27 @@ function SendMessage(props: Props) {
       ? `${WEBSITE_URL}${data?.eventName ? "/event/" : "/donation/"}${id}`
       : `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`;
 
+  const getUrl = () => {
+    switch(type) {
+      case "EVENT": {
+       if (data?.eventName) {
+        return `${WEBSITE_URL}/event/${id}`;
+       } else {
+        return `${WEBSITE_URL}/donation/${id}`;
+       }
+      }
+      case "DONATION": {
+        return `${WEBSITE_URL}/donation/${id}`;
+      }
+      case 'BUSINESS': {
+        return `${WEBSITE_URL}/business/${id}`
+      }
+      default: {
+        return `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`
+      }
+    }
+  }
+
   const handleType = () => {
     switch (props.type) {
       case "COMMUNITY": {
@@ -54,6 +75,9 @@ function SendMessage(props: Props) {
       }
       case "EVENT": {
         return "Spread the word about our upcoming event by sharing a custom link with your friends and colleagues.";
+      }
+      case "BUSINESS": {
+        return " Spread the word about your business by sharing a custom link with your customers and friends."
       }
     }
   };
@@ -71,6 +95,9 @@ function SendMessage(props: Props) {
       }
       case "EVENT": {
         return "Spread the word about our upcoming event by sharing a custom link with your friends and colleagues.";
+      }
+      case "BUSINESS": {
+        return "Share this Business";
       }
     }
   };
@@ -105,7 +132,7 @@ function SendMessage(props: Props) {
           >
             {isprofile ? "Profile link" : "Event link"}
           </Text>
-          <CopyButtton text={url_link} />
+          <CopyButtton text={getUrl()} />
         </>
       )}
 

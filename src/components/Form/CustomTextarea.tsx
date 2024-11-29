@@ -8,15 +8,16 @@ interface IProps {
     placeholder: string;
     label?: string;
     hint?: string;
+    required?: boolean;
 }
 
 
-export const CustomTextArea = ({ name, placeholder, label, hint }: IProps) => {
+export const CustomTextArea = ({ name, placeholder, label, hint, required = false }: IProps) => {
     const { register, formState: { errors } } = useFormContext();
 
     return (
         <>
-            {label && <Text fontSize={'16px'}>{label}</Text>}
+            {label && <Text fontSize={'16px'}>{label} {required && <sup style={{ color: 'red' }}>*</sup>}</Text>}
             <div className="relative w-full">
                 <Textarea
                   {...register(name)} 

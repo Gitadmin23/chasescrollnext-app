@@ -62,7 +62,7 @@ export default function DayAvaliable({ close, setTab, days, handleCheck }: { clo
                     </Flex>
                 </Flex>
                 <Flex w={"full"} justifyContent={"space-between"}  >
-                    <Flex gap={"4"} style={{ boxShadow: "0px 20.62px 72.18px 0px #C2C2C21A" }} rounded={"16px"} borderWidth={"0.38px"} borderColor={borderColor} w={["full", "fit-content"]} flexDir={"column"} px={"14"} py={"8"} >
+                    <Flex gap={"4"} style={{ boxShadow: "0px 20.62px 72.18px 0px #C2C2C21A" }} rounded={"16px"} borderWidth={"0.38px"} borderColor={borderColor} w={["full", "full"]} flexDir={"column"} px={"14"} py={"8"} >
                         {days?.map((item, index) => {
                             return (
                                 <Flex key={index.toString()} gap={"3"} flexDir={['column', 'row']} alignItems={['flex-start', "center"]} justifyContent={['flex-start', 'space-between']}  >
@@ -70,13 +70,13 @@ export default function DayAvaliable({ close, setTab, days, handleCheck }: { clo
                                         <Checkbox isChecked={item.checked} onChange={(e) => handleCheck({ index, type: 'checked', value: e.target.value, isChecked: !item?.checked  })} />
                                         <Text>{getDay(item?.dayOFTheWeek)}</Text>
                                     </Flex>
-                                    <HStack spacing={2}>
-                                        <Input value={item?.startTime} onChange={(e) => handleCheck({ index, type: 'startTime', value: e.target.value, isChecked: item?.checked })} type="time" w={"106px"} h={"40px"} rounded={"full"} borderWidth={"0.83px"} borderColor={borderColor} />
+                                    <HStack spacing={2} w={['50%', '50%']}>
+                                        <Input defaultValue="09:00:AM" value={item?.startTime} onChange={(e) => handleCheck({ index, type: 'startTime', value: e.target.value, isChecked: item?.checked })} type="time" w={"110px"} h={"40px"} rounded={"full"} borderWidth={"0.83px"} borderColor={borderColor} />
                                         -
-                                        <Input value={item?.endTime} onChange={(e) => handleCheck({ index, type: 'endTime', value: e.target.value, isChecked: item?.checked })} type="time" w={"106px"} h={"40px"} rounded={"full"} borderWidth={"0.83px"} borderColor={borderColor} />
-                                        <Box as="button" ml={"5"} >
+                                        <Input value={item?.endTime} onChange={(e) => handleCheck({ index, type: 'endTime', value: e.target.value, isChecked: item?.checked })} type="time" w={"110px"} h={"40px"} rounded={"full"} borderWidth={"0.83px"} borderColor={borderColor} />
+                                        {/* <Box as="button" ml={"5"} >
                                             <IoClose size={"25px"} />
-                                        </Box>
+                                        </Box> */}
                                     </HStack>
                                 </Flex>
                             )

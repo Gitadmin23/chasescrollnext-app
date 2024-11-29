@@ -7,12 +7,15 @@ import { BsChevronLeft } from 'react-icons/bs';
 import { IoBookmarkOutline } from 'react-icons/io5';
 import { LuShare } from 'react-icons/lu';
 import { useRouter } from 'next/navigation';
-import { useParams } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import { IBuisness } from '@/models/Business';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import httpService from '@/utils/httpService';
 import { IMAGE_URL, RESOURCE_BASE_URL } from '@/services/urls';
 import { Calendar, Location } from 'iconsax-react';
+import ShareEvent from '@/components/sharedComponent/share_event';
+import { useDetails } from '@/global-state/useUserDetails';
+
 
 
 export default function Layout({ children }: {
@@ -29,13 +32,22 @@ export default function Layout({ children }: {
 
     const param = useParams();
     const toast = useToast();
+    const path = usePathname();
     const id = param?.id;
-
-    console.log(`BUSINESS ID -> ${id}`);
+    const { userId } = useDetails((state) => state);
 
     const [tab, setTab] = useState(0)
 
     const [business, setBusiness] = useState<IBuisness|null>(null);
+
+    React.useEffect(() => {
+        if ((path as string)?.split("/")[5]) {
+            setTab(1);
+        } else { 
+            setTab(0);
+        }
+    }, [path]);
+
 
     const { isLoading, data } = useQuery([`get-business-by-id-${id}`, id], () => httpService.get(`/business/search`, {
         params: {
@@ -54,6 +66,32 @@ export default function Layout({ children }: {
                 position: 'top-right',
                 duration: 5000,
                 isClosable: true,
+            })
+        }
+    });
+
+    const createChatMutation = useMutation({
+        mutationFn: () => httpService.post(`/chat/chat`, {
+            image: business?.createdBy?.data?.imgMain?.value,
+            name: business?.createdBy?.username,
+            type: "ONE_TO_ONE",
+            typeID: userId,
+            users: [
+                business?.createdBy?.userId,
+            ]
+        }),
+        onSuccess: (data) => {
+            console.log(data?.data);
+            router.push(`/dashboard/chats?activeID=${data?.data?.id}`);
+        },
+        onError: (error: any) => {
+            toast({
+                title: 'Error',
+                description: error?.message,
+                position: 'top-right',
+                status: 'error',
+                isClosable: true,
+
             })
         }
     })
@@ -77,7 +115,7 @@ export default function Layout({ children }: {
                     <BsChevronLeft size="25px" />
                 </Flex>
                 <Text fontSize={"24px"} fontWeight={"600"} >{business?.businessName}</Text>
-                <AiOutlineMore size="25px" />
+                <Text></Text>
             </Flex>
             <Flex w={"full"} h={"fit-content"} > 
                 <Flex w={"full"} h={"240px"} bgColor={"lightgrey"} rounded={"8px"} overflow='hidden' >
@@ -117,8 +155,8 @@ export default function Layout({ children }: {
                 </Flex>
                 <Flex w={"full"} flexDirection={"column"} gap={"8"} >
                     <Flex justifyContent={["flex-start", "end"]} gap={"4"} >
-                        <IoBookmarkOutline size={"25px"} />
-                        <LuShare size={"25px"} />
+                        {/* <IoBookmarkOutline size={"25px"} /> */}
+                        <ShareEvent type='BUSINESS' newbtn id={business?.id} data={business} showText={false}  />
                     </Flex>
                     {business?.socialMediaHandles && (
                         <Flex w={"full"} gap={"4"} >
@@ -136,16 +174,18 @@ export default function Layout({ children }: {
                     <Flex w={"full"} bgColor={secondaryBackgroundColor} rounded={"64px"} px={"21px"} py={"19px"} >
                         <Flex alignItems={"center"} w={"full"} gap={"3"} >
                             <Flex w={"48px"} h={"48px"} rounded={"36px"} roundedTopRight={"0px"} bg={"purple"} overflow='hidden' >
-                                <Image src={business?.createdBy?.data?.imgMain?.value ? (business?.createdBy?.data?.imgMain?.value?.startsWith('https://') ? business?.createdBy?.data?.imgMain?.value : `${RESOURCE_BASE_URL}${business?.createdBy?.data?.imgMain?.value}`) : 'https://ui-avatars.com/api/?background=random'} w='full' h='full' alt='image' />
+                                <Image onClick={() => router.push(`/dashboard/profile/${business?.createdBy?.userId}`)}  src={business?.createdBy?.data?.imgMain?.value ? (business?.createdBy?.data?.imgMain?.value?.startsWith('https://') ? business?.createdBy?.data?.imgMain?.value : `${RESOURCE_BASE_URL}${business?.createdBy?.data?.imgMain?.value}`) : 'https://ui-avatars.com/api/?background=random'} w='full' h='full' alt='image' />
                             </Flex>
                             <Flex flexDir={"column"} >
                                 <Text fontSize={"12px"} fontWeight={"500"} >Business Owner</Text>
-                                <Text fontWeight={"600"} >{business?.createdBy?.firstName} {business?.createdBy?.lastName}</Text>
+                                <Text onClick={() => router.push(`/dashboard/profile/${business?.createdBy?.userId}`)}  fontWeight={"600"} >{business?.createdBy?.firstName} {business?.createdBy?.lastName}</Text>
                             </Flex>
-                            <Flex gap={"18px"} p={"5px"} bg={mainBackgroundColor} rounded={"64px"} ml={"auto"} >
-                                <Button h={"23px"} w={"68px"} rounded={"32px"} fontSize={"10px"} fontWeight={"500"} color={"white"} bg={primaryColor} >Message</Button>
+                           {userId !== business?.createdBy?.userId && (
+                             <Flex gap={"18px"} p={"5px"} bg={mainBackgroundColor} rounded={"64px"} ml={"auto"} >
+                                <Button onClick={() => createChatMutation.mutate()} h={"23px"} w={"68px"} rounded={"32px"} fontSize={"10px"} fontWeight={"500"} color={"white"} bg={primaryColor} isLoading={createChatMutation.isLoading} >Message</Button>
                                 {/* <Button h={"23px"} w={"68px"} rounded={"32px"} fontSize={"10px"} fontWeight={"500"} color={primaryColor} bg={secondaryBackgroundColor} >Follow</Button> */}
                             </Flex>
+                           )}
                         </Flex>
                     </Flex>
                 </Flex>
@@ -154,9 +194,11 @@ export default function Layout({ children }: {
                 <Text onClick={() => {
                     router.push(`/dashboard/newbooking/details/${id}`);;
                     setTab(0)}} as={"button"} color={tab === 0 ? primaryColor : headerTextColor} textDecoration={tab === 0 ? "underline" : ""} >MY SERVICES</Text>
-                <Text onClick={() => {
-                    router.push(`/dashboard/newbooking/details/${id}/bookings`);
-                    setTab(1)}} as={"button"} color={tab === 1 ? primaryColor : headerTextColor} textDecoration={tab === 1 ? "underline" : ""} >BOOKINGS</Text>
+                {userId === business?.createdBy?.userId && (
+                     <Text onClick={() => {
+                        router.push(`/dashboard/newbooking/details/${id}/bookings`);
+                        setTab(1)}} as={"button"} color={tab === 1 ? primaryColor : headerTextColor} textDecoration={tab === 1 ? "underline" : ""} >BOOKINGS</Text>
+                )}
                 {/* <Text onClick={() => setTab(2)} as={"button"} color={tab === 2 ? primaryColor : headerTextColor} textDecoration={tab === 2 ? "underline" : ""} >DETAILS</Text>
                 <Text onClick={() => setTab(3)} as={"button"} color={tab === 3 ? primaryColor : headerTextColor} textDecoration={tab === 3 ? "underline" : ""} >REVIEWS</Text> */}
             </Flex>
