@@ -1,7 +1,7 @@
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { GallaryIcon } from '@/components/svg'
 import useCustomTheme from '@/hooks/useTheme'
-import { Button, Flex, Input, Radio, RadioGroup, Select, Text, Textarea, Image, Box, useToast } from '@chakra-ui/react'
+import { Button, Flex, Input, Radio, RadioGroup, Select, Text, Textarea, Image, Box, useToast, Checkbox, HStack } from '@chakra-ui/react'
 import React, { useRef, useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { DayAvaliable } from '.'
@@ -47,7 +47,8 @@ export default function InformationTab() {
     const [isOnline, setIsOnline] = useState(false);
     const [imageUrl, setImageUrl] = useState<string|null>('');
     const [image, setImage] = useState<File|null>(null)
-    const [business, setBusiness] = useState<IBuisness|null>(null)
+    const [business, setBusiness] = useState<IBuisness|null>(null);
+    const [both, setBoth] = React.useState(false);
 
     const inputRef = useRef<HTMLInputElement>(null);
     let fileReader = React.useRef<FileReader | null>(null);
@@ -121,11 +122,9 @@ export default function InformationTab() {
         onSuccess: (data) => {
             console.log(data.data)
             const fileName = data?.data?.fileName;
-            console.log('-------VALUES------');
-            console.log(values);
             const obj = {
                 ...values,
-                isOnline: isOnline,
+                isOnline: both ? false : isOnline,
                 bannerImage: fileName,
                 socialMediaHandles: handles,
             }
@@ -220,16 +219,20 @@ export default function InformationTab() {
                         <Flex direction='row' gap={"4"}>
                             <Radio value='1' isChecked={!isOnline} onChange={() => setIsOnline(false)}>Physical Venue</Radio>
                             <Radio value='2' isChecked={isOnline} onChange={() => setIsOnline(true)}>Online</Radio>
+                           <HStack>
+                                <Checkbox isChecked={both} onChange={() => setBoth((prev) => !prev)} aria-label='Both' />
+                                <Text>Has both</Text>
+                           </HStack>
                         </Flex>
                     </RadioGroup>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                        <CustomInput name="address" placeholder='' label='Business Address' isPassword={false} type='text' />
+                        <CustomInput name="address" placeholder='' label='Business Address' isPassword={false} type='text' required />
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                        <CustomInput name="phone" placeholder='' label='Business Phone Number' isPassword={false} type='phone' />
+                        <CustomInput name="phone" placeholder='' label='Business Phone Number' isPassword={false} type='phone' required />
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                        <CustomInput name="email" placeholder='' label='Business Email Address' isPassword={false} type='email' />
+                        <CustomInput name="email" placeholder='' label='Business Email Address' isPassword={false} type='email' required />
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="website" placeholder='' label='Business Website (optional)' isPassword={false} type='text' hint="The link must start with https://" />

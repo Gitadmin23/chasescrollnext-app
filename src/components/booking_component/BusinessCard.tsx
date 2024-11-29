@@ -1,11 +1,11 @@
 import useCustomTheme from '@/hooks/useTheme'
 import { IBuisness } from '@/models/Business'
 import { IService } from '@/models/Service'
-import { IMAGE_URL } from '@/services/urls'
+import { IMAGE_URL, RESOURCE_BASE_URL } from '@/services/urls'
 import httpService from '@/utils/httpService'
 import { VStack, HStack, Box, Text, Image, Flex, useToast, Button } from '@chakra-ui/react'
 import moment from 'moment'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import React from 'react'
 import { useQuery } from 'react-query'
 
@@ -15,6 +15,7 @@ function BusinessCard({ business }: { business: IBuisness }) {
 
     const toast = useToast()
     const router = useRouter();
+    const path = usePathname();
 
     // query
 
@@ -67,15 +68,17 @@ function BusinessCard({ business }: { business: IBuisness }) {
     return (
         <VStack style={{boxShadow: "0px 4px 4px 0px #0000000D"}} w='full' h='auto' borderWidth={'0.5px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'}>
             <HStack w='full'>
-                <Box w='30px' h='30px' borderBottomLeftRadius={'50px'} borderTopLeftRadius={'50px'} borderBottomRightRadius={'50px'} overflow={'hidden'} bg={secondaryBackgroundColor}></Box>
+                <Box w='30px' h='30px' borderBottomLeftRadius={'50px'} borderTopLeftRadius={'50px'} borderBottomRightRadius={'50px'} overflow={'hidden'} bg={secondaryBackgroundColor}>
+                <Image onClick={() => router.push(`/dashboard/profile/${business?.createdBy?.userId}`)} src={business?.createdBy?.data?.imgMain?.value ? (business?.createdBy?.data?.imgMain?.value?.startsWith('https://') ? business?.createdBy?.data?.imgMain?.value : `${RESOURCE_BASE_URL}${business?.createdBy?.data?.imgMain?.value}`) : 'https://ui-avatars.com/api/?background=random'} w='full' h='full' alt='image' />
+                </Box>
                 <VStack spacing={-5} alignItems={'flex-start'}>
-                    <Text fontWeight={600} fontSize={'14px'} color={primaryColor}>{business?.createdBy?.firstName} {business?.createdBy?.lastName}</Text>
+                    <Text onClick={() => router.push(`/dashboard/profile/${business?.createdBy?.userId}`)} cursor='pointer' fontWeight={600} fontSize={'14px'} color={primaryColor}>{business?.createdBy?.firstName} {business?.createdBy?.lastName}</Text>
                     <Text fontSize={'12px'} color={bodyTextColor}>{moment(business?.createdDate as number).fromNow()}</Text>
                 </VStack>
             </HStack>
 
             <Box w='full' h='150px' borderRadius={'10px'} overflow={'hidden'}>
-                <Image src={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt="banner image" w='full' h='full' objectFit={'cover'} />
+                <Image onClick={() => router.push(`/dashboard/newbooking/details/${business?.id}`)} cursor='pointer' src={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt="banner image" w='full' h='full' objectFit={'cover'} />
             </Box>
 
             <VStack spacing={-3} alignItems={'flex-start'}>

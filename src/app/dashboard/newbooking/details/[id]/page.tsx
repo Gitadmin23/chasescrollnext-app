@@ -55,8 +55,34 @@ function BusinessDetailsPage() {
     const router = useRouter();
     const id = param?.id;
 
+    const { userId } = useDetails((state) => state);
+
+
     console.log(`BUSINES ID IN SERVICE -> ${id}`);
     const [services, setServices] = useState<IService[]>([]);
+    const [business, setBusiness] = useState<IBuisness|null>(null);
+
+    const getBusiness = useQuery([`get-business-by-id-${id}`, id], () => httpService.get(`/business/search`, {
+        params: {
+            id,
+        }
+    }), {
+        onSuccess: (data) => {
+            console.log(data?.data);
+            setBusiness(data?.data?.content[0]);
+        },
+        onError: (error: any) => {
+            toast({
+                title: 'Error',
+                description: error?.message,
+                status: 'error',
+                position: 'top-right',
+                duration: 5000,
+                isClosable: true,
+            })
+        }
+    })
+
 
     const { isLoading, data } = useQuery([`get-business-service-by-id-${id}`, id], () => httpService.get(`/business-service/search`, {
         params: {
@@ -81,10 +107,12 @@ function BusinessDetailsPage() {
     });
     return (
         <Flex flexDirection="column" w='full' h='full'>
-            <Flex gap={"2"} mt={"2"} as={"button"} alignItems={"center"} onClick={() => router.push(`/dashboard/newbooking/create/${id}/services`)} borderBottomColor={borderColor} borderBottomWidth={'0px'} marginBottom={'20px'} pb='10px'>
-                <IoAdd size={"25px"} color={primaryColor} />
-                <Text fontSize={'14px'} color={primaryColor}>Add Service </Text>
-            </Flex>
+            {userId === business?.createdBy?.userId && (
+                <Flex gap={"2"} mt={"2"} as={"button"} alignItems={"center"} onClick={() => router.push(`/dashboard/newbooking/create/${id}/services`)} borderBottomColor={borderColor} borderBottomWidth={'0px'} marginBottom={'20px'} pb='10px'>
+                    <IoAdd size={"25px"} color={primaryColor} />
+                    <Text fontSize={'14px'} color={primaryColor}>Add Service </Text>
+                </Flex>
+            )}
             <VStack alignItems={['flex-start', 'center']}>
                 {!isLoading && services.length > 0 && services.map((item, index) => (
                     <ServiceListCard key={index.toString()} service={item} />

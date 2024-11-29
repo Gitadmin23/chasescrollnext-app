@@ -117,7 +117,7 @@ function CreateBookingModal({
                     </HStack>
 
                     <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
-                        <Text fontSize={'14px'}>List the service requirements</Text>
+                        <Text fontSize={'14px'}>Add a Description</Text>
                         <Textarea value={description} onChange={(e) => setDescription(e.target.value)} w='full' h='80px' placeholder='Enter a description of what you want' />
                     </VStack>
 

@@ -16,6 +16,7 @@ import { endsWith, uniq } from 'lodash'
 import { Add } from 'iconsax-react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { URLS } from '@/services/urls'
+import SearchableDropdown from '../Form/SearchableDropDown'
 
 
 export interface IDayOfTheWeek {
@@ -269,6 +270,30 @@ export default function CreateServices({ id }: { id: string }) {
             return;
         }
 
+        if (description === "") {
+            toast({
+                title: 'Warning',
+                description: 'You must enter a description',
+                status: 'warning',
+                duration: 5000,
+                position: 'top-right',
+
+            });
+            return;
+        }
+
+        if (price === "" || parseInt(price) < 1) {
+            toast({
+                title: 'Warning',
+                description: 'You must enter a price',
+                status: 'warning',
+                duration: 5000,
+                position: 'top-right',
+
+            });
+            return;
+        }
+
         if (items.length === 0) {
             toast({
                 title: 'Warning',
@@ -381,15 +406,35 @@ export default function CreateServices({ id }: { id: string }) {
                                 <option key={index.toString()} value={item?.category} >{item?.category}</option>
                             ))}
                         </Select>
+                        {/* <SearchableDropdown options={categories} id='' label='category' handleChange={(e) => console.log(e)} selectedVal={''}  /> */}
                     </Flex>
                     <Flex flexDir={"column"} w={"full"} gap={"2"} >
-                        <Text fontWeight={"400"} fontSize={"14px"} >Service Description</Text>
+                        <Text fontWeight={"400"} fontSize={"14px"} >Service Description <sup style={{ color: 'red' }}>*</sup></Text>
                         <Textarea value={description} onChange={(e) => setDescription(e.target.value)} h={"84px"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} />
                     </Flex>
                     <Flex flexDir={"column"} w={"full"} gap={"2"} >
-                        <Text fontWeight={"600"} >{`Let’s set your Price`}</Text>
+                        <Text fontWeight={"600"} >{`Let’s set your Price`} <span style={{ color: 'red', fontSize: '12px' }}>*</span></Text>
                         <Text fontWeight={"400"} fontSize={"14px"} >You are free to make adjustment anytime</Text>
-                        <Input value={price} onChange={(e) => setPrice(e.target.value)} h={"44px"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} placeholder='₦ 232,435' />
+                        <Input 
+                            type='number'
+                            value={price}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^\d*$/.test(value)) {
+                                    setPrice(value);
+                                }
+                            }}
+                            h={"44px"}
+                            borderWidth={"1px"}
+                            borderColor={borderColor}
+                            rounded={"16px"}
+                            placeholder='₦ 232,435'
+                            onKeyPress={(e) => {
+                                if (!/[0-9]/.test(e.key)) {
+                                    e.preventDefault();
+                                }
+                            }}
+                        />
                     </Flex>
                     {/* <Flex gap={"2"} alignItems={"center"} >
                         <MdEdit size={"25px"} color={primaryColor} />
@@ -410,7 +455,7 @@ export default function CreateServices({ id }: { id: string }) {
                             <Checkbox isChecked={discount === 15} onChange={() => setDiscount(15)} />
                             <Text >15%  I  Monthly discount</Text>
                         </Flex>
-                        <Flex gap={"3"} mt={"3"} alignItems={"center"} >
+                        <Flex gap={"3"} mt={"30px"} alignItems={"center"}  >
                             <Checkbox isChecked={!hasFixedPrice} onChange={() => setHasFixedPrice((prev) => !prev)} />
                             <Text color={primaryColor} >{`I don’t have fix price let client contact me`}</Text>
                         </Flex>
@@ -435,7 +480,7 @@ export default function CreateServices({ id }: { id: string }) {
                     </Flex>
                     <Flex gap={"2"} mt={"2"} as={"button"} alignItems={"center"} onClick={() => setShowModal(true)} >
                         <IoAdd size={"25px"} color={primaryColor} />
-                        <Text>Operating Hours and time </Text>
+                        <Text>Operating Hours and time  <sup style={{ color: 'red' }}>*</sup></Text>
                     </Flex>
                    <Box w="full" h="50px" mb='20px'>
                     <Button onClick={() => handleSubmit()} isLoading={uploadImageMutation.isLoading ?? createBusinessMutation.isLoading} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"full"} mt={"6"} _hover={{ backgroundColor: primaryColor }} >
