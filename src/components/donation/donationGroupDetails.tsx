@@ -22,9 +22,10 @@ import ShareEvent from '../sharedComponent/share_event';
 import useDonationStore from '@/global-state/useDonationState';
 import EventImage from '../sharedComponent/eventimage';
 import BlurredImage from '../sharedComponent/blurred_image';
-import DonationCollaborator from '../create_donation/donationCollaborator';
+import DonationGroupModal from './donationGroupModal';
+import SelectDonation from './selectDonation';
 
-export default function DonationDetails({ id }: { id: string }) {
+export default function DonationGroupDetails({ id }: { id: string }) {
 
     const { singleData: item, isLoading } = useGetDonationList(id)
 
@@ -42,37 +43,21 @@ export default function DonationDetails({ id }: { id: string }) {
 
     const userId = localStorage.getItem('user_id') + "";
 
-    const { updateDontion, data } = useDonationStore((state) => state)
+    const { updateDontion } = useDonationStore((state) => state)
 
-    React.useEffect(() => {
-        if (!isLoading) {
-            if(!data[0]?.name){
-
-                const clone = [{
-                    bannerImage: item?.bannerImage,
-                    creatorID: item?.createdBy?.userId,
-                    description: item?.description,
-                    endDate: item?.endDate,
-                    goal: item?.goal,
-                    name: item?.name,
-                    purpose: item?.purpose,
-                    visibility: item?.visibility,
-                    funnelID: item?.funnelID, 
-                    collaborators: [] as any
-                }]
-
-                const collaborators: Array<string> = []
-                 
-                item.collaborators?.map((item: any) => {
-                    return collaborators.push(item?.userId+"")
-                }) 
-
-                clone[0].collaborators = [...collaborators] 
-
-                updateDontion(clone)
-            }
-        }
-    }, [isLoading, item]) 
+    useEffect(() => {
+        updateDontion([{
+            "visibility": "PUBLIC",
+            creatorID: userId,
+            name: "",
+            bannerImage: "",
+            description: "",
+            endDate: "",
+            goal: "",
+            purpose: "",
+            collaborators: []
+        }])
+    }, [])
 
     useEffect(() => {
         if (isCollaborator?.length <= 0) {
@@ -111,7 +96,7 @@ export default function DonationDetails({ id }: { id: string }) {
                             </Flex>
                             <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
                         </Flex>
-                        <Flex w={["full", "full", "full", "full"]} flexDir={["column", "column", "row", "row"]} >
+                        <Flex w={["full", "full", "full", "full"]} flexDir={["column", "column", "row", "row"]} > 
                             <Flex w={"full"} flexDir={"column"} gap={"4"} pb={"6"} pr={["0px", "0px", "0px", "6", "6"]} borderColor={borderColor} >
 
                                 <DonationGraph rounded='64px' item={item} />
@@ -122,7 +107,6 @@ export default function DonationDetails({ id }: { id: string }) {
                                         <Text fontWeight={"500"} >Date Created</Text>
                                         <Text fontSize={"14px"} >{dateFormat(item?.createdDate)}{" "}{timeFormat(item?.createdDate)}</Text>
                                     </Flex>
-                                    <DonationCollaborator update={true} singleData={item} index={0} />
                                 </Flex>
                                 <Flex flexDir={"column"} >
                                     <Text fontWeight={"500"} >Fundraising Description</Text>
@@ -137,7 +121,7 @@ export default function DonationDetails({ id }: { id: string }) {
                                     </Flex>
                                 </Flex>
                             </Flex>
-                            {((userId === item?.createdBy?.userId) || item?.isCollaborator) ? ( 
+                            {((userId === item?.createdBy?.userId) || item?.isCollaborator) ? (
                                 <Flex bg={["transparent", "transparent", mainBackgroundColor, mainBackgroundColor]} insetX={"3"} mt={["0px", "0px", "0px", "0px"]} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
                                     <Flex bgColor={secondaryBackgroundColor} w={["full", "full", "full", "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"64px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} px={["3", "3", "5", "5"]} h={"90px"} justifyContent={"center"} >
 
@@ -159,8 +143,11 @@ export default function DonationDetails({ id }: { id: string }) {
 
                                 </Flex>
                             ) : (
-                                <Flex bg={mainBackgroundColor} insetX={"6"} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
-                                    <DonationPayment data={item} />
+                                <Flex w={["auto", "auto", "full", "fit-content"]} flexDir={"column"} gap={"4"} >
+                                    <SelectDonation selectedData={item} />
+                                    <Flex bg={mainBackgroundColor} insetX={"6"} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
+                                        <DonationPayment data={item} />
+                                    </Flex>
                                 </Flex>
                             )}
                         </Flex>

@@ -1,5 +1,6 @@
 "use client"
 import DonationItemList from '@/components/donation/donationItemList'
+import SelectDonationPage from '@/components/donation/select_donation_page'
 import CustomButton from '@/components/general/Button'
 import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
 import usePaystackStore from '@/global-state/usePaystack'
@@ -27,9 +28,10 @@ export default function MyDonation() {
                 <CustomButton onClick={() => router?.push("/dashboard/donation/create")} text={"Create Fundraising"} px={"4"} height={"45px"} fontSize={"sm"} borderRadius={"32px"} fontWeight={"600"} width={"fit-content"} />
             </Flex>
             <Flex pt={"4"} pb={"8"} gap={["4", "4", "6", "6"]} flexDir={["column", "column", "row", "row"]} alignItems={["start", "start", "center", "center"]} >
-                <Text  >Fundraising Campaign ongoing </Text>
-                <CustomButton onClick={() => router?.push("/dashboard/donation")} mt={["2", "2", "0px", "0px"]} text={"New fundraising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={secondaryBackgroundColor} borderRadius={"32px"} fontWeight={"600"} color={headerTextColor} width={"fit-content"} />
-                <CustomButton text={" My fundraising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={"#F6F7FA"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"fit-content"} />
+                {/* <Text  >Fundraising Campaign ongoing </Text> */}
+                {/* <CustomButton onClick={() => router?.push("/dashboard/donation")} mt={["2", "2", "0px", "0px"]} text={"All Fundraising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={secondaryBackgroundColor} borderRadius={"32px"} fontWeight={"600"} color={headerTextColor} width={"fit-content"} /> */}
+                <SelectDonationPage />
+                {/* <CustomButton text={" My Fundraising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={"#F6F7FA"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"fit-content"} /> */}
             </Flex>
             <DonationItemList creator={true} />
             <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} donation={donation} />
