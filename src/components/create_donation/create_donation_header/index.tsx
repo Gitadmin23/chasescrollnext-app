@@ -6,6 +6,7 @@ import { } from 'next/router';
 import React from 'react'
 import { IoArrowBack, IoArrowForward } from 'react-icons/io5';
 import useCustomTheme from "@/hooks/useTheme";
+import DonationTermAndCondition from '@/components/donation/donationTermAndCondition';
 
 interface IProps {
     name?: string
@@ -39,7 +40,7 @@ function CreateDonationHeader({ name }: IProps) {
                     </Text>
 
                     <Flex w={"full"} justifyContent={"center"} >
-                        <Text as={"button"} textDecor={"underline"} fontWeight={"bold"} fontSize={"12px"} color={primaryColor} >Fundraising Terms And Conditions</Text>
+                        <DonationTermAndCondition />
                     </Flex>
                 </Flex>
             </Flex>

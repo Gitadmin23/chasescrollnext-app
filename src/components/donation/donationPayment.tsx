@@ -11,6 +11,7 @@ import CustomText from '../general/Text'
 import GoogleBtn from '../sharedComponent/googlebtn'
 import ModalLayout from '../sharedComponent/modal_layout'
 import { useDetails } from '@/global-state/useUserDetails'
+import DonationTermAndCondition from './donationTermAndCondition'
 
 export default function DonationPayment({ data }: { data?: IDonationList }) {
 
@@ -118,7 +119,7 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
                 Donate
             </Button>
             <Flex w={"full"} justifyContent={"center"} >
-            <Text as={"button"} textDecor={"underline"} fontSize={"12px"} color={primaryColor} >Fundraising Terms And Conditions</Text>
+                <DonationTermAndCondition />
             </Flex>
 
             <ModalLayout open={open} close={setOpen} title='' closeIcon={true} >
