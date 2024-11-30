@@ -162,7 +162,7 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
     
     const handlePayment = () => { 
         payForTicket.mutate({
-            seller: userId,
+            seller: booking?.createdBy?.userId,
             price: Number(booking?.price),
             currency: "NGN",
             orderType: "BOOKING",

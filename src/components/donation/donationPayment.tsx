@@ -81,7 +81,7 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
     const clickHandler = () => {
         if(user_index || token) {
             payForTicket.mutate({
-                seller: userId,
+                seller: data?.createdBy?.userId+"",
                 price: Number(value),
                 currency: "NGN",
                 orderType: "DONATION",
@@ -117,6 +117,9 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
             <Button isLoading={payForTicket?.isLoading} onClick={clickHandler} borderWidth={"1px"} borderColor={primaryColor} isDisabled={value ? false : true} w={"full"} h={"50px"} rounded={"32px"} color={primaryColor} fontWeight={"600"} bgColor={"#EFF5F8"} _hover={{ backgroundColor: "#EFF5F8" }} >
                 Donate
             </Button>
+            <Flex w={"full"} justifyContent={"center"} >
+            <Text as={"button"} textDecor={"underline"} fontSize={"12px"} color={primaryColor} >Fundraising Terms And Conditions</Text>
+            </Flex>
 
             <ModalLayout open={open} close={setOpen} title='' closeIcon={true} >
                 <Flex w={"full"} flexDir={"column"} gap={"4"} p={"6"} >
