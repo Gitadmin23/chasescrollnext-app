@@ -219,7 +219,7 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                     whiteSpace: 'nowrap'
                 }}>
                     {booking?.services?.length > 0 && booking?.services?.map((item, index) => (
-                        <ServiceCard key={index.toString()} serviceID={item['serviceID'] as string} />
+                        <ServiceCard key={index.toString()} serviceID={item['serviceID'] as any} />
                     ))}
                 </Flex>
 

@@ -9,6 +9,7 @@ export type IService = {
             price: number;
             hasFixedPrice: boolean;
             discount: number;
+            serviceID: string;
             "openingHours": Array<{
                 "startTime": number,
                 "endTime": number,
