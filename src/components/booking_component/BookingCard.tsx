@@ -168,10 +168,7 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
             orderType: "BOOKING",
             typeID: booking?.id + ""
         })
-    }
-
-    console.log(booking);
-    
+    } 
 
     return (
         <VStack style={{boxShadow: "0px 4px 4px 0px #0000000D"}} w='full' h='auto' borderWidth={'0.5px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'} spacing={3}>
