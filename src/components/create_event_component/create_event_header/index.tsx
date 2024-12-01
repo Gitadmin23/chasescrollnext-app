@@ -6,6 +6,7 @@ import {  } from 'next/router';
 import React from 'react'
 import { IoArrowBack, IoArrowForward } from 'react-icons/io5';
 import useCustomTheme from "@/hooks/useTheme";
+import EventTermAndCondition from '@/components/new_event_details/eventTermAndCondition';
 
 interface IProps {
     name?: string
@@ -190,6 +191,9 @@ function CreateEventHeader({ name }: IProps) {
                     <Text fontWeight={"400"} mt={"4"} color={"#626262"} lineHeight={"19.6px"} fontSize={"14px"} >Step {tab + 1}/3</Text>
                     <Flex w={"full"} rounded={"32px"} mt={"3"} h={"10px"} bgColor={"#D9D9D9"} >
                         <Box w={tab === 0 ? "35%" : tab === 1 ? "60%" : "100%"} bgColor={"#5465E0"} rounded={"32px"} />
+                    </Flex>
+                    <Flex w={"full"} py={"4"} justifyContent={"center"} >
+                        <EventTermAndCondition />
                     </Flex>
                 </Flex>
             </Flex>

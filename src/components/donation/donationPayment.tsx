@@ -119,7 +119,7 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
                 Donate
             </Button>
             <Flex w={"full"} justifyContent={"center"} >
-                <DonationTermAndCondition />
+                <DonationTermAndCondition refund={true} />
             </Flex>
 
             <ModalLayout open={open} close={setOpen} title='' closeIcon={true} >
