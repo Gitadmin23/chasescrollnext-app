@@ -11,6 +11,7 @@ import CustomText from '../general/Text'
 import GoogleBtn from '../sharedComponent/googlebtn'
 import ModalLayout from '../sharedComponent/modal_layout'
 import { useDetails } from '@/global-state/useUserDetails'
+import DonationTermAndCondition from './donationTermAndCondition'
 
 export default function DonationPayment({ data }: { data?: IDonationList }) {
 
@@ -81,7 +82,7 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
     const clickHandler = () => {
         if(user_index || token) {
             payForTicket.mutate({
-                seller: userId,
+                seller: data?.createdBy?.userId+"",
                 price: Number(value),
                 currency: "NGN",
                 orderType: "DONATION",
@@ -117,6 +118,9 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
             <Button isLoading={payForTicket?.isLoading} onClick={clickHandler} borderWidth={"1px"} borderColor={primaryColor} isDisabled={value ? false : true} w={"full"} h={"50px"} rounded={"32px"} color={primaryColor} fontWeight={"600"} bgColor={"#EFF5F8"} _hover={{ backgroundColor: "#EFF5F8" }} >
                 Donate
             </Button>
+            <Flex w={"full"} justifyContent={"center"} >
+                <DonationTermAndCondition refund={true} />
+            </Flex>
 
             <ModalLayout open={open} close={setOpen} title='' closeIcon={true} >
                 <Flex w={"full"} flexDir={"column"} gap={"4"} p={"6"} >
