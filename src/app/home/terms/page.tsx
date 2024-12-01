@@ -143,10 +143,10 @@ function Terms(props: Props) {
             1.2 By accessing or using the platform, you agree to abide by these Terms and Conditions. If you do not agree, please refrain from using the platform.
             <br /><br />
             2. Definitions<br />
-            2.1 "Platform" refers to Chasescroll and its related services.<br />
-            2.2 "User" refers to any individual or entity using the platform.<br />
-            2.3 "Organizer" refers to users creating or managing events.<br />
-            2.4 "Attendee" refers to users registering for or attending events.
+            {`2.1 "Platform" refers to Chasescroll and its related services.`}<br />
+            {`2.2 "User" refers to any individual or entity using the platform.`}<br />
+            {`2.3 "Organizer" refers to users creating or managing events.`}<br />
+            {`2.4 "Attendee" refers to users registering for or attending events.`}
             <br /><br />
             3. User Eligibility<br />
             3.1 Users must be at least 18 years old or of legal age in their jurisdiction to enter binding agreements.<br />
@@ -154,7 +154,7 @@ function Terms(props: Props) {
             <br /><br />
             4. Account Registration<br />
             4.1 Users must create an account to access certain features.<br />
-            4.2 It is the user's responsibility to maintain the confidentiality of their login credentials.<br />
+            {`4.2 It is the user's responsibility to maintain the confidentiality of their login credentials.`}<br />
             4.3 The platform reserves the right to suspend or terminate accounts for violations of these T&Cs.
             <br /><br />
             5. Event Listings and Ticketing<br />
@@ -174,16 +174,16 @@ function Terms(props: Props) {
             8. Prohibited Activities<br />
             Users agree not to: 8.1 Post misleading or fraudulent event information.<br />
             8.2 Engage in unlawful activities or violate third-party rights.<br />
-            8.3 Attempt to disrupt the platform’s functionality.
+            {`8.3 Attempt to disrupt the platform’s functionality.`}
             <br /><br />
             9. Disclaimers and Limitation of Liability<br />
-            9.1 The platform is provided "as-is" without warranties of any kind.<br />
+            {`9.1 The platform is provided "as-is" without warranties of any kind.`}<br />
             9.2 The platform is not responsible for damages resulting from use, errors, or service interruptions.<br />
             9.3 Total liability shall not exceed the fees paid by the user in the 12 months preceding the claim.
             <br /><br />
             10. Privacy<br />
             10.1 The platform collects and processes personal data per its [Privacy Policy].<br />
-            10.2 Users consent to the platform’s use of cookies and other tracking technologies.
+            {`10.2 Users consent to the platform’s use of cookies and other tracking technologies.`}
             <br /><br />
             11. Termination<br />
             11.1 The platform reserves the right to suspend or terminate user accounts at its discretion.<br />
@@ -273,7 +273,7 @@ function Terms(props: Props) {
             <br /><br />
             11. Disclaimers<br />
             11.1. We do not guarantee the success or legitimacy of any campaign.<br />
-            11.2. The platform is provided "as is" without warranties of any kind.
+            {`11.2. The platform is provided "as is" without warranties of any kind.`}
             <br /><br />
             12. Liability Limitation<br />
             Chasescroll is not liable for:<br />

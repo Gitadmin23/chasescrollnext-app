@@ -162,13 +162,13 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
     
     const handlePayment = () => { 
         payForTicket.mutate({
-            seller: booking?.createdBy?.userId,
+            seller: booking?.businessOwner?.userId,
             price: Number(booking?.price),
             currency: "NGN",
             orderType: "BOOKING",
             typeID: booking?.id + ""
         })
-    }
+    } 
 
     return (
         <VStack style={{boxShadow: "0px 4px 4px 0px #0000000D"}} w='full' h='auto' borderWidth={'0.5px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'} spacing={3}>
