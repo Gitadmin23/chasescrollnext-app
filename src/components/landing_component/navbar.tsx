@@ -32,10 +32,10 @@ function HomeNavbar() {
         //     label: "Policy",
         //     link: "/home/privacy"
         // },
-        // {
-        //     label: "Terms & Condition",
-        //     link: "/home/terms"
-        // },
+        {
+            label: "Terms & Condition",
+            link: "/home/terms"
+        },
         {
             label: "Contact us",
             link: "/home/contact-us"
