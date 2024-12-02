@@ -35,19 +35,21 @@ function NotificationPage() {
         'UNREAD'
     ]
 
-    const { results, isLoading, isRefetching } = useNotificationHook() 
+    const { results, isLoading, isRefetching } = useNotificationHook()
 
 
     return (
-        <VStack width={"full"} height={'100%'} bg={mainBackgroundColor} maxHeight={["full", "450px","450px"]} overflowX={"hidden"} overflowY={"auto"} justifyContent={"center"} >
+        <VStack width={"full"} height={'100%'} bg={mainBackgroundColor} maxHeight={["full", "450px", "450px"]} overflowX={"hidden"} overflowY={"auto"} justifyContent={"center"} >
 
 
             <Box flex={1} width='100%' height='100%' overflowY={'auto'} px={"6"} bg={mainBackgroundColor}>
                 <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
                     <>
-                        {results.map((item: INotification, index: number) => (
-                            <NotificationCard notification={item} key={index.toString()} />
-                        ))}
+                        {results.map((item: INotification, index: number) => {
+                            return (
+                                <NotificationCard notification={item} key={index.toString()} />
+                            )
+                        })}
                     </>
                 </LoadingAnimation>
 
