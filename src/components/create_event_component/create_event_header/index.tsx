@@ -90,18 +90,18 @@ function CreateEventHeader({ name }: IProps) {
     }
 
     const clickHandler = () => {
-        if (pathname?.includes("edit_event_data")) {
-            toast({
-                description: "You can only edit the information tab because users have already bought this event",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else {
+        // if (pathname?.includes("edit_event_data")) {
+        //     toast({
+        //         description: "You can only edit the information tab because users have already bought this event",
+        //         status: 'error',
+        //         isClosable: true,
+        //         duration: 5000,
+        //         position: 'top-right',
+        //     });
+        //     return
+        // } else {
             changeTab(0)
-        }
+        // }
     }
 
     const getValidationThemeClick = (item?: number) => {
