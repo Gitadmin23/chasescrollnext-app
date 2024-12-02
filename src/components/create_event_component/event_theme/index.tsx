@@ -8,6 +8,7 @@ import SelectImage from './select_image';
 import SubmitTheme from '../submit_event';
 import useCustomTheme from "@/hooks/useTheme"; 
 import SelectEventType from './SelectEventType';
+import { usePathname } from 'next/navigation';
 
 function EventTheme() {
 
@@ -20,6 +21,7 @@ function EventTheme() {
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
 
+    const pathname = usePathname();
     const [types, setTypes] = useState(Array<any>)
     const { eventdata, updateEvent } = useEventStore((state) => state);
     const { isLoading } = useQuery(['getEventType'], () => httpService.get(URLS.GET_EVENTS_TYPES), {
@@ -114,6 +116,7 @@ function EventTheme() {
                                 border={"1px solid #E2E8F0"}
                                 focusBorderColor={"#E2E8F0"}
                                 rounded={"full"}
+                                disabled={pathname?.includes("edit_event_data") ? true : false}
                                 onChange={(e) => handleChangeLimit(e, 150)}
                                 value={eventdata?.eventName} />
                             <Text fontSize={"sm"} >{eventdata?.eventName?.length ? eventdata?.eventName?.length : "0"} {"/ 150"}</Text>
