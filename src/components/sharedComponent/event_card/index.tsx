@@ -74,7 +74,7 @@ function ExploreEventCard(props: Props) {
         borderColor,
         headerTextColor,
     } = useCustomTheme();
-    
+
     const { colorMode } = useColorMode();
 
     const clickHandler = () => {
@@ -127,7 +127,7 @@ function ExploreEventCard(props: Props) {
                 alignItems={"center"}
                 color={landingcolor ? "black" : ""}
             >
-                <Box width={[searchbar ? "fit-content" : "full", searchbar ? "fit-content" : "full", page ? "full" : "fit-content"]}>
+                <Box position={"relative"} width={[searchbar ? "fit-content" : "full", searchbar ? "fit-content" : "full", page ? "full" : "fit-content"]}>
                     {page ? (
                         <BlurredImage
                             height={
@@ -157,6 +157,11 @@ function ExploreEventCard(props: Props) {
                                     ]
                             }
                         />
+                    )}
+                    {(landing && !upcoming) && (
+                        <Flex rounded={"full"} zIndex={"50"} p={"2"} shadow={"lg"} backgroundColor={secondaryBackgroundColor} position={"absolute"} bottom={"5"} right={"5"} >
+                            <SaveOrUnsaveBtn color={headerTextColor} event={event} />
+                        </Flex>
                     )}
                 </Box>
                 {(!landing && !eventdashboard && !upcoming) && (
@@ -348,7 +353,13 @@ function ExploreEventCard(props: Props) {
                             </Flex>
                             {eventdashboard && (
                                 <Box width={"fit-content"} >
-                                    <SaveOrUnsaveBtn color={headerTextColor} event={event} />
+                                    <ShareEvent
+                                        data={event}
+                                        type="EVENT"
+                                        // size="18px"
+                                        showText={false}
+                                        id={event?.id}
+                                    />
                                 </Box>
                             )}
                         </Flex>
@@ -433,7 +444,6 @@ function ExploreEventCard(props: Props) {
                                     />
                                 </Text>
                                 <Text color={primaryColor} display={["none", "none", "none", "block", "block"]} fontWeight={"600"} fontSize={"14px"} >
-
                                     <EventPrice
                                         minPrice={event?.minPrice}
                                         maxPrice={event?.maxPrice}

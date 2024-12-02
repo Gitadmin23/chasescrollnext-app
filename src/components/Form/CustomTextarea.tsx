@@ -1,19 +1,22 @@
-import { InputElementProps, Textarea } from '@chakra-ui/react';
+import { InputElementProps, Textarea, Text } from '@chakra-ui/react';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 interface IProps {
     name: string;
-    placeholder: string
+    placeholder: string;
+    label?: string;
+    hint?: string;
 }
 
 
-export const CustomTextArea = ({ name, placeholder }: IProps) => {
+export const CustomTextArea = ({ name, placeholder, label, hint }: IProps) => {
     const { register, formState: { errors } } = useFormContext();
 
     return (
         <>
+            {label && <Text fontSize={'16px'}>{label}</Text>}
             <div className="relative w-full">
                 <Textarea
                   {...register(name)} 
@@ -27,7 +30,8 @@ export const CustomTextArea = ({ name, placeholder }: IProps) => {
                 />
                 
               </div>
-              { errors[name] && <p className='text-red-500 text-sm'>{errors[name]?.message as string}</p> }
+              { errors[name] && <Text color='red' fontSize="12px" >{errors[name]?.message as string}</Text> }
+              {hint && <Text fontSize='14px'>{hint}</Text>}
         </>
     )
 }

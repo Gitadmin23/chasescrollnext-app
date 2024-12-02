@@ -32,7 +32,7 @@ function NotificationCard({ notification }: { notification: INotification }) {
 
   const { colorMode } = useColorMode();
   const { setNotifyModal } = useModalStore((state) => state)
-  const { joinEvent, rejectEvent, markAsRead, setIndex, setStatus, status } = useNotificationHook()
+  const { joinEvent, rejectEvent, markAsRead, setIndex, setStatus, status, joinFundraising, rejectFundraising } = useNotificationHook()
 
   useEffect(() => {
     setIndex(notification?.id)
@@ -71,18 +71,18 @@ function NotificationCard({ notification }: { notification: INotification }) {
         setNotifyModal(false)
         break;
       }
-      case "COLLABORATOR_MEMBER_INVITE_ACCEPTED" : {
+      case "COLLABORATOR_MEMBER_INVITE_ACCEPTED": {
         router.push(`/dashboard/event/details/${notification.typeID}`)
         markAsRead.mutate([notification.id]);
         setNotifyModal(false)
         break;
-      } 
+      }
       case "ADMIN_MEMBER_INVITE_ACCEPTED": {
         router.push(`/dashboard/event/details/${notification.typeID}`)
         markAsRead.mutate([notification.id]);
         setNotifyModal(false)
         break;
-      } 
+      }
       case "GROUP": {
         router.push(`/dashboard/community?activeID=${notification.typeID}`);
         markAsRead.mutate([notification.id]);
@@ -92,7 +92,7 @@ function NotificationCard({ notification }: { notification: INotification }) {
       default: {
         break;
       }
-    } 
+    }
   };
 
   return (
@@ -109,6 +109,7 @@ function NotificationCard({ notification }: { notification: INotification }) {
       borderBottomWidth={"1px"}
       borderBottomColor={borderColor}
       paddingX="10px"
+      alignItems={"start"}
       bg={
         status === "UNREAD"
           ? mainBackgroundColor
@@ -131,24 +132,22 @@ function NotificationCard({ notification }: { notification: INotification }) {
               : headerTextColor
           }
         >
-          {(notification.title === "New message" ? status === "UNREAD" ? notification.title+" From "+notification?.createdBy?.firstName+" "+notification.createdBy?.lastName : notification?.createdBy?.firstName+" "+notification.createdBy?.lastName : notification.title)?.replaceAll("Collaborator", "Volunteer")?.replaceAll("collaborator", "Volunteer")}
+          {(notification.title === "New message" ? status === "UNREAD" ? notification.title + " From " + notification?.createdBy?.firstName + " " + notification.createdBy?.lastName : notification?.createdBy?.firstName + " " + notification.createdBy?.lastName : notification.title)?.replaceAll("Collaborator", "Volunteer")?.replaceAll("collaborator", "Volunteer")}
         </CustomText>
         {(notification?.type === "ADMIN_MEMBER_INVITE_REQUEST" || notification?.type === "COLLABORATOR_MEMBER_INVITE_REQUEST") ? (
           <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>
             {notification.message?.replaceAll("Collaborator", "volunteer")?.replaceAll("collaborator", "volunteer")}
           </CustomText>
         ) : notification?.type === "EVENT_ROLE_UPDATE" ? (
-          <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>
-            
-              {notification.message}
+          <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}> 
+            {notification.message}
           </CustomText>
         ) : (
-          <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}>
-            
-              {textLimit((notification.message)?.replaceAll("New message on chat "+notification?.createdBy?.firstName+" "+notification.createdBy?.lastName, ""),70)}
+          <CustomText fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces" fontFamily={"DM-Regular"}> 
+            {textLimit((notification.message)?.replaceAll("New message on chat " + notification?.createdBy?.firstName + " " + notification.createdBy?.lastName, ""), 70)}
           </CustomText>
         )}
-        <Flex gap={"8"} mt={"1"} alignItems={"center"} >
+        <Flex gap={["2", "4", "8"]} mt={"1"} flexDirection={["column", "row", "row"]} alignItems={["start", "start","center"]} >
           {((notification?.type === "ADMIN_MEMBER_INVITE_REQUEST" || notification?.type === "COLLABORATOR_MEMBER_INVITE_REQUEST") && status === "UNREAD") && (
             <Flex gap={"3"} >
               <Button isLoading={joinEvent?.isLoading} isDisabled={joinEvent?.isLoading} onClick={() => joinEvent.mutate({
@@ -158,6 +157,18 @@ function NotificationCard({ notification }: { notification: INotification }) {
               <Button isLoading={rejectEvent?.isLoading} isDisabled={rejectEvent?.isLoading} onClick={() => rejectEvent.mutate({
                 id: notification?.typeID,
                 "resolve": false
+              })} h={"30px"} rounded={"64px"} fontSize={"12px"} w={"fit-content"} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} color={primaryColor} bgColor={mainBackgroundColor} borderWidth={"1px"} borderColor={borderColor} px={"6"} >Decline</Button>
+            </Flex>
+          )}
+          {(notification?.type === "DONATION_COLLABORATOR_REQUEST" && status === "UNREAD") && (
+            <Flex gap={"3"} >
+              <Button isLoading={joinFundraising?.isLoading} isDisabled={joinFundraising?.isLoading} onClick={() => joinFundraising.mutate({
+                id: notification.typeID,
+                accepted: true
+              })} h={"30px"} rounded={"64px"} fontSize={"12px"} w={"fit-content"} outline={"none"} _hover={{ backgroundColor: primaryColor }} color={"white"} bgColor={primaryColor} borderWidth={"1px"} borderColor={primaryColor} px={"6"} >Accept</Button>
+              <Button isLoading={rejectFundraising?.isLoading} isDisabled={rejectFundraising?.isLoading} onClick={() => rejectFundraising.mutate({
+                id: notification?.typeID,
+                accepted: false
               })} h={"30px"} rounded={"64px"} fontSize={"12px"} w={"fit-content"} outline={"none"} _hover={{ backgroundColor: mainBackgroundColor }} color={primaryColor} bgColor={mainBackgroundColor} borderWidth={"1px"} borderColor={borderColor} px={"6"} >Decline</Button>
             </Flex>
           )}

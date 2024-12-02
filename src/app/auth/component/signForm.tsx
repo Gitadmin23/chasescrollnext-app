@@ -41,9 +41,7 @@ export default function SignForm({ tab, setTab, setShowVerify }: IProps) {
         if (signupSuccess) {
             setShowVerify(true)
         }
-    }, [signupSuccess])
-
-    console.log(signupValue?.firstName);
+    }, [signupSuccess]) 
 
     return signupForm(
         <Flex w={"full"} justifyContent={"center"} >

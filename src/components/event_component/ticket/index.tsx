@@ -197,7 +197,7 @@ export default function Ticket({ ticket, showStatus = false, approved, close }: 
                         </Box>
                         <Box>
                             <Text fontSize={"17px"} fontWeight={"bold"} >{textLimit(ticket?.event?.eventName + "", 15)}</Text>
-                            <EventLocationDetail location={ticket?.event?.location} fontWeight={"medium"} color={"brand.chasescrollBlue"} fontsize='sm' noicon={true} locationType={ticket?.event?.locationType} />
+                            <EventLocationDetail isLimited={true} location={ticket?.event?.location} fontWeight={"medium"} color={"brand.chasescrollBlue"} fontsize='sm' noicon={true} locationType={ticket?.event?.locationType} />
                         </Box>
                     </Flex>
                     <Flex width={"full"} pos={"relative"} pb={"2"} justifyContent={"center"} borderBottom={"1px solid #E2E8F0"}  >
@@ -207,7 +207,7 @@ export default function Ticket({ ticket, showStatus = false, approved, close }: 
                         <Flex p={"2"} width={"full"} flexDirection={"column"} gap={"4"} fontSize={"xs"} >
                             <Flex flexDirection={"column"} gap={"2"} >
                                 <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Place</Text>
-                                <EventLocationDetail color={"brand.chasescrollTextGrey"} fontsize={"xs"} location={ticket?.event?.location} fontWeight={"medium"} noicon={true} locationType={ticket?.event?.locationType} />
+                                <EventLocationDetail isLimited={true} color={"brand.chasescrollTextGrey"} fontsize={"xs"} location={ticket?.event?.location} fontWeight={"medium"} noicon={true} locationType={ticket?.event?.locationType} />
                             </Flex>
                             <Flex flexDirection={"column"} gap={"2"} >
                                 <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} >Order ID</Text>

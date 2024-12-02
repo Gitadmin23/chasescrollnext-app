@@ -10,7 +10,8 @@ interface Props {
     home?: boolean,
     change?: boolean,
     landing?: boolean,
-    event?: boolean
+    event?: boolean,
+    fundraising?: boolean
 }
 
 function SearchBar(props: Props) {
@@ -18,7 +19,8 @@ function SearchBar(props: Props) {
         home,
         change,
         landing,
-        event
+        event,
+        fundraising
     } = props
 
     const { search, setSearchValue } = useSearchStore((state) => state);
@@ -38,9 +40,9 @@ function SearchBar(props: Props) {
                 <InputLeftElement pointerEvents='none'>
                     <IoSearchOutline size={"25px"} color={landing? "black":bodyTextColor} />
                 </InputLeftElement>
-                <Input width={["full", "full", "361px"]} value={search} color={landing? "black" :bodyTextColor} onChange={(e) => setSearchValue(e.target.value)} type='text' borderColor={borderColor} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} _placeholder={{ color: landing? "black" :bodyTextColor }} bgColor={landing ?  "white":secondaryBackgroundColor} placeholder={event ? 'Search for events' : 'Search for users, event or...'} />
+                <Input width={["full", "full", "361px"]} value={search} color={landing? "black" :bodyTextColor} onChange={(e) => setSearchValue(e.target.value)} type='text' borderColor={borderColor} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} _placeholder={{ color: landing? "black" :bodyTextColor }} bgColor={landing ?  "white":secondaryBackgroundColor} placeholder={fundraising? 'Search for fundraising' : event ? 'Search for events' : 'Search for users, event or...'} />
             </InputGroup>
-            {!change && (
+            {(!change) && (
                 <>
                     {search && (
                         <Box width={"full"} zIndex={"1000"} position={"absolute"} mt={"45px"} bg={landing? "white" : secondaryBackgroundColor} >

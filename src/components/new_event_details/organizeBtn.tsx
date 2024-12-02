@@ -82,7 +82,7 @@ function OrganizeBtn(props: IEventType) {
                     <DashboardEditIcon />
                     <Text fontSize={"12px"} fontWeight={"500"} >Edit Event</Text>
                 </Flex>
-                <Flex bgColor={mainBackgroundColor} p={"2"} rounded={"2xl"} as={"button"} disabled={(new Date() > new Date(startDate)) && (new Date() < new Date(endDate))} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} onClick={() => setShowScanner(true)} gap={"4px"} flexDir={"column"} alignItems={"center"} >
+                <Flex bgColor={mainBackgroundColor} p={"2"} rounded={"2xl"} as={"button"} disabled={(new Date() <= new Date(startDate)) && (new Date() < new Date(endDate))} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} onClick={() => setShowScanner(true)} gap={"4px"} flexDir={"column"} alignItems={"center"} >
                     <DashboardScannerIcon />
                     <Text fontSize={"12px"} fontWeight={"500"} >Scan Ticket</Text>
                 </Flex>

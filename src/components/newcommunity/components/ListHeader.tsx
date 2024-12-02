@@ -48,7 +48,7 @@ export default function ListHeader({ tab, setTab, setShow }: IProps) {
                             <PopoverArrow />
                             <PopoverHeader>Header</PopoverHeader>
                             <PopoverCloseButton />
-                            <PopoverBody display={"flex"} flexDir={"column"} gap={"3"} >
+                            <PopoverBody zIndex={"10000"} display={"flex"} flexDir={"column"} gap={"3"} >
                                 <Button bgColor={tab === 0 ? "#F5F5F5" : mainBackgroundColor} borderWidth={"1px"} borderColor={"#F5F5F5"} color={tab === 0 ? "brand.chasescrollBlue" : bodyTextColor} onClick={() => clickHander(0)} width={"full"} >My Community</Button>
                                 <Button bgColor={tab === 1 ? "#F5F5F5" : mainBackgroundColor} borderWidth={"1px"} borderColor={"#F5F5F5"} color={tab === 1 ? "brand.chasescrollBlue" : bodyTextColor} onClick={() => clickHander(1)} width={"full"} >Find Community</Button>
                                 <Button bgColor={tab === 2 ? "#F5F5F5" : mainBackgroundColor} borderWidth={"1px"} borderColor={"#F5F5F5"} color={tab === 2 ? "brand.chasescrollBlue" : bodyTextColor} onClick={() => clickHander(2)} width={"full"} >Request</Button>

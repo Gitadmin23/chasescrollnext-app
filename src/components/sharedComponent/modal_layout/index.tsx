@@ -57,6 +57,7 @@ export default function ModalLayout({
       isOpen={open}
       isCentered
       closeOnOverlayClick={onOverLay ? false : true}
+      closeOnEsc={false}
     >
       <ModalOverlay />
       <ModalContent

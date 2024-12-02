@@ -75,9 +75,7 @@ function ShareEvent(props: Props) {
   const clickHandler = (event: any) => {
     event.stopPropagation();
     setOpen(true);
-  };
-
-  console.log(open);
+  }; 
 
   return (
     <>
