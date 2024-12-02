@@ -6,6 +6,7 @@ import { IMAGE_URL } from '@/services/urls'
 import httpService from '@/utils/httpService'
 import { Flex, Text, Box, VStack, HStack, Textarea, Image, Divider, Button, useToast } from '@chakra-ui/react'
 import moment from 'moment'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useMutation } from 'react-query'
 
@@ -32,6 +33,7 @@ function CreateBookingModal({
     const { userId } = useDetails((state) => state);
 
     // utils
+    const router = useRouter();
     const toast = useToast();
 
     // mutations
@@ -46,6 +48,8 @@ function CreateBookingModal({
                 position: 'top-right',
                 isClosable: true,
             });
+            console.log(data?.data);
+            router.push(`/dashboard/newbooking/booking/${data?.data?.id}`);
             onClose();
         },
         onError: (error: any) => {
