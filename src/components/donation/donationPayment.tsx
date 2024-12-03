@@ -3,8 +3,8 @@ import usePaystackStore from '@/global-state/usePaystack'
 import useCustomTheme from '@/hooks/useTheme'
 import { IDonationList } from '@/models/donation'
 import httpService from '@/utils/httpService'
-import { Button, Flex, Input, Text, useToast } from '@chakra-ui/react'
-import router from 'next/router'
+import { Button, Flex, Input, Text, useToast } from '@chakra-ui/react' 
+
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
 import CustomText from '../general/Text'
@@ -12,6 +12,7 @@ import GoogleBtn from '../sharedComponent/googlebtn'
 import ModalLayout from '../sharedComponent/modal_layout'
 import { useDetails } from '@/global-state/useUserDetails'
 import DonationTermAndCondition from './donationTermAndCondition'
+import { useRouter } from 'next/navigation'
 
 export default function DonationPayment({ data, fullWidth }: { data?: IDonationList, fullWidth?: boolean }) {
 
@@ -36,6 +37,7 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
     ]
 
     const toast = useToast()
+    const router = useRouter()
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
 
     const userId = localStorage.getItem('user_id') + "";
