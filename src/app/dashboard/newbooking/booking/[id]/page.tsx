@@ -35,7 +35,7 @@ function BookingDetails() {
     })
   return (
     <Box flex={1} w='full' h='full'>
-        <VStack w='full' h='full'>
+        <VStack w='full' h='full' px={['20px', '0px']}>
             <VStack w={['100%', '40%']} h='full'>
                 <HStack w='full' h='60px' justifyContent={'space-between'}>
                     <FiChevronLeft size={'30px'} color={'black'} onClick={() => router.back()} />
@@ -58,7 +58,7 @@ function BookingDetails() {
                 )}
 
                {!isLoading && business !== null && (
-                 <BookingCard booking={business as any} business={business?.vendor as any} isVendor={false} />
+                 <BookingCard booking={business as any} business={business?.vendor as any} isVendor={false} shouldNavigate={false} />
                )}
             </VStack>
         </VStack>

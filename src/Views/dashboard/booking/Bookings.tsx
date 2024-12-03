@@ -52,7 +52,7 @@ function Bookings() {
             )}
 
             {isLoading && (
-                <VStack w='full' h='40px' borderRadius={'20px'} justifyContent={'center'} >
+                <VStack w='full' h='80px' borderRadius={'20px'} justifyContent={'center'} >
                     <Spinner />
                     <Text>Loading Your Booking</Text>
                 </VStack>
