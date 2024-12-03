@@ -23,7 +23,7 @@ const useNotificationHook = () => {
     const { isLoading, refetch, isRefetching } = useQuery(['getNotifications'], () => httpService.get(`${URLS.GET_NOTIFICATIONS}`, {
         params: {
             page: 0,
-            size: 30
+            size: 50
         }
     }), {
         onSuccess: (data) => {

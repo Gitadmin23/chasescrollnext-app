@@ -109,6 +109,7 @@ function NotificationCard({ notification }: { notification: INotification }) {
       borderBottomWidth={"1px"}
       borderBottomColor={borderColor}
       paddingX="10px"
+      alignItems={"start"}
       bg={
         status === "UNREAD"
           ? mainBackgroundColor
@@ -146,7 +147,7 @@ function NotificationCard({ notification }: { notification: INotification }) {
             {textLimit((notification.message)?.replaceAll("New message on chat " + notification?.createdBy?.firstName + " " + notification.createdBy?.lastName, ""), 70)}
           </CustomText>
         )}
-        <Flex gap={"8"} mt={"1"} alignItems={"center"} >
+        <Flex gap={["2", "4", "8"]} mt={"1"} flexDirection={["column", "row", "row"]} alignItems={["start", "start","center"]} >
           {((notification?.type === "ADMIN_MEMBER_INVITE_REQUEST" || notification?.type === "COLLABORATOR_MEMBER_INVITE_REQUEST") && status === "UNREAD") && (
             <Flex gap={"3"} >
               <Button isLoading={joinEvent?.isLoading} isDisabled={joinEvent?.isLoading} onClick={() => joinEvent.mutate({

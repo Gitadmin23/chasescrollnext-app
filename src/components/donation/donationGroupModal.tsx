@@ -30,7 +30,7 @@ export default function DonationGroupModal({ selectedData }: { selectedData: IDo
                         <Flex key={index} w={"full"} flexDir={"column"} gap={"4"} >
                             {item?.fundRaisers?.map((items, indexs) => {
                                 return (
-                                    <Flex role="button" flexDir={["column", "column", "row"]} onClick={() => router?.push("/dashboard/donation/" + items?.id)} key={indexs} w={"full"} rounded={"16px"} gap={"4"} borderWidth={"1px"} borderColor={borderColor} p={"4"} alignItems={"center"} >
+                                    <Flex role="button" flexDir={["column", "column", "row"]} onClick={() => router?.push("/dashboard/donation/group/" + items?.id)} key={indexs} w={"full"} rounded={"16px"} gap={"4"} borderWidth={"1px"} borderColor={borderColor} p={"4"} alignItems={"center"} >
                                         <Flex w={"fit-content"} >
                                             <Flex w={["full", "full", "183px"]} height={"150px"} rounded={"8px"} borderWidth={"1px"} borderColor={borderColor} >
                                                 <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"150px"} src={IMAGE_URL + items?.bannerImage} />
