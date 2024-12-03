@@ -68,7 +68,8 @@ export default function DonationItemList({ details, singleData, creator, publicD
                 <LoadingAnimation loading={loadingList} refeching={refetchingList} length={results?.length} withimg={true} >
                     <Grid w={"full"} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} gap={6} >
                         {results?.map((item: IDonationList, index: number) => {
-                            if (results?.length === index + 1) {
+                                console.log(item);
+                            if (results?.length === index + 1) { 
                                 return (
                                     // <GridItem w={"full"}  >
                                     <Flex w={"full"} height={"fit-content"} ref={ref} key={index} pos={"relative"} gap={"4"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
@@ -119,7 +120,7 @@ export default function DonationItemList({ details, singleData, creator, publicD
                                                 <UserImage size={"45px"} font={"20px"} data={item?.createdBy} image={item?.createdBy?.data?.imgMain?.value} border={"1px"} />
                                                 <Flex display={["none", "none", "block"]} flexDir={"column"} textAlign={"left"}  >
                                                     <Text color={"#233DF3"} fontSize={"14px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(item?.createdBy?.firstName) + " " + capitalizeFLetter(item?.createdBy?.lastName), 15)}</Text>
-                                                    <Text fontSize={"12px"} color={bodyTextColor} >{dateFormat(item?.createdBy)}</Text>
+                                                    <Text fontSize={"12px"} color={bodyTextColor} >{dateFormat(item?.createdDate)}</Text>
                                                 </Flex>
                                             </Flex>
                                             <DeleteEvent donation={true} event={item} />

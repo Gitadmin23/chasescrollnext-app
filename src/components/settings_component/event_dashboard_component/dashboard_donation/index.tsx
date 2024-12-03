@@ -119,6 +119,9 @@ function DashboardDonation(props: Props) {
         `,
     });  
 
+    console.log(data?.data?.content);
+    
+
     return (
         <Flex ref={componentRef} width={"full"} flexDirection={"column"} >
             <Text fontSize={"24px"} fontWeight={"600"} >Event Donation</Text>
@@ -218,13 +221,13 @@ function DashboardDonation(props: Props) {
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {data?.data?.content?.map((person: any, i: number) => {
+                                {data?.data?.content?.map((person: any, i: number) => { 
                                     return (
                                         <Tr key={i} >
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{(page * size) + (i + 1)}</Td>
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} >{showUserName ? capitalizeFLetter(person?.buyer?.firstName) + " " + capitalizeFLetter(person?.buyer?.lastName) : ""}</Td>
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showEmail ? person?.buyer?.email : ""}</Td>
-                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showDate ? dateFormat(person?.createdDate)+" "+timeFormat(person?.createdDate) : ""}</Td>
+                                            <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} fontSize={"14px"}>{showDate ? dateFormat(person?.timeOfOrder * 1000)+" "+timeFormat(person?.timeOfOrder * 1000) : ""}</Td>
                                             <Td borderRightWidth={"1px"} borderBottomWidth={"1px"} textAlign={"center"} fontSize={"xs"} >
                                                 {showTicketType ? formatNumber(person?.payableAmount?.amount/100) : ""}
                                             </Td>
