@@ -23,12 +23,13 @@ function SelectDonationPage(props: Props) {
                 name: "My Fundraising",
                 route: "/dashboard/donation/mydonation"
             },
-            // {
-            //     name: "Past Fundraising",
-            //     route: "/dashboard/donation/mydonation"
-            // }
+            {
+                name: "Past Fundraising",
+                route: "/dashboard/donation/pastdonation"
+            }
         ]
     }, [])
+    
     const [showPage, setShowPage] = React.useState("All Event");
     const [showSelector, setShowSelector] = React.useState(false);
 

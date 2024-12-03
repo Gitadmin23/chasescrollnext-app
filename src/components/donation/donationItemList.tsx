@@ -27,7 +27,7 @@ import BlurredImage from '../sharedComponent/blurred_image'
 
 
 
-export default function DonationItemList({ details, singleData, creator, publicData }: { details?: boolean, singleData?: IDonationList, creator?: boolean, publicData?: boolean }) {
+export default function DonationItemList({ details, singleData, creator, publicData, pasted  }: { details?: boolean, singleData?: IDonationList, creator?: boolean, publicData?: boolean, pasted?: boolean }) {
 
     const { data, isLoading } = useGetDonationList()
     const {
@@ -46,14 +46,14 @@ export default function DonationItemList({ details, singleData, creator, publicD
     const { data: groupData, isLoading: loading, isRefetching } = useGetDonationGroup(singleData?.fundRasingGroupId?.id)
     const [open, setOpen] = useState(false)
 
-    const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/fund-raiser/search${search ? `?name=${search}` : ``}${creator ? "?creatorID=" + userId : ``}`, limit: 20, filter: "id", name: "donationlist", search: search })
+    const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({url: pasted ? `/fund-raiser/passed?userID=${userId}` : `/fund-raiser/search${search ? `?name=${search}` : ``}${creator ? "?creatorID=" + userId : ``}`, limit: 20, filter: "id", name: "donationlist", search: search })
 
     const router = useRouter()
 
     const clickHander = (item: IDonationList, index: string) => {
         if (item?.fundRasingGroupId?.id) {
-            setSelected(item)
-            setOpen(true)
+            // setSelected(item)
+            router?.push("/dashboard/donation/group/" + index)
         } else {
             router?.push("/dashboard/donation/" + index)
         }
@@ -104,7 +104,7 @@ export default function DonationItemList({ details, singleData, creator, publicD
                                             <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
                                         </Flex>
                                         <DonationGraph item={item} />
-                                        {userId !== item?.createdBy?.userId && (
+                                        {(userId !== item?.createdBy?.userId && !pasted )&& (
                                             <DonationBtn {...item} />
                                         )}
                                     </Flex>
@@ -146,7 +146,7 @@ export default function DonationItemList({ details, singleData, creator, publicD
                                             <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
                                         </Flex>
                                         <DonationGraph item={item} />
-                                        {userId !== item?.createdBy?.userId && (
+                                        {(userId !== item?.createdBy?.userId && !pasted ) && (
                                             <DonationBtn {...item} />
                                         )}
                                     </Flex>
@@ -191,7 +191,7 @@ export default function DonationItemList({ details, singleData, creator, publicD
                                                     <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
                                                 </Flex>
                                                 <DonationGraph item={item} />
-                                                {userId !== singleData?.createdBy?.userId && (
+                                                {(userId !== singleData?.createdBy?.userId && !pasted ) && (
                                                     <DonationBtn {...item} />
                                                 )}
                                             </Flex>

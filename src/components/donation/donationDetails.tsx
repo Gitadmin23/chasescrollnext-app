@@ -46,7 +46,7 @@ export default function DonationDetails({ id }: { id: string }) {
 
     React.useEffect(() => {
         if (!isLoading) {
-            if(!data[0]?.name){
+            if (!data[0]?.name) {
 
                 const clone = [{
                     bannerImage: item?.bannerImage,
@@ -57,22 +57,22 @@ export default function DonationDetails({ id }: { id: string }) {
                     name: item?.name,
                     purpose: item?.purpose,
                     visibility: item?.visibility,
-                    funnelID: item?.funnelID, 
+                    funnelID: item?.funnelID,
                     collaborators: [] as any
                 }]
 
                 const collaborators: Array<string> = []
-                 
-                item.collaborators?.map((item: any) => {
-                    return collaborators.push(item?.userId+"")
-                }) 
 
-                clone[0].collaborators = [...collaborators] 
+                item.collaborators?.map((item: any) => {
+                    return collaborators.push(item?.userId + "")
+                })
+
+                clone[0].collaborators = [...collaborators]
 
                 updateDontion(clone)
             }
         }
-    }, [isLoading, item]) 
+    }, [isLoading, item])
 
     useEffect(() => {
         if (isCollaborator?.length <= 0) {
@@ -122,7 +122,9 @@ export default function DonationDetails({ id }: { id: string }) {
                                         <Text fontWeight={"500"} >Date Created</Text>
                                         <Text fontSize={"14px"} >{dateFormat(item?.createdDate)}{" "}{timeFormat(item?.createdDate)}</Text>
                                     </Flex>
-                                    <DonationCollaborator update={true} singleData={item} index={0} />
+                                    {item?.createdBy?.userId === userId && (
+                                        <DonationCollaborator update={true} singleData={item} index={0} />
+                                    )}
                                 </Flex>
                                 <Flex flexDir={"column"} >
                                     <Text fontWeight={"500"} >Fundraising Description</Text>
@@ -137,7 +139,7 @@ export default function DonationDetails({ id }: { id: string }) {
                                     </Flex>
                                 </Flex>
                             </Flex>
-                            {((userId === item?.createdBy?.userId) || item?.isCollaborator) ? ( 
+                            {((userId === item?.createdBy?.userId) || item?.isCollaborator) ? (
                                 <Flex bg={["transparent", "transparent", mainBackgroundColor, mainBackgroundColor]} insetX={"3"} mt={["0px", "0px", "0px", "0px"]} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
                                     <Flex bgColor={secondaryBackgroundColor} w={["full", "full", "full", "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"64px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} px={["3", "3", "5", "5"]} h={"90px"} justifyContent={"center"} >
 

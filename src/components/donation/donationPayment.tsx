@@ -13,7 +13,7 @@ import ModalLayout from '../sharedComponent/modal_layout'
 import { useDetails } from '@/global-state/useUserDetails'
 import DonationTermAndCondition from './donationTermAndCondition'
 
-export default function DonationPayment({ data }: { data?: IDonationList }) {
+export default function DonationPayment({ data, fullWidth }: { data?: IDonationList, fullWidth?: boolean }) {
 
     const [open, setOpen] = useState(false)
     const [openSignUp, setOpenSignUp] = useState(false) 
@@ -99,7 +99,7 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
     }
 
     return (
-        <Flex w={["full", "full", "full", "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} p={"5"}  >
+        <Flex w={["full", "full", "full", fullWidth ? "full" : "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} p={"5"}  >
             <Text fontSize={"18px"} fontWeight={"600"} >Enter the Amount</Text>
 
             <Flex w={"fit-content"} flexWrap={"wrap"} gap={"2"}>
