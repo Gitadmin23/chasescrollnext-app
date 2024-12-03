@@ -48,13 +48,14 @@ const ServiceCard = ({ serviceID }: { serviceID: string }) => {
     )
 }
 
-function BookingCard({ business, booking, isVendor = false }: { business: IBuisness, booking: IBooking, isVendor?: boolean }) {
+function BookingCard({ business, booking, isVendor = false, shouldNavigate = true }: { business: IBuisness, booking: IBooking, isVendor?: boolean, shouldNavigate?: boolean }) {
     const toast = useToast()
     const router = useRouter();
     const { userId } = useDetails((state) => state);
 
     const [loading, setLoading] = useState(false)
-    const [loadingReject, setLoadingReject] = useState(false)
+    const [loadingReject, setLoadingReject] = useState(false);
+    const [type, setType] = useState("")
 
     const {
         primaryColor, secondaryBackgroundColor,
@@ -221,8 +222,10 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                 </VStack>
             </HStack>
 
-            <Box onClick={() => router.push(`/dashboard/newbooking/booking/${booking?.id}`)} w='full' h='150px' borderRadius={'10px'} overflow={'hidden'}>
-                <Image src={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt="banner image" w='full' h='full' objectFit={'cover'} />
+            <Box onClick={() => {
+                if (shouldNavigate) router.push(`/dashboard/newbooking/booking/${booking?.id}`);
+            }} w='full' h='150px' borderRadius={'10px'} overflow={'hidden'}>
+                <Image src={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt="banner image" w='full' h='full' objectFit={'cover'} cursor={shouldNavigate ? 'pointer': 'default'} />
             </Box>
 
             <VStack spacing={-3} alignItems={'flex-start'}>
@@ -288,7 +291,7 @@ function BookingCard({ business, booking, isVendor = false }: { business: IBuisn
                     )}
                     {booking.bookingStatus === 'REJECTED' && (
                         <Button disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
-                            <Text fontSize={'14px'} color={primaryColor}>Rejected</Text>
+                            <Text fontSize={'14px'} color={'white'}>Rejected</Text>
                         </Button>
                     )}
                     {booking.bookingStatus === 'APPROVED' && !booking?.hasPaid && (
