@@ -57,18 +57,14 @@ export default function DonationItemList({ details, singleData, creator, publicD
         } else {
             router?.push("/dashboard/donation/" + index)
         }
-    }
-
-    console.log(results);
-
+    } 
 
     return (
         <Flex w={"full"} flexDir={"column"} gap={"5"} >
             {!details && (
                 <LoadingAnimation loading={loadingList} refeching={refetchingList} length={results?.length} withimg={true} >
                     <Grid w={"full"} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} gap={6} >
-                        {results?.map((item: IDonationList, index: number) => {
-                                console.log(item);
+                        {results?.map((item: IDonationList, index: number) => { 
                             if (results?.length === index + 1) { 
                                 return (
                                     // <GridItem w={"full"}  >
