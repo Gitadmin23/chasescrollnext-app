@@ -231,7 +231,7 @@ function ViewTicket(props: Props) {
                         }
                     }
                 } flexDirection={"row"} overflowX={"auto"} alignItems={"center"} gap={"4"} px={["1", "1", "0px"]} >
-                    <Flex width={"fit-content"} gap={"6"} >
+                    <Flex width={"full"} gap={"6"} >
                         {dataMultiple?.map((item: { id: string, scanTimeStamp: any }, index: number) => {
                             return (
                                 <Flex key={index} w={["full", "full", "750px"]} flexDir={["column", "column", "row"]} rounded={"16px"} pb={"4"} pt={["4"]} p={["0px", "0px", "4"]} bg={index === 0 ? secondaryBackgroundColor : ticketBackgroundColor} alignItems={["start", "start", "center"]} justifyContent={"center"} >
