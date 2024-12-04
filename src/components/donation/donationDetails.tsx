@@ -63,7 +63,7 @@ export default function DonationDetails({ id }: { id: string }) {
 
                 const collaborators: Array<string> = []
 
-                item.collaborators?.map((item: any) => {
+                item?.collaborators?.map((item: any) => {
                     return collaborators.push(item?.userId + "")
                 })
 
@@ -78,15 +78,14 @@ export default function DonationDetails({ id }: { id: string }) {
         if (isCollaborator?.length <= 0) {
             const collaborators: Array<string> = []
 
-            item.collaborators?.map((item: any) => {
+            item?.collaborators?.map((item: any) => {
                 return collaborators.push(item?.userId + "")
             })
 
             setCollaborate(collaborators)
         }
 
-    }, [item])
-
+    }, [item]) 
 
     return (
         <Flex w={"full"} pos={"relative"} flexDir={"column"} overflowY={"auto"} >
@@ -114,7 +113,7 @@ export default function DonationDetails({ id }: { id: string }) {
                         <Flex w={["full", "full", "full", "full"]} flexDir={["column", "column", "row", "row"]} >
                             <Flex w={"full"} flexDir={"column"} gap={"4"} pb={"6"} pr={["0px", "0px", "0px", "6", "6"]} borderColor={borderColor} >
 
-                                <DonationGraph rounded='64px' item={item} />
+                                {/* <DonationGraph rounded=s'64px' item={item} /> */}
                                 <DonateUsers donationDetail={true} size={"50px"} event={item} fontSize={14} border='1px' />
                                 {/* </Flex> */}
                                 <Flex justifyContent={"space-between"} alignItems={"center"} >
