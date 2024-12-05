@@ -13,14 +13,14 @@ import { useDetails } from '@/global-state/useUserDetails'
 import { signOut } from 'next-auth/react'
 import useModalStore from '@/global-state/useModalSwitch'
 
-export default function DashboardMenuBtn() {
+export default function DashboardMenuBtn({ count }: { count?: any }) {
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
     const { setAll } = useDetails((state) => state);
 
     const {
         headerTextColor,
-        bodyTextColor,
+        primaryColor,
         mainBackgroundColor
     } = useCustomTheme()
 
@@ -76,6 +76,10 @@ export default function DashboardMenuBtn() {
                                 <NotificationIcon />
                             </Flex>
                             <Text fontSize={"12px"} >Notification</Text>
+
+                            <Flex w={"5"} h={"5"} rounded={"full"} bg={primaryColor} ml={"auto"} color={"white"} justifyContent={"center"} alignItems={"center"} pb={"2px"} fontWeight={"semibold"} fontSize={"12px"}  >
+                                {count}
+                            </Flex>
                         </Flex>
                         <Flex onClick={() => handleClick("/dashboard/settings")} h={"20px"} gap={"2"} alignItems={"center"} as='button' >
                             <Flex justifyContent={"center"} w={"20px"} >
