@@ -19,6 +19,7 @@ import NotificationBar from '@/components/notification';
 import useNotificationHook from '@/hooks/useNotificationHook';
 import CustomButton from '@/components/general/Button';
 import DashboardMenuBtn from '@/components/sharedComponent/dashboard_menu_btn';
+import useValidateRoken from '@/hooks/useValidateToken';
 
 export default function Layout({ children }: {
     children: ReactNode
@@ -104,6 +105,8 @@ export default function Layout({ children }: {
     }, [Id, status, router]);
 
     const { count } = useNotificationHook()
+
+    const {} = useValidateRoken()
 
     return (
         <Flex w={"full"} h={"100vh"} overflowY={"hidden"} bg={mainBackgroundColor} >
