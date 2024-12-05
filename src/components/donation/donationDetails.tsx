@@ -23,10 +23,12 @@ import useDonationStore from '@/global-state/useDonationState';
 import EventImage from '../sharedComponent/eventimage';
 import BlurredImage from '../sharedComponent/blurred_image';
 import DonationCollaborator from '../create_donation/donationCollaborator';
+import useGetSingleDonationList from '@/hooks/useGetSingleDonation';
 
 export default function DonationDetails({ id }: { id: string }) {
 
-    const { singleData: item, isLoading } = useGetDonationList(id)
+    // const { singleData: item, isLoading } = useGetDonationList(id)
+    const {singleData: item, isLoading } = useGetSingleDonationList(id)
 
     const {
         borderColor,

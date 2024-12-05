@@ -46,7 +46,7 @@ export default function DonationItemList({ details, singleData, creator, publicD
     const { data: groupData, isLoading: loading, isRefetching } = useGetDonationGroup(singleData?.fundRasingGroupId?.id)
     const [open, setOpen] = useState(false)
 
-    const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({url: pasted ? `/fund-raiser/passed?userID=${userId}` : `/fund-raiser/search${search ? `?name=${search}` : ``}${creator ? "?creatorID=" + userId : ``}`, limit: 20, filter: "id", name: "donationlist", search: search })
+    const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({url: pasted ? `/fund-raiser/passed?userID=${userId}` : creator ? `/fund-raiser/user-fund-raisers`  : `/fund-raiser/search${search ? `?name=${search}` : ``}`, limit: 20, filter: "id", name: "donationlist", search: search })
 
     const router = useRouter()
 
