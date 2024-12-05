@@ -214,7 +214,7 @@ export default function Layout({ children }: {
                                     <LogoutCurve onClick={() => setOpen(true)} color='red' size={'20px'} variant='Outline' />
                                 </Flex>
                             </Flex> */}
-                            <DashboardMenuBtn />
+                            <DashboardMenuBtn count={count} />
                         </Flex>
                         {/* <Flex display={["flex", "flex", "flex", "none", "none"]}  >
                             <DashboardMenuBtn />
