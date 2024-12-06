@@ -59,7 +59,7 @@ function DonationTheme({ id }: { id?: string }) {
 
         myArr.splice(index, 1);
         imgArr.splice(index, 1);
-        
+
         updateImage(imgArr)
         updateDontion(myArr)
     }
@@ -188,7 +188,7 @@ function DonationTheme({ id }: { id?: string }) {
                             <Flex flexDir={["column", "column", "row"]} justifyContent={"space-between"} mt={"5"} gap={["4", "4", "4"]} >
                                 <FunnelBtn index={index} />
                                 <Text color={"gray"} fontWeight={"800"} >|</Text>
-                                <DonationCollaborator index={index} />
+                                <DonationCollaborator update={true} index={index} />
                             </Flex>
                             <GetCommunity />
                         </Flex>

@@ -160,7 +160,7 @@ export default function CollaboratorBtn(props: IProps) {
                 // clone?.collaborators?.filter((id) => id !== userIndex) 
             }
             updateEvent(clone);
-            
+
 
         } else if (eventdata?.collaborators?.includes(userIndex)) {
 
@@ -179,7 +179,7 @@ export default function CollaboratorBtn(props: IProps) {
 
         }
         console.log(clone);
-        
+
 
     }
 
@@ -234,29 +234,29 @@ export default function CollaboratorBtn(props: IProps) {
         let clone: any = { ...eventdata }
 
         if (eventdata?.acceptedAdmins?.includes(userIndex)) {
- 
+
             const index = admin.indexOf(userIndex);
             clone?.acceptedAdmins.splice(index, 1);
 
             if (!eventdata?.acceptedCollaborators?.includes(userIndex)) {
 
                 clone.acceptedCollaborators = [...collaborators, userIndex]
-            } else { 
+            } else {
                 const index = collaborators.indexOf(userIndex);
                 clone?.acceptedCollaborators.splice(index, 1);
                 // clone?.collaborators?.filter((id) => id !== userIndex)
                 clone.acceptedCollaborators = [...collaborators, userIndex]
-            } 
+            }
             updateEvent(clone);
 
         } else if (eventdata?.acceptedCollaborators?.includes(userIndex)) {
 
             const index = collaborators.indexOf(userIndex);
-            clone?.acceptedCollaborators.splice(index, 1); 
+            clone?.acceptedCollaborators.splice(index, 1);
             updateEvent(clone);
         } else {
 
-            clone.acceptedCollaborators = [...collaborators, userIndex] 
+            clone.acceptedCollaborators = [...collaborators, userIndex]
             updateEvent(clone);
 
         }
@@ -542,9 +542,13 @@ export default function CollaboratorBtn(props: IProps) {
     return (
         <>
             {btn && (
-                <>
+                <Flex gap={"3"} alignItems={"center"} >
                     <Button onClick={() => clickHandler()} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{collaborate ? "Edit" : "Invite"} Collaborator</Button>
-                </>
+
+                    <Box onClick={() => setShow(true)} color={"gray.500"} as='button' >
+                        <QuestionTwoIcon />
+                    </Box>
+                </Flex>
             )}
             {!btn && (
                 <Flex flexDir={"column"} w={"fit-content"} gap={"3"} alignItems={"end"} >
@@ -562,7 +566,7 @@ export default function CollaboratorBtn(props: IProps) {
                         </Flex>
 
                         <Box onClick={() => setShow(true)} color={"gray.500"} as='button' >
-                            <QuestionTwoIcon/>
+                            <QuestionTwoIcon />
                         </Box>
                     </Flex>
                     <Flex gap={"3"} >
