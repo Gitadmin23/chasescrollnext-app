@@ -16,7 +16,7 @@ import { useMutation } from 'react-query'
 import httpService from '@/utils/httpService'
 import { AxiosError } from 'axios'
 
-export default function DonationCollaborator({ index, update, singleData }: { index: number, update?: boolean, singleData?: IDonationList }) {
+export default function DonationCollaborator({ index, update, btn, singleData }: { index: number, btn?: boolean, update?: boolean, singleData?: IDonationList }) {
 
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
@@ -128,12 +128,20 @@ export default function DonationCollaborator({ index, update, singleData }: { in
             {update && (
                 <Flex gap={"3"} alignItems={"center"} >
                     <Button onClick={() => setOpen(true)} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{data[0]?.collaborators?.length > 0 ? "Edit" : "Invite"} Collaborator</Button>
+                        {/* <Box onClick={() => setShow(true)} color={"gray.500"} as='button' >
+                            <QuestionTwoIcon />
+                        </Box> */}
+                </Flex>
+            )}
+            {btn && (
+                <Flex gap={"3"} alignItems={"center"} >
+                    <Button onClick={() => setOpen(true)} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{data[0]?.collaborators?.length > 0 ? "Edit" : "Invite"} Collaborator</Button>
                         <Box onClick={() => setShow(true)} color={"gray.500"} as='button' >
                             <QuestionTwoIcon />
                         </Box>
                 </Flex>
             )}
-            {!update && (
+            {/* {!update && (
                 <Flex flexDir={"column"} w={"fit-content"} gap={"3"} alignItems={"end"} >
                     <Flex gap={"3"} alignItems={"center"} >
                         {(data[index].collaborators) && (
@@ -162,7 +170,7 @@ export default function DonationCollaborator({ index, update, singleData }: { in
                         )}
                     </Flex>
                 </Flex>
-            )}
+            )} */}
             <ModalLayout open={open} close={setOpen} closeIcon={false} bg={secondaryBackgroundColor} >
                 <Flex w={"full"} px={"6"} pt={"8"} bg={secondaryBackgroundColor} >
                     <Box>
