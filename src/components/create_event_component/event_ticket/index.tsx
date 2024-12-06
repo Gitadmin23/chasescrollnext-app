@@ -40,7 +40,7 @@ function EventTicket(props: IProps) {
                     {!pathname?.includes("edit_event") && (
                         <>
                             {!promotion && (
-                                <CollaboratorBtn addCollaborator={true} />
+                                <CollaboratorBtn btn={true} addCollaborator={true} />
                             )}
                         </>
                     )}

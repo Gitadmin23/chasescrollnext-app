@@ -126,9 +126,12 @@ export default function DonationCollaborator({ index, update, singleData }: { in
     return (
         <Flex>
             {update && (
-                <>
+                <Flex gap={"3"} alignItems={"center"} >
                     <Button onClick={() => setOpen(true)} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{data[0]?.collaborators?.length > 0 ? "Edit" : "Invite"} Collaborator</Button>
-                </>
+                        <Box onClick={() => setShow(true)} color={"gray.500"} as='button' >
+                            <QuestionTwoIcon />
+                        </Box>
+                </Flex>
             )}
             {!update && (
                 <Flex flexDir={"column"} w={"fit-content"} gap={"3"} alignItems={"end"} >
