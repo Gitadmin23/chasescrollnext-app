@@ -32,7 +32,7 @@ function DonationTheme({ id }: { id?: string }) {
             bannerImage: "",
             description: "",
             goal: "",
-            visibility: data[0]?.visibility,
+            visibility: "PRIVATE",
             purpose: "",
             endDate: "",
             collaborators: []
@@ -62,11 +62,7 @@ function DonationTheme({ id }: { id?: string }) {
 
         updateImage(imgArr)
         updateDontion(myArr)
-    }
-
-    console.log(data)
-    console.log(image);
-    
+    } 
 
     return (
         <Flex px={"4"} justifyContent={"center"} pt={"10"} >
