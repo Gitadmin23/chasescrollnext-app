@@ -188,7 +188,7 @@ function DonationTheme({ id }: { id?: string }) {
                             <Flex flexDir={["column", "column", "row"]} justifyContent={"space-between"} mt={"5"} gap={["4", "4", "4"]} >
                                 <FunnelBtn index={index} />
                                 <Text color={"gray"} fontWeight={"800"} >|</Text>
-                                <DonationCollaborator update={true} index={index} />
+                                <DonationCollaborator btn={true} index={index} />
                             </Flex>
                             <GetCommunity />
                         </Flex>

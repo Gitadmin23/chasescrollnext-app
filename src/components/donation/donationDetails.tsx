@@ -82,8 +82,7 @@ export default function DonationDetails({ id }: { id: string }) {
 
             item?.collaborators?.map((item: any) => {
                 return collaborators.push(item?.userId + "")
-            })
-
+            }) 
             setCollaborate(collaborators)
         }
 
@@ -115,7 +114,7 @@ export default function DonationDetails({ id }: { id: string }) {
                         <Flex w={["full", "full", "full", "full"]} flexDir={["column", "column", "row", "row"]} >
                             <Flex w={"full"} flexDir={"column"} gap={"4"} pb={"6"} pr={["0px", "0px", "0px", "6", "6"]} borderColor={borderColor} >
 
-                                {/* <DonationGraph rounded=s'64px' item={item} /> */}
+                                <DonationGraph rounded='64px' item={item} />
                                 <DonateUsers donationDetail={true} size={"50px"} event={item} fontSize={14} border='1px' />
                                 {/* </Flex> */}
                                 <Flex justifyContent={"space-between"} alignItems={"center"} >
