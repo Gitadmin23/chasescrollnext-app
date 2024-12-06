@@ -14,9 +14,9 @@ import CollaboratorBtn from '../collaborators';
 import GetCommunity from '../funnel/get_community';
 import DonationCollaborator from '../donationCollaborator';
 
-function DonationTheme({id} : {id?: string}) {
+function DonationTheme({ id }: { id?: string }) {
 
-    const { data, updateDontion } = useDonationStore((state) => state)
+    const { data, updateDontion, image, updateImage } = useDonationStore((state) => state)
 
     const handleChangeLimit = (e: any, limit: any, index: number) => {
         if ((e.target.value).length <= limit) {
@@ -32,7 +32,7 @@ function DonationTheme({id} : {id?: string}) {
             bannerImage: "",
             description: "",
             goal: "",
-            visibility: "PUBLIC",
+            visibility: data[0]?.visibility,
             purpose: "",
             endDate: "",
             collaborators: []
@@ -55,11 +55,18 @@ function DonationTheme({id} : {id?: string}) {
     const HandleDeleteTicket = (index: any) => {
 
         let myArr = [...data]
+        let imgArr = [...image]
 
         myArr.splice(index, 1);
-
+        imgArr.splice(index, 1);
+        
+        updateImage(imgArr)
         updateDontion(myArr)
-    } 
+    }
+
+    console.log(data)
+    console.log(image);
+    
 
     return (
         <Flex px={"4"} justifyContent={"center"} pt={"10"} >
@@ -144,35 +151,37 @@ function DonationTheme({id} : {id?: string}) {
                             </Flex>
                         </Flex>
                         <Flex flexDirection={"column"} h={"full"} width={"full"} gap={"6"} >
-                            <Flex flexDirection={"column"} gap={"2"} >
-                                <Text fontWeight={"600"} >Fundraising Visibility</Text>
-                                <label htmlFor="publicVisibility" style={{ display: "flex", justifyContent: "space-between", borderBottomWidth: "1px", fontSize: "14px", padding: "8px" }} role='button' >
-                                    <Text>
-                                        Public
-                                    </Text>
-                                    <Radio
-                                        type="radio"
-                                        id="publicVisibility"
-                                        name="visibility"
-                                        value={"PUBLIC"}
-                                        onChange={(e) => handleChange(e.target.name, e.target.value, index)}
-                                        isChecked={item?.visibility === "PUBLIC"}
-                                    />
-                                </label>
-                                <label htmlFor="privateVisibility" style={{ display: "flex", justifyContent: "space-between", borderBottomWidth: "1px", fontSize: "14px", padding: "8px" }} role='button' >
-                                    <Text>
-                                        Private
-                                    </Text>
-                                    <Radio
-                                        type="radio"
-                                        id="privateVisibility"
-                                        name="visibility"
-                                        value={"PRIVATE"}
-                                        onChange={(e) => handleChange(e.target.name, e.target.value, index)}
-                                        isChecked={item?.visibility === "PRIVATE"}
-                                    />
-                                </label>
-                            </Flex>
+                            {index === 0 && (
+                                <Flex flexDirection={"column"} gap={"2"} >
+                                    <Text fontWeight={"600"} >Fundraising Visibility</Text>
+                                    <label htmlFor="publicVisibility" style={{ display: "flex", justifyContent: "space-between", borderBottomWidth: "1px", fontSize: "14px", padding: "8px" }} role='button' >
+                                        <Text>
+                                            Public
+                                        </Text>
+                                        <Radio
+                                            type="radio"
+                                            id="publicVisibility"
+                                            name="visibility"
+                                            value={"PUBLIC"}
+                                            onChange={(e) => handleChange(e.target.name, e.target.value, index)}
+                                            isChecked={item?.visibility === "PUBLIC"}
+                                        />
+                                    </label>
+                                    <label htmlFor="privateVisibility" style={{ display: "flex", justifyContent: "space-between", borderBottomWidth: "1px", fontSize: "14px", padding: "8px" }} role='button' >
+                                        <Text>
+                                            Private
+                                        </Text>
+                                        <Radio
+                                            type="radio"
+                                            id="privateVisibility"
+                                            name="visibility"
+                                            value={"PRIVATE"}
+                                            onChange={(e) => handleChange(e.target.name, e.target.value, index)}
+                                            isChecked={item?.visibility === "PRIVATE"}
+                                        />
+                                    </label>
+                                </Flex>
+                            )}
                             {index > 0 && (
                                 <CustomButton onClick={() => HandleDeleteTicket(index)} backgroundColor={"brand.chasescrollRed"} width={"fit-content"} text='Remove Fundraising' />
                             )}
@@ -187,7 +196,7 @@ function DonationTheme({id} : {id?: string}) {
                 ))}
 
                 <Flex w={"full"} gap={"4"} mb={6} >
-                    <CustomButton onClick={() => HandleAddTicket(data?.length-1)} borderRadius={"full"} text='+ Add New Fundraising' color={"#5465E0"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
+                    <CustomButton onClick={() => HandleAddTicket(data?.length - 1)} borderRadius={"full"} text='+ Add New Fundraising' color={"#5465E0"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
                 </Flex>
                 <Flex w={"full"} gap={"4"} mb={12} >
                     <SubmitTheme id={id} type={""} />
