@@ -14,18 +14,21 @@ interface IProps {
 
 const useGetDonationGroup = (id?: string) => {
 
-    const [data, setData] = React.useState<Array<IProps>>([]);
+    const [data, setData] = React.useState<Array<IDonationList>>([]);
 
     const { isLoading, isRefetching, refetch } = useQuery(
         ["getDonationGroup", id],
-        () => httpService.get(`/fund-raiser-group/search`, {
+        () => httpService.get(`/fund-raiser/group`, {
             params: cleanup({
                 size: 40,
-                id: id
+                groupID: id
             })
         }),
         {
             onSuccess: (data) => { 
+
+                console.log(data);
+                
                 setData(data?.data?.content)
             }
         },

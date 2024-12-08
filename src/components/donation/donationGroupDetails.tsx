@@ -25,11 +25,12 @@ import BlurredImage from '../sharedComponent/blurred_image';
 import DonationGroupModal from './donationGroupModal';
 import SelectDonation from './selectDonation';
 import useGetDonationGroup from '@/hooks/useGetDonationGroup';
+import useGetSingleDonationList from '@/hooks/useGetSingleDonation';
 
 export default function DonationGroupDetails({ id }: { id: string }) {
 
     // const { data: groupData, isLoading: loading, isRefetching } = useGetDonationGroup(id)
-    const { singleData: item, isLoading } = useGetDonationList(id)
+    const { singleData: item, isLoading } = useGetSingleDonationList(id)
 
     const {
         borderColor,
@@ -65,7 +66,7 @@ export default function DonationGroupDetails({ id }: { id: string }) {
         if (isCollaborator?.length <= 0) {
             const collaborators: Array<string> = []
 
-            item.collaborators?.map((item: any) => {
+            item?.collaborators?.map((item: any) => {
                 return collaborators.push(item?.userId + "")
             })
 

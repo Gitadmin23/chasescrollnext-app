@@ -40,6 +40,7 @@ export type IDonationList = {
     returnMessage: string,
     status: any,
     statusCode: number,
+    totalInGroup: number,
     user: IUser,
     isCollaborator: boolean
 }
