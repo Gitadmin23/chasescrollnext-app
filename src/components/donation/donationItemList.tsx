@@ -27,13 +27,11 @@ import BlurredImage from '../sharedComponent/blurred_image'
 
 
 
-export default function DonationItemList({ details, singleData, creator, publicData, pasted }: { details?: boolean, singleData?: IDonationList, creator?: boolean, publicData?: boolean, pasted?: boolean }) {
+export default function DonationItemList({ details, singleData, creator, pasted }: { details?: boolean, singleData?: IDonationList, creator?: boolean, publicData?: boolean, pasted?: boolean }) {
 
-    const { data, isLoading } = useGetDonationList()
     const {
         bodyTextColor,
-        borderColor,
-        primaryColor,
+        borderColor, 
         mainBackgroundColor
     } = useCustomTheme()
 

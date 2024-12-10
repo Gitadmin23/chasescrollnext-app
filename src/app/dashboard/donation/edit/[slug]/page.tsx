@@ -5,6 +5,7 @@ import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 import useEventStore from '@/global-state/useCreateEventState';
 import useDonationStore from '@/global-state/useDonationState';
 import useGetDonationList from '@/hooks/useGetDonationList';
+import useGetSingleDonationList from '@/hooks/useGetSingleDonation';
 import useCustomTheme from '@/hooks/useTheme';
 import { IUser } from '@/models/User';
 import { Box, Flex, useColorMode } from '@chakra-ui/react'
@@ -25,11 +26,13 @@ export default function CreateDonation({ params }: Props) {
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
 
-    const { singleData: item, isLoading } = useGetDonationList(id)
+    // const { singleData: item, isLoading } = useGetDonationList(id)
+    const {singleData: item, isLoading } = useGetSingleDonationList(id)
 
     const { data, updateDontion } = useDonationStore((state) => state)
 
     React.useEffect(() => {
+ 
         if (!isLoading) {
             if(!data[0]?.name){
 
@@ -48,7 +51,7 @@ export default function CreateDonation({ params }: Props) {
 
                 const collaborators: Array<string> = []
                  
-                item.collaborators?.map((item: any) => {
+                item?.collaborators?.map((item: any) => {
                     return collaborators.push(item?.userId+"")
                 }) 
 
