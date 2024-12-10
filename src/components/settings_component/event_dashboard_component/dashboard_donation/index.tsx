@@ -55,6 +55,7 @@ import CircularProgressBar from '@/components/sharedComponent/circleGraph'
 import DonateUsers from '@/components/sharedComponent/donateUser'
 import useGetDonationList from '@/hooks/useGetDonationList'
 import DonationGraph from '@/components/donation/donationGraph'
+import useGetSingleDonationList from '@/hooks/useGetSingleDonation'
 
 interface Props {
     index: any
@@ -102,7 +103,10 @@ function DashboardDonation(props: Props) {
 
     const router = useRouter()  
 
-    const { singleData: item, isLoading: loading } = useGetDonationList(index)  
+
+    const {singleData: item, isLoading: loading } = useGetSingleDonationList(index)
+
+    // const { singleData: item, isLoading: loading } = useGetDonationList(index)  
 
 
     const componentRef: any = React.useRef();
