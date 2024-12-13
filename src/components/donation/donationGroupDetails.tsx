@@ -87,7 +87,7 @@ export default function DonationGroupDetails({ id, notAuth }: { id: string, notA
                 {item && (
                     <Flex w={"full"} h={["auto", "auto", "full"]} flexDir={["column-reverse", "column-reverse", "row"]} overflowY={["auto", "auto", "hidden"]} >
                         <Flex w={"full"} p={"6"} flexDir={"column"} gap={"6"} overflowY={["clip", "clip", "auto"]}>
-                            <DonationGroupModal selectedData={item} />
+                            <DonationGroupModal notAuth={notAuth} selectedData={item} />
                             <Flex w={"full"} h={"300px"} display={["block", "block", "none", "none", "none"]} />
                         </Flex>
                         <Flex w={"full"} overflowY={["clip", "clip", "auto"]} >

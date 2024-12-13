@@ -127,7 +127,7 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
             <ModalLayout open={open} close={setOpen} title='' closeIcon={true} >
                 <Flex w={"full"} flexDir={"column"} gap={"4"} p={"6"} >
                     <Flex flexDir={"column"} justifyContent={"center"} >
-                        <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"32px"} >Get Ticket</Text>
+                        <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"32px"} >Fundraising</Text>
                         <Text color={"#626262"} textAlign={"center"}>Please choose your option and proceed with Chasescroll.</Text>
                     </Flex>
                     <GoogleBtn newbtn title='Sign in' type="DONATION" id={data?.id ? true : false} index={data?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' />

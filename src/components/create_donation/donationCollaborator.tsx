@@ -16,12 +16,18 @@ import { useMutation } from 'react-query'
 import httpService from '@/utils/httpService'
 import { AxiosError } from 'axios'
 
+interface IProps{ 
+    fundRaiserID: string,
+    userID: string
+}
+
 export default function DonationCollaborator({ index, update, btn, singleData }: { index: number, btn?: boolean, update?: boolean, singleData?: IDonationList }) {
 
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
     const [tab, setTab] = useState(false)
     const [search, setSearch] = React.useState('');
+    const [payload, setPayload] = React.useState<Array<IProps>>([]);
 
     const { data, updateDontion } = useDonationStore((state) => state)
 
@@ -72,31 +78,65 @@ export default function DonationCollaborator({ index, update, btn, singleData }:
         }
     });
 
+
+    // Create Draft 
+    const addCollaboratorDonation = useMutation({
+        mutationFn: (payload: any) => httpService.post(`/collaborator-request/create`, payload),
+        onError: (error: AxiosError<any, any>) => {
+            toast({
+                title: 'Error',
+                description: error?.response?.data?.message,
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        },
+        onSuccess: () => {
+            toast({
+                title: 'Success',
+                description: "Updated Fundraisier",
+                status: 'success',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+
+            setOpen(false)
+        }
+    });
+
     const UserCard = (props: IUser & { collaborator?: boolean }) => {
         const { username, userId, firstName, lastName, collaborator } = props;
 
         const [show, setShow] = useState(false)
         const removeHandler = (userIndex: string) => {
-            let clone: any = [...data]
+            let clone: any = [...data] 
+            let clonenew: any = [...payload] 
 
             let users = clone[index].collaborators
 
             if (users?.includes(userIndex)) {
 
                 const indexId = users.indexOf(userIndex);
+                const indexnewId = clonenew.findIndex((item: any) => item.userID === userIndex);
                 clone[index]?.collaborators.splice(indexId, 1);
+                clonenew.splice(indexnewId, 1);
 
-
+                setPayload(clonenew)
                 updateDontion(clone)
             } else {
                 users = [...clone[index]?.collaborators, userIndex]
 
                 clone[index] = { ...clone[index], collaborators: users }
 
+                clonenew = [...clonenew, {
+                    fundRaiserID: singleData?.id,
+                    userID: userIndex
+                }]
+
                 updateDontion(clone)
-            }
-
-
+            } 
             setShow((prev) => !prev)
         }
 
@@ -245,7 +285,7 @@ export default function DonationCollaborator({ index, update, btn, singleData }:
                 )}
                 {update && (
                     <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg={mainBackgroundColor} py={'20px'} >
-                        <CustomButton text='Update' isLoading={editDonation?.isLoading} isDisabled={editDonation?.isLoading} onClick={() => editDonation?.mutate({ ...data[0] })} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
+                        <CustomButton text='Update' isLoading={editDonation?.isLoading} isDisabled={editDonation?.isLoading} onClick={() => editDonation?.mutate({ collaborators: data[0].collaborators })} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
                     </Box>
                 )}
             </ModalLayout>
