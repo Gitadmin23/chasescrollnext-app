@@ -9,6 +9,7 @@ import useCustomTheme from '@/hooks/useTheme'
 import { IMAGE_URL } from '@/services/urls'
 import ShareEvent from '../sharedComponent/share_event'
 import { textLimit } from '@/utils/textlimit'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
 
 export default function DonationGroupModal({ selectedData }: { selectedData: IDonationList }) {
 
@@ -39,7 +40,7 @@ export default function DonationGroupModal({ selectedData }: { selectedData: IDo
                             <Flex w={"full"} justifyContent={"space-between"} gap={"3"} alignItems={"center"} >
                                 <Flex flexDir={"column"} >
                                     <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
-                                    <Text fontWeight={"600"} >{items?.name}</Text>
+                                    <Text fontWeight={"600"} >{textLimit(capitalizeFLetter(items?.name), 30)}</Text>
                                 </Flex>
                                 <ShareEvent newbtn={true} showText={false} size='20px' data={items} id={items?.id} type="EVENT" eventName={textLimit(items?.name, 17)} />
                             </Flex>

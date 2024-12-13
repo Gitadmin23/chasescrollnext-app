@@ -21,6 +21,8 @@ import GetEventTicket from './getEventBtn';
 import OrganizeBtn from './organizeBtn';
 import DonationBtn from './donationBtn';
 import EventPrice from '../sharedComponent/event_price';
+import PrBtn from './prBtn';
+import OrganizerPrBtn from './organizerPrBtn';
 
 
 
@@ -237,18 +239,21 @@ export default function EventDetail(props: IEventType) {
                             </Flex> */}
                         </Flex>
                     )}
-{/* 
-                    <Flex display={["flex", "flex", "flex", "none", "none"]}  >
-                        {(donationEnabled || isOrganizer) && (
-                            <DonationBtn {...props} />
-                        )}
-                    </Flex> */}
+
+                    {(!isBought && (!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && !pathname?.includes("past")) && (
+                        <PrBtn data={props} />
+                    )}
 
                     {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") && (
                         <Flex w={"full"} bgColor={secondaryBackgroundColor} display={["none", "none", "flex", "flex"]} rounded={"64px"} alignItems={"center"} h={"86px"} px={"4"} py={"3"} justifyContent={"center"} >
                             <OrganizeBtn {...props} />
                         </Flex>
                     )}
+                    
+                    {isOrganizer && (
+                        <OrganizerPrBtn />
+                    )}
+
                     <Flex flexDir={"column"} gap={"4"} >
                         <Text fontWeight={"medium"} >Tags</Text>
                         <Button color={headerTextColor} fontSize={"12px"} w={"fit-content"} px={"3"} bgColor={secondaryBackgroundColor} rounded={"32px"} h={"38px"} >

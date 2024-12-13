@@ -85,7 +85,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                                             <Flex flexDir={"column"} >
                                                 <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
-                                                <Text fontWeight={"700"} >{textLimit(item?.name, 35)}</Text>
+                                                <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.name), 35)}</Text>
                                             </Flex>
                                             <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
                                         </Flex>
@@ -127,7 +127,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                                             <Flex flexDir={"column"} >
                                                 <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
-                                                <Text fontWeight={"700"} >{textLimit(item?.name, 35)}</Text>
+                                                <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.name), 35)}</Text>
                                             </Flex>
                                             <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
                                         </Flex>
@@ -170,7 +170,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                                             <Flex flexDir={"column"} >
                                                 <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
-                                                <Text fontWeight={"700"} >{textLimit(item?.name, 35)}</Text>
+                                                <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.name), 35)}</Text>
                                             </Flex>
                                             <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
                                         </Flex>

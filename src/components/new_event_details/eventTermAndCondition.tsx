@@ -8,7 +8,7 @@ export default function EventTermAndCondition() {
     const [open, setOpen] = useState(false)
 
     const {
-        primaryColor
+        primaryColor, mainBackgroundColor
     } = useCustomTheme()
     const termsAndConditions = `
     Terms and Conditions
@@ -84,13 +84,13 @@ export default function EventTermAndCondition() {
         <Flex  >
             <Text onClick={() => setOpen(true)} as={"button"} textDecor={"underline"} fontWeight={"bold"} fontSize={"12px"} color={primaryColor} >Event Terms And Conditions</Text>
             <ModalLayout size={"2xl"} open={open} close={setOpen} >
-                <Box width={"full"} bg={"white"} px={["0px", "8", "8"]} pt={"3"} pb={"4"} >
+                <Box width={"full"} bg={mainBackgroundColor} px={["0px", "8", "8"]} pt={"3"} pb={"4"} >
                     <Box display={"flex"} fontWeight={"medium"} flexDirection={"column"} fontSize={"sm"} px={"3"} py={"5"} >
 
                         <Text fontSize={["18px", "24px", "24px"]} fontWeight={"bold"} lineHeight={"28.8px"} textAlign={"center"} >{"Event Terms And Conditions"}</Text>
 
                         <Box
-                            my={"3"} lineHeight={"22px"} color={"#00000080"}
+                            my={"3"} lineHeight={"22px"}
                             whiteSpace="pre-wrap"
                             p={[2, 4, 4]}
                             borderWidth="1px"
@@ -101,7 +101,7 @@ export default function EventTermAndCondition() {
                         >
                             {termsAndConditions}
                         </Box>
-                        <Button onClick={() => setOpen(false)} w={["full", "300px", "300px"]} mx={"auto"} h={"42px"} mt={"3"} borderWidth={"1px"} color={"#5465E0"} borderColor={"#5465E0"} rounded={"8px"} bgColor={"white"} _hover={{ backgroundColor: "white" }} >
+                        <Button onClick={() => setOpen(false)} w={["full", "300px", "300px"]} mx={"auto"} h={"42px"} mt={"3"} borderWidth={"1px"} color={"#5465E0"} borderColor={"#5465E0"} rounded={"8px"} bgColor={mainBackgroundColor} _hover={{ backgroundColor: mainBackgroundColor }} >
                             Done
                         </Button>
                     </Box>

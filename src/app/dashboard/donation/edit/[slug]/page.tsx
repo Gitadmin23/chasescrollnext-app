@@ -46,16 +46,16 @@ export default function CreateDonation({ params }: Props) {
                     purpose: item?.purpose,
                     visibility: item?.visibility,
                     funnelID: item?.funnelID, 
-                    collaborators: [] as any
+                    // collaborators:[] as Array<string>
                 }]
 
-                const collaborators: Array<string> = []
+                // const collaborators:Array<string> =[]
                  
-                item?.collaborators?.map((item: any) => {
-                    return collaborators.push(item?.userId+"")
-                }) 
+                // item?.collaborators?.map((item: any) => {
+                //     return collaborators.push(item?.userId+"")
+                // }) 
 
-                clone[0].collaborators = [...collaborators] 
+                // clone[0].collaborators = [...collaborators] 
 
                 updateDontion(clone)
             }

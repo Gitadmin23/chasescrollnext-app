@@ -8,7 +8,8 @@ export default function DonationTermAndCondition({ refund }: { refund?: boolean 
     const [open, setOpen] = useState(false)
 
     const {
-        primaryColor
+        primaryColor,
+        mainBackgroundColor
     } = useCustomTheme()
     const termsAndConditions = `
 Terms and Conditions
@@ -119,12 +120,12 @@ us at: support@chasescroll.com
                 <Text onClick={() => setOpen(true)} as={"button"} textDecor={"underline"} fontWeight={"bold"} fontSize={"12px"} color={primaryColor} >Fundraising Terms And Conditions</Text>
             )}
             <ModalLayout size={refund ? "md" : "2xl"} open={open} close={setOpen} >
-                <Box width={"full"} bg={"white"} px={["0px", "8", "8"]} pt={"3"} pb={"4"} >
+                <Box width={"full"} bg={mainBackgroundColor} px={["0px", "8", "8"]} pt={"3"} pb={"4"} >
                     <Box display={"flex"} fontWeight={"medium"} flexDirection={"column"} fontSize={"sm"} px={"3"} py={"5"} >
 
                         <Text fontSize={["18px", "24px", "24px"]} fontWeight={"bold"} lineHeight={"28.8px"} textAlign={"center"} >{refund ? "Fundraising refund policy" : "Fundraising Terms And Conditions"}</Text>
                         {refund && (
-                            <Text my={"3"} lineHeight={"22px"} color={"#00000080"} >
+                            <Text my={"3"} lineHeight={"22px"} >
                                 Donors Responsibilities <br />
                                 5.1. Contributions are voluntary, and donors should ensure they understand the campaign details before donating.<br />
                                 5.2. Donations may not be refundable unless explicitly stated or required by the organizer.<br />
@@ -136,7 +137,7 @@ us at: support@chasescroll.com
                         {!refund && (
 
                             <Box
-                                my={"3"} lineHeight={"22px"} color={"#00000080"}
+                                my={"3"} lineHeight={"22px"}
                                 whiteSpace="pre-wrap"
                                 p={[2, 4, 4]}
                                 borderWidth="1px"

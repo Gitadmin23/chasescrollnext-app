@@ -84,8 +84,7 @@ export default function DonationDetails({ id }: { id: string }) {
                 return collaborators.push(item?.userId + "")
             }) 
             setCollaborate(collaborators)
-        }
-
+        } 
     }, [item]) 
 
     return (
@@ -107,7 +106,7 @@ export default function DonationDetails({ id }: { id: string }) {
                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                             <Flex flexDir={"column"} >
                                 <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
-                                <Text fontSize={"24px"} fontWeight={"700"} >{item?.name}</Text>
+                                <Text fontSize={"24px"} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
                             </Flex>
                             <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
                         </Flex>
