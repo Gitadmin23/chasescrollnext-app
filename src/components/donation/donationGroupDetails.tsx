@@ -20,14 +20,11 @@ import DonateUsers from '../sharedComponent/donateUser';
 import { DashboardEditIcon, DashboardOrganizerIcon, WalletIcon } from '../svg';
 import ShareEvent from '../sharedComponent/share_event';
 import useDonationStore from '@/global-state/useDonationState';
-import EventImage from '../sharedComponent/eventimage';
 import BlurredImage from '../sharedComponent/blurred_image';
 import DonationGroupModal from './donationGroupModal';
-import SelectDonation from './selectDonation';
-import useGetDonationGroup from '@/hooks/useGetDonationGroup';
 import useGetSingleDonationList from '@/hooks/useGetSingleDonation';
 
-export default function DonationGroupDetails({ id }: { id: string }) {
+export default function DonationGroupDetails({ id, notAuth }: { id: string, notAuth?: boolean }) {
 
     // const { data: groupData, isLoading: loading, isRefetching } = useGetDonationGroup(id)
     const { singleData: item, isLoading } = useGetSingleDonationList(id)
@@ -78,20 +75,22 @@ export default function DonationGroupDetails({ id }: { id: string }) {
 
     return (
         <Flex w={"full"} pos={"relative"} flexDir={"column"} overflowY={["auto", "auto", "hidden"]} >
-            <Flex gap={4} px={"6"} py={"4"} alignItems={"center"} >
-                <Flex as={"button"} onClick={() => router?.push("/dashboard/donation")} >
-                    <IoArrowBack size={"30px"} />
+            {!notAuth && (
+                <Flex gap={4} px={"6"} py={"4"} alignItems={"center"} >
+                    <Flex as={"button"} onClick={() => router?.push("/dashboard/donation")} >
+                        <IoArrowBack size={"30px"} />
+                    </Flex>
+                    <Text fontWeight={"700"} fontSize={"24px"} >Fundraising Details</Text>
                 </Flex>
-                <Text fontWeight={"700"} fontSize={"24px"} >Fundraising Details</Text>
-            </Flex>
+            )}
             <LoadingAnimation loading={isLoading} >
                 {item && (
-                    <Flex w={"full"} h={["auto", "auto","full"]} flexDir={["column-reverse", "column-reverse", "row"]} overflowY={["auto", "auto", "hidden"]} >
-                        <Flex w={"full"} p={"6"} flexDir={"column"} gap={"6"} overflowY={["clip", "clip",  "auto"]}>
+                    <Flex w={"full"} h={["auto", "auto", "full"]} flexDir={["column-reverse", "column-reverse", "row"]} overflowY={["auto", "auto", "hidden"]} >
+                        <Flex w={"full"} p={"6"} flexDir={"column"} gap={"6"} overflowY={["clip", "clip", "auto"]}>
                             <DonationGroupModal selectedData={item} />
-                                <Flex w={"full"} h={"300px"} display={["block", "block", "none", "none", "none"]} />
+                            <Flex w={"full"} h={"300px"} display={["block", "block", "none", "none", "none"]} />
                         </Flex>
-                        <Flex w={"full"} overflowY={["clip", "clip",  "auto"]} >
+                        <Flex w={"full"} overflowY={["clip", "clip", "auto"]} >
                             <Flex flexDir={"column"} h={"auto"} w={"full"} gap={"6"} p={"6"} >
 
                                 <Flex w={'full'} h={"350px"} rounded={"8px"} >
@@ -132,7 +131,7 @@ export default function DonationGroupDetails({ id }: { id: string }) {
                                         </Flex>
                                     </Flex>
                                     {((userId === item?.createdBy?.userId) || item?.isCollaborator) ? (
-                                        <Flex bg={["transparent", "transparent", mainBackgroundColor, mainBackgroundColor]} insetX={"3"} mt={["0px", "0px", "0px", "0px"]} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
+                                        <Flex bg={["transparent", "transparent", mainBackgroundColor, mainBackgroundColor]} insetX={"3"} mt={["0px", "0px", "0px", "0px"]} bottom={[notAuth ? "1" : "14", notAuth ? "1" : "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} mx={"auto"} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
                                             <Flex bgColor={secondaryBackgroundColor} w={["full", "full", "full", "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"64px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} px={["3", "3", "5", "5"]} h={"90px"} justifyContent={"center"} >
 
                                                 <Flex width={["full"]} justifyContent={"space-between"} alignItems={"center"} gap={"3"}    >

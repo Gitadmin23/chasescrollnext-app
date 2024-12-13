@@ -25,10 +25,10 @@ import BlurredImage from '../sharedComponent/blurred_image';
 import DonationCollaborator from '../create_donation/donationCollaborator';
 import useGetSingleDonationList from '@/hooks/useGetSingleDonation';
 
-export default function DonationDetails({ id }: { id: string }) {
+export default function DonationDetails({ id, notAuth }: { id: string, notAuth?: boolean }) {
 
     // const { singleData: item, isLoading } = useGetDonationList(id)
-    const {singleData: item, isLoading } = useGetSingleDonationList(id)
+    const { singleData: item, isLoading } = useGetSingleDonationList(id)
 
     const {
         borderColor,
@@ -82,22 +82,24 @@ export default function DonationDetails({ id }: { id: string }) {
 
             item?.collaborators?.map((item: any) => {
                 return collaborators.push(item?.userId + "")
-            }) 
+            })
             setCollaborate(collaborators)
-        } 
-    }, [item]) 
+        }
+    }, [item])
 
     return (
         <Flex w={"full"} pos={"relative"} flexDir={"column"} overflowY={"auto"} >
             <LoadingAnimation loading={isLoading} >
                 {item && (
                     <Flex flexDir={"column"} w={"full"} gap={"6"} p={"6"} >
-                        <Flex gap={4} alignItems={"center"} >
-                            <Flex as={"button"} onClick={() => router?.push("/dashboard/donation")} >
-                                <IoArrowBack size={"30px"} />
+                        {!notAuth && (
+                            <Flex gap={4} alignItems={"center"} >
+                                <Flex as={"button"} onClick={() => router?.push("/dashboard/donation")} >
+                                    <IoArrowBack size={"30px"} />
+                                </Flex>
+                                <Text fontWeight={"700"} fontSize={"24px"} >Fundraising Details</Text>
                             </Flex>
-                            <Text fontWeight={"700"} fontSize={"24px"} >Fundraising Details</Text>
-                        </Flex>
+                        )}
                         <Flex w={'full'} h={"350px"} rounded={"8px"} >
                             {/* <EventImage data={item} width={"full"} height={"350px"} /> */}
                             <BlurredImage height={["350px"]} image={item?.bannerImage} />
