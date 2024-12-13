@@ -84,8 +84,7 @@ export default function DonationDetails({ id }: { id: string }) {
                 return collaborators.push(item?.userId + "")
             }) 
             setCollaborate(collaborators)
-        }
-
+        } 
     }, [item]) 
 
     return (
