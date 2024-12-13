@@ -27,7 +27,6 @@ export default function DonationCollaborator({ index, update, btn, singleData }:
 
     const { colorMode, toggleColorMode } = useColorMode();
 
-    const [payload, setPayload] = useState<Array<any>>([] as any)
     const {
         secondaryBackgroundColor,
         headerTextColor,
@@ -42,7 +41,7 @@ export default function DonationCollaborator({ index, update, btn, singleData }:
 
     }
 
-    const toast = useToast() 
+    const toast = useToast()
 
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/user/search-users?searchText=${search}`, limit: 10, filter: "userId", name: "all-event", search: search })
 
@@ -69,30 +68,23 @@ export default function DonationCollaborator({ index, update, btn, singleData }:
                 position: 'top-right',
             });
 
-           setOpen(false)
+            setOpen(false)
         }
     });
-
-    useEffect(()=> {
-        setPayload([...data])
-    }, [])
-
-    console.log(payload);
-    
 
     const UserCard = (props: IUser & { collaborator?: boolean }) => {
         const { username, userId, firstName, lastName, collaborator } = props;
 
         const [show, setShow] = useState(false)
         const removeHandler = (userIndex: string) => {
-            let clone: any = [...payload]
+            let clone: any = [...data]
 
             let users = clone[index].collaborators
 
             if (users?.includes(userIndex)) {
 
                 const indexId = users.indexOf(userIndex);
-                clone[index]?.collaborators.splice(indexId, 1); 
+                clone[index]?.collaborators.splice(indexId, 1);
 
 
                 updateDontion(clone)
@@ -102,7 +94,9 @@ export default function DonationCollaborator({ index, update, btn, singleData }:
                 clone[index] = { ...clone[index], collaborators: users }
 
                 updateDontion(clone)
-            } 
+            }
+
+
             setShow((prev) => !prev)
         }
 
@@ -128,22 +122,56 @@ export default function DonationCollaborator({ index, update, btn, singleData }:
 
     return (
         <Flex>
-            {update && (
-                <Flex gap={"3"} alignItems={"center"} >
-                    <Button onClick={() => setOpen(true)} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{payload[0]?.collaborators?.length > 0 ? "Edit" : "Invite"} Collaborator</Button>
-                        {/* <Box onClick={() => setShow(true)} color={"gray.500"} as='button' >
+            {data[0]?.collaborators && (
+                <> 
+                    {update && (
+                        <Flex gap={"3"} alignItems={"center"} >
+                            <Button onClick={() => setOpen(true)} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{data[0]?.collaborators?.length > 0 ? "Edit" : "Invite"} Collaborator</Button>
+                            {/* <Box onClick={() => setShow(true)} color={"gray.500"} as='button' >
                             <QuestionTwoIcon />
                         </Box> */}
-                </Flex>
+                        </Flex>
+                    )}
+                    {btn && (
+                        <Flex gap={"3"} alignItems={"center"} >
+                            <Button onClick={() => setOpen(true)} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{data[0]?.collaborators?.length > 0 ? "Edit" : "Invite"} Collaborator</Button>
+                            <Box onClick={() => setShow(true)} color={"gray.500"} as='button' >
+                                <QuestionTwoIcon />
+                            </Box>
+                        </Flex>
+                    )}
+                </>
             )}
-            {btn && (
-                <Flex gap={"3"} alignItems={"center"} >
-                    <Button onClick={() => setOpen(true)} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{payload[0]?.collaborators?.length > 0 ? "Edit" : "Invite"} Collaborator</Button>
+            {/* {!update && (
+                <Flex flexDir={"column"} w={"fit-content"} gap={"3"} alignItems={"end"} >
+                    <Flex gap={"3"} alignItems={"center"} >
+                        {(data[index].collaborators) && (
+                            <Flex onClick={() => setOpen(true)} as={'button'} gap={"1"} alignItems={"center"} mr={"auto"} >
+                                <CollaboratorIcon />
+                                {(data[index]?.collaborators?.length < 0) && (
+                                    <Text color={"#1732F7"} lineHeight={"22px"} >Invite Collaborators and Teams</Text>
+                                )}
+                                {(payload[0]?.collaborators?.length > 0) && (
+                                    <Flex alignItems={"center"} gap={"2"} >
+                                        <Text color={"#1732F7"} lineHeight={"22px"} >Edit Collaborators and Teams</Text>
+                                    </Flex>
+                                )}
+                            </Flex>
+
+                        )}
                         <Box onClick={() => setShow(true)} color={"gray.500"} as='button' >
                             <QuestionTwoIcon />
                         </Box>
+                    </Flex>
+                    <Flex gap={"3"} >
+                        {data[index]?.collaborators?.length > 0 && (
+                            <Flex height={"23px"} px={"2"} justifyContent={"center"} alignItems={"center"} fontWeight={"bold"} fontSize={"xs"} rounded={"32px"} bg={"#DCF9CF66"} color={"#3EC30F"} >
+                                {data[index]?.collaborators?.length + " Admin" + (data[index]?.collaborators.length > 1 ? "s" : "")}
+                            </Flex>
+                        )}
+                    </Flex>
                 </Flex>
-            )} 
+            )} */}
             <ModalLayout open={open} close={setOpen} closeIcon={false} bg={secondaryBackgroundColor} >
                 <Flex w={"full"} px={"6"} pt={"8"} bg={secondaryBackgroundColor} >
                     <Box>
@@ -217,7 +245,7 @@ export default function DonationCollaborator({ index, update, btn, singleData }:
                 )}
                 {update && (
                     <Box paddingX={'6'} position={"sticky"} bottom={"0px"} shadow='lg' bg={mainBackgroundColor} py={'20px'} >
-                        <CustomButton text='Update' isLoading={editDonation?.isLoading} isDisabled={editDonation?.isLoading} onClick={() => editDonation?.mutate({...data[0]})} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
+                        <CustomButton text='Update' isLoading={editDonation?.isLoading} isDisabled={editDonation?.isLoading} onClick={() => editDonation?.mutate({ ...data[0] })} width='100%' height='50px' bg='brand.chasescrollButtonBlue' color={'white'} />
                     </Box>
                 )}
             </ModalLayout>
