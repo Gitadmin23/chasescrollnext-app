@@ -1,9 +1,9 @@
 import CustomText from '@/components/general/Text'
 import { URLS } from '@/services/urls'
 import httpServiceGoogle from '@/utils/httpServiceGoogle'
-import { Button, Image, Text, useColorMode, useToast } from '@chakra-ui/react'
+import { Button, Checkbox, Flex, Image, Input, Text, useColorMode, useToast } from '@chakra-ui/react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
 import { signIn, useSession, } from 'next-auth/react'
 import { useDetails } from '@/global-state/useUserDetails'
@@ -11,6 +11,12 @@ import PageLoader from '../pageLoader'
 import useModalStore from '@/global-state/useModalSwitch'
 import useCustomTheme from '@/hooks/useTheme'
 import { GoogleIcon } from '@/components/svg'
+import ModalLayout from '../modal_layout'
+import { CustomInput } from '@/components/Form/CustomInput'
+import useGetUser from '@/hooks/useGetUser'
+import httpService from '@/utils/httpService'
+import Link from 'next/link'
+import { THEME } from '@/theme'
 
 interface Props {
     title: string,
@@ -22,6 +28,13 @@ interface Props {
     border?: string,
     newbtn?: boolean,
     type?: "DONATION"
+}
+
+interface UserDetail {
+    email: string;
+    firstName: string;
+    lastName: string;
+    username?: string
 }
 
 function GoogleBtn(props: Props) {
@@ -37,25 +50,67 @@ function GoogleBtn(props: Props) {
         type
     } = props
 
-    const [checkData, setCheckData] = React.useState<any>({});
+    const [checkData, setCheckData] = React.useState<UserDetail>({} as UserDetail);
     const { data: sessionData, status } = useSession();
     const toast = useToast();
-    const router = useRouter();
-    const { email, setAll } = useDetails((state) => state);
-    const { googlesign, setGoogle } = useModalStore((state) => state); 
+    const router = useRouter(); 
+    const [open, setOpen] = useState(false)
+    const [terms, setTerms] = useState(false)
+    const { setGoogle } = useModalStore((state) => state);
+    const [tokenData, setTokenData] = useState("")
 
-    const token: any = sessionData; 
+    const token: any = sessionData;
 
-    const handleGoogleSignIn = async () => {  
-        await signIn('google'); 
+    const handleGoogleSignIn = async () => {
+        await signIn('google');
     }
 
     useEffect(() => {
         if (status === "authenticated") {
             // Redirect to another page once authenticated
-            signinWithGoogle.mutate(token.token?.token.token.idToken) 
+            setTokenData(token.token?.token.token.idToken)
+            console.log(token.token?.token.token.idToken);
+
+            // signinWithGoogle.mutate(token.token?.token.token.idToken) 
         }
-    }, [status, router]);
+    }, [status]);
+
+    const { user } = useGetUser()
+
+
+    useEffect(() => {
+        if (tokenData) {
+            // Redirect to another page once authenticated
+            signinWithGoogle.mutate(tokenData)
+        }
+    }, [tokenData]);
+
+    useEffect(() => {
+        if (tokenData && user?.email) {
+            if (user?.username === user?.email) {
+
+                if (!checkData?.email) {
+                    setCheckData({
+                        email: user?.email,
+                        firstName: user?.firstName,
+                        lastName: user?.lastName,
+                    })
+                }
+                setOpen(true)
+                console.log(user?.username);
+            } else {
+                if (id) {
+                    if (type === "DONATION") {
+                        router.push(`/dashboard/donation/${index}`);
+                    } else {
+                        router.push(`/dashboard/event/details/${index}`);
+                    }
+                } else {
+                    router.push('/dashboard/event')
+                }
+            }
+        }
+    }, [user]);
 
     const signinWithGoogle = useMutation({
 
@@ -77,31 +132,46 @@ function GoogleBtn(props: Props) {
             localStorage.setItem('refresh_token', data?.data?.refresh_token);
             localStorage.setItem('user_id', data?.data?.user_id);
             localStorage.setItem('expires_in', data?.data?.expires_in);
-            setAll({
-                firstName: data?.data?.firstName,
-                lastName: data?.data?.lastName,
-                username: data?.data?.user_name,
-                userId: data?.data?.user_id,
-            })
 
-            if (id) {
-                if(type === "DONATION") {
-                    router.push(`/dashboard/donation/${index}`);
-                } else { 
-                    router.push(`/dashboard/event/details/${index}`);
-                }
-            } else {
-                if (data?.data?.user_id && googlesign) {
-                    router.push('/dashboard/event')
-                }
-            }
+            // if(data?.data?.user_name ===)
+
             setCheckData(data?.data)
         },
         onError: (error: any) => {
             console.log(error);
-            setGoogle(false) 
+            setGoogle(false)
         }
-    }) 
+    })
+
+
+    const editProfile = useMutation({
+        mutationFn: (data: any) => httpService.put(`${URLS.UPDATE_PROFILE}`, data),
+        onSuccess: (data) => {
+            // toast({
+            //     title: 'Success',
+            //     description: 'Your profile has been updated',
+            //     status: 'success',
+            //     position: 'top-right',
+            //     isClosable: true,
+            //     duration: 3000,
+            // });
+            router.push('/dashboard/event')
+        },
+        onError: (error: any) => {
+            toast({
+                title: 'Error',
+                description: 'An error occured while updating your profile',
+                status: 'error',
+                position: 'top-right',
+                isClosable: true,
+                duration: 3000,
+            });
+        }
+    })
+
+    const closeHandler = () => {
+        
+    }
 
     return (
         <>
@@ -117,10 +187,92 @@ function GoogleBtn(props: Props) {
                     <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color={'grey'} fontWeight={'700'}>{title ? title : "Signup"} with Google</CustomText>
                 </Button>
             )}
+            <ModalLayout open={open} close={closeHandler} closeIcon={false} >
+                <Flex w={"full"} flexDir={"column"} gap={"4"} p={"5"} >
+                    <Text textAlign={"center"} fontWeight={"700"} fontSize={"24px"} >Set Up Account Information</Text>
+                    <Flex gap={"4"} width={"full"} mt={"3"} >
+                        <Flex flexDir={"column"} gap={"1"} w={"full"} >
+                            <Text color={"#1F1F1F"} ml={"1"} >First Name</Text>
+                            <Input
+                                width={'100%'}
+                                onChange={(e) => setCheckData({ ...checkData, firstName: e.target?.value })}
+                                placeholder={'FirstName'}
+                                value={checkData?.firstName}
+                                fontFamily={'Satoshi-Light'}
+                                height={"45px"}
+                                rounded={"32px"}
+                                // color={textColor ?? 'black'}
+                                bgColor={'transparent'}
+                            />
+                        </Flex>
+                        <Flex flexDir={"column"} gap={"1"} w={"full"} >
+                            <Text color={"#1F1F1F"} ml={"1"} >Last Name</Text>
+                            <Input
+                                width={'100%'}
+                                onChange={(e) => setCheckData({ ...checkData, lastName: e.target?.value })}
+                                placeholder={'FirstName'}
+                                value={checkData?.lastName}
+                                fontFamily={'Satoshi-Light'}
+                                height={"45px"}
+                                rounded={"32px"}
+                                // color={textColor ?? 'black'}
+                                bgColor={'transparent'}
+                            />
+                        </Flex>
+                    </Flex>
+                    <Flex flexDir={"column"} gap={"1"} w={"full"} >
+                        <Text color={"#1F1F1F"} ml={"1"} >User Name</Text>
+                        <Input
+                            width={'100%'}
+                            onChange={(e) => setCheckData({ ...checkData, username: e.target?.value })}
+                            placeholder={'UserName'}
+                            value={checkData?.username}
+                            fontFamily={'Satoshi-Light'}
+                            height={"45px"}
+                            rounded={"32px"}
+                            // color={textColor ?? 'black'}
+                            bgColor={'transparent'}
+                        />
+                    </Flex>
+                    <Flex alignItems={"center"} gap={"2"} >
+                        <Checkbox
+                            colorScheme="blue"
+                            size="md"
+                            isChecked={terms}
+                            onChange={() => setTerms((prev) => !prev)}
+                        />
 
+                        <CustomText
+                            fontSize={"xs"}
+                            fontFamily={"Satoshi-Regular"}
+                            marginLeft="0px"
+                            color='black'
+                        >
+                            I accept the
+                            <Link target="_blank" href={"/home/terms"}>
+                                <span style={{ color: THEME.COLORS.chasescrollBlue }}>
+                                    {" "}
+                                    terms of service{" "}
+                                </span>
+                            </Link>
+                            as well as the{" "}
+                            <Link target="_blank" href={"/home/privacy"}>
+                                <span style={{ color: THEME.COLORS.chasescrollBlue }}>
+                                    {" "}
+                                    privacy policy{" "}
+                                </span>
+                            </Link>
+                        </CustomText>
+                        </Flex>
+                    <Button type="button" color={"white"} isLoading={editProfile?.isLoading} isDisabled={editProfile?.isLoading || (terms === true ? false : true) || !checkData?.username} onClick={() => editProfile?.mutate(checkData)} mt={"4"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
+                        <Text textAlign={"center"} fontWeight={"600"} >Save</Text>
+                    </Button>
+                </Flex>
+            </ModalLayout>
             <PageLoader show={token?.token?.token.token.idToken ? true : false} />
         </>
     )
 }
 
 export default GoogleBtn
+

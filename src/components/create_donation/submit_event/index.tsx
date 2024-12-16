@@ -295,10 +295,10 @@ function SubmitEvent(props: Iprops) {
     return (
         <Flex w={"full"} alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} >
             {!pathname?.includes("edit") ? (
-                <CustomButton borderWidth={"0px"} backgroundColor={(getValidationThemeBtn() || getValidationImageBtn()) ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={createDonation?.isLoading || loading || createGroupDonation?.isLoading} onClick={getValidationTheme} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={["full", "full", "300px", "300px"]}
+                <CustomButton borderWidth={"0px"} backgroundColor={(getValidationThemeBtn() || getValidationImageBtn()) ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={createDonation?.isLoading || loading || createGroupDonation?.isLoading || editDonation?.isLoading} onClick={getValidationTheme} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={["full", "full", "300px", "300px"]}
                     text={'Submit'} />
             ) : (
-                <CustomButton borderWidth={"0px"} backgroundColor={(getValidationThemeBtn()) ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={createDonation?.isLoading || loading || createGroupDonation?.isLoading} onClick={getValidationTheme} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={["full", "full", "300px", "300px"]}
+                <CustomButton borderWidth={"0px"} backgroundColor={(getValidationThemeBtn()) ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={createDonation?.isLoading || loading || createGroupDonation?.isLoading || editDonation?.isLoading} onClick={getValidationTheme} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={["full", "full", "300px", "300px"]}
                     text={'Update'} />
             )}
 
