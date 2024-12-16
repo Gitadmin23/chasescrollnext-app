@@ -45,8 +45,7 @@ export default function CreateDonation({ params }: Props) {
                     name: item?.name,
                     purpose: item?.purpose,
                     visibility: item?.visibility,
-                    funnelID: item?.funnelID, 
-                    // collaborators:[] as Array<string>
+                    funnelID: item?.funnelID,  
                 }]
 
                 // const collaborators:Array<string> =[]
@@ -60,7 +59,10 @@ export default function CreateDonation({ params }: Props) {
                 updateDontion(clone)
             }
         }
-    }, [isLoading, item]) 
+    }, [isLoading, item])
+    
+    console.log(data);
+    
     
 
     return (

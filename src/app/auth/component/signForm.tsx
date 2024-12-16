@@ -170,14 +170,14 @@ export default function SignForm({ tab, setTab, setShowVerify }: IProps) {
                             color='black'
                         >
                             I accept the
-                            <Link href={"/home/terms"}>
+                            <Link target="_blank" href={"/home/terms"}>
                                 <span style={{ color: THEME.COLORS.chasescrollBlue }}>
                                     {" "}
                                     terms of service{" "}
                                 </span>
                             </Link>
                             as well as the{" "}
-                            <Link href={"/home/privacy"}>
+                            <Link target="_blank" href={"/home/privacy"}>
                                 <span style={{ color: THEME.COLORS.chasescrollBlue }}>
                                     {" "}
                                     privacy policy{" "}
