@@ -240,9 +240,9 @@ export default function EventDetail(props: IEventType) {
                         </Flex>
                     )}
 
-                    {(!isBought && (!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && !pathname?.includes("past")) && (
+                    {/* {(!isBought && (!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && !pathname?.includes("past")) && (
                         <PrBtn data={props} />
-                    )}
+                    )} */}
 
                     {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR") && (
                         <Flex w={"full"} bgColor={secondaryBackgroundColor} display={["none", "none", "flex", "flex"]} rounded={"64px"} alignItems={"center"} h={"86px"} px={"4"} py={"3"} justifyContent={"center"} >
@@ -250,9 +250,9 @@ export default function EventDetail(props: IEventType) {
                         </Flex>
                     )}
                     
-                    {isOrganizer && (
+                    {/* {isOrganizer && (
                         <OrganizerPrBtn />
-                    )}
+                    )} */}
 
                     <Flex flexDir={"column"} gap={"4"} >
                         <Text fontWeight={"medium"} >Tags</Text>
