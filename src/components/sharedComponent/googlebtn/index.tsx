@@ -66,12 +66,11 @@ function GoogleBtn(props: Props) {
     }
 
     useEffect(() => {
-        if (status === "authenticated") {
+        if (status === "authenticated" && !user?.username) {
             // Redirect to another page once authenticated
-            setTokenData(token.token?.token.token.idToken)
+            setTokenData(token.token?.token.token.idToken) 
             console.log(token.token?.token.token.idToken);
-
-            // signinWithGoogle.mutate(token.token?.token.token.idToken) 
+ 
         }
     }, [status]);
 
