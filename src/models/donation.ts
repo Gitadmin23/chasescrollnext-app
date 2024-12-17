@@ -11,7 +11,7 @@ export type IDonation = {
     collaborators?: Array<string>,
     purpose: string,
     funnelID?: string,
-    funnelType?: "EVENT" | "COMMUNITY",
+    funnelType?: "EVENT" | "COMMUNITY" | null,
     endDate: any,
     fundRaiserGroupId?: string
 }

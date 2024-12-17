@@ -45,6 +45,9 @@ function FunnelBtn(props: Props) {
 
         clone[index] = {...clone[index], funnelID: item, funnelType: "COMMUNITY"}
 
+        console.log(clone);
+        
+
         updateDontion(clone)
         setOpen(false)
     } 
