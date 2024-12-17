@@ -69,35 +69,33 @@ export default function CollaboratorBtn(props: IProps) {
     const [users, setUsers] = React.useState<IUser[]>([]);
     const [usersFilter, setUserFilter] = React.useState<IUser[]>([]);
     const { eventdata, updateEvent } = useEventStore((state) => state);
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(false) 
 
     const router = useRouter()
 
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient() 
 
     const { userId } = useDetails((state) => state);
     // const toast = useToast()
 
     const [search, setSearch] = React.useState('');
-    // const searchText = useDebounce(search, 1000);
-
-    // const { isError } = useQuery(['getUserFriends', searchText, userId], () => httpService.get(`/user/search-users`, {
-    //     params: {
-    //         searchText: searchText
-    //     }
-    // }), {
-    //     onSuccess: (data) => {
-    //         setUsers(data?.data.content);
-    //     }
-    // });
+    
 
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/user/search-users?searchText=${search}`, limit: 10, filter: "userId", name: "all-event", search: search })
 
-    const CheckLimit = (lengthOfCollab: any, clone: any) => { 
+    const CheckLimit = (lengthOfCollab: any, clone: any, name?: string) => { 
 
-        console.log(lengthOfCollab);
-        
-        if (lengthOfCollab <= 10 ) {
+        if (lengthOfCollab+1 === 11 && name === "add") {
+            toast({
+                title: 'Error',
+                description: "Limit of Collaborators is 10",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+            return
+        }else if (lengthOfCollab <= 10 ) {
             updateEvent(clone)
             return
         } else {
@@ -119,7 +117,7 @@ export default function CollaboratorBtn(props: IProps) {
         let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators]
 
         let clone = { ...eventdata }
-        const lengthOfCollab = eventdata?.admins?.length + eventdata?.collaborators?.length + eventdata?.acceptedAdmins?.length + eventdata?.acceptedCollaborators?.length
+        const lengthOfCollab = clone?.admins?.length + clone?.collaborators?.length + clone?.acceptedAdmins?.length + clone?.acceptedCollaborators?.length
 
         if (eventdata?.collaborators?.includes(userIndex)) {
 
@@ -131,6 +129,8 @@ export default function CollaboratorBtn(props: IProps) {
                 setShow((prev) => !prev)
 
                 clone.admins = [...admin, userIndex]
+                console.log("test");
+                
                 CheckLimit(lengthOfCollab, clone)
                 return
             } else {
@@ -154,7 +154,7 @@ export default function CollaboratorBtn(props: IProps) {
             } else {
                 clone.admins = [...admin, userIndex]
             }
-            CheckLimit(lengthOfCollab, clone) 
+            CheckLimit(lengthOfCollab, clone, "add") 
         } 
     }
 
@@ -175,6 +175,8 @@ export default function CollaboratorBtn(props: IProps) {
             if (!eventdata?.collaborators?.includes(userIndex)) {
 
                 clone.collaborators = [...collaborators, userIndex]
+                console.log("test");
+                
                 CheckLimit(lengthOfCollab, clone)
             } else {
 
@@ -197,8 +199,7 @@ export default function CollaboratorBtn(props: IProps) {
         } else {
 
             clone.collaborators = [...collaborators, userIndex]
-            
-            CheckLimit(lengthOfCollab, clone)
+            CheckLimit(lengthOfCollab, clone, "add") 
 
         } 
 
@@ -222,6 +223,8 @@ export default function CollaboratorBtn(props: IProps) {
             if (!eventdata?.acceptedAdmins?.includes(userIndex)) {
 
                 clone.acceptedAdmins = [...admin, userIndex]
+                console.log("test");
+                
                 CheckLimit(lengthOfCollab, clone)
             } else {
 
@@ -243,8 +246,7 @@ export default function CollaboratorBtn(props: IProps) {
         } else {
 
             clone.acceptedAdmins = [...admin, userIndex] 
-
-            updateEvent(clone);
+            CheckLimit(lengthOfCollab, clone, "add") 
 
         }
     }
@@ -265,6 +267,8 @@ export default function CollaboratorBtn(props: IProps) {
             if (!eventdata?.acceptedCollaborators?.includes(userIndex)) {
 
                 clone.acceptedCollaborators = [...collaborators, userIndex]
+                console.log("test");
+                
                 CheckLimit(lengthOfCollab, clone)
             } else {
                 const index = collaborators.indexOf(userIndex);
@@ -282,7 +286,7 @@ export default function CollaboratorBtn(props: IProps) {
         } else {
 
             clone.acceptedCollaborators = [...collaborators, userIndex]
-            CheckLimit(lengthOfCollab, clone)
+            CheckLimit(lengthOfCollab, clone, "add") 
 
         }
     }

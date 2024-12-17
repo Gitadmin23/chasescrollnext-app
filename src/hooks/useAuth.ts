@@ -10,9 +10,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import httpService, { unsecureHttpService } from "@/utils/httpService";
 import moment from "moment";
 
-const useAuth = () => {
-
-
+const useAuth = (share?: boolean) => {
+    
     const toast = useToast();
     const router = useRouter();
     const { setAll } = useDetails((state) => state);
@@ -71,7 +70,7 @@ const useAuth = () => {
                 localStorage.setItem('user_id', data?.data?.user_id);
                 localStorage.setItem('expires_in', data?.data?.expires_in);
 
-                if (type) {
+                if (share) {
                     if (type === "EVENT") {
                         router.push(`/dashboard/event/details/${typeID}`);
                     } else if (type === "DONATION") {
