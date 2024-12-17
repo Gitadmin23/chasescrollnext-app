@@ -18,7 +18,7 @@ function GetCommunity(props: Props) {
 
 
     const { data, updateDontion } = useDonationStore((state) => state)
-    const { results, isLoading, ref } = InfiniteScrollerComponent({ url: `/group/group?groupID=${eventdata?.eventFunnelGroupID ? eventdata?.eventFunnelGroupID : ""}`, limit: 10, filter: "id" })
+    const { results, isLoading, ref } = InfiniteScrollerComponent({ url: `/group/group?groupID=${data[index]?.funnelID ? data[index]?.funnelID : ""}`, limit: 10, filter: "id" })
 
     const clickHandler = () => {
         const clone = [...data]
@@ -26,10 +26,10 @@ function GetCommunity(props: Props) {
         clone[index] = {...clone[index], funnelID: ""}
 
         updateDontion(clone)
-    }
+    } 
 
     return (
-        <Flex width={["full", "full"]} flexDirection={"column"} >
+        <Flex width={["full", "full"]} pb={"5"} flexDirection={"column"} >
             {data[index]?.funnelID && (
                 <LoadingAnimation loading={isLoading} >
                     {results?.map((community: any, i: number) => {
