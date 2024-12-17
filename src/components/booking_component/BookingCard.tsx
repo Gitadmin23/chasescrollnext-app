@@ -373,7 +373,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                     ))}
                 </Flex>
 
-                {booking.bookingStatus === 'PENDING' && (
+                {(
                     <HStack justifyContent={'space-between'} my='20px' w='full' alignItems={'center'}>
                         <Text fontSize={'16px'}>Total Price</Text>
                         <Text fontSize={'25px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(parseInt(price) || 0)}</Text>

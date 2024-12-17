@@ -9,10 +9,12 @@ import { useQuery } from 'react-query';
 import httpService from '@/utils/httpService';
 import { PaginatedResponse } from '@/models/PaginatedResponse';
 import BookingCard from '@/components/booking_component/BookingCard';
+import { useDetails } from '@/global-state/useUserDetails';
 
 function BookingDetails() {
 
     const [business, setBusiness] = React.useState<IBooking|null>(null);
+    const { userId } = useDetails((state) => state);
 
 
     const param = useParams();
@@ -58,7 +60,7 @@ function BookingDetails() {
                 )}
 
                {!isLoading && business !== null && (
-                 <BookingCard booking={business as any} business={business?.vendor as any} isVendor={false} shouldNavigate={false} />
+                 <BookingCard booking={business as any} business={business?.vendor as any} isVendor={userId === business?.vendor?.userID} shouldNavigate={false} />
                )}
             </VStack>
         </VStack>
