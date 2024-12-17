@@ -123,7 +123,7 @@ export default function CollaboratorBtn(props: IProps) {
         let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators]
 
         let clone = { ...eventdata }
-        const lengthOfCollab = clone?.admins?.length ?? 0 + clone?.collaborators?.length ?? 0 + clone?.acceptedAdmins?.length ?? 0 + clone?.acceptedCollaborators?.length ?? 0
+        const lengthOfCollab = Number(clone?.admins?.length ? clone?.admins?.length : 0) + Number(clone?.collaborators?.length ? clone?.collaborators?.length : 0) + Number(clone?.acceptedAdmins?.length ? clone?.acceptedAdmins?.length : 0) + Number(clone?.acceptedCollaborators?.length ? clone?.acceptedCollaborators?.length : 0)
 
         if (eventdata?.collaborators?.includes(userIndex)) {
 
