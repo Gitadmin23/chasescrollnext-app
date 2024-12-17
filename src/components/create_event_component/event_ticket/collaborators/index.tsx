@@ -85,10 +85,13 @@ export default function CollaboratorBtn(props: IProps) {
 
     const CheckLimit = (lengthOfCollab: any, clone: any, name?: string) => { 
 
+
+        const numb = lengthOfCollab ? lengthOfCollab : 0
         console.log(lengthOfCollab);
+        console.log(numb);
         
 
-        if (lengthOfCollab+1 === 11 && name === "add") {
+        if (numb+1 === 11 && name === "add") {
             toast({
                 title: 'Error',
                 description: "Limit of Collaborators is 10",
@@ -98,7 +101,7 @@ export default function CollaboratorBtn(props: IProps) {
                 position: 'top-right',
             });
             return
-        }else if (lengthOfCollab <= 10 ) {
+        }else if (numb <= 10 ) {
             updateEvent(clone)
             return
         } else {
@@ -120,7 +123,7 @@ export default function CollaboratorBtn(props: IProps) {
         let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators]
 
         let clone = { ...eventdata }
-        const lengthOfCollab = clone?.admins?.length + clone?.collaborators?.length + clone?.acceptedAdmins?.length + clone?.acceptedCollaborators?.length
+        const lengthOfCollab = clone?.admins?.length ?? 0 + clone?.collaborators?.length ?? 0 + clone?.acceptedAdmins?.length ?? 0 + clone?.acceptedCollaborators?.length ?? 0
 
         if (eventdata?.collaborators?.includes(userIndex)) {
 
