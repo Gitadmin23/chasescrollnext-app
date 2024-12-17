@@ -244,7 +244,7 @@ function SelectTicket(props: Props) {
                                             type="text"
                                             border={"1px solid #E2E8F0"}
                                             rounded={"full"}
-                                            disabled={pathname?.includes("edit_event_data") ? true : false}
+                                            // disabled={pathname?.includes("edit_event_data") ? true : false}
                                             focusBorderColor={"#E2E8F0"}
                                             placeholder="https//"
                                             value={eventdata.productTypeData[index]?.rerouteURL ?? ""}
@@ -265,7 +265,7 @@ function SelectTicket(props: Props) {
                                             type="text"
                                             border={"1px solid #E2E8F0"}
                                             focusBorderColor={"#E2E8F0"}
-                                            disabled={pathname?.includes("edit_event_data") ? true : false}
+                                            // disabled={pathname?.includes("edit_event_data") ? true : false}
                                             rounded={"full"}
                                             placeholder="Enter Name"
                                             value={eventdata.productTypeData[index]?.ticketType ?? ""}
@@ -289,7 +289,7 @@ function SelectTicket(props: Props) {
                                             focusBorderColor={"#E2E8F0"}
                                             placeholder="Enter amount"
                                             value={eventdata.productTypeData[index]?.ticketPrice ?? ""}
-                                            disabled={(type === "Free" || pathname?.includes("edit_event_data"))? true : false}
+                                            // disabled={(type === "Free" || pathname?.includes("edit_event_data"))? true : false}
                                             name="ticketPrice"
                                             onChange={e => handleChange(index, "ticketPrice", e.target.value)}
                                         />
@@ -328,11 +328,13 @@ function SelectTicket(props: Props) {
                                     {/* Number of Tickets
                                         </Text> */}
                                     <Flex gap={"5"} alignItems={"center"} py={"1"}  >
-                                        <Box disabled={(eventdata.productTypeData[index]?.maxTicketBuy === 0 || pathname?.includes("edit_event_data"))} _disabled={{opacity: "0.2", cursor: "not-allowed"}} onClick={() => MaxTicketHandler(index, "subtract")} as='button' >
+                                        <Box 
+                                        disabled={(eventdata.productTypeData[index]?.maxTicketBuy === 0)}
+                                         _disabled={{opacity: "0.2", cursor: "not-allowed"}} onClick={() => MaxTicketHandler(index, "subtract")} as='button' >
                                             <SubtractIcon />
                                         </Box>
                                         {eventdata.productTypeData[index]?.maxTicketBuy ?? 0}
-                                        <Box disabled={pathname?.includes("edit_event_data")} _disabled={{opacity: "0.2", cursor: "not-allowed"}}onClick={() => MaxTicketHandler(index, "add")} as='button' >
+                                        <Box _disabled={{opacity: "0.2", cursor: "not-allowed"}}onClick={() => MaxTicketHandler(index, "add")} as='button' >
                                             <AddIcon />
                                         </Box>
                                     </Flex>

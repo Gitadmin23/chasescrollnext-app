@@ -628,7 +628,7 @@ function SubmitEvent(props: Iprops) {
         <Flex w={"full"} alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} >
 
             <CustomButton borderWidth={tab === 2 ? "2px" : "0px"} backgroundColor={getValidationAll() ? "#F04F4F" : "brand.chasescrollBlue"} color={"white"} isLoading={uploadImage?.isLoading || uploadImage?.isLoading || saveToDraft?.isLoading || createEventFromDraft?.isLoading || updateUserEvent?.isLoading} onClick={handleClick} _disabled={{ cursor: "not-allowed" }} borderRadius={"999px"} width={"full"}
-                text={pathname?.includes("edit_event_data") ? "Update Event" : pathname?.includes("edit_event") && tab === 2 ? "Update Event" : tab === 2 ? 'Submit' : 'Continue'} />
+                text={(pathname?.includes("edit_event_data") && tab === 2) ? "Update Event" : pathname?.includes("edit_event") && tab === 2 ? "Update Event" : tab === 2 ? 'Submit' : 'Continue'} />
 
             <ModalLayout close={setOpen} open={open} bg={secondaryBackgroundColor} >
                 <SuccessMessageCreateEvent update={(pathname?.includes("edit_event_data") || pathname?.includes("edit_event")) ? true : false} />
