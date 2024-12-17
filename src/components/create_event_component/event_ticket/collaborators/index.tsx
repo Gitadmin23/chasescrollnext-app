@@ -85,6 +85,9 @@ export default function CollaboratorBtn(props: IProps) {
 
     const CheckLimit = (lengthOfCollab: any, clone: any, name?: string) => { 
 
+        console.log(lengthOfCollab);
+        
+
         if (lengthOfCollab+1 === 11 && name === "add") {
             toast({
                 title: 'Error',
