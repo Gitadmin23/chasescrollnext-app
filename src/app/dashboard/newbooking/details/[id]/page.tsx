@@ -29,9 +29,9 @@ const ServiceListCard = ({ service }: { service: IService }) => {
             <VStack alignItems={'flex-start'}>
                 <HStack>
                     <Text fontSize={'18px'} fontWeight={600}>{service?.service?.category.toUpperCase() ?? 'DJ'} - </Text>
-                     <Text color={primaryColor} fontSize={'14px'}> NGN {service?.price ?? 'Contact Vendor'}</Text>
+                     <Text color={primaryColor} fontSize={'16px'} fontWeight={600}> NGN {service?.price?.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? 'Contact Vendor'}</Text>
                 </HStack>
-                <Text cursor={'pointer'} color={primaryColor} fontSize={'14px'} onClick={() => router.push(`/dashboard/newbooking/details/service/${service?.id}`)}>View Service</Text>
+                <Text cursor={'pointer'} color={primaryColor} fontSize={'14px'} fontWeight={600} onClick={() => router.push(`/dashboard/newbooking/details/service/${service?.id}`)}>View Service</Text>
             </VStack>
 
             {userId !== service?.vendor?.userID && (

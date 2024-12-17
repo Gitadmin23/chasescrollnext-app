@@ -37,7 +37,7 @@ function BusinessCard({ business }: { business: IBuisness }) {
                     isClosable: true,
                 });
 
-                router.back();
+                // router.back();
                 return;
             }
             const content: Array<IService> = data?.data?.content;
@@ -52,7 +52,7 @@ function BusinessCard({ business }: { business: IBuisness }) {
                 duration: 5000,
                 isClosable: true,
             });
-            router.back();
+            // router.back();
         }
     });
 

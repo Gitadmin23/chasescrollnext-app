@@ -52,7 +52,7 @@ export default function ServiceDetailsPage() {
                     isClosable: true,
                 });
 
-                router.back();
+                // router.back();
                 return;
             }
             const content: Array<IService> = data?.data?.content;
@@ -67,7 +67,7 @@ export default function ServiceDetailsPage() {
                 duration: 5000,
                 isClosable: true,
             });
-            router.back();
+            // router.back();
         }
     });
 
@@ -89,7 +89,7 @@ export default function ServiceDetailsPage() {
                     isClosable: true,
                 });
 
-                router.back();
+                // router.back();
                 return;
             }
             const content: Array<IService> = data?.data?.content;
@@ -104,7 +104,7 @@ export default function ServiceDetailsPage() {
                 duration: 5000,
                 isClosable: true,
             });
-            router.back();
+            // router.back();
         }
     });
 

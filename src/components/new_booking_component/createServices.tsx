@@ -472,9 +472,9 @@ export default function CreateServices({ id }: { id: string }) {
                         }).map((day, index) => (
                             <HStack key={index} minW="fit-content" mr={4} justifyContent={'space-between'} alignItems={'center'} rounded={'full'} borderWidth={'1px'} py='5px' px='8px' borderColor={borderColor}>
                                 <Text>{getDay(day.dayOFTheWeek)}</Text>
-                                <Text>{day.startTime}</Text>
-                                -
-                                <Text>{day.endTime}</Text>
+                                <Text>{new Date(`2000-01-01T${day.startTime}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })} - </Text>
+                                
+                                <Text>{new Date(`2000-01-01T${day.endTime}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}</Text>
                             </HStack>
                         ))}
                     </Flex>
