@@ -158,7 +158,7 @@ function ExploreEventCard(props: Props) {
                             }
                         />
                     )}
-                    {(landing && !upcoming) && (
+                    {(landing && !upcoming && token) && (
                         <Flex rounded={"full"} zIndex={"50"} p={"2"} shadow={"lg"} backgroundColor={secondaryBackgroundColor} position={"absolute"} bottom={"5"} right={"5"} >
                             <SaveOrUnsaveBtn color={headerTextColor} event={event} />
                         </Flex>
@@ -351,7 +351,7 @@ function ExploreEventCard(props: Props) {
                                     {textLimit(event?.eventDescription, limit ? 70 : 35)}
                                 </Text>
                             </Flex>
-                            {eventdashboard && (
+                            {/* {eventdashboard && ( */}
                                 <Box width={"fit-content"} >
                                     <ShareEvent
                                         data={event}
@@ -361,7 +361,7 @@ function ExploreEventCard(props: Props) {
                                         id={event?.id}
                                     />
                                 </Box>
-                            )}
+                            {/* )} */}
                         </Flex>
                         <Flex
                             w={"full"}

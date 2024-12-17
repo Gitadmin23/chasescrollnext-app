@@ -1,29 +1,36 @@
 import CommunityCard from '@/components/search_component/other_components/community_card';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 import useEventStore from '@/global-state/useCreateEventState';
+import useDonationStore from '@/global-state/useDonationState';
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent';
 import { Flex, Box } from '@chakra-ui/react';
 import React from 'react'
 import { IoClose } from 'react-icons/io5';
 
-interface Props { }
+interface Props { 
+    index: number
+}
 
 function GetCommunity(props: Props) {
-    const { } = props
+    const { index } = props
 
     const { eventdata, updateEvent } = useEventStore((state) => state);
-    const { results, isLoading, ref } = InfiniteScrollerComponent({ url: `/group/group?groupID=${eventdata?.eventFunnelGroupID ? eventdata?.eventFunnelGroupID : ""}`, limit: 10, filter: "id" })
+
+
+    const { data, updateDontion } = useDonationStore((state) => state)
+    const { results, isLoading, ref } = InfiniteScrollerComponent({ url: `/group/group?groupID=${data[index]?.funnelID ? data[index]?.funnelID : ""}`, limit: 10, filter: "id" })
 
     const clickHandler = () => {
-        updateEvent({
-            ...eventdata,
-            eventFunnelGroupID: ""
-        })
-    }
+        const clone = [...data]
+
+        clone[index] = {...clone[index], funnelID: ""}
+
+        updateDontion(clone)
+    } 
 
     return (
-        <Flex width={["full", "full"]} flexDirection={"column"} >
-            {eventdata?.eventFunnelGroupID && (
+        <Flex width={["full", "full"]} pb={"5"} flexDirection={"column"} >
+            {data[index]?.funnelID && (
                 <LoadingAnimation loading={isLoading} >
                     {results?.map((community: any, i: number) => {
                         return (

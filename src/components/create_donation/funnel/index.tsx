@@ -41,9 +41,9 @@ function FunnelBtn(props: Props) {
 
     const clickHandler = (item: any) => {
 
-        const clone = [...data]
+        const clone = [...data]  
 
-        clone[index] = {...clone[index], funnelID: item, funnelType: "COMMUNITY"}
+        clone[index] = {...clone[index], funnelID: item, funnelType: "COMMUNITY"} 
 
         updateDontion(clone)
         setOpen(false)

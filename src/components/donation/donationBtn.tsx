@@ -30,7 +30,8 @@ export default function DonationBtn(props: any) {
     const {
         primaryColor,
         borderColor,
-        headerTextColor
+        headerTextColor, 
+        mainBackgroundColor
     } = useCustomTheme()
 
     const donate = [
@@ -103,7 +104,7 @@ export default function DonationBtn(props: any) {
             )}
 
             <ModalLayout open={open} close={setOpen} >
-                <Flex flexDir={"column"} gap={"5"} px={"4"} >
+                <Flex flexDir={"column"} bg={mainBackgroundColor} gap={"5"} px={"4"} >
                     <Flex alignItems={"center"} rounded={"16px"} px={"8px"} pt={"12px"} >
                         <Box w={"fit-content"} >
                             <EventImage borderWidth='2px' rounded='16px' width={"153px"} height={"127px"} data={props} />

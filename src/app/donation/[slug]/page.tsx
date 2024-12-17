@@ -1,8 +1,10 @@
 import DonationDetails from '@/components/donation/donationDetails'
+import DonationGroupDetails from '@/components/donation/donationGroupDetails'
 import { IMAGE_URL } from '@/services/urls'
 import { Flex } from '@chakra-ui/react'
 import { Metadata } from 'next'
 import React from 'react'
+import GetDonationInfo from '../GetDonationInfo'
 
 type Props = {
     params: { slug: string }
@@ -51,8 +53,6 @@ export default function DonationDetail(
     const id = params.slug
  
     return (
-        <Flex w={"full"} overflowY={"auto"} >
-            <DonationDetails id={id} />
-        </Flex>
+      <GetDonationInfo id={id} />
     )
 }

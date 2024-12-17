@@ -65,9 +65,9 @@ function ExploreCarousel(props: Props) {
 
                                                 <BlurredImage height={["256px", "256px", "350px"]} image={item?.currentPicUrl} />
                                                 {/* <Image style={{ borderTopRightRadius: "0px", borderRadius: "32px" }} objectFit="cover" alt={item?.currentPicUrl} width={"full"} height={["256px", "256px", "350px"]} src={IMAGE_URL + item?.currentPicUrl} /> */}
-                                                <Box color={"#121212"} zIndex={"10"} roundedBottom={"8px"} roundedTopLeft={"8px"} alignItems={"center"} justifyContent={"center"} display={"flex"} flexDirection={"column"} fontWeight={"semibold"} position={"absolute"} bottom={"10px"} left={"10px"} width={["36px", "36px", "57px"]} height={["36px", "36px", "51px"]} bgColor={secondaryBackgroundColor} >
-                                                    <Text fontSize={["20px", "20px", "24px"]} color={bodyTextColor} >{moment(item?.startDate).format("D")}</Text>
-                                                    <Text fontSize={["11px", "11px", "13px"]} color={bodyTextColor} mt={"-8px"} >{moment(item?.startDate).format("MMM")}</Text>
+                                                <Box color={colorMode === 'light' ? "#121212" : bodyTextColor} zIndex={"30"} roundedBottom={"8px"} roundedTopLeft={"8px"} alignItems={"center"} justifyContent={"center"} display={"flex"} flexDirection={"column"} fontWeight={"semibold"} position={"absolute"} bottom={"4"} left={"4"} width={["57px", "57px", "57px"]} height={["57px", "57px", "51px"]} shadow={"lg"} bgColor={secondaryBackgroundColor} >
+                                                    <Text fontSize={["24px", "24px", "24px"]} >{moment(item?.startDate).format("D")}</Text>
+                                                    <Text fontSize={["13px", "13px", "13px"]} mt={"-8px"} >{moment(item?.startDate).format("MMM")}</Text>
                                                 </Box>
                                             </Box>
                                             <Flex width={"full"} pt={"4"} pb={"1"} px={"1"} flexDirection={"column"} gap={"1"} >

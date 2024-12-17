@@ -22,8 +22,7 @@ const useDonationStore = create<State & Action>((set) => ({
         description: "",
         endDate: "",
         goal: "",
-        purpose: "",
-        collaborators: []
+        purpose: ""
     }],
     image: [],
     updateDontion: (data) => set(() => ({ data: data })),
