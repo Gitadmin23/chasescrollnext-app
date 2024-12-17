@@ -34,9 +34,9 @@ function BookingDetails() {
         }
     })
   return (
-    <Box flex={1} w='full' h='full'>
-        <VStack w='full' h='full' px={['20px', '0px']}>
-            <VStack w={['100%', '40%']} h='full'>
+    <Box flex={1} w='full' overflowY={'auto'}>
+        <VStack w='full' px={['20px', '0px']} overflowY={'auto'}>
+            <VStack w={['100%', '40%']}  overflowY={'auto'} pb='30px'>
                 <HStack w='full' h='60px' justifyContent={'space-between'}>
                     <FiChevronLeft size={'30px'} color={'black'} onClick={() => router.back()} />
                     <Text fontWeight={600} fontSize='20px'>Booking</Text>

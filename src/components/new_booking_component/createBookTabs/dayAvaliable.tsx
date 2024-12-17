@@ -70,10 +70,10 @@ export default function DayAvaliable({ close, setTab, days, handleCheck }: { clo
                                         <Checkbox isChecked={item.checked} onChange={(e) => handleCheck({ index, type: 'checked', value: e.target.value, isChecked: !item?.checked  })} />
                                         <Text>{getDay(item?.dayOFTheWeek)}</Text>
                                     </Flex>
-                                    <HStack spacing={2} w={['50%', '50%']}>
-                                        <Input defaultValue="09:00:AM" value={item?.startTime} onChange={(e) => handleCheck({ index, type: 'startTime', value: e.target.value, isChecked: item?.checked })} type="time" w={"110px"} h={"40px"} rounded={"full"} borderWidth={"0.83px"} borderColor={borderColor} />
+                                    <HStack spacing={2} w={['50%', '60%']}>
+                                        <Input defaultValue="09:00:AM" value={item?.startTime} onChange={(e) => handleCheck({ index, type: 'startTime', value: e.target.value, isChecked: item?.checked })} type="time" w={"130px"} h={"40px"} rounded={"full"} borderWidth={"0.83px"} borderColor={borderColor} />
                                         -
-                                        <Input value={item?.endTime} onChange={(e) => handleCheck({ index, type: 'endTime', value: e.target.value, isChecked: item?.checked })} type="time" w={"110px"} h={"40px"} rounded={"full"} borderWidth={"0.83px"} borderColor={borderColor} />
+                                        <Input value={item?.endTime} onChange={(e) => handleCheck({ index, type: 'endTime', value: e.target.value, isChecked: item?.checked })} type="time" w={"130px"} h={"40px"} rounded={"full"} borderWidth={"0.83px"} borderColor={borderColor} />
                                         {/* <Box as="button" ml={"5"} >
                                             <IoClose size={"25px"} />
                                         </Box> */}

@@ -13,7 +13,7 @@ function Businesses() {
     const [page, setPage] = React.useState(0);
     const [hasMore, setHasMore] = React.useState(true);
 
-    const { isLoading, } = useQuery(['get-all-businesses', page], () => httpService.get('/business/search', {
+    const { isLoading, } = useQuery(['get-businesses', page], () => httpService.get('/business/search', {
         params: {
             page,
             size: 20,
