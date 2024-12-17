@@ -186,7 +186,7 @@ function DonationTheme({ id }: { id?: string }) {
                                 <Text color={"gray"} fontWeight={"800"} >|</Text>
                                 <DonationCollaborator btn={true} index={index} />
                             </Flex>
-                            <GetCommunity />
+                            <GetCommunity index={index} />
                         </Flex>
                     </Flex>
                 ))}
