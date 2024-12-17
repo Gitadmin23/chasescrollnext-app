@@ -365,7 +365,7 @@ function SelectTicket(props: Props) {
                 }
             })}
 
-            <CustomButton borderRadius={"full"} disable={pathname?.includes("edit_event_data")} onClick={() => HandleAddTicket(eventdata?.productTypeData?.length)} text='+ Add New Ticket Type' color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
+            <CustomButton borderRadius={"full"} onClick={() => HandleAddTicket(eventdata?.productTypeData?.length)} text='+ Add New Ticket Type' color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
 
             <Box>
                 <label className="block text-gray-700 font-medium ">
