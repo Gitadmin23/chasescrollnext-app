@@ -11,7 +11,7 @@ function LoginPage() {
 
   const router = useRouter()
 
-  const { renderForm, isLoading, isSuccess } = useAuth(true)
+  const { renderForm, isLoading, isSuccess } = useAuth()
 
   return renderForm(
     <Flex w={"full"} height={"100vh"} >
