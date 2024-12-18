@@ -53,11 +53,17 @@ function GoogleBtn(props: Props) {
     const [checkData, setCheckData] = React.useState<UserDetail>({} as UserDetail);
     const { data: sessionData, status } = useSession();
     const toast = useToast();
-    const router = useRouter(); 
+    const router = useRouter();
     const [open, setOpen] = useState(false)
     const [terms, setTerms] = useState(false)
     const { setGoogle } = useModalStore((state) => state);
     const [tokenData, setTokenData] = useState("")
+    const [userNameCheck, setUserNameCheck] = useState("")
+
+    const {
+        primaryColor,
+
+    } = useCustomTheme()
 
     const token: any = sessionData;
 
@@ -67,10 +73,8 @@ function GoogleBtn(props: Props) {
 
     useEffect(() => {
         if (status === "authenticated" && !user?.username) {
-            // Redirect to another page once authenticated
-            setTokenData(token.token?.token.token.idToken) 
-            console.log(token.token?.token.token.idToken);
- 
+            // Redirect to another page once authenticate
+            setTokenData(token.token?.token.token.idToken)
         }
     }, [status]);
 
@@ -142,18 +146,24 @@ function GoogleBtn(props: Props) {
         }
     })
 
+    const checkUserName = useMutation({ 
+        mutationFn: () => httpService.get(`/auth/username-check`,{
+            params: {
+                username: checkData?.username
+            }
+        }),
+        onSuccess: (data) => {
+            setUserNameCheck(data?.data?.message);
+        },
+        onError: (error: any) => {
+
+        }
+    })
+
 
     const editProfile = useMutation({
         mutationFn: (data: any) => httpService.put(`${URLS.UPDATE_PROFILE}`, data),
         onSuccess: (data) => {
-            // toast({
-            //     title: 'Success',
-            //     description: 'Your profile has been updated',
-            //     status: 'success',
-            //     position: 'top-right',
-            //     isClosable: true,
-            //     duration: 3000,
-            // });
             router.push('/dashboard/event')
         },
         onError: (error: any) => {
@@ -167,9 +177,17 @@ function GoogleBtn(props: Props) {
             });
         }
     })
+    
+    useEffect(()=> {
+        if((checkData?.username+"")?.length >= 2){
+            checkUserName?.mutate()
+        } else {
+            setUserNameCheck("")
+        }
+    }, [checkData?.username])
 
-    const closeHandler = () => {
-        
+    const closeHandler = ()=> {
+
     }
 
     return (
@@ -186,6 +204,7 @@ function GoogleBtn(props: Props) {
                     <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color={'grey'} fontWeight={'700'}>{title ? title : "Signup"} with Google</CustomText>
                 </Button>
             )}
+
             <ModalLayout open={open} close={closeHandler} closeIcon={false} >
                 <Flex w={"full"} flexDir={"column"} gap={"4"} p={"5"} >
                     <Text textAlign={"center"} fontWeight={"700"} fontSize={"24px"} >Set Up Account Information</Text>
@@ -232,6 +251,9 @@ function GoogleBtn(props: Props) {
                             // color={textColor ?? 'black'}
                             bgColor={'transparent'}
                         />
+                        {userNameCheck && (
+                            <Text color={userNameCheck?.includes("exists") ? "red" : primaryColor} fontSize={"14px"} fontWeight={"600"} >{userNameCheck}</Text>
+                        )}
                     </Flex>
                     <Flex alignItems={"center"} gap={"2"} >
                         <Checkbox
@@ -262,8 +284,8 @@ function GoogleBtn(props: Props) {
                                 </span>
                             </Link>
                         </CustomText>
-                        </Flex>
-                    <Button type="button" color={"white"} isLoading={editProfile?.isLoading} isDisabled={editProfile?.isLoading || (terms === true ? false : true) || !checkData?.username} onClick={() => editProfile?.mutate(checkData)} mt={"4"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
+                    </Flex>
+                    <Button type="button" color={"white"} isLoading={editProfile?.isLoading} isDisabled={editProfile?.isLoading || (terms === true ? false : true) || !checkData?.username || userNameCheck?.includes("exists")} onClick={() => editProfile?.mutate(checkData)} mt={"4"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
                         <Text textAlign={"center"} fontWeight={"600"} >Save</Text>
                     </Button>
                 </Flex>

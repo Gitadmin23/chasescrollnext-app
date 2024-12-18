@@ -170,7 +170,7 @@ export default function CollaboratorBtn(props: IProps) {
         let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators]
 
         let clone = { ...eventdata }
-        const lengthOfCollab = eventdata?.admins?.length + eventdata?.collaborators?.length + eventdata?.acceptedAdmins?.length + eventdata?.acceptedCollaborators?.length
+        const lengthOfCollab =  Number(clone?.admins?.length ? clone?.admins?.length : 0) + Number(clone?.collaborators?.length ? clone?.collaborators?.length : 0) + Number(clone?.acceptedAdmins?.length ? clone?.acceptedAdmins?.length : 0) + Number(clone?.acceptedCollaborators?.length ? clone?.acceptedCollaborators?.length : 0) 
 
         if (eventdata?.admins?.includes(userIndex)) {
 
@@ -218,7 +218,7 @@ export default function CollaboratorBtn(props: IProps) {
         let collaborators = !eventdata?.acceptedCollaborators ? [] : [...eventdata?.acceptedCollaborators]
 
         let clone: any = { ...eventdata }
-        const lengthOfCollab = eventdata?.admins?.length + eventdata?.collaborators?.length + eventdata?.acceptedAdmins?.length + eventdata?.acceptedCollaborators?.length
+        const lengthOfCollab =  Number(clone?.admins?.length ? clone?.admins?.length : 0) + Number(clone?.collaborators?.length ? clone?.collaborators?.length : 0) + Number(clone?.acceptedAdmins?.length ? clone?.acceptedAdmins?.length : 0) + Number(clone?.acceptedCollaborators?.length ? clone?.acceptedCollaborators?.length : 0) 
 
         if (eventdata?.acceptedCollaborators?.includes(userIndex)) {
 
@@ -263,7 +263,7 @@ export default function CollaboratorBtn(props: IProps) {
         let collaborators = !eventdata?.acceptedCollaborators ? [] : [...eventdata?.acceptedCollaborators]
 
         let clone: any = { ...eventdata }
-        const lengthOfCollab = eventdata?.admins?.length + eventdata?.collaborators?.length + eventdata?.acceptedAdmins?.length + eventdata?.acceptedCollaborators?.length
+        const lengthOfCollab =  Number(clone?.admins?.length ? clone?.admins?.length : 0) + Number(clone?.collaborators?.length ? clone?.collaborators?.length : 0) + Number(clone?.acceptedAdmins?.length ? clone?.acceptedAdmins?.length : 0) + Number(clone?.acceptedCollaborators?.length ? clone?.acceptedCollaborators?.length : 0) 
 
         if (eventdata?.acceptedAdmins?.includes(userIndex)) {
 
