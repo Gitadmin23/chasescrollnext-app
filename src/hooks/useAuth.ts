@@ -6,11 +6,11 @@ import { useToast } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { useMutation } from "react-query";
 import { useForm } from "./useForm";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import httpService, { unsecureHttpService } from "@/utils/httpService";
 import moment from "moment";
 
-const useAuth = (share?: boolean) => {
+const useAuth = () => {
     
     const toast = useToast();
     const router = useRouter();
@@ -28,6 +28,7 @@ const useAuth = (share?: boolean) => {
     const query = useSearchParams();
     const type = query?.get('type');
     const typeID = query?.get('typeID');
+    const pathname = usePathname()
 
     let email = localStorage.getItem('email')?.toString();
 
@@ -70,7 +71,7 @@ const useAuth = (share?: boolean) => {
                 localStorage.setItem('user_id', data?.data?.user_id);
                 localStorage.setItem('expires_in', data?.data?.expires_in);
 
-                if (share) {
+                if (pathname?.includes("share")) {
                     if (type === "EVENT") {
                         router.push(`/dashboard/event/details/${typeID}`);
                     } else if (type === "DONATION") {
