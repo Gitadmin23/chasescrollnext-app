@@ -1,13 +1,13 @@
 "use client"
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { Bluetick, CloseIcon } from '@/components/svg'
-import { Box, Button, Flex, HStack, Image, Input, PinInput, PinInputField, Text } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
-import { IoArrowBack, IoArrowForward } from 'react-icons/io5'
+import { Box, Button, Flex, HStack, Image, Text } from '@chakra-ui/react'
+import React, { useState } from 'react'
+import { IoArrowBack } from 'react-icons/io5'
 import SignForm from './signForm'
 import useAuth from '@/hooks/useAuth'
 import VerifyForm from './verifyForm'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 export default function SignupModal({ open, setOpen, index, hide, type }: { open: boolean, setOpen: (by: boolean) => void, index?: string, hide?: boolean, type?: "DONATION"}) {
 
@@ -15,14 +15,19 @@ export default function SignupModal({ open, setOpen, index, hide, type }: { open
     const [showMessage, setShowMessage] = useState(false)
 
     const [showVerify, setShowVerify] = useState(false)
+    const pathname = usePathname()
 
     const router = useRouter()
 
     const clickHandler =()=> {
-        if(type === "DONATION"){
-            router?.push(("/share/auth/login/?type=DONATION&typeID=" + index))
+        if(pathname?.includes("event")) {
+            if(type === "DONATION"){
+                router?.push(("/share/auth/login/?type=DONATION&typeID=" + index))
+            } else {
+                router?.push(("/share/auth/login/?type=EVENT&typeID=" + index))
+            }
         } else {
-            router?.push(("/share/auth/login/?type=EVENT&typeID=" + index))
+            router?.push(("/auth"))
         }
     }
 
