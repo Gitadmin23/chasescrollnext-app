@@ -15,6 +15,7 @@ import { IMAGE_URL, RESOURCE_BASE_URL } from '@/services/urls';
 import { Calendar, Location } from 'iconsax-react';
 import ShareEvent from '@/components/sharedComponent/share_event';
 import { useDetails } from '@/global-state/useUserDetails';
+import BlurredImage from '@/components/sharedComponent/blurred_image';
 
 
 
@@ -118,8 +119,10 @@ export default function Layout({ children }: {
                 <Text></Text>
             </Flex>
             <Flex w={"full"} h={"fit-content"} > 
-                <Flex w={"full"} h={"240px"} bgColor={"lightgrey"} rounded={"8px"} overflow='hidden' >
-                    <Image src={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt='banner image' w='full' h='full' objectFit={'cover'} />
+                <Flex w={"full"} h={"340px"} bgColor={"lightgrey"} rounded={"8px"} overflow='hidden' >
+                    {/* <Image src={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt='banner image' w='full' h='full' objectFit={'cover'} /> */}
+
+                    <BlurredImage forEvent={false} image={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage}  height={'100%'}/>
                 </Flex>
             </Flex>
             <Flex w={"full"} h={"fit-content"} gap={"10"} flexDir={['column', 'row']} >
