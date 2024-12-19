@@ -19,7 +19,7 @@ function Bookings() {
     const { userId } = useDetails((state) => state);
     const { configPaystack, setPaystackConfig, donation, dataID, booking } = usePaystackStore((state) => state);
 
-    const { isLoading, } = useQuery(['get-my-businesses', page], () => httpService.get('/booking/search', {
+    const { isLoading, } = useQuery(['get-my-bookings', page], () => httpService.get('/booking/search', {
         params: {
             userID: userId,
             page,

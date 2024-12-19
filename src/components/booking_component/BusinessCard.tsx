@@ -8,6 +8,7 @@ import moment from 'moment'
 import { useRouter, usePathname } from 'next/navigation'
 import React from 'react'
 import { useQuery } from 'react-query'
+import BlurredImage from '../sharedComponent/blurred_image'
 
 function BusinessCard({ business }: { business: IBuisness }) {
 
@@ -77,8 +78,10 @@ function BusinessCard({ business }: { business: IBuisness }) {
                 </VStack>
             </HStack>
 
-            <Box w='full' h='150px' borderRadius={'10px'} overflow={'hidden'}>
-                <Image onClick={() => router.push(`/dashboard/newbooking/details/${business?.id}`)} cursor='pointer' src={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt="banner image" w='full' h='full' objectFit={'cover'} />
+            <Box onClick={() => router.push(`/dashboard/newbooking/details/${business?.id}`)} cursor='pointer'  w='full' h='200px' borderRadius={'10px'} overflow={'hidden'}>
+                <BlurredImage forEvent={false} image={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage}  height={'100%'}/>
+            
+                {/* <Image onClick={() => router.push(`/dashboard/newbooking/details/${business?.id}`)} cursor='pointer' src={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt="banner image" w='full' h='full' objectFit={'cover'} /> */}
             </Box>
 
             <VStack spacing={-3} alignItems={'flex-start'}>

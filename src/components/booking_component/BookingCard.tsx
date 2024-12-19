@@ -12,6 +12,9 @@ import moment from 'moment'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
+import BlurredImage from '../sharedComponent/blurred_image'
+import { PaginatedResponse } from '@/models/PaginatedResponse';
+
 
 export interface ICategory {
     id: string;
@@ -60,6 +63,10 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
     const { userId } = useDetails((state) => state);
     const [price, setPrice] = React.useState(booking?.price.toString());
 
+    const [bookingState, setBookingState] = React.useState(booking);
+    const [businessState, setBusinessState] = React.useState(business);
+    const [service, setService] = React.useState<IService | null>(null);
+
 
     const [loading, setLoading] = useState(false)
     const [loadingReject, setLoadingReject] = useState(false);
@@ -103,6 +110,38 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
 
     const queryClient = useQueryClient();
 
+    // queries
+    const { isLoading: isLoadingBoking } = useQuery([`get-booking-${booking?.id}`, booking?.id], () => httpService.get("/booking/search", {
+        params: {
+            id: booking?.id,
+        }
+    }), {
+        refetchInterval: 2000,
+        onSuccess: (data: any) => {
+            const item: PaginatedResponse<IBooking> = data?.data;
+
+            if (item?.content?.length > 0) {
+                setBookingState(item.content[0]);
+            }
+        },
+        onError: (error: any) => { },
+    });
+
+    const { isLoading: isLoadingBusiness } = useQuery([`get-business-${booking?.id}`, booking?.id], () => httpService.get("/business/search", {
+        params: {
+            id: business?.id,
+        }
+    }), {
+        onSuccess: (data: any) => {
+            const item: PaginatedResponse<IBuisness> = data?.data;
+
+            if (item?.content?.length > 0) {
+                setBusinessState(item.content[0]);
+            }
+        },
+        onError: (error: any) => { },
+    });
+
     // mutations
     const userUpdatePrice = useMutation({
         mutationFn: () => httpService.put('/booking/update-price', {
@@ -119,7 +158,8 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                 isClosable: true,
                 duration: 5000,
             })
-            queryClient.refetchQueries();
+            queryClient.invalidateQueries([`get-booking-${booking?.id}`]);
+
             setLoading(false)
             setLoadingReject(false)
         }
@@ -140,7 +180,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                 isClosable: true,
                 duration: 5000,
             })
-            queryClient.refetchQueries();
+            queryClient.invalidateQueries([`get-booking-${booking?.id}`]);
             setLoading(false)
             setLoadingReject(false)
         }
@@ -160,7 +200,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                 isClosable: true,
                 duration: 5000,
             })
-            queryClient.refetchQueries();
+            queryClient.invalidateQueries([`get-booking-${booking?.id}`]);
             setLoading(false)
             setLoadingReject(false)
         }
@@ -180,7 +220,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                 isClosable: true,
                 duration: 5000,
             });
-            queryClient.refetchQueries();
+            queryClient.invalidateQueries([`get-booking-${booking?.id}`]);
 
         }
     });
@@ -200,7 +240,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                 isClosable: true,
                 duration: 5000,
             })
-            queryClient.refetchQueries();
+            queryClient.invalidateQueries([`get-booking-${booking?.id}`]);
 
         }
     });
@@ -219,8 +259,32 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                 isClosable: true,
                 duration: 5000,
             })
-            queryClient.refetchQueries();
+            queryClient.invalidateQueries([`get-booking-${booking?.id}`]);
+        },
+        onError: (error: any) => {
+            toast({
+                title: 'Error',
+                description: error?.message,
+                status: 'error',
+                position: 'top-right',
+                isClosable: true,
+                duration: 5000,
+            })
+        }
+    });
 
+    const deleteBooking = useMutation({
+        mutationFn: () => httpService.delete(`/booking/delete/${booking?.id}`),
+        onSuccess: (data) => {
+            toast({
+                title: 'Success',
+                description: data?.data?.message,
+                status: 'success',
+                position: 'top-right',
+                isClosable: true,
+                duration: 5000,
+            })
+            queryClient.invalidateQueries(['get-my-bookings']);
         },
         onError: (error: any) => {
             toast({
@@ -263,6 +327,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                 reference: data?.data?.content?.orderCode
             });
             setBooking(true) 
+            queryClient.invalidateQueries([`get-booking-${booking?.id}`]);
         },
         onError: (error) => {
             // console.log(error);
@@ -303,23 +368,24 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
         <VStack style={{boxShadow: "0px 4px 4px 0px #0000000D"}} w='full' h='auto' borderWidth={'0.5px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'} spacing={3}>
             <HStack w='full'>
                 <Box w='30px' h='30px' borderBottomLeftRadius={'50px'} borderTopLeftRadius={'50px'} borderBottomRightRadius={'50px'} overflow={'hidden'} bg={secondaryBackgroundColor}>
-                <Image src={booking?.createdBy?.data?.imgMain?.value?.startsWith('https://') ? booking?.createdBy?.data?.imgMain?.value : (IMAGE_URL as string) + booking?.createdBy?.data?.imgMain?.value} alt="banner image" w='full' h='full' objectFit={'cover'} />
+                <Image src={bookingState?.createdBy?.data?.imgMain?.value?.startsWith('https://') ? bookingState?.createdBy?.data?.imgMain?.value : (IMAGE_URL as string) + bookingState?.createdBy?.data?.imgMain?.value} alt="banner image" w='full' h='full' objectFit={'cover'} />
                 </Box>
                 <VStack spacing={-5} alignItems={'flex-start'}>
-                    <Text fontWeight={600} fontSize={'14px'} color={primaryColor}>{booking?.user?.firstName} {booking?.user?.lastName}</Text>
-                    <Text fontSize={'12px'} color={bodyTextColor}>{moment(business?.createdDate as number).fromNow()}</Text>
+                    <Text fontWeight={600} fontSize={'14px'} color={primaryColor}>{bookingState?.user?.firstName} {bookingState?.user?.lastName}</Text>
+                    <Text fontSize={'12px'} color={bodyTextColor}>{moment(businessState?.createdDate as number).fromNow()}</Text>
                 </VStack>
             </HStack>
 
             <Box onClick={() => {
-                if (shouldNavigate) router.push(`/dashboard/newbooking/booking/${booking?.id}`);
+                if (shouldNavigate) router.push(`/dashboard/newbooking/booking/${bookingState?.id}`);
             }} w='full' h='200px' borderRadius={'10px'} overflow={'hidden'}>
-                <Image src={business?.bannerImage?.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt="banner image" w='full' h='full' objectFit={'cover'} cursor={shouldNavigate ? 'pointer': 'default'} />
+                <BlurredImage forEvent={false} image={businessState?.bannerImage?.startsWith('https://') ? businessState?.bannerImage : (IMAGE_URL as string) + businessState?.bannerImage}  height={'100%'}/>
+                {/* <Image src={business?.bannerImage?.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt="banner image" w='full' h='full' objectFit={'cover'} cursor={shouldNavigate ? 'pointer': 'default'} /> */}
             </Box>
 
             <VStack spacing={-3} alignItems={'flex-start'}>
                 <Text fontWeight={400} fontSize={'12px'}>Business Name</Text>
-                <Text fontWeight={600} fontSize={'16px'}>{business?.businessName}</Text>
+                <Text fontWeight={600} fontSize={'16px'}>{businessState?.businessName}</Text>
 
             </VStack>
 
@@ -327,17 +393,17 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                 <Text fontSize={'14px'} fontWeight={600}>User Details</Text>
                 <HStack w='full' justifyContent={'space-between'}>
                     <Text fontSize={'14px'}>Name</Text>
-                    <Text fontSize={'16px'}>{booking?.user?.firstName} {booking?.user?.lastName}</Text>
+                    <Text fontSize={'16px'}>{bookingState?.user?.firstName} {bookingState?.user?.lastName}</Text>
                 </HStack>
 
                 <HStack w='full' justifyContent={'space-between'}>
                     <Text fontSize={'14px'}>Email</Text>
-                    <Text fontSize={'16px'}>{booking?.user?.email}</Text>
+                    <Text fontSize={'16px'}>{bookingState?.user?.email}</Text>
                 </HStack>
 
                 <HStack w='full' justifyContent={'space-between'}>
                     <Text fontSize={'14px'}>Phone</Text>
-                    <Text fontSize={'16px'}>{booking?.user?.data?.mobilePhone?.value ?? 'None'}</Text>
+                    <Text fontSize={'16px'}>{bookingState?.user?.data?.mobilePhone?.value ?? 'None'}</Text>
                 </HStack>
             </VStack>
 
@@ -368,8 +434,8 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                         'scrollbar-color': '#2563eb #e6f0ff'
                     }}
                     h='auto' overflowX={'scroll'} gap={3} mt='10px'>
-                    {booking?.services?.length > 0 && booking?.services?.map((item, index) => (
-                        <ServiceCard key={index.toString()} serviceID={item['serviceID'] as any} />
+                    {bookingState?.services?.length > 0 && booking?.services?.map((item, index) => (
+                        <ServiceCard key={index.toString()} serviceID={item['serviceID'] as string} />
                     ))}
                 </Flex>
 
@@ -443,7 +509,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
             <Box h='10px' />
             {!isVendor && (
                 <>
-                    {booking.bookingStatus === 'PENDING' && (
+                    {bookingState.bookingStatus === 'PENDING' && (
                        <>
                         <Button onClick={() => userUpdatePrice.mutate()} isLoading={userUpdatePrice.isLoading} w='full' minHeight={'45px'} h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} color={'white'} bg={primaryColor}>
                             <Text fontSize={'14px'} color={'white'}>Update Price</Text>
@@ -458,12 +524,18 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                         </Button>
                        </>
                     )}
-                    {booking.bookingStatus === 'REJECTED' && (
-                        <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
-                            <Text fontSize={'14px'} color={'white'}>Rejected</Text>
-                        </Button>
+                    {bookingState.bookingStatus === 'REJECTED' && (
+                        <>
+                            <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
+                                <Text fontSize={'14px'} color={'white'}>Rejected</Text>
+                            </Button>
+
+                            {/* <Button onClick={() => deleteBooking.mutate()} isLoading={deleteBooking.isLoading}  w='full' minHeight={'45px'} h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
+                                <Text fontSize={'14px'} color={'white'}>Delete Booking</Text>
+                            </Button> */}
+                        </>
                     )}
-                    {booking.bookingStatus === 'APPROVED' && !booking?.hasPaid && (
+                    {bookingState.bookingStatus === 'APPROVED' && !bookingState?.hasPaid && (
                         <>
                             <Button isLoading={payForTicket?.isLoading} isDisabled={payForTicket?.isLoading} onClick={() => handlePayment()} w='full' minHeight={'45px'} h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                                 <Text fontSize={'14px'} color={'white'}>Make Payment</Text>
@@ -474,12 +546,12 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                             </Button>
                         </>
                     )}
-                    {booking.bookingStatus === 'IN_PROGRESS' && (
+                    {bookingState.bookingStatus === 'IN_PROGRESS' && (
                         <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} minHeight={'45px'} borderColor={primaryColor} bg={primaryColor}>
-                            <Text fontSize={'14px'} color={'white'}>{booking?.bookingStatus?.replaceAll('_', ' ')}</Text>
+                            <Text fontSize={'14px'} color={'white'}>{bookingState?.bookingStatus?.replaceAll('_', ' ')}</Text>
                         </Button>
                     )}
-                    {booking.bookingStatus === 'AWAITING_CONFIRMATION' && booking.isCompleted && (
+                    {bookingState.bookingStatus === 'AWAITING_CONFIRMATION' && bookingState.isCompleted && (
                         <>
                             <Button isLoading={userMarkAsDone.isLoading} onClick={() => userMarkAsDone.mutate(false)} w='full' h='45px' minHeight={'45px'} borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                                 <Text fontSize={'14px'} color={'white'}>Mark As Done</Text>
@@ -491,21 +563,21 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                         </>
                     )}
                     {
-                        booking.bookingStatus === "COMPLETED" && (
+                        bookingState.bookingStatus === "COMPLETED" && (
                             <Button cursor={'not-allowed'} opacity={0.4} disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                                 <Text fontSize={'14px'} color={'white'}>Completed</Text>
                             </Button>
                         )
                     }
                      {
-                        booking.bookingStatus === "COMPLETED_WITH_ISSUES" && (
+                        bookingState.bookingStatus === "COMPLETED_WITH_ISSUES" && (
                             <Button cursor={'not-allowed'} opacity={0.4} disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                                 <Text fontSize={'14px'} color={'white'}>Raise Complain</Text>
                             </Button>
                         )
                     }
                      {
-                        booking.bookingStatus === "CANCELLED" && (
+                        bookingState.bookingStatus === "CANCELLED" && (
                             <Button cursor={'not-allowed'} opacity={0.4} disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
                                 <Text fontSize={'14px'} color={'white'}>CANCELLED</Text>
                             </Button>
@@ -516,7 +588,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
 
             {isVendor && (
                 <>
-                    {booking.bookingStatus === 'PENDING' && (
+                    {bookingState.bookingStatus === 'PENDING' && (
                         <>
                              <Button onClick={() => vendorUpdatePrice.mutate()} isLoading={vendorUpdatePrice.isLoading} w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} color={'white'} bg={primaryColor}>
                                 <Text fontSize={'14px'} color={'white'}>Update Price</Text>
@@ -530,37 +602,37 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                             </Button>
                         </>
                     )}
-                    {booking.bookingStatus === 'IN_PROGRESS' && booking.hasPaid && (
+                    {bookingState.bookingStatus === 'IN_PROGRESS' && bookingState.hasPaid && (
                         <Button isLoading={vendorMarkAsDone.isLoading} onClick={() => vendorMarkAsDone.mutate()} w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                             <Text fontSize={'14px'} color={'white'}>Mark As Done</Text>
                         </Button>
                     )}
-                    {booking.bookingStatus === 'APPROVED' && !booking?.hasPaid && (
+                    {bookingState.bookingStatus === 'APPROVED' && !bookingState?.hasPaid && (
                         <Button cursor={'not-allowed'} opacity={0.4} disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                             <Text fontSize={'14px'} color={'white'}>Awaiting Payment</Text>
                         </Button>
                     )}
-                      {booking.bookingStatus === 'AWAITING_CONFIRMATION' && booking.isCompleted && (
+                      {bookingState.bookingStatus === 'AWAITING_CONFIRMATION' && bookingState.isCompleted && (
                         <Button cursor={'not-allowed'} opacity={0.4} disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                             <Text fontSize={'14px'} color={'white'}>Awaiting User Confirmation</Text>
                         </Button>
                     )}
                     {
-                        booking.bookingStatus === "COMPLETED" && (
+                        bookingState.bookingStatus === "COMPLETED" && (
                             <Button cursor={'not-allowed'} opacity={0.4} disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                                 <Text fontSize={'14px'} color={'white'}>Completed</Text>
                             </Button>
                         )
                     }
                      {
-                        booking.bookingStatus === "COMPLETED_WITH_ISSUES" && (
+                        bookingState.bookingStatus === "COMPLETED_WITH_ISSUES" && (
                             <Button disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                                 <Text fontSize={'14px'} color={'white'}>Raise Complain</Text>
                             </Button>
                         )
                     }
                      {
-                        booking.bookingStatus === "CANCELLED" && (
+                        bookingState.bookingStatus === "CANCELLED" && (
                             <Button cursor={'not-allowed'} opacity={0.4} disabled  w='full' h='45px'  borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
                                 <Text fontSize={'14px'} color={'white'}>CANCELLED</Text>
                             </Button>
