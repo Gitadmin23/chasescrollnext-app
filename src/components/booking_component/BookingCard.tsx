@@ -14,7 +14,7 @@ import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import BlurredImage from '../sharedComponent/blurred_image'
 import { PaginatedResponse } from '@/models/PaginatedResponse';
-
+import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
 
 export interface ICategory {
     id: string;
@@ -61,16 +61,23 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
     const toast = useToast()
     const router = useRouter();
     const { userId } = useDetails((state) => state);
-    const [price, setPrice] = React.useState(booking?.price.toString());
 
     const [bookingState, setBookingState] = React.useState(booking);
+    const [price, setPrice] = React.useState(bookingState?.price.toString());
+    const [updatedPrice, setUpdatedPrice] = React.useState(bookingState?.price.toString());
+
     const [businessState, setBusinessState] = React.useState(business);
     const [service, setService] = React.useState<IService | null>(null);
-
 
     const [loading, setLoading] = useState(false)
     const [loadingReject, setLoadingReject] = useState(false);
     const [type, setType] = useState("");
+
+    React.useEffect(() => {
+        if (bookingState?.price !== parseInt(updatedPrice)) {
+            setUpdatedPrice(bookingState?.price.toString());
+        }
+    }, [bookingState?.price]);
 
     
     const items: IAction[] = [
@@ -119,7 +126,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
         refetchInterval: 2000,
         onSuccess: (data: any) => {
             const item: PaginatedResponse<IBooking> = data?.data;
-
+            
             if (item?.content?.length > 0) {
                 setBookingState(item.content[0]);
             }
@@ -127,7 +134,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
         onError: (error: any) => { },
     });
 
-    const { isLoading: isLoadingBusiness } = useQuery([`get-business-${booking?.id}`, booking?.id], () => httpService.get("/business/search", {
+    const { isLoading: isLoadingBusiness } = useQuery([`get-business-${business?.id}`, business?.id], () => httpService.get("/business/search", {
         params: {
             id: business?.id,
         }
@@ -310,6 +317,8 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
 
 
     const { setPaystackConfig, setBooking } = usePaystackStore((state) => state);
+    const { configPaystack, donation, dataID } = usePaystackStore((state) => state);
+
 
     const payForTicket = useMutation({
         mutationFn: (data: {
@@ -366,6 +375,9 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
 
     return (
         <VStack style={{boxShadow: "0px 4px 4px 0px #0000000D"}} w='full' h='auto' borderWidth={'0.5px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'} spacing={3}>
+            
+            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} booking={true} donation={false} />
+
             <HStack w='full'>
                 <Box w='30px' h='30px' borderBottomLeftRadius={'50px'} borderTopLeftRadius={'50px'} borderBottomRightRadius={'50px'} overflow={'hidden'} bg={secondaryBackgroundColor}>
                 <Image src={bookingState?.createdBy?.data?.imgMain?.value?.startsWith('https://') ? bookingState?.createdBy?.data?.imgMain?.value : (IMAGE_URL as string) + bookingState?.createdBy?.data?.imgMain?.value} alt="banner image" w='full' h='full' objectFit={'cover'} />
@@ -380,13 +392,11 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                 if (shouldNavigate) router.push(`/dashboard/newbooking/booking/${bookingState?.id}`);
             }} w='full' h='200px' borderRadius={'10px'} overflow={'hidden'}>
                 <BlurredImage forEvent={false} image={businessState?.bannerImage?.startsWith('https://') ? businessState?.bannerImage : (IMAGE_URL as string) + businessState?.bannerImage}  height={'100%'}/>
-                {/* <Image src={business?.bannerImage?.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt="banner image" w='full' h='full' objectFit={'cover'} cursor={shouldNavigate ? 'pointer': 'default'} /> */}
             </Box>
 
             <VStack spacing={-3} alignItems={'flex-start'}>
                 <Text fontWeight={400} fontSize={'12px'}>Business Name</Text>
                 <Text fontWeight={600} fontSize={'16px'}>{businessState?.businessName}</Text>
-
             </VStack>
 
             <VStack alignItems='flex-start' spacing={4} w='full' borderBottomWidth='0.5px' borderBottomColor={borderColor} pb='20px' >
@@ -443,7 +453,6 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                     <HStack justifyContent={'space-between'} my='20px' w='full' alignItems={'center'}>
                         <Text fontSize={'16px'}>Total Price</Text>
                         <Text fontSize={'25px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(parseInt(price) || 0)}</Text>
-                     
                     </HStack>
                 )}
 
