@@ -56,7 +56,7 @@ function SelectDonation({ selectedData }: { selectedData: IDonationList }) {
                             if (index === 0) {
                                 return (
                                     <Flex flexDir={"column"}  key={index}>
-                                        {item?.fundRaisers?.map((subitem) => {
+                                        {item?.fundRaisers?.map((subitem: any) => {
                                             return (
                                                 <Flex key={subitem?.id} w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
                                                     <Button color={primaryColor} key={index} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >

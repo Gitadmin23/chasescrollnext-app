@@ -14,6 +14,7 @@ import DonateUsers from '../sharedComponent/donateUser'
 import { IDonationList } from '@/models/donation'
 import CustomButton from '../general/Button'
 import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
+import DonationTermAndCondition from './donationTermAndCondition'
 
 export default function DonationBtn(props: any) {
 
@@ -29,7 +30,8 @@ export default function DonationBtn(props: any) {
     const {
         primaryColor,
         borderColor,
-        headerTextColor
+        headerTextColor, 
+        mainBackgroundColor
     } = useCustomTheme()
 
     const donate = [
@@ -47,7 +49,7 @@ export default function DonationBtn(props: any) {
 
     const userId = localStorage.getItem('user_id') + "";
 
-    const { setDataID , setPaystackConfig, setDonation } = usePaystackStore((state) => state);
+    const { setDataID, setPaystackConfig, setDonation } = usePaystackStore((state) => state);
 
     const payForTicket = useMutation({
         mutationFn: (data: {
@@ -67,7 +69,7 @@ export default function DonationBtn(props: any) {
             setDonation(true)
             setOpen(false)
             setValue("")
-            setDataID(props?.id) 
+            setDataID(props?.id)
 
         },
         onError: (error) => {
@@ -92,7 +94,7 @@ export default function DonationBtn(props: any) {
             orderType: "DONATION",
             typeID: props?.id
         })
-    }, [props?.id, value]) 
+    }, [props?.id, value])
 
     return (
         <Flex w={"full"} flexDir={"column"} gap={"6"} >
@@ -102,7 +104,7 @@ export default function DonationBtn(props: any) {
             )}
 
             <ModalLayout open={open} close={setOpen} >
-                <Flex flexDir={"column"} gap={"5"} px={"4"} >
+                <Flex flexDir={"column"} bg={mainBackgroundColor} gap={"5"} px={"4"} >
                     <Flex alignItems={"center"} rounded={"16px"} px={"8px"} pt={"12px"} >
                         <Box w={"fit-content"} >
                             <EventImage borderWidth='2px' rounded='16px' width={"153px"} height={"127px"} data={props} />
@@ -135,6 +137,9 @@ export default function DonationBtn(props: any) {
                         <Button isLoading={payForTicket?.isLoading} onClick={clickHandler} isDisabled={value ? false : true} w={"full"} h={"50px"} rounded={"32px"} color={"white"} fontWeight={"600"} bgColor={"brand.chasescrollBlue"} _hover={{ backgroundColor: "brand.chasescrollBlue" }} >
                             Donate
                         </Button>
+                        <Flex w={"full"} justifyContent={"center"} >
+                            <DonationTermAndCondition refund={true} />
+                        </Flex>
                     </Flex>
                 </Flex>
             </ModalLayout>

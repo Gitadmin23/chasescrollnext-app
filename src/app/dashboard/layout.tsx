@@ -19,6 +19,7 @@ import NotificationBar from '@/components/notification';
 import useNotificationHook from '@/hooks/useNotificationHook';
 import CustomButton from '@/components/general/Button';
 import DashboardMenuBtn from '@/components/sharedComponent/dashboard_menu_btn';
+import useValidateRoken from '@/hooks/useValidateToken';
 
 export default function Layout({ children }: {
     children: ReactNode
@@ -105,6 +106,8 @@ export default function Layout({ children }: {
 
     const { count } = useNotificationHook()
 
+    const {} = useValidateRoken()
+
     return (
         <Flex w={"full"} h={"100vh"} overflowY={"hidden"} bg={mainBackgroundColor} >
             {(pathname !== ("/dashboard/donation/create") && !pathname?.includes("/donation/edit") && pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
@@ -188,17 +191,17 @@ export default function Layout({ children }: {
                         <Flex ml={"auto"} gap={"3"} display={["none", "none", "none", "flex", "flex"]} >
                             <CreateEventBtn btn={true} />
 
-                            <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} pos={"relative"} height={"45px"} zIndex={"20"} width={"180px"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor :headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
+                            {/* <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} pos={"relative"} height={"45px"} zIndex={"20"} width={"180px"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor :headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
                                 Fundraising
-                            </Flex>
+                            </Flex> */}
                             {/* <CustomButton onClick={() => router.push('/dashboard/donation')} pos={"relative"} zIndex={"20"} width={"180px"} backgroundColor={secondaryBackgroundColor} color={headerTextColor} text={"Fundraising"} borderRadius={"full"} /> */}
                         </Flex>
                         <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"3"} >
                             <CreateEventBtn mobile={true} />
 
-                            <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} fontSize={"xs"} pos={"relative"} height={"35px"} zIndex={"20"} width={"fit-content"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor : headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
+                            {/* <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} fontSize={"xs"} pos={"relative"} height={"35px"} zIndex={"20"} width={"fit-content"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor : headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
                                 Fundraising
-                            </Flex>
+                            </Flex> */}
                             {/* <Flex zIndex={20} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
 
                                 <Flex onClick={() => router?.push("/dashboard/chats")} h={"20px"} alignItems={"center"} as='button' >
@@ -211,7 +214,7 @@ export default function Layout({ children }: {
                                     <LogoutCurve onClick={() => setOpen(true)} color='red' size={'20px'} variant='Outline' />
                                 </Flex>
                             </Flex> */}
-                            <DashboardMenuBtn />
+                            <DashboardMenuBtn count={count} />
                         </Flex>
                         {/* <Flex display={["flex", "flex", "flex", "none", "none"]}  >
                             <DashboardMenuBtn />
@@ -316,7 +319,7 @@ export default function Layout({ children }: {
                 </VStack>
             </ModalLayout>
 
-            <ModalLayout open={notifyModal} size={"xl"} title={"Notification"} close={setNotifyModal} >
+            <ModalLayout open={notifyModal} size={["full", "xl", "xl"]} title={"Notification"} close={setNotifyModal} >
                 <NotificationBar />
             </ModalLayout>
         </Flex>

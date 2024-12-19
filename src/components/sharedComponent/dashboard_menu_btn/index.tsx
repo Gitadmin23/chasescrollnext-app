@@ -1,6 +1,6 @@
 import CustomText from '@/components/general/Text'
 import { DashboardMenuIcon } from '@/components/svg'
-import { NewChatIcon, NewWalletIcon } from '@/components/svg/sidebarIcons'
+import { NewChatIcon, NewWalletIcon, NotificationIcon } from '@/components/svg/sidebarIcons'
 import useCustomTheme from '@/hooks/useTheme'
 import { Box, Button, Flex, Text, VStack } from '@chakra-ui/react'
 import { LogoutCurve, Setting, Warning2 } from 'iconsax-react'
@@ -11,19 +11,21 @@ import { IoClose, IoArrowForward } from 'react-icons/io5'
 import ModalLayout from '../modal_layout'
 import { useDetails } from '@/global-state/useUserDetails'
 import { signOut } from 'next-auth/react'
+import useModalStore from '@/global-state/useModalSwitch'
 
-export default function DashboardMenuBtn() {
+export default function DashboardMenuBtn({ count }: { count?: any }) {
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false)
     const { setAll } = useDetails((state) => state);
 
     const {
         headerTextColor,
-        bodyTextColor,
+        primaryColor,
         mainBackgroundColor
     } = useCustomTheme()
 
     const router = useRouter()
+    const { setGoogle, notifyModal, setNotifyModal } = useModalStore((state) => state);
 
     const handleClick = (item: string) => {
         if (item === "logout") {
@@ -43,13 +45,18 @@ export default function DashboardMenuBtn() {
 
     }
 
+    const clickHandler = () => {
+        setNotifyModal(true)
+        setOpen(false)
+    }
+
     return (
         <Box w={"fit-content"} h={"fit-content"} >
             <Box as='button' mt={"8px"} onClick={() => setOpen(true)} >
                 <DashboardMenuIcon />
             </Box>
             {open && (
-                <Flex zIndex={"110"} position={"absolute"} top={"70px"} flexDir={"column"} right={"2"} maxW={"170px"} w={"full"} py={"4"} px={"4"} bg={mainBackgroundColor} rounded={'8px'} >
+                <Flex zIndex={"210"} position={"absolute"} top={"70px"} flexDir={"column"} right={"2"} maxW={"170px"} w={"full"} py={"4"} px={"4"} bg={mainBackgroundColor} rounded={'8px'} >
                     <Flex zIndex={20} flexDir={"column"} gap={"3"}  >
 
                         <Flex onClick={() => handleClick("/dashboard/chats")} h={"20px"} gap={"1"} alignItems={"center"} as='button' >
@@ -63,6 +70,16 @@ export default function DashboardMenuBtn() {
                                 <NewWalletIcon />
                             </Flex>
                             <Text fontSize={"12px"} >Wallet</Text>
+                        </Flex>
+                        <Flex onClick={() => clickHandler()} h={"20px"} gap={"2"} alignItems={"center"} as='button' >
+                            <Flex justifyContent={"center"} w={"20px"} >
+                                <NotificationIcon />
+                            </Flex>
+                            <Text fontSize={"12px"} >Notification</Text>
+
+                            <Flex w={"5"} h={"5"} rounded={"full"} bg={primaryColor} ml={"auto"} color={"white"} justifyContent={"center"} alignItems={"center"} pb={"2px"} fontWeight={"semibold"} fontSize={"12px"}  >
+                                {count}
+                            </Flex>
                         </Flex>
                         <Flex onClick={() => handleClick("/dashboard/settings")} h={"20px"} gap={"2"} alignItems={"center"} as='button' >
                             <Flex justifyContent={"center"} w={"20px"} >
@@ -80,7 +97,7 @@ export default function DashboardMenuBtn() {
                 </Flex>
             )}
             {open && (
-                <Box position={"fixed"} onClick={() => setOpen(false)} inset={'0px'} zIndex={"100"} bg={"black"} opacity={"50%"} />
+                <Box position={"fixed"} onClick={() => setOpen(false)} inset={'0px'} zIndex={"200"} bg={"black"} opacity={"50%"} />
             )}
 
             <ModalLayout size={"sm"} open={show} close={setShow} >

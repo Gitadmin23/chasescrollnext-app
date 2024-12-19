@@ -344,13 +344,13 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
     
     const handlePayment = () => { 
         payForTicket.mutate({
-            seller: userId,
+            seller: booking?.businessOwner?.userId,
             price: Number(booking?.price),
             currency: "NGN",
             orderType: "BOOKING",
             typeID: booking?.id + ""
         })
-    }
+    } 
 
     const handlePriceChange = (item: IAction) => {
         if (item.type === 'ADDITION') {

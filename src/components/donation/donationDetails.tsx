@@ -19,14 +19,15 @@ import { IoArrowBack } from 'react-icons/io5';
 import DonateUsers from '../sharedComponent/donateUser';
 import { DashboardEditIcon, DashboardOrganizerIcon, WalletIcon } from '../svg';
 import ShareEvent from '../sharedComponent/share_event';
-import useDonationStore from '@/global-state/useDonationState';
-import EventImage from '../sharedComponent/eventimage';
+import useDonationStore from '@/global-state/useDonationState'; 
 import BlurredImage from '../sharedComponent/blurred_image';
 import DonationCollaborator from '../create_donation/donationCollaborator';
+import useGetSingleDonationList from '@/hooks/useGetSingleDonation';
 
-export default function DonationDetails({ id }: { id: string }) {
+export default function DonationDetails({ id, notAuth }: { id: string, notAuth?: boolean }) {
 
-    const { singleData: item, isLoading } = useGetDonationList(id)
+    // const { singleData: item, isLoading } = useGetDonationList(id)
+    const { singleData: item, isLoading } = useGetSingleDonationList(id)
 
     const {
         borderColor,
@@ -46,7 +47,7 @@ export default function DonationDetails({ id }: { id: string }) {
 
     React.useEffect(() => {
         if (!isLoading) {
-            if(!data[0]?.name){
+            if (!data[0]?.name) {
 
                 const clone = [{
                     bannerImage: item?.bannerImage,
@@ -57,48 +58,47 @@ export default function DonationDetails({ id }: { id: string }) {
                     name: item?.name,
                     purpose: item?.purpose,
                     visibility: item?.visibility,
-                    funnelID: item?.funnelID, 
+                    funnelID: item?.funnelID,
                     collaborators: [] as any
                 }]
 
                 const collaborators: Array<string> = []
-                 
-                item.collaborators?.map((item: any) => {
-                    return collaborators.push(item?.userId+"")
-                }) 
 
-                clone[0].collaborators = [...collaborators] 
+                item?.collaborators?.map((item: any) => {
+                    return collaborators.push(item?.userId + "")
+                })
+
+                clone[0].collaborators = [...collaborators]
 
                 updateDontion(clone)
             }
         }
-    }, [isLoading, item]) 
+    }, [isLoading, item])
 
     useEffect(() => {
         if (isCollaborator?.length <= 0) {
             const collaborators: Array<string> = []
 
-            item.collaborators?.map((item: any) => {
+            item?.collaborators?.map((item: any) => {
                 return collaborators.push(item?.userId + "")
             })
-
             setCollaborate(collaborators)
         }
-
     }, [item])
-
 
     return (
         <Flex w={"full"} pos={"relative"} flexDir={"column"} overflowY={"auto"} >
             <LoadingAnimation loading={isLoading} >
                 {item && (
                     <Flex flexDir={"column"} w={"full"} gap={"6"} p={"6"} >
-                        <Flex gap={4} alignItems={"center"} >
-                            <Flex as={"button"} onClick={() => router?.push("/dashboard/donation")} >
-                                <IoArrowBack size={"30px"} />
+                        {!notAuth && (
+                            <Flex gap={4} alignItems={"center"} >
+                                <Flex as={"button"} onClick={() => router?.push("/dashboard/donation")} >
+                                    <IoArrowBack size={"30px"} />
+                                </Flex>
+                                <Text fontWeight={"700"} fontSize={"24px"} >Fundraising Details</Text>
                             </Flex>
-                            <Text fontWeight={"700"} fontSize={"24px"} >Fundraising Details</Text>
-                        </Flex>
+                        )}
                         <Flex w={'full'} h={"350px"} rounded={"8px"} >
                             {/* <EventImage data={item} width={"full"} height={"350px"} /> */}
                             <BlurredImage height={["350px"]} image={item?.bannerImage} />
@@ -107,7 +107,7 @@ export default function DonationDetails({ id }: { id: string }) {
                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                             <Flex flexDir={"column"} >
                                 <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
-                                <Text fontSize={"24px"} fontWeight={"700"} >{item?.name}</Text>
+                                <Text fontSize={"24px"} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
                             </Flex>
                             <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
                         </Flex>
@@ -122,7 +122,9 @@ export default function DonationDetails({ id }: { id: string }) {
                                         <Text fontWeight={"500"} >Date Created</Text>
                                         <Text fontSize={"14px"} >{dateFormat(item?.createdDate)}{" "}{timeFormat(item?.createdDate)}</Text>
                                     </Flex>
-                                    <DonationCollaborator update={true} singleData={item} index={0} />
+                                    {item?.createdBy?.userId === userId && (
+                                        <DonationCollaborator update={true} singleData={item} index={0} />
+                                    )}
                                 </Flex>
                                 <Flex flexDir={"column"} >
                                     <Text fontWeight={"500"} >Fundraising Description</Text>
@@ -137,7 +139,7 @@ export default function DonationDetails({ id }: { id: string }) {
                                     </Flex>
                                 </Flex>
                             </Flex>
-                            {((userId === item?.createdBy?.userId) || item?.isCollaborator) ? ( 
+                            {((userId === item?.createdBy?.userId) || item?.isCollaborator) ? (
                                 <Flex bg={["transparent", "transparent", mainBackgroundColor, mainBackgroundColor]} insetX={"3"} mt={["0px", "0px", "0px", "0px"]} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
                                     <Flex bgColor={secondaryBackgroundColor} w={["full", "full", "full", "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"64px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} px={["3", "3", "5", "5"]} h={"90px"} justifyContent={"center"} >
 

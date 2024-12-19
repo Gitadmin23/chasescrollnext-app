@@ -3,16 +3,18 @@ import usePaystackStore from '@/global-state/usePaystack'
 import useCustomTheme from '@/hooks/useTheme'
 import { IDonationList } from '@/models/donation'
 import httpService from '@/utils/httpService'
-import { Button, Flex, Input, Text, useToast } from '@chakra-ui/react'
-import router from 'next/router'
+import { Button, Flex, Input, Text, useToast } from '@chakra-ui/react' 
+
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
 import CustomText from '../general/Text'
 import GoogleBtn from '../sharedComponent/googlebtn'
 import ModalLayout from '../sharedComponent/modal_layout'
 import { useDetails } from '@/global-state/useUserDetails'
+import DonationTermAndCondition from './donationTermAndCondition'
+import { useRouter } from 'next/navigation'
 
-export default function DonationPayment({ data }: { data?: IDonationList }) {
+export default function DonationPayment({ data, fullWidth }: { data?: IDonationList, fullWidth?: boolean }) {
 
     const [open, setOpen] = useState(false)
     const [openSignUp, setOpenSignUp] = useState(false) 
@@ -35,6 +37,7 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
     ]
 
     const toast = useToast()
+    const router = useRouter()
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
 
     const userId = localStorage.getItem('user_id') + "";
@@ -81,7 +84,7 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
     const clickHandler = () => {
         if(user_index || token) {
             payForTicket.mutate({
-                seller: userId,
+                seller: data?.createdBy?.userId+"",
                 price: Number(value),
                 currency: "NGN",
                 orderType: "DONATION",
@@ -98,7 +101,7 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
     }
 
     return (
-        <Flex w={["full", "full", "full", "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} p={"5"}  >
+        <Flex w={["full", "full", "full", fullWidth ? "full" : "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} p={"5"}  >
             <Text fontSize={"18px"} fontWeight={"600"} >Enter the Amount</Text>
 
             <Flex w={"fit-content"} flexWrap={"wrap"} gap={"2"}>
@@ -117,11 +120,14 @@ export default function DonationPayment({ data }: { data?: IDonationList }) {
             <Button isLoading={payForTicket?.isLoading} onClick={clickHandler} borderWidth={"1px"} borderColor={primaryColor} isDisabled={value ? false : true} w={"full"} h={"50px"} rounded={"32px"} color={primaryColor} fontWeight={"600"} bgColor={"#EFF5F8"} _hover={{ backgroundColor: "#EFF5F8" }} >
                 Donate
             </Button>
+            <Flex w={"full"} justifyContent={"center"} >
+                <DonationTermAndCondition refund={true} />
+            </Flex>
 
             <ModalLayout open={open} close={setOpen} title='' closeIcon={true} >
                 <Flex w={"full"} flexDir={"column"} gap={"4"} p={"6"} >
                     <Flex flexDir={"column"} justifyContent={"center"} >
-                        <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"32px"} >Get Ticket</Text>
+                        <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"32px"} >Fundraising</Text>
                         <Text color={"#626262"} textAlign={"center"}>Please choose your option and proceed with Chasescroll.</Text>
                     </Flex>
                     <GoogleBtn newbtn title='Sign in' type="DONATION" id={data?.id ? true : false} index={data?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' />

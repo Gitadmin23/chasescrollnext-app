@@ -132,7 +132,7 @@ function GetEventTicket(props: IEventType) {
                 </Flex>
             }
 
-            <ModalLayout size={modalTab === 5 ? ["md", "md", "3xl"] : "md"} title={modalTab === 6 ? "Ticket available for this event" : ""} open={showModal} close={setShowModal} >
+            <ModalLayout size={modalTab === 5 ? ["full", "md", "3xl"] : "md"} title={modalTab === 6 ? "Ticket available for this event" : ""} open={showModal} close={setShowModal} >
                 {modalTab === 1 && (
                     <SelectTicketNumber close={setShowModal} numbOfTicket={numbOfTicket} setNumberOfTicket={setNumberOfTicket} next={setModalTab} selectedTicket={ticketType} data={props} />
                 )}

@@ -81,7 +81,7 @@ export default function EventCreator(props: IEventType) {
                         <>
 
                             {((collaborators || admins) && !pathname?.includes("pastdetails")) && (
-                                <CollaboratorBtn collaborate={acceptedCollaborators?.length !== 0 || acceptedAdmins?.length !== 0} btn={true} data={props} />
+                                <CollaboratorBtn update={true} collaborate={acceptedCollaborators?.length !== 0 || acceptedAdmins?.length !== 0} btn={true} data={props} />
                             )}
                         </>
                     )

@@ -8,10 +8,10 @@ export type IDonation = {
     goal: any,
     total?: number,
     visibility: "PUBLIC" | "PRIVATE" | null,
-    collaborators: Array<any>,
+    collaborators?: Array<string>,
     purpose: string,
     funnelID?: string,
-    funnelType?: "EVENT" | "COMMUNITY",
+    funnelType?: "EVENT" | "COMMUNITY" | null,
     endDate: any,
     fundRaiserGroupId?: string
 }
@@ -40,6 +40,7 @@ export type IDonationList = {
     returnMessage: string,
     status: any,
     statusCode: number,
+    totalInGroup: number,
     user: IUser,
     isCollaborator: boolean
 }

@@ -95,9 +95,7 @@ function EditEvent({ params }: { params: { slug: string } }) {
             clone.acceptedAdmins = acceptedAdmins
             clone.acceptedCollaborators = acceptedCollaborators
 
-            updateEvent(clone)
-
-            console.log(data?.data?.content[0]);
+            updateEvent(clone) 
             
         }
     })
