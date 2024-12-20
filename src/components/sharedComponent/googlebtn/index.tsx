@@ -18,6 +18,7 @@ import httpService from '@/utils/httpService'
 import Link from 'next/link'
 import { THEME } from '@/theme'
 import PhoneInput from 'react-phone-input-2'
+import "react-phone-input-2/lib/style.css";
 
 interface Props {
     title: string,
@@ -95,7 +96,7 @@ function GoogleBtn(props: Props) {
 
     useEffect(() => {
         if (tokenData && user?.email) {
-            if (user?.username === user?.email) {
+            if (user?.username === user?.email || !user?.data?.mobilePhone?.value) {
 
                 if (!checkData?.email) {
                     setCheckData({
@@ -169,6 +170,14 @@ function GoogleBtn(props: Props) {
     const editProfile = useMutation({
         mutationFn: (data: any) => httpService.put(`${URLS.UPDATE_PROFILE}`, data),
         onSuccess: (data) => {
+            toast({
+                title: 'Success',
+                description: 'Profile Updated',
+                status: 'success',
+                position: 'top-right',
+                isClosable: true,
+                duration: 2000,
+            });
             router.push('/dashboard/event')
         },
         onError: (error: any) => {
@@ -178,7 +187,7 @@ function GoogleBtn(props: Props) {
                 status: 'error',
                 position: 'top-right',
                 isClosable: true,
-                duration: 3000,
+                duration: 2000,
             });
         }
     })
@@ -279,7 +288,7 @@ function GoogleBtn(props: Props) {
                     </Flex>
 
                     <Flex flexDir={"column"} gap={"1"} w={"full"} >
-                        <Text color={"#1F1F1F"} ml={"1"} >User Name</Text>
+                        <Text color={"#1F1F1F"} ml={"1"} >Phone Number</Text>
                         <PhoneInput
                             country={'us'}
                             enableSearch
