@@ -106,12 +106,10 @@ function DashboardDetail(props: Props) {
 
     const scroll = (scrolloffset: number) => {
         ref.current.scrollLeft += scrolloffset
-    }; 
-
-
+    };  
 
     return (
-        <Flex width={"full"} flexDirection={"column"} >
+        <Flex width={"full"} flexDirection={"column"} overflowX={"hidden"} >
 
             <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"} >
                 <Flex onClick={() => router.push("/dashboard/settings/event-dashboard/" + index + "/refund")} as={"button"} width={"fit-content"} mt={"8"} gap={"2"} alignItems={"center"} bgColor={secondaryBackgroundColor} borderColor={borderColor} borderWidth={"1px"} _hover={{ background: "#5D70F9", color: "white" }} color={bodyTextColor} py={"2px"} px={"2"} fontSize={"13px"} fontWeight={"medium"} rounded={"md"} >
@@ -122,10 +120,10 @@ function DashboardDetail(props: Props) {
                 </Flex> */}
             </Flex>
 
-            <Flex width={"full"} borderTopWidth={"1px"} borderBottomWidth={"1px"} borderColor={colorMode === 'light' ? "#D0D4EB" : borderColor} justifyContent={"center"} mt={"8"} py={"7"} px={"4"} >
-                <Box position={"relative"} rounded={"36px"} maxW={["100vw", "100vw", "700px"]} px={"8"} py={"6"} width={"fit-content"} bgColor={colorMode === 'light' ? "#D0F2D9" : secondaryBackgroundColor} >
+            <Flex width={"full"} borderTopWidth={"1px"} borderBottomWidth={"1px"} borderColor={colorMode === 'light' ? "#D0D4EB" : borderColor} justifyContent={"center"} mt={"8"} py={"7"} >
+                <Box position={"relative"} rounded={"36px"} maxW={["full", "full", "700px"]} px={["4", "4", "8"]} py={"6"} width={"full"} bgColor={colorMode === 'light' ? "#D0F2D9" : secondaryBackgroundColor} >
                     <HStack justifyContent={'space-between'} alignItems={'center'}>
-                    <Flex alignItems={"center"} gap={"2"}>
+                    <Flex alignItems={"center"} gap={"2"} w={"full"} justifyContent={"space-between"}>
                         <Flex width={"10"} height={"10"} bgColor={"#101828"} rounded={"full"} justifyContent={"center"} alignItems={"center"} >
                             <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g id="vuesax/linear/ticket">
@@ -147,7 +145,7 @@ function DashboardDetail(props: Props) {
                     </Select>
 
                     </HStack>
-                    <Flex ref={ref} pt={"7"} mx={"6"} scrollBehavior={"smooth"} overflowX={"auto"} alignItems={"center"} sx={
+                    <Flex ref={ref} pt={"7"} px={"4"} w={"full"} scrollBehavior={"smooth"} overflowX={"auto"} alignItems={"center"} sx={
                         {
                             '::-webkit-scrollbar': {
                                 display: 'none'
@@ -157,23 +155,23 @@ function DashboardDetail(props: Props) {
                         <Flex w={"fit-content"}   >
                             <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor} >
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Created</Text>
-                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{formatNumberWithK(history?.totalNumberOfTickets ? history?.totalNumberOfTickets : 0)}</Text>
+                                <Text fontWeight={"medium"} fontSize={["24px", "30px", "30px"]} textAlign={"center"} className=" font-medium text-center " >{formatNumberWithK(history?.totalNumberOfTickets ? history?.totalNumberOfTickets : 0)}</Text>
                             </Box>
                             <Box pt={"3px"} w={"120px"} px={"1"} borderRight={"1px"} borderColor={borderColor} >
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >No. of Tickets Sold</Text>
-                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{formatNumberWithK(history?.qtyActiveSold ? history?.qtyActiveSold : 0)}</Text>
+                                <Text fontWeight={"medium"} fontSize={["24px", "30px", "30px"]} textAlign={"center"} className=" font-medium text-center " >{formatNumberWithK(history?.qtyActiveSold ? history?.qtyActiveSold : 0)}</Text>
                             </Box>
-                            <Box pt={"3px"} w={"100px"} px={"1"} borderRight={"1px"} borderColor={borderColor}  >
+                            <Box pt={"3px"} w={"120px"} px={"1"} borderRight={"1px"} borderColor={borderColor}  >
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} > Escrow (24hrs)</Text>
-                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalPendingSales)}</Text>
+                                <Text fontWeight={"medium"} fontSize={["24px", "30px", "30px"]} textAlign={"center"} className=" font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalPendingSales)}</Text>
                             </Box>
-                            <Box pt={"3px"} w={"100px"} px={"1"} borderRight={"1px"} borderColor={borderColor}  >
+                            <Box pt={"3px"} w={"120px"} px={"1"} borderRight={"1px"} borderColor={borderColor}  >
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >{eventData?.donationEnabled ? "Donated(₦)" : "Revenue(₦)"}</Text>
-                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{"₦"}{eventData.donationEnabled ? formatNumberWithK(eventData?.totalDonated):formatNumberWithK(history?.totalActiveSales)}</Text>
+                                <Text fontWeight={"medium"} fontSize={["24px", "30px", "30px"]} textAlign={"center"} className=" font-medium text-center " >{"₦"}{eventData.donationEnabled ? formatNumberWithK(eventData?.totalDonated):formatNumberWithK(history?.totalActiveSales)}</Text>
                             </Box>
                             <Box pt={"3px"} px={"4"} borderColor={borderColor}  >
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Available</Text>
-                                <Text fontWeight={"medium"} fontSize={"30px"} textAlign={"center"} className=" text-[30px]  font-medium text-center " >{formatNumberWithK(history?.totalNumberOfAvailableTickets ? history?.totalNumberOfAvailableTickets : 0)}</Text>
+                                <Text fontWeight={"medium"} fontSize={["24px", "30px", "30px"]} textAlign={"center"} className=" font-medium text-center " >{formatNumberWithK(history?.totalNumberOfAvailableTickets ? history?.totalNumberOfAvailableTickets : 0)}</Text>
                             </Box>
                             {/* <Box pt={"3px"} px={"4"} borderRight={"1px"} borderColor={borderColor} >
                             <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Sold</Text>
@@ -185,10 +183,10 @@ function DashboardDetail(props: Props) {
                             </Box> */}
                         </Flex>
                     </Flex>
-                    <Box zIndex={"10"} display={["block", "block", "none"]} position={"absolute"} bottom={"10"} left={"1"} bgColor={"white"} onClick={() => scroll(-400)} as="button" w={"40px"} h={"40px"} rounded={"full"} >
+                    <Box zIndex={"10"} display={["block", "block", "none"]} position={"absolute"} bottom={"10"} left={"0px"} bgColor={"white"} onClick={() => scroll(-400)} as="button" w={"40px"} h={"40px"} rounded={"full"} >
                         <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
                     </Box>
-                    <Box zIndex={"10"} display={["block", "block", "none"]} position={"absolute"} bottom={"10"} right={"1"} bgColor={"white"} onClick={() => scroll(400)} transform={"rotate(180deg)"} as="button" w={"40px"} h={"40px"} rounded={"full"} >
+                    <Box zIndex={"10"} display={["block", "block", "none"]} position={"absolute"} bottom={"10"} right={"0px"} bgColor={"white"} onClick={() => scroll(400)} transform={"rotate(180deg)"} as="button" w={"40px"} h={"40px"} rounded={"full"} >
                         <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
                     </Box>
                 </Box>
