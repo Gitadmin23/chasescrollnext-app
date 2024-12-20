@@ -17,6 +17,7 @@ import useGetUser from '@/hooks/useGetUser'
 import httpService from '@/utils/httpService'
 import Link from 'next/link'
 import { THEME } from '@/theme'
+import PhoneInput from 'react-phone-input-2'
 
 interface Props {
     title: string,
@@ -34,7 +35,8 @@ interface UserDetail {
     email: string;
     firstName: string;
     lastName: string;
-    username?: string
+    username?: string;
+    phone?: string;
 }
 
 function GoogleBtn(props: Props) {
@@ -62,7 +64,10 @@ function GoogleBtn(props: Props) {
 
     const {
         primaryColor,
-
+        borderColor,
+        secondaryBackgroundColor,
+        bodyTextColor,
+        mainBackgroundColor
     } = useCustomTheme()
 
     const token: any = sessionData;
@@ -146,8 +151,8 @@ function GoogleBtn(props: Props) {
         }
     })
 
-    const checkUserName = useMutation({ 
-        mutationFn: () => httpService.get(`/auth/username-check`,{
+    const checkUserName = useMutation({
+        mutationFn: () => httpService.get(`/auth/username-check`, {
             params: {
                 username: checkData?.username
             }
@@ -177,17 +182,34 @@ function GoogleBtn(props: Props) {
             });
         }
     })
-    
-    useEffect(()=> {
-        if((checkData?.username+"")?.length >= 2){
+
+    useEffect(() => {
+        if ((checkData?.username + "")?.length >= 2) {
             checkUserName?.mutate()
         } else {
             setUserNameCheck("")
         }
     }, [checkData?.username])
 
-    const closeHandler = ()=> {
+    const closeHandler = () => {
 
+    }
+
+    const submitHandler = () => {
+
+        const data = {
+            email: checkData?.email,
+            firstName: checkData?.firstName,
+            lastName: checkData?.lastName,
+            username: checkData?.username,
+            "data": {
+                mobilePhone: {
+                    objectPublic: true,
+                    value: checkData?.phone,
+                }
+            }
+        }
+        editProfile?.mutate(data)
     }
 
     return (
@@ -255,6 +277,23 @@ function GoogleBtn(props: Props) {
                             <Text color={userNameCheck?.includes("exists") ? "red" : primaryColor} fontSize={"14px"} fontWeight={"600"} >{userNameCheck}</Text>
                         )}
                     </Flex>
+
+                    <Flex flexDir={"column"} gap={"1"} w={"full"} >
+                        <Text color={"#1F1F1F"} ml={"1"} >User Name</Text>
+                        <PhoneInput
+                            country={'us'}
+                            enableSearch
+                            // style={{ width: '100%', height: '45px', borderWidth: '1px', borderRadius: '5px', borderColor: 'lightgrey', padding: '10px' }}
+                            containerStyle={{ width: '100%', height: '45px', }}
+                            inputStyle={{ width: "100%", height: "45px", borderWidth: '1px', borderColor: borderColor, background: mainBackgroundColor, borderRadius: "999px" }}
+                            dropdownStyle={{ backgroundColor: mainBackgroundColor }}
+                            searchStyle={{ background: secondaryBackgroundColor }}
+                            buttonStyle={{ color: bodyTextColor }}
+                            value={checkData?.phone}
+                            onChange={(phone: any) => setCheckData({ ...checkData, phone:phone})}
+                        />
+                        {/* <CustomInput name='mobilePhone' isPassword={false} type='text' placeholder='' /> */}
+                    </Flex>
                     <Flex alignItems={"center"} gap={"2"} >
                         <Checkbox
                             colorScheme="blue"
@@ -285,7 +324,7 @@ function GoogleBtn(props: Props) {
                             </Link>
                         </CustomText>
                     </Flex>
-                    <Button type="button" color={"white"} isLoading={editProfile?.isLoading} isDisabled={editProfile?.isLoading || (terms === true ? false : true) || !checkData?.username || userNameCheck?.includes("exists")} onClick={() => editProfile?.mutate(checkData)} mt={"4"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
+                    <Button type="button" color={"white"} isLoading={editProfile?.isLoading} isDisabled={editProfile?.isLoading || (terms === true ? false : true) || !checkData?.username || userNameCheck?.includes("exists") || !checkData?.firstName || !checkData?.lastName || !checkData?.phone} onClick={submitHandler} mt={"4"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
                         <Text textAlign={"center"} fontWeight={"600"} >Save</Text>
                     </Button>
                 </Flex>
