@@ -22,7 +22,7 @@ const useModalStore = create<State & Action>((set) => ({
     open: false, 
     notifyModal: false,
     showModal: false,
-    googlesign: true,
+    googlesign: false,
     category: {} as any,
     ticketType: {} as any,
     setOpen: (data) => set(() => ({ open: data })),

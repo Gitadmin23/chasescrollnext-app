@@ -59,7 +59,6 @@ function GoogleBtn(props: Props) {
     const router = useRouter();
     const [open, setOpen] = useState(false)
     const [terms, setTerms] = useState(false)
-    const { setGoogle } = useModalStore((state) => state);
     const [tokenData, setTokenData] = useState("")
     const [userNameCheck, setUserNameCheck] = useState("")
 
@@ -86,6 +85,8 @@ function GoogleBtn(props: Props) {
 
     const { user } = useGetUser()
 
+    console.log(tokenData);
+    
 
     useEffect(() => {
         if (tokenData) {
@@ -105,8 +106,7 @@ function GoogleBtn(props: Props) {
                         lastName: user?.lastName,
                     })
                 }
-                setOpen(true)
-                console.log(user?.username);
+                setOpen(true) 
             } else {
                 if (id) {
                     if (type === "DONATION") {
@@ -143,12 +143,12 @@ function GoogleBtn(props: Props) {
             localStorage.setItem('expires_in', data?.data?.expires_in);
 
             // if(data?.data?.user_name ===)
-
+            console.log(data?.data);
+            
             setCheckData(data?.data)
         },
-        onError: (error: any) => {
-            console.log(error);
-            setGoogle(false)
+        onError: (error: any) => { 
+            console.log("error"); 
         }
     })
 
@@ -178,7 +178,15 @@ function GoogleBtn(props: Props) {
                 isClosable: true,
                 duration: 2000,
             });
-            router.push('/dashboard/event')
+            if (id) {
+                if (type === "DONATION") {
+                    router.push(`/dashboard/donation/${index}`);
+                } else {
+                    router.push(`/dashboard/event/details/${index}`);
+                }
+            } else {
+                router.push('/dashboard/event')
+            }
         },
         onError: (error: any) => {
             toast({
@@ -338,7 +346,7 @@ function GoogleBtn(props: Props) {
                     </Button>
                 </Flex>
             </ModalLayout>
-            <PageLoader show={token?.token?.token.token.idToken ? true : false} />
+            {/* <PageLoader show={token?.token?.token.token.idToken ? true : false} /> */}
         </>
     )
 }

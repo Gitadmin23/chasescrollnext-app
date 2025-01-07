@@ -12,7 +12,8 @@ import GoogleBtn from '../sharedComponent/googlebtn'
 import ModalLayout from '../sharedComponent/modal_layout'
 import { useDetails } from '@/global-state/useUserDetails'
 import DonationTermAndCondition from './donationTermAndCondition'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import useModalStore from '@/global-state/useModalSwitch'
 
 export default function DonationPayment({ data, fullWidth }: { data?: IDonationList, fullWidth?: boolean }) {
 
@@ -20,6 +21,7 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
     const [openSignUp, setOpenSignUp] = useState(false) 
 
     const [value, setValue] = useState("")
+    // const { googlesign ,setGoogle } = useModalStore((state) => state);
 
     const {
         primaryColor,
@@ -42,7 +44,7 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
 
     const userId = localStorage.getItem('user_id') + "";
     const { userId: user_index } = useDetails((state) => state);
-    const token = sessionStorage.getItem('tp_token')
+    const token = sessionStorage.getItem('tp_token')  
 
     const { setPaystackConfig, setDonation } = usePaystackStore((state) => state);
 
@@ -91,12 +93,15 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
                 typeID: data?.id + ""
             })
         } else {
-            setOpen(true)
+            router.push(`/donation/${data?.id}?type=modal`)
         }
     }
+    
+    const query = useSearchParams();
+    const type = query?.get('type');
 
     const signUpHandler = (item: boolean) => {
-        setOpen(false)
+        router.push(`/donation/${data?.id}?type=modal`)
         setOpenSignUp(item)
     }
 
@@ -124,7 +129,7 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
                 <DonationTermAndCondition refund={true} />
             </Flex>
 
-            <ModalLayout open={open} close={setOpen} title='' closeIcon={true} >
+            <ModalLayout open={type === "modal" ? true : false} close={()=> router.push(`/donation/${data?.id}`)} title='' closeIcon={true} >
                 <Flex w={"full"} flexDir={"column"} gap={"4"} p={"6"} >
                     <Flex flexDir={"column"} justifyContent={"center"} >
                         <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"32px"} >Fundraising</Text>
