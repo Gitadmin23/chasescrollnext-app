@@ -22,8 +22,23 @@ export default function SignForm({ tab, setTab, setShowVerify }: IProps) {
     const toast = useToast()
     const { signupForm, signupLoading, formatDate, year, monthNumber, day, signupValue, dob, setPhone, phone, signupSuccess, terms, setTerms } = useAuth()
 
-    const clickHandler = () => {
-        if (signupValue?.firstName && signupValue?.lastName && signupValue?.email && dob) {
+
+    const isNotEmail = (str: string) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return !emailRegex.test(str);
+    }
+
+    const clickHandler = () => { 
+        if(isNotEmail(signupValue?.email)){
+            toast({
+                title: "Attention!",
+                description: "Enter a valid Email",
+                status: "warning",
+                isClosable: true,
+                duration: 5000,
+                position: "top-right",
+            });
+        }else if (signupValue?.firstName && signupValue?.lastName && signupValue?.email && dob) {
             setTab(true)
         } else {
             toast({
@@ -41,12 +56,12 @@ export default function SignForm({ tab, setTab, setShowVerify }: IProps) {
         if (signupSuccess) {
             setShowVerify(true)
         }
-    }, [signupSuccess]) 
+    }, [signupSuccess])
 
     return signupForm(
         <Flex w={"full"} justifyContent={"center"} >
             {!tab && (
-                <Flex overflowY={"auto"} alignItems={"center"} maxW={"375px"} w={"full"} flexDir={"column"}  >
+                <Flex overflowY={"auto"} overflowX={"hidden"} alignItems={"center"} maxW={"375px"} w={"full"} flexDir={"column"}  >
                     <Text fontSize={["20px", "20px", "32px"]} color={"#1F1F1F"} textAlign={"center"} fontWeight={"500"} >Create your account</Text>
                     <Flex flexDir={"column"} gap={"1"} mt={"4"} w={"full"} >
                         <Text color={"#1F1F1F"} ml={"1"} >First Name</Text>
@@ -98,7 +113,7 @@ export default function SignForm({ tab, setTab, setShowVerify }: IProps) {
                 </Flex>
             )}
             {tab && (
-                <Flex overflowY={"auto"} alignItems={"center"} maxW={"375px"} w={"full"} flexDir={"column"}  >
+                <Flex overflowY={"auto"} overflowX={"hidden"} alignItems={"center"} w={"full"} flexDir={"column"}  >
                     <Text fontSize={["20px", "20px", "32px"]} color={"#1F1F1F"} textAlign={"center"} fontWeight={"500"} >Finish signing up</Text>
                     <Flex flexDir={"column"} gap={"1"} mt={"4"} w={"full"} >
                         <Text color={"#1F1F1F"} ml={"1"} >Username</Text>
@@ -111,7 +126,7 @@ export default function SignForm({ tab, setTab, setShowVerify }: IProps) {
                         />
                     </Flex>
                     <Flex flexDir={"column"} gap={"1"} mt={"4"} w={"full"} >
-                        {/* <Text color={"#1F1F1F"} ml={"1"} >Phone Number</Text> */}
+                        <Text color={"#1F1F1F"} ml={"1"} >Phone Number</Text>
                         <PhoneInput
                             country={"us"}
                             enableSearch
