@@ -130,10 +130,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                                     <Flex flexDir={"column"} >
                                         <Text fontWeight={"500"} >End Date</Text>
                                         <Text fontSize={"14px"} >{dateFormat(item?.endDate)}{" "}{timeFormat(item?.endDate)}</Text>
-                                    </Flex>
-                                    {item?.createdBy?.userId === userId && (
-                                        <DonationCollaborator update={true} singleData={item} index={0} />
-                                    )}
+                                    </Flex> 
                                 </Flex>
                                 <Flex flexDir={"column"} >
                                     <Text fontWeight={"500"} >Fundraising Description</Text>
