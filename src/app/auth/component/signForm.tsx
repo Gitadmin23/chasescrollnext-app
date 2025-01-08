@@ -200,7 +200,7 @@ export default function SignForm({ tab, setTab, setShowVerify }: IProps) {
                             </Link>
                         </CustomText>
                     </HStack>
-                    <Button type='submit' isLoading={signupLoading} mt={"6"} isDisabled={!terms} _disabled={{ backgroundColor: "#233DF380" }} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={["32px", "32px", "32px"]} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
+                    <Button type='submit' isLoading={signupLoading} mt={"6"} isDisabled={!terms || phone?.length <= 12 ? true : false} _disabled={{ backgroundColor: "#233DF380" }} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={["32px", "32px", "32px"]} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
                         <Text color={"white"} textAlign={"center"} fontWeight={"600"} >Finish</Text>
                     </Button>
                 </Flex>
