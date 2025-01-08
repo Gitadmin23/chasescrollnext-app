@@ -65,9 +65,9 @@ export default function LandingPageLayout({ children }: IProps) {
 
     const router = useRouter();
 
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [router])
+    // useEffect(() => {
+    //     window.scrollTo(0, 0)
+    // }, [router])
 
     return (
         <Box overflow={"hidden"} w={"full"} > 
