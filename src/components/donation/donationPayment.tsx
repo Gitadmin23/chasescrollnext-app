@@ -44,7 +44,8 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
 
     const userId = localStorage.getItem('user_id') + "";
     const { userId: user_index } = useDetails((state) => state);
-    const token = sessionStorage.getItem('tp_token')  
+    const token = sessionStorage.getItem('tp_token')   
+    const tokendata = localStorage.getItem('token');
 
     const { setPaystackConfig, setDonation } = usePaystackStore((state) => state);
 
@@ -84,7 +85,7 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
     });
 
     const clickHandler = () => {
-        if(user_index || token) {
+        if(user_index || token || tokendata) {
             payForTicket.mutate({
                 seller: data?.createdBy?.userId+"",
                 price: Number(value),

@@ -346,7 +346,7 @@ function GoogleBtn(props: Props) {
                     </Button>
                 </Flex>
             </ModalLayout>
-            {/* <PageLoader show={token?.token?.token.token.idToken ? true : false} /> */}
+            <PageLoader show={token?.token?.token.token.idToken ? true : false} />
         </>
     )
 }
