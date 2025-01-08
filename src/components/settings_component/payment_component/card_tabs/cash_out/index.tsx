@@ -108,7 +108,7 @@ function CashOut(props: Props) {
       )}
       {show && (
         <Flex flexDir={"column"} gap={"3"} w={"full"}>
-          <CashoutBtn currency={currency} amount={amount} />
+          <CashoutBtn setShow={setShow} currency={currency} amount={amount} />
           <CustomButton
             color={bodyTextColor}
             borderRadius={"8px"}
