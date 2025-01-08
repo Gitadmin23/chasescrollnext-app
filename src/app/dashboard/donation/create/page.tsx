@@ -15,7 +15,7 @@ export default function CreateDonation() {
     } = useCustomTheme();
     const { colorMode } = useColorMode();
 
-    const { data, updateDontion } = useDonationStore((state) => state)
+    const { data, updateDontion, updateImage } = useDonationStore((state) => state)
 
     const user_id = localStorage.getItem("user_id") + ""
 
@@ -31,6 +31,7 @@ export default function CreateDonation() {
             purpose: "",
             collaborators: []
         }])
+        updateImage([])
     }, [])
 
     return (
