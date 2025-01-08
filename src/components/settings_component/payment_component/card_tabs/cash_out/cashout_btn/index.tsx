@@ -12,13 +12,15 @@ import SuccessMessage from '../modals/success_message'
 
 interface Props {
     currency: string,
-    amount: any,
+    amount: any, 
+    setShow: any
 }
 
 function CashoutBtn(props: Props) {
     const {
         currency,
         amount,
+        setShow
     } = props
 
     const [open, setOpen] = React.useState(false)
@@ -78,6 +80,7 @@ function CashoutBtn(props: Props) {
                 setAmount("")
                 setLoadingWithdrawal(false)
                 // setOpen(false)
+                setShow(false)
                 setAccountName("")
                 setModalType(2)
             } else if (request?.data?.status === "ok") {
