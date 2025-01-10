@@ -12,7 +12,7 @@ export default function Home() {
     const { postData, refetchingPost, loadingPost, postRef } = useHome()
 
     const { colorMode } = useColorMode();
-    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+    const { mainBackgroundColor, borderColor } = useCustomTheme();
     return (
         <Flex w={"full"} height={"full"} bgColor={colorMode !== "dark" ? mainBackgroundColor : mainBackgroundColor} >
             <Flex w={["full", "full", "full", "55%", "full"]} h={"full"} flexDir={"column"} >

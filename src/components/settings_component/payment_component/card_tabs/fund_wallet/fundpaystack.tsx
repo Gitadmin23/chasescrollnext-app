@@ -11,6 +11,7 @@ import { SuccessIcon } from '@/components/svg';
 import useCustomTheme from "@/hooks/useTheme";
 import useStripeStore from '@/global-state/useStripeState';
 import useModalStore from '@/global-state/useModalSwitch';
+import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 
 interface Props {
     config: any,
@@ -37,6 +38,9 @@ function Fundpaystack(props: Props) {
     const queryClient = useQueryClient()
 
     const [open, setOpen] = useState(false)
+
+
+    const [loading, setLoading] = useState(true)
 
     const initializePayment: any = usePaystackPayment(config);
     const toast = useToast()
@@ -97,7 +101,7 @@ function Fundpaystack(props: Props) {
             queryClient.invalidateQueries(['all-events-details'])
 
             // router.push("/dashboard/event/my_event")
-            setOpen(true)
+            setLoading(false)
 
             // window.location.reload()
             // setShowModal(false)
@@ -115,9 +119,11 @@ function Fundpaystack(props: Props) {
     });
 
     const onSuccess = (reference: any) => {
+        setOpen(true)
+        setLoading(true)
         if (fund) {
             payStackFundMutation.mutate(reference?.reference)
-        } else { 
+        } else {
             payStackMutation.mutate(reference?.reference)
         }
     };
@@ -157,14 +163,16 @@ function Fundpaystack(props: Props) {
     return (
         <>
             <ModalLayout open={open} close={setOpen} bg={secondaryBackgroundColor} closeIcon={true} >
-                <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
-                    <SuccessIcon />
-                    <Text fontSize={"24px"} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"500"} mt={"4"} >{donation ? "Donated Successful" : booking ? "Booking Successful" : "Ticket Purchase Successful"}</Text>
-                    <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{donation ? `Thank you! Your generous donation makes a real difference. We’re so grateful for your support!` :booking ? `Thank you!`  : `Congratulations! you can also find your ticket on the Chasescroll app, on the details page click on the view ticket button.`}</Text>
-                    {(!donation && !booking) && (
-                        <CustomButton onClick={() => clickHandler()} color={"#FFF"} text={'View Ticket'} w={"full"} backgroundColor={"#3EC259"} />
-                    )}
-                </Flex>
+                <LoadingAnimation loading={loading} >
+                    <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
+                        <SuccessIcon />
+                        <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{donation ? "Donated Successful" : booking ? "Booking Successful" : "Ticket Purchase Successful"}</Text>
+                        <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{donation ? `Thank you! Your generous donation makes a real difference. We’re so grateful for your support!` : booking ? `Thank you!` : `Congratulations! you can also find your ticket on the Chasescroll app, on the details page click on the view ticket button.`}</Text>
+                        {(!donation && !booking) && (
+                            <CustomButton onClick={() => clickHandler()} color={"#FFF"} text={'View Ticket'} w={"full"} backgroundColor={"#3EC259"} />
+                        )}
+                    </Flex>
+                </LoadingAnimation>
             </ModalLayout>
             {/* <Button onClick={()=> clickHandler()} bgColor={"blue.400"} color={"white"} >Pay</Button> */}
         </>
