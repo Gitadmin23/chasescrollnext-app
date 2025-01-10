@@ -23,6 +23,7 @@ import useDonationStore from '@/global-state/useDonationState';
 import BlurredImage from '../sharedComponent/blurred_image';
 import DonationGroupModal from './donationGroupModal';
 import useGetSingleDonationList from '@/hooks/useGetSingleDonation';
+import DonationCollaborator from '../create_donation/donationCollaborator';
 
 export default function DonationGroupDetails({ id, notAuth }: { id: string, notAuth?: boolean }) {
 
@@ -115,6 +116,15 @@ export default function DonationGroupDetails({ id, notAuth }: { id: string, notA
                                             <Flex flexDir={"column"} >
                                                 <Text fontWeight={"500"} >Date Created</Text>
                                                 <Text fontSize={"14px"} >{dateFormat(item?.createdDate)}{" "}{timeFormat(item?.createdDate)}</Text>
+                                            </Flex>
+                                            {item?.createdBy?.userId === userId && (
+                                                <DonationCollaborator update={true} singleData={item} index={0} />
+                                            )}
+                                        </Flex>
+                                        <Flex justifyContent={"space-between"} alignItems={"center"} >
+                                            <Flex flexDir={"column"} >
+                                                <Text fontWeight={"500"} >End Date</Text>
+                                                <Text fontSize={"14px"} >{dateFormat(item?.endDate)}{" "}{timeFormat(item?.endDate)}</Text>
                                             </Flex>
                                         </Flex>
                                         <Flex flexDir={"column"} >
