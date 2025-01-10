@@ -49,7 +49,9 @@ export default function DonationItemList({ details, singleData, creator, pasted 
     const router = useRouter()
 
     const clickHander = (item: IDonationList, index: string) => {
-        if (item?.fundRasingGroupId?.id) {
+        if(creator || pasted){
+            router?.push("/dashboard/donation/" + index)
+        } else if (item?.fundRasingGroupId?.id) {
             // setSelected(item)
             router?.push("/dashboard/donation/group/" + index)
         } else {
@@ -89,8 +91,8 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                             </Flex>
                                             <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
                                         </Flex>
-                                        <Flex w={"full"} borderWidth={item?.fundRasingGroupId?.id ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
-                                            {item?.fundRasingGroupId?.id && (
+                                        <Flex w={"full"} borderWidth={(item?.fundRasingGroupId?.id && !creator && !pasted) ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
+                                            {(item?.fundRasingGroupId?.id && !creator && !pasted) && (
                                                 <Flex gap={"1"} alignItems={"center"} >
                                                     <IoInformationCircleOutline />
                                                     <Text fontSize={"12px"} >{item?.totalInGroup - 1} More fundraising available  </Text>
@@ -131,8 +133,8 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                             </Flex>
                                             <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
                                         </Flex>
-                                        <Flex w={"full"} borderWidth={item?.fundRasingGroupId?.id ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
-                                            {item?.fundRasingGroupId?.id && (
+                                        <Flex w={"full"} borderWidth={(item?.fundRasingGroupId?.id && !creator && !pasted) ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
+                                            {(item?.fundRasingGroupId?.id && !creator && !pasted) && (
                                                 <Flex gap={"1"} alignItems={"center"} >
                                                     <IoInformationCircleOutline />
                                                     <Text fontSize={"12px"} >{item?.totalInGroup - 1} More fundraising available  </Text>

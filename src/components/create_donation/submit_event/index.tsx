@@ -282,10 +282,12 @@ function SubmitEvent(props: Iprops) {
         } else if (uploadedFile?.length === 1) {
             let newObj: any = [...data]
             newObj[0] = { ...data[0], bannerImage: uploadedFile[0] }
+            
             if (!pathname?.includes("edit")) {
                 createDonation.mutate({ items: newObj })
 
             } else { 
+                delete newObj[0].collaborators;
                 editDonation?.mutate({ ...newObj[0] })
             }
             reset()
