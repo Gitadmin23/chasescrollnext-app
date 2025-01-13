@@ -86,7 +86,7 @@ function GoogleBtn(props: Props) {
     const { user } = useGetUser()
 
     console.log(tokenData);
-    
+
 
     useEffect(() => {
         if (tokenData) {
@@ -94,6 +94,23 @@ function GoogleBtn(props: Props) {
             signinWithGoogle.mutate(tokenData)
         }
     }, [tokenData]);
+
+
+    const handleChangeName = (e: any, name: string) => {
+        const value = e.target.value;
+
+        // Regex pattern to only allow letters
+        const regex = /^[a-zA-Z]*$/;
+        if(name === "firstName"){
+            if (regex.test(value)) { 
+                setCheckData({ ...checkData, firstName: e.target?.value })
+            }
+        } else if(name === "lastName"){
+            if (regex.test(value)) { 
+                setCheckData({ ...checkData, lastName: e.target?.value })
+            }
+        }
+    };
 
     useEffect(() => {
         if (tokenData && user?.email) {
@@ -106,7 +123,7 @@ function GoogleBtn(props: Props) {
                         lastName: user?.lastName,
                     })
                 }
-                setOpen(true) 
+                setOpen(true)
             } else {
                 if (id) {
                     if (type === "DONATION") {
@@ -144,11 +161,11 @@ function GoogleBtn(props: Props) {
 
             // if(data?.data?.user_name ===)
             console.log(data?.data);
-            
+
             setCheckData(data?.data)
         },
-        onError: (error: any) => { 
-            console.log("error"); 
+        onError: (error: any) => {
+            console.log("error");
         }
     })
 
@@ -252,7 +269,7 @@ function GoogleBtn(props: Props) {
                             <Text color={"#1F1F1F"} ml={"1"} >First Name</Text>
                             <Input
                                 width={'100%'}
-                                onChange={(e) => setCheckData({ ...checkData, firstName: e.target?.value })}
+                                onChange={(e) => handleChangeName(e, "firstName")}
                                 placeholder={'FirstName'}
                                 value={checkData?.firstName}
                                 fontFamily={'Satoshi-Light'}
@@ -260,14 +277,15 @@ function GoogleBtn(props: Props) {
                                 rounded={"32px"}
                                 // color={textColor ?? 'black'}
                                 bgColor={'transparent'}
+                                
                             />
                         </Flex>
                         <Flex flexDir={"column"} gap={"1"} w={"full"} >
                             <Text color={"#1F1F1F"} ml={"1"} >Last Name</Text>
                             <Input
                                 width={'100%'}
-                                onChange={(e) => setCheckData({ ...checkData, lastName: e.target?.value })}
-                                placeholder={'FirstName'}
+                                onChange={(e) => handleChangeName(e, "lastName")}
+                                placeholder={'LastName'}
                                 value={checkData?.lastName}
                                 fontFamily={'Satoshi-Light'}
                                 height={"45px"}
@@ -307,7 +325,7 @@ function GoogleBtn(props: Props) {
                             searchStyle={{ background: secondaryBackgroundColor }}
                             buttonStyle={{ color: bodyTextColor }}
                             value={checkData?.phone}
-                            onChange={(phone: any) => setCheckData({ ...checkData, phone:phone})}
+                            onChange={(phone: any) => setCheckData({ ...checkData, phone: phone })}
                         />
                         {/* <CustomInput name='mobilePhone' isPassword={false} type='text' placeholder='' /> */}
                     </Flex>

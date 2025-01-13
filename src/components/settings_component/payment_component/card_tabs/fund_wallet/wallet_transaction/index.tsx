@@ -60,6 +60,7 @@ function WalletTransaction(props: Props) {
                                                 item?.title ??
                                                 item?.purpose === 'PAY_FOR_TICKET'
                                                 ? 'Ticket Purchase'
+                                                : item?.purpose === 'DONATION' ? "Fundraising"
                                                 : item?.purpose === 'FUND_WALLET'
                                                     ? 'Fund Wallet'
                                                     : 'CASHOUT' && 'Withdrawal'
