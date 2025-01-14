@@ -10,7 +10,9 @@ interface Props {
     fix_height?: boolean,
     color?: string,
     customLoader?: React.ReactNode,
-    withimg?: boolean
+    withimg?: boolean,
+    width?: string;
+    bgColor?: string
 }
 
 function LoadingAnimation(props: Props) {
@@ -23,7 +25,9 @@ function LoadingAnimation(props: Props) {
         fix_height,
         color,
         customLoader,
-        withimg
+        withimg,
+        width,
+        bgColor
     } = props
 
     const {
@@ -37,7 +41,7 @@ function LoadingAnimation(props: Props) {
                 <>
                     {children}
                     {(!loading && refeching) && (
-                        <Flex w={"full"} bg={secondaryBackgroundColor} height={"auto"} >
+                        <Flex w={width ? width : "full"} minW={"100px"} bg={bgColor ? bgColor : secondaryBackgroundColor} height={"auto"} >
                             {/* {!customLoader && ( */}
                             <Flex width={"full"} justifyContent={"center"} height={fix_height ? "full" : "auto"} fontSize={"20px"} py={fix_height ? "" : "8"}  >
                                 <Spinner size={["md", "sm"]} color={color ? color : 'black'} />

@@ -1,9 +1,12 @@
 "use client"
 import CustomButton from '@/components/general/Button';
+import VerificationKyc from '@/components/settings_component/verificationKyc';
 import UserImage from '@/components/sharedComponent/userimage';
+import { Settings4Icon } from '@/components/svg';
 import useSettingsStore from '@/global-state/useSettingsState';
 import { useDetails } from '@/global-state/useUserDetails';
 import useCustomTheme from '@/hooks/useTheme';
+import { capitalizeFLetter } from '@/utils/capitalLetter';
 import { Box, Flex, Switch, Text, useColorMode } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation';
 import React, { ReactNode } from 'react'
@@ -32,25 +35,24 @@ function Layout({ children }: { children: ReactNode }) {
     //         setCurrency("NGN")
     //     }
     // }
-    
+
     return (
         <Flex flexDirection={"column"} height={"full"} width={"full"} overflowY={"auto"} bg={mainBackgroundColor} >
             <Flex justifyContent={"space-between"} py={"36px"} px={["6", "59px"]} width={"full"} alignItems={"center"} >
-                <Flex gap={"3"} width={"fit-content"} alignItems={"center"}  >
-                    <IoIosArrowBack role="button" onClick={() => router.back()} size="24px" />
-                    <Flex as={"button"} onClick={() => router.push(`/dashboard/profile/${userId}`)} gap={"2"} justifyContent={"start"} alignItems={"center"} >
-                        <Box width={"fit-content"} >
-                            <UserImage data={user} size={"46px"} font={"18px"} image={user?.data?.imgMain?.value} />
-                        </Box>
-                        <Box>
-                            <Text fontSize={"14px"} textAlign={"start"} color={bodyTextColor} >Hello</Text>
-                            <Text fontSize={"17px"} fontWeight={"semibold"} mt={"-3px"} color={bodyTextColor} >{firstName + " " + lastName}</Text>
-                        </Box>
+                <Flex flexDirection={"column"} gap={"1"} >
+                    <Flex gap={"3"} width={"fit-content"} alignItems={"center"}  >
+                        <IoIosArrowBack role="button" onClick={() => router.back()} size="24px" />
+                        <Flex as={"button"} onClick={() => router.push(`/dashboard/profile/${userId}`)} gap={"2"} justifyContent={"start"} alignItems={"center"} >
+                            <Box width={"fit-content"} >
+                                <UserImage data={user} size={"46px"} font={"18px"} border={"1px"} image={user?.data?.imgMain?.value} />
+                            </Box>
+                            <Box>
+                                <Text fontSize={"14px"} textAlign={"start"} color={bodyTextColor} >Hello</Text>
+                                <Text fontSize={"16px"} fontWeight={"semibold"} mt={"-3px"} color={bodyTextColor} >{capitalizeFLetter(firstName) + " " + capitalizeFLetter(lastName)}</Text>
+                            </Box>
+                        </Flex>
                     </Flex>
-                </Flex>
-
-                <Flex gap={"2"} > 
-                    <CustomButton fontSize={"sm"} height={"35px"} borderWidth={"1px"} color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"4"} rounded={"8px"} width={"fit-content"} text={'🇳🇬'} />
+                    <VerificationKyc />
                 </Flex>
             </Flex>
             <Box width={["full", "400px"]} mx={"auto"} px={["6", "0px"]} py={"6"} >
