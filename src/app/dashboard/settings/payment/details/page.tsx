@@ -10,17 +10,12 @@ interface Props { }
 function PaymentDetails(props: Props) {
     const { } = props
 
-    const {
-        bodyTextColor,
-        primaryColor,
-        secondaryBackgroundColor,
-        mainBackgroundColor,
-        borderColor,
-    } = useCustomTheme();
-    const { colorMode, toggleColorMode } = useColorMode();
+    const { 
+        mainBackgroundColor, 
+    } = useCustomTheme(); 
 
     return ( 
-        <Box width={"full"} bg={secondaryBackgroundColor} pb={'6px'} borderRadius={'10px'} >
+        <Box width={"full"} bg={mainBackgroundColor} pb={'6px'} borderRadius={'10px'} >
             <DetailCard />
         </Box>
     )

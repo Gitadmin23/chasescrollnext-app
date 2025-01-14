@@ -155,7 +155,10 @@ function CashoutBtn(props: Props) {
 
     return (
         <Box width={"full"} >
-            <CustomButton backgroundColor={"#12299C"} onClick={() => clickHandler()} text='Continue to cash out' isLoading={loading} disable={loading || !amount} marginTop={"8"} />
+            <CustomButton 
+          backgroundColor={"#5465E0"}
+          borderRadius={"32px"}
+          height={"54px"} onClick={() => clickHandler()} text='Continue to cash out' isLoading={loading} disable={loading || !amount} marginTop={"8"} />
             <ModalLayout open={open} close={closeHandler} title={modalType === 2 ? "" : 'Recipient'} >
                 {modalType === 0 && (
                     <AddBankInfo loading={loadingWithdrawal} withdraw={WithdrawFund} setTransferRecipient={setTransferRecipient} transferRecipient={transferRecipient} setAccountName={setAccountName} accountName={accountName} close={setOpen} />

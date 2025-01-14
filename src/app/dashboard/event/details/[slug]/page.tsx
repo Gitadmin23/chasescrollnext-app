@@ -39,7 +39,7 @@ export async function generateMetadata(
       title: product?.content?.length > 0 ? product?.content[0]?.eventName : "",
       description: product?.content?.length > 0 ? product?.content[0]?.eventDescription : "",
       images: [{
-        url: product?.content?.length > 0 ? IMAGE_URL + product?.content[0]?.currentPicUrl : "",
+        url: IMAGE_URL + (product?.content?.length > 0 ? product?.content[0]?.currentPicUrl : ""),
       }],
     },
   }
