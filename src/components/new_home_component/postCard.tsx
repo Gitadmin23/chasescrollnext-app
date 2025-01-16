@@ -123,10 +123,10 @@ export default function PostCard(props: IMediaContent) {
                             </Box>
                         )}
                         <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} gap={"3"} >
-                            <UserImage size={"42px"} data={user} border={"1px"} image={user?.data?.imgMain?.value} />
+                            <UserImage size={"42px"} data={user} font={"18px"} border={"1px"} image={user?.data?.imgMain?.value} />
                             <Flex display={["none", "none", "block"]} flexDir={"column"} textAlign={"left"}  >
                                 {/* <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 15)}</Text> */}
-                                <Text fontSize={"14px"} >{textLimit(user?.username, 20)}</Text>
+                                <Text fontSize={"14px"} >{textLimit(capitalizeFLetter(user?.firstName), 20)}</Text>
                                 <Text fontSize={"8px"} color={bodyTextColor} >{moment(timeInMilliseconds).fromNow()}</Text>
                             </Flex>
                             <Flex display={["block", "block", "none"]} flexDir={"column"} textAlign={"left"}  >
@@ -242,7 +242,7 @@ export default function PostCard(props: IMediaContent) {
                             <Link href={text} target={"_blank"} textDecor={"underline"} color={primaryColor} fontSize={["14px", "14px", "16px"]} >{text}</Link>
                         ) :
                         (
-                            <Text fontSize={["14px", "14px", "16px"]} >{capitalizeFLetter(textLimit(text, textSize))} {text?.length > 100  && <span style={{ color: primaryColor, fontWeight: "700", fontSize: "14px" }} onClick={()=> setTextSize((prev) => prev === 100 ? (10 * 100000000000) : 100)} role='button' >{textSize === 100 ? "more" : "less"}</span>}</Text>
+                            <Text fontSize={["12px", "12px", "14px"]} >{capitalizeFLetter(textLimit(text, textSize))} {text?.length > 100  && <span style={{ color: primaryColor, fontWeight: "700", fontSize: "14px" }} onClick={()=> setTextSize((prev) => prev === 100 ? (10 * 100000000000) : 100)} role='button' >{textSize === 100 ? "more" : "less"}</span>}</Text>
                         )
                     }
                 </Flex>
