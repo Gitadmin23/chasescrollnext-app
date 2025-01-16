@@ -52,7 +52,7 @@ function Layout({ children }: { children: ReactNode }) {
                             </Box>
                         </Flex>
                     </Flex>
-                    <VerificationKyc />
+                    {/* <VerificationKyc /> */}
                 </Flex>
             </Flex>
             <Box width={["full", "400px"]} mx={"auto"} px={["6", "0px"]} py={"6"} >
