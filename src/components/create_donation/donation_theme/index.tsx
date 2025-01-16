@@ -34,8 +34,7 @@ function DonationTheme({ id }: { id?: string }) {
             goal: "",
             visibility: "PRIVATE",
             purpose: "",
-            endDate: "",
-            collaborators: []
+            endDate: ""
         }
         updateDontion(myArr)
     }

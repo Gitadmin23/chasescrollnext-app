@@ -15,7 +15,6 @@ import { IMAGE_URL, RESOURCE_BASE_URL } from '@/services/urls';
 import { Calendar, Location } from 'iconsax-react';
 import ShareEvent from '@/components/sharedComponent/share_event';
 import { useDetails } from '@/global-state/useUserDetails';
-import BlurredImage from '@/components/sharedComponent/blurred_image';
 
 
 
@@ -109,7 +108,9 @@ export default function Layout({ children }: {
     }
 
     return (
-        <Flex w={"full"} h={"full"} flexDir={"column"} px={["10px", "8"]} pt='15px' gap={"8"} overflowY={"auto"} >
+        <Flex w={"full"} h={"full"} flexDir={"column"} px={["10px", "8"]} pt='30px' gap={"8"} overflowY={"auto"} alignItems={'center'} >
+            <VStack w={['full', '70%']} alignItems={['flex-start', 'center']}>
+
             <Flex w={"full"} h={"fit-content"} justifyContent={"space-between"} >
                 {/* <IoArrowBack size="25px" /> */}
                 <Flex as={"button"} onClick={() => router?.back()} >
@@ -119,10 +120,8 @@ export default function Layout({ children }: {
                 <Text></Text>
             </Flex>
             <Flex w={"full"} h={"fit-content"} > 
-                <Flex w={"full"} h={"340px"} bgColor={"lightgrey"} rounded={"8px"} overflow='hidden' >
-                    {/* <Image src={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt='banner image' w='full' h='full' objectFit={'cover'} /> */}
-
-                    <BlurredImage forEvent={false} image={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage}  height={'100%'}/>
+                <Flex w={"full"} h={"240px"} bgColor={"lightgrey"} rounded={"8px"} overflow='hidden' >
+                    <Image src={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt='banner image' w='full' h='full' objectFit={'cover'} />
                 </Flex>
             </Flex>
             <Flex w={"full"} h={"fit-content"} gap={"10"} flexDir={['column', 'row']} >
@@ -208,6 +207,8 @@ export default function Layout({ children }: {
             <Flex w={"full"} h={"fit-content"}  >
                 {children}
             </Flex>
+
+            </VStack>
         </Flex>
     )
 }

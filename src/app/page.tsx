@@ -58,14 +58,19 @@ import OurPartner from "@/components/landing_component/home/ourpartner";
 import HomeLandingPageCarousel from "@/components/landing_component/home_carousel";
 import LandingPageLayout from "@/components/landing_component/landingPageLayout";
 import useSearchStore from "@/global-state/useSearchData";
+import { setTokenInCookies } from "@/utils/tokenutil";
 import { Flex, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Eventpage = () => {
 
   const { event_category } = useSearchStore((state) => state);
 
-  const [size, setSize] = useState(9)
+  const [size, setSize] = useState(9);
+
+  useEffect(() => {
+    setTokenInCookies();
+  }, [])
 
   const clickHander = () => {
     if (size === 9) {

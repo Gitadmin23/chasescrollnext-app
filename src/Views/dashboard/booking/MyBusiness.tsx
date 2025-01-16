@@ -47,7 +47,7 @@ function MyBusiness() {
         )}
 
         {isLoading && (
-            <VStack w='full' h='40px' borderRadius={'20px'} justifyContent={'center'} >
+            <VStack w='full' h='80px' borderRadius={'20px'} justifyContent={'center'} >
                 <Spinner />
                 <Text>Loading Businesses</Text>
             </VStack>

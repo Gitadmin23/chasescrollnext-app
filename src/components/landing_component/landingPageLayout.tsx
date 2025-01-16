@@ -29,45 +29,45 @@ export default function LandingPageLayout({ children }: IProps) {
         }
     })
 
-    React.useEffect(() => {
-        // Add token verification
-        const verifyToken = () => {
-            try {
-                if (!token) return;
+    // React.useEffect(() => {
+    //     // Add token verification
+    //     const verifyToken = () => {
+    //         try {
+    //             if (!token) return;
 
-                const decoded = jwtDecode(token);
+    //             const decoded = jwtDecode(token);
 
-                console.log('---------DECODED TOKEN----------');
-                console.log(decoded);
-                const refreshToken = localStorage.getItem("refresh_token");
+    //             console.log('---------DECODED TOKEN----------');
+    //             console.log(decoded);
+    //             const refreshToken = localStorage.getItem("refresh_token");
                 
-                // Check if token is expired
-                if (decoded.exp && decoded.exp * 1000 < Date.now()) {
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('refresh_token');
-                    router.push('/auth'); // or wherever you want to redirect
-                } else {
-                    router.push('/dashboard');
-                }
-            } catch (error) {
-                console.error('Token verification failed:', error);
-                localStorage.removeItem('token');
-                router.push('/auth');
-            }
-        }
+    //             // Check if token is expired
+    //             if (decoded.exp && decoded.exp * 1000 < Date.now()) {
+    //                 localStorage.removeItem('token');
+    //                 localStorage.removeItem('refresh_token');
+    //                 router.push('/auth'); // or wherever you want to redirect
+    //             } else {
+    //                 router.push('/dashboard');
+    //             }
+    //         } catch (error) {
+    //             console.error('Token verification failed:', error);
+    //             localStorage.removeItem('token');
+    //             router.push('/auth');
+    //         }
+    //     }
 
-        if (token) {
-            verifyToken();
-        }
+    //     if (token) {
+    //         verifyToken();
+    //     }
 
-        window.scrollTo(0, 0);
-    }, [token])
+    //     window.scrollTo(0, 0);
+    // }, [token])
 
     const router = useRouter();
 
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [router])
+    // useEffect(() => {
+    //     window.scrollTo(0, 0)
+    // }, [router])
 
     return (
         <Box overflow={"hidden"} w={"full"} > 

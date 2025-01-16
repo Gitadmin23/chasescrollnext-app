@@ -79,6 +79,8 @@ export default function Layout({ children }: {
 
     // <Notification color={THEME.COLORS.chasescrollBlue} size='30px' variant='Outline' onClick={() => setActive(prev => !prev)} />
     const { user } = getUser()
+    const { status: STATUS } = useValidateRoken();
+
 
 
     const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor, headerTextColor } = useCustomTheme();
@@ -104,9 +106,17 @@ export default function Layout({ children }: {
         }
     }, [Id, status, router]);
 
+    React.useEffect(() => {
+        if (STATUS === "ERROR") {
+            router.push('/');
+        }
+        if (STATUS === "PENDING") {
+            return;
+        }
+    }, [STATUS, router]);
+
     const { count } = useNotificationHook()
 
-    const {} = useValidateRoken()
 
     return (
         <Flex w={"full"} h={"100vh"} overflowY={"hidden"} bg={mainBackgroundColor} >

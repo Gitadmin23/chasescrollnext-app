@@ -23,6 +23,7 @@ import httpService from '@/utils/httpService'
 import { useQuery } from 'react-query'
 import { IoArrowBack } from 'react-icons/io5'
 import { useDetails } from '@/global-state/useUserDetails'
+import { IoIosMore } from 'react-icons/io'
 
 
 export default function PostCard(props: IMediaContent) {
@@ -58,6 +59,7 @@ export default function PostCard(props: IMediaContent) {
     const [openImage, setOpenImage] = useState(false)
     const [numberComments, setNumberComments] = useState(false)
     const [openComments, setOpenComments] = useState(false)
+    const [textSize, setTextSize] = useState(100)
 
     let token = localStorage.getItem('token') + "";
 
@@ -111,9 +113,9 @@ export default function PostCard(props: IMediaContent) {
     }
 
     return (
-        <Flex style={{ boxShadow: "0px 2px 8px 0px #0000000D" }} w={"full"} borderWidth={"0.5px"} bg={mainBackgroundColor} borderColor={borderColor} borderRadius={"36px"} borderTopRightRadius={"0px"} p={"5"} >
+        <Flex style={{ borderBottom: "0.5px solid var(--Miscellaneous-Tab---Unselected, #999999)" }} w={"full"} bg={mainBackgroundColor} borderRadius={"36px"} borderTopRightRadius={"0px"} py={"1"} pb={4} px={"3"} >
             <Flex w={"full"} gap={"3"} flexDir={"column"} >
-                <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} borderWidth={"1px"} borderColor={borderColor} px={"4"} >
+                <Flex alignItems={"center"} gap={"3"} h={"fit-content"} w={"full"} rounded={"full"} borderWidth={"0px"} borderColor={borderColor}>
                     <Flex alignItems={"center"} gap={["1", "1", "1"]} >
                         {(pathname?.includes("share") && data?.email) && (
                             <Box as='button' onClick={() => router.push("/dashboard")} >
@@ -121,10 +123,10 @@ export default function PostCard(props: IMediaContent) {
                             </Box>
                         )}
                         <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} gap={"3"} >
-                            <UserImage size={"55px"} data={user} image={user?.data?.imgMain?.value} />
+                            <UserImage size={"42px"} data={user} border={"1px"} image={user?.data?.imgMain?.value} />
                             <Flex display={["none", "none", "block"]} flexDir={"column"} textAlign={"left"}  >
-                                <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 15)}</Text>
-                                <Text fontSize={"14px"} >@{textLimit(user?.username, 20)}</Text>
+                                {/* <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName), 15)}</Text> */}
+                                <Text fontSize={"14px"} >{textLimit(user?.username, 20)}</Text>
                                 <Text fontSize={"8px"} color={bodyTextColor} >{moment(timeInMilliseconds).fromNow()}</Text>
                             </Flex>
                             <Flex display={["block", "block", "none"]} flexDir={"column"} textAlign={"left"}  >
@@ -136,20 +138,12 @@ export default function PostCard(props: IMediaContent) {
                     </Flex>
                     {data?.email && (
                         <Flex onClick={() => setOpen(true)} as={"button"} ml={"auto"} pr={"1"} >
-                            <CgMoreVertical size={"25px"} />
+                            <IoIosMore size={"25px"} />
                         </Flex>
                     )}
                 </Flex>
-                {(text?.includes("https://") || text?.includes("http://") || text?.includes("www.")) ?
-                    (
-                        <Link href={text} target={"_blank"} textDecor={"underline"} color={primaryColor} fontSize={["14px", "14px", "16px"]} >{text}</Link>
-                    ) :
-                    ( 
-                        <Text fontSize={["14px", "14px", "16px"]} >{text}</Text>
-                    )
-                }
                 {(type === "WITH_IMAGE" || type === "WITH_VIDEO_POST") &&
-                    <Flex w={"full"} h={["236px", "236px", "236px", "350px", "350px"]} rounded={"16px"} borderWidth={"1px"} roundedTopRight={"0px"}>
+                    <Flex w={"full"} h={["236px", "236px", "236px", "350px", "500px"]} rounded={"16px"} borderWidth={"1px"} roundedTopRight={"0px"}>
                         {type === "WITH_VIDEO_POST" && (
                             <VideoPlayer
                                 src={`${mediaRef ? mediaRef : multipleMediaRef[0]}`}
@@ -163,7 +157,7 @@ export default function PostCard(props: IMediaContent) {
                         )}
                     </Flex>
                 }
-                <Flex w={"full"} borderTopWidth={"1px"} pt={"4"} alignContent={"center"} justifyContent={"space-between"} >
+                <Flex w={"full"} borderTopWidth={"0px"} alignContent={"center"} justifyContent={"space-between"} >
                     <Flex
                         justifyContent={"center"}
                         h={["26px", "26px", "30px"]}
@@ -236,10 +230,21 @@ export default function PostCard(props: IMediaContent) {
                         </Flex>
                         <Text>{numberComments}</Text>
                     </Flex>
-                    <Flex w={"fit-content"} cursor={data?.email ? "pointer" : "not-allowed"} alignItems={"center"}
+                    <Flex w={"fit-content"} cursor={data?.email ? "pointer" : "not-allowed"} pr={"3"} alignItems={"center"}
                         h={["26px", "26px", "30px"]} gap={"2px"} >
                         <ShareBtn disable={!token ? true : false} type="POST" id={id} />
                     </Flex>
+                </Flex>
+                <Flex px={"2"} >
+
+                    {(text?.includes("https://") || text?.includes("http://") || text?.includes("www.")) ?
+                        (
+                            <Link href={text} target={"_blank"} textDecor={"underline"} color={primaryColor} fontSize={["14px", "14px", "16px"]} >{text}</Link>
+                        ) :
+                        (
+                            <Text fontSize={["14px", "14px", "16px"]} >{capitalizeFLetter(textLimit(text, textSize))} {text?.length > 100  && <span style={{ color: primaryColor, fontWeight: "700", fontSize: "14px" }} onClick={()=> setTextSize((prev) => prev === 100 ? (10 * 100000000000) : 100)} role='button' >{textSize === 100 ? "more" : "less"}</span>}</Text>
+                        )
+                    }
                 </Flex>
             </Flex>
             <ModalLayout open={open} close={setOpen} size={"xs"} >

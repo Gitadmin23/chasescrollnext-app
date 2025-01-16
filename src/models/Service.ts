@@ -6,6 +6,7 @@ export type IService = {
             "id": string;
             vendor: IBuisness;
             service: IServiceCategory;
+            serviceID?: string;
             price: number;
             hasFixedPrice: boolean;
             discount: number;

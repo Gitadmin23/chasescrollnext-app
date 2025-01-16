@@ -1,3 +1,4 @@
+"use client"
 import { useDetails } from "@/global-state/useUserDetails";
 import { URLS } from "@/services/urls";
 import { signInValidation, signUpValidation } from "@/services/validations";

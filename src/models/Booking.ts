@@ -12,7 +12,7 @@ export type IBooking = {
     user: IUser;
     businessOwner: IUser;
     services: Array<IService>;
-    bookingStatus: 'PENDING'|'IN_PROGRESS'|'AWAITING_CONFIRMATION'|'COMPLETED'|'COMPLETED_WITH_ISSUES'|'APPROVED'|'REJECTED',
+    bookingStatus: 'PENDING'|'IN_PROGRESS'|'AWAITING_CONFIRMATION'|'COMPLETED'|'COMPLETED_WITH_ISSUES'|'APPROVED'|'REJECTED'|'CANCELLED',
     description: string;
     price: number;
     isCompleted: boolean;

@@ -1,4 +1,4 @@
-import { CashoutIcon, FundWalletIcon, MiniTicketIcon } from '@/components/svg'
+import { CashoutIcon, CashoutIconActive, FundWalletIcon, FundWalletIconActive, MiniTicketIcon, MiniTicketIconActive, MiniWithdrawIcon, MiniWithdrawIconActive } from '@/components/svg'
 import useCustomTheme from '@/hooks/useTheme'
 import { Box, Flex, Text, useColorMode } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
@@ -20,19 +20,19 @@ function TabController(props: Props) {
     const tab_list = [
         {
             name: "Buy Ticket",
-            icon: <MiniTicketIcon  />
+            icon: <MiniTicketIcon />
         },
         {
             name: "Cash Out",
-            icon: <CashoutIcon />
+            icon: tab === 1 ? <CashoutIconActive /> :  <CashoutIcon />
         },
         {
             name: "Fund Wallet",
-            icon: <FundWalletIcon />
+            icon: tab === 2 ? <FundWalletIconActive /> : <FundWalletIcon />
         },
         {
             name: "History",
-            icon: <MiniTicketIcon />
+            icon: tab === 3 ? <MiniWithdrawIconActive /> : <MiniWithdrawIcon />
         },
     ]
 
@@ -56,7 +56,7 @@ function TabController(props: Props) {
     }
 
     return (
-        <Flex width={"full"} bgColor={colorMode === 'light' ? "white":mainBackgroundColor} roundedBottom={"6px"} padding={"6px"} justifyContent={"space-around"} >
+        <Flex width={"full"} roundedBottom={"6px"} padding={"6px"} justifyContent={"space-around"} >
             {tab_list?.map((item: {
                 name: string,
                 icon: any
@@ -65,12 +65,12 @@ function TabController(props: Props) {
                     <Flex as={"button"} key={index} cursor={(item?.name === "Cash Out" || item?.name === "Fund Wallet") && type ? "not-allowed" :
                         "pointer"} opacity={(item?.name === "Cash Out" || item?.name === "Fund Wallet") && type ? "40%" :
                             ""} disabled={(item?.name === "Cash Out" || item?.name === "Fund Wallet") && type ? true :
-                                false} onClick={() => clickHandler(index)} flexDirection={"column"} alignItems={"center"} fontSize={"12px"} justifyContent={"center"} py={"2"} rounded={"6px"} width={"full"} bgColor={tab === index ? "#12299C" : ""} color={tab === index ? type ? "brand.chasescrollYellow" : "white" : "#12299C"} borderColor={tab === index ? type ? "brand.chasescrollYellow" : "white" : "#12299C"} >
+                                false} onClick={() => clickHandler(index)} flexDirection={"column"} alignItems={"center"} fontSize={"12px"} justifyContent={"center"} py={"2"} rounded={"6px"} width={"full"} color={tab === index ? type ? "brand.chasescrollYellow" : "white" : "#12299C"} borderColor={tab === index ? type ? "brand.chasescrollYellow" : "white" : "#12299C"} >
                                     
-                        <Flex width={"40px"} height={"40px"} justifyContent={"center"} alignItems={"center"} border={"1px"} rounded={"full"} color={bodyTextColor} >
+                        <Flex width={"40px"} height={"40px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} color={bodyTextColor} >
                             {item?.icon}
                         </Flex>
-                        <Text fontWeight={"medium"} mt={"2px"} color={colorMode === 'light'  ? primaryColor:bodyTextColor} >{item?.name}</Text>
+                        <Text fontWeight={"medium"} fontSize={"10px"} mt={"2px"} color={"#121212"} >{item?.name}</Text>
                     </Flex>
                 )
             })}

@@ -20,6 +20,7 @@ interface ICreatePost {
 const useHome = () => {
 
     const intObserver = React.useRef<IntersectionObserver>();
+    // const [uploadProgress, setUploadProgress] = useState(0);
     const toast = useToast();
     const queryClient = useQueryClient();
     const [post, setPost] = React.useState("");
@@ -33,7 +34,7 @@ const useHome = () => {
 
     const Id = localStorage.getItem('user_id');
 
-    const { uploadedFile, fileUploadHandler, loading: uploadingfile, reset } = AWSHook();
+    const { uploadedFile, fileUploadHandler, loading: uploadingfile, reset, uploadProgress, setUploadProgress } = AWSHook();
 
     const { results: postData, isLoading: loadingPost, ref: postRef, isRefetching: refetchingPost, refetch } = InfiniteScrollerComponent({ url: URLS.GET_PUBLIC_POST, limit: 10, filter: "id" })
 
@@ -48,6 +49,8 @@ const useHome = () => {
                 isClosable: true,
                 position: "top-right",
             });
+
+            setUploadProgress(0);
             setPost("");
             reset()
             setOpen(false)
@@ -68,8 +71,8 @@ const useHome = () => {
 
     const { mutate: likesHandle, isLoading: loadingLikes, isSuccess: likedSuccess } = useMutation({
         mutationFn: (data: string) => httpService.post(`${URLS.LIKE_POST}/${data}`),
-        onSuccess: (data: any) => { 
-//   queryClient.invalidateQueries([`getPostById-${post?.id}`]);
+        onSuccess: (data: any) => {
+            //   queryClient.invalidateQueries([`getPostById-${post?.id}`]);
             setLiked(data?.data?.likeStatus)
             setLikeCount(data?.data?.likeCount)
         },
@@ -204,7 +207,8 @@ const useHome = () => {
         deletePost,
         setDeleteModal,
         deleteModal,
-        handleLikedPost
+        handleLikedPost,
+        uploadProgress
     };
 }
 

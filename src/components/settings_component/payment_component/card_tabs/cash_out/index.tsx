@@ -99,8 +99,9 @@ function CashOut(props: Props) {
       )}
       {!show && (
         <CustomButton
-          backgroundColor={"#12299C"}
-          borderRadius={"8px"}
+          backgroundColor={"#5465E0"}
+          borderRadius={"32px"}
+          height={"54px"}
           onClick={() => setShow(true)}
           text="Cash out"
           marginTop={"8"}
@@ -108,10 +109,11 @@ function CashOut(props: Props) {
       )}
       {show && (
         <Flex flexDir={"column"} gap={"3"} w={"full"}>
-          <CashoutBtn currency={currency} amount={amount} />
+          <CashoutBtn setShow={setShow} currency={currency} amount={amount} />
           <CustomButton
             color={bodyTextColor}
-            borderRadius={"8px"}
+            borderRadius={"32px"}
+            height={"54px"}
             backgroundColor={secondaryBackgroundColor}
             border={"1px solid #5D70F980"}
             onClick={() => setShow(false)}

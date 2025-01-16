@@ -129,7 +129,7 @@ const createBusinessValidation = z.object({
     phone: z.string().min(11, 'invalid phone number'),
     email: z.string().email().min(6, 'invalid email'),
     address: z.string().min(3, 'Invalid address'),
-    website: z.string().url('Please enter a valid website URL').min(4, 'Invalid Website link')
+    website: z.string().url('Please enter a valid website URL'),
     
 });
 

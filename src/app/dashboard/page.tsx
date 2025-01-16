@@ -12,12 +12,12 @@ export default function Home() {
     const { postData, refetchingPost, loadingPost, postRef } = useHome()
 
     const { colorMode } = useColorMode();
-    const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
+    const { mainBackgroundColor, borderColor } = useCustomTheme();
     return (
         <Flex w={"full"} height={"full"} bgColor={colorMode !== "dark" ? mainBackgroundColor : mainBackgroundColor} >
-            <Flex w={["full", "full", "full", "55%", "full"]} h={"full"} flexDir={"column"} >
+            <Flex w={["full", "full", "full", "55%", "full"]} h={"full"} alignItems={"center"} flexDir={"column"} >
                 <CreatePost />
-                <Flex w={"full"} h={"full"} flexDir={"column"} overflowY={"auto"} >
+                <Flex w={"full"} h={"full"} flexDir={"column"} alignItems={"center"} overflowY={"auto"} >
                     <LoadingAnimation loading={loadingPost} refeching={refetchingPost} >
                         <Flex w={["full", "full", "full", "full", "619px"]} height={"fit-content"} gap={"5"} px={["4", "4", "4", "4", "8"]} py={"8"} flexDir={"column"} >
                             {postData?.map((item: IMediaContent, index: number) => {
