@@ -17,6 +17,7 @@ const cred = {
 const AWSHook = () => {
     const [loading, setLoading] = useState(false)
     const [uploadedFile, setUploadedFile] = useState<Array<any>>([]);
+    const [uploadProgress, setUploadProgress] = useState(0);
 
     const toast = useToast()
     const userId = localStorage.getItem('user_id') + "";
@@ -31,7 +32,13 @@ const AWSHook = () => {
             {
                 headers: {
                     'Content-Type': "multipart/form-data",
-                }
+                },
+                onUploadProgress: (progressEvent: any) => {
+                    const percentage = Math.round(
+                        (progressEvent.loaded * 100) / progressEvent.total
+                    );
+                    setUploadProgress(percentage); // Update progress
+                },
             }
             ),
         onError: (error: AxiosError<any, any>) => {
@@ -126,7 +133,7 @@ const AWSHook = () => {
     }
 
 
-    return ({ loading, uploadedFile, fileUploadHandler, reset, deleteFile })
+    return ({ loading, uploadedFile, fileUploadHandler, reset, deleteFile, uploadProgress, setUploadProgress })
 }
 
 export default AWSHook
