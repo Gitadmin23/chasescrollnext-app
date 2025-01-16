@@ -65,6 +65,8 @@ function Fundpaystack(props: Props) {
                 position: 'top-right',
             });
             queryClient.invalidateQueries(['get-wallet-balanceNGN'])
+            setLoading(false)
+            setOpen(false)
             setAmount("")
             setConfig({
                 email: "",
