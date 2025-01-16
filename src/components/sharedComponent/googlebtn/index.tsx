@@ -119,8 +119,8 @@ function GoogleBtn(props: Props) {
                 if (!checkData?.email) {
                     setCheckData({
                         email: user?.email,
-                        firstName: user?.firstName,
-                        lastName: user?.lastName,
+                        firstName: "",
+                        lastName: "",
                     })
                 }
                 setOpen(true)
@@ -162,7 +162,7 @@ function GoogleBtn(props: Props) {
             // if(data?.data?.user_name ===)
             console.log(data?.data);
 
-            setCheckData(data?.data)
+            // setCheckData(data?.data)
         },
         onError: (error: any) => {
             console.log("error");
