@@ -1,5 +1,5 @@
 import { useDetails } from '@/global-state/useUserDetails';
-import { Box, Flex, Image, Input, Spinner, Text, Textarea, useToast } from '@chakra-ui/react'
+import { Box, Flex, Image, Input, Progress, Spinner, Text, Textarea, useToast } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import UserImage from '../sharedComponent/userimage';
 import getUser from '@/hooks/useGetUser';
@@ -23,7 +23,7 @@ export default function Createpost() {
 
     const { bodyTextColor, inputColor, secondaryBackgroundColor, mainBackgroundColor, borderColor, inputBorderColor, headerTextColor, inputtextColor } = useCustomTheme();
 
-    const { createPost, isLoading, post, setPost, handleImagePicked, files, removeFile, emptyFiles, createPostWithFiles, uploadingfile, open, setOpen, setFiles } = useHome()
+    const { createPost, isLoading, post, setPost, handleImagePicked, files, removeFile, emptyFiles, createPostWithFiles, uploadingfile, open, setOpen, setFiles, uploadProgress } = useHome()
 
     const handlePick = React.useCallback((data: FileList) => {
         handleImagePicked(data);
@@ -44,7 +44,7 @@ export default function Createpost() {
                 position: "top-right"
             })
         }
-    }; 
+    };
 
     const closeHandler = () => {
         setOpen(false)
@@ -52,19 +52,19 @@ export default function Createpost() {
         emptyFiles()
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         setPost("")
         emptyFiles()
         setFiles([])
-    }, [open]) 
-    
-    const { user: userdata, } = useDetails((state) => state);  
- 
+    }, [open])
+
+    const { user: userdata, } = useDetails((state) => state);
+
     return (
-        <Flex bg={mainBackgroundColor} w={["full", "full", "full", "full", "619px"]} pt={["4", "4", "4", "4", "8"]} px={["4", "4", "4", "4","8"]} >
+        <Flex bg={mainBackgroundColor} w={["full", "full", "full", "full", "619px"]} pt={["4", "4", "4", "4", "8"]} px={["4", "4", "4", "4", "8"]} >
             <Flex w={"full"} p={"4"} gap={"2"} rounded={"12px"} flexDir={"column"} style={{ boxShadow: "0px 2px 2px 0px #00000008" }} bgColor={mainBackgroundColor} h={"fit-content"} >
                 <Flex pos={"relative"} w={"full"} bgColor={inputColor} gap={"1"} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
-                    <Box as={"button"} onClick={()=> router?.push(`/dashboard/profile/${user?.userId}`)}  w={"fit-content"} >
+                    <Box as={"button"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} w={"fit-content"} >
                         <UserImage size={"36px"} fontWeight={"500"} font={"14px"} border={"1.5px"} image={userdata?.data?.imgMain?.value ? userdata?.data?.imgMain?.value : user?.data?.imgMain?.value} data={userdata ?? user} />
                     </Box>
                     <Textarea value={post} onChange={(e) => setPost(e.target.value)} h={"45px"} bgColor={inputColor} color={inputtextColor} w={"full"} borderWidth={"0px"} _hover={{ borderWidth: "0px", }} focusBorderColor='transparent' placeholder={`Share your thought ${!user?.username?.includes(".com") ? user?.username : ""}`} _placeholder={{ color: "#00000033" }} />
@@ -81,7 +81,13 @@ export default function Createpost() {
                 </Flex>
             </Flex>
             <ModalLayout open={open} rounded='32px' size={"lg"} close={closeHandler} >
-                <Flex bg={mainBackgroundColor} p={"5"} flexDir={"column"} gap={"3"}   >
+                <Flex position={"relative"} bg={mainBackgroundColor} p={"5"} flexDir={"column"} gap={"3"} >
+                    {(isLoading || uploadingfile) && (
+                        <Flex position={"absolute"} justifyContent={"center"} px={"4"} gap={"2"} alignItems={"center"} zIndex={"30"} inset={"0px"} bgColor={"#000000c3"} >
+                            <Progress w={"full"} hasStripe value={uploadProgress} h={"35px"} rounded={"2xl"} />
+                            <Text color={"white"} >{uploadProgress}%</Text>
+                        </Flex>
+                    )}
                     <Box as='button' onClick={closeHandler} >
                         <IoClose size={"25px"} />
                     </Box>

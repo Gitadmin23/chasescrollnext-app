@@ -111,9 +111,9 @@ export default function PostCard(props: IMediaContent) {
     }
 
     return (
-        <Flex style={{ boxShadow: "0px 2px 8px 0px #0000000D" }} w={"full"} borderWidth={"0.5px"} bg={mainBackgroundColor} borderColor={borderColor} borderRadius={"36px"} borderTopRightRadius={"0px"} p={"5"} >
-            <Flex w={"full"} gap={"3"} flexDir={"column"} >
-                <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} borderWidth={"1px"} borderColor={borderColor} px={"4"} >
+        <Flex shadow={"lg"} w={"full"} bg={mainBackgroundColor} borderRadius={"36px"} borderTopRightRadius={"0px"} p={"5"} >
+            <Flex  w={"full"} gap={"3"} flexDir={"column"} >
+                <Flex alignItems={"center"} gap={"3"} h={"78px"} w={"full"} rounded={"full"} borderWidth={"0px"} borderColor={borderColor} px={"4"} >
                     <Flex alignItems={"center"} gap={["1", "1", "1"]} >
                         {(pathname?.includes("share") && data?.email) && (
                             <Box as='button' onClick={() => router.push("/dashboard")} >
@@ -140,14 +140,6 @@ export default function PostCard(props: IMediaContent) {
                         </Flex>
                     )}
                 </Flex>
-                {(text?.includes("https://") || text?.includes("http://") || text?.includes("www.")) ?
-                    (
-                        <Link href={text} target={"_blank"} textDecor={"underline"} color={primaryColor} fontSize={["14px", "14px", "16px"]} >{text}</Link>
-                    ) :
-                    ( 
-                        <Text fontSize={["14px", "14px", "16px"]} >{text}</Text>
-                    )
-                }
                 {(type === "WITH_IMAGE" || type === "WITH_VIDEO_POST") &&
                     <Flex w={"full"} h={["236px", "236px", "236px", "350px", "350px"]} rounded={"16px"} borderWidth={"1px"} roundedTopRight={"0px"}>
                         {type === "WITH_VIDEO_POST" && (
@@ -162,6 +154,14 @@ export default function PostCard(props: IMediaContent) {
                             </Flex>
                         )}
                     </Flex>
+                }
+                {(text?.includes("https://") || text?.includes("http://") || text?.includes("www.")) ?
+                    (
+                        <Link href={text} target={"_blank"} textDecor={"underline"} color={primaryColor} fontSize={["14px", "14px", "16px"]} >{text}</Link>
+                    ) :
+                    ( 
+                        <Text fontSize={["14px", "14px", "16px"]} >{text}</Text>
+                    )
                 }
                 <Flex w={"full"} borderTopWidth={"1px"} pt={"4"} alignContent={"center"} justifyContent={"space-between"} >
                     <Flex
