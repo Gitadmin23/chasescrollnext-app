@@ -2,7 +2,7 @@ import CustomButton from '@/components/general/Button'
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import {Flex, Input, Text, useColorMode, useToast} from '@chakra-ui/react'
-import React from 'react'
+import React, { useState } from 'react'
 import { loadStripe } from "@stripe/stripe-js";
 import { useMutation } from 'react-query';
 import StripePopup from '@/components/event_details_component/event_modal/stripe_btn/stripe_popup';
@@ -44,7 +44,23 @@ function FundWallet(props: Props) {
     // const [open, setOpen] = React.useState(false)
     const [configData, setconfigData] = React.useState({} as any);
     const toast = useToast()
-    const [config, setConfig] = React.useState({} as any)
+    const [config, setConfig] = React.useState({} as any)  
+    const [displayValue, setDisplayValue] = useState(""); // Store the formatted value with commas
+
+    // Format number with commas
+    const formatNumberData = (num: string) => {
+      const number = num.replace(/,/g, ""); // Remove existing commas
+      if (isNaN(Number(number))) return ""; // Return empty for non-numeric inputs
+      return Number(number).toLocaleString(); // Format with commas
+    };
+  
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const inputValue = e.target.value.replace(/,/g, ""); // Remove commas from the input
+      if (!isNaN(Number(inputValue))) {
+        setAmount(inputValue); // Store raw number without commas
+        setDisplayValue(formatNumberData(inputValue)); // Format and update display value
+      }
+    }; 
 
     const createTicket = useMutation({
         mutationFn: (data: any) => httpService.post(URLS.FUND_WALLET, data),
@@ -90,7 +106,7 @@ function FundWallet(props: Props) {
     return (
         <Flex width={"full"} pt={"8"} gap={"4"} flexDirection={"column"} alignItems={"center"} >
             <Text fontWeight={"semibold"} >Enter Amount</Text>
-            <Input value={amount} onChange={(e) => setAmount(e.target.value)} width={"full"} type='number' textAlign={"center"} borderColor={"transparent"} focusBorderColor="transparent" placeholder={currency === "USD" ? '$0.00' : "₦0.00"} _placeholder={{ color: bodyTextColor }} fontSize={"20px"} _hover={{ color: bodyTextColor }} />
+            <Input value={displayValue} onChange={handleChange} width={"full"} textAlign={"center"} borderColor={"transparent"} focusBorderColor="transparent" placeholder={currency === "USD" ? '$0.00' : "₦0.00"} _placeholder={{ color: bodyTextColor }} fontSize={"20px"} _hover={{ color: bodyTextColor }} />
             <CustomButton isLoading={createTicket.isLoading} disable={createTicket.isLoading} onClick={() => clickHandler()} text='Fund' marginTop={"4"} 
           backgroundColor={"#5465E0"}
           borderRadius={"32px"}

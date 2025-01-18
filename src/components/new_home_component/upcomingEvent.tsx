@@ -25,7 +25,7 @@ function UpcomingEvent(props: Props) {
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/events/events`, limit: 20, filter: "id", name: "listofevent" })
 
     return (
-        <Flex width={"full"} bg={mainBackgroundColor} justifyContent={"center"} pt={"8"} h={"full"} flexDirection={"column"} >
+        <Flex bg={mainBackgroundColor} justifyContent={"center"} w={"full"} pt={"8"} h={"full"} flexDirection={"column"} >
             <Text fontWeight={"semibold"} textAlign={"left"} fontSize={"20px"} mt={"15px"} pb={["4", "4", "4", "10", "10"]} ml={"8"}>{"Upcoming Event"}</Text>
 
             <Flex w={"full"} gap={"4"} flexDirection={["row", "row", "row", "column", "column"]} h={"full"} overflowY={"auto"} pb={["3", "3", "3", "0px", "0px"]} overflowX={"auto"} 
@@ -39,26 +39,26 @@ function UpcomingEvent(props: Props) {
             >
                 <Flex w={["fit-content", "fit-content", "fit-content", "full", "full"]} flexDir={"column"} >
                     <LoadingAnimation loading={isLoading} customLoader={
-                        <Grid width={["full", "full", "full", "full", "full"]} templateColumns={'repeat(1, 1fr)'} gap={"4"} px={"6"} >
+                        <Grid width={["full", "full", "full", "full", "full"]} templateColumns={'repeat(2, 1fr)'} gap={"4"} px={"6"} >
                             <GridItem maxWidth={["full", "full", "full", "full", "full"]}  >
-                                <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
+                                <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"300px"} />
                             </GridItem>
                             <GridItem maxWidth={["full", "full", "full", "full", "full"]}  >
-                                <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
+                                <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"300px"} />
                             </GridItem>
                             <GridItem maxWidth={["full", "full", "full", "full", "full"]}  >
-                                <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
+                                <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"300px"} />
                             </GridItem>
                             <GridItem maxWidth={["full", "full", "full", "full", "full"]}  >
-                                <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
+                                <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"300px"} />
                             </GridItem>
                             <GridItem maxWidth={["full", "full", "full", "full", "full"]}  >
-                                <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
+                                <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"300px"} />
                             </GridItem>
                         </Grid>
                     } refeching={isRefetching} length={results?.length} >
                         <>
-                            <Flex width={["full", "full", "full", "full", "437px"]} h={"fit-content"} px={"6"} flexDir={["row", "row", "row", "column", "column"]} gap={"4"}>
+                            <Grid templateColumns='repeat(2, 1fr)' gap={4} width={["full", "full", "full", "full", "full"]} h={"fit-content"} px={"6"} flexDir={["row", "row", "row", "column", "column"]}>
                                 {results?.map((event: any, i: number) => {
                                     if (results.length === i + 1) {
                                         return (
@@ -74,7 +74,7 @@ function UpcomingEvent(props: Props) {
                                         )
                                     }
                                 })}
-                            </Flex>
+                            </Grid>
                         </>
                     </LoadingAnimation>
                 </Flex>

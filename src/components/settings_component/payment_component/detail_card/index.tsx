@@ -49,7 +49,7 @@ function DetailCard(props: Props) {
                     </Flex>
                 </Flex>
                 <Flex w={"full"} justifyContent={"space-between"} >
-                    <Flex rounded={"22px"} bgColor={"#EFF1FB"} gap={"1"} alignItems={"center"} px={"2"} py={"1"} >
+                    <Flex rounded={"22px"} bgColor={"#EFF1FB"} color={"black"} gap={"1"} alignItems={"center"} px={"2"} py={"1"} >
                         <NigeriaIcon />
                         <Text fontSize={"11px"} >Nigeria Naira</Text>
                         <IoIosArrowDown />

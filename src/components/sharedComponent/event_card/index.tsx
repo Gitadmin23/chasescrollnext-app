@@ -107,7 +107,7 @@ function ExploreEventCard(props: Props) {
 
     return (
         <Flex
-            boxShadow={page ? "md" : "none"}
+            // boxShadow={page ? "md" : "none"}
             cursor={"pointer"}
             bg={secondaryBackgroundColor}
             onClick={clickHandler}
@@ -393,10 +393,10 @@ function ExploreEventCard(props: Props) {
                     </Flex>
                 )}
                 {(!landing && upcoming) && (
-                    <Flex flexDir={"column"} w={"full"} height={"full"} px={"4"} pb={"4"} pt={"6"}>
+                    <Flex flexDir={"column"} w={"full"} height={"full"} px={"4"} pb={"4"} pt={"4"}>
                         <Flex
                             w={"full"}
-                            gap={"4"}
+                            gap={"2"}
                             py={"1"}
                             pb={"4"}
                             alignItems={"center"}
@@ -443,13 +443,13 @@ function ExploreEventCard(props: Props) {
                                         isLimited={true}
                                     />
                                 </Text>
-                                <Text color={primaryColor} display={["none", "none", "none", "block", "block"]} fontWeight={"600"} fontSize={"14px"} >
+                                {/* <Text color={primaryColor} display={["none", "none", "none", "block", "block"]} fontWeight={"600"} fontSize={"14px"} >
                                     <EventPrice
                                         minPrice={event?.minPrice}
                                         maxPrice={event?.maxPrice}
                                         currency={event?.currency}
                                     />
-                                </Text>
+                                </Text> */}
                             </Flex>
                             {eventdashboard && (
                                 <Box width={"fit-content"} >
@@ -505,8 +505,8 @@ function ExploreEventCard(props: Props) {
                         <Flex
                             w={"full"}
                             h={"auto"}
-                            mt={"auto"}
-                            pt={"2"}
+                            // mt={"auto"}
+                            // pt={"2"}
 
                             justifyContent={"space-between"}
                             alignItems={"center"}
@@ -514,7 +514,7 @@ function ExploreEventCard(props: Props) {
                         // borderTopColor={"#EFF1FE"}
                         >
                             <CustomButton borderColor={primaryColor} borderWidth={"1px"} backgroundColor={((event?.minPrice === 0 && event?.maxPrice === 0) || (!event?.minPrice && !event?.maxPrice)) ? "white" : primaryColor} color={((event?.minPrice === 0 && event?.maxPrice === 0) || (!event?.minPrice && !event?.maxPrice)) ? primaryColor : "white"} text={((event?.minPrice === 0 && event?.maxPrice === 0) || (!event?.minPrice && !event?.maxPrice)) ? "Register" : "Buy Ticket"} width={["full", "full", "full", "130px", "130px"]} height={"45px"} fontSize={"sm"} borderRadius={"full"} />
-                            <Flex gap={"4"} display={["none", "none", "none", "flex", "flex"]}
+                            {/* <Flex gap={"4"} display={["none", "none", "none", "flex", "flex"]}
                                 pr={"3"}  >
                                 <SaveOrUnsaveBtn color={headerTextColor} event={event} />
 
@@ -525,7 +525,14 @@ function ExploreEventCard(props: Props) {
                                     showText={false}
                                     id={event?.id}
                                 />
-                            </Flex>
+                            </Flex> */}
+                            <Text color={primaryColor} display={["none", "none", "none", "block", "block"]} fontWeight={"600"} fontSize={"14px"} >
+                                    <EventPrice
+                                        minPrice={event?.minPrice}
+                                        maxPrice={event?.maxPrice}
+                                        currency={event?.currency}
+                                    />
+                                </Text> 
                         </Flex>
                     </Flex>
                 )}

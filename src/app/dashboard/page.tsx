@@ -17,7 +17,7 @@ export default function Home() {
         <Flex w={"full"} height={"full"} bgColor={colorMode !== "dark" ? mainBackgroundColor : mainBackgroundColor} >
             <Flex w={["full", "full", "full", "55%", "full"]} h={"full"} alignItems={"center"} flexDir={"column"} >
                 <CreatePost />
-                <Flex w={"full"} h={"full"} flexDir={"column"} alignItems={"center"} overflowY={"auto"} >
+                <Flex w={"full"} h={"full"} flexDir={"column"} alignItems={"center"} overflowY={"auto"} overflowX={"hidden"} >
                     <LoadingAnimation loading={loadingPost} refeching={refetchingPost} >
                         <Flex w={["full", "full", "full", "full", "619px"]} height={"fit-content"} gap={"5"} px={["4", "4", "4", "4", "8"]} py={"8"} flexDir={"column"} >
                             {postData?.map((item: IMediaContent, index: number) => {
@@ -49,7 +49,7 @@ export default function Home() {
                     </LoadingAnimation>
                 </Flex>
             </Flex>
-            <Flex h={"full"} borderLeftColor={borderColor} borderLeftWidth={"1px"} w={["fit-content", "fit-content", "fit-content", "45%", "75%"]} display={["none", "none", "none", "flex", "flex"]} >
+            <Flex h={"full"} borderLeftColor={borderColor} borderLeftWidth={"1px"} w={["fit-content", "fit-content", "fit-content", "45%", "full"]} display={["none", "none", "none", "flex", "flex"]} >
                 <Flex w={"full"} >
                     <UpcomingEvent />
                 </Flex>

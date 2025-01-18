@@ -25,6 +25,22 @@ function CashOut(props: Props) {
   const { amount, setAmount } = useSettingsStore((state) => state);
 
   const [show, setShow] = useState(false);
+  const [displayValue, setDisplayValue] = useState(""); // Store the formatted value with commas
+
+  // Format number with commas
+  const formatNumberData = (num: string) => {
+    const number = num.replace(/,/g, ""); // Remove existing commas
+    if (isNaN(Number(number))) return ""; // Return empty for non-numeric inputs
+    return Number(number).toLocaleString(); // Format with commas
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value.replace(/,/g, ""); // Remove commas from the input
+    if (!isNaN(Number(inputValue))) {
+      setAmount(inputValue); // Store raw number without commas
+      setDisplayValue(formatNumberData(inputValue)); // Format and update display value
+    }
+  };
 
   return (
     <Flex
@@ -37,10 +53,10 @@ function CashOut(props: Props) {
         <Flex w={"full"} gap={"4"} alignItems={"center"} flexDir={"column"}>
           <Text fontWeight={"semibold"}>Enter Amount</Text>
           <Input
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            value={displayValue}
+            onChange={handleChange}
             width={"full"}
-            type="number"
+            // type="number"
             textAlign={"center"}
             borderColor={"transparent"}
             focusBorderColor="transparent"
