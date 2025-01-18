@@ -1,7 +1,7 @@
 import useCustomTheme from '@/hooks/useTheme';
 import { IMediaContent, IComment } from '@/models/MediaPost'
-import { Flex, Image, Spinner, Text } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import { Button, Flex, Image, Spinner, Text, VStack } from '@chakra-ui/react'
+import React, { useEffect, useRef, useState } from 'react'
 import UserImage from '../sharedComponent/userimage';
 import moment from 'moment';
 import { IoHeart } from 'react-icons/io5';
@@ -11,19 +11,23 @@ import useComment from '@/hooks/useComment';
 import LoadingAnimation from '../sharedComponent/loading_animation';
 import { useRouter } from 'next/navigation';
 import { textLimit } from '@/utils/textlimit';
+import ModalLayout from '../sharedComponent/modal_layout';
+import CustomText from '../general/Text';
 
 interface IProps {
     data: IMediaContent,
     showInput: any,
     setReply: any,
-    replyData: any
+    replyData: any,
+    mobile?: boolean
 }
 
 export default function CommentList({
     data,
     showInput,
     setReply,
-    replyData
+    replyData,
+    mobile
 }: IProps) {
 
 
@@ -42,6 +46,16 @@ export default function CommentList({
     const [showText, setShowText] = useState("")
     const [showReplies, setShowReplies] = useState("")
     const [showActionReply, setShowActionReply] = useState("")
+    const [open, setOpen] = useState(false)
+    const [commentID, setCommentID] = useState("")
+    const [contentType, setContentType] = useState("")
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    const deleteCommentHandler = (item: string, type: "Comment" | "Reply") => {
+        setOpen(true)
+        setCommentID(item)
+        setContentType(type)
+    }
 
     const [showReply, setShowReply] = useState("")
 
@@ -50,6 +64,12 @@ export default function CommentList({
     useEffect(() => {
         setPostID(data?.id)
     }, [])
+
+    useEffect(() => {
+        if (deleteComment?.isSuccess) {
+            setOpen(false)
+        }
+    }, [deleteComment?.isSuccess])
 
     const Id = localStorage.getItem('user_id');
 
@@ -66,130 +86,235 @@ export default function CommentList({
 
     const router = useRouter()
 
+    useEffect(() => {
+        if (contentRef.current) {
+            contentRef.current.scrollTo({ top: 0, behavior: "smooth" });
+        }
+    }, [isRefetching])
+
+    const onMouseOver = (item: any) => {
+        if (!mobile) {
+            setShowAction(item)
+        }
+    }
+
+    const onMouseOut = () => {
+        if (!mobile) {
+            setShowAction("")
+        }
+    }
+
     return (
-        <Flex w={"full"} maxW={"578px"} py={"4"} bg={mainBackgroundColor} flexDir={"column"} alignItems={"start"} >
+        <Flex w={"full"} maxW={"578px"} px={mobile ? "4" : "0px"} py={"4"} bg={mainBackgroundColor} flexDir={"column"} position={"relative"} overflowY={"auto"} alignItems={"start"} >
             <LoadingAnimation loading={isLoading} refeching={isRefetching} >
                 <Flex w={"full"} gap={"4"} bg={mainBackgroundColor} flexDirection={"column"} >
                     {commentsData?.map((item, index) => {
-                        return (
-                            <Flex onMouseOver={() => setShowAction(item?.id)} onMouseLeave={() => setShowAction("")} key={index} flexDirection={"column"} gap={"6"}  >
-                                <Flex w={"full"} gap={"4"} >
-                                    <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} w={"fit-content"} >
-                                        <UserImage border="1.3px" font={"14px"} size={"33px"} image={item?.user?.data?.imgMain?.value} data={item?.user} />
-                                    </Flex>
-                                    <Flex flexDirection={"column"} w={"full"} maxW={["fit-content", "200px", "300px"]}  >
-                                        <Flex flexDir={"column"} bg={secondaryBackgroundColor} w={"full"} maxW={["fit-content", "200px", "300px"]} rounded={"16px"} py={"2"} px={"3"} >
-                                            <Text role='button' onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} fontWeight={"500"} >{textLimit(item?.user?.username, 15)}</Text>
-                                            <Text color={bodyTextColor} fontSize={"14px"} >{(item?.comment?.length > 100 && showText !== item?.id) ? textLimit(item?.comment, 100) : item?.comment} {item?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === item?.id ? "" : item?.id)} >{item?.id === showText ? "show less" : "show more"}</p>}</Text>
-                                            <Flex w={"full"} justifyContent={"space-between"} mt={"2"} >
-                                                <Text fontSize={"12px"}>{moment(item?.timeInMilliseconds).fromNow()}</Text>
+                        if (index === 0) { 
+                            return (
+                                <Flex ref={contentRef} onMouseOver={() => onMouseOver(item?.id)} onMouseLeave={() => onMouseOut()} key={index} flexDirection={"column"} gap={"6"}  >
+                                    <Flex w={"full"} gap={"0px"} >
+                                        <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} w={"fit-content"} >
+                                            <UserImage border="1.3px" font={"14px"} size={"33px"} image={item?.user?.data?.imgMain?.value} data={item?.user} />
+                                        </Flex>
+                                        <Flex flexDirection={"column"} w={"full"} maxW={["fit-content", "200px", "300px"]}  >
+                                            <Flex position={"relative"} flexDir={"column"} bg={mainBackgroundColor} w={"full"} maxW={["fit-content", "200px", "300px"]} rounded={"16px"} pb={"1"} px={"2"} >
+                                                <Flex alignItems={"center"} gap={"1"} >
+                                                    <Text fontSize={"10px"} role='button' onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} fontWeight={"600"} >{textLimit(item?.user?.username, 15)}</Text>
+                                                    <Flex w={"full"} justifyContent={"space-between"} >
+                                                        <Text fontSize={"10px"}>{moment(item?.timeInMilliseconds).fromNow()?.replace("ago", "")}</Text>
+                                                    </Flex>
+                                                </Flex>
+                                                <Text color={headerTextColor} fontSize={"12px"} mt={"1"} >{(item?.comment?.length > 100 && showText !== item?.id) ? textLimit(item?.comment, 100) : item?.comment} {item?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === item?.id ? "" : item?.id)} >{item?.id === showText ? "show less" : "show more"}</p>}</Text>
+                                            </Flex>
+                                            <Flex w={"full"} maxW={["fit-content", "200px", "300px"]} gap={"6"} px={"3"} >
+                                                <Image onClick={() => clickReplyHandler(item, item?.user)} role={"button"} src='/assets/images/message.png' alt='message' width={'15px'} height={'15px'} />
+                                                <FiTrash2
+                                                    onClick={() => deleteCommentHandler(item?.id, "Comment")}
+                                                    fontSize='15px' color={'red'} cursor='pointer' />
+                                            </Flex>
+
+                                            {item?.subComments?.totalElements > 0 && (
+                                                <>
+                                                    {showReply !== item?.id ?
+                                                        <Flex as={"button"} mt={"2"} fontSize={"12px"} onClick={() => setShowReply((prev) => prev === item?.id ? "" : item?.id)} w={"full"} justifyContent={"center"} alignItems={"center"}  >
+                                                            view {item?.subComments?.totalElements} more {item?.subComments?.totalElements > 1 ? "replies" : "reply"}
+                                                        </Flex>
+                                                        :
+                                                        <Flex as={"button"} mt={"2"} fontSize={"12px"} onClick={() => setShowReply((prev) => prev === item?.id ? "" : item?.id)} w={"full"} justifyContent={"center"} alignItems={"center"}  >
+                                                            hide rely
+                                                        </Flex>
+                                                    }
+                                                </>
+                                            )}
+                                            <Flex position={"absolute"} zIndex={"10"} right={"4"} w={"30px"} insetY={"auto"} alignItems={"center"} >
+
+                                                <IoHeart
+                                                    onClick={() => likeComment.mutate(item?.id)}
+                                                    cursor='pointer' fontSize='20px' color={
+                                                        item?.likeStatus === 'LIKED' ? 'red' : 'grey'} width={'20px'} height={'20px'} />
+                                                {item?.likeCount > 0 && (
+                                                    <Text fontSize={"12px"} as={"button"} >{item?.likeCount}</Text>
+                                                )}
                                             </Flex>
                                         </Flex>
-                                        <Flex w={"full"} mt={"1"} maxW={["fit-content", "200px", "300px"]} gap={"6"} px={"3"} >
-                                            <Text as={"button"} onClick={() => setShowReply((prev) => prev === item?.id ? "" : item?.id)} fontSize={"12px"}>{item?.subComments?.totalElements} reply</Text>
-                                            <Text fontSize={"12px"} as={"button"} >{item?.likeCount} likes</Text>
-                                        </Flex>
                                     </Flex>
-                                    <Flex w={"fit-content"} >
-                                        <Flex w={"90px"} >
-                                            {showAction === item?.id && (
-                                                <Flex w={"90px"} h={"fit-content"}  >
-                                                    <Flex bg={"white"} borderRadius={'10px'} padding='5px' gap={"2"} shadow={'md'}  >
-                                                        {likeComment?.isLoading ? (
-                                                            <Spinner color={mainBackgroundColor} size={"sm"} />
-                                                        ) : (
-                                                            <IoHeart
-                                                                onClick={() => likeComment.mutate(item?.id)}
-                                                                cursor='pointer' fontSize='20px' color={
-                                                                    item?.likeStatus === 'LIKED' ? 'red' : 'grey'} width={'20px'} height={'20px'} />
-                                                        )}
-                                                        <Image onClick={() => clickReplyHandler(item, item?.user)} role={"button"} src='/assets/images/message.png' alt='message' width={'20px'} height={'20px'}
-                                                        //  onClick={() => clickHandler()} 
-                                                        />
-                                                        {item?.user?.userId === Id && (
-                                                            <Flex as={"button"} >
-                                                                {deleteComment?.isLoading ? (
-                                                                    <Spinner color={mainBackgroundColor} size={"sm"} />
-                                                                ) : (
-                                                                    <FiTrash2
-                                                                        onClick={() => deleteComment.mutate(item?.id)}
-                                                                        fontSize='20px' color={'red'} cursor='pointer' />
+                                    {showReply === item?.id && (
+                                        <Flex w={"full"} flexDir={"column"} gap={"4"} pl={"40px"} backgroundColor={mainBackgroundColor} >
+                                            {item?.subComments?.content?.map((subitem, subindex) => {
+                                                return (
+                                                    <Flex key={subindex} w={"full"} position={"relative"} onMouseOver={() => setShowActionReply(subitem?.id)} onMouseLeave={() => setShowActionReply("")} gap={"1"} >
+                                                        <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} w={"fit-content"} >
+                                                            <UserImage border="1.3px" font={"14px"} size={"33px"} image={subitem?.user?.data?.imgMain?.value} data={subitem?.user} />
+                                                        </Flex>
+                                                        <Flex flexDirection={"column"} w={"full"} maxW={["fit-content", "200px", "300px"]}  >
+                                                            <Flex flexDir={"column"} w={"full"} maxW={["fit-content", "200px", "300px"]} rounded={"16px"} >
+                                                                <Flex position={"relative"} flexDir={"column"} bg={mainBackgroundColor} w={"full"} maxW={["fit-content", "200px", "300px"]} rounded={"16px"} pb={"1"} px={"2"} >
+                                                                    <Flex alignItems={"center"} gap={"1"} >
+                                                                        <Text fontSize={"10px"} role='button' onClick={() => router?.push(`/dashboard/profile/${subitem?.user?.userId}`)} fontWeight={"600"} >{textLimit(subitem?.user?.username, 15)}</Text>
+                                                                        <Flex w={"full"} justifyContent={"space-between"} >
+                                                                            <Text fontSize={"10px"}>{moment(subitem?.timeInMilliseconds).fromNow()?.replace("ago", "")}</Text>
+                                                                        </Flex>
+                                                                    </Flex>
+                                                                    <Text color={headerTextColor} fontSize={"12px"} mt={"1"} >{(subitem?.comment?.length > 100 && showText !== subitem?.id) ? textLimit(subitem?.comment, 100) : subitem?.comment} {subitem?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === subitem?.id ? "" : subitem?.id)} >{subitem?.id === showText ? "show less" : "show more"}</p>}</Text>
+                                                                </Flex>
+                                                            </Flex>
+                                                            <Flex w={"full"} mt={"1"} maxW={["fit-content", "200px", "300px"]} gap={"6"} px={"3"} >
+                                                                <FiTrash2
+                                                                    onClick={() => deleteCommentHandler(subitem?.id, "Reply")}
+                                                                    fontSize='15px' color={'red'} cursor='pointer' />
+                                                            </Flex>
+                                                            <Flex position={"absolute"} zIndex={"10"} right={"4"} w={"30px"} insetY={"auto"} alignItems={"center"} >
+
+                                                                <IoHeart
+                                                                    onClick={() => likeSubComment.mutate(subitem?.id)}
+                                                                    cursor='pointer' fontSize='20px' color={
+                                                                        subitem?.likeStatus === 'LIKED' ? 'red' : 'grey'} width={'20px'} height={'20px'} />
+                                                                {subitem?.likeCount > 0 && (
+                                                                    <Text fontSize={"12px"} as={"button"} >{subitem?.likeCount}</Text>
                                                                 )}
                                                             </Flex>
-                                                        )}
+                                                        </Flex>
+                                                    </Flex>
+                                                )
+                                            })}
+                                        </Flex>
+                                    )}
+                                </Flex>
+                            )
+                        } else { 
+                            return (
+                                <Flex onMouseOver={() => onMouseOver(item?.id)} onMouseLeave={() => onMouseOut()} key={index} flexDirection={"column"} gap={"6"}  >
+                                    <Flex w={"full"} gap={"0px"} >
+                                        <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} w={"fit-content"} >
+                                            <UserImage border="1.3px" font={"14px"} size={"33px"} image={item?.user?.data?.imgMain?.value} data={item?.user} />
+                                        </Flex>
+                                        <Flex flexDirection={"column"} w={"full"} maxW={["fit-content", "200px", "300px"]}  >
+                                            <Flex position={"relative"} flexDir={"column"} bg={mainBackgroundColor} w={"full"} maxW={["fit-content", "200px", "300px"]} rounded={"16px"} pb={"1"} px={"2"} >
+                                                <Flex alignItems={"center"} gap={"1"} >
+                                                    <Text fontSize={"10px"} role='button' onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} fontWeight={"600"} >{textLimit(item?.user?.username, 15)}</Text>
+                                                    <Flex w={"full"} justifyContent={"space-between"} >
+                                                        <Text fontSize={"10px"}>{moment(item?.timeInMilliseconds).fromNow()?.replace("ago", "")}</Text>
                                                     </Flex>
                                                 </Flex>
+                                                <Text color={headerTextColor} fontSize={"12px"} mt={"1"} >{(item?.comment?.length > 100 && showText !== item?.id) ? textLimit(item?.comment, 100) : item?.comment} {item?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === item?.id ? "" : item?.id)} >{item?.id === showText ? "show less" : "show more"}</p>}</Text>
+                                            </Flex>
+                                            <Flex w={"full"} maxW={["fit-content", "200px", "300px"]} gap={"6"} px={"3"} >
+                                                <Image onClick={() => clickReplyHandler(item, item?.user)} role={"button"} src='/assets/images/message.png' alt='message' width={'15px'} height={'15px'} />
+                                                <FiTrash2
+                                                    onClick={() => deleteCommentHandler(item?.id, "Comment")}
+                                                    fontSize='15px' color={'red'} cursor='pointer' />
+                                            </Flex>
+
+                                            {item?.subComments?.totalElements > 0 && (
+                                                <>
+                                                    {showReply !== item?.id ?
+                                                        <Flex as={"button"} mt={"2"} fontSize={"12px"} onClick={() => setShowReply((prev) => prev === item?.id ? "" : item?.id)} w={"full"} justifyContent={"center"} alignItems={"center"}  >
+                                                            view {item?.subComments?.totalElements} more {item?.subComments?.totalElements > 1 ? "replies" : "reply"}
+                                                        </Flex>
+                                                        :
+                                                        <Flex as={"button"} mt={"2"} fontSize={"12px"} onClick={() => setShowReply((prev) => prev === item?.id ? "" : item?.id)} w={"full"} justifyContent={"center"} alignItems={"center"}  >
+                                                            hide rely
+                                                        </Flex>
+                                                    }
+                                                </>
                                             )}
+                                            <Flex position={"absolute"} zIndex={"10"} right={"4"} w={"30px"} insetY={"auto"} alignItems={"center"} >
+
+                                                <IoHeart
+                                                    onClick={() => likeComment.mutate(item?.id)}
+                                                    cursor='pointer' fontSize='20px' color={
+                                                        item?.likeStatus === 'LIKED' ? 'red' : 'grey'} width={'20px'} height={'20px'} />
+                                                {item?.likeCount > 0 && (
+                                                    <Text fontSize={"12px"} as={"button"} >{item?.likeCount}</Text>
+                                                )}
+                                            </Flex>
                                         </Flex>
                                     </Flex>
-                                </Flex>
-                                {showReply === item?.id && (
-                                    <Flex w={"full"} flexDir={"column"} gap={"4"} pl={"40px"} >
-                                        {item?.subComments?.content?.map((subitem, subindex) => {
-                                            return (
-                                                <Flex key={subindex} w={"full"} onMouseOver={() => setShowActionReply(subitem?.id)} onMouseLeave={() => setShowActionReply("")} gap={"4"} >
-                                                    <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} w={"fit-content"} >
-                                                        <UserImage border="1.3px" font={"14px"} size={"33px"} image={subitem?.user?.data?.imgMain?.value} data={subitem?.user} />
-                                                    </Flex>
-                                                    <Flex flexDirection={"column"} w={"full"} maxW={["fit-content", "200px", "300px"]}  >
-                                                        <Flex flexDir={"column"} bg={secondaryBackgroundColor} w={"full"} maxW={["fit-content", "200px", "300px"]} rounded={"16px"} py={"2"} px={"3"} >
-                                                            <Text role='button' onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} fontWeight={"500"} >{textLimit(item?.user?.username, 15)}</Text>
-                                                            {/* <Text color={bodyTextColor} fontSize={"14px"} >{subitem?.comment}</Text> */}
+                                    {showReply === item?.id && (
+                                        <Flex w={"full"} flexDir={"column"} gap={"4"} pl={"40px"} backgroundColor={mainBackgroundColor} >
+                                            {item?.subComments?.content?.map((subitem, subindex) => {
+                                                return (
+                                                    <Flex key={subindex} w={"full"} position={"relative"} onMouseOver={() => setShowActionReply(subitem?.id)} onMouseLeave={() => setShowActionReply("")} gap={"1"} >
+                                                        <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} w={"fit-content"} >
+                                                            <UserImage border="1.3px" font={"14px"} size={"33px"} image={subitem?.user?.data?.imgMain?.value} data={subitem?.user} />
+                                                        </Flex>
+                                                        <Flex flexDirection={"column"} w={"full"} maxW={["fit-content", "200px", "300px"]}  >
+                                                            <Flex flexDir={"column"} w={"full"} maxW={["fit-content", "200px", "300px"]} rounded={"16px"} >
+                                                                <Flex position={"relative"} flexDir={"column"} bg={mainBackgroundColor} w={"full"} maxW={["fit-content", "200px", "300px"]} rounded={"16px"} pb={"1"} px={"2"} >
+                                                                    <Flex alignItems={"center"} gap={"1"} >
+                                                                        <Text fontSize={"10px"} role='button' onClick={() => router?.push(`/dashboard/profile/${subitem?.user?.userId}`)} fontWeight={"600"} >{textLimit(subitem?.user?.username, 15)}</Text>
+                                                                        <Flex w={"full"} justifyContent={"space-between"} >
+                                                                            <Text fontSize={"10px"}>{moment(subitem?.timeInMilliseconds).fromNow()?.replace("ago", "")}</Text>
+                                                                        </Flex>
+                                                                    </Flex>
+                                                                    <Text color={headerTextColor} fontSize={"12px"} mt={"1"} >{(subitem?.comment?.length > 100 && showText !== subitem?.id) ? textLimit(subitem?.comment, 100) : subitem?.comment} {subitem?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === subitem?.id ? "" : subitem?.id)} >{subitem?.id === showText ? "show less" : "show more"}</p>}</Text>
+                                                                </Flex>
+                                                            </Flex>
+                                                            <Flex w={"full"} mt={"1"} maxW={["fit-content", "200px", "300px"]} gap={"6"} px={"3"} >
+                                                                <FiTrash2
+                                                                    onClick={() => deleteCommentHandler(subitem?.id, "Reply")}
+                                                                    fontSize='15px' color={'red'} cursor='pointer' />
+                                                            </Flex>
+                                                            <Flex position={"absolute"} zIndex={"10"} right={"4"} w={"30px"} insetY={"auto"} alignItems={"center"} >
 
-                                                            <Text color={bodyTextColor} fontSize={"14px"} >{(subitem?.comment?.length > 100 && showReplies !== subitem?.id) ? textLimit(subitem?.comment, 100) : subitem?.comment} {subitem?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowReplies((prev) => prev === subitem?.id ? "" : subitem?.id)} >{subitem?.id === showReplies ? "show less" : "show more"}</p>}</Text>
-                                                            <Flex w={"full"} justifyContent={"space-between"} mt={"2"} >
-                                                                <Text fontSize={"12px"}>{moment(subitem?.timeInMilliseconds).fromNow()}</Text>
-                                                                {/* <Text fontSize={"12px"} as={"button"} >{subitem?.likeCount} likes</Text> */}
+                                                                <IoHeart
+                                                                    onClick={() => likeSubComment.mutate(subitem?.id)}
+                                                                    cursor='pointer' fontSize='20px' color={
+                                                                        subitem?.likeStatus === 'LIKED' ? 'red' : 'grey'} width={'20px'} height={'20px'} />
+                                                                {subitem?.likeCount > 0 && (
+                                                                    <Text fontSize={"12px"} as={"button"} >{subitem?.likeCount}</Text>
+                                                                )}
                                                             </Flex>
                                                         </Flex>
-                                                        <Flex w={"full"} mt={"1"} maxW={["fit-content", "200px", "300px"]} gap={"6"} px={"3"} >
-                                                            {/* <Text fontSize={"12px"}>{moment(subitem?.timeInMilliseconds).fromNow()}</Text> */}
-                                                            <Text fontSize={"12px"} as={"button"} >{subitem?.likeCount} likes</Text>
-                                                        </Flex>
                                                     </Flex>
-                                                    <Flex w={"fit-content"} >
-                                                        <Flex w={"65px"} >
-                                                            {showActionReply === subitem?.id && (
-                                                                <Flex w={"65px"} h={"fit-content"} >
-                                                                    <Flex bg="white" borderRadius={'10px'} padding='5px' gap={"2"} shadow={'md'}  >
-
-                                                                        {likeSubComment?.isLoading ? (
-                                                                            <Spinner color={mainBackgroundColor} size={"sm"} />
-                                                                        ) : (
-                                                                            <IoHeart
-                                                                                onClick={() => likeSubComment.mutate(subitem?.id)}
-                                                                                cursor='pointer' fontSize='20px' color={
-                                                                                    subitem?.likeStatus === 'LIKED' ? 'red' : 'grey'} width={'20px'} height={'20px'} />
-                                                                        )}
-                                                                        {item?.user?.userId === Id && (
-                                                                            <Flex as={"button"} >
-                                                                                {deleteSubComment?.isLoading ? (
-                                                                                    <Spinner color={mainBackgroundColor} size={"sm"} />
-                                                                                ) : (
-                                                                                    <FiTrash2
-                                                                                        onClick={() => deleteSubComment.mutate(subitem?.id)}
-                                                                                        fontSize='20px' color={'red'} cursor='pointer' />
-                                                                                )}
-                                                                            </Flex>
-                                                                        )}
-                                                                    </Flex>
-                                                                </Flex>
-                                                            )}
-                                                        </Flex>
-                                                    </Flex>
-                                                </Flex>
-                                            )
-                                        })}
-                                    </Flex>
-                                )}
-                            </Flex>
-                        )
+                                                )
+                                            })}
+                                        </Flex>
+                                    )}
+                                </Flex>
+                            )
+                        }
                     })}
                     {(hasNextPage && commentsData?.length > 0) && (
                         <Text as={"button"} fontWeight={"500"} color={primaryColor} >View more comments</Text>
                     )}
                 </Flex>
             </LoadingAnimation>
+            <ModalLayout open={open} close={setOpen} size={"xs"}>
+
+                <VStack width='100%' justifyContent={'center'} height='100%' p={"6"} alignItems={'center'} spacing={3}>
+                    <Image alt='delete' src='/assets/images/deleteaccount.svg' />
+                    <CustomText fontFamily='DM-Bold' textAlign={'center'} fontSize={'20px'}>Delete Account</CustomText>
+                    <CustomText fontFamily={'DM-Regular'} textAlign={'center'} fontSize={'16px'} color='grey'>Are you sure you want to delete this comment ? this action cannot be undone.</CustomText>
+                    {contentType === "Comment" ? (
+                        <Button isLoading={deleteComment?.isLoading} onClick={() => deleteComment.mutate(commentID)} width='100%' height='42px' bg='red' color="white" _hover={{ backgroundColor: "red" }} >Delete</Button>
+                    ) : (
+
+                        <Button isLoading={deleteComment?.isLoading} onClick={() => deleteSubComment.mutate(commentID)} width='100%' height='42px' bg='red' color="white" >Delete</Button>
+                    )}
+                    <Button onClick={() => setOpen(false)} width='100%' height='42px' borderWidth={'0px'} color="grey" >Cancel</Button>
+                </VStack>
+            </ModalLayout>
         </Flex>
     )
 }

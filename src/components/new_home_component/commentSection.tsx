@@ -15,7 +15,8 @@ import { capitalizeFLetter } from '@/utils/capitalLetter'
 import { textLimit } from '@/utils/textlimit'
 import { CgMoreVertical } from 'react-icons/cg'
 import { useRouter } from 'next/navigation'
-import { IoArrowBack } from 'react-icons/io5'
+import { BottomSheet } from 'react-spring-bottom-sheet'
+import 'react-spring-bottom-sheet/dist/style.css'
 
 interface IProps {
     content: IMediaContent,
@@ -23,6 +24,7 @@ interface IProps {
     likesHandle?: any,
     liked?: any,
     count?: any,
+    numberComments?: string,
     close: any
 }
 
@@ -34,6 +36,7 @@ export default function CommentSection(props: IProps) {
         likesHandle,
         liked,
         count,
+        numberComments,
         close
     } = props
 
@@ -53,23 +56,12 @@ export default function CommentSection(props: IProps) {
     const router = useRouter()
 
     return (
-        <Flex w={"full"} h={["100vh", "100vh", "full"]} gap={"4"} bg={mainBackgroundColor} position={"relative"} flexDir={"column"} flex={"1"} justifyContent={"space-between"} alignItems={"center"} pt={"4"} >
-            <Flex w={"full"} h={"full"} alignItems={"center"} flexDirection={"column"} pb={"4"} gap={"4"} px={"6"}  >
-                {/* <Flex h={"fit-content"} flexDir={"column"} w={"full"} > */}
-                <Flex alignItems={"center"} gap={"2"} h={"78px"} w={"full"} rounded={"full"} roundedTopRight={"0px"} borderWidth={"1px"} borderColor={borderColor} px={"4"} >
-                    <IoArrowBack role="button" onClick={()=> close(false)} size={"25px"} />
-                    <Flex as={"button"} onClick={() => router?.push(`/dashboard/profile/${content?.user?.userId}`)} gap={"3"} >
-                        <UserImage size={"55px"} data={content?.user} image={content?.user?.data?.imgMain?.value} />
-                        <Flex flexDir={"column"} alignItems={"start"}  >
-                            <Text color={"#233DF3"} >{textLimit(capitalizeFLetter(content?.user?.firstName) + " " + capitalizeFLetter(content?.user?.lastName), 30)}</Text>
-                            <Text fontSize={"14px"} >@{textLimit(content?.user?.username, 20)}</Text>
-                        </Flex>
-                    </Flex>
-                </Flex>
-                <Flex w={"full"} maxW={"450px"} borderWidth={"0.5px"} rounded={"36px"} p={"4"} roundedTopRight={"0px"} borderColor={"#EEEEEE"} h={"auto"} flexDir={"column"} >
-                    <Text >{content?.text}</Text>
+        <Flex w={"full"} h={["100vh", "100vh", "70vh"]} gap={"4"} bg={mainBackgroundColor} position={"relative"} overflowY={"hidden"} flex={"1"} justifyContent={"space-between"} alignItems={"center"} px={"4"} pt={"4"} >
+            <Flex w={"full"} h={"full"} alignItems={"center"} flexDirection={"column"} pb={"4"} gap={"4"}  > 
+                <Flex w={"full"} borderWidth={"0.5px"} rounded={"36px"} p={"4"} roundedTopRight={"0px"} borderColor={"#EEEEEE"} h={"full"} flexDir={"column"} >
+                    {/* <Text >{content?.text}</Text> */}
                     {(content?.type === "WITH_IMAGE" || content?.type === "WITH_VIDEO_POST") &&
-                        <Flex w={"full"} h={["236px", "236px", "236px", "250px", "250px"]} rounded={"16px"} roundedTopRight={"0px"}>
+                        <Flex w={"full"} h={["236px", "236px", "236px", "full", "full"]} rounded={"16px"} roundedTopRight={"0px"}>
                             {content?.type === "WITH_VIDEO_POST" && (
                                 <VideoPlayer
                                     src={`${IMAGE_URL}${content?.mediaRef}`}
@@ -80,8 +72,14 @@ export default function CommentSection(props: IProps) {
                                 <ImageSlider links={content?.multipleMediaRef} type="feed" />
                             )}
                         </Flex>
-                    }
-                    <Flex w={"full"} borderTopWidth={"0px"} pt={"4"} justifyContent={"space-between"} >
+                    } 
+                </Flex> 
+            </Flex>
+            <Flex w={"full"} flexDir={"column"} h={"full"} position={"relative"} >
+                <CommentList replyData={replyData} setReply={setReplyData} data={content} showInput={setShow} />
+                {/* {show && ( */}
+                <Flex w={"full"} h={"fit-content"} zIndex={"60"} mt={"auto"} bg={mainBackgroundColor} position={"sticky"} borderTopColor={borderColor} borderTopWidth={"1px"} bottom={"0px"} pt={"2"} pb={"3"} flexDir={"column"} gap={"0px"} alignItems={"start"} >
+                    <Flex w={"full"} borderTopWidth={"0px"} px={"2"} justifyContent={"space-between"} >
                         <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
                             {!loadingLikes ?
                                 <Flex
@@ -105,7 +103,7 @@ export default function CommentSection(props: IProps) {
                                     <Spinner size={"sm"} />
                                 </Flex>
                             }
-                            <Text>{count}</Text>
+                            <Text fontSize={"12px"} fontWeight={"bold"} >{count}</Text>
                         </Flex>
                         <Flex as={"button"} onClick={() => { setShow((prev) => !prev), setReplyData({} as any) }} w={"fit-content"} alignItems={"center"} gap={"2px"} >
                             <Flex
@@ -117,21 +115,18 @@ export default function CommentSection(props: IProps) {
                             >
                                 <HomeCommentIcon color={bodyTextColor} />
                             </Flex>
-                            <Text>{content?.commentCount}</Text>
+                            <Text fontSize={"12px"} fontWeight={"bold"} >{numberComments}</Text>
                         </Flex>
                         <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
                             <ShareBtn type="POST" id={content?.id} />
                         </Flex>
                     </Flex>
+                    {/* {(show) && ( */}
+                        <CommentInput setShow={setShow} replyData={replyData} data={content} user={user} />
+                    {/* )} */}
                 </Flex>
-                <CommentList replyData={replyData} setReply={setReplyData} data={content} showInput={setShow} />
-                {/* </Flex> */}
+                {/* )} */}
             </Flex>
-            {show && (
-                <Flex w={"full"} mt={"auto"} bg={mainBackgroundColor} position={"sticky"} borderTopColor={borderColor} borderTopWidth={"1px"} bottom={"0px"} pt={"4"} pb={"6"} flexDir={"column"} gap={"4"} alignItems={"start"} >
-                    <CommentInput setShow={setShow} replyData={replyData} data={content} user={user} />
-                </Flex>
-            )}
         </Flex>
     )
 } 

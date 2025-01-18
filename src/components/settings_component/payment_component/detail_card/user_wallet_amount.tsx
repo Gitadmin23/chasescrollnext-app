@@ -40,7 +40,7 @@ function UserWalletAmount(props: Props) {
             {(!isLoading && !isRefetching) ? (
                 <Text fontSize={"22px"} fontWeight={"600"} >{showEscrow ? formatNumber(showText ? data?.escrowBalances?.balance / 100 : "***", currency === "USD" ? "$" : "₦") : formatNumber(showText ? data?.walletBalances?.balance / 100 : "***", currency === "USD" ? "$" : "₦")}</Text>
             ): isRefetching ? (
-                <Text fontSize={"22px"} fontWeight={"600"} >Refetching...</Text>
+                <Text fontSize={"22px"} fontWeight={"600"} >Refreshing...</Text>
             ): (
                 <Text fontSize={"22px"} fontWeight={"600"} >Loading...</Text>
             )}

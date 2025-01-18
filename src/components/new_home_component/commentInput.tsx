@@ -1,4 +1,4 @@
-import { Flex, Textarea, Box, Spinner, Text } from '@chakra-ui/react'
+import { Flex, Textarea, Box, Spinner, Text, Input } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import UserImage from '../sharedComponent/userimage'
 import { NewSendIcon } from '../svg'
@@ -26,6 +26,16 @@ export default function CommentInput({ user, data, replyData, setShow }: IProps)
 
     useEffect(() => {
         setPostID(data?.id)
+    }, [])
+
+    useEffect(() => {
+        if(createSubComment?.isSuccess) {
+            setSubCommentsInput("")
+        } 
+         
+        if(addComment?.isSuccess) {
+            setCommentsInput("")
+        }
     }, [])
 
     const {
@@ -59,18 +69,19 @@ export default function CommentInput({ user, data, replyData, setShow }: IProps)
     const { user: userdata, } = useDetails((state) => state); 
 
     return (
-        <Flex w={"full"} height={"fit-content"} gap={"3"} bg={mainBackgroundColor} flexDir={"column"} px={"4"} >
+        <Flex w={"full"} gap={"1"} mt={"2"} bg={mainBackgroundColor} flexDir={"column"} >
             {replyData?.data?.id && (
-                <Text>replying to <span style={{ color: primaryColor, fontWeight: "bold" }} >{replyData?.user?.username}</span> {`"${textLimit(replyData?.data?.comment, 20)}"`}</Text>
+                <Text fontSize={"14px"} ml={"2"} >replying to <span style={{ color: primaryColor, fontWeight: "bold" }} >{replyData?.user?.username}</span> {`"${textLimit(replyData?.data?.comment, 20)}"`}</Text>
             )}
-            <Box onClick={clickHandler} as='button' position={"absolute"} top={"1"} right={"1"} >
+            {/* <Box onClick={clickHandler} as='button' rounded={"full"} bgColor={primaryColor} position={"absolute"} top={"-2"} right={"1"} >
                 <IoClose size={"20px"} />
-            </Box>
+            </Box> */}
             <Flex pos={"relative"} w={"full"} gap={"1"}  bg={mainBackgroundColor} h={"fit-content"} alignItems={"start"} p={"2"} rounded={"12px"} >
-                <Box w={"fit-content"} >
+                {/* <Box w={"fit-content"} >
                     <UserImage size={"36px"} fontWeight={"500"} font={"14px"} border={"1.5px"} image={userdata?.data?.imgMain?.value ?? user?.data?.imgMain?.value} data={userdata ?? user} />
-                </Box>
-                <Textarea
+                </Box> */}
+                <Input
+                fontSize={"14px"}
                     value={replyData?.data?.id ? subCommentsInput : commentsInput} onChange={(e) => changeHandler(e.target.value)}
                     h={"45px"} w={"full"} bgColor={"#F2F3FB"} borderWidth={"0px"} _hover={{ borderWidth: "0px" }} focusBorderColor='transparent' color={"black"} placeholder='Add your thought' _placeholder={{ color: "#00000033" }} />
                 {!replyData?.data?.id && (
