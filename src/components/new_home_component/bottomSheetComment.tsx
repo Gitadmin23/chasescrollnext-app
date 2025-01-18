@@ -45,7 +45,7 @@ export default function BottomSheetComment({ open, setOpen, content, liked, load
                         <CommentList mobile={true} replyData={replyData} setReply={setReplyData} data={content} showInput={setShow} />
                         {/* {show && ( */}
                         <Flex w={"full"} h={"fit-content"} mt={"auto"} bg={mainBackgroundColor} position={"sticky"} borderTopColor={borderColor} borderTopWidth={"1px"} bottom={"0px"} pt={"2"} pb={"3"} flexDir={"column"} gap={"0px"} alignItems={"start"} >
-                            <Flex w={"full"} borderTopWidth={"0px"} px={"2"} justifyContent={"space-between"} >
+                            {/* <Flex w={"full"} borderTopWidth={"0px"} px={"2"} justifyContent={"space-between"} >
                                 <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
                                     {!loadingLikes ?
                                         <Flex
@@ -86,10 +86,10 @@ export default function BottomSheetComment({ open, setOpen, content, liked, load
                                 <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
                                     <ShareBtn type="POST" id={content?.id} />
                                 </Flex>
-                            </Flex>
-                            {show && (
+                            </Flex> */}
+                            {/* {show && ( */}
                                 <CommentInput setShow={setShow} replyData={replyData} data={content} user={user} />
-                            )}
+                            {/* )} */}
                         </Flex>
                         {/* )} */}
                     </Flex>

@@ -13,13 +13,16 @@ import { useRouter } from 'next/navigation';
 import { textLimit } from '@/utils/textlimit';
 import ModalLayout from '../sharedComponent/modal_layout';
 import CustomText from '../general/Text';
+import { TbMessageReply } from "react-icons/tb";
+import { capitalizeFLetter } from '@/utils/capitalLetter';
 
 interface IProps {
     data: IMediaContent,
     showInput: any,
     setReply: any,
     replyData: any,
-    mobile?: boolean
+    mobile?: boolean,
+    user?: IUser | null
 }
 
 export default function CommentList({
@@ -27,7 +30,8 @@ export default function CommentList({
     showInput,
     setReply,
     replyData,
-    mobile
+    mobile,
+    user
 }: IProps) {
 
 
@@ -69,7 +73,10 @@ export default function CommentList({
         if (deleteComment?.isSuccess) {
             setOpen(false)
         }
-    }, [deleteComment?.isSuccess])
+        if (deleteSubComment?.isSuccess) {
+            setOpen(false)
+        }
+    }, [deleteComment?.isSuccess, deleteSubComment?.isSuccess])
 
     const Id = localStorage.getItem('user_id');
 
@@ -102,14 +109,14 @@ export default function CommentList({
         if (!mobile) {
             setShowAction("")
         }
-    }
+    } 
 
     return (
         <Flex w={"full"} maxW={"578px"} px={mobile ? "4" : "0px"} py={"4"} bg={mainBackgroundColor} flexDir={"column"} position={"relative"} overflowY={"auto"} alignItems={"start"} >
             <LoadingAnimation loading={isLoading} refeching={isRefetching} >
                 <Flex w={"full"} gap={"4"} bg={mainBackgroundColor} flexDirection={"column"} >
                     {commentsData?.map((item, index) => {
-                        if (index === 0) { 
+                        if (index === 0) {
                             return (
                                 <Flex ref={contentRef} onMouseOver={() => onMouseOver(item?.id)} onMouseLeave={() => onMouseOut()} key={index} flexDirection={"column"} gap={"6"}  >
                                     <Flex w={"full"} gap={"0px"} >
@@ -124,13 +131,16 @@ export default function CommentList({
                                                         <Text fontSize={"10px"}>{moment(item?.timeInMilliseconds).fromNow()?.replace("ago", "")}</Text>
                                                     </Flex>
                                                 </Flex>
-                                                <Text color={headerTextColor} fontSize={"12px"} mt={"1"} >{(item?.comment?.length > 100 && showText !== item?.id) ? textLimit(item?.comment, 100) : item?.comment} {item?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === item?.id ? "" : item?.id)} >{item?.id === showText ? "show less" : "show more"}</p>}</Text>
+                                                <Text color={headerTextColor} fontSize={"12px"} mt={"1"} >{(item?.comment?.length > 100 && showText !== item?.id) ? textLimit(capitalizeFLetter(item?.comment), 100) : capitalizeFLetter(item?.comment)} {item?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === item?.id ? "" : item?.id)} >{item?.id === showText ? "show less" : "show more"}</p>}</Text>
                                             </Flex>
                                             <Flex w={"full"} maxW={["fit-content", "200px", "300px"]} gap={"6"} px={"3"} >
-                                                <Image onClick={() => clickReplyHandler(item, item?.user)} role={"button"} src='/assets/images/message.png' alt='message' width={'15px'} height={'15px'} />
-                                                <FiTrash2
-                                                    onClick={() => deleteCommentHandler(item?.id, "Comment")}
-                                                    fontSize='15px' color={'red'} cursor='pointer' />
+                                                {/* <Image onClick={() => clickReplyHandler(item, item?.user)} role={"button"} src='/assets/images/message.png' alt='message' width={'15px'} height={'15px'} /> */}
+                                                <TbMessageReply onClick={() => clickReplyHandler(item, item?.user)} fontSize='15px' color={'black'} cursor='pointer' />
+                                                {item?.user?.userId === user?.userId && (
+                                                    <FiTrash2
+                                                        onClick={() => deleteCommentHandler(item?.id, "Comment")}
+                                                        fontSize='15px' color={'red'} cursor='pointer' />
+                                                )}
                                             </Flex>
 
                                             {item?.subComments?.totalElements > 0 && (
@@ -175,14 +185,16 @@ export default function CommentList({
                                                                             <Text fontSize={"10px"}>{moment(subitem?.timeInMilliseconds).fromNow()?.replace("ago", "")}</Text>
                                                                         </Flex>
                                                                     </Flex>
-                                                                    <Text color={headerTextColor} fontSize={"12px"} mt={"1"} >{(subitem?.comment?.length > 100 && showText !== subitem?.id) ? textLimit(subitem?.comment, 100) : subitem?.comment} {subitem?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === subitem?.id ? "" : subitem?.id)} >{subitem?.id === showText ? "show less" : "show more"}</p>}</Text>
+                                                                    <Text color={headerTextColor} fontSize={"12px"} mt={"1"} >{(subitem?.comment?.length > 100 && showText !== subitem?.id) ? textLimit(capitalizeFLetter(subitem?.comment), 100) : capitalizeFLetter(subitem?.comment)} {subitem?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === subitem?.id ? "" : subitem?.id)} >{subitem?.id === showText ? "show less" : "show more"}</p>}</Text>
                                                                 </Flex>
                                                             </Flex>
-                                                            <Flex w={"full"} mt={"1"} maxW={["fit-content", "200px", "300px"]} gap={"6"} px={"3"} >
-                                                                <FiTrash2
-                                                                    onClick={() => deleteCommentHandler(subitem?.id, "Reply")}
-                                                                    fontSize='15px' color={'red'} cursor='pointer' />
-                                                            </Flex>
+                                                            {subitem?.user?.userId === user?.userId && (
+                                                                <Flex w={"full"} mt={"1"} maxW={["fit-content", "200px", "300px"]} gap={"6"} px={"3"} >
+                                                                    <FiTrash2
+                                                                        onClick={() => deleteCommentHandler(subitem?.id, "Reply")}
+                                                                        fontSize='15px' color={'red'} cursor='pointer' />
+                                                                </Flex>
+                                                            )}
                                                             <Flex position={"absolute"} zIndex={"10"} right={"4"} w={"30px"} insetY={"auto"} alignItems={"center"} >
 
                                                                 <IoHeart
@@ -201,7 +213,7 @@ export default function CommentList({
                                     )}
                                 </Flex>
                             )
-                        } else { 
+                        } else {
                             return (
                                 <Flex onMouseOver={() => onMouseOver(item?.id)} onMouseLeave={() => onMouseOut()} key={index} flexDirection={"column"} gap={"6"}  >
                                     <Flex w={"full"} gap={"0px"} >
@@ -216,10 +228,10 @@ export default function CommentList({
                                                         <Text fontSize={"10px"}>{moment(item?.timeInMilliseconds).fromNow()?.replace("ago", "")}</Text>
                                                     </Flex>
                                                 </Flex>
-                                                <Text color={headerTextColor} fontSize={"12px"} mt={"1"} >{(item?.comment?.length > 100 && showText !== item?.id) ? textLimit(item?.comment, 100) : item?.comment} {item?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === item?.id ? "" : item?.id)} >{item?.id === showText ? "show less" : "show more"}</p>}</Text>
+                                                <Text color={headerTextColor} fontSize={"12px"} mt={"1"} >{(item?.comment?.length > 100 && showText !== item?.id) ? textLimit(capitalizeFLetter(item?.comment), 100) : capitalizeFLetter(item?.comment)} {item?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === item?.id ? "" : item?.id)} >{item?.id === showText ? "show less" : "show more"}</p>}</Text>
                                             </Flex>
                                             <Flex w={"full"} maxW={["fit-content", "200px", "300px"]} gap={"6"} px={"3"} >
-                                                <Image onClick={() => clickReplyHandler(item, item?.user)} role={"button"} src='/assets/images/message.png' alt='message' width={'15px'} height={'15px'} />
+                                                <TbMessageReply onClick={() => clickReplyHandler(item, item?.user)} fontSize='15px' color={'black'} cursor='pointer' />
                                                 <FiTrash2
                                                     onClick={() => deleteCommentHandler(item?.id, "Comment")}
                                                     fontSize='15px' color={'red'} cursor='pointer' />
@@ -267,7 +279,7 @@ export default function CommentList({
                                                                             <Text fontSize={"10px"}>{moment(subitem?.timeInMilliseconds).fromNow()?.replace("ago", "")}</Text>
                                                                         </Flex>
                                                                     </Flex>
-                                                                    <Text color={headerTextColor} fontSize={"12px"} mt={"1"} >{(subitem?.comment?.length > 100 && showText !== subitem?.id) ? textLimit(subitem?.comment, 100) : subitem?.comment} {subitem?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === subitem?.id ? "" : subitem?.id)} >{subitem?.id === showText ? "show less" : "show more"}</p>}</Text>
+                                                                    <Text color={headerTextColor} fontSize={"12px"} mt={"1"} >{(subitem?.comment?.length > 100 && showText !== subitem?.id) ? textLimit(capitalizeFLetter(subitem?.comment), 100) : capitalizeFLetter(subitem?.comment)} {subitem?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === subitem?.id ? "" : subitem?.id)} >{subitem?.id === showText ? "show less" : "show more"}</p>}</Text>
                                                                 </Flex>
                                                             </Flex>
                                                             <Flex w={"full"} mt={"1"} maxW={["fit-content", "200px", "300px"]} gap={"6"} px={"3"} >
@@ -304,13 +316,13 @@ export default function CommentList({
 
                 <VStack width='100%' justifyContent={'center'} height='100%' p={"6"} alignItems={'center'} spacing={3}>
                     <Image alt='delete' src='/assets/images/deleteaccount.svg' />
-                    <CustomText fontFamily='DM-Bold' textAlign={'center'} fontSize={'20px'}>Delete Account</CustomText>
+                    <CustomText fontFamily='DM-Bold' textAlign={'center'} fontSize={'20px'}>Delete Your {contentType === "Comment" ? "Comment" : "Reply"}</CustomText>
                     <CustomText fontFamily={'DM-Regular'} textAlign={'center'} fontSize={'16px'} color='grey'>Are you sure you want to delete this comment ? this action cannot be undone.</CustomText>
                     {contentType === "Comment" ? (
                         <Button isLoading={deleteComment?.isLoading} onClick={() => deleteComment.mutate(commentID)} width='100%' height='42px' bg='red' color="white" _hover={{ backgroundColor: "red" }} >Delete</Button>
                     ) : (
 
-                        <Button isLoading={deleteComment?.isLoading} onClick={() => deleteSubComment.mutate(commentID)} width='100%' height='42px' bg='red' color="white" >Delete</Button>
+                        <Button isLoading={deleteSubComment?.isLoading} onClick={() => deleteSubComment.mutate(commentID)} width='100%' height='42px' bg='red' color="white" >Delete</Button>
                     )}
                     <Button onClick={() => setOpen(false)} width='100%' height='42px' borderWidth={'0px'} color="grey" >Cancel</Button>
                 </VStack>

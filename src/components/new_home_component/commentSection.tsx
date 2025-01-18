@@ -57,7 +57,7 @@ export default function CommentSection(props: IProps) {
 
     return (
         <Flex w={"full"} h={["100vh", "100vh", "70vh"]} gap={"4"} bg={mainBackgroundColor} position={"relative"} overflowY={"hidden"} flex={"1"} justifyContent={"space-between"} alignItems={"center"} px={"4"} pt={"4"} >
-            <Flex w={"full"} h={"full"} alignItems={"center"} flexDirection={"column"} pb={"4"} gap={"4"}  > 
+            <Flex w={"full"} h={"full"} alignItems={"center"} flexDirection={"column"} pb={"4"} gap={"4"}  >
                 <Flex w={"full"} borderWidth={"0.5px"} rounded={"36px"} p={"4"} roundedTopRight={"0px"} borderColor={"#EEEEEE"} h={"full"} flexDir={"column"} >
                     {/* <Text >{content?.text}</Text> */}
                     {(content?.type === "WITH_IMAGE" || content?.type === "WITH_VIDEO_POST") &&
@@ -72,60 +72,17 @@ export default function CommentSection(props: IProps) {
                                 <ImageSlider links={content?.multipleMediaRef} type="feed" />
                             )}
                         </Flex>
-                    } 
-                </Flex> 
+                    }
+                </Flex>
             </Flex>
             <Flex w={"full"} flexDir={"column"} h={"full"} position={"relative"} >
-                <CommentList replyData={replyData} setReply={setReplyData} data={content} showInput={setShow} />
-                {/* {show && ( */}
+                <CommentList replyData={replyData} setReply={setReplyData} data={content} showInput={setShow} user={user} />
+
                 <Flex w={"full"} h={"fit-content"} zIndex={"60"} mt={"auto"} bg={mainBackgroundColor} position={"sticky"} borderTopColor={borderColor} borderTopWidth={"1px"} bottom={"0px"} pt={"2"} pb={"3"} flexDir={"column"} gap={"0px"} alignItems={"start"} >
-                    <Flex w={"full"} borderTopWidth={"0px"} px={"2"} justifyContent={"space-between"} >
-                        <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
-                            {!loadingLikes ?
-                                <Flex
-                                    width={"24px"}
-                                    h={"30px"}
-                                    justifyContent={"center"}
-                                    alignItems={"center"}
-                                    as={"button"}
-                                    onClick={() => likesHandle(content?.id)}
-                                >
-                                    {liked !== "LIKED" && (
-                                        <HomeHeartIcon color={bodyTextColor} />
-                                    )}
-                                    {liked === "LIKED" && <HomeHeartFillIcon />}
-                                </Flex> :
-                                <Flex
-                                    width={"24px"}
-                                    h={"30px"}
-                                    justifyContent={"center"}
-                                    alignItems={"center"}>
-                                    <Spinner size={"sm"} />
-                                </Flex>
-                            }
-                            <Text fontSize={"12px"} fontWeight={"bold"} >{count}</Text>
-                        </Flex>
-                        <Flex as={"button"} onClick={() => { setShow((prev) => !prev), setReplyData({} as any) }} w={"fit-content"} alignItems={"center"} gap={"2px"} >
-                            <Flex
-                                width={"24px"}
-                                h={"30px"}
-                                justifyContent={"center"}
-                                alignItems={"center"}
-                                color={bodyTextColor}
-                            >
-                                <HomeCommentIcon color={bodyTextColor} />
-                            </Flex>
-                            <Text fontSize={"12px"} fontWeight={"bold"} >{numberComments}</Text>
-                        </Flex>
-                        <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
-                            <ShareBtn type="POST" id={content?.id} />
-                        </Flex>
-                    </Flex>
-                    {/* {(show) && ( */}
-                        <CommentInput setShow={setShow} replyData={replyData} data={content} user={user} />
-                    {/* )} */}
+
+                    <CommentInput setShow={setShow} replyData={replyData} setReplyData={setReplyData} data={content} user={user} />
+
                 </Flex>
-                {/* )} */}
             </Flex>
         </Flex>
     )

@@ -17,26 +17,17 @@ interface IProps {
         user: IUser,
         data: IComment
     },
-    setShow: any
+    setShow: any;
+    setReplyData: any
 }
 
-export default function CommentInput({ user, data, replyData, setShow }: IProps) {
+export default function CommentInput({ user, data, replyData, setShow, setReplyData }: IProps) {
 
     const { addComment, addCommentHandler, commentsInput, setCommentsInput, setPostID, addSubCommentHandler, subCommentsInput, setSubCommentsInput, createSubComment } = useComment()
 
     useEffect(() => {
         setPostID(data?.id)
-    }, [])
-
-    useEffect(() => {
-        if(createSubComment?.isSuccess) {
-            setSubCommentsInput("")
-        } 
-         
-        if(addComment?.isSuccess) {
-            setCommentsInput("")
-        }
-    }, [])
+    }, []) 
 
     const {
         bodyTextColor,
@@ -54,6 +45,12 @@ export default function CommentInput({ user, data, replyData, setShow }: IProps)
             setCommentsInput(item)
         }
     }
+
+    useEffect(()=> {
+        if(createSubComment?.isSuccess){
+            setReplyData({} as any)
+        }
+    }, [createSubComment?.isSuccess])
 
     useEffect(()=> {
         if(addComment?.isSuccess || createSubComment?.isSuccess){

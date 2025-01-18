@@ -80,10 +80,11 @@ export default function PostCard(props: IMediaContent) {
                 setLikeCount(data?.data?.likeCount)
                 setLiked(data?.data?.likeStatus);
                 setNumberComments(data?.data?.comments?.numberOfElements);
-
+                console.log(data?.data);
+                
             },
         },
-    );
+    )
 
     const pathname = usePathname()
 
