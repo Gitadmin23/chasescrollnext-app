@@ -53,7 +53,7 @@ export default function ModalLayout({
     <Modal
       onClose={close}
       scrollBehavior={scrollBehavior ? scrollBehavior : "inside"}
-      size={size ? size : ""}
+      size={size ? size : "md"}
       isOpen={open}
       isCentered
       closeOnOverlayClick={onOverLay ? false : true}

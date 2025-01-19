@@ -21,7 +21,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import moment from 'moment'
 import httpService from '@/utils/httpService'
 import { useQuery } from 'react-query'
-import { IoArrowBack } from 'react-icons/io5'
+import { IoArrowBack, IoCloseCircleOutline } from 'react-icons/io5'
 import { useDetails } from '@/global-state/useUserDetails'
 import { IoIosMore } from 'react-icons/io'
 import { Sheet } from 'react-modal-sheet';
@@ -282,10 +282,10 @@ export default function PostCard(props: IMediaContent) {
 
                     {(text?.includes("https://") || text?.includes("http://") || text?.includes("www.")) ?
                         (
-                            <Link href={text} target={"_blank"} textDecor={"underline"} color={primaryColor} fontSize={["14px", "14px", "16px"]} >{text}</Link>
+                            <Link wordBreak="break-all" href={text} target={"_blank"} textDecor={"underline"} color={primaryColor} fontSize={["14px", "14px", "16px"]} >{textLimit(text, 50)}</Link>
                         ) :
                         (
-                            <Text fontSize={["12px", "12px", "14px"]} >{capitalizeFLetter(textLimit(text, textSize))} {text?.length > 100 && <span style={{ color: primaryColor, fontWeight: "700", fontSize: "14px" }} onClick={() => setTextSize((prev) => prev === 100 ? (10 * 100000000000) : 100)} role='button' >{textSize === 100 ? "more" : "less"}</span>}</Text>
+                            <Text wordBreak="break-all" fontSize={["12px", "12px", "14px"]} >{capitalizeFLetter(textLimit(text, textSize))} {text?.length > 100 && <span style={{ color: primaryColor, fontWeight: "700", fontSize: "14px" }} onClick={() => setTextSize((prev) => prev === 100 ? (10 * 100000000000) : 100)} role='button' >{textSize === 100 ? "more" : "less"}</span>}</Text>
                         )
                     }
                 </Flex>
@@ -329,11 +329,14 @@ export default function PostCard(props: IMediaContent) {
                 <CommentSection close={setOpenComments} count={count} liked={liked} likesHandle={clickHandleLike} loadingLikes={loadingLikes} content={props} numberComments={numberComments+""} />
             </ModalLayout>
             <ModalLayout size={"2xl"} open={openImage} close={setOpenImage} >
-                <Flex bg={mainBackgroundColor} flexDir={"column"} px={"6"} pt={"8"} w={"full"} >
+                <Flex bg={"black"} flexDir={"column"} w={"full"} position={"relative"}  >
+                    <Box zIndex={"10"} onClick={()=> setOpenImage(false)} position={"absolute"} top={"4"} right={"4"} >
+                        <IoCloseCircleOutline size={"30px"} color='white' />
+                    </Box>
                     <ImageSlider objectFit={true} limited={true} links={multipleMediaRef} type="feed" />
-                    <Flex w={"full"} justifyContent={"end"} py={"4"} >
+                    {/* <Flex w={"full"} justifyContent={"end"} py={"4"} >
                         <CustomButton onClick={() => setOpenImage(false)} text={"Close"} width={"fit-content"} px={"7"} />
-                    </Flex>
+                    </Flex> */}
                 </Flex>
             </ModalLayout>
             <BottomSheetComment open={openMobile} setOpen={setOpenMobile} count={count} liked={liked} likesHandle={clickHandleLike} loadingLikes={loadingLikes} content={props} numberComments={numberComments+""}  />

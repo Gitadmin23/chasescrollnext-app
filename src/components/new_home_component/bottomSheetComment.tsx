@@ -88,7 +88,7 @@ export default function BottomSheetComment({ open, setOpen, content, liked, load
                                 </Flex>
                             </Flex> */}
                             {/* {show && ( */}
-                                <CommentInput setShow={setShow} replyData={replyData} data={content} user={user} />
+                                <CommentInput setShow={setShow} replyData={replyData} data={content} user={user} setReplyData={setReplyData} />
                             {/* )} */}
                         </Flex>
                         {/* )} */}

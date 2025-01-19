@@ -83,12 +83,22 @@ function HomeLandingPageCarousel(props: Props) {
         }
     }
 
+    const createHander = () => {
+        if (token) {
+            router.push("/dashboard/event/create_event")
+        } else {
+            router.push("/auth")
+        }
+    }
+
     return (
         <Flex w={"full"} px={["2", "2", "12"]} pb={"8"} pt={"4"} position={"relative"} >
-        {data?.length === 1 && (
-            <Flex position={"absolute"} insetX={["2", "2", "12"]} gap={"5"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} flexDir={"column"} zIndex={"90"} justifyContent={"center"} alignItems={"center"} inset={"4"} bgColor={"#000000ce"} h={["fit-content", "fit-content", "449px", "449px", "449px"]} >
-                <Text fontWeight={"600"} lineHeight={"65px"} fontSize={"60px"} w={"80%"} textAlign={"center"} color={"white"} >Create and display your event on Chasescroll.</Text>
-                <CustomButton text={"Create Event"} backgroundColor={"transparent"} borderWidth={"1px"} borderColor={"white"} width={"fit-content"} borderRadius={"32px"} />
+        {data?.length <= 1 && (
+            <Flex position={"absolute"} insetX={["2", "2", "12"]} gap={"5"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} flexDir={"column"} zIndex={"90"} justifyContent={"center"} alignItems={"center"} inset={"4"} h={["fit-content", "fit-content", "449px", "449px", "449px"]} >
+                <Text fontWeight={"600"} zIndex={"30"} position={"relative"} lineHeight={"65px"} fontSize={"60px"} w={"80%"} textAlign={"center"} color={"white"} >Create and display your event on Chasescroll.</Text>
+                <CustomButton onClick={createHander} text={"Create Event"} zIndex={"30"} position={"relative"} backgroundColor={"transparent"} borderWidth={"1px"} borderColor={"white"} width={"fit-content"} borderRadius={"32px"} />
+                <Flex roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} bgColor={"#000000ce"} w={"full"} h={"full"} position={"absolute"} inset={"0px"} zIndex={"20"} />
+                <Image src='/assets/createimg.jpeg' alt='create' w={"full"} h={"full"} objectFit={"cover"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} position={"absolute"} inset={"0px"} zIndex={"10"} />
             </Flex>
         )}
             <LoadingAnimation loading={isLoading} customLoader={
