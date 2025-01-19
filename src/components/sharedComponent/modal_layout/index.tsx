@@ -22,7 +22,7 @@ type props = {
   scrollBehavior?: "outside" | "inside";
   closeIcon?: boolean;
   titleAlign?: any;
-  onOverLay?: boolean
+  onOverLay?: boolean; 
 };
 
 export default function ModalLayout({
@@ -37,7 +37,7 @@ export default function ModalLayout({
   scrollBehavior,
   titlecolor,
   titleAlign,
-  onOverLay
+  onOverLay, 
 }: props) {
   const {
     bodyTextColor,
@@ -67,7 +67,7 @@ export default function ModalLayout({
         rounded={rounded ? rounded : "6px"}
         padding="0px"
         margin="16px"
-        w="full"
+        w={"full"}
 
         h={scrollBehavior ? "full" : "auto"}
       >

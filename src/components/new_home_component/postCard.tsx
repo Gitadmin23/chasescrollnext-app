@@ -21,9 +21,11 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import moment from 'moment'
 import httpService from '@/utils/httpService'
 import { useQuery } from 'react-query'
-import { IoArrowBack } from 'react-icons/io5'
+import { IoArrowBack, IoCloseCircleOutline } from 'react-icons/io5'
 import { useDetails } from '@/global-state/useUserDetails'
 import { IoIosMore } from 'react-icons/io'
+import { Sheet } from 'react-modal-sheet';
+import BottomSheetComment from './bottomSheetComment'
 
 
 export default function PostCard(props: IMediaContent) {
@@ -56,8 +58,9 @@ export default function PostCard(props: IMediaContent) {
     const Id = localStorage.getItem('user_id');
     const [showReportModal, setShowReportModal] = useState(false);
     const [open, setOpen] = useState(false)
+    const [openMobile, setOpenMobile] = useState(false)
     const [openImage, setOpenImage] = useState(false)
-    const [numberComments, setNumberComments] = useState(false)
+    const [numberComments, setNumberComments] = useState("")
     const [openComments, setOpenComments] = useState(false)
     const [textSize, setTextSize] = useState(100)
 
@@ -77,10 +80,11 @@ export default function PostCard(props: IMediaContent) {
                 setLikeCount(data?.data?.likeCount)
                 setLiked(data?.data?.likeStatus);
                 setNumberComments(data?.data?.comments?.numberOfElements);
-
+                console.log(data?.data);
+                
             },
         },
-    );
+    )
 
     const pathname = usePathname()
 
@@ -109,6 +113,15 @@ export default function PostCard(props: IMediaContent) {
             router?.push(`/share/auth/login?type=${typeName}&typeID=${typeID}`)
         } else {
             setOpenComments(true)
+        }
+    }
+
+
+    const clickHandleCommentMobile = () => {
+        if (token === null || data === null) {
+            router?.push(`/share/auth/login?type=${typeName}&typeID=${typeID}`)
+        } else {
+            setOpenMobile(true)
         }
     }
 
@@ -162,38 +175,40 @@ export default function PostCard(props: IMediaContent) {
                         justifyContent={"center"}
                         h={["26px", "26px", "30px"]}
                         alignItems={"center"} w={"fit-content"} gap={["3px", "2px", "2px"]} >
-                        {!loadingLikes ?
+                        {/* {!loadingLikes ? */}
+                        <Flex
+                            as={"button"}
+                            disabled={loadingLikes}
+                            onClick={() => clickHandleLike(id)}
+                            width={"fit-content"} h={"fit-content"} >
                             <Flex
-                                as={"button"}
-                                onClick={() => clickHandleLike(id)}
-                                disabled={loadingLikes} width={"fit-content"} h={"fit-content"} >
-                                <Flex
-                                    width={["20px", "20px", "24px"]}
-                                    display={["none", "block", "block"]}
-                                    justifyContent={"center"}
-                                    alignItems={"center"}
-                                >
-                                    {liked !== "LIKED" && (
-                                        <HomeHeartIcon color={bodyTextColor} />
-                                    )}
-                                    {liked === "LIKED" && <HomeHeartFillIcon />}
-                                </Flex>
-                                <Flex
-                                    width={["20px", "20px", "24px"]}
-                                    h={["26px", "26px", "30px"]}
-                                    display={["block", "none", "none"]}
-                                    justifyContent={"center"}
-                                    alignItems={"center"}
-                                    as={"button"}
-                                    onClick={() => clickHandleLike(id)}
-                                >
-                                    {liked !== "LIKED" && (
-                                        <HomeHeartIcon size='20px' color={bodyTextColor} />
-                                    )}
-                                    {liked === "LIKED" && <HomeHeartFillIcon size='20px' />}
-                                </Flex>
+                                width={["20px", "20px", "24px"]}
+                                display={["none", "block", "block"]}
+                                justifyContent={"center"}
+                                alignItems={"center"}
+                            >
+                                {liked !== "LIKED" && (
+                                    <HomeHeartIcon color={bodyTextColor} />
+                                )}
+                                {liked === "LIKED" && <HomeHeartFillIcon />}
                             </Flex>
-                            :
+                            <Flex
+                                width={["20px", "20px", "24px"]}
+                                h={["26px", "26px", "30px"]}
+                                display={["block", "none", "none"]}
+                                justifyContent={"center"}
+                                alignItems={"center"}
+                                as={"button"}
+                                disabled={loadingLikes}
+                                onClick={() => clickHandleLike(id)}
+                            >
+                                {liked !== "LIKED" && (
+                                    <HomeHeartIcon size='20px' color={bodyTextColor} />
+                                )}
+                                {liked === "LIKED" && <HomeHeartFillIcon size='20px' />}
+                            </Flex>
+                        </Flex>
+                        {/* :
                             <Flex
                                 width={"24px"}
                                 h={"30px"}
@@ -201,13 +216,14 @@ export default function PostCard(props: IMediaContent) {
                                 alignItems={"center"}>
                                 <Spinner size={"sm"} />
                             </Flex>
-                        }
-                        <Text>{count}</Text>
+                        } */}
+                        <Text fontSize={"12px"} fontWeight={"bold"} >{count}</Text>
                     </Flex>
                     <Flex as={"button"}
                         pt={"2px"}
                         justifyContent={"center"}
                         h={["26px", "26px", "30px"]}
+                        display={["none", "none", "flex"]}
                         alignItems={"center"}
                         onClick={() => clickHandleComment()} w={"fit-content"} gap={["3px", "2px", "2px"]} >
                         <Flex
@@ -228,7 +244,34 @@ export default function PostCard(props: IMediaContent) {
                         >
                             <HomeCommentIcon size='20px' color={bodyTextColor} />
                         </Flex>
-                        <Text>{numberComments}</Text>
+                        <Text fontSize={"12px"} fontWeight={"bold"} >{numberComments}</Text>
+                    </Flex>
+                    <Flex as={"button"}
+                        pt={"2px"}
+                        justifyContent={"center"}
+                        display={["flex", "flex", "none"]}
+                        h={["26px", "26px", "30px"]}
+                        alignItems={"center"}
+                        onClick={() => clickHandleCommentMobile()} w={"fit-content"} gap={["3px", "2px", "2px"]} >
+                        <Flex
+                            width={["20px", "20px", "24px"]}
+                            display={["none", "block", "block"]}
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                            color={bodyTextColor}
+                        >
+                            <HomeCommentIcon color={bodyTextColor} />
+                        </Flex>
+                        <Flex
+                            width={["20px", "20px", "24px"]}
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                            color={bodyTextColor}
+                            display={["block", "none", "none"]}
+                        >
+                            <HomeCommentIcon size='20px' color={bodyTextColor} />
+                        </Flex>
+                        <Text fontSize={"12px"} fontWeight={"bold"} >{numberComments}</Text>
                     </Flex>
                     <Flex w={"fit-content"} cursor={data?.email ? "pointer" : "not-allowed"} pr={"3"} alignItems={"center"}
                         h={["26px", "26px", "30px"]} gap={"2px"} >
@@ -239,10 +282,10 @@ export default function PostCard(props: IMediaContent) {
 
                     {(text?.includes("https://") || text?.includes("http://") || text?.includes("www.")) ?
                         (
-                            <Link href={text} target={"_blank"} textDecor={"underline"} color={primaryColor} fontSize={["14px", "14px", "16px"]} >{text}</Link>
+                            <Link wordBreak="break-all" href={text} target={"_blank"} textDecor={"underline"} color={primaryColor} fontSize={["14px", "14px", "16px"]} >{textLimit(text, 50)}</Link>
                         ) :
                         (
-                            <Text fontSize={["12px", "12px", "14px"]} >{capitalizeFLetter(textLimit(text, textSize))} {text?.length > 100  && <span style={{ color: primaryColor, fontWeight: "700", fontSize: "14px" }} onClick={()=> setTextSize((prev) => prev === 100 ? (10 * 100000000000) : 100)} role='button' >{textSize === 100 ? "more" : "less"}</span>}</Text>
+                            <Text wordBreak="break-all" fontSize={["12px", "12px", "14px"]} >{capitalizeFLetter(textLimit(text, textSize))} {text?.length > 100 && <span style={{ color: primaryColor, fontWeight: "700", fontSize: "14px" }} onClick={() => setTextSize((prev) => prev === 100 ? (10 * 100000000000) : 100)} role='button' >{textSize === 100 ? "more" : "less"}</span>}</Text>
                         )
                     }
                 </Flex>
@@ -282,17 +325,21 @@ export default function PostCard(props: IMediaContent) {
                 isOpen={showReportModal}
                 onClose={() => setShowReportModal(false)}
             />
-            <ModalLayout size={["full", "full", "2xl"]} open={openComments} close={setOpenComments} >
-                <CommentSection close={setOpenComments} count={count} liked={liked} likesHandle={clickHandleLike} loadingLikes={loadingLikes} content={props} />
+            <ModalLayout size={["full", "full", "6xl"]} open={openComments} close={setOpenComments} >
+                <CommentSection close={setOpenComments} count={count} liked={liked} likesHandle={clickHandleLike} loadingLikes={loadingLikes} content={props} numberComments={numberComments+""} />
             </ModalLayout>
             <ModalLayout size={"2xl"} open={openImage} close={setOpenImage} >
-                <Flex bg={mainBackgroundColor} flexDir={"column"} px={"6"} pt={"8"} w={"full"} >
+                <Flex bg={"black"} flexDir={"column"} w={"full"} position={"relative"}  >
+                    <Box zIndex={"10"} onClick={()=> setOpenImage(false)} position={"absolute"} top={"4"} right={"4"} >
+                        <IoCloseCircleOutline size={"30px"} color='white' />
+                    </Box>
                     <ImageSlider objectFit={true} limited={true} links={multipleMediaRef} type="feed" />
-                    <Flex w={"full"} justifyContent={"end"} py={"4"} >
+                    {/* <Flex w={"full"} justifyContent={"end"} py={"4"} >
                         <CustomButton onClick={() => setOpenImage(false)} text={"Close"} width={"fit-content"} px={"7"} />
-                    </Flex>
+                    </Flex> */}
                 </Flex>
             </ModalLayout>
+            <BottomSheetComment open={openMobile} setOpen={setOpenMobile} count={count} liked={liked} likesHandle={clickHandleLike} loadingLikes={loadingLikes} content={props} numberComments={numberComments+""}  />
         </Flex>
     )
 } 

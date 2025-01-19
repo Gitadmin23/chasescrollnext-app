@@ -204,11 +204,11 @@ export const DashboardScannerIcon = () => (
   </svg>
 )
 
-export const DashboardMenuIcon = () => (
+export const DashboardMenuIcon = ({color}:{ color?: string }) => (
   <svg width="40" viewBox="0 0 51 44" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect width="40" rx="16" fill="#FAFAFA" />
     <rect x="0.25" y="0.25" width="50.5" height="43.5" rx="15.75" stroke="#ACACB0" stroke-opacity="0.5" stroke-width="0.5" />
-    <path d="M16.5 17H34.5M16.5 22H34.5M16.5 27H34.5" stroke="#222222" stroke-width="1.5" stroke-linecap="round" />
+    <path d="M16.5 17H34.5M16.5 22H34.5M16.5 27H34.5" stroke={color ? color : "#222222"} stroke-width="1.5" stroke-linecap="round" />
   </svg>
 )
 

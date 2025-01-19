@@ -2,7 +2,7 @@ import CustomText from '@/components/general/Text'
 import { DashboardMenuIcon } from '@/components/svg'
 import { NewChatIcon, NewWalletIcon, NotificationIcon } from '@/components/svg/sidebarIcons'
 import useCustomTheme from '@/hooks/useTheme'
-import { Box, Button, Flex, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Flex, Switch, Text, Tooltip, VStack, useColorMode } from '@chakra-ui/react'
 import { LogoutCurve, Setting, Warning2 } from 'iconsax-react'
 import { useRouter } from 'next/navigation'
 import router from 'next/router'
@@ -19,13 +19,14 @@ export default function DashboardMenuBtn({ count }: { count?: any }) {
     const { setAll } = useDetails((state) => state);
 
     const {
-        headerTextColor,
+        bodyTextColor,
         primaryColor,
         mainBackgroundColor
     } = useCustomTheme()
 
     const router = useRouter()
     const { setGoogle, notifyModal, setNotifyModal } = useModalStore((state) => state);
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const handleClick = (item: string) => {
         if (item === "logout") {
@@ -53,7 +54,7 @@ export default function DashboardMenuBtn({ count }: { count?: any }) {
     return (
         <Box w={"fit-content"} h={"fit-content"} >
             <Box as='button' mt={"8px"} onClick={() => setOpen(true)} >
-                <DashboardMenuIcon />
+                <DashboardMenuIcon color={bodyTextColor} />
             </Box>
             {open && (
                 <Flex zIndex={"210"} position={"absolute"} top={"70px"} flexDir={"column"} right={"2"} maxW={"170px"} w={"full"} py={"4"} px={"4"} bg={mainBackgroundColor} rounded={'8px'} >
@@ -80,6 +81,16 @@ export default function DashboardMenuBtn({ count }: { count?: any }) {
                             <Flex w={"5"} h={"5"} rounded={"full"} bg={primaryColor} ml={"auto"} color={"white"} justifyContent={"center"} alignItems={"center"} pb={"2px"} fontWeight={"semibold"} fontSize={"12px"}  >
                                 {count}
                             </Flex>
+                        </Flex>
+
+                        <Flex w={"full"} h={"20px"} gap={"2"} alignItems={"center"} >
+                            <Tooltip label={"darkmode"} fontSize='sm'>
+                                <Box>
+                                    <Switch isChecked={colorMode === 'dark'} size={'md'} onChange={() => toggleColorMode()} />
+                                </Box>
+                            </Tooltip>
+
+                            <Text fontSize={"12px"} >Dark Mode</Text>
                         </Flex>
                         <Flex onClick={() => handleClick("/dashboard/settings")} h={"20px"} gap={"2"} alignItems={"center"} as='button' >
                             <Flex justifyContent={"center"} w={"20px"} >

@@ -71,6 +71,7 @@ const useComment = () => {
         }) =>
             httpService.post(`${URLS.CREATE_SUB_COMMENT}`, data),
         onSuccess: (data) => {
+            setSubCommentsInput("")
             toast({
                 title: "Success",
                 description: "Sub comment added",
