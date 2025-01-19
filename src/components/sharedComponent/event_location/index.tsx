@@ -67,7 +67,7 @@ function EventLocationDetail(props: Props) {
                 alignItems={"center"}
               >
                 <LocationIcon
-                  color={landingcolor ? "black" : colorMode === "light" ? primaryColor : bodyTextColor}
+                  color={landingcolor ? "black"  : color ? color : colorMode === "light" ? primaryColor : bodyTextColor}
                   style={{
                     width: iconsize ? iconsize : "20px",
                     color: bodyTextColor,
@@ -80,7 +80,7 @@ function EventLocationDetail(props: Props) {
             textAlign={"left"}
             fontWeight={fontWeight ? fontWeight : "semibold"}
             color={
-              landingcolor ? "black" : colorMode === "light" ? "brand.chasescrollBlue" : headerTextColor
+              landingcolor ? "black" : color ? color : colorMode === "light" ? "brand.chasescrollBlue" : headerTextColor
             }
             fontSize={["13px", "14px", "14px"]}
           >

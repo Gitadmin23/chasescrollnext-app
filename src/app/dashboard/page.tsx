@@ -23,25 +23,25 @@ export default function Home() {
                             {postData?.map((item: IMediaContent, index: number) => {
                                 if (index === postData?.length - 1) {
                                     return (
-                                        <Box key={index} w={"full"} h={"full"} ref={postRef} >
+                                        <Flex key={index} flexDir={"column"} w={"full"} h={"full"} gap={"4"} ref={postRef} >
                                             <PostCard {...item} />
                                             {(index + 1) % 6 === 0 && (
                                                 <Flex display={["flex", "flex", "flex", "none", "none"]} w={"full"} >
-                                                    <UpcomingEvent />
+                                                    <UpcomingEvent mobile={true} />
                                                 </Flex>
                                             )}
-                                        </Box>
+                                        </Flex>
                                     )
                                 } else {
                                     return (
-                                        <Box key={index} w={"full"} h={"full"} >
+                                        <Flex key={index} flexDir={"column"} w={"full"}  gap={"4"} h={"full"} >
                                             <PostCard {...item} />
                                             {(index + 1) % 6 === 0 && (
                                                 <Flex display={["flex", "flex", "flex", "none", "none"]}  w={"full"} >
-                                                    <UpcomingEvent />
+                                                    <UpcomingEvent mobile={true} />
                                                 </Flex>
                                             )}
-                                        </Box>
+                                        </Flex>
                                     )
                                 }
                             })}

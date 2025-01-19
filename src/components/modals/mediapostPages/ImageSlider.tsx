@@ -26,8 +26,8 @@ const ImageViewer = ({ file, limited }: { file: string, limited?: boolean }) => 
                 </Box>
             ) : (
                 <Box width='100%' height={limited ? '400px' : '100%'} >
-                    {file.startsWith('https://') && <Image src={`${file}`} alt='image' w={"full"} h={"full"} rounded={"16px"} roundedTopRight={"0px"} objectFit={'cover'} />}
-                    {!file.startsWith('https://') && <Image src={`${IMAGE_URL}${file}`} alt='image' style={{ width: '100%', height: '100%' }} rounded={"16px"} roundedTopRight={"0px"} objectFit={'cover'} />}
+                    {file.startsWith('https://') && <Image src={`${file}`} alt='image' w={"full"} h={"full"} rounded={"16px"} roundedTopRight={"0px"} objectFit={"contain"} />}
+                    {!file.startsWith('https://') && <Image src={`${IMAGE_URL}${file}`} alt='image' style={{ width: '100%', height: '100%' }} rounded={"16px"} roundedTopRight={"0px"} objectFit={"contain"} />}
                 </Box>
             )
             }
@@ -121,7 +121,7 @@ function ImageSlider({ files, newupdate, type, links, setCurrentIndex, objectFit
     }, [index, type])
 
     return (
-        <Flex flexDirection={"column"} width='100%' height='100%'>
+        <Flex flexDirection={"column"} width='100%' bg={"black"} height='100%'>
 
             <HStack width={'100%'} height={(links as string[])?.length < 2 || (files as File[])?.length < 2 ? '100%' : '90%'} position={'relative'} zIndex={1}>
 
@@ -169,7 +169,7 @@ function ImageSlider({ files, newupdate, type, links, setCurrentIndex, objectFit
             </HStack>
 
             {type === 'feed' && (links as string[])?.length > 1 && (
-                <HStack justifyContent={'center'} width='100%' height={'10%'} >
+                <HStack justifyContent={'center'} pb={"3"} width='100%' height={'10%'} >
                     {links?.map((item, indx) => (
                         <Box key={indx.toString()} marginX='2px' width={index === indx ? '10px' : '5px'} height={index === indx ? '10px' : '5px'} bg={index === indx ? 'brand.chasescrollButtonBlue' : 'lightgrey'} borderRadius={'10px'} />
                     ))}
@@ -177,7 +177,7 @@ function ImageSlider({ files, newupdate, type, links, setCurrentIndex, objectFit
             )}
 
             {type === 'upload' && (files as File[])?.length > 1 && (
-                <HStack justifyContent={'center'} alignItems={'center'} width='100%' height={'10%'} >
+                <HStack justifyContent={'center'} pb={"3"} alignItems={'center'} width='100%' height={'10%'} >
                     {files?.map((item, indx) => (
                         <Box key={indx.toString()} marginX='2px' width={index === indx ? '10px' : '5px'} height={index === indx ? '10px' : '5px'} bg={index === indx ? 'brand.chasescrollButtonBlue' : 'lightgrey'} borderRadius={'10px'} />
                     ))}
