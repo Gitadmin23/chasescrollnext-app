@@ -80,7 +80,7 @@ export default function CommentInput({ user, data, replyData, setShow, setReplyD
                 <Input
                 fontSize={"14px"}
                     value={replyData?.data?.id ? subCommentsInput : commentsInput} onChange={(e) => changeHandler(e.target.value)}
-                    h={"45px"} w={"full"} bgColor={"#F2F3FB"} borderWidth={"0px"} _hover={{ borderWidth: "0px" }} focusBorderColor='transparent' color={"black"} placeholder='Add your thought' _placeholder={{ color: "#00000033" }} />
+                    h={"45px"} w={"full"} bgColor={"#F2F3FB"} borderWidth={"0px"} _hover={{ borderWidth: "0px" }} focusBorderColor='transparent' color={"black"} placeholder={!replyData?.data?.id ? 'Comment' : "Reply"} _placeholder={{ color: "#00000033" }} />
                 {!replyData?.data?.id && (
                     <Box as='button' w={"fit-content"} mt={"auto"} >
                         {addComment?.isLoading ?
