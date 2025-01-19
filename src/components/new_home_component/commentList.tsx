@@ -134,7 +134,7 @@ export default function CommentList({
                                             <Text color={headerTextColor} fontSize={"12px"} mt={"1"} >{(item?.comment?.length > 100 && showText !== item?.id) ? textLimit(capitalizeFLetter(item?.comment), 100) : capitalizeFLetter(item?.comment)} {item?.comment?.length > 100 && <p style={{ color: primaryColor, fontWeight: "bold" }} role='button' onClick={() => setShowText((prev) => prev === item?.id ? "" : item?.id)} >{item?.id === showText ? "show less" : "show more"}</p>}</Text>
                                         </Flex>
                                         <Flex w={"full"} maxW={["fit-content", "200px", "300px"]} gap={"6"} px={"3"} >
-                                            <VscReply onClick={() => clickReplyHandler(item, item?.user)} fontSize='15px' color={'black'} cursor='pointer' />
+                                            <VscReply onClick={() => clickReplyHandler(item, item?.user)} fontSize='15px' color={headerTextColor} cursor='pointer' />
                                             {item?.user?.userId === user?.userId && (
                                                 <FiTrash2
                                                     onClick={() => deleteCommentHandler(item?.id, "Comment")}
