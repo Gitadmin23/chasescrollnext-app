@@ -130,14 +130,14 @@ export default function HomeEventCard(props: Props) {
                         </Flex>
                         <Flex roundedBottom={"16px"} w={"full"} h={"64px"} bg={primaryColor} px={"4"} justifyContent={"space-between"} alignItems={"center"} >
                             <CustomButton onClick={() => router.push("/dashboard/event/details/" + event?.id)} borderColor={"white"} borderWidth={"1px"} backgroundColor={primaryColor} color={((event?.minPrice === 0 && event?.maxPrice === 0) || (!event?.minPrice && !event?.maxPrice)) ? "white" : "white"} text={((event?.minPrice === 0 && event?.maxPrice === 0) || (!event?.minPrice && !event?.maxPrice)) ? "Register" : "Buy Ticket"} width={["130px", "130px"]} height={"45px"} fontSize={"sm"} borderRadius={"full"} />
-                            <Flex gap={"4"} alignItems={"center"} >
+                            <Flex gap={"4"} alignItems={"center"}  bgColor={"#ffffffce"} p={"2"} rounded={"full"} justifyContent={"center"} >
                                 {/* <SaveOrUnsaveBtn color={"white"} event={event} /> */}
 
                                 <ShareEvent
                                     data={event}
                                     type="EVENT"
                                     // size="18px"
-                                    color='white'
+                                    color={primaryColor}
                                     showText={false}
                                     id={event?.id}
                                 />
@@ -177,16 +177,16 @@ export default function HomeEventCard(props: Props) {
                                 height={"165px"}
                                 borderWidth='1px'
                             />
-                            <Box position={"absolute"} bottom={"4"} right={"4"} >
+                            <Flex p={"2"} rounded={"full"} bgColor={"#ffffffce"} justifyContent={"center"} alignItems={"center"} position={"absolute"} bottom={"4"} right={"4"} >
                                 <ShareEvent
                                     data={event}
                                     type="EVENT"
                                     // size="18px"
-                                    color='white'
+                                    color={primaryColor}
                                     showText={false}
                                     id={event?.id}
                                 />
-                            </Box>
+                            </Flex>
                         </Box>
                         {(upcoming) && (
                             <Flex flexDir={"column"} w={"full"} height={"full"} pb={"1"} pt={2} >
@@ -227,12 +227,12 @@ export default function HomeEventCard(props: Props) {
                                             </Text>
                                             <Text fontSize={"14px"}>
                                                 <EventLocationDetail
-                                                    landingcolor={landingcolor}
+                                                    // landingcolor={landingcolor}
                                                     iconsize={"17px"}
                                                     fontWeight={"medium"}
                                                     fontsize={"14px"}
                                                     height="auto"
-                                                    color={landingcolor ? "black" : "rgba(18, 18, 18, 0.80)"}
+                                                    color={landingcolor ? headerTextColor :headerTextColor}
                                                     location={event?.location}
                                                     locationType={event?.locationType}
                                                     isLimited={true}

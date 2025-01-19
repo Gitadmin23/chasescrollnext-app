@@ -80,14 +80,13 @@ function ProfileImage(props: Props) {
     return (
         <LoadingAnimation loading={isLoading} >
             <Flex w={"full"} flexDir={"column"} p={"4"} gap={"4"} > 
-                <Box position={"relative"} bg={secondaryBackgroundColor} w={"full"} flexDir={"column"} display={"flex"} roundedTopLeft={"0px"} rounded={"18px"} height={"320px"} >
+                <Box position={"relative"} bg={secondaryBackgroundColor} w={"full"} flexDir={"column"} display={"flex"} roundedTopLeft={"0px"} rounded={"18px"} height={["250px", "320px", "320px"]} >
                     {data?.data === null && (
                         <Box width='full' height='full' bg='brand.chascrollButtonBlue' position={"absolute"} zIndex={"10"} inset={"0px"}></Box>
                     )}
                     {(data?.data?.imgMain?.value || (userId === user_index && user?.data?.imgMain?.value)) && (
                         <>
                             <Image id='img_blur' rounded={"18px"} roundedTopLeft={"0px"} objectFit={"cover"} backdropFilter={"blur(10px)"} width={"full"} height={"full"} position={"absolute"} zIndex={"10"} inset={"0px"} src={(data?.data?.imgMain?.value?.includes('http') ? data?.data?.imgMain?.value : (IMAGE_URL + data?.data?.imgMain?.value))} alt='profile' />
-                            
                         </>
                     )}
                     <Box position={"relative"} zIndex={"10"} width={"fit-content"} pt={"3"} ml={"auto"} mr={"9"} >
