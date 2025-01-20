@@ -1,7 +1,7 @@
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Spinner, Text } from '@chakra-ui/react'
 import { count } from 'console'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Sheet } from 'react-modal-sheet'
 import ShareBtn from '../sharedComponent/new_share_btn'
 import { HomeHeartIcon, HomeHeartFillIcon, HomeCommentIcon } from '../svg'
@@ -21,13 +21,9 @@ export default function BottomSheetComment({ open, setOpen, content, liked, load
 }) {
 
 
-    const {
-        bodyTextColor,
-        primaryColor,
-        secondaryBackgroundColor,
+    const { 
         mainBackgroundColor,
         borderColor,
-        headerTextColor
     } = useCustomTheme();
 
 
@@ -35,8 +31,7 @@ export default function BottomSheetComment({ open, setOpen, content, liked, load
     const [show, setShow] = useState(true)
     const [replyData, setReplyData] = useState({} as any)
 
-    return (
-
+    return ( 
         <Sheet isOpen={open} onClose={() => setOpen(false)}>
             <Sheet.Container style={{ backgroundColor: mainBackgroundColor }} >
                 <Sheet.Header />
@@ -88,7 +83,7 @@ export default function BottomSheetComment({ open, setOpen, content, liked, load
                                 </Flex>
                             </Flex> */}
                             {/* {show && ( */}
-                                <CommentInput setShow={setShow} replyData={replyData} data={content} user={user} setReplyData={setReplyData} />
+                                <CommentInput open={open} setShow={setShow} replyData={replyData} data={content} user={user} setReplyData={setReplyData} />
                             {/* )} */}
                         </Flex>
                         {/* )} */}
