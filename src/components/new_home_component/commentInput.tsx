@@ -1,5 +1,5 @@
 import { Flex, Textarea, Box, Spinner, Text, Input } from '@chakra-ui/react'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import UserImage from '../sharedComponent/userimage'
 import { NewSendIcon } from '../svg'
 import { IUser } from '@/models/User'
@@ -19,9 +19,10 @@ interface IProps {
     },
     setShow: any;
     setReplyData: any
+    open: boolean
 }
 
-export default function CommentInput({ user, data, replyData, setShow, setReplyData }: IProps) {
+export default function CommentInput({ user, data, replyData, setShow, setReplyData, open }: IProps) {
 
     const { addComment, addCommentHandler, commentsInput, setCommentsInput, setPostID, addSubCommentHandler, subCommentsInput, setSubCommentsInput, createSubComment } = useComment()
 
@@ -37,6 +38,14 @@ export default function CommentInput({ user, data, replyData, setShow, setReplyD
         borderColor,
         headerTextColor
     } = useCustomTheme();
+    
+    const inputRef: any = useRef(null);
+  
+    useEffect(() => {
+      if (open && inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, [open]);
 
     const changeHandler = (item: string) => {
         if(replyData?.data?.id){
@@ -79,6 +88,7 @@ export default function CommentInput({ user, data, replyData, setShow, setReplyD
                 </Box> */}
                 <Input
                 fontSize={"14px"}
+                ref={inputRef}
                     value={replyData?.data?.id ? subCommentsInput : commentsInput} onChange={(e) => changeHandler(e.target.value)}
                     h={"45px"} w={"full"} bgColor={"#F2F3FB"} borderWidth={"0px"} _hover={{ borderWidth: "0px" }} focusBorderColor='transparent' color={"black"} placeholder={!replyData?.data?.id ? 'Comment' : "Reply"} _placeholder={{ color: "#00000033" }} />
                 {!replyData?.data?.id && (
