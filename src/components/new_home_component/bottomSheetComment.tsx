@@ -37,10 +37,15 @@ export default function BottomSheetComment({ open, setOpen, content, liked, load
                 <Sheet.Header />
                 <Sheet.Content>
                     <Flex w={"full"} flexDir={"column"} position={"relative"} h={"full"} >
+                        <Flex w={"full"} h={"80px"} position={"sticky"} borderBottomWidth={"1px"} borderBottomColor={borderColor} top={"0px"} justifyContent={"center"} alignItems={"center"} >
+                            <Text fontWeight={"500"} fontSize={"16px"} >Comments</Text>
+                        </Flex>
                         <CommentList user={user} mobile={true} replyData={replyData} setReply={setReplyData} data={content} showInput={setShow} />
                         {/* {show && ( */}
-                        <Flex w={"full"} h={"fit-content"} mt={"auto"} bg={mainBackgroundColor} position={"sticky"} borderTopColor={borderColor} borderTopWidth={"1px"} bottom={"0px"} pt={"2"} pb={"3"} flexDir={"column"} gap={"0px"} alignItems={"start"} >
-                            <CommentInput open={open} setShow={setShow} replyData={replyData} data={content} user={user} setReplyData={setReplyData} />
+                        <Flex w={"full"} h={"200px"} mt={"auto"} >
+                            <Flex w={"full"} h={"fit-content"} mt={"auto"} bg={mainBackgroundColor} zIndex={"30"} position={"absolute"} borderTopColor={borderColor} borderTopWidth={"1px"} bottom={"0px"} pt={"2"} pb={"3"} flexDir={"column"} gap={"0px"} alignItems={"start"} >
+                                <CommentInput open={open} setShow={setShow} replyData={replyData} data={content} user={user} setReplyData={setReplyData} />
+                            </Flex>
                         </Flex>
                     </Flex>
                 </Sheet.Content>
