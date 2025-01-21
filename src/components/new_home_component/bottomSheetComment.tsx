@@ -21,7 +21,7 @@ export default function BottomSheetComment({ open, setOpen, content, liked, load
 }) {
 
 
-    const { 
+    const {
         mainBackgroundColor,
         borderColor,
     } = useCustomTheme();
@@ -31,62 +31,17 @@ export default function BottomSheetComment({ open, setOpen, content, liked, load
     const [show, setShow] = useState(true)
     const [replyData, setReplyData] = useState({} as any)
 
-    return ( 
+    return (
         <Sheet isOpen={open} onClose={() => setOpen(false)}>
             <Sheet.Container style={{ backgroundColor: mainBackgroundColor }} >
                 <Sheet.Header />
-                <Sheet.Content> 
-                    <Flex w={"full"} flexDir={"column"} h={"full"} >
+                <Sheet.Content>
+                    <Flex w={"full"} flexDir={"column"} position={"relative"} h={"full"} >
                         <CommentList mobile={true} replyData={replyData} setReply={setReplyData} data={content} showInput={setShow} />
                         {/* {show && ( */}
                         <Flex w={"full"} h={"fit-content"} mt={"auto"} bg={mainBackgroundColor} position={"sticky"} borderTopColor={borderColor} borderTopWidth={"1px"} bottom={"0px"} pt={"2"} pb={"3"} flexDir={"column"} gap={"0px"} alignItems={"start"} >
-                            {/* <Flex w={"full"} borderTopWidth={"0px"} px={"2"} justifyContent={"space-between"} >
-                                <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
-                                    {!loadingLikes ?
-                                        <Flex
-                                            width={"24px"}
-                                            h={"30px"}
-                                            justifyContent={"center"}
-                                            alignItems={"center"}
-                                            as={"button"}
-                                            onClick={() => likesHandle(content?.id)}
-                                        >
-                                            {liked !== "LIKED" && (
-                                                <HomeHeartIcon color={bodyTextColor} />
-                                            )}
-                                            {liked === "LIKED" && <HomeHeartFillIcon />}
-                                        </Flex> :
-                                        <Flex
-                                            width={"24px"}
-                                            h={"30px"}
-                                            justifyContent={"center"}
-                                            alignItems={"center"}>
-                                            <Spinner size={"sm"} />
-                                        </Flex>
-                                    }
-                                    <Text fontSize={"12px"} fontWeight={"bold"} >{count}</Text>
-                                </Flex>
-                                <Flex as={"button"} onClick={() => { setShow((prev) => !prev), setReplyData({} as any) }} w={"fit-content"} alignItems={"center"} gap={"2px"} >
-                                    <Flex
-                                        width={"24px"}
-                                        h={"30px"}
-                                        justifyContent={"center"}
-                                        alignItems={"center"}
-                                        color={bodyTextColor}
-                                    >
-                                        <HomeCommentIcon color={bodyTextColor} />
-                                    </Flex>
-                                    <Text fontSize={"12px"} fontWeight={"bold"} >{numberComments}</Text>
-                                </Flex>
-                                <Flex w={"fit-content"} alignItems={"center"} gap={"2px"} >
-                                    <ShareBtn type="POST" id={content?.id} />
-                                </Flex>
-                            </Flex> */}
-                            {/* {show && ( */}
-                                <CommentInput open={open} setShow={setShow} replyData={replyData} data={content} user={user} setReplyData={setReplyData} />
-                            {/* )} */}
+                            <CommentInput open={open} setShow={setShow} replyData={replyData} data={content} user={user} setReplyData={setReplyData} />
                         </Flex>
-                        {/* )} */}
                     </Flex>
                 </Sheet.Content>
             </Sheet.Container>
