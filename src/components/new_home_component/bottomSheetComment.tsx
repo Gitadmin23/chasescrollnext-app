@@ -37,7 +37,7 @@ export default function BottomSheetComment({ open, setOpen, content, liked, load
                 <Sheet.Header />
                 <Sheet.Content>
                     <Flex w={"full"} flexDir={"column"} position={"relative"} h={"full"} >
-                        <CommentList mobile={true} replyData={replyData} setReply={setReplyData} data={content} showInput={setShow} />
+                        <CommentList user={user} mobile={true} replyData={replyData} setReply={setReplyData} data={content} showInput={setShow} />
                         {/* {show && ( */}
                         <Flex w={"full"} h={"fit-content"} mt={"auto"} bg={mainBackgroundColor} position={"sticky"} borderTopColor={borderColor} borderTopWidth={"1px"} bottom={"0px"} pt={"2"} pb={"3"} flexDir={"column"} gap={"0px"} alignItems={"start"} >
                             <CommentInput open={open} setShow={setShow} replyData={replyData} data={content} user={user} setReplyData={setReplyData} />
