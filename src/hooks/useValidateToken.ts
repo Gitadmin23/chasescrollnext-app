@@ -5,8 +5,7 @@ import { useMutation, useQuery } from "react-query";
 
 const useValidateRoken = () => {
     const [status, setStatus] = React.useState<'PENDING'|'ERROR'|'SUCCESS'>("PENDING");
-    const token = localStorage.getItem('token');
-    console.log(token);
+    const token = localStorage.getItem('token'); 
     const toast = useToast()
     const decodeToken = (token: string) => {
         try {
@@ -24,9 +23,7 @@ const useValidateRoken = () => {
     useEffect(() => {
         if (token) {
             const decodedToken = decodeToken(token);
-            if (decodedToken) {
-                console.log('----DECODED TOKEN----');
-                console.log(decodedToken);
+            if (decodedToken) { 
                 const currentTime = Math.floor(Date.now() / 1000);
                 if (decodedToken.exp < currentTime) {
                     toast({
@@ -73,8 +70,7 @@ const useValidateRoken = () => {
     //         localStorage.clear();
     //         setStatus('ERROR');
     //     },
-    //     onSuccess: (data) => { 
-    //         console.log(data);
+    //     onSuccess: (data) => {  
     //         setStatus("SUCCESS");
     //     },
 

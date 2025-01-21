@@ -112,17 +112,17 @@ const useHome = () => {
 
     const handleImagePicked = React.useCallback((Files: FileList) => {
         const file = Files[0];
-        if (file.size > 314572800) {
-            toast({
-                title: 'Error',
-                description: 'File size too large',
-                position: 'top-right',
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-            });
-            return;
-        }
+        // if (file.size > 314572800) {
+        //     toast({
+        //         title: 'Error',
+        //         description: 'File size too large',
+        //         position: 'top-right',
+        //         status: 'error',
+        //         duration: 5000,
+        //         isClosable: true,
+        //     });
+        //     return;
+        // }
         const arrs: File[] = [];
         for (let i = 0; i < Files.length; i++) {
             arrs.push(Files[i]);
@@ -144,37 +144,38 @@ const useHome = () => {
     }
 
     const createPostWithFiles = () => {
-        console.log(files);
-        if (files[0].size > 314572800) {
-            toast({
-                title: 'Warniing',
-                description: 'File size must be less than or equal to 300MB',
-                position: 'top-right',
-                status: 'warning',
-                duration: 5000,
-                isClosable: true,
-            });
-            return
-        } else {
+        // console.log(files);
+        // if (files[0].size > 314572800) {
+        //     toast({
+        //         title: 'Warniing',
+        //         description: 'File size must be less than or equal to 300MB',
+        //         position: 'top-right',
+        //         status: 'warning',
+        //         duration: 5000,
+        //         isClosable: true,
+        //     });
+        //     return
+        // } else {
+            console.log("working");
             fileUploadHandler(files as any);
             return;
-        }
+        // }
     }
 
 
-    React.useEffect(() => {
-        if (uploadedFile.length > 0 && !uploadingfile && Id) {
-            const obj = {
-                text: post ?? "",
-                type: files[0].type.startsWith('image') ? 'WITH_IMAGE' : 'WITH_VIDEO_POST',
-                isGroupFeed: false,
-                sourceId: Id,
-                mediaRef: uploadedFile[0],
-                multipleMediaRef: uploadedFile.map((item) => item),
-            }
-            createPost({ ...obj });
-        }
-    }, [files, uploadingfile, uploadedFile, Id, post])
+    // React.useEffect(() => {
+    //     if (uploadedFile.length > 0 && !uploadingfile && Id) {
+    //         const obj = {
+    //             text: post ?? "",
+    //             type: files[0].type.startsWith('image') ? 'WITH_IMAGE' : 'WITH_VIDEO_POST',
+    //             isGroupFeed: false,
+    //             sourceId: Id,
+    //             mediaRef: uploadedFile[0],
+    //             multipleMediaRef: uploadedFile.map((item) => item),
+    //         }
+    //         createPost({ ...obj });
+    //     }
+    // }, [files, uploadingfile, uploadedFile, Id, post])
 
     return {
         isLoading,
