@@ -26,6 +26,23 @@ const nextConfig = {
       ignoreBuildErrors: true, // During development only
     },
   // ... other options you like
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Cross-Origin-Embedder-Policy",
+            value: "require-corp",
+          },
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

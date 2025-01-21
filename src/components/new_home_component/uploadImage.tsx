@@ -66,7 +66,7 @@ export default function UploadImage({ handleImagePicked, files, fileIndex, setFi
         <>
             {files?.length <= 0 ? (
                 <Flex as={"button"} onClick={() => inputRef.current?.click()} w={"full"} h={"full"} justifyContent={"center"} alignItems={"center"} flexDirection={"column"} rounded={"lg"} borderWidth={"1px"} borderStyle={"dashed"} onDragOver={() => setOver(true)} onDragLeave={() => setOver(false)} >
-                    <input hidden type='file' accept="image/*, video/*" ref={inputRef as any} onChange={(e) => handlePick(e.target.files as FileList)} />
+                    <input hidden type='file' ref={inputRef as any} onChange={(e) => handlePick(e.target.files as FileList)} />
                     <HStack justifyContent={'center'}>
                         <Gallery size={25} color={bodyTextColor} />
                         <Video size={25} color={bodyTextColor} />

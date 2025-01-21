@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 import { Upload } from "@aws-sdk/lib-storage";
 import { S3Client } from "@aws-sdk/client-s3";
@@ -8,6 +8,12 @@ import { AxiosError } from 'axios';
 import image from 'next/image';
 import { useMutation } from 'react-query';
 import { useToast } from '@chakra-ui/react';
+import { FFmpeg } from '@ffmpeg/ffmpeg'
+import { fetchFile } from '@ffmpeg/util'
+import { set } from 'lodash';
+
+const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
+let loaded = false;
 
 const cred = {
     accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY as string,
@@ -40,7 +46,7 @@ const AWSHook = () => {
                     setUploadProgress(percentage); // Update progress
                 },
             }
-            ),
+        ),
         onError: (error: AxiosError<any, any>) => {
             toast({
                 title: 'Error',
@@ -57,71 +63,108 @@ const AWSHook = () => {
             const fileArray = Object.values(data?.data);
 
             console.log(fileArray);
-            
+
             // let urls = fileArraymap((r: any) => ({ file: r.Key, url: r.Location }));
             // results.
             setUploadedFile([...fileArray]);
         }
     });
 
-    const fileUploadHandler = (files: any) => {
-        console.log(files);
+    const fileUploadHandler = async (files: any) => {
+
         setLoading(true);
-        console.time('upload');
+        const compressedFiles = [];
 
+        try {
+            for (const item of files) {
+                if (item.type.startsWith('video')) {
+                    console.log('Original video:', item);
 
-        const fd = new FormData();
-        Array.from(files).map((file: any) => {
-            fd.append("files[]", file);
-        })
-        uploadImage.mutate({
-            file: files,
-            payload: fd
-        })
+                    const compressedFile = await new Promise<File>((resolve, reject) => {
+                        // Create video element
+                        const video = document.createElement('video');
+                        video.preload = 'metadata';
+                        video.autoplay = true;
+                        video.muted = true;
 
-        // Array.from(files).map((file) => {
+                        video.onloadedmetadata = () => {
+                            // Create canvas
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d')!;
 
+                            // Calculate dimensions to maintain aspect ratio at 720p
+                            const targetHeight = 720;
+                            const aspectRatio = video.videoWidth / video.videoHeight;
+                            const width = Math.round(targetHeight * aspectRatio);
 
+                            // Set dimensions
+                            canvas.width = width;
+                            canvas.height = targetHeight;
 
-        // const params = {
-        //     Bucket: 'chasescroll-videos',
-        //     Key: file.name,
-        //     Body: file,
-        //     ContentType: 'application/octet-stream',
-        // };
+                            // Draw video frame
+                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        // return new Promise((resolve, reject) => {
-        //     const upload = new Upload({
-        //         client: new S3Client({
-        //             region: 'eu-west-2',
-        //             credentials: cred,
-        //         },),
-        //         leavePartsOnError: false,
-        //         params: params,
-        //     });
+                            // Convert to blob with compression
+                            canvas.toBlob(
+                                (blob) => {
+                                    if (blob) {
+                                        const newFile = new File([blob],
+                                            `compressed_${item.name}`,
+                                            { type: 'video/mp4' }
+                                        );
 
-        //     // upload.on("httpUploadProgress", (progres) => console.log(progres))
+                                        console.log('Compression results:', {
+                                            originalSize: `${(item.size / (1024 * 1024)).toFixed(2)} MB`,
+                                            newSize: `${(newFile.size / (1024 * 1024)).toFixed(2)} MB`,
+                                            ratio: `${((newFile.size / item.size) * 100).toFixed(2)}%`,
+                                            dimensions: `${width}x720`
+                                        });
 
-        //     upload.done()
-        //         .then(
-        //             (data) => resolve(data),
-        //             (error) => reject(error)
-        //         );
-        // });
-        // });
+                                        resolve(newFile);
+                                    } else {
+                                        reject(new Error('Compression failed'));
+                                    }
+                                },
+                                'video/mp4',
+                                0.6  // Slightly higher quality for 720p
+                            );
+                        };
 
-        // Promise.all(uploadPromises)
-        //     .then((results) => {
-        //         let urls = results.map((r: any) => ({ file: r.Key, url: r.Location }));
+                        video.onerror = () => reject(new Error('Video load failed'));
+                        video.src = URL.createObjectURL(item);
+                    });
 
-        //         setUploadedFile([...urls, ...uploadedFile]);
-        //         setLoading(false);
-        //         console.timeEnd('upload');
-        //     })
-        //     .catch((error) => {
-        //         console.error('Error uploading files:', error);
-        //         setLoading(false);
-        //     });
+                    console.log('Compressed file:', compressedFile);
+                    compressedFiles.push(compressedFile);
+                } else {
+                    compressedFiles.push(item);
+                }
+            }
+
+            console.log(compressedFiles);
+            console.log(files);
+
+            // Handle non-video files
+            const fd = new FormData();
+            compressedFiles.forEach((file) => {
+                fd.append("files[]", file);
+            });
+            uploadImage.mutate({
+                file: files,
+                payload: fd
+            });
+
+        } catch (error) {
+            console.error("Error:", error);
+            toast({
+                title: 'Error',
+                description: 'Video compression failed: ' + (error as Error).message,
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        }
     };
 
     const reset = () => {
@@ -136,4 +179,4 @@ const AWSHook = () => {
     return ({ loading, uploadedFile, fileUploadHandler, reset, deleteFile, uploadProgress, setUploadProgress })
 }
 
-export default AWSHook
+export default AWSHook 
