@@ -163,19 +163,19 @@ const useHome = () => {
     }
 
 
-    // React.useEffect(() => {
-    //     if (uploadedFile.length > 0 && !uploadingfile && Id) {
-    //         const obj = {
-    //             text: post ?? "",
-    //             type: files[0].type.startsWith('image') ? 'WITH_IMAGE' : 'WITH_VIDEO_POST',
-    //             isGroupFeed: false,
-    //             sourceId: Id,
-    //             mediaRef: uploadedFile[0],
-    //             multipleMediaRef: uploadedFile.map((item) => item),
-    //         }
-    //         createPost({ ...obj });
-    //     }
-    // }, [files, uploadingfile, uploadedFile, Id, post])
+    React.useEffect(() => {
+        if (uploadedFile.length > 0 && !uploadingfile && Id) {
+            const obj = {
+                text: post ?? "",
+                type: files[0].type.startsWith('image') ? 'WITH_IMAGE' : 'WITH_VIDEO_POST',
+                isGroupFeed: false,
+                sourceId: Id,
+                mediaRef: uploadedFile[0],
+                multipleMediaRef: uploadedFile.map((item) => item),
+            }
+            createPost({ ...obj });
+        }
+    }, [files, uploadingfile, uploadedFile, Id, post])
 
     return {
         isLoading,

@@ -1,24 +1,10 @@
-import React, { useRef, useState } from 'react'
-
-import { Upload } from "@aws-sdk/lib-storage";
-import { S3Client } from "@aws-sdk/client-s3";
+import { useState } from 'react' 
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import { AxiosError } from 'axios';
 import image from 'next/image';
 import { useMutation } from 'react-query';
-import { useToast } from '@chakra-ui/react';
-import { FFmpeg } from '@ffmpeg/ffmpeg'
-import { fetchFile } from '@ffmpeg/util'
-import { set } from 'lodash';
-
-const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
-let loaded = false;
-
-const cred = {
-    accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY as string,
-    secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_KEY as string
-}
+import { useToast } from '@chakra-ui/react';  
 
 const AWSHook = () => {
     const [loading, setLoading] = useState(false)
@@ -70,87 +56,101 @@ const AWSHook = () => {
         }
     });
 
-    const fileUploadHandler = async (files: any) => {
+    const compressVideo = async (file: File): Promise<File> => {
+        return new Promise((resolve, reject) => {
+            const video = document.createElement('video');
+            video.preload = 'metadata';
+            video.playsInline = true;
+            video.muted = true;
 
+            // Set up video source
+            const url = URL.createObjectURL(file);
+            video.src = url;
+
+            video.onloadedmetadata = () => {
+                // Log original video dimensions
+                console.log('Original video resolution:', {
+                    width: video.videoWidth,
+                    height: video.videoHeight,
+                    aspectRatio: (video.videoWidth / video.videoHeight).toFixed(2)
+                });
+
+                // Create canvas for video frames
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d')!;
+                const stream = canvas.captureStream();
+
+                // Set dimensions (720p)
+                canvas.width =  (video.videoWidth * 720)/ video.videoHeight;
+                canvas.height = 720;
+
+                console.log('Compressed video resolution:', {
+                    width: canvas.width,
+                    height: canvas.height,
+                    aspectRatio: (canvas.width / canvas.height).toFixed(2)
+                });
+
+                // Configure MediaRecorder
+                const mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: 'video/webm;codecs=vp8',
+                    videoBitsPerSecond: 2000000 // 2 Mbps
+                });
+
+                const chunks: Blob[] = [];
+                mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(chunks, { type: 'video/webm' });
+                    const compressedFile = new File([blob], file.name, { type: 'video/webm' });
+                    URL.revokeObjectURL(url);
+                    resolve(compressedFile);
+                };
+
+                // Start recording
+                mediaRecorder.start();
+                video.play();
+
+                // Process video frames
+                const processFrame = () => {
+                    if (video.ended) {
+                        mediaRecorder.stop();
+                        return;
+                    }
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    requestAnimationFrame(processFrame);
+                };
+
+                video.onplay = () => requestAnimationFrame(processFrame);
+            };
+
+            video.onerror = () => {
+                URL.revokeObjectURL(url);
+                reject(new Error('Video load failed'));
+            };
+        });
+    };
+
+    const fileUploadHandler = async (files: any) => {
         setLoading(true);
-        const compressedFiles = [];
+        const processedFiles = [];
 
         try {
             for (const item of files) {
                 if (item.type.startsWith('video')) {
-                    console.log('Original video:', item);
-
-                    const compressedFile = await new Promise<File>((resolve, reject) => {
-                        // Create video element
-                        const video = document.createElement('video');
-                        video.preload = 'metadata';
-                        video.autoplay = true;
-                        video.muted = true;
-
-                        video.onloadedmetadata = () => {
-                            // Create canvas
-                            const canvas = document.createElement('canvas');
-                            const ctx = canvas.getContext('2d')!;
-
-                            // Calculate dimensions to maintain aspect ratio at 720p
-                            const targetHeight = 720;
-                            const aspectRatio = video.videoWidth / video.videoHeight;
-                            const width = Math.round(targetHeight * aspectRatio);
-
-                            // Set dimensions
-                            canvas.width = width;
-                            canvas.height = targetHeight;
-
-                            // Draw video frame
-                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-                            // Convert to blob with compression
-                            canvas.toBlob(
-                                (blob) => {
-                                    if (blob) {
-                                        const newFile = new File([blob],
-                                            `compressed_${item.name}`,
-                                            { type: 'video/mp4' }
-                                        );
-
-                                        console.log('Compression results:', {
-                                            originalSize: `${(item.size / (1024 * 1024)).toFixed(2)} MB`,
-                                            newSize: `${(newFile.size / (1024 * 1024)).toFixed(2)} MB`,
-                                            ratio: `${((newFile.size / item.size) * 100).toFixed(2)}%`,
-                                            dimensions: `${width}x720`
-                                        });
-
-                                        resolve(newFile);
-                                    } else {
-                                        reject(new Error('Compression failed'));
-                                    }
-                                },
-                                'video/mp4',
-                                0.6  // Slightly higher quality for 720p
-                            );
-                        };
-
-                        video.onerror = () => reject(new Error('Video load failed'));
-                        video.src = URL.createObjectURL(item);
-                    });
-
-                    console.log('Compressed file:', compressedFile);
-                    compressedFiles.push(compressedFile);
+                    const compressedVideo = await compressVideo(item);
+                    processedFiles.push(compressedVideo);
                 } else {
-                    compressedFiles.push(item);
+                    processedFiles.push(item);
                 }
             }
 
-            console.log(compressedFiles);
-            console.log(files);
-
-            // Handle non-video files
             const fd = new FormData();
-            compressedFiles.forEach((file) => {
+            processedFiles.forEach((file) => {
                 fd.append("files[]", file);
             });
+            
             uploadImage.mutate({
-                file: files,
+                file: processedFiles,
                 payload: fd
             });
 
@@ -158,12 +158,14 @@ const AWSHook = () => {
             console.error("Error:", error);
             toast({
                 title: 'Error',
-                description: 'Video compression failed: ' + (error as Error).message,
+                description: 'File processing failed: ' + (error as Error).message,
                 status: 'error',
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
             });
+        } finally {
+            // setLoading(false);
         }
     };
 
