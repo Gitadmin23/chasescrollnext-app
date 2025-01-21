@@ -8,6 +8,7 @@ import { useToast } from '@chakra-ui/react';
 
 const AWSHook = () => {
     const [loading, setLoading] = useState(false)
+    const [loadingCompress, setLoadingCompress] = useState(false)
     const [uploadedFile, setUploadedFile] = useState<Array<any>>([]);
     const [uploadProgress, setUploadProgress] = useState(0);
 
@@ -61,39 +62,31 @@ const AWSHook = () => {
             const video = document.createElement('video');
             video.preload = 'metadata';
             video.playsInline = true;
-            video.muted = true;
+            video.muted = false;
+            video.controls = true;
 
-            // Set up video source
             const url = URL.createObjectURL(file);
             video.src = url;
 
             video.onloadedmetadata = () => {
-                // Log original video dimensions
-                console.log('Original video resolution:', {
-                    width: video.videoWidth,
-                    height: video.videoHeight,
-                    aspectRatio: (video.videoWidth / video.videoHeight).toFixed(2)
-                });
-
-                // Create canvas for video frames
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d')!;
-                const stream = canvas.captureStream();
+                
+                const audioCtx = new AudioContext();
+                const audioDestination = audioCtx.createMediaStreamDestination();
+                const audioSource = audioCtx.createMediaElementSource(video);
+                audioSource.connect(audioDestination);
+                audioSource.connect(audioCtx.destination);
 
-                // Set dimensions (720p)
-                canvas.width =  (video.videoWidth * 720)/ video.videoHeight;
+                const stream = canvas.captureStream();
+                stream.addTrack(audioDestination.stream.getAudioTracks()[0]);
+
+                canvas.width = (video.videoWidth * 720) / video.videoHeight;
                 canvas.height = 720;
 
-                console.log('Compressed video resolution:', {
-                    width: canvas.width,
-                    height: canvas.height,
-                    aspectRatio: (canvas.width / canvas.height).toFixed(2)
-                });
-
-                // Configure MediaRecorder
                 const mediaRecorder = new MediaRecorder(stream, {
-                    mimeType: 'video/webm;codecs=vp8',
-                    videoBitsPerSecond: 2000000 // 2 Mbps
+                    mimeType: 'video/webm;codecs=vp8,opus',
+                    videoBitsPerSecond: 2500000
                 });
 
                 const chunks: Blob[] = [];
@@ -106,11 +99,10 @@ const AWSHook = () => {
                     resolve(compressedFile);
                 };
 
-                // Start recording
                 mediaRecorder.start();
                 video.play();
+                video.muted = true;
 
-                // Process video frames
                 const processFrame = () => {
                     if (video.ended) {
                         mediaRecorder.stop();
@@ -132,6 +124,7 @@ const AWSHook = () => {
 
     const fileUploadHandler = async (files: any) => {
         setLoading(true);
+        setLoadingCompress(true);
         const processedFiles = [];
 
         try {
@@ -165,7 +158,7 @@ const AWSHook = () => {
                 position: 'top-right',
             });
         } finally {
-            // setLoading(false);
+            setLoadingCompress(false);
         }
     };
 
@@ -178,7 +171,7 @@ const AWSHook = () => {
     }
 
 
-    return ({ loading, uploadedFile, fileUploadHandler, reset, deleteFile, uploadProgress, setUploadProgress })
+    return ({ loadingCompress, loading, uploadedFile, fileUploadHandler, reset, deleteFile, uploadProgress, setUploadProgress })
 }
 
 export default AWSHook 

@@ -23,7 +23,7 @@ export default function Createpost() {
 
     const { bodyTextColor, inputColor, secondaryBackgroundColor, mainBackgroundColor, borderColor, inputBorderColor, headerTextColor, inputtextColor } = useCustomTheme();
 
-    const { createPost, isLoading, post, setPost, handleImagePicked, files, removeFile, emptyFiles, createPostWithFiles, uploadingfile, open, setOpen, setFiles, uploadProgress } = useHome()
+    const { createPost, loadingCompress, isLoading, post, setPost, handleImagePicked, files, removeFile, emptyFiles, createPostWithFiles, uploadingfile, open, setOpen, setFiles, uploadProgress } = useHome()
 
     const handlePick = React.useCallback((data: FileList) => {
         handleImagePicked(data);
@@ -85,7 +85,9 @@ export default function Createpost() {
                     {(uploadingfile) && (
                         <Flex position={"absolute"} justifyContent={"center"} px={"4"} gap={"2"} alignItems={"center"} zIndex={"30"} inset={"0px"} bgColor={"#000000c3"} >
                             <Progress w={"full"} hasStripe value={uploadProgress} h={"35px"} rounded={"2xl"} />
-                            <Text color={"white"} >{uploadProgress}%</Text>
+                            {loadingCompress ? 
+                            <Text position={"absolute"} inset={"auto"} zIndex={"20"} color={"black"} >Compressing...</Text>
+                                : <Text color={"white"} >{uploadProgress}%</Text>}
                         </Flex>
                     )}
                     <Box as='button' onClick={closeHandler} >

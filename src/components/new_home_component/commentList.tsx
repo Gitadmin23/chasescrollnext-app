@@ -145,12 +145,12 @@ export default function CommentList({
                                         {item?.subComments?.totalElements > 0 && (
                                             <>
                                                 {showReply !== item?.id ?
-                                                    <Flex as={"button"} mt={"2"} fontSize={"12px"} onClick={() => setShowReply((prev) => prev === item?.id ? "" : item?.id)} w={"full"} justifyContent={"center"} alignItems={"center"}  >
-                                                        view {item?.subComments?.totalElements} more {item?.subComments?.totalElements > 1 ? "replies" : "reply"}
+                                                    <Flex as={"button"} mt={"2"} fontSize={"12px"} gap={"2"} onClick={() => setShowReply((prev) => prev === item?.id ? "" : item?.id)} w={"full"} alignItems={"center"}  >
+                                                        <Flex w={"50px"} h={"1px"} bgColor={"#B6B6B6"} />view {item?.subComments?.totalElements} more {item?.subComments?.totalElements > 1 ? "replies" : "reply"}
                                                     </Flex>
                                                     :
-                                                    <Flex as={"button"} mt={"2"} fontSize={"12px"} onClick={() => setShowReply((prev) => prev === item?.id ? "" : item?.id)} w={"full"} justifyContent={"center"} alignItems={"center"}  >
-                                                        hide rely
+                                                    <Flex as={"button"} mt={"2"} fontSize={"12px"} gap={"2"} onClick={() => setShowReply((prev) => prev === item?.id ? "" : item?.id)} w={"full"} alignItems={"center"}  >
+                                                        <Flex w={"50px"} h={"1px"} bgColor={"#B6B6B6"} />hide rely
                                                     </Flex>
                                                 }
                                             </>

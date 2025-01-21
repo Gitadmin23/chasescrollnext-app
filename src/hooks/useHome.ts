@@ -34,7 +34,7 @@ const useHome = () => {
 
     const Id = localStorage.getItem('user_id');
 
-    const { uploadedFile, fileUploadHandler, loading: uploadingfile, reset, uploadProgress, setUploadProgress } = AWSHook();
+    const { uploadedFile, fileUploadHandler, loadingCompress, loading: uploadingfile, reset, uploadProgress, setUploadProgress } = AWSHook();
 
     const { results: postData, isLoading: loadingPost, ref: postRef, isRefetching: refetchingPost, refetch } = InfiniteScrollerComponent({ url: URLS.GET_PUBLIC_POST, limit: 10, filter: "id" })
 
@@ -209,7 +209,8 @@ const useHome = () => {
         setDeleteModal,
         deleteModal,
         handleLikedPost,
-        uploadProgress
+        uploadProgress, 
+        loadingCompress
     };
 }
 
