@@ -10,7 +10,8 @@ export default function DayAvaliable({ close, setTab, days, handleCheck }: { clo
     const {
         borderColor,
         primaryColor,
-        mainBackgroundColor
+        mainBackgroundColor,
+        bodyTextColor
     } = useCustomTheme()
 
     const array = [
@@ -68,7 +69,7 @@ export default function DayAvaliable({ close, setTab, days, handleCheck }: { clo
                                 <Flex key={index.toString()} gap={"3"} flexDir={['column', 'row']} alignItems={['flex-start', "center"]} justifyContent={['flex-start', 'space-between']}  >
                                     <Flex w={"25"} gap={"3"} >
                                         <Checkbox isChecked={item.checked} onChange={(e) => handleCheck({ index, type: 'checked', value: e.target.value, isChecked: !item?.checked  })} />
-                                        <Text>{getDay(item?.dayOFTheWeek)}</Text>
+                                        <Text color={bodyTextColor}>{getDay(item?.dayOFTheWeek)}</Text>
                                     </Flex>
                                     <HStack spacing={2} w={['50%', '60%']}>
                                         <Input defaultValue="09:00:AM" value={item?.startTime} onChange={(e) => handleCheck({ index, type: 'startTime', value: e.target.value, isChecked: item?.checked })} type="time" w={"130px"} h={"40px"} rounded={"full"} borderWidth={"0.83px"} borderColor={borderColor} />
@@ -82,23 +83,15 @@ export default function DayAvaliable({ close, setTab, days, handleCheck }: { clo
                             )
                         })}
                     </Flex>
-                    {/* <Flex gap={"4"} style={{ boxShadow: "0px 20.62px 72.18px 0px #C2C2C21A" }} rounded={"16px"} borderWidth={"0.38px"} borderColor={borderColor} w={"fit-content"} flexDir={"column"} px={"12"} py={"8"} >
-                        {array?.map((item) => {
-                            return (
-                                <Flex key={item} gap={"4"} h={"42px"} >
-                                    <IoAdd size={"20px"} />
-                                    <IoCopyOutline size={"20px"} color={borderColor} />
-                                </Flex>
-                            )
-                        })}
-                    </Flex> */}
+                 
                 </Flex>
-                <Flex w={"full"} justifyContent={"space-between"} mt={"4px"} >
-                    <Button onClick={() => {
-                        console.log(days);
+                {/* <Flex w={"full"} justifyContent={"space-between"} mt={"4px"} >
+                    <Button 
+                    type="button"
+                    onClick={() => {
                         close(false);
-                        }} height={"55px"} borderWidth={"1px"} w={"full"} rounded={"full"} borderColor={primaryColor} bgColor={primaryColor} color={"white"} _hover={{ backgroundColor: primaryColor }} >Set Availability</Button>
-                </Flex>
+                        }} height={"55px"} borderWidth={"1px"} w={"full"} rounded={"full"} borderColor={primaryColor} bgColor={primaryColor} color={"white"} _hover={{ backgroundColor: primaryColor }} >Close</Button>
+                </Flex> */}
             </Flex>
         </Flex>
     )

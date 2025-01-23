@@ -1,5 +1,5 @@
 "use client"
-import { Button, Flex, Spinner, Text, useToast, Image, VStack } from '@chakra-ui/react'
+import { Button, Flex, Spinner, Text, useToast, Image, VStack, Avatar } from '@chakra-ui/react'
 import React, { ReactNode, useState } from 'react'
 import useCustomTheme from '@/hooks/useTheme';
 import { AiOutlineMore } from 'react-icons/ai';
@@ -110,7 +110,7 @@ export default function Layout({ children }: {
 
     return (
         <Flex w={"full"} h={"full"} flexDir={"column"} px={["10px", "8"]} pt='15px' gap={"8"} overflowY={"auto"} >
-            <Flex w={"full"} h={"fit-content"} justifyContent={"space-between"} >
+            <Flex w={"full"} h={"fit-content"} justifyContent={"space-between"} alignItems={"center"} >
                 {/* <IoArrowBack size="25px" /> */}
                 <Flex as={"button"} onClick={() => router?.back()} >
                     <BsChevronLeft size="25px" />
@@ -142,7 +142,7 @@ export default function Layout({ children }: {
                                 <Flex w={"10"} h={"10"} rounded={"8px"} bg={"#F7FBFE"} alignItems={'center'} justifyContent={'center'} >
                                     <Calendar size={'20px'} color={primaryColor} variant='Linear' />
                                 </Flex>
-                                <Text fontWeight={"600"} fontSize={"14px"} color={primaryColor} >Mon-Fri 7am-6pm Daily</Text>
+                                {/* <Text fontWeight={"600"} fontSize={"14px"} color={primaryColor} >Mon-Fri 7am-6pm Daily</Text> */}
                             </Flex>
                         </Flex>
                         <Flex flexDir={"column"} gap={"2"} >
@@ -177,7 +177,7 @@ export default function Layout({ children }: {
                     <Flex w={"full"} bgColor={secondaryBackgroundColor} rounded={"64px"} px={"21px"} py={"19px"} >
                         <Flex alignItems={"center"} w={"full"} gap={"3"} >
                             <Flex w={"48px"} h={"48px"} rounded={"36px"} roundedTopRight={"0px"} bg={"purple"} overflow='hidden' >
-                                <Image onClick={() => router.push(`/dashboard/profile/${business?.createdBy?.userId}`)}  src={business?.createdBy?.data?.imgMain?.value ? (business?.createdBy?.data?.imgMain?.value?.startsWith('https://') ? business?.createdBy?.data?.imgMain?.value : `${RESOURCE_BASE_URL}${business?.createdBy?.data?.imgMain?.value}`) : 'https://ui-avatars.com/api/?background=random'} w='full' h='full' alt='image' />
+                                <Avatar color={"white"} name={`${business?.createdBy.firstName} ${business?.createdBy.lastName}`} onClick={() => router.push(`/dashboard/profile/${business?.createdBy?.userId}`)}  src={business?.createdBy?.data?.imgMain?.value ? (business?.createdBy?.data?.imgMain?.value?.startsWith('https://') ? business?.createdBy?.data?.imgMain?.value : `${RESOURCE_BASE_URL}${business?.createdBy?.data?.imgMain?.value}`) : null} w='full' h='full' />
                             </Flex>
                             <Flex flexDir={"column"} >
                                 <Text fontSize={"12px"} fontWeight={"500"} >Business Owner</Text>

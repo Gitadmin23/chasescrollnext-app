@@ -22,7 +22,9 @@ function Businesses() {
         onSuccess: (data) => {
             console.log(data?.data?.content)
             const item: PaginatedResponse<IBuisness> = data.data;
-            setBusinesses((prev) => uniqBy([...prev, ...item?.content], 'id'));
+            const reversed = uniqBy([...businesses, ...item.content], 'id');
+            reversed.reverse()
+            setBusinesses(reversed);
             if(item?.last) {
                 setHasMore(false);
             }
