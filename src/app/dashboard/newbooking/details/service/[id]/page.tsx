@@ -191,14 +191,14 @@ export default function ServiceDetailsPage() {
                     <Flex w={['full', '40%']} mt={['30px', '0px']} flexDir={'column'} p='30px' borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
                         <HStack justifyContent={'space-between'}>
                             <Text fontWeight={600} color={headerTextColor}>Price</Text>
-                            <Text fontSize={'16px'} color={bodyTextColor}>NGN {service?.price?.toLocaleString()}</Text>
+                            <Text fontSize={'16px'} color={bodyTextColor}>NGN {(service?.discount ) && service?.discount > 0 ? service?.discount.toLocaleString() : service?.price?.toLocaleString()}</Text>
                         </HStack>
 
-                        {service !== null && service.discount > 0 && (
+                        {/* {service !== null && service.discount > 0 && (
                             <VStack w='full' h='50px' borderRadius={'15px'} borderWidth={'1px'} borderColor={primaryColor} bgColor={mainBackgroundColor} justifyContent={'center'} alignItems={'flex-start'} px='10px' marginTop={'20px'}>
                                 <Text>{(service?.discount as number) > 0 ? `Discount Price - ${service?.discount}`: 'No Discount'}</Text>
                             </VStack>
-                        )}
+                        )} */}
 
                        {userId !== service?.vendor?.userID && (
                          <Button onClick={() => setShow(true)} w='full' h='42px' borderRadius={'full'} bgColor={primaryColor} mt='40px'>

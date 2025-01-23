@@ -30,13 +30,13 @@ function BusinessCard({ business }: { business: IBuisness }) {
         onSuccess: (data) => {
             console.log(data?.data);
             if (data?.data?.content?.length < 1) {
-                toast({
-                    title: 'No service found',
-                    description: 'Service not found',
-                    status: 'warning',
-                    position: 'top-right',
-                    isClosable: true,
-                });
+                // toast({
+                //     title: 'No service found',
+                //     description: 'Service not found',
+                //     status: 'warning',
+                //     position: 'top-right',
+                //     isClosable: true,
+                // });
 
                 // router.back();
                 return;
@@ -91,7 +91,7 @@ function BusinessCard({ business }: { business: IBuisness }) {
             </VStack>
 
             <Box pb='5px' borderBottomWidth={'0.5px'} borderBottomColor={borderColor} w='full'>
-                <Text fontWeight={400} fontSize={'12px'}>{business?.description}</Text>
+                <Text fontWeight={400} fontSize={'12px'}>{business?.description.length > 400 ? business?.description?.substring(0, 400) + '...':business?.description}</Text>
             </Box>
 
             <VStack spacing={-5} alignItems={'flex-start'} w='full'>
