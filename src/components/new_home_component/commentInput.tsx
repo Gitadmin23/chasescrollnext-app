@@ -19,10 +19,11 @@ interface IProps {
     },
     setShow: any;
     setReplyData: any
-    open: boolean
+    open: boolean, 
+    handleFocus: any
 }
 
-export default function CommentInput({ user, data, replyData, setShow, setReplyData, open }: IProps) {
+export default function CommentInput({ user, data, replyData, setShow, setReplyData, open, handleFocus }: IProps) {
 
     const { addComment, addCommentHandler, commentsInput, setCommentsInput, setPostID, addSubCommentHandler, subCommentsInput, setSubCommentsInput, createSubComment } = useComment()
 
@@ -47,12 +48,21 @@ export default function CommentInput({ user, data, replyData, setShow, setReplyD
       }
     }, [open]);
 
+    useEffect(() => {
+        setShow((prev: any) => !prev)
+    }, [inputRef]);
+
     const changeHandler = (item: string) => {
         if(replyData?.data?.id){
             setSubCommentsInput(item)
         } else {
             setCommentsInput(item)
         }
+    }
+
+    const handle = (e: any) => {
+        handleFocus(e)
+        changeHandler(e.target.value)
     }
 
     useEffect(()=> {
@@ -89,8 +99,14 @@ export default function CommentInput({ user, data, replyData, setShow, setReplyD
                 <Input
                 fontSize={"14px"}
                 ref={inputRef}
-                    value={replyData?.data?.id ? subCommentsInput : commentsInput} onChange={(e) => changeHandler(e.target.value)}
-                    h={"45px"} w={"full"} bgColor={"#F2F3FB"} borderWidth={"0px"} _hover={{ borderWidth: "0px" }} focusBorderColor='transparent' color={"black"} placeholder={!replyData?.data?.id ? 'Comment' : "Reply"} _placeholder={{ color: "#00000033" }} />
+                    value={replyData?.data?.id ? subCommentsInput : commentsInput} onChange={(e) => handle(e)}
+                    h={"45px"} w={"full"} bgColor={"#F2F3FB"} borderWidth={"0px"} _hover={{ borderWidth: "0px" }} focusBorderColor='transparent' color={"black"} placeholder={!replyData?.data?.id ? 'Comment' : "Reply"} _placeholder={{ color: "#00000033" }}
+                    style={{
+                        fontSize: '16px',
+                        WebkitTextSizeAdjust: '100%',
+                        position: 'relative',
+                        zIndex: 4
+                    }} />
                 {!replyData?.data?.id && (
                     <Box as='button' w={"fit-content"} mt={"auto"} >
                         {addComment?.isLoading ?

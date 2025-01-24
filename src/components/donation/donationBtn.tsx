@@ -19,7 +19,7 @@ import DonationTermAndCondition from './donationTermAndCondition'
 export default function DonationBtn(props: any) {
 
     const {
-        createdBy,
+        user,
         name
     } = props
 
@@ -88,7 +88,7 @@ export default function DonationBtn(props: any) {
 
     const clickHandler = React.useCallback(() => {
         payForTicket.mutate({
-            seller: userId,
+            seller: user?.userId,
             price: Number(value),
             currency: "NGN",
             orderType: "DONATION",
@@ -99,7 +99,7 @@ export default function DonationBtn(props: any) {
     return (
         <Flex w={"full"} flexDir={"column"} gap={"6"} >
 
-            {userId !== props?.createdBy?.userId && (
+            {userId !== props?.user?.userId && (
                 <CustomButton onClick={() => setOpen(true)} text={"Donate now"} height={"50px"} backgroundColor={"#F6F7FA"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
             )}
 
@@ -110,7 +110,7 @@ export default function DonationBtn(props: any) {
                             <EventImage borderWidth='2px' rounded='16px' width={"153px"} height={"127px"} data={props} />
                         </Box>
                         <Flex height={"fit-content"} ml={"3"} flexDir={"column"} gap={"2px"} >
-                            <Text fontSize={"16px"} fontWeight={"bold"} >{`You're supporting `} {createdBy?.firstName + " " + createdBy?.lastName} on {textLimit(name, 20)} Event</Text>
+                            <Text fontSize={"16px"} fontWeight={"bold"} >{`You're supporting `} {user?.firstName + " " + user?.lastName} on {textLimit(name, 20)} Event</Text>
                         </Flex>
                     </Flex>
                     <Flex flexDir={"column"} w={"full"} overflowX={"hidden"} gap={"3"} pb={"5"}  >
