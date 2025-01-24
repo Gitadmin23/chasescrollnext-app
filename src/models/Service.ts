@@ -3,15 +3,14 @@ import { IServiceCategory } from "./ServiceCategory";
 import { IUser } from "./User"
 
 export type IService = {
-            "id": string;
-            vendor: IBuisness;
-            service: IServiceCategory;
-            serviceID?: string;
-            price: number;
-            hasFixedPrice: boolean;
-            discount: number;
-            serviceID: string;
-            "openingHours": Array<{
+        "id": string;
+        vendor: IBuisness;
+        service: IServiceCategory;
+        price: number;
+        hasFixedPrice: boolean;
+        discount: number;
+        serviceID: string;
+        "openingHours": Array<{
                 "startTime": number,
                 "endTime": number,
                 "availabilityDayOfWeek": number

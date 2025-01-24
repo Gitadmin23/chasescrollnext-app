@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Flex, SimpleGrid, Spinner, Text, VStack } from '@chakra-ui/react'
 import { IBuisness } from '@/models/Business'
 import httpService from '@/utils/httpService';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import BusinessCard from '@/components/booking_component/BusinessCard';
 import { PaginatedResponse } from '@/models/PaginatedResponse';
 import { uniqBy } from 'lodash';
@@ -23,13 +23,14 @@ function Businesses() {
             console.log(data?.data?.content)
             const item: PaginatedResponse<IBuisness> = data.data;
             const reversed = uniqBy([...businesses, ...item.content], 'id');
-            reversed.reverse()
             setBusinesses(reversed);
             if(item?.last) {
                 setHasMore(false);
             }
-        }
-    })
+        }   
+    });
+
+  
   return (
     <Flex flexDirection={"column"} w='full' h='full' pt='8'>
         {!isLoading && businesses.length > 0 && (
