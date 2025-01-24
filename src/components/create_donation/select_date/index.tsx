@@ -19,6 +19,8 @@ function SelectDonationDate(props: Props) {
     const { data, updateDontion } = useDonationStore((state) => state);
     const toast = useToast()
 
+    console.log(data)
+
     const handleDateSelect = (date: any) => {
         // updateDontion({
         //     ...data,

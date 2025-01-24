@@ -1,4 +1,5 @@
 "use client"
+import DonationItemGroup from '@/components/donation/donationItemGroup'
 import DonationItemList from '@/components/donation/donationItemList'
 import SelectDonationPage from '@/components/donation/select_donation_page'
 import CustomButton from '@/components/general/Button'
@@ -70,9 +71,11 @@ export default function Donation() {
                     {/* <CustomButton text={"All Fundraising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={"#F6F7FA"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"fit-content"} />
                     <CustomButton onClick={() => router?.push("/dashboard/donation/mydonation")} text={"My Fundraising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={secondaryBackgroundColor} borderRadius={"32px"} fontWeight={"600"} color={headerTextColor} width={"fit-content"} /> */}
                  <SelectDonationPage />
+                 
                 </Flex>
             </Flex>
-            <DonationItemList publicData={true} />
+            <DonationItemGroup publicData={true} />
+            {/* <DonationItemList publicData={true} /> */}
             <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} donation={donation} />
         </Flex>
     )

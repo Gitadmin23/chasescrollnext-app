@@ -49,6 +49,21 @@ function SubmitEvent(props: Iprops) {
 
     const [payload, setPayload] = useState([] as any)
 
+    const findLatestExpiration = (items: any) => {
+        if (!Array.isArray(items) || items.length === 0) {
+            throw new Error("Please provide a non-empty array of objects.");
+        }
+
+        // Use reduce to find the object with the latest endDate
+        const latestItem = items.reduce((latest, current) => {
+            return current.endDate > latest.endDate ? current : latest;
+        });
+
+        return latestItem;
+    };
+
+    const latestExpiration = findLatestExpiration(data)
+
     // const []
     const toast = useToast()
     const getValidationTheme = () => {
@@ -169,7 +184,8 @@ function SubmitEvent(props: Iprops) {
             creatorID: string,
             name: string,
             bannerImage: string,
-            description: string
+            description: string,
+            expirationDate: number
         }) => httpService.post("/fund-raiser-group/create", data),
         onError: (error: AxiosError<any, any>) => {
             toast({
@@ -216,6 +232,8 @@ function SubmitEvent(props: Iprops) {
             });
 
             router?.push("/dashboard/donation")
+
+            reset()
         }
     });
 
@@ -261,7 +279,7 @@ function SubmitEvent(props: Iprops) {
                 fileUploadHandler(image)
             } else {
                 console.log(data[0]);
-                
+
                 editDonation?.mutate({ ...data[0] })
             }
         }
@@ -272,26 +290,18 @@ function SubmitEvent(props: Iprops) {
     }, [data])
 
     useEffect(() => {
-        if (uploadedFile?.length > 1) {
+
+        console.log(uploadedFile);
+        
+        if (uploadedFile?.length > 0) {
             createGroupDonation.mutateAsync({
                 creatorID: data[0]?.creatorID,
                 name: data[0]?.name,
                 bannerImage: uploadedImage[0],
-                description: data[0].description
+                description: data[0].description,
+                expirationDate: Number(latestExpiration.endDate)
             })
-        } else if (uploadedFile?.length === 1) {
-            let newObj: any = [...data]
-            newObj[0] = { ...data[0], bannerImage: uploadedFile[0] }
-            
-            if (!pathname?.includes("edit")) {
-                createDonation.mutate({ items: newObj })
-
-            } else { 
-                delete newObj[0].collaborators;
-                editDonation?.mutate({ ...newObj[0] })
-            }
-            reset()
-        }
+        } 
     }, [uploadedFile])
 
     return (
