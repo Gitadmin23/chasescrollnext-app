@@ -64,7 +64,7 @@ export default function KisokDetails() {
                     <Text fontSize={"42px"} fontWeight={"700"} >Hoodie for camp x 201</Text>
                     <Flex flexDirection={"column"} gap={"1"} >
                         <Text fontSize={"14px"} fontWeight={"500"} >Product  Description</Text>
-                        <Text>1pc JELLOO Men'S Smartwatch with 360p TFT Display, 3.68cm Screen, 300mAh Rechargeable Battery, 3ATM Water Resistance, Wireless 5.2, USB Charging, LED Flashlight, Pedometer, Sports Modes, Compatible with iPhone & Android - Ideal Gift for Men</Text>
+                        <Text>{`1pc JELLOO Men'S Smartwatch with 360p TFT Display, 3.68cm Screen, 300mAh Rechargeable Battery, 3ATM Water Resistance, Wireless 5.2, USB Charging, LED Flashlight, Pedometer, Sports Modes, Compatible with iPhone & Android - Ideal Gift for Men`}</Text>
                     </Flex>
                     <Flex gap={4} alignItems={"center"} >
                         <Flex gap={2} alignItems={"center"} >
