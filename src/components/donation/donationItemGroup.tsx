@@ -104,7 +104,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                             )}
                                             <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
                                         </Flex> 
-                                        <DonationGraph item={item?.fundRaisers[0]} />
+                                        <DonationGraph item={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} />
                                         {(userId !== item?.user?.userId && !pasted) && (
                                             <DonationBtn {...item} />
                                         )}
@@ -127,7 +127,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                         </Flex>
                                         <Flex as={"button"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id)} w={'full'} h={"200px"} rounded={"8px"} >
 
-                                            <BlurredImage height={["200px"]} image={item?.fundRaisers[0]?.bannerImage} />
+                                            <BlurredImage height={["200px"]} image={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.bannerImage} />
                                             {/* <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} /> */}
                                         </Flex>
                                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
@@ -146,7 +146,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                             )}
                                             <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
                                         </Flex>
-                                        <DonationGraph item={item?.fundRaisers[0]} />
+                                        <DonationGraph item={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} />
                                         {(userId !== item?.user?.userId && !pasted) && (
                                             <DonationBtn {...item} />
                                         )}
