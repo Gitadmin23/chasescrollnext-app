@@ -14,6 +14,29 @@ export const NewPhotoIcon = () => (
   </svg>
 )
 
+
+export const StoreIcon = ({color}: {color?: string}) => (
+  <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2.38281 9.38245V12.937C2.38281 16.4916 3.80781 17.9166 7.3624 17.9166H11.6295C15.1841 17.9166 16.6091 16.4916 16.6091 12.937V9.38245" stroke={color ?? "white"} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M9.50005 10C10.9488 10 12.0176 8.82046 11.8751 7.37171L11.3526 2.08337H7.65547L7.12505 7.37171C6.98255 8.82046 8.0513 10 9.50005 10Z" stroke={color ?? "white"} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M14.4951 10C16.0943 10 17.266 8.70171 17.1076 7.11046L16.886 4.93337C16.601 2.87504 15.8093 2.08337 13.7351 2.08337H11.3206L11.8747 7.63296C12.0093 8.93921 13.1889 10 14.4951 10ZM4.46472 10C5.77097 10 6.95056 8.93921 7.07722 7.63296L7.25139 5.88337L7.63139 2.08337H5.21681C3.14264 2.08337 2.35097 2.87504 2.06597 4.93337L1.85222 7.11046C1.69389 8.70171 2.86556 10 4.46472 10ZM9.49972 13.9584C8.17764 13.9584 7.52056 14.6155 7.52056 15.9375V17.9167H11.4789V15.9375C11.4789 14.6155 10.8218 13.9584 9.49972 13.9584Z" stroke={color ?? "white"} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+)
+
+
+export const ServiceIcon = ({color}: {color?: string}) => (
+  <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8.00037 12C8.00037 10.755 8.00037 9.75 10.2504 9.75H13.2504C15.5004 9.75 15.5004 9 15.5004 7.5V6C15.5004 4.5 15.5004 3.75 13.2504 3.75H12.5004M9.50037 1.5H6.50037C6.0129 2.96039 6.0129 4.53961 6.50037 6H9.50037C9.98787 4.5375 9.98787 2.9625 9.50037 1.5Z" stroke={color ?? "white"} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M6.5 1.5H5.75C4.25 1.5 3.5 2.25 3.5 3.75C3.5 5.25 4.25 6 5.75 6H6.5C5.75 4.5 5.75 3 6.5 1.5ZM10.25 1.5H9.5C10.25 3 10.25 4.5 9.5 6H10.25C11.75 6 12.5 5.25 12.5 3.75C12.5 2.25 11.75 1.5 10.25 1.5ZM7.625 16.5H8.375C9.5 16.5 9.5 15.75 9.5 15.375V13.125C9.5 12.75 9.5 12 8.375 12H7.625C6.5 12 6.5 12.75 6.5 13.125V15.375C6.5 15.75 6.5 16.5 7.625 16.5Z" stroke={color ?? "white"} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+)
+
+export const RentalIcon = ({color}: {color?: string}) => (
+  <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3.00005 5.00006H2.25005M15.75 5.00006H15M9.00005 1.25006V2.75006M7.87505 2.75006H10.125M4.50005 10.2501H6.75005M11.25 10.2501H13.5M11.6325 1.12256H6.36755C4.50005 1.12256 4.08755 2.05256 3.84755 3.19256L3.00005 7.25006H15L14.1525 3.19256C13.9125 2.05256 13.5 1.12256 11.6325 1.12256ZM16.4925 13.8651C16.575 14.7426 15.87 15.5001 14.97 15.5001H13.56C12.75 15.5001 12.6375 15.1551 12.495 14.7276L12.345 14.2776C12.135 13.6626 12 13.2501 10.92 13.2501H7.08005C6.00005 13.2501 5.84255 13.7151 5.65505 14.2776L5.50505 14.7276C5.36255 15.1551 5.25005 15.5001 4.44005 15.5001H3.03005C2.13005 15.5001 1.42505 14.7426 1.50755 13.8651L1.92755 9.29756C2.03255 8.17256 2.25005 7.25006 4.21505 7.25006H13.785C15.75 7.25006 15.9675 8.17256 16.0725 9.29756L16.4925 13.8651Z" stroke={color ?? "white"} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+)
+
 export const CopyButton = () => (
   <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="20" cy="20" r="20" fill="#5D70F9" />
@@ -204,7 +227,7 @@ export const DashboardScannerIcon = () => (
   </svg>
 )
 
-export const DashboardMenuIcon = ({color}:{ color?: string }) => (
+export const DashboardMenuIcon = ({ color }: { color?: string }) => (
   <svg width="40" viewBox="0 0 51 44" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect width="40" rx="16" fill="#FAFAFA" />
     <rect x="0.25" y="0.25" width="50.5" height="43.5" rx="15.75" stroke="#ACACB0" stroke-opacity="0.5" stroke-width="0.5" />

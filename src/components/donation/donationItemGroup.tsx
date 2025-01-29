@@ -24,6 +24,7 @@ import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
 import DeleteEvent from '../sharedComponent/delete_event'
 import useSearchStore from '@/global-state/useSearchData'
 import BlurredImage from '../sharedComponent/blurred_image'
+import { isDateInPast } from '@/utils/isPast'
 
 
 
@@ -67,24 +68,24 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
             {!details && (
                 <LoadingAnimation loading={loadingList} refeching={refetchingList} length={results?.length} withimg={true} >
                     <Grid w={"full"} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} gap={6} >
-                        {results?.map((item: IDonationGroup, index: number) => {
-                            if (results?.length === index + 1) {
+                        {results?.filter((item: IDonationGroup)=> item?.fundRaisers?.length > 0 && item?.fundRaisers[0]?.visibility === "PUBLIC")?.map((item: IDonationGroup, index: number) => {
+                            if (results?.filter((item: IDonationGroup)=> item?.fundRaisers?.length > 0 && item?.fundRaisers[0]?.visibility === "PUBLIC")?.length === index + 1) {
                                 return (
                                     // <GridItem w={"full"}  >
                                     <Flex w={"full"} height={"fit-content"} ref={ref} key={index} pos={"relative"} gap={"4"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
                                         <Flex w={"full"} pos={"relative"} alignItems={"center"} justifyContent={"space-between"} >
                                             <Flex as={"button"} w={"fit-content"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} gap={"3"} >
                                                 <UserImage size={"45px"} font={"20px"} data={item?.user} image={item?.user?.data?.imgMain?.value} border={"1px"} />
-                                                <Flex display={["none", "none", "block"]} flexDir={"column"} textAlign={"left"}  >
+                                                <Flex display={["block"]} flexDir={"column"} textAlign={"left"}  >
                                                     <Text color={"#233DF3"} fontSize={"14px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(item?.user?.firstName) + " " + capitalizeFLetter(item?.user?.lastName), 15)}</Text>
                                                     <Text fontSize={"12px"} color={bodyTextColor} >{dateFormat(item?.user)}</Text>
                                                 </Flex>
                                             </Flex>
                                             <DeleteEvent donation={true} event={item} />
                                         </Flex>
-                                        <Flex as={"button"} onClick={() => clickHander(item, item?.fundRaisers[0]?.id)} w={'full'} h={"200px"} pos={"relative"} rounded={"8px"} >
+                                        <Flex as={"button"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id)} w={'full'} h={"200px"} pos={"relative"} rounded={"8px"} >
 
-                                            <BlurredImage height={["200px"]} image={item?.fundRaisers[0]?.bannerImage} />
+                                            <BlurredImage height={["200px"]} image={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.bannerImage} />
                                             {/* <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} /> */}
                                         </Flex>
                                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
@@ -98,10 +99,10 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                             {(item?.fundRasingGroupId?.id && !creator && !pasted) && (
                                                 <Flex gap={"1"} alignItems={"center"} >
                                                     <IoInformationCircleOutline />
-                                                    <Text fontSize={"12px"} >{item?.totalInGroup - 1} More fundraising available  </Text>
+                                                    <Text fontSize={"12px"} >{item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))?.length} More fundraising available  </Text>
                                                 </Flex>
                                             )}
-                                            <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.fundRaisers[0]?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
+                                            <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
                                         </Flex> 
                                         <DonationGraph item={item?.fundRaisers[0]} />
                                         {(userId !== item?.user?.userId && !pasted) && (
@@ -117,14 +118,14 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                         <Flex w={"full"} pos={"relative"} alignItems={"center"} justifyContent={"space-between"} >
                                             <Flex as={"button"} w={"fit-content"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.createdBy?.userId}`)} gap={"3"} >
                                                 <UserImage size={"45px"} font={"20px"} data={item?.user} image={item?.user?.data?.imgMain?.value} border={"1px"} />
-                                                <Flex display={["none", "none", "block"]} flexDir={"column"} textAlign={"left"}  >
+                                                <Flex display={["block"]} flexDir={"column"} textAlign={"left"}  >
                                                     <Text color={"#233DF3"} fontSize={"14px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(item?.user?.firstName) + " " + capitalizeFLetter(item?.user?.lastName), 15)}</Text>
                                                     <Text fontSize={"12px"} color={bodyTextColor} >{dateFormat(item?.user)}</Text>
                                                 </Flex>
                                             </Flex>
                                             <DeleteEvent donation={true} event={item} />
                                         </Flex>
-                                        <Flex as={"button"} onClick={() => clickHander(item, item?.fundRaisers[0]?.id)} w={'full'} h={"200px"} rounded={"8px"} >
+                                        <Flex as={"button"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id)} w={'full'} h={"200px"} rounded={"8px"} >
 
                                             <BlurredImage height={["200px"]} image={item?.fundRaisers[0]?.bannerImage} />
                                             {/* <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} /> */}
@@ -140,10 +141,10 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                             {(item?.fundRaisers?.length > 1 && !creator && !pasted) && (
                                                 <Flex gap={"1"} alignItems={"center"} >
                                                     <IoInformationCircleOutline />
-                                                    <Text fontSize={"12px"} >{item?.fundRaisers?.length} More fundraising available  </Text>
+                                                    <Text fontSize={"12px"} >{item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))?.length} More fundraising available  </Text>
                                                 </Flex>
                                             )}
-                                            <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.fundRaisers[0]?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
+                                            <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
                                         </Flex>
                                         <DonationGraph item={item?.fundRaisers[0]} />
                                         {(userId !== item?.user?.userId && !pasted) && (
