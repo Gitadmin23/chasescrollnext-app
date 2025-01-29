@@ -155,7 +155,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                                                 <DashboardOrganizerIcon />
                                                 <Text fontSize={"12px"} fontWeight={"500"} >Dashboard</Text>
                                             </Flex>
-                                            <Flex disabled={item?.isCollaborator || item?.total > 0} bgColor={mainBackgroundColor} w={"80px"} py={"2"} rounded={"2xl"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} as={"button"} onClick={() => router?.push(`/dashboard/donation/edit/${item?.id}`)} gap={"4px"} flexDir={"column"} alignItems={"center"} justifyContent={"center"}>
+                                            <Flex disabled={item?.isCollaborator || item?.total > 0 || !isDateInPast(item?.endDate)} bgColor={mainBackgroundColor} w={"80px"} py={"2"} rounded={"2xl"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} role='button' as={"button"} onClick={() => router?.push(`/dashboard/donation/edit/${item?.id}`)} gap={"4px"} flexDir={"column"} alignItems={"center"} justifyContent={"center"}>
                                                 <DashboardEditIcon />
                                                 <Text fontSize={"12px"} fontWeight={"500"} >Edit</Text>
                                             </Flex>
