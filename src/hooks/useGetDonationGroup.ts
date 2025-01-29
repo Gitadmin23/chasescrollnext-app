@@ -30,7 +30,8 @@ const useGetDonationGroup = (id?: string) => {
                 console.log(data);
                 
                 setData(data?.data?.content)
-            }
+            },
+            enabled: id ? true : false
         },
     );
 

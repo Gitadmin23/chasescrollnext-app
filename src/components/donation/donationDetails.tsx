@@ -23,6 +23,7 @@ import useDonationStore from '@/global-state/useDonationState';
 import BlurredImage from '../sharedComponent/blurred_image';
 import DonationCollaborator from '../create_donation/donationCollaborator';
 import useGetSingleDonationList from '@/hooks/useGetSingleDonation';
+import { isDateInPast } from '@/utils/isPast';
 
 export default function DonationDetails({ id, notAuth }: { id: string, notAuth?: boolean }) {
 
@@ -122,7 +123,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                                         <Text fontWeight={"500"} >Date Created</Text>
                                         <Text fontSize={"14px"} >{dateFormat(item?.createdDate)}{" "}{timeFormat(item?.createdDate)}</Text>
                                     </Flex>
-                                    {item?.createdBy?.userId === userId && (
+                                    {(item?.createdBy?.userId === userId && isDateInPast(item?.endDate))&& (
                                         <DonationCollaborator update={true} singleData={item} index={0} />
                                     )}
                                 </Flex>
@@ -154,7 +155,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                                                 <DashboardOrganizerIcon />
                                                 <Text fontSize={"12px"} fontWeight={"500"} >Dashboard</Text>
                                             </Flex>
-                                            <Flex disabled={item?.isCollaborator || item?.total > 0} bgColor={mainBackgroundColor} w={"80px"} py={"2"} rounded={"2xl"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} as={"button"} onClick={() => router?.push(`/dashboard/donation/edit/${item?.id}`)} gap={"4px"} flexDir={"column"} alignItems={"center"} justifyContent={"center"}>
+                                            <Flex disabled={item?.isCollaborator || item?.total > 0 || !isDateInPast(item?.endDate)} bgColor={mainBackgroundColor} w={"80px"} py={"2"} rounded={"2xl"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} role='button' as={"button"} onClick={() => router?.push(`/dashboard/donation/edit/${item?.id}`)} gap={"4px"} flexDir={"column"} alignItems={"center"} justifyContent={"center"}>
                                                 <DashboardEditIcon />
                                                 <Text fontSize={"12px"} fontWeight={"500"} >Edit</Text>
                                             </Flex>
@@ -172,9 +173,9 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                                 </Flex>
                             )}
                         </Flex>
-                        {item?.fundRasingGroupId?.id && (
+                        {/* {item?.fundRasingGroupId?.id && (
                             <DonationItemList singleData={item} details={true} />
-                        )}
+                        )} */}
                         <Flex w={"full"} h={"200px"} display={["block", "block", "none", "none", "none"]} />
                     </Flex>
                 )}

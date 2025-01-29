@@ -32,7 +32,7 @@ function DonationTheme({ id }: { id?: string }) {
             bannerImage: "",
             description: "",
             goal: "",
-            visibility: "PRIVATE",
+            visibility: data[0]?.visibility,
             purpose: "",
             endDate: ""
         }
@@ -111,7 +111,7 @@ function DonationTheme({ id }: { id?: string }) {
                                 </Box>
                                 <Box width={"full"} >
                                     <label className="block text-gray-700 font-medium mb-2">
-                                        Purpose for Fundraising
+                                        Fundraising Category
                                     </label>
                                     <Flex gap={"2"} >
                                         <Input
@@ -131,7 +131,7 @@ function DonationTheme({ id }: { id?: string }) {
                             </Flex>
                             <SelectDonationDate index={index} />
                             <Flex width={"full"} gap={"1"} flexDirection={"column"} >
-                                <Text color={"brand.chasescrollTextGrey"} > Fundraising Description<span style={{ color: "#F04F4F" }} > *</span></Text>
+                                <Text color={"brand.chasescrollTextGrey"} > Fundraising Purpose<span style={{ color: "#F04F4F" }} > *</span></Text>
                                 <Textarea
                                     id="description"
                                     name="description"
