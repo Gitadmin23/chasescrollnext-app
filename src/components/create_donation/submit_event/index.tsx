@@ -59,10 +59,15 @@ function SubmitEvent(props: Iprops) {
             return current.endDate > latest.endDate ? current : latest;
         });
 
+        console.log(latestItem);
+        
         return latestItem;
     };
 
     const latestExpiration = findLatestExpiration(data)
+
+    console.log(latestExpiration);
+    
 
     // const []
     const toast = useToast()
@@ -264,12 +269,10 @@ function SubmitEvent(props: Iprops) {
             });
 
             router?.push("/dashboard/donation/" + id)
+
+            reset()
         }
     });
-
-    // const handleClick = React.useCallback(() => {
-    //     getValidationTheme()
-    // }, [])
 
     const createFundraisingData = () => {
         if (!pathname?.includes("edit")) {
@@ -278,8 +281,6 @@ function SubmitEvent(props: Iprops) {
             if (image?.length > 0) {
                 fileUploadHandler(image)
             } else {
-                console.log(data[0]);
-
                 editDonation?.mutate({ ...data[0] })
             }
         }
@@ -292,8 +293,22 @@ function SubmitEvent(props: Iprops) {
     useEffect(() => {
 
         console.log(uploadedFile);
-        
-        if (uploadedFile?.length > 0) {
+        let newObj: any = [...data]
+        newObj[0] = { ...data[0], bannerImage: uploadedFile[0] }
+
+        if (uploadedFile?.length === 1) {
+            if (!pathname?.includes("edit")) {
+                createGroupDonation.mutateAsync({
+                    creatorID: data[0]?.creatorID,
+                    name: data[0]?.name,
+                    bannerImage: uploadedImage[0],
+                    description: data[0].description,
+                    expirationDate: Number(latestExpiration.endDate)
+                })
+            } else {
+                editDonation?.mutate({ ...newObj[0] })
+            }
+        } else if (uploadedFile?.length > 1) {
             createGroupDonation.mutateAsync({
                 creatorID: data[0]?.creatorID,
                 name: data[0]?.name,
@@ -301,7 +316,9 @@ function SubmitEvent(props: Iprops) {
                 description: data[0].description,
                 expirationDate: Number(latestExpiration.endDate)
             })
-        } 
+        } else {
+            editDonation.mutate({ items: data[0] })
+        }
     }, [uploadedFile])
 
     return (

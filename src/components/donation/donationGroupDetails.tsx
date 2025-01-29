@@ -11,8 +11,7 @@ import UserImage from '../sharedComponent/userimage';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
 import { textLimit } from '@/utils/textlimit';
 import { useRouter } from 'next/navigation';
-import DonationPayment from './donationPayment';
-import DonationItemList from './donationItemList';
+import DonationPayment from './donationPayment'; 
 import usePaystackStore from '@/global-state/usePaystack';
 import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
 import { IoArrowBack } from 'react-icons/io5';
@@ -24,6 +23,7 @@ import BlurredImage from '../sharedComponent/blurred_image';
 import DonationGroupModal from './donationGroupModal';
 import useGetSingleDonationList from '@/hooks/useGetSingleDonation';
 import DonationCollaborator from '../create_donation/donationCollaborator';
+import { isDateInPast } from '@/utils/isPast';
 
 export default function DonationGroupDetails({ id, notAuth }: { id: string, notAuth?: boolean }) {
 
@@ -91,7 +91,7 @@ export default function DonationGroupDetails({ id, notAuth }: { id: string, notA
                             <DonationGroupModal notAuth={notAuth} selectedData={item} />
                             <Flex w={"full"} h={"300px"} display={["block", "block", "none", "none", "none"]} />
                         </Flex>
-                        <Flex w={"full"} overflowY={["clip", "clip", "auto"]} >
+                        <Flex w={"full"} overflowY={["clip", "clip", "auto"]} overflowX={"hidden"} >
                             <Flex flexDir={"column"} h={"auto"} w={"full"} gap={"6"} p={"6"} >
 
                                 <Flex w={'full'} h={"350px"} rounded={"8px"} >
@@ -117,7 +117,7 @@ export default function DonationGroupDetails({ id, notAuth }: { id: string, notA
                                                 <Text fontWeight={"500"} >Date Created</Text>
                                                 <Text fontSize={"14px"} >{dateFormat(item?.createdDate)}{" "}{timeFormat(item?.createdDate)}</Text>
                                             </Flex>
-                                            {item?.createdBy?.userId === userId && (
+                                            {(item?.createdBy?.userId === userId && isDateInPast(item?.endDate)) && (
                                                 <DonationCollaborator update={true} singleData={item} index={0} />
                                             )}
                                         </Flex>
