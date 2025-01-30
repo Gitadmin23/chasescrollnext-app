@@ -39,6 +39,7 @@ function SubmitEvent(props: Iprops) {
     const { data, image, updateDontion } = useDonationStore((state) => state);
     const { userId: user_index } = useDetails((state) => state);
     const pathname = usePathname();
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const { fileUploadHandler, loading, uploadedFile, reset, deleteFile } = AWSHook();
 
@@ -296,7 +297,7 @@ function SubmitEvent(props: Iprops) {
 
         let newObj: any = [...data]
         newObj[0] = { ...data[0], bannerImage: uploadedFile[0] }
-        if (image?.length > 0) {
+        if (uploadedFile?.length > 0) {
             if ((uploadedFile?.length === 1)) {
                 if (!pathname?.includes("edit")) {
                     createGroupDonation.mutateAsync({
@@ -317,11 +318,12 @@ function SubmitEvent(props: Iprops) {
                     description: data[0].description,
                     expirationDate: Number(latestExpiration.endDate)
                 })
-            } else { 
-                if (pathname?.includes("edit")) {
-                    editDonation.mutate({ items: data[0] })
-                }
-            }
+            } 
+            // else { 
+            //     if (pathname?.includes("edit")) {
+            //         editDonation.mutate({ items: data[0] })
+            //     }
+            // }
         }
 
     }, [uploadedFile])
