@@ -34,14 +34,15 @@ function DonationTheme({ id }: { id?: string }) {
             goal: "",
             visibility: data[0]?.visibility,
             purpose: "",
-            endDate: ""
+            endDate: "",
+            collaborators: []
         }
         updateDontion(myArr)
     }
 
     const user_id = localStorage.getItem("user_id") + ""
 
-    const handleChange = (name: string, value: string, index: number) => {
+    const handleChange = (name: string, value: any, index: number) => {
         let clone: any = [...data]
         clone[index] = {
             ...clone[index],
@@ -50,6 +51,9 @@ function DonationTheme({ id }: { id?: string }) {
         }
         updateDontion(clone)
     };
+
+    console.log(data);
+    
 
     const HandleDeleteTicket = (index: any) => {
 
@@ -102,7 +106,7 @@ function DonationTheme({ id }: { id?: string }) {
                                             focusBorderColor={"#E2E8F0"}
                                             placeholder='₦0.00'
                                             value={item?.goal}
-                                            onChange={(e) => handleChange(e.target.name, e.target.value, index)}
+                                            onChange={(e) => handleChange(e.target.name, Number(e.target.value), index)}
                                             onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                             rounded={"full"}
                                             name="goal"
