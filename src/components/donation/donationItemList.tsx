@@ -77,7 +77,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                                     <Text fontSize={"12px"} color={bodyTextColor} >{dateFormat(item?.createdBy)}</Text>
                                                 </Flex>
                                             </Flex>
-                                            {item?.user?.userId === userId && (
+                                            {(item?.user?.userId === userId && item?.total === 0) && (
                                                 <DeleteEvent donation={true} event={item} />
                                             )}
                                         </Flex>
@@ -121,7 +121,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                                     <Text fontSize={"12px"} color={bodyTextColor} >{dateFormat(item?.createdDate)}</Text>
                                                 </Flex>
                                             </Flex>
-                                            {item?.user?.userId === userId && (
+                                            {(item?.user?.userId === userId && item?.total === 0) && (
                                                 <DeleteEvent donation={true} event={item} />
                                             )}
                                         </Flex>
