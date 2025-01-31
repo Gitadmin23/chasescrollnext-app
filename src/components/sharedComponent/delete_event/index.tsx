@@ -88,19 +88,10 @@ function DeleteEvent(props: Props) {
         item.stopPropagation();
         setOpen(true)
     }
+ 
 
-    console.log(event);
-    
-
-    return (
-        // <Box as='button' onClick={handleDelete} color={"brand.chasescrollRed"} borderWidth={"1px"} borderColor={"brand.chasescrollRed"} fontWeight={"semibold"} width={"fit-content"} display={"flex"} justifyContent={"center"} fontSize={"xs"} px="3" rounded={"full"} alignItems={"center"} disabled={deleteEvent.isLoading} >
-        //     {(deleteEvent.isLoading) && <Spinner size='sm' color="brand.chasesccrollButtonBlue" />}
-        //     {(!deleteEvent.isLoading) && (
-        //         "delete"
-        //     )}
-        // </Box>
-        <>
-
+    return ( 
+        <> 
             {((event?.isOrganizer && !pathname?.includes("past")) || pathname?.includes("draft") || pathname?.includes("mydonation")) && (
                 <Flex pos={pathname?.includes("mydonation") ? "relative" : "absolute"} right={pathname?.includes("mydonation") ? "0px" : ["6", "6", "20", "20"]}  zIndex={"100"} top={["6", "6", "1", "1"]} >
                     <Box>
