@@ -31,7 +31,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
 
     const {
         bodyTextColor,
-        borderColor, 
+        borderColor,
         mainBackgroundColor
     } = useCustomTheme()
 
@@ -49,7 +49,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
     const router = useRouter()
 
     const clickHander = (item: IDonationList, index: string) => {
-        if(creator || pasted){
+        if (creator || pasted) {
             router?.push("/dashboard/donation/" + index)
         } else if (item?.fundRasingGroupId?.id) {
             // setSelected(item)
@@ -77,7 +77,9 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                                     <Text fontSize={"12px"} color={bodyTextColor} >{dateFormat(item?.createdBy)}</Text>
                                                 </Flex>
                                             </Flex>
-                                            <DeleteEvent donation={true} event={item} />
+                                            {item?.user?.userId === userId && (
+                                                <DeleteEvent donation={true} event={item} />
+                                            )}
                                         </Flex>
                                         <Flex as={"button"} onClick={() => clickHander(item, item?.id)} w={'full'} h={"200px"} pos={"relative"} rounded={"8px"} >
 
@@ -119,7 +121,9 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                                     <Text fontSize={"12px"} color={bodyTextColor} >{dateFormat(item?.createdDate)}</Text>
                                                 </Flex>
                                             </Flex>
-                                            <DeleteEvent donation={true} event={item} />
+                                            {item?.user?.userId === userId && (
+                                                <DeleteEvent donation={true} event={item} />
+                                            )}
                                         </Flex>
                                         <Flex as={"button"} onClick={() => clickHander(item, item?.id)} w={'full'} h={"200px"} rounded={"8px"} >
 
