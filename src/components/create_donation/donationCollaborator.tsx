@@ -104,11 +104,7 @@ export default function DonationCollaborator({ index, update, btn, singleData }:
 
             setOpen(false)
         }
-    });
-
-    // const clickHander =()=> {
-    //     if()
-    // }
+    }); 
 
     const UserCard = (props: IUser & { collaborator?: boolean }) => {
         const { username, userId, firstName, lastName, collaborator } = props;
