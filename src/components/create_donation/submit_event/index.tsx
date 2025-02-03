@@ -36,10 +36,8 @@ function SubmitEvent(props: Iprops) {
     } = useCustomTheme();
 
     // const { image } = useEventStore((state) => state);
-    const { data, image, updateDontion } = useDonationStore((state) => state);
-    const { userId: user_index } = useDetails((state) => state);
-    const pathname = usePathname();
-    const [isSubmitting, setIsSubmitting] = useState(false)
+    const { data, image, updateDontion } = useDonationStore((state) => state); 
+    const pathname = usePathname(); 
 
     const { fileUploadHandler, loading, uploadedFile, reset, deleteFile } = AWSHook();
 
@@ -58,17 +56,12 @@ function SubmitEvent(props: Iprops) {
         // Use reduce to find the object with the latest endDate
         const latestItem = items.reduce((latest, current) => {
             return current.endDate > latest.endDate ? current : latest;
-        });
-
-        console.log(latestItem);
-
+        }); 
+        
         return latestItem;
     };
 
-    const latestExpiration = findLatestExpiration(data)
-
-    console.log(latestExpiration);
-
+    const latestExpiration = findLatestExpiration(data) 
 
     // const []
     const toast = useToast()
@@ -269,9 +262,8 @@ function SubmitEvent(props: Iprops) {
                 position: 'top-right',
             });
 
-            router?.push("/dashboard/donation/" + id)
-
             reset()
+            router?.push("/dashboard/donation/" + id)
         }
     });
 
@@ -318,12 +310,7 @@ function SubmitEvent(props: Iprops) {
                     description: data[0].description,
                     expirationDate: Number(latestExpiration.endDate)
                 })
-            } 
-            // else { 
-            //     if (pathname?.includes("edit")) {
-            //         editDonation.mutate({ items: data[0] })
-            //     }
-            // }
+            }  
         }
 
     }, [uploadedFile])
