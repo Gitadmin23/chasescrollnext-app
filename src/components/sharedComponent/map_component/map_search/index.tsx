@@ -15,6 +15,7 @@ import usePlacesAutocomplete, {
 import { IoSearchOutline } from 'react-icons/io5';
 import useEventStore from '@/global-state/useCreateEventState';
 import useCustomTheme from '@/hooks/useTheme';
+import useProductStore from '@/global-state/useCreateProduct';
 
 interface Props {
     center: any,
@@ -43,6 +44,7 @@ function MapSearch(props: Props) {
     const [show, setShow] = React.useState(false)
 
     const { eventdata, updateEvent } = useEventStore((state) => state);
+    const { updateProduct, productdata, updateRental, rentaldata } = useProductStore((state) => state);
 
     const {
         ready,
@@ -85,6 +87,8 @@ function MapSearch(props: Props) {
                     latlng: lat + " " + lng
                 }
             })
+            // updateProduct({...productdata, location: address})
+            updateRental({...rentaldata, location: address})
 
             setMarker({
                 lat: Number(lat),

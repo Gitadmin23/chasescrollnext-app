@@ -20,12 +20,15 @@ export default function DonationBtn(props: any) {
 
     const {
         user,
-        name
+        item
     } = props
 
     const [open, setOpen] = useState(false)
 
     const [value, setValue] = useState("")
+
+    console.log(user?.userId);
+    
 
     const {
         primaryColor,
@@ -69,7 +72,7 @@ export default function DonationBtn(props: any) {
             setDonation(true)
             setOpen(false)
             setValue("")
-            setDataID(props?.id)
+            setDataID(item?.id)
 
         },
         onError: (error) => {
@@ -92,9 +95,9 @@ export default function DonationBtn(props: any) {
             price: Number(value),
             currency: "NGN",
             orderType: "DONATION",
-            typeID: props?.id
+            typeID: item?.id
         })
-    }, [props?.id, value])
+    }, [item?.id, value])
 
     return (
         <Flex w={"full"} flexDir={"column"} gap={"6"} >
@@ -107,10 +110,10 @@ export default function DonationBtn(props: any) {
                 <Flex flexDir={"column"} bg={mainBackgroundColor} gap={"5"} px={"4"} >
                     <Flex alignItems={"center"} rounded={"16px"} px={"8px"} pt={"12px"} >
                         <Box w={"fit-content"} >
-                            <EventImage borderWidth='2px' rounded='16px' width={"153px"} height={"127px"} data={props} />
+                            <EventImage borderWidth='2px' rounded='16px' width={"153px"} height={"127px"} data={item} />
                         </Box>
                         <Flex height={"fit-content"} ml={"3"} flexDir={"column"} gap={"2px"} >
-                            <Text fontSize={"16px"} fontWeight={"bold"} >{`You're supporting `} {user?.firstName + " " + user?.lastName} on {textLimit(name, 20)} Event</Text>
+                            <Text fontSize={"16px"} fontWeight={"bold"} >{`You're supporting `} {user?.firstName + " " + user?.lastName} on {textLimit(item?.name, 20)} Event</Text>
                         </Flex>
                     </Flex>
                     <Flex flexDir={"column"} w={"full"} overflowX={"hidden"} gap={"3"} pb={"5"}  >

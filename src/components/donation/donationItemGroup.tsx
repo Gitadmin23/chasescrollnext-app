@@ -106,7 +106,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                         </Flex> 
                                         <DonationGraph item={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} />
                                         {(userId !== item?.user?.userId && !pasted) && (
-                                            <DonationBtn {...item} />
+                                            <DonationBtn item={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} user={item?.user} />
                                         )}
                                     </Flex>
                                     // </GridItem>
@@ -148,7 +148,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                         </Flex>
                                         <DonationGraph item={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} />
                                         {(userId !== item?.user?.userId && !pasted) && (
-                                            <DonationBtn {...item} />
+                                            <DonationBtn item={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} user={item?.user}  />
                                         )}
                                     </Flex>
                                     // </GridItem>
