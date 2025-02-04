@@ -104,7 +104,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                         </Flex>
                                         <DonationGraph item={item} />
                                         {(userId !== item?.createdBy?.userId && !pasted) && (
-                                            <DonationBtn {...item} />
+                                            <DonationBtn item={item} user={item?.createdBy} />
                                         )}
                                     </Flex>
                                     // </GridItem>
@@ -148,7 +148,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                         </Flex>
                                         <DonationGraph item={item} />
                                         {(userId !== item?.createdBy?.userId && !pasted) && (
-                                            <DonationBtn {...item} />
+                                            <DonationBtn item={item} user={item?.createdBy} />
                                         )}
                                     </Flex>
                                     // </GridItem>

@@ -9,8 +9,7 @@ import SubmitTheme from '../submit_event';
 import CustomButton from '@/components/general/Button';
 import useDonationStore from '@/global-state/useDonationState';
 import SelectDonationDate from '../select_date';
-import FunnelBtn from '../funnel';
-import CollaboratorBtn from '../collaborators';
+import FunnelBtn from '../funnel'; 
 import GetCommunity from '../funnel/get_community';
 import DonationCollaborator from '../donationCollaborator';
 
@@ -51,10 +50,7 @@ function DonationTheme({ id }: { id?: string }) {
         }
         updateDontion(clone)
     };
-
-    console.log(data);
-    
-
+     
     const HandleDeleteTicket = (index: any) => {
 
         let myArr = [...data]

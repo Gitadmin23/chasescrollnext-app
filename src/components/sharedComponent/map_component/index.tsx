@@ -15,6 +15,7 @@ import useEventStore from '@/global-state/useCreateEventState';
 import LoadingAnimation from '../loading_animation';
 import EventDirection from './event_direction';
 import useCustomTheme from '@/hooks/useTheme';
+import useProductStore from '@/global-state/useCreateProduct';
 
 interface Props {
   close?: any,
@@ -45,6 +46,7 @@ function MapComponent(props: Props) {
 
 
   const { eventdata, updateEvent } = useEventStore((state) => state);
+  const { updateProduct, productdata, updateRental, rentaldata } = useProductStore((state) => state);
   const toast = useToast()
   const [directionsResponse, setDirectionsResponse] = React.useState(null);
 
@@ -104,6 +106,8 @@ function MapComponent(props: Props) {
                 latlng: e.latLng.lat() + " " + e.latLng.lng()
               }
             })
+            // updateProduct({...productdata, location: address})
+            updateRental({...rentaldata, location: address})
 
           } else {
             console.error('Error fetching address:', status);
