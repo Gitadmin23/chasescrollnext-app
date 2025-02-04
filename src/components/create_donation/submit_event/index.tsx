@@ -223,7 +223,7 @@ function SubmitEvent(props: Iprops) {
         onSuccess: (data: AxiosResponse<any>) => {
             toast({
                 title: 'Success',
-                description: "Fundraisier Created",
+                description: "Fundraiser Created",
                 status: 'success',
                 isClosable: true,
                 duration: 5000,
@@ -255,7 +255,7 @@ function SubmitEvent(props: Iprops) {
         onSuccess: () => {
             toast({
                 title: 'Success',
-                description: "Updated Fundraisier",
+                description: "Updated Fundraiser",
                 status: 'success',
                 isClosable: true,
                 duration: 5000,
