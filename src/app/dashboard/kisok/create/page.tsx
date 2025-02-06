@@ -3,7 +3,9 @@ import CustomButton from '@/components/general/Button'
 import ProductImagePicker from '@/components/kisok/productImagePicker'
 import ProductMap from '@/components/kisok/productMap'
 import SelectCategories from '@/components/kisok/selectCategories'
-import { GallaryIcon, PhotoIcon, TruckIcon } from '@/components/svg'
+import LoadingAnimation from '@/components/sharedComponent/loading_animation'
+import ModalLayout from '@/components/sharedComponent/modal_layout'
+import { GallaryIcon, PhotoIcon, SuccessIcon, TruckIcon } from '@/components/svg'
 import useProductStore, { CreateProduct } from '@/global-state/useCreateProduct'
 import useProduct from '@/hooks/useProduct'
 import useCustomTheme from '@/hooks/useTheme'
@@ -14,7 +16,7 @@ import { IoArrowBack } from 'react-icons/io5'
 
 export default function KisokCreate() {
 
-    const { primaryColor, borderColor } = useCustomTheme()
+    const { primaryColor, secondaryBackgroundColor, headerTextColor, bodyTextColor} = useCustomTheme()
     const { push, back } = useRouter()
     const query = useSearchParams(); 
 
@@ -22,11 +24,7 @@ export default function KisokCreate() {
     const type = query?.get('type');
     const { productdata, updateProduct } = useProductStore((state) => state);
 
-    const { handleSubmitProduce, createProduct, loading } = useProduct(productdata)
-
-    console.log(productdata);
-    
-
+    const { handleSubmitProduce, createProduct, loading, openProduct, setOpenProduct } = useProduct(productdata)
 
     return (
         <Flex w={"full"} px={"6"} pos={"relative"} pb={"12"} alignItems={"center"} flexDir={"column"} overflowY={"auto"} >
@@ -69,7 +67,7 @@ export default function KisokCreate() {
                         {/* <Input h={"60px"} /> */}
                         <ProductMap />
                     </Flex>
-                    <SelectCategories />
+                    <SelectCategories rental={false} />
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Price per unit</Text>
                         <Input type="number" onChange={(e) => updateProduct({ ...productdata, price: e.target.value })} h={"60px"} />
@@ -110,6 +108,18 @@ export default function KisokCreate() {
                     <CustomButton isLoading={createProduct?.isLoading || loading} disable={createProduct?.isLoading || loading} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
                 </Flex>
             </form>
+
+            <ModalLayout open={openProduct} close={setOpenProduct} bg={secondaryBackgroundColor} closeIcon={true} >
+                <LoadingAnimation loading={loading} >
+                    <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
+                        <SuccessIcon />
+                        <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{"Congratulations"}</Text>
+                        <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your product has been listed on chasescroll kiosk pending approval`}</Text>
+                         
+                            <CustomButton onClick={()=> push("/dashboard/kisok")} color={"#FFF"} text={'Done'} w={"full"} backgroundColor={"#3EC259"} /> 
+                    </Flex>
+                </LoadingAnimation>
+            </ModalLayout>
         </Flex>
     )
 }

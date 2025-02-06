@@ -9,8 +9,8 @@ import useProductStore from "@/global-state/useCreateProduct";
 const useProduct = (item: any, rental?: boolean) => {
 
     const toast = useToast()
-
-    const userId = localStorage.getItem('user_id') + "";
+    const [openRental, setOpenRental] = useState(false)
+    const [openProduct, setOpenProduct] = useState(false)
 
     const { fileUploadHandler, loading, uploadedFile, reset, deleteFile } = AWSHook();
 
@@ -39,19 +39,16 @@ const useProduct = (item: any, rental?: boolean) => {
         }
 
         return true; // All fields are valid
-    };
-
-
+    }; 
+    
     const validateItemRental = (item: any) => {
         // List of required fields
         const requiredFields = [
-            "creatorID",
+            "userId",
             "name",
             "description",
             "price",
-            "category",
-            "quantity",
-            "userId",
+            "category", 
             "location",
             "maximiumNumberOfDays"
         ];
@@ -105,12 +102,13 @@ const useProduct = (item: any, rental?: boolean) => {
             });
         } else {
 
-            if (!validateItemProduct(item)) {
+            if (validateItemProduct(item)) {
 
                 console.log("Item is valid. Submitting...");
                 fileUploadHandler(image) 
+                setOpenProduct(true)
                 // Proceed with form submission
-                
+
             } else {
 
                 toast({
@@ -137,7 +135,14 @@ const useProduct = (item: any, rental?: boolean) => {
                 duration: 5000,
                 position: "top-right",
             });
-        } else if (!validateItemProduct(item)) {
+
+        } else if (validateItemRental(item)) {
+
+            console.log("Item is valid. Submitting...");
+            fileUploadHandler(image)
+            setOpenRental(true)
+            // Proceed with form submission
+        } else {
             toast({
                 title: "error",
                 description: "Please fill all fields.",
@@ -147,13 +152,9 @@ const useProduct = (item: any, rental?: boolean) => {
                 position: "top-right",
             });
             console.log("Item has empty fields. Please fill all fields.");
-
-            // Proceed with form submission
-        } else {
-            console.log("Item is valid. Submitting...");
-            fileUploadHandler(image)
         }
     };
+
     const createProduct = useMutation({
         mutationFn: (data: {
             "creatorID": "string",
@@ -170,13 +171,13 @@ const useProduct = (item: any, rental?: boolean) => {
             "publish": true
         }) =>
             httpService.post(
-                `/Products/create`, data
+                `/products/create`, data
             ),
         onSuccess: (data: any) => {
             toast({
-                title: "error",
-                description: "Error occured ",
-                status: "error",
+                title: "Create Product",
+                description: "",
+                status: "success",
                 isClosable: true,
                 duration: 5000,
                 position: "top-right",
@@ -227,7 +228,11 @@ const useProduct = (item: any, rental?: boolean) => {
         createProduct,
         createRental,
         loading,
-        handleSubmitRental
+        handleSubmitRental,
+        openRental,
+        openProduct,
+        setOpenProduct,
+        setOpenRental
     };
 
 }

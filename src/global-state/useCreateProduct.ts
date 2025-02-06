@@ -65,7 +65,7 @@ const useProductStore = create<State & Image & Navigate & Action>((set) => ({
         "description": "",
         "category": "Stages and platforms",
         "location": "",
-        "maximiumNumberOfDays": null,
+        "maximiumNumberOfDays": 1,
         "price": null,
         "images": []
     }, 
