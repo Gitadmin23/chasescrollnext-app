@@ -2,28 +2,28 @@
 import CustomButton from '@/components/general/Button'
 import ProductImagePicker from '@/components/kisok/productImagePicker'
 import ProductMap from '@/components/kisok/productMap'
-import { GallaryIcon, PhotoIcon } from '@/components/svg'
+import SelectCategories from '@/components/kisok/selectCategories'
+import LoadingAnimation from '@/components/sharedComponent/loading_animation'
+import ModalLayout from '@/components/sharedComponent/modal_layout'
+import { SuccessIcon } from '@/components/svg'
 import useProductStore from '@/global-state/useCreateProduct'
 import useProduct from '@/hooks/useProduct'
 import useCustomTheme from '@/hooks/useTheme'
-import { Flex, Input, Select, Switch, Text, Textarea } from '@chakra-ui/react'
+import { Flex, Input, Text, Textarea } from '@chakra-ui/react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import React, { useState } from 'react'
-import { IoIosAdd, IoIosArrowForward, IoIosRemove } from 'react-icons/io'
+import React from 'react'
+import { IoIosAdd, IoIosRemove } from 'react-icons/io'
 import { IoArrowBack } from 'react-icons/io5'
 
 export default function RentalCreate() {
 
-    const { primaryColor, borderColor } = useCustomTheme()
+    const { primaryColor, secondaryBackgroundColor, headerTextColor, bodyTextColor} = useCustomTheme()
     const { push, back } = useRouter()
     const query = useSearchParams();
     const type = query?.get('type');
     const { rentaldata, updateRental, image } = useProductStore((state) => state);
-    const [qty, setQty] = useState(1)
 
-    const { handleSubmitRental, createProduct, loading } = useProduct(rentaldata)
-
-    const { secondaryBackgroundColor } = useCustomTheme()
+    const { handleSubmitRental, createProduct, loading, openRental, setOpenRental } = useProduct(rentaldata, true) 
 
     return (
         <Flex w={"full"} px={"6"} pos={"relative"} pb={"12"} alignItems={"center"} flexDir={"column"} overflowY={"auto"} >
@@ -34,7 +34,7 @@ export default function RentalCreate() {
                 <IoArrowBack size={"20px"} />
             </Flex>
 
-            <form style={{ maxWidth: "550px" ,width: "100%", display: "flex" }} onSubmit={handleSubmitRental}>
+            <form style={{ maxWidth: "550px", width: "100%", display: "flex" }} onSubmit={handleSubmitRental}>
                 <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={type ? "none" : "flex"} flexDir={"column"}  >
                     <Text fontSize={"24px"} fontWeight={"600"} >List your Property</Text>
                     <ProductImagePicker />
@@ -48,12 +48,7 @@ export default function RentalCreate() {
                             <Text fontWeight={"500"} >Description (optional)</Text>
                             <Textarea onChange={(e) => updateRental({ ...rentaldata, description: e.target.value })} />
                         </Flex>
-                        <Flex gap={"2"} w={"full"} flexDir={"column"} >
-                            <Text fontWeight={"500"} >Category (optional)</Text>
-                            <Select onChange={(e) => updateRental({ ...rentaldata, category: e.target.value })} h={"60px"} placeholder='Building | Accommodation' >
-                                <option>test</option>
-                            </Select>
-                        </Flex>
+                        <SelectCategories rental={true} />
                     </Flex>
                     <CustomButton type='button' _disabled={{ opacity: "0.5", cursor: "not-allowed" }} disable={(!rentaldata?.name || !rentaldata?.description || !rentaldata?.category || image?.length === 0) ? true : false} onClick={() => push("/dashboard/kisok/create-rental?type=true")} height={"60px"} borderRadius={"999px"} mt={"4"} text={"Next"} />
                 </Flex>
@@ -72,14 +67,14 @@ export default function RentalCreate() {
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Number of Days available for Rent</Text>
                             <Flex rounded={"39px"} alignItems={"center"} justifyContent={"center"} padding={"12px"} gap={"3"} >
-                                    <Flex type='button' as={"button"} onClick={()=> setQty((prev)=> prev === 1 ? 1 : prev - 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
-                                        <IoIosRemove />
-                                    </Flex>
-                                    <Text fontSize={"18px"} >{qty}</Text>
-                                    <Flex type='button' as={"button"} onClick={()=> setQty((prev)=> prev + 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
-                                        <IoIosAdd />
-                                    </Flex>
+                                <Flex type='button' as={"button"} onClick={() => updateRental({ ...rentaldata, maximiumNumberOfDays: rentaldata?.maximiumNumberOfDays === 1 ? 1 : rentaldata?.maximiumNumberOfDays - 1 })} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
+                                    <IoIosRemove />
                                 </Flex>
+                                <Text fontSize={"18px"} >{rentaldata?.maximiumNumberOfDays}</Text>
+                                <Flex type='button' as={"button"} onClick={() => updateRental({ ...rentaldata, maximiumNumberOfDays: rentaldata?.maximiumNumberOfDays + 1 })} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
+                                    <IoIosAdd />
+                                </Flex>
+                            </Flex>
                         </Flex>
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Price</Text>
@@ -89,6 +84,18 @@ export default function RentalCreate() {
                     <CustomButton isLoading={createProduct?.isLoading || loading} disable={createProduct?.isLoading || loading} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
                 </Flex>
             </form>
+
+            <ModalLayout open={openRental} close={setOpenRental} bg={secondaryBackgroundColor} closeIcon={true} >
+                <LoadingAnimation loading={loading} >
+                    <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
+                        <SuccessIcon />
+                        <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{"Congratulations"}</Text>
+                        <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your product has been listed successfully`}</Text>
+
+                        <CustomButton onClick={() => push("/dashboard/kisok?type=rental")} color={"#FFF"} text={'Done'} w={"full"} backgroundColor={"#3EC259"} />
+                    </Flex>
+                </LoadingAnimation>
+            </ModalLayout>
         </Flex>
     )
 }
