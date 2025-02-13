@@ -6,10 +6,14 @@ import useProductStore from '@/global-state/useCreateProduct'
 import { Box, Input } from '@chakra-ui/react'
 import React, { useState } from 'react'
 
-interface Props { }
+interface Props { 
+    location: any
+}
 
 function ProductMap(props: Props) {
-    const { } = props
+    const { 
+        location
+    } = props
 
     const [open, setOpen] = useState(false)
 
@@ -19,7 +23,7 @@ function ProductMap(props: Props) {
         console.log(item);
         
         setOpen(true)
-    }
+    } 
 
     return (
         <>
@@ -36,10 +40,10 @@ function ProductMap(props: Props) {
                 // className="border w-full mt-4 text-sm rounded-md text-chasescrollTextGrey p-3"
                 name="locationDetails" 
                 onClick={()=> setOpen(true)}
-                value={rentaldata?.location}
+                value={location?.locationDetails}
             />
             <ModalLayout title='Map' open={open} close={setOpen} size={"2xl"}  >
-                <MapComponent close={setOpen} />
+                <MapComponent latlng={location?.latlng} close={setOpen} />
             </ModalLayout>
         </>
     )

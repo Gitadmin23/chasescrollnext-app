@@ -1,6 +1,6 @@
-import { create } from 'zustand'; 
+import { create } from 'zustand';
 
-export type CreateProduct ={
+export type CreateProduct = {
     creatorID: string,
     name: string,
     description: string,
@@ -10,7 +10,20 @@ export type CreateProduct ={
     quantity: number | any,
     hasDiscount: boolean,
     discountPrice: number | any,
-    publish: boolean
+    publish: boolean;
+    location?: {
+        link?: string,
+        address?: string,
+        country?: string,
+        street?: string,
+        city?: string,
+        zipcode?: string,
+        state?: string,
+        locationDetails?: string,
+        latlng?: string,
+        placeIds?: string,
+        toBeAnnounced?: true
+    }
 }
 
 export type CreateRental = {
@@ -18,7 +31,7 @@ export type CreateRental = {
     name: string,
     description: string,
     category: string,
-    location: string,
+    location: any
     maximiumNumberOfDays: number | any,
     price: number | any,
     images: Array<string>
@@ -29,7 +42,7 @@ type State = {
 }
 
 type Image = {
-    image: Array<any>, 
+    image: Array<any>,
 }
 
 type Navigate = {
@@ -37,25 +50,26 @@ type Navigate = {
 }
 
 type Action = {
-    updateProduct: (data: State['productdata']) => void 
-    updateImage: (data: Image['image']) => void 
+    updateProduct: (data: State['productdata']) => void
+    updateImage: (data: Image['image']) => void
     updateRental: (data: Navigate['rentaldata']) => void
 }
 
 const userId = localStorage.getItem('user_id') + "";
 
-const useProductStore = create<State & Image & Navigate & Action>((set) => ({ 
+const useProductStore = create<State & Image & Navigate & Action>((set) => ({
     productdata: {
         creatorID: userId,
         name: "",
         description: "",
         images: [],
         price: null,
-        category: "Stages and platforms",
+        category: "",
         quantity: null,
         hasDiscount: false,
         discountPrice: null,
-        publish: true
+        publish: true,
+        location: "" as any
     },
     image: [],
     imagePreview: [],
@@ -63,14 +77,14 @@ const useProductStore = create<State & Image & Navigate & Action>((set) => ({
         "userId": userId,
         "name": "",
         "description": "",
-        "category": "Stages and platforms",
-        "location": "",
-        "maximiumNumberOfDays": null,
+        "category": "",
+        "location": {} as any,
+        "maximiumNumberOfDays": 1,
         "price": null,
         "images": []
-    }, 
+    },
     updateProduct: (data) => set(() => ({ productdata: data })),
-    updateImage: (data) => set(() => ({ image: data })), 
+    updateImage: (data) => set(() => ({ image: data })),
     updateRental: (data) => set(() => ({ rentaldata: data })),
 }));
 

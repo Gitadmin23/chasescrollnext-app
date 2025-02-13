@@ -1,18 +1,51 @@
 import httpService from "@/utils/httpService";
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import AWSHook from "./awsHook";
 import useProductStore from "@/global-state/useCreateProduct";
+import usePaystackStore from "@/global-state/usePaystack";
 
 
-const useProduct = (item: any, rental?: boolean) => {
+const useProduct = (item?: any, rental?: boolean) => {
 
     const toast = useToast()
+    const [openRental, setOpenRental] = useState(false)
+    const [openProduct, setOpenProduct] = useState(false)
+    const [open, setOpen] = useState(false)
+    const [openDelete, setOpenDelete] = useState(false)
+    const [addressId, setAddressId] = useState("")
+    const [addressDefault, setAddressDefault] = useState("")
+    const userId = localStorage.getItem('user_id');
+    const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
 
-    const userId = localStorage.getItem('user_id') + "";
+    const { configPaystack, setPaystackConfig } = usePaystackStore((state) => state);
 
-    const { fileUploadHandler, loading, uploadedFile, reset, deleteFile } = AWSHook();
+    const query = useQueryClient()
+    const [payload, setPayload] = useState<any>({
+        "state": "",
+        "lga": "",
+        "phone": "",
+        "landmark": "",
+        "userId": userId,
+        "isDefault": true
+    })
+
+    const [reviewPayload, setReviewPayload] = useState<{
+        "userId": any,
+        "description": string,
+        "typeId": string,
+        "reviewType": string,
+        "rating": number
+    }>({
+        "userId": userId,
+        "description": "",
+        "typeId": "",
+        "reviewType": "PRODUCT",
+        "rating": 0
+    })
+
+    const { fileUploadHandler, loading, uploadedFile, reset } = AWSHook();
 
     const validateItemProduct = (item: any) => {
         // List of required fields
@@ -41,17 +74,14 @@ const useProduct = (item: any, rental?: boolean) => {
         return true; // All fields are valid
     };
 
-
     const validateItemRental = (item: any) => {
         // List of required fields
         const requiredFields = [
-            "creatorID",
+            "userId",
             "name",
             "description",
             "price",
             "category",
-            "quantity",
-            "userId",
             "location",
             "maximiumNumberOfDays"
         ];
@@ -105,12 +135,13 @@ const useProduct = (item: any, rental?: boolean) => {
             });
         } else {
 
-            if (!validateItemProduct(item)) {
+            if (validateItemProduct(item)) {
 
                 console.log("Item is valid. Submitting...");
-                fileUploadHandler(image) 
+                fileUploadHandler(image)
+                setOpenProduct(true)
                 // Proceed with form submission
-                
+
             } else {
 
                 toast({
@@ -126,6 +157,26 @@ const useProduct = (item: any, rental?: boolean) => {
         }
     };
 
+    const handleEditSubmitProduce = (e: any) => {
+        e.preventDefault();
+        if (validateItemProduct(item)) {
+
+            editProduct?.mutate(removeEmptyValues(item))
+
+        } else {
+
+            toast({
+                title: "error",
+                description: "Please fill all fields.",
+                status: "error",
+                isClosable: true,
+                duration: 5000,
+                position: "top-right",
+            });
+            console.log("Item has empty fields. Please fill all fields.");
+        }
+    };
+
     const handleSubmitRental = (e: any) => {
         e.preventDefault();
         if (image.length === 0) {
@@ -137,7 +188,14 @@ const useProduct = (item: any, rental?: boolean) => {
                 duration: 5000,
                 position: "top-right",
             });
-        } else if (!validateItemProduct(item)) {
+
+        } else if (validateItemRental(item)) {
+
+            console.log("Item is valid. Submitting...");
+            fileUploadHandler(image)
+            setOpenRental(true)
+            // Proceed with form submission
+        } else {
             toast({
                 title: "error",
                 description: "Please fill all fields.",
@@ -147,13 +205,9 @@ const useProduct = (item: any, rental?: boolean) => {
                 position: "top-right",
             });
             console.log("Item has empty fields. Please fill all fields.");
-
-            // Proceed with form submission
-        } else {
-            console.log("Item is valid. Submitting...");
-            fileUploadHandler(image)
         }
     };
+
     const createProduct = useMutation({
         mutationFn: (data: {
             "creatorID": "string",
@@ -170,17 +224,52 @@ const useProduct = (item: any, rental?: boolean) => {
             "publish": true
         }) =>
             httpService.post(
-                `/Products/create`, data
+                `/products/create`, data
             ),
         onSuccess: (data: any) => {
             toast({
-                title: "error",
-                description: "Error occured ",
-                status: "error",
+                title: "Created Product Successfully",
+                description: "",
+                status: "success",
                 isClosable: true,
                 duration: 5000,
                 position: "top-right",
             });
+            reset()
+        },
+        onError: () => { },
+    });
+
+    const editProduct = useMutation({
+        mutationFn: (data: {
+            payload: {
+                "creatorID": "string",
+                "name": "string",
+                "description": "string",
+                "images": [
+                    "string"
+                ],
+                "price": null,
+                "category": "string",
+                "quantity": null,
+                "hasDiscount": true,
+                "discountPrice": null,
+                "publish": true
+            }, id: string
+        }) =>
+            httpService.post(
+                `/products/${data?.id}`, data?.payload
+            ),
+        onSuccess: (data: any) => {
+            toast({
+                title: "Editing Product Successfully",
+                description: "",
+                status: "success",
+                isClosable: true,
+                duration: 5000,
+                position: "top-right",
+            });
+            reset()
         },
         onError: () => { },
     });
@@ -200,14 +289,140 @@ const useProduct = (item: any, rental?: boolean) => {
                 `/rental/create`, data
             ),
         onSuccess: (data: any) => {
-            // toast({
-            //     title: "error",
-            //     description: "Error occured ",
-            //     status: "error",
-            //     isClosable: true,
-            //     duration: 5000,
-            //     position: "top-right",
-            // });
+            toast({
+                title: "Created Rental Successfully",
+                description: "",
+                status: "success",
+                isClosable: true,
+                duration: 5000,
+                position: "top-right",
+            });
+            reset()
+        },
+        onError: () => { },
+    });
+
+    const deleteAddress = useMutation({
+        mutationFn: () =>
+            httpService.delete(
+                `/addresses/delete/${addressId}`
+            ),
+        onSuccess: () => {
+            setOpenDelete(false)
+            query.invalidateQueries("addressuser")
+        },
+        onError: () => { },
+    });
+
+    const editAddress = useMutation({
+        mutationFn: (data: {
+            "state": "",
+            "lga": "",
+            "phone": "",
+            "landmark": "",
+            "userId": "",
+            "isDefault": true
+        }) =>
+            httpService.put(
+                `/addresses/update/${addressId}`, data
+            ),
+        onSuccess: (data: any) => {
+            setPayload({
+                "state": "",
+                "lga": "",
+                "phone": "",
+                "landmark": "",
+                "userId": userId,
+                "isDefault": true
+            })
+            setAddressId("")
+            setOpen(false)
+        },
+        onError: () => { },
+    });
+
+    const createAddress = useMutation({
+        mutationFn: (data: {
+            "state": "",
+            "lga": "",
+            "phone": "",
+            "landmark": "",
+            "userId": "",
+            "isDefault": true
+        }) =>
+            httpService.post(
+                `/addresses/create`, data
+            ),
+        onSuccess: (data: any) => {
+            toast({
+                title: "Successful",
+                description: "",
+                status: "success",
+                isClosable: true,
+                duration: 5000,
+                position: "top-right",
+            });
+            setPayload({
+                "state": "",
+                "lga": "",
+                "phone": "",
+                "landmark": "",
+                "userId": userId,
+                "isDefault": true
+            })
+            setAddressId("")
+            setOpen(false)
+        },
+        onError: () => { },
+    });
+
+    const createReview = useMutation({
+        mutationFn: (data: any) =>
+            httpService.post(
+                `/reviews/create`, data
+            ),
+        onSuccess: () => {
+            toast({
+                title: "Successful",
+                description: "",
+                status: "success",
+                isClosable: true,
+                duration: 5000,
+                position: "top-right",
+            });
+            setReviewPayload({
+                "userId": "",
+                "description": "",
+                "typeId": "",
+                "reviewType": "PRODUCT",
+                "rating": 0
+            })
+            setAddressId("")
+            setOpen(false)
+        },
+        onError: () => { },
+    });
+
+    const createProductOrder = useMutation({
+        mutationFn: (data: {
+            "productId": string,
+            "quantity": any,
+            "total": any,
+            "userId": string,
+            "vendorId": string,
+            "addressId": string
+        }) =>
+            httpService.post(
+                `/orders/create`, data
+            ),
+        onSuccess: (data: any) => {
+            console.log(data?.data);
+            setPaystackConfig({
+                publicKey: PAYSTACK_KEY,
+                email: data?.data?.user?.email,
+                amount: (Number(data?.data?.total) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+                reference: data?.data?.id
+            });
         },
         onError: () => { },
     });
@@ -227,7 +442,32 @@ const useProduct = (item: any, rental?: boolean) => {
         createProduct,
         createRental,
         loading,
-        handleSubmitRental
+        handleSubmitRental,
+        openRental,
+        openProduct,
+        setOpenProduct,
+        setOpenRental,
+        createAddress,
+        editAddress,
+        open,
+        setOpen,
+        payload,
+        setPayload,
+        userId,
+        setAddressId,
+        addressId,
+        deleteAddress,
+        openDelete,
+        setOpenDelete,
+        createProductOrder,
+        setAddressDefault,
+        addressDefault,
+        configPaystack,
+        setPaystackConfig,
+        createReview,
+        reviewPayload,
+        setReviewPayload,
+        handleEditSubmitProduce
     };
 
 }

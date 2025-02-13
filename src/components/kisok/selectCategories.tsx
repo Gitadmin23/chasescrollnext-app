@@ -4,17 +4,26 @@ import { Flex, Select, Text } from '@chakra-ui/react'
 import React from 'react'
 import { useQuery } from 'react-query';
 
-export default function SelectCategories() {
+export default function SelectCategories({ rental }: { rental: boolean }) {
 
     const { rentaldata, productdata, updateRental, updateProduct } = useProductStore((state) => state);
 
-    const { isLoading, isRefetching, refetch, data } = useQuery(
-        ["getProduct"],
-        () => httpService.get(`/rental/categories`),
-    ); 
+    const { data } = useQuery(
+        ["getcategoryProduct"],
+        () => httpService.get(`/products/categories`), {
+        enabled: rental ? false : true
+    }
+    );
 
-    console.log(data);
-    
+    const { data: datarental } = useQuery(
+        ["getcategoryRental"],
+        () => httpService.get(`/rental/categories`), {
+        enabled: rental ? true : false
+    }
+    );
+
+    console.log(datarental);
+
 
     const changeHandler = (item: string) => {
         updateRental({ ...rentaldata, category: item })
@@ -24,9 +33,21 @@ export default function SelectCategories() {
     return (
         <Flex gap={"2"} w={"full"} flexDir={"column"} >
             <Text fontWeight={"500"} >Category (optional)</Text>
-            <Select onChange={(e) => changeHandler(e.target.value)} h={"60px"} placeholder='Building | Accommodation' >
-                <option>test</option>
-            </Select>
+            {!rental && (
+                <Select onChange={(e) => changeHandler(e.target.value)} h={"60px"} placeholder='Select Product Type' >
+                    {data?.data?.map((item: string, index: number) => (
+                        <option key={index} >{item}</option>
+                    ))}
+                </Select>
+            )}
+
+            {rental && (
+                <Select onChange={(e) => changeHandler(e.target.value)} h={"60px"} placeholder='Select Rental Type' >
+                    {datarental?.data?.map((item: string, index: number) => (
+                        <option key={index} >{item}</option>
+                    ))}
+                </Select>
+            )}
         </Flex>
     )
 }

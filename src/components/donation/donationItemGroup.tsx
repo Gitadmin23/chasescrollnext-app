@@ -58,10 +58,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
         } else {
             router?.push("/dashboard/donation/" + item?.fundRaisers[0]?.id)
         }
-    }
-
-    console.log(results);
-    
+    } 
 
     return (
         <Flex w={"full"} flexDir={"column"} gap={"5"} >
@@ -91,7 +88,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                                             <Flex flexDir={"column"} >
                                                 <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
-                                                <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.name), 35)}</Text>
+                                                <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.name), 35)}</Text>
                                             </Flex>
                                             <ShareEvent newbtn={true} showText={false} data={item} id={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
                                         </Flex>
@@ -133,7 +130,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                                             <Flex flexDir={"column"} >
                                                 <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
-                                                <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.name), 35)}</Text>
+                                                <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.name), 35)}</Text>
                                             </Flex>
                                             <ShareEvent newbtn={true} showText={false} data={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} id={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
                                         </Flex>

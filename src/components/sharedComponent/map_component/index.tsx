@@ -106,8 +106,13 @@ function MapComponent(props: Props) {
                 latlng: e.latLng.lat() + " " + e.latLng.lng()
               }
             })
-            // updateProduct({...productdata, location: address})
-            updateRental({...rentaldata, location: address})
+            updateProduct({...productdata, location: {
+              locationDetails: address,
+              latlng: e.latLng.lat() + " " + e.latLng.lng()
+            }})
+            updateRental({...rentaldata, location: {
+              locationDetails: address,
+              latlng: e.latLng.lat() + " " + e.latLng.lng()}})
 
           } else {
             console.error('Error fetching address:', status);
