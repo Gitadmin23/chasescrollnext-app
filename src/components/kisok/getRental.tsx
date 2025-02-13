@@ -62,7 +62,7 @@ export default function GetRental() {
                                     <Text fontSize={"24px"} fontWeight={"600"} >{formatNumber(item?.price)}/ Daily</Text>
                                     <Flex w={"full"} gap={"2"} alignItems={"center"} >
                                         <LocationStroke />
-                                        <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >{item?.location}</Text>
+                                        <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >{item?.location?.locationDetails}</Text>
                                     </Flex>
                                     <CustomButton onClick={() => push("/dashboard/kisok/details-rental/"+item?.id)} text={"View Rental Services"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
                                 </Flex>
@@ -94,7 +94,7 @@ export default function GetRental() {
                                     <Text fontSize={"24px"} fontWeight={"600"} >{formatNumber(item?.price)}/ Daily</Text>
                                     <Flex w={"full"} gap={"2"} alignItems={"center"} >
                                         <LocationStroke />
-                                        <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >{item?.location}</Text>
+                                        <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >{item?.location?.locationDetails}</Text>
                                     </Flex>
                                     <CustomButton onClick={() => push("/dashboard/kisok/details-rental/"+item?.id)} text={"View Rental Services"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
                                 </Flex>

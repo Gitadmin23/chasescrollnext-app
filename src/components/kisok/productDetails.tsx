@@ -22,11 +22,11 @@ export default function ProductDetails({ id }: { id: string }) {
 
     const { primaryColor } = useCustomTheme()
 
-    const [item, setItem] = useState({} as IProduct) 
+    const [item, setItem] = useState({} as IProduct)
 
     const { back } = useRouter()
 
-    const { isLoading, isRefetching, refetch, data } = useQuery(
+    const { isLoading } = useQuery(
         ["products", id],
         () => httpService.get(`/products/search`, {
             params: {
@@ -36,13 +36,11 @@ export default function ProductDetails({ id }: { id: string }) {
         onSuccess(data) {
             setItem(data?.data?.content[0])
         }
-    }
-    );
-
+    }); 
 
     return (
         <LoadingAnimation loading={isLoading} >
-            <Flex w={"full"} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} flexDir={"column"} overflowY={"auto"} overflowX={"hidden"} >
+            <Flex w={"full"} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} gap={"6"} flexDir={"column"} overflowY={"auto"} overflowX={"hidden"} >
                 <Flex w={"full"} display={["none", "none", "flex"]} justifyContent={"space-between"} >
                     <Text fontSize={"24px"} fontWeight={"700"} >Explore  Marchs on chasescroll Kiosk</Text>
                     <Flex w={"fit-content"} gap={4} alignItems={"center"} >
@@ -56,7 +54,7 @@ export default function ProductDetails({ id }: { id: string }) {
                 <Flex w={"full"} gap={"6"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
                         <Flex gap={"1"} alignItems={"center"} >
-                            <Text onClick={()=> back()} fontSize={"14px"} fontWeight={"500"} >Home</Text>
+                            <Text onClick={() => back()} fontSize={"14px"} fontWeight={"500"} >Home</Text>
                             <IoIosArrowForward />
                             <Text fontSize={"14px"} fontWeight={"500"} >Product details</Text>
                             <IoIosArrowForward />
@@ -69,7 +67,7 @@ export default function ProductDetails({ id }: { id: string }) {
                                     {item?.images?.map((subitem: string, index: number) => {
                                         if (index !== 0 && index <= 3) {
                                             return (
-                                                <Flex w={"full"} h={["100px","200px"]} bgColor={"green"} rounded={"8px"} shadow={"md"} >
+                                                <Flex w={"full"} h={["100px", "150px"]} bgColor={"green"} rounded={"8px"} shadow={"md"} >
                                                     <Image src={IMAGE_URL + subitem} alt='logo' w={"full"} rounded={"8px"} height={"full"} objectFit={"cover"} />
                                                 </Flex>
                                             )
@@ -79,11 +77,11 @@ export default function ProductDetails({ id }: { id: string }) {
                             </Flex>
                         )}
                         <Flex display={["none", "none", "flex"]} >
-                            <ProductRating />
+                            <ProductRating item={item?.id} />
                         </Flex>
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
-                        <Text fontSize={["24px", "24px","42px"]} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
+                        <Text fontSize={["24px", "24px", "42px"]} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
                         <Flex flexDir={["column-reverse", "column-reverse", "column"]} gap={"4"} >
                             <Flex flexDirection={"column"} gap={"1"} >
                                 <Text fontSize={"14px"} fontWeight={"600"} >Product  Description</Text>
@@ -128,7 +126,7 @@ export default function ProductDetails({ id }: { id: string }) {
                             </Flex>
                         </Flex> */}
                         <Flex display={["none", "none", "flex"]} >
-                            <ProductCheckout />
+                            <ProductCheckout item={item} />
                         </Flex>
                         <Flex gap={"3"} mt={"4"} >
                             <Flex w={"28px"} h={"28px"} justifyContent={"center"} alignItems={"center"} >
@@ -153,10 +151,10 @@ export default function ProductDetails({ id }: { id: string }) {
                             <Text fontWeight={"500"} fontSize={"12px"} >Purchase protection</Text>
                         </Flex>
                         <Flex display={["flex", "flex", "none"]} >
-                            <ProductRating />
+                            <ProductRating item={item?.id} />
                         </Flex>
                         <Flex display={["flex", "flex", "none"]} >
-                            <ProductCheckout />
+                            <ProductCheckout item={item} />
                         </Flex>
                     </Flex>
                 </Flex>
