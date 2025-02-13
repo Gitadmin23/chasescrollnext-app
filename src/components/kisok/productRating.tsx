@@ -2,8 +2,9 @@ import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Text } from '@chakra-ui/react'
 import React from 'react'
 import { IoStar } from 'react-icons/io5'
+import ReviewData from './reviewData'
 
-export default function ProductRating() {
+export default function ProductRating({item} : {item: string}) {
 
     const { borderColor } = useCustomTheme()
 
@@ -21,6 +22,7 @@ export default function ProductRating() {
                     <Flex h={"32px"} w={"101px"} rounded={"64px"} borderWidth={"1px"} borderColor={borderColor} justifyContent={"center"} alignItems={"center"} >
                         <Text fontSize={"13px"} fontWeight={"500"} >Satisfied (43)</Text>
                     </Flex>
+                    <ReviewData item={item} />
                 </Flex>
             </Flex>
             <Flex flexDir={"column"} gap={"4"} mt={"4"} >

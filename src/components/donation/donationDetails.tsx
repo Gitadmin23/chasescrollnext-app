@@ -1,7 +1,5 @@
-"use client"
-import useGetDonationList from '@/hooks/useGetDonationList';
-import { IMAGE_URL } from '@/services/urls';
-import { Flex, Image, Text } from '@chakra-ui/react'
+"use client" 
+import { Flex, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import LoadingAnimation from '../sharedComponent/loading_animation';
 import useCustomTheme from '@/hooks/useTheme';
@@ -11,15 +9,14 @@ import UserImage from '../sharedComponent/userimage';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
 import { textLimit } from '@/utils/textlimit';
 import { useRouter } from 'next/navigation';
-import DonationPayment from './donationPayment';
-import DonationItemList from './donationItemList';
+import DonationPayment from './donationPayment'; 
 import usePaystackStore from '@/global-state/usePaystack';
 import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
 import { IoArrowBack } from 'react-icons/io5';
 import DonateUsers from '../sharedComponent/donateUser';
 import { DashboardEditIcon, DashboardOrganizerIcon, WalletIcon } from '../svg';
 import ShareEvent from '../sharedComponent/share_event';
-import useDonationStore from '@/global-state/useDonationState'; 
+import useDonationStore from '@/global-state/useDonationState';
 import BlurredImage from '../sharedComponent/blurred_image';
 import DonationCollaborator from '../create_donation/donationCollaborator';
 import useGetSingleDonationList from '@/hooks/useGetSingleDonation';
@@ -48,7 +45,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
 
     React.useEffect(() => {
         if (!isLoading) {
-            if (!data[0]?.name) {
+            if (!data[0]?.name) { 
 
                 const clone = [{
                     bannerImage: item?.bannerImage,
@@ -72,6 +69,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                 clone[0].collaborators = [...collaborators]
 
                 updateDontion(clone)
+
             }
         }
     }, [isLoading, item])
@@ -110,7 +108,9 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                                 <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
                                 <Text fontSize={"24px"} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
                             </Flex>
-                            <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                            {isDateInPast(item?.endDate) && (
+                                <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                            )}
                         </Flex>
                         <Flex w={["full", "full", "full", "full"]} flexDir={["column", "column", "row", "row"]} >
                             <Flex w={"full"} flexDir={"column"} gap={"4"} pb={"6"} pr={["0px", "0px", "0px", "6", "6"]} borderColor={borderColor} >
@@ -123,7 +123,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                                         <Text fontWeight={"500"} >Date Created</Text>
                                         <Text fontSize={"14px"} >{dateFormat(item?.createdDate)}{" "}{timeFormat(item?.createdDate)}</Text>
                                     </Flex>
-                                    {(item?.createdBy?.userId === userId && isDateInPast(item?.endDate))&& (
+                                    {(item?.createdBy?.userId === userId && isDateInPast(item?.endDate)) && (
                                         <DonationCollaborator update={true} singleData={item} index={0} />
                                     )}
                                 </Flex>
@@ -131,7 +131,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                                     <Flex flexDir={"column"} >
                                         <Text fontWeight={"500"} >End Date</Text>
                                         <Text fontSize={"14px"} >{dateFormat(item?.endDate)}{" "}{timeFormat(item?.endDate)}</Text>
-                                    </Flex> 
+                                    </Flex>
                                 </Flex>
                                 <Flex flexDir={"column"} >
                                     <Text fontWeight={"500"} >Fundraising Description</Text>
@@ -172,10 +172,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                                     <DonationPayment data={item} />
                                 </Flex>
                             )}
-                        </Flex>
-                        {/* {item?.fundRasingGroupId?.id && (
-                            <DonationItemList singleData={item} details={true} />
-                        )} */}
+                        </Flex> 
                         <Flex w={"full"} h={"200px"} display={["block", "block", "none", "none", "none"]} />
                     </Flex>
                 )}

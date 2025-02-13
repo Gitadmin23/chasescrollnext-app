@@ -4,11 +4,14 @@ import { IoIosAdd, IoIosRemove } from 'react-icons/io'
 import CustomButton from '../general/Button'
 import { CartIcon } from '../svg'
 import useCustomTheme from '@/hooks/useTheme'
+import { useRouter } from 'next/navigation'
+import { IProduct } from '@/models/product' 
 
-export default function ProductCheckout() {
+export default function ProductCheckout({item} : {item: IProduct}) {
 
     const { secondaryBackgroundColor } = useCustomTheme()
     const [qty, setQty] = useState(1)
+    const { push } = useRouter()
 
     return (
         <Flex w={"full"} alignItems={"center"} flexDir={["column", "column", "row"]} gap={"4"} mt={"8"} >
@@ -29,7 +32,7 @@ export default function ProductCheckout() {
                     </Flex>
                 </Flex>
             </Flex>
-            <CustomButton text={"Check out"} height={"68px"} fontSize={"sm"} borderRadius={"9999px"} />
+            <CustomButton onClick={()=> push(`/dashboard/kisok/details/${item?.id}/address?qty=${qty}`)} text={"Check out"} height={"68px"} fontSize={"sm"} borderRadius={"9999px"} />
         </Flex>
     )
 }

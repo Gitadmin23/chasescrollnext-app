@@ -62,7 +62,7 @@ export default function RentalCreate() {
                         </Flex>
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Location</Text>
-                            <ProductMap />
+                            <ProductMap location={rentaldata?.location} />
                         </Flex>
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Number of Days available for Rent</Text>

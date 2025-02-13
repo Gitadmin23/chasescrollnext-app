@@ -38,9 +38,9 @@ export default function KisokCreate() {
             <form style={{ maxWidth: "550px" ,width: "100%", display:"flex" }} onSubmit={handleSubmitProduce}>
                 <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={type ? "none" : "flex"} flexDir={"column"}  >
                     <Text fontSize={"24px"} fontWeight={"600"} >Give your product a name</Text>
-                    <Input onChange={(e) => updateProduct({ ...productdata, name: e.target.value })} h={"60px"} />
+                    <Input value={productdata?.name} onChange={(e) => updateProduct({ ...productdata, name: e.target.value })} h={"60px"} />
                     <Text fontSize={"24px"} fontWeight={"500"} >Describe your place to make it stand out</Text>
-                    <Input onChange={(e) => updateProduct({ ...productdata, description: e.target.value })} h={"60px"} />
+                    <Input value={productdata?.description} onChange={(e) => updateProduct({ ...productdata, description: e.target.value })} h={"60px"} />
                     <Text fontSize={"24px"} fontWeight={"500"} >Set your pricing </Text>
                     <Flex w={"full"} p={"4"} flexDirection={"column"} rounded={"16px"} borderWidth={"1px"} gap={"2"} borderColor={"#EAEBEDCC"} >
                         <Flex w={"full"} justifyContent={"space-between"} pb={"2"} borderBottomWidth={"1px"} gap={"2"} alignItems={"center"} >
@@ -60,7 +60,7 @@ export default function KisokCreate() {
                     </Flex>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Quantity</Text>
-                        <Input type="number" onChange={(e) => updateProduct({ ...productdata, quantity: e.target.value })} h={"60px"} />
+                        <Input value={productdata?.quantity}  type="number" onChange={(e) => updateProduct({ ...productdata, quantity: e.target.value })} h={"60px"} />
                     </Flex>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Location</Text>
@@ -70,29 +70,40 @@ export default function KisokCreate() {
                     <SelectCategories rental={false} />
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Price per unit</Text>
-                        <Input type="number" onChange={(e) => updateProduct({ ...productdata, price: e.target.value })} h={"60px"} />
+                        <Input value={productdata?.price} type="number" onChange={(e) => updateProduct({ ...productdata, price: e.target.value })} h={"60px"} />
                     </Flex>
-                    <Text color={primaryColor} ml={"auto"} >Add More Product</Text>
+                    {/* <Text color={primaryColor} ml={"auto"} >Add More Product</Text>
                     <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                         <Text fontWeight={"500"} >Allowed Customers Review</Text>
                         <Switch />
-                    </Flex>
+                    </Flex> */}
                     <CustomButton type='button' _disabled={{ opacity: "0.5", cursor: "not-allowed" }} disable={(!productdata?.name || !productdata?.description || !productdata?.quantity || !productdata?.price) ? true : false} onClick={() => push("/dashboard/kisok/create?type=true")} height={"60px"} borderRadius={"999px"} mt={"4"} text={"Continue"} />
                 </Flex>
 
                 <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={!type ? "none" : "flex"} flexDir={"column"}  >
                     <Text fontSize={"24px"} fontWeight={"600"} >Share pictures of your place</Text>
+                    {/* <Flex w={"full"} h={"340px"} borderColor={"#D9D9D9"} justifyContent={"center"} alignItems={"center"} flexDir={"column"} rounded={"16px"} borderWidth={"1px"} border={"dashed"} >
+                    <GallaryIcon />
+                    <Text fontWeight={"500"} mt={"3"} >Drag pictures here to upload</Text>
+                    <Text fontSize={"14px"} color={"#ACACB0"} >You need at least 5 pictures</Text>
+                </Flex> */}
                     <ProductImagePicker />
                     <Text fontSize={"24px"} fontWeight={"600"} >Delivery Plans</Text>
-                    <Text fontWeight={"500"} >Note:  You are responsible for your product  delivery</Text>
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
                         <Flex as={"button"} onClick={() => setSelected((prev) => prev === "1" ? "" : "1")} p={"6"} w={"full"} rounded={"16px"} justifyContent={"space-between"} bgColor={"#FCFCFC"} alignItems={"center"} borderWidth={"1px"} borderColor={selected === "1" ? primaryColor : "#EAEBEDCC"} >
                             <Flex flexDir={"column"} gap={"2"} alignItems={"start"} >
-                                <Text fontWeight={"500"} >Mandatory product delivery Timeline</Text>
+                                <Text fontWeight={"500"} >Short-term</Text>
                                 <Text fontSize={"14px"} >Within 3-5 Days inside lagos</Text>
                             </Flex>
                             <TruckIcon />
-                        </Flex> 
+                        </Flex>
+                        <Flex as={"button"} onClick={() => setSelected((prev) => prev === "2" ? "" : "2")} p={"6"} w={"full"} rounded={"16px"} justifyContent={"space-between"} bgColor={"#FCFCFC"} alignItems={"center"} borderWidth={"1px"} borderColor={selected === "2" ? primaryColor : "#EAEBEDCC"} >
+                            <Flex flexDir={"column"} gap={"2"} alignItems={"start"} >
+                                <Text fontWeight={"500"} >Long-term</Text>
+                                <Text fontSize={"14px"} >Within 2-3 Weeks outside Lagos</Text>
+                            </Flex>
+                            <TruckIcon />
+                        </Flex>
                     </Flex>
                     <CustomButton isLoading={createProduct?.isLoading || loading} disable={createProduct?.isLoading || loading} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
                 </Flex>

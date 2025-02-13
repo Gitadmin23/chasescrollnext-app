@@ -91,7 +91,9 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                                 <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
                                                 <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.name), 35)}</Text>
                                             </Flex>
-                                            <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                            {!pasted && (
+                                                <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                            )}
                                         </Flex>
                                         <Flex w={"full"} borderWidth={(item?.fundRasingGroupId?.id && !creator && !pasted) ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
                                             {(item?.fundRasingGroupId?.id && !creator && !pasted) && (
@@ -135,7 +137,9 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                                 <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
                                                 <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.name), 35)}</Text>
                                             </Flex>
-                                            <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                            {!pasted && (
+                                                <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                            )}
                                         </Flex>
                                         <Flex w={"full"} borderWidth={(item?.fundRasingGroupId?.id && !creator && !pasted) ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
                                             {(item?.fundRasingGroupId?.id && !creator && !pasted) && (
