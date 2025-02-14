@@ -12,6 +12,7 @@ import { dateFormat } from '@/utils/dateFormat'
 import { IProduct } from '@/models/product'
 import LoadingAnimation from '../sharedComponent/loading_animation'
 import { formatNumber } from '@/utils/numberFormat'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
 
 
 interface IReview {
@@ -40,7 +41,7 @@ export default function ProductRating({ item }: { item: IProduct }) {
         ["review"],
         () => httpService.get(`/reviews/search`, {
             params: {
-                typeId: item
+                typeId: item?.id
             }
         }), {
         onSuccess(data) {
@@ -73,7 +74,7 @@ export default function ProductRating({ item }: { item: IProduct }) {
                                     {/* <Flex rounded={"30px"} roundedTopRight={"0px"} h={"41px"} w={"41px"} bgColor={"blue"} /> */}
                                     <UserImage border={"1px"} image={item?.user?.data?.imgMain?.value} data={item?.user} size={"41px"} />
                                     <Flex flexDir={"column"} >
-                                        <Text fontWeight={"600"} fontSize={"14px"} >Lena Kyles</Text>
+                                        <Text fontWeight={"600"} fontSize={"14px"} >{capitalizeFLetter(item?.user?.firstName)+" "+capitalizeFLetter(item?.user?.lastName)}</Text>
                                         <Flex flexDir={"row"} gap={"1"} >
                                             {[1, 2, 3, 4, 5]?.map((itemNumb) => {
                                                 return (
