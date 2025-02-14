@@ -43,13 +43,13 @@ export default function ProductDetails({ id }: { id: string }) {
             <Flex w={"full"} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} gap={"6"} flexDir={"column"} overflowY={"auto"} overflowX={"hidden"} >
                 <Flex w={"full"} display={["none", "none", "flex"]} justifyContent={"space-between"} >
                     <Text fontSize={"24px"} fontWeight={"700"} >Explore  Marchs on chasescroll Kiosk</Text>
-                    <Flex w={"fit-content"} gap={4} alignItems={"center"} >
+                    {/* <Flex w={"fit-content"} gap={4} alignItems={"center"} >
                         <CustomButton alignItems={"center"} text={"List "} px={"15px"} height={"44px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"160px"} />
                         <Flex as={"button"} w={"40px"} h={"40px"} justifyContent={"center"} alignItems={"center"} >
                             <CartIcon />
                         </Flex>
                         <Flex w={"40px"} h={"40px"} backgroundColor={"red"} borderRadius={"full"} />
-                    </Flex>
+                    </Flex> */}
                 </Flex>
                 <Flex w={"full"} gap={"6"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
@@ -67,7 +67,7 @@ export default function ProductDetails({ id }: { id: string }) {
                                     {item?.images?.map((subitem: string, index: number) => {
                                         if (index !== 0 && index <= 3) {
                                             return (
-                                                <Flex key={index} w={"full"} h={["100px", "150px"]} bgColor={"green"} rounded={"8px"} shadow={"md"} >
+                                                <Flex key={index} w={"full"} h={["100px", "150px"]} bgColor={"black"} rounded={"8px"} shadow={"md"} >
                                                     <Image src={IMAGE_URL + subitem} alt='logo' w={"full"} rounded={"8px"} height={"full"} objectFit={"cover"} />
                                                 </Flex>
                                             )
@@ -77,7 +77,7 @@ export default function ProductDetails({ id }: { id: string }) {
                             </Flex>
                         )}
                         <Flex display={["none", "none", "flex"]} >
-                            <ProductRating item={item?.id} />
+                            <ProductRating item={item} />
                         </Flex>
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
@@ -95,7 +95,7 @@ export default function ProductDetails({ id }: { id: string }) {
                                 <Flex gap={2} alignItems={"center"} >
                                     <Text fontWeight={"500"} >Item Reviews</Text>
                                     <IoStar size={"24px"} color={"#1E1E1E"} />
-                                    <Text fontWeight={"500"} >8.7</Text>
+                                    <Text fontWeight={"500"} >{item?.rating}</Text>
                                 </Flex>
                             </Flex>
                             <Flex alignItems={"center"} >
@@ -106,25 +106,7 @@ export default function ProductDetails({ id }: { id: string }) {
                             <UserImage image={item?.creator?.data?.imgMain?.value} size={"32px"} border={"1px"} data={item?.creator} />
                             <Text fontSize={"12px"} fontWeight={"500"} >Sold by {capitalizeFLetter(item?.creator?.firstName) + " " + capitalizeFLetter(item?.creator?.lastName)}</Text>
                             <CustomButton text={"Message"} fontSize={"xs"} height={"23px"} width={"89px"} borderRadius={"999px"} />
-                        </Flex>
-                        {/* <Flex w={"full"} gap={"2"} alignItems={"center"} >
-                            <Text color={"#434344"} >Event</Text>
-                            <Flex w={"full"} h={"1px"} bgColor={"#B6B6B633"} />
-                        </Flex>
-                        <Flex w={"full"} rounded={"16px"} gap={"3"} borderWidth={"2px"} borderColor={"#F1F1F1"} p={"3"} >
-                            <Flex w={"full"} h={"145px"} bgColor={"gray"} rounded="16px" roundedTopRight={"0px"} />
-                            <Flex w={"full"} flexDirection={"column"} gap={"1"} >
-                                <Flex fontSize={"8px"} fontWeight={"700"} justifyContent={"center"} alignItems={"center"} bgColor={"#233DF31A"} rounded={"32px"} h={"24px"} w={"65px"} >
-                                    3 Ticket left
-                                </Flex>
-                                <Text fontSize={"18px"} fontWeight={"600"}  >Designing for Universe musk 2,0</Text>
-                                <Text color={headerTextColor} fontSize={"12px"} fontWeight={"500"} >Thursday, August 15 · 7 - 8pm WAT</Text>
-                                <Flex alignItems={"center"} gap={"2"} >
-                                    <LocationIcon_2 />
-                                    <Text fontSize={"12px"} >State farm arena, ATL</Text>
-                                </Flex>
-                            </Flex>
-                        </Flex> */}
+                        </Flex> 
                         <Flex display={["none", "none", "flex"]} >
                             <ProductCheckout item={item} />
                         </Flex>
@@ -151,7 +133,7 @@ export default function ProductDetails({ id }: { id: string }) {
                             <Text fontWeight={"500"} fontSize={"12px"} >Purchase protection</Text>
                         </Flex>
                         <Flex display={["flex", "flex", "none"]} >
-                            <ProductRating item={item?.id} />
+                            <ProductRating item={item} />
                         </Flex>
                         <Flex display={["flex", "flex", "none"]} >
                             <ProductCheckout item={item} />
