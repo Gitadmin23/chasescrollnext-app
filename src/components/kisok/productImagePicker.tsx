@@ -33,7 +33,6 @@ export default function ProductImagePicker() {
             arrs.push(Files[i]);
         }
         updateImage([...image, ...arrs]);
-        // updateImage([...image, URL?.createObjectURL(arrs)]);
     }, []);
 
     const handlePick = React.useCallback((data: FileList) => {
@@ -42,14 +41,9 @@ export default function ProductImagePicker() {
         handleImagePicked(data);
     }, [handleImagePicked]);
 
-    // const emptyFiles = React.useCallback(() => {
-    //     updateImage([]);
-    // }, []);
-
     const removeFile = (index: number) => {
         if (image.length === 1) {
             updateImage(image.filter((_: any, i: any) => i !== index));
-            // setStage(1);
             return;
         }
         updateImage(image.filter((_: any, i: any) => i !== index));
@@ -68,21 +62,22 @@ export default function ProductImagePicker() {
             </Flex>
 
             <Flex w={"full"}  >
-
-                <Flex w={"full"} overflowX={"auto"} >
-                    <Flex w={"fit-content"} py={"2"} gap={"3"} >
-                        {productdata?.images?.map((item, index) => {
-                            return (
-                                <Flex key={index} w={"12"} h={"12"} rounded={"md"} roundedTopRight={"0px"} borderWidth={fileIndex === index ? "2px" : "1px"} borderColor={fileIndex === index ? "#233CF3" : "gray"} pos={"relative"} justifyContent={"center"} alignItems={"center"} >
-                                    <Flex as={"button"} onClick={() => removeFile(index)} w={"4"} h={"4"} color={"white"} bg={"black"} rounded={"full"} justifyContent={"center"} alignItems={"center"} pos={"absolute"} top={"-1"} right={"-1"} zIndex={"10"}  >
-                                        <IoClose size="15px" />
+                {productdata?.images?.length > 0 && (
+                    <Flex w={"full"} overflowX={"auto"} >
+                        <Flex w={"fit-content"} py={"2"} gap={"3"} >
+                            {productdata?.images?.map((item, index) => {
+                                return (
+                                    <Flex key={index} w={"12"} h={"12"} rounded={"md"} roundedTopRight={"0px"} borderWidth={fileIndex === index ? "2px" : "1px"} borderColor={fileIndex === index ? "#233CF3" : "gray"} pos={"relative"} justifyContent={"center"} alignItems={"center"} >
+                                        <Flex as={"button"} onClick={() => removeFile(index)} w={"4"} h={"4"} color={"white"} bg={"black"} rounded={"full"} justifyContent={"center"} alignItems={"center"} pos={"absolute"} top={"-1"} right={"-1"} zIndex={"10"}  >
+                                            <IoClose size="15px" />
+                                        </Flex>
+                                        <Image src={IMAGE_URL + item} alt='image' width={'100%'} height={'100%'} rounded={"md"} roundedTopRight={"0px"} objectFit={'cover'} />
                                     </Flex>
-                                    <Image src={IMAGE_URL + item} alt='image' width={'100%'} height={'100%'} rounded={"md"} roundedTopRight={"0px"} objectFit={'cover'} />
-                                </Flex>
-                            )
-                        })}
+                                )
+                            })}
+                        </Flex>
                     </Flex>
-                </Flex>
+                )}
                 {image && (
                     <>
                         {image?.length > 0 && (

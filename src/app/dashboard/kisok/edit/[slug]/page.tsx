@@ -42,9 +42,7 @@ export default function KisokCreate(
         "price":productdata?.price, 
         "category": productdata?.category,
         "location": productdata?.location 
-    }, id: id })
-    console.log(productdata);
-
+    }, id: id }) 
 
     const { isLoading } = useQuery(
         ["products", id],
@@ -110,8 +108,7 @@ export default function KisokCreate(
                     </Flex>
 
                     <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={!type ? "none" : "flex"} flexDir={"column"}  >
-                        <Text fontSize={"24px"} fontWeight={"600"} >Share pictures of your place</Text>
-
+                        <Text fontSize={"24px"} fontWeight={"600"} >Share pictures of your place</Text> 
                         <ProductImagePicker />
                         <Text fontSize={"24px"} fontWeight={"600"} >Delivery Plans</Text>
                         <Flex w={"full"} flexDir={"column"} gap={"3"} >

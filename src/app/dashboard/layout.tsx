@@ -2,7 +2,7 @@
 import { useDetails } from '@/global-state/useUserDetails'
 import { Box, Button, Flex, HStack, Image, Link, Switch, Tooltip, VStack, useColorMode } from '@chakra-ui/react'
 import React, { ReactNode, useState } from 'react'
-import { NewChatIcon, NewWalletIcon, NotificationIcon, SidebarCalendarIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarSearchIcon, SidebarWalletIcon } from '@/components/svg/sidebarIcons';
+import { KisokIcon, NewChatIcon, NewWalletIcon, NotificationIcon, SidebarCalendarIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarSearchIcon, SidebarWalletIcon } from '@/components/svg/sidebarIcons';
 import { usePathname, useRouter } from 'next/navigation';
 import SearchBar from '@/components/explore_component/searchbar';
 import { signOut, useSession } from 'next-auth/react';
@@ -60,6 +60,11 @@ export default function Layout({ children }: {
             text: 'Chats'
         },
         {
+            route: '/dashboard/kisok',
+            icon: <KisokIcon color={pathname === "/dashboard/kisok" ? true : false} />,
+            text: 'Kisok'
+        },
+        {
             route: '/dashboard/community',
             icon: <SidebarEventIcon color={pathname === "/dashboard/community" ? true : false} />,
             text: 'Community'
@@ -115,8 +120,7 @@ export default function Layout({ children }: {
         }
     }, [STATUS, router]);
 
-    const { count } = useNotificationHook()
-
+    const { count } = useNotificationHook() 
 
     return (
         <Flex w={"full"} h={"100vh"} overflowY={"hidden"} bg={mainBackgroundColor} >
