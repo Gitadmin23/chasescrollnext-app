@@ -34,7 +34,7 @@ export default function SelectCategories({ rental }: { rental: boolean }) {
         <Flex gap={"2"} w={"full"} flexDir={"column"} >
             <Text fontWeight={"500"} >Category (optional)</Text>
             {!rental && (
-                <Select onChange={(e) => changeHandler(e.target.value)} h={"60px"} placeholder='Select Product Type' >
+                <Select onChange={(e) => changeHandler(e.target.value)} value={productdata?.category} h={"60px"} placeholder='Select Product Type' >
                     {data?.data?.map((item: string, index: number) => (
                         <option key={index} >{item}</option>
                     ))}
