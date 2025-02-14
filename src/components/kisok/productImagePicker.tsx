@@ -32,24 +32,18 @@ export default function ProductImagePicker() {
         for (let i = 0; i < Files.length; i++) {
             arrs.push(Files[i]);
         }
-        updateImage([...image, ...arrs]);
-        // updateImage([...image, URL?.createObjectURL(arrs)]);
+        updateImage([...image, ...arrs]); 
     }, []);
 
     const handlePick = React.useCallback((data: FileList) => {
         console.log(data);
 
         handleImagePicked(data);
-    }, [handleImagePicked]);
-
-    // const emptyFiles = React.useCallback(() => {
-    //     updateImage([]);
-    // }, []);
+    }, [handleImagePicked]); 
 
     const removeFile = (index: number) => {
         if (image.length === 1) {
-            updateImage(image.filter((_: any, i: any) => i !== index));
-            // setStage(1);
+            updateImage(image.filter((_: any, i: any) => i !== index)); 
             return;
         }
         updateImage(image.filter((_: any, i: any) => i !== index));
