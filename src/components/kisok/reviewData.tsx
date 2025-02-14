@@ -7,6 +7,7 @@ import { FaRegStar, FaStar } from 'react-icons/fa'
 import CustomButton from '../general/Button'
 import useProduct from '@/hooks/useProduct'
 import { IProduct } from '@/models/product'
+import { useQueryClient } from 'react-query'
 
 export default function ReviewData({item}: {item: string}) {
 

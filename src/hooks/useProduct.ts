@@ -435,6 +435,7 @@ const useProduct = (item?: any, rental?: boolean) => {
             })
             setAddressId("")
             setOpen(false)
+            query.invalidateQueries("review")
         },
         onError: () => { },
     });

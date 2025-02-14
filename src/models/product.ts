@@ -21,6 +21,7 @@ export interface IProduct {
     "hasDiscount": boolean,
     "discountPrice": number,
     "published": boolean,
+    rating: number
     "location": {
         "link": string,
         "address": string,
