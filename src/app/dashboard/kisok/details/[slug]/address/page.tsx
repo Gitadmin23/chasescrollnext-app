@@ -2,7 +2,7 @@
 import CustomButton from '@/components/general/Button'
 import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
-import ModalLayout from '@/components/sharedComponent/modal_layout' 
+import ModalLayout from '@/components/sharedComponent/modal_layout'
 import useGetUser from '@/hooks/useGetUser'
 import useProduct from '@/hooks/useProduct'
 import useCustomTheme from '@/hooks/useTheme'
@@ -15,6 +15,7 @@ import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { FaCheckCircle, FaEdit } from 'react-icons/fa'
+import { ImCheckboxChecked } from 'react-icons/im'
 import { IoIosAdd } from 'react-icons/io'
 import { IoTrashBin } from 'react-icons/io5'
 import { useQuery } from 'react-query'
@@ -50,7 +51,7 @@ export default function ShippingAddress(
     const query = useSearchParams();
     const type = query?.get('qty');
 
-    const { createAddress, setOpen, open, payload, setPayload, userId, editAddress, setAddressId, addressId, openDelete, setOpenDelete, deleteAddress, addressDefault, setAddressDefault, createProductOrder, configPaystack, setPaystackConfig } = useProduct()
+    const { createAddress, setOpen, open, payload, setPayload, userId, editAddress, setAddressId, addressId, openDelete, setOpenDelete, deleteAddress, addressDefault, setAddressDefault, createProductOrder, configPaystack, setPaystackConfig, updateAddress } = useProduct()
     const toast = useToast()
     const [address, setAddress] = useState<Array<IProps>>([])
 
@@ -83,8 +84,6 @@ export default function ShippingAddress(
         },
     }
     );
-
-    const { push } = useRouter()
 
     const clickHandler = () => {
         if (!payload?.state || !payload?.lga || !payload?.phone || !payload?.landmark) {
@@ -128,6 +127,20 @@ export default function ShippingAddress(
         setOpenDelete(true)
     }
 
+    const changeStatus = (item: IProps) => {
+        setAddressId(item?.id)
+        updateAddress?.mutate(
+            {id:item?.id, payload: {
+                state: item?.state,
+                lga: item?.lga,
+                phone: item?.phone,
+                isDefault: true,
+                landmark: item?.landmark,
+                userId: userId,
+            }}
+        )
+    }
+
     return (
         <Flex w={"full"} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} flexDir={"column"} gap={"6"} overflowY={"auto"} overflowX={"hidden"} >
             <Flex alignItems={"center"} gap={"1"} >
@@ -138,7 +151,6 @@ export default function ShippingAddress(
                 <Flex flexDir={"column"} w={"full"} gap={"6"} >
                     <LoadingAnimation loading={isLoading} >
                         {address?.map((item, index) => {
-
                             return (
                                 <Flex key={index} w={"full"} p={"6"} gap={"4"} rounded={"8px"} shadow={"lg"} flexDir={"column"} >
                                     <Flex w={"full"} justifyContent={"space-between"} >
@@ -153,7 +165,9 @@ export default function ShippingAddress(
                                         </Flex>
                                     </Flex>
                                     <Flex w={"full"} alignItems={"start"} gap={"4"} >
-                                        <Checkbox isChecked={true} />
+                                        <Flex onClick={() => changeStatus(item)} >
+                                            <Checkbox isChecked={addressDefault === item?.id ? true : false} />
+                                        </Flex>
                                         <Flex flexDir={"column"} gap={"1"} >
                                             <Text fontSize={"14px"} fontWeight={"500"} >{capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName)}</Text>
                                             <Text>{item?.state}</Text>
@@ -217,7 +231,7 @@ export default function ShippingAddress(
                     </Flex>
                     <Flex flexDir={"column"} w={"full"} gap={"1"} >
                         <Text>Phone Number</Text>
-                        <Input value={payload?.phone} type='number' placeholder='Select Land Mark' onChange={(e) => setPayload({ ...payload, phone: e.target.value })} />
+                        <Input value={payload?.phone} type='number' placeholder='Enter Phone Number' onChange={(e) => setPayload({ ...payload, phone: e.target.value })} />
                     </Flex>
                     <Flex flexDir={"column"} w={"full"} gap={"1"} >
                         <Text>Land Mark</Text>
@@ -237,7 +251,7 @@ export default function ShippingAddress(
                     </Flex>
                 </Flex>
             </ModalLayout>
-            <Fundpaystack id={item?.id} config={configPaystack} setConfig={setPaystackConfig}/>
+            <Fundpaystack id={item?.id} config={configPaystack} setConfig={setPaystackConfig} />
         </Flex>
     )
 }

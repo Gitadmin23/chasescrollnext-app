@@ -1,43 +1,70 @@
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Text } from '@chakra-ui/react'
-import React from 'react'
+import React, { useState } from 'react'
 import { IoStar } from 'react-icons/io5'
 import ReviewData from './reviewData'
+import { FaRegStar, FaStar } from 'react-icons/fa'
+import { useQuery } from 'react-query'
+import httpService from '@/utils/httpService'
 
-export default function ProductRating({item} : {item: string}) {
+export default function ProductRating({ item }: { item: string }) {
 
-    const { borderColor } = useCustomTheme()
+    const { borderColor, primaryColor } = useCustomTheme()
+
+    const [data, setItem] = useState({} as any) 
+
+    const { isLoading } = useQuery(
+        ["review"],
+        () => httpService.get(`/reviews/search`, {
+            params: {
+                typeId: item
+            }
+        }), {
+        onSuccess(data) {
+            console.log(data);
+            
+            // setItem(data?.data?.content[0])
+        }
+    });
 
     return (
-        <Flex maxW={"full"} flexDir={"column"} gap={"4"} >
-            <Flex overflowX={"auto"} >
-                <Flex w={"auto"} gap={"4"} >
-                    <Text fontSize={"20px"} w={"130px"} fontWeight={"600"} textDecor={"underline"} >Reviews (100)</Text>
-                    <Flex h={"32px"} w={"101px"} rounded={"64px"} borderWidth={"1px"} borderColor={borderColor} justifyContent={"center"} alignItems={"center"} >
-                        <Text fontSize={"13px"} fontWeight={"500"} >Good (34)</Text>
+        <Flex flex={"1"} flexDir={"column"} gap={"3"} flexDirection={"column"} >
+            <Flex maxW={"full"} overflowX={"auto"} >
+                <Flex alignItems={"center"} gap={"2"} >
+                    <FaStar size={"40px"} color='#EFD414' />
+                    <Text fontWeight={"700"} >4.0</Text>
+                    <Flex w={"fit-content"} >
+                        <Flex w={"8px"} h={"8px"} rounded={"full"} bgColor={borderColor} />
                     </Flex>
-                    <Flex h={"32px"} w={"101px"} rounded={"64px"} borderWidth={"1px"} borderColor={borderColor} justifyContent={"center"} alignItems={"center"} >
-                        <Text fontSize={"13px"} fontWeight={"500"} >Satisfied (43)</Text>
-                    </Flex>
-                    <Flex h={"32px"} w={"101px"} rounded={"64px"} borderWidth={"1px"} borderColor={borderColor} justifyContent={"center"} alignItems={"center"} >
-                        <Text fontSize={"13px"} fontWeight={"500"} >Satisfied (43)</Text>
-                    </Flex>
+                    <Text fontWeight={"700"}>234 Recommendations</Text>
+                    <Text fontSize={"14px"} w={"120px"} fontWeight={"500"} ml={"9"} >See Review</Text>
                     <ReviewData item={item} />
                 </Flex>
             </Flex>
-            <Flex flexDir={"column"} gap={"4"} mt={"4"} >
-                {[1, 2, 3, 4]?.map((item) => (
-                    <Flex key={item} flexDir={"column"} gap={"2"} >
-                        <Flex gap={"2"} alignItems={"center"} >
-                            <IoStar size={"24px"} color={"#1E1E1E"} />
-                            <IoStar size={"24px"} color={"#1E1E1E"} />
-                            <IoStar size={"24px"} color={"#1E1E1E"} />
-                            <IoStar size={"24px"} color={"#1E1E1E"} />
-                            <IoStar size={"24px"} color={"#D5D6DE"} />
+            <Flex flexDirection={"column"} pt={"6"} gap={"3"} >
+                <Flex flexDir={"column"} gap={"2"} >
+                    <Flex alignItems={"center"} gap={"2"} >
+                        <Flex rounded={"30px"} roundedTopRight={"0px"} h={"41px"} w={"41px"} bgColor={"blue"} />
+                        <Flex flexDir={"column"} >
+                            <Text fontWeight={"600"} fontSize={"14px"} >Lena Kyles</Text>
+                            <Flex flexDir={"row"} gap={"1"} >
+                                {[1, 2, 3, 4, 5]?.map((item) => {
+                                    return (
+                                        <Flex key={item} >
+                                            {(item > 3) ? (
+                                                <FaRegStar size={"15px"} />
+                                            ) : (
+                                                <FaStar color='#FBBD08' size={"15px"} />
+                                            )}
+                                        </Flex>
+                                    )
+                                })}
+                            </Flex>
+                            <Text fontSize={"12px"} >May 03, 2023, 12:56</Text>
                         </Flex>
-                        <Text ><span style={{ fontWeight: "500", fontSize: "20px" }} >Archibong Felix:</span> Lorem ipsum dolor sit amet cons, lorem ipsum dolor sit cons, Lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet cons, l</Text>
                     </Flex>
-                ))}
+                    <Text fontSize={"14px"} >Lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet cons, Lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet con, Lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet con</Text>
+                </Flex>
             </Flex>
         </Flex>
     )

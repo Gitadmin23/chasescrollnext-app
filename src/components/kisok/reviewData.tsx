@@ -31,9 +31,15 @@ export default function ReviewData({item}: {item: string}) {
                 position: "top-right",
             });
         } else {
-            createReview.mutate(reviewPayload)
+            createReview.mutate({...reviewPayload, typeId: item})
         }
     }
+
+    useEffect(()=> {
+        if(createReview?.isSuccess) {
+            setOpen(false)
+        }
+    }, [createReview?.isSuccess])
 
     return (
         <div>
@@ -41,7 +47,7 @@ export default function ReviewData({item}: {item: string}) {
             <ModalLayout open={open} close={setOpen} closeIcon={true} >
                 <Flex w={"full"} flexDir={"column"} p={"4"} >
                     <Flex borderBottomWidth={"1px"} pb={"1"} w={"full"} >
-                        <Text>Chasescroll's customer review</Text>
+                        <Text>{`Chasescroll's customer review`}</Text>
                     </Flex>
                     <Flex flexDir={"column"} w={"full"} gap={"4"} >
                         {/* <Flex flexDir={"column"} w={"full"} gap={"1"} pt={"3"} >
@@ -70,7 +76,7 @@ export default function ReviewData({item}: {item: string}) {
                                 })}
                             </Flex>
                         </Flex>
-                        <CustomButton onClick={clickHandler} text={"Submit"} fontSize={"sm"} borderRadius={"999px"} />
+                        <CustomButton isLoading={createReview?.isLoading} mt={"4"} onClick={clickHandler} text={"Submit"} fontSize={"sm"} borderRadius={"999px"} />
                     </Flex>
                 </Flex>
             </ModalLayout>
