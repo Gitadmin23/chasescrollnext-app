@@ -54,6 +54,7 @@ export default function ShippingAddress(
     const { createAddress, setOpen, open, payload, setPayload, userId, editAddress, setAddressId, addressId, openDelete, setOpenDelete, deleteAddress, addressDefault, setAddressDefault, createProductOrder, configPaystack, setPaystackConfig, updateAddress } = useProduct()
     const toast = useToast()
     const [address, setAddress] = useState<Array<IProps>>([])
+    const [city, setCity] = useState<Array<any>>([]) 
 
 
     const { user } = useGetUser()
