@@ -67,7 +67,7 @@ export default function ProductDetails({ id }: { id: string }) {
                                     {item?.images?.map((subitem: string, index: number) => {
                                         if (index !== 0 && index <= 3) {
                                             return (
-                                                <Flex w={"full"} h={["100px", "150px"]} bgColor={"green"} rounded={"8px"} shadow={"md"} >
+                                                <Flex key={index} w={"full"} h={["100px", "150px"]} bgColor={"green"} rounded={"8px"} shadow={"md"} >
                                                     <Image src={IMAGE_URL + subitem} alt='logo' w={"full"} rounded={"8px"} height={"full"} objectFit={"cover"} />
                                                 </Flex>
                                             )

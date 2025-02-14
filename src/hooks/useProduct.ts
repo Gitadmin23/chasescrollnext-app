@@ -63,12 +63,12 @@ const useProduct = (item?: any, rental?: boolean) => {
             if (item[field] === "" || item[field] === null || item[field] === undefined) {
                 return false; // Field is empty
             }
-            console.log(field);
 
             // Special check for arrays (e.g., images)
             if (Array.isArray(item[field]) && item[field].length === 0) {
                 return false; // Array is empty
             }
+            console.log(field);
         }
 
         return true; // All fields are valid
@@ -159,22 +159,18 @@ const useProduct = (item?: any, rental?: boolean) => {
 
     const handleEditSubmitProduce = (e: any) => {
         e.preventDefault();
-        if (validateItemProduct(item)) {
-
-            editProduct?.mutate(removeEmptyValues(item))
-
-        } else {
-
-            toast({
-                title: "error",
-                description: "Please fill all fields.",
-                status: "error",
-                isClosable: true,
-                duration: 5000,
-                position: "top-right",
-            });
-            console.log("Item has empty fields. Please fill all fields.");
-        }
+        // if (validateItemProduct(item)) { 
+            editProduct?.mutate(removeEmptyValues(item)) 
+        // } else { 
+        //     toast({
+        //         title: "error",
+        //         description: "Please fill all fields.",
+        //         status: "error",
+        //         isClosable: true,
+        //         duration: 5000,
+        //         position: "top-right",
+        //     }); 
+        // }
     };
 
     const handleSubmitRental = (e: any) => {
@@ -210,14 +206,14 @@ const useProduct = (item?: any, rental?: boolean) => {
 
     const createProduct = useMutation({
         mutationFn: (data: {
-            "creatorID": "string",
-            "name": "string",
-            "description": "string",
+            "creatorID": "",
+            "name": "",
+            "description": "",
             "images": [
-                "string"
+                ""
             ],
             "price": null,
-            "category": "string",
+            "category": "",
             "quantity": null,
             "hasDiscount": true,
             "discountPrice": null,
@@ -240,24 +236,54 @@ const useProduct = (item?: any, rental?: boolean) => {
         onError: () => { },
     });
 
+    // const addressStatus = useMutation({
+    //     mutationFn: (data: {
+    //         "creatorID": "string",
+    //         "name": "string",
+    //         "description": "string",
+    //         "images": [
+    //             "string"
+    //         ],
+    //         "price": null,
+    //         "category": "string",
+    //         "quantity": null,
+    //         "hasDiscount": true,
+    //         "discountPrice": null,
+    //         "publish": true
+    //     }) =>
+    //         httpService.post(
+    //             `/addresses/update/${id}`, data
+    //         ),
+    //     onSuccess: (data: any) => {
+    //         toast({
+    //             title: "Created Product Successfully",
+    //             description: "",
+    //             status: "success",
+    //             isClosable: true,
+    //             duration: 5000,
+    //             position: "top-right",
+    //         });
+    //         reset()
+    //     },
+    //     onError: () => { },
+    // });
+
     const editProduct = useMutation({
         mutationFn: (data: {
-            payload: {
-                "creatorID": "string",
-                "name": "string",
-                "description": "string",
+            payload: { 
+                "name": "",
+                "description": "",
                 "images": [
-                    "string"
+                    ""
                 ],
                 "price": null,
-                "category": "string",
+                "category": "",
                 "quantity": null,
                 "hasDiscount": true,
-                "discountPrice": null,
-                "publish": true
+                "discountPrice": null, 
             }, id: string
         }) =>
-            httpService.post(
+            httpService.patch(
                 `/products/${data?.id}`, data?.payload
             ),
         onSuccess: (data: any) => {
@@ -315,14 +341,7 @@ const useProduct = (item?: any, rental?: boolean) => {
     });
 
     const editAddress = useMutation({
-        mutationFn: (data: {
-            "state": "",
-            "lga": "",
-            "phone": "",
-            "landmark": "",
-            "userId": "",
-            "isDefault": true
-        }) =>
+        mutationFn: (data: any) =>
             httpService.put(
                 `/addresses/update/${addressId}`, data
             ),
@@ -333,10 +352,26 @@ const useProduct = (item?: any, rental?: boolean) => {
                 "phone": "",
                 "landmark": "",
                 "userId": userId,
-                "isDefault": true
+                "isDefault": false
             })
             setAddressId("")
             setOpen(false)
+            query?.invalidateQueries("addressuser")
+        },
+        onError: () => { },
+    });
+
+    const updateAddress = useMutation({
+        mutationFn: (data: {
+            payload: any,
+            id: string
+        }) =>
+            httpService.put(
+                `/addresses/update/${data?.id}`, data?.payload
+            ),
+        onSuccess: (data: any) => {  
+            setOpen(false)
+            query?.invalidateQueries("addressuser")
         },
         onError: () => { },
     });
@@ -372,6 +407,7 @@ const useProduct = (item?: any, rental?: boolean) => {
             })
             setAddressId("")
             setOpen(false)
+            query?.invalidateQueries("addressuser")
         },
         onError: () => { },
     });
@@ -467,7 +503,9 @@ const useProduct = (item?: any, rental?: boolean) => {
         createReview,
         reviewPayload,
         setReviewPayload,
-        handleEditSubmitProduce
+        handleEditSubmitProduce,
+        updateAddress,
+        editProduct
     };
 
 }
