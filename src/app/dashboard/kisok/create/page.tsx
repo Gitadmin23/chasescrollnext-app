@@ -9,7 +9,7 @@ import { GallaryIcon, PhotoIcon, SuccessIcon, TruckIcon } from '@/components/svg
 import useProductStore, { CreateProduct } from '@/global-state/useCreateProduct'
 import useProduct from '@/hooks/useProduct'
 import useCustomTheme from '@/hooks/useTheme'
-import { Flex, Input, Switch, Text } from '@chakra-ui/react'
+import { Flex, Input, Switch, Text, Textarea } from '@chakra-ui/react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { IoArrowBack } from 'react-icons/io5'
@@ -40,9 +40,9 @@ export default function KisokCreate() {
                     <Text fontSize={"24px"} fontWeight={"600"} >Give your product a name</Text>
                     <Input onChange={(e) => updateProduct({ ...productdata, name: e.target.value })} h={"60px"} />
                     <Text fontSize={"24px"} fontWeight={"500"} >Describe your place to make it stand out</Text>
-                    <Input onChange={(e) => updateProduct({ ...productdata, description: e.target.value })} h={"60px"} />
+                    <Textarea onChange={(e) => updateProduct({ ...productdata, description: e.target.value })} h={"60px"} />
                     <Text fontSize={"24px"} fontWeight={"500"} >Set your pricing </Text>
-                    <Flex w={"full"} p={"4"} flexDirection={"column"} rounded={"16px"} borderWidth={"1px"} gap={"2"} borderColor={"#EAEBEDCC"} >
+                    {/* <Flex w={"full"} p={"4"} flexDirection={"column"} rounded={"16px"} borderWidth={"1px"} gap={"2"} borderColor={"#EAEBEDCC"} >
                         <Flex w={"full"} justifyContent={"space-between"} pb={"2"} borderBottomWidth={"1px"} gap={"2"} alignItems={"center"} >
                             <Flex flexDir={"column"} >
                                 <Text fontWeight={"500"} >Free</Text>
@@ -57,7 +57,7 @@ export default function KisokCreate() {
                             </Flex>
                             <Switch />
                         </Flex>
-                    </Flex>
+                    </Flex> */}
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Quantity</Text>
                         <Input type="number" onChange={(e) => updateProduct({ ...productdata, quantity: e.target.value })} h={"60px"} />
@@ -72,11 +72,11 @@ export default function KisokCreate() {
                         <Text fontWeight={"500"} >Price per unit</Text>
                         <Input type="number" onChange={(e) => updateProduct({ ...productdata, price: e.target.value })} h={"60px"} />
                     </Flex>
-                    <Text color={primaryColor} ml={"auto"} >Add More Product</Text>
+                    {/* <Text color={primaryColor} ml={"auto"} >Add More Product</Text>
                     <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                         <Text fontWeight={"500"} >Allowed Customers Review</Text>
                         <Switch />
-                    </Flex>
+                    </Flex> */}
                     <CustomButton type='button' _disabled={{ opacity: "0.5", cursor: "not-allowed" }} disable={(!productdata?.name || !productdata?.description || !productdata?.quantity || !productdata?.price) ? true : false} onClick={() => push("/dashboard/kisok/create?type=true")} height={"60px"} borderRadius={"999px"} mt={"4"} text={"Continue"} />
                 </Flex>
 
