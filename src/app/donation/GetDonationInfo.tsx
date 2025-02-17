@@ -13,11 +13,11 @@ export default function GetDonationInfo({ id }: { id: string }) {
     return (
         <LoadingAnimation loading={isLoading} >
             <Flex w={"full"} overflowY={"auto"} >
-                {item?.totalInGroup ? (
+                {/* {item?.totalInGroup ? (
                     <DonationGroupDetails id={id} notAuth={true} />
-                ) : (
+                ) : ( */}
                     <DonationDetails id={id} notAuth={true} />
-                )}
+                {/* )} */}
             </Flex>
         </LoadingAnimation>
     )
