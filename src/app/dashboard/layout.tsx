@@ -123,7 +123,7 @@ export default function Layout({ children }: {
     const { count } = useNotificationHook() 
 
     return (
-        <Flex w={"full"} h={"100vh"} fontFamily={"Satoshi-Regular"} overflowY={"hidden"} bg={mainBackgroundColor} >
+        <Flex w={"full"} h={"100vh"} overflowY={"hidden"} bg={mainBackgroundColor} >
             {(pathname !== ("/dashboard/donation/create") && !pathname?.includes("/donation/edit") && pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
                 <Flex w={"fit-content"} h={"screen"} display={["none", "none", "none", "flex", "flex"]} >
                     <Flex w={"110px"} h={"screen"} gap={"4"} overflowY={"auto"} flexDir={"column"} py={"4"} alignItems={"center"} justifyContent={"space-between"} borderRightColor={borderColor} borderRightWidth={"1px"} >
