@@ -52,7 +52,7 @@ function DonateUsers(props: Props) {
             <Flex w={donationDetail ? "full" : "fit-content"} justifyContent={"space-between"} alignItems={"center"} >
                 {donationDetail && (
                     <Flex flexDir={"column"} >
-                        <Text fontWeight={"600"} >People who donated</Text>
+                        <Text fontWeight={"600"} >User Donation</Text>
                         <Text fontSize={"12px"} color={bodyTextColor} >{formatNumber(data?.data?.totalElements, "")} users donated already</Text>
                     </Flex>
                 )}
@@ -63,8 +63,8 @@ function DonateUsers(props: Props) {
                     }, index: number) => {
                         if (index <= 2) {
                             return (
-                                <Box key={index} ml={index === 0 ? "0px" : "-35px"} >
-                                    <UserImage data={item?.buyer} size={size} image={item?.buyer?.data?.imgMain?.value} font={fontSize + "px"} border={border} />
+                                <Box key={index} ml={index === 0 ? "0px" : "-20px"} >
+                                    <UserImage data={item?.buyer} allrounded={true} size={size} image={item?.buyer?.data?.imgMain?.value} font={fontSize + "px"} border={border} />
                                 </Box>
                             )
                         }
