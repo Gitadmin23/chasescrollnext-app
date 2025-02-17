@@ -54,7 +54,7 @@ function CustomButton({
       _hover={{
         backgroundColor: backgroundColor
       }}
-      fontFamily={'DM-Regular'}
+      fontFamily={'Satoshi-Regular'}
     >
       {icon && (
         <>
