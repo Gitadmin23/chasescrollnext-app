@@ -1,15 +1,15 @@
-import { IBuisness } from "./Business";
+import { IBuisness, ISocialMediaHandles } from "./Business";
 import { IServiceCategory } from "./ServiceCategory";
 import { IUser } from "./User"
 
 export type IService = {
-        "id": string;
-        vendor: IBuisness;
+        id: string;
+        name: string;
+        vendor: IUser;
         service: IServiceCategory;
         price: number;
         hasFixedPrice: boolean;
         discount: number;
-        serviceID: string;
         "openingHours": Array<{
                 "startTime": number,
                 "endTime": number,
@@ -18,5 +18,13 @@ export type IService = {
         images: Array<string>;
         description: string;
         rating: number;
+        vendorID: string;
+        category: string;
+        email: string
+        address: string;
+        isOnline: boolean;
+        phone: string;
+        socialMediaHandles: Array<ISocialMediaHandles>;
+        createdDate: number;
 }
 

@@ -13,7 +13,7 @@ import { useDetails } from '@/global-state/useUserDetails';
 
 function BookingDetails() {
 
-    const [business, setBusiness] = React.useState<IBooking|null>(null);
+    const [business, setBusiness] = React.useState<IBooking | null>(null);
     const { userId } = useDetails((state) => state);
 
 
@@ -21,7 +21,7 @@ function BookingDetails() {
     const toast = useToast();
     const router = useRouter();
     const id = param?.id;
-    
+
 
     const { isLoading, } = useQuery(['get-my-businesses', id], () => httpService.get('/booking/search', {
         params: {
@@ -32,40 +32,40 @@ function BookingDetails() {
             console.log(data?.data?.content)
             const item: PaginatedResponse<IBooking> = data.data;
             setBusiness(item.content[0]);
-        
+
         }
     })
-  return (
-    <Box flex={1} w='full' overflowY={'auto'}>
-        <VStack w='full' px={['20px', '0px']} overflowY={'auto'}>
-            <VStack w={['100%', '40%']}  overflowY={'auto'} pb='30px'>
-                <HStack w='full' h='60px' justifyContent={'space-between'}>
-                    <FiChevronLeft size={'30px'} color={'black'} onClick={() => router.back()} />
-                    <Text fontWeight={600} fontSize='20px'>Booking</Text>
-                    <Box />
-                </HStack>
+    return (
+        <Box flex={1} w='full' overflowY={'auto'}>
+            <VStack w='full' px={['20px', '0px']} overflowY={'auto'}>
+                <VStack w={['100%', '40%']} overflowY={'auto'} pb='30px'>
+                    <HStack w='full' h='60px' justifyContent={'space-between'}>
+                        <FiChevronLeft size={'30px'} color={'black'} onClick={() => router.back()} />
+                        <Text fontWeight={600} fontSize='20px'>Booking</Text>
+                        <Box />
+                    </HStack>
 
-                {isLoading && (
-                    <VStack w='100%' h='70px' alignItems={'center'} justifyContent={'center'}>
-                        <Spinner />
-                        <Text>Loading Booking</Text>
-                    </VStack>
-                )}
+                    {isLoading && (
+                        <VStack w='100%' h='70px' alignItems={'center'} justifyContent={'center'}>
+                            <Spinner />
+                            <Text>Loading Booking</Text>
+                        </VStack>
+                    )}
 
-                {!isLoading && business === null && (
-                    <VStack w='100%' h='70px' alignItems={'center'} justifyContent={'center'}>
-                        
-                        <Text>Booking not found</Text>
-                    </VStack>
-                )}
+                    {!isLoading && business === null && (
+                        <VStack w='100%' h='70px' alignItems={'center'} justifyContent={'center'}>
 
-               {!isLoading && business !== null && (
-                 <BookingCard booking={business as any} business={business?.vendor as any} isVendor={userId === business?.vendor?.userID} shouldNavigate={false} />
-               )}
+                            <Text>Booking not found</Text>
+                        </VStack>
+                    )}
+
+                    {!isLoading && business !== null && (
+                        <BookingCard booking={business as any} business={business?.service as any} isVendor={userId === business?.service.vendorID} shouldNavigate={false} />
+                    )}
+                </VStack>
             </VStack>
-        </VStack>
-    </Box>
-  )
+        </Box>
+    )
 }
 
 export default BookingDetails
