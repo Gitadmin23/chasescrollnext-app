@@ -87,7 +87,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                         </Flex>
                                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                                             <Flex flexDir={"column"} >
-                                                <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
+                                                <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
                                                 <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.name), 35)}</Text>
                                             </Flex>
                                             <ShareEvent newbtn={true} showText={false} data={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} id={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
@@ -129,7 +129,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                         </Flex>
                                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                                             <Flex flexDir={"column"} >
-                                                <Text fontSize={"14px"} color={bodyTextColor} >Fund Raising Title</Text>
+                                                <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
                                                 <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.name), 35)}</Text>
                                             </Flex>
                                             <ShareEvent newbtn={true} showText={false} data={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} id={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />

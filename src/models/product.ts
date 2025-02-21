@@ -1,5 +1,58 @@
 import { IUser } from "./User"
 
+
+interface IAddress {
+    "id": string,
+    "createdDate": number,
+    "lastModifiedBy": any,
+    "createdBy": any,
+    "lastModifiedDate": number,
+    "isDeleted": boolean,
+    "status": any,
+    "statusCode": number,
+    "returnMessage": string,
+    "state": string,
+    "lga": string,
+    "phone": string,
+    "landmark": string,
+    "isDefault": boolean
+}
+
+export interface IDate {
+    "year": number,
+    "dayOfMonth": number,
+    "dayOfWeek": number,
+    "dayOfYear": number,
+    "era": number,
+    "centuryOfEra": number,
+    "yearOfEra": number,
+    "yearOfCentury": number,
+    "weekyear": number,
+    "monthOfYear": number,
+    "weekOfWeekyear": number,
+    "hourOfDay": number,
+    "minuteOfHour": number,
+    "secondOfMinute": number,
+    "millisOfSecond": number,
+    "millisOfDay": number,
+    "secondOfDay": number,
+    "minuteOfDay": number,
+    "chronology": {
+        "zone": {
+            "fixed": boolean,
+            "id": string
+        }
+    },
+    "zone": {
+        "fixed": boolean,
+        "id": string
+    },
+    "millis": number,
+    "afterNow": boolean,
+    "beforeNow": boolean,
+    "equalNow": boolean
+}
+
 export interface IProduct {
     "id": string,
     "createdDate": number,
@@ -104,4 +157,23 @@ export interface IOrder {
         "landmark": string,
         "isDefault": boolean
     }
+}
+
+export interface IReceipt {
+    "id": string,
+    "createdDate": number,
+    "lastModifiedBy": IUser,
+    "createdBy": IUser,
+    "lastModifiedDate": number,
+    "isDeleted": boolean,
+    "status": any,
+    "statusCode": number,
+    "returnMessage": string,
+    "userID": IUser,
+    "rental": IRental,
+    "startDate": IDate,
+    "endDate": IDate,
+    "price": number,
+    "hasPaid": any,
+    "address": IAddress
 }

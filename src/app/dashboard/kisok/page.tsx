@@ -2,7 +2,9 @@
 import CustomButton from '@/components/general/Button'
 import GetOrder from '@/components/kisok/getOrder'
 import GetProduce from '@/components/kisok/getProduce'
+import GetReciept from '@/components/kisok/getReciept'
 import GetRental from '@/components/kisok/getRental'
+import GetVendorReciept from '@/components/kisok/getVendorReciept'
 import { LocationPin, LocationStroke, RentalIcon, ServiceIcon, StoreIcon } from '@/components/svg'
 import useProductStore from '@/global-state/useCreateProduct'
 import useCustomTheme from '@/hooks/useTheme'
@@ -18,7 +20,7 @@ export default function KisokPage() {
     const { colorMode, toggleColorMode } = useColorMode();
     const query = useSearchParams();
     const type = query?.get('type');
-    const { updateProduct, updateImage, updateRental  } = useProductStore((state) => state);
+    const { updateProduct, updateImage, updateRental } = useProductStore((state) => state);
 
     const { push } = useRouter()
 
@@ -33,7 +35,7 @@ export default function KisokPage() {
         push(`/dashboard/kisok${item ? `?type=${item}` : ""}`)
     }
 
-    const createProduct =()=> {
+    const createProduct = () => {
         updateProduct({
             creatorID: userId,
             name: "",
@@ -71,10 +73,10 @@ export default function KisokPage() {
                 <Flex gap={"3"} alignItems={"center"} >
                     <CustomButton onClick={() => clickHandler("kiosk")} text={
                         <Flex alignItems={"center"} gap={"2"} >
-                            <StoreIcon color={type !== "rental" ? "white" : "black"} />
+                            <StoreIcon color={(type !== "rental" && type !== "myreciept" && type !== "vendorreciept") ? "white" : "black"} />
                             <Text>Kiosk</Text>
                         </Flex>
-                    } px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={type !== "rental" ? primaryColor : "white"} border={"1px"} borderColor={type !== "rental" ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={type !== "rental" ? "white" : headerTextColor} width={"fit-content"} />
+                    } px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={(type !== "rental" && type !== "myreciept" && type !== "vendorreciept") ? primaryColor : "white"} border={"1px"} borderColor={(type !== "rental" && type !== "myreciept" && type !== "vendorreciept") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type !== "rental" && type !== "myreciept" && type !== "vendorreciept") ? "white" : headerTextColor} width={"fit-content"} />
                     <CustomButton onClick={() => clickHandler("service")} text={
                         <Flex alignItems={"center"} gap={"2"} >
                             <ServiceIcon color={type === "service" ? "white" : "black"} />
@@ -83,10 +85,10 @@ export default function KisokPage() {
                     } px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={type === "service" ? primaryColor : "white"} border={"1px"} borderColor={type === "service" ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={type === "service" ? "white" : headerTextColor} width={"fit-content"} />
                     <CustomButton onClick={() => clickHandler("rental")} text={
                         <Flex alignItems={"center"} gap={"2"} >
-                            <RentalIcon color={type === "rental" ? "white" : "black"} />
+                            <RentalIcon color={(type === "rental" || type === "myreciept" || type === "vendorreciept" ) ? "white" : "black"} />
                             <Text>Rental</Text>
                         </Flex>
-                    } px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={type === "rental" ? primaryColor : "white"} border={"1px"} borderColor={type === "rental" ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={type === "rental" ? "white" : headerTextColor} width={"fit-content"} />
+                    } px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={(type === "rental" || type === "myreciept" || type === "vendorreciept" ) ? primaryColor : "white"} border={"1px"} borderColor={(type === "rental" || type === "myreciept" || type === "vendorreciept" ) ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "rental" || type === "myreciept" || type === "vendorreciept" ) ? "white" : headerTextColor} width={"fit-content"} />
                 </Flex>
                 <Flex display={["none", "none", "flex"]} >
                     <CustomButton onClick={createProduct} text={
@@ -97,22 +99,42 @@ export default function KisokPage() {
                 </Flex>
             </Flex>
             <Flex py={"6"} justifyContent={"space-between"} >
-                <Select
-                    color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
-                    focusBorderColor={"#5465E0"}
-                    height={"41px"}
-                    fontSize={"sm"}
-                    value={type === "rental" || !type ? "" : type}
-                    rounded={"50px"}
-                    onChange={(e) => routeHandler(e.target.value)}
-                    width={["full", "auto", "auto"]}
-                    textAlign={"center"} >
-                    {[{ name: "All", value: "" }, { name: "My Kiosk", value: "mykisok" }, { name: "My Orders", value: "myorder" }]?.map((type: any, index: number) => (
-                        <option style={{ fontSize: "12px" }} key={index} value={type?.value}>
-                            {type?.name}
-                        </option>
-                    ))}
-                </Select>
+                {(type !== "rental" && type !== "myreciept" && type !== "vendorreciept") && (
+                    <Select
+                        color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
+                        focusBorderColor={"#5465E0"}
+                        height={"41px"}
+                        fontSize={"sm"}
+                        value={type === "rental" || !type ? "" : type}
+                        rounded={"50px"}
+                        onChange={(e) => routeHandler(e.target.value)}
+                        width={["full", "auto", "auto"]}
+                        textAlign={"center"} >
+                        {[{ name: "All", value: "" }, { name: "My Kiosk", value: "mykisok" }, { name: "My Orders", value: "myorder" }]?.map((type: any, index: number) => (
+                            <option style={{ fontSize: "12px" }} key={index} value={type?.value}>
+                                {type?.name}
+                            </option>
+                        ))}
+                    </Select>
+                )}
+                {(type === "rental" || type === "myreciept" || type === "vendorreciept" ) && (
+                    <Select
+                        color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
+                        focusBorderColor={"#5465E0"}
+                        height={"41px"}
+                        fontSize={"sm"}
+                        value={type}
+                        rounded={"50px"}
+                        onChange={(e) => routeHandler(e.target.value)}
+                        width={["full", "auto", "auto"]}
+                        textAlign={"center"} >
+                        {[{ name: "All Rental", value: "rental" }, { name: "My Reciept", value: "myreciept" }, { name: "My Rental Reciept", value: "vendorreciept" }]?.map((type: any, index: number) => (
+                            <option style={{ fontSize: "12px" }} key={index} value={type?.value}>
+                                {type?.name}
+                            </option>
+                        ))}
+                    </Select>
+                )}
                 {type === "mykisok" && (
                     <CustomButton onClick={() => push("/dashboard/kisok/dashboard")} text={"Dashboard"} px={"30px"} height={"40px"} fontSize={"sm"} backgroundColor={"white"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"fit-content"} />
                 )}
@@ -125,9 +147,15 @@ export default function KisokPage() {
             )}
             {type === "rental" && (
                 <GetRental />
-            )} 
+            )}
             {type === "myorder" && (
                 <GetOrder />
+            )}
+            {type === "myreciept" && (
+                <GetReciept />
+            )}
+            {type === "vendorreciept" && (
+                <GetVendorReciept />
             )}
         </Flex>
     )

@@ -266,10 +266,9 @@ export default function ShippingAddress(
                 <LoadingAnimation loading={loading} >
                     <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
                         <SuccessIcon />
-                        <Text fontSize={["18px", "20px", "24px"]} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{"Recipt created Successful"}</Text>
-                        <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your reciept has reach the vendor `}</Text>
-                        
-                            <CustomButton onClick={() => push("/dashboard/kisok?type=rental")} color={"#FFF"} text={'View Ticket'} w={"full"} backgroundColor={"#3EC259"} /> 
+                        <Text fontSize={["18px", "20px", "24px"]} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{"Receipt created Successful"}</Text>
+                        <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your reciept has reach the vendor `}</Text> 
+                            <CustomButton onClick={() => push("/dashboard/kisok?type=myreciept")} color={"#FFF"} text={'View Receipt'} w={"full"} backgroundColor={"#3EC259"} /> 
                     </Flex>
                 </LoadingAnimation>
             </ModalLayout>
