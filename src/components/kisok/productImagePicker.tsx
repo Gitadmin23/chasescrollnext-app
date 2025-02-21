@@ -1,5 +1,5 @@
 import { Flex, Image, Text, useToast } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GallaryIcon } from '../svg'
 import { IoClose } from 'react-icons/io5';
 import useProductStore from '@/global-state/useCreateProduct';
@@ -13,6 +13,11 @@ export default function ProductImagePicker() {
     const { image, updateImage, productdata } = useProductStore((state) => state);
 
     const inputRef = React.useRef<HTMLInputElement>();
+
+    useEffect(()=> {
+        updateImage([] as any)
+    }, [])
+    
 
     const handleImagePicked = React.useCallback((Files: FileList) => {
         const file = Files[0];
@@ -48,9 +53,6 @@ export default function ProductImagePicker() {
         }
         updateImage(image.filter((_: any, i: any) => i !== index));
     }
-
-    console.log(image);
-
 
     return (
         <Flex flexDir={"column"} w={"full"} gap={"4"} >

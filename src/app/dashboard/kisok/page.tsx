@@ -4,6 +4,7 @@ import GetOrder from '@/components/kisok/getOrder'
 import GetProduce from '@/components/kisok/getProduce'
 import GetRental from '@/components/kisok/getRental'
 import { LocationPin, LocationStroke, RentalIcon, ServiceIcon, StoreIcon } from '@/components/svg'
+import useProductStore from '@/global-state/useCreateProduct'
 import useCustomTheme from '@/hooks/useTheme'
 import { Box, Flex, Grid, Select, Text, useColorMode } from '@chakra-ui/react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -17,9 +18,11 @@ export default function KisokPage() {
     const { colorMode, toggleColorMode } = useColorMode();
     const query = useSearchParams();
     const type = query?.get('type');
+    const { updateProduct, updateImage, updateRental  } = useProductStore((state) => state);
 
     const { push } = useRouter()
 
+    const userId = localStorage.getItem('user_id') + "";
 
     const clickHandler = (item: "kiosk" | "service" | "rental") => {
         setTab(item)
@@ -28,6 +31,35 @@ export default function KisokPage() {
 
     const routeHandler = (item: string) => {
         push(`/dashboard/kisok${item ? `?type=${item}` : ""}`)
+    }
+
+    const createProduct =()=> {
+        updateProduct({
+            creatorID: userId,
+            name: "",
+            description: "",
+            images: [],
+            price: null,
+            category: "",
+            quantity: null,
+            hasDiscount: false,
+            discountPrice: null,
+            publish: true,
+            location: "" as any,
+        })
+        updateRental({
+            "userId": userId,
+            "name": "",
+            "description": "",
+            "category": "",
+            "location": {} as any,
+            "maximiumNumberOfDays": 1,
+            "price": null,
+            "images": [],
+            frequency: "DAILY"
+        } as any)
+        updateImage([] as any)
+        push(type === "kisok" ? "/dashboard/kisok/create" : type === "rental" ? "/dashboard/kisok/create-rental" : "/dashboard/kisok/create")
     }
 
     return (
@@ -57,7 +89,7 @@ export default function KisokPage() {
                     } px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={type === "rental" ? primaryColor : "white"} border={"1px"} borderColor={type === "rental" ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={type === "rental" ? "white" : headerTextColor} width={"fit-content"} />
                 </Flex>
                 <Flex display={["none", "none", "flex"]} >
-                    <CustomButton onClick={() => push(type === "kisok" ? "/dashboard/kisok/create" : type === "rental" ? "/dashboard/kisok/create-rental" : "/dashboard/kisok/create")} text={
+                    <CustomButton onClick={createProduct} text={
                         <Flex alignItems={"center"} gap={"2"} >
                             <Text>Create {type === "rental" ? "Rental Service" : "Item"}</Text>
                         </Flex>

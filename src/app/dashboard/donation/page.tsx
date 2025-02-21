@@ -12,7 +12,7 @@ import useCustomTheme from '@/hooks/useTheme'
 import { Box, Flex, Input, InputGroup, InputLeftElement, Text } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
-import { IoAdd, IoSearchOutline } from 'react-icons/io5'
+import { IoSearchOutline } from 'react-icons/io5'
 
 export default function Donation() {
 

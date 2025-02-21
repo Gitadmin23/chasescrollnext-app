@@ -9,7 +9,7 @@ import httpService from '@/utils/httpService'
 import { IUser } from '@/models/User'
 import UserImage from '../sharedComponent/userimage'
 import { dateFormat } from '@/utils/dateFormat'
-import { IProduct } from '@/models/product'
+import { IProduct, IRental } from '@/models/product'
 import LoadingAnimation from '../sharedComponent/loading_animation'
 import { formatNumber } from '@/utils/numberFormat'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
@@ -31,7 +31,7 @@ interface IReview {
     "reviewType": string
 }
 
-export default function ProductRating({ item }: { item: IProduct }) {
+export default function ProductRating({ item, reviewType }: { item: IProduct | IRental | any, reviewType: string }) {
 
     const { borderColor } = useCustomTheme()
 
@@ -62,7 +62,7 @@ export default function ProductRating({ item }: { item: IProduct }) {
                     </Flex>
                     <Text fontWeight={"700"}>{data?.length} Recommendations</Text>
                     <Text fontSize={"14px"} w={"120px"} fontWeight={"500"} ml={"9"} >See Review</Text>
-                    <ReviewData item={item?.id} />
+                    <ReviewData item={item?.id} reviewType={reviewType} />
                 </Flex>
             </Flex>
             <LoadingAnimation loading={isLoading} >

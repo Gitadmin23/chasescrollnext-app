@@ -67,7 +67,8 @@ export interface IRental {
     "maximiumNumberOfDays": number,
     "price": number,
     "images": Array<string>,
-    "address": any
+    "address": any;
+    frequency: string
 }
 
 export interface IOrder {

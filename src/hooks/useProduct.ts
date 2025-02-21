@@ -1,3 +1,4 @@
+"use client"
 import httpService from "@/utils/httpService";
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -9,15 +10,16 @@ import usePaystackStore from "@/global-state/usePaystack";
 
 const useProduct = (item?: any, rental?: boolean) => {
 
-    const toast = useToast()
     const [openRental, setOpenRental] = useState(false)
     const [openProduct, setOpenProduct] = useState(false)
     const [open, setOpen] = useState(false)
+    const [openSucces, setOpenSucces] = useState(false)
     const [openDelete, setOpenDelete] = useState(false)
     const [addressId, setAddressId] = useState("")
     const [addressDefault, setAddressDefault] = useState("")
     const userId = localStorage.getItem('user_id');
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
+    const toast = useToast()
 
     const { configPaystack, setPaystackConfig } = usePaystackStore((state) => state);
 
@@ -315,6 +317,7 @@ const useProduct = (item?: any, rental?: boolean) => {
                 `/rental/create`, data
             ),
         onSuccess: (data: any) => {
+ 
             toast({
                 title: "Created Rental Successfully",
                 description: "",
@@ -322,8 +325,8 @@ const useProduct = (item?: any, rental?: boolean) => {
                 isClosable: true,
                 duration: 5000,
                 position: "top-right",
-            });
-            reset()
+            }); 
+            setOpenSucces(true)
         },
         onError: () => { },
     });
@@ -464,6 +467,25 @@ const useProduct = (item?: any, rental?: boolean) => {
         onError: () => { },
     });
 
+
+    const createRentalRecipt = useMutation({
+        mutationFn: (data: {
+            "userID": string,
+            "rentalID": string,
+            "startDate": number,
+            "endDate": number,
+            "price": number,
+            "addressedId": string
+          }) =>
+            httpService.post(
+                `/reciept/create`, data
+            ),
+        onSuccess: (data: any) => {
+            console.log(data); 
+        },
+        onError: () => { },
+    });
+
     useEffect(() => {
         if (uploadedFile?.length > 0) {
             if (!rental) {
@@ -506,7 +528,10 @@ const useProduct = (item?: any, rental?: boolean) => {
         setReviewPayload,
         handleEditSubmitProduce,
         updateAddress,
-        editProduct
+        createRentalRecipt,
+        editProduct, 
+        openSucces,
+        setOpenSucces
     };
 
 }
