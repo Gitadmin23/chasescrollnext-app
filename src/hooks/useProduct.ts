@@ -482,6 +482,7 @@ const useProduct = (item?: any, rental?: boolean) => {
             ),
         onSuccess: (data: any) => {
             console.log(data); 
+            setOpenSucces(true)
         },
         onError: () => { },
     });

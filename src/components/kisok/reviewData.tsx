@@ -44,19 +44,13 @@ export default function ReviewData({item, reviewType}: {item: string, reviewType
 
     return (
         <div>
-            <Text role='button' onClick={() => setOpen(true)} textDecor={"underline"} color={primaryColor} w={"120px"} ml={"9"} fontWeight={"500"} >Leave a review</Text>
+            <Text role='button' onClick={() => setOpen(true)} textDecor={"underline"} color={primaryColor} w={"120px"} fontSize={"14px"} fontWeight={"500"} >Leave a review</Text>
             <ModalLayout open={open} close={setOpen} closeIcon={true} >
                 <Flex w={"full"} flexDir={"column"} p={"4"} >
                     <Flex borderBottomWidth={"1px"} pb={"1"} w={"full"} >
                         <Text>{`Chasescroll's customer review`}</Text>
                     </Flex>
-                    <Flex flexDir={"column"} w={"full"} gap={"4"} >
-                        {/* <Flex flexDir={"column"} w={"full"} gap={"1"} pt={"3"} >
-                            <Text fontSize={"14px"} >{`What's your experience like on chasescroll`}</Text>
-                            <Select placeholder='' >
-                                <option>Excellent</option>
-                            </Select>
-                        </Flex> */}
+                    <Flex flexDir={"column"} w={"full"} gap={"4"} > 
                         <Flex flexDir={"column"} w={"full"} gap={"1"} pt={"3"} >
                             <Text fontSize={"14px"} >{`Share your experience`}</Text>
                             <Textarea onChange={(e)=> setReviewPayload({...reviewPayload, description: e.target.value})} placeholder='Tell us about your product' />

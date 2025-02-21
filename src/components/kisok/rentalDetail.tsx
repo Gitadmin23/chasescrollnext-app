@@ -107,38 +107,19 @@ export default function RentalDetail({ id }: { id: string }) {
                                 <Text fontSize={"13px"} >Joined Nov 2017 <span style={{ fontSize: "12px" }} >( 23+ Clients Served )</span></Text>
                             </Flex>
                         </Flex>
+                        <ProductRating item={item} reviewType="RENTAL" />
                     </Flex>
                     <Flex w={"fit-content"} >
                         <Flex w={"413px"} flexDirection={"column"} >
                             <Flex display={["none", "none", "flex"]} >
                                 <RentalCheckout setQty={setQty} item={item} qty={qty} />
-                            </Flex>
-                            <Flex flexDir={"column"} pt={"4"} >
-                                <Text fontWeight={"600"} >Service Category</Text>
-                                <Flex gap={"1"} >
-                                    <Text>{item?.category}</Text>
-                                </Flex>
-                            </Flex>
+                            </Flex> 
                         </Flex>
                     </Flex>
                 </Flex>
-                <Flex w={"full"} gap={"6"} pt={"8"} flexDir={["column", "column", "row"]}  >
-                    <Flex w={"fit-content"} gap={"2"} display={["none", "none", "flex"]} flexDir={"column"} >
-                        <DatePicker
-                            selected={startDate}
-                            onChange={handleDateChange}
-                            startDate={startDate}
-                            endDate={new Date(startDate?.getTime() + item?.maximiumNumberOfDays * 24 * 60 * 60 * 1000)}
-                            selectsRange
-                            monthsShown={2} // Show two months
-                            inline // Display the calendar inline
-                            minDate={new Date()}
-                            maxDate={new Date(startDate?.getTime() + item?.maximiumNumberOfDays * 24 * 60 * 60 * 1000)}
-                        />
-                        {/* <Text fontWeight={"700"} color={"red"} fontSize={"xs"} as={"button"} onClick={clickHandler} >clear date</Text> */}
-                    </Flex>n
+                {/* <Flex w={"full"} gap={"6"} pt={"8"} flexDir={["column", "column", "row"]}  > 
                     <ProductRating item={item} reviewType="RENTAL" />
-                </Flex>
+                </Flex> */}
                 <Flex w={"full"} mt={"56"} display={["flex", "flex", "none"]} />
                 <Flex display={["flex", "flex", "none"]} position={"fixed"} bottom={"20"} insetX={"0px"} px={"4"} w={"full"} >
                     <RentalCheckout setQty={setQty} item={item} qty={qty} />
