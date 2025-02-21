@@ -77,7 +77,7 @@ export default function ProductDetails({ id }: { id: string }) {
                             </Flex>
                         )}
                         <Flex display={["none", "none", "flex"]} >
-                            <ProductRating item={item} />
+                            <ProductRating item={item} reviewType="PRODUCT" />
                         </Flex>
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
@@ -133,7 +133,7 @@ export default function ProductDetails({ id }: { id: string }) {
                             <Text fontWeight={"500"} fontSize={"12px"} >Purchase protection</Text>
                         </Flex>
                         <Flex display={["flex", "flex", "none"]} >
-                            <ProductRating item={item} />
+                            <ProductRating item={item} reviewType="PRODUCT" />
                         </Flex>
                         <Flex display={["flex", "flex", "none"]} >
                             <ProductCheckout item={item} />

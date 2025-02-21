@@ -9,7 +9,7 @@ import { SuccessIcon } from '@/components/svg'
 import useProductStore from '@/global-state/useCreateProduct'
 import useProduct from '@/hooks/useProduct'
 import useCustomTheme from '@/hooks/useTheme'
-import { Flex, Input, Text, Textarea } from '@chakra-ui/react'
+import { Flex, Input, Radio, RadioGroup, Stack, Text, Textarea } from '@chakra-ui/react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import React from 'react'
 import { IoIosAdd, IoIosRemove } from 'react-icons/io'
@@ -17,13 +17,15 @@ import { IoArrowBack } from 'react-icons/io5'
 
 export default function RentalCreate() {
 
-    const { primaryColor, secondaryBackgroundColor, headerTextColor, bodyTextColor} = useCustomTheme()
+    const { primaryColor, secondaryBackgroundColor, headerTextColor, bodyTextColor } = useCustomTheme()
     const { push, back } = useRouter()
     const query = useSearchParams();
     const type = query?.get('type');
     const { rentaldata, updateRental, image } = useProductStore((state) => state);
 
-    const { handleSubmitRental, createProduct, loading, openRental, setOpenRental } = useProduct(rentaldata, true) 
+    const { handleSubmitRental, createProduct, loading, openRental, setOpenRental } = useProduct(rentaldata, true)
+    console.log(rentaldata);
+    
 
     return (
         <Flex w={"full"} px={"6"} pos={"relative"} pb={"12"} alignItems={"center"} flexDir={"column"} overflowY={"auto"} >
@@ -55,11 +57,7 @@ export default function RentalCreate() {
 
                 <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={!type ? "none" : "flex"} flexDir={"column"}  >
                     <Text fontSize={"24px"} fontWeight={"600"} >List your Property</Text>
-                    <Flex w={"full"} flexDir={"column"} gap={"3"} >
-                        <Flex gap={"2"} w={"full"} flexDir={"column"} >
-                            <Text fontWeight={"500"} >Item Type</Text>
-                            <Textarea onChange={(e) => updateRental({ ...rentaldata, name: e.target.value })} />
-                        </Flex>
+                    <Flex w={"full"} flexDir={"column"} gap={"3"} > 
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Location</Text>
                             <ProductMap location={rentaldata?.location} />
@@ -75,6 +73,16 @@ export default function RentalCreate() {
                                     <IoIosAdd />
                                 </Flex>
                             </Flex>
+                        </Flex>
+                        <Flex w={"full"} justifyContent={"space-between"} >
+                            <Text fontWeight={"500"} >Rental Timeline</Text>
+
+                            <RadioGroup onChange={(value: any)=> updateRental({...rentaldata, frequency: value})} value={rentaldata?.frequency}>
+                                <Stack direction='row'>
+                                    <Radio value='HOURLY'>Hourly</Radio>
+                                    <Radio value='DAILY'>Daily</Radio> 
+                                </Stack>
+                            </RadioGroup>
                         </Flex>
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Price</Text>

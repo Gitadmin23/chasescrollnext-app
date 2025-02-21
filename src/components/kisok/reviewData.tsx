@@ -9,7 +9,7 @@ import useProduct from '@/hooks/useProduct'
 import { IProduct } from '@/models/product'
 import { useQueryClient } from 'react-query'
 
-export default function ReviewData({item}: {item: string}) {
+export default function ReviewData({item, reviewType}: {item: string, reviewType: string}) {
 
     const { primaryColor } = useCustomTheme()
     const toast = useToast()
@@ -32,7 +32,7 @@ export default function ReviewData({item}: {item: string}) {
                 position: "top-right",
             });
         } else {
-            createReview.mutate({...reviewPayload, typeId: item})
+            createReview.mutate({...reviewPayload, typeId: item, reviewType: reviewType})
         }
     }
 

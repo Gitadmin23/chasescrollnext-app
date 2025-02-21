@@ -23,7 +23,7 @@ export type CreateProduct = {
         latlng?: string,
         placeIds?: string,
         toBeAnnounced?: true
-    }
+    },
 }
 
 export type CreateRental = {
@@ -34,7 +34,8 @@ export type CreateRental = {
     location: any
     maximiumNumberOfDays: number | any,
     price: number | any,
-    images: Array<string>
+    images: Array<string>,
+    frequency: "HOURLY" | "DAILY"
 }
 
 type State = {
@@ -69,7 +70,7 @@ const useProductStore = create<State & Image & Navigate & Action>((set) => ({
         hasDiscount: false,
         discountPrice: null,
         publish: true,
-        location: "" as any
+        location: "" as any,
     },
     image: [],
     imagePreview: [],
@@ -81,7 +82,8 @@ const useProductStore = create<State & Image & Navigate & Action>((set) => ({
         "location": {} as any,
         "maximiumNumberOfDays": 1,
         "price": null,
-        "images": []
+        "images": [],
+        frequency: "DAILY"
     },
     updateProduct: (data) => set(() => ({ productdata: data })),
     updateImage: (data) => set(() => ({ image: data })),

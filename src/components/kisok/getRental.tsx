@@ -1,4 +1,4 @@
-import { Grid, Flex, Text } from '@chakra-ui/react'
+import { Grid, Flex, Text, Image } from '@chakra-ui/react'
 import React from 'react'
 import CustomButton from '../general/Button'
 import { LocationStroke } from '../svg'
@@ -15,17 +15,12 @@ import UserImage from '../sharedComponent/userimage'
 import BlurredImage from '../sharedComponent/blurred_image'
 import { textLimit } from '@/utils/textlimit'
 import { formatNumber } from '@/utils/numberFormat'
+import { IMAGE_URL } from '@/services/urls'
 
 export default function GetRental() {
 
     const { primaryColor, bodyTextColor } = useCustomTheme()
     const { push } = useRouter()
-
-
-    // const { isLoading, isRefetching, refetch, data } = useQuery(
-    //     ["getrental"],
-    //     () => httpService.get(`/rental/search`),
-    // );
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/rental/search`, limit: 20, filter: "id", name: "getrental" })
 
@@ -51,20 +46,20 @@ export default function GetRental() {
                                     </Flex>
                                 </Flex>
                                 <Flex w={"full"} h={"210px"} rounded={"8px"} >
-                                    <BlurredImage height={["210px"]} image={item?.images[0]} />
+                                    <Image rounded={"8px"} borderColor={"#D0D4EB"} objectFit={"cover"} alt={item?.images[0]} width={["full"]} height={"full"} src={IMAGE_URL + item?.images[0]} />
                                 </Flex>
                                 <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} >
                                     <Flex flexDir={"column"} >
-                                        <Text fontSize={"14px"} fontWeight={"600"}  >{capitalizeFLetter(item?.name)}</Text>
+                                        <Text fontSize={"14px"} fontWeight={"600"}  >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
                                         <Text fontSize={"24px"} fontWeight={"600"} >{textLimit(item?.description, 20)}</Text>
                                     </Flex>
-                                    <Text fontSize={"14px"} fontWeight={"700"} color={bodyTextColor} >{item?.category}</Text>
-                                    <Text fontSize={"24px"} fontWeight={"600"} >{formatNumber(item?.price)}/ Daily</Text>
+                                    {/* <Text fontSize={"14px"} fontWeight={"700"} color={bodyTextColor} >{textLimit(item?.category, 15)}</Text> */}
+                                    <Text fontSize={"24px"} fontWeight={"600"} >{formatNumber(item?.price)}/ {capitalizeFLetter(item?.frequency ? item?.frequency : "Daily")}</Text>
                                     <Flex w={"full"} gap={"2"} alignItems={"center"} >
                                         <LocationStroke />
                                         <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >{item?.location?.locationDetails}</Text>
                                     </Flex>
-                                    <CustomButton onClick={() => push("/dashboard/kisok/details-rental/"+item?.id)} text={"View Rental Services"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                                    <CustomButton onClick={() => push("/dashboard/kisok/details-rental/" + item?.id)} text={"View Rental Services"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
                                 </Flex>
                             </Flex>
                         )
@@ -83,20 +78,20 @@ export default function GetRental() {
                                     </Flex>
                                 </Flex>
                                 <Flex w={"full"} h={"210px"} rounded={"8px"} >
-                                    <BlurredImage height={["210px"]} image={item?.images[0]} />
+                                    <Image rounded={"8px"} borderColor={"#D0D4EB"} objectFit={"cover"} alt={item?.images[0]} width={["full"]} height={"full"} src={IMAGE_URL + item?.images[0]} />
                                 </Flex>
                                 <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} >
                                     <Flex flexDir={"column"} >
-                                        <Text fontSize={"14px"} fontWeight={"600"}  >{capitalizeFLetter(item?.name)}</Text>
+                                        <Text fontSize={"14px"} fontWeight={"600"}  >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
                                         <Text fontSize={"24px"} fontWeight={"600"} >{textLimit(item?.description, 20)}</Text>
                                     </Flex>
-                                    <Text fontSize={"14px"} fontWeight={"700"} color={bodyTextColor} >{item?.category}</Text>
-                                    <Text fontSize={"24px"} fontWeight={"600"} >{formatNumber(item?.price)}/ Daily</Text>
+                                    <Text fontSize={"14px"} fontWeight={"700"} color={bodyTextColor} >{textLimit(item?.category, 15)}</Text>
+                                    <Text fontSize={"24px"} fontWeight={"600"} >{formatNumber(item?.price)}/ {capitalizeFLetter(item?.frequency ? item?.frequency : "Daily")}</Text>
                                     <Flex w={"full"} gap={"2"} alignItems={"center"} >
                                         <LocationStroke />
-                                        <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >{item?.location?.locationDetails}</Text>
+                                        <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >{textLimit(item?.location?.locationDetails, 30)}</Text>
                                     </Flex>
-                                    <CustomButton onClick={() => push("/dashboard/kisok/details-rental/"+item?.id)} text={"View Rental Services"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                                    <CustomButton onClick={() => push("/dashboard/kisok/details-rental/" + item?.id)} text={"View Rental Services"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
                                 </Flex>
                             </Flex>
                         )
