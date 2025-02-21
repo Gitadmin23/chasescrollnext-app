@@ -38,7 +38,7 @@ function BookingDetails() {
     return (
         <Box flex={1} w='full' overflowY={'auto'}>
             <VStack w='full' px={['20px', '0px']} overflowY={'auto'}>
-                <VStack w={['100%', '40%']} overflowY={'auto'} pb='30px'>
+                <VStack w={['100%', '30%']} overflowY={'auto'} pb='30px'>
                     <HStack w='full' h='60px' justifyContent={'space-between'}>
                         <FiChevronLeft size={'30px'} color={'black'} onClick={() => router.back()} />
                         <Text fontWeight={600} fontSize='20px'>Booking</Text>
@@ -60,7 +60,7 @@ function BookingDetails() {
                     )}
 
                     {!isLoading && business !== null && (
-                        <BookingCard booking={business as any} business={business?.service as any} isVendor={userId === business?.service.vendorID} shouldNavigate={false} />
+                        <BookingCard booking={business as any} business={business?.service as any} isVendor={userId === business?.service.vendorID} shouldNavigate={false} showBorder={false} />
                     )}
                 </VStack>
             </VStack>

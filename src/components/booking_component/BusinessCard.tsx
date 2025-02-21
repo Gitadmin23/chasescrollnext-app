@@ -44,7 +44,7 @@ function BusinessCard({ business }: { business: IService }) {
                 </VStack>
             </HStack>
 
-            <Box onClick={() => router.push(`/dashboard/newbooking/details/${business?.id}`)} cursor='pointer' w='full' h='200px' borderRadius={'10px'} overflow={'hidden'}>
+            <Box onClick={() => router.push(`/dashboard/newbooking/details/service/${business?.id}`)} cursor='pointer' w='full' h='250px' borderRadius={'10px'} overflow={'hidden'}>
                 <BlurredImage forEvent={false} image={business?.images[0].startsWith('https://') ? business?.images[0] : (IMAGE_URL as string) + business?.images[0]} height={'100%'} />
 
                 {/* <Image onClick={() => router.push(`/dashboard/newbooking/details/${business?.id}`)} cursor='pointer' src={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt="banner image" w='full' h='full' objectFit={'cover'} /> */}
@@ -55,10 +55,16 @@ function BusinessCard({ business }: { business: IService }) {
                 <Text fontSize={'16px'} fontWeight={700}>{business?.name ?? 'This is the business name'}</Text>
             </VStack>
 
-            <VStack spacing={-3} alignItems={'flex-start'}>
-                <Text fontWeight={400} fontSize={'12px'}>Service offering</Text>
-                <Text fontWeight={600} fontSize={'14px'}>{business?.category}</Text>
-            </VStack>
+            <HStack spacing={-3} alignItems={'flex-start'} width='100%'>
+                <VStack width='full' flex={1} borderRightWidth={'1px'} borderRightColor={borderColor} alignItems={'flex-start'} paddingRight={'10px'}>
+                    <Text fontWeight={400} fontSize={'12px'}>Service offering</Text>
+                    <Text fontWeight={600} fontSize={'14px'}>{business?.category} (0 clients served)</Text>
+                </VStack>
+
+                <VStack justifyContent={'center'} flex={1} paddingLeft={'10px'} height='full' width='full' alignItems={'flex-end'}>
+                    <Text fontWeight={400} fontSize={'14px'}>0 clients served</Text>
+                </VStack>
+            </HStack>
 
             {/* <Box pb='5px' borderBottomWidth={'0px'} borderBottomColor={borderColor} w='full'>
                 <Text fontWeight={400} fontSize={'12px'}>{business?.description.length > 400 ? business?.description?.substring(0, 400) + '...' : business?.description}</Text>
@@ -70,7 +76,7 @@ function BusinessCard({ business }: { business: IService }) {
             </HStack>
 
             <Box h='10px' />
-            <Button onClick={() => router.push(`/dashboard/newbooking/details/service/${business?.id}`)} w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={"#F7FBFE"} _hover={{ backgroundColor: "#F7FBFE" }}>
+            <Button onClick={() => router.push(`/dashboard/newbooking/details/service/${business?.id}`)} w='full' h='54px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={"#F7FBFE"} _hover={{ backgroundColor: "#F7FBFE" }}>
                 <Text fontSize={'14px'} color={primaryColor}>View Service</Text>
             </Button>
         </VStack>

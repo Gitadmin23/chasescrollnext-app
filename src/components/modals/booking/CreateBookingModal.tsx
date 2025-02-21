@@ -8,6 +8,7 @@ import { Flex, Text, Box, VStack, HStack, Textarea, Image, Divider, Button, useT
 import moment from 'moment'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import { FiCalendar } from 'react-icons/fi'
 import { useMutation } from 'react-query'
 
 function CreateBookingModal({
@@ -30,6 +31,7 @@ function CreateBookingModal({
     // states
     const [description, setDescription] = React.useState("");
     const [price, setPrice] = React.useState("0");
+    const [date, setDate] = React.useState<string>(new Date().toString())
 
     const { userId } = useDetails((state) => state);
 
@@ -98,7 +100,7 @@ function CreateBookingModal({
             serviceID: service?.id,
             bookingType: "Busy",
             price: service?.hasFixedPrice ? service?.price + (service?.price * 0.02) : parseInt(price),
-            date: new Date().toISOString(),
+            date: new Date(date).toISOString(),
         }
 
         mutate(obj);
@@ -138,6 +140,30 @@ function CreateBookingModal({
                     <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
                         <Text fontSize={'14px'}>Add a Description</Text>
                         <Textarea value={description} onChange={(e) => setDescription(e.target.value)} w='full' h='80px' placeholder='Enter a description of what you want' />
+                    </VStack>
+
+                    <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
+                        <Text fontSize={'14px'}>Pick A date</Text>
+                        <InputGroup width='100%'>
+                            <InputLeftElement>
+                                <FiCalendar size={'25px'} color='grey' />
+                            </InputLeftElement>
+                            <Input
+                                type='date'
+                                value={date}
+                                onChange={(e) => {
+                                    console.log(e.target.value)
+                                    setDate(e.target.value)
+                                }}
+                                borderWidth={'1px'}
+                                height="45px"
+                                borderRadius={'45px'}
+                                borderBottomColor={borderColor}
+                                placeholder='Pick Date'
+                                fontSize={'14px'}
+                                fontWeight={400}
+                            />
+                        </InputGroup>
                     </VStack>
 
                 </VStack>
