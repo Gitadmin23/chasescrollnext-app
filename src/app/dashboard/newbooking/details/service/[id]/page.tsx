@@ -84,7 +84,7 @@ export default function ServiceDetailsPage() {
                 <CreateBookingModal show={show} onClose={() => setShow(false)} service={service as IService} />
                 <Flex w='full' h='30px' justifyContent={'flex-start'} alignItems={'center'} mb='20px'>
                     <ArrowLeft2 size={30} onClick={() => router.back()} />
-                    <Text fontSize='16px' fontWeight={500}>{service?.service?.category.toUpperCase()}</Text>
+                    <Text fontSize='16px' fontWeight={600}>{service?.name}</Text>
                 </Flex>
 
                 {/* IMAGES */}
@@ -163,8 +163,8 @@ export default function ServiceDetailsPage() {
                             </VStack>
                         )} */}
 
-                        {userId === service?.vendor?.userId && (
-                            <Button onClick={() => setShow(true)} w='full' h='42px' borderRadius={'full'} bgColor={primaryColor} mt='40px'>
+                        {userId !== service?.vendor?.userId && (
+                            <Button onClick={() => setShow(true)} w='full' h='54px' borderRadius={'full'} bgColor={primaryColor} mt='40px'>
                                 <Text fontWeight={500} color='white'>Get Qoute</Text>
                             </Button>
                         )}
@@ -175,15 +175,25 @@ export default function ServiceDetailsPage() {
 
                     <VStack w={['full', '60%']} alignItems='flex-start' spacing={4} >
                         <Text fontWeight={600} color={headerTextColor} fontSize={'16px'} textDecoration={'underline'}>Show More</Text>
-                        <HStack>
-                            <Box w='60px' h='60px' borderRadius={'full'} overflow={'hidden'} bgColor='lightgrey'>
-                                <Image w='full' h='full' alt="user image" objectFit={'cover'} src={service?.vendor?.data?.imgMain?.value ? (service?.vendor?.data?.imgMain?.value.startsWith('http') ? service?.vendor?.data?.imgMain?.value : IMAGE_URL + service?.vendor?.data?.imgMain?.value) : `https://ui-avatars.com/api/?name=${service?.vendor?.firstName}${service?.vendor?.lastName}&background=random`} />
+                        <HStack spacing={[10, 20]}>
+                            <Box w='auto' h='auto' overflow={'visible'} position="relative">
+                                <Box zIndex={1} w='60px' h='60px' borderRadius={'full'} overflow='hidden' bgColor='lightgrey'>
+                                    <Image zIndex={1} w='60px' h='60px' borderRadius={'full'} alt="user image" objectFit={'cover'} src={service?.vendor?.data?.imgMain?.value ? (service?.vendor?.data?.imgMain?.value.startsWith('http') ? service?.vendor?.data?.imgMain?.value : IMAGE_URL + service?.vendor?.data?.imgMain?.value) : `https://ui-avatars.com/api/?name=${service?.vendor?.firstName}${service?.vendor?.lastName}&background=random`} />
+                                </Box>
+
+                                <HStack zIndex={2} justifyContent={'center'} position='absolute' top={1} right={-6} width='50px' height={'30px'} borderRadius={'35px'} bg='white' borderWidth={'2px'} borderColor={borderColor}>
+                                    <Star1 size={25} color='gold' variant="Bold" />
+                                    <Text fontSize={'16px'} fontWeight={800}>{service?.rating}</Text>
+                                </HStack>
                             </Box>
                             <VStack alignItems='flex-start' spacing={-2}>
                                 <Text fontWeight={600} fontSize={'16px'}>Service from {service?.name}</Text>
-                                <Text color={bodyTextColor} fontSize={'14px'} fontWeight={400}>Joined {new Date(service?.createdDate as number).toDateString()}</Text>
+                                <Text color={bodyTextColor} fontSize={'14px'} fontWeight={400}>Joined {new Date(service?.createdDate as number).toDateString()}  ( 0 clients served)</Text>
                             </VStack>
                         </HStack>
+                        <Button width={'100px'} height={'35px'} borderRadius="45px" backgroundColor={primaryColor} mt='5px'>
+                            <Text color='white' fontSize={'16px'}>Follow</Text>
+                        </Button>
                     </VStack>
 
                     {/* CATEGORIES SECTION */}
