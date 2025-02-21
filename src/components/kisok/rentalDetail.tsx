@@ -1,30 +1,25 @@
 "use client"
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Image, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
-import { IoIosRemove, IoIosAdd } from 'react-icons/io'
-import CustomButton from '../general/Button'
+import React, { useState } from 'react' 
 import { IRental } from '@/models/product'
 import { useQuery } from 'react-query'
 import httpService from '@/utils/httpService'
 import LoadingAnimation from '../sharedComponent/loading_animation'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import { IMAGE_URL } from '@/services/urls'
-import UserImage from '../sharedComponent/userimage'
-import { formatNumber } from '@/utils/numberFormat'
+import UserImage from '../sharedComponent/userimage' 
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { IoStar } from 'react-icons/io5'
+import "react-datepicker/dist/react-datepicker.css"; 
 import { FaStar } from 'react-icons/fa'
 import RentalCheckout from './rentalCheckout'
+import ProductRating from './productRating'
 
 export default function RentalDetail({ id }: { id: string }) {
 
-    const { primaryColor, borderColor, headerTextColor, secondaryBackgroundColor } = useCustomTheme()
+    const { primaryColor, borderColor, secondaryBackgroundColor } = useCustomTheme()
     const [qty, setQty] = useState(1)
-    const [item, setItem] = useState({} as IRental)
-
-
+    const [item, setItem] = useState({} as IRental) 
 
     const { isLoading, isRefetching, refetch, data } = useQuery(
         ["rental", id],
@@ -39,37 +34,28 @@ export default function RentalDetail({ id }: { id: string }) {
     }
     );
 
-    const [startDate, setStartDate]: any = useState(null);
+    const [startDate, setStartDate]: any = useState(new Date());
     const [endDate, setEndDate] = useState(null);
 
     const handleDateChange = (dates: any) => {
-        const [start, end] = dates;
-        setStartDate(start);
-        setEndDate(end);
+        // const [start, end] = dates;
+        // setStartDate(start);
+        // setEndDate(end);
 
-        // Limit the range to 5 days
-        if (start && end) {
-            const diffInDays = Math.floor((end - start) / (1000 * 60 * 60 * 24));
-            console.log(diffInDays);
-            setQty(diffInDays)
+        // // Limit the range to 5 days
+        // if (start && end) {
+        //     const diffInDays = Math.floor((end - start) / (1000 * 60 * 60 * 24));
+        //     console.log(diffInDays);
+        //     setQty(diffInDays)
 
-            if (diffInDays > item?.maximiumNumberOfDays) {
+        //     if (diffInDays > item?.maximiumNumberOfDays) {
 
-                const newEndDate: any = new Date(start);
-                newEndDate.setDate(start.getDate() + (item?.maximiumNumberOfDays));
-                setEndDate(newEndDate);
-            }
-        }
-    };
-
-    const clickHandler = () => {
-        setStartDate(null)
-        setEndDate(null)
-    }
-
-    console.log(item?.maximiumNumberOfDays);
-
-
+        //         const newEndDate: any = new Date(start);
+        //         newEndDate.setDate(start.getDate() + (item?.maximiumNumberOfDays));
+        //         setEndDate(newEndDate);
+        //     }
+        // }
+    }; 
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -121,87 +107,19 @@ export default function RentalDetail({ id }: { id: string }) {
                                 <Text fontSize={"13px"} >Joined Nov 2017 <span style={{ fontSize: "12px" }} >( 23+ Clients Served )</span></Text>
                             </Flex>
                         </Flex>
+                        <ProductRating item={item} reviewType="RENTAL" />
                     </Flex>
                     <Flex w={"fit-content"} >
-                        <Flex maxW={"413px"} w={"full"} flexDirection={"column"} >
+                        <Flex w={"413px"} flexDirection={"column"} >
                             <Flex display={["none", "none", "flex"]} >
                                 <RentalCheckout setQty={setQty} item={item} qty={qty} />
-                            </Flex>
-                            <Flex flexDir={"column"} pt={"4"} >
-                                <Text fontWeight={"600"} >Service Menu List </Text>
-                                <Flex gap={"1"} >
-                                    <Text>{item?.category}</Text>
-                                </Flex>
-                            </Flex>
+                            </Flex> 
                         </Flex>
                     </Flex>
                 </Flex>
-                <Flex w={"full"} gap={"6"} pt={"8"} flexDir={["column", "column", "row"]}  >
-                    <Flex w={"fit-content"} gap={"2"} display={["none", "none", "flex"]} flexDir={"column"} >
-                        <DatePicker
-                            selected={startDate}
-                            onChange={handleDateChange}
-                            startDate={startDate}
-                            endDate={endDate}
-                            selectsRange
-                            monthsShown={2} // Show two months
-                            inline // Display the calendar inline
-                            minDate={new Date()}
-                            maxDate={startDate ? new Date(startDate.getTime() + item?.maximiumNumberOfDays * 24 * 60 * 60 * 1000) : new Date(Date.now() + 100000 * 24 * 60 * 60 * 1000)}
-                        />
-                        <Text fontWeight={"700"} color={"red"} fontSize={"xs"} as={"button"} onClick={clickHandler} >clear date</Text>
-                    </Flex>
-                    <Flex flex={"1"} flexDir={"column"} gap={"3"} flexDirection={"column"} >
-                        <Flex maxW={"full"} overflowX={"auto"} >
-                            <Flex alignItems={"center"} gap={"2"} >
-                                <FaStar size={"40px"} color='#EFD414' />
-                                <Text fontWeight={"700"} >4.0</Text>
-                                <Flex w={"fit-content"} >
-                                    <Flex w={"8px"} h={"8px"} rounded={"full"} bgColor={borderColor} />
-                                </Flex>
-                                <Text fontWeight={"700"}>234 Recommendations</Text>
-                                <Text fontSize={"14px"} w={"120px"} fontWeight={"500"} ml={"9"} >See Review</Text>
-                                <Text textDecor={"underline"} color={primaryColor} w={"120px"} ml={"9"} fontWeight={"500"} >Leave a review</Text>
-                            </Flex>
-                        </Flex>
-                        <Flex flexDirection={"column"} pt={"6"} gap={"3"} >
-                            <Flex flexDir={"column"} gap={"2"} >
-                                <Flex alignItems={"center"} gap={"2"} >
-                                    <Flex rounded={"30px"} roundedTopRight={"0px"} h={"41px"} w={"41px"} bgColor={"blue"} />
-                                    <Flex flexDir={"column"} >
-                                        <Text fontWeight={"600"} fontSize={"14px"} >Lena Kyles</Text>
-                                        <Flex gap={"1"} >
-                                            <FaStar size={"12px"} color={borderColor} />
-                                            <FaStar size={"12px"} color={borderColor} />
-                                            <FaStar size={"12px"} color={borderColor} />
-                                            <FaStar size={"12px"} color={borderColor} />
-                                            <FaStar size={"12px"} color={secondaryBackgroundColor} />
-                                        </Flex>
-                                        <Text fontSize={"12px"} >May 03, 2023, 12:56</Text>
-                                    </Flex>
-                                </Flex>
-                                <Text fontSize={"14px"} >Lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet cons, Lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet con, Lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet con</Text>
-                            </Flex>
-                            <Flex flexDir={"column"} gap={"2"} >
-                                <Flex alignItems={"center"} gap={"2"} >
-                                    <Flex rounded={"30px"} roundedTopRight={"0px"} h={"41px"} w={"41px"} bgColor={"blue"} />
-                                    <Flex flexDir={"column"} >
-                                        <Text fontWeight={"600"} fontSize={"14px"} >Lena Kyles</Text>
-                                        <Flex gap={"1"} >
-                                            <FaStar size={"12px"} color={borderColor} />
-                                            <FaStar size={"12px"} color={borderColor} />
-                                            <FaStar size={"12px"} color={borderColor} />
-                                            <FaStar size={"12px"} color={borderColor} />
-                                            <FaStar size={"12px"} color={secondaryBackgroundColor} />
-                                        </Flex>
-                                        <Text fontSize={"12px"} >May 03, 2023, 12:56</Text>
-                                    </Flex>
-                                </Flex>
-                                <Text fontSize={"14px"} >Lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet cons, Lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet con, Lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet cons, lorem ipsum dolor sit amet con</Text>
-                            </Flex>
-                        </Flex>
-                    </Flex>
-                </Flex>
+                {/* <Flex w={"full"} gap={"6"} pt={"8"} flexDir={["column", "column", "row"]}  > 
+                    <ProductRating item={item} reviewType="RENTAL" />
+                </Flex> */}
                 <Flex w={"full"} mt={"56"} display={["flex", "flex", "none"]} />
                 <Flex display={["flex", "flex", "none"]} position={"fixed"} bottom={"20"} insetX={"0px"} px={"4"} w={"full"} >
                     <RentalCheckout setQty={setQty} item={item} qty={qty} />

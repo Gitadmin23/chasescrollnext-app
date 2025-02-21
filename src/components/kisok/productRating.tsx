@@ -9,7 +9,7 @@ import httpService from '@/utils/httpService'
 import { IUser } from '@/models/User'
 import UserImage from '../sharedComponent/userimage'
 import { dateFormat } from '@/utils/dateFormat'
-import { IProduct } from '@/models/product'
+import { IProduct, IRental } from '@/models/product'
 import LoadingAnimation from '../sharedComponent/loading_animation'
 import { formatNumber } from '@/utils/numberFormat'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
@@ -31,7 +31,7 @@ interface IReview {
     "reviewType": string
 }
 
-export default function ProductRating({ item }: { item: IProduct }) {
+export default function ProductRating({ item, reviewType }: { item: IProduct | IRental | any, reviewType: string }) {
 
     const { borderColor } = useCustomTheme()
 
@@ -53,17 +53,17 @@ export default function ProductRating({ item }: { item: IProduct }) {
 
     return (
         <Flex flex={"1"} flexDir={"column"} gap={"3"} flexDirection={"column"} >
-            <Flex maxW={"full"} overflowX={"auto"} >
+            <Flex maxW={"full"} flexDirection={"column"} gap={"3"} >
                 <Flex alignItems={"center"} gap={"2"} >
-                    <FaStar size={"40px"} color='#EFD414' />
+                    <FaStar size={"25px"} color='#EFD414' />
                     <Text fontWeight={"700"} >{formatNumber(item?.rating, "")}</Text>
                     <Flex w={"fit-content"} >
                         <Flex w={"8px"} h={"8px"} rounded={"full"} bgColor={borderColor} />
                     </Flex>
-                    <Text fontWeight={"700"}>{data?.length} Recommendations</Text>
-                    <Text fontSize={"14px"} w={"120px"} fontWeight={"500"} ml={"9"} >See Review</Text>
-                    <ReviewData item={item?.id} />
+                    <Text fontWeight={"700"}>({data?.length})</Text>
                 </Flex>
+
+                <ReviewData item={item?.id} reviewType={reviewType} />
             </Flex>
             <LoadingAnimation loading={isLoading} >
                 <Flex flexDirection={"column"} pt={"6"} gap={"3"} >
@@ -74,7 +74,7 @@ export default function ProductRating({ item }: { item: IProduct }) {
                                     {/* <Flex rounded={"30px"} roundedTopRight={"0px"} h={"41px"} w={"41px"} bgColor={"blue"} /> */}
                                     <UserImage border={"1px"} image={item?.user?.data?.imgMain?.value} data={item?.user} size={"41px"} />
                                     <Flex flexDir={"column"} >
-                                        <Text fontWeight={"600"} fontSize={"14px"} >{capitalizeFLetter(item?.user?.firstName)+" "+capitalizeFLetter(item?.user?.lastName)}</Text>
+                                        <Text fontWeight={"600"} fontSize={"14px"} >{capitalizeFLetter(item?.user?.firstName) + " " + capitalizeFLetter(item?.user?.lastName)}</Text>
                                         <Flex flexDir={"row"} gap={"1"} >
                                             {[1, 2, 3, 4, 5]?.map((itemNumb) => {
                                                 return (

@@ -3,19 +3,18 @@ import CustomButton from '@/components/general/Button'
 import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
+import { SuccessIcon } from '@/components/svg'
 import useGetUser from '@/hooks/useGetUser'
 import useProduct from '@/hooks/useProduct'
 import useCustomTheme from '@/hooks/useTheme'
-import { IProduct } from '@/models/product'
+import { IRental } from '@/models/product'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import httpService from '@/utils/httpService'
 import { formatNumber } from '@/utils/numberFormat'
 import { Checkbox, Flex, Input, Select, Text, Textarea, useToast } from '@chakra-ui/react'
-import { useSearchParams } from 'next/navigation'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation' 
 import React, { useEffect, useState } from 'react'
-import { FaCheckCircle, FaEdit } from 'react-icons/fa'
-import { ImCheckboxChecked } from 'react-icons/im'
+import { FaCheckCircle, FaEdit } from 'react-icons/fa' 
 import { IoIosAdd } from 'react-icons/io'
 import { IoTrashBin } from 'react-icons/io5'
 import { useQuery } from 'react-query'
@@ -47,20 +46,24 @@ export default function ShippingAddress(
 ) {
 
     const id = params.slug
-    const { primaryColor } = useCustomTheme();
+    const { primaryColor, secondaryBackgroundColor, bodyTextColor } = useCustomTheme();
     const query = useSearchParams();
     const type = query?.get('qty');
+    const startDate = query?.get('startDate');
+    const endDate = query?.get('endDate');
+    const { push } = useRouter()
 
-    const { createAddress, setOpen, open, payload, setPayload, userId, editAddress, setAddressId, addressId, openDelete, setOpenDelete, deleteAddress, addressDefault, setAddressDefault, createProductOrder, configPaystack, setPaystackConfig, updateAddress } = useProduct()
+    const { createAddress, setOpen, open, payload, setPayload, userId, editAddress, setAddressId, addressId, openDelete, setOpenDelete, deleteAddress, addressDefault, setAddressDefault, createRentalRecipt, updateAddress, openSucces, setOpenSucces } = useProduct()
     const toast = useToast()
     const [address, setAddress] = useState<Array<IProps>>([]) 
- 
+
+
     const { user } = useGetUser()
-    const [item, setItem] = useState({} as IProduct)
+    const [item, setItem] = useState({} as IRental)
 
     const { isLoading: loading } = useQuery(
-        ["products", id],
-        () => httpService.get(`/products/search`, {
+        ["rental", id],
+        () => httpService.get(`/rental/search`, {
             params: {
                 id: id
             }
@@ -140,6 +143,10 @@ export default function ShippingAddress(
         )
     }
 
+    console.log(startDate);
+    console.log(endDate);
+    
+
     return (
         <Flex w={"full"} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} flexDir={"column"} gap={"6"} overflowY={"auto"} overflowX={"hidden"} >
             <Flex alignItems={"center"} gap={"1"} >
@@ -197,8 +204,8 @@ export default function ShippingAddress(
                     <Flex w={"292px"} rounded={"8px"} flexDir={"column"} gap={"4"} p={"6"} shadow={"lg"} bgColor={"white"} >
                         <Text fontWeight={"500"} >Order Summary</Text>
                         <Flex w={"full"} justifyContent={"space-between"} >
-                            <Text fontSize={"14px"} fontWeight={"500"} >Item total</Text>
-                            <Text fontWeight={"500"} >{type}</Text>
+                            <Text fontSize={"14px"} fontWeight={"500"} >Duration</Text>
+                            <Text fontWeight={"500"} >{type} {item?.frequency === "HOURLY" ? (type === "1" ? "hour" : "hours") : (type === "1" ? "day" : "days")}</Text>
                         </Flex>
                         <Flex w={"full"} justifyContent={"space-between"} >
                             <Text fontSize={"14px"} fontWeight={"500"} >Item price</Text>
@@ -209,7 +216,12 @@ export default function ShippingAddress(
                             <Text fontWeight={"500"} >{formatNumber(item?.price * Number(type))}</Text>
                         </Flex>
                         <Flex mt={"4"} >
-                            <CustomButton isLoading={createProductOrder?.isLoading} onClick={() => createProductOrder?.mutate({ productId: item?.id, quantity: Number(type), total: Number(item?.price * Number(type)), userId: userId + "", vendorId: item?.creator?.userId, addressId: addressDefault + "" })} text={"Confirm order"} borderRadius={"999px"} />
+                            <CustomButton isLoading={createRentalRecipt?.isLoading} onClick={() => createRentalRecipt?.mutate({
+                                userID: userId + "", price: Number(item?.price * Number(type)), addressedId: addressDefault + "",
+                                rentalID: item?.id,
+                                startDate: Number(startDate),
+                                endDate: Number(endDate),
+                            })} text={"Confirm order"} borderRadius={"999px"} />
                         </Flex>
                     </Flex>
                 </Flex>
@@ -249,8 +261,17 @@ export default function ShippingAddress(
                         <CustomButton isLoading={deleteAddress?.isLoading} onClick={() => deleteAddress?.mutate()} text={"Submit"} borderWidth={"1px"} borderColor={"red"} backgroundColor={"red"} borderRadius={"999px"} />
                     </Flex>
                 </Flex>
+            </ModalLayout> 
+            <ModalLayout open={openSucces} close={setOpenSucces} bg={secondaryBackgroundColor} closeIcon={true} >
+                <LoadingAnimation loading={loading} >
+                    <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
+                        <SuccessIcon />
+                        <Text fontSize={["18px", "20px", "24px"]} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{"Receipt created Successful"}</Text>
+                        <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your reciept has reach the vendor `}</Text> 
+                            <CustomButton onClick={() => push("/dashboard/kisok?type=myreciept")} color={"#FFF"} text={'View Receipt'} w={"full"} backgroundColor={"#3EC259"} /> 
+                    </Flex>
+                </LoadingAnimation>
             </ModalLayout>
-            <Fundpaystack id={item?.id} config={configPaystack} setConfig={setPaystackConfig} />
         </Flex>
     )
 }
