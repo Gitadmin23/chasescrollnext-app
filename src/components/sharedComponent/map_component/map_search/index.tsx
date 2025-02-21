@@ -56,7 +56,7 @@ function MapSearch(props: Props) {
         requestOptions: {
             location: new google.maps.LatLng(center),
             radius: 100 * 1000,
-        }, 
+        },
     });
 
     // https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
@@ -87,15 +87,27 @@ function MapSearch(props: Props) {
                     latlng: lat + " " + lng
                 }
             })
-            // updateProduct({...productdata, location: address})
-            updateRental({...rentaldata, location: address})
+
+            updateProduct({
+                ...productdata, location: {
+                    locationDetails: address,
+                    latlng: lat + " " + lng
+                }
+            })
+            updateRental({
+                ...rentaldata, location: {
+                    locationDetails: address,
+                    latlng: lat + " " + lng
+                }
+            })
+
 
             setMarker({
                 lat: Number(lat),
                 lng: Number(lng),
             })
             SetMap({ lat: lat, lng: lng })
-            SetZoom(9) 
+            SetZoom(9)
         } catch (error) {
             console.log("😱 Error: ", error);
         }
@@ -110,9 +122,9 @@ function MapSearch(props: Props) {
             location_address = value
         }
     })
-  
-    const { 
-      mainBackgroundColor, 
+
+    const {
+        mainBackgroundColor,
     } = useCustomTheme();
 
     return (
