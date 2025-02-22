@@ -26,5 +26,6 @@ export type IService = {
         phone: string;
         socialMediaHandles: Array<ISocialMediaHandles>;
         createdDate: number;
+        totalBooking: number;
 }
 

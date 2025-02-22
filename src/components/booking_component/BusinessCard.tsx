@@ -62,7 +62,7 @@ function BusinessCard({ business }: { business: IService }) {
                 </VStack>
 
                 <VStack justifyContent={'center'} flex={1} paddingLeft={'10px'} height='full' width='full' alignItems={'flex-end'}>
-                    <Text fontWeight={400} fontSize={'14px'}>0 clients served</Text>
+                    <Text fontWeight={400} fontSize={'14px'}>{business?.totalBooking === 0 ? 0 : business?.totalBooking} clients served</Text>
                 </VStack>
             </HStack>
 

@@ -4,18 +4,20 @@ import { useDetails } from "@/global-state/useUserDetails";
 import useCustomTheme from "@/hooks/useTheme";
 import { IBuisness } from "@/models/Business";
 import { IService } from "@/models/Service";
-import { IMAGE_URL } from "@/services/urls";
+import { IUser } from "@/models/User";
+import { IMAGE_URL, URLS } from "@/services/urls";
 import httpService from "@/utils/httpService";
 import { Box, Flex, Text, Divider, Button, HStack, VStack, useToast, Spinner, Image } from "@chakra-ui/react";
 import { ArrowLeft2, Star1 } from "iconsax-react";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 export default function ServiceDetailsPage() {
     const [service, setService] = React.useState<IService | null>(null);
     const [show, setShow] = React.useState(false);
     const { userId } = useDetails((state) => state);
+    const [vendor, setVendor] = React.useState<IUser | null>(null)
 
 
     const param = useParams();
@@ -32,8 +34,44 @@ export default function ServiceDetailsPage() {
         bodyTextColor
     } = useCustomTheme();
 
+    // mutation
+
+    const { mutate, isLoading: friendRequestLoading } = useMutation({
+        mutationFn: (data: { toUserID: string }) => httpService.post(`${URLS.SEND_FRIEND_REQUEST}`, data),
+        onSuccess: (data) => {
+            toast({
+                title: 'Message',
+                description: data?.data?.message,
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+                position: 'top-right',
+
+            });
+            console.log(data?.data);
+        },
+        onError: (error: any) => {
+            toast({
+                title: 'An error occured',
+                description: error?.message,
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+                position: 'top-right',
+
+            })
+        }
+    })
+
 
     // query
+    const getUserProfile = useQuery(['get-public-profile', service?.vendor?.userId], () => httpService.get(`/user/publicprofile/${service?.vendor?.userId}`), {
+        onSuccess: (data) => {
+            console.log('------VENDOR DATA-----');
+            console.log(data?.data);
+            setVendor(data?.data as IUser);
+        }
+    })
     const { isLoading } = useQuery([`get-service-by-id-${id}`, id], () => httpService.get(`/business-service/search`, {
         params: {
             id,
@@ -174,7 +212,7 @@ export default function ServiceDetailsPage() {
                 <Flex w='full' flexDir={['column', 'row']} mt='20px'>
 
                     <VStack w={['full', '60%']} alignItems='flex-start' spacing={4} >
-                        <Text fontWeight={600} color={headerTextColor} fontSize={'16px'} textDecoration={'underline'}>Show More</Text>
+                        <Text fontWeight={600} color={headerTextColor} fontSize={'16px'} textDecoration={'underline'}>Vendor Details</Text>
                         <HStack spacing={[10, 20]}>
                             <Box w='auto' h='auto' overflow={'visible'} position="relative">
                                 <Box zIndex={1} w='60px' h='60px' borderRadius={'full'} overflow='hidden' bgColor='lightgrey'>
@@ -188,12 +226,16 @@ export default function ServiceDetailsPage() {
                             </Box>
                             <VStack alignItems='flex-start' spacing={-2}>
                                 <Text fontWeight={600} fontSize={'16px'}>Service from {service?.name}</Text>
-                                <Text color={bodyTextColor} fontSize={'14px'} fontWeight={400}>Joined {new Date(service?.createdDate as number).toDateString()}  ( 0 clients served)</Text>
+                                <Text color={bodyTextColor} fontSize={'14px'} fontWeight={400}>Joined {new Date(service?.createdDate as number).toDateString()}  ( {service?.totalBooking === 0 ? 0 : service?.totalBooking} clients served)</Text>
                             </VStack>
                         </HStack>
-                        <Button width={'100px'} height={'35px'} borderRadius="45px" backgroundColor={primaryColor} mt='5px'>
-                            <Text color='white' fontSize={'16px'}>Follow</Text>
-                        </Button>
+                        {
+                            !getUserProfile.isLoading && userId !== service?.vendor?.userId && vendor?.joinStatus !== 'CONNECTED' && (
+                                <Button onClick={() => mutate({ toUserID: service?.vendor?.userId as string })} isLoading={friendRequestLoading} width={'100px'} height={'35px'} borderRadius="45px" backgroundColor={primaryColor} mt='5px'>
+                                    <Text color='white' fontSize={'16px'}>Follow</Text>
+                                </Button>
+                            )
+                        }
                     </VStack>
 
                     {/* CATEGORIES SECTION */}
