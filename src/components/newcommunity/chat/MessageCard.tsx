@@ -129,8 +129,7 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
 
 
     return (
-        <HStack id={id} bg={mainBackgroundColor} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.user.userId === myId ? 'flex-end' : 'flex-start'} flexDirection={self ? 'row' : 'row-reverse'} borderRadius='20px'>
-
+        (<HStack id={id} bg={mainBackgroundColor} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.user.userId === myId ? 'flex-end' : 'flex-start'} flexDirection={self ? 'row' : 'row-reverse'} borderRadius='20px'>
             <HStack position={'relative'} width='fit-content' justifyContent={'space-between'} alignItems={'flex-start'} flexDirection={self ? 'row' : 'row-reverse'}>
 
                 {shoowSubmenu && (
@@ -171,14 +170,14 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                             )}
                             {
                                 post.type === 'WITH_VIDEO_POST' && (
-                                    <Flex as={"button"} onClick={() => setShow(true)} w={"250px"} h={"150px"} justifyContent={"center"} alignItems={"center"} rounded={"2xl"} bgColor={mainBackgroundColor} >
+                                    (<Flex as={"button"} onClick={() => setShow(true)} w={"250px"} h={"150px"} justifyContent={"center"} alignItems={"center"} rounded={"2xl"} bgColor={mainBackgroundColor} >
                                         {/* <RiFolderVideoLine size={"40px"} color={"white"} /> */}
                                         <VideoPlayer
                                             src={`${post?.mediaRef.startsWith('https://') ? post?.mediaRef : IMAGE_URL+post?.mediaRef}`}
                                             measureType="px"
                                         />
                                         {/* {} */}
-                                    </Flex>
+                                    </Flex>)
                                     // <video controls width={'100%'} height={'100px'} style={{ borderRadius: '20px' }}>
                                     //     <source height={"100px"} src={post.mediaRef} />
                                     // </video>
@@ -222,7 +221,6 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
 
 
             </HStack>
-
             {/* DRAWER */}
             <Drawer isOpen={open} onClose={() => { setOpen(false); setShowEmoi(false) }} placement='right' size={showEmoji ? 'sm' : 'xs'}>
                 <DrawerOverlay />
@@ -292,7 +290,6 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                 </DrawerContent>
             </Drawer>
             {/* END OF DRAWER */}
-
             <ModalLayout title={"Media"} open={show} close={setShow} size={"lg"} >
                 <Flex h={"400px"} >
 
@@ -307,9 +304,8 @@ const MessageCard = React.forwardRef<HTMLDivElement, IProps>(({ message, id = un
                     )}
                 </Flex>
             </ModalLayout>
-
-        </HStack>
-    )
+        </HStack>)
+    );
 });
 
 export default MessageCard

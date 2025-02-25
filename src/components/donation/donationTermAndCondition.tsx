@@ -112,7 +112,7 @@ us at: support@chasescroll.com
 
 
     return (
-        <Flex  >
+        (<Flex  >
             {refund && (
                 <Text onClick={() => setOpen(true)} as={"button"} textDecor={"underline"} fontWeight={"bold"} fontSize={"12px"} color={primaryColor} >Fundraising refund policy</Text>
             )}
@@ -136,7 +136,7 @@ us at: support@chasescroll.com
                         )}
                         {!refund && (
 
-                            <Box
+                            (<Box
                                 my={"3"} lineHeight={"22px"}
                                 whiteSpace="pre-wrap"
                                 p={[2, 4, 4]}
@@ -147,7 +147,7 @@ us at: support@chasescroll.com
                                 fontSize="sm"
                             >
                                 {termsAndConditions}
-                            </Box>
+                            </Box>)
                             // <Text>
                             //     Terms and Conditions
                             //     <br /><br />
@@ -237,6 +237,6 @@ us at: support@chasescroll.com
                     </Box>
                 </Box>
             </ModalLayout>
-        </Flex>
-    )
+        </Flex>)
+    );
 }

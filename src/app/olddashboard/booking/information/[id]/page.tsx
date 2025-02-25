@@ -19,7 +19,7 @@ import { useRouter } from 'next/navigation'
 import BookingsTab from '@/components/booking_component/detail_component/booking_tab';
 
 type Props = {
-    params: { id: string } 
+    params: Promise<{ id: string }> 
   } 
 
 function BookingDetails(props: Props) { 

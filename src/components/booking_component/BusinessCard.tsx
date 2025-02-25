@@ -7,14 +7,30 @@ import { useRouter, usePathname } from 'next/navigation'
 import React from 'react'
 import BlurredImage from '../sharedComponent/blurred_image'
 import { FiMapPin } from 'react-icons/fi'
+import { ArrowLeft2, Star1 } from "iconsax-react";
 
 function BusinessCard({ business }: { business: IService }) {
+    const [activeImageIndex, setActiveImageIndex] = React.useState(0);
 
     const [services, setServices] = React.useState<IService[]>([]);
 
     const toast = useToast()
     const router = useRouter();
     const path = usePathname();
+
+    React.useEffect(() => {
+        if (business?.images?.length > 1) {
+            const interval = setInterval(() => {
+                setActiveImageIndex((prev) => {
+                    if (prev === business?.images.length - 1) {
+                        return 0;
+                    }
+                    return prev + 1;
+                });
+            }, 3000);
+            return () => clearInterval(interval);
+        }
+    }, [])
 
     // query
     console.log(business);
@@ -41,27 +57,41 @@ function BusinessCard({ business }: { business: IService }) {
                 </VStack>
             </HStack>
 
-            <Box onClick={() => router.push(`/dashboard/newbooking/details/service/${business?.id}`)} cursor='pointer' w='full' h='146px' borderRadius={'10px'} overflow={'hidden'} bg="lightgrey" >
+            <Box onClick={() => router.push(`/dashboard/newbooking/details/service/${business?.id}`)} cursor='pointer' w='full' h='174px' borderRadius={'10px'} overflow={'hidden'} bg="lightgrey" position={'relative'} >
                 {/* <BlurredImage forEvent={false} image={business?.images[0].startsWith('https://') ? business?.images[0] : (IMAGE_URL as string) + business?.images[0]} height={'100%'} /> */}
+                {business?.images?.length > 1 && (
+                    <HStack position={"absolute"} bottom={"10px"} height={"15px"} width={'full'} justifyContent={"center"} spacing={1}>
+                        {business?.images.map((image, index) => (
+                            <Box key={index.toString()} width={activeImageIndex === index ? "10px" : "5px"} height={activeImageIndex === index ? "10px" : "5px"} borderRadius={activeImageIndex === index ? "10px" : "5px"} bg={activeImageIndex === index ? "white":"white"} scale={activeImageIndex === index ? 1:1} ></Box>
+                        ))}
+                    </HStack>
+                )}
 
-                <Image onClick={() => router.push(`/dashboard/newbooking/details/service/${business?.id}`)} cursor='pointer' src={business?.images[0].startsWith('https://') ? business?.images[0] : (IMAGE_URL as string) + business?.images[0]} alt="banner image" w='full' h='full' objectFit={'contain'} />
+                <Image onClick={() => router.push(`/dashboard/newbooking/details/service/${business?.id}`)} cursor='pointer' src={business?.images[activeImageIndex].startsWith('https://') ? business?.images[activeImageIndex] : (IMAGE_URL as string) + business?.images[activeImageIndex]} alt="banner image" w='full' h='full' objectFit={'cover'} />
             </Box>
 
             <VStack minHeight={'200px'} maxHeight="250px" width='full' overflow="hidden" alignItems="flex-start" spacing={6}>
                     {/* START */}
-                <VStack alignItems={'flex-start'} spacing={-3}>
-                    <Text fontWeight={400} fontSize={'14px'}>Business Name</Text>
-                    <Text fontSize={'24px'} fontWeight={700}>{business?.name ?? 'This is the business name'}</Text>
-                </VStack>
+                <HStack spacing={-3} width={"full"} alignItems={"center"} justifyContent={"space-between"}>
+                    <VStack alignItems={'flex-start'}>
+                        <Text fontWeight={400} fontSize={'14px'}>Business Name</Text>
+                        <Text fontSize={'24px'} fontWeight={700}>{business?.name ?? 'This is the business name'}</Text>
+                    </VStack>
+                    <HStack>
+                        <Star1 size={25} color='gold' variant="Bold" />
+                        <Text fontSize={'16px'} fontWeight={600}>{business?.rating}</Text>
+                    </HStack>
+                </HStack>
 
-                <HStack spacing={-3} alignItems={'flex-start'} width='100%'>
+                <HStack spacing={-3} alignItems={'center'} width='100%'>
                     <VStack width='full' flex={1} borderRightWidth={'1px'} borderRightColor={borderColor} alignItems={'flex-start'} paddingRight={'10px'}>
                         <Text fontWeight={400} fontSize={'14px'}>Service offering</Text>
                         <Text color='black' fontWeight={600} fontSize={'14px'}>{business?.category}</Text>
                     </VStack>
 
-                    <VStack justifyContent={'center'} flex={1} paddingLeft={'10px'} height='full' width='full' alignItems={'flex-end'}>
-                        <Text fontWeight={400} fontSize={'14px'} >{business?.totalBooking === 0 ? 0 : business?.totalBooking} clients served</Text>
+                    <VStack justifyContent={'center'} flex={1} paddingLeft={'10px'} height='full' width='full' alignItems={'center'}>
+                        {business.totalBooking > 0 && <Text fontWeight={400} fontSize={'14px'} >{business?.totalBooking === 0 ? 0 : business?.totalBooking} clients served</Text>}
+                        {business.totalBooking === 0 && <Text fontWeight={400} color={primaryColor} fontSize={'14px'} >Ready to serve</Text>}
                     </VStack>
                 </HStack>
 

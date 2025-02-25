@@ -146,7 +146,7 @@ function BlockBtn(props: Props) {
     }
 
     return (
-        <Flex position={"relative"} width={isprofile ? "fit-content" : "full"} >
+        (<Flex position={"relative"} width={isprofile ? "fit-content" : "full"} >
             {isprofile && (
                 <>
                     {ids.includes(user_index) && (
@@ -164,13 +164,11 @@ function BlockBtn(props: Props) {
                         //     Block
                         // </Text>
 
-                        <Button height={"fit-content"} _hover={{ backgroundColor: mainBackgroundColor }} fontWeight={"normal"} bgColor={mainBackgroundColor} isLoading={isLoading || isRefetching || handleBlock?.isLoading} onClick={() => handleBlock.mutate({
+                        (<Button height={"fit-content"} _hover={{ backgroundColor: mainBackgroundColor }} fontWeight={"normal"} bgColor={mainBackgroundColor} isLoading={isLoading || isRefetching || handleBlock?.isLoading} onClick={() => handleBlock.mutate({
                             blockType: "USER",
                             typeID: user_index,
-                        })} fontSize={"md"} width={"full"}>
-
-                            Block
-                        </Button>
+                        })} fontSize={"md"} width={"full"}>Block
+                                                    </Button>)
                     )}
                 </>
             )}
@@ -196,8 +194,8 @@ function BlockBtn(props: Props) {
             {showModal === user_index && (
                 <Box onClick={closeHandler} position={"fixed"} inset={"0px"} zIndex={"10"} />
             )}
-        </Flex>
-    )
+        </Flex>)
+    );
 }
 
 export default BlockBtn

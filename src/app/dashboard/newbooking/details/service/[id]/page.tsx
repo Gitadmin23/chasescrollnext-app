@@ -2,23 +2,23 @@
 import CreateBookingModal from "@/components/modals/booking/CreateBookingModal";
 import { useDetails } from "@/global-state/useUserDetails";
 import useCustomTheme from "@/hooks/useTheme";
-import { IBuisness } from "@/models/Business";
 import { IService } from "@/models/Service";
 import { IUser } from "@/models/User";
 import { IMAGE_URL, URLS } from "@/services/urls";
 import httpService from "@/utils/httpService";
-import { Box, Flex, Text, Divider, Button, HStack, VStack, useToast, Spinner, Image } from "@chakra-ui/react";
+import { Box, Flex, Text, Button, HStack, VStack, useToast, Spinner, Image } from "@chakra-ui/react";
 import { ArrowLeft2, Star1 } from "iconsax-react";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { useMutation, useQuery } from "react-query";
 
 export default function ServiceDetailsPage() {
+
     const [service, setService] = React.useState<IService | null>(null);
     const [show, setShow] = React.useState(false);
     const { userId } = useDetails((state) => state);
-    const [vendor, setVendor] = React.useState<IUser | null>(null)
-
+    const [vendor, setVendor] = React.useState<IUser | null>(null);
+    const [activeImageIndex, setActiveImageIndex] = React.useState(0);
 
     const param = useParams();
     const router = useRouter();
@@ -34,7 +34,19 @@ export default function ServiceDetailsPage() {
         bodyTextColor
     } = useCustomTheme();
 
-    // mutation
+    React.useEffect(() => {
+        if ((service?.images as Array<string>)?.length > 1) {
+            const interval = setInterval(() => {
+                setActiveImageIndex((prev) => {
+                    if (prev === (service?.images as Array<string>).length - 1) {
+                        return 0;
+                    }
+                    return prev + 1;
+                });
+            }, 3000);
+            return () => clearInterval(interval);
+        }
+    }, [service?.images]);
 
     const { mutate, isLoading: friendRequestLoading } = useMutation({
         mutationFn: (data: { toUserID: string }) => httpService.post(`${URLS.SEND_FRIEND_REQUEST}`, data),
@@ -48,7 +60,6 @@ export default function ServiceDetailsPage() {
                 position: 'top-right',
 
             });
-            console.log(data?.data);
         },
         onError: (error: any) => {
             toast({
@@ -58,7 +69,6 @@ export default function ServiceDetailsPage() {
                 duration: 5000,
                 isClosable: true,
                 position: 'top-right',
-
             })
         }
     })
@@ -67,8 +77,7 @@ export default function ServiceDetailsPage() {
     // query
     const getUserProfile = useQuery(['get-public-profile', service?.vendor?.userId], () => httpService.get(`/user/publicprofile/${service?.vendor?.userId}`), {
         onSuccess: (data) => {
-            console.log('------VENDOR DATA-----');
-            console.log(data?.data);
+            
             setVendor(data?.data as IUser);
         }
     })
@@ -119,87 +128,46 @@ export default function ServiceDetailsPage() {
     } else {
         return (
             <Box w='full' h='full' p={['10px', '20px']} overflowY={'auto'}>
+
                 <CreateBookingModal show={show} onClose={() => setShow(false)} service={service as IService} />
+
                 <Flex w='full' h='30px' justifyContent={'flex-start'} alignItems={'center'} mb='20px'>
                     <ArrowLeft2 size={30} onClick={() => router.back()} />
                     <Text fontSize='16px' fontWeight={600}>{service?.name}</Text>
                 </Flex>
 
                 {/* IMAGES */}
-                {/* SMALL SCREENS */}
-                <Flex display={['flex', 'none']} bg={mainBackgroundColor} w={"full"} h={"240px"} bgColor={secondaryBackgroundColor} rounded={"8px"} overflowX='auto' gap={3}>
-                    {service?.images.map((item, index) => (
-                        <Box flexShrink={0} w='300px' h='full' borderRadius={'10px'} overflow='hidden' key={index.toString()}>
-                            <Image src={item.startsWith('https:') ? item : (IMAGE_URL as string) + item} alt='banner image' w='full' h='full' objectFit={'cover'} />
-                        </Box>
-                    ))}
-                </Flex>
+                {/*<Flex display={['flex', 'none']} bg={mainBackgroundColor} w={"full"} h={"240px"} bgColor={secondaryBackgroundColor} rounded={"8px"} overflowX='auto' gap={3}>*/}
+                {/*    {service?.images.map((item, index) => (*/}
+                {/*        <Box flexShrink={0} w='300px' h='full' borderRadius={'10px'} overflow='hidden' key={index.toString()}>*/}
+                {/*            <Image src={item.startsWith('https:') ? item : (IMAGE_URL as string) + item} alt='banner image' w='full' h='full' objectFit={'cover'} />*/}
+                {/*        </Box>*/}
+                {/*    ))}*/}
+                {/*</Flex>*/}
 
-                {service?.images?.length === 1 && (
-                    <Flex display={['none', 'flex']} w={"full"} h={"240px"} bgColor={"white"} rounded={"8px"} overflow='hidden' >
-                        <Image src={service?.images[0].startsWith('https:') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} alt='banner image' w='full' h='full' objectFit={'cover'} />
-                    </Flex>
-                )}
-
-                {service?.images?.length === 2 && (
-                    <HStack display={['none', 'flex']} bg={mainBackgroundColor} w={"full"} h={"240px"} bgColor={"white"} rounded={"8px"} overflow='hidden' spacing={3} >
-                        {service?.images.map((item, index) => (
-                            <Box w='full' h='full' borderRadius={'10px'} overflow='hidden' key={index.toString()}>
-                                <Image src={item.startsWith('https:') ? item : (IMAGE_URL as string) + item} alt='banner image' w='full' h='full' objectFit={'cover'} />
-                            </Box>
-                        ))}
-                    </HStack>
-                )}
-
-                {service?.images?.length === 3 && (
-                    <HStack display={['none', 'flex']} bg={mainBackgroundColor} w={"full"} h={"240px"} bgColor={"white"} rounded={"8px"} overflow='hidden' spacing={3} >
-                        <Box w='60%' h='full' borderRadius={'10px'} overflow='hidden'>
-                            <Image src={service?.images[0].startsWith('https:') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} alt='banner image' w='full' h='full' objectFit={'cover'} />
-                        </Box>
-                        <VStack w='40%' h='full' spacing={3}>
-                            {service?.images.slice(1).map((item, index) => (
-                                <Box w='full' h='50%' borderRadius={'10px'} overflow='hidden' key={index.toString()}>
-                                    <Image src={item.startsWith('https:') ? item : (IMAGE_URL as string) + item} alt='banner image' w='full' h='full' objectFit={'cover'} />
-                                </Box>
+                <Box cursor='pointer' w='full' h='344px' borderRadius={'10px'} overflow={'hidden'} bg="lightgrey" position={'relative'} >
+                    {/* <BlurredImage forEvent={false} image={service?.images[0].startsWith('https://') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} height={'100%'} /> */}
+                    {(service?.images as Array<string>)?.length > 1 && (
+                        <HStack position={"absolute"} bottom={"10px"} height={"15px"} width={'full'} justifyContent={"center"} spacing={1}>
+                            {service?.images.map((image, index) => (
+                                <Box key={index.toString()} width={activeImageIndex === index ? "10px" : "5px"} height={activeImageIndex === index ? "10px" : "5px"} borderRadius={activeImageIndex === index ? "10px" : "5px"} bg={activeImageIndex === index ? "white":"white"} scale={activeImageIndex === index ? 1:1} ></Box>
                             ))}
-                        </VStack>
-                    </HStack>
-                )}
+                        </HStack>
+                    )}
 
-                {service?.images?.length === 4 && (
-                    <HStack display={['none', 'flex']} bg={mainBackgroundColor} w={"full"} h={"240px"} bgColor={"white"} rounded={"8px"} overflow='hidden' spacing={3} >
-                        <Box w='30%' h='full' borderRadius={'10px'} overflow='hidden'>
-                            <Image src={service?.images[0].startsWith('https:') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} alt='banner image' w='full' h='full' objectFit={'cover'} />
-                        </Box>
-                        <Box w='30%' h='full' borderRadius={'10px'} overflow='hidden'>
-                            <Image src={service?.images[1].startsWith('https:') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} alt='banner image' w='full' h='full' objectFit={'cover'} />
-                        </Box>
-                        <VStack w='40%' h='full' spacing={3}>
-                            {service?.images.slice(2).map((item, index) => (
-                                <Box w='full' h='50%' borderRadius={'10px'} overflow='hidden' key={index.toString()}>
-                                    <Image src={item.startsWith('https:') ? item : (IMAGE_URL as string) + item} alt='banner image' w='full' h='full' objectFit={'cover'} />
-                                </Box>
-                            ))}
-                        </VStack>
-                    </HStack>
-                )}
+                    <Image onClick={() => router.push(`/dashboard/newbooking/details/service/${service?.id}`)} cursor='pointer' src={service?.images[activeImageIndex].startsWith('https://') ? service?.images[activeImageIndex] : (IMAGE_URL as string) + service?.images[activeImageIndex]} alt="banner image" w='full' h='full' objectFit={'cover'} />
+                </Box>
 
-                <Flex w='full' h='auto' flexDir={['column', 'row']} mt='20px'>
+                <Flex w='full' h='auto' flexDir={['column', 'row']} mt='20px' justifyContent={['flex-start', 'space-between']} alignItems={['flex-start', 'flex-start']}>
                     <VStack w={['full', '60%']} spacing={1} alignItems='flex-start'>
                         <Text fontWeight={600} color={headerTextColor} fontSize={'16px'}>Details</Text>
                         <Text fontWeight={400} fontSize={'14px'}>{service?.description}</Text>
                     </VStack>
-                    <Flex w={['full', '40%']} mt={['30px', '0px']} flexDir={'column'} p='30px' borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
-                        <HStack justifyContent={'space-between'}>
-                            <Text fontWeight={600} color={headerTextColor}>Price</Text>
-                            <Text fontSize={'16px'} color={bodyTextColor}>NGN {(service?.discount) && service?.discount > 0 ? service?.discount.toLocaleString() : service?.price?.toLocaleString()}</Text>
+                    <Flex w={['full', '413px']} height={'168px'} mt={['30px', '0px']} flexDir={'column'} p='30px' borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
+                        <HStack justifyContent={'flex-start'}>
+                            <Text fontWeight={600} fontSize={"14px"} color={bodyTextColor}>Starting price</Text>
+                            <Text fontSize={'24px'} fontWeight={600} color={headerTextColor}>NGN {(service?.discount) && service?.discount > 0 ? service?.discount.toLocaleString() : service?.price?.toLocaleString()}</Text>
                         </HStack>
-
-                        {/* {service !== null && service.discount > 0 && (
-                            <VStack w='full' h='50px' borderRadius={'15px'} borderWidth={'1px'} borderColor={primaryColor} bgColor={mainBackgroundColor} justifyContent={'center'} alignItems={'flex-start'} px='10px' marginTop={'20px'}>
-                                <Text>{(service?.discount as number) > 0 ? `Discount Price - ${service?.discount}`: 'No Discount'}</Text>
-                            </VStack>
-                        )} */}
 
                         {userId !== service?.vendor?.userId && (
                             <Button onClick={() => setShow(true)} w='full' h='54px' borderRadius={'full'} bgColor={primaryColor} mt='40px'>
@@ -209,7 +177,7 @@ export default function ServiceDetailsPage() {
                     </Flex>
                 </Flex>
 
-                <Flex w='full' flexDir={['column', 'row']} mt='20px'>
+                <Flex w='full' flexDir={['column', 'row']} mt='20px' justifyContent={['flex-start', 'space-between']}>
 
                     <VStack w={['full', '60%']} alignItems='flex-start' spacing={4} >
                         <Text fontWeight={600} color={headerTextColor} fontSize={'16px'} textDecoration={'underline'}>Vendor Details</Text>
@@ -219,7 +187,7 @@ export default function ServiceDetailsPage() {
                                     <Image zIndex={1} w='60px' h='60px' borderRadius={'full'} alt="user image" objectFit={'cover'} src={service?.vendor?.data?.imgMain?.value ? (service?.vendor?.data?.imgMain?.value.startsWith('http') ? service?.vendor?.data?.imgMain?.value : IMAGE_URL + service?.vendor?.data?.imgMain?.value) : `https://ui-avatars.com/api/?name=${service?.vendor?.firstName}${service?.vendor?.lastName}&background=random`} />
                                 </Box>
 
-                                <HStack zIndex={2} justifyContent={'center'} position='absolute' top={1} right={-6} width='50px' height={'30px'} borderRadius={'35px'} bg='white' borderWidth={'2px'} borderColor={borderColor}>
+                                <HStack zIndex={2} justifyContent={'center'} position='absolute' top={1} right={-6} width='54px' height={'27px'} borderRadius={'35px'} bg='white' borderWidth={'1px'} borderColor={'#E8E8E8'} >
                                     <Star1 size={25} color='gold' variant="Bold" />
                                     <Text fontSize={'16px'} fontWeight={800}>{service?.rating}</Text>
                                 </HStack>
@@ -240,16 +208,16 @@ export default function ServiceDetailsPage() {
 
                     {/* CATEGORIES SECTION */}
 
-                    <Flex w={['full', '40%']} mt={['30px', '0px']} flexDir={'column'} py='5px' borderRadius={'10px'}>
-                        <Text fontWeight={600} color={headerTextColor}>Service Category</Text>
+                        <Flex w={['full', '413px']} mt={['30px', '0px']} flexDir={'column'} py='5px' borderRadius={'10px'}>
+                            <Text fontWeight={600} color={headerTextColor}>Service Category</Text>
 
-                        <Flex w='full' h='auto' overflowX={'auto'} gap={3} mt='10px'>
-                            <VStack w='auto' h='34px' px='10px' borderRadius={'full'} borderWidth={'1px'} borderColor={borderColor} justifyContent={'center'} alignItems={'center'}>
-                                <Text fontWeight={300} fontSize='14px'>{service?.category}</Text>
-                            </VStack>
+                            <Flex w='full' h='auto' overflowX={'auto'} gap={3} mt='10px'>
+                                <VStack w='auto' h='34px' px='10px' borderRadius={'full'} borderWidth={'1px'} borderColor={borderColor} justifyContent={'center'} alignItems={'center'}>
+                                    <Text fontWeight={300} fontSize='14px'>{service?.category}</Text>
+                                </VStack>
+                            </Flex>
                         </Flex>
 
-                    </Flex>
                 </Flex>
 
                 <Flex flexDir="column" mt='20px'>

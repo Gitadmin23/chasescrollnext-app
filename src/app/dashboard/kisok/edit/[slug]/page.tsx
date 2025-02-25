@@ -12,18 +12,17 @@ import useCustomTheme from '@/hooks/useTheme'
 import httpService from '@/utils/httpService'
 import { Flex, Input, Switch, Text } from '@chakra-ui/react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useState, use } from 'react';
 import { IoArrowBack } from 'react-icons/io5'
 import { useQuery } from 'react-query'
 
 type Props = {
-    params: { slug: string }
-    searchParams?: { [key: string]: string | string[] | undefined }
+    params: Promise<{ slug: string }>
+    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export default function KisokCreate(
-    { params }: Props,
-) {
+export default function KisokCreate(props: Props) {
+    const params = use(props.params);
 
 
     const id = params.slug
@@ -42,7 +41,7 @@ export default function KisokCreate(
         "price":productdata?.price, 
         "category": productdata?.category,
         "location": productdata?.location 
-    }, id: id }) 
+    }, id: id })
 
     const { isLoading } = useQuery(
         ["products", id],

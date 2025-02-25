@@ -5,9 +5,10 @@ import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent';
 import { URLS } from '@/services/urls';
 import { Box, Grid, HStack } from '@chakra-ui/react' 
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { use } from 'react';
 
-function Community({ params }: { params: { slug: string } }) {
+function Community(props: { params: Promise<{ slug: string }> }) {
+    const params = use(props.params);
 
     const router = useRouter()
 

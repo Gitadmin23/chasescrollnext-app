@@ -84,7 +84,7 @@ function SelectTicket(props: Props) {
     }, [ticket]) 
  
     return (
-        <Flex gap={"3"} position={"relative"} flexDir={"column"} alignItems={"center"} justifyContent={"end"}  >
+        (<Flex gap={"3"} position={"relative"} flexDir={"column"} alignItems={"center"} justifyContent={"end"}  >
             {ticket?.length > 1 ? (
                 <Flex onClick={() => setShowModal((prev) => !prev)} as={"button"} w={"full"} borderWidth={"1px"} justifyContent={"space-between"} alignItems={"center"} borderColor={"#EAEBEDCC"} rounded={"12px"} p={"5"} >
                     <Flex flexDir={"column"} textAlign={"left"} gap={"1"}  >
@@ -118,13 +118,13 @@ function SelectTicket(props: Props) {
                         } else {
                             return (
                                 // <Flex w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
-                                <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                (<Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                     {item?.totalNumberOfTickets === item?.ticketsSold ?
                                         "Sold Out" :
                                         item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
                                     }
-                                </Button>
-                            )
+                                </Button>)
+                            );
                         }
                     })}
                 </Flex>
@@ -151,20 +151,20 @@ function SelectTicket(props: Props) {
                             } else {
                                 return (
                                     // <Flex w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
-                                    <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                    (<Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                         {item?.totalNumberOfTickets === item?.ticketsSold ?
                                             "Sold Out" :
                                             item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
                                         }
-                                    </Button>
-                                )
+                                    </Button>)
+                                );
                             }
                         })}
                     </Flex>
                 </Box>
-            )} 
-        </Flex>
-    )
+            )}
+        </Flex>)
+    );
 }
 
 export default SelectTicket

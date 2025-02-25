@@ -3,9 +3,10 @@ import GetEventById from '@/components/sharedComponent/user_event_by_id'
 import PastEventById from '@/components/sharedComponent/user_event_by_id/pastEventById';
 import useCustomTheme from '@/hooks/useTheme';
 import { Button, Flex } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useState, use } from 'react';
 
-function Network({ params }: { params: { slug: string } }) {
+function Network(props: { params: Promise<{ slug: string }> }) {
+    const params = use(props.params);
 
 
     const {

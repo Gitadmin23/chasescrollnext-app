@@ -108,7 +108,7 @@ function CreateBookingModal({
 
 
     return (
-        <ModalLayout open={show} close={onClose} closeIcon size={['md', '3xl']}>
+        (<ModalLayout open={show} close={onClose} closeIcon size={['md', '3xl']}>
             <Flex flexDir={['column', 'row']} pb='20px' px={['20px', '20px']} gap={8} bg={mainBackgroundColor}>
                 <VStack w='full' h='full' px={'10px'} alignItems={'flex-start'}>
                     <Text fontSize="12px" color={'grey'}>List your order</Text>
@@ -246,8 +246,8 @@ function CreateBookingModal({
                     </Button>
                 </Flex>
             </Flex>
-        </ModalLayout>
-    )
+        </ModalLayout>)
+    );
 }
 
 export default CreateBookingModal

@@ -1,9 +1,11 @@
-"use client"
-import DashboardDetail from "@/components/settings_component/event_dashboard_component/dashboard_detail" 
+"use client";
+import { use } from "react";
+import DashboardDetail from "@/components/settings_component/event_dashboard_component/dashboard_detail"
 import useCustomTheme from "@/hooks/useTheme";
-import { Box, useColorMode } from "@chakra-ui/react"  
+import { Box, useColorMode } from "@chakra-ui/react"
 
-export default function EventDetailsPage({ params }: { params: { slug: string } }) { 
+export default function EventDetailsPage(props: { params: Promise<{ slug: string }> }) {
+  const params = use(props.params);
 
   const {
     bodyTextColor,
@@ -12,7 +14,7 @@ export default function EventDetailsPage({ params }: { params: { slug: string } 
     mainBackgroundColor,
     borderColor,
 } = useCustomTheme();
-const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return(
     <Box width={"full"} bg={mainBackgroundColor} >

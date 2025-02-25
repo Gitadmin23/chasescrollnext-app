@@ -7,13 +7,12 @@ import { Box, Flex } from '@chakra-ui/react';
 // import GetEventData from '@/app/olddashboard/event/details/get_event_data'; 
 
 type Props = {
-  params: { slug: string }
-  searchParams?: { [key: string]: string | string[] | undefined }
+  params: Promise<{ slug: string }>
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export async function generateMetadata(
-  { params }: Props,
-): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   // read route params
 
   const id = params.slug
@@ -51,7 +50,8 @@ export async function generateMetadata(
 
 
 
-function ShareEvent({ params }: Props) {
+async function ShareEvent(props: Props) {
+  const params = await props.params;
 
   return (
     <Flex width={"full"} h={"100vh"} p={"6"} > 

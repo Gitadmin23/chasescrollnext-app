@@ -5,13 +5,12 @@ import { IMAGE_URL } from "@/services/urls"
 // import { URLS } from "@/services/urls"
 
 type Props = {
-  params: { slug: string }
-  searchParams?: { [key: string]: string | string[] | undefined }
+  params: Promise<{ slug: string }>
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export async function generateMetadata(
-  { params }: Props,
-): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   // read route params
   const id = params.slug
   const url = process.env.NEXT_PUBLIC_BASE_URL as string
@@ -46,7 +45,8 @@ export async function generateMetadata(
 }
 
 
-export default function EventDetailsPage({ params }: Props) {
+export default async function EventDetailsPage(props: Props) {
+  const params = await props.params;
 
   return (
     <GetEventData event_index={params.slug} />
