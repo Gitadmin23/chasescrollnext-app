@@ -1,13 +1,12 @@
 import RentalDetail from '@/components/kisok/rentalDetail'
 
 type Props = {
-    params: { slug: string }
-    searchParams?: { [key: string]: string | string[] | undefined }
+    params: Promise<{ slug: string }>
+    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export default function KisokDetails(
-    { params }: Props,
-) {
+export default async function KisokDetails(props: Props) {
+    const params = await props.params;
     // read route params
     const id = params.slug
 

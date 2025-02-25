@@ -141,64 +141,60 @@ const handleChange = (e: string) => {
 
 
   return (
-    <VStack maxWidth='500px' minWidth={'300px'} height='auto' overflow={'hidden'} bg={mainBackgroundColor}>
-        <input hidden type='file' accept="image/*, video/*" ref={inputRef as any} onChange={(e) => handlePick(e.target.files as FileList)} />
+    (<VStack maxWidth='500px' minWidth={'300px'} height='auto' overflow={'hidden'} bg={mainBackgroundColor}>
+      <input hidden type='file' accept="image/*, video/*" ref={inputRef as any} onChange={(e) => handlePick(e.target.files as FileList)} />
+      <HStack width='100%' height='70px' bg={mainBackgroundColor} justifyContent={'space-between'} paddingX='10px' alignItems={'center'} paddingTop={'10px'} borderBottomWidth={'0.3px'} borderBottomColor={borderColor}>
+          <FiChevronLeft size={'25px'} onClick={handlePrev} style={{ cursor: 'pointer' }} color={THEME.COLORS.chasescrollButtonBlue} />
+          {!loading && !createPost.isLoading && (
+            // <CustomText cursor='pointer' onClick={handleNext} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} fontSize={'sm'}>{stage > 2 ? 'Create Post' : 'Next'}</CustomText>
+            (<CustomButton onClick={handleNext} borderWidth={"0.3px"} color={colorMode === "light" ? "#5465E0":bodyTextColor} backgroundColor={colorMode === "light" ? "#EFF1FE":secondaryBackgroundColor} fontWeight={"bold"} px={"6"} height={'30px'} rounded={"0px"} width={"fit-content"} text={stage < 2 ? 'Next':'Post' } />)
+          )}
+          {
+            loading && (
+              <Box width='50px'>
+                <Spinner colorScheme={'blue'} />
+                {/*<Progress isIndeterminate colorScheme='blue' width={'100%'} size='sm' />*/}
+              </Box>
+            )
+          }
+          {
+           createPost.isLoading && (
+              <Box width='50px'>
+                <Spinner colorScheme={'blue'} />
+                {/*<Progress isIndeterminate colorScheme='blue' width={'100%'} size='sm' />*/}
+              </Box>
+            )
+          }
+      </HStack>
+      <VStack alignItems='flex-start' bg={mainBackgroundColor} width='100%' height='180px' paddingX='20px' paddingTop={'20px'} justifyContent={'flex-start'} fontFamily={'Satoshi-Regular'}>
 
-        <HStack width='100%' height='70px' bg={mainBackgroundColor} justifyContent={'space-between'} paddingX='10px' alignItems={'center'} paddingTop={'10px'} borderBottomWidth={'0.3px'} borderBottomColor={borderColor}>
-            <FiChevronLeft size={'25px'} onClick={handlePrev} style={{ cursor: 'pointer' }} color={THEME.COLORS.chasescrollButtonBlue} />
-            {!loading && !createPost.isLoading && (
-              // <CustomText cursor='pointer' onClick={handleNext} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} fontSize={'sm'}>{stage > 2 ? 'Create Post' : 'Next'}</CustomText>
-              <CustomButton onClick={handleNext} borderWidth={"0.3px"} color={colorMode === "light" ? "#5465E0":bodyTextColor} backgroundColor={colorMode === "light" ? "#EFF1FE":secondaryBackgroundColor} fontWeight={"bold"} px={"6"} height={'30px'} rounded={"0px"} width={"fit-content"} text={stage < 2 ? 'Next':'Post' } />
+        <HStack>
+          <Box  width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
+            {user?.data.imgMain.value === null && (
+                <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
+                  <CustomText fontFamily={'DM-Regular'}>{user?.firstName[0].toUpperCase()}{user?.lastName[0].toUpperCase()}</CustomText>
+                </VStack>
             )}
             {
-              loading && (
-                <Box width='50px'>
-                  <Spinner colorScheme={'blue'} />
-                  {/*<Progress isIndeterminate colorScheme='blue' width={'100%'} size='sm' />*/}
-                </Box>
-              )
+                user?.data.imgMain.value !== null && (
+                    <>
+                      { user?.data?.imgMain?.value.startsWith('https://') && <Image src={`${user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+
+                      { !user?.data?.imgMain?.value.startsWith('https://') && <Image src={`${IMAGE_URL}${user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+                    </>
+                )
             }
-            {
-             createPost.isLoading && (
-                <Box width='50px'>
-                  <Spinner colorScheme={'blue'} />
-                  {/*<Progress isIndeterminate colorScheme='blue' width={'100%'} size='sm' />*/}
-                </Box>
-              )
-            }
+          </Box>
+          <CustomText>{capitalizeFLetter(firstName)} {capitalizeFLetter(lastName)}</CustomText>
         </HStack>
 
-              <VStack alignItems='flex-start' bg={mainBackgroundColor} width='100%' height='180px' paddingX='20px' paddingTop={'20px'} justifyContent={'flex-start'} fontFamily={'Satoshi-Regular'}>
+        <Textarea value={value} borderWidth={0} placeholder='Write something about  your post' _placeholder={{ color: bodyTextColor}} bg={secondaryBackgroundColor} onChange={(e) =>handleChange(e.target.value)} />
 
-                <HStack>
-                  <Box  width='32px' height='32px' borderRadius={'20px 0px 20px 20px'} borderWidth={'2px'} borderColor={'#D0D4EB'} overflow={'hidden'}>
-                    {user?.data.imgMain.value === null && (
-                        <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                          <CustomText fontFamily={'DM-Regular'}>{user?.firstName[0].toUpperCase()}{user?.lastName[0].toUpperCase()}</CustomText>
-                        </VStack>
-                    )}
-                    {
-                        user?.data.imgMain.value !== null && (
-                            <>
-                              { user?.data?.imgMain?.value.startsWith('https://') && <Image src={`${user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
+        <HStack width={'100%'} justifyContent={'flex-end'}>
+          <CustomText fontFamily={'Satoshi-Light'} fontSize={'ms'}>{value.length}/60000</CustomText>
+        </HStack>
 
-                              { !user?.data?.imgMain?.value.startsWith('https://') && <Image src={`${IMAGE_URL}${user?.data.imgMain.value}`} alt='image' width={'100%'} height={'100%'} objectFit={'cover'} /> }
-                            </>
-                        )
-                    }
-                  </Box>
-                  <CustomText>{capitalizeFLetter(firstName)} {capitalizeFLetter(lastName)}</CustomText>
-                </HStack>
-
-                <Textarea value={value} borderWidth={0} placeholder='Write something about  your post' _placeholder={{ color: bodyTextColor}} bg={secondaryBackgroundColor} onChange={(e) =>handleChange(e.target.value)} />
-
-                <HStack width={'100%'} justifyContent={'flex-end'}>
-                  <CustomText fontFamily={'Satoshi-Light'} fontSize={'ms'}>{value.length}/60000</CustomText>
-                </HStack>
-
-              </VStack>
-
-
+      </VStack>
       {files.length < 1 && (
           <VStack cursor={'pointer'} onClick={() => {
             if (files.length === 4) {
@@ -211,8 +207,6 @@ const handleChange = (e: string) => {
             <CustomText color={'grey'} fontFamily={'DM-Medium'} fontSize={'18px'}>Add Images or video</CustomText>
           </VStack>
       )}
-
-
       { files.length > 0 && (
           <Flex position='relative' maxWidth='500px' minWidth={'350px'} maxHeight={'500px'} minH={'350px'} borderRadius='0px'>
 
@@ -242,42 +236,37 @@ const handleChange = (e: string) => {
 
           </Flex>
       )}
+      {
+        files.length > 0 && (
+          <HStack height={'120px'} alignItems={'center'} width='100%' paddingX={'10px'}  overflowX={'auto'} bg={colorMode === "light" ? 'whitesmoke':mainBackgroundColor}>
+            { files.map((file, index) => (
+              <Box borderWidth={currentIndex === index ? 1:0} borderColor={"brand.chasescrollButtonBlue"} key={index.toString()} marginRight={'5px'} width='100px' height='70%' borderRadius={'10px'} position={'relative'}>
 
-
-
-        {
-          files.length > 0 && (
-            <HStack height={'120px'} alignItems={'center'} width='100%' paddingX={'10px'}  overflowX={'auto'} bg={colorMode === "light" ? 'whitesmoke':mainBackgroundColor}>
-              { files.map((file, index) => (
-                <Box borderWidth={currentIndex === index ? 1:0} borderColor={"brand.chasescrollButtonBlue"} key={index.toString()} marginRight={'5px'} width='100px' height='70%' borderRadius={'10px'} position={'relative'}>
-
-                  <Box width='100%' height='100%' borderRadius={'10px'} overflow={'hidden'}>
-                    <Image src={URL.createObjectURL(file)} alt="img" width={'100px'} height='100%' objectFit={'cover'} />
-                  </Box>
-
-                  <VStack onClick={() => removeFile(index)} width='20px' height='20px' borderRadius={'10px'} position='absolute' top='-5px' right='-5px' bg='red' color='white' alignItems={'center'} justifyContent={'center'} cursor={'pointer'}>
-                    <FiMinus size={'20px'} color='white' />
-                  </VStack>
+                <Box width='100%' height='100%' borderRadius={'10px'} overflow={'hidden'}>
+                  <Image src={URL.createObjectURL(file)} alt="img" width={'100px'} height='100%' objectFit={'cover'} />
                 </Box>
-              ))}
-              { files.length < 4 && (
-                  <VStack cursor={"pointer"} onClick={() => {
-                    if (files.length === 4) {
-                      return;
-                    } else {
-                      inputRef.current?.click();
-                    }
-                  }} justifyContent={'center'} alignItems={'center'} width={'100px'} height={'70%'} borderWidth={'1px'} borderRadius={'10px'} borderColor={primaryColor} borderStyle={'dashed'}>
-                    <Image src='/assets/images/Add.png' alt='smile' width={'34px'} height={'34px'} />
-                  </VStack>
-              )}
-            </HStack>
-          )
-        }
 
-
-    </VStack>
-  )
+                <VStack onClick={() => removeFile(index)} width='20px' height='20px' borderRadius={'10px'} position='absolute' top='-5px' right='-5px' bg='red' color='white' alignItems={'center'} justifyContent={'center'} cursor={'pointer'}>
+                  <FiMinus size={'20px'} color='white' />
+                </VStack>
+              </Box>
+            ))}
+            { files.length < 4 && (
+                <VStack cursor={"pointer"} onClick={() => {
+                  if (files.length === 4) {
+                    return;
+                  } else {
+                    inputRef.current?.click();
+                  }
+                }} justifyContent={'center'} alignItems={'center'} width={'100px'} height={'70%'} borderWidth={'1px'} borderRadius={'10px'} borderColor={primaryColor} borderStyle={'dashed'}>
+                  <Image src='/assets/images/Add.png' alt='smile' width={'34px'} height={'34px'} />
+                </VStack>
+            )}
+          </HStack>
+        )
+      }
+    </VStack>)
+  );
 }
 
 export default ShowImages

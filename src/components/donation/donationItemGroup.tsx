@@ -61,7 +61,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
     } 
 
     return (
-        <Flex w={"full"} flexDir={"column"} gap={"5"} >
+        (<Flex w={"full"} flexDir={"column"} gap={"5"} >
             {!details && (
                 <LoadingAnimation loading={loadingList} refeching={refetchingList} length={results?.length} withimg={true} >
                     <Grid w={"full"} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} gap={6} >
@@ -69,7 +69,8 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                             if (results?.filter((item: IDonationGroup)=> item?.fundRaisers?.length > 0 && item?.fundRaisers[0]?.visibility === "PUBLIC")?.length === index + 1) {
                                 return (
                                     // <GridItem w={"full"}  >
-                                    <Flex w={"full"} height={"fit-content"} ref={ref} key={index} pos={"relative"} gap={"4"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
+                                    // </GridItem>
+                                    (<Flex w={"full"} height={"fit-content"} ref={ref} key={index} pos={"relative"} gap={"4"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
                                         <Flex w={"full"} pos={"relative"} alignItems={"center"} justifyContent={"space-between"} >
                                             <Flex as={"button"} w={"fit-content"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} gap={"3"} >
                                                 <UserImage size={"45px"} font={"20px"} data={item?.user} image={item?.user?.data?.imgMain?.value} border={"1px"} />
@@ -100,18 +101,18 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                                 </Flex>
                                             )}
                                             <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
-                                        </Flex> 
+                                        </Flex>
                                         <DonationGraph item={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} />
                                         {(userId !== item?.user?.userId && !pasted) && (
                                             <DonationBtn item={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} user={item?.user} />
                                         )}
-                                    </Flex>
-                                    // </GridItem>
-                                )
+                                    </Flex>)
+                                );
                             } else {
                                 return (
                                     // <GridItem w={"full"} key={index} >
-                                    <Flex w={"full"} height={"fit-content"} key={index} gap={"4"} pos={"relative"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
+                                    // </GridItem>
+                                    (<Flex w={"full"} height={"fit-content"} key={index} gap={"4"} pos={"relative"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
                                         <Flex w={"full"} pos={"relative"} alignItems={"center"} justifyContent={"space-between"} >
                                             <Flex as={"button"} w={"fit-content"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} gap={"3"} >
                                                 <UserImage size={"45px"} font={"20px"} data={item?.user} image={item?.user?.data?.imgMain?.value} border={"1px"} />
@@ -147,15 +148,13 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                         {(userId !== item?.user?.userId && !pasted) && (
                                             <DonationBtn item={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} user={item?.user}  />
                                         )}
-                                    </Flex>
-                                    // </GridItem>
-                                )
+                                    </Flex>)
+                                );
                             }
                         })}
                     </Grid>
                 </LoadingAnimation>
-            )} 
-
+            )}
             <ModalLayout open={open} close={setOpen} size={"xl"} >
                 <Flex flexDir={"column"} w={"full"} p={"5"} pt={"0px"} pos={"relative"} >
                     <Flex position={"relative"} zIndex={"50"} w={"full"} justifyContent={"space-between"} pt={"5"} pb={"2"} bgColor={mainBackgroundColor} pos={"sticky"} top={"0px"} gap={"3"} alignItems={"center"} >
@@ -172,6 +171,6 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                     </Flex>
                 </Flex>
             </ModalLayout>
-        </Flex>
-    )
+        </Flex>)
+    );
 }

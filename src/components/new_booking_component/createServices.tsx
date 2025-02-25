@@ -669,5 +669,5 @@ export default function CreateServices({ id }: { id: string }) {
                 </Flex>
             </ModalLayout>
         </Flex>
-    )
+    );
 }

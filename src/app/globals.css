@@ -1,24 +1,4 @@
-/* 
-@font-face {
-  font-family: 'Raleway-Light';
-  src: url('/public/assets/fonts/Raleway-Light.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Raleway-Medium';
-  src: url('/public/assets/fonts/Raleway-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Raleway-SemiBold';
-  src: url('/public/assets/fonts/Raleway-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-} */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900');
 
 @font-face {
   font-family: 'Raleway-Bold';
@@ -31,7 +11,6 @@
   color: black;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900');
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities; */

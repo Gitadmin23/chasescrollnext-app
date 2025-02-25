@@ -60,7 +60,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
     }
 
     return (
-        <Flex w={"full"} flexDir={"column"} gap={"5"} >
+        (<Flex w={"full"} flexDir={"column"} gap={"5"} >
             {!details && (
                 <LoadingAnimation loading={loadingList} refeching={refetchingList} length={results?.length} withimg={true} >
                     <Grid w={"full"} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} gap={6} >
@@ -68,7 +68,8 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                             if (results?.length === index + 1) {
                                 return (
                                     // <GridItem w={"full"}  >
-                                    <Flex w={"full"} height={"fit-content"} ref={ref} key={index} pos={"relative"} gap={"4"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
+                                    // </GridItem>
+                                    (<Flex w={"full"} height={"fit-content"} ref={ref} key={index} pos={"relative"} gap={"4"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
                                         <Flex w={"full"} pos={"relative"} alignItems={"center"} justifyContent={"space-between"} >
                                             <Flex as={"button"} w={"fit-content"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.createdBy?.userId}`)} gap={"3"} >
                                                 <UserImage size={"45px"} font={"20px"} data={item?.createdBy} image={item?.createdBy?.data?.imgMain?.value} border={"1px"} />
@@ -108,13 +109,13 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                         {(userId !== item?.createdBy?.userId && !pasted) && (
                                             <DonationBtn item={item} user={item?.createdBy} />
                                         )}
-                                    </Flex>
-                                    // </GridItem>
-                                )
+                                    </Flex>)
+                                );
                             } else {
                                 return (
                                     // <GridItem w={"full"} key={index} >
-                                    <Flex w={"full"} height={"fit-content"} key={index} gap={"4"} pos={"relative"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
+                                    // </GridItem>
+                                    (<Flex w={"full"} height={"fit-content"} key={index} gap={"4"} pos={"relative"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
                                         <Flex w={"full"} pos={"relative"} alignItems={"center"} justifyContent={"space-between"} >
                                             <Flex as={"button"} w={"fit-content"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.createdBy?.userId}`)} gap={"3"} >
                                                 <UserImage size={"45px"} font={"20px"} data={item?.createdBy} image={item?.createdBy?.data?.imgMain?.value} border={"1px"} />
@@ -154,9 +155,8 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                         {(userId !== item?.createdBy?.userId && !pasted) && (
                                             <DonationBtn item={item} user={item?.createdBy} />
                                         )}
-                                    </Flex>
-                                    // </GridItem>
-                                )
+                                    </Flex>)
+                                );
                             }
                         })}
                     </Grid>
@@ -204,7 +204,6 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                     </Flex>
                 </LoadingAnimation>
             )}
-
             <ModalLayout open={open} close={setOpen} size={"xl"} >
                 <Flex flexDir={"column"} w={"full"} p={"5"} pt={"0px"} pos={"relative"} >
                     <Flex position={"relative"} zIndex={"50"} w={"full"} justifyContent={"space-between"} pt={"5"} pb={"2"} bgColor={mainBackgroundColor} pos={"sticky"} top={"0px"} gap={"3"} alignItems={"center"} >
@@ -221,6 +220,6 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                     </Flex>
                 </Flex>
             </ModalLayout>
-        </Flex>
-    )
+        </Flex>)
+    );
 }

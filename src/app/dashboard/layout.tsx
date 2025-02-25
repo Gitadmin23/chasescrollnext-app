@@ -123,7 +123,7 @@ export default function Layout({ children }: {
     const { count } = useNotificationHook() 
 
     return (
-        <Flex w={"full"} h={"100vh"} overflowY={"hidden"} bg={mainBackgroundColor} >
+        (<Flex w={"full"} h={"100vh"} overflowY={"hidden"} bg={mainBackgroundColor} >
             {(pathname !== ("/dashboard/donation/create") && !pathname?.includes("/donation/edit") && pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
                 <Flex w={"fit-content"} h={"screen"} display={["none", "none", "none", "flex", "flex"]} >
                     <Flex w={"110px"} h={"screen"} gap={"4"} overflowY={"auto"} flexDir={"column"} py={"4"} alignItems={"center"} justifyContent={"space-between"} borderRightColor={borderColor} borderRightWidth={"1px"} >
@@ -238,16 +238,15 @@ export default function Layout({ children }: {
                 {(pathname !== ("/dashboard/donation/create") && !pathname?.includes("/donation/edit") && pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? (
                     // <Flex w={"full"} h={"full"} pb={["70px", "70px", "70px", "0px", "0px"]} top={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" :["76px", "76px", "76px", "0px", "0px"]} overflowY={"hidden"} >
 
-                    <Flex w={"full"} h={"auto"} bottom={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"76px"} insetX={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" : "0px"} overflowY={"hidden"} >
+                    (<Flex w={"full"} h={"auto"} bottom={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"76px"} insetX={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" : "0px"} overflowY={"hidden"} >
                         {children}
-                    </Flex>
+                    </Flex>)
                 ) : (
                     <Flex w={"full"} h={["100vh"]} pb={["70px", "70px", "70px", "0px", "0px"]} overflowY={"hidden"} >
                         {children}
                     </Flex>
                 )}
             </Flex>
-
             <HStack paddingX='20px' zIndex={"100"} position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg={mainBackgroundColor} borderTopWidth={1} borderTopColor={borderColor} display={['flex', 'flex', 'flex', 'none']}>
                 <Link href='/dashboard'>
                     <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname === "/dashboard" ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname === "/dashboard" ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
@@ -332,10 +331,9 @@ export default function Layout({ children }: {
                     </VStack>
                 </VStack>
             </ModalLayout>
-
             <ModalLayout open={notifyModal} size={["full", "xl", "xl"]} title={"Notification"} close={setNotifyModal} >
                 <NotificationBar />
             </ModalLayout>
-        </Flex>
-    )
+        </Flex>)
+    );
 }

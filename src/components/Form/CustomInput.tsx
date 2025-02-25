@@ -54,7 +54,7 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
 
 
   return (
-    <VStack alignItems={'flex-start'} width='100%'>
+    (<VStack alignItems={'flex-start'} width='100%'>
       {label && (
         <HStack>
           <Text fontSize={labelTextSize}>{label}
@@ -121,6 +121,6 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
       </InputGroup>
       {hint && <small>{hint}</small>}
       {errors[name] && <CustomText textAlign={'left'} color='red' fontSize={'sm'}>{errors[name]?.message as string}</CustomText>}
-    </VStack>
-  )
+    </VStack>)
+  );
 }

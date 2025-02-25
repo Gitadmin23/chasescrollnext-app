@@ -9,12 +9,13 @@ import useCustomTheme from "@/hooks/useTheme";
 import { IUser } from "@/models/User";
 import httpService from "@/utils/httpService";
 import { Box, Flex, useColorMode, useToast } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, use } from "react";
 import { focusManager, useQuery } from "react-query";
 
 interface Props {}
 
-function EditEvent({ params }: { params: { slug: string } }) {
+function EditEvent(props: { params: Promise<{ slug: string }> }) {
+  const params = use(props.params);
   focusManager.setFocused(false);
   const { tab, updateEvent, changeTab } = useEventStore((state) => state);
   const toast = useToast();

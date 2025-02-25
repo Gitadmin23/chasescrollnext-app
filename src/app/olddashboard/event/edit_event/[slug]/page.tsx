@@ -8,12 +8,13 @@ import useEventStore from '@/global-state/useCreateEventState'
 import { URLS } from '@/services/urls'
 import httpService from '@/utils/httpService'
 import { Box, Flex, useToast } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useState, use } from 'react';
 import { focusManager, useQuery } from 'react-query'
 
 interface Props { }
 
-function EditEvent({ params }: { params: { slug: string } }) {
+function EditEvent(props: { params: Promise<{ slug: string }> }) {
+    const params = use(props.params);
 
     focusManager.setFocused(false)
     const { tab, updateEvent, changeTab } = useEventStore((state) => state);
@@ -68,8 +69,21 @@ function EditEvent({ params }: { params: { slug: string } }) {
     }, [])
 
     return (
-        <LoadingAnimation loading={isLoading}>
-
+        // <LoadingAnimation loading={isLoading}>
+        //     <Box width={"full"} >
+        //         <CreateEventHeader />
+        //         {tab === 0 && (
+        //             <EventTheme />
+        //         )}
+        //         {tab === 1 && (
+        //             <EventInformation />
+        //         )}
+        //         {tab === 2 && (
+        //             <EventTicket promotion={(data?.data?.content[0]?.productTypeData[0]?.ticketType === "Promotion" || data?.data?.content[0]?.productTypeData[0]?.rerouteURL) ? true : false} />
+        //         )}
+        //     </Box>
+        // </LoadingAnimation>
+        (<LoadingAnimation loading={isLoading}>
             <Flex width={"full"} h={["auto", "auto", "auto", "100vh"]} pt={"74px"} display={["none", "none", "none", "flex"]} flexDir={["column", "column", "column", "row"]} >
                 <CreateEventHeader name="Edit Events" />
                 <Flex bgColor={"gray.300"} w={"full"} p={["0px", "0px", "0px", "3"]}   >
@@ -116,22 +130,8 @@ function EditEvent({ params }: { params: { slug: string } }) {
                     <EventTicket promotion={(data?.data?.content[0]?.productTypeData[0]?.ticketType === "Promotion" || data?.data?.content[0]?.productTypeData[0]?.rerouteURL) ? true : false} />
                 )}
             </Box>
-        </LoadingAnimation>
-        // <LoadingAnimation loading={isLoading}>
-        //     <Box width={"full"} >
-        //         <CreateEventHeader />
-        //         {tab === 0 && (
-        //             <EventTheme />
-        //         )}
-        //         {tab === 1 && (
-        //             <EventInformation />
-        //         )}
-        //         {tab === 2 && (
-        //             <EventTicket promotion={(data?.data?.content[0]?.productTypeData[0]?.ticketType === "Promotion" || data?.data?.content[0]?.productTypeData[0]?.rerouteURL) ? true : false} />
-        //         )}
-        //     </Box>
-        // </LoadingAnimation>
-    )
+        </LoadingAnimation>)
+    );
 }
 
 export default EditEvent

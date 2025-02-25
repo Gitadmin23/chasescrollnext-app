@@ -3,10 +3,17 @@ import { Box, Flex, Image, Link, Text } from '@chakra-ui/react'
 import React, { ReactNode } from 'react'
 import { BsChevronLeft } from 'react-icons/bs'
 
-function Layout({ children, params }: {
-    children: ReactNode,
-    params: { slug: string }
-}) {
+async function Layout(
+    props: {
+        children: ReactNode,
+        params: Promise<{ slug: string }>
+    }
+) {
+    const params = await props.params;
+
+    const {
+        children
+    } = props;
 
     return ( 
         <>

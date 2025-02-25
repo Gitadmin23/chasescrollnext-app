@@ -50,7 +50,7 @@ function AccountList(props: Props) {
   );
 
   return (
-    <Flex flexDir={"column"} width={"full"}>
+    (<Flex flexDir={"column"} width={"full"}>
       <Text lineHeight={"13.02px"} fontSize={"10px"} color={"#626262"}>
         Recent Transaction
       </Text>
@@ -75,7 +75,7 @@ function AccountList(props: Props) {
                 index: number,
               ) => {
                 return (
-                  <Box
+                  (<Box
                     width={"200px"}
                     key={index}
                     disabled={loading}
@@ -128,7 +128,7 @@ function AccountList(props: Props) {
                       {item?.bankName}
                     </Text>
                     <Deleteaccount code={item?.transferRecipient ?? ""} />
-                  </Box>
+                  </Box>)
                 );
               },
             )}
@@ -147,7 +147,7 @@ function AccountList(props: Props) {
           <RoundArrow color={bodyTextColor} />
         </Box>
       </Flex>
-    </Flex>
+    </Flex>)
   );
 }
 

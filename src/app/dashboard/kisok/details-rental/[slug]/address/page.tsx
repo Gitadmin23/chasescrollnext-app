@@ -13,7 +13,7 @@ import httpService from '@/utils/httpService'
 import { formatNumber } from '@/utils/numberFormat'
 import { Checkbox, Flex, Input, Select, Text, Textarea, useToast } from '@chakra-ui/react'
 import { useRouter, useSearchParams } from 'next/navigation' 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, use } from 'react';
 import { FaCheckCircle, FaEdit } from 'react-icons/fa' 
 import { IoIosAdd } from 'react-icons/io'
 import { IoTrashBin } from 'react-icons/io5'
@@ -37,13 +37,12 @@ interface IProps {
 }
 
 type Props = {
-    params: { slug: string }
-    searchParams?: { [key: string]: string | string[] | undefined }
+    params: Promise<{ slug: string }>
+    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export default function ShippingAddress(
-    { params }: Props,
-) {
+export default function ShippingAddress(props: Props) {
+    const params = use(props.params);
 
     const id = params.slug
     const { primaryColor, secondaryBackgroundColor, bodyTextColor } = useCustomTheme();
@@ -55,7 +54,7 @@ export default function ShippingAddress(
 
     const { createAddress, setOpen, open, payload, setPayload, userId, editAddress, setAddressId, addressId, openDelete, setOpenDelete, deleteAddress, addressDefault, setAddressDefault, createRentalRecipt, updateAddress, openSucces, setOpenSucces } = useProduct()
     const toast = useToast()
-    const [address, setAddress] = useState<Array<IProps>>([]) 
+    const [address, setAddress] = useState<Array<IProps>>([])
 
 
     const { user } = useGetUser()
@@ -145,7 +144,7 @@ export default function ShippingAddress(
 
     console.log(startDate);
     console.log(endDate);
-    
+
 
     return (
         <Flex w={"full"} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} flexDir={"column"} gap={"6"} overflowY={"auto"} overflowX={"hidden"} >

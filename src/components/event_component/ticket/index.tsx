@@ -179,7 +179,7 @@ export default function Ticket({ ticket, showStatus = false, approved, close }: 
         //         </Flex>
         //     </Flex>
         // </Flex>
-        <Flex p={"4"} shadow={"lg"} flexDirection={"column"} bg={"white"} roundedTop={"md"} width={"full"} alignItems={"center"} justifyContent={"center"} gap={"2"} >
+        (<Flex p={"4"} shadow={"lg"} flexDirection={"column"} bg={"white"} roundedTop={"md"} width={"full"} alignItems={"center"} justifyContent={"center"} gap={"2"} >
             <Flex gap={"4"} width={"full"} alignItems={"center"} justifyContent={"space-between"} >
 
                 <Text fontSize={"20px"} fontWeight={"bold"} textAlign={"center"} >Ticket Details</Text>
@@ -257,6 +257,6 @@ export default function Ticket({ ticket, showStatus = false, approved, close }: 
                 </Flex>
 
             </Flex>
-        </Flex>
-    )
+        </Flex>)
+    );
 }

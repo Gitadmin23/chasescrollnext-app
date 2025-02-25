@@ -23,7 +23,7 @@ export default function Faq() {
     const router = useRouter()
 
     return (
-        <Flex id="faq" px={["6", "6", "12"]} gap={["4", "4", "4", "0px"]} flexDir={["column", "column", "column", "row"]} py={["10", "10", "20"]} w={"full"} >
+        (<Flex id="faq" px={["6", "6", "12"]} gap={["4", "4", "4", "0px"]} flexDir={["column", "column", "column", "row"]} py={["10", "10", "20"]} w={"full"} >
             <Flex w={"full"} h={"full"} flexDir={"column"} pr={["0px", "0px", "4"]} justifyContent={"center"} gap={["4", "4", "7"]} alignItems={"start"} >
                 <Text maxW={["190px", "190px", "347.48px"]} fontWeight={"semibold"} fontSize={["20px", "20px", "45px"]}  >Have questions? We have <span style={{ color: THEME?.COLORS?.chasescrollBlue }} >answers</span></Text>
                 <Text fontSize={["12px", "12px", "15.38px"]} lineHeight={["17px", "17px", "26px"]} fontWeight={"medium"} >Want to know more? You can email us anytime at <span style={{ color: THEME?.COLORS?.chasescrollBlue, fontWeight: "400" }} >support@chasescroll.com</span></Text>
@@ -35,7 +35,8 @@ export default function Faq() {
                     desc: string
                 }, index: number) => {
                     return (
-                        <Flex key={index} flexDir={"column"} maxW={"575px"} w={"full"} >
+                        //  white-space: pre-wrap;
+                        (<Flex key={index} flexDir={"column"} maxW={"575px"} w={"full"} >
                             <Flex borderBottomWidth={selectedData?.includes(item?.title) ? "0px" : "1px"} borderBottomColor={"#E2E8F0"} py={"8"} maxW={"575px"} w={"full"} >
                                 <Flex justifyContent={"space-between"} gap={"4"} w={"full"} >
                                     <Text fontSize={"19px"} lineHeight={"32px"} color={"#222222"} >{item?.title}</Text>
@@ -51,11 +52,10 @@ export default function Faq() {
                                     <Text whiteSpace={"pre-wrap"} fontSize={"16px"} lineHeight={"32px"} color={"#222222"} >{item?.desc}</Text>
                                 </Flex>
                             )}
-                        </Flex>
-                        //  white-space: pre-wrap;
-                    )
+                        </Flex>)
+                    );
                 })}
             </Flex>
-        </Flex>
-    )
+        </Flex>)
+    );
 }

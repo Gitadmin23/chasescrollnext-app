@@ -4,11 +4,12 @@ import DashboardRefund from '@/components/settings_component/event_dashboard_com
 import useCustomTheme from '@/hooks/useTheme'
 import { Box, Flex, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { use } from 'react';
 import { BsChevronLeft } from 'react-icons/bs'
 
-function Page({ params }: { params: { slug: string } }) { 
-    
+function Page(props: { params: Promise<{ slug: string }> }) {
+    const params = use(props.params);
+
     return (
         <Box width={"full"} py={"8"} > 
             <DashboardDonation index={params?.slug} />

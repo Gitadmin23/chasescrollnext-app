@@ -4,9 +4,14 @@ import ProfileImage from '@/components/profile_component/profile_image'
 import { useDetails } from '@/global-state/useUserDetails'
 import useCustomTheme from '@/hooks/useTheme'
 import { Box, Flex, useColorMode } from '@chakra-ui/react'
-import React, { ReactNode } from 'react'
+import React, { ReactNode, use } from 'react';
 
-function Layout({ params, children }: { params: { slug: string }, children: ReactNode }) {
+function Layout(props: { params: Promise<{ slug: string }>, children: ReactNode }) {
+    const params = use(props.params);
+
+    const {
+        children
+    } = props;
 
     const { userId } = useDetails((state) => state);
 

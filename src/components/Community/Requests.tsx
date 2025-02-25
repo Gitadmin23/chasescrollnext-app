@@ -58,14 +58,14 @@ function Requests() {
 
         //     )}
         // </Flex>
-        <LoadingAnimation loading={isLoading} refeching={isRefetching} length={communites?.length} >
+        (<LoadingAnimation loading={isLoading} refeching={isRefetching} length={communites?.length} >
             <Flex px={"6"} paddingTop={'20px'} flexWrap={"wrap"} height={"fit-content"} gap={"6"} overflowX={'hidden'} >
                 {communites.map((item, index) => (
                     <RequestCard key={index.toString()} community={item} />
                 ))}
             </Flex>
-        </LoadingAnimation>
-    )
+        </LoadingAnimation>)
+    );
 }
 
 export default Requests;
