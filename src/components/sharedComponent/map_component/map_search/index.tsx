@@ -44,7 +44,7 @@ function MapSearch(props: Props) {
     const [show, setShow] = React.useState(false)
 
     const { eventdata, updateEvent } = useEventStore((state) => state);
-    const { updateProduct, productdata, updateRental, rentaldata } = useProductStore((state) => state);
+    const { updateProduct, productdata, updateRental, rentaldata, updateAddress, location } = useProductStore((state) => state);
 
     const {
         ready,
@@ -87,6 +87,12 @@ function MapSearch(props: Props) {
                     latlng: lat + " " + lng
                 }
             })
+
+            updateAddress({
+                ...location,
+                locationDetails: address,
+                latlng: lat + " " + lng
+              })
 
             updateProduct({
                 ...productdata, location: {

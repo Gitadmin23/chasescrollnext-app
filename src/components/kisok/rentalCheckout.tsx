@@ -11,20 +11,16 @@ import { dateFormat, timeFormat } from '@/utils/dateFormat'
 import { CalendarIcon } from '../svg'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import SelectAddress from './selectAddress'
 
 export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty: number, item: IRental }) {
 
     const { borderColor, secondaryBackgroundColor } = useCustomTheme()
 
-    const [startDate, setStartDate] = useState("" as any)
-    // const [endDate, setEndDate] = useState("" as any)
+    const [startDate, setStartDate] = useState("" as any) 
     const [open, setOpen] = useState(false)
-    const { push } = useRouter()
-
-    const clickHander = () => {
-        push(`/dashboard/kisok/details-rental/${item?.id}/address?qty=${qty}&startDate=${Date.parse(new Date(startDate)?.toJSON())}&endDate=${item?.frequency !== "HOURLY" ? Date.parse(new Date(startDate?.getTime() + item?.maximiumNumberOfDays * 24 * 60 * 60 * 1000).toJSON()) : Date.parse(new Date(new Date(startDate).setHours(new Date(startDate).getHours() + qty)).toJSON())}`)
-    }
-
+    
+    const [tab, setTab] = useState(true) 
 
     const CustomInput = ({ value, onClick }: any) => {
         return (
@@ -40,9 +36,13 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
         setStartDate(date)
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         setStartDate("" as any)
     }, [])
+
+    useEffect(() => {
+        setTab(false)
+    }, [open])
 
     return (
         <Flex w={"full"} bgColor={"white"} rounded={"16px"} flexDirection={"column"} borderWidth={"1px"} p={"24px"} gap={"1"} borderColor={borderColor} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
@@ -60,33 +60,46 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                 </Flex>
             </Flex>
             <CustomButton onClick={() => setOpen(true)} text={`NGN ${formatNumber(Number(item?.price) * Number(qty))}`} borderRadius={"999px"} height={"55px"} />
-            <ModalLayout open={open} close={setOpen} title={"Select Date For Rental"} >
+            <ModalLayout open={open} close={setOpen} size={tab ? "4xl" : "sm"} closeIcon={true} >
                 <Flex flexDirection={"column"} gap={"4"} p={"4"} >
-                    <Flex flexDirection={"column"} gap={"1"}  >
-                        <Text fontSize={"14px"} >Start Date</Text>
-                        <DatePicker
-                            // value={}
-                            // disabled={name === "End" && !eventdata.startDate}
-                            selected={startDate ? new Date(startDate) : new Date()}
-                            dateFormat="MMM d, yyyy h:mm aa"
-                            showTimeSelect
-                            minDate={new Date()} 
-                            onChange={handleDateSelect}
-                            customInput={<CustomInput />}
-                        />
-                    </Flex>
-                    {startDate && (
-                        <Flex flexDirection={"column"} gap={"1"}  >
-                            <Text fontSize={"14px"} >End Date</Text>
-                            {item?.frequency !== "HOURLY" && (
-                                <Text>{dateFormat(new Date(startDate?.getTime() + qty * 24 * 60 * 60 * 1000))}</Text>
+                    <Text>Step {!tab ? "1" : "2"}/2</Text>
+                    {!tab && (
+                        <Flex w={"full"} flexDir={"column"} gap={"2"} >
+                            <Text fontSize={"24px"} fontWeight={"600"} >Select date for Rental</Text>
+                            <Flex flexDirection={"column"} gap={"1"}  >
+                                <Text fontSize={"14px"} >Start Date</Text>
+                                <DatePicker
+                                    // value={}
+                                    // disabled={name === "End" && !eventdata.startDate}
+                                    selected={startDate ? new Date(startDate) : new Date()}
+                                    dateFormat="MMM d, yyyy h:mm aa"
+                                    showTimeSelect
+                                    minDate={new Date()}
+                                    onChange={handleDateSelect}
+                                    customInput={<CustomInput />}
+                                />
+                            </Flex>
+                            {startDate && (
+                                <Flex flexDirection={"column"} gap={"1"}  >
+                                    <Text fontSize={"14px"} >End Date</Text>
+
+                                    <Flex as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"full"} fontSize={"sm"} h={"50px"}  >
+                                        <CalendarIcon />
+                                        {item?.frequency !== "HOURLY" && (
+                                            <Text>{dateFormat(new Date(startDate?.getTime() + qty * 24 * 60 * 60 * 1000))}</Text>
+                                        )}
+                                        {item?.frequency === "HOURLY" && (
+                                            <Text>{dateFormat(new Date(startDate).setHours(new Date(startDate).getHours() + qty)) + " " + timeFormat(new Date(startDate).setHours(new Date(startDate).getHours() + qty))}</Text>
+                                        )}
+                                    </Flex>
+                                </Flex>
                             )}
-                            {item?.frequency === "HOURLY" && (
-                                <Text>{dateFormat(new Date(startDate).setHours(new Date(startDate).getHours() + qty))+" "+timeFormat(new Date(startDate).setHours(new Date(startDate).getHours() + qty))}</Text>
-                            )}
+                            <CustomButton disable={startDate ? false : true} mt={"4"} onClick={()=> setTab(true)} text={`Continue`} borderRadius={"999px"} height={"55px"} />
                         </Flex>
                     )}
-                    <CustomButton disable={startDate ? false : true} onClick={clickHander} text={`Check Out`} borderRadius={"999px"} height={"55px"} />
+                    {tab && (
+                        <SelectAddress item={item} qty={qty} id={item?.id} startDate={Date.parse(new Date(startDate)?.toJSON())} endDate={startDate ? (item?.frequency !== "HOURLY" ? Date.parse(new Date(startDate?.getTime() + item?.maximiumNumberOfDays * 24 * 60 * 60 * 1000).toJSON()) : Date.parse(new Date(new Date(startDate).setHours(new Date(startDate).getHours() + qty)).toJSON())) : ""} />
+                    )}
                 </Flex>
             </ModalLayout>
         </Flex>

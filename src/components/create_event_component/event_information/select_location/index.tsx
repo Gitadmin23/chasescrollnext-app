@@ -107,11 +107,7 @@ function SelectLocation(props: Props) {
         })
         setLink(clone)
  
-    };
-
-    console.log(eventdata);
-    
-
+    }; 
 
     return (
         <Box width={"full"}>

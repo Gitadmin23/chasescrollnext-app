@@ -32,30 +32,7 @@ export default function RentalDetail({ id }: { id: string }) {
             setItem(data?.data?.content[0])
         }
     }
-    );
-
-    const [startDate, setStartDate]: any = useState(new Date());
-    const [endDate, setEndDate] = useState(null);
-
-    const handleDateChange = (dates: any) => {
-        // const [start, end] = dates;
-        // setStartDate(start);
-        // setEndDate(end);
-
-        // // Limit the range to 5 days
-        // if (start && end) {
-        //     const diffInDays = Math.floor((end - start) / (1000 * 60 * 60 * 24));
-        //     console.log(diffInDays);
-        //     setQty(diffInDays)
-
-        //     if (diffInDays > item?.maximiumNumberOfDays) {
-
-        //         const newEndDate: any = new Date(start);
-        //         newEndDate.setDate(start.getDate() + (item?.maximiumNumberOfDays));
-        //         setEndDate(newEndDate);
-        //     }
-        // }
-    }; 
+    ); 
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -70,7 +47,7 @@ export default function RentalDetail({ id }: { id: string }) {
                 {item?.images?.length > 0 && (
                     <Flex w={"full"} h={"fit-content"} >
                         <Flex w={"full"} height={["228px", "228px", "344px"]} gap={"3"} >
-                            <Flex w={"full"} rounded={"xl"} bgColor={"blue"} h={"full"} >
+                            <Flex w={"full"} rounded={"xl"} bgColor={"gray"} h={"full"} >
                                 <Image src={IMAGE_URL + item?.images[0]} alt='logo' w={"full"} rounded={"8px"} height={"full"} objectFit={"cover"} />
                             </Flex>
                             {item?.images?.length > 1 && (
@@ -98,7 +75,7 @@ export default function RentalDetail({ id }: { id: string }) {
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} gap={"4"} flexDir={"column"} >
                         <Text fontSize={"20px"} fontWeight={"700"} >Details</Text>
-                        <Text>{item?.description}</Text>
+                        <Text>{capitalizeFLetter(item?.description)}</Text>
                         {/* <Text fontWeight={"700"} mt={"4"} >Show more</Text> */}
                         <Flex w={"full"} alignItems={"center"} gap={"3"} >
                             <UserImage size={"48px"} image={item?.creator?.data?.imgMain?.value} data={item?.creator} />

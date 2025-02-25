@@ -7,21 +7,19 @@ import { Box, Input } from '@chakra-ui/react'
 import React, { useState } from 'react'
 
 interface Props { 
-    location: any
+    location: any,
+    height?: string
 }
 
 function ProductMap(props: Props) {
     const { 
-        location
+        location,
+        height
     } = props
 
     const [open, setOpen] = useState(false)
 
-    const { productdata, rentaldata } = useProductStore((state) => state);
-
-    const changeHandler = (item: any) => {
-        console.log(item);
-        
+    const changeHandler = (item: any) => { 
         setOpen(true)
     } 
 
@@ -30,7 +28,7 @@ function ProductMap(props: Props) {
             {/* <CustomButton onClick={()=> setOpen(true)} borderWidth={"1px"} color={"#5465E0"} mt={"3"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} text={eventdata?.location?.latlng ? 'Change Map Location' : 'Add Google Map' } /> */}
             <Input
                 type="text"
-                h={"60px"}
+                h={height ? height : "60px"}
                 placeholder="Enter Event Location"
                 mt={"sm"}
                 fontSize={"sm"} 

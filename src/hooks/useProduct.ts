@@ -162,7 +162,7 @@ const useProduct = (item?: any, rental?: boolean) => {
     const handleEditSubmitProduce = (e: any) => {
         e.preventDefault();
         // if (validateItemProduct(item)) { 
-            editProduct?.mutate(removeEmptyValues(item)) 
+        editProduct?.mutate(removeEmptyValues(item))
         // } else { 
         //     toast({
         //         title: "error",
@@ -272,7 +272,7 @@ const useProduct = (item?: any, rental?: boolean) => {
 
     const editProduct = useMutation({
         mutationFn: (data: {
-            payload: { 
+            payload: {
                 "name": "",
                 "description": "",
                 "images": [
@@ -282,7 +282,7 @@ const useProduct = (item?: any, rental?: boolean) => {
                 "category": "",
                 "quantity": null,
                 "hasDiscount": true,
-                "discountPrice": null, 
+                "discountPrice": null,
             }, id: string
         }) =>
             httpService.patch(
@@ -317,7 +317,7 @@ const useProduct = (item?: any, rental?: boolean) => {
                 `/rental/create`, data
             ),
         onSuccess: (data: any) => {
- 
+
             toast({
                 title: "Created Rental Successfully",
                 description: "",
@@ -325,7 +325,7 @@ const useProduct = (item?: any, rental?: boolean) => {
                 isClosable: true,
                 duration: 5000,
                 position: "top-right",
-            }); 
+            });
             setOpenSucces(true)
         },
         onError: () => { },
@@ -372,7 +372,7 @@ const useProduct = (item?: any, rental?: boolean) => {
             httpService.put(
                 `/addresses/update/${data?.id}`, data?.payload
             ),
-        onSuccess: (data: any) => {  
+        onSuccess: (data: any) => {
             setOpen(false)
             query?.invalidateQueries("addressuser")
         },
@@ -381,11 +381,11 @@ const useProduct = (item?: any, rental?: boolean) => {
 
     const createAddress = useMutation({
         mutationFn: (data: {
-            "state": "",
-            "lga": "",
-            "phone": "",
-            "landmark": "",
+            "state": "", 
+            "phone": "", 
             "userId": "",
+            "location": { 
+            }
             "isDefault": true
         }) =>
             httpService.post(
@@ -476,12 +476,12 @@ const useProduct = (item?: any, rental?: boolean) => {
             "endDate": number,
             "price": number,
             "addressedId": string
-          }) =>
+        }) =>
             httpService.post(
                 `/reciept/create`, data
             ),
         onSuccess: (data: any) => {
-            console.log(data); 
+            console.log(data);
             setOpenSucces(true)
         },
         onError: () => { },
@@ -530,7 +530,7 @@ const useProduct = (item?: any, rental?: boolean) => {
         handleEditSubmitProduce,
         updateAddress,
         createRentalRecipt,
-        editProduct, 
+        editProduct,
         openSucces,
         setOpenSucces
     };
