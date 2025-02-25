@@ -35,7 +35,7 @@ function Businesses() {
     return (
         <Flex flexDirection={"column"} w='full' h='full' pt='8'>
             {!isLoading && businesses.length > 0 && (
-                <SimpleGrid columns={[1, 3]} pb={8} gap={[2, 4]}>
+                <SimpleGrid columns={[1, 3]} pb={8} gap={[2, 14]}>
                     {businesses.map((item, index) => (
                         <BusinessCard key={index.toString()} business={item} />
                     ))}
