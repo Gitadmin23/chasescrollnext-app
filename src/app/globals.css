@@ -1,58 +1,4 @@
-@font-face {
-  font-family: 'DM-Bold';
-  src: url(../../public/assets/fonts/Raleway-Bold.ttf);
-}
-
-@font-face {
-  font-family: 'DM-Medium';
-  src: url(../../public/assets/fonts/Raleway-Medium.ttf);
-}
-
-@font-face {
-  font-family: 'DM-Light';
-  src: url(../../public/assets/fonts/Raleway-Light.ttf);
-}
-
-@font-face {
-  font-family: 'DM-Regular';
-  src: url(../../public/assets/fonts/Raleway-Regular.ttf);
-}
-
-@font-face {
-  font-family: 'Rubik-Regular';
-  src: url(../../public/assets/fonts/Raleway-Regular.ttf);
-}
-
-@font-face {
-  font-family: 'Rubik-Nedium';
-  src: url(../../public/assets/fonts/Raleway-SemiBold.ttf);
-}
-
-@font-face {
-  font-family: 'Rubik-Light';
-  src: url(../../public/assets/fonts/Raleway-Light.ttf);
-}
-
-@font-face {
-  font-family: 'Satoshi-bold';
-  src: url(../../public/assets/fonts/Raleway-Bold.ttf);
-}
-
-@font-face {
-  font-family: 'Satoshi-Medium';
-  src: url(../../public/assets/fonts/Raleway-Medium.ttf);
-}
-
-@font-face {
-  font-family: 'Satoshi-Regular';
-  src: url(../../public/assets/fonts/Raleway-Regular.ttf);
-}
-
-@font-face {
-  font-family: 'Satoshi-Light';
-  src: url(../../public/assets/fonts/Raleway-Light.ttf);
-}
-
+/* 
 @font-face {
   font-family: 'Raleway-Light';
   src: url('/public/assets/fonts/Raleway-Light.ttf') format('truetype');
@@ -72,7 +18,7 @@
   src: url('/public/assets/fonts/Raleway-SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
-}
+} */
 
 @font-face {
   font-family: 'Raleway-Bold';
