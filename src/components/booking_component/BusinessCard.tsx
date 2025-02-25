@@ -27,7 +27,7 @@ function BusinessCard({ business }: { business: IService }) {
                     }
                     return prev + 1;
                 });
-            }, 3000);
+            }, 8000);
             return () => clearInterval(interval);
         }
     }, [])
@@ -62,7 +62,7 @@ function BusinessCard({ business }: { business: IService }) {
                 {business?.images?.length > 1 && (
                     <HStack position={"absolute"} bottom={"10px"} height={"15px"} width={'full'} justifyContent={"center"} spacing={1}>
                         {business?.images.map((image, index) => (
-                            <Box key={index.toString()} width={activeImageIndex === index ? "10px" : "5px"} height={activeImageIndex === index ? "10px" : "5px"} borderRadius={activeImageIndex === index ? "10px" : "5px"} bg={activeImageIndex === index ? "white":"white"} scale={activeImageIndex === index ? 1:1} ></Box>
+                            <Box key={index.toString()} cursor={'pointer'} onClick={() => setActiveImageIndex(index)} width={activeImageIndex === index ? "10px" : "5px"} height={activeImageIndex === index ? "10px" : "5px"} borderRadius={activeImageIndex === index ? "10px" : "5px"} bg={activeImageIndex === index ? "white":"white"} scale={activeImageIndex === index ? 1:1} ></Box>
                         ))}
                     </HStack>
                 )}

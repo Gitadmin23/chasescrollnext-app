@@ -43,7 +43,7 @@ export default function ServiceDetailsPage() {
                     }
                     return prev + 1;
                 });
-            }, 3000);
+            }, 6000);
             return () => clearInterval(interval);
         }
     }, [service?.images]);
@@ -127,12 +127,12 @@ export default function ServiceDetailsPage() {
         )
     } else {
         return (
-            <Box w='full' h='full' p={['10px', '20px']} overflowY={'auto'}>
+            <Box w='full' h='full' p={['10px', '20px']} overflowY={'auto'} pb={"100px"}>
 
                 <CreateBookingModal show={show} onClose={() => setShow(false)} service={service as IService} />
 
                 <Flex w='full' h='30px' justifyContent={'flex-start'} alignItems={'center'} mb='20px'>
-                    <ArrowLeft2 size={30} onClick={() => router.back()} />
+                    <ArrowLeft2 size={30} onClick={() => router.back()} color={headerTextColor} />
                     <Text fontSize='16px' fontWeight={600}>{service?.name}</Text>
                 </Flex>
 
@@ -150,7 +150,7 @@ export default function ServiceDetailsPage() {
                     {(service?.images as Array<string>)?.length > 1 && (
                         <HStack position={"absolute"} bottom={"10px"} height={"15px"} width={'full'} justifyContent={"center"} spacing={1}>
                             {service?.images.map((image, index) => (
-                                <Box key={index.toString()} width={activeImageIndex === index ? "10px" : "5px"} height={activeImageIndex === index ? "10px" : "5px"} borderRadius={activeImageIndex === index ? "10px" : "5px"} bg={activeImageIndex === index ? "white":"white"} scale={activeImageIndex === index ? 1:1} ></Box>
+                                <Box cursor={'pointer'} onClick={() => setActiveImageIndex(index)} key={index.toString()} width={activeImageIndex === index ? "10px" : "5px"} height={activeImageIndex === index ? "10px" : "5px"} borderRadius={activeImageIndex === index ? "10px" : "5px"} bg={activeImageIndex === index ? "white":"white"} scale={activeImageIndex === index ? 1:1} ></Box>
                             ))}
                         </HStack>
                     )}
@@ -163,7 +163,7 @@ export default function ServiceDetailsPage() {
                         <Text fontWeight={600} color={headerTextColor} fontSize={'16px'}>Details</Text>
                         <Text fontWeight={400} fontSize={'14px'}>{service?.description}</Text>
                     </VStack>
-                    <Flex w={['full', '413px']} height={'168px'} mt={['30px', '0px']} flexDir={'column'} p='30px' borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
+                    <Flex w={['full', '413px']} height={'168px'} mt={['30px', '0px']} flexDir={'column'} px='30px' justifyContent={'center'} borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
                         <HStack justifyContent={'flex-start'}>
                             <Text fontWeight={600} fontSize={"14px"} color={bodyTextColor}>Starting price</Text>
                             <Text fontSize={'24px'} fontWeight={600} color={headerTextColor}>NGN {(service?.discount) && service?.discount > 0 ? service?.discount.toLocaleString() : service?.price?.toLocaleString()}</Text>
