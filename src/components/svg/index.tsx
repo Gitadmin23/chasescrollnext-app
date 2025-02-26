@@ -68,10 +68,10 @@ export const TruckColoredIcon = () => (
   </svg>
 )
 
-export const Edit2Icon = () => (
+export const Edit2Icon = ({color} : {color?: string}) => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M9.94452 2.70041L3.78702 9.21791C3.55452 9.46541 3.32952 9.95291 3.28452 10.2904L3.00702 12.7204C2.90952 13.5979 3.53952 14.1979 4.40952 14.0479L6.82452 13.6354C7.16202 13.5754 7.63452 13.3279 7.86702 13.0729L14.0245 6.55541C15.0895 5.43041 15.5695 4.14791 13.912 2.58041C12.262 1.02791 11.0095 1.57541 9.94452 2.70041Z" stroke="#5D5D5D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M8.9175 3.78711C9.07473 4.79275 9.56145 5.71771 10.3013 6.41679C11.0411 7.11588 11.9921 7.54951 13.005 7.64961M2.25 16.4996H15.75" stroke="#5D5D5D" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M9.94452 2.70041L3.78702 9.21791C3.55452 9.46541 3.32952 9.95291 3.28452 10.2904L3.00702 12.7204C2.90952 13.5979 3.53952 14.1979 4.40952 14.0479L6.82452 13.6354C7.16202 13.5754 7.63452 13.3279 7.86702 13.0729L14.0245 6.55541C15.0895 5.43041 15.5695 4.14791 13.912 2.58041C12.262 1.02791 11.0095 1.57541 9.94452 2.70041Z" stroke={color ? color : "#5D5D5D"} stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M8.9175 3.78711C9.07473 4.79275 9.56145 5.71771 10.3013 6.41679C11.0411 7.11588 11.9921 7.54951 13.005 7.64961M2.25 16.4996H15.75" stroke={color ? color : "#5D5D5D"} stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
   </svg>
 )
 
