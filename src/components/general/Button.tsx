@@ -53,8 +53,7 @@ function CustomButton({
       bgColor={backgroundColor ? backgroundColor : "brand.chasescrollButtonBlue"}
       _hover={{
         backgroundColor: backgroundColor
-      }}
-      fontFamily={'Satoshi-Regular'}
+      }} 
     >
       {icon && (
         <>

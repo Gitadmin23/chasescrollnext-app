@@ -34,7 +34,7 @@ const ServiceListCard = ({ service }: { service: IService }) => {
                 <Text cursor={'pointer'} color={primaryColor} fontSize={'14px'} onClick={() => router.push(`/dashboard/newbooking/details/service/${service?.id}`)}>View Service</Text>
             </VStack>
 
-            {userId !== service?.vendor?.userID && (
+            {userId !== service?.vendor?.userId && (
                 <Button w='120px' h='36px' onClick={() => setShow(true)} borderRadius={'full'} backgroundColor={primaryColor} color='white'>
                     <Text fontSize={'12px'}>{service?.hasFixedPrice ? 'Place Order' : 'Place Order'}</Text>
                 </Button>

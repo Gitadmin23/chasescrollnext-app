@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, SimpleGrid, Spinner, Text, VStack } from '@chakra-ui/react'
+import { Box, Grid, SimpleGrid, Spinner, Text, VStack } from '@chakra-ui/react'
 import { IBuisness } from '@/models/Business'
 import httpService from '@/utils/httpService';
 import { useQuery } from 'react-query';
@@ -16,7 +16,7 @@ function Bookings() {
     const [businesses, setBusinesses] = React.useState<IBooking[]>([]);
     const [page, setPage] = React.useState(0);
     const [hasMore, setHasMore] = React.useState(true);
-    const { userId } = useDetails((state) => state);
+    const userId = localStorage.getItem('user_id');
     const { configPaystack, setPaystackConfig, donation, dataID, booking } = usePaystackStore((state) => state);
 
     const { isLoading, } = useQuery(['get-my-bookings', page], () => httpService.get('/booking/search', {
@@ -36,13 +36,13 @@ function Bookings() {
         }
     })
     return (
-        <Box w='full' h='full' pt='30px'>
+        <Box w='full' h='full' py='30px'>
             {!isLoading && businesses.length > 0 && (
-                <SimpleGrid columns={[1, 3]} gap={[2, 4]}>
-                    {businesses.map((item, index) => (
+                <Grid templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["4", "4", "6"]} >
+                    {businesses.map((item: any, index) => (
                         <BookingCard key={index} booking={item} business={item?.vendor} isVendor={false} />
                     ))}
-                </SimpleGrid>
+                </Grid>
             )}
 
             {!isLoading && businesses.length < 1 && (

@@ -66,10 +66,10 @@ export default function GetProduct({ myproduct }: { myproduct?: boolean }) {
                                     </Flex>
                                 </Flex>
                                 <Flex w={"full"} h={"210px"} bgColor={secondaryBackgroundColor} justifyContent={"center"} rounded={"8px"} >
-                                    <Image rounded={"8px"} borderColor={"#D0D4EB"} objectFit={"contain"} alt={item?.images[0]} borderWidth={"1px"} width={["auto"]} height={"full"} src={IMAGE_URL + item?.images[0]} />
+                                    <Image borderColor={"#D0D4EB"} objectFit={"contain"} alt={item?.images[0]} borderWidth={"1px"} width={["auto"]} height={"full"} src={IMAGE_URL + item?.images[0]} />
                                 </Flex>
                                 <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} px={"2"} >
-                                    <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{capitalizeFLetter(item?.name)}</Text>
+                                    <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
                                     <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>
                                     <Flex alignItems={"center"} >
                                         <Text fontSize={["14px", "14px", "16px"]} fontWeight={"700"} color={bodyTextColor} >{formatNumber(item?.price)}</Text>
@@ -104,7 +104,7 @@ export default function GetProduct({ myproduct }: { myproduct?: boolean }) {
                                     <Image rounded={"8px"} borderColor={"#D0D4EB"} objectFit={"contain"} alt={item?.images[0]} borderWidth={"1px"} width={["auto"]} height={"full"} src={IMAGE_URL + item?.images[0]} />
                                 </Flex>
                                 <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} px={"2"} >
-                                    <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{capitalizeFLetter(item?.name)}</Text>
+                                    <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
                                     <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>
                                     <Flex alignItems={"center"} >
                                         <Text fontSize={["14px", "14px", "16px"]} fontWeight={"700"} color={bodyTextColor} >{formatNumber(item?.price)}</Text>

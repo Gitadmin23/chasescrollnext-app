@@ -46,7 +46,7 @@ export default function GetRental() {
                                     </Flex>
                                 </Flex>
                                 <Flex w={"full"} h={"210px"} rounded={"8px"} >
-                                    <Image rounded={"8px"} borderColor={"#D0D4EB"} objectFit={"cover"} alt={item?.images[0]} width={["full"]} height={"full"} src={IMAGE_URL + item?.images[0]} />
+                                    <Image borderColor={"#D0D4EB"} objectFit={"cover"} alt={item?.images[0]} width={["full"]} height={"full"} src={IMAGE_URL + item?.images[0]} />
                                 </Flex>
                                 <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} >
                                     <Flex flexDir={"column"} >

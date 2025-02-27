@@ -16,6 +16,9 @@ import BlurredImage from '../sharedComponent/blurred_image'
 import { PaginatedResponse } from '@/models/PaginatedResponse';
 import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
 import { FiMinus, FiPlus } from 'react-icons/fi'
+import UserImage from '../sharedComponent/userimage'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
+import { textLimit } from '@/utils/textlimit'
 
 export interface ICategory {
     id: string;
@@ -364,12 +367,14 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
         }
     }
 
+    const [textSize, setTextSize] = useState(40)
+
     return (
-        <VStack style={{ boxShadow: "0px 4px 4px 0px #0000000D" }} w='full' h='auto' borderWidth={showBorder ? '0.5px' : '0px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'} spacing={3}>
+        <Flex style={{ boxShadow: "0px 4px 4px 0px #0000000D" }} w='full' h={["fit-content", "fit-content", "fit-content"]} flexDir={"column"} borderWidth={showBorder ? '0.5px' : '0px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'} gap={"3"}>
 
             <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} booking={true} donation={false} />
 
-            <HStack w='full'>
+            {/* <HStack w='full'>
                 <Box w='30px' h='30px' borderBottomLeftRadius={'50px'} borderTopLeftRadius={'50px'} borderBottomRightRadius={'50px'} overflow={'hidden'} bg={secondaryBackgroundColor}>
                     <Image src={bookingState?.createdBy?.data?.imgMain?.value?.startsWith('https://') ? bookingState?.createdBy?.data?.imgMain?.value : (IMAGE_URL as string) + bookingState?.createdBy?.data?.imgMain?.value} alt="banner image" w='full' h='full' objectFit={'cover'} />
                 </Box>
@@ -377,42 +382,59 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                     <Text fontWeight={600} fontSize={'14px'} color={primaryColor}>{bookingState?.user?.firstName} {bookingState?.user?.lastName}</Text>
                     <Text fontSize={'12px'} color={bodyTextColor}>{moment(service?.createdDate as number).fromNow()}</Text>
                 </VStack>
-            </HStack>
+            </HStack> */}
+            <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
+                <UserImage image={bookingState?.createdBy?.data?.imgMain?.value} font={"16px"} data={bookingState?.createdBy} border={"1px"} size={"32px"} />
+                <Flex flexDir={"column"} alignItems={"start"} >
+                    <Text fontSize={"12px"} fontWeight={"600"} color={primaryColor} >
+                        {capitalizeFLetter(bookingState?.createdBy?.firstName) + " " + capitalizeFLetter(bookingState?.createdBy?.lastName)}
+                    </Text>
+                    <Text fontSize={"10px"} color={bodyTextColor} >
+                        {moment(bookingState?.createdDate)?.fromNow()}
+                    </Text>
+                </Flex>
+            </Flex>
 
-            <Box onClick={() => {
+            {/* <Box onClick={() => {
                 if (shouldNavigate) router.push(`/dashboard/newbooking/booking/${bookingState?.id}`);
             }} w='full' h='250px' borderRadius={'10px'} overflow={'hidden'}>
                 <BlurredImage forEvent={false} image={service?.images[0].startsWith('https://') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} height={'100%'} />
-            </Box>
+            </Box> */}
 
-            <VStack spacing={-3} alignItems={'flex-start'}>
+            <Flex onClick={() => {
+                if (shouldNavigate) router.push(`/dashboard/newbooking/booking/${bookingState?.id}`);
+            }} w={"full"} h={"250px"} rounded={"8px"} >
+                <Image borderColor={"#D0D4EB"} objectFit={"cover"} alt={service?.images[0]} width={["full"]} height={"full"} src={service?.images[0].startsWith('https://') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} />
+            </Flex>
+
+            <VStack spacing={-3} alignItems={'flex-start'} w={"full"} >
                 <Text fontWeight={400} fontSize={'12px'}>Business Name</Text>
-                <Text fontWeight={600} fontSize={'16px'}>{service?.name}</Text>
+                <Text fontWeight={600} fontSize={'16px'}>{bookingState?.service?.name}</Text>
             </VStack>
 
-            <VStack alignItems='flex-start' spacing={4} w='full' borderBottomWidth='0.5px' borderBottomColor={borderColor} pb='20px' >
-                <Text fontSize={'14px'} fontWeight={600}>User Information</Text>
-                <HStack w='full' justifyContent={'flex-start'} spacing={6} >
-                    <Text fontSize={'12px'}>Name:</Text>
-                    <Text fontSize={'16px'}>{bookingState?.user?.firstName} {bookingState?.user?.lastName}</Text>
+            <Flex flexDir={"column"} alignItems='flex-start' gap={"2"} w='full' borderBottomWidth='0.5px' borderBottomColor={borderColor} pb='20px' > 
+                <HStack w='full' justifyContent={'flex-start'} >
+                    <Text w={"50px"} fontSize={'12px'}>Email:</Text>
+                    <Text fontSize={'12px'}>{bookingState?.service?.email}</Text>
                 </HStack>
 
-                <HStack w='full' justifyContent={'flex-start'} spacing={6} >
-                    <Text fontSize={'14px'}>Email:</Text>
-                    <Text fontSize={'16px'}>{bookingState?.user?.email}</Text>
-                </HStack>
-
-                <HStack w='full' justifyContent={'flex-start'} spacing={6} >
-                    <Text fontSize={'14px'}>Phone:</Text>
-                    <Text fontSize={'16px'}>{bookingState?.user?.data?.mobilePhone?.value ?? 'None'}</Text>
-                </HStack>
-            </VStack>
+                <HStack w='full' justifyContent={'flex-start'} >
+                    <Text w={"50px"} fontSize={'12px'}>Phone:</Text>
+                    <Text fontSize={'12px'}>{bookingState?.service?.phone ?? 'None'}</Text>
+                </HStack> 
+            </Flex>
 
             <Box pb='5px' w='full'>
-                <HStack spacing={8}>
-                    <Text fontWeight={400} fontSize={'16px'}>Service Offered</Text>
-                    <ServiceCard serviceID={service?.category as string} />
-                </HStack>
+                {/* <HStack spacing={8}>
+                </HStack> */}
+
+                <Flex justifyContent={["start", "start", "space-between"]} w={"full"} flexDir={["column", "column", "column"]} gap={"1"} >
+                    <Flex w={"fit-content"} >
+                    <Text fontWeight={600}fontSize={'14px'}>Service Details:</Text>
+                    </Flex>
+                    {/* <ServiceCard serviceID={service?.category as string} /> */}
+                    <Text fontSize={"14px"} >{textLimit(capitalizeFLetter(bookingState?.description), textSize)}<span role='button' style={{color: primaryColor, fontSize: "12px", fontWeight: "600" }} onClick={()=> setTextSize((prev) => prev === 40 ?  bookingState?.description?.length+1 : 40)} >{bookingState?.description?.length > 40 ? (textSize < bookingState?.description?.length ? "show more"  : "show less") : ""}</span></Text>
+                </Flex>
 
 
                 {(
@@ -439,20 +461,20 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
 
 
 
-            <Box h='10px' />
+            <Box h='10px' mt={"auto"} w={"full"} />
             {!isVendor && (
                 <>
                     {bookingState.bookingStatus === 'PENDING' && (
                         <VStack width='100%'>
-                            <HStack spacing={10} width="100%">
+                            <Flex w={"full"} gap={"4"} >
                                 <Button onClick={() => userUpdatePrice.mutate()} isLoading={userUpdatePrice.isLoading} w='full' minHeight={'45px'} h='56px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} color={'white'} bg={primaryColor}>
                                     <Text fontSize={'14px'} color={'white'}>Update Price</Text>
                                 </Button>
 
                                 <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='56px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={secondaryBackgroundColor}>
-                                    <Text fontSize={'14px'} color={primaryColor}>Awaiting Vendor Approval</Text>
+                                    <Text fontSize={'14px'} color={primaryColor}>Pending Approval</Text>
                                 </Button>
-                            </HStack>
+                            </Flex>
 
                             <Button onClick={() => cancelBooking.mutate()} isLoading={cancelBooking.isLoading} w='100%' h='45px' borderRadius='full' borderWidth={'0px'} borderColor={primaryColor} bg={"transparent"}>
                                 <Text fontSize={'14px'} color={'red'}>Cancel Booking</Text>
@@ -487,16 +509,15 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                         </Button>
                     )}
                     {bookingState.bookingStatus === 'AWAITING_CONFIRMATION' && bookingState.isCompleted && (
-                        <>
-                            <Button isLoading={userMarkAsDone.isLoading} onClick={() => userMarkAsDone.mutate(false)} w='full' h='45px' minHeight={'45px'} borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
-                                <Text fontSize={'14px'} color={'white'}>Mark As Done</Text>
-                            </Button>
-
-                            <Button isLoading={userMarkAsDone.isLoading} onClick={() => userMarkAsDone.mutate(true)} w='full' h='45px' minHeight={'45px'} borderRadius='full' borderWidth={'1px'} borderColor={'red'} bg={mainBackgroundColor}>
-                                <Text fontSize={'14px'} color={'red'}>Done with Issues</Text>
-                            </Button>
-                        </>
+                        // <> /
+                        <Button isLoading={userMarkAsDone.isLoading} onClick={() => userMarkAsDone.mutate(false)} w='full' h='45px' minHeight={'45px'} borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                            <Text fontSize={'14px'} color={'white'}>Approve</Text>
+                        </Button>
                     )}
+
+                    {/* <Button isLoading={userMarkAsDone.isLoading} onClick={() => userMarkAsDone.mutate(true)} w='full' h='45px' minHeight={'45px'} borderRadius='full' borderWidth={'1px'} borderColor={'red'} bg={mainBackgroundColor}>
+                        <Text fontSize={'14px'} color={'red'}>Not Satified</Text>
+                    </Button> */}
                     {
                         bookingState.bookingStatus === "COMPLETED" && (
                             <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
@@ -578,7 +599,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                 </>
             )}
 
-        </VStack>
+        </Flex>
     )
 }
 

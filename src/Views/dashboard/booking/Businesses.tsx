@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Flex, SimpleGrid, Spinner, Text, VStack } from '@chakra-ui/react'
+import { Box, Flex, Grid, SimpleGrid, Spinner, Text, VStack } from '@chakra-ui/react'
 import { IBuisness } from '@/models/Business'
 import httpService from '@/utils/httpService';
 import { useMutation, useQuery } from 'react-query';
@@ -35,11 +35,11 @@ function Businesses() {
     return (
         <Flex flexDirection={"column"} w='full' h='full' pt='8'>
             {!isLoading && businesses.length > 0 && (
-                <SimpleGrid columns={[1, 3]} pb={8} gap={[2, 14]}>
+                <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["4", "4", "6"]} >
                     {businesses.map((item, index) => (
                         <BusinessCard key={index.toString()} business={item} />
                     ))}
-                </SimpleGrid>
+                </Grid>
             )}
 
             {!isLoading && businesses.length < 1 && (

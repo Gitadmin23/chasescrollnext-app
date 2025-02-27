@@ -35,7 +35,7 @@ export default function ProductRating({ item, reviewType }: { item: IProduct | I
 
     const { borderColor } = useCustomTheme()
 
-    const [data, setItem] = useState<Array<IReview>>([])
+    const [data, setItem] = useState<Array<IReview>>([]) 
 
     const { isLoading } = useQuery(
         ["review"],
@@ -44,9 +44,7 @@ export default function ProductRating({ item, reviewType }: { item: IProduct | I
                 typeId: item?.id
             }
         }), {
-        onSuccess(data) {
-            console.log(data);
-
+        onSuccess(data) { 
             setItem(data?.data?.content)
         }
     });

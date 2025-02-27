@@ -73,7 +73,7 @@ function MapComponent(props: Props) {
 
   const [map, setMap] = React.useState(null)
 
-  const mapRef: any = React.useRef();
+  const mapRef: any = React.useRef(null);
   const onMapLoad = React.useCallback((map: any) => {
     mapRef.current = map;
   }, []);
