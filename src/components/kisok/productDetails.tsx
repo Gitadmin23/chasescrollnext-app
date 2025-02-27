@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { IoIosArrowForward } from 'react-icons/io'
 import { IoStar } from 'react-icons/io5'
 import CustomButton from '../general/Button'
-import { CartIcon, SheildIcon, TruckColoredIcon } from '../svg'
+import { CartIcon, Edit2Icon, SheildIcon, TruckColoredIcon } from '../svg'
 import httpService from '@/utils/httpService'
 import { useQuery } from 'react-query'
 import LoadingAnimation from '../sharedComponent/loading_animation'
@@ -17,14 +17,19 @@ import UserImage from '../sharedComponent/userimage'
 import ProductRating from './productRating'
 import ProductCheckout from './productCheckout'
 import { useRouter } from 'next/navigation'
+import useProduct from '@/hooks/useProduct'
+import useProductStore from '@/global-state/useCreateProduct'
 
 export default function ProductDetails({ id }: { id: string }) {
 
-    const { primaryColor } = useCustomTheme()
+    const { primaryColor, secondaryBackgroundColor } = useCustomTheme()
 
     const [item, setItem] = useState({} as IProduct)
 
     const { back } = useRouter()
+    const { userId } = useProduct()
+    const { productdata, updateProduct } = useProductStore((state) => state);
+    const { push } = useRouter()
 
     const { isLoading } = useQuery(
         ["products", id],
@@ -36,11 +41,25 @@ export default function ProductDetails({ id }: { id: string }) {
         onSuccess(data) {
             setItem(data?.data?.content[0])
         }
-    }); 
+    });
+
+    const clickHandler = (item: IProduct) => {
+        updateProduct({
+            ...productdata,
+            name: item?.name,
+            description: item?.description,
+            images: item?.images,
+            price: item?.price,
+            category: item?.category,
+            location: item?.location as any,
+            quantity: item?.quantity,
+        })
+        push("/dashboard/kisok/edit/" + item?.id)
+    }
 
     return (
         <LoadingAnimation loading={isLoading} >
-            <Flex w={"full"} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} gap={"6"} flexDir={"column"} overflowY={"auto"} overflowX={"hidden"} >
+            <Flex pos={"relative"} w={"full"} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} gap={"6"} flexDir={"column"} overflowY={"auto"} overflowX={"hidden"} >
                 <Flex w={"full"} display={["none", "none", "flex"]} justifyContent={"space-between"} >
                     <Text fontSize={"24px"} fontWeight={"700"} >Explore  Marchs on chasescroll Kiosk</Text>
                     {/* <Flex w={"fit-content"} gap={4} alignItems={"center"} >
@@ -51,10 +70,13 @@ export default function ProductDetails({ id }: { id: string }) {
                         <Flex w={"40px"} h={"40px"} backgroundColor={"red"} borderRadius={"full"} />
                     </Flex> */}
                 </Flex>
+                <Flex pos={"absolute"} top={"8"} right={"8"} w={"45px"} h={"45px"} bgColor={secondaryBackgroundColor} justifyContent={"center"} alignItems={"center"} rounded={"full"} as={"button"} onClick={() => clickHandler(item)} >
+                    <Edit2Icon color={primaryColor} />
+                </Flex>
                 <Flex w={"full"} gap={"6"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
                         <Flex gap={"1"} alignItems={"center"} >
-                            <Text onClick={() => back()} fontSize={"14px"} fontWeight={"500"} >Home</Text>
+                            <Text role='button' onClick={() => back()} fontSize={"14px"} fontWeight={"500"} >Home</Text>
                             <IoIosArrowForward />
                             <Text fontSize={"14px"} fontWeight={"500"} >Product details</Text>
                             <IoIosArrowForward />
@@ -87,7 +109,7 @@ export default function ProductDetails({ id }: { id: string }) {
                                 <Text fontSize={"14px"} fontWeight={"600"} >Product  Description</Text>
                                 <Text>{item.description}</Text>
                             </Flex>
-                            <Flex display={["none", "none", "flex"]} gap={4} alignItems={"center"} >
+                            {/* <Flex display={["none", "none", "flex"]} gap={4} alignItems={"center"} >
                                 <Flex gap={2} alignItems={"center"} >
                                     <Text fontSize={"14px"} fontWeight={"500"} >Product Quantity</Text>
                                     <Text fontSize={"16px"} color={primaryColor} fontWeight={"600"} >Product Quantity</Text>
@@ -97,19 +119,27 @@ export default function ProductDetails({ id }: { id: string }) {
                                     <IoStar size={"24px"} color={"#1E1E1E"} />
                                     <Text fontWeight={"500"} >{item?.rating}</Text>
                                 </Flex>
-                            </Flex>
+                            </Flex> */}
                             <Flex alignItems={"center"} >
                                 <Text fontSize={"24px"} fontWeight={"700"} >{formatNumber(item?.price)}</Text>
                             </Flex>
                         </Flex>
                         <Flex gap={"3"} alignItems={"center"} >
-                            <UserImage image={item?.creator?.data?.imgMain?.value} size={"32px"} border={"1px"} data={item?.creator} />
+                            <UserImage image={item?.creator?.data?.imgMain?.value} size={"32px"} font={"14px"} border={"1px"} data={item?.creator} />
                             <Text fontSize={"12px"} fontWeight={"500"} >Sold by {capitalizeFLetter(item?.creator?.firstName) + " " + capitalizeFLetter(item?.creator?.lastName)}</Text>
-                            <CustomButton text={"Message"} fontSize={"xs"} height={"23px"} width={"89px"} borderRadius={"999px"} />
-                        </Flex> 
-                        <Flex display={["none", "none", "flex"]} >
-                            <ProductCheckout item={item} />
+                            {userId !== item?.creator?.userId && (
+                                <CustomButton text={"Message"} fontSize={"xs"} height={"23px"} width={"89px"} borderRadius={"999px"} />
+                            )}
                         </Flex>
+                        {userId !== item?.creator?.userId && (
+                            <Flex display={["none", "none", "flex"]} >
+                                <ProductCheckout item={item} />
+                            </Flex>
+                        )}
+                        {/* {userId === item?.creator?.userId && (
+                            <CustomButton onClick={() => clickHandler(item)} text={"Edit Product"} height={"50px"} fontSize={"sm"} width={"200px"} borderRadius={"9999px"} />
+                        )} */}
+
                         <Flex gap={"3"} mt={"4"} >
                             <Flex w={"28px"} h={"28px"} justifyContent={"center"} alignItems={"center"} >
                                 <TruckColoredIcon />

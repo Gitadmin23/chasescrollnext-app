@@ -46,7 +46,7 @@ function MapComponent(props: Props) {
 
 
   const { eventdata, updateEvent } = useEventStore((state) => state);
-  const { updateProduct, productdata, updateRental, rentaldata } = useProductStore((state) => state);
+  const { updateProduct, productdata, updateRental, rentaldata, updateAddress, location } = useProductStore((state) => state);
   const toast = useToast()
   const [directionsResponse, setDirectionsResponse] = React.useState(null);
 
@@ -73,7 +73,7 @@ function MapComponent(props: Props) {
 
   const [map, setMap] = React.useState(null)
 
-  const mapRef: any = React.useRef();
+  const mapRef: any = React.useRef(null);
   const onMapLoad = React.useCallback((map: any) => {
     mapRef.current = map;
   }, []);
@@ -96,7 +96,7 @@ function MapComponent(props: Props) {
           if (status === 'OK' && results[0]) {
 
             let address = results[0].formatted_address
- 
+
 
             updateEvent({
               ...eventdata,
@@ -106,13 +106,23 @@ function MapComponent(props: Props) {
                 latlng: e.latLng.lat() + " " + e.latLng.lng()
               }
             })
-            updateProduct({...productdata, location: {
+            updateProduct({
+              ...productdata, location: {
+                locationDetails: address,
+                latlng: e.latLng.lat() + " " + e.latLng.lng()
+              }
+            })
+            updateAddress({
+              ...location,
               locationDetails: address,
               latlng: e.latLng.lat() + " " + e.latLng.lng()
-            }})
-            updateRental({...rentaldata, location: {
-              locationDetails: address,
-              latlng: e.latLng.lat() + " " + e.latLng.lng()}})
+            })
+            updateRental({
+              ...rentaldata, location: {
+                locationDetails: address,
+                latlng: e.latLng.lat() + " " + e.latLng.lng()
+              }
+            })
 
           } else {
             console.error('Error fetching address:', status);
@@ -171,7 +181,7 @@ function MapComponent(props: Props) {
   }, [])
 
   const clickHandler = () => {
-    if(eventdata.location.latlng) {
+    if (eventdata.location.latlng) {
       close(false)
     } else {
       toast({
@@ -184,9 +194,9 @@ function MapComponent(props: Props) {
       });
     }
   }
-  
-  const { 
-    mainBackgroundColor, 
+
+  const {
+    mainBackgroundColor,
   } = useCustomTheme();
 
   return (

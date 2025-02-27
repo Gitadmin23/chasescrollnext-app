@@ -1,8 +1,11 @@
 "use client"
 import CustomButton from '@/components/general/Button'
+import ProductMap from '@/components/kisok/productMap'
 import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
+import { Delete2Icon, DeleteAccountIcon, Edit2Icon } from '@/components/svg'
+import useProductStore from '@/global-state/useCreateProduct'
 import useGetUser from '@/hooks/useGetUser'
 import useProduct from '@/hooks/useProduct'
 import useCustomTheme from '@/hooks/useTheme'
@@ -46,13 +49,15 @@ export default function ShippingAddress(props: Props) {
     const params = use(props.params);
 
     const id = params.slug
-    const { primaryColor } = useCustomTheme();
+    const { primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
     const query = useSearchParams();
     const type = query?.get('qty');
 
     const { createAddress, setOpen, open, payload, setPayload, userId, editAddress, setAddressId, addressId, openDelete, setOpenDelete, deleteAddress, addressDefault, setAddressDefault, createProductOrder, configPaystack, setPaystackConfig, updateAddress } = useProduct()
     const toast = useToast()
     const [address, setAddress] = useState<Array<IProps>>([])
+
+    const { location, updateAddress: setNewAddress } = useProductStore((state) => state);
 
     const { user } = useGetUser()
     const [item, setItem] = useState({} as IProduct)
@@ -69,6 +74,10 @@ export default function ShippingAddress(props: Props) {
         }
     });
 
+    useEffect(() => {
+        setNewAddress({} as any)
+    }, [open])
+
     const { isLoading } = useQuery(
         ["addressuser", userId],
         () => httpService.get(`/addresses/user/${userId}`), {
@@ -84,9 +93,31 @@ export default function ShippingAddress(props: Props) {
     );
 
     const clickHandler = () => {
-        if (!payload?.state || !payload?.lga || !payload?.phone || !payload?.landmark) {
+        console.log(location);
+
+        if (!payload?.state) {
             toast({
-                title: "Fill the form complete to change address",
+                title: "Select State",
+                description: "",
+                status: "error",
+                isClosable: true,
+                duration: 5000,
+                position: "top-right",
+            });
+            return
+        } else if (!payload?.phone) {
+            toast({
+                title: "Enter Your Phone Number",
+                description: "",
+                status: "error",
+                isClosable: true,
+                duration: 5000,
+                position: "top-right",
+            });
+            return
+        } else if (!location?.locationDetails || !location?.latlng) {
+            toast({
+                title: "Please Select a location in your map",
                 description: "",
                 status: "error",
                 isClosable: true,
@@ -107,10 +138,9 @@ export default function ShippingAddress(props: Props) {
 
         setAddressId(item?.id)
         setPayload({
-            ...payload, state: item?.state,
+            ...payload,
             lga: item?.lga,
-            phone: item?.phone,
-            landmark: item?.landmark,
+            phone: item?.phone
         })
         setOpen(true)
     }
@@ -128,37 +158,77 @@ export default function ShippingAddress(props: Props) {
     const changeStatus = (item: IProps) => {
         setAddressId(item?.id)
         updateAddress?.mutate(
-            {id:item?.id, payload: {
-                state: item?.state,
-                lga: item?.lga,
-                phone: item?.phone,
-                isDefault: true,
-                landmark: item?.landmark,
-                userId: userId,
-            }}
+            {
+                id: item?.id, payload: {
+                    state: item?.state,
+                    phone: item?.phone,
+                    isDefault: true,
+                    userId: userId,
+                    location: location
+                }
+            }
         )
     }
 
+    const statesInNigeria = [
+        "Abia",
+        "Adamawa",
+        "Akwa Ibom",
+        "Anambra",
+        "Bauchi",
+        "Bayelsa",
+        "Benue",
+        "Borno",
+        "Cross River",
+        "Delta",
+        "Ebonyi",
+        "Edo",
+        "Ekiti",
+        "Enugu",
+        "Gombe",
+        "Imo",
+        "Jigawa",
+        "Kaduna",
+        "Kano",
+        "Katsina",
+        "Kebbi",
+        "Kogi",
+        "Kwara",
+        "Lagos",
+        "Nasarawa",
+        "Niger",
+        "Ogun",
+        "Ondo",
+        "Osun",
+        "Oyo",
+        "Plateau",
+        "Rivers",
+        "Sokoto",
+        "Taraba",
+        "Yobe",
+        "Zamfara"
+    ];
+
     return (
-        <Flex w={"full"} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} flexDir={"column"} gap={"6"} overflowY={"auto"} overflowX={"hidden"} >
+        <Flex w={"full"} bgColor={secondaryBackgroundColor} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} flexDir={"column"} gap={"6"} overflowY={"auto"} overflowX={"hidden"} >
             <Flex alignItems={"center"} gap={"1"} >
                 <FaCheckCircle size={"15px"} color='#34C759' />
-                <Text fontSize={"14px"} >Customer Address </Text>
+                <Text fontSize={"14px"} fontWeight={"600"} >Customer Address </Text>
             </Flex>
             <Flex w={"full"} gap={"6"} >
                 <Flex flexDir={"column"} w={"full"} gap={"6"} >
                     <LoadingAnimation loading={isLoading} >
                         {address?.map((item, index) => {
                             return (
-                                <Flex key={index} w={"full"} p={"6"} gap={"4"} rounded={"8px"} shadow={"lg"} flexDir={"column"} >
+                                <Flex key={index} w={"full"} pos={"relative"} p={"6"} gap={"4"} bgColor={mainBackgroundColor} rounded={"8px"} flexDir={"column"} >
                                     <Flex w={"full"} justifyContent={"space-between"} >
-                                        <Text fontSize={"12px"} fontWeight={"500"} >Address List</Text>
-                                        <Flex gap={"4"} >
-                                            <Flex as={"button"} onClick={() => editHandler(item)} >
-                                                <FaEdit size={"20px"} color='black' />
+                                        <Text fontSize={"12px"} fontWeight={"500"} >Address</Text>
+                                        <Flex gap={"4"} position={"absolute"} right={"6"} top={"6"} flexDirection={'column'} >
+                                            <Flex w={"45px"} h={"45px"} bgColor={secondaryBackgroundColor} justifyContent={"center"} alignItems={"center"} rounded={"full"} as={"button"} onClick={() => editHandler(item)} >
+                                                <Edit2Icon />
                                             </Flex>
-                                            <Flex as={"button"} onClick={() => deleteHandler(item)} >
-                                                <IoTrashBin size={"20px"} color='black' />
+                                            <Flex w={"45px"} h={"45px"} bgColor={secondaryBackgroundColor} justifyContent={"center"} alignItems={"center"} rounded={"full"} as={"button"} onClick={() => deleteHandler(item)} >
+                                                <Delete2Icon />
                                             </Flex>
                                         </Flex>
                                     </Flex>
@@ -184,17 +254,17 @@ export default function ShippingAddress(props: Props) {
                             )
                         })}
                     </LoadingAnimation>
-                    <Flex onClick={createHandler} as={"button"} w={"full"} p={"6"} gap={"4"} h={"fit-content"} alignItems={"center"} rounded={"8px"} shadow={"lg"} flexDir={"column"} >
+                    <Flex onClick={createHandler} as={"button"} bgColor={mainBackgroundColor} w={"full"} p={"6"} gap={"4"} h={"fit-content"} alignItems={"center"} rounded={"8px"} flexDir={"column"} >
                         <Flex gap={"2"} w={"full"} >
-                            <IoIosAdd size={"20px"} />
-                            <Text fontSize={"14px"} fontWeight={"500"} >Add Address</Text>
+                            <IoIosAdd size={"20px"} color={primaryColor} />
+                            <Text fontSize={"14px"} fontWeight={"500"} color={primaryColor} >Add Address</Text>
                         </Flex>
                     </Flex>
                     <Text as={"button"} fontSize={"14px"} color={primaryColor} fontWeight={"500"} mr={"auto"} >Go back & Continue buying</Text>
                 </Flex>
                 <Flex w={"fit-content"} h={"fit-content"} >
-                    <Flex w={"292px"} rounded={"8px"} flexDir={"column"} gap={"4"} p={"6"} shadow={"lg"} bgColor={"white"} >
-                        <Text fontWeight={"500"} >Order Summary</Text>
+                    <Flex w={"292px"} rounded={"8px"} flexDir={"column"} gap={"4"} p={"6"} bgColor={"white"} >
+                        <Text fontWeight={"700"} >Order Summary</Text>
                         <Flex w={"full"} justifyContent={"space-between"} >
                             <Text fontSize={"14px"} fontWeight={"500"} >Item total</Text>
                             <Text fontWeight={"500"} >{type}</Text>
@@ -218,34 +288,38 @@ export default function ShippingAddress(props: Props) {
                     <Flex flexDir={"column"} w={"full"} gap={"1"} >
                         <Text>State</Text>
                         <Select value={payload?.state} placeholder='Select State' onChange={(e) => setPayload({ ...payload, state: e.target.value })} >
-                            <option>Rivers</option>
+                            {statesInNigeria?.map((state) => {
+                                return (
+                                    <option key={state} >{state}</option>
+                                )
+                            })}
                         </Select>
                     </Flex>
                     <Flex flexDir={"column"} w={"full"} gap={"1"} >
-                        <Text>L.G.A</Text>
-                        <Select value={payload?.lga} placeholder='Select L.G.A' onChange={(e) => setPayload({ ...payload, lga: e.target.value })} >
-                            <option>Port Harcourt</option>
-                        </Select>
+                        <Text>Map Location</Text>
+                        <ProductMap height='45px' location={location} />
                     </Flex>
                     <Flex flexDir={"column"} w={"full"} gap={"1"} >
                         <Text>Phone Number</Text>
                         <Input value={payload?.phone} type='number' placeholder='Enter Phone Number' onChange={(e) => setPayload({ ...payload, phone: e.target.value })} />
                     </Flex>
                     <Flex flexDir={"column"} w={"full"} gap={"1"} >
-                        <Text>Land Mark</Text>
-                        <Textarea value={payload?.landmark} placeholder='Select Land Mark' onChange={(e) => setPayload({ ...payload, landmark: e.target.value })} />
+                        <Text>Address Detail</Text>
+                        <Textarea value={location?.address} placeholder='Select Land Mark' onChange={(e) => setNewAddress({ ...location, address: e.target.value })} />
                     </Flex>
                     <CustomButton isLoading={createAddress?.isLoading || editAddress?.isLoading} onClick={clickHandler} text={"Submit"} borderRadius={"999px"} />
                 </Flex>
             </ModalLayout>
 
-            <ModalLayout open={openDelete} close={setOpenDelete} title={"Delete Address"} >
+            <ModalLayout open={openDelete} rounded='2xl' close={setOpenDelete} size={"xs"} >
                 <Flex w={"full"} gap={"4"} flexDir={"column"} alignItems={"center"} p={"4"} >
-                    <IoTrashBin size={"40px"} color='red' />
-                    <Text>Are you sure you want to delete this Address?</Text>
+                    <Flex pt={"5"} >
+                        <Delete2Icon size='60px' />
+                    </Flex>
+                    <Text textAlign={"center"} >Are you sure you want to delete this Address?</Text>
                     <Flex gap={"3"} w={"full"} >
-                        <CustomButton onClick={() => setOpenDelete(false)} text={"Cancel"} color={primaryColor} borderWidth={"1px"} borderColor={primaryColor} backgroundColor={"white"} borderRadius={"999px"} />
-                        <CustomButton isLoading={deleteAddress?.isLoading} onClick={() => deleteAddress?.mutate()} text={"Submit"} borderWidth={"1px"} borderColor={"red"} backgroundColor={"red"} borderRadius={"999px"} />
+                        <CustomButton onClick={() => setOpenDelete(false)} text={"Cancel"} color={primaryColor} borderWidth={"1px"} borderColor={primaryColor} backgroundColor={"white"} fontSize={"sm"} height={"45px"} borderRadius={"999px"} />
+                        <CustomButton isLoading={deleteAddress?.isLoading} onClick={() => deleteAddress?.mutate()} text={"Submit"} borderWidth={"1px"} borderColor={"red"} backgroundColor={"red"} fontSize={"sm"} height={"45px"} borderRadius={"999px"} />
                     </Flex>
                 </Flex>
             </ModalLayout>

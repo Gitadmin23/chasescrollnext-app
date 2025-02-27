@@ -45,7 +45,7 @@ function BusinessCard({ business }: { business: IService }) {
     } = useCustomTheme()
 
     return (
-        <VStack style={{ boxShadow: "2px 4px 4px 2px #0000000D" }} w='full' h='auto' borderWidth={'0px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'} minWidth={'366px'} mb={'20px'}>
+        <VStack style={{ boxShadow: "2px 4px 4px 2px #0000000D" }} w='full' h='auto' borderWidth={'0px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'} mb={'20px'}>
 
             <HStack w='full'>
                 <Box w='30px' h='30px' borderBottomLeftRadius={'50px'} borderTopLeftRadius={'50px'} borderBottomRightRadius={'50px'} overflow={'hidden'} bg={secondaryBackgroundColor}>
@@ -106,7 +106,7 @@ function BusinessCard({ business }: { business: IService }) {
             </VStack>
 
             <Box h='10px' />
-            <Button onClick={() => router.push(`/dashboard/newbooking/details/service/${business?.id}`)} w='full' h='54px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={"white"} _hover={{ backgroundColor: "white" }}>
+            <Button onClick={() => router.push(`/dashboard/kisok/service/${business?.id}`)} w='full' h='54px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={"white"} _hover={{ backgroundColor: "white" }}>
                 <Text fontSize={'16px'} fontWeight={600} color={primaryColor}>View Service</Text>
             </Button>
         </VStack>

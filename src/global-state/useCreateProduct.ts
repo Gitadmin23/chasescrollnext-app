@@ -26,6 +26,22 @@ export type CreateProduct = {
     },
 }
 
+type ILocation = {
+    location : {
+        link?: string,
+        address?: string,
+        country?: string,
+        street?: string,
+        city?: string,
+        zipcode?: string,
+        state?: string,
+        locationDetails?: string,
+        latlng?: string,
+        placeIds?: string,
+        toBeAnnounced?: true
+    }
+}
+
 export type CreateRental = {
     userId: string,
     name: string,
@@ -50,15 +66,17 @@ type Navigate = {
     rentaldata: CreateRental
 }
 
+
 type Action = {
     updateProduct: (data: State['productdata']) => void
     updateImage: (data: Image['image']) => void
     updateRental: (data: Navigate['rentaldata']) => void
+    updateAddress: (data: ILocation['location']) => void,
 }
 
 const userId = localStorage.getItem('user_id') + "";
 
-const useProductStore = create<State & Image & Navigate & Action>((set) => ({
+const useProductStore = create<State & Image & Navigate & Action & ILocation>((set) => ({
     productdata: {
         creatorID: userId,
         name: "",
@@ -72,6 +90,8 @@ const useProductStore = create<State & Image & Navigate & Action>((set) => ({
         publish: true,
         location: "" as any,
     },
+
+    location : {} as any,
     image: [],
     imagePreview: [],
     rentaldata: {
@@ -86,6 +106,7 @@ const useProductStore = create<State & Image & Navigate & Action>((set) => ({
         frequency: "DAILY"
     },
     updateProduct: (data) => set(() => ({ productdata: data })),
+    updateAddress: (data) => set(() => ({ location: data })),
     updateImage: (data) => set(() => ({ image: data })),
     updateRental: (data) => set(() => ({ rentaldata: data })),
 }));

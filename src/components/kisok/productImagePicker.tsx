@@ -12,10 +12,10 @@ export default function ProductImagePicker() {
 
     const { image, updateImage, productdata } = useProductStore((state) => state);
 
-    const inputRef = React.useRef<HTMLInputElement>();
+    const inputRef: any = React.useRef(null);
 
-    useEffect(()=> {
-        updateImage([] as any)
+    useEffect(() => {
+        updateImage([]);
     }, [])
     
 
@@ -60,7 +60,7 @@ export default function ProductImagePicker() {
                 <GallaryIcon />
                 <Text fontWeight={"500"} mt={"3"} >Drag pictures here to upload</Text>
                 <Text fontSize={"14px"} color={"#ACACB0"} >You need at least 5 pictures</Text>
-                <input hidden type='file' accept="image/*" multiple ref={inputRef as any} onChange={(e) => handlePick(e.target.files as FileList)} />
+                <input hidden type='file' accept="image/*" multiple ref={inputRef} onChange={(e) => handlePick(e.target.files as FileList)} />
             </Flex>
 
             <Flex w={"full"}  >

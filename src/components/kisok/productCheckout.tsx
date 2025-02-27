@@ -16,11 +16,11 @@ export default function ProductCheckout({item} : {item: IProduct}) {
     return (
         <Flex w={"full"} alignItems={"center"} flexDir={["column", "column", "row"]} gap={"4"} mt={"8"} >
             <Flex gap={"4"} alignItems={"center"} > 
-                <Flex w={"fit-content"} >
+                {/* <Flex w={"fit-content"} >
                     <Flex w={"80px"} h={"56px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} bgColor={secondaryBackgroundColor} >
                         <CartIcon />
                     </Flex>
-                </Flex>
+                </Flex> */}
                 <Text fontWeight={"500"} >QTY</Text>
                 <Flex rounded={"39px"} alignItems={"center"} justifyContent={"center"} padding={"12px"} borderWidth={"1px"} gap={"3"} >
                     <Flex type='button' as={"button"} onClick={() => setQty((prev) => prev === 1 ? 1 : prev - 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >

@@ -133,7 +133,7 @@ export default function Layout({ children }: {
                         <Flex flexDir={"column"} alignItems={"center"} gap={"3"} >
 
                             {routes?.map((item, index) => (
-                                <>
+                                <Flex  key={index}>
                                     {item?.text !== "Notification" && (
                                         <Flex as={"button"} onClick={() => router?.push(item?.route)} key={index} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
                                             <Tooltip label={item?.text} fontSize='sm'>
@@ -157,7 +157,7 @@ export default function Layout({ children }: {
                                             )}
                                         </Flex>
                                     )}
-                                </>
+                                </Flex>
                             ))}
 
                         </Flex>

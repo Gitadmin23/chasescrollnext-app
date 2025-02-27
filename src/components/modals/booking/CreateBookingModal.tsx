@@ -1,4 +1,5 @@
 import ModalLayout from '@/components/sharedComponent/modal_layout'
+import { CalendarIcon } from '@/components/svg'
 import { useDetails } from '@/global-state/useUserDetails'
 import useCustomTheme from '@/hooks/useTheme'
 import { IService } from '@/models/Service'
@@ -106,47 +107,50 @@ function CreateBookingModal({
         mutate(obj);
     }, [description, service, userId, toast, mutate, price]);
 
+    console.log(service);
+    
+
 
     return (
         (<ModalLayout open={show} close={onClose} closeIcon size={['md', '3xl']}>
-            <Flex flexDir={['column', 'row']} pb='20px' px={['20px', '20px']} gap={8} bg={mainBackgroundColor}>
+            <Flex flexDir={["column-reverse", 'row-reverse']} pb='20px' px={['3px', '20px']} gap={["1", "1", "6"]} bg={mainBackgroundColor}>
                 <VStack w='full' h='full' px={'10px'} alignItems={'flex-start'}>
-                    <Text fontSize="12px" color={'grey'}>List your order</Text>
+                    {/* <Text fontSize="12px" color={'grey'}>List your order</Text> */}
 
-                    <VStack w='full' py='10px' alignItems="flex-start" borderBottomWidth={'1px'} borderBottomColor={borderColor}>
+                    {/* <VStack w='full' py='10px' alignItems="flex-start" borderBottomWidth={'1px'} borderBottomColor={borderColor}>
                         <Text fontWeight="600" fontSize={'14px'}>Business Name</Text>
                         <Text>{service?.name}</Text>
 
-                    </VStack>
+                    </VStack> */}
 
 
                     <Box w='full' py='10px' borderBottomWidth={'1px'} borderBottomColor={borderColor}>
                         <Text fontWeight="600" fontSize={'14px'}>Service Type</Text>
-                        <Text color={headerTextColor}>{service?.service?.category.toUpperCase()}</Text>
+                        <Text color={headerTextColor} fontSize={"14px"} >{service?.category.toUpperCase()}</Text>
                     </Box>
 
-                    <Box w='full' py='10px' borderBottomWidth={'1px'} borderBottomColor={borderColor}>
+                    {/* <Box w='full' py='10px' borderBottomWidth={'1px'} borderBottomColor={borderColor}>
                         <Text fontWeight="600" fontSize={'14px'}>Date</Text>
                         <Text fontSize={16} color={headerTextColor}>{moment().format('MMMM Do, YYYY')}</Text>
-                    </Box>
+                    </Box> */}
 
-                    {service?.hasFixedPrice && (
+                    {/* {service?.hasFixedPrice && (
                         <HStack justifyContent={'space-between'} w='full' alignItems={'center'}>
-                            <Text fontSize={'14px'}>Service Payment</Text>
+                            <Text fontSize={'14px'}>Service Price</Text>
                             <Text fontSize={'16px'} fontWeight={600} color={primaryColor}>NGN {service?.price?.toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
                         </HStack>
-                    )}
+                    )} */}
 
                     <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
-                        <Text fontSize={'14px'}>Add a Description</Text>
-                        <Textarea value={description} onChange={(e) => setDescription(e.target.value)} w='full' h='80px' placeholder='Enter a description of what you want' />
+                        <Text fontWeight="600" fontSize={'14px'}>Service Description</Text>
+                        <Textarea value={description} onChange={(e) => setDescription(e.target.value)} w='full' h='80px' fontSize={"14px"} placeholder='Tell us how we can serve you' />
                     </VStack>
 
                     <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
-                        <Text fontSize={'14px'}>Pick A date</Text>
+                        <Text fontWeight="600" fontSize={'14px'}>Book a date</Text>
                         <InputGroup width='100%'>
                             <InputLeftElement>
-                                <FiCalendar size={'25px'} color='grey' />
+                            <CalendarIcon />
                             </InputLeftElement>
                             <Input
                                 type='date'
@@ -157,7 +161,7 @@ function CreateBookingModal({
                                 }}
                                 borderWidth={'1px'}
                                 height="45px"
-                                borderRadius={'45px'}
+                                borderRadius={'8px'}
                                 borderBottomColor={borderColor}
                                 placeholder='Pick Date'
                                 fontSize={'14px'}
@@ -166,9 +170,12 @@ function CreateBookingModal({
                         </InputGroup>
                     </VStack>
 
+                    <Button onClick={handleCreation} isLoading={isLoading} w='full' h='42px' backgroundColor={primaryColor} borderRadius={'full'} mt='20px'>
+                        <Text fontWeight={600} fontSize={'14px'} color='white'>{service?.hasFixedPrice ? 'Create Booking' : 'Create Offer'}</Text>
+                    </Button>
                 </VStack>
-                <Flex w='full' h='full' p='15px' flexDir='column'>
-                    <Box w='full' h='full' borderWidth={'1.5px'} borderColor={borderColor} borderRadius={'10px'} p='20px'>
+                <Flex w='full' h='full' p={["6px", "6px", '15px']} flexDir='column'>
+                    <Box w='full' h='full' borderWidth={'1.5px'} borderColor={borderColor} borderRadius={'10px'} py={["6px", "6px", "20px"]} p={['12px', "12px", '20px']}>
                         <Flex gap={3} pb='10px' borderBottomWidth={'1px'} borderBottomColor={borderColor} alignItems='center'>
                             <Box w='100px' h='100px' borderRadius={'15px'} overflow={'hidden'} py='5px'>
                                 <Image src={service?.images[0].startsWith('http') ? service?.images[0] : IMAGE_URL + service?.images[0]} alt='banner image' w='100%' h='full' objectFit={'cover'} />
@@ -181,23 +188,23 @@ function CreateBookingModal({
 
                         {service?.hasFixedPrice && (
                             <Flex flexDir='column' mt='30xp'>
-                                <Text fontWeight={500} fontSize={'14px'} color={headerTextColor} mt='10px' >Total price for the  order</Text>
+                                <Text fontWeight={500} fontSize={'14px'} color={headerTextColor} mt='10px' >Service Total price:</Text>
 
                                 <HStack justifyContent={'space-between'} h='40px'>
                                     <Text color={bodyTextColor} fontSize="12px">{service?.service?.category}</Text>
-                                    <Text fontSize={'14px'} color={bodyTextColor}>NGN {service?.price?.toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
+                                    <Text fontSize={'14px'} >NGN {service?.price?.toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
                                 </HStack>
 
                                 <HStack justifyContent={'space-between'} h='40px'>
-                                    <Text color={bodyTextColor} fontSize='12px'>Taxes(2%)</Text>
-                                    <Text color={bodyTextColor} fontSize={'14px'}>NGN {(service?.price * 0.02)?.toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
+                                    <Text fontSize='12px'>Service Fee:</Text>
+                                    <Text fontSize={'14px'}>NGN {(service?.price * 0.02)?.toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
                                 </HStack>
 
                                 <Divider />
 
                                 <HStack justifyContent={'flex-end'} h='40px'>
-                                    <Text color={bodyTextColor} fontSize='12px'>Taxes</Text>
-                                    <Text color={bodyTextColor} fontSize={'14px'}>NGN {(service?.price + (service?.price * 0.02)).toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
+                                    <Text fontSize='12px'>Total Price</Text>
+                                    <Text fontSize={'14px'}>NGN {(service?.price + (service?.price * 0.02)).toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
                                 </HStack>
                             </Flex>
                         )}
@@ -241,9 +248,6 @@ function CreateBookingModal({
                         )}
                     </Box>
 
-                    <Button onClick={handleCreation} isLoading={isLoading} w='full' h='42px' backgroundColor={primaryColor} borderRadius={'full'} mt='20px'>
-                        <Text fontWeight={600} fontSize={'14px'} color='white'>{service?.hasFixedPrice ? 'Create Booking' : 'Create Offer'}</Text>
-                    </Button>
                 </Flex>
             </Flex>
         </ModalLayout>)
