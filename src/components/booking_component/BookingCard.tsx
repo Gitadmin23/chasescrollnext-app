@@ -457,15 +457,15 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                     <Text fontWeight={600} fontSize={'14px'}>Service Details:</Text>
                                     <Text fontSize={"14px"} >{textLimit(capitalizeFLetter(bookingState?.description), textSize)}<span role='button' style={{ color: primaryColor, fontSize: "12px", fontWeight: "600" }} onClick={() => setTextSize((prev) => prev === 40 ? bookingState?.description?.length + 1 : 40)} >{bookingState?.description?.length > 40 ? (textSize < bookingState?.description?.length ? "show more" : "show less") : ""}</span></Text>
                                 </Flex>
+                                <Flex justifyContent={["start", "start", "space-between"]} w={"full"} flexDir={["column", "column", "column"]} gap={"1"} >
+                                    <Text fontWeight={600} fontSize={'14px'}>Booking Date:</Text>
+                                    <Text fontSize={"14px"} >{dateFormat(bookingState?.date?.millis)}</Text>
+                                </Flex>
                             </Flex>
                         </Flex>
                         <Flex flexDir={"column"} w={'full'} gap={"3"} >
 
                             <Flex flexDir={"column"} px={"3"} gap={"3"} w={"full"} >
-                                <Flex justifyContent={["start", "start", "space-between"]} w={"full"} flexDir={["column", "column", "column"]} gap={"1"} >
-                                    <Text fontWeight={600} fontSize={'12px'}>Booking Date:</Text>
-                                    <Text fontSize={"12px"} >{dateFormat(bookingState?.date?.millis)}</Text>
-                                </Flex>
                                 <Flex flexDir={["row", "row", "column"]} justifyContent={'space-between'} w='full' alignItems={'center'}>
                                     <Text fontSize={'16px'}>Total Price:</Text>
                                     <Text fontSize={'25px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(parseInt(price) || 0)}</Text>
@@ -513,7 +513,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                             </>
                                         )}
                                         {bookingState.bookingStatus === 'APPROVED' && !bookingState?.hasPaid && (
-                                            <>
+                                            <Flex gap={"3"} flexDir={"column"} w={"full"} >
                                                 <Button isLoading={payForTicket?.isLoading} isDisabled={payForTicket?.isLoading} onClick={() => handlePayment()} w='full' minHeight={'45px'} h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
                                                     <Text fontSize={'14px'} color={'white'}>Make Payment</Text>
                                                 </Button>
@@ -521,7 +521,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                                 <Button onClick={() => cancelBooking.mutate()} isLoading={cancelBooking.isLoading} w='full' h='45px' borderRadius='full' minHeight={'45px'} borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
                                                     <Text fontSize={'14px'} color={'white'}>Cancel Booking</Text>
                                                 </Button>
-                                            </>
+                                            </Flex>
                                         )}
                                         {bookingState.bookingStatus === 'IN_PROGRESS' && (
                                             <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} minHeight={'45px'} borderColor={primaryColor} bg={primaryColor}>

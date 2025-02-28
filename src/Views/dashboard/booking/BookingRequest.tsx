@@ -19,7 +19,7 @@ function BookingsRequest() {
     const userId = localStorage.getItem('user_id');
     const { configPaystack, setPaystackConfig, donation, dataID, booking } = usePaystackStore((state) => state);
 
-    const { isLoading, } = useQuery(['get-my-bookings', page], () => httpService.get('/booking/search', {
+    const { isLoading, } = useQuery(['get-my-request', page], () => httpService.get('/booking/search', {
         params: {
             vendorID: userId,
             page,
