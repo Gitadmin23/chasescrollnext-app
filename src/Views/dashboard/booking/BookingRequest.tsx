@@ -40,7 +40,7 @@ function BookingsRequest() {
             {!isLoading && businesses.length > 0 && (
                 <Grid templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["4", "4", "6"]} pb={"10"} >
                     {businesses.map((item: any, index) => (
-                        <BookingCard key={index} booking={item} business={item?.vendor} isVendor={false} />
+                        <BookingCard key={index} booking={item} business={item?.vendor} isVendor={true} />
                     ))}
                 </Grid>
             )}
