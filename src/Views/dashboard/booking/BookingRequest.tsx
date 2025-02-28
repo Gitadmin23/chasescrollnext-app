@@ -12,7 +12,7 @@ import BookingCard from '@/components/booking_component/BookingCard';
 import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
 import usePaystackStore from '@/global-state/usePaystack';
 
-function Bookings() {
+function BookingsRequest() {
     const [businesses, setBusinesses] = React.useState<IBooking[]>([]);
     const [page, setPage] = React.useState(0);
     const [hasMore, setHasMore] = React.useState(true);
@@ -21,7 +21,7 @@ function Bookings() {
 
     const { isLoading, } = useQuery(['get-my-bookings', page], () => httpService.get('/booking/search', {
         params: {
-            userID: userId,
+            vendorID: userId,
             page,
             size: 20,
         }
@@ -62,4 +62,4 @@ function Bookings() {
     )
 }
 
-export default Bookings
+export default BookingsRequest

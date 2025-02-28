@@ -17,4 +17,38 @@ export type IBooking = {
     price: number;
     isCompleted: boolean;
     hasPaid: boolean;
+    date: {
+        "year": number,
+        "dayOfMonth": number,
+        "dayOfWeek": number,
+        "dayOfYear": number,
+        "era": number,
+        "centuryOfEra": number,
+        "yearOfEra": number,
+        "yearOfCentury": number,
+        "weekyear": number,
+        "monthOfYear": number,
+        "weekOfWeekyear": number,
+        "hourOfDay": number,
+        "minuteOfHour": number,
+        "secondOfMinute": number,
+        "millisOfSecond": number,
+        "millisOfDay": number,
+        "secondOfDay": number,
+        "minuteOfDay": number,
+        "chronology": {
+            "zone": {
+                "fixed": boolean,
+                "id": string
+            }
+        },
+        "zone": {
+            "fixed": boolean,
+            "id": string
+        },
+        "millis": number,
+        "afterNow": boolean,
+        "beforeNow": boolean,
+        "equalNow": boolean
+    }
 }

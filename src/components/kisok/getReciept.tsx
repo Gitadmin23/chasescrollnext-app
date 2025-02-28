@@ -13,20 +13,21 @@ import CustomButton from '../general/Button';
 import { IMAGE_URL } from '@/services/urls';
 import { dateFormat, timeFormat } from '@/utils/dateFormat';
 import ModalLayout from '../sharedComponent/modal_layout';
+import { numberFormat } from '@/utils/formatNumberWithK';
+import { textLimit } from '@/utils/textlimit';
 
 export default function GetReciept() {
 
-    const { primaryColor, bodyTextColor, secondaryBackgroundColor } = useCustomTheme()
+    const { primaryColor, headerTextColor, bodyTextColor, secondaryBackgroundColor } = useCustomTheme()
     const { push } = useRouter()
-    const userId = localStorage.getItem('user_id') + "";
+    const userId = localStorage.getItem('user_id') + ""; 
+    const [textSize, setTextSize] = useState(40)
 
     const [detail, setDetails] = useState({} as IReceipt)
 
     const [open, setOpen] = useState(false)
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/reciept/search?userId=${userId}`, limit: 20, filter: "id", name: "getreciept" })
-
-    console.log(results);
 
     const clickHander = (item: IReceipt) => {
         setDetails(item)
@@ -64,11 +65,8 @@ export default function GetReciept() {
                                     <Flex w={"full"} gap={"2"} alignItems={"center"} >
                                         <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >Order On 20-09 {dateFormat(item?.createdDate)}</Text>
                                     </Flex>
-                                    <Flex rounded={"32px"} h={"20px"} justifyContent={"center"} alignItems={"center"} color={"white"} fontSize={"10px"} bgColor={"#FF9500"} w={"fit-content"} px={"2"} >
-                                        ONGOING
-                                    </Flex>
                                     <Flex display={["none", "none", "flex"]} >
-                                        <CustomButton onClick={()=> clickHander(item)} text={"View Details"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                                        <CustomButton onClick={() => clickHander(item)} text={"View Details"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
                                     </Flex>
                                 </Flex>
                             </Flex>
@@ -99,11 +97,8 @@ export default function GetReciept() {
                                     <Flex w={"full"} gap={"2"} alignItems={"center"} >
                                         <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >Order On 20-09 {dateFormat(item?.createdDate)}</Text>
                                     </Flex>
-                                    <Flex rounded={"32px"} h={"20px"} justifyContent={"center"} alignItems={"center"} color={"white"} fontSize={"10px"} bgColor={"#FF9500"} w={"fit-content"} px={"2"} >
-                                        ONGOING
-                                    </Flex>
                                     <Flex display={["none", "none", "flex"]} >
-                                        <CustomButton onClick={()=> clickHander(item)} text={"View Details"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                                        <CustomButton onClick={() => clickHander(item)} text={"View Details"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
                                     </Flex>
                                 </Flex>
                             </Flex>
@@ -111,62 +106,32 @@ export default function GetReciept() {
                     }
                 })}
             </Grid>
-            <ModalLayout size={"4xl"} open={open} close={setOpen} closeIcon={true} >
-                <Flex flexDir={"column"} p={"4"} gap={"4"} >
-                    <Text fontSize={"18px"} fontWeight={"600"} >Receipt</Text>
-                    <Flex w={"full"} gap={"6"} >
-                        <Flex w={"full"} flexDir={"column"} p={"6"} gap={"6"} rounded={"16px"} borderWidth={"1px"} borderColor={"#EAEBEDCC"} >
-                            <Flex w={"full"} gap={"4"} pb={"6"} borderBottomWidth={"1px"} borderBottomColor={"#E7E7E7"} >
-                                <Flex w={"fit-content"} >
-                                    <Flex w={"96px"} h={"96px"} rounded={"8px"} shadow={"lg"} >
-                                        <Image w={"full"} h={"full"} src={IMAGE_URL + detail?.rental?.images[0]} alt={detail?.rental?.name} />
-                                    </Flex>
-                                </Flex>
-                                <Flex flexDir={"column"} >
-                                    <Text fontSize={"24px"} fontWeight={"600"} >{detail?.rental?.name}</Text>
-                                    <Text fontSize={"10px"} color={bodyTextColor} >{detail?.rental?.address}</Text>
-                                </Flex>
-                            </Flex>
-                            <Flex flexDir={"column"} gap={"2"} borderBottomWidth={"1px"} pb={"6"} borderColor={"#EAEBEDCC"} >
-                                <Text fontWeight={"700"} >Service Category</Text>
-                                <Text fontSize={"14px"} color={bodyTextColor} >{detail?.rental?.category}</Text>
-                            </Flex>
-                            <Flex flexDir={"column"} gap={"2"}  >
-                                <Flex w={"full"} justifyContent={"space-between"} >
-                                    <Text fontSize={"14px"} fontWeight={"500"} >Date:</Text>
-                                    <Text fontSize={"14px"} fontWeight={"500"} >{dateFormat(detail?.startDate)}</Text>
-                                </Flex>
-                                <Flex w={"full"} justifyContent={"space-between"} >
-                                    <Text fontSize={"14px"} fontWeight={"500"} >Time:</Text>
-                                    <Text fontSize={"14px"} fontWeight={"500"} >{timeFormat(detail?.startDate)}</Text>
-                                </Flex>
-                                <Flex w={"full"} justifyContent={"space-between"} >
-                                    <Text fontSize={"14px"} fontWeight={"500"} >Total</Text>
-                                    <Text fontSize={"20px"} fontWeight={"700"} >{formatNumber(detail?.price)}</Text>
-                                </Flex>
-                                <Flex w={"full"} flexDir={"column"} gap={"3"} justifyContent={"space-between"} >
-                                    <Text fontWeight={"500"} >Send responses</Text>
-                                    <Textarea placeholder='Message' />
-                                </Flex>
-                                <Flex gap={"4"} mt={"4"} >
-                                    <CustomButton text={"Accept"} backgroundColor={"#34C759"} borderRadius={"999px"} />
-                                    <CustomButton text={"Reject"} backgroundColor={"#FF3B30"} borderRadius={"999px"} />
-                                </Flex>
-                            </Flex>
-                        </Flex>
-                        <Flex w={"full"} gap={"6"} flexDirection={"column"} justifyContent={"center"} >
-                            <Flex borderBottomWidth={"1px"} pb={"6"}  >
-                                <Text fontWeight={"600"} >List of Services Available on {detail?.rental?.name}.</Text>
-                            </Flex>
-                            <Flex flexDir={"column"} gap={"4"} >
-                                <Text fontWeight={"600"} fontSize={"14px"} >List of Services</Text>
-                                <Text>Hair Cut</Text>
-                            </Flex>
-                            <Flex flexDir={"column"} gap={"4"} >
-                                <Text fontWeight={"600"} >Details</Text>
-                                <Text fontSize={"14px"} >{detail?.rental?.description}</Text>
-                            </Flex>
-                        </Flex>
+
+            <ModalLayout open={open} close={setOpen} closeIcon={true} >
+                <Flex flexDir={"column"} p={"4"} gap={"4"} fontSize={"14px"}  >
+                    <Flex w={"full"} h={"210px"} justifyContent={"center"} alignItems={"center"} rounded={"8px"} bgColor={"#00000066"} >
+                        <Image rounded={"8px"} borderColor={"#D0D4EB"} objectFit={"cover"} alt={detail?.rental?.images[0]} width={["fit-content"]} height={"full"} src={IMAGE_URL + detail?.rental?.images[0]} />
+                    </Flex>
+                    <Flex flexDirection={"column"} gap={"1"} >
+                        <Text color={primaryColor} fontWeight={"700"} >Customer Name: <span style={{ fontWeight: "500", color: headerTextColor }} >{capitalizeFLetter(detail?.createdBy?.firstName) + " " + capitalizeFLetter(detail?.createdBy?.lastName)}</span></Text>
+                        <Text fontWeight={"600"} >Description: <span style={{ fontWeight: "500" }} >{textLimit(capitalizeFLetter(detail?.rental?.description), textSize)}<span role='button' style={{ color: primaryColor, fontSize: "12px", fontWeight: "600" }} onClick={() => setTextSize((prev) => prev === 40 ? detail?.rental?.description?.length + 1 : 40)} >{detail?.rental?.description?.length > 40 ? (textSize < detail?.rental?.description?.length ? "show more" : "...show less") : ""}</span></span></Text>
+
+                        {/* <Text fontSize={"14px"} >{textLimit(capitalizeFLetter(detail?.rental?.description), textSize)}<span role='button' style={{ color: primaryColor, fontSize: "12px", fontWeight: "600" }} onClick={() => setTextSize((prev) => prev === 40 ? detail?.rental?.description?.length + 1 : 40)} >{detail?.rental?.description?.length > 40 ? (textSize < detail?.rental?.description?.length ? "show more" : "show less") : ""}</span></Text> */}
+                        <Text fontWeight={"600"} >Start Date:  <span style={{ fontWeight: "500" }}>{dateFormat(detail?.startDate)}</span></Text>
+                        <Text fontWeight={"600"} >End Date: <span style={{ fontWeight: "500" }}>{dateFormat(detail?.endDate)}</span></Text>
+                    </Flex>
+                    <Flex w={"full"} gap={"1"} bgColor={secondaryBackgroundColor} flexDir={"column"} p={"2"} >
+                        <Text color={primaryColor} fontWeight={"700"} >Payment Summary</Text>
+                        <Text mt={"1"} >Subtotal: {numberFormat(detail?.price)}</Text>
+                        <Text>Total: {numberFormat(detail?.price)}</Text>
+                    </Flex>
+                    <Flex flexDir={"column"} gap={"1"} >
+                        <Text fontWeight={"600"} >Shipped To :  <span style={{ fontWeight: "500" }} >{detail?.address?.landmark}</span></Text>
+                        <Text fontWeight={"600"} >Street Address: <span style={{ fontWeight: "500" }} >{detail?.rental?.location?.locationDetails}</span></Text>
+                    </Flex>
+                    <Flex w={"full"} justifyContent={"end"} >
+
+                    <CustomButton text={"Download"} width={"200px"} height={"45px"} fontSize={"sm"} borderRadius={"999px"} />
                     </Flex>
                 </Flex>
             </ModalLayout>

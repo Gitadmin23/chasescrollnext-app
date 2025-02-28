@@ -19,6 +19,10 @@ import { FiMinus, FiPlus } from 'react-icons/fi'
 import UserImage from '../sharedComponent/userimage'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import { textLimit } from '@/utils/textlimit'
+import { dateFormat } from '@/utils/dateFormat'
+import ModalLayout from '../sharedComponent/modal_layout'
+import CustomButton from '../general/Button'
+import { IoIosClose } from 'react-icons/io'
 
 export interface ICategory {
     id: string;
@@ -54,6 +58,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
     const toast = useToast()
     const router = useRouter();
     const { userId } = useDetails((state) => state);
+    const [open, setOpen] = useState(false)
 
     const [bookingState, setBookingState] = React.useState(booking);
     const [price, setPrice] = React.useState(bookingState?.price.toString());
@@ -370,235 +375,251 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
     const [textSize, setTextSize] = useState(40)
 
     return (
-        <Flex style={{ boxShadow: "0px 4px 4px 0px #0000000D" }} w='full' h={["fit-content", "fit-content", "fit-content"]} flexDir={"column"} borderWidth={showBorder ? '0.5px' : '0px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'} gap={"3"}>
+        <Flex style={{ boxShadow: "0px 4px 4px 0px #0000000D" }} w='full' h={["fit-content", "fit-content", "fit-content"]} flexDir={"column"} borderWidth={showBorder ? '0.5px' : '0px'} borderColor={borderColor} borderRadius={'15px'} alignItems={'flex-start'} overflowX={'hidden'} gap={"3"}>
 
             <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} booking={true} donation={false} />
 
-            {/* <HStack w='full'>
-                <Box w='30px' h='30px' borderBottomLeftRadius={'50px'} borderTopLeftRadius={'50px'} borderBottomRightRadius={'50px'} overflow={'hidden'} bg={secondaryBackgroundColor}>
-                    <Image src={bookingState?.createdBy?.data?.imgMain?.value?.startsWith('https://') ? bookingState?.createdBy?.data?.imgMain?.value : (IMAGE_URL as string) + bookingState?.createdBy?.data?.imgMain?.value} alt="banner image" w='full' h='full' objectFit={'cover'} />
-                </Box>
-                <VStack spacing={-5} alignItems={'flex-start'}>
-                    <Text fontWeight={600} fontSize={'14px'} color={primaryColor}>{bookingState?.user?.firstName} {bookingState?.user?.lastName}</Text>
-                    <Text fontSize={'12px'} color={bodyTextColor}>{moment(service?.createdDate as number).fromNow()}</Text>
-                </VStack>
-            </HStack> */}
-            <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
-                <UserImage image={bookingState?.createdBy?.data?.imgMain?.value} font={"16px"} data={bookingState?.createdBy} border={"1px"} size={"32px"} />
-                <Flex flexDir={"column"} alignItems={"start"} >
-                    <Text fontSize={"12px"} fontWeight={"600"} color={primaryColor} >
-                        {capitalizeFLetter(bookingState?.createdBy?.firstName) + " " + capitalizeFLetter(bookingState?.createdBy?.lastName)}
-                    </Text>
-                    <Text fontSize={"10px"} color={bodyTextColor} >
-                        {moment(bookingState?.createdDate)?.fromNow()}
-                    </Text>
-                </Flex>
-            </Flex>
-
-            {/* <Box onClick={() => {
-                if (shouldNavigate) router.push(`/dashboard/newbooking/booking/${bookingState?.id}`);
-            }} w='full' h='250px' borderRadius={'10px'} overflow={'hidden'}>
-                <BlurredImage forEvent={false} image={service?.images[0].startsWith('https://') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} height={'100%'} />
-            </Box> */}
-
-            <Flex onClick={() => {
-                if (shouldNavigate) router.push(`/dashboard/newbooking/booking/${bookingState?.id}`);
-            }} w={"full"} h={"250px"} rounded={"8px"} >
-                <Image borderColor={"#D0D4EB"} objectFit={"cover"} alt={service?.images[0]} width={["full"]} height={"full"} src={service?.images[0].startsWith('https://') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} />
-            </Flex>
-
-            <VStack spacing={-3} alignItems={'flex-start'} w={"full"} >
-                <Text fontWeight={400} fontSize={'12px'}>Business Name</Text>
-                <Text fontWeight={600} fontSize={'16px'}>{bookingState?.service?.name}</Text>
-            </VStack>
-
-            <Flex flexDir={"column"} alignItems='flex-start' gap={"2"} w='full' borderBottomWidth='0.5px' borderBottomColor={borderColor} pb='20px' > 
-                <HStack w='full' justifyContent={'flex-start'} >
-                    <Text w={"50px"} fontSize={'12px'}>Email:</Text>
-                    <Text fontSize={'12px'}>{bookingState?.service?.email}</Text>
-                </HStack>
-
-                <HStack w='full' justifyContent={'flex-start'} >
-                    <Text w={"50px"} fontSize={'12px'}>Phone:</Text>
-                    <Text fontSize={'12px'}>{bookingState?.service?.phone ?? 'None'}</Text>
-                </HStack> 
-            </Flex>
-
-            <Box pb='5px' w='full'>
-                {/* <HStack spacing={8}>
-                </HStack> */}
-
-                <Flex justifyContent={["start", "start", "space-between"]} w={"full"} flexDir={["column", "column", "column"]} gap={"1"} >
-                    <Flex w={"fit-content"} >
-                    <Text fontWeight={600}fontSize={'14px'}>Service Details:</Text>
+            <Flex w={"full"} h={"250px"} roundedTop={"8px"} bgColor={"#00000066"} position={"relative"} justifyContent={"center"} alignItems={"center"} >
+                <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderWidth={"1px"} borderColor={"white"} alignItems={"center"} gap={2} >
+                    <UserImage image={bookingState?.createdBy?.data?.imgMain?.value} font={"16px"} data={bookingState?.createdBy} border={"1px"} size={"32px"} />
+                    <Flex flexDir={"column"} alignItems={"start"} color={"white"} >
+                        <Text fontSize={"12px"} fontWeight={"700"} >
+                            {capitalizeFLetter(bookingState?.createdBy?.firstName) + " " + capitalizeFLetter(bookingState?.createdBy?.lastName)}
+                        </Text>
+                        <Text fontSize={"10px"} color={"white"} fontWeight={"600"} >
+                            Client
+                        </Text>
                     </Flex>
-                    {/* <ServiceCard serviceID={service?.category as string} /> */}
-                    <Text fontSize={"14px"} >{textLimit(capitalizeFLetter(bookingState?.description), textSize)}<span role='button' style={{color: primaryColor, fontSize: "12px", fontWeight: "600" }} onClick={()=> setTextSize((prev) => prev === 40 ?  bookingState?.description?.length+1 : 40)} >{bookingState?.description?.length > 40 ? (textSize < bookingState?.description?.length ? "show more"  : "show less") : ""}</span></Text>
                 </Flex>
-
-
-                {(
-                    <HStack justifyContent={'space-between'} my='20px' w='full' alignItems={'center'}>
-                        <Text fontSize={'16px'}>Total Price</Text>
-                        <Text fontSize={'25px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(parseInt(price) || 0)}</Text>
+                <Image borderColor={"#D0D4EB"} objectFit={"cover"} alt={service?.images[0]} width={["fit-content"]} height={"full"} src={service?.images[0].startsWith('https://') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} />
+            </Flex>
+            <Flex flexDir={"column"} px={"3"} gap={"3"} borderBottomWidth='0.5px' borderBottomColor={borderColor} pb='20px' w={"full"}>
+                <Flex flexDir={"column"} >
+                    <Text fontWeight={400} fontSize={'12px'}>Business Name</Text>
+                    <Text fontWeight={600} fontSize={'16px'}>{bookingState?.service?.name}</Text>
+                </Flex>
+                <Flex gap={"1"} flexDir={"column"} >
+                    <HStack w='full' justifyContent={'flex-start'} >
+                        <Text w={"50px"} fontSize={'14px'}>Email:</Text>
+                        <Text fontSize={'14px'}>{bookingState?.service?.email}</Text>
                     </HStack>
-                )}
 
-                {booking?.bookingStatus === 'PENDING' && (
-                    <VStack spacing={5} mt='10px' alignItems="center">
-                        <Text fontSize={'14px'}>You can neogiate this price by 5%</Text>
-                        <HStack width={'150px'} height={'50px'} borderRadius={'50px'} overflow={'hidden'} backgroundColor={'#DDE2E6'}>
-                            <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'SUBSTRACTION', value: 0 })} flex={1} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
-                                <FiMinus size={20} color='black' />
+                    <HStack w='full' justifyContent={'flex-start'} >
+                        <Text w={"50px"} fontSize={'14px'}>Phone:</Text>
+                        <Text fontSize={'14px'}>{bookingState?.service?.phone ?? 'None'}</Text>
+                    </HStack>
+                </Flex>
+                <CustomButton onClick={() => setOpen(true)} text={"View Request"} backgroundColor={"white"} borderWidth={"1px"} borderColor={primaryColor} color={primaryColor} fontSize={"sm"} h={"56px"} borderRadius={"32px"} />
+            </Flex>
+            <ModalLayout size={"4xl"} open={open} close={setOpen} >
+
+                <Flex style={{ boxShadow: "0px 4px 4px 0px #0000000D" }} w='full' px="4" py={"3"} h={["fit-content", "fit-content", "fit-content"]} flexDir={["column"]} borderWidth={showBorder ? '0.5px' : '0px'} borderColor={borderColor} borderRadius={'15px'} alignItems={'flex-start'} overflowX={'hidden'} gap={"3"}>
+
+                    <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
+                        <Text fontSize={"20px"} fontWeight={"500"} >New Request</Text>
+                        <IoIosClose onClick={() => setOpen(false)} size={"30px"} />
+                    </Flex>
+                    <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
+                        <Flex flexDir={"column"} gap={"3"} w={"full"} >
+                            <Flex w={"full"} h={"250px"} roundedTop={"8px"} bgColor={"#00000066"} position={"relative"} justifyContent={"center"} alignItems={"center"} >
+                                <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderWidth={"1px"} borderColor={"white"} alignItems={"center"} gap={2} >
+                                    <UserImage image={bookingState?.createdBy?.data?.imgMain?.value} font={"16px"} data={bookingState?.createdBy} border={"1px"} size={"32px"} />
+                                    <Flex flexDir={"column"} alignItems={"start"} color={"white"} >
+                                        <Text fontSize={"12px"} fontWeight={"700"} >
+                                            {capitalizeFLetter(bookingState?.createdBy?.firstName) + " " + capitalizeFLetter(bookingState?.createdBy?.lastName)}
+                                        </Text>
+                                        <Text fontSize={"10px"} color={"white"} fontWeight={"600"} >
+                                            Client
+                                        </Text>
+                                    </Flex>
+                                </Flex>
+                                <Image borderColor={"#D0D4EB"} objectFit={"cover"} alt={service?.images[0]} width={["fit-content"]} height={"full"} src={service?.images[0].startsWith('https://') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} />
                             </Flex>
-                            <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'ADDITION', value: 0 })} flex={1} justifyContent={'center'} alignItems={'center'}>
-                                <FiPlus size={20} color='black' />
+                            <Flex flexDir={"column"} px={"3"} gap={"3"} borderBottomWidth='0.5px' borderBottomColor={borderColor} pb='20px' w={"full"}>
+                                <Flex flexDir={"column"} >
+                                    <Text fontWeight={400} fontSize={'12px'}>Business Name</Text>
+                                    <Text fontWeight={600} fontSize={'16px'}>{bookingState?.service?.name}</Text>
+                                </Flex>
+                                <Flex gap={"1"} flexDir={"column"} >
+                                    <HStack w='full' justifyContent={'flex-start'} >
+                                        <Text w={"50px"} fontSize={'14px'}>Email:</Text>
+                                        <Text fontSize={'14px'}>{bookingState?.service?.email}</Text>
+                                    </HStack>
+
+                                    <HStack w='full' justifyContent={'flex-start'} >
+                                        <Text w={"50px"} fontSize={'14px'}>Phone:</Text>
+                                        <Text fontSize={'14px'}>{bookingState?.service?.phone ?? 'None'}</Text>
+                                    </HStack>
+                                </Flex>
                             </Flex>
-                        </HStack>
-                    </VStack>
-                )}
-            </Box>
-
-
-
-            <Box h='10px' mt={"auto"} w={"full"} />
-            {!isVendor && (
-                <>
-                    {bookingState.bookingStatus === 'PENDING' && (
-                        <VStack width='100%'>
-                            <Flex w={"full"} gap={"4"} >
-                                <Button onClick={() => userUpdatePrice.mutate()} isLoading={userUpdatePrice.isLoading} w='full' minHeight={'45px'} h='56px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} color={'white'} bg={primaryColor}>
-                                    <Text fontSize={'14px'} color={'white'}>Update Price</Text>
-                                </Button>
-
-                                <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='56px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={secondaryBackgroundColor}>
-                                    <Text fontSize={'14px'} color={primaryColor}>Pending Approval</Text>
-                                </Button>
+                            <Flex flexDir={"column"} px={"3"} gap={"3"} w={"full"} >
+                                <Flex justifyContent={["start", "start", "space-between"]} w={"full"} flexDir={["column", "column", "column"]} gap={"1"} >
+                                    <Text fontWeight={600} fontSize={'14px'}>Service Details:</Text>
+                                    <Text fontSize={"14px"} >{textLimit(capitalizeFLetter(bookingState?.description), textSize)}<span role='button' style={{ color: primaryColor, fontSize: "12px", fontWeight: "600" }} onClick={() => setTextSize((prev) => prev === 40 ? bookingState?.description?.length + 1 : 40)} >{bookingState?.description?.length > 40 ? (textSize < bookingState?.description?.length ? "show more" : "show less") : ""}</span></Text>
+                                </Flex>
                             </Flex>
+                        </Flex>
+                        <Flex flexDir={"column"} w={'full'} gap={"3"} >
 
-                            <Button onClick={() => cancelBooking.mutate()} isLoading={cancelBooking.isLoading} w='100%' h='45px' borderRadius='full' borderWidth={'0px'} borderColor={primaryColor} bg={"transparent"}>
-                                <Text fontSize={'14px'} color={'red'}>Cancel Booking</Text>
-                            </Button>
-                        </VStack>
-                    )}
-                    {bookingState.bookingStatus === 'REJECTED' && (
-                        <>
-                            <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
-                                <Text fontSize={'14px'} color={'white'}>Rejected</Text>
-                            </Button>
+                            <Flex flexDir={"column"} px={"3"} gap={"3"} w={"full"} >
+                                <Flex justifyContent={["start", "start", "space-between"]} w={"full"} flexDir={["column", "column", "column"]} gap={"1"} >
+                                    <Text fontWeight={600} fontSize={'12px'}>Booking Date:</Text>
+                                    <Text fontSize={"12px"} >{dateFormat(bookingState?.date?.millis)}</Text>
+                                </Flex>
+                                <Flex flexDir={["row", "row", "column"]} justifyContent={'space-between'} w='full' alignItems={'center'}>
+                                    <Text fontSize={'16px'}>Total Price:</Text>
+                                    <Text fontSize={'25px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(parseInt(price) || 0)}</Text>
+                                </Flex>
+                                {booking?.bookingStatus === 'PENDING' && (
+                                    <VStack spacing={5} mt='10px' alignItems="center">
+                                        <Text fontSize={'14px'}>You can neogiate this price by 5%</Text>
+                                        <HStack width={'150px'} height={'50px'} borderRadius={'50px'} overflow={'hidden'} backgroundColor={'#DDE2E6'}>
+                                            <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'SUBSTRACTION', value: 0 })} flex={1} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
+                                                <FiMinus size={20} color='black' />
+                                            </Flex>
+                                            <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'ADDITION', value: 0 })} flex={1} justifyContent={'center'} alignItems={'center'}>
+                                                <FiPlus size={20} color='black' />
+                                            </Flex>
+                                        </HStack>
+                                    </VStack>
+                                )}
 
-                            {/* <Button onClick={() => deleteBooking.mutate()} isLoading={deleteBooking.isLoading}  w='full' minHeight={'45px'} h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
-                                <Text fontSize={'14px'} color={'white'}>Delete Booking</Text>
-                            </Button> */}
-                        </>
-                    )}
-                    {bookingState.bookingStatus === 'APPROVED' && !bookingState?.hasPaid && (
-                        <>
-                            <Button isLoading={payForTicket?.isLoading} isDisabled={payForTicket?.isLoading} onClick={() => handlePayment()} w='full' minHeight={'45px'} h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
-                                <Text fontSize={'14px'} color={'white'}>Make Payment</Text>
-                            </Button>
+                            </Flex>
+                            <Flex px={"3"} flexDir={"column"} w={"full"} >
+                                {!isVendor && (
+                                    <>
+                                        {bookingState.bookingStatus === 'PENDING' && (
+                                            <VStack width='100%'>
+                                                <Flex w={"full"} gap={"4"} >
+                                                    <Button onClick={() => userUpdatePrice.mutate()} isLoading={userUpdatePrice.isLoading} w='full' minHeight={'45px'} h='56px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} color={'white'} bg={primaryColor}>
+                                                        <Text fontSize={'14px'} color={'white'}>Update Price</Text>
+                                                    </Button>
 
-                            <Button onClick={() => cancelBooking.mutate()} isLoading={cancelBooking.isLoading} w='full' h='45px' borderRadius='full' minHeight={'45px'} borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
-                                <Text fontSize={'14px'} color={'white'}>Cancel Booking</Text>
-                            </Button>
-                        </>
-                    )}
-                    {bookingState.bookingStatus === 'IN_PROGRESS' && (
-                        <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} minHeight={'45px'} borderColor={primaryColor} bg={primaryColor}>
-                            <Text fontSize={'14px'} color={'white'}>{bookingState?.bookingStatus?.replaceAll('_', ' ')}</Text>
-                        </Button>
-                    )}
-                    {bookingState.bookingStatus === 'AWAITING_CONFIRMATION' && bookingState.isCompleted && (
-                        // <> /
-                        <Button isLoading={userMarkAsDone.isLoading} onClick={() => userMarkAsDone.mutate(false)} w='full' h='45px' minHeight={'45px'} borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
-                            <Text fontSize={'14px'} color={'white'}>Approve</Text>
-                        </Button>
-                    )}
+                                                    <Button cursor={'not-allowed'} disabled w='full' h='56px' borderRadius='full' _hover={{ backgroundColor: "#FF9500" }} borderWidth={'1px'} borderColor={"#FF9500"} bg={"#FF9500"}>
+                                                        <Text fontSize={'14px'} color={"white"}>Pending Approval</Text>
+                                                    </Button>
+                                                </Flex>
 
-                    {/* <Button isLoading={userMarkAsDone.isLoading} onClick={() => userMarkAsDone.mutate(true)} w='full' h='45px' minHeight={'45px'} borderRadius='full' borderWidth={'1px'} borderColor={'red'} bg={mainBackgroundColor}>
-                        <Text fontSize={'14px'} color={'red'}>Not Satified</Text>
-                    </Button> */}
-                    {
-                        bookingState.bookingStatus === "COMPLETED" && (
-                            <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
-                                <Text fontSize={'14px'} color={'white'}>Completed</Text>
-                            </Button>
-                        )
-                    }
-                    {
-                        bookingState.bookingStatus === "COMPLETED_WITH_ISSUES" && (
-                            <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
-                                <Text fontSize={'14px'} color={'white'}>Raise Complain</Text>
-                            </Button>
-                        )
-                    }
-                    {
-                        bookingState.bookingStatus === "CANCELLED" && (
-                            <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
-                                <Text fontSize={'14px'} color={'white'}>CANCELLED</Text>
-                            </Button>
-                        )
-                    }
-                </>
-            )}
+                                                <Button onClick={() => cancelBooking.mutate()} isLoading={cancelBooking.isLoading} w='100%' h='45px' borderRadius='full' borderWidth={'0px'} borderColor={primaryColor} bg={"transparent"}>
+                                                    <Text fontSize={'14px'} color={'red'}>Cancel Booking</Text>
+                                                </Button>
+                                            </VStack>
+                                        )}
+                                        {bookingState.bookingStatus === 'REJECTED' && (
+                                            <>
+                                                <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
+                                                    <Text fontSize={'14px'} color={'white'}>Rejected</Text>
+                                                </Button>
+                                            </>
+                                        )}
+                                        {bookingState.bookingStatus === 'APPROVED' && !bookingState?.hasPaid && (
+                                            <>
+                                                <Button isLoading={payForTicket?.isLoading} isDisabled={payForTicket?.isLoading} onClick={() => handlePayment()} w='full' minHeight={'45px'} h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                                    <Text fontSize={'14px'} color={'white'}>Make Payment</Text>
+                                                </Button>
 
-            {isVendor && (
-                <>
-                    {bookingState.bookingStatus === 'PENDING' && (
-                        <VStack width='100%'>
-                            <HStack width='100%' spacing={10}>
-                                <Button onClick={() => vendorUpdatePrice.mutate()} isLoading={vendorUpdatePrice.isLoading} w='full' h='56px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} color={'white'} bg={primaryColor}>
-                                    <Text fontSize={'14px'} color={'white'}>Update Price</Text>
-                                </Button>
-                                <Button isLoading={vendorAcceptOrDecline.isLoading || loading} onClick={() => clickHandle(true)} w='full' h='56px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={"#F7FBFE"} _hover={{ backgroundColor: "#F7FBFE" }}>
-                                    <Text fontSize={'14px'} color={primaryColor}>Approve</Text>
-                                </Button>
-                            </HStack>
+                                                <Button onClick={() => cancelBooking.mutate()} isLoading={cancelBooking.isLoading} w='full' h='45px' borderRadius='full' minHeight={'45px'} borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
+                                                    <Text fontSize={'14px'} color={'white'}>Cancel Booking</Text>
+                                                </Button>
+                                            </>
+                                        )}
+                                        {bookingState.bookingStatus === 'IN_PROGRESS' && (
+                                            <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} minHeight={'45px'} borderColor={primaryColor} bg={primaryColor}>
+                                                <Text fontSize={'14px'} color={'white'}>{bookingState?.bookingStatus?.replaceAll('_', ' ')}</Text>
+                                            </Button>
+                                        )}
+                                        {bookingState.bookingStatus === 'AWAITING_CONFIRMATION' && bookingState.isCompleted && (
+                                            // <> /
+                                            <Button isLoading={userMarkAsDone.isLoading} onClick={() => userMarkAsDone.mutate(false)} w='full' h='45px' minHeight={'45px'} borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                                <Text fontSize={'14px'} color={'white'}>Approve</Text>
+                                            </Button>
+                                        )}
 
-                            <Button isLoading={vendorAcceptOrDecline.isLoading || loadingReject} onClick={() => clickHandle(false)} w='full' h='45px' borderRadius='full' borderWidth={'0px'} borderColor={'red'} bg={mainBackgroundColor} _hover={{ backgroundColor: mainBackgroundColor }} >
-                                <Text fontSize={'14px'} color={'red'}>Decline</Text>
-                            </Button>
-                        </VStack>
-                    )}
-                    {bookingState.bookingStatus === 'IN_PROGRESS' && bookingState.hasPaid && (
-                        <Button isLoading={vendorMarkAsDone.isLoading} onClick={() => vendorMarkAsDone.mutate()} w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
-                            <Text fontSize={'14px'} color={'white'}>Mark As Done</Text>
-                        </Button>
-                    )}
-                    {bookingState.bookingStatus === 'APPROVED' && !bookingState?.hasPaid && (
-                        <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
-                            <Text fontSize={'14px'} color={'white'}>Awaiting Payment</Text>
-                        </Button>
-                    )}
-                    {bookingState.bookingStatus === 'AWAITING_CONFIRMATION' && bookingState.isCompleted && (
-                        <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
-                            <Text fontSize={'14px'} color={'white'}>Awaiting User Confirmation</Text>
-                        </Button>
-                    )}
-                    {
-                        bookingState.bookingStatus === "COMPLETED" && (
-                            <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
-                                <Text fontSize={'14px'} color={'white'}>Completed</Text>
-                            </Button>
-                        )
-                    }
-                    {
-                        bookingState.bookingStatus === "COMPLETED_WITH_ISSUES" && (
-                            <Button disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
-                                <Text fontSize={'14px'} color={'white'}>Raise Complain</Text>
-                            </Button>
-                        )
-                    }
-                    {
-                        bookingState.bookingStatus === "CANCELLED" && (
-                            <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
-                                <Text fontSize={'14px'} color={'white'}>CANCELLED</Text>
-                            </Button>
-                        )
-                    }
-                </>
-            )}
+                                        {
+                                            bookingState.bookingStatus === "COMPLETED" && (
+                                                <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                                    <Text fontSize={'14px'} color={'white'}>Completed</Text>
+                                                </Button>
+                                            )
+                                        }
+                                        {
+                                            bookingState.bookingStatus === "COMPLETED_WITH_ISSUES" && (
+                                                <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                                    <Text fontSize={'14px'} color={'white'}>Raise Complain</Text>
+                                                </Button>
+                                            )
+                                        }
+                                        {
+                                            bookingState.bookingStatus === "CANCELLED" && (
+                                                <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
+                                                    <Text fontSize={'14px'} color={'white'}>CANCELLED</Text>
+                                                </Button>
+                                            )
+                                        }
+                                    </>
+                                )}
 
+                                {isVendor && (
+                                    <>
+                                        {bookingState.bookingStatus === 'PENDING' && (
+                                            <VStack width='100%'>
+                                                <HStack width='100%' spacing={10}>
+                                                    <Button onClick={() => vendorUpdatePrice.mutate()} isLoading={vendorUpdatePrice.isLoading} w='full' h='56px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} color={'white'} bg={primaryColor}>
+                                                        <Text fontSize={'14px'} color={'white'}>Update Price</Text>
+                                                    </Button>
+                                                    <Button isLoading={vendorAcceptOrDecline.isLoading || loading} onClick={() => clickHandle(true)} w='full' h='56px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={"#F7FBFE"} _hover={{ backgroundColor: "#F7FBFE" }}>
+                                                        <Text fontSize={'14px'} color={primaryColor}>Approve</Text>
+                                                    </Button>
+                                                </HStack>
+
+                                                <Button isLoading={vendorAcceptOrDecline.isLoading || loadingReject} onClick={() => clickHandle(false)} w='full' h='45px' borderRadius='full' borderWidth={'0px'} borderColor={'red'} bg={mainBackgroundColor} _hover={{ backgroundColor: mainBackgroundColor }} >
+                                                    <Text fontSize={'14px'} color={'red'}>Decline</Text>
+                                                </Button>
+                                            </VStack>
+                                        )}
+                                        {bookingState.bookingStatus === 'IN_PROGRESS' && bookingState.hasPaid && (
+                                            <Button isLoading={vendorMarkAsDone.isLoading} onClick={() => vendorMarkAsDone.mutate()} w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                                <Text fontSize={'14px'} color={'white'}>Mark As Done</Text>
+                                            </Button>
+                                        )}
+                                        {bookingState.bookingStatus === 'APPROVED' && !bookingState?.hasPaid && (
+                                            <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                                <Text fontSize={'14px'} color={'white'}>Awaiting Payment</Text>
+                                            </Button>
+                                        )}
+                                        {bookingState.bookingStatus === 'AWAITING_CONFIRMATION' && bookingState.isCompleted && (
+                                            <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                                <Text fontSize={'14px'} color={'white'}>Awaiting User Confirmation</Text>
+                                            </Button>
+                                        )}
+                                        {
+                                            bookingState.bookingStatus === "COMPLETED" && (
+                                                <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                                    <Text fontSize={'14px'} color={'white'}>Completed</Text>
+                                                </Button>
+                                            )
+                                        }
+                                        {
+                                            bookingState.bookingStatus === "COMPLETED_WITH_ISSUES" && (
+                                                <Button disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={primaryColor}>
+                                                    <Text fontSize={'14px'} color={'white'}>Raise Complain</Text>
+                                                </Button>
+                                            )
+                                        }
+                                        {
+                                            bookingState.bookingStatus === "CANCELLED" && (
+                                                <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={'red'}>
+                                                    <Text fontSize={'14px'} color={'white'}>CANCELLED</Text>
+                                                </Button>
+                                            )
+                                        }
+                                    </>
+                                )}
+                            </Flex>
+                        </Flex>
+                    </Flex>
+                </Flex>
+            </ModalLayout>
         </Flex>
     )
 }
