@@ -8,6 +8,7 @@ import GetVendorReciept from '@/components/kisok/getVendorReciept'
 import { LocationPin, LocationStroke, RentalIcon, ServiceIcon, StoreIcon } from '@/components/svg'
 import useProductStore from '@/global-state/useCreateProduct'
 import useCustomTheme from '@/hooks/useTheme'
+import BookingsRequest from '@/Views/dashboard/booking/BookingRequest'
 import Bookings from '@/Views/dashboard/booking/Bookings'
 import Businesses from '@/Views/dashboard/booking/Businesses'
 import MyBusiness from '@/Views/dashboard/booking/MyBusiness'
@@ -64,8 +65,8 @@ export default function KisokPage() {
             frequency: "DAILY"
         } as any)
         updateImage([] as any)
-        push(type === "kisok" ? "/dashboard/kisok/create" : type === "rental" ? "/dashboard/kisok/create-rental" : (type === "service" || type === "myservice" || type === "mybooking") ? "/dashboard/kisok/create-service"  : "/dashboard/kisok/create")
-    }  
+        push(type === "kisok" ? "/dashboard/kisok/create" : type === "rental" ? "/dashboard/kisok/create-rental" : (type === "service" || type === "myservice" || type === "mybooking") ? "/dashboard/kisok/create-service" : "/dashboard/kisok/create")
+    }
 
     return (
         <Flex w={"full"} px={["4", "4", "6"]} pt={["6", "6", "12", "12"]} pb={"12"} flexDir={"column"} overflowY={"auto"} >
@@ -82,21 +83,21 @@ export default function KisokPage() {
                     } px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={(type === null || type === "mykisok" || type === "myorder") ? primaryColor : "white"} border={"1px"} borderColor={(type === null || type === "mykisok" || type === "myorder") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === null || type === "mykisok" || type === "myorder") ? "white" : headerTextColor} width={"fit-content"} />
                     <CustomButton onClick={() => clickHandler("service")} text={
                         <Flex alignItems={"center"} gap={"2"} >
-                            <ServiceIcon color={(type === "service" || type === "myservice" || type === "mybooking" ) ? "white" : "black"} />
+                            <ServiceIcon color={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "white" : "black"} />
                             <Text>Service</Text>
                         </Flex>
-                    } px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={(type === "service" || type === "myservice" || type === "mybooking" ) ? primaryColor : "white"} border={"1px"} borderColor={(type === "service" || type === "myservice" || type === "mybooking" ) ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "service" || type === "myservice" || type === "mybooking" ) ? "white" : headerTextColor} width={"fit-content"} />
+                    } px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={(type === "service" || type === "myservice" || type === "mybooking") ? primaryColor : "white"} border={"1px"} borderColor={(type === "service" || type === "myservice" || type === "mybooking") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "service" || type === "myservice" || type === "mybooking") ? "white" : headerTextColor} width={"fit-content"} />
                     <CustomButton onClick={() => clickHandler("rental")} text={
                         <Flex alignItems={"center"} gap={"2"} >
-                            <RentalIcon color={(type === "rental" || type === "myreciept" || type === "vendorreciept" ) ? "white" : "black"} />
+                            <RentalIcon color={(type === "rental" || type === "myreciept" || type === "vendorreciept") ? "white" : "black"} />
                             <Text>Rental</Text>
                         </Flex>
-                    } px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={(type === "rental" || type === "myreciept" || type === "vendorreciept" ) ? primaryColor : "white"} border={"1px"} borderColor={(type === "rental" || type === "myreciept" || type === "vendorreciept" ) ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "rental" || type === "myreciept" || type === "vendorreciept" ) ? "white" : headerTextColor} width={"fit-content"} />
+                    } px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={(type === "rental" || type === "myreciept" || type === "vendorreciept") ? primaryColor : "white"} border={"1px"} borderColor={(type === "rental" || type === "myreciept" || type === "vendorreciept") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "rental" || type === "myreciept" || type === "vendorreciept") ? "white" : headerTextColor} width={"fit-content"} />
                 </Flex>
                 <Flex display={["none", "none", "flex"]} >
                     <CustomButton onClick={createProduct} text={
                         <Flex alignItems={"center"} gap={"2"} >
-                            <Text>Create {type === "rental" ? "Rental" : (type === "service" || type === "myservice" || type === "mybooking" ) ? "Service" : "Item"}</Text>
+                            <Text>Create {type === "rental" ? "Rental" : (type === "service" || type === "myservice" || type === "mybooking") ? "Service" : "Item"}</Text>
                         </Flex>
                     } px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={"white"} border={"1px"} borderColor={borderColor} borderRadius={"32px"} fontWeight={"600"} color={headerTextColor} width={"fit-content"} />
                 </Flex>
@@ -120,7 +121,7 @@ export default function KisokPage() {
                         ))}
                     </Select>
                 )}
-                {(type === "service" || type === "myservice" || type === "mybooking" ) && (
+                {(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") && (
                     <Select
                         color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
                         focusBorderColor={"#5465E0"}
@@ -131,14 +132,14 @@ export default function KisokPage() {
                         onChange={(e) => routeHandler(e.target.value)}
                         width={["full", "auto", "auto"]}
                         textAlign={"center"} >
-                        {[{ name: "All Services", value: "service" }, { name: "My Services", value: "myservice" }, { name: "My Booking", value: "mybooking" }]?.map((type: any, index: number) => (
+                        {[{ name: "All Services", value: "service" }, { name: "My Services", value: "myservice" }, { name: "My Booking", value: "mybooking" }, { name: "My Request", value: "myrequest" }]?.map((type: any, index: number) => (
                             <option style={{ fontSize: "12px" }} key={index} value={type?.value}>
                                 {type?.name}
                             </option>
                         ))}
                     </Select>
                 )}
-                {(type === "rental" || type === "myreciept" || type === "vendorreciept" ) && (
+                {(type === "rental" || type === "myreciept" || type === "vendorreciept") && (
                     <Select
                         color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
                         focusBorderColor={"#5465E0"}
@@ -186,6 +187,9 @@ export default function KisokPage() {
             )}
             {type === "mybooking" && (
                 <Bookings />
+            )}
+            {type === "myrequest" && (
+                <BookingsRequest />
             )}
         </Flex>
     )
