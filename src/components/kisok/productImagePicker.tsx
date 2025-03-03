@@ -136,7 +136,7 @@ export default function ProductImagePicker() {
                         <Flex onClick={() => inputRef.current?.click()} cursor='pointer' w={"200px"} py={"8"} px={"2"} flexDirection={"column"} rounded={"16px"} borderStyle={"dotted"} borderWidth={"0.38px"} borderColor={borderColor} justifyContent={"center"} alignItems={"center"} flexShrink={0}>
                             {/* <GallaryIcon /> */}
                             <Add size={30} variant='Outline' color={primaryColor} />
-                            <Text fontSize={"10px"} w={"225px"} textAlign={"center"} >File Format: JPG, JPEG, PNG and picture shouldn't be more than 10 MB</Text>
+                            <Text fontSize={"10px"} w={"225px"} textAlign={"center"} >{`File Format: JPG, JPEG, PNG and picture shouldn't be more than 10 MB`}</Text>
                             <Text fontSize={"12px"} textDecoration={"underline"} mt={"2"} >Upload from your device</Text>
                         </Flex>
                     )}
