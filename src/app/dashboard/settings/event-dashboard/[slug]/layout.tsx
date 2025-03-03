@@ -52,7 +52,8 @@ function Layout(
         },
         onSuccess: (data: any) => {
             setData(data?.data?.content[0]);
-        }
+        },
+        enabled: pathname?.includes("donate") ? false : true
     })
 
     const refundallUser = useMutation({

@@ -47,7 +47,7 @@ function SelectDonationDate(props: Props) {
     } 
 
     return (
-        <Flex width={"full"} flexDirection={"column"} gap={"2"} py={"2"} >
+        <Flex width={"full"} pos={"relative"}  flexDirection={"column"} gap={"2"} py={"2"} >
             <Text fontSize={"sm"} >
                 End Date <span style={{ color: "#F04F4F" }}>*</span>
             </Text>

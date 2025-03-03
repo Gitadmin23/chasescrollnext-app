@@ -109,9 +109,9 @@ function DashboardDonation(props: Props) {
     // const { singleData: item, isLoading: loading } = useGetDonationList(index)  
 
 
-    const componentRef: any = React.useRef();
+    const componentRef: any = React.useRef(null);
 
-    const tableRef: any = React.useRef();
+    const tableRef: any = React.useRef(null);
 
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -123,12 +123,9 @@ function DashboardDonation(props: Props) {
         `,
     });  
 
-    console.log(data?.data?.content);
-    
-
     return (
         <Flex ref={componentRef} width={"full"} flexDirection={"column"} >
-            <Text fontSize={"24px"} fontWeight={"600"} >Event Donation</Text>
+            <Text fontSize={"24px"} fontWeight={"600"} >Donation</Text>
             <LoadingAnimation loading={loading} >
                 <Flex pos={"relative"} maxW={["500px", "full", "full", "full"]} width={"full"} rounded={"8px"} my={"6"} borderWidth={"1px"} borderColor={borderColor} p={["2", "2", "4", "6"]} alignItems={["start", "start", "center", "center"]} flexDir={["column", "column", "row"]} gap={["2", "2", "6", "6"]} >
                     <Flex width={["full", "full", "auto", "auto"]} mr={["auto", "auto", "0px"]} gap={"3"} flexDirection={["column", "column", "row", "row"]} pos={"relative"} p={"2"} rounded={"4px"} >

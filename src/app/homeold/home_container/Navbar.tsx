@@ -13,6 +13,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
+  Image,
   useDisclosure,
   useToast
 } from "@chakra-ui/react";
@@ -59,7 +60,7 @@ const Navbar = () => {
     <div className=" sticky z-50 top-0 w-full mx-auto max-w-[1440px] bg-white border-b-2">
       <div className="px-4 xl:px-0 max-w-[1200px] w-full mx-auto py-5 flex gap-8 justify-between items-center">
         <div role="button" onClick={() => router.push("/")} className="flex flex-row gap-1 max-w-[197px] w-full items-center">
-          <img className="max-w-[60px] w-full" src={"/assets/logo.png"} alt="logo" />
+          <Image className="max-w-[60px] w-full" src={"/assets/logo.png"} alt="logo" />
           <p className="text-2xl font-normal w-full">Chasescroll</p>
         </div>
 

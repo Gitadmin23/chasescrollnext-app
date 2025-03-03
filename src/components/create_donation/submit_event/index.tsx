@@ -315,6 +315,8 @@ function SubmitEvent(props: Iprops) {
 
     }, [uploadedFile])
 
+    const closeHandle = () => {}
+
     return (
         <Flex w={"full"} alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} >
             {!pathname?.includes("edit") ? (
@@ -325,7 +327,7 @@ function SubmitEvent(props: Iprops) {
                     text={'Update'} />
             )}
 
-            <ModalLayout close={setOpen} open={open} bg={secondaryBackgroundColor} >
+            <ModalLayout close={closeHandle} open={open} bg={secondaryBackgroundColor} >
                 <SuccessMessageCreateEvent update={(pathname?.includes("edit_event_data") || pathname?.includes("edit_event")) ? true : false} />
             </ModalLayout>
         </Flex>

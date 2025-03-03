@@ -24,7 +24,8 @@ export default function RentalCreate() {
     const { rentaldata, updateRental, image } = useProductStore((state) => state);
 
     const { handleSubmitRental, createProduct, loading, openRental, setOpenRental } = useProduct(rentaldata, true)
-    console.log(rentaldata);
+
+    const clickHandler = () => {}
     
 
     return (
@@ -93,7 +94,7 @@ export default function RentalCreate() {
                 </Flex>
             </form>
 
-            <ModalLayout open={openRental} close={setOpenRental} bg={secondaryBackgroundColor} closeIcon={true} >
+            <ModalLayout open={openRental} close={clickHandler} bg={secondaryBackgroundColor} >
                 <LoadingAnimation loading={loading} >
                     <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
                         <SuccessIcon />

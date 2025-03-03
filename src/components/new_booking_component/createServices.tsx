@@ -369,6 +369,8 @@ export default function CreateServices({ id }: { id: string }) {
         })
     }
 
+    const clickHandler = () => {}
+
     return renderForm(
         <Flex w={"full"} h={"full"} >
             <input type='file' accept="image/*" hidden onChange={(e) => { handleFileChange(e) }} ref={inputRef} />
@@ -660,7 +662,7 @@ export default function CreateServices({ id }: { id: string }) {
                 <DayAvaliable close={setShowModal} setTab={setShowModal} days={days} handleCheck={handleDayChange} />
             </ModalLayout>
 
-            <ModalLayout open={open} close={setOpen} closeIcon={true}>
+            <ModalLayout open={open} close={clickHandler} >
                 <Flex w={"full"} flexDir={"column"} alignItems={"center"} pb={"14"} py={"5"} >
                     <IoIosCheckmarkCircle size={"100px"} color={"#46CC6B"} />
                     <Text fontWeight={"600"} fontSize={"24px"} color={headerTextColor} >Congratulations!</Text>

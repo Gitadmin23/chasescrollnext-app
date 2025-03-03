@@ -5,8 +5,8 @@ import ProductMap from '@/components/kisok/productMap'
 import SelectCategories from '@/components/kisok/selectCategories'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
-import { GallaryIcon, PhotoIcon, SuccessIcon, TruckIcon } from '@/components/svg'
-import useProductStore, { CreateProduct } from '@/global-state/useCreateProduct'
+import { SuccessIcon, TruckIcon } from '@/components/svg'
+import useProductStore from '@/global-state/useCreateProduct'
 import useProduct from '@/hooks/useProduct'
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Input, Switch, Text, Textarea } from '@chakra-ui/react'
@@ -26,9 +26,7 @@ export default function KisokCreate() {
 
     const { handleSubmitProduce, createProduct, loading, openProduct, setOpenProduct } = useProduct(productdata, false)
 
-    // useEffect(()=> {
-    //     useProduct({} as any)
-    // }, [])
+    const clickHandler = () => {}
 
     return (
         <Flex w={"full"} px={"6"} pos={"relative"} pb={"12"} alignItems={"center"} flexDir={"column"} overflowY={"auto"} >
@@ -81,7 +79,7 @@ export default function KisokCreate() {
                 </Flex>
             </form>
 
-            <ModalLayout open={openProduct} close={setOpenProduct} bg={secondaryBackgroundColor} closeIcon={true} >
+            <ModalLayout open={openProduct} close={clickHandler} bg={secondaryBackgroundColor} >
                 <LoadingAnimation loading={loading} >
                     <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
                         <SuccessIcon />
