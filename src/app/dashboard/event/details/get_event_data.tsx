@@ -37,7 +37,7 @@ function GetEventData(props: Props) {
     const [isCollaborator, setIsCollaborator] = React.useState(false);
     const [isAdmin, setIsAdmin] = React.useState(false); 
 
-    const { configPaystack, setPaystackConfig, donation } = usePaystackStore((state) => state);
+    const { configPaystack, setPaystackConfig, message } = usePaystackStore((state) => state);
 
     focusManager.setFocused(false)
     // react query
@@ -86,7 +86,7 @@ function GetEventData(props: Props) {
             <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data !== null} >
                 <EventDetail {...data} />
             </LoadingAnimation>
-            <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} donation={donation} />
+            <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} message={message} />
 
             <ModalLayout open={show} close={setShow} >
                 <Flex py={"6"} width={"full"} flexDir={"column"} px={"6"} alignItems={"center"} >

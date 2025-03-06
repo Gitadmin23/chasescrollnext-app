@@ -56,6 +56,34 @@ function SubmitEvent(props: Iprops) {
                 position: 'top-right',
             });
             return
+        } else
+        if (!eventdata?.startDate) {
+            toast({
+                description: "Please Enter Event Starting Date",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+            return
+        } else if (!eventdata?.endDate) {
+            toast({
+                description: "Please Enter Event Ending Date",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+            return
+        } else if (eventdata?.startDate > eventdata?.endDate) {
+            toast({
+                description: "End date and time cannot be earlier than Start date and time",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+            return
         } else if (!eventdata?.eventType) {
             toast({
                 description: "Please Enter Event Type",
@@ -99,34 +127,7 @@ function SubmitEvent(props: Iprops) {
     }
 
     const getValidationInfo = () => {
-        if (!eventdata?.startDate) {
-            toast({
-                description: "Please Enter Event Starting Date",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else if (!eventdata?.endDate) {
-            toast({
-                description: "Please Enter Event Ending Date",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else if (eventdata?.startDate > eventdata?.endDate) {
-            toast({
-                description: "End date and time cannot be earlier than Start date and time",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else if (!eventdata?.location?.toBeAnnounced) {
+        if (!eventdata?.location?.toBeAnnounced) {
             if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
                 toast({
                     description: "Please Enter Event Location",
@@ -172,6 +173,12 @@ function SubmitEvent(props: Iprops) {
             return true
         } else if (!eventdata?.eventType) {
             return true
+        } else if (!eventdata?.startDate) {
+            return true
+        } else if (!eventdata?.endDate) {
+            return true
+        } else if (eventdata?.startDate > eventdata?.endDate) {
+            return true
         } else if (!eventdata?.eventDescription) {
             return true
         } else if (!image && !eventdata?.currentPicUrl) {
@@ -182,13 +189,7 @@ function SubmitEvent(props: Iprops) {
     }
 
     const getValidationInfoBtn = () => {
-        if (!eventdata?.startDate) {
-            return true
-        } else if (!eventdata?.endDate) {
-            return true
-        } else if (eventdata?.startDate > eventdata?.endDate) {
-            return true
-        } else if (!eventdata?.location?.toBeAnnounced) {
+        if (!eventdata?.location?.toBeAnnounced) {
             if (!eventdata?.location?.locationDetails && !eventdata?.location?.link) {
                 return true
             }

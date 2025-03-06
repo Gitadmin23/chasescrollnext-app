@@ -21,41 +21,42 @@ function SelectDate(props: Props) {
     const toast = useToast()
 
     const handleDateSelect = (date: any) => {
-        if (name === "Start") {
-            updateEvent({
-                ...eventdata,
-                startDate: Date.parse(new Date(date).toJSON()),
-                startTime: Date.parse(new Date(date).toJSON())
-            })
-        } else {
-            if (!eventdata.startDate) {
-                toast({
-                    title: 'Error',
-                    description: "Please enter your starting date",
-                    status: 'error',
-                    isClosable: true,
-                    duration: 2000,
-                    position: 'top-right',
-                });
-            } else if (date <= new Date(eventdata?.startDate)) {
-                toast({
-                    title: 'Error',
-                    description: "Please valid end date",
-                    status: 'error',
-                    isClosable: true,
-                    duration: 2000,
-                    position: 'top-right',
-                });
 
-                console.log();
-                console.log(date);
-
-            } else {
+        console.log(Date.parse(new Date(date).toJSON()));
+        if (date) {
+            if (name === "Start") {
                 updateEvent({
                     ...eventdata,
-                    endDate: Date.parse(new Date(date).toJSON()),
-                    endTime: Date.parse(new Date(date).toJSON())
+                    startDate: Date.parse(new Date(date).toJSON()),
+                    startTime: Date.parse(new Date(date).toJSON())
                 })
+            } else {
+                if (!eventdata.startDate) {
+                    toast({
+                        title: 'Error',
+                        description: "Please enter your starting date",
+                        status: 'error',
+                        isClosable: true,
+                        duration: 2000,
+                        position: 'top-right',
+                    });
+                } else if (date <= new Date(eventdata?.startDate)) {
+                    toast({
+                        title: 'Error',
+                        description: "Please valid end date",
+                        status: 'error',
+                        isClosable: true,
+                        duration: 2000,
+                        position: 'top-right',
+                    }); 
+
+                } else {
+                    updateEvent({
+                        ...eventdata,
+                        endDate: Date.parse(new Date(date).toJSON()),
+                        endTime: Date.parse(new Date(date).toJSON())
+                    })
+                }
             }
         }
     }
@@ -64,12 +65,12 @@ function SelectDate(props: Props) {
         return (
             <Flex onClick={onClick} as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"full"} fontSize={"sm"} h={"50px"}  >
                 <CalendarIcon />
-                {data ? dateFormat(data) : "Select Date And Time"}
+                {data ? dateFormat(data) : "DD/MM/YY"}
                 {" "}
                 {data ? timeFormat(data) : ""}
             </Flex>
         )
-    } 
+    }
 
     return (
         <Flex width={"full"} flexDirection={"column"} gap={"2"} py={"2"} >
@@ -80,10 +81,10 @@ function SelectDate(props: Props) {
                 id={name}
                 // value={}
                 // disabled={name === "End" && !eventdata.startDate}
-                selected={name === "End" ? eventdata.startDate ? new Date(data ?? eventdata.startDate) : new Date() : data ? new Date(data) : new Date()}
-                dateFormat="MMM d, yyyy h:mm aa"
+                selected={name === "End" ? eventdata.startDate ? new Date(eventdata.startDate) : new Date() : data ? new Date(data) : new Date()}
+                // dateFormat="MMM d, yyyy h:mm aa"
                 showTimeSelect
-                minDate={(name === "End") ? (eventdata.startDate ? new Date(eventdata.startDate): new Date()): new Date()}
+                minDate={(name === "End") ? (eventdata.startDate ? new Date(eventdata.startDate) : new Date()) : new Date()}
                 onChange={handleDateSelect}
                 customInput={<CustomInput />}
             />

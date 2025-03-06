@@ -24,9 +24,6 @@ export default function GetRental() {
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/rental/search`, limit: 20, filter: "id", name: "getrental" })
 
-    console.log(results);
-
-
     return (
         <LoadingAnimation loading={isLoading}  >
             <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={"6"} >
@@ -51,10 +48,10 @@ export default function GetRental() {
                                 <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} >
                                     <Flex flexDir={"column"} >
                                         <Text fontSize={"14px"} fontWeight={"600"}  >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
-                                        <Text fontSize={"24px"} fontWeight={"600"} >{textLimit(item?.description, 20)}</Text>
+                                        <Text fontSize={"20px"} fontWeight={"600"} >{textLimit(item?.description, 20)}</Text>
                                     </Flex>
                                     {/* <Text fontSize={"14px"} fontWeight={"700"} color={bodyTextColor} >{textLimit(item?.category, 15)}</Text> */}
-                                    <Text fontSize={"24px"} fontWeight={"600"} >{formatNumber(item?.price)}/ {capitalizeFLetter(item?.frequency ? item?.frequency : "Daily")}</Text>
+                                    <Text fontSize={"20px"} fontWeight={"600"} >{formatNumber(item?.price)}/ {capitalizeFLetter(item?.frequency ? item?.frequency : "Daily")}</Text>
                                     <Flex w={"full"} gap={"2"} alignItems={"center"} >
                                         <LocationStroke />
                                         <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >{item?.location?.locationDetails}</Text>
@@ -83,10 +80,10 @@ export default function GetRental() {
                                 <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} >
                                     <Flex flexDir={"column"} >
                                         <Text fontSize={"14px"} fontWeight={"600"}  >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
-                                        <Text fontSize={"24px"} fontWeight={"600"} >{textLimit(item?.description, 20)}</Text>
+                                        <Text fontSize={"20px"} fontWeight={"600"} >{textLimit(item?.description, 20)}</Text>
                                     </Flex>
                                     <Text fontSize={"14px"} fontWeight={"700"} color={bodyTextColor} >{textLimit(item?.category, 15)}</Text>
-                                    <Text fontSize={"24px"} fontWeight={"600"} >{formatNumber(item?.price)}/ {capitalizeFLetter(item?.frequency ? item?.frequency : "Daily")}</Text>
+                                    <Text fontSize={"20px"} fontWeight={"600"} >{formatNumber(item?.price)}/ {capitalizeFLetter(item?.frequency ? item?.frequency : "Daily")}</Text>
                                     <Flex w={"full"} gap={"2"} alignItems={"center"} >
                                         <LocationStroke />
                                         <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >{textLimit(item?.location?.locationDetails, 30)}</Text>

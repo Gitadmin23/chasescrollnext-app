@@ -27,10 +27,10 @@ export default function PrBtn({ data }: { data: IEventType }) {
                 <ModalLayout open={open} size={"xs"} close={setOpen} closeIcon={true} >
                     <Flex flexDirection={"column"} gap={"4"} p={"4"} >
                         <Flex as={"button"} justifyContent={"center"} alignItems={"center"} pb={"4"} borderBottomWidth={"1px"} borderColor={borderColor} >
-                            <Text color={bodyTextColor} fontSize={"sm"} >Apply as a  PR Manager</Text>
+                            <Text fontWeight={"500"} fontSize={"sm"} >Apply as a  PR Manager</Text>
                         </Flex>
                         <Flex as={"button"} justifyContent={"center"} alignItems={"center"} pb={"4"} >
-                            <Text color={bodyTextColor} fontSize={"sm"} >Apply as a Business</Text>
+                            <Text fontWeight={"500"} fontSize={"sm"} >Apply as a Business</Text>
                         </Flex>
                     </Flex>
                 </ModalLayout>

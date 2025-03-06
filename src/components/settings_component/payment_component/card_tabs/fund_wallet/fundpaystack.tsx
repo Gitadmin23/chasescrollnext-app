@@ -13,17 +13,24 @@ import useStripeStore from '@/global-state/useStripeState';
 import useModalStore from '@/global-state/useModalSwitch';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 
+interface IMessage {
+    donation: boolean,
+    booking: boolean,
+    product: boolean,
+    rental: boolean,
+    service: boolean, 
+}
+
 interface Props {
     config: any,
     setConfig: any,
     fund?: boolean,
-    id?: any,
-    donation?: boolean,
-    booking?: boolean
+    id?: any, 
+    message: IMessage, 
 }
 
 function Fundpaystack(props: Props) {
-    const { config, setConfig, fund, id, donation, booking } = props;
+    const { config, setConfig, fund, id, message } = props;
 
     const {
         bodyTextColor,
@@ -47,7 +54,7 @@ function Fundpaystack(props: Props) {
     const { setAmount } = useSettingsStore((state) => state);
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
 
-    const router = useRouter()
+    const { push } = useRouter()
 
     // const [orderCode, setOrderCode] = React.useStates("")
     // mutations 
@@ -89,7 +96,7 @@ function Fundpaystack(props: Props) {
 
     const payStackMutation = useMutation({
         mutationFn: (data: any) => httpService.post(`/payments/verifyWebPaystackTx?orderCode=${data}`),
-        onSuccess: () => {
+        onSuccess: (data: any) => { 
             toast({
                 title: 'Success',
                 description: "Payment verified",
@@ -100,13 +107,8 @@ function Fundpaystack(props: Props) {
             });
 
             queryClient.invalidateQueries(['event_ticket'])
-            queryClient.invalidateQueries(['all-events-details'])
-
-            // router.push("/dashboard/event/my_event")
-            setLoading(false)
-
-            // window.location.reload()
-            // setShowModal(false)
+            queryClient.invalidateQueries(['all-events-details']) 
+            setLoading(false) 
         },
         onError: () => {
             toast({
@@ -138,20 +140,14 @@ function Fundpaystack(props: Props) {
             amount: 0,
             reference: "",
             publicKey: PAYSTACK_KEY,
-        })
-        // implementation for  whatever you want to do when the Paystack dialog closed.
-        console.log('closed')
+        }) 
     }
 
     React.useEffect(() => {
         if (config?.reference?.length !== 0) {
             initializePayment(onSuccess, onClose)
         }
-    }, [config?.reference])
-
-    // const clickHandler =()=> {
-    //     initializePayment(onSuccess, onClose) 
-    // }
+    }, [config?.reference]) 
 
     const { setModalTab } = useStripeStore((state: any) => state);
     const { setShowModal } = useModalStore((state) => state);
@@ -160,23 +156,36 @@ function Fundpaystack(props: Props) {
         setOpen(false)
         setModalTab(5)
         setShowModal(true)
+    } 
+
+    const closeHandler = () => {
+        if(message?.product) {
+            setOpen(true)
+        } else  {
+            setOpen(false)
+        }
     }
 
     return (
         <>
-            <ModalLayout open={open} close={setOpen} bg={secondaryBackgroundColor} closeIcon={true} >
+            <ModalLayout open={open} close={closeHandler} bg={secondaryBackgroundColor} closeIcon={message?.product ? false : true} >
                 <LoadingAnimation loading={loading} >
                     <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
                         <SuccessIcon />
-                        <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{donation ? "Donated Successful" : booking ? "Booking Successful" : "Ticket Purchase Successful"}</Text>
-                        <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{donation ? `Thank you! Your generous donation makes a real difference. We’re so grateful for your support!` : booking ? `Thank you!` : `Congratulations! you can also find your ticket on the Chasescroll app, on the details page click on the view ticket button.`}</Text>
-                        {(!donation && !booking) && (
-                            <CustomButton onClick={() => clickHandler()} color={"#FFF"} text={'View Ticket'} w={"full"} backgroundColor={"#3EC259"} />
+                        <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{message?.service ? "Booking Successful" : message?.rental ? "Rental Purchase Successful" : message?.product ? "Product Purchase Successful" : message?.donation ? "Donated Successful" : "Ticket Purchase Successful"}</Text>
+                        <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{(message?.product || message?.service || message?.rental) ? "Thank you!" : message?.donation ? `Thank you! Your generous donation makes a real difference. We’re so grateful for your support!` : `Congratulations! you can also find your ticket on the Chasescroll app, on the details page click on the view ticket button.`}</Text>
+                        {(!message?.donation && !message?.product  && !message?.service && !message?.rental) && (
+                            <CustomButton onClick={() => clickHandler()} color={primaryColor} text={'View Order'} w={"full"} backgroundColor={"#F7F8FE"}  />
+                        )}
+                        {(message?.product) && (
+                            <CustomButton onClick={() => push(`/dashboard/kisok/details-order/${id}`)} color={primaryColor} text={'View Order'} w={"full"} backgroundColor={"#F7F8FE"} />
+                        )}
+                        {(message?.rental) && (
+                            <CustomButton onClick={() => setOpen(false)} color={primaryColor} text={'Close'} w={"full"} backgroundColor={"#F7F8FE"} />
                         )}
                     </Flex>
                 </LoadingAnimation>
-            </ModalLayout>
-            {/* <Button onClick={()=> clickHandler()} bgColor={"blue.400"} color={"white"} >Pay</Button> */}
+            </ModalLayout> 
         </>
     )
 }

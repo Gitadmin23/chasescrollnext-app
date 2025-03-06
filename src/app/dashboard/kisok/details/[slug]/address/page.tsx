@@ -53,14 +53,13 @@ export default function ShippingAddress(props: Props) {
     const query = useSearchParams();
     const type = query?.get('qty');
 
-    const { createAddress, setOpen, open, payload, setPayload, userId, editAddress, setAddressId, addressId, openDelete, setOpenDelete, deleteAddress, addressDefault, setAddressDefault, createProductOrder, configPaystack, setPaystackConfig, updateAddress } = useProduct()
+    const { dataID, message, createAddress, setOpen, open, payload, setPayload, userId, editAddress, setAddressId, addressId, openDelete, setOpenDelete, deleteAddress, addressDefault, setAddressDefault, createProductOrder, configPaystack, setPaystackConfig, updateAddress, singleProductData: item, setSingleProductData } = useProduct()
     const toast = useToast()
     const [address, setAddress] = useState<Array<IProps>>([])
 
     const { location, updateAddress: setNewAddress } = useProductStore((state) => state);
 
-    const { user } = useGetUser()
-    const [item, setItem] = useState({} as IProduct)
+    const { user } = useGetUser() 
 
     const { isLoading: loading } = useQuery(
         ["products", id],
@@ -70,7 +69,7 @@ export default function ShippingAddress(props: Props) {
             }
         }), {
         onSuccess(data) {
-            setItem(data?.data?.content[0])
+            setSingleProductData(data?.data?.content[0])
         }
     });
 
@@ -323,7 +322,7 @@ export default function ShippingAddress(props: Props) {
                     </Flex>
                 </Flex>
             </ModalLayout>
-            <Fundpaystack id={item?.id} config={configPaystack} setConfig={setPaystackConfig} />
+            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
         </Flex>
     )
 }

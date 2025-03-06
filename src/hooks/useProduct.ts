@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "react-query";
 import AWSHook from "./awsHook";
 import useProductStore from "@/global-state/useCreateProduct";
 import usePaystackStore from "@/global-state/usePaystack";
+import { IProduct } from "@/models/product";
 
 
 const useProduct = (item?: any, rental?: boolean) => {
@@ -13,6 +14,7 @@ const useProduct = (item?: any, rental?: boolean) => {
     const [openRental, setOpenRental] = useState(false)
     const [openProduct, setOpenProduct] = useState(false)
     const [open, setOpen] = useState(false)
+    const [singleProductData, setSingleProductData] = useState({} as IProduct)
     const [openSucces, setOpenSucces] = useState(false)
     const [openDelete, setOpenDelete] = useState(false)
     const [addressId, setAddressId] = useState("")
@@ -21,7 +23,7 @@ const useProduct = (item?: any, rental?: boolean) => {
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
     const toast = useToast()
 
-    const { configPaystack, setPaystackConfig } = usePaystackStore((state) => state);
+    const { configPaystack, setPaystackConfig, message, setMessage, setDataID, dataID } = usePaystackStore((state) => state);
 
     const query = useQueryClient()
     const [payload, setPayload] = useState<any>({
@@ -381,10 +383,10 @@ const useProduct = (item?: any, rental?: boolean) => {
 
     const createAddress = useMutation({
         mutationFn: (data: {
-            "state": "", 
-            "phone": "", 
+            "state": "",
+            "phone": "",
             "userId": "",
-            "location": { 
+            "location": {
             }
             "isDefault": true
         }) =>
@@ -443,6 +445,44 @@ const useProduct = (item?: any, rental?: boolean) => {
         onError: () => { },
     });
 
+
+    const payForTicket = useMutation({
+        mutationFn: (data: {
+            seller: string,
+            price: number,
+            currency: string,
+            orderType: "ORDERS" | "RECEIPT",
+            typeID: string
+        }) => httpService.post(`/payments/createCustomOrder`, data),
+        onSuccess: (data: any) => {
+            setPaystackConfig({
+                publicKey: PAYSTACK_KEY,
+                email: data?.data?.content?.email,
+                amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+                reference: data?.data?.content?.orderCode
+            });
+
+            if (rental) {
+                setMessage({ ...message, rental: true })
+            } else {
+                setMessage({ ...message, product: true })
+            }
+            setOpen(false)
+        },
+        onError: (error) => {
+            // console.log(error);
+            toast({
+                title: 'Error',
+                description: "Error occured",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        },
+    });
+
+
     const createProductOrder = useMutation({
         mutationFn: (data: {
             "productId": string,
@@ -457,16 +497,44 @@ const useProduct = (item?: any, rental?: boolean) => {
             ),
         onSuccess: (data: any) => {
             console.log(data?.data);
-            setPaystackConfig({
-                publicKey: PAYSTACK_KEY,
-                email: data?.data?.user?.email,
-                amount: (Number(data?.data?.total) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
-                reference: data?.data?.id
-            });
+
+            setDataID(data?.data?.id)
+
+            payForTicket?.mutate({
+                seller: data?.data?.vendor?.userId,
+                price: Number(data?.data?.total),
+                currency: "NGN",
+                orderType: "ORDERS",
+                typeID: data?.data?.id
+            })
         },
         onError: () => { },
     });
 
+    const updateRecipt = useMutation({
+        mutationFn: (data: {
+            payload: {
+                status: "PENDING" | "ACCEPTED" | "CANCELLED",
+            }
+            id: string
+        }) =>
+            httpService.put(
+                `/reciept/update/${data?.id}?status=${data?.payload?.status}`
+            ),
+        onSuccess: (data: any) => {
+            console.log(data?.data);
+
+            toast({
+                title: "Successful",
+                description: "",
+                status: "success",
+                isClosable: true,
+                duration: 5000,
+                position: "top-right",
+            });
+        },
+        onError: () => { },
+    });
 
     const createRentalRecipt = useMutation({
         mutationFn: (data: {
@@ -532,7 +600,13 @@ const useProduct = (item?: any, rental?: boolean) => {
         createRentalRecipt,
         editProduct,
         openSucces,
-        setOpenSucces
+        setOpenSucces,
+        singleProductData,
+        setSingleProductData,
+        message,
+        dataID,
+        updateRecipt,
+        payForTicket
     };
 
 }

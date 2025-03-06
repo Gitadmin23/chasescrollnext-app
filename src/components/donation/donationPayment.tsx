@@ -45,7 +45,7 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
     const token = sessionStorage.getItem('tp_token')   
     const tokendata = localStorage.getItem('token');
 
-    const { setPaystackConfig, setDonation } = usePaystackStore((state) => state);
+    const { setPaystackConfig, setMessage, message } = usePaystackStore((state) => state);
 
     const payForTicket = useMutation({
         mutationFn: (data: {
@@ -62,7 +62,7 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
                 amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
                 reference: data?.data?.content?.orderCode
             });
-            setDonation(true)
+            setMessage({...message, donation: true})
             setOpen(false)
             setValue("")
 
