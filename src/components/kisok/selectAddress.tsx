@@ -298,8 +298,8 @@ export default function SelectAddress({ id, qty, startDate, endDate, item }: { i
                 </Flex>
                 {/* </LoadingAnimation> */}
             </ModalLayout>
-            <Flex w={"150px"} justifyContent={"end"} >
-                <CustomButton disable={addressDefault ? false : true} mt={"4"} onClick={() => createRentalRecipt?.mutate(
+            <Flex w={"200px"} justifyContent={"end"} >
+                <CustomButton disable={addressDefault ? false : true} mt={"4"} isLoading={createRentalRecipt?.isLoading} onClick={() => createRentalRecipt?.mutate(
                     {
                         userID: userId + "",
                         rentalID: id,
@@ -308,7 +308,7 @@ export default function SelectAddress({ id, qty, startDate, endDate, item }: { i
                         addressedId: addressDefault,
                         price: Number(item?.price * Number(qty))
                     }
-                )} text={`Continue`} borderRadius={"999px"} w={"150px"} height={"55px"} />
+                )} text={`Request Avaliablity`} borderRadius={"999px"} w={"200px"} height={"55px"} />
             </Flex>
         </Flex>
     )

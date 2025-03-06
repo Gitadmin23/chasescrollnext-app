@@ -67,9 +67,9 @@ export default function OrderDetail({ id }: { id: string }) {
                             <Text fontSize={"24px"} fontWeight={"600"} >{item?.product?.name}</Text>
                             <Text fontSize={"14px"} fontWeight={"700"} >{formatNumber(item?.product?.price)}</Text>
                             <Text fontSize={"14px"} fontWeight={"500"} >Order On {dateFormat(item?.createdDate)}</Text>
-                            <Flex rounded={"32px"} h={"20px"} justifyContent={"center"} alignItems={"center"} color={"white"} fontSize={"12px"} bgColor={"#FF9500"} w={"fit-content"} px={"2"} >
+                            {/* <Flex rounded={"32px"} h={"20px"} justifyContent={"center"} alignItems={"center"} color={"white"} fontSize={"12px"} bgColor={"#FF9500"} w={"fit-content"} px={"2"} >
                                 {item?.orderStatus}
-                            </Flex>
+                            </Flex> */}
 
                         </Flex>
                     </Flex>

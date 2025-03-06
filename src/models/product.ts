@@ -15,7 +15,20 @@ interface IAddress {
     "lga": string,
     "phone": string,
     "landmark": string,
-    "isDefault": boolean
+    "isDefault": boolean,
+    "location": {
+        "link": string,
+        "address": string,
+        "country": string,
+        "street": string,
+        "city": string,
+        "zipcode": string,
+        "state": string,
+        "locationDetails": string,
+        "latlng": string,
+        "placeIds": string,
+        "toBeAnnounced": boolean
+    },
 }
 
 export interface IDate {
@@ -155,12 +168,26 @@ export interface IOrder {
         "lga": string,
         "phone": string,
         "landmark": string,
+        "location": {
+            "link": string,
+            "address": string,
+            "country": string,
+            "street": string,
+            "city": string,
+            "zipcode": string,
+            "state": string,
+            "locationDetails": string,
+            "latlng": string,
+            "placeIds": string,
+            "toBeAnnounced": boolean
+        },
         "isDefault": boolean
     }
 }
 
 export interface IReceipt {
     "id": string,
+    "approvalStatus": string
     "createdDate": number,
     "lastModifiedBy": IUser,
     "createdBy": IUser,

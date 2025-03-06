@@ -17,7 +17,7 @@ function BookingsRequest() {
     const [page, setPage] = React.useState(0);
     const [hasMore, setHasMore] = React.useState(true);
     const userId = localStorage.getItem('user_id');
-    const { configPaystack, setPaystackConfig, donation, dataID, booking } = usePaystackStore((state) => state);
+    const { configPaystack, setPaystackConfig, message, dataID } = usePaystackStore((state) => state);
 
     const { isLoading, } = useQuery(['get-my-request', page], () => httpService.get('/booking/search', {
         params: {
@@ -57,7 +57,7 @@ function BookingsRequest() {
                     <Text>Loading Your Booking</Text>
                 </VStack>
             )} 
-            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} booking={booking} donation={donation} /> 
+            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} /> 
         </Flex>
     )
 }

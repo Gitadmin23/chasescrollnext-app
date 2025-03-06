@@ -1,14 +1,15 @@
 import useEventStore from '@/global-state/useCreateEventState';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Box, Flex, Input, Radio, Spinner, Switch, Text, Textarea, useColorMode } from '@chakra-ui/react'
+import { Box, Flex, Input, Radio, Select, Spinner, Switch, Text, Textarea, useColorMode } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useQuery } from 'react-query';
 import SelectImage from './select_image';
 import SubmitTheme from '../submit_event';
-import useCustomTheme from "@/hooks/useTheme"; 
+import useCustomTheme from "@/hooks/useTheme";
 import SelectEventType from './SelectEventType';
 import { usePathname } from 'next/navigation';
+import SelectDate from '../event_information/select_date';
 
 function EventTheme() {
 
@@ -79,7 +80,7 @@ function EventTheme() {
     const handleTypeChange = (selectedOption: any) => {
 
         console.log(selectedOption);
-        
+
         updateEvent({
             ...eventdata,
             eventType: selectedOption?.value
@@ -139,44 +140,7 @@ function EventTheme() {
                     <Flex flexDirection={"column"} h={"full"} mt={["4", "4", "0px"]} width={"full"} gap={"4"} >
                         <Flex width={"full"} gap={"1"} flexDirection={"column"} >
                             <Text color={"brand.chasescrollTextGrey"} > Event Type<span style={{ color: "#F04F4F" }} > *</span></Text>
-                            {/* <Select
-                                name="eventType"
-                                id="eventType"
-                                border={"1px solid #E2E8F0"}
-                                focusBorderColor={"#E2E8F0"}
-                                onChange={handleChange}
-                                value={eventdata?.eventType}
-                                placeholder='Select Event Type' >
-                                {types?.sort((a: string, b: string) => {
-                                    if (a > b) {
-                                        return 1
-                                    } else {
-                                        return -1;
-                                    }
-                                    return 0;
-                                })?.map((type: any, index: number) => (
-                                    <option key={index} value={type}>
-                                        {type.split("_").join(" ")}
-                                    </option>
-                                ))}
-                            </Select> */}
-                            {/* <Flex w={"full"} > */}
-                            {/* {isLoading && (
-                                <Flex w={"full"} justifyContent={"center"} alignItems={"center"} >
-                                    <Spinner size={"sm"} />
-                                </Flex>
-                            )}
-                            {!isLoading && (
-                                <Select
-                                    options={types}
-                                    inputValue={eventdata?.eventType}
-                                    onChange={handleTypeChange}
-                                    isSearchable={true} // This enables the search functionality
-                                    placeholder="Select Event Type"
-                                />
-                            )} */}
                             <SelectEventType options={types} />
-                            {/* </Flex> */}
                         </Flex>
                         <Flex width={"full"} gap={"1"} flexDirection={"column"} >
                             <Text color={"brand.chasescrollTextGrey"} > Event Description<span style={{ color: "#F04F4F" }} > *</span></Text>
@@ -192,34 +156,16 @@ function EventTheme() {
                             />
                             <Text fontSize={"sm"} >{eventdata?.eventDescription?.length ? eventdata?.eventDescription?.length : "0"} {"/ 1500"}</Text>
                         </Flex>
+                        <Flex width={"full"} gap={"2"} flexDirection={["column", "column", "column", "row"]} >
+                            <SelectDate data={eventdata?.startDate ? eventdata?.startDate : ""} name={"Start"} />
+                            <SelectDate data={eventdata?.endDate ? eventdata?.endDate : ""} name={"End"} />
+                        </Flex>
                         <Flex flexDirection={"column"} gap={"2"} >
                             <Text fontWeight={"bold"} fontSize={"sm"}>Event Visibility</Text>
-                            <label htmlFor="publicVisibility" style={{ display: "flex", justifyContent: "space-between", borderBottomWidth: "1px", fontSize: "14px", padding: "8px" }} role='button' >
-                                <Text>
-                                    Public
-                                </Text>
-                                <Radio
-                                    type="radio"
-                                    id="publicVisibility"
-                                    name="isPublic"
-                                    value={"true"}
-                                    onChange={handleChange}
-                                    isChecked={eventdata?.isPublic}
-                                />
-                            </label>
-                            <label htmlFor="privateVisibility" style={{ display: "flex", justifyContent: "space-between", borderBottomWidth: "1px", fontSize: "14px", padding: "8px" }} role='button' >
-                                <Text>
-                                    Private
-                                </Text>
-                                <Radio
-                                    type="radio"
-                                    id="privateVisibility"
-                                    name="isPublic"
-                                    value={"false"}
-                                    onChange={handleChange}
-                                    isChecked={!eventdata?.isPublic}
-                                />
-                            </label>
+                            <Select name="isPublic" rounded={"full"} fontSize={"14px"} onChange={handleChange} value={eventdata?.isPublic + ""} >
+                                <option value={"true"} >Public</option>
+                                <option value={"false"} >Private</option>
+                            </Select>
                         </Flex>
                         <Flex w={"full"} gap={"4"} my={"4"} >
                             <SubmitTheme type={""} />
