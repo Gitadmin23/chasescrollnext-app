@@ -8,8 +8,8 @@ interface IProps {
   color?: string | Array<string>;
   borderRadius?: string;
   width?: any;
-  fontSize?: "9px" | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  height?: string;
+  fontSize?: any;
+  height?: any;
   shadow?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none';
   isLoading?: boolean;
   variant?: 'solid' | 'outline' | 'ghost' | 'link';

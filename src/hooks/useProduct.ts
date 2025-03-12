@@ -536,6 +536,32 @@ const useProduct = (item?: any, rental?: boolean) => {
         onError: () => { },
     });
 
+
+    const updateReciptPrice = useMutation({
+        mutationFn: (data: {
+            payload: {
+                price: any,
+            }
+            id: string
+        }) =>
+            httpService.put(
+                `/reciept/update-price/${data?.id}`, data?.payload
+            ),
+        onSuccess: (data: any) => {
+            console.log(data?.data);
+
+            toast({
+                title: "Successful",
+                description: "",
+                status: "success",
+                isClosable: true,
+                duration: 5000,
+                position: "top-right",
+            });
+        },
+        onError: () => { },
+    });
+
     const createRentalRecipt = useMutation({
         mutationFn: (data: {
             "userID": string,
@@ -606,7 +632,8 @@ const useProduct = (item?: any, rental?: boolean) => {
         message,
         dataID,
         updateRecipt,
-        payForTicket
+        payForTicket,
+        updateReciptPrice
     };
 
 }

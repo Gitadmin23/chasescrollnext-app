@@ -37,12 +37,12 @@ function EventMap(props: Props) {
     return (
         <>
             {latlng && (
-                <Flex mt={"8"} flexDirection={["column-reverse", "column-reverse", "column-reverse", "column-reverse", "column-reverse"]} gap={"2"} alignItems={["end", "end", "end", "end", "end"]} >
+                <Flex flexDirection={["column-reverse", "column-reverse", "column-reverse", "column-reverse", "column-reverse"]} gap={"2"} alignItems={["end", "end", "end", "end", "end"]} >
                     <Box width={"full"} as='button' >
                         <MapComponent view={true} zoom={15} setMyLocat={setMyLocation} hidesearch={true} latlng={latlng} height={height ?? '30vh'} />
                     </Box>
                     <a target="_blank" href={`https://www.google.com/maps/dir/?api=1&origin=${Number(myLocation?.lat)},${Number(myLocation?.lng)}&destination=${Number(latlng.split(" ")[0])},${Number(latlng.split(" ")[1])}`} >
-                        <Button width={"fit-content"} bg={"brand.chasescrollBlue"} px={"7"} height={"49px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} >Direction</Button>
+                        <Button width={"fit-content"} rounded={"full"} bg={"brand.chasescrollBlue"} px={"5"} height={"40px"} color={"white"} fontSize={"sm"} fontWeight={"semibold"} >Direction</Button>
                     </a>
                 </Flex>
             )}

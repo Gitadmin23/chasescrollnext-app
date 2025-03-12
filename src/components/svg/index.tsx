@@ -2550,10 +2550,9 @@ export const LinkIcon = () => (
   </svg>
 )
 
-export const CalendarIcon = () => (
+export const CalendarIcon = ({color, width}:{color?: string, width?: string}) => (
   <svg
-    width="20"
-    height="22"
+    width={width ? width : "18"} 
     viewBox="0 0 20 22"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -2562,55 +2561,55 @@ export const CalendarIcon = () => (
       fillRule="evenodd"
       clipRule="evenodd"
       d="M18.6668 8.9043H0.842773C0.428773 8.9043 0.0927734 8.5683 0.0927734 8.1543C0.0927734 7.7403 0.428773 7.4043 0.842773 7.4043H18.6668C19.0808 7.4043 19.4168 7.7403 19.4168 8.1543C19.4168 8.5683 19.0808 8.9043 18.6668 8.9043Z"
-      fill="currentColor"
+      fill={color ? color : "currentColor"}
     />
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M14.2013 12.8105C13.7873 12.8105 13.4473 12.4745 13.4473 12.0605C13.4473 11.6465 13.7783 11.3105 14.1923 11.3105H14.2013C14.6153 11.3105 14.9513 11.6465 14.9513 12.0605C14.9513 12.4745 14.6153 12.8105 14.2013 12.8105Z"
-      fill="currentColor"
+      fill={color ? color : "currentColor"}
     />
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M9.76377 12.8105C9.34977 12.8105 9.00977 12.4745 9.00977 12.0605C9.00977 11.6465 9.34077 11.3105 9.75477 11.3105H9.76377C10.1778 11.3105 10.5138 11.6465 10.5138 12.0605C10.5138 12.4745 10.1778 12.8105 9.76377 12.8105Z"
-      fill="currentColor"
+      fill={color ? color : "currentColor"}
     />
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M5.31652 12.8105C4.90252 12.8105 4.56152 12.4745 4.56152 12.0605C4.56152 11.6465 4.89352 11.3105 5.30752 11.3105H5.31652C5.73052 11.3105 6.06652 11.6465 6.06652 12.0605C6.06652 12.4745 5.73052 12.8105 5.31652 12.8105Z"
-      fill="currentColor"
+      fill={color ? color : "currentColor"}
     />
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M14.2013 16.6973C13.7873 16.6973 13.4473 16.3613 13.4473 15.9473C13.4473 15.5333 13.7783 15.1973 14.1923 15.1973H14.2013C14.6153 15.1973 14.9513 15.5333 14.9513 15.9473C14.9513 16.3613 14.6153 16.6973 14.2013 16.6973Z"
-      fill="currentColor"
+      fill={color ? color : "currentColor"}
     />
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M9.76377 16.6973C9.34977 16.6973 9.00977 16.3613 9.00977 15.9473C9.00977 15.5333 9.34077 15.1973 9.75477 15.1973H9.76377C10.1778 15.1973 10.5138 15.5333 10.5138 15.9473C10.5138 16.3613 10.1778 16.6973 9.76377 16.6973Z"
-      fill="currentColor"
+      fill={color ? color : "currentColor"}
     />
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M5.31652 16.6973C4.90252 16.6973 4.56152 16.3613 4.56152 15.9473C4.56152 15.5333 4.89352 15.1973 5.30752 15.1973H5.31652C5.73052 15.1973 6.06652 15.5333 6.06652 15.9473C6.06652 16.3613 5.73052 16.6973 5.31652 16.6973Z"
-      fill="currentColor"
+      fill={color ? color : "currentColor"}
     />
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M13.7939 4.791C13.3799 4.791 13.0439 4.455 13.0439 4.041V0.75C13.0439 0.336 13.3799 0 13.7939 0C14.2079 0 14.5439 0.336 14.5439 0.75V4.041C14.5439 4.455 14.2079 4.791 13.7939 4.791Z"
-      fill="currentColor"
+      fill={color ? color : "currentColor"}
     />
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M5.71484 4.791C5.30084 4.791 4.96484 4.455 4.96484 4.041V0.75C4.96484 0.336 5.30084 0 5.71484 0C6.12884 0 6.46484 0.336 6.46484 0.75V4.041C6.46484 4.455 6.12884 4.791 5.71484 4.791Z"
-      fill="currentColor"
+      fill={color ? color : "currentColor"}
     />
     <mask
       id="mask0_2503_52963"
@@ -2633,7 +2632,7 @@ export const CalendarIcon = () => (
         fillRule="evenodd"
         clipRule="evenodd"
         d="M5.521 3.07812C2.928 3.07812 1.5 4.46113 1.5 6.97213V16.0211C1.5 18.5871 2.928 19.9991 5.521 19.9991H13.979C16.572 19.9991 18 18.6131 18 16.0971V6.97213C18.004 5.73712 17.672 4.77713 17.013 4.11713C16.335 3.43712 15.29 3.07812 13.988 3.07812H5.521ZM13.979 21.4991H5.521C2.116 21.4991 0 19.4001 0 16.0211V6.97213C0 3.64412 2.116 1.57812 5.521 1.57812H13.988C15.697 1.57812 17.11 2.09012 18.075 3.05712C19.012 3.99813 19.505 5.35112 19.5 6.97412V16.0971C19.5 19.4291 17.384 21.4991 13.979 21.4991Z"
-        fill="currentColor"
+        fill={color ? color : "currentColor"}
       />
     </g>
   </svg>

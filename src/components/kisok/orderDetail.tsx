@@ -13,12 +13,18 @@ import { IMAGE_URL } from '@/services/urls';
 import UserImage from '../sharedComponent/userimage';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
 import { SheildIcon, TruckColoredIcon } from '../svg';
-import { IoArrowBack } from 'react-icons/io5';
+import { IoArrowBack, IoStar } from 'react-icons/io5';
+import { textLimit } from '@/utils/textlimit';
+import useCustomTheme from '@/hooks/useTheme';
+import EventMap from '../event_details_component/event_map_info';
 
 export default function OrderDetail({ id }: { id: string }) {
     const [item, setItem] = useState({} as IOrder)
 
     const { back } = useRouter()
+
+    const { secondaryBackgroundColor } = useCustomTheme()
+    const [sizeOfText, setSizeOfText] = useState(200)
 
     const { isLoading } = useQuery(
         ["order", id],
@@ -32,19 +38,12 @@ export default function OrderDetail({ id }: { id: string }) {
         }
     });
 
+    const [size, setSize] = useState(100)
+
     return (
         <LoadingAnimation loading={isLoading} >
-            <Flex w={"full"} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} gap={"6"} flexDir={"column"} overflowY={"auto"} overflowX={"hidden"} >
-                <Flex w={"full"} display={["none", "none", "flex"]} justifyContent={"space-between"} >
-                    <Text fontSize={"24px"} fontWeight={"700"} >Explore  Marchs on chasescroll Kiosk</Text>
-                    <Flex w={"fit-content"} gap={4} alignItems={"center"} >
-                        {/* <CustomButton alignItems={"center"} text={"List "} px={"15px"} height={"44px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"160px"} />
-                        <Flex as={"button"} w={"40px"} h={"40px"} justifyContent={"center"} alignItems={"center"} >
-                            <CartIcon />
-                        </Flex> */}
-                        <Flex w={"40px"} h={"40px"} backgroundColor={"red"} borderRadius={"full"} />
-                    </Flex>
-                </Flex>
+            <Flex w={"full"} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} gap={["4", "4", "6"]} flexDir={"column"} overflowY={"auto"} overflowX={"hidden"} >
+
                 <Flex w={"full"} gap={"2"} flexDir={["column"]} >
                     <Flex gap={"3"} alignItems={"center"} >
                         <Flex as={"button"} onClick={() => back()} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} zIndex={"30"} left={"4"}  >
@@ -52,73 +51,67 @@ export default function OrderDetail({ id }: { id: string }) {
                         </Flex>
                         <Text fontWeight={"500"} >Order Details</Text>
                     </Flex>
-                    <Text fontWeight={"500"} mt={"4"} >Order nº {item?.id}</Text>
-                    <Text fontWeight={"500"}>{item?.quantity} Items</Text>
-                    <Text fontWeight={"500"}>Placed on {dateFormat(item?.createdDate)}</Text>
-                    <Text fontWeight={"500"}>Total: {numberFormatNaire(item?.total)}</Text>
                 </Flex>
-                <Text fontSize={"24px"} >Items in your order</Text>
-                <Flex w={"full"} gap={"4"} py={"4"} borderBottomWidth={"1px"} borderTopWidth={"1px"} >
-                    <Flex alignItems={"center"} w={"full"} gap={"3"}  >
-                        <Flex w={"full"} h={"211px"} >
-                            <Image w={"full"} h={"full"} rounded={"12px"} src={IMAGE_URL + item?.product?.images[0]} alt='image' />
+                <Flex w={"full"} gap={["4"]} py={"4"} flexDir={["column", "column", "row"]} borderBottomWidth={"1px"} borderTopWidth={["0px", "0px", "1px"]} >
+                    <Flex alignItems={"center"} flexDir={["column", "column", "row"]} w={"full"} gap={"3"}  >
+                        <Flex w={"full"} h={["140px", "140px", "211px"]} >
+                            <Image w={"full"} h={"full"} objectFit={"contain"} rounded={"12px"} src={IMAGE_URL + item?.product?.images[0]} alt='image' />
                         </Flex>
                         <Flex w={"full"} flexDir={"column"} gap={"2"} >
-                            <Text fontSize={"24px"} fontWeight={"600"} >{item?.product?.name}</Text>
-                            <Text fontSize={"14px"} fontWeight={"700"} >{formatNumber(item?.product?.price)}</Text>
-                            <Text fontSize={"14px"} fontWeight={"500"} >Order On {dateFormat(item?.createdDate)}</Text>
-                            {/* <Flex rounded={"32px"} h={"20px"} justifyContent={"center"} alignItems={"center"} color={"white"} fontSize={"12px"} bgColor={"#FF9500"} w={"fit-content"} px={"2"} >
-                                {item?.orderStatus}
-                            </Flex> */}
-
-                        </Flex>
-                    </Flex>
-                    <Flex w={"full"} pl={4} borderLeftWidth={"1px"} flexDir={"column"} gap={"2"} >
-                        <Text fontSize={"24px"} fontWeight={"600"} >Payment Method</Text>
-                        <Text fontWeight={"500"} >Pay with Bank Transfer on Delivery</Text>
-                        <Text fontWeight={"500"} >Items total: {formatNumber(item?.total)}</Text>
-                        <Text fontWeight={"500"} >Delivery Fees: {formatNumber("0")}</Text>
-                        <Text fontWeight={"500"} >Total: {formatNumber(item?.total)}</Text>
-                    </Flex>
-                </Flex>
-                <Flex w={"full"} flexDirection={"column"} gap={"4"} py={"4"} >
-                    <Text fontSize={"24px"} >Delivery Information</Text>
-                    <Flex w={"full"} gap={"4"} >
-                        <Flex w={"full"} flexDir={"column"} gap={"4"} >
-                            <Text fontWeight={"500"} >Shipping Details</Text>
-                            <Text fontWeight={"500"} >Delivery between 17 September and 19 September.</Text>
-                            <Text fontWeight={"500"} >Delivery Beside Area 11 Shopping Mall ABUJA- GARKI AREA 11, Federal Capital Territory</Text>
-                            <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
-                                <UserImage image={item?.user?.data?.imgMain?.value} font={"16px"} data={item?.user} border={"1px"} size={"32px"} />
-                                <Flex flexDir={"column"}>
-                                    <Text fontSize={"12px"} >order by</Text>
-                                    <Text fontSize={"14px"} fontWeight={"600"}>
-                                        {capitalizeFLetter(item?.vendor?.firstName) + " " + capitalizeFLetter(item?.vendor?.lastName)}
-                                    </Text>
+                            <Text fontSize={["14px", "14px", "20px"]} fontWeight={"500"} >{capitalizeFLetter(item?.product?.name)}</Text>
+                            <Flex w={"full"} justifyContent={"space-between"} >
+                                <Text fontSize={"14px"} fontWeight={"700"} >{formatNumber(item?.product?.price)}</Text>
+                                <Text fontSize={"12px"} fontWeight={"500"} >Order Date: {dateFormat(item?.createdDate)}</Text>
+                            </Flex>
+                            <Text fontSize={"12px"} fontWeight={"500"}>Bought {item?.quantity} Item{item?.quantity <= 1 ? "" : "s"}</Text>
+                            <Flex w={"full"} gap={["0px", "0px", "8"]} justifyContent={["space-between", "space-between", "start"]} flexDir={["row-reverse", "row-reverse", "column"]} >
+                                <Flex alignItems={"center"} gap={"1"} >
+                                    <Text fontSize={["12px", "12px", "14px"]} >Item Reviews</Text>
+                                    <IoStar size={"20px"} />
+                                    <Text fontSize={["14px", "14px", "16px"]} fontWeight={"500"} >{item?.product?.rating}</Text>
+                                </Flex>
+                                <Flex alignItems={"center"} gap={2} >
+                                    <UserImage image={item?.user?.data?.imgMain?.value} font={"16px"} data={item?.user} border={"1px"} size={"32px"} />
+                                    <Flex flexDir={"column"}>
+                                        <Text fontSize={"12px"} >order by</Text>
+                                        <Text fontSize={"14px"}>
+                                            {capitalizeFLetter(item?.user?.firstName) + " " + capitalizeFLetter(item?.user?.lastName)}
+                                        </Text>
+                                    </Flex>
                                 </Flex>
                             </Flex>
                         </Flex>
-                        <Flex w={"full"} flexDir={"column"} gap={"3"} >
+                    </Flex>
+                    <Flex justifyContent={"center"} w={"full"} pl={["0px", "0px", 4]} borderLeftWidth={["0px", "0px", "1px"]} flexDir={"column"} gap={"2"} >
+                        <Flex bgColor={secondaryBackgroundColor} p={"4"} rounded={"16px"} flexDirection={"column"} gap={"1"} >
+                            <Text fontSize={"14px"} fontWeight={"700"} >Product  Description</Text>
+                            <Text fontSize={"12px"} >{textLimit(item?.product?.description, sizeOfText)} {item?.product?.description?.length > sizeOfText && (<span style={{ fontWeight: "700" }} role='button' onClick={() => setSizeOfText((prev) => prev === item?.product?.description?.length ? 200 : item?.product?.description?.length)} >{item?.product?.description?.length === sizeOfText ? "less" : "more"}</span>)}</Text>
+                        </Flex>
+                        <Text fontSize={["14px"]} fontWeight={"600"} >Payment Method</Text>
+                        <Text fontWeight={"500"} fontSize={"14px"} >Items total: {formatNumber(item?.total)}</Text>
+                        <Text fontWeight={"500"} fontSize={"14px"} >Service Fees: {formatNumber(item?.total * 0.03)}</Text>
+                        <Text fontWeight={"600"} fontSize={"16px"} >Total: {formatNumber(item?.total + (item?.total * 0.03))}</Text>
+                    </Flex>
+                </Flex>
+                <Flex w={"full"} flexDirection={"column"} gap={"4"} py={["0px", "0px", "4"]} >
+                    <Text fontSize={["16px", "16px", "24px"]} fontWeight={"semibold"} >Delivery Information</Text>
+                    <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
+                        <Flex w={"full"} flexDir={"column"} gap={"2"} >
+                            <Text fontWeight={"500"} fontSize={["14px", "14px", "16px"]} >Phone Number: {item?.address?.phone}</Text>
+                            <Text fontWeight={"500"} fontSize={["14px", "14px", "16px"]} >Address: {item?.address?.location?.locationDetails}</Text>
+                            <EventMap height={"212px"} latlng={item?.address?.location?.latlng} />
+                        </Flex>
+                        <Flex w={"full"} flexDir={"column"} gap={"3"} alignItems={"start"} >
                             <Flex gap={"3"} >
                                 <Flex w={"28px"} h={"28px"} justifyContent={"center"} alignItems={"center"} >
                                     <TruckColoredIcon />
                                 </Flex>
-                                <Text color={"#0CC23A"} fontWeight={"600"} >Free shipping on all orders</Text>
+                                <Text color={"#0CC23A"} fontWeight={"600"} >Shipping on all orders:</Text>
                             </Flex>
-                            <Flex flexDir={"column"} gap={"1"} >
-                                <Text fontSize={"14px"} fontWeight={"500"} >Delivery: Feb 4-16</Text>
-                                <Text fontSize={"14px"} mt={"3"} >Get a ₦1,600 credit for late delivery</Text>
-                            </Flex>
-                            <Flex gap={"3"} mt={"4"} >
-                                <Flex w={"28px"} h={"28px"} justifyContent={"center"} alignItems={"center"} >
-                                    <SheildIcon />
-                                </Flex>
-                                <Text color={"#0CC23A"} fontWeight={"600"} >Free shipping on all orders</Text>
-                            </Flex>
-                            <Flex gap={["2", "2", "5"]} alignItems={["start", "start", "center"]} flexDir={["column", "column", "row"]} >
-                                <Text fontWeight={"500"} fontSize={"12px"} >Safe Payment Options</Text>
-                                <Text fontWeight={"500"} fontSize={"12px"} >Secure logistics</Text>
-                                <Text fontWeight={"500"} fontSize={"12px"} >Purchase protection</Text>
+                            <Flex flexDir={"column"} gap={"3"} >
+                                <Text fontSize={"14px"} fontWeight={"500"} >{`Seller-Fulfilled Shipping - The seller handles the entire shipping process and not Chasescroll.`}</Text>
+                                <Text fontSize={"14px"} fontWeight={"500"} >Verify that items are in good condition and meet the expected quality standards before authorizing payment.</Text>
+                                <Text fontSize={"14px"} fontWeight={"500"} >Please inform us if you encounter any issues at support@chasescroll.com</Text>
                             </Flex>
                         </Flex>
                     </Flex>

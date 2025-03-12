@@ -1,5 +1,6 @@
 'use client'
 import SearchBar from '@/components/explore_component/searchbar' 
+import MobileCard from '@/components/sharedComponent/event_card/mobileCard'
 import NewEventCard from '@/components/sharedComponent/event_card/newEventCard'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import useSearchStore from '@/global-state/useSearchData'
@@ -20,9 +21,9 @@ function MyEvent(props: Props) {
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.JOINED_EVENT + user_index+(search ? "?searchText="+search : ""), limit: 10, filter: "id" })
 
     return (
-        <HStack height={"fit-content"} display={"flex"} flexDir={"column"} overflowX={"hidden"}  width={"full"} overflowY={"auto"} justifyContent={"center"}  >
+        <HStack height={"fit-content"} display={"flex"} flexDir={"column"} overflowX={"hidden"} gap={"4"} width={"full"} overflowY={"auto"} justifyContent={"center"}  >
             <SearchBar change={true} event={true} />
-            <Box width={["full", "full", "700px"]} pt={"6"} position={"relative"} >
+            <Box width={["full", "full", "500px"]} position={"relative"} >
                 <Box width={"full"}  >
                     <LoadingAnimation  withimg={true} loading={isLoading} refeching={isRefetching} length={results?.length} >
                         <Flex gap={"4"} flexDirection={"column"} >
@@ -31,7 +32,7 @@ function MyEvent(props: Props) {
                                     return (
                                         <Box key={i} width={"full"} ref={ref} >
                                             {/* <ExploreEventCard my_event={true} event={event} /> */}
-                                            <NewEventCard {...event} />
+                                            <MobileCard {...event} />
                                         </Box>
                                     )
                                 } else {
@@ -39,7 +40,8 @@ function MyEvent(props: Props) {
                                         <Box key={i} width={"full"}  >
                                             {/* <ExploreEventCard my_event={true} event={event} /> */}
 
-                                            <NewEventCard {...event} />
+                                            <MobileCard {...event} />
+                                            {/* <NewEventCard {...event} /> */}
                                         </Box>
                                     )
                                 }

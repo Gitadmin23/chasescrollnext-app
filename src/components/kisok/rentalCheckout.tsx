@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react'
+import { Flex, Input, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { IoIosAdd, IoIosRemove } from 'react-icons/io'
 import CustomButton from '../general/Button'
@@ -19,6 +19,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
 
     const [startDate, setStartDate] = useState("" as any) 
     const [open, setOpen] = useState(false)
+    const [newPrice, setNewPrice] = useState("")
     
     const [tab, setTab] = useState(true) 
 
@@ -94,11 +95,15 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                                     </Flex>
                                 </Flex>
                             )}
+                            <Flex flexDirection={"column"} gap={"1"}  >
+                                <Text fontSize={"14px"} >Negotiate Price Per Day(Optional)</Text>
+                                <Input height={"50px"} w={"full"} value={newPrice} type="number" placeholder={formatNumber(item?.price)} onChange={(e)=> setNewPrice(e.target.value)} />
+                            </Flex>
                             <CustomButton disable={startDate ? false : true} mt={"4"} onClick={()=> setTab(true)} text={`Continue`} borderRadius={"999px"} height={"55px"} />
                         </Flex>
                     )}
                     {tab && (
-                        <SelectAddress item={item} qty={qty} id={item?.id} startDate={Date.parse(new Date(startDate)?.toJSON())} endDate={startDate ? (item?.frequency !== "HOURLY" ? Date.parse(new Date(startDate?.getTime() + item?.maximiumNumberOfDays * 24 * 60 * 60 * 1000).toJSON()) : Date.parse(new Date(new Date(startDate).setHours(new Date(startDate).getHours() + qty)).toJSON())) : ""} />
+                        <SelectAddress item={item} newPrice={newPrice ? Number(newPrice) : 0} qty={qty} id={item?.id} startDate={Date.parse(new Date(startDate)?.toJSON())} endDate={startDate ? (item?.frequency !== "HOURLY" ? Date.parse(new Date(startDate?.getTime() + item?.maximiumNumberOfDays * 24 * 60 * 60 * 1000).toJSON()) : Date.parse(new Date(new Date(startDate).setHours(new Date(startDate).getHours() + qty)).toJSON())) : ""} />
                     )}
                 </Flex>
             </ModalLayout>

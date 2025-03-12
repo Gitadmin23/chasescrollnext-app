@@ -76,7 +76,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                                 <UserImage size={"45px"} font={"20px"} data={item?.user} image={item?.user?.data?.imgMain?.value} border={"1px"} />
                                                 <Flex display={["block"]} flexDir={"column"} textAlign={"left"}  >
                                                     <Text color={"#233DF3"} fontSize={"14px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(item?.user?.firstName) + " " + capitalizeFLetter(item?.user?.lastName), 15)}</Text>
-                                                    <Text fontSize={"12px"} color={bodyTextColor} >{dateFormat(item?.user)}</Text>
+                                                    <Text fontSize={"12px"} color={bodyTextColor} >{moment(item?.createdDate).fromNow()}</Text>
                                                 </Flex>
                                             </Flex>
                                             <DeleteEvent donation={true} event={item} />
@@ -118,7 +118,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                                 <UserImage size={"45px"} font={"20px"} data={item?.user} image={item?.user?.data?.imgMain?.value} border={"1px"} />
                                                 <Flex display={["block"]} flexDir={"column"} textAlign={"left"}  >
                                                     <Text color={"#233DF3"} fontSize={"14px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(item?.user?.firstName) + " " + capitalizeFLetter(item?.user?.lastName), 15)}</Text>
-                                                    <Text fontSize={"12px"} color={bodyTextColor} >{dateFormat(item?.user)}</Text>
+                                                    <Text fontSize={"12px"} color={bodyTextColor} >{moment(item?.createdDate).fromNow()}</Text>
                                                 </Flex>
                                             </Flex>
                                             <DeleteEvent donation={true} event={item} />

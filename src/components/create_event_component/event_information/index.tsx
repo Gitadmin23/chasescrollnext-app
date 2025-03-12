@@ -29,7 +29,7 @@ function EventInformation() {
     }
 
     return (
-        <Flex width={"full"} display={"flex"} flexDirection={"column"} alignItems={"center"} pt={"10"} px={"6"} >
+        <Flex width={"full"} display={"flex"} h={"full"} flexDirection={"column"} alignItems={"center"} pt={"10"} px={"6"} >
             <Flex width={"full"} maxWidth={["full", "full", "full"]} flexDirection={"column"} justifyContent={"space-between"} gap={"4"} py={"6"} >
                 <Flex w={"full"} gap={"4"} >
                     <SelectLocation />

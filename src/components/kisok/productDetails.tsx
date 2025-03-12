@@ -19,6 +19,7 @@ import ProductCheckout from './productCheckout'
 import { useRouter } from 'next/navigation'
 import useProduct from '@/hooks/useProduct'
 import useProductStore from '@/global-state/useCreateProduct'
+import { textLimit } from '@/utils/textlimit'
 
 export default function ProductDetails({ id }: { id: string }) {
 
@@ -30,6 +31,8 @@ export default function ProductDetails({ id }: { id: string }) {
     const { userId } = useProduct()
     const { productdata, updateProduct } = useProductStore((state) => state);
     const { push } = useRouter()
+
+    const [ sizeOfText, setSizeOfText ] = useState(200)
 
     const { isLoading } = useQuery(
         ["products", id],
@@ -60,19 +63,7 @@ export default function ProductDetails({ id }: { id: string }) {
     return (
         <LoadingAnimation loading={isLoading} >
             <Flex pos={"relative"} w={"full"} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} gap={"6"} flexDir={"column"} overflowY={"auto"} overflowX={"hidden"} >
-                <Flex w={"full"} display={["none", "none", "flex"]} justifyContent={"space-between"} >
-                    <Text fontSize={"24px"} fontWeight={"700"} >Explore  Marchs on chasescroll Kiosk</Text>
-                    {/* <Flex w={"fit-content"} gap={4} alignItems={"center"} >
-                        <CustomButton alignItems={"center"} text={"List "} px={"15px"} height={"44px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"160px"} />
-                        <Flex as={"button"} w={"40px"} h={"40px"} justifyContent={"center"} alignItems={"center"} >
-                            <CartIcon />
-                        </Flex>
-                        <Flex w={"40px"} h={"40px"} backgroundColor={"red"} borderRadius={"full"} />
-                    </Flex> */}
-                </Flex>
-                <Flex pos={"absolute"} top={"8"} right={"8"} w={"45px"} h={"45px"} bgColor={secondaryBackgroundColor} justifyContent={"center"} alignItems={"center"} rounded={"full"} as={"button"} onClick={() => clickHandler(item)} >
-                    <Edit2Icon color={primaryColor} />
-                </Flex>
+                  
                 <Flex w={"full"} gap={"6"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
                         <Flex gap={"1"} alignItems={"center"} >
@@ -105,21 +96,10 @@ export default function ProductDetails({ id }: { id: string }) {
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
                         <Text fontSize={["24px", "24px", "42px"]} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
                         <Flex flexDir={["column-reverse", "column-reverse", "column"]} gap={"4"} >
-                            <Flex flexDirection={"column"} gap={"1"} >
+                            <Flex bgColor={secondaryBackgroundColor} p={"4"} rounded={"16px"} flexDirection={"column"} gap={"1"} >
                                 <Text fontSize={"14px"} fontWeight={"600"} >Product  Description</Text>
-                                <Text>{item.description}</Text>
-                            </Flex>
-                            {/* <Flex display={["none", "none", "flex"]} gap={4} alignItems={"center"} >
-                                <Flex gap={2} alignItems={"center"} >
-                                    <Text fontSize={"14px"} fontWeight={"500"} >Product Quantity</Text>
-                                    <Text fontSize={"16px"} color={primaryColor} fontWeight={"600"} >Product Quantity</Text>
-                                </Flex>
-                                <Flex gap={2} alignItems={"center"} >
-                                    <Text fontWeight={"500"} >Item Reviews</Text>
-                                    <IoStar size={"24px"} color={"#1E1E1E"} />
-                                    <Text fontWeight={"500"} >{item?.rating}</Text>
-                                </Flex>
-                            </Flex> */}
+                                <Text fontSize={"12px"} >{textLimit(item.description, sizeOfText)} {item?.description?.length > sizeOfText && ( <span style={{fontWeight: "700"}} role='button' onClick={()=> setSizeOfText((prev)=> prev === item.description?.length ? 200 : item.description?.length)} >{item.description?.length === sizeOfText ? "less" : "more"}</span>)}</Text>
+                            </Flex> 
                             <Flex alignItems={"center"} >
                                 <Text fontSize={"24px"} fontWeight={"700"} >{formatNumber(item?.price)}</Text>
                             </Flex>
@@ -144,24 +124,13 @@ export default function ProductDetails({ id }: { id: string }) {
                             <Flex w={"28px"} h={"28px"} justifyContent={"center"} alignItems={"center"} >
                                 <TruckColoredIcon />
                             </Flex>
-                            <Text color={"#0CC23A"} fontWeight={"600"} >Free shipping on all orders</Text>
+                            <Text color={"#0CC23A"} fontWeight={"600"} >Shipping on all orders:</Text>
                         </Flex>
-                        <Flex flexDir={"column"} gap={"1"} >
-                            <Text fontSize={"14px"} fontWeight={"500"} >Delivery: Feb 4-16</Text>
-                            <Text fontSize={"14px"} mt={"3"} >Get a ₦1,600 credit for late delivery</Text>
-                            <Text fontWeight={"600"} >Courier company:</Text>
-                        </Flex>
-                        <Flex gap={"3"} mt={"4"} >
-                            <Flex w={"28px"} h={"28px"} justifyContent={"center"} alignItems={"center"} >
-                                <SheildIcon />
-                            </Flex>
-                            <Text color={"#0CC23A"} fontWeight={"600"} >Free shipping on all orders</Text>
-                        </Flex>
-                        <Flex gap={["2", "2", "5"]} alignItems={["start", "start", "center"]} flexDir={["column", "column", "row"]} >
-                            <Text fontWeight={"500"} fontSize={"12px"} >Safe Payment Options</Text>
-                            <Text fontWeight={"500"} fontSize={"12px"} >Secure logistics</Text>
-                            <Text fontWeight={"500"} fontSize={"12px"} >Purchase protection</Text>
-                        </Flex>
+                        <Flex flexDir={"column"} gap={"3"} >
+                            <Text fontSize={"14px"} fontWeight={"500"} >{`Seller-Fulfilled Shipping - The seller handles the entire shipping process and not Chasescroll.`}</Text>
+                            <Text fontSize={"14px"} fontWeight={"500"} >Verify that items are in good condition and meet the expected quality standards before authorizing payment.</Text> 
+                            <Text fontSize={"14px"} fontWeight={"500"} >Please inform us if you encounter any issues at support@chasescroll.com</Text> 
+                        </Flex>  
                         <Flex display={["flex", "flex", "none"]} >
                             <ProductRating item={item} reviewType="PRODUCT" />
                         </Flex>

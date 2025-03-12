@@ -322,9 +322,9 @@ function DashboardRefund(props: Props) {
     })
 
 
-    const componentRef: any = React.useRef();
+    const componentRef: any = React.useRef(null);
 
-    const tableRef: any = React.useRef();
+    const tableRef: any = React.useRef(null);
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
         documentTitle: capitalizeFLetter(eventData?.eventName),
