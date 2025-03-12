@@ -32,7 +32,7 @@ function  EventListing(props: Props) {
         const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/events/events${event_category ? "?eventType=" + event_category : ""}`, limit: 20, filter: "id", newdata: event_category })
 
         return (
-            <Flex width={"full"} justifyContent={"center"} mt={!event_category ? !limit ? "8" : "" : ""} py={"8"} px={"6px"} flexDirection={"column"} alignItems={"center"} >
+            <Flex width={"full"} justifyContent={"center"} mt={!event_category ? !limit ? "8" : "" : ""} pb={"8"} px={"6px"} flexDirection={"column"} alignItems={"center"} >
                 {!limit && (
                     <Text fontWeight={"semibold"} textAlign={!event_category ? "left" : "center"} fontSize={"20px"} mt={"15px"} mb={"10px"} mr={!event_category ? "auto" : ""} ml={!event_category ? "12px" : ""} >{!event_category ? "Trending" : event_category?.split("_")?.join(" ")}</Text>
                 )}

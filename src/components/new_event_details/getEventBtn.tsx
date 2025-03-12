@@ -116,22 +116,10 @@ function GetEventTicket(props: IEventType) {
     } 
 
     return (
-        <>
-
-            <Flex w={"full"} display={[isBought ? "none" : "block", "block", "block", "block"]} >
-                <CustomButton backgroundColor={"#233DF3"} borderRadius={"32px"} opacity={(!ticketType?.ticketType && !isBought && ticketType?.ticketType) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(((ticketType?.totalNumberOfTickets === ticketType?.ticketsSold) && !isBought && ticketType?.ticketType)) ? true : (ticketType?.ticketType || isBought) ? false : true} text={(((ticketType?.totalNumberOfTickets === ticketType?.ticketsSold) && !isBought && ticketType?.ticketType) ? "Ticket Sold Out" : (isBought) ? "View Ticket" : isFree ? "Register" : "Check out ")} width={["full"]} height={"57px"} fontSize={"sm"} fontWeight={"semibold"} />
-            </Flex> 
-            {isBought &&
-                <Flex w={"fit-content"} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} p={"2"} rounded={"13px"} flexDir={"column"} justifyContent={"center"} alignItems={"center"} display={["flex", "none", "none", "none"]} gap={"1px"} >
-
-                    <Flex onClick={clickHandler} as={"button"} flexDir={"column"} justifyContent={"center"} alignItems={"center"} rounded={"13px"}  >
-                        {/* <IoTicket size={"30px"} color={primaryColor} /> */}
-                        <HiOutlineTicket size={"35px"} color={primaryColor} />
-                    </Flex>
-                    <Text fontSize={"12px"} >View Ticket</Text>
-                </Flex>
-            }
-
+        <> 
+            <Flex w={"full"} display={[isBought ? "block" : "block", "block", "block", "block"]} >
+                <CustomButton backgroundColor={"#233DF3"} borderRadius={"32px"} opacity={(!ticketType?.ticketType && !isBought && ticketType?.ticketType) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(((ticketType?.totalNumberOfTickets === ticketType?.ticketsSold) && !isBought && ticketType?.ticketType)) ? true : (ticketType?.ticketType || isBought) ? false : true} text={(((ticketType?.totalNumberOfTickets === ticketType?.ticketsSold) && !isBought && ticketType?.ticketType) ? "Ticket Sold Out" : (isBought) ? "View Ticket" : isFree ? "Register" : "Check out ")} width={["full"]} height={["37px", " 37px", "57px"]} fontSize={"sm"} fontWeight={"semibold"} />
+            </Flex>  
             <ModalLayout size={modalTab === 5 ? ["full", "md", "3xl"] : "md"} title={modalTab === 6 ? "Ticket available for this event" : ""} open={showModal} close={setShowModal} >
                 {modalTab === 1 && (
                     <SelectTicketNumber close={setShowModal} numbOfTicket={numbOfTicket} setNumberOfTicket={setNumberOfTicket} next={setModalTab} selectedTicket={ticketType} data={props} />

@@ -4,7 +4,7 @@ import EventCategory from '@/components/event_component/event_category';
 import EventListing from '@/components/event_component/event_listing';
 import useEventStore from '@/global-state/useCreateEventState';
 import useSearchStore from '@/global-state/useSearchData';
-import { Box } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 
 function EventComponent() {
@@ -69,7 +69,7 @@ function EventComponent() {
   }, [])
 
   return (
-    <Box width={"full"}>
+    <Flex width={"full"} flexDir={"column"} >
       {/* <Box w={"full"} h={"100px"} bgColor={"orange"} > */}
         <EventCategory eventpage={true} />
       {/* </Box> */}
@@ -77,7 +77,7 @@ function EventComponent() {
         <EventCarousel />
       )}
       <EventListing landing={true} eventdashboard={true} />
-    </Box>
+    </Flex>
   )
 }
 

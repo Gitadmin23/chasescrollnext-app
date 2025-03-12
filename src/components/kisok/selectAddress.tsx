@@ -46,7 +46,7 @@ interface IProps {
 }
 
 
-export default function SelectAddress({ id, qty, startDate, endDate, item }: { id: string, qty: number, startDate: any, endDate: any, item: IRental }) {
+export default function SelectAddress({ id, qty, startDate, endDate, item, newPrice = 0 }: { id: string, qty: number, startDate: any, endDate: any, item: IRental, newPrice?: number }) {
 
     // const id = params.slug
     const { primaryColor, secondaryBackgroundColor, bodyTextColor } = useCustomTheme();
@@ -290,9 +290,9 @@ export default function SelectAddress({ id, qty, startDate, endDate, item }: { i
             </ModalLayout>
             <ModalLayout open={openSucces} close={setOpenSucces} bg={secondaryBackgroundColor} closeIcon={true} >
                 {/* <LoadingAnimation loading={loading} > */}
-                <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
+                <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"6"} >
                     <SuccessIcon />
-                    <Text fontSize={["18px", "20px", "24px"]} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{"Receipt created Successful"}</Text>
+                    <Text fontSize={["18px", "20px", "24px"]} fontWeight={"600"} mt={"4"} >{"Receipt created Successful"}</Text>
                     <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your reciept has reach the vendor `}</Text>
                     <CustomButton onClick={() => push("/dashboard/kisok?type=myreciept")} color={"#FFF"} text={'View Receipt'} w={"full"} backgroundColor={"#3EC259"} />
                 </Flex>
@@ -306,7 +306,7 @@ export default function SelectAddress({ id, qty, startDate, endDate, item }: { i
                         startDate: startDate,
                         endDate: endDate,
                         addressedId: addressDefault,
-                        price: Number(item?.price * Number(qty))
+                        price: newPrice > 0 ? Number(newPrice * Number(qty)) : Number(item?.price * Number(qty))
                     }
                 )} text={`Request Avaliablity`} borderRadius={"999px"} w={"200px"} height={"55px"} />
             </Flex>

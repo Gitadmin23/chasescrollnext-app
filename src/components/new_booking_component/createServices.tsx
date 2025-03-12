@@ -578,7 +578,7 @@ export default function CreateServices({ id }: { id: string }) {
 
                     </Flex>
 
-                    <Flex gap={"2"} mt={"2"} as={"button"} alignItems={"center"} onClick={() => setShowModal(true)} >
+                    <Flex gap={"2"} mt={"2"} type='button' as={"button"} alignItems={"center"} onClick={() => setShowModal(true)} >
                         <IoAdd size={"25px"} color={primaryColor} />
                         <Text>Operating Hours and time  <sup style={{ color: 'red' }}>*</sup></Text>
                     </Flex>

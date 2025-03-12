@@ -134,7 +134,6 @@ function EventDetails(props: Props) {
                 <ShareEvent home={true} notext={true} data={dataInfo} id={dataInfo?.id} type="EVENT" eventName={textLimit(eventName, 20)} />
             </Flex>
             <Flex width={"full"} flexDirection={["column", "column", "row"]} alignItems={"start"} position={"relative"} justifyContent={"center"} >
-
                 <Box height={["230px", "230px", "350px"]} px={["4", "4", "0px"]} mt={["4", "4", "0px"]} position={"relative"} width={"full"} rounded={"16px"} roundedTopRight={"none"} >
                     <Box w={"42px"} position={"absolute"} top={"4"} left={"4"} h={"42px"} bg={"#FFFFFF40"} rounded={"full"} as='button' display={["none", "none", "flex"]} onClick={() => clickHander()}
                         // mt={"20px"} ml={(!email && !userId) ? "0px" : "-30px"} 
