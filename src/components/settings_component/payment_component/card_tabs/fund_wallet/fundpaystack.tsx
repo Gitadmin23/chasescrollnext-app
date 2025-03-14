@@ -26,7 +26,7 @@ interface Props {
     setConfig: any,
     fund?: boolean,
     id?: any, 
-    message: IMessage, 
+    message: IMessage 
 }
 
 function Fundpaystack(props: Props) {

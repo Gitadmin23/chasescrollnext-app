@@ -511,7 +511,8 @@ function SubmitEvent(props: Iprops) {
                 collaborators: data?.data?.collaborators,
                 admins: data?.data?.admins,
                 acceptedAdmins: data?.data?.acceptedAdmins,
-                acceptedCollaborators: data?.data?.acceptedCollaborators
+                acceptedCollaborators: data?.data?.acceptedCollaborators,
+                affiliates: data?.data?.affiliates,
             }
 
 

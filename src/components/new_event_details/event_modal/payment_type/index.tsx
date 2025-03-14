@@ -7,11 +7,12 @@ import { BsChevronLeft } from 'react-icons/bs'
 import PayStackBtn from '../paystack_btn'
 import StripeBtn from '../stripe_btn'
 import useStripeStore from '@/global-state/useStripeState'
+import { IEventType } from '@/models/Event'
 
 interface Props { 
     click: any
     currency: string,
-    data: any, 
+    data: IEventType, 
     close?: any,
     selectedCategory: any,
     ticketCount: any, 
