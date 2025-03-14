@@ -566,10 +566,12 @@ const useProduct = (item?: any, rental?: boolean) => {
         mutationFn: (data: {
             "userID": string,
             "rentalID": string,
-            "startDate": number,
-            "endDate": number,
+            "startDate": string,
+            "endDate": string,
             "price": number,
-            "addressedId": string
+            "addressedId": string,
+            "approvalStatus": string,
+            "frequency": number
         }) =>
             httpService.post(
                 `/reciept/create`, data

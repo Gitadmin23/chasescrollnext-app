@@ -3,7 +3,7 @@ import useCustomTheme from '@/hooks/useTheme';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import LoadingAnimation from '../sharedComponent/loading_animation';
-import { Flex, Grid, Image, Text, Textarea } from '@chakra-ui/react';
+import { Flex, Grid, HStack, Image, Text, Textarea, VStack } from '@chakra-ui/react';
 import { IOrder, IReceipt } from '@/models/product';
 import UserImage from '../sharedComponent/userimage';
 import moment from 'moment';
@@ -18,6 +18,7 @@ import { textLimit } from '@/utils/textlimit';
 import { IoIosClose } from 'react-icons/io';
 import useProduct from '@/hooks/useProduct';
 import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
+import { FiMinus, FiPlus } from 'react-icons/fi';
 
 export default function GetReciept() {
 
@@ -26,40 +27,42 @@ export default function GetReciept() {
     const userId = localStorage.getItem('user_id') + "";
     const [textSize, setTextSize] = useState(40)
 
-    const [status, setStatus] = useState("") 
+    const [status, setStatus] = useState("")
 
     const [detail, setDetails] = useState({} as IReceipt)
 
-    const { updateRecipt: reject, updateRecipt, configPaystack, dataID, message, setPaystackConfig, payForTicket, open, setOpen} = useProduct(null, true) 
+    const { updateRecipt: reject, updateRecipt, configPaystack, dataID, message, setPaystackConfig, payForTicket, open, setOpen } = useProduct(null, true)
 
     const { results, isLoading, ref } = InfiniteScrollerComponent({ url: `/reciept/search?userId=${userId}`, limit: 20, filter: "id", name: "getreciept" })
 
     const clickHander = (item: IReceipt) => {
         setDetails(item)
         setOpen(true)
-    } 
-
-    const updateHandler = (item:  "PENDING" | "ACCEPTED" | "CANCELLED") => {
-        setStatus(item)
-        updateRecipt?.mutate({payload: {
-            status: item
-        }, id: detail?.id})
     }
 
-    useEffect(()=> {
-        if(!updateRecipt?.isLoading){
+    const updateHandler = (item: "PENDING" | "ACCEPTED" | "CANCELLED") => {
+        setStatus(item)
+        updateRecipt?.mutate({
+            payload: {
+                status: item
+            }, id: detail?.id
+        })
+    }
+
+    useEffect(() => {
+        if (!updateRecipt?.isLoading) {
             setStatus("")
         }
-    }, [updateRecipt?.isLoading]) 
-    
-    
+    }, [updateRecipt?.isLoading])
+
+
     return (
         <LoadingAnimation loading={isLoading} length={results?.length} >
             <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["4", "4", "6"]} >
                 {results?.map((item: IReceipt, index: number) => {
                     if (results?.length === index + 1) {
                         return (
-                            <Flex ref={ref} as={"button"} alignItems={"start"} onClick={() =>  clickHander(item)} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={"16px"} pb={"5"} gap={"4"} >
+                            <Flex ref={ref} as={"button"} alignItems={"start"} onClick={() => clickHander(item)} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={"16px"} pb={"5"} gap={"4"} >
                                 <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
                                     <UserImage image={item?.createdBy?.data?.imgMain?.value} font={"16px"} data={item?.createdBy} border={"1px"} size={"32px"} />
                                     <Flex flexDir={"column"} alignItems={"start"} >
@@ -91,7 +94,7 @@ export default function GetReciept() {
                         )
                     } else {
                         return (
-                            <Flex as={"button"} alignItems="start" onClick={() =>  clickHander(item)} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={"16px"} pb={"5"} gap={"4"} >
+                            <Flex as={"button"} alignItems="start" onClick={() => clickHander(item)} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={"16px"} pb={"5"} gap={"4"} >
                                 <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
                                     <UserImage image={item?.createdBy?.data?.imgMain?.value} font={"16px"} data={item?.createdBy} border={"1px"} size={"32px"} />
                                     <Flex flexDir={"column"} alignItems={"start"} >
@@ -131,7 +134,7 @@ export default function GetReciept() {
                         <Text fontWeight={"500"} >e-invoice</Text>
                         <IoIosClose onClick={() => setOpen(false)} size={"30px"} />
                     </Flex>
-                    <Flex w={"full"} gap={"4"} flexDir={["column", "column", "column"]} > 
+                    <Flex w={"full"} gap={"4"} flexDir={["column", "column", "column"]} >
                         <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                             <Flex w={["full", "full", "fit-content"]} >
                                 <Flex flexDir={"column"} gap={"2"} w={["full", "full", "218px"]} >
@@ -153,39 +156,82 @@ export default function GetReciept() {
                                 </Flex>
                             </Flex>
 
-                            <Flex flexDir={"column"} gap={"3"} w={"full"} >
-                                <Flex justifyContent={["start", "start", "space-between"]} w={"full"} flexDir={["column", "column", "column"]} gap={"1"} >
-                                    <Text fontWeight={600} fontSize={'14px'}>Customer Name:</Text>
-                                    <Text fontSize={"14px"} >{textLimit(capitalizeFLetter(detail?.createdBy?.firstName) + " " + capitalizeFLetter(detail?.createdBy?.lastName), textSize)}</Text>
+                            <Flex flexDir={"column"} gap={"2"} w={"full"} >
+                                <Flex flexDir={"row"} gap={"1"} w={"fit-content"} alignItems={"center"} >
+                                    <Text fontWeight={400} fontSize={'12px'}>Reciept ID:</Text>
+                                    <Text fontWeight={400} fontSize={'12px'} bgColor={secondaryBackgroundColor} p={"2px"} rounded={"8px"} px={"4px"} >{detail?.id}</Text>
                                 </Flex>
-                                <Flex justifyContent={["start", "start", "space-between"]} w={"full"} flexDir={["column", "column", "column"]} gap={"1"} >
-                                    <Text fontWeight={600} fontSize={'14px'}>Description:</Text>
-                                    <Text fontSize={"14px"} >{textLimit(capitalizeFLetter(detail?.rental?.description), textSize)}<span role='button' style={{ color: primaryColor, fontSize: "12px", fontWeight: "600" }} onClick={() => setTextSize((prev) => prev === 40 ? detail?.rental?.description?.length + 1 : 40)} >{detail?.rental?.description?.length > 40 ? (textSize < detail?.rental?.description?.length ? "show more" : "show less") : ""}</span></Text>
+                                <Flex justifyContent={["start", "start"]} w={"full"} flexDir={["column", "column", "column"]} >
+                                    <Text fontWeight={500} fontSize={'12px'}>Customer Name:</Text>
+                                    <Text fontSize={"16px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(detail?.createdBy?.firstName) + " " + capitalizeFLetter(detail?.createdBy?.lastName), textSize)}</Text>
                                 </Flex>
-                                <Flex justifyContent={["start", "start", "space-between"]} w={"full"} flexDir={["column", "column", "column"]} gap={"1"} >
-                                    <Text fontWeight={600} fontSize={'14px'}>Start Date:</Text>
-                                    <Text fontSize={"14px"} >{dateFormat(detail?.startDate?.millis)}</Text>
+                                <Flex gap={"1"} flexDir={"column"} >
+                                    <HStack w='full' justifyContent={'flex-start'} >
+                                        <Text w={"80px"} fontSize={'14px'}>Email:</Text>
+                                        <Text fontSize={'14px'}>{detail?.createdBy?.email}</Text>
+                                    </HStack>
+
+                                    <HStack w='full' justifyContent={'flex-start'} >
+                                        <Text w={"80px"} fontSize={'14px'}>Phone:</Text>
+                                        <Text fontSize={'14px'}>{detail?.createdBy?.data?.mobilePhone?.value ?? 'None'}</Text>
+                                    </HStack>
+                                    <HStack w='full' justifyContent={'flex-start'} >
+                                        <Text w={"80px"} fontSize={'14px'}>Start Date:</Text>
+                                        <Text fontSize={'14px'}>{dateFormat(detail?.startDate?.millis)}</Text>
+                                    </HStack>
                                 </Flex>
                             </Flex>
                         </Flex>
-                        <Flex w={"full"} mt={"2"} >
-                            <Flex w={"full"} flexDir={"column"} gap={"2"} >
-                                <Text fontWeight={"700"} color={primaryColor} >Payment Summary</Text>
-                                <Text fontWeight={"500"} > - Subtotal: {numberFormat(detail?.price)}</Text>
-                                <Text fontWeight={"500"} >  - Total Amount Paid: {numberFormat(detail?.price)}</Text>
-                                <Text fontWeight={"500"} >  Payment Method: [ Wire Transfer]</Text>
-                            </Flex>
-                            <Flex w={"full"} justifyContent={"end"} >
+                        <Flex w={"full"} mt={"2"} gap={"4"} >
+                            <Flex w={"fit-content"} >
 
+                                <Flex flexDir={"column"} gap={"1"} w={"218px"} >
+                                    <Flex justifyContent={["start", "start", "space-between"]} w={"full"} p={"5px"} rounded={"8px"} bgColor={secondaryBackgroundColor} flexDir={["column", "column", "column"]} >
+                                        <Text fontWeight={400} fontSize={'12px'}>Rental Details:</Text>
+                                        <Text fontSize={"12px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(detail?.rental?.description), textSize)}<span role='button' style={{ color: primaryColor, fontSize: "12px", fontWeight: "600" }} onClick={() => setTextSize((prev) => prev === 40 ? detail?.rental?.description?.length + 1 : 40)} >{detail?.rental?.description?.length > 40 ? (textSize < detail?.rental?.description?.length ? "show more" : "show less") : ""}</span></Text>
+                                    </Flex>
+                                    <Flex justifyContent={["start", "start", "start"]} alignItems={"center"} w={"full"} flexDir={["row", "row", "row"]} gap={"1"} >
+                                        <Text fontWeight={400} fontSize={'12px'}>Duration Of Rental:</Text>
+                                        <Text fontSize={"14px"} fontWeight={"600"} >{detail?.frequency} <span style={{ fontSize: "12px", fontWeight: "500" }} >{detail?.rental?.frequency === "DAILY" ? (detail?.frequency > 1 ? "days" : "day") : (detail?.frequency > 1 ? "hours" : "hour")}</span></Text>
+                                    </Flex>
+                                    <Flex justifyContent={["start", "start", "start"]} alignItems={"center"} w={"full"} flexDir={["row", "row", "row"]} gap={"1"} >
+                                        <Text fontWeight={400} fontSize={'12px'}>Rental Initial Price:</Text>
+                                        <Flex pos={"relative"}  >
+                                            <Flex w={"full"} h={"1.5px"} pos={"absolute"} top={"11px"} bgColor={"black"} />
+                                            <Text fontSize={"14px"} fontWeight={"600"} textDecor={""} >{formatNumber(detail?.rental?.price)}</Text>
+                                        </Flex>
+                                        <Text fontSize={"12px"} fontWeight={"500"}  >by {((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price}%</Text>
+                                    </Flex>
+                                </Flex>
+                            </Flex>
+                            <Flex w={"full"} flexDir={"column"} gap={"4"} >
+                                <Flex w={"full"} flexDir={"column"} gap={"2"} >
+                                    <Text fontSize={'14px'}>You can neogiate this price by 5%</Text>
+                                    <Flex w={"full"} mt='10px' justifyContent={"space-between"} alignItems="center">
+                                        <HStack width={'120px'} height={'35px'} borderRadius={'50px'} overflow={'hidden'} backgroundColor={'#DDE2E6'}>
+                                            <Flex cursor={'pointer'} flex={1} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
+                                                <FiMinus size={12} color='black' />
+                                            </Flex>
+                                            <Flex cursor={'pointer'} flex={1} justifyContent={'center'} alignItems={'center'}>
+                                                <FiPlus size={12} color='black' />
+                                            </Flex>
+                                        </HStack>
+                                        <CustomButton fontSize={"sm"} isLoading={updateRecipt?.isLoading && status === "ACCEPTED"} onClick={() => updateHandler("ACCEPTED")} text={"Update Price"} borderRadius={"99px"} width={"150px"} />
+                                    </Flex>
+                                </Flex>
+                                <Flex flexDir={["row", "row"]} justifyContent={'end'} gap={"5"} mt={"auto"} w='full' alignItems={'center'}>
+                                    <Text fontSize={'14px'}>Total Price:</Text>
+                                    <Text fontSize={'23px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(detail?.price || 0)}</Text>
+                                </Flex>
                             </Flex>
                         </Flex>
                         <Flex flexDir={"column"} gap={"2"} >
                             <Text fontWeight={"600"} >Shipped To :  <span style={{ fontWeight: "500" }} >{detail?.address?.location?.locationDetails}</span></Text>
-                            <Text fontWeight={"600"} >State: <span style={{ fontWeight: "500" }} >{detail?.address?.state}</span></Text>
+                            {/* <Text fontWeight={"600"} >State: <span style={{ fontWeight: "500" }} >{detail?.address?.state}</span></Text> */}
                         </Flex>
                         {((detail?.rental?.createdBy !== userId) && (detail?.approvalStatus !== "PENDING")) && (
                             <Flex gap={"2"} >
-                                <CustomButton isLoading={payForTicket?.isLoading} onClick={()=> payForTicket.mutate({
+                                <CustomButton isLoading={payForTicket?.isLoading} onClick={() => payForTicket.mutate({
                                     seller: detail?.rental?.createdBy,
                                     price: Number(detail?.price),
                                     currency: 'NGN',
@@ -201,8 +247,8 @@ export default function GetReciept() {
                         )}
                         {(detail?.rental?.createdBy === userId && detail?.approvalStatus !== "ACCEPTED") && (
                             <Flex gap={"2"} >
-                                <CustomButton fontSize={"sm"} isLoading={updateRecipt?.isLoading && status === "ACCEPTED"} onClick={()=> updateHandler("ACCEPTED")} text={"Accept"} borderRadius={"99px"} width={"150px"} />
-                                <CustomButton fontSize={"sm"} isLoading={reject?.isLoading && status === "CANCELLED"} onClick={()=> updateHandler("CANCELLED")} text={"Decline"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={"white"} color={"#FE0909"} width={"150px"} />
+                                <CustomButton fontSize={"sm"} isLoading={updateRecipt?.isLoading && status === "ACCEPTED"} onClick={() => updateHandler("ACCEPTED")} text={"Accept"} borderRadius={"99px"} width={"150px"} />
+                                <CustomButton fontSize={"sm"} isLoading={reject?.isLoading && status === "CANCELLED"} onClick={() => updateHandler("CANCELLED")} text={"Decline"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={"white"} color={"#FE0909"} width={"150px"} />
                             </Flex>
                         )}
                     </Flex>

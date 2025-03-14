@@ -202,5 +202,6 @@ export interface IReceipt {
     "endDate": IDate,
     "price": number,
     "hasPaid": any,
-    "address": IAddress
+    "address": IAddress,
+    frequency: any
 }

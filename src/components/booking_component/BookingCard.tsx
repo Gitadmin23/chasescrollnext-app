@@ -23,6 +23,7 @@ import { dateFormat } from '@/utils/dateFormat'
 import ModalLayout from '../sharedComponent/modal_layout'
 import CustomButton from '../general/Button'
 import { IoIosClose } from 'react-icons/io'
+import { formatNumber } from '@/utils/numberFormat'
 
 export interface ICategory {
     id: string;
@@ -381,7 +382,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
             <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
 
             <Flex w={"full"} h={"250px"} roundedTop={"8px"} bgColor={"#00000066"} position={"relative"} justifyContent={"center"} alignItems={"center"} >
-                <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderColor={"white"} alignItems={"center"} gap={2} >
+                <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderWidth={"1px"} borderColor={"white"} alignItems={"center"} gap={2} >
                     <UserImage image={bookingState?.createdBy?.data?.imgMain?.value} font={"16px"} data={bookingState?.createdBy} border={"1px"} size={"32px"} />
                     <Flex flexDir={"column"} alignItems={"start"} color={"white"} >
                         <Text fontSize={"12px"} fontWeight={"700"} >
@@ -401,32 +402,31 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                 </Flex>
                 <Flex gap={"1"} flexDir={"column"} >
                     <HStack w='full' justifyContent={'flex-start'} >
-                        <Text w={"50px"} fontSize={'14px'}>Email:</Text>
-                        <Text fontSize={'14px'}>{bookingState?.service?.email}</Text>
+                        <Text w={"50px"} fontSize={'12px'}>Email:</Text>
+                        <Text fontSize={'12px'}>{bookingState?.service?.email}</Text>
                     </HStack>
 
                     <HStack w='full' justifyContent={'flex-start'} >
-                        <Text w={"50px"} fontSize={'14px'}>Phone:</Text>
-                        <Text fontSize={'14px'}>{bookingState?.service?.phone ?? 'None'}</Text>
+                        <Text w={"50px"} fontSize={'12px'}>Phone:</Text>
+                        <Text fontSize={'12px'}>{bookingState?.service?.phone ?? 'None'}</Text>
                     </HStack>
                 </Flex>
                 <CustomButton onClick={() => setOpen(true)} text={"View Request"} backgroundColor={"white"} color={primaryColor} fontSize={"sm"} h={"56px"} borderRadius={"32px"} />
             </Flex>
             <ModalLayout size={"2xl"} open={open} close={setOpen} >
 
-                <Flex style={{ boxShadow: "0px 4px 4px 0px #0000000D" }} w='full' px="4" pb={"5"} py={"3"} h={["fit-content", "fit-content", "fit-content"]} flexDir={["column"]} borderWidth={showBorder ? '0.5px' : '0px'} borderColor={borderColor} borderRadius={'15px'} alignItems={'flex-start'} overflowX={'hidden'} gap={"3"}>
+                <Flex w='full' px="4" pb={"5"} py={"5"} h={["fit-content", "fit-content", "fit-content"]} flexDir={["column"]} borderColor={borderColor} borderRadius={'15px'} alignItems={'flex-start'} overflowX={'hidden'} gap={"3"}>
 
-                    <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
-                        <Text fontSize={"20px"} fontWeight={"500"} >New Request</Text>
-                        <IoIosClose onClick={() => setOpen(false)} size={"30px"} />
+                    <Flex as={"button"} onClick={() => setOpen(false)} w={"fit-content"} pos={"absolute"} top={"1"} right={"2"} >
+                        <IoIosClose size={"25px"} />
                     </Flex>
                     <Flex w={"full"} gap={"4"} flexDir={["column", "column", "column"]} >
-        
-                        <Flex w={"full"} gap={"4"} >
-                            <Flex w={"fit-content"} >
-                                <Flex flexDir={"column"} gap={"2"} w={"218px"} >
-                                    <Flex w={"218px"} h={"157px"} rounded={"8px"} bgColor={"#00000066"} position={"relative"} justifyContent={"center"} alignItems={"center"} >
-                                        <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderColor={"white"} alignItems={"center"} gap={2} zIndex={"20"} >
+
+                        <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
+                            <Flex w={["full", "full", "fit-content"]} >
+                                <Flex flexDir={"column"} gap={"2"} w={["full", "full", "300px"]} >
+                                    <Flex w={["full", "full", "300px"]} h={"157px"} rounded={"8px"} bgColor={"#00000066"} position={"relative"} justifyContent={"center"} alignItems={"center"} >
+                                        <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderWidth={"1px"} borderColor={"white"} alignItems={"center"} gap={2} zIndex={"20"} >
                                             <UserImage image={bookingState?.createdBy?.data?.imgMain?.value} font={"16px"} data={bookingState?.createdBy} border={"1px"} size={"32px"} />
                                             <Flex flexDir={"column"} alignItems={"start"} color={"white"} >
                                                 <Text fontSize={"12px"} fontWeight={"700"} >
@@ -438,22 +438,35 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                             </Flex>
                                         </Flex>
                                         <Flex pos={"absolute"} inset={"0px"} bgColor={"black"} opacity={"20%"} zIndex={"10"} rounded={"8px"} />
-                                        <Image borderColor={"#D0D4EB"} objectFit={"cover"} alt={service?.images[0]} w={"218px"} h={"157px"} src={service?.images[0].startsWith('https://') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} />
+                                        <Image borderColor={"#D0D4EB"} objectFit={"cover"} alt={service?.images[0]} w={["full", "full", "300px"]} h={"157px"} src={service?.images[0].startsWith('https://') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} />
                                     </Flex>
-                                    <Flex flexDir={"column"} px={"3"} gap={"3"} w={"full"} >
-                                        <Flex justifyContent={["start", "start", "space-between"]} w={"full"} flexDir={["column", "column", "column"]} gap={"1"} >
-                                            <Text fontWeight={600} fontSize={'14px'}>Service Details:</Text>
-                                            <Text fontSize={"14px"} >{textLimit(capitalizeFLetter(bookingState?.description), textSize)}<span role='button' style={{ color: primaryColor, fontSize: "12px", fontWeight: "600" }} onClick={() => setTextSize((prev) => prev === 40 ? bookingState?.description?.length + 1 : 40)} >{bookingState?.description?.length > 40 ? (textSize < bookingState?.description?.length ? "show more" : "show less") : ""}</span></Text>
+                                    <Flex flexDir={"column"} gap={"1"} w={"full"} >
+                                        <Flex justifyContent={["start", "start", "space-between"]} w={"full"} p={"5px"} bgColor={secondaryBackgroundColor} flexDir={["column", "column", "column"]} >
+                                            <Text fontWeight={400} fontSize={'12px'}>Service Details:</Text>
+                                            <Text fontSize={"12px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(bookingState?.description), textSize)}<span role='button' style={{ color: primaryColor, fontSize: "12px", fontWeight: "600" }} onClick={() => setTextSize((prev) => prev === 40 ? bookingState?.description?.length + 1 : 40)} >{bookingState?.description?.length > 40 ? (textSize < bookingState?.description?.length ? "show more" : "show less") : ""}</span></Text>
                                         </Flex>
-                                        <Flex justifyContent={["start", "start", "space-between"]} w={"full"} flexDir={["column", "column", "column"]} gap={"1"} >
-                                            <Text fontWeight={600} fontSize={'14px'}>Booking Date:</Text>
-                                            <Text fontSize={"14px"} >{dateFormat(bookingState?.date?.millis)}</Text>
+                                        <Flex justifyContent={["start", "start", "start"]} w={"full"} flexDir={["row", "row", "row"]} gap={"1"} >
+                                            <Text fontWeight={400} fontSize={'12px'}>Booking Date:</Text>
+                                            <Text fontSize={"12px"} >{dateFormat(bookingState?.date?.millis)}</Text>
+                                        </Flex>
+
+                                        <Flex justifyContent={["start", "start", "start"]} alignItems={"center"} w={"full"} flexDir={["row", "row", "row"]} gap={"1"} >
+                                            <Text fontWeight={400} fontSize={'12px'}>Service Initial Price:</Text>
+                                            <Flex pos={"relative"}  >
+                                                <Flex w={"full"} h={"1.5px"} pos={"absolute"} top={"11px"} bgColor={"black"} />
+                                                <Text fontSize={"14px"} fontWeight={"600"} textDecor={""} >{formatNumber(bookingState?.service?.price)}</Text>
+                                            </Flex> 
+                                            <Text fontSize={"12px"} fontWeight={"500"}  >{((bookingState?.service?.price - bookingState?.price) * 100) / bookingState?.service?.price > 0 ? "by" : "plus" } {((bookingState?.service?.price - bookingState?.price) * 100) / bookingState?.service?.price > 0 ? (((bookingState?.service?.price - bookingState?.price) * 100) / bookingState?.service?.price) : (((bookingState?.service?.price - bookingState?.price) * 100) / bookingState?.service?.price)?.toString()?.replace("-", "")}%</Text>
                                         </Flex>
                                     </Flex>
                                 </Flex>
                             </Flex>
                             <Flex w={"full"} flexDir={"column"} gap={"2"} >
-                                <Flex w={"full"} h={"157px"} flexDir={"column"} gap={"2"} >
+                                <Flex w={"full"} h={"157px"} flexDir={"column"} gap={"1"} >
+                                    <Flex flexDir={"row"} gap={"1"} w={"fit-content"} alignItems={"center"} >
+                                        <Text fontWeight={400} fontSize={'12px'}>Reciept ID:</Text>
+                                        <Text fontWeight={400} fontSize={'12px'} bgColor={secondaryBackgroundColor} p={"2px"} rounded={"8px"} px={"4px"} >{bookingState?.service?.id}</Text>
+                                    </Flex>
                                     <Flex flexDir={"column"} >
                                         <Text fontWeight={400} fontSize={'12px'}>Business Name</Text>
                                         <Text fontWeight={600} fontSize={'16px'}>{bookingState?.service?.name}</Text>
@@ -470,7 +483,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                         </HStack>
                                     </Flex>
                                 </Flex>
-                                <Flex flexDir={"column"} px={"3"} gap={"3"} w={"full"} >
+                                <Flex flexDir={"column"} px={"3"} gap={"3"} w={"full"} h={"full"} >
                                     {booking?.bookingStatus === 'PENDING' && (
                                         <VStack spacing={5} mt='10px' alignItems="center">
                                             <Text fontSize={'14px'}>You can neogiate this price by 5%</Text>
@@ -484,9 +497,9 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                             </HStack>
                                         </VStack>
                                     )}
-                                    <Flex flexDir={["row", "row"]} justifyContent={'space-between'} w='full' alignItems={'center'}>
-                                        <Text fontSize={'16px'}>Total Price:</Text>
-                                        <Text fontSize={'25px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(parseInt(price) || 0)}</Text>
+                                    <Flex flexDir={["row", "row"]} justifyContent={'end'} gap={"5"} mt={"auto"} w='full' alignItems={'center'}>
+                                        <Text fontSize={'14px'}>Total Price:</Text>
+                                        <Text fontSize={'23px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(parseInt(price) || 0)}</Text>
                                     </Flex>
 
                                 </Flex>
@@ -567,7 +580,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
 
                                         {
                                             bookingState.bookingStatus === "COMPLETED" && (
-                                                <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='50px' borderRadius='full' borderWidth={'1px'} bg={primaryColor}>
+                                                <Button cursor={'not-allowed'} opacity={0.4} disabled w={'50%'} h='50px' borderRadius='full' borderWidth={'1px'} bg={primaryColor}>
                                                     <Text fontSize={'14px'} color={'white'}>Completed</Text>
                                                 </Button>
                                             )
@@ -624,8 +637,8 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                         )}
                                         {
                                             bookingState.bookingStatus === "COMPLETED" && (
-                                                <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='50px' borderRadius='full' borderWidth={'1px'} bg={primaryColor}>
-                                                    <Text fontSize={'14px'} color={'white'}>Completed</Text>
+                                                <Button cursor={'not-allowed'} ml={"auto"} disabled w='250px' h='50px' borderRadius='full' borderWidth={'1px'} bgColor={"white"} color={primaryColor} borderColor={primaryColor}>
+                                                    <Text fontSize={'14px'} >Completed</Text>
                                                 </Button>
                                             )
                                         }
