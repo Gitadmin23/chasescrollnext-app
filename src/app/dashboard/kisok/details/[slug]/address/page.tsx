@@ -34,9 +34,20 @@ interface IProps {
     "statusCode": number,
     "returnMessage": string,
     "state": string,
-    "lga": string,
-    "phone": string,
-    "landmark": string,
+    location: {
+        "link": any,
+        "address": string,
+        "country": any,
+        "street": any,
+        "city": any,
+        "zipcode": any,
+        "state": any,
+        "locationDetails": string,
+        "latlng": string,
+        "placeIds": any,
+        "toBeAnnounced": any,
+    },
+    phone: string
     "isDefault": boolean
 }
 
@@ -125,9 +136,9 @@ export default function ShippingAddress(props: Props) {
             });
         } else {
             if (addressId) {
-                editAddress?.mutate(payload)
+                editAddress?.mutate({...payload, location: location})
             } else {
-                createAddress?.mutate(payload)
+                createAddress?.mutate({...payload, location: location})
             }
         }
     }
@@ -235,11 +246,9 @@ export default function ShippingAddress(props: Props) {
                                         <Flex onClick={() => changeStatus(item)} >
                                             <Checkbox isChecked={addressDefault === item?.id ? true : false} />
                                         </Flex>
-                                        <Flex flexDir={"column"} gap={"1"} >
-                                            <Text fontSize={"14px"} fontWeight={"500"} >{capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName)}</Text>
+                                        <Flex flexDir={"column"} gap={"1"} > 
                                             <Text>{item?.state}</Text>
-                                            <Text>{item?.lga}</Text>
-                                            <Text>{item?.landmark}</Text>
+                                            <Text>{item?.location?.locationDetails}</Text>
                                             {addressDefault === item?.id && (
                                                 <Flex fontSize={"8px"} fontWeight={"500"} px={"2"} py={"1"} bgColor={"#34C759"} rounded={"32px"} color={"white"} width={"fit-content"} >
                                                     DEFAULT ADDRESS

@@ -223,8 +223,7 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
                                     <Flex onClick={() => changeStatus(item)} >
                                         <Checkbox isChecked={addressDefault === item?.id ? true : false} />
                                     </Flex>
-                                    <Flex flexDir={"column"} gap={"1"} >
-                                        <Text fontSize={"14px"} fontWeight={"500"} >{capitalizeFLetter(user?.firstName) + " " + capitalizeFLetter(user?.lastName)}</Text>
+                                    <Flex flexDir={"column"} gap={"1"} > 
                                         <Text>{item?.state}</Text>
                                         <Text>{item?.location?.locationDetails}</Text>
                                         {addressDefault === item?.id && (
@@ -300,13 +299,15 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
             </ModalLayout>
             <Flex w={"200px"} justifyContent={"end"} >
                 <CustomButton disable={addressDefault ? false : true} mt={"4"} isLoading={createRentalRecipt?.isLoading} onClick={() => createRentalRecipt?.mutate(
-                    {
+                    { 
                         userID: userId + "",
                         rentalID: id,
                         startDate: startDate,
                         endDate: endDate,
                         addressedId: addressDefault,
-                        price: newPrice > 0 ? Number(newPrice * Number(qty)) : Number(item?.price * Number(qty))
+                        price: newPrice > 0 ? Number(newPrice * Number(qty)) : Number(item?.price * Number(qty)), 
+                        approvalStatus: 'PENDING',
+                        frequency: Number(qty) 
                     }
                 )} text={`Request Avaliablity`} borderRadius={"999px"} w={"200px"} height={"55px"} />
             </Flex>
