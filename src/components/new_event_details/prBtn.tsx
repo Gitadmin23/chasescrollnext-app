@@ -10,12 +10,13 @@ import { textLimit } from '@/utils/textlimit'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import EventDonation from './eventDonation'
 import EventDonationPicker from './eventDonationPicker'
+import usePr from '@/hooks/usePr' 
 
 export default function PrBtn({ data }: { data: IEventType }) {
 
     const {
         mainBackgroundColor,
-        primaryColor, 
+        primaryColor,
         secondaryBackgroundColor
     } = useCustomTheme()
 
@@ -23,33 +24,53 @@ export default function PrBtn({ data }: { data: IEventType }) {
 
     const [open, setOpen] = useState(false)
     const [tab, setTab] = useState(false)
-    const [index, setIndex] = useState(1)
+    const [index, setIndex] = useState(1) 
+    
+    const { createPr } = usePr()
+
+    const clickHander = () => {
+        createPr?.mutate({
+            eventID: data?.id,
+            affiliateType: data?.affiliates[0]?.affiliateType,
+            percent: data?.affiliates[0]?.percent
+        })
+        setOpen(false)
+    }
 
     return (
         <>
             <Flex pos={["relative"]} w={"fit-content"} flexDir={"column"} rounded={"16px"} gap={"3"} >
                 <CustomButton onClick={() => setOpen(true)} text={"My support Center"} backgroundColor={["#EEEEFF", "#EEEEFF", primaryColor]} color={[primaryColor, primaryColor, "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]} width={["120px", "120px", "160px"]} />
                 <ModalLayout open={open} size={"md"} close={setOpen} closeIcon={true} >
-                    <Flex flexDir={"column"} gap={"4"} w={"full"} px={"4"} >
+                    <Flex flexDir={"column"} gap={"4"} w={"full"} px={"4"} mb={"4"} >
                         <Text fontWeight={"500"}  >My support center</Text>
                         {!tab && (
                             <Flex bgColor={secondaryBackgroundColor} w={"full"} flexDir={"column"} rounded={"16px"} >
-                                <Flex w={"full"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
+                                <Flex w={"full"} justifyContent={"space-between"} borderBottomWidth={data?.isOrganizer ? "1px" : "0px"} h={"50px"} px={"3"} alignItems={"center"} >
                                     <Text fontSize={"14px"} >Request PR Service</Text>
-                                    <Switch />
+                                    {data?.isOrganizer && (
+                                        <Switch />
+                                    )}
+                                    {!data?.isOrganizer && (
+                                        <CustomButton isLoading={createPr?.isLoading} disable={createPr?.isLoading} onClick={clickHander} width={"80px"} height={"30px"} fontSize={"12px"} text={"Join"} rounded={"full"} />
+                                    )}
                                 </Flex>
-                                <Flex w={"full"} onClick={()=> setTab(true)} as={"button"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
-                                    <Text fontSize={"14px"}  >Add fundraising </Text>
-                                </Flex>
-                                <Flex w={"full"} onClick={()=> setTab(true)} as={"button"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
-                                    <Text fontSize={"14px"}  >Add kiosk</Text>
-                                </Flex>
-                                <Flex w={"full"} onClick={()=> setTab(true)} as={"button"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
-                                    <Text fontSize={"14px"}  >Request Service - Photographer, makeup Artist...</Text>
-                                </Flex>
-                                <Flex w={"full"} onClick={()=> setTab(true)} as={"button"} justifyContent={"space-between"} h={"50px"} px={"3"} alignItems={"center"} >
-                                    <Text fontSize={"14px"}  >Rent an item(s)</Text>
-                                </Flex>
+                                {data?.isOrganizer && (
+                                    <Flex flexDirection={"column"} >
+                                        <Flex w={"full"} onClick={() => setTab(true)} as={"button"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
+                                            <Text fontSize={"14px"}  >Add fundraising </Text>
+                                        </Flex>
+                                        <Flex w={"full"} onClick={() => setTab(true)} as={"button"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
+                                            <Text fontSize={"14px"}  >Add kiosk</Text>
+                                        </Flex>
+                                        <Flex w={"full"} onClick={() => setTab(true)} as={"button"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
+                                            <Text fontSize={"14px"}  >Request Service - Photographer, makeup Artist...</Text>
+                                        </Flex>
+                                        <Flex w={"full"} onClick={() => setTab(true)} as={"button"} justifyContent={"space-between"} h={"50px"} px={"3"} alignItems={"center"} >
+                                            <Text fontSize={"14px"}  >Rent an item(s)</Text>
+                                        </Flex>
+                                    </Flex>
+                                )}
                             </Flex>
                         )}
                         {tab && (

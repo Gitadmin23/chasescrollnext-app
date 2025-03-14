@@ -3,20 +3,18 @@ import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import { Button, Flex, useToast } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import { useMutation, useQueryClient } from 'react-query';
-import LoadingAnimation from '@/components/sharedComponent/loading_animation';
-import usePaystackStore from '@/global-state/usePaystack';
-import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
-import useStripeStore from '@/global-state/useStripeState'
+import { useMutation, useQueryClient } from 'react-query'; 
+import usePaystackStore from '@/global-state/usePaystack'; 
 import useModalStore from '@/global-state/useModalSwitch'
 import CustomButton from '@/components/general/Button';
+import { IEventType } from '@/models/Event';
 // import useModalStore from '@/global-state/useModalSwitch';
 // import { useRouter } from 'next/navigation';
 
 interface Props {
     selectedCategory: any,
     ticketCount: any,
-    datainfo: any,
+    datainfo: IEventType,
 }
 
 function PayStackBtn(props: Props) {
@@ -35,7 +33,7 @@ function PayStackBtn(props: Props) {
     const { setPaystackConfig } = usePaystackStore((state) => state);
 
     const payForTicket = useMutation({
-        mutationFn: (data: any) => httpService.post(URLS.CREATE_TICKET, data),
+        mutationFn: (data: any) => httpService.post(URLS.CREATE_TICKET, datainfo?.affiliateID ? {...data, affiliateID: datainfo?.affiliateID} : data),
         onSuccess: (data: any) => {
             setPaystackConfig({
                 publicKey: PAYSTACK_KEY,

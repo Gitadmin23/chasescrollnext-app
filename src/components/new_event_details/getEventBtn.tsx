@@ -71,35 +71,7 @@ function GetEventTicket(props: IEventType) {
                 setShowModal(true);
             }
         }
-    };
-
-    const modalHandler = (event: any) => {
-        event.stopPropagation();
-        setModalTab(6);
-        setShowModal(true);
-    };
-
-    const closeHandler = () => {
-        setModalTab(1);
-        setShowModal(false);
-    };
-
-    const createTicket = useMutation({
-        mutationFn: (data: any) =>
-            httpService.post("/events/create-click-through", data),
-        onSuccess: () => { },
-        onError: (error) => {
-            // console.log(error);
-            toast({
-                title: "Error",
-                description: "Error Occured",
-                status: "error",
-                isClosable: true,
-                duration: 5000,
-                position: "top-right",
-            });
-        },
-    });
+    }; 
 
     const goback = () => {
         if (showModal) {

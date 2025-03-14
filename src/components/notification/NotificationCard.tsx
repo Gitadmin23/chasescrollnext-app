@@ -148,7 +148,7 @@ function NotificationCard({ notification }: { notification: INotification }) {
           </CustomText>
         )}
         <Flex gap={["2", "4", "8"]} mt={"1"} flexDirection={["column", "row", "row"]} alignItems={["start", "start","center"]} >
-          {((notification?.type === "ADMIN_MEMBER_INVITE_REQUEST" || notification?.type === "COLLABORATOR_MEMBER_INVITE_REQUEST") && status === "UNREAD") && (
+          {((notification?.type === "ADMIN_MEMBER_INVITE_REQUEST" || notification?.type === "COLLABORATOR_MEMBER_INVITE_REQUEST" || notification?.type === "EVENT_PR_REQUEST") && status === "UNREAD") && (
             <Flex gap={"3"} >
               <Button isLoading={joinEvent?.isLoading} isDisabled={joinEvent?.isLoading} onClick={() => joinEvent.mutate({
                 id: notification.typeID,
