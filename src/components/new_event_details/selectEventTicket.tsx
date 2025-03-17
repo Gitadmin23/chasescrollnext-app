@@ -105,7 +105,7 @@ function SelectTicket(props: Props) {
                             // if ((new Date() >= new Date(item?.startDate)) && new Date() <= new Date(item?.endDate)) {
                             return (
                                 <Flex key={index} w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
-                                    <Button disabled={(new Date() >= new Date(item?.startDate)) && new Date() <= new Date(item?.endDate)} color={primaryColor} isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                    <Button disabled={new Date() <= new Date(item?.endDate)} color={primaryColor} isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                         {item?.totalNumberOfTickets === item?.ticketsSold ?
                                             "Sold Out" :
                                             item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
