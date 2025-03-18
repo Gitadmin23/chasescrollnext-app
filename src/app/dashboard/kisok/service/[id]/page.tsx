@@ -84,7 +84,7 @@ export default function ServiceDetailsPage() {
     })
     const { isLoading } = useQuery([`get-service-by-id-${id}`, id], () => httpService.get(`/business-service/search`, {
         params: {
-            id,
+            id
         }
     }), {
         refetchOnMount: true,

@@ -17,7 +17,7 @@ function Businesses() {
     const { isLoading, } = useQuery(['get-businesses', page], () => httpService.get('/business-service/search', {
         params: {
             page,
-            size: 20,
+            size: 50,
         }
     }), {
         onSuccess: (data) => {

@@ -482,6 +482,39 @@ const useProduct = (item?: any, rental?: boolean) => {
         },
     });
 
+    const pinProduct = useMutation({
+        mutationFn: (data: {
+            "pinnedItemType": "EVENT",
+            "typeId": string,
+            "productId": string
+        }) => httpService.post(`/pin-item/create`, data),
+        onSuccess: (data: any) => {
+
+            toast({
+                title: 'Successful',
+                description: "Pinned Successful",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+
+            console.log(data);
+
+        },
+        onError: (error) => {
+            // console.log(error);
+            toast({
+                title: 'Error',
+                description: "Error occured",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        },
+    });
+
 
     const createProductOrder = useMutation({
         mutationFn: (data: {
@@ -635,7 +668,8 @@ const useProduct = (item?: any, rental?: boolean) => {
         dataID,
         updateRecipt,
         payForTicket,
-        updateReciptPrice
+        updateReciptPrice,
+        pinProduct
     };
 
 }

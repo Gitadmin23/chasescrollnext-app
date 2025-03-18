@@ -12,7 +12,9 @@ import { useQuery } from 'react-query'
 export default function RequestServices() {
 
     const { primaryColor, borderColor, headerTextColor, secondaryBackgroundColor } = useCustomTheme()
+    const { eventdata, updateEvent, updateRental, updateService, rental, service } = useEventStore((state) => state);
 
+    
     const array = ["test", "test", "test", "test", "test", "test",]
 
 
@@ -25,17 +27,13 @@ export default function RequestServices() {
     const { isLoading, data } = useQuery(['get-business-categories'], () => httpService.get('/business-service/categories'), {
         refetchOnMount: true,
         onError: (error: any) => { },
-    });
+    }); 
 
-    const { updateEvent, eventdata } = useEventStore((state) => state);
-
+    
     const [open, setOpen] = useState(false)
     const [tab, setTab] = useState(false)
 
-    const [isPr, setPr] = useState(false)
-
-    const [serviceList, setServiceList] = useState<Array<string>>([])
-    const [rentalList, setRentalList] = useState<Array<string>>([])
+    const [isPr, setPr] = useState(false) 
 
     const changeHandler = (item: string) => {
 
@@ -70,25 +68,25 @@ export default function RequestServices() {
     }
 
     const selectService = (data: string) => {
-        const clone = [...serviceList]
-        if (serviceList?.includes(data)) {
+        const clone = [...service]
+        if (service?.includes(data)) {
             let index = clone.indexOf(data);
             clone.splice(index, 1);
-            setServiceList(clone)
+            updateService(clone)
         } else {
-            setServiceList([...clone, data])
+            updateService([...clone, data])
         }
     }
 
 
     const selectRental = (data: string) => {
-        const clone = [...rentalList]
-        if (rentalList?.includes(data)) {
+        const clone = [...rental]
+        if (rental?.includes(data)) {
             let index = clone.indexOf(data); // Find the index of the element 
             clone.splice(index, 1); // Removes the element at the found index  
-            setRentalList(clone)
+            updateRental(clone)
         } else {
-            setRentalList([...clone, data])
+            updateRental([...clone, data])
         }
     } 
 
@@ -98,11 +96,11 @@ export default function RequestServices() {
                 <Text fontSize={"13px"} fontWeight={"500"} >Request services and rental for this event:</Text>
                 <CustomButton onClick={() => setOpen(true)} text={"Request"} rounded={"16px"} fontSize={"sm"} backgroundColor={"#F7F8FE"} color={primaryColor} width={"112px"} />
             </Flex>
-            {serviceList?.length > 0 && (
+            {service?.length > 0 && (
                 <Flex w={"full"} gap={"3"} flexDirection={"column"} >
                     <Text fontSize={"14px"} fontWeight={"500"} >Services Selected</Text>
                     <Wrap gap={"4"} >
-                        {serviceList?.map((item, index) => (
+                        {service?.map((item, index) => (
                             <WrapItem key={index} >
                                 <Flex alignItems={"center"} bgColor={"#F7F8FE"} gap={"3"} h={"40px"} px={"4"} rounded={"8px"} >
                                     <Text fontSize={"12px"} color={primaryColor} fontWeight={"500"} >{item}</Text>
@@ -115,11 +113,11 @@ export default function RequestServices() {
                     </Wrap>
                 </Flex>
             )}
-            {rentalList?.length > 0 && (
+            {rental?.length > 0 && (
                 <Flex w={"full"} gap={"3"} flexDirection={"column"} >
                     <Text fontSize={"14px"} fontWeight={"500"} >Rentals Selected</Text>
                     <Wrap gap={"4"} >
-                        {rentalList?.map((item, index) => (
+                        {rental?.map((item, index) => (
                             <WrapItem key={index} >
                                 <Flex alignItems={"center"} bgColor={"#F7F8FE"} gap={"3"} h={"40px"} px={"4"} rounded={"8px"} >
                                     <Text fontSize={"12px"} color={primaryColor} fontWeight={"500"} >{item}</Text>
@@ -156,10 +154,10 @@ export default function RequestServices() {
                         </Flex>
                     </Flex>
                     <Flex flexDir={"column"} gap={"4"} px={"4"} >
-                        {(serviceList?.length !== 0 && !tab) && (
+                        {(service?.length !== 0 && !tab) && (
                             <Flex w={"full"} h={"40px"} pos={"relative"} >
                                 <Flex w={"full"} overflowX={"auto"} pos={"absolute"} gap={"3"} flex={"1"} left={"0px"} right={"0px"} top={"0px"} >
-                                    {serviceList?.map((item, index) => {
+                                    {service?.map((item, index) => {
                                         return (
                                             <Flex key={index} w={"fit-content"} >
                                                 <Flex alignItems={"center"} bgColor={"#F7F8FE"} justifyContent={"space-between"} gap={"3"} h={"40px"} w={"140px"} px={"4"} rounded={"8px"} >
@@ -175,10 +173,10 @@ export default function RequestServices() {
                             </Flex>
                         )}
 
-                        {(rentalList?.length !== 0 && tab) && (
+                        {(rental?.length !== 0 && tab) && (
                             <Flex w={"full"} h={"40px"} pos={"relative"} >
                                 <Flex w={"full"} overflowX={"auto"} pos={"absolute"} gap={"3"} flex={"1"} left={"0px"} right={"0px"} top={"0px"} >
-                                    {rentalList?.map((item, index) => {
+                                    {rental?.map((item, index) => {
                                         return (
                                             <Flex key={index} w={"fit-content"} >
                                                 <Flex alignItems={"center"} bgColor={"#F7F8FE"} justifyContent={"space-between"} gap={"3"} h={"40px"} w={"140px"} px={"4"} rounded={"8px"} >
@@ -201,7 +199,7 @@ export default function RequestServices() {
                                             <Flex key={index} as={"button"} onClick={() => selectService(item)} w={"full"} h={"fit-content"} >
                                                 <Flex w={"full"} h={"53px"} px={"4"} justifyContent={"space-between"} borderBottomWidth={"1px"} borderColor={"#EAEBEDCC"} alignItems={"center"} >
                                                     <Text fontSize={"14px"} >{item}</Text>
-                                                    <Checkbox isChecked={serviceList?.includes(item) ? true : false} />
+                                                    <Checkbox isChecked={service?.includes(item) ? true : false} />
                                                 </Flex>
                                             </Flex>
                                         )
@@ -215,7 +213,7 @@ export default function RequestServices() {
                                             <Flex key={index} as={"button"} onClick={() => selectRental(item)} w={"full"} h={"fit-content"} >
                                                 <Flex w={"full"} h={"53px"} px={"4"} justifyContent={"space-between"} borderBottomWidth={"1px"} borderColor={"#EAEBEDCC"} alignItems={"center"} >
                                                     <Text fontSize={"14px"} >{item}</Text>
-                                                    <Checkbox isChecked={rentalList?.includes(item) ? true : false} />
+                                                    <Checkbox isChecked={rental?.includes(item) ? true : false} />
                                                 </Flex>
                                             </Flex>
                                         )

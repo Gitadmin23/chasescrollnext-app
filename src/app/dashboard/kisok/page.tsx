@@ -12,13 +12,13 @@ import BookingsRequest from '@/Views/dashboard/booking/BookingRequest'
 import Bookings from '@/Views/dashboard/booking/Bookings'
 import Businesses from '@/Views/dashboard/booking/Businesses'
 import MyBusiness from '@/Views/dashboard/booking/MyBusiness'
-import { Box, Flex, Grid, Select, Text, useColorMode } from '@chakra-ui/react'
+import { Box, Button, Flex, Grid, Select, Text, useColorMode } from '@chakra-ui/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useState } from 'react'
 
 export default function KisokPage() {
 
-    const { primaryColor, borderColor, bodyTextColor, secondaryBackgroundColor, headerTextColor } = useCustomTheme()
+    const { primaryColor, borderColor, bodyTextColor, secondaryBackgroundColor, headerTextColor, mainBackgroundColor } = useCustomTheme()
 
     const [tab, setTab] = useState<"kiosk" | "service" | "rental">("kiosk")
     const { colorMode, toggleColorMode } = useColorMode();
@@ -102,7 +102,7 @@ export default function KisokPage() {
                     } px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={"white"} border={"1px"} borderColor={borderColor} borderRadius={"32px"} fontWeight={"600"} color={headerTextColor} width={"fit-content"} />
                 </Flex>
             </Flex>
-            <Flex py={"6"} justifyContent={"space-between"} >
+            <Flex py={"6"} justifyContent={"space-between"}  display={["flex", "flex", "none"]} >
                 {(type === null || type === "mykisok" || type === "myorder") && (
                     <Select
                         color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
@@ -112,10 +112,10 @@ export default function KisokPage() {
                         value={type ? type : ""}
                         rounded={"50px"}
                         onChange={(e) => routeHandler(e.target.value)}
-                        width={["full", "auto", "auto"]}
+                        width={["auto", "auto", "auto"]}
                         textAlign={"center"} >
                         {[{ name: "All", value: "" }, { name: "My Kiosk", value: "mykisok" }, { name: "My Orders", value: "myorder" }]?.map((type: any, index: number) => (
-                            <option style={{ fontSize: "12px" }} key={index} value={type?.value}>
+                            <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
                                 {type?.name}
                             </option>
                         ))}
@@ -130,10 +130,10 @@ export default function KisokPage() {
                         value={type}
                         rounded={"50px"}
                         onChange={(e) => routeHandler(e.target.value)}
-                        width={["full", "auto", "auto"]}
+                        width={["auto", "auto", "auto"]}
                         textAlign={"center"} >
                         {[{ name: "All Services", value: "service" }, { name: "My Services", value: "myservice" }, { name: "My Booking", value: "mybooking" }, { name: "My Request", value: "myrequest" }]?.map((type: any, index: number) => (
-                            <option style={{ fontSize: "12px" }} key={index} value={type?.value}>
+                            <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
                                 {type?.name}
                             </option>
                         ))}
@@ -148,10 +148,10 @@ export default function KisokPage() {
                         value={type}
                         rounded={"50px"}
                         onChange={(e) => routeHandler(e.target.value)}
-                        width={["full", "auto", "auto"]}
+                        width={["auto", "auto", "auto"]}
                         textAlign={"center"} >
                         {[{ name: "All Rental", value: "rental" }, { name: "My Reciept", value: "myreciept" }, { name: "My Rental Reciept", value: "vendorreciept" }]?.map((type: any, index: number) => (
-                            <option style={{ fontSize: "12px" }} key={index} value={type?.value}>
+                            <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
                                 {type?.name}
                             </option>
                         ))}
@@ -159,6 +159,36 @@ export default function KisokPage() {
                 )}
                 {type === "mykisok" && (
                     <CustomButton onClick={() => push("/dashboard/kisok/dashboard")} text={"Dashboard"} px={"30px"} height={"40px"} fontSize={"sm"} backgroundColor={"white"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"fit-content"} />
+                )}
+            </Flex>
+
+            <Flex w={"full"} py={"6"} display={["none", "none", "flex"]} >
+                {(type === null || type === "mykisok" || type === "myorder") && (
+                    <Flex bg={secondaryBackgroundColor} p={"1"} mx={"auto"} rounded={"md"} >
+                        {[{ name: "All", value: "" }, { name: "My Kiosk", value: "mykisok" }, { name: "My Orders", value: "myorder" }]?.map((item, index) => (
+                            <Button onClick={() => routeHandler(item?.value)} _hover={{}} width={["150px", "150px", "150px"]} fontSize={"14px"} height={"35px"} key={index} bgColor={type === item?.value ? mainBackgroundColor : (!type && item?.name === "All") ? mainBackgroundColor : secondaryBackgroundColor} color={!tab ? "brand.chasescrollBlue" : bodyTextColor} >
+                                {item?.name}
+                            </Button>
+                        ))}
+                    </Flex>
+                )}
+                {(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") && (
+                    <Flex bg={secondaryBackgroundColor} p={"1"} mx={"auto"} rounded={"md"} >
+                        {[{ name: "All Services", value: "service" }, { name: "My Services", value: "myservice" }, { name: "My Booking", value: "mybooking" }, { name: "My Request", value: "myrequest" }]?.map((item: any, index: number) => (
+                            <Button onClick={() => routeHandler(item?.value)} _hover={{}} width={["150px", "150px", "150px"]} fontSize={"14px"} height={"35px"} key={index} bgColor={type === item?.value ? mainBackgroundColor : secondaryBackgroundColor} color={!tab ? "brand.chasescrollBlue" : bodyTextColor} >
+                                {item?.name}
+                            </Button>
+                        ))}
+                    </Flex>
+                )}
+                {(type === "rental" || type === "myreciept" || type === "vendorreciept") && (
+                    <Flex bg={secondaryBackgroundColor} p={"1"} mx={"auto"} rounded={"md"} >
+                        {[{ name: "All Rental", value: "rental" }, { name: "My Reciept", value: "myreciept" }]?.map((item: any, index: number) => (
+                            <Button onClick={() => routeHandler(item?.value)} _hover={{}} width={["150px", "150px", "150px"]} fontSize={"14px"} height={"35px"} key={index} bgColor={type === item?.value ? mainBackgroundColor : secondaryBackgroundColor} color={!tab ? "brand.chasescrollBlue" : bodyTextColor} >
+                                {item?.name}
+                            </Button>
+                        ))}
+                    </Flex>
                 )}
             </Flex>
             {!type && (

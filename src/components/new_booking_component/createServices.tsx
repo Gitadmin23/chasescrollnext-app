@@ -3,20 +3,16 @@
 import useCustomTheme from '@/hooks/useTheme'
 import { Box, Button, Checkbox, Flex, HStack, Image, Input, Radio, RadioGroup, Select, Text, Textarea, useToast } from '@chakra-ui/react'
 import React, { useState, useRef } from 'react'
-import { IoAdd, IoArrowBack } from 'react-icons/io5'
-import { GallaryIcon } from '../svg'
-import { MdEdit } from 'react-icons/md'
+import { IoArrowBack } from 'react-icons/io5' 
 import ModalLayout from '../sharedComponent/modal_layout'
 import { IoIosCheckmarkCircle } from 'react-icons/io'
 import DayAvaliable from './createBookTabs/dayAvaliable'
 import { useMutation, useQuery } from 'react-query'
-import httpService from '@/utils/httpService'
-import { IServiceCategory } from '@/models/ServiceCategory'
-import { endsWith, uniq } from 'lodash'
+import httpService from '@/utils/httpService' 
+import { uniq } from 'lodash'
 import { Add } from 'iconsax-react'
-import { useSearchParams, useRouter } from 'next/navigation'
-import { URLS } from '@/services/urls'
-import SearchableDropdown from '../Form/SearchableDropDown'
+import { useRouter } from 'next/navigation'
+import { URLS } from '@/services/urls' 
 import { FiX } from 'react-icons/fi'
 import { createBusinessValidation } from '@/services/validations'
 import { useForm } from '@/hooks/useForm'
@@ -494,7 +490,7 @@ export default function CreateServices({ id }: { id: string }) {
                             if (description.length < 300) {
                                 setDescription(e.target.value)
                             }
-                        }} h={"84px"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} />
+                        }} h={"100px"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} />
                         <Text>{description.length}/300</Text>
                     </Flex>
                     {hasFixedPrice && (
@@ -574,14 +570,7 @@ export default function CreateServices({ id }: { id: string }) {
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="website" placeholder='' label='Business Website (optional)' isPassword={false} type='text' hint="The link must start with https://" />
-
-
-                    </Flex>
-
-                    <Flex gap={"2"} mt={"2"} type='button' as={"button"} alignItems={"center"} onClick={() => setShowModal(true)} >
-                        <IoAdd size={"25px"} color={primaryColor} />
-                        <Text>Operating Hours and time  <sup style={{ color: 'red' }}>*</sup></Text>
-                    </Flex>
+                    </Flex> 
 
                     <Flex overflowX="auto" w="full" css={{
                         '&::-webkit-scrollbar': {
@@ -667,7 +656,7 @@ export default function CreateServices({ id }: { id: string }) {
                     <IoIosCheckmarkCircle size={"100px"} color={"#46CC6B"} />
                     <Text fontWeight={"600"} fontSize={"24px"} color={headerTextColor} >Congratulations!</Text>
                     <Text textAlign={"center"} maxW={"350px"} fontWeight={"400"} color={bodyTextColor} >{`Services created Successfully`}</Text>
-                    <Button onClick={() => { router.push(`/dashboard/newbooking/${id}`) }} height={"50px"} mt={"4"} borderWidth={"1px"} w={"200px"} rounded={"full"} borderColor={primaryColor} bgColor={primaryColor} color={"white"} _hover={{ backgroundColor: primaryColor }} >View Services</Button>
+                    <Button onClick={() => { router.push(`/dashboard/kisok??type=service`) }} height={"50px"} mt={"4"} borderWidth={"1px"} w={"200px"} rounded={"full"} borderColor={primaryColor} bgColor={primaryColor} color={"white"} _hover={{ backgroundColor: primaryColor }} >View Services</Button>
                 </Flex>
             </ModalLayout>
         </Flex>

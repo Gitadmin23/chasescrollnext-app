@@ -200,7 +200,7 @@ export default function GetReciept() {
                                             <Flex w={"full"} h={"1.5px"} pos={"absolute"} top={"11px"} bgColor={"black"} />
                                             <Text fontSize={"14px"} fontWeight={"600"} textDecor={""} >{formatNumber(detail?.rental?.price)}</Text>
                                         </Flex>
-                                        <Text fontSize={"12px"} fontWeight={"500"}  >by {((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price}%</Text>
+                                        <Text fontSize={"12px"} fontWeight={"500"}  >by {(((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price)?.toFixed(0)}%</Text>
                                     </Flex>
                                 </Flex>
                             </Flex>

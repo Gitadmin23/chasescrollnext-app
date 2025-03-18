@@ -145,7 +145,7 @@ function ShareEvent(props: Props) {
                   )}
                   {!newbtn && (
                     <ShareIconTwo
-                      width={size ? size : "24px"}
+                      size={size ? size : "14px"}
                       color={color ? colorMode !== "light" ? "#3C41F0" : color : colorMode === "light" ? "#3C41F0" : bodyTextColor}
                     />
                   )}

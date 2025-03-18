@@ -10,7 +10,14 @@ import { textLimit } from '@/utils/textlimit'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import EventDonation from './eventDonation'
 import EventDonationPicker from './eventDonationPicker'
-import usePr from '@/hooks/usePr' 
+import usePr from '@/hooks/usePr'
+import ListProduct from './listProduct'
+import useProduct from '@/hooks/useProduct'
+import ListDonation from './listDonation'
+import { useQuery } from 'react-query'
+import httpService from '@/utils/httpService'
+import ListService from './listService'
+import ListRental from './listRental'
 
 export default function PrBtn({ data }: { data: IEventType }) {
 
@@ -22,10 +29,24 @@ export default function PrBtn({ data }: { data: IEventType }) {
 
     const pathname = usePathname()
 
+    const { pinProduct } = useProduct()
+
     const [open, setOpen] = useState(false)
     const [tab, setTab] = useState(false)
-    const [index, setIndex] = useState(1) 
-    
+    const [index, setIndex] = useState(1)
+
+    const [selectProduct, setSelectProduct] = useState<Array<string>>([])
+    const [selectService, setSelectService] = useState<Array<string>>([])
+    const [selectRental, setSelectRental] = useState<Array<string>>([])
+    const [selectDonation, setSelectDonation] = useState("")
+
+
+    const { data: datarental } = useQuery(
+        ["getcategoryRental"],
+        () => httpService.get(`/rental/categories`), {
+    }
+    );
+
     const { createPr } = usePr()
 
     const clickHander = () => {
@@ -35,6 +56,16 @@ export default function PrBtn({ data }: { data: IEventType }) {
             percent: data?.affiliates[0]?.percent
         })
         setOpen(false)
+    }
+
+    const submitHandler = () => {
+        if (index === 2) {
+            pinProduct?.mutate({
+                pinnedItemType: "EVENT",
+                productId: selectProduct[0],
+                typeId: data?.id + ""
+            })
+        }
     }
 
     return (
@@ -85,131 +116,26 @@ export default function PrBtn({ data }: { data: IEventType }) {
                                     <Flex w={"full"} as={"button"} fontSize={"12px"} fontWeight={"500"} rounded={"full"} h={"full"} justifyContent={"center"} alignItems={"center"} bgColor={index !== 3 ? "transparent" : mainBackgroundColor} onClick={() => setIndex(3)} >
                                         Rental
                                     </Flex>
+                                    <Flex w={"full"} as={"button"} fontSize={"12px"} fontWeight={"500"} rounded={"full"} h={"full"} justifyContent={"center"} alignItems={"center"} bgColor={index !== 4 ? "transparent" : mainBackgroundColor} onClick={() => setIndex(4)} >
+                                        Services
+                                    </Flex>
                                 </Flex>
-                                <Flex w={"full"} p={"4"} gap={"4"} bgColor={index === 1 ? "transparent" : secondaryBackgroundColor} rounded={"16px"} flexDir={"column"} >
-                                    {index !== 1 && (
-                                        <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
-                                            <Flex display={["flex"]} gap={"2"} >
-                                                <UserImage border={"1px"} size={"32px"} font={"14px"} image={data?.createdBy?.data?.imgMain?.value} data={data?.createdBy} />
-                                                <Flex flexDir={"column"} >
-                                                    <Text fontSize={"12px"} >{textLimit(capitalizeFLetter(data?.createdBy?.firstName + " " + data?.createdBy?.lastName), 30)}</Text>
-                                                    <Text fontSize={"8px"} >Kiosk</Text>
-                                                </Flex>
-                                            </Flex>
-                                            <Checkbox />
-                                        </Flex>
-                                    )}
+                                <Flex w={"full"} py={"4"} gap={"4"} bgColor={(index === 1 || index === 2) ? "transparent" : "transparent"} rounded={"16px"} flexDir={"column"} >
+                                     
                                     {index === 1 && (
-                                        <Flex w={"full"} maxH={"300px"} flexDir={"column"} overflowY={"auto"} gap={"3"} >
-                                            <EventDonationPicker />
-                                            <EventDonationPicker />
-                                            <EventDonationPicker />
-                                            <EventDonationPicker />
-                                            <EventDonationPicker />
-                                        </Flex>
+                                        <ListDonation selectDonation={selectDonation} setSelectDonation={setSelectDonation} />
                                     )}
                                     {index === 2 && (
-
-                                        <Flex w={"full"} h={"160px"} pos={"relative"} >
-                                            <Flex position={"absolute"} top={["0px"]} maxW={"full"} overflowX={"auto"} sx={
-                                                {
-                                                    '::-webkit-scrollbar': {
-                                                        display: "none"
-                                                    }
-                                                }
-                                            } >
-                                                <Flex w={"fit-content"} gap={"2"} >
-                                                    <Flex onClick={() => setOpen(true)} w={["150px"]} borderWidth={"1px"} borderColor={"#EBEDF0"} flexDir={"column"} gap={"2"} p={"4"} rounded={"16px"} >
-                                                        <Flex w={"full"} h={["79px"]} bgColor={"red"} rounded={"8px"} />
-                                                        <Flex flexDir={"column"} gap={"2px"} >
-                                                            <Text fontSize={"12px"} fontWeight={"700"} >₦33,029</Text>
-                                                            <Text fontSize={["10px", "10px", "10px"]} >Hoodie for camp...</Text>
-                                                        </Flex>
-                                                    </Flex>
-                                                    <Flex onClick={() => setOpen(true)} w={["150px"]} borderWidth={"1px"} borderColor={"#EBEDF0"} flexDir={"column"} gap={"2"} p={"4"} rounded={"16px"} >
-                                                        <Flex w={"full"} h={["79px"]} bgColor={"red"} rounded={"8px"} />
-                                                        <Flex flexDir={"column"} gap={"2px"} >
-                                                            <Text fontSize={"12px"} fontWeight={"700"} >₦33,029</Text>
-                                                            <Text fontSize={["10px", "10px", "10px"]} >Hoodie for camp...</Text>
-                                                        </Flex>
-                                                    </Flex>
-                                                    <Flex onClick={() => setOpen(true)} w={["150px"]} borderWidth={"1px"} borderColor={"#EBEDF0"} flexDir={"column"} gap={"2"} p={"4"} rounded={"16px"} >
-                                                        <Flex w={"full"} h={["79px"]} bgColor={"red"} rounded={"8px"} />
-                                                        <Flex flexDir={"column"} gap={"2px"} >
-                                                            <Text fontSize={"12px"} fontWeight={"700"} >₦33,029</Text>
-                                                            <Text fontSize={["10px", "10px", "10px"]} >Hoodie for camp...</Text>
-                                                        </Flex>
-                                                    </Flex>
-                                                    <Flex onClick={() => setOpen(true)} w={["150px"]} borderWidth={"1px"} borderColor={"#EBEDF0"} flexDir={"column"} gap={"2"} p={"4"} rounded={"16px"} >
-                                                        <Flex w={"full"} h={["79px"]} bgColor={"red"} rounded={"8px"} />
-                                                        <Flex flexDir={"column"} gap={"2px"} >
-                                                            <Text fontSize={"12px"} fontWeight={"700"} >₦33,029</Text>
-                                                            <Text fontSize={["10px", "10px", "10px"]} >Hoodie for camp...</Text>
-                                                        </Flex>
-                                                    </Flex>
-                                                    <Flex onClick={() => setOpen(true)} w={["150px"]} borderWidth={"1px"} borderColor={"#EBEDF0"} flexDir={"column"} gap={"2"} p={"4"} rounded={"16px"} >
-                                                        <Flex w={"full"} h={["79px"]} bgColor={"red"} rounded={"8px"} />
-                                                        <Flex flexDir={"column"} gap={"2px"} >
-                                                            <Text fontSize={"12px"} fontWeight={"700"} >₦33,029</Text>
-                                                            <Text fontSize={["10px", "10px", "10px"]} >Hoodie for camp...</Text>
-                                                        </Flex>
-                                                    </Flex>
-                                                </Flex>
-                                            </Flex>
-                                        </Flex>
+                                        <ListProduct setOpen={setOpen} selectProduct={selectProduct} setSelectProduct={setSelectProduct} />
                                     )}
-                                    {index === 3 && (
-
-                                        <Flex w={"full"} h={"160px"} pos={"relative"} >
-                                            <Flex position={"absolute"} top={["0px"]} maxW={"full"} overflowX={"auto"} sx={
-                                                {
-                                                    '::-webkit-scrollbar': {
-                                                        display: "none"
-                                                    }
-                                                }
-                                            } >
-                                                <Flex w={"fit-content"} gap={"2"} >
-                                                    <Flex onClick={() => setOpen(true)} w={["150px"]} borderWidth={"1px"} borderColor={"#EBEDF0"} flexDir={"column"} gap={"2"} p={"4"} rounded={"16px"} >
-                                                        <Flex w={"full"} h={["79px"]} bgColor={"red"} rounded={"8px"} />
-                                                        <Flex flexDir={"column"} gap={"2px"} >
-                                                            <Text fontSize={"12px"} fontWeight={"700"} >NGN 2345/Daily</Text>
-                                                            <Text fontSize={["10px", "10px", "10px"]} >Gen Z space</Text>
-                                                        </Flex>
-                                                    </Flex>
-                                                    <Flex onClick={() => setOpen(true)} w={["150px"]} borderWidth={"1px"} borderColor={"#EBEDF0"} flexDir={"column"} gap={"2"} p={"4"} rounded={"16px"} >
-                                                        <Flex w={"full"} h={["79px"]} bgColor={"red"} rounded={"8px"} />
-                                                        <Flex flexDir={"column"} gap={"2px"} >
-                                                            <Text fontSize={"12px"} fontWeight={"700"} >NGN 2345/Daily</Text>
-                                                            <Text fontSize={["10px", "10px", "10px"]} >Gen Z space</Text>
-                                                        </Flex>
-                                                    </Flex>
-                                                    <Flex onClick={() => setOpen(true)} w={["150px"]} borderWidth={"1px"} borderColor={"#EBEDF0"} flexDir={"column"} gap={"2"} p={"4"} rounded={"16px"} >
-                                                        <Flex w={"full"} h={["79px"]} bgColor={"red"} rounded={"8px"} />
-                                                        <Flex flexDir={"column"} gap={"2px"} >
-                                                            <Text fontSize={"12px"} fontWeight={"700"} >NGN 2345/Daily</Text>
-                                                            <Text fontSize={["10px", "10px", "10px"]} >Gen Z space</Text>
-                                                        </Flex>
-                                                    </Flex>
-                                                    <Flex onClick={() => setOpen(true)} w={["150px"]} borderWidth={"1px"} borderColor={"#EBEDF0"} flexDir={"column"} gap={"2"} p={"4"} rounded={"16px"} >
-                                                        <Flex w={"full"} h={["79px"]} bgColor={"red"} rounded={"8px"} />
-                                                        <Flex flexDir={"column"} gap={"2px"} >
-                                                            <Text fontSize={"12px"} fontWeight={"700"} >NGN 2345/Daily</Text>
-                                                            <Text fontSize={["10px", "10px", "10px"]} >Gen Z space</Text>
-                                                        </Flex>
-                                                    </Flex>
-                                                    <Flex onClick={() => setOpen(true)} w={["150px"]} borderWidth={"1px"} borderColor={"#EBEDF0"} flexDir={"column"} gap={"2"} p={"4"} rounded={"16px"} >
-                                                        <Flex w={"full"} h={["79px"]} bgColor={"red"} rounded={"8px"} />
-                                                        <Flex flexDir={"column"} gap={"2px"} >
-                                                            <Text fontSize={"12px"} fontWeight={"700"} >NGN 2345/Daily</Text>
-                                                            <Text fontSize={["10px", "10px", "10px"]} >Gen Z space</Text>
-                                                        </Flex>
-                                                    </Flex>
-                                                </Flex>
-                                            </Flex>
-                                        </Flex>
+                                    {index === 3 && ( 
+                                        <ListRental rental={selectRental} updateRental={setSelectRental} />
                                     )}
-                                    <Flex w={"full"} py={"1"} bgColor={index === 1 ? "white" : secondaryBackgroundColor} position={"sticky"} bottom={"-4px"} >
-                                        <CustomButton text={"Add"} width={"130px"} borderRadius={"999px"} />
+                                    {index === 4 && (
+                                        <ListService service={selectService} selectService={setSelectService} />
+                                    )}
+                                    <Flex w={"full"} py={"1"} bgColor={(index === 1 || index === 2) ? "white" : "white"} position={"sticky"} bottom={"-4px"} >
+                                        <CustomButton onClick={submitHandler} isLoading={pinProduct?.isLoading} text={index === 2 ? "Add to product" : "Add"} width={"150px"} height={"40px"} fontSize={"14px"} borderRadius={"999px"} />
                                     </Flex>
                                 </Flex>
                             </Flex>

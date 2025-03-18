@@ -69,7 +69,8 @@ export type CreateEvent = {
 type State = {
     eventdata: CreateEvent,
     service: Array<string>,
-    rental: Array<string>
+    rental: Array<string>,
+    state: string
 }
 
 type Image = {
@@ -85,6 +86,7 @@ type Action = {
     updateService: (data: State['service']) => void
     updateRental: (data: State['rental']) => void
     updateImage: (data: Image['image']) => void
+    addState: (data: State['state']) => void
     changeTab: (data: Navigate['tab']) => void
 }
 
@@ -95,6 +97,7 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
         admins: [
         ],
     },
+    state: "",
     rental: [],
     service: [],
     eventdata: {
@@ -158,6 +161,7 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
     updateService: (data) => set(() => ({ service: data })),
     updateRental: (data) => set(() => ({ rental: data })),
     updateImage: (data) => set(() => ({ image: data })),
+    addState: (data) => set(() => ({ state: data })),
     changeTab: (data) => set(() => ({ tab: data })),
 }));
 

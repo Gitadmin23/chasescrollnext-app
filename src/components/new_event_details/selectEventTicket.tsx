@@ -4,7 +4,7 @@ import GoogleBtn from '@/components/sharedComponent/googlebtn'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { useDetails } from '@/global-state/useUserDetails'
 import { formatNumber } from '@/utils/numberFormat'
-import { Box, Button, Flex, Text, useColorMode, useToast } from '@chakra-ui/react'
+import { Box, Button, Flex, Text, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { LiaAngleDownSolid } from 'react-icons/lia'
@@ -12,8 +12,7 @@ import useCustomTheme from "@/hooks/useTheme";
 import { dateFormat, timeFormat } from '@/utils/dateFormat'
 import SignupModal from '@/app/auth/component/signupModal'
 import { IEventType } from '@/models/Event'
-import useModalStore from '@/global-state/useModalSwitch'
-import { IoClose } from 'react-icons/io5'
+import useModalStore from '@/global-state/useModalSwitch' 
 
 interface Props {
     ticket: any,
@@ -82,6 +81,11 @@ function SelectTicket(props: Props) {
             clickHandler(ticket[0])
         }
     }, [ticket]) 
+
+    console.log(ticket[0]?.endDate);
+    console.log(Date.now());
+    
+    console.log((ticket[0]?.totalNumberOfTickets === ticket[0]?.ticketsSold)  || (Date.now() >= ticket[0]?.endDate));
  
     return (
         (<Flex gap={"3"} position={"relative"} flexDir={"column"} alignItems={"center"} justifyContent={"end"}  >
@@ -101,11 +105,10 @@ function SelectTicket(props: Props) {
             ) : (
                 <Flex w={"full"} flexDir={"column"} >
                     {ticket?.map((item: any, index: number) => {
-                        if (item?.ticketType === "Early Bird") {
-                            // if ((new Date() >= new Date(item?.startDate)) && new Date() <= new Date(item?.endDate)) {
+                        if (item?.ticketType === "Early Bird") { 
                             return (
                                 <Flex key={index} w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
-                                    <Button disabled={(new Date() >= new Date(item?.startDate)) && new Date() <= new Date(item?.endDate)} color={primaryColor} isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                    <Button color={primaryColor} isDisabled={(item?.totalNumberOfTickets === item?.ticketsSold) || !(new Date() <= new Date(item?.endDate))} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                         {item?.totalNumberOfTickets === item?.ticketsSold ?
                                             "Sold Out" :
                                             item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
@@ -113,11 +116,9 @@ function SelectTicket(props: Props) {
                                     </Button>
                                     <Text color={"white"} px={"2"} rounded={"4px"} bg={"red"} textAlign={"center"} fontSize={"12px"} >Ends: {dateFormat(item?.endDate)} {timeFormat(item?.endDate)}</Text>
                                 </Flex>
-                            )
-                            // }
+                            ) 
                         } else {
-                            return (
-                                // <Flex w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
+                            return ( 
                                 (<Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                     {item?.totalNumberOfTickets === item?.ticketsSold ?
                                         "Sold Out" :
@@ -139,7 +140,7 @@ function SelectTicket(props: Props) {
                             if (item?.ticketType === "Early Bird") {
                                 return (
                                     <Flex key={index} w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
-                                        <Button color={primaryColor} isDisabled={(item?.totalNumberOfTickets === item?.ticketsSold) || !((new Date() >= new Date(item?.startDate)) && new Date() <= new Date(item?.endDate))} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                        <Button color={primaryColor} isDisabled={(item?.totalNumberOfTickets === item?.ticketsSold) || !(new Date() <= new Date(item?.endDate))} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                             {(item?.totalNumberOfTickets === item?.ticketsSold) ?
                                                 "Sold Out" :
                                                 item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
