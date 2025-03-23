@@ -10,7 +10,7 @@ interface Props { }
 function SelectLocation(props: Props) {
     const { } = props
 
-    const { eventdata, updateEvent } = useEventStore((state) => state);
+    const { eventdata, updateEvent, updateRental, updateService, rental, service, state: newState, addState } = useEventStore((state) => state);
     const [selectType, setSelectType] = useState("")
 
     const [links, setLink] = useState<Array<string>>([])
@@ -73,7 +73,7 @@ function SelectLocation(props: Props) {
     const linkChangeHandler = (item: any, index: number) => {
         const clone = [...links]
 
-        clone[index] = item 
+        clone[index] = item
 
         updateEvent({
             ...eventdata,
@@ -106,8 +106,50 @@ function SelectLocation(props: Props) {
             }
         })
         setLink(clone)
- 
-    }; 
+
+    };
+
+    const [state, setState] = useState("")
+
+
+    const statesInNigeria = [
+        "Abia",
+        "Adamawa",
+        "Akwa Ibom",
+        "Anambra",
+        "Bauchi",
+        "Bayelsa",
+        "Benue",
+        "Borno",
+        "Cross River",
+        "Delta",
+        "Ebonyi",
+        "Edo",
+        "Ekiti",
+        "Enugu",
+        "Gombe",
+        "Imo",
+        "Jigawa",
+        "Kaduna",
+        "Kano",
+        "Katsina",
+        "Kebbi",
+        "Kogi",
+        "Kwara",
+        "Lagos",
+        "Nasarawa",
+        "Niger",
+        "Ogun",
+        "Ondo",
+        "Osun",
+        "Oyo",
+        "Plateau",
+        "Rivers",
+        "Sokoto",
+        "Taraba",
+        "Yobe",
+        "Zamfara"
+    ];
 
     return (
         <Box width={"full"}>
@@ -117,7 +159,7 @@ function SelectLocation(props: Props) {
                         {/* <h1 className="text-base font-bold">Location Type</h1> */}
                         <Box>
                             <Flex justifyContent={"space-between"} alignItems={"center"} py={"4"} borderTop={"1px solid #E2E8F0"} borderBottom={"1px solid #E2E8F0"} >
-                                <label style={{ display: "block", color: "#667085", fontWeight: "bold" }} >
+                                <label style={{ display: "block", fontWeight: "bold" }} >
                                     Location Type
                                 </label>
                                 <Select
@@ -196,6 +238,19 @@ function SelectLocation(props: Props) {
                                     <Text color={primaryColor} fontWeight={"600"} >Add New Meeting link</Text>
                                 </Flex>
                             )}
+                            <Box width={"full"} mt={"4"} >
+                                <Flex>
+                                    <Text fontWeight={"600"} >State </Text>
+                                    <span style={{ color: "#F04F4F", fontSize: "20px" }} > *</span>
+                                </Flex>
+                                <Select value={newState} rounded={"full"} placeholder='Select State' onChange={(e) => addState(e.target.value)} >
+                                    {statesInNigeria?.map((state) => {
+                                        return (
+                                            <option key={state} >{state}</option>
+                                        )
+                                    })}
+                                </Select>
+                            </Box>
                         </Box>
                     </Box>
                 )}

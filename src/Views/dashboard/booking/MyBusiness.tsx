@@ -34,7 +34,7 @@ function MyBusiness() {
     return (
         <Box w='full' h='full' pt='30px'>
             {!isLoading && businesses.length > 0 && (
-                <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["4", "4", "6"]} >
+                <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["2", "2", "6"]} >
                     {businesses.map((item: any, index) => (
                         <BusinessCard key={index.toString()} business={item} />
                     ))}

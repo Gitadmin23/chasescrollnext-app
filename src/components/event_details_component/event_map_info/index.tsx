@@ -21,23 +21,12 @@ function EventMap(props: Props) {
         lng: 0,
     }) 
     
-    const router = useRouter()
-
-    const clickHander = () => {
-        router.push(
-            "https://www.google.com/maps/dir/?api=1&origin=" +
-            Number(myLocation?.lat) +
-            "," +
-            Number(myLocation?.lng) + "&destination=" +
-            Number(latlng.split(" ")[0]) +
-            "," +
-            Number(latlng.split(" ")[1]))
-    }
+    const router = useRouter() 
 
     return (
         <>
             {latlng && (
-                <Flex flexDirection={["column-reverse", "column-reverse", "column-reverse", "column-reverse", "column-reverse"]} gap={"2"} alignItems={["end", "end", "end", "end", "end"]} >
+                <Flex w={"full"} flexDirection={["column-reverse", "column-reverse", "column-reverse", "column-reverse", "column-reverse"]} gap={"2"} alignItems={["end", "end", "end", "end", "end"]} >
                     <Box width={"full"} as='button' >
                         <MapComponent view={true} zoom={15} setMyLocat={setMyLocation} hidesearch={true} latlng={latlng} height={height ?? '30vh'} />
                     </Box>

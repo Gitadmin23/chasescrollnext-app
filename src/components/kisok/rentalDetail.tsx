@@ -1,25 +1,37 @@
 "use client"
 import useCustomTheme from '@/hooks/useTheme'
-import { Flex, Image, Text } from '@chakra-ui/react'
-import React, { useState } from 'react' 
-import { IRental } from '@/models/product'
+import { Flex, Grid, Image, Text } from '@chakra-ui/react'
+import React, { useState } from 'react'
+import { IRental, IReview } from '@/models/product'
 import { useQuery } from 'react-query'
 import httpService from '@/utils/httpService'
 import LoadingAnimation from '../sharedComponent/loading_animation'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import { IMAGE_URL } from '@/services/urls'
-import UserImage from '../sharedComponent/userimage' 
+import UserImage from '../sharedComponent/userimage'
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; 
-import { FaStar } from 'react-icons/fa'
+import "react-datepicker/dist/react-datepicker.css";
+import { FaRegStar, FaStar } from 'react-icons/fa'
 import RentalCheckout from './rentalCheckout'
 import ProductRating from './productRating'
+import DescriptionPage from '../sharedComponent/descriptionPage'
+import CustomButton from '../general/Button'
+import { CalendarIcon } from '../svg'
+import { dateFormat, timeFormat } from '@/utils/dateFormat'
+import EventMap from '../event_details_component/event_map_info'
+import { IoIosArrowForward } from 'react-icons/io'
+import { useRouter } from 'next/navigation'
+import GetCreatorData from './getCreatorData'
+
 
 export default function RentalDetail({ id }: { id: string }) {
 
+
     const { primaryColor, borderColor, secondaryBackgroundColor } = useCustomTheme()
     const [qty, setQty] = useState(1)
-    const [item, setItem] = useState({} as IRental) 
+    const [item, setItem] = useState({} as IRental)
+
+    const { back } = useRouter()
 
     const { isLoading, isRefetching, refetch, data } = useQuery(
         ["rental", id],
@@ -29,77 +41,80 @@ export default function RentalDetail({ id }: { id: string }) {
             }
         }), {
         onSuccess(data) {
+            console.log(data?.data?.content[0]);
             setItem(data?.data?.content[0])
         }
     }
-    ); 
+    );
+
+
+    const [reviewData, setData] = useState<Array<IReview>>([])
+
+
 
     return (
         <LoadingAnimation loading={isLoading} >
-            <Flex w={"full"} px={"6"} pos={"relative"} h={"full"} pt={["6", "6", "6", "6"]} gap={"4"} pb={"12"} flexDir={"column"} overflowY={"auto"} >
-                <Flex w={"full"} alignItems={"center"} justifyContent={"space-between"} >
-                    <Text fontSize={"24px"} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
-                    <Flex gap={"3"} >
-                        <Flex w={"48px"} h={"48px"} rounded={"full"} bgColor={"green"} />
-                        <Flex w={"48px"} h={"48px"} rounded={"full"} bgColor={"green"} />
-                    </Flex>
+            <Flex w={"full"} flexDir={"column"} pos={"relative"} gap={"3"} overflowY={"auto"} h={"full"} px={["4", "4", "6"]} pb={["400px", "400px", "6"]} py={"6"} >
+
+                <Flex gap={"1"} alignItems={"center"} pb={"3"} >
+                    <Text role='button' onClick={() => back()} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Home</Text>
+                    <IoIosArrowForward />
+                    <Text fontSize={"14px"} fontWeight={"500"} >Rental details</Text>
+                    <IoIosArrowForward />
+                    <Text fontSize={"14px"} fontWeight={"500"} >{item?.name}</Text>
                 </Flex>
-                {item?.images?.length > 0 && (
-                    <Flex w={"full"} h={"fit-content"} >
-                        <Flex w={"full"} height={["228px", "228px", "344px"]} gap={"3"} >
-                            <Flex w={"full"} rounded={"xl"} bgColor={"gray"} h={"full"} >
-                                <Image src={IMAGE_URL + item?.images[0]} alt='logo' w={"full"} rounded={"8px"} height={"full"} objectFit={"cover"} />
-                            </Flex>
-                            {item?.images?.length > 1 && (
-                                <Flex display={["none", "none", "flex"]} w={"full"} h={"full"} gap={"3"} >
-                                    <Flex w={"full"} h={"full"} rounded={"xl"} bgColor={"green"} >
-                                        <Image src={IMAGE_URL + item?.images[1]} alt='logo' w={"full"} rounded={"8px"} height={"full"} objectFit={"cover"} />
-                                    </Flex>
-                                    {item?.images?.length > 2 && (
-                                        <Flex w={"full"} h={"full"} flexDir={"column"} gap={"3"}  >
-                                            <Flex w={"full"} h={"48.1%"} rounded={"xl"} >
-                                                <Image src={IMAGE_URL + item?.images[2]} alt='logo' w={"full"} rounded={"8px"} height={"full"} objectFit={"cover"} />
-                                            </Flex>
-                                            {item?.images?.length > 3 &&
-                                                <Flex w={"full"} h={"48.1%"} rounded={"xl"} >
-                                                    <Image src={IMAGE_URL + item?.images[3]} alt='logo' w={"full"} rounded={"8px"} height={"full"} objectFit={"cover"} />
-                                                </Flex>
-                                            }
-                                        </Flex>
-                                    )}
-                                </Flex>
-                            )}
-                        </Flex>
-                    </Flex>
-                )}
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
-                    <Flex w={"full"} gap={"4"} flexDir={"column"} >
-                        <Text fontSize={"20px"} fontWeight={"700"} >Details</Text>
-                        <Text>{capitalizeFLetter(item?.description)}</Text>
-                        {/* <Text fontWeight={"700"} mt={"4"} >Show more</Text> */}
-                        <Flex w={"full"} alignItems={"center"} gap={"3"} >
-                            <UserImage size={"48px"} image={item?.creator?.data?.imgMain?.value} data={item?.creator} />
-                            <Flex flexDirection={"column"} >
-                                <Text fontSize={"18px"} fontWeight={"600"} >{capitalizeFLetter(item?.creator?.firstName) + " " + capitalizeFLetter(item?.creator?.lastName)}</Text>
-                                <Text fontSize={"13px"} >Joined Nov 2017 <span style={{ fontSize: "12px" }} >( 23+ Clients Served )</span></Text>
+
+                    {item?.images?.length > 0 && (
+                        <Flex w={"full"} h={["340px", "340px", "620px"]} pos={"relative"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"8px"} py={["1", "1", "3"]} >
+                            <Image src={IMAGE_URL + item?.images[0]} alt='logo' rounded={"8px"} height={"full"} objectFit={"contain"} />
+                            <Grid templateColumns={["repeat(3, 1fr)"]} pos={"absolute"} gap={"3"} insetX={"4"} bottom={"4"} >
+                                {item?.images?.map((subitem: string, index: number) => {
+                                    if (index !== 0 && index <= 3) {
+                                        return (
+                                            <Flex key={index} w={"full"} h={["100px", "150px"]} bgColor={secondaryBackgroundColor} rounded={"8px"} shadow={"md"} >
+                                                <Image src={IMAGE_URL + subitem} alt='logo' w={"full"} rounded={"8px"} height={"full"} objectFit={"cover"} />
+                                            </Flex>
+                                        )
+                                    }
+                                })}
+                            </Grid>
+                        </Flex>
+                    )}
+                    <Flex w={"full"} flexDir={"column"} gap={"3"} >
+                        <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{capitalizeFLetter(item?.name)}</Text>
+                        <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
+                            <DescriptionPage limit={100} label='Rental Details' description={item?.description} />
+                            <Flex w={"full"} gap={"2"}>
+                                <Flex w={["fit-content", "fit-content", "full"]} >
+                                    <GetCreatorData reviewdata={reviewData} userData={item?.creator} />
+                                </Flex>
+                                <Flex display={["flex", "flex", "none"]}  >
+                                    <RentalCheckout setQty={setQty} item={item} qty={qty} />
+                                </Flex>
                             </Flex>
                         </Flex>
-                        <ProductRating item={item} reviewType="RENTAL" />
-                    </Flex>
-                    <Flex w={"fit-content"} >
-                        <Flex w={"413px"} flexDirection={"column"} >
-                            <Flex display={["none", "none", "flex"]} >
+
+                        <Flex gap={"2"} alignItems={"center"}>
+                            <Text fontWeight={"600"} w={"60px"} >Joined</Text>
+                            <CalendarIcon color={primaryColor} />
+                            <Text fontSize={["12px", "12px", "14px"]} >{dateFormat(item?.createdDate)} {timeFormat(item?.createdDate)}</Text>
+                        </Flex>
+                        <Flex w={"full"} justifyContent={"end"} >
+                            <Flex maxW={"600px"} display={["none", "none", "flex"]}  >
                                 <RentalCheckout setQty={setQty} item={item} qty={qty} />
-                            </Flex> 
+                            </Flex>
                         </Flex>
                     </Flex>
                 </Flex>
-                {/* <Flex w={"full"} gap={"6"} pt={"8"} flexDir={["column", "column", "row"]}  > 
-                    <ProductRating item={item} reviewType="RENTAL" />
-                </Flex> */}
-                <Flex w={"full"} mt={"56"} display={["flex", "flex", "none"]} />
-                <Flex display={["flex", "flex", "none"]} position={"fixed"} bottom={"20"} insetX={"0px"} px={"4"} w={"full"} >
-                    <RentalCheckout setQty={setQty} item={item} qty={qty} />
+                <Flex w={"full"} gap={"3"} flexDir={["column", "column", "row"]} >
+                    <Flex w={"full"}  >
+                        <EventMap latlng={item?.location?.latlng} />
+                    </Flex>
+                    <Flex w={"full"} flexDir={"column"} >
+                        <ProductRating data={reviewData} setData={setData} item={item} reviewType="RENTAL" />
+                        <Flex display={["flex", "flex", "none"]} w={"full"} h={"200px"} />
+                    </Flex>
                 </Flex>
             </Flex>
         </LoadingAnimation>

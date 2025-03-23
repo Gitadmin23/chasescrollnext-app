@@ -33,9 +33,9 @@ function SubmitEvent(props: Iprops) {
         secondaryBackgroundColor,
         mainBackgroundColor,
         borderColor,
-    } = useCustomTheme(); 
+    } = useCustomTheme();
 
-    const { eventdata, image, tab, updateEvent, changeTab } = useEventStore((state) => state);
+    const { eventdata, image, tab, updateEvent, changeTab, rental, service, state } = useEventStore((state) => state);
     const { userId: user_index } = useDetails((state) => state);
     const router = useRouter()
     const pathname = usePathname();
@@ -57,73 +57,73 @@ function SubmitEvent(props: Iprops) {
             });
             return
         } else
-        if (!eventdata?.startDate) {
-            toast({
-                description: "Please Enter Event Starting Date",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else if (!eventdata?.endDate) {
-            toast({
-                description: "Please Enter Event Ending Date",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else if (eventdata?.startDate > eventdata?.endDate) {
-            toast({
-                description: "End date and time cannot be earlier than Start date and time",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else if (!eventdata?.eventType) {
-            toast({
-                description: "Please Enter Event Type",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else if (!eventdata?.eventDescription) {
-            toast({
-                description: "Please Enter Event Description",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else if (!image && !eventdata?.currentPicUrl) {
-            toast({
-                description: "Please Enter Event Image",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-            return
-        } else {
-            if (pathname?.includes("edit_event")) {
-                changeTab(1)
+            if (!eventdata?.startDate) {
+                toast({
+                    description: "Please Enter Event Starting Date",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            } else if (!eventdata?.endDate) {
+                toast({
+                    description: "Please Enter Event Ending Date",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            } else if (eventdata?.startDate > eventdata?.endDate) {
+                toast({
+                    description: "End date and time cannot be earlier than Start date and time",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            } else if (!eventdata?.eventType) {
+                toast({
+                    description: "Please Enter Event Type",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            } else if (!eventdata?.eventDescription) {
+                toast({
+                    description: "Please Enter Event Description",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
+            } else if (!image && !eventdata?.currentPicUrl) {
+                toast({
+                    description: "Please Enter Event Image",
+                    status: 'error',
+                    isClosable: true,
+                    duration: 5000,
+                    position: 'top-right',
+                });
+                return
             } else {
-                if (image) {
-                    const fd = new FormData();
-                    fd.append("file", image);
-                    uploadImage.mutate(fd)
+                if (pathname?.includes("edit_event")) {
+                    changeTab(1)
                 } else {
-                    saveToDraft.mutate(eventdata)
+                    if (image) {
+                        const fd = new FormData();
+                        fd.append("file", image);
+                        uploadImage.mutate(fd)
+                    } else {
+                        saveToDraft.mutate(eventdata)
+                    }
                 }
             }
-        }
     }
 
     const getValidationInfo = () => {
@@ -139,7 +139,7 @@ function SubmitEvent(props: Iprops) {
                 return
             } else {
 
-                if(getValidationLinkBtn() === false && eventdata?.location?.link){
+                if (getValidationLinkBtn() === false && eventdata?.location?.link) {
                     toast({
                         description: "Please Enter a Valid Event Link",
                         status: 'error',
@@ -147,7 +147,7 @@ function SubmitEvent(props: Iprops) {
                         duration: 5000,
                         position: 'top-right',
                     });
-                } else { 
+                } else {
                     if (pathname?.includes("edit_event_data")) {
                         changeTab(2)
                     } else if (pathname?.includes("edit_event")) {
@@ -156,7 +156,7 @@ function SubmitEvent(props: Iprops) {
                         saveToDraft.mutate(eventdata)
                     }
                 }
-                
+
             }
         } else {
             if (pathname?.includes("edit_event")) {
@@ -206,7 +206,7 @@ function SubmitEvent(props: Iprops) {
         } else {
             return getValidationTicketBtn()
         }
-    } 
+    }
 
 
     const getValidationTicket: any = () => {
@@ -327,8 +327,8 @@ function SubmitEvent(props: Iprops) {
                         } else {
                             updateUserEvent.mutate(eventdata)
                         }
-                    } else {  
-                        createEventFromDraft.mutate(eventdata) 
+                    } else {
+                        createEventFromDraft.mutate(eventdata)
                     }
                 }
             }
@@ -345,7 +345,7 @@ function SubmitEvent(props: Iprops) {
             } else {
                 updateUserEvent.mutate(eventdata)
             }
-        } else { 
+        } else {
             createEventFromDraft.mutate(eventdata)
         }
     }
@@ -365,7 +365,7 @@ function SubmitEvent(props: Iprops) {
             } else if (!item.maxTicketBuy) {
                 return true
             } else if (eventdata?.donationEnabled) {
-                if(!eventdata?.donationName || !eventdata?.donationTargetAmount){
+                if (!eventdata?.donationName || !eventdata?.donationTargetAmount) {
                     return true
                 }
             } else if (promotion) {
@@ -382,14 +382,14 @@ function SubmitEvent(props: Iprops) {
 
     const getValidationLinkBtn: any = () => {
 
-        return eventdata?.location?.links?.every((item, index) => { 
-            if((item?.includes("https://")) || (item?.includes("http://")) || (item?.includes("www."))){
+        return eventdata?.location?.links?.every((item, index) => {
+            if ((item?.includes("https://")) || (item?.includes("http://")) || (item?.includes("www."))) {
                 return true
             } else {
                 return false
             }
         })
-    } 
+    }
 
 
     const getValidationTicketNotification: any = () => {
@@ -529,8 +529,6 @@ function SubmitEvent(props: Iprops) {
             clone.admins = admin
 
             clone.collaborators = collaborator
-
-
             updateEvent(clone)
             changeTab(tab !== 1 ? 1 : 2)
             toast({
@@ -547,6 +545,37 @@ function SubmitEvent(props: Iprops) {
     // Create Event From Draft
     const createEventFromDraft = useMutation({
         mutationFn: (data: any) => httpService.post(URLS.CREATE_EVENT_FROM_DRAFT, data),
+        onError: (error: AxiosError<any, any>) => {
+            toast({
+                title: 'Error',
+                description: error?.response?.data?.message,
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        },
+        onSuccess: (data: AxiosResponse<any>) => {
+            console.log(data); 
+            tagServiceAndRental?.mutate({
+                serviceCategories: service,
+                rentalCategories: rental,
+                state: state,
+                eventID: eventdata?.id+""
+            })
+
+            setOpen(true)
+        }
+    });  
+
+    // Create Event From Draft
+    const tagServiceAndRental = useMutation({
+        mutationFn: (data: {
+            "serviceCategories":  Array<string>,
+            "rentalCategories": Array<string>,
+            "eventID": string,
+            "state": string
+        }) => httpService.post("/tags/create-request", data),
         onError: (error: AxiosError<any, any>) => {
             toast({
                 title: 'Error',
@@ -603,7 +632,7 @@ function SubmitEvent(props: Iprops) {
                 }
             }
         }
-        return obj 
+        return obj
     }
 
     const handleClick = React.useCallback(() => {

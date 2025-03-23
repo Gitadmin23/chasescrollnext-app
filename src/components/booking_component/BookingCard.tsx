@@ -24,6 +24,7 @@ import ModalLayout from '../sharedComponent/modal_layout'
 import CustomButton from '../general/Button'
 import { IoIosClose } from 'react-icons/io'
 import { formatNumber } from '@/utils/numberFormat'
+import ProductImageScroller from '../sharedComponent/productImageScroller'
 
 export interface ICategory {
     id: string;
@@ -381,7 +382,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
 
             <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
 
-            <Flex w={"full"} h={"250px"} roundedTop={"8px"} bgColor={"#00000066"} position={"relative"} justifyContent={"center"} alignItems={"center"} >
+            {/* <Flex w={"full"} h={"250px"} roundedTop={"8px"} bgColor={"#00000066"} position={"relative"} justifyContent={"center"} alignItems={"center"} >
                 <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderWidth={"1px"} borderColor={"white"} alignItems={"center"} gap={2} >
                     <UserImage image={bookingState?.createdBy?.data?.imgMain?.value} font={"16px"} data={bookingState?.createdBy} border={"1px"} size={"32px"} />
                     <Flex flexDir={"column"} alignItems={"start"} color={"white"} >
@@ -394,7 +395,10 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                     </Flex>
                 </Flex>
                 <Image borderColor={"#D0D4EB"} objectFit={"cover"} alt={service?.images[0]} width={["fit-content"]} height={"full"} src={service?.images[0].startsWith('https://') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} />
-            </Flex>
+            </Flex> */}
+            
+            <ProductImageScroller images={service?.images ?? []} createdDate={moment(bookingState?.createdDate)?.fromNow()} userData={bookingState?.createdBy} />
+
             <Flex flexDir={"column"} px={"3"} gap={"3"} borderBottomWidth='0.5px' borderBottomColor={borderColor} pb='20px' w={"full"}>
                 <Flex flexDir={"column"} >
                     <Text fontWeight={400} fontSize={'12px'}>Business Name</Text>

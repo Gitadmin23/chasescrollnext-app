@@ -3,24 +3,22 @@
 import useCustomTheme from '@/hooks/useTheme'
 import { Box, Button, Checkbox, Flex, HStack, Image, Input, Radio, RadioGroup, Select, Text, Textarea, useToast } from '@chakra-ui/react'
 import React, { useState, useRef } from 'react'
-import { IoAdd, IoArrowBack } from 'react-icons/io5'
-import { GallaryIcon } from '../svg'
-import { MdEdit } from 'react-icons/md'
+import { IoArrowBack } from 'react-icons/io5'
 import ModalLayout from '../sharedComponent/modal_layout'
 import { IoIosCheckmarkCircle } from 'react-icons/io'
 import DayAvaliable from './createBookTabs/dayAvaliable'
 import { useMutation, useQuery } from 'react-query'
 import httpService from '@/utils/httpService'
-import { IServiceCategory } from '@/models/ServiceCategory'
-import { endsWith, uniq } from 'lodash'
+import { uniq } from 'lodash'
 import { Add } from 'iconsax-react'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { URLS } from '@/services/urls'
-import SearchableDropdown from '../Form/SearchableDropDown'
 import { FiX } from 'react-icons/fi'
 import { createBusinessValidation } from '@/services/validations'
 import { useForm } from '@/hooks/useForm'
 import { CustomInput } from '../Form/CustomInput'
+import useProductStore from '@/global-state/useCreateProduct'
+import ProductMap from '../kisok/productMap'
 
 
 export interface IDayOfTheWeek {
@@ -65,6 +63,7 @@ export default function CreateServices({ id }: { id: string }) {
     const [open, setOpen] = useState(false);
     const [showModal, setShowModal] = useState(false)
     const [serviceId, setServiceId] = useState<string | null>(null)
+    const { rentaldata, updateRental } = useProductStore((state) => state);
     const [description, setDescription] = useState("")
     const [isOnline, setIsOnline] = useState<'physical' | 'online' | 'both' | null>(null);
 
@@ -261,6 +260,8 @@ export default function CreateServices({ id }: { id: string }) {
                     endTime: parseInt(item.endTime.replace(':', '')),
                     availabilityDayOfWeek: item?.dayOFTheWeek
                 })),
+                "state": rentaldata?.location?.state,
+                "location": rentaldata?.location,
                 name,
             }
             console.log(obj);
@@ -369,7 +370,7 @@ export default function CreateServices({ id }: { id: string }) {
         })
     }
 
-    const clickHandler = () => {}
+    const clickHandler = () => { }
 
     return renderForm(
         <Flex w={"full"} h={"full"} >
@@ -481,7 +482,7 @@ export default function CreateServices({ id }: { id: string }) {
 
                         <Text fontWeight={"600"} >Select from the list of services</Text>
                         <Text fontWeight={"400"} fontSize={"14px"} >You are free to make adjustment anytime</Text>
-                        <Select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} h={"44px"} borderWidth={"1px"} borderColor={primaryColor} rounded={"16px"} color={primaryColor} >
+                        <Select value={selectedCategory} placeholder='Select Categories' onChange={(e) => setSelectedCategory(e.target.value)} h={"44px"} borderWidth={"1px"} borderColor={primaryColor} rounded={"16px"}  >
                             {!isLoading && categories.length > 0 && categories.map((item, index) => (
                                 <option key={index.toString()} selected={index === 0} value={item} >{item}</option>
                             ))}
@@ -494,7 +495,7 @@ export default function CreateServices({ id }: { id: string }) {
                             if (description.length < 300) {
                                 setDescription(e.target.value)
                             }
-                        }} h={"84px"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} />
+                        }} h={"100px"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} />
                         <Text>{description.length}/300</Text>
                     </Flex>
                     {hasFixedPrice && (
@@ -562,8 +563,8 @@ export default function CreateServices({ id }: { id: string }) {
                         </Flex>
                     </RadioGroup>
                     {isOnline !== 'online' && (
-                        <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                            <CustomInput name="address" placeholder='' label='Business Address' isPassword={false} type='text' required={false} />
+                        <Flex flexDirection={"column"} w={"full"} h={"40px"} gap={"3px"} >
+                            <ProductMap location={rentaldata?.location} />
                         </Flex>
                     )}
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
@@ -574,13 +575,6 @@ export default function CreateServices({ id }: { id: string }) {
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="website" placeholder='' label='Business Website (optional)' isPassword={false} type='text' hint="The link must start with https://" />
-
-
-                    </Flex>
-
-                    <Flex gap={"2"} mt={"2"} type='button' as={"button"} alignItems={"center"} onClick={() => setShowModal(true)} >
-                        <IoAdd size={"25px"} color={primaryColor} />
-                        <Text>Operating Hours and time  <sup style={{ color: 'red' }}>*</sup></Text>
                     </Flex>
 
                     <Flex overflowX="auto" w="full" css={{
@@ -667,7 +661,7 @@ export default function CreateServices({ id }: { id: string }) {
                     <IoIosCheckmarkCircle size={"100px"} color={"#46CC6B"} />
                     <Text fontWeight={"600"} fontSize={"24px"} color={headerTextColor} >Congratulations!</Text>
                     <Text textAlign={"center"} maxW={"350px"} fontWeight={"400"} color={bodyTextColor} >{`Services created Successfully`}</Text>
-                    <Button onClick={() => { router.push(`/dashboard/newbooking/${id}`) }} height={"50px"} mt={"4"} borderWidth={"1px"} w={"200px"} rounded={"full"} borderColor={primaryColor} bgColor={primaryColor} color={"white"} _hover={{ backgroundColor: primaryColor }} >View Services</Button>
+                    <Button onClick={() => { router.push(`/dashboard/kisok??type=service`) }} height={"50px"} mt={"4"} borderWidth={"1px"} w={"200px"} rounded={"full"} borderColor={primaryColor} bgColor={primaryColor} color={"white"} _hover={{ backgroundColor: primaryColor }} >View Services</Button>
                 </Flex>
             </ModalLayout>
         </Flex>

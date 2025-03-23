@@ -19,6 +19,7 @@ import { IoIosClose } from 'react-icons/io';
 import useProduct from '@/hooks/useProduct';
 import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
 import { FiMinus, FiPlus } from 'react-icons/fi';
+import ProductImageScroller from '../sharedComponent/productImageScroller';
 
 export default function GetReciept() {
 
@@ -63,7 +64,7 @@ export default function GetReciept() {
                     if (results?.length === index + 1) {
                         return (
                             <Flex ref={ref} as={"button"} alignItems={"start"} onClick={() => clickHander(item)} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={"16px"} pb={"5"} gap={"4"} >
-                                <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
+                                {/* <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
                                     <UserImage image={item?.createdBy?.data?.imgMain?.value} font={"16px"} data={item?.createdBy} border={"1px"} size={"32px"} />
                                     <Flex flexDir={"column"} alignItems={"start"} >
                                         <Text fontSize={"12px"} fontWeight={"600"} color={primaryColor} >
@@ -76,7 +77,9 @@ export default function GetReciept() {
                                 </Flex>
                                 <Flex w={"full"} h={"210px"} rounded={"8px"} >
                                     <Image rounded={"8px"} borderColor={"#D0D4EB"} objectFit={"cover"} alt={item?.rental?.images[0]} width={["full"]} height={"full"} src={IMAGE_URL + item?.rental?.images[0]} />
-                                </Flex>
+                                </Flex> */}
+
+            <ProductImageScroller images={item?.rental?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
                                 <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} px={"2"} >
                                     <Text fontSize={"14px"} fontWeight={"600"} color={primaryColor} textAlign={"left"} >{capitalizeFLetter(item?.rental?.name)}</Text>
                                     <Flex alignItems={"center"} >
@@ -95,7 +98,7 @@ export default function GetReciept() {
                     } else {
                         return (
                             <Flex as={"button"} alignItems="start" onClick={() => clickHander(item)} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={"16px"} pb={"5"} gap={"4"} >
-                                <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
+                                {/* <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
                                     <UserImage image={item?.createdBy?.data?.imgMain?.value} font={"16px"} data={item?.createdBy} border={"1px"} size={"32px"} />
                                     <Flex flexDir={"column"} alignItems={"start"} >
                                         <Text fontSize={"12px"} fontWeight={"600"} color={primaryColor} >
@@ -108,7 +111,9 @@ export default function GetReciept() {
                                 </Flex>
                                 <Flex w={"full"} h={"210px"} rounded={"8px"} >
                                     <Image rounded={"8px"} borderColor={"#D0D4EB"} objectFit={"cover"} alt={item?.rental?.images[0]} width={["full"]} height={"full"} src={IMAGE_URL + item?.rental?.images[0]} />
-                                </Flex>
+                                </Flex> */}
+
+            <ProductImageScroller images={item?.rental?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
                                 <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} px={"2"} >
                                     <Text fontSize={"14px"} fontWeight={"600"} color={primaryColor} textAlign={"left"} >{capitalizeFLetter(item?.rental?.name)}</Text>
                                     <Flex alignItems={"center"} >
@@ -200,7 +205,7 @@ export default function GetReciept() {
                                             <Flex w={"full"} h={"1.5px"} pos={"absolute"} top={"11px"} bgColor={"black"} />
                                             <Text fontSize={"14px"} fontWeight={"600"} textDecor={""} >{formatNumber(detail?.rental?.price)}</Text>
                                         </Flex>
-                                        <Text fontSize={"12px"} fontWeight={"500"}  >by {((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price}%</Text>
+                                        <Text fontSize={"12px"} fontWeight={"500"}  >by {(((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price)?.toFixed(0)}%</Text>
                                     </Flex>
                                 </Flex>
                             </Flex>

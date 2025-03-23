@@ -17,7 +17,7 @@ function Businesses() {
     const { isLoading, } = useQuery(['get-businesses', page], () => httpService.get('/business-service/search', {
         params: {
             page,
-            size: 20,
+            size: 50,
         }
     }), {
         onSuccess: (data) => {
@@ -35,7 +35,7 @@ function Businesses() {
     return (
         <Flex flexDirection={"column"} w='full' h='full' pt='8'>
             {!isLoading && businesses.length > 0 && (
-                <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["4", "4", "6"]} >
+                <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["4", "4", "6"]} >
                     {businesses.map((item, index) => (
                         <BusinessCard key={index.toString()} business={item} />
                     ))}
