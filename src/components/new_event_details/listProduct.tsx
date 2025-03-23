@@ -41,7 +41,7 @@ export default function ListProduct({ setOpen, selectProduct, setSelectProduct, 
                 {results?.map((item: IProduct, index: number) => {
                     if (results?.length === index + 1) {
                         return (
-                            <Flex ref={ref} onClick={() => selectProductHandler(item?.id)} w={"full"} borderWidth={"1px"} alignItems={"center"} borderColor={"#EBEDF0"} gap={"2"} p={"4"} rounded={"16px"} >
+                            <Flex ref={ref} key={index} onClick={() => selectProductHandler(item?.id)} w={"full"} borderWidth={"1px"} alignItems={"center"} borderColor={"#EBEDF0"} gap={"2"} p={"4"} rounded={"16px"} >
                                 <Flex width={"fit-content"} >
                                     <Flex w={"79px"} h={["79px"]} bgColor={"gray"} rounded={"8px"} >
                                         <Image alt='prod' src={IMAGE_URL + item?.images[0]} rounded={"8px"} />
@@ -59,7 +59,7 @@ export default function ListProduct({ setOpen, selectProduct, setSelectProduct, 
                         )
                     } else {
                         return (
-                            <Flex onClick={() => selectProductHandler(item?.id)} w={"full"} borderWidth={"1px"} alignItems={"center"} borderColor={"#EBEDF0"} gap={"2"} p={"4"} rounded={"16px"} >
+                            <Flex key={index} onClick={() => selectProductHandler(item?.id)} w={"full"} borderWidth={"1px"} alignItems={"center"} borderColor={"#EBEDF0"} gap={"2"} p={"4"} rounded={"16px"} >
                                 <Flex width={"fit-content"} >
                                     <Flex w={"79px"} h={["79px"]} bgColor={"gray"} rounded={"8px"} >
                                         <Image alt='prod' src={IMAGE_URL + item?.images[0]} rounded={"8px"} />

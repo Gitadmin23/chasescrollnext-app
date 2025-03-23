@@ -15,7 +15,9 @@ export default function ListDonation({ selectDonation, setSelectDonation }: { se
         <Flex w={"full"} maxH={"300px"} flexDir={"column"} overflowY={"auto"} gap={"3"} >
             {results?.map((item: IDonationList, index: number) => {
                 return (
+                    <Flex key={index} >
                     <EventDonationPicker items={item} selectDonation={selectDonation} setSelectDonation={setSelectDonation} />
+                    </Flex>
                 )
             })}
         </Flex>
