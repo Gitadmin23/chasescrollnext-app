@@ -3,20 +3,22 @@
 import useCustomTheme from '@/hooks/useTheme'
 import { Box, Button, Checkbox, Flex, HStack, Image, Input, Radio, RadioGroup, Select, Text, Textarea, useToast } from '@chakra-ui/react'
 import React, { useState, useRef } from 'react'
-import { IoArrowBack } from 'react-icons/io5' 
+import { IoArrowBack } from 'react-icons/io5'
 import ModalLayout from '../sharedComponent/modal_layout'
 import { IoIosCheckmarkCircle } from 'react-icons/io'
 import DayAvaliable from './createBookTabs/dayAvaliable'
 import { useMutation, useQuery } from 'react-query'
-import httpService from '@/utils/httpService' 
+import httpService from '@/utils/httpService'
 import { uniq } from 'lodash'
 import { Add } from 'iconsax-react'
 import { useRouter } from 'next/navigation'
-import { URLS } from '@/services/urls' 
+import { URLS } from '@/services/urls'
 import { FiX } from 'react-icons/fi'
 import { createBusinessValidation } from '@/services/validations'
 import { useForm } from '@/hooks/useForm'
 import { CustomInput } from '../Form/CustomInput'
+import useProductStore from '@/global-state/useCreateProduct'
+import ProductMap from '../kisok/productMap'
 
 
 export interface IDayOfTheWeek {
@@ -61,6 +63,7 @@ export default function CreateServices({ id }: { id: string }) {
     const [open, setOpen] = useState(false);
     const [showModal, setShowModal] = useState(false)
     const [serviceId, setServiceId] = useState<string | null>(null)
+    const { rentaldata, updateRental } = useProductStore((state) => state);
     const [description, setDescription] = useState("")
     const [isOnline, setIsOnline] = useState<'physical' | 'online' | 'both' | null>(null);
 
@@ -257,6 +260,8 @@ export default function CreateServices({ id }: { id: string }) {
                     endTime: parseInt(item.endTime.replace(':', '')),
                     availabilityDayOfWeek: item?.dayOFTheWeek
                 })),
+                "state": rentaldata?.location?.state,
+                "location": rentaldata?.location,
                 name,
             }
             console.log(obj);
@@ -365,7 +370,7 @@ export default function CreateServices({ id }: { id: string }) {
         })
     }
 
-    const clickHandler = () => {}
+    const clickHandler = () => { }
 
     return renderForm(
         <Flex w={"full"} h={"full"} >
@@ -477,7 +482,7 @@ export default function CreateServices({ id }: { id: string }) {
 
                         <Text fontWeight={"600"} >Select from the list of services</Text>
                         <Text fontWeight={"400"} fontSize={"14px"} >You are free to make adjustment anytime</Text>
-                        <Select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} h={"44px"} borderWidth={"1px"} borderColor={primaryColor} rounded={"16px"} color={primaryColor} >
+                        <Select value={selectedCategory} placeholder='Select Categories' onChange={(e) => setSelectedCategory(e.target.value)} h={"44px"} borderWidth={"1px"} borderColor={primaryColor} rounded={"16px"}  >
                             {!isLoading && categories.length > 0 && categories.map((item, index) => (
                                 <option key={index.toString()} selected={index === 0} value={item} >{item}</option>
                             ))}
@@ -558,8 +563,8 @@ export default function CreateServices({ id }: { id: string }) {
                         </Flex>
                     </RadioGroup>
                     {isOnline !== 'online' && (
-                        <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                            <CustomInput name="address" placeholder='' label='Business Address' isPassword={false} type='text' required={false} />
+                        <Flex flexDirection={"column"} w={"full"} h={"40px"} gap={"3px"} >
+                            <ProductMap location={rentaldata?.location} />
                         </Flex>
                     )}
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
@@ -570,7 +575,7 @@ export default function CreateServices({ id }: { id: string }) {
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="website" placeholder='' label='Business Website (optional)' isPassword={false} type='text' hint="The link must start with https://" />
-                    </Flex> 
+                    </Flex>
 
                     <Flex overflowX="auto" w="full" css={{
                         '&::-webkit-scrollbar': {

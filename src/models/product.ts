@@ -205,3 +205,19 @@ export interface IReceipt {
     "address": IAddress,
     frequency: any
 }
+
+export interface IReview {
+    "id": any,
+    "createdDate": number,
+    "lastModifiedBy": any,
+    "createdBy": any,
+    "lastModifiedDate": number,
+    "isDeleted": boolean,
+    "status": any,
+    "statusCode": number,
+    "returnMessage": string,
+    "user": IUser
+    "description": string,
+    "rating": number,
+    "reviewType": string
+}

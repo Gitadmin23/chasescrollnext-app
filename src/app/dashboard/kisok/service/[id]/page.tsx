@@ -1,16 +1,28 @@
 'use client';
+import EventMap from "@/components/event_details_component/event_map_info";
+import CustomButton from "@/components/general/Button";
+import GetCreatorData from "@/components/kisok/getCreatorData";
 import ProductRating from "@/components/kisok/productRating";
+import RentalCheckout from "@/components/kisok/rentalCheckout";
 import CreateBookingModal from "@/components/modals/booking/CreateBookingModal";
+import DescriptionPage from "@/components/sharedComponent/descriptionPage";
+import LoadingAnimation from "@/components/sharedComponent/loading_animation";
+import UserImage from "@/components/sharedComponent/userimage";
+import { CalendarIcon } from "@/components/svg";
 import { useDetails } from "@/global-state/useUserDetails";
 import useCustomTheme from "@/hooks/useTheme";
+import { IReview } from "@/models/product";
 import { IService } from "@/models/Service";
 import { IUser } from "@/models/User";
 import { IMAGE_URL, URLS } from "@/services/urls";
+import { capitalizeFLetter } from "@/utils/capitalLetter";
+import { dateFormat, timeFormat } from "@/utils/dateFormat";
 import httpService from "@/utils/httpService";
-import { Box, Flex, Text, Button, HStack, VStack, useToast, Spinner, Image } from "@chakra-ui/react";
+import { Box, Flex, Text, Button, HStack, VStack, useToast, Spinner, Image, Grid } from "@chakra-ui/react";
 import { ArrowLeft2, Star1 } from "iconsax-react";
 import { useParams, useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
+import { IoIosArrowForward } from "react-icons/io";
 import { useMutation, useQuery } from "react-query";
 
 export default function ServiceDetailsPage() {
@@ -22,7 +34,7 @@ export default function ServiceDetailsPage() {
     const [activeImageIndex, setActiveImageIndex] = React.useState(0);
 
     const param = useParams();
-    const router = useRouter();
+    const { back, push } = useRouter();
     const toast = useToast();
     const id = param?.id;
 
@@ -75,6 +87,25 @@ export default function ServiceDetailsPage() {
     })
 
 
+    const [reviewData, setData] = useState<Array<IReview>>([])
+
+
+    const { isLoading: loadinguser } = useQuery(
+        ["suggest-connections", service?.id],
+        () => httpService.get(`/user/suggest-connections`, {
+            params: {
+                typeId: service?.id
+            }
+        }), {
+        onSuccess(data) {
+            setData(data?.data?.content)
+        }
+    });
+
+
+
+
+
     // query
     const getUserProfile = useQuery(['get-public-profile', service?.vendor?.userId], () => httpService.get(`/user/publicprofile/${service?.vendor?.userId}`), {
         onSuccess: (data) => {
@@ -120,104 +151,186 @@ export default function ServiceDetailsPage() {
 
 
     return (
-        <Box w='full' h='full' p={['10px', '20px']} overflowY={'auto'} pb={"100px"}>
+        <LoadingAnimation loading={isLoading} >
+            <Flex w={"full"} flexDir={"column"} gap={"6"} pos={"relative"} overflowY={"auto"} h={"full"} px={["4", "4", "6"]} pb={["6"]} py={"6"}  >
 
-            <CreateBookingModal show={show} onClose={() => setShow(false)} service={service as IService} />
-
-            <Flex w='full' h='30px' justifyContent={'flex-start'} alignItems={'center'} mb='20px'>
-                <ArrowLeft2 size={30} onClick={() => router.back()} color={headerTextColor} />
-                <Text fontSize='16px' fontWeight={600}>{service?.name}</Text>
-            </Flex>
-
-            {/* IMAGES */}
-            {/*<Flex display={['flex', 'none']} bg={mainBackgroundColor} w={"full"} h={"240px"} bgColor={secondaryBackgroundColor} rounded={"8px"} overflowX='auto' gap={3}>*/}
-            {/*    {service?.images.map((item, index) => (*/}
-            {/*        <Box flexShrink={0} w='300px' h='full' borderRadius={'10px'} overflow='hidden' key={index.toString()}>*/}
-            {/*            <Image src={item.startsWith('https:') ? item : (IMAGE_URL as string) + item} alt='banner image' w='full' h='full' objectFit={'cover'} />*/}
-            {/*        </Box>*/}
-            {/*    ))}*/}
-            {/*</Flex>*/}
-
-            <Box cursor='pointer' w='full' h='344px' borderRadius={'10px'} overflow={'hidden'} bg="lightgrey" position={'relative'} >
-                {/* <BlurredImage forEvent={false} image={service?.images[0].startsWith('https://') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} height={'100%'} /> */}
-                {(service?.images as Array<string>)?.length > 1 && (
-                    <HStack position={"absolute"} bottom={"10px"} height={"15px"} width={'full'} justifyContent={"center"} spacing={1}>
-                        {service?.images.map((image, index) => (
-                            <Box cursor={'pointer'} onClick={() => setActiveImageIndex(index)} key={index.toString()} width={activeImageIndex === index ? "10px" : "5px"} height={activeImageIndex === index ? "10px" : "5px"} borderRadius={activeImageIndex === index ? "10px" : "5px"} bg={activeImageIndex === index ? "white" : "white"} scale={activeImageIndex === index ? 1 : 1} ></Box>
-                        ))}
-                    </HStack>
-                )}
-
-                <Image onClick={() => router.push(`/dashboard/newbooking/details/service/${service?.id}`)} cursor='pointer' src={service?.images[activeImageIndex].startsWith('https://') ? service?.images[activeImageIndex] : (IMAGE_URL as string) + service?.images[activeImageIndex]} alt="banner image" w='full' h='full' objectFit={'cover'} />
-            </Box>
-
-            <Flex w='full' h='auto' flexDir={['column', 'row']} mt='20px' justifyContent={['flex-start', 'space-between']} alignItems={['flex-start', 'flex-start']}>
-                <VStack w={['full', '60%']} spacing={1} alignItems='flex-start'>
-                    <Text fontWeight={600} color={headerTextColor} fontSize={'16px'}>Details</Text>
-                    <Text fontWeight={400} fontSize={'14px'}>{service?.description}</Text>
-                </VStack>
-                <Flex w={['full', '413px']} height={'168px'} mt={['30px', '0px']} flexDir={'column'} px='30px' justifyContent={'center'} borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
-                    <HStack justifyContent={'flex-start'}>
-                        <Text fontWeight={600} fontSize={"14px"} color={bodyTextColor}>Starting price</Text>
-                        <Text fontSize={'24px'} fontWeight={600} color={headerTextColor}>NGN {(service?.discount) && service?.discount > 0 ? service?.discount.toLocaleString() : service?.price?.toLocaleString()}</Text>
-                    </HStack>
-
-                    {userId !== service?.vendor?.userId && (
-                        <Button onClick={() => setShow(true)} w='full' h='54px' borderRadius={'full'} bgColor={primaryColor} mt='40px'>
-                            <Text fontWeight={500} color='white'>Get Qoute</Text>
-                        </Button>
-                    )}
+                <Flex gap={"1"} alignItems={"center"} pb={"3"} >
+                    <Text role='button' onClick={() => back()} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Home</Text>
+                    <IoIosArrowForward />
+                    <Text fontSize={"14px"} fontWeight={"500"} >Service details</Text>
+                    <IoIosArrowForward />
+                    <Text fontSize={"14px"} fontWeight={"500"} >{service?.name}</Text>
                 </Flex>
-            </Flex>
+                <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
+                    <Flex w={"full"} h={["340px", "340px", "620px"]} pos={"relative"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"8px"} >
+                        <Image src={IMAGE_URL + service?.images[0]} alt='logo' rounded={"8px"} height={"full"} objectFit={"cover"} />
+                        <Grid templateColumns={["repeat(3, 1fr)"]} pos={"absolute"} gap={"3"} insetX={"4"} bottom={"4"} >
+                            {service?.images?.map((subitem: string, index: number) => {
+                                if (index !== 0 && index <= 3) {
+                                    return (
+                                        <Flex key={index} w={"full"} h={["100px", "150px"]} bgColor={secondaryBackgroundColor} rounded={"8px"} shadow={"md"} >
+                                            <Image src={IMAGE_URL + subitem} alt='logo' w={"full"} rounded={"8px"} height={"full"} objectFit={"cover"} />
+                                        </Flex>
+                                    )
+                                }
+                            })}
+                        </Grid>
+                    </Flex>
+                    <Flex w={"full"} flexDir={"column"} gap={"3"} >
+                        <Text fontWeight={"700"} fontSize={"24px"} >{capitalizeFLetter(service?.name)}</Text>
+                        {/* <DescriptionPage limit={100} label='Service Details' description={service?.description + ""} />
 
-            <Flex w='full' flexDir={['column', 'row']} mt='20px' justifyContent={['flex-start', 'space-between']}>
+                        <GetCreatorData reviewdata={reviewData} userData={service?.vendor} /> */}
+                        <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
+                            <DescriptionPage limit={100} label='Rental Details' description={service?.description+""} />
+                            <Flex w={"full"} gap={"2"}>
+                                <Flex w={["fit-content", "fit-content", "full"]} >
+                                    <GetCreatorData reviewdata={reviewData} userData={service?.vendor} />
+                                </Flex>
+                                <Flex display={["flex", "flex", "none"]} w={"full"}  >
+                                    <Flex w={"full"} >
+                                        <Flex w={"full"} flexDir={'column'} p='30px' justifyContent={'center'} borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
+                                            <Flex flexDir={"column"} >
+                                                <Text fontWeight={600} fontSize={"14px"} color={bodyTextColor}>Starting price</Text>
+                                                <Text fontSize={'24px'} fontWeight={600} color={headerTextColor}>NGN {(service?.discount) && service?.discount > 0 ? service?.discount.toLocaleString() : service?.price?.toLocaleString()}</Text>
+                                            </Flex>
 
-                <VStack w={['full', '60%']} alignItems='flex-start' spacing={4} >
-                    <Text fontWeight={600} color={headerTextColor} fontSize={'16px'} textDecoration={'underline'}>Vendor Details</Text>
-                    <HStack spacing={[10, 20]}>
-                        <Box w='auto' h='auto' overflow={'visible'} position="relative">
-                            <Box zIndex={1} w='60px' h='60px' borderRadius={'full'} overflow='hidden' bgColor='lightgrey'>
-                                <Image zIndex={1} w='60px' h='60px' borderRadius={'full'} alt="user image" objectFit={'cover'} src={service?.vendor?.data?.imgMain?.value ? (service?.vendor?.data?.imgMain?.value.startsWith('http') ? service?.vendor?.data?.imgMain?.value : IMAGE_URL + service?.vendor?.data?.imgMain?.value) : `https://ui-avatars.com/api/?name=${service?.vendor?.firstName}${service?.vendor?.lastName}&background=random`} />
-                            </Box>
+                                            {userId !== service?.vendor?.userId && (
+                                                <Button onClick={() => setShow(true)} w='full' h='54px' borderRadius={'full'} bgColor={primaryColor} mt='40px'>
+                                                    <Text fontWeight={500} color='white'>Get Qoute</Text>
+                                                </Button>
+                                            )}
+                                        </Flex>
+                                    </Flex>
+                                </Flex>
+                            </Flex>
+                        </Flex>
+                        <Flex gap={"2"} alignItems={"center"}>
+                            <Text fontWeight={"600"} w={"60px"} >Joined</Text>
+                            <CalendarIcon color={primaryColor} />
+                            <Text fontSize={["12px", "12px", "14px"]} >{dateFormat(service?.createdDate)} {timeFormat(service?.createdDate)}</Text>
+                        </Flex>
+                        <Flex w={"full"} justifyContent={"end"} >
+                            <Flex maxW={"413px"} display={["none", "none", "flex"]}  >
+                                <Flex flexDir={'column'} p='30px' justifyContent={'center'} borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
+                                    <HStack justifyContent={'flex-start'}>
+                                        <Text fontWeight={600} fontSize={"14px"} color={bodyTextColor}>Starting price</Text>
+                                        <Text fontSize={'24px'} fontWeight={600} color={headerTextColor}>NGN {(service?.discount) && service?.discount > 0 ? service?.discount.toLocaleString() : service?.price?.toLocaleString()}</Text>
+                                    </HStack>
 
-                            <HStack zIndex={2} justifyContent={'center'} position='absolute' top={1} right={-6} width='54px' height={'27px'} borderRadius={'35px'} bg='white' borderWidth={'1px'} borderColor={'#E8E8E8'} >
-                                <Star1 size={25} color='gold' variant="Bold" />
-                                <Text fontSize={'16px'} fontWeight={800}>{service?.rating}</Text>
-                            </HStack>
-                        </Box>
-                        <VStack alignItems='flex-start' spacing={-2}>
-                            <Text fontWeight={600} fontSize={'16px'}>Service from {service?.name}</Text>
-                            <Text color={bodyTextColor} fontSize={'14px'} fontWeight={400}>Joined {new Date(service?.createdDate as number).toDateString()}  ( {service?.totalBooking === 0 ? 0 : service?.totalBooking} clients served)</Text>
-                        </VStack>
-                    </HStack>
-                    {
-                        !getUserProfile.isLoading && userId !== service?.vendor?.userId && vendor?.joinStatus !== 'CONNECTED' && (
-                            <Button onClick={() => mutate({ toUserID: service?.vendor?.userId as string })} isLoading={friendRequestLoading} width={'100px'} height={'35px'} borderRadius="45px" backgroundColor={primaryColor} mt='5px'>
-                                <Text color='white' fontSize={'16px'}>Follow</Text>
-                            </Button>
-                        )
-                    }
-                </VStack>
-
-                {/* CATEGORIES SECTION */}
-
-                <Flex w={['full', '413px']} mt={['30px', '0px']} flexDir={'column'} py='5px' borderRadius={'10px'}>
-                    <Text fontWeight={600} color={headerTextColor}>Service Category</Text>
-
-                    <Flex w='full' h='auto' overflowX={'auto'} gap={3} mt='10px'>
-                        <VStack w='auto' h='34px' px='10px' borderRadius={'full'} borderWidth={'1px'} borderColor={borderColor} justifyContent={'center'} alignItems={'center'}>
-                            <Text fontWeight={300} fontSize='14px'>{service?.category}</Text>
-                        </VStack>
+                                    {userId !== service?.vendor?.userId && (
+                                        <Button onClick={() => setShow(true)} w='full' h='54px' borderRadius={'full'} bgColor={primaryColor} mt='40px'>
+                                            <Text fontWeight={500} color='white'>Get Qoute</Text>
+                                        </Button>
+                                    )}
+                                </Flex>
+                            </Flex>
+                        </Flex>
                     </Flex>
                 </Flex>
-
-            </Flex> 
-            
-            <Flex flexDir="column" mt='20px'>
-                <ProductRating item={service} reviewType="PRODUCT" />
+                <Flex w={"full"} gap={"3"} flexDir={["column", "column", "row"]} justifyContent={"start"} alignItems={"start"} >
+                    <Flex w={"full"}  >
+                        <EventMap latlng={service?.location?.latlng + ""} />
+                    </Flex>
+                    <Flex w={"full"} flexDir={"column"} >
+                        <ProductRating setData={setData} data={reviewData} item={service} reviewType="SERVICE" />
+                        <Flex display={["flex", "flex", "none"]} w={"full"} h={"200px"} />
+                    </Flex>
+                </Flex>
+                <CreateBookingModal show={show} onClose={() => setShow(false)} service={service as IService} />
             </Flex>
-
-        </Box>
+        </LoadingAnimation>
     )
 
 }
+
+
+// {/* <Box w='full' h='full' p={['10px', '20px']} overflowY={'auto'} pb={"100px"}>
+
+// <CreateBookingModal show={show} onClose={() => setShow(false)} service={service as IService} />
+
+// <Flex w='full' h='30px' justifyContent={'flex-start'} alignItems={'center'} mb='20px'>
+//     <ArrowLeft2 size={30} onClick={() => router.back()} color={headerTextColor} />
+//     <Text fontSize='16px' fontWeight={600}>{service?.name}</Text>
+// </Flex> 
+
+// <Box cursor='pointer' w='full' h='344px' borderRadius={'10px'} overflow={'hidden'} bg="lightgrey" position={'relative'} >
+//     {/* <BlurredImage forEvent={false} image={service?.images[0].startsWith('https://') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} height={'100%'} /> */}
+//     {(service?.images as Array<string>)?.length > 1 && (
+//         <HStack position={"absolute"} bottom={"10px"} height={"15px"} width={'full'} justifyContent={"center"} spacing={1}>
+//             {service?.images.map((image, index) => (
+//                 <Box cursor={'pointer'} onClick={() => setActiveImageIndex(index)} key={index.toString()} width={activeImageIndex === index ? "10px" : "5px"} height={activeImageIndex === index ? "10px" : "5px"} borderRadius={activeImageIndex === index ? "10px" : "5px"} bg={activeImageIndex === index ? "white" : "white"} scale={activeImageIndex === index ? 1 : 1} ></Box>
+//             ))}
+//         </HStack>
+//     )}
+
+//     <Image onClick={() => router.push(`/dashboard/newbooking/details/service/${service?.id}`)} cursor='pointer' src={service?.images[activeImageIndex].startsWith('https://') ? service?.images[activeImageIndex] : (IMAGE_URL as string) + service?.images[activeImageIndex]} alt="banner image" w='full' h='full' objectFit={'cover'} />
+// </Box>
+
+// <Flex w='full' h='auto' flexDir={['column', 'row']} mt='20px' justifyContent={['flex-start', 'space-between']} alignItems={['flex-start', 'flex-start']}>
+//     <VStack w={['full', '60%']} spacing={1} alignItems='flex-start'>
+//         <Text fontWeight={600} color={headerTextColor} fontSize={'16px'}>Details</Text>
+//         <Text fontWeight={400} fontSize={'14px'}>{service?.description}</Text>
+//     </VStack>
+//     <Flex w={['full', '413px']} height={'168px'} mt={['30px', '0px']} flexDir={'column'} px='30px' justifyContent={'center'} borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
+//         <HStack justifyContent={'flex-start'}>
+//             <Text fontWeight={600} fontSize={"14px"} color={bodyTextColor}>Starting price</Text>
+//             <Text fontSize={'24px'} fontWeight={600} color={headerTextColor}>NGN {(service?.discount) && service?.discount > 0 ? service?.discount.toLocaleString() : service?.price?.toLocaleString()}</Text>
+//         </HStack>
+
+//         {userId !== service?.vendor?.userId && (
+//             <Button onClick={() => setShow(true)} w='full' h='54px' borderRadius={'full'} bgColor={primaryColor} mt='40px'>
+//                 <Text fontWeight={500} color='white'>Get Qoute</Text>
+//             </Button>
+//         )}
+//     </Flex>
+// </Flex>
+
+// <Flex w='full' flexDir={['column', 'row']} mt='20px' justifyContent={['flex-start', 'space-between']}>
+
+//     <VStack w={['full', '60%']} alignItems='flex-start' spacing={4} >
+//         <Text fontWeight={600} color={headerTextColor} fontSize={'16px'} textDecoration={'underline'}>Vendor Details</Text>
+//         <HStack spacing={[10, 20]}>
+//             <Box w='auto' h='auto' overflow={'visible'} position="relative">
+//                 <Box zIndex={1} w='60px' h='60px' borderRadius={'full'} overflow='hidden' bgColor='lightgrey'>
+//                     <Image zIndex={1} w='60px' h='60px' borderRadius={'full'} alt="user image" objectFit={'cover'} src={service?.vendor?.data?.imgMain?.value ? (service?.vendor?.data?.imgMain?.value.startsWith('http') ? service?.vendor?.data?.imgMain?.value : IMAGE_URL + service?.vendor?.data?.imgMain?.value) : `https://ui-avatars.com/api/?name=${service?.vendor?.firstName}${service?.vendor?.lastName}&background=random`} />
+//                 </Box>
+
+//                 <HStack zIndex={2} justifyContent={'center'} position='absolute' top={1} right={-6} width='54px' height={'27px'} borderRadius={'35px'} bg='white' borderWidth={'1px'} borderColor={'#E8E8E8'} >
+//                     <Star1 size={25} color='gold' variant="Bold" />
+//                     <Text fontSize={'16px'} fontWeight={800}>{service?.rating}</Text>
+//                 </HStack>
+//             </Box>
+//             <VStack alignItems='flex-start' spacing={-2}>
+//                 <Text fontWeight={600} fontSize={'16px'}>Service from {service?.name}</Text>
+//                 <Text color={bodyTextColor} fontSize={'14px'} fontWeight={400}>Joined {new Date(service?.createdDate as number).toDateString()}  ( {service?.totalBooking === 0 ? 0 : service?.totalBooking} clients served)</Text>
+//             </VStack>
+//         </HStack>
+//         {
+//             !getUserProfile.isLoading && userId !== service?.vendor?.userId && vendor?.joinStatus !== 'CONNECTED' && (
+//                 <Button onClick={() => mutate({ toUserID: service?.vendor?.userId as string })} isLoading={friendRequestLoading} width={'100px'} height={'35px'} borderRadius="45px" backgroundColor={primaryColor} mt='5px'>
+//                     <Text color='white' fontSize={'16px'}>Follow</Text>
+//                 </Button>
+//             )
+//         }
+//     </VStack>
+
+//     {/* CATEGORIES SECTION */}
+
+//     <Flex w={['full', '413px']} mt={['30px', '0px']} flexDir={'column'} py='5px' borderRadius={'10px'}>
+//         <Text fontWeight={600} color={headerTextColor}>Service Category</Text>
+
+//         <Flex w='full' h='auto' overflowX={'auto'} gap={3} mt='10px'>
+//             <VStack w='auto' h='34px' px='10px' borderRadius={'full'} borderWidth={'1px'} borderColor={borderColor} justifyContent={'center'} alignItems={'center'}>
+//                 <Text fontWeight={300} fontSize='14px'>{service?.category}</Text>
+//             </VStack>
+//         </Flex>
+//     </Flex>
+
+// </Flex> 
+
+// <Flex flexDir="column" mt='20px'>
+//     <ProductRating item={service} reviewType="PRODUCT" />
+// </Flex>
+
+// </Box> */}

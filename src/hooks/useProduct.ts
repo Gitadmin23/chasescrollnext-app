@@ -7,7 +7,13 @@ import AWSHook from "./awsHook";
 import useProductStore from "@/global-state/useCreateProduct";
 import usePaystackStore from "@/global-state/usePaystack";
 import { IProduct } from "@/models/product";
+import { AxiosError, AxiosResponse } from "axios";
 
+export interface IPinned {
+    pinnedItemType: "EVENT",
+    typeId: string,
+    productId: string
+}
 
 const useProduct = (item?: any, rental?: boolean) => {
 
@@ -484,22 +490,21 @@ const useProduct = (item?: any, rental?: boolean) => {
 
     const pinProduct = useMutation({
         mutationFn: (data: {
-            "pinnedItemType": "EVENT",
-            "typeId": string,
-            "productId": string
+            pinnedItems: Array<IPinned>
         }) => httpService.post(`/pin-item/create`, data),
         onSuccess: (data: any) => {
 
             toast({
                 title: 'Successful',
                 description: "Pinned Successful",
-                status: 'error',
+                status: 'success',
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
             });
 
             console.log(data);
+            query?.invalidateQueries("all-events-mesh")
 
         },
         onError: (error) => {
@@ -513,8 +518,7 @@ const useProduct = (item?: any, rental?: boolean) => {
                 position: 'top-right',
             });
         },
-    });
-
+    }); 
 
     const createProductOrder = useMutation({
         mutationFn: (data: {

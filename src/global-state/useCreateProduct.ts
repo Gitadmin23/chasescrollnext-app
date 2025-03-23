@@ -24,10 +24,11 @@ export type CreateProduct = {
         placeIds?: string,
         toBeAnnounced?: true
     },
+    state: string
 }
 
 type ILocation = {
-    location : {
+    location: {
         link?: string,
         address?: string,
         country?: string,
@@ -52,6 +53,7 @@ export type CreateRental = {
     price: number | any,
     images: Array<string>,
     frequency: "HOURLY" | "DAILY"
+    state: string
 }
 
 type State = {
@@ -89,9 +91,10 @@ const useProductStore = create<State & Image & Navigate & Action & ILocation>((s
         discountPrice: null,
         publish: true,
         location: "" as any,
+        state: ""
     },
 
-    location : {} as any,
+    location: {} as any,
     image: [],
     imagePreview: [],
     rentaldata: {
@@ -103,7 +106,8 @@ const useProductStore = create<State & Image & Navigate & Action & ILocation>((s
         "maximiumNumberOfDays": 1,
         "price": null,
         "images": [],
-        frequency: "DAILY"
+        frequency: "DAILY",
+        state: ""
     },
     updateProduct: (data) => set(() => ({ productdata: data })),
     updateAddress: (data) => set(() => ({ location: data })),

@@ -16,79 +16,62 @@ import BlurredImage from '../sharedComponent/blurred_image'
 import { textLimit } from '@/utils/textlimit'
 import { formatNumber } from '@/utils/numberFormat'
 import { IMAGE_URL } from '@/services/urls'
+import ProductImageScroller from '../sharedComponent/productImageScroller'
 
 export default function GetRental() {
 
-    const { primaryColor, bodyTextColor } = useCustomTheme()
+    const { primaryColor, bodyTextColor, borderColor } = useCustomTheme()
     const { push } = useRouter()
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/rental/search`, limit: 20, filter: "id", name: "getrental" })
 
     return (
         <LoadingAnimation loading={isLoading}  >
-            <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={"6"} >
+            <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["2", "2", "6"]}  >
                 {results?.map((item: IRental, index: number) => {
                     if (results?.length === index + 1) {
                         return (
-                            <Flex ref={ref} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={"16px"} p={"4"} gap={"4"} style={{ boxShadow: "0px 4px 4px 0px #0000000D" }} >
-                                <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
-                                    <UserImage image={item?.creator?.data?.imgMain?.value} font={"16px"} data={item?.creator} border={"1px"} size={"32px"} />
-                                    <Flex flexDir={"column"}>
-                                        <Text fontSize={"14px"} fontWeight={"600"} color={primaryColor} >
-                                            {capitalizeFLetter(item?.creator?.firstName) + " " + capitalizeFLetter(item?.creator?.lastName)}
-                                        </Text>
-                                        <Text fontSize={"12px"} color={bodyTextColor} >
-                                            {moment(item?.createdDate)?.fromNow()}
-                                        </Text>
-                                    </Flex>
-                                </Flex>
-                                <Flex w={"full"} h={"210px"} rounded={"8px"} >
-                                    <Image borderColor={"#D0D4EB"} objectFit={"cover"} alt={item?.images[0]} width={["full"]} height={"full"} src={IMAGE_URL + item?.images[0]} />
-                                </Flex>
+                            <Flex ref={ref} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={"16px"} p={["2", "2", "4"]} borderWidth={["1px", "1px", "1px"]} borderColor={borderColor} gap={["2", "2", "4"]} >
+                                <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.creator} />
                                 <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} >
                                     <Flex flexDir={"column"} >
-                                        <Text fontSize={"14px"} fontWeight={"600"}  >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
-                                        <Text fontSize={"20px"} fontWeight={"600"} >{textLimit(item?.description, 20)}</Text>
+                                        <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
+                                        <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>
+                                        <Text display={["none", "none", "flex"]} fontSize={"20px"} fontWeight={"600"} >{textLimit(item?.description, 20)}</Text>
                                     </Flex>
                                     {/* <Text fontSize={"14px"} fontWeight={"700"} color={bodyTextColor} >{textLimit(item?.category, 15)}</Text> */}
-                                    <Text fontSize={"20px"} fontWeight={"600"} >{formatNumber(item?.price)}/ {capitalizeFLetter(item?.frequency ? item?.frequency : "Daily")}</Text>
+                                    <Text fontSize={["14px", "14px", "16px"]} fontWeight={"700"} >{formatNumber(item?.price)}/ {capitalizeFLetter(item?.frequency ? item?.frequency : "Daily")}</Text>
                                     <Flex w={"full"} gap={"2"} alignItems={"center"} >
                                         <LocationStroke />
-                                        <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >{item?.location?.locationDetails}</Text>
+                                        <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 40)}</Text>
+                                        <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
                                     </Flex>
-                                    <CustomButton onClick={() => push("/dashboard/kisok/details-rental/" + item?.id)} text={"View Rental Services"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                                    <Flex display={["none", "none", "flex"]} >
+                                        <CustomButton onClick={() => push("/dashboard/kisok/details-rental/" + item?.id)} text={"View Rental Services"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                                    </Flex>
                                 </Flex>
                             </Flex>
                         )
                     } else {
                         return (
-                            <Flex key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={"16px"} p={"4"} gap={"4"} style={{ boxShadow: "0px 4px 4px 0px #0000000D" }} >
-                                <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
-                                    <UserImage image={item?.creator?.data?.imgMain?.value} font={"16px"} data={item?.creator} border={"1px"} size={"32px"} />
-                                    <Flex flexDir={"column"}>
-                                        <Text fontSize={"14px"} fontWeight={"600"} color={primaryColor} >
-                                            {capitalizeFLetter(item?.creator?.firstName) + " " + capitalizeFLetter(item?.creator?.lastName)}
-                                        </Text>
-                                        <Text fontSize={"12px"} color={bodyTextColor} >
-                                            {moment(item?.createdDate)?.fromNow()}
-                                        </Text>
-                                    </Flex>
-                                </Flex>
-                                <Flex w={"full"} h={"210px"} rounded={"8px"} >
-                                    <Image rounded={"8px"} borderColor={"#D0D4EB"} objectFit={"cover"} alt={item?.images[0]} width={["full"]} height={"full"} src={IMAGE_URL + item?.images[0]} />
-                                </Flex>
+                            <Flex key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={"16px"} p={["2", "2", "4"]} borderWidth={["1px", "1px", "1px"]} borderColor={borderColor} gap={["2", "2", "4"]} >
+                                <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.creator} />
                                 <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} >
                                     <Flex flexDir={"column"} >
-                                        <Text fontSize={"14px"} fontWeight={"600"}  >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
-                                        <Text fontSize={"20px"} fontWeight={"600"} >{textLimit(item?.description, 20)}</Text>
+                                        <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
+                                        <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>
+                                        <Text display={["none", "none", "flex"]} fontSize={"20px"} fontWeight={"600"} >{textLimit(item?.description, 20)}</Text>
                                     </Flex>
-                                    <Text fontSize={"14px"} fontWeight={"700"} color={bodyTextColor} >{textLimit(item?.category, 15)}</Text>
-                                    <Text fontSize={"20px"} fontWeight={"600"} >{formatNumber(item?.price)}/ {capitalizeFLetter(item?.frequency ? item?.frequency : "Daily")}</Text>
+                                    {/* <Text fontSize={"14px"} fontWeight={"700"} color={bodyTextColor} >{textLimit(item?.category, 15)}</Text> */}
+                                    <Text fontSize={["14px", "14px", "16px"]} fontWeight={"700"} >{formatNumber(item?.price)}/ {capitalizeFLetter(item?.frequency ? item?.frequency : "Daily")}</Text>
                                     <Flex w={"full"} gap={"2"} alignItems={"center"} >
                                         <LocationStroke />
-                                        <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >{textLimit(item?.location?.locationDetails, 30)}</Text>
+                                        <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 40)}</Text>
+                                        <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
                                     </Flex>
-                                    <CustomButton onClick={() => push("/dashboard/kisok/details-rental/" + item?.id)} text={"View Rental Services"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                                    <Flex display={["none", "none", "flex"]} >
+                                        <CustomButton onClick={() => push("/dashboard/kisok/details-rental/" + item?.id)} text={"View Rental Services"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                                    </Flex>
                                 </Flex>
                             </Flex>
                         )

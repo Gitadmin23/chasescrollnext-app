@@ -29,8 +29,8 @@ export default function ListService({ selectService, service }: { selectService:
                 {serviceData?.data?.map((item: string, index: number) => {
                     return (
                         <Flex key={index} as={"button"} onClick={() => selectServiceHandle(item)} w={"full"} h={"fit-content"} >
-                            <Flex w={"full"} h={"53px"} px={"4"} justifyContent={"space-between"} borderBottomWidth={"1px"} borderColor={"##EAEBEDCC"} alignItems={"center"} >
-                                <Text fontSize={"14px"} >{item}</Text>
+                            <Flex w={"full"} h={"53px"} gap={"3"} px={"4"} justifyContent={"space-between"} borderBottomWidth={"1px"} borderColor={"##EAEBEDCC"} alignItems={"center"} >
+                                <Text textAlign={"left"} fontSize={["12px", "14px", "14px"]} >{item}</Text>
                                 <Checkbox isChecked={service?.includes(item) ? true : false} />
                             </Flex>
                         </Flex>

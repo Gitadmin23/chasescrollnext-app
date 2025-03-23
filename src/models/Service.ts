@@ -27,5 +27,19 @@ export type IService = {
         socialMediaHandles: Array<ISocialMediaHandles>;
         createdDate: number;
         totalBooking: number;
+        "location": {
+            "link": string,
+            "address": string,
+            "country": string,
+            "street": string,
+            "city": string,
+            "zipcode": string,
+            "state": string,
+            "locationDetails": string,
+            "latlng": string,
+            "placeIds": string,
+            "toBeAnnounced": boolean
+        },
+        "state": string,
 }
 

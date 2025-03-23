@@ -17,11 +17,11 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
 
     const { borderColor, secondaryBackgroundColor } = useCustomTheme()
 
-    const [startDate, setStartDate] = useState("" as any) 
+    const [startDate, setStartDate] = useState("" as any)
     const [open, setOpen] = useState(false)
     const [newPrice, setNewPrice] = useState("")
-    
-    const [tab, setTab] = useState(true) 
+
+    const [tab, setTab] = useState(true)
 
     const CustomInput = ({ value, onClick }: any) => {
         return (
@@ -46,10 +46,13 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
     }, [open])
 
     return (
-        <Flex w={"full"} bgColor={"white"} rounded={"16px"} flexDirection={"column"} borderWidth={"1px"} p={"24px"} gap={"1"} borderColor={borderColor} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
-            <Text fontSize={"14px"} >Starting Price - <span style={{ fontSize: "22px", fontWeight: "600" }} >{formatNumber(item?.price)}</span>{item?.frequency !== "HOURLY" ? "/Per day" : "/Per hour"}</Text>
+        <Flex w={"full"} bgColor={"white"} rounded={"16px"} flexDirection={"column"} borderWidth={"1px"} p={["4", "4", "24px"]} gap={"1"} borderColor={borderColor} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
+            <Flex gap={"1"} flexDir={["column", "column", "row"]} >
+                <Text fontSize={"14px"} >Starting Price</Text>
+                <Text fontSize={"14px"} ><span style={{ fontSize: "22px", fontWeight: "600" }} >{formatNumber(item?.price)}</span>{item?.frequency !== "HOURLY" ? "/Per day" : "/Per hour"}</Text>
+            </Flex>
             <Flex alignItems={"center"} gap={"3"} >
-                <Text fontSize={"14px"} fontWeight={"500"} >Number of {item?.frequency !== "HOURLY" ? "days" : "hrs"}</Text>
+                <Text fontSize={["12px", "12px","14px"]} fontWeight={"500"} >Number of {item?.frequency !== "HOURLY" ? "days" : "hrs"}</Text>
                 <Flex rounded={"39px"} alignItems={"center"} padding={"12px"} gap={"3"} >
                     <Flex as={"button"} onClick={() => setQty((prev: any) => prev === 1 ? 1 : prev - 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
                         <IoIosRemove />
@@ -97,9 +100,9 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                             )}
                             <Flex flexDirection={"column"} gap={"1"}  >
                                 <Text fontSize={"14px"} >Negotiate Price Per Day(Optional)</Text>
-                                <Input height={"50px"} w={"full"} value={newPrice} type="number" placeholder={formatNumber(item?.price)} onChange={(e)=> setNewPrice(e.target.value)} />
+                                <Input height={"50px"} w={"full"} value={newPrice} type="number" placeholder={formatNumber(item?.price)} onChange={(e) => setNewPrice(e.target.value)} />
                             </Flex>
-                            <CustomButton disable={startDate ? false : true} mt={"4"} onClick={()=> setTab(true)} text={`Continue`} borderRadius={"999px"} height={"55px"} />
+                            <CustomButton disable={startDate ? false : true} mt={"4"} onClick={() => setTab(true)} text={`Continue`} borderRadius={"999px"} height={"55px"} />
                         </Flex>
                     )}
                     {tab && (

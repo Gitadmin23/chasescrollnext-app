@@ -108,7 +108,7 @@ function CreateBookingModal({
     }, [description, service, userId, toast, mutate, price]);
 
     console.log(service);
-    
+
 
 
     return (
@@ -146,32 +146,8 @@ function CreateBookingModal({
                         <Textarea value={description} onChange={(e) => setDescription(e.target.value)} w='full' h='80px' fontSize={"14px"} placeholder='Tell us how we can serve you' />
                     </VStack>
 
-                    <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
-                        <Text fontWeight="600" fontSize={'14px'}>Book a date</Text>
-                        <InputGroup width='100%'>
-                            <InputLeftElement>
-                            <CalendarIcon />
-                            </InputLeftElement>
-                            <Input
-                                type='date'
-                                value={date}
-                                onChange={(e) => {
-                                    console.log(e.target.value)
-                                    setDate(e.target.value)
-                                }}
-                                borderWidth={'1px'}
-                                height="45px"
-                                borderRadius={'8px'}
-                                borderBottomColor={borderColor}
-                                placeholder='Pick Date'
-                                fontSize={'14px'}
-                                fontWeight={400}
-                            />
-                        </InputGroup>
-                    </VStack>
-
                     <Button onClick={handleCreation} isLoading={isLoading} w='full' h='42px' backgroundColor={primaryColor} borderRadius={'full'} mt='20px'>
-                        <Text fontWeight={600} fontSize={'14px'} color='white'>{service?.hasFixedPrice ? 'Create Booking' : 'Create Offer'}</Text>
+                        <Text fontWeight={600} fontSize={'14px'} color='white'>{'Create Booking'}</Text>
                     </Button>
                 </VStack>
                 <Flex w='full' h='full' p={["6px", "6px", '15px']} flexDir='column'>
@@ -187,65 +163,53 @@ function CreateBookingModal({
                         </Flex>
 
                         {service?.hasFixedPrice && (
-                            <Flex flexDir='column' mt='30xp'>
-                                <Text fontWeight={500} fontSize={'14px'} color={headerTextColor} mt='10px' >Service Total price:</Text>
+                            <Flex flexDir='row' justifyContent={"space-between"} mt='30xp' py={"2"} >
+                                <Text fontWeight={500} fontSize={'14px'} color={headerTextColor}  >Starting price:</Text>
+                                <Text fontSize={'14px'} fontWeight={"600"} >NGN {service?.price?.toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
 
-                                <HStack justifyContent={'space-between'} h='40px'>
+                                {/* <HStack justifyContent={'space-between'} h='40px'>
                                     <Text color={bodyTextColor} fontSize="12px">{service?.service?.category}</Text>
-                                    <Text fontSize={'14px'} >NGN {service?.price?.toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
-                                </HStack>
+                                </HStack> */}
 
-                                <HStack justifyContent={'space-between'} h='40px'>
+                                {/* <HStack justifyContent={'space-between'} h='40px'>
                                     <Text fontSize='12px'>Service Fee:</Text>
                                     <Text fontSize={'14px'}>NGN {(service?.price * 0.02)?.toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
                                 </HStack>
 
-                                <Divider />
 
                                 <HStack justifyContent={'flex-end'} h='40px'>
                                     <Text fontSize='12px'>Total Price</Text>
                                     <Text fontSize={'14px'}>NGN {(service?.price + (service?.price * 0.02)).toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
-                                </HStack>
+                                </HStack> */}
                             </Flex>
                         )}
 
-                        {!service?.hasFixedPrice && (
-                            <Flex flexDir='column' mt='30xp'>
-                                <Text fontWeight={500} fontSize={'14px'} color={headerTextColor} mt='10px' >Make An Offer</Text>
 
-                                <HStack justifyContent={'space-between'} h='40px' w='full'>
-                                    <Text color={bodyTextColor} fontSize='14px'>Enter Price</Text>
-                                    <InputGroup width='150px'>
-                                        <InputLeftElement>NGN</InputLeftElement>
-                                        <Input
-                                            type='number'
-                                            value={price}
-                                            onChange={(e) => {
-                                                const value = e.target.value;
-                                                if (/^\d*$/.test(value)) { // Only allow digits
-                                                    setPrice(value);
-                                                }
-                                            }}
-                                            onKeyPress={(e) => {
-                                                if (!/\d/.test(e.key)) { // Prevent non-digit keys
-                                                    e.preventDefault();
-                                                }
-                                            }}
+<Divider />
+                        <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
+                            <Text fontWeight="600" fontSize={'14px'}>Book a date</Text>
+                            <InputGroup width='100%'>
+                                <InputLeftElement>
+                                    <CalendarIcon />
+                                </InputLeftElement>
+                                <Input
+                                    type='date'
+                                    value={date}
+                                    onChange={(e) => {
+                                        console.log(e.target.value)
+                                        setDate(e.target.value)
+                                    }}
+                                    borderWidth={'1px'}
+                                    height="45px"
+                                    borderRadius={'8px'}
+                                    borderBottomColor={borderColor}
+                                    placeholder='Pick Date'
+                                    fontSize={'14px'}
+                                    fontWeight={400}
+                                />
+                            </InputGroup>
+                        </VStack>
 
-                                            borderBottomWidth={'1px'}
-                                            borderLeftWidth={'0px'}
-                                            borderRightWidth={'0px'}
-                                            borderTopWidth={'0px'}
-                                            borderRadius={'0px'}
-                                            borderBottomColor={borderColor}
-                                            placeholder='Enter price'
-                                            fontSize={'14px'}
-                                            fontWeight={600}
-                                        />
-                                    </InputGroup>
-                                </HStack>
-                            </Flex>
-                        )}
                     </Box>
 
                 </Flex>

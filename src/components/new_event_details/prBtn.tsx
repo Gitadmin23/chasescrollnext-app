@@ -12,7 +12,7 @@ import EventDonation from './eventDonation'
 import EventDonationPicker from './eventDonationPicker'
 import usePr from '@/hooks/usePr'
 import ListProduct from './listProduct'
-import useProduct from '@/hooks/useProduct'
+import useProduct, { IPinned } from '@/hooks/useProduct'
 import ListDonation from './listDonation'
 import { useQuery } from 'react-query'
 import httpService from '@/utils/httpService'
@@ -35,19 +35,12 @@ export default function PrBtn({ data }: { data: IEventType }) {
     const [tab, setTab] = useState(false)
     const [index, setIndex] = useState(1)
 
-    const [selectProduct, setSelectProduct] = useState<Array<string>>([])
+    const [selectProduct, setSelectProduct] = useState<Array<IPinned>>([])
     const [selectService, setSelectService] = useState<Array<string>>([])
     const [selectRental, setSelectRental] = useState<Array<string>>([])
     const [selectDonation, setSelectDonation] = useState("")
 
-
-    const { data: datarental } = useQuery(
-        ["getcategoryRental"],
-        () => httpService.get(`/rental/categories`), {
-    }
-    );
-
-    const { createPr } = usePr()
+    const { createPr, tagServiceAndRental, createFundraising } = usePr()
 
     const clickHander = () => {
         createPr?.mutate({
@@ -60,13 +53,30 @@ export default function PrBtn({ data }: { data: IEventType }) {
 
     const submitHandler = () => {
         if (index === 2) {
-            pinProduct?.mutate({
-                pinnedItemType: "EVENT",
-                productId: selectProduct[0],
-                typeId: data?.id + ""
+            pinProduct?.mutate({ pinnedItems: selectProduct })
+        } else if (index === 3) {
+            tagServiceAndRental?.mutate({
+                serviceCategories: [],
+                rentalCategories: selectRental,
+                eventID: data?.id,
+                state: ""
+            })
+        } else if (index === 4) {
+            tagServiceAndRental?.mutate({
+                serviceCategories: selectService,
+                rentalCategories: [],
+                eventID: data?.id,
+                state: ""
+            })
+        } else if(index === 1) {
+            createFundraising?.mutate({
+                fundRaiserID: selectDonation,
+                eventID: data?.id,
+                userID: data?.createdBy?.userId
             })
         }
-    }
+        setOpen(false)
+    } 
 
     return (
         <>
@@ -89,16 +99,16 @@ export default function PrBtn({ data }: { data: IEventType }) {
                                 {data?.isOrganizer && (
                                     <Flex flexDirection={"column"} >
                                         <Flex w={"full"} onClick={() => setTab(true)} as={"button"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
-                                            <Text fontSize={"14px"}  >Add fundraising </Text>
+                                            <Text fontSize={["10px", "14px", "14px"]}  >Add fundraising </Text>
                                         </Flex>
                                         <Flex w={"full"} onClick={() => setTab(true)} as={"button"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
-                                            <Text fontSize={"14px"}  >Add kiosk</Text>
+                                            <Text fontSize={["10px", "14px", "14px"]}  >Add kiosk</Text>
                                         </Flex>
                                         <Flex w={"full"} onClick={() => setTab(true)} as={"button"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
-                                            <Text fontSize={"14px"}  >Request Service - Photographer, makeup Artist...</Text>
+                                            <Text fontSize={["10px", "14px", "14px"]}  >Request Service - Photographer, makeup Artist...</Text>
                                         </Flex>
                                         <Flex w={"full"} onClick={() => setTab(true)} as={"button"} justifyContent={"space-between"} h={"50px"} px={"3"} alignItems={"center"} >
-                                            <Text fontSize={"14px"}  >Rent an item(s)</Text>
+                                            <Text fontSize={["10px", "14px", "14px"]}  >Rent an item(s)</Text>
                                         </Flex>
                                     </Flex>
                                 )}
@@ -121,21 +131,21 @@ export default function PrBtn({ data }: { data: IEventType }) {
                                     </Flex>
                                 </Flex>
                                 <Flex w={"full"} py={"4"} gap={"4"} bgColor={(index === 1 || index === 2) ? "transparent" : "transparent"} rounded={"16px"} flexDir={"column"} >
-                                     
+
                                     {index === 1 && (
                                         <ListDonation selectDonation={selectDonation} setSelectDonation={setSelectDonation} />
                                     )}
                                     {index === 2 && (
-                                        <ListProduct setOpen={setOpen} selectProduct={selectProduct} setSelectProduct={setSelectProduct} />
+                                        <ListProduct setOpen={setOpen} selectProduct={selectProduct} setSelectProduct={setSelectProduct} data={data} />
                                     )}
-                                    {index === 3 && ( 
-                                        <ListRental rental={selectRental} updateRental={setSelectRental} />
+                                    {index === 3 && (
+                                        <ListRental item={data} rental={selectRental} updateRental={setSelectRental} />
                                     )}
                                     {index === 4 && (
                                         <ListService service={selectService} selectService={setSelectService} />
                                     )}
                                     <Flex w={"full"} py={"1"} bgColor={(index === 1 || index === 2) ? "white" : "white"} position={"sticky"} bottom={"-4px"} >
-                                        <CustomButton onClick={submitHandler} isLoading={pinProduct?.isLoading} text={index === 2 ? "Add to product" : "Add"} width={"150px"} height={"40px"} fontSize={"14px"} borderRadius={"999px"} />
+                                        <CustomButton onClick={submitHandler} isLoading={pinProduct?.isLoading || createFundraising?.isLoading || tagServiceAndRental?.isLoading} text={index === 2 ? "Add to product" : "Add"} width={"150px"} height={"40px"} fontSize={"14px"} borderRadius={"999px"} />
                                     </Flex>
                                 </Flex>
                             </Flex>

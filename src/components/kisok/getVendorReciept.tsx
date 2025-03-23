@@ -8,10 +8,11 @@ import { IOrder, IReceipt } from '@/models/product';
 import UserImage from '../sharedComponent/userimage';
 import moment from 'moment';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
-import { formatNumber } from '@/utils/numberFormat'; 
-import CustomButton from '../general/Button'; 
+import { formatNumber } from '@/utils/numberFormat';
+import CustomButton from '../general/Button';
 import { IMAGE_URL } from '@/services/urls';
 import { dateFormat } from '@/utils/dateFormat';
+import ProductImageScroller from '../sharedComponent/productImageScroller';
 
 export default function GetVendorReciept() {
 
@@ -22,16 +23,16 @@ export default function GetVendorReciept() {
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/reciept/search?vendorID=${userId}`, limit: 20, filter: "id", name: "getvendorID" })
 
     console.log(results);
-    
+
 
     return (
         <LoadingAnimation loading={isLoading} length={results?.length} >
-            <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["4","4","6"]} >
+            <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["4", "4", "6"]} >
                 {results?.map((item: IReceipt, index: number) => {
                     if (results?.length === index + 1) {
                         return (
                             <Flex ref={ref} as={"button"} alignItems={"start"} onClick={() => push("/dashboard/kisok/details-order/" + item?.id)} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={"16px"} pb={"5"} gap={"4"} >
-                                <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
+                                {/* <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
                                     <UserImage image={item?.createdBy?.data?.imgMain?.value} font={"16px"} data={item?.createdBy} border={"1px"} size={"32px"} />
                                     <Flex flexDir={"column"}>
                                         <Text fontSize={"12px"} fontWeight={"600"} color={primaryColor} >
@@ -44,14 +45,16 @@ export default function GetVendorReciept() {
                                 </Flex>
                                 <Flex w={"full"} h={"210px"} rounded={"8px"} >
                                     <Image rounded={"8px"} borderColor={"#D0D4EB"} objectFit={"cover"} alt={item?.rental?.images[0]} width={["full"]} height={"full"} src={IMAGE_URL + item?.rental?.images[0]} />
-                                </Flex>
-                                <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} px={"2"} > 
+                                </Flex> */}
+
+                                <ProductImageScroller images={item?.rental?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
+                                <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} px={"2"} >
                                     <Text fontSize={"14px"} fontWeight={"600"} color={primaryColor} textAlign={"left"} >{capitalizeFLetter(item?.rental?.name)}</Text>
                                     <Flex alignItems={"center"} >
-                                        <Text fontSize={"14px"} fontWeight={"700"} color={bodyTextColor} >{formatNumber(item?.rental?.price)}</Text> 
+                                        <Text fontSize={"14px"} fontWeight={"700"} color={bodyTextColor} >{formatNumber(item?.rental?.price)}</Text>
                                         {/* <Text fontSize={"10px"} ml={"auto"} color={bodyTextColor} >{item?.product?.quantity} Avail</Text> */}
                                     </Flex>
-                                    <Flex w={"full"} gap={"2"} alignItems={"center"} > 
+                                    <Flex w={"full"} gap={"2"} alignItems={"center"} >
                                         <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >Order On 20-09 {dateFormat(item?.createdDate)}</Text>
                                     </Flex>
                                     {/* <Flex rounded={"32px"} h={"20px"} justifyContent={"center"} alignItems={"center"} color={"white"} fontSize={"12px"} bgColor={"#FF9500"} w={"fit-content"} px={"2"} >
@@ -66,7 +69,7 @@ export default function GetVendorReciept() {
                     } else {
                         return (
                             <Flex as={"button"} alignItems="start" onClick={() => push("/dashboard/kisok/details-order/" + item?.id)} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={"16px"} pb={"5"} gap={"4"} >
-                                <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
+                                {/* <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
                                     <UserImage image={item?.createdBy?.data?.imgMain?.value} font={"16px"} data={item?.createdBy} border={"1px"} size={"32px"} />
                                     <Flex flexDir={"column"}>
                                         <Text fontSize={"12px"} fontWeight={"600"} color={primaryColor} >
@@ -79,14 +82,16 @@ export default function GetVendorReciept() {
                                 </Flex>
                                 <Flex w={"full"} h={"210px"} rounded={"8px"} >
                                     <Image rounded={"8px"} borderColor={"#D0D4EB"} objectFit={"cover"} alt={item?.rental?.images[0]} width={["full"]} height={"full"} src={IMAGE_URL + item?.rental?.images[0]} />
-                                </Flex>
-                                <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} px={"2"} > 
+                                </Flex> */}
+
+                                <ProductImageScroller images={item?.rental?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
+                                <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} px={"2"} >
                                     <Text fontSize={"14px"} fontWeight={"600"} color={primaryColor} textAlign={"left"} >{capitalizeFLetter(item?.rental?.name)}</Text>
                                     <Flex alignItems={"center"} >
-                                        <Text fontSize={"14px"} fontWeight={"700"} color={bodyTextColor} >{formatNumber(item?.rental?.price)}</Text> 
+                                        <Text fontSize={"14px"} fontWeight={"700"} color={bodyTextColor} >{formatNumber(item?.rental?.price)}</Text>
                                         {/* <Text fontSize={"10px"} ml={"auto"} color={bodyTextColor} >{item?.product?.quantity} Avail</Text> */}
                                     </Flex>
-                                    <Flex w={"full"} gap={"2"} alignItems={"center"} > 
+                                    <Flex w={"full"} gap={"2"} alignItems={"center"} >
                                         <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >Order On 20-09 {dateFormat(item?.createdDate)}</Text>
                                     </Flex>
                                     <Flex rounded={"32px"} h={"20px"} justifyContent={"center"} alignItems={"center"} color={"white"} fontSize={"12px"} bgColor={"#FF9500"} w={"fit-content"} px={"2"} >

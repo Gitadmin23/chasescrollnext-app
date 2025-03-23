@@ -31,21 +31,20 @@ interface IReview {
     "reviewType": string
 }
 
-export default function ProductRating({ item, reviewType }: { item: IProduct | IRental | any, reviewType: string }) {
+export default function ProductRating({ item, reviewType, data, setData }: { item: IProduct | IRental | any, reviewType: "PRODUCT" | "SERVICE" | "RENTAL", data: Array<IReview>, setData: any }) {
 
     const { borderColor } = useCustomTheme()
 
-    const [data, setItem] = useState<Array<IReview>>([]) 
 
     const { isLoading } = useQuery(
-        ["review"],
+        ["review", item?.id],
         () => httpService.get(`/reviews/search`, {
             params: {
                 typeId: item?.id
             }
         }), {
-        onSuccess(data) { 
-            setItem(data?.data?.content)
+        onSuccess(data) {
+            setData(data?.data?.content)
         }
     });
 

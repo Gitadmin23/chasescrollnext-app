@@ -98,6 +98,19 @@ function MapComponent(props: Props) {
             let address = results[0].formatted_address
 
 
+            // if (results[0]?.address_components[results[0]?.address_components?.length - 1]?.types[0] === "country") {
+            //   console.log(results[0]?.address_components[results[0]?.address_components?.length - 2]?.long_name?.replace("Federal Capital Territory", "Abuja"));
+            //   console.log(results[0]?.address_components);
+            // } else {
+            //   console.log(results[0]?.address_components[results[0]?.address_components?.length - 3]?.long_name);
+            //   console.log(results[0]?.address_components);
+            // }
+
+            let newState = results[0]?.address_components[results[0]?.address_components?.length - 1]?.types[0] === "country" ? results[0]?.address_components[results[0]?.address_components?.length - 2]?.long_name?.replace("Federal Capital Territory", "Abuja") : results[0]?.address_components[results[0]?.address_components?.length - 3]?.long_name?.replace("Federal Capital Territory", "Abuja")
+
+            console.log(newState);
+            
+
             updateEvent({
               ...eventdata,
               location: {
@@ -109,19 +122,24 @@ function MapComponent(props: Props) {
             updateProduct({
               ...productdata, location: {
                 locationDetails: address,
-                latlng: e.latLng.lat() + " " + e.latLng.lng()
-              }
+                latlng: e.latLng.lat() + " " + e.latLng.lng(),
+                state: newState
+              },
+              state: newState
             })
             updateAddress({
               ...location,
               locationDetails: address,
-              latlng: e.latLng.lat() + " " + e.latLng.lng()
+              latlng: e.latLng.lat() + " " + e.latLng.lng(),
+              state: newState
             })
             updateRental({
               ...rentaldata, location: {
                 locationDetails: address,
-                latlng: e.latLng.lat() + " " + e.latLng.lng()
-              }
+                latlng: e.latLng.lat() + " " + e.latLng.lng(),
+                state: newState
+              },
+              state: newState
             })
 
           } else {

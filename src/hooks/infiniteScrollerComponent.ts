@@ -30,11 +30,11 @@ function InfiniteScrollerComponent(props: Props) {
     const [size, setSize] = React.useState(limit)
     const [hasNextPage, setHasNextPage] = React.useState(false);
     const [results, setResults] = React.useState([] as any) 
-    const intObserver = React.useRef<IntersectionObserver>();
+    const intObserver = React.useRef<IntersectionObserver>(null);
 
     const { data, isLoading, refetch, isRefetching, isError } = useQuery(name ? [name, url, search] : [url], () => httpService.get(`${url}`, {
         params: {
-          size: size, 
+          // size: size, 
         }
       }), {
         onError: (error: AxiosError<any, any>) => {

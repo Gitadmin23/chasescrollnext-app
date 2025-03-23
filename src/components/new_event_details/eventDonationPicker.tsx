@@ -15,7 +15,7 @@ export default function EventDonationPicker({ selectDonation, setSelectDonation,
     return (
         <Flex onClick={()=> setSelectDonation(items?.id)} role="button" flexDir={["row"]} w={"full"} rounded={"16px"} gap={["2", "2", "4"]} bgColor={secondaryBackgroundColor} pr={"2"} alignItems={"center"} >
             <Flex w={"fit-content"} h={"full"} >
-                <Flex w={["120px"]} height={["120px"]} roundedLeft={"16px"} borderWidth={"1px"} borderColor={borderColor} >
+                <Flex w={["100px", "120px", "120px"]} height={["120px"]} roundedLeft={"16px"} borderWidth={"1px"} borderColor={borderColor} >
                     <Image roundedLeft={"16px"} objectFit="cover" alt={items?.name} width={"full"} height={"120px"} src={IMAGE_URL + items?.bannerImage} />
                 </Flex>
             </Flex>

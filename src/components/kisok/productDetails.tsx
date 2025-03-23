@@ -9,7 +9,7 @@ import { CartIcon, Edit2Icon, SheildIcon, TruckColoredIcon } from '../svg'
 import httpService from '@/utils/httpService'
 import { useQuery } from 'react-query'
 import LoadingAnimation from '../sharedComponent/loading_animation'
-import { IProduct } from '@/models/product'
+import { IProduct, IReview } from '@/models/product'
 import { IMAGE_URL } from '@/services/urls'
 import { formatNumber } from '@/utils/numberFormat'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
@@ -20,6 +20,9 @@ import { useRouter } from 'next/navigation'
 import useProduct from '@/hooks/useProduct'
 import useProductStore from '@/global-state/useCreateProduct'
 import { textLimit } from '@/utils/textlimit'
+import EventMap from '../event_details_component/event_map_info'
+import GetCreatorData from './getCreatorData'
+import DescriptionPage from '../sharedComponent/descriptionPage'
 
 export default function ProductDetails({ id }: { id: string }) {
 
@@ -31,8 +34,12 @@ export default function ProductDetails({ id }: { id: string }) {
     const { userId } = useProduct()
     const { productdata, updateProduct } = useProductStore((state) => state);
     const { push } = useRouter()
+    const [qty, setQty] = useState(1)
 
-    const [ sizeOfText, setSizeOfText ] = useState(200)
+    const [sizeOfText, setSizeOfText] = useState(200)
+
+
+    const [reviewData, setData] = useState<Array<IReview>>([])
 
     const { isLoading } = useQuery(
         ["products", id],
@@ -63,8 +70,8 @@ export default function ProductDetails({ id }: { id: string }) {
     return (
         <LoadingAnimation loading={isLoading} >
             <Flex pos={"relative"} w={"full"} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} gap={"6"} flexDir={"column"} overflowY={"auto"} overflowX={"hidden"} >
-                  
-                <Flex w={"full"} gap={"6"} flexDir={["column", "column", "row"]} >
+
+                <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
                         <Flex gap={"1"} alignItems={"center"} >
                             <Text role='button' onClick={() => back()} fontSize={"14px"} fontWeight={"500"} >Home</Text>
@@ -89,36 +96,42 @@ export default function ProductDetails({ id }: { id: string }) {
                                 </Grid>
                             </Flex>
                         )}
-                        <Flex display={["none", "none", "flex"]} >
-                            <ProductRating item={item} reviewType="PRODUCT" />
+                        <Flex w={"full"} display={["none", "none", "flex"]} >
+                            <EventMap height={"212px"} latlng={item?.location?.latlng ?? ""} />
+                            {/* <ProductRating item={item} reviewType="PRODUCT" /> */}
                         </Flex>
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
                         <Text fontSize={["24px", "24px", "42px"]} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
                         <Flex flexDir={["column-reverse", "column-reverse", "column"]} gap={"4"} >
-                            <Flex bgColor={secondaryBackgroundColor} p={"4"} rounded={"16px"} flexDirection={"column"} gap={"1"} >
-                                <Text fontSize={"14px"} fontWeight={"600"} >Product  Description</Text>
-                                <Text fontSize={"12px"} >{textLimit(item.description, sizeOfText)} {item?.description?.length > sizeOfText && ( <span style={{fontWeight: "700"}} role='button' onClick={()=> setSizeOfText((prev)=> prev === item.description?.length ? 200 : item.description?.length)} >{item.description?.length === sizeOfText ? "less" : "more"}</span>)}</Text>
-                            </Flex> 
+                            <Flex display={["none", "none", "flex"]} >
+                                <DescriptionPage limit={100} label='Rental Details' description={item?.description} />
+                            </Flex>
                             <Flex alignItems={"center"} >
-                                <Text fontSize={"24px"} fontWeight={"700"} >{formatNumber(item?.price)}</Text>
+                                <Text fontSize={"24px"} fontWeight={"700"} >{formatNumber(item?.price * qty)}</Text>
                             </Flex>
                         </Flex>
-                        <Flex gap={"3"} alignItems={"center"} >
-                            <UserImage image={item?.creator?.data?.imgMain?.value} size={"32px"} font={"14px"} border={"1px"} data={item?.creator} />
-                            <Text fontSize={"12px"} fontWeight={"500"} >Sold by {capitalizeFLetter(item?.creator?.firstName) + " " + capitalizeFLetter(item?.creator?.lastName)}</Text>
-                            {userId !== item?.creator?.userId && (
-                                <CustomButton text={"Message"} fontSize={"xs"} height={"23px"} width={"89px"} borderRadius={"999px"} />
-                            )}
+                        <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
+                            <Flex display={["flex", "flex", "none"]} >
+                                <DescriptionPage limit={100} label='Rental Details' description={item?.description} />
+                            </Flex>
+                            <Flex w={"full"} gap={"2"}>
+                                <Flex w={["fit-content", "fit-content", "full"]} >
+                                    <GetCreatorData reviewdata={reviewData} userData={item?.creator} />
+                                </Flex>
+                                <Flex display={["flex", "flex", "none"]} w={"full"}  >
+                                    {userId !== item?.creator?.userId && ( 
+                                        <ProductCheckout qty={qty} setQty={setQty} item={item} /> 
+                                    )}
+                                </Flex>
+                            </Flex>
                         </Flex>
+                        {/* <GetCreatorData reviewdata={reviewData} userData={item?.creator} /> */}
                         {userId !== item?.creator?.userId && (
                             <Flex display={["none", "none", "flex"]} >
-                                <ProductCheckout item={item} />
+                                <ProductCheckout qty={qty} setQty={setQty} item={item} />
                             </Flex>
-                        )}
-                        {/* {userId === item?.creator?.userId && (
-                            <CustomButton onClick={() => clickHandler(item)} text={"Edit Product"} height={"50px"} fontSize={"sm"} width={"200px"} borderRadius={"9999px"} />
-                        )} */}
+                        )} 
 
                         <Flex gap={"3"} mt={"4"} >
                             <Flex w={"28px"} h={"28px"} justifyContent={"center"} alignItems={"center"} >
@@ -128,14 +141,15 @@ export default function ProductDetails({ id }: { id: string }) {
                         </Flex>
                         <Flex flexDir={"column"} gap={"3"} >
                             <Text fontSize={"14px"} fontWeight={"500"} >{`Seller-Fulfilled Shipping - The seller handles the entire shipping process and not Chasescroll.`}</Text>
-                            <Text fontSize={"14px"} fontWeight={"500"} >Verify that items are in good condition and meet the expected quality standards before authorizing payment.</Text> 
-                            <Text fontSize={"14px"} fontWeight={"500"} >Please inform us if you encounter any issues at support@chasescroll.com</Text> 
-                        </Flex>  
-                        <Flex display={["flex", "flex", "none"]} >
-                            <ProductRating item={item} reviewType="PRODUCT" />
+                            <Text fontSize={"14px"} fontWeight={"500"} >Verify that items are in good condition and meet the expected quality standards before authorizing payment.</Text>
+                            <Text fontSize={"14px"} fontWeight={"500"} >Please inform us if you encounter any issues at support@chasescroll.com</Text>
                         </Flex>
-                        <Flex display={["flex", "flex", "none"]} >
-                            <ProductCheckout item={item} />
+                        <Flex display={["flex", "flex", "flex"]} >
+                            <ProductRating setData={setData} data={reviewData} item={item} reviewType="PRODUCT" />
+                        </Flex> 
+                        <Flex w={"full"} display={["flex", "flex", "none"]} >
+                            <EventMap height={"212px"} latlng={item?.location?.latlng ?? ""} />
+                            {/* <ProductRating item={item} reviewType="PRODUCT" /> */}
                         </Flex>
                     </Flex>
                 </Flex>

@@ -36,8 +36,8 @@ function SubmitEvent(props: Iprops) {
     } = useCustomTheme();
 
     // const { image } = useEventStore((state) => state);
-    const { data, image, updateDontion } = useDonationStore((state) => state); 
-    const pathname = usePathname(); 
+    const { data, image, updateDontion } = useDonationStore((state) => state);
+    const pathname = usePathname();
 
     const { fileUploadHandler, loading, uploadedFile, reset, deleteFile } = AWSHook();
 
@@ -56,12 +56,12 @@ function SubmitEvent(props: Iprops) {
         // Use reduce to find the object with the latest endDate
         const latestItem = items.reduce((latest, current) => {
             return current.endDate > latest.endDate ? current : latest;
-        }); 
-        
+        });
+
         return latestItem;
     };
 
-    const latestExpiration = findLatestExpiration(data) 
+    const latestExpiration = findLatestExpiration(data)
 
     // const []
     const toast = useToast()
@@ -274,7 +274,7 @@ function SubmitEvent(props: Iprops) {
             if (image?.length > 0) {
                 fileUploadHandler(image)
             } else {
-                if(pathname?.includes("edit")) {
+                if (pathname?.includes("edit")) {
                     editDonation?.mutate({ ...data[0] })
                 }
             }
@@ -287,35 +287,48 @@ function SubmitEvent(props: Iprops) {
 
     useEffect(() => {
 
+        console.log(uploadedFile);
+
+
         let newObj: any = [...data]
         newObj[0] = { ...data[0], bannerImage: uploadedFile[0] }
+
+        let newGroup = {creatorID: data[0]?.creatorID,name: data[0]?.name,bannerImage: uploadedFile[0],description: data[0].description,expirationDate: Number(latestExpiration.endDate)}
+
         if (uploadedFile?.length > 0) {
             if ((uploadedFile?.length === 1)) {
                 if (!pathname?.includes("edit")) {
-                    createGroupDonation.mutateAsync({
-                        creatorID: data[0]?.creatorID,
-                        name: data[0]?.name,
-                        bannerImage: uploadedImage[0],
-                        description: data[0].description,
-                        expirationDate: Number(latestExpiration.endDate)
-                    })
+                    createGroupDonation.mutate(newGroup)
                 } else {
                     editDonation?.mutate({ ...newObj[0] })
                 }
             } else if (uploadedFile?.length > 1) {
-                createGroupDonation.mutateAsync({
-                    creatorID: data[0]?.creatorID,
-                    name: data[0]?.name,
-                    bannerImage: uploadedImage[0],
-                    description: data[0].description,
-                    expirationDate: Number(latestExpiration.endDate)
-                })
-            }  
+                createGroupDonation.mutate(newGroup)
+            }
         }
 
     }, [uploadedFile])
 
-    const closeHandle = () => {}
+    const closeHandle = () => { }
+
+
+
+
+    function clean(obj: any) {
+        for (var propName in obj) {
+            if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+                delete obj[propName];
+            }
+            if (obj[propName] === "location") {
+                for (var propName in obj?.location) {
+                    if (obj?.location[propName] === null || obj?.location[propName] === undefined || obj?.location[propName] === "") {
+                        delete obj?.location[propName];
+                    }
+                }
+            }
+        }
+        return obj
+    }
 
     return (
         <Flex w={"full"} alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} >
