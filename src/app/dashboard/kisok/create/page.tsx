@@ -40,23 +40,23 @@ export default function KisokCreate() {
             <form style={{ maxWidth: "550px" ,width: "100%", display:"flex" }} onSubmit={handleSubmitProduce}>
                 <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={type ? "none" : "flex"} flexDir={"column"}  >
                     <Text fontSize={"24px"} fontWeight={"600"} >Give your product a name</Text>
-                    <Input onChange={(e) => updateProduct({ ...productdata, name: e.target.value })} h={"60px"} />
+                    <Input onChange={(e) => updateProduct({ ...productdata, name: e.target.value })} h={"45px"} />
                     <Text fontSize={"24px"} fontWeight={"500"} >Describe your place to make it stand out</Text>
-                    <Textarea onChange={(e) => updateProduct({ ...productdata, description: e.target.value })} h={"60px"} />
+                    <Textarea onChange={(e) => updateProduct({ ...productdata, description: e.target.value })} h={"120px"} />
                     <Text fontSize={"24px"} fontWeight={"500"} >Set your pricing </Text>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Quantity</Text>
-                        <Input type="number" onChange={(e) => updateProduct({ ...productdata, quantity: e.target.value })} h={"60px"} />
+                        <Input type="number" onChange={(e) => updateProduct({ ...productdata, quantity: e.target.value })} h={"45px"} />
                     </Flex>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Location</Text>
-                        {/* <Input h={"60px"} /> */}
-                        <ProductMap location={productdata?.location} />
+                        {/* <Input h={"45px"} /> */}
+                        <ProductMap height='45px' location={productdata?.location} />
                     </Flex>
                     <SelectCategories rental={false} />
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Price per unit</Text>
-                        <Input type="number" onChange={(e) => updateProduct({ ...productdata, price: e.target.value })} h={"60px"} />
+                        <Input type="number" onChange={(e) => updateProduct({ ...productdata, price: e.target.value })} h={"45px"} />
                     </Flex> 
                     <CustomButton type='button' _disabled={{ opacity: "0.5", cursor: "not-allowed" }} disable={(!productdata?.name || !productdata?.description || !productdata?.quantity || !productdata?.price) ? true : false} onClick={() => push("/dashboard/kisok/create?type=true")} height={"60px"} borderRadius={"999px"} mt={"4"} text={"Continue"} />
                 </Flex>
@@ -86,7 +86,7 @@ export default function KisokCreate() {
                         <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{"Congratulations"}</Text>
                         <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your product has been listed on chasescroll kiosk pending approval`}</Text>
                          
-                            <CustomButton onClick={()=> push("/dashboard/kisok")} color={"#FFF"} text={'Done'} w={"full"} backgroundColor={"#3EC259"} /> 
+                            <CustomButton onClick={()=> push("/dashboard/kisok?type=mykisok")} color={"#FFF"} text={'Done'} w={"full"} backgroundColor={"#3EC259"} /> 
                     </Flex>
                 </LoadingAnimation>
             </ModalLayout>

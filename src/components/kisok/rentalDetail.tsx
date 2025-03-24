@@ -57,7 +57,7 @@ export default function RentalDetail({ id }: { id: string }) {
             <Flex w={"full"} flexDir={"column"} pos={"relative"} gap={"3"} overflowY={"auto"} h={"full"} px={["4", "4", "6"]} pb={["400px", "400px", "6"]} py={"6"} >
 
                 <Flex gap={"1"} alignItems={"center"} pb={"3"} >
-                    <Text role='button' onClick={() => back()} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Home</Text>
+                    <Text role='button' onClick={() => back()} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Back</Text>
                     <IoIosArrowForward />
                     <Text fontSize={"14px"} fontWeight={"500"} >Rental details</Text>
                     <IoIosArrowForward />
@@ -96,7 +96,7 @@ export default function RentalDetail({ id }: { id: string }) {
                         </Flex>
 
                         <Flex gap={"2"} alignItems={"center"}>
-                            <Text fontWeight={"600"} w={"60px"} >Joined</Text>
+                            <Text fontWeight={"600"} fontSize={"14px"} w={"60px"} >Joined</Text>
                             <CalendarIcon color={primaryColor} />
                             <Text fontSize={["12px", "12px", "14px"]} >{dateFormat(item?.createdDate)} {timeFormat(item?.createdDate)}</Text>
                         </Flex>

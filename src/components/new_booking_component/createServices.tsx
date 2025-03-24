@@ -661,7 +661,7 @@ export default function CreateServices({ id }: { id: string }) {
                     <IoIosCheckmarkCircle size={"100px"} color={"#46CC6B"} />
                     <Text fontWeight={"600"} fontSize={"24px"} color={headerTextColor} >Congratulations!</Text>
                     <Text textAlign={"center"} maxW={"350px"} fontWeight={"400"} color={bodyTextColor} >{`Services created Successfully`}</Text>
-                    <Button onClick={() => { router.push(`/dashboard/kisok??type=service`) }} height={"50px"} mt={"4"} borderWidth={"1px"} w={"200px"} rounded={"full"} borderColor={primaryColor} bgColor={primaryColor} color={"white"} _hover={{ backgroundColor: primaryColor }} >View Services</Button>
+                    <Button onClick={() => { router.push(`/dashboard/kisok?type=myservice`) }} height={"50px"} mt={"4"} borderWidth={"1px"} w={"200px"} rounded={"full"} borderColor={primaryColor} bgColor={primaryColor} color={"white"} _hover={{ backgroundColor: primaryColor }} >View Services</Button>
                 </Flex>
             </ModalLayout>
         </Flex>

@@ -74,7 +74,7 @@ export default function ProductDetails({ id }: { id: string }) {
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
                         <Flex gap={"1"} alignItems={"center"} >
-                            <Text role='button' onClick={() => back()} fontSize={"14px"} fontWeight={"500"} >Home</Text>
+                            <Text role='button' onClick={() => back()} fontSize={"14px"} fontWeight={"500"} >Back</Text>
                             <IoIosArrowForward />
                             <Text fontSize={"14px"} fontWeight={"500"} >Product details</Text>
                             <IoIosArrowForward />
