@@ -86,7 +86,9 @@ export interface IProduct {
     "outOfStock": boolean,
     "hasDiscount": boolean,
     "discountPrice": number,
-    "published": boolean,
+    "published": boolean, 
+    hasBought :  false;
+    hasReviewed: false;
     rating: number
     "location": {
         "link": string,
@@ -116,6 +118,8 @@ export interface IRental {
     "creator": IUser,
     "name": string,
     "description": string,
+    hasBought :  false;
+    hasReviewed: false;
     "category": string,
     "location": {
         "link": string,

@@ -3,7 +3,7 @@ import { DashboardMenuIcon } from '@/components/svg'
 import { NewChatIcon, NewWalletIcon, NotificationIcon } from '@/components/svg/sidebarIcons'
 import useCustomTheme from '@/hooks/useTheme'
 import { Box, Button, Flex, Switch, Text, Tooltip, VStack, useColorMode } from '@chakra-ui/react'
-import { LogoutCurve, Setting, Warning2 } from 'iconsax-react'
+import { LogoutCurve, SearchNormal1, Setting, Warning2 } from 'iconsax-react'
 import { useRouter } from 'next/navigation'
 import router from 'next/router'
 import React, { useState } from 'react'
@@ -66,6 +66,12 @@ export default function DashboardMenuBtn({ count }: { count?: any }) {
                             </Flex>
                             <Text fontSize={"12px"} >Message</Text>
                         </Flex>
+                        <Flex onClick={() => handleClick("/dashboard/explore")} h={"20px"} gap={"1"} alignItems={"center"} as='button' >
+                            <Flex justifyContent={"center"} w={"20px"} >
+                                <SearchNormal1 color={bodyTextColor} size={"20px"} />
+                            </Flex>
+                            <Text fontSize={"12px"} >Explore</Text>
+                        </Flex>
                         <Flex onClick={() => handleClick("/dashboard/settings/payment/details")} h={"20px"} gap={"2"} alignItems={"center"} as='button' >
                             <Flex justifyContent={"center"} w={"20px"} >
                                 <NewWalletIcon />
@@ -94,7 +100,7 @@ export default function DashboardMenuBtn({ count }: { count?: any }) {
                         </Flex>
                         <Flex onClick={() => handleClick("/dashboard/settings")} h={"20px"} gap={"2"} alignItems={"center"} as='button' >
                             <Flex justifyContent={"center"} w={"20px"} >
-                                <Setting size={"20px"} />
+                                <Setting color={bodyTextColor} size={"20px"} />
                             </Flex>
                             <Text fontSize={"12px"} >Settings</Text>
                         </Flex>

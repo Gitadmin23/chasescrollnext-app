@@ -68,7 +68,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
                 eventID: data?.id,
                 state: ""
             })
-        } else if(index === 1) {
+        } else if (index === 1) {
             createFundraising?.mutate({
                 fundRaiserID: selectDonation,
                 eventID: data?.id,
@@ -76,12 +76,17 @@ export default function PrBtn({ data }: { data: IEventType }) {
             })
         }
         setOpen(false)
-    } 
+    }
 
     return (
         <>
-            <Flex pos={["relative"]} w={"fit-content"} flexDir={"column"} rounded={"16px"} gap={"3"} >
-                <CustomButton onClick={() => setOpen(true)} text={"My support Center"} backgroundColor={["#EEEEFF", "#EEEEFF", primaryColor]} color={[primaryColor, primaryColor, "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]} width={["120px", "120px", "160px"]} />
+            <Flex pos={["relative"]} w={"fit-content"} flexDir={"column"} rounded={"16px"} gap={"3"} > 
+                {data?.isOrganizer && (
+                    <CustomButton onClick={() => setOpen(true)} text={"My support Center"} backgroundColor={["#EEEEFF", "#EEEEFF", primaryColor]} color={[primaryColor, primaryColor, "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]} width={["120px", "120px", "160px"]} />
+                )}
+                {!data?.isOrganizer && (
+                    <CustomButton onClick={clickHander} text={"Apply to be a PR"} backgroundColor={["#EEEEFF", "#EEEEFF", primaryColor]} color={[primaryColor, primaryColor, "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]} width={["120px", "120px", "160px"]} />
+                )}
                 <ModalLayout open={open} size={"md"} close={setOpen} closeIcon={true} >
                     <Flex flexDir={"column"} gap={"4"} w={"full"} px={"4"} mb={"4"} >
                         <Text fontWeight={"500"}  >My support center</Text>

@@ -254,15 +254,15 @@ export default function Layout({ children }: {
                     </VStack>
                 </Link>
 
-                <Link href='/dashboard/explore'>
-                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('explore') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('explore') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                        <SearchNormal1 size='20px' />
+                <Link href='/dashboard/kisok'>
+                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('kisok') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('explore') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                        <KisokIcon size='20px' color={pathname?.includes('kisok') ? true : false} />
                     </VStack>
                 </Link>
 
                 <Link href='/dashboard/event'>
                     <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('event') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('event') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                        <Calendar size='20px' />
+                        <SidebarCalendarIcon size='20px' color={pathname?.includes("event") ? true : false} />
                     </VStack>
                 </Link>
 

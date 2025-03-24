@@ -48,6 +48,8 @@ export default function ProductRating({ item, reviewType, data, setData }: { ite
         }
     });
 
+    hasBought: false;
+    hasReviewed: false;
     return (
         <Flex flex={"1"} flexDir={"column"} gap={"3"} flexDirection={"column"} >
             <Flex maxW={"full"} flexDirection={"column"} gap={"3"} >
@@ -59,8 +61,9 @@ export default function ProductRating({ item, reviewType, data, setData }: { ite
                     </Flex>
                     <Text fontWeight={"700"}>({data?.length})</Text>
                 </Flex>
-
-                <ReviewData item={item?.id} reviewType={reviewType} />
+                {(item?.hasBought && !item?.hasReviewed) && (
+                    <ReviewData item={item?.id} reviewType={reviewType} />
+                )}
             </Flex>
             <LoadingAnimation loading={isLoading} >
                 <Flex flexDirection={"column"} pt={"6"} gap={"3"} >

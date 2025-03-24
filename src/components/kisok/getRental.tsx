@@ -18,12 +18,14 @@ import { formatNumber } from '@/utils/numberFormat'
 import { IMAGE_URL } from '@/services/urls'
 import ProductImageScroller from '../sharedComponent/productImageScroller'
 
-export default function GetRental() {
+export default function GetRental({ myrental }: {myrental?: boolean}) {
 
     const { primaryColor, bodyTextColor, borderColor } = useCustomTheme()
     const { push } = useRouter()
 
-    const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/rental/search`, limit: 20, filter: "id", name: "getrental" })
+    const userId = localStorage.getItem('user_id') + "";
+
+    const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/rental/search${myrental ? `?userId=${userId}` : ""}`, limit: 20, filter: "id", name: "getrental" })
 
     return (
         <LoadingAnimation loading={isLoading}  >

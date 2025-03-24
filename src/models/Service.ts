@@ -21,6 +21,8 @@ export type IService = {
         vendorID: string;
         category: string;
         email: string
+        hasBought :  false;
+        hasReviewed: false;
         address: string;
         isOnline: boolean;
         phone: string;

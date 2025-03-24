@@ -45,7 +45,7 @@ export default function RentalCreate() {
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Name of the item</Text>
-                            <Input h={"60px"} onChange={(e) => updateRental({ ...rentaldata, name: e.target.value })} />
+                            <Input h={"45px"} onChange={(e) => updateRental({ ...rentaldata, name: e.target.value })} />
                         </Flex>
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Description (optional)</Text>
@@ -61,7 +61,7 @@ export default function RentalCreate() {
                     <Flex w={"full"} flexDir={"column"} gap={"3"} > 
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Location</Text>
-                            <ProductMap location={rentaldata?.location} />
+                            <ProductMap height='45px' location={rentaldata?.location} />
                         </Flex>
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Number of Days available for Rent</Text>
@@ -87,7 +87,7 @@ export default function RentalCreate() {
                         </Flex>
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Price</Text>
-                            <Input h={"60px"} onChange={(e) => updateRental({ ...rentaldata, price: e.target.value })} />
+                            <Input h={"45px"} onChange={(e) => updateRental({ ...rentaldata, price: e.target.value })} />
                         </Flex>
                     </Flex>
                     <CustomButton isLoading={createProduct?.isLoading || loading} disable={createProduct?.isLoading || loading} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
@@ -101,7 +101,7 @@ export default function RentalCreate() {
                         <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{"Congratulations"}</Text>
                         <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your product has been listed successfully`}</Text>
 
-                        <CustomButton onClick={() => push("/dashboard/kisok?type=rental")} color={"#FFF"} text={'Done'} w={"full"} backgroundColor={"#3EC259"} />
+                        <CustomButton onClick={() => push("/dashboard/kisok?type=myrental")} color={"#FFF"} text={'Done'} w={"full"} backgroundColor={"#3EC259"} />
                     </Flex>
                 </LoadingAnimation>
             </ModalLayout>

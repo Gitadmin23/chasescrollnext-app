@@ -30,11 +30,11 @@ export default function EventCreator(props: IEventType) {
     const [open, setOpen] = useState(false)
 
     const router = useRouter()
-    const { userId: user_index } = useDetails((state) => state);
 
     const pathname = usePathname();
 
     const isAdmin = props?.isOrganizer || props?.eventMemberRole === "ADMIN" || props?.eventMemberRole === "COLLABORATOR"
+    const { userId: user_index } = useDetails((state) => state);
 
     const clickHandler = () => {
         if (!user_index) {
@@ -52,8 +52,8 @@ export default function EventCreator(props: IEventType) {
     } = useCustomTheme(); 
 
     return (
-        <Flex w={["120px", "fit-content",isAdmin ? "70%": "full"]} gap={"6"} bgColor={[mainBackgroundColor, mainBackgroundColor, secondaryBackgroundColor]} rounded={"64px"} alignItems={["center"]} h={["fit-content", "fit-content","86px"]} px={["0px", "0px", "4"]} py={["0px", "0px", "3"]} >
-            <Flex position={"relative"} border={"0px solid #CDD3FD"} rounded={"full"} alignItems={"center"} gap={"3"} >
+        <Flex w={["150px", "fit-content",isAdmin ? "70%": "full"]} gap={"6"} bgColor={[mainBackgroundColor, mainBackgroundColor, secondaryBackgroundColor]} rounded={"64px"} alignItems={["center"]} h={["fit-content", "fit-content","86px"]} px={["0px", "0px", "4"]} py={["0px", "0px", "3"]} >
+            <Flex as={"button"} onClick={clickHandler} position={"relative"} border={"0px solid #CDD3FD"} rounded={"full"} alignItems={"center"} gap={"3"} >
                 <Flex width={"fit-content"} position={"relative"} >
                     <Flex display={["none", "flex", "flex"]} > 
                         <UserImage border={"1px"} size={"50px"} font={"16px"} image={createdBy?.data?.imgMain?.value} data={createdBy} />
@@ -71,7 +71,7 @@ export default function EventCreator(props: IEventType) {
                         </>
                     )}
                 </Flex>
-                <Box as={"button"} onClick={clickHandler} >
+                <Box >
                     <Text textAlign={"left"} display={["none", "block"]} fontWeight={"medium"} >{capitalizeFLetter(createdBy?.firstName) + " " + capitalizeFLetter(createdBy?.lastName)}</Text>
                     <Text textAlign={"left"} display={["block", "none"]} fontWeight={"medium"} fontSize={"12px"} >{textLimit(capitalizeFLetter(createdBy?.firstName) + " " + capitalizeFLetter(createdBy?.lastName), 10)}</Text>
                     <Text textAlign={"left"} mt={"-2px"} fontSize={["13px", "13px", "sm"]} >{createdBy?.username?.includes("@gmail") ? textLimit(createdBy?.username, 4) : textLimit(createdBy?.username, 10)}</Text>

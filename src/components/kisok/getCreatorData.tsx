@@ -12,10 +12,20 @@ import { useRouter } from 'next/navigation'
 import { WEBSITE_URL } from '@/services/urls'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import { textLimit } from '@/utils/textlimit'
+import { useDetails } from '@/global-state/useUserDetails'
 
 export default function GetCreatorData({ userData }: { userData: IUser | any, reviewdata?: Array<IReview>, data?: any }) {
 
+    const { userId: user_index } = useDetails((state) => state);
+    const router = useRouter();
 
+    const clickHandler = () => {
+        if (!user_index) {
+            // router.push("/share/auth/login?type=EVENT&typeID=" + id)
+        } else {
+            router.push("/dashboard/profile/" + userData?.userId)
+        }
+    }
 
     const { isLoading, isRefetching, refetch, data } = useQuery(
         ["rental", userData?.userId],
@@ -28,7 +38,6 @@ export default function GetCreatorData({ userData }: { userData: IUser | any, re
 
         }
     }); 
-    const router = useRouter();
 
     const { isLoading: chatCreationLoading, mutate } = useMutation({
         mutationFn: () =>
@@ -52,7 +61,7 @@ export default function GetCreatorData({ userData }: { userData: IUser | any, re
 
     return (
         <Flex bgColor={["transparent", "transparent", "#FAFAFF"]} rounded={"64px"} h={["fit-content", "fit-content", "80px"]} px={["0px", "0px", "4"]} w={["120px", "fit-content", "full"]} gap={"2"} flexDir={["column", "column", "row"]} justifyContent={["start", "start", "space-between"]} alignItems={["start", "start", "center"]} >
-            <Flex gap={"2"} alignItems={"center"} >
+            <Flex role='button' onClick={clickHandler} gap={"2"} alignItems={"center"} >
                 <Flex display={["none", "flex", "flex"]} >
                     <UserImage border={"1px"} size={"50px"} font={"16px"} image={userData?.data?.imgMain?.value} data={userData} />
                 </Flex>

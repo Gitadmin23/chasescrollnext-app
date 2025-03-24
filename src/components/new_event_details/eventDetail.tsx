@@ -219,7 +219,7 @@ export default function EventDetail(props: IEventType) {
         <Flex w={"full"} flexDir={"column"} pos={"relative"} gap={"4"} px={["0px", "0px", "6"]} pb={["400px", "400px", "6"]} py={"6"} >
 
             <Flex gap={"1"} alignItems={"center"} pb={"3"} >
-                <Text role='button' onClick={() => back()} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Home</Text>
+                <Text role='button' onClick={() => back()} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >back</Text>
                 <IoIosArrowForward />
                 <Text fontSize={"14px"} fontWeight={"500"} >Event details</Text>
                 <IoIosArrowForward />
@@ -239,7 +239,7 @@ export default function EventDetail(props: IEventType) {
                 <Flex w={"full"} flexDir={"column"} gap={"3"} >
                     <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{capitalizeFLetter(eventName)}</Text>
                     <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
-                        <DescriptionPage limit={100} label='Rental Details' description={eventDescription} />
+                        <DescriptionPage limit={100} label='Event Details' description={eventDescription} />
                         <Flex flexDir={isAdmin ? "column" : "row"} gap={"2"} w={"full"} >
                             <Flex w={[isAdmin ? "full" : "fit-content", isAdmin ? "full" : "fit-content", "full"]} alignItems={["start", "start", "center"]} flexDir={["column", "column", "row"]} justifyContent={["start", "start", "space-between"]} gap={"3"} >
                                 <Flex pr={isAdmin ? "3" : "0px"} gap={"3"} w={[isAdmin ? "full" : "fit-content", isAdmin ? "full" : "fit-content", "full"]} alignItems={[isAdmin ? "center" : "start", isAdmin ? "center" : "start", "center"]} flexDir={[isAdmin ? "row" : "column", isAdmin ? "row" : "column", "row"]} justifyContent={[isAdmin ? "space-between" : "start", isAdmin ? "space-between" : "start", "space-between"]}  >
@@ -305,7 +305,7 @@ export default function EventDetail(props: IEventType) {
                         <Flex display={["none", "none", "none", "flex"]} w={"full"} alignItems={"end"} flexDir={"column"} gap={"6"} >
                             <Flex maxW={["full", "full", "full", "430px", "430px"]} flexDir={"column"} gap={"6"} w={"full"} >
                                 {((eventMemberRole !== "COLLABORATOR") && !isOrganizer && eventMemberRole !== "ADMIN") && (
-                                    <Flex bg={mainBackgroundColor} zIndex={"50"} pos={["relative"]} bottom={"0px"} w={"full"} mt={"8"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} borderWidth={(pathname?.includes("past") && !isOrganizer) ? "0px" : "1px"} borderColor={"#DEDEDE"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} > 
+                                    <Flex bg={mainBackgroundColor} zIndex={"50"} pos={["relative"]} bottom={"0px"} w={"full"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} borderWidth={(pathname?.includes("past") && !isOrganizer) ? "0px" : "1px"} borderColor={"#DEDEDE"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} > 
                                         {(!isBought && (!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && !pathname?.includes("past")) && (
                                             <SelectTicket data={props} currency={currency} ticket={productTypeData} />
                                         )}
