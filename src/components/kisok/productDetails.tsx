@@ -74,7 +74,7 @@ export default function ProductDetails({ id }: { id: string }) {
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
                         <Flex gap={"1"} alignItems={"center"} >
-                            <Text role='button' onClick={() => back()} fontSize={"14px"} fontWeight={"500"} >Back</Text>
+                            <Text role='button' onClick={() => back()} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Back</Text>
                             <IoIosArrowForward />
                             <Text fontSize={"14px"} fontWeight={"500"} >Product details</Text>
                             <IoIosArrowForward />
@@ -102,7 +102,7 @@ export default function ProductDetails({ id }: { id: string }) {
                         </Flex>
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
-                        <Text fontSize={["24px", "24px", "42px"]} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
+                        <Text fontSize={["24px", "24px", "32px"]} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
                         <Flex flexDir={["column-reverse", "column-reverse", "column"]} gap={"4"} >
                             <Flex display={["none", "none", "flex"]} >
                                 <DescriptionPage limit={100} label='Rental Details' description={item?.description} />

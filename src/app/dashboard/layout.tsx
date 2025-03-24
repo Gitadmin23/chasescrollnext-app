@@ -61,8 +61,8 @@ export default function Layout({ children }: {
         },
         {
             route: '/dashboard/kisok',
-            icon: <KisokIcon color={pathname === "/dashboard/kisok" ? true : false} />,
-            text: 'Kisok'
+            icon: <KisokIcon color={pathname?.includes('kisok') ? true : false} />,
+            text: 'Business'
         },
         {
             route: '/dashboard/community',
