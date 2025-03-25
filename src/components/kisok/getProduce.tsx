@@ -18,15 +18,20 @@ import { textLimit } from '@/utils/textlimit'
 import { IMAGE_URL } from '@/services/urls'
 import useProductStore from '@/global-state/useCreateProduct'
 import ProductImageScroller from '../sharedComponent/productImageScroller'
+import { cleanup } from '@/utils/cleanupObj'
 
-export default function GetProduct({ myproduct }: { myproduct?: boolean }) {
+export default function GetProduct({ myproduct, name, category, state }: { myproduct?: boolean, name?: string, state?: string, category?: string }) {
 
     const { primaryColor, bodyTextColor, borderColor, secondaryBackgroundColor } = useCustomTheme()
     const { productdata, updateProduct } = useProductStore((state) => state);
     const { push } = useRouter()
-    const userId = localStorage.getItem('user_id') + "";
+    const userId = localStorage.getItem('user_id') + ""; 
 
-    const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/products/search${myproduct ? `?creatorID=${userId}` : ``}`, limit: 20, filter: "id", name: "getProduct" })
+    const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/products/search${myproduct ? `?creatorID=${userId}`: ""}`, limit: 20, filter: "id", name: "getProduct", paramsObj: cleanup({
+        name: name,
+        category: category,
+        state: state
+    })})
 
     const clickHandler = (item: IProduct) => {
         console.log(item);

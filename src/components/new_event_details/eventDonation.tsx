@@ -11,10 +11,11 @@ import { useQuery } from 'react-query'
 import httpService from '@/utils/httpService'
 import { IMAGE_URL } from '@/services/urls'
 import ShareEvent from '../sharedComponent/share_event'
+import DonationBtn from '../donation/donationBtn'
 
 export default function EventDonation({ checkbox, item }: { checkbox?: boolean, item: IEventType }) {
 
-    const { borderColor, bodyTextColor, secondaryBackgroundColor } = useCustomTheme() 
+    const { borderColor, bodyTextColor, secondaryBackgroundColor } = useCustomTheme()
 
     const [eventData, setEventData] = useState({} as {
         "id": string,
@@ -67,12 +68,9 @@ export default function EventDonation({ checkbox, item }: { checkbox?: boolean, 
                 <DonationGraph item={eventData?.fundRaiser} IsEvent={true} />
             </Flex>
             {!checkbox && (
-                <Box w={["45px", "45px", "70px"]} pos={"relative"} >
-                    <Box w={["fit-content"]} position={"relative"} top={"0px"} >
-                        <CustomButton text={"Donate now"} transform={["rotate(-90deg)"]} backgroundColor={"#5D70F9"} left={["-45px", "-45px", "-50px"]} top={["-20px"]} position={["absolute"]} height={["35px", "35px", "45px"]} fontSize={["xs", "xs", "xs"]} width={["100px", "100px", "140px"]} borderRadius={"full"} />
-                    </Box>
-                </Box>
+                <DonationBtn item={eventData?.fundRaiser} user={eventData?.fundRaiser?.createdBy} event={true} />
             )}
+
         </Flex>
     )
 }

@@ -20,7 +20,8 @@ export default function DonationBtn(props: any) {
 
     const {
         user,
-        item
+        item,
+        event
     } = props
 
     const [open, setOpen] = useState(false)
@@ -28,12 +29,12 @@ export default function DonationBtn(props: any) {
     const [value, setValue] = useState("")
 
     console.log(user?.userId);
-    
+
 
     const {
         primaryColor,
         borderColor,
-        headerTextColor, 
+        headerTextColor,
         mainBackgroundColor
     } = useCustomTheme()
 
@@ -52,7 +53,7 @@ export default function DonationBtn(props: any) {
 
     const userId = localStorage.getItem('user_id') + "";
 
-    const { setDataID, setPaystackConfig, setDonation } = usePaystackStore((state) => state);
+    const { setDataID, setPaystackConfig } = usePaystackStore((state) => state);
 
     const payForTicket = useMutation({
         mutationFn: (data: {
@@ -69,7 +70,6 @@ export default function DonationBtn(props: any) {
                 amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
                 reference: data?.data?.content?.orderCode
             });
-            setDonation(true)
             setOpen(false)
             setValue("")
             setDataID(item?.id)
@@ -100,11 +100,19 @@ export default function DonationBtn(props: any) {
     }, [item?.id, value])
 
     return (
-        <Flex w={"full"} flexDir={"column"} gap={"6"} >
+        < >
 
-            {userId !== props?.user?.userId && (
+            {(userId !== props?.user?.userId && !event) && (
                 <CustomButton onClick={() => setOpen(true)} text={"Donate now"} height={"50px"} backgroundColor={"#F6F7FA"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
             )}
+
+            {event &&
+                <Box w={["45px", "45px", "70px"]} pos={"relative"} >
+                    <Box w={["fit-content"]} position={"relative"} top={"0px"} >
+                        <CustomButton onClick={() => setOpen(true)} text={"Donate now"} transform={["rotate(-90deg)"]} backgroundColor={"#5D70F9"} left={["-45px", "-45px", "-50px"]} top={["-20px"]} zIndex={"50"} position={["absolute"]} height={["35px", "35px", "45px"]} fontSize={["xs", "xs", "xs"]} width={["100px", "100px", "140px"]} borderRadius={"full"} />
+                    </Box>
+                </Box>
+            }
 
             <ModalLayout open={open} close={setOpen} >
                 <Flex flexDir={"column"} bg={mainBackgroundColor} gap={"5"} px={"4"} >
@@ -146,6 +154,6 @@ export default function DonationBtn(props: any) {
                     </Flex>
                 </Flex>
             </ModalLayout>
-        </Flex>
+        </>
     )
 }

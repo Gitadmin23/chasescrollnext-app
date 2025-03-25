@@ -4,6 +4,7 @@ import { useQuery } from 'react-query';
 import httpService from '@/utils/httpService';
 import { Checkbox, Flex, Text } from '@chakra-ui/react';
 import { IEventType } from '@/models/Event';
+import useCustomTheme from '@/hooks/useTheme';
 
 export default function ListRental({ updateRental, rental, item }: { updateRental: any, rental: Array<string>, item: IEventType }) {
 
@@ -38,9 +39,11 @@ export default function ListRental({ updateRental, rental, item }: { updateRenta
         }
     }
 
+    const { secondaryBackgroundColor } = useCustomTheme()
+    
     return (
         <LoadingAnimation loading={isLoading} length={datarental?.data?.length} >
-            <Flex w={"full"} maxH={"300px"} flexDir={"column"} gap={"3"} bgColor={"#EAEBEDCC"} rounded={"16px"} overflowY={"auto"} pos={"relative"} >
+            <Flex w={"full"} maxH={"300px"} flexDir={"column"} gap={"3"} bgColor={secondaryBackgroundColor} rounded={"16px"} overflowY={"auto"} pos={"relative"} >
                 {datarental?.data?.map((item: string, index: number) => {
                     return (
                         <Flex key={index} as={"button"} onClick={() => selectRentalHandler(item)} w={"full"} h={"fit-content"} >
