@@ -99,18 +99,15 @@ function MapComponent(props: Props) {
 
 
             // if (results[0]?.address_components[results[0]?.address_components?.length - 1]?.types[0] === "country") {
-            //   console.log(results[0]?.address_components[results[0]?.address_components?.length - 2]?.long_name?.replace("Federal Capital Territory", "Abuja"));
+            //   console.log(results[0]?.address_components[results[0]?.address_components?.length - 2]?.long_name);
             //   console.log(results[0]?.address_components);
             // } else {
             //   console.log(results[0]?.address_components[results[0]?.address_components?.length - 3]?.long_name);
             //   console.log(results[0]?.address_components);
             // }
 
-            let newState = results[0]?.address_components[results[0]?.address_components?.length - 1]?.types[0] === "country" ? results[0]?.address_components[results[0]?.address_components?.length - 2]?.long_name?.replace("Federal Capital Territory", "Abuja") : results[0]?.address_components[results[0]?.address_components?.length - 3]?.long_name?.replace("Federal Capital Territory", "Abuja")
-
-            console.log(newState);
-            
-
+            let newState = results[0]?.address_components[results[0]?.address_components?.length - 1]?.types[0] === "country" ? results[0]?.address_components[results[0]?.address_components?.length - 2]?.long_name : results[0]?.address_components[results[0]?.address_components?.length - 3]?.long_name
+ 
             updateEvent({
               ...eventdata,
               location: {

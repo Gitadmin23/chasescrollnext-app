@@ -17,15 +17,20 @@ import { textLimit } from '@/utils/textlimit'
 import { formatNumber } from '@/utils/numberFormat'
 import { IMAGE_URL } from '@/services/urls'
 import ProductImageScroller from '../sharedComponent/productImageScroller'
+import { cleanup } from '@/utils/cleanupObj'
 
-export default function GetRental({ myrental }: {myrental?: boolean}) {
+export default function GetRental({ myrental, name, state, category }: {myrental?: boolean, name?: string, state?: string, category?: string}) {
 
     const { primaryColor, bodyTextColor, borderColor } = useCustomTheme()
     const { push } = useRouter()
 
     const userId = localStorage.getItem('user_id') + "";
 
-    const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/rental/search${myrental ? `?userId=${userId}` : ""}`, limit: 20, filter: "id", name: "getrental" })
+    const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/rental/search${myrental ? `?userId=${userId}` : ""}`, limit: 20, filter: "id", name: "getrental",  paramsObj: cleanup({
+        name: name,
+        category: category,
+        state: state
+    })})
 
     return (
         <LoadingAnimation loading={isLoading}  >

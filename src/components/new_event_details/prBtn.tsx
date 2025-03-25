@@ -85,7 +85,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
                     <CustomButton onClick={() => setOpen(true)} text={"My support Center"} backgroundColor={["#EEEEFF", "#EEEEFF", primaryColor]} color={[primaryColor, primaryColor, "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]} width={["120px", "120px", "160px"]} />
                 )}
                 {!data?.isOrganizer && (
-                    <CustomButton onClick={clickHander} text={"Apply to be a PR"} backgroundColor={["#EEEEFF", "#EEEEFF", primaryColor]} color={[primaryColor, primaryColor, "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]} width={["120px", "120px", "160px"]} />
+                    <CustomButton onClick={clickHander} disable={data?.prStatus === "PENDING" ? true : false} text={data?.prStatus === "PENDING" ? "Pending" : "Apply to be a PR"} backgroundColor={["#EEEEFF", "#EEEEFF", primaryColor]} color={[primaryColor, primaryColor, "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]} width={["120px", "120px", "160px"]} />
                 )}
                 <ModalLayout open={open} size={"md"} close={setOpen} closeIcon={true} >
                     <Flex flexDir={"column"} gap={"4"} w={"full"} px={"4"} mb={"4"} >
@@ -128,11 +128,11 @@ export default function PrBtn({ data }: { data: IEventType }) {
                                     <Flex w={"full"} as={"button"} fontSize={"12px"} fontWeight={"500"} rounded={"full"} h={"full"} justifyContent={"center"} alignItems={"center"} bgColor={index !== 2 ? "transparent" : mainBackgroundColor} onClick={() => setIndex(2)} >
                                         Add Kiosk
                                     </Flex>
-                                    <Flex w={"full"} as={"button"} fontSize={"12px"} fontWeight={"500"} rounded={"full"} h={"full"} justifyContent={"center"} alignItems={"center"} bgColor={index !== 3 ? "transparent" : mainBackgroundColor} onClick={() => setIndex(3)} >
-                                        Rental
-                                    </Flex>
                                     <Flex w={"full"} as={"button"} fontSize={"12px"} fontWeight={"500"} rounded={"full"} h={"full"} justifyContent={"center"} alignItems={"center"} bgColor={index !== 4 ? "transparent" : mainBackgroundColor} onClick={() => setIndex(4)} >
                                         Services
+                                    </Flex>
+                                    <Flex w={"full"} as={"button"} fontSize={"12px"} fontWeight={"500"} rounded={"full"} h={"full"} justifyContent={"center"} alignItems={"center"} bgColor={index !== 3 ? "transparent" : mainBackgroundColor} onClick={() => setIndex(3)} >
+                                        Rental
                                     </Flex>
                                 </Flex>
                                 <Flex w={"full"} py={"4"} gap={"4"} bgColor={(index === 1 || index === 2) ? "transparent" : "transparent"} rounded={"16px"} flexDir={"column"} >

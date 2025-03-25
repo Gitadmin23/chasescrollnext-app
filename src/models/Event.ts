@@ -57,6 +57,7 @@ export interface IEventType {
     donationTargetAmount: string,
     donationEnabled: boolean,
     totalDonated: string,
+    prStatus: string,
     affiliateID: string,
     affiliates: Array<{
         "affiliateType": string,

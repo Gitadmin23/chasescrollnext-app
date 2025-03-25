@@ -86,11 +86,7 @@ export default function EventDetail(props: IEventType) {
     }
 
 
-    const { data: prId } = useGetPr(props?.id)
-
-    console.log(prId);
-
-
+    const { data: prId } = useGetPr(props?.id) 
 
     return (
         // <Flex w={"full"} flexDir={"column"} pb={"8"} gap={["4", "4", "4", "6", "6"]} pos={"relative"} >
@@ -219,7 +215,7 @@ export default function EventDetail(props: IEventType) {
         <Flex w={"full"} flexDir={"column"} pos={"relative"} gap={"4"} px={["0px", "0px", "6"]} pb={["400px", "400px", "6"]} py={"6"} >
 
             <Flex gap={"1"} alignItems={"center"} pb={"3"} >
-                <Text role='button' onClick={() => back()} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >back</Text>
+                <Text role='button' onClick={() => back()} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Back</Text>
                 <IoIosArrowForward />
                 <Text fontSize={"14px"} fontWeight={"500"} >Event details</Text>
                 <IoIosArrowForward />

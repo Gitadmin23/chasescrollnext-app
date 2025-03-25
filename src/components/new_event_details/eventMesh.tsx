@@ -12,6 +12,8 @@ import { IProduct } from '@/models/product'
 import { textLimit } from '@/utils/textlimit'
 import { IMAGE_URL } from '@/services/urls'
 import { formatNumber } from '@/utils/numberFormat'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
+import { useRouter } from 'next/navigation'
 
 interface IProps {
     "id": string,
@@ -33,6 +35,8 @@ export default function EventMesh({ data }: { data: IEventType }) {
     const { primaryColor } = useCustomTheme()
     const [open, setOpen] = useState(false)
 
+    const { push } = useRouter()
+
     const [eventData, setEventData] = useState<Array<IProps>>([])
 
 
@@ -48,12 +52,12 @@ export default function EventMesh({ data }: { data: IEventType }) {
             setEventData(data?.data)
 
             console.log(data);
-            
+
         }
     })
 
     return (
-        <Flex position={"relative"} display={eventData?.length  === 0  ? "none" : "flex"} flexDir={"column"} w={"full"} gap={"3"} >
+        <Flex position={"relative"} display={eventData?.length === 0 ? "none" : "flex"} flexDir={"column"} w={"full"} mb={"6"} gap={"3"} >
             <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                 <Text fontSize={["14px", "14px", "20px"]} fontWeight={"bold"} >Shop the Summer shoot version 2 store</Text>
                 <Text fontSize={"12px"} color={primaryColor} as={"button"} >See all</Text>
@@ -68,33 +72,36 @@ export default function EventMesh({ data }: { data: IEventType }) {
             } >
                 <Flex w={"fit-content"} gap={"2"} >
                     {eventData?.map((item, index) => {
-                        return(
+                        return (
                             <Flex key={index} onClick={() => setOpen(true)} w={["170px", "170px", "230px"]} borderWidth={"1px"} borderColor={"#EBEDF0"} flexDir={"column"} gap={"2"} p={"4"} rounded={"16px"} >
                                 <Flex w={"full"} h={["101px", "101px", "176px"]} bgColor={"red"} rounded={"8px"} >
                                     <Image alt="logo" src={IMAGE_URL + item?.returnProductDto?.images[0]} />
                                 </Flex>
-                                <Flex flexDir={"column"} > 
-                                <Text fontSize={"14px"} fontWeight={"700"} >{formatNumber(item?.returnProductDto?.price)}</Text>
-                                <Text fontSize={["12px", "12px", "14px"]} >{textLimit(item?.returnProductDto?.name, 20)}</Text>
+                                <Flex flexDir={"column"} >
+                                    <Text fontSize={"14px"} fontWeight={"700"} >{formatNumber(item?.returnProductDto?.price)}</Text>
+                                    <Text fontSize={["12px", "12px", "14px"]} >{capitalizeFLetter(textLimit(item?.returnProductDto?.name, 20))}</Text>
                                 </Flex>
+
+                                <ModalLayout rounded='16px' size={"sm"} open={open} close={setOpen} closeIcon={true} >
+                                    <Flex flexDir={"column"} gap={"2"} p={"4"} >
+                                        <Text fontWeight={"600"} >Product Details </Text>
+                                        <Flex w={"full"} h={"193px"} rounded={"8px"} bgColor={"red"} >
+                                            <Image alt="logo" src={IMAGE_URL + item?.returnProductDto?.images[0]} />
+                                        </Flex>
+                                        <Text fontSize={"24px"} fontWeight={"600"} >{capitalizeFLetter(textLimit(item?.returnProductDto?.name, 20))}</Text>
+                                        <Text fontSize={"14px"} fontWeight={"700"} >{formatNumber(item?.returnProductDto?.price)}</Text>
+                                        <Text fontSize={"14px"} fontWeight={"700"} >About this Product</Text>
+                                        <Text fontSize={"12px"} >{capitalizeFLetter(textLimit(item?.returnProductDto?.description, 40))}</Text>
+                                        <Flex w={"full"} mt={"2"} >
+                                            <CustomButton onClick={()=> push(`/dashboard/kisok/details/${item?.returnProductDto?.id}`)} text={"Order Now"} />
+                                        </Flex>
+                                    </Flex>
+                                </ModalLayout>
                             </Flex>
                         )
                     })}
                 </Flex>
             </Flex>
-            <ModalLayout rounded='16px' size={"sm"} open={open} close={setOpen} closeIcon={true} >
-                <Flex flexDir={"column"} gap={"2"} p={"4"} >
-                    <Text fontWeight={"600"} >Product Details </Text>
-                    <Flex w={"full"} h={"193px"} rounded={"8px"} bgColor={"red"} />
-                    <Text fontSize={"24px"} fontWeight={"600"} >Hoodie for camp x 201</Text>
-                    <Text fontSize={"14px"} fontWeight={"700"} >₦33,029</Text>
-                    <Text fontSize={"14px"} fontWeight={"700"} >About this Product</Text>
-                    <Text fontSize={"12px"} >Norem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputatelibero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosquad litora </Text>
-                    <Flex w={"full"} mt={"2"} >
-                        <CustomButton text={"Order Now"} />
-                    </Flex>
-                </Flex>
-            </ModalLayout>
         </Flex>
     )
 }

@@ -9,13 +9,16 @@ import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { LocationPin, LocationStroke, RentalIcon, ServiceIcon, StoreIcon } from '@/components/svg'
 import useProductStore from '@/global-state/useCreateProduct'
 import useCustomTheme from '@/hooks/useTheme'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
+import httpService from '@/utils/httpService'
 import BookingsRequest from '@/Views/dashboard/booking/BookingRequest'
 import Bookings from '@/Views/dashboard/booking/Bookings'
 import Businesses from '@/Views/dashboard/booking/Businesses'
 import MyBusiness from '@/Views/dashboard/booking/MyBusiness'
 import { Box, Button, Flex, Grid, Input, Select, Text, useColorMode } from '@chakra-ui/react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useQuery } from 'react-query'
 
 export default function KisokPage() {
 
@@ -25,11 +28,41 @@ export default function KisokPage() {
     const { colorMode, toggleColorMode } = useColorMode();
     const query = useSearchParams();
 
+    const [ initialFilter, setInitialFilter ] = useState({
+        state: "",
+        category: "",
+        name: ""
+    })
+
+    const [ selectedFilter, setSelectedFilter ] = useState({
+        state: "",
+        category: "",
+        name: ""
+    })
+
     const [open, setOpen] = useState(false)
     const type = query?.get('type');
     const { updateProduct, updateImage, updateRental } = useProductStore((state) => state);
 
     const { push } = useRouter()
+
+    const { data, isLoading } = useQuery(
+        ["getcategoryProduct"],
+        () => httpService.get(`/products/categories`), {
+    }
+    );
+
+    const { data: datarental, isLoading: loadingRental } = useQuery(
+        ["getcategoryRental"],
+        () => httpService.get(`/rental/categories`), {
+    }
+    ); 
+
+
+    const { isLoading: loadingServices, data: serviceCategories } = useQuery(['get-business-categories'], () => httpService.get('/business-service/categories'), {
+        refetchOnMount: true,
+        onError: (error: any) => { },
+    });
 
     const userId = localStorage.getItem('user_id') + "";
 
@@ -41,6 +74,47 @@ export default function KisokPage() {
     const routeHandler = (item: string) => {
         push(`/dashboard/kisok${item ? `?type=${item}` : ""}`)
     }
+
+    let stateList = [
+        "abia",
+        "adamawa",
+        "akwa ibom",
+        "anambra",
+        "bauchi",
+        "bayelsa",
+        "benue",
+        "borno",
+        "cross river",
+        "delta",
+        "ebonyi",
+        "edo",
+        "ekiti",
+        "enugu",
+        "gombe",
+        "imo",
+        "jigawa",
+        "kaduna",
+        "kano",
+        "katsina",
+        "kebbi",
+        "kogi",
+        "kwara",
+        "lagos",
+        "nasarawa",
+        "niger",
+        "ogun",
+        "ondo",
+        "osun",
+        "oyo",
+        "plateau",
+        "rivers",
+        "sokoto",
+        "taraba",
+        "yobe",
+        "zamfara",
+        "federal capital territory"
+    ];
+
 
     const createProduct = () => {
         updateProduct({
@@ -72,6 +146,14 @@ export default function KisokPage() {
         push(type === "kisok" ? "/dashboard/kisok/create" : type === "rental" ? "/dashboard/kisok/create-rental" : (type === "service" || type === "myservice" || type === "mybooking") ? "/dashboard/kisok/create-service" : "/dashboard/kisok/create")
     }
 
+    const submitHandler = () => {
+        setSelectedFilter({
+            name: initialFilter?.name,
+            category: initialFilter?.category,
+            state: initialFilter?.state
+        })
+    }
+
     return (
         <Flex w={"full"} px={["4", "4", "6"]} pt={["6", "6", "12", "12"]} pb={"12"} flexDir={"column"} overflowY={"auto"} >
             <Flex w={"full"} alignItems={"center"} flexDirection={"column"} gap={"3"} >
@@ -100,14 +182,38 @@ export default function KisokPage() {
                     <CustomButton onClick={() => setOpen(true)} text={`Filter ${(type === null || type === "mykisok" || type === "myorder") ? "Product" : (type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "Service" : "Rental"} `} color={headerTextColor} fontSize={"14px"} backgroundColor={"White"} borderWidth={"1px"} borderRadius={"999px"} />
                 </Flex>
                 <Flex display={["none", "none", "flex"]} w={"fit-content"} borderWidth={"1px"} borderColor={borderColor} rounded={"full"} h={"fit-content"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
-                    <Select h={"80px"} w={"200px"} roundedLeft={"full"} borderRightWidth={"1px"} borderWidth={"0px"} borderRightColor={borderColor} >
-                        <option>Rivers</option>
+                    <Select h={"80px"} onChange={(e)=> setInitialFilter({...initialFilter, state: e.target?.value })} w={"200px"} roundedLeft={"full"} textAlign={"center"} placeholder='Select State' borderRightWidth={"1px"} borderWidth={"0px"} borderRightColor={borderColor} >
+                        {stateList?.map((item) => {
+                            return (
+                                <option value={item} key={item} >{capitalizeFLetter(item)}</option>
+                            )
+                        })}
                     </Select>
-                    <Select h={"80px"} w={"200px"} outline={"none"} rounded={"0px"} borderWidth={"0px"} borderLeftWidth={"1px"} borderRightColor={borderColor} >
-                        <option>Rivers</option>
+                    <Select h={"80px"} onChange={(e)=> setInitialFilter({...initialFilter, category: e.target?.value })} w={"200px"} outlineColor={"transparent"} outline={"none"} textAlign={"center"} placeholder='Select Category' rounded={"0px"} borderWidth={"0px"} borderLeftWidth={"1px"} borderRightColor={borderColor} >
+                        {(type === null || type === "mykisok" || type === "myorder") && (
+                            <>
+                                {data?.data?.map((item: string, index: number) => (
+                                    <option key={index} >{item}</option>
+                                ))}
+                            </>
+                        )}
+                        {(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") && (
+                            <>
+                                {datarental?.data?.map((item: string, index: number) => (
+                                    <option key={index} >{item}</option>
+                                ))}
+                            </>
+                        )}
+                        {(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest")&& (
+                            <>
+                                {serviceCategories?.data?.map((item: string, index: number) => (
+                                    <option key={index} >{item}</option>
+                                ))}
+                            </>
+                        )}
                     </Select>
-                    <Input placeholder={"Search business name"} h={"80px"} w={"200px"} outline={"none"} rounded={"0px"} borderWidth={"0px"} borderLeftWidth={"1px"} borderRightColor={borderColor} />
-                    <Button h={"80px"} w={"140px"} color={"white"} outline={"none"} bgColor={primaryColor} roundedRight={"full"} borderRightWidth={"1px"} borderWidth={"0px"} borderRightColor={borderColor} >
+                    <Input placeholder={"Search business name"} onChange={(e)=> setInitialFilter({...initialFilter, name: e.target?.value })} h={"80px"} w={"200px"} outline={"none"} rounded={"0px"} borderWidth={"0px"} borderLeftWidth={"1px"} borderRightColor={borderColor} />
+                    <Button onClick={submitHandler} h={"80px"} w={"140px"} color={"white"} outline={"none"} bgColor={primaryColor} roundedRight={"full"} borderRightWidth={"1px"} borderWidth={"0px"} borderRightColor={borderColor} >
                         Search
                     </Button>
                 </Flex>
@@ -207,7 +313,7 @@ export default function KisokPage() {
                             </Button>
                         ))}
                     </Flex>
-                )} 
+                )}
                 <Flex  >
                     <CustomButton onClick={createProduct} text={
                         <Flex alignItems={"center"} gap={"2"} >
@@ -217,16 +323,16 @@ export default function KisokPage() {
                 </Flex>
             </Flex>
             {!type && (
-                <GetProduce />
+                <GetProduce name={selectedFilter?.name} state={selectedFilter?.state} category={selectedFilter?.category} />
             )}
             {type === "mykisok" && (
-                <GetProduce myproduct={true} />
+                <GetProduce name={selectedFilter?.name} state={selectedFilter?.state} category={selectedFilter?.category} myproduct={true} />
             )}
             {type === "rental" && (
-                <GetRental />
+                <GetRental name={selectedFilter?.name} state={selectedFilter?.state} category={selectedFilter?.category} />
             )}
             {type === "myrental" && (
-                <GetRental myrental={true} />
+                <GetRental name={selectedFilter?.name} state={selectedFilter?.state} category={selectedFilter?.category} myrental={true} />
             )}
             {type === "myorder" && (
                 <GetOrder />
@@ -238,13 +344,13 @@ export default function KisokPage() {
                 <GetVendorReciept />
             )}
             {type === "service" && (
-                <Businesses />
+                <Businesses name={selectedFilter?.name} state={selectedFilter?.state} category={selectedFilter?.category} />
             )}
             {type === "myservice" && (
-                <MyBusiness />
+                <MyBusiness name={selectedFilter?.name} state={selectedFilter?.state} category={selectedFilter?.category} />
             )}
             {type === "mybooking" && (
-                <Bookings />
+                <Bookings name={selectedFilter?.name} state={selectedFilter?.state} category={selectedFilter?.category} />
             )}
             {type === "myrequest" && (
                 <BookingsRequest />
