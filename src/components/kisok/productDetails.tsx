@@ -105,7 +105,7 @@ export default function ProductDetails({ id }: { id: string }) {
                         <Text fontSize={["24px", "24px", "32px"]} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
                         <Flex flexDir={["column-reverse", "column-reverse", "column"]} gap={"4"} >
                             <Flex display={["none", "none", "flex"]} >
-                                <DescriptionPage limit={100} label='Rental Details' description={item?.description} />
+                                <DescriptionPage limit={200} label='Rental Details' description={item?.description} />
                             </Flex>
                             <Flex alignItems={"center"} >
                                 <Text fontSize={"24px"} fontWeight={"700"} >{formatNumber(item?.price * qty)}</Text>

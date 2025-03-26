@@ -44,12 +44,13 @@ export default function ProductRating({ item, reviewType, data, setData }: { ite
             }
         }), {
         onSuccess(data) {
+
+            console.log(data?.data);
+            
             setData(data?.data?.content)
         }
     });
-
-    hasBought: false;
-    hasReviewed: false;
+    
     return (
         <Flex flex={"1"} flexDir={"column"} gap={"3"} flexDirection={"column"} >
             <Flex maxW={"full"} flexDirection={"column"} gap={"3"} >

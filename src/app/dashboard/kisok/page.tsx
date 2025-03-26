@@ -154,6 +154,19 @@ export default function KisokPage() {
         })
     }
 
+    useEffect(()=> {
+        setSelectedFilter({
+            category: "",
+            name: "",
+            state: ""
+        })
+        setInitialFilter({
+            category: "",
+            name: "",
+            state: ""
+        })
+    }, [type])
+
     return (
         <Flex w={"full"} px={["4", "4", "6"]} pt={["6", "6", "12", "12"]} pb={"12"} flexDir={"column"} overflowY={"auto"} >
             <Flex w={"full"} alignItems={"center"} flexDirection={"column"} gap={"3"} >

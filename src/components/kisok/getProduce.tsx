@@ -22,7 +22,7 @@ import { cleanup } from '@/utils/cleanupObj'
 
 export default function GetProduct({ myproduct, name, category, state }: { myproduct?: boolean, name?: string, state?: string, category?: string }) {
 
-    const { primaryColor, bodyTextColor, borderColor, secondaryBackgroundColor } = useCustomTheme()
+    const { primaryColor, bodyTextColor, borderColor, secondaryBackgroundColor, mainBackgroundColor } = useCustomTheme()
     const { productdata, updateProduct } = useProductStore((state) => state);
     const { push } = useRouter()
     const userId = localStorage.getItem('user_id') + ""; 
@@ -59,7 +59,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                 {results?.map((item: IProduct, index: number) => {
                     if (results?.length === index + 1) {
                         return (
-                            <Flex ref={ref} as={"button"} alignItems="start" onClick={() => clickHandler(item)} key={index} p={["2", "2", "4"]} borderWidth={["1px", "1px", "1px"]} borderColor={borderColor} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={["16px"]} gap={["2", "2", "4"]} >
+                            <Flex ref={ref} as={"button"} alignItems="start" onClick={() => clickHandler(item)} key={index} p={["2", "2", "4"]} borderWidth={["1px", "1px", "1px"]} borderColor={borderColor} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={mainBackgroundColor} rounded={["16px"]} gap={["2", "2", "4"]} >
                                 <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
                                 <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={["0px", "0px", 2]} px={["0px", "0px", "2"]} >
                                     <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
@@ -74,14 +74,14 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                                         <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
                                     </Flex>
                                     <Flex display={["none", "none", "flex"]} >
-                                        <CustomButton onClick={() => clickHandler(item)} text={myproduct ? "Edit Product" : "Order Now"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                                        <CustomButton onClick={() => clickHandler(item)} text={myproduct ? "Edit Product" : "Order Now"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={mainBackgroundColor} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
                                     </Flex>
                                 </Flex>
                             </Flex>
                         )
                     } else {
                         return (
-                            <Flex as={"button"} alignItems="start" onClick={() => clickHandler(item)} key={index} p={["2", "2", "4"]} borderWidth={["1px", "1px", "1px"]} borderColor={borderColor} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={["16px"]} gap={["2", "2", "4"]} >
+                            <Flex as={"button"} alignItems="start" onClick={() => clickHandler(item)} key={index} p={["2", "2", "4"]} borderWidth={["1px", "1px", "1px"]} borderColor={borderColor} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={mainBackgroundColor} rounded={["16px"]} gap={["2", "2", "4"]} >
                                 <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
                                 <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={["0px", "0px", 2]} px={["0px", "0px", "2"]} >
                                     <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
@@ -96,7 +96,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                                         <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
                                     </Flex>
                                     <Flex display={["none", "none", "flex"]} >
-                                        <CustomButton onClick={() => clickHandler(item)} text={myproduct ? "Edit Product" : "Order Now"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                                        <CustomButton onClick={() => clickHandler(item)} text={myproduct ? "Edit Product" : "Order Now"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={mainBackgroundColor} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
                                     </Flex>
                                 </Flex>
                             </Flex>
