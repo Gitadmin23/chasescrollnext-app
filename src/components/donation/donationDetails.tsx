@@ -28,6 +28,7 @@ import CustomButton from '../general/Button';
 import ProductRating from '../kisok/productRating';
 import RentalCheckout from '../kisok/rentalCheckout';
 import DescriptionPage from '../sharedComponent/descriptionPage';
+import GetCreatorData from '../kisok/getCreatorData';
 
 export default function DonationDetails({ id, notAuth }: { id: string, notAuth?: boolean }) {
 
@@ -206,18 +207,19 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                     )}
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
                         <Text fontWeight={"700"} fontSize={"24px"} >{capitalizeFLetter(item?.name)}</Text>
-                        <DescriptionPage limit={100} label='Rental Details' description={item?.description} />
-                        <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
-                            <Flex gap={"4"} alignItems={"center"} >
-                                {/* <Flex w={"48px"} h={"48px"} bgColor={"orange"} /> */}
-                                <UserImage data={item?.createdBy} font={"20px"} image={item?.createdBy?.data?.imgMain?.value} size={"48px"} />
-                                <Flex flexDir={"column"} >
-                                    <Text fontWeight={"600"} >Organizer</Text>
-                                    {/* <Text fontWeight={"500"} fontSize={"12px"} >235 followers</Text> */}
+                        
+                        <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
+                            <DescriptionPage limit={200} label='Rental Details' description={item?.description+""} />
+                            <Flex w={"full"} gap={"2"}>
+                                <Flex w={["fit-content", "fit-content", "full"]} >
+                                    <GetCreatorData userData={item?.createdBy} data={item} donation={true} />
+                                </Flex>
+                                <Flex display={["flex", "flex", "none"]} w={"full"}  > 
+                                    <DonationPayment data={item} />
                                 </Flex>
                             </Flex>
-                            <CustomButton text={"Message"} height={"30px"} fontSize={"12px"} width={"100px"} borderRadius={"999px"} />
                         </Flex>
+                        <DonationGraph rounded='16px' item={item} />
                         <Flex gap={"2"} alignItems={"center"}>
                             <Text fontWeight={"600"} w={"80px"} >EndDate</Text>
                             <CalendarIcon color={primaryColor} />
@@ -247,7 +249,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
 
                                     </Flex>
                                 ) : (
-                                    <Flex bg={mainBackgroundColor} insetX={"6"} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
+                                    <Flex bg={mainBackgroundColor} insetX={"6"} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} display={["none", "none", "flex"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
                                         <DonationPayment data={item} />
                                     </Flex>
                                 )}
@@ -256,7 +258,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                         <Flex w={"full"} h={"200px"} display={["block", "block", "none", "none", "none"]} />
                     </Flex>
                 </Flex>
-                <Flex display={["flex", "flex", "none"]} position={"fixed"} bottom={"20"} insetX={"0px"} px={"4"} w={"full"} >
+                {/* <Flex display={["flex", "flex", "none"]} position={"fixed"} bottom={"20"} insetX={"0px"} px={"4"} w={"full"} >
                     {((userId === item?.createdBy?.userId) || item?.isCollaborator) ? (
                         <Flex bg={["transparent", "transparent", mainBackgroundColor, mainBackgroundColor]} insetX={"3"} mt={["0px", "0px", "0px", "0px"]} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
                             <Flex bgColor={mainBackgroundColor} w={["full", "full", "full", "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} px={["3", "3", "5", "5"]} h={"90px"} justifyContent={"center"} >
@@ -283,7 +285,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                             <DonationPayment data={item} />
                         </Flex>
                     )}
-                </Flex>
+                </Flex> */}
             </Flex>
         </LoadingAnimation>
     )

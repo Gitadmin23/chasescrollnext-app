@@ -57,7 +57,7 @@ function BusinessCard({ business }: { business: IService }) {
 
 
     return (
-        <Flex as={"button"} alignItems="start" onClick={() => clickHandler()} p={["2", "2", "4"]} borderWidth={["1px", "1px", "1px"]} borderColor={borderColor} w={"full"} h={"full"} flexDir={"column"} bgColor={"white"} rounded={["16px"]} gap={["2", "2", "4"]} >
+        <Flex as={"button"} alignItems="start" onClick={() => clickHandler()} p={["2", "2", "4"]} borderWidth={["1px", "1px", "1px"]} borderColor={borderColor} w={"full"} h={"full"} flexDir={"column"} bgColor={mainBackgroundColor} rounded={["16px"]} gap={["2", "2", "4"]} >
              
             <ProductImageScroller images={business?.images} createdDate={moment(business?.createdDate)?.fromNow()} userData={business?.vendor} />
 
@@ -81,7 +81,7 @@ function BusinessCard({ business }: { business: IService }) {
                 <Flex display={["none", "none", "flex"]} gap={"4"} h={"80px"} alignItems={'center'} width='100%'>
                     <Flex width='full' flexDir={"column"} borderRightWidth={'1px'} borderRightColor={borderColor} alignItems={'flex-start'} paddingRight={'10px'}>
                         <Text fontWeight={400} fontSize={'14px'}>Service offering</Text>
-                        <Text color='black' fontWeight={600} textAlign={"left"} fontSize={'14px'}>{business?.category}</Text>
+                        <Text fontWeight={600} textAlign={"left"} fontSize={'14px'}>{business?.category}</Text>
                     </Flex>
 
                     <Flex justifyContent={'center'} paddingLeft={'10px'} height='full' width='full' alignItems={'center'}>
@@ -97,7 +97,7 @@ function BusinessCard({ business }: { business: IService }) {
                     <Text fontSize={["12px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["block", "block", "none"]} >{textLimit(business?.location?.locationDetails, 40)}</Text>
                 </Flex>
             </Flex>
-            <Button display={["none", "none", "flex"]} onClick={() => clickHandler()} w='full' mt={"auto"} h='54px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={"white"} _hover={{ backgroundColor: "white" }}>
+            <Button display={["none", "none", "flex"]} onClick={() => clickHandler()} w='full' mt={"auto"} h='54px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={mainBackgroundColor} _hover={{ backgroundColor: mainBackgroundColor }}>
                 <Text fontSize={'16px'} fontWeight={600} color={primaryColor}>View Service</Text>
             </Button>
         </Flex>

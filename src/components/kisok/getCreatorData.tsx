@@ -13,10 +13,13 @@ import { WEBSITE_URL } from '@/services/urls'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import { textLimit } from '@/utils/textlimit'
 import { useDetails } from '@/global-state/useUserDetails'
+import DonateUsers from '../sharedComponent/donateUser'
+import useCustomTheme from '@/hooks/useTheme'
 
-export default function GetCreatorData({ userData }: { userData: IUser | any, reviewdata?: Array<IReview>, data?: any }) {
+export default function GetCreatorData({ userData, donation, data: donationData }: { userData: IUser | any, reviewdata?: Array<IReview>, data?: any, donation?: boolean }) {
 
     const { userId: user_index } = useDetails((state) => state);
+    const  { secondaryBackgroundColor } = useCustomTheme()
     const router = useRouter();
 
     const clickHandler = () => {
@@ -37,7 +40,7 @@ export default function GetCreatorData({ userData }: { userData: IUser | any, re
         onSuccess(data) {
 
         }
-    }); 
+    });
 
     const { isLoading: chatCreationLoading, mutate } = useMutation({
         mutationFn: () =>
@@ -60,7 +63,7 @@ export default function GetCreatorData({ userData }: { userData: IUser | any, re
 
 
     return (
-        <Flex bgColor={["transparent", "transparent", "#FAFAFF"]} rounded={"64px"} h={["fit-content", "fit-content", "80px"]} px={["0px", "0px", "4"]} w={["120px", "fit-content", "full"]} gap={"2"} flexDir={["column", "column", "row"]} justifyContent={["start", "start", "space-between"]} alignItems={["start", "start", "center"]} >
+        <Flex bgColor={["transparent", "transparent", secondaryBackgroundColor]} rounded={"64px"} h={["fit-content", "fit-content", "80px"]} px={["0px", "0px", "4"]} w={["120px", "fit-content", "full"]} gap={"2"} flexDir={["column", "column", "row"]} justifyContent={["start", "start", "space-between"]} alignItems={["start", "start", "center"]} >
             <Flex role='button' onClick={clickHandler} gap={"2"} alignItems={"center"} >
                 <Flex display={["none", "flex", "flex"]} >
                     <UserImage border={"1px"} size={"50px"} font={"16px"} image={userData?.data?.imgMain?.value} data={userData} />
@@ -76,22 +79,27 @@ export default function GetCreatorData({ userData }: { userData: IUser | any, re
             </Flex>
             <Flex gap={"4"} alignItems={"center"} flexDir={["column", "column", "row"]} >
                 <CustomButton text={"Message"} onClick={() => mutate()} isLoading={chatCreationLoading} height={"30px"} fontSize={"12px"} width={"100px"} borderRadius={"999px"} />
-                <Flex flexDir={"column"} alignItems={"center"} >
-                    <Flex flexDir={"row"} gap={"1"} >
-                        {[1, 2, 3, 4, 5]?.map((itemNumb) => {
-                            return (
-                                <Flex key={itemNumb} >
-                                    {(itemNumb > 2) ? (
-                                        <FaStar color="#D5D6DE" size={"15px"} />
-                                    ) : (
-                                        <FaStar color='#FBBD08' size={"15px"} />
-                                    )}
-                                </Flex>
-                            )
-                        })}
+                {!donation && (
+                    <Flex flexDir={"column"} alignItems={"center"} >
+                        <Flex flexDir={"row"} gap={"1"} >
+                            {[1, 2, 3, 4, 5]?.map((itemNumb) => {
+                                return (
+                                    <Flex key={itemNumb} >
+                                        {(itemNumb > 2) ? (
+                                            <FaStar color="#D5D6DE" size={"15px"} />
+                                        ) : (
+                                            <FaStar color='#FBBD08' size={"15px"} />
+                                        )}
+                                    </Flex>
+                                )
+                            })}
+                        </Flex>
+                        <Text fontSize={"12px"} fontWeight={"500"} >0 REVIEWS</Text>
                     </Flex>
-                    <Text fontSize={"12px"} fontWeight={"500"} >0 REVIEWS</Text>
-                </Flex>
+                )}
+                {donation && (
+                    <DonateUsers donationDetail={true} size={"42px"} event={donationData} fontSize={14} border='1px' />
+                )}
             </Flex>
         </Flex>
     )

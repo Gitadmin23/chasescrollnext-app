@@ -23,7 +23,7 @@ import ProductImageScroller from '../sharedComponent/productImageScroller';
 
 export default function GetReciept() {
 
-    const { primaryColor, borderColor, bodyTextColor, secondaryBackgroundColor } = useCustomTheme()
+    const { primaryColor, borderColor, bodyTextColor, secondaryBackgroundColor, mainBackgroundColor } = useCustomTheme()
     const { push } = useRouter()
     const userId = localStorage.getItem('user_id') + "";
     const [textSize, setTextSize] = useState(40)
@@ -63,22 +63,8 @@ export default function GetReciept() {
                 {results?.map((item: IReceipt, index: number) => {
                     if (results?.length === index + 1) {
                         return (
-                            <Flex ref={ref} as={"button"} alignItems={"start"} onClick={() => clickHander(item)} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={"16px"} pb={"5"} gap={"4"} >
-                                {/* <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
-                                    <UserImage image={item?.createdBy?.data?.imgMain?.value} font={"16px"} data={item?.createdBy} border={"1px"} size={"32px"} />
-                                    <Flex flexDir={"column"} alignItems={"start"} >
-                                        <Text fontSize={"12px"} fontWeight={"600"} color={primaryColor} >
-                                            {capitalizeFLetter(item?.createdBy?.firstName) + " " + capitalizeFLetter(item?.createdBy?.lastName)}
-                                        </Text>
-                                        <Text fontSize={"10px"} color={bodyTextColor} >
-                                            {moment(item?.createdDate)?.fromNow()}
-                                        </Text>
-                                    </Flex>
-                                </Flex>
-                                <Flex w={"full"} h={"210px"} rounded={"8px"} >
-                                    <Image rounded={"8px"} borderColor={"#D0D4EB"} objectFit={"cover"} alt={item?.rental?.images[0]} width={["full"]} height={"full"} src={IMAGE_URL + item?.rental?.images[0]} />
-                                </Flex> */}
-
+                            <Flex ref={ref} as={"button"} alignItems={"start"} onClick={() => clickHander(item)} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={mainBackgroundColor} rounded={"16px"} pb={"5"} gap={"4"} >
+                           
             <ProductImageScroller images={item?.rental?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
                                 <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} px={"2"} >
                                     <Text fontSize={"14px"} fontWeight={"600"} color={primaryColor} textAlign={"left"} >{capitalizeFLetter(item?.rental?.name)}</Text>
@@ -90,28 +76,15 @@ export default function GetReciept() {
                                         <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >Order On {dateFormat(item?.createdDate)}</Text>
                                     </Flex>
                                     <Flex display={["none", "none", "flex"]} >
-                                        <CustomButton onClick={() => clickHander(item)} text={"View Details"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                                        <CustomButton onClick={() => clickHander(item)} text={"View Details"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={mainBackgroundColor} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
                                     </Flex>
                                 </Flex>
                             </Flex>
                         )
                     } else {
                         return (
-                            <Flex as={"button"} alignItems="start" onClick={() => clickHander(item)} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={"white"} rounded={"16px"} pb={"5"} gap={"4"} >
-                                {/* <Flex w={"full"} h={"full"} alignItems={"center"} gap={2} >
-                                    <UserImage image={item?.createdBy?.data?.imgMain?.value} font={"16px"} data={item?.createdBy} border={"1px"} size={"32px"} />
-                                    <Flex flexDir={"column"} alignItems={"start"} >
-                                        <Text fontSize={"12px"} fontWeight={"600"} color={primaryColor} >
-                                            {capitalizeFLetter(item?.createdBy?.firstName) + " " + capitalizeFLetter(item?.createdBy?.lastName)}
-                                        </Text>
-                                        <Text fontSize={"10px"} color={bodyTextColor} >
-                                            {moment(item?.rental?.createdDate)?.fromNow()}
-                                        </Text>
-                                    </Flex>
-                                </Flex>
-                                <Flex w={"full"} h={"210px"} rounded={"8px"} >
-                                    <Image rounded={"8px"} borderColor={"#D0D4EB"} objectFit={"cover"} alt={item?.rental?.images[0]} width={["full"]} height={"full"} src={IMAGE_URL + item?.rental?.images[0]} />
-                                </Flex> */}
+                            <Flex as={"button"} alignItems="start" onClick={() => clickHander(item)} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={mainBackgroundColor} rounded={"16px"} pb={"5"} gap={"4"} >
+                                 
 
             <ProductImageScroller images={item?.rental?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
                                 <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} px={"2"} >
@@ -124,7 +97,7 @@ export default function GetReciept() {
                                         <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >Order On {dateFormat(item?.createdDate)}</Text>
                                     </Flex>
                                     <Flex display={["none", "none", "flex"]} >
-                                        <CustomButton onClick={() => clickHander(item)} text={"View Details"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={"#fff"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                                        <CustomButton onClick={() => clickHander(item)} text={"View Details"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={mainBackgroundColor} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
                                     </Flex>
                                 </Flex>
                             </Flex>
@@ -144,13 +117,13 @@ export default function GetReciept() {
                             <Flex w={["full", "full", "fit-content"]} >
                                 <Flex flexDir={"column"} gap={"2"} w={["full", "full", "218px"]} >
                                     <Flex w={["full", "full", "218px"]} h={"157px"} rounded={"8px"} bgColor={"#00000066"} position={"relative"} justifyContent={"center"} alignItems={"center"} >
-                                        <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderColor={"white"} borderWidth={"1px"} alignItems={"center"} gap={2} zIndex={"20"} >
+                                        <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderColor={mainBackgroundColor} borderWidth={"1px"} alignItems={"center"} gap={2} zIndex={"20"} >
                                             <UserImage image={detail?.createdBy?.data?.imgMain?.value} font={"16px"} data={detail?.createdBy} border={"1px"} size={"32px"} />
-                                            <Flex flexDir={"column"} alignItems={"start"} color={"white"} >
+                                            <Flex flexDir={"column"} alignItems={"start"} color={mainBackgroundColor} >
                                                 <Text fontSize={"12px"} fontWeight={"700"} >
                                                     {capitalizeFLetter(detail?.createdBy?.firstName) + " " + capitalizeFLetter(detail?.createdBy?.lastName)}
                                                 </Text>
-                                                <Text fontSize={"10px"} color={"white"} fontWeight={"600"} >
+                                                <Text fontSize={"10px"} color={mainBackgroundColor} fontWeight={"600"} >
                                                     Client
                                                 </Text>
                                             </Flex>
@@ -253,7 +226,7 @@ export default function GetReciept() {
                         {(detail?.rental?.createdBy === userId && detail?.approvalStatus !== "ACCEPTED") && (
                             <Flex gap={"2"} >
                                 <CustomButton fontSize={"sm"} isLoading={updateRecipt?.isLoading && status === "ACCEPTED"} onClick={() => updateHandler("ACCEPTED")} text={"Accept"} borderRadius={"99px"} width={"150px"} />
-                                <CustomButton fontSize={"sm"} isLoading={reject?.isLoading && status === "CANCELLED"} onClick={() => updateHandler("CANCELLED")} text={"Decline"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={"white"} color={"#FE0909"} width={"150px"} />
+                                <CustomButton fontSize={"sm"} isLoading={reject?.isLoading && status === "CANCELLED"} onClick={() => updateHandler("CANCELLED")} text={"Decline"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={mainBackgroundColor} color={"#FE0909"} width={"150px"} />
                             </Flex>
                         )}
                     </Flex>
