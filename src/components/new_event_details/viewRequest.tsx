@@ -28,7 +28,7 @@ export default function ViewRequest() {
                                 <Text fontWeight={"500"} fontSize={"sm"} >Rentals </Text>
                             </Flex>
                         </Flex>
-                        <Flex as={"button"} >
+                        <Flex onClick={()=> setOpen(false)} as={"button"} >
                             <IoIosClose size={"25px"} />
                         </Flex>
                     </Flex>

@@ -69,29 +69,29 @@ export default function CollaboratorBtn(props: IProps) {
     const [users, setUsers] = React.useState<IUser[]>([]);
     const [usersFilter, setUserFilter] = React.useState<IUser[]>([]);
     const { eventdata, updateEvent } = useEventStore((state) => state);
-    const [show, setShow] = useState(false) 
+    const [show, setShow] = useState(false)
 
     const router = useRouter()
 
-    const queryClient = useQueryClient() 
+    const queryClient = useQueryClient()
 
     const { userId } = useDetails((state) => state);
     // const toast = useToast()
 
     const [search, setSearch] = React.useState('');
-    
+
 
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/user/search-users?searchText=${search}`, limit: 10, filter: "userId", name: "all-event", search: search })
 
-    const CheckLimit = (lengthOfCollab: any, clone: any, name?: string) => { 
+    const CheckLimit = (lengthOfCollab: any, clone: any, name?: string) => {
 
 
         const numb = lengthOfCollab ? lengthOfCollab : 0
         console.log(lengthOfCollab);
         console.log(numb);
-        
 
-        if (numb+1 === 11 && name === "add") {
+
+        if (numb + 1 === 11 && name === "add") {
             toast({
                 title: 'Error',
                 description: "Limit of Collaborators is 10",
@@ -101,7 +101,7 @@ export default function CollaboratorBtn(props: IProps) {
                 position: 'top-right',
             });
             return
-        }else if (numb <= 10 ) {
+        } else if (numb <= 10) {
             updateEvent(clone)
             return
         } else {
@@ -136,14 +136,14 @@ export default function CollaboratorBtn(props: IProps) {
 
                 clone.admins = [...admin, userIndex]
                 console.log("test");
-                
+
                 CheckLimit(lengthOfCollab, clone)
                 return
             } else {
 
                 const index = admin.indexOf(userIndex);
-                clone?.admins.splice(index, 1); 
-            } 
+                clone?.admins.splice(index, 1);
+            }
             updateEvent(clone);
 
         } else if (eventdata?.admins?.includes(userIndex)) {
@@ -160,8 +160,8 @@ export default function CollaboratorBtn(props: IProps) {
             } else {
                 clone.admins = [...admin, userIndex]
             }
-            CheckLimit(lengthOfCollab, clone, "add") 
-        } 
+            CheckLimit(lengthOfCollab, clone, "add")
+        }
     }
 
     const AddCollaborators = (userIndex: string) => {
@@ -170,7 +170,7 @@ export default function CollaboratorBtn(props: IProps) {
         let collaborators = !eventdata?.collaborators ? [] : [...eventdata?.collaborators]
 
         let clone = { ...eventdata }
-        const lengthOfCollab =  Number(clone?.admins?.length ? clone?.admins?.length : 0) + Number(clone?.collaborators?.length ? clone?.collaborators?.length : 0) + Number(clone?.acceptedAdmins?.length ? clone?.acceptedAdmins?.length : 0) + Number(clone?.acceptedCollaborators?.length ? clone?.acceptedCollaborators?.length : 0) 
+        const lengthOfCollab = Number(clone?.admins?.length ? clone?.admins?.length : 0) + Number(clone?.collaborators?.length ? clone?.collaborators?.length : 0) + Number(clone?.acceptedAdmins?.length ? clone?.acceptedAdmins?.length : 0) + Number(clone?.acceptedCollaborators?.length ? clone?.acceptedCollaborators?.length : 0)
 
         if (eventdata?.admins?.includes(userIndex)) {
 
@@ -182,7 +182,7 @@ export default function CollaboratorBtn(props: IProps) {
 
                 clone.collaborators = [...collaborators, userIndex]
                 console.log("test");
-                
+
                 CheckLimit(lengthOfCollab, clone)
             } else {
 
@@ -205,9 +205,9 @@ export default function CollaboratorBtn(props: IProps) {
         } else {
 
             clone.collaborators = [...collaborators, userIndex]
-            CheckLimit(lengthOfCollab, clone, "add") 
+            CheckLimit(lengthOfCollab, clone, "add")
 
-        } 
+        }
 
 
     }
@@ -218,7 +218,7 @@ export default function CollaboratorBtn(props: IProps) {
         let collaborators = !eventdata?.acceptedCollaborators ? [] : [...eventdata?.acceptedCollaborators]
 
         let clone: any = { ...eventdata }
-        const lengthOfCollab =  Number(clone?.admins?.length ? clone?.admins?.length : 0) + Number(clone?.collaborators?.length ? clone?.collaborators?.length : 0) + Number(clone?.acceptedAdmins?.length ? clone?.acceptedAdmins?.length : 0) + Number(clone?.acceptedCollaborators?.length ? clone?.acceptedCollaborators?.length : 0) 
+        const lengthOfCollab = Number(clone?.admins?.length ? clone?.admins?.length : 0) + Number(clone?.collaborators?.length ? clone?.collaborators?.length : 0) + Number(clone?.acceptedAdmins?.length ? clone?.acceptedAdmins?.length : 0) + Number(clone?.acceptedCollaborators?.length ? clone?.acceptedCollaborators?.length : 0)
 
         if (eventdata?.acceptedCollaborators?.includes(userIndex)) {
 
@@ -230,7 +230,7 @@ export default function CollaboratorBtn(props: IProps) {
 
                 clone.acceptedAdmins = [...admin, userIndex]
                 console.log("test");
-                
+
                 CheckLimit(lengthOfCollab, clone)
             } else {
 
@@ -251,8 +251,8 @@ export default function CollaboratorBtn(props: IProps) {
             updateEvent(clone);
         } else {
 
-            clone.acceptedAdmins = [...admin, userIndex] 
-            CheckLimit(lengthOfCollab, clone, "add") 
+            clone.acceptedAdmins = [...admin, userIndex]
+            CheckLimit(lengthOfCollab, clone, "add")
 
         }
     }
@@ -263,7 +263,7 @@ export default function CollaboratorBtn(props: IProps) {
         let collaborators = !eventdata?.acceptedCollaborators ? [] : [...eventdata?.acceptedCollaborators]
 
         let clone: any = { ...eventdata }
-        const lengthOfCollab =  Number(clone?.admins?.length ? clone?.admins?.length : 0) + Number(clone?.collaborators?.length ? clone?.collaborators?.length : 0) + Number(clone?.acceptedAdmins?.length ? clone?.acceptedAdmins?.length : 0) + Number(clone?.acceptedCollaborators?.length ? clone?.acceptedCollaborators?.length : 0) 
+        const lengthOfCollab = Number(clone?.admins?.length ? clone?.admins?.length : 0) + Number(clone?.collaborators?.length ? clone?.collaborators?.length : 0) + Number(clone?.acceptedAdmins?.length ? clone?.acceptedAdmins?.length : 0) + Number(clone?.acceptedCollaborators?.length ? clone?.acceptedCollaborators?.length : 0)
 
         if (eventdata?.acceptedAdmins?.includes(userIndex)) {
 
@@ -274,7 +274,7 @@ export default function CollaboratorBtn(props: IProps) {
 
                 clone.acceptedCollaborators = [...collaborators, userIndex]
                 console.log("test");
-                
+
                 CheckLimit(lengthOfCollab, clone)
             } else {
                 const index = collaborators.indexOf(userIndex);
@@ -292,7 +292,7 @@ export default function CollaboratorBtn(props: IProps) {
         } else {
 
             clone.acceptedCollaborators = [...collaborators, userIndex]
-            CheckLimit(lengthOfCollab, clone, "add") 
+            CheckLimit(lengthOfCollab, clone, "add")
 
         }
     }
@@ -347,7 +347,7 @@ export default function CollaboratorBtn(props: IProps) {
                 }
             }
 
-            setShow((prev)=> !prev)
+            setShow((prev) => !prev)
 
         }
 
@@ -579,14 +579,10 @@ export default function CollaboratorBtn(props: IProps) {
 
     return (
         <>
-            {update && (
-                <Flex gap={"3"} alignItems={"center"} >
-                    <Button onClick={() => clickHandler()} bgColor={"#5D70F9"} px={"2"} fontSize={"9px"} color={"white"} h={"25px"} pt={"0.9px"} rounded={"32px"}>{collaborate ? "Edit" : "Invite"} Collaborator</Button>
-
-                    {/* <Box onClick={() => setShow(true)} color={"gray.500"} as='button' >
-                        <QuestionTwoIcon />
-                    </Box> */}
-                </Flex>
+            {update && ( 
+                // <Flex w={"fit-content"} bgColor={mainBackgroundColor} rounded={"16px"} p={"3"} gap={"4"} alignItems={"center"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
+                    <CustomButton onClick={() => clickHandler()} text={collaborate ? "Edit Collaborator" : "Invite Collaborator"} height={"40px"} borderRadius={"25px"} fontSize={"12px"} width={"150px"} borderWidth={"1px"} borderColor={primaryColor} color={primaryColor} backgroundColor={mainBackgroundColor} />
+                // </Flex>
             )}
             {!update && (
                 <Flex flexDir={"column"} w={"fit-content"} gap={"3"} alignItems={"end"} >

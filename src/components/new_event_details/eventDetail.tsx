@@ -34,6 +34,7 @@ import { IMAGE_URL } from '@/services/urls';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
 import ViewRequest from './viewRequest';
 import InviteCollaborator from './inviteCollaborator';
+import EventLocationDetail from '../sharedComponent/event_location';
 
 
 
@@ -70,7 +71,7 @@ export default function EventDetail(props: IEventType) {
     const isUser = !isOrganizer && eventMemberRole !== "ADMIN" || eventMemberRole !== "COLLABORATOR"
 
     const [show, setShow] = useState(false)
-    const [textSize, setTextSize] = useState(100)
+    const [meshSize, setMeshSize] = useState(0)
 
     const handerTicket = () => {
         setShow(true)
@@ -224,33 +225,35 @@ export default function EventDetail(props: IEventType) {
                 <Text fontSize={"14px"} fontWeight={"500"} >{eventName}</Text>
             </Flex>
             <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
-                <Flex position={"relative"} w={"full"} h={["340px", "340px", "520px"]} pos={"relative"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"8px"} py={["1", "1", "3"]} >
-                    <Image src={IMAGE_URL + props?.picUrls} alt='logo' rounded={"8px"} height={"full"} objectFit={"contain"} />
+                <Flex w={"full"} flexDir={"column"} gap={"4"} >
+                    <Flex position={"relative"} w={"full"} h={["340px", "340px", "520px"]} pos={"relative"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"8px"} py={["1", "1", "3"]} >
+                        <Image src={IMAGE_URL + props?.picUrls} alt='logo' rounded={"8px"} height={"full"} objectFit={"contain"} />
 
-                    {!pathname?.includes("past") && (
-                        <Flex pos={"absolute"} bottom={"6"} right={"6"} zIndex={"50"} w={"fit-content"} h={"fit-content"} gap={"4"} p={"5px"} px={"2"} rounded={"full"} bgColor={"white"} >
-                            <SaveOrUnsaveBtn color={headerTextColor} event={props} size='20' />
-                            <ShareEvent newbtn={true} showText={false} data={props} id={prId ? prId + "?type=affiliate" : id} type="EVENT" eventName={textLimit(eventName, 17)} />
-                        </Flex>
-                    )}
+                        {!pathname?.includes("past") && (
+                            <Flex pos={"absolute"} bottom={"6"} right={"6"} zIndex={"50"} w={"fit-content"} h={"fit-content"} gap={"4"} p={"5px"} px={"2"} rounded={"full"} bgColor={mainBackgroundColor} >
+                                <SaveOrUnsaveBtn color={headerTextColor} event={props} size='20' />
+                                <ShareEvent newbtn={true} showText={false} data={props} id={prId ? prId + "?type=affiliate" : id} type="EVENT" eventName={textLimit(eventName, 17)} />
+                            </Flex>
+                        )}
+                    </Flex>
                 </Flex>
                 <Flex w={"full"} flexDir={"column"} gap={"3"} >
                     <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{capitalizeFLetter(eventName)}</Text>
                     <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
-                        <DescriptionPage limit={100} label='Event Details' description={eventDescription} />
+                        <DescriptionPage limit={200} label='Event Details' description={eventDescription} />
                         <Flex flexDir={isAdmin ? "column" : "row"} gap={"2"} w={"full"} >
-                            <Flex w={[isAdmin ? "full" : "fit-content", isAdmin ? "full" : "fit-content", "full"]} alignItems={["start", "start", "center"]} flexDir={["column", "column", "row"]} justifyContent={["start", "start", "space-between"]} gap={"3"} >
-                                <Flex pr={isAdmin ? "3" : "0px"} gap={"3"} w={[isAdmin ? "full" : "fit-content", isAdmin ? "full" : "fit-content", "full"]} alignItems={[isAdmin ? "center" : "start", isAdmin ? "center" : "start", "center"]} flexDir={[isAdmin ? "row" : "column", isAdmin ? "row" : "column", "row"]} justifyContent={[isAdmin ? "space-between" : "start", isAdmin ? "space-between" : "start", "space-between"]}  >
+                            <Flex w={[isAdmin ? "full" : "fit-content", isAdmin ? "full" : "full", "full"]} alignItems={["start", "start", "center"]} flexDir={["column", "column", "row"]} justifyContent={["start", "start", "space-between"]} gap={"3"} >
+                                <Flex gap={"3"} w={[isAdmin ? "full" : "fit-content", isAdmin ? "full" : "full", "full"]} alignItems={[isAdmin ? "center" : "start", isAdmin ? "center" : "start", "center"]} flexDir={[isAdmin ? "row" : "column", isAdmin ? "row" : "column", "row"]} justifyContent={[isAdmin ? "space-between" : "start", isAdmin ? "space-between" : "start", "space-between"]}  >
                                     <EventCreator {...props} />
-                                    <Flex mr={isAdmin ? "auto" : "0px"} >
+                                    <Flex display={["flex", "flex", "none"]} mr={isAdmin ? "auto" : "0px"} >
                                         <InterestedUsers fontSize={16} event={props} border={"2px"} size={"38px"} refund={true} />
                                     </Flex>
                                 </Flex>
-                                {/* <Flex display={["flex", "flex", "none"]} >
+                                <Flex display={["flex", "flex", "none"]} >
                                     {isOrganizer && (
                                         <VolunteerBtn {...props} />
                                     )}
-                                </Flex> */}
+                                </Flex>
                             </Flex>
                             <Flex display={["flex", "flex", "none"]} maxW={["full", "full", "full", "430px", "430px"]} flexDir={"column"} gap={"2"} w={"full"} >
                                 {((eventMemberRole !== "COLLABORATOR") && !isOrganizer && eventMemberRole !== "ADMIN") && (
@@ -268,7 +271,7 @@ export default function EventDetail(props: IEventType) {
                                 {isAdmin && (
                                     <OrganizeBtn {...props} />
                                 )}
-                                <InviteCollaborator />
+                                <VolunteerBtn {...props} />
                             </Flex>
                         </Flex>
                     </Flex>
@@ -304,29 +307,32 @@ export default function EventDetail(props: IEventType) {
                                     <OrganizeBtn {...props} />
                                 )}
                             </Flex>
-                            <InviteCollaborator />
+                            <VolunteerBtn {...props} />
                         </Flex>
                     </Flex>
                 </Flex>
             </Flex>
             <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                 <Flex w={"full"} flexDir={"column"} gap={"4"} >
-                    <Flex w={"full"} gap={"3"} flexDir={["column", "column", "row"]} >
+                    <Flex w={"full"} maxW={"500px"} gap={"3"} flexDir={["column", "column", "row"]} >
                         <EventDonation item={props} />
                         <Flex w={"fit-content"} mt={"auto"} height={["auto", "auto", "130px"]} >
                             <ViewRequest />
                         </Flex>
                     </Flex>
-                    {location?.latlng && (
-                        <Flex w={"full"} flexDir={"column"} gap={"2"} >
-                            <Text fontSize={"14px"} fontWeight={"bold"} >Location and surroundings</Text>
-                            <EventMap height={"212px"} latlng={location?.latlng ?? ""} />
+                    <Flex w={"full"} flexDir={"column"} gap={"2"} >
+                        <Flex maxW={["400px"]} w={"full"} >
+                            <EventLocationDetail location={location} locationType={props?.locationType} indetail={true} />
                         </Flex>
-                    )}
+                        {location?.latlng && (
+                            <Flex flexDir={"column"} gap={"2"} >
+                                <Text fontSize={"14px"} fontWeight={"bold"} >Location and surroundings</Text>
+                                <EventMap height={"212px"} latlng={location?.latlng ?? ""} />
+                            </Flex>
+                        )}
+                    </Flex>
                 </Flex>
-                <Flex w={"full"} flexDir={"column"} >
-                    <EventMesh data={props} />
-                </Flex>
+                <EventMesh setMeshSize={setMeshSize} data={props} />
             </Flex>
         </Flex>
     )

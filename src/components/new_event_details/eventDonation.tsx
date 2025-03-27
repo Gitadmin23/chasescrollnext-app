@@ -51,7 +51,7 @@ export default function EventDonation({ checkbox, item }: { checkbox?: boolean, 
 
 
     return (
-        <Flex flexDir={"column"} w={"full"} gap={"2"} >
+        <Flex flexDir={"column"} w={"full"} gap={"2"} display={eventData?.fundRaiser?.name ? "flex" : "none"} >
             <Text fontSize={"14px"} fontWeight={"500"} >Fundraising available</Text>
             <Flex role="button" display={eventData?.fundRaiser?.name ? "flex" : "none"} flexDir={["row"]} w={"full"} rounded={"8px"} gap={["2", "2", "2"]} borderWidth={"1px"} borderColor={borderColor} px={["2", "2", "3"]} h={["auto", "auto", "130px"]} py={"2"} alignItems={"center"} >
                 <Flex w={"fit-content"} >
