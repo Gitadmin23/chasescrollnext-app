@@ -109,7 +109,7 @@ export default function DonationBtn(props: any) {
             {event &&
                 <Box w={["45px", "45px", "70px"]} pos={"relative"} >
                     <Box w={["fit-content"]} position={"relative"} top={"0px"} >
-                        <CustomButton onClick={() => setOpen(true)} text={"Donate now"} transform={["rotate(-90deg)"]} backgroundColor={"#5D70F9"} left={["-45px", "-45px", "-50px"]} top={["-20px"]} zIndex={"50"} position={["absolute"]} height={["35px", "35px", "45px"]} fontSize={["xs", "xs", "xs"]} width={["100px", "100px", "140px"]} borderRadius={"full"} />
+                        <CustomButton onClick={() => setOpen(true)} text={"Donate now"} transform={["rotate(-90deg)"]} backgroundColor={"#5D70F9"} left={["-32px", "-32px", "-37px"]} top={["-20px"]} zIndex={"50"} position={["absolute"]} height={["35px", "35px", "45px"]} fontSize={["10px", "10px", "xs"]} width={["80px", "80px", "100px"]} borderRadius={"full"} />
                     </Box>
                 </Box>
             }

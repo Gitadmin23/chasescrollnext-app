@@ -445,7 +445,7 @@ export default function CollaboratorBtn(props: IProps) {
 
         if (data?.eventName) {
 
-            const clone: CreateEvent = {
+            const clone: any = {
                 id: data?.id,
                 picUrls: data?.picUrls,
                 eventType: data?.eventType,

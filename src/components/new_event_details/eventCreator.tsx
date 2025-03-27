@@ -85,8 +85,7 @@ export default function EventCreator(props: IEventType) {
                     </Flex>
                 ) :
                     (
-                        <>
-
+                        <> 
                             {((collaborators || admins) && !pathname?.includes("pastdetails")) && (
                                 <CollaboratorBtn update={true} collaborate={acceptedCollaborators?.length !== 0 || acceptedAdmins?.length !== 0} btn={true} data={props} />
                             )}

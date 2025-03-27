@@ -18,6 +18,7 @@ import { useQuery } from 'react-query'
 import httpService from '@/utils/httpService'
 import ListService from './listService'
 import ListRental from './listRental'
+import { IoIosArrowDown } from 'react-icons/io'
 
 export default function PrBtn({ data }: { data: IEventType }) {
 
@@ -80,12 +81,20 @@ export default function PrBtn({ data }: { data: IEventType }) {
 
     return (
         <>
-            <Flex pos={["relative"]} w={"fit-content"} flexDir={"column"} rounded={"16px"} gap={"3"} > 
+            <Flex pos={["relative"]} w={"full"} flexDir={"column"} rounded={"16px"} gap={"3"} >
                 {data?.isOrganizer && (
-                    <CustomButton onClick={() => setOpen(true)} text={"My support Center"} backgroundColor={["#EEEEFF", "#EEEEFF", primaryColor]} color={[primaryColor, primaryColor, "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]} width={["120px", "120px", "160px"]} />
+                    <Flex onClick={() => setOpen(true)} as={"button"} w={"full"} gap={"2"} h={"55px"} px={"1"} alignItems={"center"} justifyContent={"center"} >
+                        <Text fontSize={"14px"} fontWeight={"500"} >My Support Center</Text>
+                        {/* <IoIosArrowDown size={"20px"} /> */}
+                    </Flex>
                 )}
                 {!data?.isOrganizer && (
-                    <CustomButton onClick={clickHander} disable={data?.prStatus === "PENDING" ? true : false} text={data?.prStatus === "PENDING" ? "Pending" : "Apply to be a PR"} backgroundColor={["#EEEEFF", "#EEEEFF", primaryColor]} color={[primaryColor, primaryColor, "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]} width={["120px", "120px", "160px"]} />
+                    <Flex disabled={createPr?.isLoading} onClick={clickHander} as={"button"} w={"full"} gap={"2"} h={"55px"} px={"4"} alignItems={"center"} justifyContent={"center"} >
+                        {createPr?.isLoading ? 
+                        <Text fontSize={"14px"} fontWeight={"500"} >{"Loading..."}</Text> :
+                        <Text fontSize={"14px"} fontWeight={"500"} >{data?.prStatus === "PENDING" ? "Pending" : "Apply to be a PR"}</Text> } 
+                    </Flex>
+                    // <CustomButton onClick={clickHander} disable={data?.prStatus === "PENDING" ? true : false} text={data?.prStatus === "PENDING" ? "Pending" : "Apply to be a PR"} backgroundColor={["#EEEEFF", "#EEEEFF", primaryColor]} color={[primaryColor, primaryColor, "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]} width={["120px", "120px", "160px"]} />
                 )}
                 <ModalLayout open={open} size={"md"} close={setOpen} closeIcon={true} >
                     <Flex flexDir={"column"} gap={"4"} w={"full"} px={"4"} mb={"4"} >
