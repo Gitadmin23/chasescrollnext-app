@@ -57,7 +57,7 @@ function EventLocationDetail(props: Props) {
   return (
     <>
       {!indetail && (
-        <Flex gap={"1"} height={height ? height : "50px"} alignItems={"center"}>
+        <Flex w={"full"} gap={"1"} height={height ? height : "50px"} alignItems={"center"}>
           {!noicon && (
             <Box width={"fit-content"}>
               <Box

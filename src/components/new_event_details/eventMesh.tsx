@@ -30,7 +30,7 @@ interface IProps {
     "returnProductDto": IProduct
 }
 
-export default function EventMesh({ data }: { data: IEventType }) {
+export default function EventMesh({ data, setMeshSize }: { data: IEventType, setMeshSize: any  }) {
 
     const { primaryColor, secondaryBackgroundColor } = useCustomTheme()
     const [open, setOpen] = useState(false)
@@ -49,10 +49,8 @@ export default function EventMesh({ data }: { data: IEventType }) {
         onError: (error: any) => {
         },
         onSuccess: (data: any) => {
-            setEventData(data?.data)
-
-            console.log(data);
-
+            setEventData(data?.data) 
+            setMeshSize(data?.data?.length) 
         }
     })
 
