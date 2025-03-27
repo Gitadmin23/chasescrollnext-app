@@ -32,7 +32,7 @@ interface IProps {
 
 export default function EventMesh({ data }: { data: IEventType }) {
 
-    const { primaryColor } = useCustomTheme()
+    const { primaryColor, secondaryBackgroundColor } = useCustomTheme()
     const [open, setOpen] = useState(false)
 
     const { push } = useRouter()
@@ -73,16 +73,16 @@ export default function EventMesh({ data }: { data: IEventType }) {
                 <Flex w={"fit-content"} gap={"2"} >
                     {eventData?.map((item, index) => {
                         return (
-                            <Flex key={index} onClick={() => setOpen(true)} w={["170px", "170px", "230px"]} borderWidth={"1px"} borderColor={"#EBEDF0"} flexDir={"column"} gap={"2"} p={"4"} rounded={"16px"} >
-                                <Flex w={"full"} h={["101px", "101px", "176px"]} bgColor={"red"} rounded={"8px"} >
-                                    <Image alt="logo" src={IMAGE_URL + item?.returnProductDto?.images[0]} />
+                            <Flex key={index} onClick={()=> push(`/dashboard/kisok/details/${item?.returnProductDto?.id}`)} w={["170px", "170px", "230px"]} borderWidth={"1px"} borderColor={"#EBEDF0"} flexDir={"column"} gap={"2"} p={"4"} rounded={"16px"} >
+                                <Flex w={"full"} h={["101px", "101px", "176px"]} p={"1"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"8px"} >
+                                    <Image alt="logo" height={"full"} w={"auto"} rounded={"8px"} src={IMAGE_URL + item?.returnProductDto?.images[0]} />
                                 </Flex>
                                 <Flex flexDir={"column"} >
                                     <Text fontSize={"14px"} fontWeight={"700"} >{formatNumber(item?.returnProductDto?.price)}</Text>
                                     <Text fontSize={["12px", "12px", "14px"]} >{capitalizeFLetter(textLimit(item?.returnProductDto?.name, 20))}</Text>
                                 </Flex>
 
-                                <ModalLayout rounded='16px' size={"sm"} open={open} close={setOpen} closeIcon={true} >
+                                {/* <ModalLayout rounded='16px' size={"sm"} open={open} close={setOpen} closeIcon={true} >
                                     <Flex flexDir={"column"} gap={"2"} p={"4"} >
                                         <Text fontWeight={"600"} >Product Details </Text>
                                         <Flex w={"full"} h={"193px"} rounded={"8px"} bgColor={"red"} >
@@ -96,7 +96,7 @@ export default function EventMesh({ data }: { data: IEventType }) {
                                             <CustomButton onClick={()=> push(`/dashboard/kisok/details/${item?.returnProductDto?.id}`)} text={"Order Now"} />
                                         </Flex>
                                     </Flex>
-                                </ModalLayout>
+                                </ModalLayout> */}
                             </Flex>
                         )
                     })}

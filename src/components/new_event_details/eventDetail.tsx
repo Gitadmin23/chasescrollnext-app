@@ -32,6 +32,8 @@ import LoadingAnimation from '../sharedComponent/loading_animation';
 import { IoIosArrowForward } from 'react-icons/io';
 import { IMAGE_URL } from '@/services/urls';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
+import ViewRequest from './viewRequest';
+import InviteCollaborator from './inviteCollaborator';
 
 
 
@@ -86,7 +88,7 @@ export default function EventDetail(props: IEventType) {
     }
 
 
-    const { data: prId } = useGetPr(props?.id) 
+    const { data: prId } = useGetPr(props?.id)
 
     return (
         // <Flex w={"full"} flexDir={"column"} pb={"8"} gap={["4", "4", "4", "6", "6"]} pos={"relative"} >
@@ -244,18 +246,13 @@ export default function EventDetail(props: IEventType) {
                                         <InterestedUsers fontSize={16} event={props} border={"2px"} size={"38px"} refund={true} />
                                     </Flex>
                                 </Flex>
-                                {(!prId) && (
-                                    <Flex display={["flex", "flex", "none"]} >
-                                        <PrBtn data={props} />
-                                    </Flex>
-                                )}
-                                <Flex display={["flex", "flex", "none"]} >
+                                {/* <Flex display={["flex", "flex", "none"]} >
                                     {isOrganizer && (
                                         <VolunteerBtn {...props} />
                                     )}
-                                </Flex>
+                                </Flex> */}
                             </Flex>
-                            <Flex display={["flex", "flex", "none"]} maxW={["full", "full", "full", "430px", "430px"]} flexDir={"column"} gap={"6"} w={"full"} >
+                            <Flex display={["flex", "flex", "none"]} maxW={["full", "full", "full", "430px", "430px"]} flexDir={"column"} gap={"2"} w={"full"} >
                                 {((eventMemberRole !== "COLLABORATOR") && !isOrganizer && eventMemberRole !== "ADMIN") && (
                                     <Flex bg={mainBackgroundColor} zIndex={"50"} pos={["relative"]} bottom={"0px"} w={"full"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} borderWidth={(pathname?.includes("past") && !isOrganizer) ? "0px" : "1px"} borderColor={"#DEDEDE"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
                                         {/* {(!pathname?.includes("past") || isOrganizer) && ( */}
@@ -269,10 +266,9 @@ export default function EventDetail(props: IEventType) {
                                     </Flex>
                                 )}
                                 {isAdmin && (
-                                    <Flex w={"full"} bgColor={secondaryBackgroundColor} display={["flex", "flex", "none"]} rounded={"64px"} alignItems={"center"} h={"86px"} px={["2", "2", "4"]} py={"3"} justifyContent={"center"} >
-                                        <OrganizeBtn {...props} />
-                                    </Flex>
+                                    <OrganizeBtn {...props} />
                                 )}
+                                <InviteCollaborator />
                             </Flex>
                         </Flex>
                     </Flex>
@@ -292,16 +288,10 @@ export default function EventDetail(props: IEventType) {
                         </Flex>
                     </Flex>
                     <Flex w={"full"} justifyContent={"space-between"} gap={"4"} >
-
-                        {!prId && (
-                            <Flex display={["none", "none", "flex"]} >
-                                <PrBtn data={props} />
-                            </Flex>
-                        )}
-                        <Flex display={["none", "none", "none", "flex"]} w={"full"} alignItems={"end"} flexDir={"column"} gap={"6"} >
+                        <Flex display={["none", "none", "none", "flex"]} w={"full"} flexDir={"column"} gap={"6"} >
                             <Flex maxW={["full", "full", "full", "430px", "430px"]} flexDir={"column"} gap={"6"} w={"full"} >
                                 {((eventMemberRole !== "COLLABORATOR") && !isOrganizer && eventMemberRole !== "ADMIN") && (
-                                    <Flex bg={mainBackgroundColor} zIndex={"50"} pos={["relative"]} bottom={"0px"} w={"full"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} borderWidth={(pathname?.includes("past") && !isOrganizer) ? "0px" : "1px"} borderColor={"#DEDEDE"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} > 
+                                    <Flex bg={mainBackgroundColor} zIndex={"50"} pos={["relative"]} bottom={"0px"} w={"full"} flexDir={"column"} rounded={"16px"} gap={"3"} p={"3"} borderWidth={(pathname?.includes("past") && !isOrganizer) ? "0px" : "1px"} borderColor={"#DEDEDE"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
                                         {(!isBought && (!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && !pathname?.includes("past")) && (
                                             <SelectTicket data={props} currency={currency} ticket={productTypeData} />
                                         )}
@@ -311,18 +301,22 @@ export default function EventDetail(props: IEventType) {
                                     </Flex>
                                 )}
                                 {isAdmin && (
-                                    <Flex w={"full"} bgColor={secondaryBackgroundColor} display={["none", "none", "flex", "flex"]} rounded={"64px"} alignItems={"center"} h={"86px"} px={"4"} py={"3"} justifyContent={"center"} >
-                                        <OrganizeBtn {...props} />
-                                    </Flex>
+                                    <OrganizeBtn {...props} />
                                 )}
                             </Flex>
+                            <InviteCollaborator />
                         </Flex>
                     </Flex>
                 </Flex>
             </Flex>
             <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                 <Flex w={"full"} flexDir={"column"} gap={"4"} >
-                    <EventDonation item={props} />
+                    <Flex w={"full"} gap={"3"} flexDir={["column", "column", "row"]} >
+                        <EventDonation item={props} />
+                        <Flex w={"fit-content"} mt={"auto"} height={["auto", "auto", "130px"]} >
+                            <ViewRequest />
+                        </Flex>
+                    </Flex>
                     {location?.latlng && (
                         <Flex w={"full"} flexDir={"column"} gap={"2"} >
                             <Text fontSize={"14px"} fontWeight={"bold"} >Location and surroundings</Text>
