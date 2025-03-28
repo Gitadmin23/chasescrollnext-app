@@ -79,6 +79,9 @@ function MapSearch(props: Props) {
             const { lat, lng } = await getLatLng(results[0]);
             panTo({ lat, lng });
 
+            let newState = results[0]?.address_components[results[0]?.address_components?.length - 1]?.types[0] === "country" ? results[0]?.address_components[results[0]?.address_components?.length - 2]?.long_name : results[0]?.address_components[results[0]?.address_components?.length - 3]?.long_name
+ 
+
             updateEvent({
                 ...eventdata,
                 location: {
@@ -87,24 +90,27 @@ function MapSearch(props: Props) {
                     latlng: lat + " " + lng
                 }
             })
-
-            updateAddress({
-                ...location,
-                locationDetails: address,
-                latlng: lat + " " + lng
-              })
-
             updateProduct({
                 ...productdata, location: {
                     locationDetails: address,
-                    latlng: lat + " " + lng
-                }
+                    latlng: lat + " " + lng,
+                    state: newState
+                },
+                state: newState
+            })
+            updateAddress({
+                ...location,
+                locationDetails: address,
+                latlng: lat + " " + lng,
+                state: newState
             })
             updateRental({
                 ...rentaldata, location: {
                     locationDetails: address,
-                    latlng: lat + " " + lng
-                }
+                    latlng: lat + " " + lng,
+                    state: newState
+                },
+                state: newState
             })
 
 
