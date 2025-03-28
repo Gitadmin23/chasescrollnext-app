@@ -88,7 +88,7 @@ export default function ModalLayout({
         )}
         <ModalBody
           overflowX={"hidden"}
-          backgroundColor={bg ? bg : "#fff"}
+          backgroundColor={bg ? bg : mainBackgroundColor}
           borderRadius={rounded ? rounded : "8px"}
           margin="0px"
           padding="0px"

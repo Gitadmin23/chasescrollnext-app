@@ -279,6 +279,8 @@ export default function CreateServices({ id }: { id: string }) {
         }
     });
 
+    console.log(rentaldata?.location?.state);
+    
 
     const { isLoading, data } = useQuery(['get-business-categories'], () => httpService.get('/business-service/categories'), {
         refetchOnMount: true,

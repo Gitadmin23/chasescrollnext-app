@@ -4,17 +4,20 @@ import useEventStore from '@/global-state/useCreateEventState'
 import useCustomTheme from '@/hooks/useTheme'
 import httpService from '@/utils/httpService'
 import { textLimit } from '@/utils/textlimit'
-import { Checkbox, Flex, Input, Switch, Text, Wrap, WrapItem } from '@chakra-ui/react'
+import { Checkbox, Flex, Input, Switch, Text, Textarea, Wrap, WrapItem } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
+import { IoIosSearch } from 'react-icons/io'
 import { IoClose } from 'react-icons/io5'
+import { RiSearchLine } from 'react-icons/ri'
 import { useQuery } from 'react-query'
 
 export default function RequestServices() {
 
-    const { primaryColor, borderColor, headerTextColor, secondaryBackgroundColor } = useCustomTheme()
+    const { primaryColor, borderColor, headerTextColor, secondaryBackgroundColor, mainBackgroundColor } = useCustomTheme()
     const { eventdata, updateEvent, updateRental, updateService, rental, service } = useEventStore((state) => state);
+    const [selectedItem, setSelectedItem] = useState("")
 
-    
+
     const array = ["test", "test", "test", "test", "test", "test",]
 
 
@@ -27,13 +30,14 @@ export default function RequestServices() {
     const { isLoading, data } = useQuery(['get-business-categories'], () => httpService.get('/business-service/categories'), {
         refetchOnMount: true,
         onError: (error: any) => { },
-    }); 
+    });
 
-    
+
     const [open, setOpen] = useState(false)
     const [tab, setTab] = useState(false)
+    const [search, setSearch] = useState("")
 
-    const [isPr, setPr] = useState(false) 
+    const [isPr, setPr] = useState(false)
 
     const changeHandler = (item: string) => {
 
@@ -49,7 +53,7 @@ export default function RequestServices() {
         updateEvent({ ...clone })
     }
 
-    useEffect(()=> {
+    useEffect(() => {
 
     }, [])
 
@@ -69,12 +73,15 @@ export default function RequestServices() {
 
     const selectService = (data: string) => {
         const clone = [...service]
+        setSelectedItem(data)
         if (service?.includes(data)) {
             let index = clone.indexOf(data);
             clone.splice(index, 1);
             updateService(clone)
+            setSelectedItem("")
         } else {
             updateService([...clone, data])
+            setSelectedItem(data)
         }
     }
 
@@ -85,10 +92,12 @@ export default function RequestServices() {
             let index = clone.indexOf(data); // Find the index of the element 
             clone.splice(index, 1); // Removes the element at the found index  
             updateRental(clone)
+            setSelectedItem("")
         } else {
             updateRental([...clone, data])
+            setSelectedItem(data)
         }
-    } 
+    }
 
     return (
         <Flex w={"full"} flexDir={"column"} gap={"6"} >
@@ -153,16 +162,22 @@ export default function RequestServices() {
                             <Text color={tab ? primaryColor : headerTextColor} fontSize={"14px"} >Rental</Text>
                         </Flex>
                     </Flex>
+                    <Flex w={"full"} pos={"relative"} h={"50px"} px={"4"} >
+                        <Input type="search" onChange={(e) => setSearch(e.target.value)} value={search} placeholder='Search' w={"full"} h={"50px"} pl={"40px"} rounded={"full"} />
+                        <Flex w={"40px"} h={"50px"} pos={"absolute"} top={"0px"} justifyContent={"center"} alignItems={"center"} >
+                            <RiSearchLine size={"25px"} color='#B6B6B6' />
+                        </Flex>
+                    </Flex>
                     <Flex flexDir={"column"} gap={"4"} px={"4"} >
                         {(service?.length !== 0 && !tab) && (
                             <Flex w={"full"} h={"40px"} pos={"relative"} >
                                 <Flex w={"full"} overflowX={"auto"} pos={"absolute"} gap={"3"} flex={"1"} left={"0px"} right={"0px"} top={"0px"} >
                                     {service?.map((item, index) => {
                                         return (
-                                            <Flex key={index} w={"fit-content"} >
+                                            <Flex key={index} w={"full"}>
                                                 <Flex alignItems={"center"} bgColor={"#F7F8FE"} justifyContent={"space-between"} gap={"3"} h={"40px"} w={"140px"} px={"4"} rounded={"8px"} >
                                                     <Text fontSize={"12px"} color={primaryColor} fontWeight={"500"} >{textLimit(item, 10)}</Text>
-                                                    <Flex as={"button"} >
+                                                    <Flex as={"button"} onClick={() => selectService(item)} >
                                                         <IoClose size={"20px"} color='#F81F1F' />
                                                     </Flex>
                                                 </Flex>
@@ -181,7 +196,7 @@ export default function RequestServices() {
                                             <Flex key={index} w={"fit-content"} >
                                                 <Flex alignItems={"center"} bgColor={"#F7F8FE"} justifyContent={"space-between"} gap={"3"} h={"40px"} w={"140px"} px={"4"} rounded={"8px"} >
                                                     <Text fontSize={"12px"} color={primaryColor} fontWeight={"500"} >{textLimit(item, 10)}</Text>
-                                                    <Flex as={"button"} >
+                                                    <Flex as={"button"} onClick={() => selectRental(item)} >
                                                         <IoClose size={"20px"} color='#F81F1F' />
                                                     </Flex>
                                                 </Flex>
@@ -191,15 +206,15 @@ export default function RequestServices() {
                                 </Flex>
                             </Flex>
                         )}
-                        <Flex maxH={"40vh"} overflowY={"auto"} bgColor={secondaryBackgroundColor} rounded={"16px"} >
+                        <Flex maxH={"45vh"} overflowY={"auto"} bgColor={secondaryBackgroundColor} rounded={"16px"} >
                             {!tab && (
                                 <Flex w={"full"} h={"auto"} flexDir={"column"} rounded={"16px"} borderWidth={"1px"} borderColor={"#EAEBEDCC"} >
-                                    {data?.data?.map((item: string, index: number) => {
+                                    {data?.data?.filter((item: string) => item?.toLocaleLowerCase()?.includes(search?.toLocaleLowerCase()))?.map((item: string, index: number) => {
                                         return (
-                                            <Flex key={index} as={"button"} onClick={() => selectService(item)} w={"full"} h={"fit-content"} >
+                                            <Flex key={index} as={"button"} onClick={() => selectService(item)} w={"full"} h={"fit-content"} gap={"2"} flexDir={"column"} >
                                                 <Flex w={"full"} h={"53px"} px={"4"} justifyContent={"space-between"} borderBottomWidth={"1px"} borderColor={"#EAEBEDCC"} alignItems={"center"} >
                                                     <Text fontSize={"14px"} >{item}</Text>
-                                                    <Checkbox isChecked={service?.includes(item) ? true : false} />
+                                                    <Checkbox onChange={() => selectService(item)} isChecked={service?.includes(item) ? true : false} />
                                                 </Flex>
                                             </Flex>
                                         )
@@ -208,18 +223,38 @@ export default function RequestServices() {
                             )}
                             {tab && (
                                 <Flex w={"full"} h={"auto"} flexDir={"column"} rounded={"16px"} borderWidth={"1px"} borderColor={"#EAEBEDCC"} >
-                                    {datarental?.data?.map((item: string, index: number) => {
+                                    {datarental?.data?.filter((item: string) => item?.toLocaleLowerCase()?.includes(search?.toLocaleLowerCase()))?.map((item: string, index: number) => {
                                         return (
-                                            <Flex key={index} as={"button"} onClick={() => selectRental(item)} w={"full"} h={"fit-content"} >
-                                                <Flex w={"full"} h={"53px"} px={"4"} justifyContent={"space-between"} borderBottomWidth={"1px"} borderColor={"#EAEBEDCC"} alignItems={"center"} >
-                                                    <Text fontSize={"14px"} >{item}</Text>
-                                                    <Checkbox isChecked={rental?.includes(item) ? true : false} />
+                                            <Flex key={index} as={"button"} w={"full"} h={"fit-content"} gap={"2"} flexDir={"column"} borderBottomWidth={"1px"} borderColor={"#EAEBEDCC"} >
+                                                <Flex flexDir={"column"} h={item === selectedItem  ? "40px" : "53px"} justifyContent={"space-between"} >
+                                                    <Flex onClick={() => selectRental(item)} w={"full"} px={"4"} pt={(item !== selectedItem && rental?.includes(item)) ? "2" : "0px"} h={"full"} justifyContent={"space-between"} alignItems={"center"} >
+                                                        <Text fontSize={"14px"} >{item}</Text>
+                                                        <Checkbox isChecked={rental?.includes(item) ? true : false} />
+                                                    </Flex>
+
+                                                    {(item !== selectedItem && rental?.includes(item)) && (
+                                                        <Flex px={"4"} color={primaryColor} as={"button"} pb={"1"} fontSize={"10px"} onClick={() => setSelectedItem(item)} >View requirements</Flex>
+                                                    )}
                                                 </Flex>
+                                                {item === selectedItem && (
+                                                    <Flex flexDir={"column"} gap={"2"} pb={"2"} justifyContent={"start"} alignItems={"start"} px={"3"} w={"full"} >
+                                                        <Text fontSize={"10px"} >{("please ENTER YOUR SERVICE requirements")?.toLocaleLowerCase()}</Text>
+                                                        <Flex w={"full"} gap={"2"} >
+                                                            <Textarea h={"55px"} bgColor={mainBackgroundColor} />
+                                                            <Flex mt={"auto"} w={"fit-content"} >
+                                                                <Flex px={"2"} color={primaryColor} fontSize={"12px"} h={"35px"} as={"button"} onClick={() => setSelectedItem("")} >Done</Flex>
+                                                            </Flex>
+                                                        </Flex>
+                                                    </Flex>
+                                                )}
                                             </Flex>
                                         )
                                     })}
                                 </Flex>
                             )}
+                        </Flex>
+                        <Flex w={"full"} justifyContent={"end"} >
+                            <CustomButton onClick={() => setOpen(false)} text={"Submit"} width={"130px"} height={"44px"} fontSize={"14px"} borderRadius={"999px"} />
                         </Flex>
                     </Flex>
                 </Flex>
