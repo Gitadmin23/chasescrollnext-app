@@ -59,46 +59,37 @@ export default function GetReciept() {
 
     return (
         <LoadingAnimation loading={isLoading} length={results?.length} >
-            <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["4", "4", "6"]} >
+            <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["4", "4", "6"]} >
                 {results?.map((item: IReceipt, index: number) => {
                     if (results?.length === index + 1) {
                         return (
-                            <Flex ref={ref} as={"button"} alignItems={"start"} onClick={() => clickHander(item)} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={mainBackgroundColor} rounded={"16px"} pb={"5"} gap={"4"} >
-                           
-            <ProductImageScroller images={item?.rental?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
-                                <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} px={"2"} >
-                                    <Text fontSize={"14px"} fontWeight={"600"} color={primaryColor} textAlign={"left"} >{capitalizeFLetter(item?.rental?.name)}</Text>
+                            <Flex as={"button"} ref={ref} flexDir={"column"} onClick={() => clickHander(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} >
+                                <ProductImageScroller images={item?.rental?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
+                                <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
+                                    <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.rental?.name), 20)}</Text>
+                                    <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.rental?.name), 16)}</Text>
                                     <Flex alignItems={"center"} >
-                                        <Text fontSize={"14px"} fontWeight={"700"} color={bodyTextColor} >{formatNumber(item?.rental?.price)}</Text>
-                                        {/* <Text fontSize={"10px"} ml={"auto"} color={bodyTextColor} >{item?.product?.quantity} Avail</Text> */}
+                                        <Text fontSize={["14px", "14px", "14px"]} fontWeight={"400"} >Order On {dateFormat(item?.createdDate)}</Text>
                                     </Flex>
-                                    <Flex w={"full"} gap={"2"} alignItems={"center"} >
-                                        <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >Order On {dateFormat(item?.createdDate)}</Text>
-                                    </Flex>
-                                    <Flex display={["none", "none", "flex"]} >
-                                        <CustomButton onClick={() => clickHander(item)} text={"View Details"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={mainBackgroundColor} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
-                                    </Flex>
+                                </Flex>
+                                <Flex as={"button"} onClick={() => clickHander(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                                    {"View Details"}
                                 </Flex>
                             </Flex>
                         )
                     } else {
-                        return (
-                            <Flex as={"button"} alignItems="start" onClick={() => clickHander(item)} key={index} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={mainBackgroundColor} rounded={"16px"} pb={"5"} gap={"4"} >
-                                 
-
-            <ProductImageScroller images={item?.rental?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
-                                <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={2} px={"2"} >
-                                    <Text fontSize={"14px"} fontWeight={"600"} color={primaryColor} textAlign={"left"} >{capitalizeFLetter(item?.rental?.name)}</Text>
+                        return ( 
+                            <Flex as={"button"} flexDir={"column"} onClick={() => clickHander(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} >
+                                <ProductImageScroller images={item?.rental?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
+                                <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
+                                    <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.rental?.name), 20)}</Text>
+                                    <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.rental?.name), 16)}</Text>
                                     <Flex alignItems={"center"} >
-                                        <Text fontSize={"14px"} fontWeight={"700"} color={bodyTextColor} >{formatNumber(item?.rental?.price)}</Text>
-                                        {/* <Text fontSize={"10px"} ml={"auto"} color={bodyTextColor} >{item?.product?.quantity} Avail</Text> */}
+                                        <Text fontSize={["14px", "14px", "14px"]} fontWeight={"400"} >Order On {dateFormat(item?.createdDate)}</Text>
                                     </Flex>
-                                    <Flex w={"full"} gap={"2"} alignItems={"center"} >
-                                        <Text fontSize={"14px"} fontWeight={"500"} color={bodyTextColor} >Order On {dateFormat(item?.createdDate)}</Text>
-                                    </Flex>
-                                    <Flex display={["none", "none", "flex"]} >
-                                        <CustomButton onClick={() => clickHander(item)} text={"View Details"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={mainBackgroundColor} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
-                                    </Flex>
+                                </Flex>
+                                <Flex as={"button"} onClick={() => clickHander(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                                    {"View Details"}
                                 </Flex>
                             </Flex>
                         )

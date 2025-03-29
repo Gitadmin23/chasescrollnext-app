@@ -42,7 +42,7 @@ export default function GetOrder() {
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.product?.name), 20)}</Text>
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.product?.name), 16)}</Text> 
                                     <Flex alignItems={"center"} >
-                                        <Text fontSize={["14px", "14px", "14px"]} fontWeight={"700"} >Order On {dateFormat(item?.createdDate)}</Text> 
+                                        <Text fontSize={["14px", "14px", "14px"]} fontWeight={"400"} >Order On {dateFormat(item?.createdDate)}</Text> 
                                     </Flex> 
                                 </Flex>
                                 <Flex as={"button"} onClick={() => clickHandler(item?.id)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
@@ -58,7 +58,7 @@ export default function GetOrder() {
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.product?.name), 20)}</Text>
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.product?.name), 16)}</Text> 
                                     <Flex alignItems={"center"} >
-                                        <Text fontSize={["14px", "14px", "14px"]} fontWeight={"700"} >Order On {dateFormat(item?.createdDate)}</Text> 
+                                        <Text fontSize={["14px", "14px", "14px"]} fontWeight={"400"} >Order On {dateFormat(item?.createdDate)}</Text> 
                                     </Flex> 
                                 </Flex>
                                 <Flex as={"button"} onClick={() => clickHandler(item?.id)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
