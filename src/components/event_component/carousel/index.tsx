@@ -66,7 +66,7 @@ function EventCarousel(props: Props) {
                         slides={
                             data?.map((item: IEventType, index: any) => {
                                 return (
-                                    <Flex w={"full"} position={"relative"} >
+                                    <Flex w={"full"} key={index} position={"relative"} >
                                         <Flex pos={"absolute"} inset={"0px"} color={"white"} zIndex={"10"} flexDir={"column"} alignItems={"center"} p={"6"} >
                                             <Text maxW={"600px"} fontWeight={"700"} fontSize={"32px"} >{item?.eventName}</Text>
                                             <Text maxW={"600px"} fontWeight={"500"} fontSize={"16px"} >{item?.eventDescription}</Text>
