@@ -63,7 +63,7 @@ export default function GetReciept() {
                 {results?.map((item: IReceipt, index: number) => {
                     if (results?.length === index + 1) {
                         return (
-                            <Flex as={"button"} ref={ref} flexDir={"column"} onClick={() => clickHander(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} >
+                            <Flex as={"button"} ref={ref} flexDir={"column"} onClick={() => clickHander(item)} borderWidth={"1px"} rounded={"10px"} bgColor={mainBackgroundColor} key={index} w={"full"} >
                                 <ProductImageScroller images={item?.rental?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.rental?.name), 20)}</Text>
@@ -79,7 +79,7 @@ export default function GetReciept() {
                         )
                     } else {
                         return ( 
-                            <Flex as={"button"} flexDir={"column"} onClick={() => clickHander(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} >
+                            <Flex as={"button"} flexDir={"column"} onClick={() => clickHander(item)} borderWidth={"1px"} rounded={"10px"} bgColor={mainBackgroundColor} key={index} w={"full"} >
                                 <ProductImageScroller images={item?.rental?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.rental?.name), 20)}</Text>

@@ -18,7 +18,7 @@ import ProductImageScroller from '../sharedComponent/productImageScroller';
 
 export default function GetOrder() {
 
-    const { primaryColor, bodyTextColor } = useCustomTheme()
+    const { primaryColor, mainBackgroundColor } = useCustomTheme()
     const { push } = useRouter()
     const userId = localStorage.getItem('user_id') + "";
 
@@ -36,7 +36,7 @@ export default function GetOrder() {
                 {results?.map((item: IOrder, index: number) => {
                     if (results?.length === index + 1) {
                         return (
-                            <Flex as={"button"} ref={ref} flexDir={"column"} onClick={() => clickHandler(item?.id)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} >
+                            <Flex as={"button"} ref={ref} flexDir={"column"} onClick={() => clickHandler(item?.id)} borderWidth={"1px"} rounded={"10px"} bgColor={mainBackgroundColor} key={index} w={"full"} >
                                 <ProductImageScroller images={item?.product?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.product?.name), 20)}</Text>
@@ -52,7 +52,7 @@ export default function GetOrder() {
                         )
                     } else {
                         return ( 
-                            <Flex as={"button"} flexDir={"column"} onClick={() => clickHandler(item?.id)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} >
+                            <Flex as={"button"} flexDir={"column"} onClick={() => clickHandler(item?.id)} borderWidth={"1px"} rounded={"10px"} bgColor={mainBackgroundColor} key={index} w={"full"} >
                                 <ProductImageScroller images={item?.product?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.product?.name), 20)}</Text>

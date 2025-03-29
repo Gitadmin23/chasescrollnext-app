@@ -120,7 +120,7 @@ export default function Layout({ children }: {
         }
     }, [STATUS, router]);
 
-    const { count } = useNotificationHook() 
+    const { count } = useNotificationHook()
 
     return (
         (<Flex w={"full"} h={"100vh"} overflowY={"hidden"} bg={mainBackgroundColor} >
@@ -133,7 +133,7 @@ export default function Layout({ children }: {
                         <Flex flexDir={"column"} alignItems={"center"} gap={"3"} >
 
                             {routes?.map((item, index) => (
-                                <Flex  key={index}>
+                                <Flex key={index}>
                                     {item?.text !== "Notification" && (
                                         <Flex as={"button"} onClick={() => router?.push(item?.route)} key={index} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
                                             <Tooltip label={item?.text} fontSize='sm'>
@@ -195,7 +195,7 @@ export default function Layout({ children }: {
                     <Flex w={"full"} h={"76px"} pos={['fixed', 'fixed', 'fixed', "sticky", "sticky"]} bgColor={mainBackgroundColor} zIndex={"100"} insetX={"0px"} top={"0px"} borderBottomColor={borderColor} borderBottomWidth={"1px"} alignItems={"center"} px={"6"} justifyContent={"space-between"}  >
                         {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft" && !pathname?.includes("kisok")) && (
                             <Box display={["none", "none", "none", "flex", "flex"]} >
-                                <SearchBar fundraising={pathname?.includes("/donation")} change={pathname?.includes("/donation")? true: false} />
+                                <SearchBar fundraising={pathname?.includes("/donation")} change={pathname?.includes("/donation") ? true : false} />
                             </Box>
                         )}
                         {pathname?.includes("kiso") && (
@@ -208,7 +208,7 @@ export default function Layout({ children }: {
                         <Flex ml={"auto"} gap={"3"} display={["none", "none", "none", "flex", "flex"]} >
                             <CreateEventBtn btn={true} />
 
-                            <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} pos={"relative"} height={"45px"} zIndex={"20"} width={"180px"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor :headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
+                            <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} pos={"relative"} height={"45px"} zIndex={"20"} width={"180px"} bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor : headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
                                 Fundraising
                             </Flex>
                             {/* <CustomButton onClick={() => router.push('/dashboard/donation')} pos={"relative"} zIndex={"20"} width={"180px"} backgroundColor={secondaryBackgroundColor} color={headerTextColor} text={"Fundraising"} borderRadius={"full"} /> */}
@@ -241,14 +241,19 @@ export default function Layout({ children }: {
                 {(pathname !== ("/dashboard/donation/create") && !pathname?.includes("/donation/edit") && pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? (
                     // <Flex w={"full"} h={"full"} pb={["70px", "70px", "70px", "0px", "0px"]} top={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" :["76px", "76px", "76px", "0px", "0px"]} overflowY={"hidden"} >
 
-                    (<Flex w={"full"} h={"auto"} bottom={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"76px"} insetX={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" : "0px"} overflowY={"hidden"} >
+                    (<Flex w={"full"} h={"auto"} zIndex={"20"} bottom={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"76px"} insetX={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" : "0px"} overflowY={"hidden"} >
                         {children}
                     </Flex>)
                 ) : (
-                    <Flex w={"full"} h={["100vh"]} pb={["70px", "70px", "70px", "0px", "0px"]} overflowY={"hidden"} >
+                    <Flex w={"full"} h={["100vh"]} zIndex={"20"} pb={["70px", "70px", "70px", "0px", "0px"]} overflowY={"hidden"} >
                         {children}
                     </Flex>
                 )}
+                <Flex pos={"absolute"} inset={"0px"} zIndex={"10"} overflowX={"hidden"} > 
+                    <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                    <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                    <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                </Flex>
             </Flex>
             <HStack paddingX='20px' zIndex={"100"} position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg={mainBackgroundColor} borderTopWidth={1} borderTopColor={borderColor} display={['flex', 'flex', 'flex', 'none']}>
                 <Link href='/dashboard'>
