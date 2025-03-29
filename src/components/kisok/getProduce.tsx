@@ -25,13 +25,15 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     const { primaryColor, bodyTextColor, borderColor, secondaryBackgroundColor, mainBackgroundColor } = useCustomTheme()
     const { productdata, updateProduct } = useProductStore((state) => state);
     const { push } = useRouter()
-    const userId = localStorage.getItem('user_id') + ""; 
+    const userId = localStorage.getItem('user_id') + "";
 
-    const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/products/search${myproduct ? `?creatorID=${userId}`: ""}`, limit: 20, filter: "id", name: "getProduct", paramsObj: cleanup({
-        name: name,
-        category: category,
-        state: state
-    })})
+    const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
+        url: `/products/search${myproduct ? `?creatorID=${userId}` : ""}`, limit: 20, filter: "id", name: "getProduct", paramsObj: cleanup({
+            name: name,
+            category: category,
+            state: state
+        })
+    })
 
     const clickHandler = (item: IProduct) => {
         console.log(item);
@@ -55,49 +57,87 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
 
     return (
         <LoadingAnimation loading={isLoading} length={results?.length} >
-            <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["2", "2", "6"]} >
+            <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["2", "2", "6"]} >
                 {results?.map((item: IProduct, index: number) => {
                     if (results?.length === index + 1) {
                         return (
-                            <Flex ref={ref} as={"button"} alignItems="start" onClick={() => clickHandler(item)} key={index} p={["2", "2", "4"]} borderWidth={["1px", "1px", "1px"]} borderColor={borderColor} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={mainBackgroundColor} rounded={["16px"]} gap={["2", "2", "4"]} >
+                            // <Flex ref={ref} as={"button"} alignItems="start" onClick={() => clickHandler(item)} key={index} p={["2", "2", "4"]} borderWidth={["1px", "1px", "1px"]} borderColor={borderColor} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={mainBackgroundColor} rounded={["16px"]} gap={["2", "2", "4"]} >
+                            //     <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
+                            //     <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={["0px", "0px", 2]} px={["0px", "0px", "2"]} >
+                            //         <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
+                            //         <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>
+                            //         <Flex alignItems={"center"} >
+                            //             <Text fontSize={["14px", "14px", "16px"]} fontWeight={"700"} color={bodyTextColor} >{formatNumber(item?.price)}</Text>
+                            //             {/* <Text fontSize={"12px"} ml={"auto"} color={bodyTextColor} >{item?.quantity} Available</Text> */}
+                            //         </Flex>
+                            //         <Flex w={"full"} gap={"2"} mt={["1", "1", "0px"]} alignItems={"center"} >
+                            //             <LocationStroke />
+                            //             <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 40)}</Text>
+                            //             <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
+                            //         </Flex>
+                            //         <Flex display={["none", "none", "flex"]} >
+                            //             <CustomButton onClick={() => clickHandler(item)} text={myproduct ? "Edit Product" : "Order Now"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={mainBackgroundColor} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                            //         </Flex>
+                            //     </Flex>
+                            // </Flex>
+
+                            <Flex ref={ref} as={"button"} flexDir={"column"} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} >
                                 <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
-                                <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={["0px", "0px", 2]} px={["0px", "0px", "2"]} >
-                                    <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
-                                    <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>
+                                <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
+                                    <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
+                                    <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text> 
                                     <Flex alignItems={"center"} >
-                                        <Text fontSize={["14px", "14px", "16px"]} fontWeight={"700"} color={bodyTextColor} >{formatNumber(item?.price)}</Text>
-                                        {/* <Text fontSize={"12px"} ml={"auto"} color={bodyTextColor} >{item?.quantity} Available</Text> */}
+                                        <Text fontSize={["14px", "14px", "14px"]} fontWeight={"700"} >{formatNumber(item?.price)}</Text>
+                                        <Text display={["none", "none", "flex"]} fontSize={"10px"} ml={"auto"} >{item?.quantity} Available</Text>
                                     </Flex>
-                                    <Flex w={"full"} gap={"2"} mt={["1", "1", "0px"]} alignItems={"center"} >
+                                    <Flex w={"full"} gap={["2px", "2px", "1"]} alignItems={"center"} >
                                         <LocationStroke />
-                                        <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 40)}</Text>
-                                        <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
+                                        <Text fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={bodyTextColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 30)}</Text>
+                                        <Text fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={bodyTextColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
                                     </Flex>
-                                    <Flex display={["none", "none", "flex"]} >
-                                        <CustomButton onClick={() => clickHandler(item)} text={myproduct ? "Edit Product" : "Order Now"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={mainBackgroundColor} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
-                                    </Flex>
+                                </Flex>
+                                <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                                    {myproduct ? "Edit Product" : "Order Now"}
                                 </Flex>
                             </Flex>
                         )
                     } else {
                         return (
-                            <Flex as={"button"} alignItems="start" onClick={() => clickHandler(item)} key={index} p={["2", "2", "4"]} borderWidth={["1px", "1px", "1px"]} borderColor={borderColor} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={mainBackgroundColor} rounded={["16px"]} gap={["2", "2", "4"]} >
+                            // <Flex as={"button"} alignItems="start" onClick={() => clickHandler(item)} key={index} p={["2", "2", "4"]} borderWidth={["1px", "1px", "1px"]} borderColor={borderColor} w={"full"} h={"fit-content"} flexDir={"column"} bgColor={mainBackgroundColor} rounded={["16px"]} gap={["2", "2", "4"]} >
+                            //     <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
+                            //     <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={["0px", "0px", 2]} px={["0px", "0px", "2"]} >
+                            //         <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
+                            //         <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>
+                            //         <Flex alignItems={"center"} >
+                            //             <Text fontSize={["14px", "14px", "16px"]} fontWeight={"700"} color={bodyTextColor} >{formatNumber(item?.price)}</Text>
+                            //             {/* <Text fontSize={"12px"} ml={"auto"} color={bodyTextColor} >{item?.quantity} Available</Text> */}
+                            //         </Flex>
+                            //         <Flex w={"full"} gap={["1", "1", "2"]} mt={["1", "1", "0px"]} alignItems={"center"} >
+                            //             <LocationStroke />
+                            //             <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 40)}</Text>
+                            //             <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
+                            //         </Flex>
+                            //         <Flex display={["none", "none", "flex"]} >
+                            //             <CustomButton onClick={() => clickHandler(item)} text={myproduct ? "Edit Product" : "Order Now"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={mainBackgroundColor} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                            //         </Flex>
+                            //     </Flex>
+                            // </Flex>
+                            <Flex as={"button"} flexDir={"column"} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} >
                                 <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
-                                <Flex w={"full"} h={"fit-content"} flexDir={"column"} gap={["0px", "0px", 2]} px={["0px", "0px", "2"]} >
-                                    <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
-                                    <Text fontSize={["14px", "14px", "24px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>
-                                    <Flex alignItems={"center"} >
-                                        <Text fontSize={["14px", "14px", "16px"]} fontWeight={"700"} color={bodyTextColor} >{formatNumber(item?.price)}</Text>
-                                        {/* <Text fontSize={"12px"} ml={"auto"} color={bodyTextColor} >{item?.quantity} Available</Text> */}
+                                <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
+                                    <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
+                                    <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text> <Flex alignItems={"center"} >
+                                        <Text fontSize={["14px", "14px", "14px"]} fontWeight={"700"} >{formatNumber(item?.price)}</Text>
+                                        <Text display={["none", "none", "flex"]} fontSize={"10px"} ml={"auto"} >{item?.quantity} Available</Text>
                                     </Flex>
-                                    <Flex w={"full"} gap={"2"} mt={["1", "1", "0px"]} alignItems={"center"} >
+                                    <Flex w={"full"} gap={["1", "1", "2"]} mt={["1", "1", "0px"]} alignItems={"center"} >
                                         <LocationStroke />
-                                        <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 40)}</Text>
+                                        <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 30)}</Text>
                                         <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={bodyTextColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
                                     </Flex>
-                                    <Flex display={["none", "none", "flex"]} >
-                                        <CustomButton onClick={() => clickHandler(item)} text={myproduct ? "Edit Product" : "Order Now"} mt={"4"} px={"15px"} height={"54px"} fontSize={"sm"} backgroundColor={mainBackgroundColor} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
-                                    </Flex>
+                                </Flex>
+                                <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                                    {myproduct ? "Edit Product" : "Order Now"}
                                 </Flex>
                             </Flex>
                         )

@@ -14,6 +14,13 @@ export const NewPhotoIcon = () => (
   </svg>
 )
 
+export const GlassIcon = ({ size }: {size?: string}) => (
+  <svg width={size ? size : "45"} viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18.75 32.8125H26.25M3.75 32.8125V14.0625C3.75 6.5625 5.625 4.6875 13.125 4.6875M41.25 32.8125V14.0625C41.25 6.5625 39.375 4.6875 31.875 4.6875" stroke="#5465E0" stroke-width="2.8125" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M18.75 29.832V36.0008C18.75 39.7508 17.25 41.2508 13.5 41.2508H9C5.25 41.2508 3.75 39.7508 3.75 36.0008V29.832C3.75 26.082 5.25 24.582 9 24.582H13.5C17.25 24.582 18.75 26.082 18.75 29.832ZM41.25 29.832V36.0008C41.25 39.7508 39.75 41.2508 36 41.2508H31.5C27.75 41.2508 26.25 39.7508 26.25 36.0008V29.832C26.25 26.082 27.75 24.582 31.5 24.582H36C39.75 24.582 41.25 26.082 41.25 29.832Z" stroke="#5465E0" stroke-width="2.8125" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+)
+
 
 export const StoreIcon = ({ color }: { color?: string }) => (
   <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2550,9 +2557,9 @@ export const LinkIcon = () => (
   </svg>
 )
 
-export const CalendarIcon = ({color, width}:{color?: string, width?: string}) => (
+export const CalendarIcon = ({ color, width }: { color?: string, width?: string }) => (
   <svg
-    width={width ? width : "18"} 
+    width={width ? width : "18"}
     viewBox="0 0 20 22"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

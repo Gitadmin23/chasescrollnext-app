@@ -1,6 +1,6 @@
 "use client"
 import { useDetails } from '@/global-state/useUserDetails'
-import { Box, Button, Flex, HStack, Image, Link, Switch, Tooltip, VStack, useColorMode } from '@chakra-ui/react'
+import { Box, Button, Flex, HStack, Image, Link, Switch, Text, Tooltip, VStack, useColorMode } from '@chakra-ui/react'
 import React, { ReactNode, useState } from 'react'
 import { KisokIcon, NewChatIcon, NewWalletIcon, NotificationIcon, SidebarCalendarIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarSearchIcon, SidebarWalletIcon } from '@/components/svg/sidebarIcons';
 import { usePathname, useRouter } from 'next/navigation';
@@ -193,10 +193,13 @@ export default function Layout({ children }: {
             <Flex w={"full"} height={"100vh"} pos={"relative"} flexDirection={"column"} >
                 {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion") && !pathname?.includes("/donation/create") && !pathname?.includes("/donation/edit")) && (
                     <Flex w={"full"} h={"76px"} pos={['fixed', 'fixed', 'fixed', "sticky", "sticky"]} bgColor={mainBackgroundColor} zIndex={"100"} insetX={"0px"} top={"0px"} borderBottomColor={borderColor} borderBottomWidth={"1px"} alignItems={"center"} px={"6"} justifyContent={"space-between"}  >
-                        {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft") && (
+                        {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft" && !pathname?.includes("kisok")) && (
                             <Box display={["none", "none", "none", "flex", "flex"]} >
                                 <SearchBar fundraising={pathname?.includes("/donation")} change={pathname?.includes("/donation")? true: false} />
                             </Box>
+                        )}
+                        {pathname?.includes("kiso") && (
+                            <Text display={["none", "none", "none", "flex", "flex"]} fontSize={"24px"} fontWeight={"700"} >Chasescroll <span style={{ color: primaryColor }} >Business</span></Text>
                         )}
                         <Flex as={"button"} onClick={() => router?.push("/dashboard")} display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"2"} >
                             <Image alt='logo' src='/images/logo.png' w={"35.36px"} />

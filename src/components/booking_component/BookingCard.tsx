@@ -378,26 +378,9 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
     const [textSize, setTextSize] = useState(40)
 
     return (
-        <Flex style={{ boxShadow: "0px 4px 4px 0px #0000000D" }} w='full' h={["fit-content", "fit-content", "fit-content"]} flexDir={"column"} borderWidth={showBorder ? '0.5px' : '0px'} borderColor={borderColor} borderRadius={'15px'} alignItems={'flex-start'} overflowX={'hidden'} gap={"3"}>
-
+        <Flex as={"button"} flexDir={"column"} onClick={() => setOpen(true)} borderWidth={"1px"} rounded={"10px"} w={"full"} >
             <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
-
-            {/* <Flex w={"full"} h={"250px"} roundedTop={"8px"} bgColor={"#00000066"} position={"relative"} justifyContent={"center"} alignItems={"center"} >
-                <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderWidth={"1px"} borderColor={"white"} alignItems={"center"} gap={2} >
-                    <UserImage image={bookingState?.createdBy?.data?.imgMain?.value} font={"16px"} data={bookingState?.createdBy} border={"1px"} size={"32px"} />
-                    <Flex flexDir={"column"} alignItems={"start"} color={"white"} >
-                        <Text fontSize={"12px"} fontWeight={"700"} >
-                            {capitalizeFLetter(bookingState?.createdBy?.firstName) + " " + capitalizeFLetter(bookingState?.createdBy?.lastName)}
-                        </Text>
-                        <Text fontSize={"10px"} color={"white"} fontWeight={"600"} >
-                            Client
-                        </Text>
-                    </Flex>
-                </Flex>
-                <Image borderColor={"#D0D4EB"} objectFit={"cover"} alt={service?.images[0]} width={["fit-content"]} height={"full"} src={service?.images[0].startsWith('https://') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} />
-            </Flex> */}
-            
-            <ProductImageScroller images={service?.images ?? []} createdDate={moment(bookingState?.createdDate)?.fromNow()} userData={bookingState?.createdBy} />
+            {/* <ProductImageScroller images={service?.images ?? []} createdDate={moment(bookingState?.createdDate)?.fromNow()} userData={bookingState?.createdBy} />
 
             <Flex flexDir={"column"} px={"3"} gap={"3"} borderBottomWidth='0.5px' borderBottomColor={borderColor} pb='20px' w={"full"}>
                 <Flex flexDir={"column"} >
@@ -416,6 +399,22 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                     </HStack>
                 </Flex>
                 <CustomButton onClick={() => setOpen(true)} text={"View Request"} backgroundColor={"white"} color={primaryColor} fontSize={"sm"} h={"56px"} borderRadius={"32px"} />
+            </Flex> */}
+            <ProductImageScroller images={business?.images} createdDate={moment(business?.createdDate)?.fromNow()} userData={business?.vendor} />
+            <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]}  >
+                <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(bookingState?.service?.name), 20)}</Text>
+                <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(bookingState?.service?.name), 16)}</Text>
+                <Flex w='full' >
+                    <Text w={"50px"} textAlign={"left"} display={"flex"} justifyContent={"start"}  fontSize={'14px'}>Email:</Text>
+                    <Text fontSize={'14px'}>{bookingState?.service?.email}</Text>
+                </Flex>
+                <Flex w='full' >
+                    <Text w={"50px"} textAlign={"left"} display={"flex"} justifyContent={"start"} fontSize={'14px'}>Phone:</Text>
+                    <Text fontSize={'14px'}>{bookingState?.service?.phone ?? 'None'}</Text>
+                </Flex>
+            </Flex>
+            <Flex as={"button"} onClick={() => setOpen(true)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                View Request
             </Flex>
             <ModalLayout size={"2xl"} open={open} close={setOpen} >
 
@@ -459,8 +458,8 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                             <Flex pos={"relative"}  >
                                                 <Flex w={"full"} h={"1.5px"} pos={"absolute"} top={"11px"} bgColor={"black"} />
                                                 <Text fontSize={"14px"} fontWeight={"600"} textDecor={""} >{formatNumber(bookingState?.service?.price)}</Text>
-                                            </Flex> 
-                                            <Text fontSize={"12px"} fontWeight={"500"}  >{((bookingState?.service?.price - bookingState?.price) * 100) / bookingState?.service?.price > 0 ? "by" : "plus" } {((bookingState?.service?.price - bookingState?.price) * 100) / bookingState?.service?.price > 0 ? (((bookingState?.service?.price - bookingState?.price) * 100) / bookingState?.service?.price) : (((bookingState?.service?.price - bookingState?.price) * 100) / bookingState?.service?.price)?.toString()?.replace("-", "")}%</Text>
+                                            </Flex>
+                                            <Text fontSize={"12px"} fontWeight={"500"}  >{((bookingState?.service?.price - bookingState?.price) * 100) / bookingState?.service?.price > 0 ? "by" : "plus"} {((bookingState?.service?.price - bookingState?.price) * 100) / bookingState?.service?.price > 0 ? (((bookingState?.service?.price - bookingState?.price) * 100) / bookingState?.service?.price) : (((bookingState?.service?.price - bookingState?.price) * 100) / bookingState?.service?.price)?.toString()?.replace("-", "")}%</Text>
                                         </Flex>
                                     </Flex>
                                 </Flex>

@@ -52,7 +52,7 @@ function Bookings({ name, state, category }: { name?: string, state?: string, ca
 
             <Flex w='full' h='full' flexDir={"column"} pos={"relative"} >
                 {!isLoading && results.length > 0 && (
-                    <Grid templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["4", "4", "6"]} pb={"10"} >
+                    <Grid templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["4", "4", "6"]} pb={"10"} >
                         {results.map((item: any, index: number) => (
                             <BookingCard key={index} booking={item} business={item?.vendor} isVendor={false} />
                         ))}

@@ -72,9 +72,6 @@ function EventComponent() {
 
   return (
     <Flex width={"full"} flexDir={"column"} >
-      {/* <Box w={"full"} h={"100px"} bgColor={"orange"} > */}
-        <EventCategory eventpage={true} />
-      {/* </Box> */}
       {!event_category && (
         <EventCarousel />
       )}
