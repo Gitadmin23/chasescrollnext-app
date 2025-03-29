@@ -6,7 +6,7 @@ import GetReciept from '@/components/kisok/getReciept'
 import GetRental from '@/components/kisok/getRental'
 import GetVendorReciept from '@/components/kisok/getVendorReciept'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
-import { LocationPin, LocationStroke, RentalIcon, ServiceIcon, StoreIcon } from '@/components/svg'
+import { GlassIcon, LocationPin, LocationStroke, RentalIcon, ServiceIcon, StoreIcon } from '@/components/svg'
 import useProductStore from '@/global-state/useCreateProduct'
 import useCustomTheme from '@/hooks/useTheme'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
@@ -28,13 +28,13 @@ export default function KisokPage() {
     const { colorMode, toggleColorMode } = useColorMode();
     const query = useSearchParams();
 
-    const [ initialFilter, setInitialFilter ] = useState({
+    const [initialFilter, setInitialFilter] = useState({
         state: "",
         category: "",
         name: ""
     })
 
-    const [ selectedFilter, setSelectedFilter ] = useState({
+    const [selectedFilter, setSelectedFilter] = useState({
         state: "",
         category: "",
         name: ""
@@ -56,7 +56,7 @@ export default function KisokPage() {
         ["getcategoryRental"],
         () => httpService.get(`/rental/categories`), {
     }
-    ); 
+    );
 
 
     const { isLoading: loadingServices, data: serviceCategories } = useQuery(['get-business-categories'], () => httpService.get('/business-service/categories'), {
@@ -154,7 +154,7 @@ export default function KisokPage() {
         })
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         setSelectedFilter({
             category: "",
             name: "",
@@ -170,7 +170,9 @@ export default function KisokPage() {
     return (
         <Flex w={"full"} px={["4", "4", "6"]} pt={["6", "6", "12", "12"]} pb={"12"} flexDir={"column"} overflowY={"auto"} >
             <Flex w={"full"} alignItems={"center"} flexDirection={"column"} gap={"3"} >
-                <Flex w={"fit-content"} gap={"1"} alignItems={"center"} bgColor={secondaryBackgroundColor} p={"2"} rounded={"full"} >
+                <Flex fontSize={["20px", "20px", "56px"]} alignItems={"end"} display={["flex", "flex", "none"]} fontWeight={"700"} >what are you l<Flex mb={"1"} ><GlassIcon size='17' /></Flex>king for?</Flex>
+                <Flex fontSize={["16px", "16px", "56px"]} alignItems={"end"} display={["none", "none", "flex"]} fontWeight={"700"} >what are you l<Flex mb={"3"} ><GlassIcon size='45' /></Flex>king for?</Flex>
+                <Flex w={"fit-content"} gap={"1"} alignItems={"center"} bgColor={secondaryBackgroundColor} p={"6px"} rounded={"full"} >
                     <CustomButton onClick={() => clickHandler("kiosk")} text={
                         <Flex alignItems={"center"} gap={"2"} >
                             <StoreIcon color={(type === null || type === "mykisok" || type === "myorder") ? "white" : "black"} />
@@ -182,7 +184,7 @@ export default function KisokPage() {
                             <ServiceIcon color={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "white" : "black"} />
                             <Text>Service</Text>
                         </Flex>
-                    } height={["38px", "38px", "48px"]} fontSize={"sm"} backgroundColor={(type === "service" || type === "myservice" || type === "mybooking") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "service" || type === "myservice" || type === "mybooking") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "service" || type === "myservice" || type === "mybooking") ? "white" : headerTextColor} width={["107px", "107px", "175px"]} />
+                    } height={["38px", "38px", "48px"]} fontSize={"sm"} backgroundColor={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "white" : headerTextColor} width={["107px", "107px", "175px"]} />
                     <CustomButton onClick={() => clickHandler("rental")} text={
                         <Flex alignItems={"center"} gap={"2"} >
                             <RentalIcon color={(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "white" : "black"} />
@@ -190,19 +192,11 @@ export default function KisokPage() {
                         </Flex>
                     } height={["38px", "38px", "48px"]} fontSize={"sm"} backgroundColor={(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "white" : headerTextColor} width={["107px", "107px", "175px"]} />
                 </Flex>
-                <Text fontSize={["16px", "16px", "24px"]} fontWeight={"700"} >what are you looking for?</Text>
                 <Flex display={["flex", "flex", "none"]} w={"full"} gap={"3"} alignItems={"center"} >
                     <CustomButton onClick={() => setOpen(true)} text={`Filter ${(type === null || type === "mykisok" || type === "myorder") ? "Product" : (type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "Service" : "Rental"} `} color={headerTextColor} fontSize={"14px"} backgroundColor={"White"} borderWidth={"1px"} borderRadius={"999px"} />
                 </Flex>
                 <Flex display={["none", "none", "flex"]} w={"fit-content"} borderWidth={"1px"} borderColor={borderColor} rounded={"full"} h={"fit-content"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
-                    <Select h={"80px"} onChange={(e)=> setInitialFilter({...initialFilter, state: e.target?.value })} w={"200px"} roundedLeft={"full"} textAlign={"center"} placeholder='Select State' borderRightWidth={"1px"} borderWidth={"0px"} borderRightColor={borderColor} >
-                        {stateList?.map((item) => {
-                            return (
-                                <option value={item} key={item} >{capitalizeFLetter(item)}</option>
-                            )
-                        })}
-                    </Select>
-                    <Select h={"80px"} onChange={(e)=> setInitialFilter({...initialFilter, category: e.target?.value })} w={"200px"} outlineColor={"transparent"} outline={"none"} textAlign={"center"} placeholder='Select Category' rounded={"0px"} borderWidth={"0px"} borderLeftWidth={"1px"} borderRightColor={borderColor} >
+                    <Select h={"80px"} value={initialFilter?.category} onChange={(e) => setInitialFilter({ ...initialFilter, category: e.target?.value })} w={"200px"} outlineColor={"transparent"} outline={"none"} textAlign={"center"} placeholder='Select Category' rounded={"0px"} borderWidth={"0px"} borderRightWidth={"1px"} borderRightColor={borderColor} >
                         {(type === null || type === "mykisok" || type === "myorder") && (
                             <>
                                 {data?.data?.map((item: string, index: number) => (
@@ -217,7 +211,7 @@ export default function KisokPage() {
                                 ))}
                             </>
                         )}
-                        {(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest")&& (
+                        {(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") && (
                             <>
                                 {serviceCategories?.data?.map((item: string, index: number) => (
                                     <option key={index} >{item}</option>
@@ -225,114 +219,86 @@ export default function KisokPage() {
                             </>
                         )}
                     </Select>
-                    <Input placeholder={"Search business name"} onChange={(e)=> setInitialFilter({...initialFilter, name: e.target?.value })} h={"80px"} w={"200px"} outline={"none"} rounded={"0px"} borderWidth={"0px"} borderLeftWidth={"1px"} borderRightColor={borderColor} />
+                    <Select h={"80px"} value={initialFilter?.state} onChange={(e) => setInitialFilter({ ...initialFilter, state: e.target?.value })} w={"200px"} rounded={"0px"} textAlign={"center"} placeholder='Select State' borderRightWidth={"1px"} borderWidth={"0px"} borderRightColor={borderColor} >
+                        {stateList?.map((item) => {
+                            return (
+                                <option value={item} key={item} >{capitalizeFLetter(item)}</option>
+                            )
+                        })}
+                    </Select>
+                    <Input placeholder={"Search business name"} onChange={(e) => setInitialFilter({ ...initialFilter, name: e.target?.value })} h={"80px"} w={"200px"} outline={"none"} rounded={"0px"} borderWidth={"0px"} borderLeftWidth={"1px"} borderRightColor={borderColor} />
                     <Button onClick={submitHandler} h={"80px"} w={"140px"} color={"white"} outline={"none"} bgColor={primaryColor} roundedRight={"full"} borderRightWidth={"1px"} borderWidth={"0px"} borderRightColor={borderColor} >
                         Search
                     </Button>
                 </Flex>
             </Flex>
-            <Flex py={"6"} justifyContent={"space-between"} display={["flex", "flex", "none"]} >
-                {(type === null || type === "mykisok" || type === "myorder") && (
-                    <Select
-                        color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
-                        focusBorderColor={"#5465E0"}
-                        height={"41px"}
-                        fontSize={"sm"}
-                        value={type ? type : ""}
-                        rounded={"50px"}
-                        onChange={(e) => routeHandler(e.target.value)}
-                        width={["auto", "auto", "auto"]}
-                        textAlign={"center"} >
-                        {[{ name: "All", value: "" }, { name: "My Kiosk", value: "mykisok" }, { name: "My Orders", value: "myorder" }]?.map((type: any, index: number) => (
-                            <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
-                                {type?.name}
-                            </option>
-                        ))}
-                    </Select>
-                )}
-                {(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") && (
-                    <Select
-                        color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
-                        focusBorderColor={"#5465E0"}
-                        height={"41px"}
-                        fontSize={"sm"}
-                        value={type}
-                        rounded={"50px"}
-                        onChange={(e) => routeHandler(e.target.value)}
-                        width={["auto", "auto", "auto"]}
-                        textAlign={"center"} >
-                        {[{ name: "All Services", value: "service" }, { name: "My Services", value: "myservice" }, { name: "My Booking", value: "mybooking" }, { name: "My Request", value: "myrequest" }]?.map((type: any, index: number) => (
-                            <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
-                                {type?.name}
-                            </option>
-                        ))}
-                    </Select>
-                )}
-                {(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") && (
-                    <Select
-                        color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
-                        focusBorderColor={"#5465E0"}
-                        height={"41px"}
-                        fontSize={"sm"}
-                        value={type}
-                        rounded={"50px"}
-                        onChange={(e) => routeHandler(e.target.value)}
-                        width={["auto", "auto", "auto"]}
-                        textAlign={"center"} >
-                        {[{ name: "All Rental", value: "rental" }, { name: "My Rental", value: "myrental" }, { name: "My Reciept", value: "myreciept" }, { name: "My Rental Reciept", value: "vendorreciept" }]?.map((type: any, index: number) => (
-                            <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
-                                {type?.name}
-                            </option>
-                        ))}
-                    </Select>
-                )}
-                {/* {type === "mykisok" && (
+            <Flex w={"full"} justifyContent={"center"} >
+                <Flex py={"6"} maxWidth={"745px"} w={"full"} justifyContent={"start"} alignItems={"center"} gap={"4"} >
+                    {(type === null || type === "mykisok" || type === "myorder") && (
+                        <Select
+                            color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
+                            focusBorderColor={"#5465E0"}
+                            height={"41px"}
+                            fontSize={"sm"}
+                            value={type ? type : ""}
+                            rounded={"50px"}
+                            onChange={(e) => routeHandler(e.target.value)}
+                            width={["auto", "auto", "auto"]}
+                            textAlign={"center"} >
+                            {[{ name: "All", value: "" }, { name: "My Kiosk", value: "mykisok" }, { name: "My Orders", value: "myorder" }]?.map((type: any, index: number) => (
+                                <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
+                                    {type?.name}
+                                </option>
+                            ))}
+                        </Select>
+                    )}
+                    {(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") && (
+                        <Select
+                            color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
+                            focusBorderColor={"#5465E0"}
+                            height={"41px"}
+                            fontSize={"sm"}
+                            value={type}
+                            rounded={"50px"}
+                            onChange={(e) => routeHandler(e.target.value)}
+                            width={["auto", "auto", "auto"]}
+                            textAlign={"center"} >
+                            {[{ name: "All Services", value: "service" }, { name: "My Services", value: "myservice" }, { name: "My Booking", value: "mybooking" }, { name: "My Request", value: "myrequest" }]?.map((type: any, index: number) => (
+                                <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
+                                    {type?.name}
+                                </option>
+                            ))}
+                        </Select>
+                    )}
+                    {(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") && (
+                        <Select
+                            color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
+                            focusBorderColor={"#5465E0"}
+                            height={"41px"}
+                            fontSize={"sm"}
+                            value={type}
+                            rounded={"50px"}
+                            onChange={(e) => routeHandler(e.target.value)}
+                            width={["auto", "auto", "auto"]}
+                            textAlign={"center"} >
+                            {[{ name: "All Rental", value: "rental" }, { name: "My Rental", value: "myrental" }, { name: "My Reciept", value: "myreciept" }, { name: "My Rental Reciept", value: "vendorreciept" }]?.map((type: any, index: number) => (
+                                <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
+                                    {type?.name}
+                                </option>
+                            ))}
+                        </Select>
+                    )}
+                    {/* {type === "mykisok" && (
                     <CustomButton onClick={() => push("/dashboard/kisok/dashboard")} text={"Dashboard"} px={"30px"} height={"48px"} fontSize={"sm"} backgroundColor={"white"} border={"1px"} borderColor={primaryColor} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"fit-content"} />
                 )} */}
 
-                <Flex display={["flex", "flex", "flex"]} >
-                    <CustomButton onClick={createProduct} text={
-                        <Flex alignItems={"center"} gap={"2"} >
-                            <Text>Create {type === "rental" ? "Rental" : (type === "service" || type === "myservice" || type === "mybooking") ? "Service" : "Item"}</Text>
-                        </Flex>
-                    } px={"15px"} height={"40px"} fontSize={"sm"} borderRadius={"32px"} fontWeight={"600"} width={"fit-content"} />
-                </Flex>
-            </Flex>
-
-            <Flex w={"full"} py={"6"} gap={"3"} display={["none", "none", "flex"]} pos={"relative"} justifyContent={"center"} rounded={"full"} >
-                {(type === null || type === "mykisok" || type === "myorder") && (
-                    <Flex bg={secondaryBackgroundColor} p={"1"} rounded={"full"} >
-                        {[{ name: "All", value: "" }, { name: "My Kiosk", value: "mykisok" }, { name: "My Orders", value: "myorder" }, { name: "My Dashboard", value: "mydashboard" }]?.map((item, index) => (
-                            <Button onClick={() => routeHandler(item?.value)} _hover={{}} rounded={"full"} width={["150px", "150px", "150px"]} fontSize={"14px"} height={"35px"} key={index} bgColor={type === item?.value ? mainBackgroundColor : (!type && item?.name === "All") ? mainBackgroundColor : secondaryBackgroundColor} color={!tab ? "brand.chasescrollBlue" : bodyTextColor} >
-                                {item?.name}
-                            </Button>
-                        ))}
+                    <Flex display={["flex", "flex", "flex"]} >
+                        <CustomButton onClick={createProduct} text={
+                            <Flex alignItems={"center"} gap={"2"} >
+                                <Text>Create {type === "rental" ? "Rental" : (type === "service" || type === "myservice" || type === "mybooking") ? "Service" : "Item"}</Text>
+                            </Flex>
+                        } px={"15px"} height={"40px"} fontSize={"sm"} borderRadius={"32px"} fontWeight={"600"} width={"fit-content"} />
                     </Flex>
-                )}
-                {(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") && (
-                    <Flex bg={secondaryBackgroundColor} p={"1"} rounded={"full"} >
-                        {[{ name: "All Services", value: "service" }, { name: "My Services", value: "myservice" }, { name: "My Booking", value: "mybooking" }, { name: "My Request", value: "myrequest" }]?.map((item: any, index: number) => (
-                            <Button onClick={() => routeHandler(item?.value)} _hover={{}} rounded={"full"} width={["150px", "150px", "150px"]} fontSize={"14px"} height={"35px"} key={index} bgColor={type === item?.value ? mainBackgroundColor : secondaryBackgroundColor} color={!tab ? "brand.chasescrollBlue" : bodyTextColor} >
-                                {item?.name}
-                            </Button>
-                        ))}
-                    </Flex>
-                )}
-                {(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") && (
-                    <Flex bg={secondaryBackgroundColor} p={"1"} rounded={"full"} >
-                        {[{ name: "All Rental", value: "rental" }, { name: "My Rental", value: "myrental" }, { name: "My Reciept", value: "myreciept" }, { name: "My Rental Reciept", value: "vendorreciept" }]?.map((item: any, index: number) => (
-                            <Button onClick={() => routeHandler(item?.value)} _hover={{}} rounded={"full"} width={["150px", "150px", "150px"]} fontSize={"14px"} height={"35px"} key={index} bgColor={type === item?.value ? mainBackgroundColor : secondaryBackgroundColor} color={!tab ? "brand.chasescrollBlue" : bodyTextColor} >
-                                {item?.name}
-                            </Button>
-                        ))}
-                    </Flex>
-                )}
-                <Flex  >
-                    <CustomButton onClick={createProduct} text={
-                        <Flex alignItems={"center"} gap={"2"} >
-                            <Text>Create {type === "rental" ? "Rental" : (type === "service" || type === "myservice" || type === "mybooking") ? "Service" : "Item"}</Text>
-                        </Flex>
-                    } px={"15px"} height={"40px"} fontSize={"sm"} borderRadius={"32px"} fontWeight={"600"} width={"fit-content"} />
                 </Flex>
             </Flex>
             {!type && (
@@ -372,11 +338,35 @@ export default function KisokPage() {
                 <Flex w={"full"} flexDir={"column"} gap={"3"} p={6} >
                     <Input h={"48px"} placeholder={`Search by ${(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "Business" : (type === "service" || type === "myservice" || type === "mybooking") ? "Business" : "Product"} Name`} rounded={"full"} />
                     <Flex w={"full"} gap={"3"} >
-                        <Select h={"48px"} rounded={"full"} placeholder='Select Category' w={"full"} >
-                            <option>Test</option>
+                        <Select h={"48px"} value={initialFilter?.category} onChange={(e) => setInitialFilter({ ...initialFilter, category: e.target?.value })} rounded={"full"} placeholder='Select Category' w={"full"} >
+                            {(type === null || type === "mykisok" || type === "myorder") && (
+                                <>
+                                    {data?.data?.map((item: string, index: number) => (
+                                        <option key={index} >{item}</option>
+                                    ))}
+                                </>
+                            )}
+                            {(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") && (
+                                <>
+                                    {datarental?.data?.map((item: string, index: number) => (
+                                        <option key={index} >{item}</option>
+                                    ))}
+                                </>
+                            )}
+                            {(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") && (
+                                <>
+                                    {serviceCategories?.data?.map((item: string, index: number) => (
+                                        <option key={index} >{item}</option>
+                                    ))}
+                                </>
+                            )}
                         </Select>
-                        <Select h={"48px"} rounded={"full"} placeholder='Select State' w={"full"} >
-                            <option>Test</option>
+                        <Select h={"48px"} value={initialFilter?.state} onChange={(e) => setInitialFilter({ ...initialFilter, state: e.target?.value })} rounded={"full"} placeholder='Select State' w={"full"} >
+                            {stateList?.map((item) => {
+                                return (
+                                    <option value={item} key={item} >{capitalizeFLetter(item)}</option>
+                                )
+                            })}
                         </Select>
                     </Flex>
                     <CustomButton text={"Search"} borderRadius={"999px"} height={"58px"} />

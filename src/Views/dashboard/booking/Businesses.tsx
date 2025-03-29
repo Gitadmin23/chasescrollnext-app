@@ -49,7 +49,7 @@ function Businesses({ name, state, category }: { name?: string, state?: string, 
 
             <Flex flexDirection={"column"} w='full' h='full' pt='8'>
                 {!isLoading && results.length > 0 && (
-                    <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["4", "4", "6"]} >
+                    <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["4", "4", "6"]} >
                         {results.map((item: any, index: number) => (
                             <BusinessCard key={index.toString()} business={item} />
                         ))}

@@ -50,7 +50,7 @@ function MyBusiness({ name, state, category }: { name?: string, state?: string, 
 
             <Box w='full' h='full' pt='30px'>
                 {!isLoading && results.length > 0 && (
-                    <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["2", "2", "6"]} >
+                    <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["2", "2", "6"]} >
                         {results.map((item: any, index: number) => (
                             <BusinessCard key={index.toString()} business={item} />
                         ))}

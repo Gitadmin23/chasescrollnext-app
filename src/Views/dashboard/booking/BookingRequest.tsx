@@ -38,7 +38,7 @@ function BookingsRequest() {
     return (
         <Flex w='full' h='full' flexDir={"column"} pos={"relative"} >
             {!isLoading && businesses.length > 0 && (
-                <Grid templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(3, 1fr)", "repeat(3, 1fr)"]} gap={["4", "4", "6"]} pb={"10"} >
+                <Grid templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["4", "4", "6"]} pb={"10"} >
                     {businesses.map((item: any, index) => (
                         <BookingCard key={index} booking={item} business={item?.vendor} isVendor={true} />
                     ))}

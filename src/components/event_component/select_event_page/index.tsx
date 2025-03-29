@@ -1,5 +1,5 @@
 "use client"
-import {Box, HStack, Text, useColorMode} from '@chakra-ui/react'
+import { Box, HStack, Text, useColorMode } from '@chakra-ui/react'
 import { usePathname, useRouter } from 'next/navigation'
 import React from 'react';
 import { IoIosArrowDown } from "react-icons/io";
@@ -51,13 +51,13 @@ function SelectEventPage(props: Props) {
 
     React.useEffect(() => {
         tablist()?.map((item: any) => {
-            if(pathname?.includes(item?.route)){
+            if (pathname?.includes(item?.route)) {
                 setShowPage(item?.name)
-            } 
+            }
         })
     }, [pathname, tablist])
-    
-    const clickHandler =(name: string, route: string)=> {
+
+    const clickHandler = (name: string, route: string) => {
         router.push(route)
         setShowSelector(false)
         setShowPage(name)
@@ -65,15 +65,23 @@ function SelectEventPage(props: Props) {
 
     return (
         <Box position={"relative"} w={"full"} >
-            <Box onClick={() => setShowSelector((prev) => !prev)} as='button' height={"44px"} width={["full", "full", "fit-content"]} display={"flex"} gap={"2"} alignItems={"center"} justifyContent={"space-between"} mt={["0px", "0px", "3"]} borderWidth={"1px"} color={colorMode === "light" ? "#5465E0":bodyTextColor} backgroundColor={colorMode === "light" ? "#EFF1FE":secondaryBackgroundColor} fontWeight={"medium"} px={"6"} rounded={"8px"} position={"relative"} >
+            <Box onClick={() => setShowSelector((prev) => !prev)} as='button'
+                height={"50px"}
+                width={["full", "full", "fit-content"]}
+                display={"flex"} gap={"2"} alignItems={"center"} justifyContent={"space-between"} borderWidth={"1px"} backgroundColor={"#F2F4FF"}
+                borderColor={"#DDE6EB"}
+                color={primaryColor}
+                fontSize={"sm"}
+                fontWeight={"bold"} px={"6"} rounded={"full"} position={"relative"} >
                 <Text>{showPage}</Text>
                 <IoIosArrowDown />
             </Box>
-            {showSelector && ( 
-                <HStack flexDirection={"column"} zIndex={"30"} position={"absolute"} shadow={"md"}  width={["full", "full", "230px"]} p={"2"} top={"60px"} bg={mainBackgroundColor} >
-                    {tablist()?.map((item: any, index: number) => {"fit-content"
+            {showSelector && (
+                <HStack flexDirection={"column"} zIndex={"30"} position={"absolute"} shadow={"md"} width={["full", "full", "230px"]} p={"2"} top={"60px"} bg={mainBackgroundColor} >
+                    {tablist()?.map((item: any, index: number) => {
+                        "fit-content"
                         return (
-                            <Box key={index} onClick={()=> clickHandler(item?.name, item?.route)} width={"full"} rounded={"md"} as='button' display={"flex"} justifyContent={"center"} color={showPage === item?.name ? "white" : bodyTextColor} bg={showPage === item?.name ? "brand.chasescrollBlue" : secondaryBackgroundColor} roundedTopRight={"none"} py={"2"} fontSize={"sm"} fontWeight={"medium"} >
+                            <Box key={index} onClick={() => clickHandler(item?.name, item?.route)} width={"full"} rounded={"md"} as='button' display={"flex"} justifyContent={"center"} color={showPage === item?.name ? "white" : bodyTextColor} bg={showPage === item?.name ? "brand.chasescrollBlue" : secondaryBackgroundColor} roundedTopRight={"none"} py={"2"} fontSize={"sm"} fontWeight={"medium"} >
                                 {item?.name}
                             </Box>
                         )
