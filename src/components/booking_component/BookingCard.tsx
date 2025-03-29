@@ -378,7 +378,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
     const [textSize, setTextSize] = useState(40)
 
     return (
-        <Flex as={"button"} flexDir={"column"} onClick={() => setOpen(true)} borderWidth={"1px"} rounded={"10px"} w={"full"} >
+        <Flex as={"button"} flexDir={"column"} onClick={() => setOpen(true)} borderWidth={"1px"} bgColor={mainBackgroundColor} rounded={"10px"} w={"full"} >
             <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
             {/* <ProductImageScroller images={service?.images ?? []} createdDate={moment(bookingState?.createdDate)?.fromNow()} userData={bookingState?.createdBy} />
 

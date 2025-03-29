@@ -57,7 +57,7 @@ function BusinessCard({ business }: { business: IService }) {
 
 
     return (
-        <Flex as={"button"} flexDir={"column"} onClick={() => clickHandler()} borderWidth={"1px"} rounded={"10px"} w={"full"} >
+        <Flex as={"button"} flexDir={"column"} onClick={() => clickHandler()} borderWidth={"1px"} bgColor={mainBackgroundColor} rounded={"10px"} w={"full"} >
             <ProductImageScroller images={business?.images} createdDate={moment(business?.createdDate)?.fromNow()} userData={business?.vendor} />
             <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]}  >
                 <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(business?.name), 20)}</Text>
