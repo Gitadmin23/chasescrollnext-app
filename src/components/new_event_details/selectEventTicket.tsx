@@ -88,7 +88,7 @@ function SelectTicket(props: Props) {
     console.log((ticket[0]?.totalNumberOfTickets === ticket[0]?.ticketsSold)  || (Date.now() >= ticket[0]?.endDate));
  
     return (
-        (<Flex gap={"3"} position={"relative"} flexDir={"column"} alignItems={"center"} justifyContent={"end"}  >
+        <Flex gap={"3"} position={"relative"} flexDir={"column"} alignItems={"center"} justifyContent={"end"}  >
             {ticket?.length > 1 ? (
                 <Flex onClick={() => setShowModal((prev) => !prev)} as={"button"} w={"full"} borderWidth={"1px"} justifyContent={"space-between"} alignItems={"center"} borderColor={"#EAEBEDCC"} rounded={"12px"} p={"5"} >
                     <Flex flexDir={"column"} textAlign={"left"} gap={"1"}  >
@@ -195,7 +195,7 @@ function SelectTicket(props: Props) {
             {openSignUp && (
                 <SignupModal hide={true} index={data?.id} open={openSignUp} setOpen={signUpHandler} />
             )}
-        </Flex>)
+        </Flex>
     );
 }
 

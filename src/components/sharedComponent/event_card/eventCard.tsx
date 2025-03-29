@@ -10,6 +10,7 @@ import ShareEvent from '../share_event';
 import SaveOrUnsaveBtn from '../save_unsave_event_btn';
 import InterestedUsers from '../interested_users';
 import EventPrice from '../event_price';
+import EventLocationDetail from '../event_location';
 
 export default function EventCardNew({
     event
@@ -29,13 +30,43 @@ export default function EventCardNew({
         <Flex as={"button"} flexDir={"column"} onClick={() => clickHandler()} borderWidth={"1px"} rounded={"10px"} w={"full"} >
             <Flex w={"full"} pos={"relative"} >
                 <ProductImageScroller images={[event?.currentPicUrl]} createdDate={moment(event?.createdDate)?.fromNow()} userData={event?.createdBy} />
-                <Flex w={"40px"} pos={"absolute"} bottom={"4"} right={"4"} h={"40px"} rounded={"full"} bgColor={mainBackgroundColor} justifyContent={"center"} alignItems={"center"} >
-                    <SaveOrUnsaveBtn color={headerTextColor} event={event} />
+                <Flex w={"40px"} pos={"absolute"} display={["none", "none", "flex"]} bottom={"4"} right={"4"} h={"40px"} rounded={"full"} bgColor={mainBackgroundColor} justifyContent={"center"} alignItems={"center"} >
+                    <ShareEvent
+                        data={event}
+                        type="EVENT"
+                        // size="18px"
+                        showText={false}
+                        id={event?.id}
+                    />
+                </Flex>
+                <Flex w={"fit-content"} pos={"absolute"} bottom={"4"} left={"4"} display={["block", "block", "none"]} >
+                    <Flex
+                        width={"40px"}
+                        flexDir={"column"}
+                        py={"2"}
+                        alignItems={"center"}
+                        roundedBottom={"20px"}
+                        roundedTopLeft={"20px"}
+                        borderWidth={"1px"}
+                    >
+                        <Text
+                            fontSize={"10px"}
+                            fontWeight={"700"}
+                            lineHeight={"10px"}
+                            color={"white"}
+                        >
+                            {moment(event?.startDate).format("MMM")}
+                        </Text>
+                        <Text lineHeight={"16px"} fontWeight={"700"}
+                            color={"white"} fontSize={"16px"}>
+                            {moment(event?.startDate).format("D")}
+                        </Text>
+                    </Flex>
                 </Flex>
             </Flex>
-            <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
-                <Flex alignItems={"center"} gap={"2"} >
-                    <Flex w={"fit-content"} >
+            <Flex flexDir={"column"} px={["1", "1", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["1", "1", "0px"]} >
+                <Flex gap={"2"} >
+                    <Flex w={"fit-content"} display={["none", "none", "block"]} >
                         <Flex
                             width={"50px"}
                             flexDir={"column"}
@@ -58,30 +89,22 @@ export default function EventCardNew({
                             </Text>
                         </Flex>
                     </Flex>
-                    <Text fontSize={"14px"} fontWeight={"700"} >{textLimit(event?.eventName, 40)}</Text>
-                    <Flex w={"fit-content"} ml={"auto"} pl={"2"} >
-                        <ShareEvent
-                            data={event}
-                            type="EVENT"
-                            // size="18px"
-                            showText={false}
-                            id={event?.id}
-                        />
-                    </Flex>
+                    <Text fontSize={"12px"} fontWeight={"700"} >{textLimit(event?.eventName, 20)}</Text>
+
                 </Flex>
             </Flex>
-            <Flex borderTopWidth={"1px"} w={"full"} mt={"3"} h={"50px"} px={["2", "2", "3"]} alignItems={"center"} >
+            <Flex borderTopWidth={"1px"} w={"full"} mt={["1", "2", "2"]} h={["50px", "50px", "50px"]} px={["2", "2", "3"]} alignItems={"center"} >
                 {event?.attendeesVisibility && (
                     <InterestedUsers
-                        fontSize={16}
+                        fontSize={12}
                         // color={["#1732F7", "#1732F7", "#1732F7", "#1732F7", "#1732F7"]}
                         event={event}
                         border={"2px"}
-                        size={"32px"}
+                        size={"28px"}
                         refund={true}
                     />
                 )}
-                <Text color={primaryColor} display={["none", "none", "none", "block", "block"]} ml={"auto"} fontWeight={"600"} fontSize={"14px"} >
+                <Text color={primaryColor} display={["block"]} ml={"auto"} fontWeight={"600"} fontSize={"14px"} >
                     <EventPrice
                         minPrice={event?.minPrice}
                         maxPrice={event?.maxPrice}
