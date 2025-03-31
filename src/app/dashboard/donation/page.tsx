@@ -54,7 +54,7 @@ export default function Donation() {
     }, [])
 
     return (
-        <Flex w={"full"} px={"6"} pt={["6", "6", "12", "12"]} pb={"12"} flexDir={"column"} overflowY={"auto"} >
+        <Flex w={"full"} px={["0px", "0px", "6"]} pt={["6", "6", "12", "12"]} pb={"12"} flexDir={"column"} overflowY={"auto"} >
             <Flex pb={"2"} w={"full"} h={"fit-content"} flexDirection={["column", "column", "row", "row"]} gap={"2"} justifyContent={"space-between"} borderBottomWidth={"1px"} borderColor={borderColor} alignItems={"center"} >
                 {/* */}
                 <Flex alignItems={"center"} gap="2" >

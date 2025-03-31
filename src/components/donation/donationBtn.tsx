@@ -103,7 +103,7 @@ export default function DonationBtn(props: any) {
         < >
 
             {(userId !== props?.user?.userId && !event) && (
-                <CustomButton onClick={() => setOpen(true)} text={"Donate now"} height={"50px"} backgroundColor={mainBackgroundColor} borderColor={primaryColor} borderWidth={"1px"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                <CustomButton onClick={() => setOpen(true)} text={"Donate now"} height={"40px"} fontSize={"14px"} backgroundColor={"#F4F5FF"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
             )}
 
             {event &&
