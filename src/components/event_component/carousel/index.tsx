@@ -33,6 +33,7 @@ function EventCarousel(props: Props) {
         secondaryBackgroundColor,
         mainBackgroundColor,
         borderColor,
+        headerTextColor
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
 
@@ -85,15 +86,15 @@ function EventCarousel(props: Props) {
                                             </Flex>
                                             <Flex alignItems={"start"} flexDir={"column"} width={"full"} gap={"2"} justifyContent={"space-between"} >
                                                 <Box display={"flex"} flexDirection={"column"} gap={"2"} >
-                                                    <EventLocationDetail height='fit-content' fontWeight={"medium"} fontsize={"16px"} color={"rgba(18, 18, 18, 0.80)"} location={item?.location} locationType={item?.locationType} length={20} isLimited={true} />
+                                                    <EventLocationDetail height='fit-content' fontWeight={"medium"} fontsize={"16px"} color={headerTextColor} location={item?.location} locationType={item?.locationType} length={20} isLimited={true} />
                                                 </Box>
                                                 <Flex alignItems={"center"} w={"full"} justifyContent={"space-between"} gap={"3"} >
                                                     {item?.attendeesVisibility && (
-                                                        <InterestedUsers refund={true} fontSize={16} event={item} border={"2px"} size={"32px"} />
+                                                        <InterestedUsers refund={true} fontSize={14} event={item} border={"2px"} size={"32px"} />
                                                     )}
                                                     <Flex ml={"auto"} alignItems={"center"} gap={"3"}  >
                                                         {(userId && email) && (
-                                                            <SaveOrUnsaveBtn event={item} />
+                                                            <SaveOrUnsaveBtn event={item} color={headerTextColor}  />
                                                         )}
                                                         <ShareEvent data={item} type="EVENT" size='18px' id={item?.id} eventName={item?.eventName} />
                                                     </Flex>

@@ -13,8 +13,9 @@ export default function Home() {
 
     const { colorMode } = useColorMode();
     const { mainBackgroundColor, borderColor } = useCustomTheme();
+    
     return (
-        <Flex w={"full"} height={"full"} bgColor={colorMode !== "dark" ? mainBackgroundColor : mainBackgroundColor} >
+        <Flex w={"full"} height={"full"} >
             <Flex w={["full", "full", "full", "55%", "full"]} h={"full"} alignItems={"center"} flexDir={"column"} >
                 <CreatePost />
                 <Flex w={"full"} h={"full"} flexDir={"column"} alignItems={"center"} overflowY={"auto"} overflowX={"hidden"} >

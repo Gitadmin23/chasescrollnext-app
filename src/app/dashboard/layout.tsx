@@ -1,6 +1,6 @@
 "use client"
 import { useDetails } from '@/global-state/useUserDetails'
-import { Box, Button, Flex, HStack, Image, Link, Switch, Text, Tooltip, VStack, useColorMode } from '@chakra-ui/react'
+import { Box, Button, Flex, Grid, HStack, Image, Link, Switch, Text, Tooltip, VStack, useColorMode } from '@chakra-ui/react'
 import React, { ReactNode, useState } from 'react'
 import { KisokIcon, NewChatIcon, NewWalletIcon, NotificationIcon, SidebarCalendarIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarSearchIcon, SidebarWalletIcon } from '@/components/svg/sidebarIcons';
 import { usePathname, useRouter } from 'next/navigation';
@@ -120,7 +120,7 @@ export default function Layout({ children }: {
         }
     }, [STATUS, router]);
 
-    const { count } = useNotificationHook()
+    const { count } = useNotificationHook() 
 
     return (
         (<Flex w={"full"} h={"100vh"} overflowY={"hidden"} bg={mainBackgroundColor} >
@@ -241,7 +241,7 @@ export default function Layout({ children }: {
                 {(pathname !== ("/dashboard/donation/create") && !pathname?.includes("/donation/edit") && pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? (
                     // <Flex w={"full"} h={"full"} pb={["70px", "70px", "70px", "0px", "0px"]} top={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" :["76px", "76px", "76px", "0px", "0px"]} overflowY={"hidden"} >
 
-                    (<Flex w={"full"} h={"auto"} zIndex={"20"} bottom={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"76px"} insetX={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" : "0px"} overflowY={"hidden"} >
+                    (<Flex w={"full"} h={"auto"} zIndex={"20"} bottom={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"72px"} insetX={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" : "0px"} overflowY={"hidden"} >
                         {children}
                     </Flex>)
                 ) : (
@@ -249,11 +249,16 @@ export default function Layout({ children }: {
                         {children}
                     </Flex>
                 )}
-                <Flex pos={"absolute"} inset={"0px"} zIndex={"10"} overflowX={"hidden"} > 
-                    <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
-                    <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
-                    <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
-                </Flex>
+                <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} bgColor={colorMode !== "dark" ?  "transparent" : "#000"} opacity={colorMode !== "dark" ? "100%" : "15%"} pos={"absolute"} inset={"0px"} w={"full"} h={"full"} overflow={"hidden"} > 
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} /> 
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} /> 
+                </Grid>
             </Flex>
             <HStack paddingX='20px' zIndex={"100"} position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg={mainBackgroundColor} borderTopWidth={1} borderTopColor={borderColor} display={['flex', 'flex', 'flex', 'none']}>
                 <Link href='/dashboard'>

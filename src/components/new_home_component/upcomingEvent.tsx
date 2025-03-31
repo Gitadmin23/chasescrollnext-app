@@ -28,7 +28,7 @@ function UpcomingEvent(props: Props) {
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/events/events`, limit: 20, filter: "id", name: "listofevent" })
 
     return (
-        <Flex bg={mainBackgroundColor} justifyContent={"center"} gap={["4", "4", "6"]} w={"full"} pt={["4", "4", "8"]} h={"full"} flexDirection={"column"} >
+        <Flex justifyContent={"center"} gap={["4", "4", "6"]} w={"full"} pt={["4", "4", "8"]} h={"full"} flexDirection={"column"} >
             <Flex w={"full"} justifyContent={"space-between"} px={["0xp", "0px", "6"]} alignItems={"center"} >
                 <Text fontWeight={"semibold"} fontSize={"16px"} >{"Upcoming Event"}</Text>
                 <Text onClick={() => router.push("/dashboard/event")} as={"button"} fontWeight={"500"} fontSize={"12px"} color={primaryColor} >{"See More"}</Text>

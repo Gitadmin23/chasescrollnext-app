@@ -21,7 +21,7 @@ function Explore() {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Box width={"full"} px={"6"} overflowX={"hidden"} bg={mainBackgroundColor} >
+    <Box width={"full"} px={"6"} overflowX={"hidden"} >
       <Box py={"6"} >
         <Text fontSize={"24px"} fontWeight={"medium"} >Hello {firstName + " " + lastName}</Text>
         <Text fontWeight={"bold"} color={"brand.chasescrollBlue"} mt={"2"} >Top Events</Text>

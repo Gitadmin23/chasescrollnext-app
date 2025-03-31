@@ -24,7 +24,7 @@ function Layout({ children }: {
     const { colorMode, toggleColorMode } = useColorMode();
 
     return (
-        <Flex gap={"4"} width={"full"} flexDir={"column"} bg={mainBackgroundColor} px={(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? ["5", "8"] : ""} py={(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? ["4", "4", "6"] : ""} overflowX={"hidden"} >
+        <Flex gap={"4"} width={"full"} flexDir={"column"} px={(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? ["5", "8"] : ""} py={(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? ["4", "4", "6"] : ""} overflowX={"hidden"} >
             {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion") && !pathname?.includes("/event/details") && !pathname?.includes("/event/pastdetails")) && (
                 <Flex position={"relative"} width={"full"} justifyContent={"space-between"} gap={"4"} flexDir={["column-reverse", "column-reverse", "row"]} alignItems={["start", "start", "center"]} >
                     <Flex ml={["auto", "auto", "0px"]} >
