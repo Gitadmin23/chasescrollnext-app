@@ -124,7 +124,7 @@ export default function PostCard(props: IMediaContent) {
     }
 
     return (
-        <Flex style={{ borderBottom: "0.5px solid var(--Miscellaneous-Tab---Unselected, #999999)" }} w={"full"} bg={mainBackgroundColor} borderRadius={"36px"} borderTopRightRadius={"0px"} py={"1"} pb={4} px={"3"} >
+        <Flex style={{ borderBottom: "0.5px solid var(--Miscellaneous-Tab---Unselected, #999999)" }} w={"full"} bg={mainBackgroundColor} borderRadius={"36px"} borderTopRightRadius={"0px"} py={"4"} pb={4} px={"3"} >
             <Flex w={"full"} gap={"3"} flexDir={"column"} >
                 <Flex alignItems={"center"} gap={"3"} h={"fit-content"} w={"full"} rounded={"full"} borderWidth={"0px"} borderColor={borderColor}>
                     <Flex alignItems={"center"} gap={["1", "1", "1"]} >

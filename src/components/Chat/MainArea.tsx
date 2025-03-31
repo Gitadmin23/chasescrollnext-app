@@ -25,7 +25,7 @@ function MainArea() {
 
     const [chats, setChats] = React.useState<ChatMessage[]>([]); 
 
-    const intObserver = React.useRef<IntersectionObserver>();
+    const intObserver = React.useRef<IntersectionObserver>(null);
 
     const { activeChat, pageNumber, setAll, messages, hasNext } = useChatPageState((state) => state);
 
@@ -103,13 +103,13 @@ function MainArea() {
     } 
     
     return (
-        <VStack overflow={'hidden'} height='100%' width={'100%'} bg={mainBackgroundColor}>
+        <VStack overflow={'hidden'} height='100%' width={'100%'} >
 
             <ChatSectionHeader />
 
             {/* MESSAGE AREA */}
 
-            <Box flex='1' width={'100%'} overflowY={'auto'} overflowX={'hidden'} className={colorMode === 'light' ? 'chat-area' : ''} bg={mainBackgroundColor}>
+            <Box flex='1' width={'100%'} overflowY={'auto'} overflowX={'hidden'} className={colorMode === 'light' ? 'chat-area' : ''} >
                 <LoadingAnimation loading={loadingChatList} >
                     <Flex gap={"4"} paddingX={['10px', '10px']} paddingY='40px' alignItems={'flex-start'} width={'100%'} flexDir={"column-reverse"} overflowY={"auto"} height={'100%'}>
                         {chatList.map((item: ChatMessage, index: number) => {

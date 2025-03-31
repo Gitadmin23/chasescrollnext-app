@@ -54,7 +54,7 @@ function MainArea({ setShow }: IProps) {
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
 
-    const intObserver = React.useRef<IntersectionObserver>();
+    const intObserver = React.useRef<IntersectionObserver>(null);
 
 
     const { userId: myId } = useDetails((state) => state)
@@ -115,7 +115,7 @@ function MainArea({ setShow }: IProps) {
         )
     }
     return (
-        <Flex w={"full"} h={"100%"} pos={"relative"} bg={mainBackgroundColor} overflowY={"hidden"} flexDirection={"column"} >
+        <Flex w={"full"} h={"100%"} pos={"relative"}  overflowY={"hidden"} flexDirection={"column"} >
             <Flex w={"full"} bgColor={mainBackgroundColor} pos={"relative"} zIndex={"10"} h={"fit-content"} >
                 <CommunityChatHeader />
                 <AddEventsModal isOpen={showEventModal} onClose={() => setShowEventModal(false)} />
@@ -151,8 +151,8 @@ function MainArea({ setShow }: IProps) {
                     </Flex>
                 </Flex>
             )}
-            <Box pos={"absolute"} inset={"0px"} pt={"72px"} bg={mainBackgroundColor} pb={"150px"} >
-                <Flex w={"full"} h={"full"} flexDir={"column-reverse"} gap={"5"} paddingX={['10px', '30px']} paddingY='4' bgColor={mainBackgroundColor} overflowY={"auto"} pos={"relative"} >
+            <Box pos={"absolute"} inset={"0px"} pt={"72px"} pb={"150px"} >
+                <Flex w={"full"} h={"full"} flexDir={"column-reverse"} gap={"5"} paddingX={['10px', '30px']} paddingY='4' overflowY={"auto"} pos={"relative"} >
                     <LoadingAnimation loading={isLoading} >
                         {activeCommunity !== null && messages.length > 0 && messages.map((item, index) => {
                             return (
@@ -173,7 +173,7 @@ function MainArea({ setShow }: IProps) {
                     </LoadingAnimation>
                 </Flex>
             </Box>
-            <Flex width={"full"} height={"fit-content"} marginTop={"auto"} px={"3"} bottom={"0px"} >
+            <Flex width={"full"} height={"fit-content"}  bgColor={mainBackgroundColor} marginTop={"auto"} px={"3"} bottom={"0px"} >
                 <CommunityTextArea />
             </Flex>
         </Flex>
