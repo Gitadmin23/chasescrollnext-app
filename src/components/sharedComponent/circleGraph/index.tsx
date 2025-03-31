@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
-const CircularProgressBar = ({ progress, size = 67, strokeWidth = 10, isEvent }: { progress: number, size?: number, strokeWidth?: number, isEvent?: boolean }) => {
+const CircularProgressBar = ({ progress, size = 67, strokeWidth = 10, isEvent, fontSize }: { progress: number, size?: number, strokeWidth?: number, isEvent?: boolean, fontSize?: string  }) => {
     const radius = (size - strokeWidth) / 2;
     const circumference = 2 * Math.PI * radius;
     const offset = circumference - (progress / 100) * circumference;
@@ -9,7 +9,7 @@ const CircularProgressBar = ({ progress, size = 67, strokeWidth = 10, isEvent }:
     return (
         <Flex w={"fit-content"} pos={"relative"} >
             <Flex w={"full"} h={"full"}  pos={"absolute"} inset={"0px"} justifyContent={"center"} alignItems={"center"} > 
-                <Text fontSize={[isEvent ? "10px" : "14px", "14px", "14px"]} >{progress}%</Text>
+                <Text fontSize={[isEvent ? fontSize ?? "10px" : fontSize ?? "14px", fontSize ?? "14px", fontSize ?? "10px"]} >{progress}%</Text>
             </Flex>
             <svg
                 width={size}

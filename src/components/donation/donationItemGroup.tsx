@@ -25,6 +25,9 @@ import DeleteEvent from '../sharedComponent/delete_event'
 import useSearchStore from '@/global-state/useSearchData'
 import BlurredImage from '../sharedComponent/blurred_image'
 import { isDateInPast } from '@/utils/isPast'
+import ProductImageScroller from '../sharedComponent/productImageScroller'
+import { formatNumber } from '@/utils/numberFormat'
+import CircularProgressBar from '../sharedComponent/circleGraph'
 
 
 
@@ -32,7 +35,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
 
     const {
         bodyTextColor,
-        borderColor, 
+        borderColor,
         mainBackgroundColor
     } = useCustomTheme()
 
@@ -45,12 +48,12 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
     // const { data: groupData, isLoading: loading, isRefetching } = useGetDonationGroup(singleData?.fundRasingGroupId?.id)
     const [open, setOpen] = useState(false)
 
-    const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url:`/fund-raiser-group/search${search ? `?name=${search.toLowerCase()}` : ``}`, limit: 20, filter: "id", name: "donationlist", search: search })
+    const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/fund-raiser-group/search${search ? `?name=${search.toLowerCase()}` : ``}`, limit: 20, filter: "id", name: "donationlist", search: search })
 
     const router = useRouter()
 
     const clickHander = (item: IDonationGroup, index: string) => {
-        if(creator || pasted){
+        if (creator || pasted) {
             router?.push("/dashboard/donation/" + index)
         } else if (item?.fundRaisers?.length > 1) {
             // setSelected(item)
@@ -58,97 +61,155 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
         } else {
             router?.push("/dashboard/donation/" + item?.fundRaisers[0]?.id)
         }
-    } 
+    }
 
     return (
         (<Flex w={"full"} flexDir={"column"} gap={"5"} >
             {!details && (
                 <LoadingAnimation loading={loadingList} refeching={refetchingList} length={results?.length} withimg={true} >
-                    <Grid w={"full"} templateColumns={['repeat(1, 1fr)', 'repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)']} gap={6} >
-                        {results?.filter((item: IDonationGroup)=> item?.fundRaisers?.length > 0 && item?.fundRaisers[0]?.visibility === "PUBLIC")?.map((item: IDonationGroup, index: number) => {
-                            if (results?.filter((item: IDonationGroup)=> item?.fundRaisers?.length > 0 && item?.fundRaisers[0]?.visibility === "PUBLIC")?.length === index + 1) {
+                    <Grid w={"full"} templateColumns={['repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)']} gap={["2", "2", "3"]} >
+                        {results?.filter((item: IDonationGroup) => item?.fundRaisers?.length > 0 && item?.fundRaisers[0]?.visibility === "PUBLIC")?.map((item: IDonationGroup, index: number) => {
+                            if (results?.filter((item: IDonationGroup) => item?.fundRaisers?.length > 0 && item?.fundRaisers[0]?.visibility === "PUBLIC")?.length === index + 1) {
                                 return (
                                     // <GridItem w={"full"}  >
                                     // </GridItem>
-                                    (<Flex w={"full"} height={"fit-content"} ref={ref} key={index} pos={"relative"} gap={"4"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
-                                        <Flex w={"full"} pos={"relative"} alignItems={"center"} justifyContent={"space-between"} >
-                                            <Flex as={"button"} w={"fit-content"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} gap={"3"} >
-                                                <UserImage size={"45px"} font={"20px"} data={item?.user} image={item?.user?.data?.imgMain?.value} border={"1px"} />
-                                                <Flex display={["block"]} flexDir={"column"} textAlign={"left"}  >
-                                                    <Text color={"#233DF3"} fontSize={"14px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(item?.user?.firstName) + " " + capitalizeFLetter(item?.user?.lastName), 15)}</Text>
-                                                    <Text fontSize={"12px"} color={bodyTextColor} >{moment(item?.createdDate).fromNow()}</Text>
-                                                </Flex>
-                                            </Flex>
-                                            <DeleteEvent donation={true} event={item} />
-                                        </Flex>
-                                        <Flex as={"button"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id)} w={'full'} h={"200px"} pos={"relative"} rounded={"8px"} >
+                                    // (<Flex w={"full"} height={"fit-content"} ref={ref} key={index} pos={"relative"} gap={"4"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
+                                    //     <Flex w={"full"} pos={"relative"} alignItems={"center"} justifyContent={"space-between"} >
+                                    //         <Flex as={"button"} w={"fit-content"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} gap={"3"} >
+                                    //             <UserImage size={"45px"} font={"20px"} data={item?.user} image={item?.user?.data?.imgMain?.value} border={"1px"} />
+                                    //             <Flex display={["block"]} flexDir={"column"} textAlign={"left"}  >
+                                    //                 <Text color={"#233DF3"} fontSize={"14px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(item?.user?.firstName) + " " + capitalizeFLetter(item?.user?.lastName), 15)}</Text>
+                                    //                 <Text fontSize={"12px"} color={bodyTextColor} >{moment(item?.createdDate).fromNow()}</Text>
+                                    //             </Flex>
+                                    //         </Flex>
+                                    //         <DeleteEvent donation={true} event={item} />
+                                    //     </Flex>
+                                    //     <Flex as={"button"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.id)} w={'full'} h={"200px"} pos={"relative"} rounded={"8px"} >
 
-                                            <BlurredImage height={["200px"]} image={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.bannerImage} />
-                                            {/* <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} /> */}
-                                        </Flex>
-                                        <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
-                                            <Flex flexDir={"column"} >
-                                                <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
-                                                <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.name), 35)}</Text>
-                                            </Flex>
-                                            <ShareEvent newbtn={true} showText={false} data={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} id={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
-                                        </Flex>
-                                        <Flex w={"full"} borderWidth={(item?.fundRasingGroupId?.id && !creator && !pasted) ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
-                                            {(item?.fundRasingGroupId?.id && !creator && !pasted) && (
-                                                <Flex gap={"1"} alignItems={"center"} >
-                                                    <IoInformationCircleOutline />
-                                                    <Text fontSize={"12px"} >{item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))?.length} More fundraising available  </Text>
+                                    //         <BlurredImage height={["200px"]} image={item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.bannerImage} />
+                                    //         {/* <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} /> */}
+                                    //     </Flex>
+                                    //     <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
+                                    //         <Flex flexDir={"column"} >
+                                    //             <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
+                                    //             <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.name), 35)}</Text>
+                                    //         </Flex>
+                                    //         <ShareEvent newbtn={true} showText={false} data={item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]} id={item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                    //     </Flex>
+                                    //     <Flex w={"full"} borderWidth={(item?.fundRasingGroupId?.id && !creator && !pasted) ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
+                                    //         {(item?.fundRasingGroupId?.id && !creator && !pasted) && (
+                                    //             <Flex gap={"1"} alignItems={"center"} >
+                                    //                 <IoInformationCircleOutline />
+                                    //                 <Text fontSize={"12px"} >{item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))?.length} More fundraising available  </Text>
+                                    //             </Flex>
+                                    //         )}
+                                    //         <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
+                                    //     </Flex>
+                                    //     <DonationGraph item={item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]} />
+                                    //     {(userId !== item?.user?.userId && !pasted) && (
+                                    //         <DonationBtn item={item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]} user={item?.user} />
+                                    //     )}
+                                    // </Flex>)
+
+                                    <Flex as={"button"} ref={ref} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHander(item, item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.id)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} >
+                                        <ProductImageScroller images={[item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.bannerImage]} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.user} />
+                                        <Flex w={"full"} flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"2"} pb={["2", "2", userId !== item?.user?.userId && !pasted ? "0px" : "3"]} >
+                                            <Flex w={"full"} >
+                                                <Flex w={"full"} alignItems={"start"} flexDir={"column"} >
+                                                    <Text fontSize={"12px"} color={bodyTextColor} >Fundraising Title</Text>
+                                                    <Text fontWeight={"700"} fontSize={"14px"} >{textLimit(capitalizeFLetter(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.name), 35)}</Text>
                                                 </Flex>
-                                            )}
-                                            <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
+                                                <Flex w={"full"} alignItems={"end"} flexDir={"column"} >
+                                                    <Text fontSize={"12px"} color={bodyTextColor} >Target </Text>
+                                                    <Text fontWeight={"700"} fontSize={"14px"} >{formatNumber(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.goal)}</Text>
+                                                </Flex>
+                                            </Flex>
+                                            <Flex w={"full"} >
+                                                <Flex w={"full"} alignItems={"start"} flexDir={"column"} >
+                                                    <Text fontSize={"12px"} color={bodyTextColor} >Amount Raised</Text>
+                                                    <Text fontWeight={"700"} fontSize={"14px"} >{formatNumber(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.total)}</Text>
+                                                </Flex>
+                                                <Flex w={"full"} alignItems={"end"} flexDir={"column"}  >
+                                                    <CircularProgressBar fontSize={"10px"} isEvent={true} size={35} strokeWidth={3} progress={((Number(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.total) === 0) && (Number(item?.goal) === 0)) ? 0 : (Number(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.total) / Number(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.goal)) * 100 > 100 ? 100 : Number(((Number(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.total) / Number(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.goal)) * 100)?.toFixed(2))} />
+                                                </Flex>
+                                            </Flex>
                                         </Flex>
-                                        <DonationGraph item={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} />
                                         {(userId !== item?.user?.userId && !pasted) && (
-                                            <DonationBtn item={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} user={item?.user} />
+                                            <Flex as={"button"} w={"full"} display={["none", "none", "flex"]} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} px={"3"} fontWeight={"600"} py={"4"} justifyContent={"center"} >
+                                                <DonationBtn item={item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]} user={item?.user} />
+                                            </Flex>
                                         )}
-                                    </Flex>)
+                                    </Flex>
                                 );
                             } else {
                                 return (
-                                    // <GridItem w={"full"} key={index} >
-                                    // </GridItem>
-                                    (<Flex w={"full"} height={"fit-content"} key={index} gap={"4"} pos={"relative"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
-                                        <Flex w={"full"} pos={"relative"} alignItems={"center"} justifyContent={"space-between"} >
-                                            <Flex as={"button"} w={"fit-content"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} gap={"3"} >
-                                                <UserImage size={"45px"} font={"20px"} data={item?.user} image={item?.user?.data?.imgMain?.value} border={"1px"} />
-                                                <Flex display={["block"]} flexDir={"column"} textAlign={"left"}  >
-                                                    <Text color={"#233DF3"} fontSize={"14px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(item?.user?.firstName) + " " + capitalizeFLetter(item?.user?.lastName), 15)}</Text>
-                                                    <Text fontSize={"12px"} color={bodyTextColor} >{moment(item?.createdDate).fromNow()}</Text>
-                                                </Flex>
-                                            </Flex>
-                                            <DeleteEvent donation={true} event={item} />
-                                        </Flex>
-                                        <Flex as={"button"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id)} w={'full'} h={"200px"} rounded={"8px"} >
+                                    // <Flex w={"full"} height={"fit-content"} key={index} gap={"4"} pos={"relative"} flexDir={"column"} p={"4"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} >
+                                    //         <Flex w={"full"} pos={"relative"} alignItems={"center"} justifyContent={"space-between"} >
+                                    //             <Flex as={"button"} w={"fit-content"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.user?.userId}`)} gap={"3"} >
+                                    //                 <UserImage size={"45px"} font={"20px"} data={item?.user} image={item?.user?.data?.imgMain?.value} border={"1px"} />
+                                    //                 <Flex display={["block"]} flexDir={"column"} textAlign={"left"}  >
+                                    //                     <Text color={"#233DF3"} fontSize={"14px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(item?.user?.firstName) + " " + capitalizeFLetter(item?.user?.lastName), 15)}</Text>
+                                    //                     <Text fontSize={"12px"} color={bodyTextColor} >{moment(item?.createdDate).fromNow()}</Text>
+                                    //                 </Flex>
+                                    //             </Flex>
+                                    //             <DeleteEvent donation={true} event={item} />
+                                    //         </Flex>
+                                    //         <Flex as={"button"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id)} w={'full'} h={"200px"} rounded={"8px"} >
 
-                                            <BlurredImage height={["200px"]} image={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.bannerImage} />
-                                            {/* <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} /> */}
-                                        </Flex>
-                                        <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
-                                            <Flex flexDir={"column"} >
-                                                <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
-                                                <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.name), 35)}</Text>
-                                            </Flex>
-                                            <ShareEvent newbtn={true} showText={false} data={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} id={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
-                                        </Flex>
-                                        <Flex w={"full"} borderWidth={(item?.fundRaisers?.length > 1 && !creator && !pasted) ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
-                                            {(item?.fundRaisers?.length > 1 && !creator && !pasted) && (
-                                                <Flex gap={"1"} alignItems={"center"} >
-                                                    <IoInformationCircleOutline />
-                                                    <Text fontSize={"12px"} >{item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))?.length} More fundraising available  </Text>
+                                    //             <BlurredImage height={["200px"]} image={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.bannerImage} />
+                                    //             {/* <Image rounded={"8px"} objectFit="cover" alt={item?.name} width={"full"} height={"full"} src={IMAGE_URL + item?.bannerImage} /> */}
+                                    //         </Flex>
+                                    //         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
+                                    //             <Flex flexDir={"column"} >
+                                    //                 <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
+                                    //                 <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.name), 35)}</Text>
+                                    //             </Flex>
+                                    //             <ShareEvent newbtn={true} showText={false} data={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} id={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                    //         </Flex>
+                                    //         <Flex w={"full"} borderWidth={(item?.fundRaisers?.length > 1 && !creator && !pasted) ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
+                                    //             {(item?.fundRaisers?.length > 1 && !creator && !pasted) && (
+                                    //                 <Flex gap={"1"} alignItems={"center"} >
+                                    //                     <IoInformationCircleOutline />
+                                    //                     <Text fontSize={"12px"} >{item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))?.length} More fundraising available  </Text>
+                                    //                 </Flex>
+                                    //             )}
+                                    //             <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
+                                    //         </Flex>
+                                    //         <DonationGraph item={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} />
+                                    //         {(userId !== item?.user?.userId && !pasted) && (
+                                    //             <DonationBtn item={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} user={item?.user}  />
+                                    //         )}
+                                    //     </Flex>
+
+                                    <Flex as={"button"} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHander(item, item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.id)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} >
+                                        <ProductImageScroller images={[item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.bannerImage]} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.user} />
+                                        <Flex w={"full"} flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"2"} pb={["2", "2", userId !== item?.user?.userId && !pasted ? "0px" : "3"]} >
+                                            <Flex w={"full"} >
+                                                <Flex w={"full"} alignItems={"start"} flexDir={"column"} >
+                                                    <Text fontSize={"12px"} color={bodyTextColor} >Fundraising Title</Text>
+                                                    <Text fontWeight={"700"} fontSize={"14px"} >{textLimit(capitalizeFLetter(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.name), 35)}</Text>
                                                 </Flex>
-                                            )}
-                                            <CustomButton ml={"auto"} onClick={() => clickHander(item, item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]?.id)} text={"View"} px={"6"} borderRadius={"32px"} width={"fit-content"} height={"29px"} fontSize={"sm"} />
+                                                <Flex w={"full"} alignItems={"end"} flexDir={"column"} >
+                                                    <Text fontSize={"12px"} color={bodyTextColor} >Target </Text>
+                                                    <Text fontWeight={"700"} fontSize={"14px"} >{formatNumber(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.goal)}</Text>
+                                                </Flex>
+                                            </Flex>
+                                            <Flex w={"full"} >
+                                                <Flex w={"full"} alignItems={"start"} flexDir={"column"} >
+                                                    <Text fontSize={"12px"} color={bodyTextColor} >Amount Raised</Text>
+                                                    <Text fontWeight={"700"} fontSize={"14px"} >{formatNumber(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.total)}</Text>
+                                                </Flex>
+                                                <Flex w={"full"} alignItems={"end"} flexDir={"column"}  >
+                                                    <CircularProgressBar fontSize={"10px"} isEvent={true} size={35} strokeWidth={3} progress={((Number(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.total) === 0) && (Number(item?.goal) === 0)) ? 0 : (Number(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.total) / Number(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.goal)) * 100 > 100 ? 100 : Number(((Number(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.total) / Number(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.goal)) * 100)?.toFixed(2))} />
+                                                </Flex>
+                                            </Flex>
                                         </Flex>
-                                        <DonationGraph item={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} />
                                         {(userId !== item?.user?.userId && !pasted) && (
-                                            <DonationBtn item={item?.fundRaisers?.filter((item)=> isDateInPast(item?.endDate))[0]} user={item?.user}  />
+                                            <Flex as={"button"} w={"full"} display={["none", "none", "flex"]} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} px={"3"} fontWeight={"600"} py={"4"} justifyContent={"center"} >
+                                                <DonationBtn item={item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]} user={item?.user} />
+                                            </Flex>
                                         )}
-                                    </Flex>)
+                                    </Flex>
                                 );
                             }
                         })}

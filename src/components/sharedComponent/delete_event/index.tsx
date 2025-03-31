@@ -8,7 +8,7 @@ import { Box, Button, Flex, Popover, PopoverArrow, PopoverBody, PopoverContent, 
 import { AxiosError, AxiosResponse } from 'axios';
 import { usePathname } from 'next/navigation';
 import React, { useState } from 'react'
-import { IoIosMore } from 'react-icons/io';
+import { IoIosClose, IoIosMore } from 'react-icons/io';
 import { useMutation, useQueryClient } from 'react-query';
 
 interface Props {
@@ -93,13 +93,13 @@ function DeleteEvent(props: Props) {
     return ( 
         <> 
             {((event?.isOrganizer && !pathname?.includes("past")) || pathname?.includes("draft") || pathname?.includes("mydonation")) && (
-                <Flex pos={pathname?.includes("mydonation") ? "relative" : "absolute"} right={pathname?.includes("mydonation") ? "0px" : ["6", "6", "20", "20"]}  zIndex={"100"} top={["6", "6", "1", "1"]} >
+                <Flex pos={"absolute"} right={"-5px"}  zIndex={"100"} top={"-5px"} >
                     <Box>
                         <Popover isOpen={open} onClose={() => setOpen(false)} >
                             <PopoverTrigger >
-                                <Button onClick={openHandler} bg={mainBackgroundColor} _hover={{backgroundColor: mainBackgroundColor}}  >
-                                    <IoIosMore size={"30px"} />
-                                </Button>
+                                <Flex as={"button"} justifyContent={"center"} alignItems={"center"} w={"6"} h={"6"} rounded={"full"} bgColor={"red"} onClick={openHandler} >
+                                    <IoIosClose size={"20px"} />
+                                </Flex>
                             </PopoverTrigger>
                             <PopoverContent w={"fit-content"} >
                                 <PopoverArrow />
