@@ -115,6 +115,9 @@ export default function ServiceDetailsPage() {
         }
     });
 
+    console.log(service);
+    
+
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -151,11 +154,11 @@ export default function ServiceDetailsPage() {
                             <DescriptionPage limit={200} label='Rental Details' description={service?.description+""} />
                             <Flex w={"full"} gap={"2"}>
                                 <Flex w={["fit-content", "fit-content", "full"]} >
-                                    <GetCreatorData reviewdata={reviewData} userData={service?.vendor} />
+                                    <GetCreatorData reviewdata={reviewData} userData={service?.vendor} item={service?.rating} />
                                 </Flex>
-                                <Flex display={["flex", "flex", "none"]} w={"full"}  >
+                                <Flex bgColor={mainBackgroundColor} display={["flex", "flex", "none"]} w={"full"}  >
                                     <Flex w={"full"} >
-                                        <Flex w={"full"} flexDir={'column'} p='30px' justifyContent={'center'} borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
+                                        <Flex w={"full"} flexDir={'column'} p={["3", "3", '30px']} justifyContent={'center'} borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
                                             <Flex flexDir={"column"} >
                                                 <Text fontWeight={600} fontSize={"14px"} color={bodyTextColor}>Starting price</Text>
                                                 <Text fontSize={'24px'} fontWeight={600} color={headerTextColor}>NGN {(service?.discount) && service?.discount > 0 ? service?.discount.toLocaleString() : service?.price?.toLocaleString()}</Text>
@@ -177,7 +180,7 @@ export default function ServiceDetailsPage() {
                             <Text fontSize={["12px", "12px", "14px"]} >{dateFormat(service?.createdDate)} {timeFormat(service?.createdDate)}</Text>
                         </Flex>
                         <Flex w={"full"} justifyContent={"end"} >
-                            <Flex maxW={"413px"} display={["none", "none", "flex"]}  >
+                            <Flex bgColor={mainBackgroundColor} maxW={"413px"} display={["none", "none", "flex"]}  >
                                 <Flex flexDir={'column'} p='30px' justifyContent={'center'} borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
                                     <HStack justifyContent={'flex-start'}>
                                         <Text fontWeight={600} fontSize={"14px"} color={bodyTextColor}>Starting price</Text>

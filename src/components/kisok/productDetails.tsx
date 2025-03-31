@@ -117,7 +117,7 @@ export default function ProductDetails({ id }: { id: string }) {
                             </Flex>
                             <Flex w={"full"} gap={"2"}>
                                 <Flex w={["fit-content", "fit-content", "full"]} >
-                                    <GetCreatorData reviewdata={reviewData} userData={item?.creator} />
+                                    <GetCreatorData reviewdata={reviewData} userData={item?.creator} item={item?.rating} />
                                 </Flex>
                                 <Flex display={["flex", "flex", "none"]} w={"full"}  >
                                     {userId !== item?.creator?.userId && ( 

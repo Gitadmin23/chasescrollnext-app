@@ -305,7 +305,7 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
                         startDate: startDate,
                         endDate: endDate,
                         addressedId: addressDefault,
-                        price: newPrice > 0 ? Number(newPrice * Number(qty)) : Number(item?.price * Number(qty)), 
+                        price: newPrice, 
                         approvalStatus: 'PENDING',
                         frequency: Number(qty) 
                     }

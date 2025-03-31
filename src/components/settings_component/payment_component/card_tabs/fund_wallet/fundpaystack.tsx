@@ -108,6 +108,9 @@ function Fundpaystack(props: Props) {
 
             queryClient.invalidateQueries(['event_ticket'])
             queryClient.invalidateQueries(['all-events-details']) 
+            queryClient.invalidateQueries(['donationlist']) 
+            queryClient.invalidateQueries(['donationlistmy']) 
+            queryClient.invalidateQueries(['getDonationsingleList']) 
             setLoading(false) 
         },
         onError: () => {

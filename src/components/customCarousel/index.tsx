@@ -14,7 +14,7 @@ export function CustomCarousel(props: any) {
   const [slides, setSlides]: any = useState([]);
   const [height, setHeight] = useState('0px');
   const intervalRef: any = useRef(null);
-  const nextRef: any = useRef();
+  const nextRef: any = useRef(null);
   const handlers = useSwipeable({
     onSwipedLeft: () => slideRight(),
     onSwipedRight: () => slideLeft(),
@@ -66,7 +66,7 @@ export function CustomCarousel(props: any) {
   useEffect(()=>{ 
     if(slideCurrent === -1){
       setTimeout(() => {
-        //slideRight();
+        slideRight();
       }, 500);
     }
   },[slides,slideCurrent]);

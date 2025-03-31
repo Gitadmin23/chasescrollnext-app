@@ -53,7 +53,7 @@ export default function DonationBtn(props: any) {
 
     const userId = localStorage.getItem('user_id') + "";
 
-    const { setDataID, setPaystackConfig } = usePaystackStore((state) => state);
+    const { setDataID, setPaystackConfig, setMessage, message } = usePaystackStore((state) => state);
 
     const payForTicket = useMutation({
         mutationFn: (data: {
@@ -70,6 +70,7 @@ export default function DonationBtn(props: any) {
                 amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
                 reference: data?.data?.content?.orderCode
             });
+            setMessage({...message, donation: true})
             setOpen(false)
             setValue("")
             setDataID(item?.id)
@@ -89,7 +90,7 @@ export default function DonationBtn(props: any) {
     });
 
 
-    const clickHandler = React.useCallback(() => {
+    const clickHandler = React.useCallback((e: any) => {
         payForTicket.mutate({
             seller: user?.userId,
             price: Number(value),
@@ -99,17 +100,22 @@ export default function DonationBtn(props: any) {
         })
     }, [item?.id, value])
 
+    const openHandler = (e: any) => {
+        e.stopPropagation()
+        setOpen(true)
+    }
+
     return (
         < >
 
             {(userId !== props?.user?.userId && !event) && (
-                <CustomButton onClick={() => setOpen(true)} text={"Donate now"} height={"40px"} fontSize={"14px"} backgroundColor={"#F4F5FF"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+                <CustomButton onClick={(e) => openHandler(e)} text={"Donate now"} height={"40px"} fontSize={"14px"} backgroundColor={"#F4F5FF"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
             )}
 
             {event &&
                 <Box w={["45px", "45px", "70px"]} pos={"relative"} >
                     <Box w={["fit-content"]} position={"relative"} top={"0px"} >
-                        <CustomButton onClick={() => setOpen(true)} text={"Donate now"} transform={["rotate(-90deg)"]} backgroundColor={"#5D70F9"} left={["-32px", "-32px", "-37px"]} top={["-20px"]} zIndex={"50"} position={["absolute"]} height={["35px", "35px", "45px"]} fontSize={["10px", "10px", "xs"]} width={["80px", "80px", "100px"]} borderRadius={"full"} />
+                        <CustomButton onClick={(e) => openHandler(e)} text={"Donate now"} transform={["rotate(-90deg)"]} backgroundColor={"#5D70F9"} left={["-32px", "-32px", "-37px"]} top={["-20px"]} zIndex={"50"} position={["absolute"]} height={["35px", "35px", "45px"]} fontSize={["10px", "10px", "xs"]} width={["80px", "80px", "100px"]} borderRadius={"full"} />
                     </Box>
                 </Box>
             }

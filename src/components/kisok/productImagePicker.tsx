@@ -13,7 +13,7 @@ export default function ProductImagePicker() {
     const toast = useToast()
     const [fileIndex, setFileIndex] = useState(0)
 
-    const { primaryColor, borderColor } = useCustomTheme()
+    const { primaryColor, borderColor, mainBackgroundColor } = useCustomTheme()
 
     const { image, updateImage, productdata } = useProductStore((state) => state);
 
@@ -59,57 +59,10 @@ export default function ProductImagePicker() {
         updateImage(image.filter((_: any, i: any) => i !== index));
     }
 
-    return (
-        // <Flex flexDir={"column"} w={"full"} gap={"4"} >
-        //     <Flex as={"button"} type='button' w={"full"} h={"240px"} borderColor={"#D9D9D9"} justifyContent={"center"} alignItems={"center"} onClick={() => inputRef.current?.click()} flexDir={"column"} rounded={"16px"} borderWidth={"1px"} border={"dashed"} >
-        //         <GallaryIcon />
-        //         <Text fontWeight={"500"} mt={"3"} >Drag pictures here to upload</Text>
-        //         <Text fontSize={"14px"} color={"#ACACB0"} >You need at least 5 pictures</Text>
-        //         <input hidden type='file' accept="image/*" multiple ref={inputRef} onChange={(e) => handlePick(e.target.files as FileList)} />
-        //     </Flex>
-
-        //     <Flex w={"full"}  >
-        //         {productdata?.images?.length > 0 && (
-        //             <Flex w={"full"} overflowX={"auto"} >
-        //                 <Flex w={"fit-content"} py={"2"} gap={"3"} >
-        //                     {productdata?.images?.map((item, index) => {
-        //                         return (
-        //                             <Flex key={index} w={"12"} h={"12"} rounded={"md"} roundedTopRight={"0px"} borderWidth={fileIndex === index ? "2px" : "1px"} borderColor={fileIndex === index ? "#233CF3" : "gray"} pos={"relative"} justifyContent={"center"} alignItems={"center"} >
-        //                                 <Flex as={"button"} onClick={() => removeFile(index)} w={"4"} h={"4"} color={"white"} bg={"black"} rounded={"full"} justifyContent={"center"} alignItems={"center"} pos={"absolute"} top={"-1"} right={"-1"} zIndex={"10"}  >
-        //                                     <IoClose size="15px" />
-        //                                 </Flex>
-        //                                 <Image src={IMAGE_URL + item} alt='image' width={'100%'} height={'100%'} rounded={"md"} roundedTopRight={"0px"} objectFit={'cover'} />
-        //                             </Flex>
-        //                         )
-        //                     })}
-        //                 </Flex>
-        //             </Flex>
-        //         )}
-        //         {image && (
-        //             <>
-        //                 {image?.length > 0 && (
-        //                     <Flex w={"full"} overflowX={"auto"} >
-        //                         <Flex w={"fit-content"} py={"2"} gap={"3"} >
-        //                             {image?.map((item: File, index: number) => {
-        //                                 return (
-        //                                     <Flex key={index} w={"12"} h={"12"} rounded={"md"} roundedTopRight={"0px"} borderWidth={fileIndex === index ? "2px" : "1px"} borderColor={fileIndex === index ? "#233CF3" : "gray"} pos={"relative"} justifyContent={"center"} alignItems={"center"} >
-        //                                         <Flex as={"button"} onClick={() => removeFile(index)} w={"4"} h={"4"} color={"white"} bg={"black"} rounded={"full"} justifyContent={"center"} alignItems={"center"} pos={"absolute"} top={"-1"} right={"-1"} zIndex={"10"}  >
-        //                                             <IoClose size="15px" />
-        //                                         </Flex>
-        //                                         <Image src={URL?.createObjectURL(item)} alt='image' width={'100%'} height={'100%'} rounded={"md"} roundedTopRight={"0px"} objectFit={'cover'} />
-        //                                     </Flex>
-        //                                 )
-        //                             })}
-        //                         </Flex>
-        //                     </Flex>
-        //                 )}
-        //             </>
-        //         )}
-        //     </Flex>
-        // </Flex>
+    return ( 
         <Flex px={"10px"} w={"full"} flexDir={"column"} gap={"3"} display={['flex', 'flex']} >  
             <input hidden type='file' accept="image/*" multiple ref={inputRef} onChange={(e) => handlePick(e.target.files as FileList)} />
-            <Flex mt={"8"} gap={"4"} w={"full"} flexDirection={"column"} p={"8"} borderWidth={"1.03px"} borderColor={borderColor} rounded={"16px"} >
+            <Flex mt={"8"} gap={"4"} bgColor={mainBackgroundColor} w={"full"} flexDirection={"column"} p={"8"} borderWidth={"1.03px"} borderColor={borderColor} rounded={"16px"} >
 
                 <Flex w={"full"} gap={"4"} overflowX={"auto"} css={{
                     '&::-webkit-scrollbar': {

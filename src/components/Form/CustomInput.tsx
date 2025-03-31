@@ -93,7 +93,8 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
             height={"45px"}
             rounded={newbtn ? "32px" : "8px"}
             borderColor={borderColor}
-            color={textColor ?? 'black'} 
+            color={textColor ?? 'black'}  
+            bgColor={mainBackgroundColor}
             // value={value? value: ""}
             type={isPassword ? (showPassword ? 'text' : 'password') : type}
           /> :
@@ -103,6 +104,7 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
               required: true,
               pattern: /^[A-Za-z]+$/i
             })}
+            bgColor={mainBackgroundColor}
             placeholder={placeholder}
             borderColor={borderColor}
             height={"45px"}

@@ -59,7 +59,7 @@ export default function ProductImageScroller({ images, userData, createdDate, he
             {images?.length > 0 && (
                 <Image rounded={"8px"} cursor='pointer' src={images[activeImageIndex].startsWith('https://') ? images[activeImageIndex] : (IMAGE_URL as string) + images[activeImageIndex]} alt="bannerimage" h='full' objectFit={"contain"} />
             )}
-            <Flex bgColor={"#000"} opacity={"30%"} pos={"absolute"} inset={"0px"} borderTopRadius={'10px'} />
+            <Flex bgColor={"#000"} opacity={"10%"} pos={"absolute"} inset={"0px"} borderTopRadius={rounded ?? '10px'} />
         </Flex>
     )
 }
