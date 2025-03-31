@@ -98,7 +98,7 @@ function DeleteEvent(props: Props) {
                         <Popover isOpen={open} onClose={() => setOpen(false)} >
                             <PopoverTrigger >
                                 <Flex as={"button"} justifyContent={"center"} alignItems={"center"} w={"6"} h={"6"} rounded={"full"} bgColor={"red"} onClick={openHandler} >
-                                    <IoIosClose size={"20px"} />
+                                    <IoIosClose color='white' size={"20px"} />
                                 </Flex>
                             </PopoverTrigger>
                             <PopoverContent w={"fit-content"} >

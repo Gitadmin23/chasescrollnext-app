@@ -3,6 +3,7 @@ import MapComponent from '@/components/sharedComponent/map_component'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import useEventStore from '@/global-state/useCreateEventState'
 import useProductStore from '@/global-state/useCreateProduct'
+import useCustomTheme from '@/hooks/useTheme'
 import { Box, Input } from '@chakra-ui/react'
 import React, { useState } from 'react'
 
@@ -18,6 +19,7 @@ function ProductMap(props: Props) {
     } = props
 
     const [open, setOpen] = useState(false)
+    const { mainBackgroundColor } = useCustomTheme()
 
     const changeHandler = (item: any) => { 
         setOpen(true)
@@ -32,7 +34,8 @@ function ProductMap(props: Props) {
                 placeholder="Enter Event Location"
                 mt={"sm"}
                 fontSize={"sm"} 
-                // disabled={true}
+                // disabled={true} 
+                bgColor={mainBackgroundColor}
                 onChange={changeHandler}
                 width={"full"}
                 // className="border w-full mt-4 text-sm rounded-md text-chasescrollTextGrey p-3"

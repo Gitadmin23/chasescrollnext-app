@@ -48,7 +48,8 @@ export default function CreateServices({ id }: { id: string }) {
         primaryColor,
         borderColor,
         headerTextColor,
-        bodyTextColor
+        bodyTextColor,
+        mainBackgroundColor
     } = useCustomTheme()
 
     // states
@@ -380,13 +381,13 @@ export default function CreateServices({ id }: { id: string }) {
             <Flex w={"full"} h={"full"} display={['none', 'flex']} flexDir={"column"} alignItems={"center"} py={"8"} borderRightWidth={"1.03px"} borderColor={borderColor} overflowY={"auto"} >
                 <Flex px={"14"} w={"full"} flexDir={"column"} gap={"3"} >
                     <Flex alignItems={"center"} gap={"3"} >
-                        <IoArrowBack size={"30px"} onClick={() => router.push('/dashboard/newbooking')} />
+                        <IoArrowBack size={"30px"} onClick={() => router.back()} />
                         <Text fontSize={"20px"} fontWeight={"500"} >Back</Text>
                     </Flex>
                     <Text fontSize={"24px"} fontWeight={"600"} >Upload clear photos of your Services </Text>
                     <Text fontWeight={"500"} >Upload upto 5 clear images that describe your service</Text>
 
-                    <Flex mt={"8"} gap={"4"} w={"full"} flexDirection={"column"} p={"8"} borderWidth={"1.03px"} borderColor={borderColor} rounded={"16px"} >
+                    <Flex mt={"8"} bgColor={mainBackgroundColor}  gap={"4"} w={"full"} flexDirection={"column"} p={"8"} borderWidth={"1.03px"} borderColor={borderColor} rounded={"16px"} >
 
                         <Flex w={"full"} gap={"4"} overflowX={"auto"} css={{
                             '&::-webkit-scrollbar': {
@@ -433,7 +434,7 @@ export default function CreateServices({ id }: { id: string }) {
                         <Text fontSize={"24px"} fontWeight={"600"} >Upload clear photos of your Services </Text>
                         <Text fontWeight={"500"} >you can upload upto 5 clear images that describe your service</Text>
 
-                        <Flex mt={"8"} gap={"4"} w={"full"} flexDirection={"column"} p={"8"} borderWidth={"1.03px"} borderColor={borderColor} rounded={"16px"} >
+                        <Flex mt={"8"} bgColor={mainBackgroundColor} gap={"4"} w={"full"} flexDirection={"column"} p={"8"} borderWidth={"1.03px"} borderColor={borderColor} rounded={"16px"} >
 
                             <Flex w={"full"} gap={"4"} overflowX={"auto"} css={{
                                 '&::-webkit-scrollbar': {
@@ -468,6 +469,7 @@ export default function CreateServices({ id }: { id: string }) {
                         <Flex flexDir={"column"} w={"full"} gap={"2"} >
                             <Text fontWeight={"600"} >Business Name <span style={{ color: 'red', fontSize: '12px' }}>*</span></Text>
                             <Input
+                                bgColor={mainBackgroundColor}
                                 type='text'
                                 value={name}
                                 onChange={(e) => {
@@ -484,7 +486,7 @@ export default function CreateServices({ id }: { id: string }) {
 
                         <Text fontWeight={"600"} >Select from the list of services</Text>
                         <Text fontWeight={"400"} fontSize={"14px"} >You are free to make adjustment anytime</Text>
-                        <Select value={selectedCategory} placeholder='Select Categories' onChange={(e) => setSelectedCategory(e.target.value)} h={"44px"} borderWidth={"1px"} borderColor={primaryColor} rounded={"16px"}  >
+                        <Select bgColor={mainBackgroundColor} value={selectedCategory} placeholder='Select Categories' onChange={(e) => setSelectedCategory(e.target.value)} h={"44px"} borderWidth={"1px"} borderColor={primaryColor} rounded={"16px"}  >
                             {!isLoading && categories.length > 0 && categories.map((item, index) => (
                                 <option key={index.toString()} selected={index === 0} value={item} >{item}</option>
                             ))}
@@ -493,7 +495,7 @@ export default function CreateServices({ id }: { id: string }) {
                     </Flex>
                     <Flex flexDir={"column"} w={"full"} gap={"2"} >
                         <Text fontWeight={"400"} fontSize={"14px"} >Service Description <sup style={{ color: 'red' }}>*</sup></Text>
-                        <Textarea value={description} onChange={(e) => {
+                        <Textarea bgColor={mainBackgroundColor} value={description} onChange={(e) => {
                             if (description.length < 300) {
                                 setDescription(e.target.value)
                             }
@@ -507,6 +509,7 @@ export default function CreateServices({ id }: { id: string }) {
                                 <Text fontWeight={"600"} >{`Let’s set your Price`} <span style={{ color: 'red', fontSize: '12px' }}>*</span></Text>
                                 <Text fontWeight={"400"} fontSize={"14px"} >You are free to make adjustment anytime</Text>
                                 <Input
+                                    bgColor={mainBackgroundColor}
                                     value={price}
                                     onChange={(e) => {
                                         const value = e.target.value;
@@ -553,22 +556,22 @@ export default function CreateServices({ id }: { id: string }) {
                         </Flex>
                     </Flex>
 
-                    <RadioGroup >
+                    {/* <RadioGroup >
                         <Flex direction='row' gap={"4"}>
                             <Radio value='1' isChecked={isOnline === 'physical'} onChange={() => setIsOnline('physical')}>Physical Venue</Radio>
                             <Radio value='2' isChecked={isOnline === 'online'} onChange={() => setIsOnline('online')}>Online</Radio>
                             <Radio value='3' isChecked={isOnline === 'both'} onChange={() => setIsOnline('physical')}>Both</Radio>
-                            {/* <HStack>
+                            <HStack>
                                 <Checkbox isChecked={both} onChange={() => setBoth((prev) => !prev)} aria-label='Both' />
                                 <Text>Has both</Text>
-                           </HStack> */}
+                           </HStack>
                         </Flex>
-                    </RadioGroup>
-                    {isOnline !== 'online' && (
+                    </RadioGroup> */}
+                    {/* {isOnline !== 'online' && ( */}
                         <Flex flexDirection={"column"} w={"full"} h={"40px"} gap={"3px"} >
                             <ProductMap location={rentaldata?.location} />
                         </Flex>
-                    )}
+                    {/* )} */}
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="phone" placeholder='' label='Business Phone Number' isPassword={false} type='phone' required />
                     </Flex>
@@ -601,7 +604,7 @@ export default function CreateServices({ id }: { id: string }) {
                     <Flex gap={"2"} >
                         <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                             <Text>Select your socials type</Text>
-                            <Select h={"44px"} value={platform} onChange={(e) => setPlatform(e.target.value)} >
+                            <Select bgColor={mainBackgroundColor} h={"44px"} value={platform} onChange={(e) => setPlatform(e.target.value)} >
                                 {SOCIAL_MEDIA_PLATFORMS.map((media, index) => (
                                     <option selected={index === 0} value={media} key={index.toString()}>{media}</option>
                                 ))}
@@ -610,6 +613,7 @@ export default function CreateServices({ id }: { id: string }) {
                         <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                             <Text>Social Media handle</Text>
                             <Input
+                                bgColor={mainBackgroundColor}
                                 h={"44px"}
                                 value={handle}
                                 onChange={(e) => setHandle(e.target.value)}

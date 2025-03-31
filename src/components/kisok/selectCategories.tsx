@@ -4,10 +4,13 @@ import { Flex, Select, Text } from '@chakra-ui/react'
 import React from 'react'
 import { useQuery } from 'react-query';
 import LoadingAnimation from '../sharedComponent/loading_animation';
+import useCustomTheme from '@/hooks/useTheme';
 
 export default function SelectCategories({ rental }: { rental: boolean }) {
 
     const { rentaldata, productdata, updateRental, updateProduct } = useProductStore((state) => state);
+
+    const { mainBackgroundColor } = useCustomTheme()
 
     const { data, isLoading } = useQuery(
         ["getcategoryProduct"],
@@ -34,7 +37,7 @@ export default function SelectCategories({ rental }: { rental: boolean }) {
             <Text fontWeight={"500"} >Category (optional)</Text>
             {!rental && (
                 <LoadingAnimation loading={isLoading} >
-                    <Select onChange={(e) => changeHandler(e.target.value)} value={productdata?.category} h={"45px"} placeholder={productdata?.category ? productdata?.category : 'Select Product Type'} >
+                    <Select  bgColor={mainBackgroundColor} onChange={(e) => changeHandler(e.target.value)} value={productdata?.category} h={"45px"} placeholder={productdata?.category ? productdata?.category : 'Select Product Type'} >
                         {data?.data?.map((item: string, index: number) => (
                             <option key={index} >{item}</option>
                         ))}
@@ -43,7 +46,7 @@ export default function SelectCategories({ rental }: { rental: boolean }) {
             )}
 
             {rental && (
-                <Select onChange={(e) => changeHandler(e.target.value)} value={rentaldata?.category} h={"45px"} placeholder='Select Rental Type' >
+                <Select bgColor={mainBackgroundColor} onChange={(e) => changeHandler(e.target.value)} value={rentaldata?.category} h={"45px"} placeholder='Select Rental Type' >
                     {datarental?.data?.map((item: string, index: number) => (
                         <option key={index} >{item}</option>
                     ))}

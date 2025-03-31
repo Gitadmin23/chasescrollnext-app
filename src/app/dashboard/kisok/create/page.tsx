@@ -16,7 +16,7 @@ import { IoArrowBack } from 'react-icons/io5'
 
 export default function KisokCreate() {
 
-    const { primaryColor, secondaryBackgroundColor, headerTextColor, bodyTextColor} = useCustomTheme()
+    const { primaryColor, secondaryBackgroundColor, headerTextColor, bodyTextColor, mainBackgroundColor} = useCustomTheme()
     const { push, back } = useRouter()
     const query = useSearchParams(); 
 
@@ -40,13 +40,13 @@ export default function KisokCreate() {
             <form style={{ maxWidth: "550px" ,width: "100%", display:"flex" }} onSubmit={handleSubmitProduce}>
                 <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={type ? "none" : "flex"} flexDir={"column"}  >
                     <Text fontSize={"24px"} fontWeight={"600"} >Give your product a name</Text>
-                    <Input onChange={(e) => updateProduct({ ...productdata, name: e.target.value })} h={"45px"} />
+                    <Input bgColor={mainBackgroundColor} onChange={(e) => updateProduct({ ...productdata, name: e.target.value })} h={"45px"} />
                     <Text fontSize={"24px"} fontWeight={"500"} >Describe your place to make it stand out</Text>
-                    <Textarea onChange={(e) => updateProduct({ ...productdata, description: e.target.value })} h={"120px"} />
+                    <Textarea bgColor={mainBackgroundColor} onChange={(e) => updateProduct({ ...productdata, description: e.target.value })} h={"120px"} />
                     <Text fontSize={"24px"} fontWeight={"500"} >Set your pricing </Text>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Quantity</Text>
-                        <Input type="number" onChange={(e) => updateProduct({ ...productdata, quantity: e.target.value })} h={"45px"} />
+                        <Input bgColor={mainBackgroundColor} type="number" onChange={(e) => updateProduct({ ...productdata, quantity: e.target.value })} h={"45px"} />
                     </Flex>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Location</Text>
@@ -56,7 +56,7 @@ export default function KisokCreate() {
                     <SelectCategories rental={false} />
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Price per unit</Text>
-                        <Input type="number" onChange={(e) => updateProduct({ ...productdata, price: e.target.value })} h={"45px"} />
+                        <Input type="number" bgColor={mainBackgroundColor} onChange={(e) => updateProduct({ ...productdata, price: e.target.value })} h={"45px"} />
                     </Flex> 
                     <CustomButton type='button' _disabled={{ opacity: "0.5", cursor: "not-allowed" }} disable={(!productdata?.name || !productdata?.description || !productdata?.quantity || !productdata?.price) ? true : false} onClick={() => push("/dashboard/kisok/create?type=true")} height={"60px"} borderRadius={"999px"} mt={"4"} text={"Continue"} />
                 </Flex>

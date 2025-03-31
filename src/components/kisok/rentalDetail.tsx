@@ -66,7 +66,7 @@ export default function RentalDetail({ id }: { id: string }) {
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
 
                     {item?.images?.length > 0 && (
-                        <Flex w={"full"} h={["340px", "340px", "620px"]} pos={"relative"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"8px"} py={["1", "1", "3"]} >
+                        <Flex w={"full"} h={["340px", "340px", "620px"]} pos={"relative"} borderWidth={"1px"} borderColor={borderColor} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"8px"} p={["1", "1", "3"]} >
                             <Image src={IMAGE_URL + item?.images[0]} alt='logo' rounded={"8px"} height={"full"} objectFit={"contain"} />
                             <Grid templateColumns={["repeat(3, 1fr)"]} pos={"absolute"} gap={"3"} insetX={"4"} bottom={"4"} >
                                 {item?.images?.map((subitem: string, index: number) => {
@@ -89,7 +89,7 @@ export default function RentalDetail({ id }: { id: string }) {
                                 <Flex w={["fit-content", "fit-content", "full"]} >
                                     <GetCreatorData reviewdata={reviewData} userData={item?.creator} />
                                 </Flex>
-                                <Flex display={["flex", "flex", "none"]}  >
+                                <Flex display={["flex", "flex", "none"]} w={"full"}  >
                                     <RentalCheckout setQty={setQty} item={item} qty={qty} />
                                 </Flex>
                             </Flex>

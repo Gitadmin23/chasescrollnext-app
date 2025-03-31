@@ -17,7 +17,7 @@ import { IoArrowBack } from 'react-icons/io5'
 
 export default function RentalCreate() {
 
-    const { primaryColor, secondaryBackgroundColor, headerTextColor, bodyTextColor } = useCustomTheme()
+    const { primaryColor, secondaryBackgroundColor, headerTextColor, bodyTextColor, mainBackgroundColor } = useCustomTheme()
     const { push, back } = useRouter()
     const query = useSearchParams();
     const type = query?.get('type');
@@ -45,11 +45,11 @@ export default function RentalCreate() {
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Name of the item</Text>
-                            <Input h={"45px"} onChange={(e) => updateRental({ ...rentaldata, name: e.target.value })} />
+                            <Input bgColor={mainBackgroundColor} h={"45px"} onChange={(e) => updateRental({ ...rentaldata, name: e.target.value })} />
                         </Flex>
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Description (optional)</Text>
-                            <Textarea onChange={(e) => updateRental({ ...rentaldata, description: e.target.value })} />
+                            <Textarea bgColor={mainBackgroundColor} onChange={(e) => updateRental({ ...rentaldata, description: e.target.value })} />
                         </Flex>
                         <SelectCategories rental={true} />
                     </Flex>
@@ -87,7 +87,7 @@ export default function RentalCreate() {
                         </Flex>
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Price</Text>
-                            <Input h={"45px"} onChange={(e) => updateRental({ ...rentaldata, price: e.target.value })} />
+                            <Input bgColor={mainBackgroundColor} h={"45px"} onChange={(e) => updateRental({ ...rentaldata, price: e.target.value })} />
                         </Flex>
                     </Flex>
                     <CustomButton isLoading={createProduct?.isLoading || loading} disable={createProduct?.isLoading || loading} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
