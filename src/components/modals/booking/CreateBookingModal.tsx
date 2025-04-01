@@ -8,7 +8,7 @@ import { IService } from '@/models/Service'
 import { IMAGE_URL } from '@/services/urls'
 import httpService from '@/utils/httpService'
 import { formatNumber } from '@/utils/numberFormat'
-import { Flex, Text, Box, VStack, HStack, Textarea, Image, Divider, Button, useToast, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
+import { Flex, Text, VStack, HStack, Textarea, useToast, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
 import moment from 'moment'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
@@ -30,12 +30,9 @@ function CreateBookingModal({
     onClose: () => void,
     service: IService,
 }) {
-    const {
-        primaryColor,
-        borderColor,
-        headerTextColor,
-        bodyTextColor,
-        mainBackgroundColor
+    const { 
+        borderColor, 
+        bodyTextColor, 
     } = useCustomTheme();
 
     // states
@@ -82,7 +79,7 @@ function CreateBookingModal({
                 isClosable: true,
             });
             console.log(data?.data);
-            router.push(`/dashboard/newbooking/booking/${data?.data?.id}`);
+            router.push(`/dashboard/kisok?type=mybooking`);
             onClose();
         },
         onError: (error: any) => {
