@@ -87,6 +87,9 @@ function BusinessCard({ business, mybusiness }: { business: IService, mybusiness
                     <Text fontSize={["12px"]} fontWeight={"500"} color={bodyTextColor} display={["none", "none", "block"]} >{textLimit(business?.location?.locationDetails, 40)}</Text>
                     <Text fontSize={["10px"]} fontWeight={"500"} color={bodyTextColor} display={["block", "block", "none"]} >{textLimit(business?.location?.locationDetails, 15)}</Text>
                 </Flex>
+                <Flex w={"full"} justifyContent={"end"} >
+                    <Text fontSize={"14px"} fontWeight={"600"} >{formatNumber(business?.price)}</Text>
+                </Flex>
             </Flex>
             {mybusiness && (
                 <Flex as={"button"} onClick={() => clickHandler()} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >

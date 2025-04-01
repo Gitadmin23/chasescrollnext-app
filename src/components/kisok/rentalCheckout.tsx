@@ -66,8 +66,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
             setPrice(newPrice.toString());
             setPercentage(percentage+0.05)
         } else {
-            if (((Number(item?.price) * qty) * percentage) > 0) {
-
+            if (((Number(item?.price) * qty) * percentage) > 0) { 
                 if((percentage) > 0) {
                     const Percentage = (Number(item?.price) * qty) * percentage + 0.05;
                     const newPrice = (Number(item?.price) * qty) + Percentage;
