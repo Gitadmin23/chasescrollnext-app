@@ -37,7 +37,7 @@ export default function SelectCategories({ rental }: { rental: boolean }) {
             <Text fontWeight={"500"} >Category (optional)</Text>
             {!rental && (
                 <LoadingAnimation loading={isLoading} >
-                    <Select  bgColor={mainBackgroundColor} onChange={(e) => changeHandler(e.target.value)} value={productdata?.category} h={"45px"} placeholder={productdata?.category ? productdata?.category : 'Select Product Type'} >
+                    <Select bgColor={mainBackgroundColor} onChange={(e) => changeHandler(e.target.value)} value={productdata?.category} h={"45px"} placeholder={productdata?.category ? productdata?.category : 'Select Product Type'} >
                         {data?.data?.map((item: string, index: number) => (
                             <option key={index} >{item}</option>
                         ))}
@@ -46,7 +46,7 @@ export default function SelectCategories({ rental }: { rental: boolean }) {
             )}
 
             {rental && (
-                <Select bgColor={mainBackgroundColor} onChange={(e) => changeHandler(e.target.value)} value={rentaldata?.category} h={"45px"} placeholder='Select Rental Type' >
+                <Select bgColor={mainBackgroundColor} onChange={(e) => changeHandler(e.target.value)} value={rentaldata?.category} h={"45px"} placeholder={rentaldata?.category ? rentaldata?.category : 'Select Rental Type'} >
                     {datarental?.data?.map((item: string, index: number) => (
                         <option key={index} >{item}</option>
                     ))}

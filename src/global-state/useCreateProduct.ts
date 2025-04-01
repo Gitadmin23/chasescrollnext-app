@@ -52,7 +52,7 @@ export type CreateRental = {
     maximiumNumberOfDays: number | any,
     price: number | any,
     images: Array<string>,
-    frequency: "HOURLY" | "DAILY"
+    frequency: "HOURLY" | "DAILY" |  any,
     state: string
 }
 
@@ -63,6 +63,9 @@ type State = {
 type Image = {
     image: Array<any>,
 }
+type ImagePreview = {
+    imagePreview: Array<any>,
+}
 
 type Navigate = {
     rentaldata: CreateRental
@@ -72,13 +75,14 @@ type Navigate = {
 type Action = {
     updateProduct: (data: State['productdata']) => void
     updateImage: (data: Image['image']) => void
+    updateImagePreview: (data: ImagePreview['imagePreview']) => void
     updateRental: (data: Navigate['rentaldata']) => void
     updateAddress: (data: ILocation['location']) => void,
 }
 
 const userId = localStorage.getItem('user_id') + "";
 
-const useProductStore = create<State & Image & Navigate & Action & ILocation>((set) => ({
+const useProductStore = create<State & Image & Navigate & Action & ILocation & ImagePreview>((set) => ({
     productdata: {
         creatorID: userId,
         name: "",
@@ -106,12 +110,13 @@ const useProductStore = create<State & Image & Navigate & Action & ILocation>((s
         "maximiumNumberOfDays": 1,
         "price": null,
         "images": [],
-        frequency: "DAILY",
+        frequency: "",
         state: ""
     },
     updateProduct: (data) => set(() => ({ productdata: data })),
     updateAddress: (data) => set(() => ({ location: data })),
     updateImage: (data) => set(() => ({ image: data })),
+    updateImagePreview: (data) => set(() => ({ imagePreview: data })),
     updateRental: (data) => set(() => ({ rentaldata: data })),
 }));
 

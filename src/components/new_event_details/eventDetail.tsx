@@ -61,7 +61,8 @@ export default function EventDetail(props: IEventType) {
         headerTextColor,
         primaryColor,
         mainBackgroundColor,
-        secondaryBackgroundColor
+        secondaryBackgroundColor,
+        borderColor
     } = useCustomTheme();
 
     const { push, back } = useRouter()
@@ -226,7 +227,7 @@ export default function EventDetail(props: IEventType) {
             </Flex>
             <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                 <Flex w={"full"} flexDir={"column"} gap={"4"} >
-                    <Flex position={"relative"} w={"full"} h={["340px", "340px", "520px"]} pos={"relative"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"8px"} py={["1", "1", "3"]} >
+                    <Flex borderWidth={"1px"} borderColor={borderColor} position={"relative"} w={"full"} h={["340px", "340px", "520px"]} pos={"relative"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"8px"} px={"1"} py={["1", "1", "3"]} >
                         <Image src={IMAGE_URL + props?.picUrls} alt='logo' rounded={"8px"} height={"full"} objectFit={"contain"} />
 
                         {!pathname?.includes("past") && (
@@ -270,8 +271,10 @@ export default function EventDetail(props: IEventType) {
                                 )}
                                 {isAdmin && (
                                     <OrganizeBtn {...props} />
+                                )} 
+                                {isOrganizer && (
+                                    <VolunteerBtn {...props} />
                                 )}
-                                <VolunteerBtn {...props} />
                             </Flex>
                         </Flex>
                     </Flex>
@@ -307,7 +310,9 @@ export default function EventDetail(props: IEventType) {
                                     <OrganizeBtn {...props} />
                                 )}
                             </Flex>
-                            <VolunteerBtn {...props} />
+                            {isOrganizer && (
+                                <VolunteerBtn {...props} />
+                            )}
                         </Flex>
                     </Flex>
                 </Flex>

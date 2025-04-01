@@ -34,14 +34,16 @@ export default function KisokCreate(props: Props) {
     const type = query?.get('type');
     const { productdata, updateProduct } = useProductStore((state) => state);
 
-    const { handleEditSubmitProduce, editProduct, loading, openProduct, setOpenProduct, } = useProduct({ payload: {
-        "name": productdata?.name,
-        "description": productdata?.description,
-        "images": productdata?.images,
-        "price":productdata?.price, 
-        "category": productdata?.category,
-        "location": productdata?.location 
-    }, id: id })
+    const { handleEditSubmitProduce, editProduct, loading, openProduct, setOpenProduct, } = useProduct({
+        payload: {
+            "name": productdata?.name,
+            "description": productdata?.description,
+            "images": productdata?.images,
+            "price": productdata?.price,
+            "category": productdata?.category,
+            "location": productdata?.location
+        }, id: id
+    }, false, true)
 
     const { isLoading } = useQuery(
         ["products", id],
@@ -50,18 +52,17 @@ export default function KisokCreate(props: Props) {
                 id: id
             }
         }), {
-        onSuccess(data) { 
-                updateProduct({
-                    ...productdata,
-                    name: productdata?.name ? productdata?.name : data?.data?.content[0]?.name,
-                    description: productdata?.description ? productdata?.description : data?.data?.content[0]?.description,
-                    images: productdata?.images?.length > 0 ? productdata?.images : data?.data?.content[0]?.images,
-                    price: productdata?.price ? productdata?.price : data?.data?.content[0]?.price,
-                    category: productdata?.category ? productdata?.category :data?.data?.content[0]?.category,
-                    location: productdata?.location ? productdata?.location : data?.data?.content[0]?.location as any,
-                    quantity: productdata?.quantity ? productdata?.quantity : data?.data?.content[0]?.quantity,
-                }) 
-            // setItem(data?.data?.content[0])
+        onSuccess(data) {
+            updateProduct({
+                ...productdata,
+                name: productdata?.name ? productdata?.name : data?.data?.content[0]?.name,
+                description: productdata?.description ? productdata?.description : data?.data?.content[0]?.description,
+                images: productdata?.images?.length > 0 ? productdata?.images : data?.data?.content[0]?.images,
+                price: productdata?.price ? productdata?.price : data?.data?.content[0]?.price,
+                category: productdata?.category ? productdata?.category : data?.data?.content[0]?.category,
+                location: productdata?.location ? productdata?.location : data?.data?.content[0]?.location as any,
+                quantity: productdata?.quantity ? productdata?.quantity : data?.data?.content[0]?.quantity,
+            })
         }
     });
 
@@ -83,7 +84,7 @@ export default function KisokCreate(props: Props) {
                         <Text fontSize={"24px"} fontWeight={"500"} >Describe your place to make it stand out</Text>
                         <Input bgColor={mainBackgroundColor} value={productdata?.description} onChange={(e) => updateProduct({ ...productdata, description: e.target.value })} h={"60px"} />
                         <Text fontSize={"24px"} fontWeight={"500"} >Set your pricing </Text>
-                         
+
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Quantity</Text>
                             <Input bgColor={mainBackgroundColor} value={productdata?.quantity} type="number" onChange={(e) => updateProduct({ ...productdata, quantity: e.target.value })} h={"60px"} />
@@ -107,7 +108,7 @@ export default function KisokCreate(props: Props) {
                     </Flex>
 
                     <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={!type ? "none" : "flex"} flexDir={"column"}  >
-                        <Text fontSize={"24px"} fontWeight={"600"} >Share pictures of your place</Text> 
+                        <Text fontSize={"24px"} fontWeight={"600"} >Share pictures of your place</Text>
                         <ProductImagePicker />
                         <Text fontSize={"24px"} fontWeight={"600"} >Delivery Plans</Text>
                         <Flex w={"full"} flexDir={"column"} gap={"3"} >

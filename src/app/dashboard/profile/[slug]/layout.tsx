@@ -25,7 +25,7 @@ function Layout(props: { params: Promise<{ slug: string }>, children: ReactNode 
     const { colorMode, toggleColorMode } = useColorMode();
 
     return (
-        <Box width={"full"} pos={"relative"} overflowY={"auto"} bg={mainBackgroundColor} >
+        <Box width={"full"} pos={"relative"} overflowY={"auto"}  >
             <ProfileImage user_index={params.slug} />
             {userId && (
                 <Box zIndex={"60"} w={"full"} pos={"sticky"} top={"0px"} > 

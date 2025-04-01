@@ -8,6 +8,7 @@ import useProductStore from "@/global-state/useCreateProduct";
 import usePaystackStore from "@/global-state/usePaystack";
 import { IProduct } from "@/models/product";
 import { AxiosError, AxiosResponse } from "axios";
+import { useParams, useRouter } from "next/navigation";
 
 export interface IPinned {
     pinnedItemType: "EVENT",
@@ -15,7 +16,7 @@ export interface IPinned {
     productId: string
 }
 
-const useProduct = (item?: any, rental?: boolean) => {
+const useProduct = (item?: any, rental?: boolean, edit?: boolean) => {
 
     const [openRental, setOpenRental] = useState(false)
     const [openProduct, setOpenProduct] = useState(false)
@@ -28,6 +29,10 @@ const useProduct = (item?: any, rental?: boolean) => {
     const userId = localStorage.getItem('user_id');
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
     const toast = useToast()
+    const { image, productdata, rentaldata } = useProductStore((state) => state);
+    const router = useRouter()
+    const param = useParams();
+    const id = param?.slug;
 
     const { configPaystack, setPaystackConfig, message, setMessage, setDataID, dataID } = usePaystackStore((state) => state);
 
@@ -111,7 +116,6 @@ const useProduct = (item?: any, rental?: boolean) => {
 
         return true; // All fields are valid
     };
-    const { image } = useProductStore((state) => state);
 
     const removeEmptyValues = (obj: any) => {
         const newObj: any = {};
@@ -169,18 +173,24 @@ const useProduct = (item?: any, rental?: boolean) => {
 
     const handleEditSubmitProduce = (e: any) => {
         e.preventDefault();
-        // if (validateItemProduct(item)) { 
-        editProduct?.mutate(removeEmptyValues(item))
-        // } else { 
-        //     toast({
-        //         title: "error",
-        //         description: "Please fill all fields.",
-        //         status: "error",
-        //         isClosable: true,
-        //         duration: 5000,
-        //         position: "top-right",
-        //     }); 
-        // }
+        if (image.length === 0) {
+            editProduct?.mutate(removeEmptyValues(item))
+        } else {
+            console.log("Item is valid. Submitting...");
+            fileUploadHandler(image)
+            setOpenRental(true)
+        } 
+    };
+
+    const handleEditSubmitRental = (e: any) => {
+        e.preventDefault();
+        if (image.length === 0) {
+            editRental?.mutate(removeEmptyValues(item))
+        } else {
+            console.log("Item is valid. Submitting...");
+            fileUploadHandler(image)
+            setOpenRental(true)
+        } 
     };
 
     const handleSubmitRental = (e: any) => {
@@ -246,38 +256,6 @@ const useProduct = (item?: any, rental?: boolean) => {
         onError: () => { },
     });
 
-    // const addressStatus = useMutation({
-    //     mutationFn: (data: {
-    //         "creatorID": "string",
-    //         "name": "string",
-    //         "description": "string",
-    //         "images": [
-    //             "string"
-    //         ],
-    //         "price": null,
-    //         "category": "string",
-    //         "quantity": null,
-    //         "hasDiscount": true,
-    //         "discountPrice": null,
-    //         "publish": true
-    //     }) =>
-    //         httpService.post(
-    //             `/addresses/update/${id}`, data
-    //         ),
-    //     onSuccess: (data: any) => {
-    //         toast({
-    //             title: "Created Product Successfully",
-    //             description: "",
-    //             status: "success",
-    //             isClosable: true,
-    //             duration: 5000,
-    //             position: "top-right",
-    //         });
-    //         reset()
-    //     },
-    //     onError: () => { },
-    // });
-
     const editProduct = useMutation({
         mutationFn: (data: {
             payload: {
@@ -306,6 +284,7 @@ const useProduct = (item?: any, rental?: boolean) => {
                 position: "top-right",
             });
             reset()
+            router?.push("/dashboard/kisok?type=mykisok")
         },
         onError: () => { },
     });
@@ -335,6 +314,36 @@ const useProduct = (item?: any, rental?: boolean) => {
                 position: "top-right",
             });
             setOpenSucces(true)
+        },
+        onError: () => { },
+    });
+
+
+    const editRental = useMutation({
+        mutationFn: (data: { 
+            "name": "",
+            "description": "",
+            "category": "",
+            "location": "",
+            "maximiumNumberOfDays": null,
+            "price": null,
+            "images": []
+        }) =>
+            httpService.put(
+                `/rental/update/${id}`, data
+            ),
+        onSuccess: (data: any) => {
+
+            toast({
+                title: "Editing Rental Successfully",
+                description: "",
+                status: "success",
+                isClosable: true,
+                duration: 5000,
+                position: "top-right",
+            });
+            setOpenSucces(true)
+            setOpenRental(true)
         },
         onError: () => { },
     });
@@ -518,7 +527,7 @@ const useProduct = (item?: any, rental?: boolean) => {
                 position: 'top-right',
             });
         },
-    }); 
+    });
 
     const createProductOrder = useMutation({
         mutationFn: (data: {
@@ -623,9 +632,18 @@ const useProduct = (item?: any, rental?: boolean) => {
     useEffect(() => {
         if (uploadedFile?.length > 0) {
             if (!rental) {
-                createProduct?.mutate(removeEmptyValues({ ...item, images: uploadedFile }))
+                if (edit) {
+                    editProduct?.mutate(removeEmptyValues({ ...item, payload: {...item?.payload, images: [...productdata?.images, ...uploadedFile]} })) 
+                    
+                } else {
+                    createProduct?.mutate(removeEmptyValues({ ...item, images: uploadedFile }))
+                }
             } else {
-                createRental?.mutate(removeEmptyValues({ ...item, images: uploadedFile }))
+                if (edit) {
+                    editRental?.mutate(removeEmptyValues({ ...item, images: [...rentaldata?.images, ...uploadedFile] }))
+                } else {
+                    createRental?.mutate(removeEmptyValues({ ...item, images: uploadedFile }))
+                }
             }
         }
     }, [uploadedFile])
@@ -637,6 +655,7 @@ const useProduct = (item?: any, rental?: boolean) => {
         loading,
         handleSubmitRental,
         openRental,
+        editRental,
         openProduct,
         setOpenProduct,
         setOpenRental,
@@ -668,6 +687,7 @@ const useProduct = (item?: any, rental?: boolean) => {
         setOpenSucces,
         singleProductData,
         setSingleProductData,
+        handleEditSubmitRental,
         message,
         dataID,
         updateRecipt,
