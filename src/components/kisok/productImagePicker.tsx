@@ -15,15 +15,14 @@ export default function ProductImagePicker() {
 
     const { primaryColor, borderColor, mainBackgroundColor } = useCustomTheme()
 
-    const { image, updateImage, productdata } = useProductStore((state) => state);
+    const { image, updateImage, productdata, rentaldata, imagePreview } = useProductStore((state) => state);
 
     const inputRef: any = React.useRef(null);
 
     useEffect(() => {
         updateImage([]);
     }, [])
-
-
+ 
     const handleImagePicked = React.useCallback((Files: FileList) => {
         const file = Files[0];
         if (file.size > 800000) {
@@ -58,6 +57,8 @@ export default function ProductImagePicker() {
         }
         updateImage(image.filter((_: any, i: any) => i !== index));
     }
+ 
+    
 
     return ( 
         <Flex px={"10px"} w={"full"} flexDir={"column"} gap={"3"} display={['flex', 'flex']} >  
@@ -74,7 +75,23 @@ export default function ProductImagePicker() {
                             <Box onClick={() => removeFile(index)} width="25px" height={"25px"} backgroundColor={"red"} borderRadius={"20px"} position={"absolute"} zIndex={3} display="flex" justifyContent="center" alignItems={'center'} top="0px" right={"0px"}>
                                 <FiX color="white" size={"15px"} />
                             </Box>
-                            <Image src={item} w='100%' h='100%' alt='service image' objectFit={'cover'} rounded='16px' />
+                            <Image src={IMAGE_URL + item} w='100%' h='100%' alt='service image' objectFit={'cover'} rounded='16px' />
+                        </Flex>
+                    ))}
+                    {rentaldata?.images.length > 0 && rentaldata?.images.map((item, index) => (
+                        <Flex w='200px' height='200px' key={index.toString()} cursor='pointer' flexDirection={"column"} rounded={"16px"} borderStyle={"dotted"} borderWidth={"0.38px"} borderColor={borderColor} justifyContent={"center"} alignItems={"center"} flexShrink={0} position={'relative'}>
+                            <Box onClick={() => removeFile(index)} width="25px" height={"25px"} backgroundColor={"red"} borderRadius={"20px"} position={"absolute"} zIndex={3} display="flex" justifyContent="center" alignItems={'center'} top="0px" right={"0px"}>
+                                <FiX color="white" size={"15px"} />
+                            </Box>
+                            <Image src={IMAGE_URL + item} w='100%' h='100%' alt='service image' objectFit={'cover'} rounded='16px' />
+                        </Flex>
+                    ))}
+                    {imagePreview?.length > 0 && imagePreview?.map((item, index) => (
+                        <Flex w='200px' height='200px' key={index.toString()} cursor='pointer' flexDirection={"column"} rounded={"16px"} borderStyle={"dotted"} borderWidth={"0.38px"} borderColor={borderColor} justifyContent={"center"} alignItems={"center"} flexShrink={0} position={'relative'}>
+                            <Box onClick={() => removeFile(index)} width="25px" height={"25px"} backgroundColor={"red"} borderRadius={"20px"} position={"absolute"} zIndex={3} display="flex" justifyContent="center" alignItems={'center'} top="0px" right={"0px"}>
+                                <FiX color="white" size={"15px"} />
+                            </Box>
+                            <Image src={IMAGE_URL + item} w='100%' h='100%' alt='service image' objectFit={'cover'} rounded='16px' />
                         </Flex>
                     ))}
                     {image.length > 0 && image.map((item, index) => (

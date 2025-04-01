@@ -27,11 +27,12 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
 
     const [startDate, setStartDate] = useState("" as any)
     const [open, setOpen] = useState(false)
-    const [price, setPrice] = useState("")
+    const [percentage, setPercentage] = useState(0)
+    const [price, setPrice] = useState((item?.price*qty)+"")
 
-    const [tab, setTab] = useState(true)
+    const [tab, setTab] = useState(true) 
 
-    useEffect(() => {
+    useEffect(()=> {
         setPrice((item?.price * qty) + "")
     }, [qty])
 
@@ -57,20 +58,30 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
         setTab(false)
     }, [open])
 
-    const handlePriceChange = (item: IAction) => {
-        if (item.type === 'ADDITION') {
+    const handlePriceChange = (itemData: IAction) => {
+        if (itemData.type === 'ADDITION') {
             // calculate 5% fo the inital price
-            const Percentage = parseInt(price) * 0.05;
-            const newPrice = parseInt(price) + Percentage;
+            const Percentage = (Number(item?.price) * qty) * (percentage+0.05);
+            const newPrice = (Number(item?.price) * qty) + Percentage;
             setPrice(newPrice.toString());
+            setPercentage(percentage+0.05)
         } else {
-            if (parseInt(price) > 0) {
-                const Percentage = parseInt(price) * 0.05;
-                const newPrice = parseInt(price) - Percentage;
-                setPrice(newPrice.toString());
+            if (((Number(item?.price) * qty) * percentage) > 0) {
+
+                if((percentage) > 0) {
+                    const Percentage = (Number(item?.price) * qty) * percentage + 0.05;
+                    const newPrice = (Number(item?.price) * qty) + Percentage;
+                    setPrice(newPrice.toString());
+                    setPercentage(percentage-0.05)
+                } else {
+                    const Percentage = (Number(item?.price) * qty) * ((percentage - 0.05) * -1);
+                    const newPrice = (Number(item?.price) * qty) - Percentage;
+                    setPrice(newPrice.toString());
+                    setPercentage(percentage-0.05)
+                }
             }
         }
-    }
+    } 
 
     return (
         <Flex w={"full"} bgColor={"white"} rounded={"16px"} flexDirection={"column"} borderWidth={"1px"} p={["3", "3", "24px"]} gap={"1"} borderColor={borderColor} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >

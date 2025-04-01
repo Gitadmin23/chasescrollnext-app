@@ -37,7 +37,7 @@ function Layout({ children }: { children: ReactNode }) {
     // }
 
     return (
-        <Flex flexDirection={"column"} height={"full"} width={"full"} overflowY={"auto"} bg={mainBackgroundColor} >
+        <Flex flexDirection={"column"} height={"full"} width={"full"} overflowY={"auto"} >
             <Flex justifyContent={"space-between"} py={"36px"} px={["6", "59px"]} width={"full"} alignItems={"center"} >
                 <Flex flexDirection={"column"} gap={"1"} >
                     <Flex gap={"3"} width={"fit-content"} alignItems={"center"}  >

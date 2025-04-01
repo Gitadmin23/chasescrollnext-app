@@ -63,6 +63,7 @@ export default function ShippingAddress(props: Props) {
     const { primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
     const query = useSearchParams();
     const type = query?.get('qty');
+    const { back } = useRouter()
 
     const { dataID, message, createAddress, setOpen, open, payload, setPayload, userId, editAddress, setAddressId, addressId, openDelete, setOpenDelete, deleteAddress, addressDefault, setAddressDefault, createProductOrder, configPaystack, setPaystackConfig, updateAddress, singleProductData: item, setSingleProductData } = useProduct()
     const toast = useToast()
@@ -70,7 +71,7 @@ export default function ShippingAddress(props: Props) {
 
     const { location, updateAddress: setNewAddress } = useProductStore((state) => state);
 
-    const { user } = useGetUser() 
+    const { user } = useGetUser()
 
     const { isLoading: loading } = useQuery(
         ["products", id],
@@ -136,9 +137,9 @@ export default function ShippingAddress(props: Props) {
             });
         } else {
             if (addressId) {
-                editAddress?.mutate({...payload, location: location})
+                editAddress?.mutate({ ...payload, location: location })
             } else {
-                createAddress?.mutate({...payload, location: location})
+                createAddress?.mutate({ ...payload, location: location })
             }
         }
     }
@@ -220,7 +221,10 @@ export default function ShippingAddress(props: Props) {
     ];
 
     return (
-        <Flex w={"full"} bgColor={secondaryBackgroundColor} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} flexDir={"column"} gap={"6"} overflowY={"auto"} overflowX={"hidden"} >
+        <Flex w={"full"} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} flexDir={"column"} gap={"6"} overflowY={"auto"} overflowX={"hidden"} >
+            <Flex gap={"1"} alignItems={"center"} >
+                <Text role='button' onClick={() => back()} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Back</Text>
+            </Flex>
             <Flex alignItems={"center"} gap={"1"} >
                 <FaCheckCircle size={"15px"} color='#34C759' />
                 <Text fontSize={"14px"} fontWeight={"600"} >Customer Address </Text>
@@ -246,7 +250,7 @@ export default function ShippingAddress(props: Props) {
                                         <Flex onClick={() => changeStatus(item)} >
                                             <Checkbox isChecked={addressDefault === item?.id ? true : false} />
                                         </Flex>
-                                        <Flex flexDir={"column"} gap={"1"} > 
+                                        <Flex flexDir={"column"} gap={"1"} >
                                             <Text>{item?.state}</Text>
                                             <Text>{item?.location?.locationDetails}</Text>
                                             {addressDefault === item?.id && (

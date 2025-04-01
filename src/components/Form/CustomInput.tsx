@@ -88,8 +88,7 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
             data-date="DD MMMM YYYY"
             lang='pt_BR'
             value={newValue ?? value}
-            disabled={disable}
-            fontFamily={'Satoshi-Light'}
+            disabled={disable} 
             height={"45px"}
             rounded={newbtn ? "32px" : "8px"}
             borderColor={borderColor}
@@ -111,8 +110,7 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
             data-date="DD MMMM YYYY"
             lang='pt_BR' 
             rounded={newbtn ? "32px" : "8px"}
-            disabled={disable}
-            fontFamily={'Satoshi-Light'}
+            disabled={disable} 
             color={textColor ?? 'black'}
             value={newdata}
             type={isPassword ? (showPassword ? 'text' : 'password') : type}

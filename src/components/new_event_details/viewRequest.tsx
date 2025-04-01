@@ -14,7 +14,7 @@ export default function ViewRequest() {
     const [tab, setTab] = useState(false)
 
     return (
-        <Flex h={"130px"} justifyContent={"center"} flexDir={"column"} borderWidth={"1px"} rounded={"8px"} p={"3"} gap={"3"}  >
+        <Flex h={"130px"} justifyContent={"center"} bgColor={mainBackgroundColor} flexDir={"column"} borderWidth={"1px"} rounded={"8px"} p={"3"} gap={"3"}  >
             <Text fontSize={"14px"} fontWeight={"500"} >Support Request <span style={{ fontWeight: "600" }} >320</span></Text>
             <CustomButton onClick={() => setOpen(true)} text={"View proposal"} fontSize={"14px"} width={"150px"} borderWidth={"1px"} borderColor={primaryColor} color={primaryColor} backgroundColor={mainBackgroundColor} />
             <ModalLayout size={"3xl"} open={open} close={setOpen} >

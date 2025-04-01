@@ -16,7 +16,7 @@ import { textLimit } from '@/utils/textlimit'
 import ProductImageScroller from '../sharedComponent/productImageScroller'
 import { LocationStroke } from '../svg'
 
-function BusinessCard({ business }: { business: IService }) {
+function BusinessCard({ business, mybusiness }: { business: IService, mybusiness?: boolean }) {
     const [activeImageIndex, setActiveImageIndex] = React.useState(0);
 
     const [services, setServices] = React.useState<IService[]>([]);
@@ -52,7 +52,11 @@ function BusinessCard({ business }: { business: IService }) {
     } = useCustomTheme()
 
     const clickHandler = () => {
-        router.push(`/dashboard/kisok/service/${business?.id}`)
+        if(mybusiness) { 
+        router.push(`/dashboard/kisok/service/${business?.id}/edit`)
+        } else {
+            router.push(`/dashboard/kisok/service/${business?.id}`)
+        }
     }
 
 
@@ -84,9 +88,16 @@ function BusinessCard({ business }: { business: IService }) {
                     <Text fontSize={["10px"]} fontWeight={"500"} color={bodyTextColor} display={["block", "block", "none"]} >{textLimit(business?.location?.locationDetails, 15)}</Text>
                 </Flex>
             </Flex>
-            <Flex as={"button"} onClick={() => clickHandler()} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
-                View Service
-            </Flex>
+            {mybusiness && (
+                <Flex as={"button"} onClick={() => clickHandler()} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                    Edit Service
+                </Flex>
+            )}
+            {!mybusiness && ( 
+                <Flex as={"button"} onClick={() => clickHandler()} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                    View Service
+                </Flex>
+            )}
         </Flex>
     )
 }

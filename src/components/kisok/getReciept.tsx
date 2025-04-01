@@ -78,7 +78,7 @@ export default function GetReciept() {
                             </Flex>
                         )
                     } else {
-                        return ( 
+                        return (
                             <Flex as={"button"} flexDir={"column"} onClick={() => clickHander(item)} borderWidth={"1px"} rounded={"10px"} bgColor={mainBackgroundColor} key={index} w={"full"} >
                                 <ProductImageScroller images={item?.rental?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
@@ -152,8 +152,7 @@ export default function GetReciept() {
                             </Flex>
                         </Flex>
                         <Flex w={"full"} mt={"2"} gap={"4"} >
-                            <Flex w={"fit-content"} >
-
+                            <Flex w={"fit-content"} >  
                                 <Flex flexDir={"column"} gap={"1"} w={"218px"} >
                                     <Flex justifyContent={["start", "start", "space-between"]} w={"full"} p={"5px"} rounded={"8px"} bgColor={secondaryBackgroundColor} flexDir={["column", "column", "column"]} >
                                         <Text fontWeight={400} fontSize={'12px'}>Rental Details:</Text>
@@ -174,20 +173,22 @@ export default function GetReciept() {
                                 </Flex>
                             </Flex>
                             <Flex w={"full"} flexDir={"column"} gap={"4"} >
-                                <Flex w={"full"} flexDir={"column"} gap={"2"} >
-                                    <Text fontSize={'14px'}>You can neogiate this price by 5%</Text>
-                                    <Flex w={"full"} mt='10px' justifyContent={"space-between"} alignItems="center">
-                                        <HStack width={'120px'} height={'35px'} borderRadius={'50px'} overflow={'hidden'} backgroundColor={'#DDE2E6'}>
-                                            <Flex cursor={'pointer'} flex={1} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
-                                                <FiMinus size={12} color='black' />
-                                            </Flex>
-                                            <Flex cursor={'pointer'} flex={1} justifyContent={'center'} alignItems={'center'}>
-                                                <FiPlus size={12} color='black' />
-                                            </Flex>
-                                        </HStack>
-                                        <CustomButton fontSize={"sm"} isLoading={updateRecipt?.isLoading && status === "ACCEPTED"} onClick={() => updateHandler("ACCEPTED")} text={"Update Price"} borderRadius={"99px"} width={"150px"} />
+                                {detail?.approvalStatus === "PENDING" && (
+                                    <Flex w={"full"} flexDir={"column"} gap={"2"} >
+                                        <Text fontSize={'14px'}>You can neogiate this price by 5%</Text>
+                                        <Flex w={"full"} mt='10px' justifyContent={"space-between"} alignItems="center">
+                                            <HStack width={'120px'} height={'35px'} borderRadius={'50px'} overflow={'hidden'} backgroundColor={'#DDE2E6'}>
+                                                <Flex cursor={'pointer'} flex={1} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
+                                                    <FiMinus size={12} color='black' />
+                                                </Flex>
+                                                <Flex cursor={'pointer'} flex={1} justifyContent={'center'} alignItems={'center'}>
+                                                    <FiPlus size={12} color='black' />
+                                                </Flex>
+                                            </HStack>
+                                            <CustomButton fontSize={"sm"} isLoading={updateRecipt?.isLoading && status === "ACCEPTED"} onClick={() => updateHandler("ACCEPTED")} text={"Update Price"} borderRadius={"99px"} width={"150px"} />
+                                        </Flex>
                                     </Flex>
-                                </Flex>
+                                )}
                                 <Flex flexDir={["row", "row"]} justifyContent={'end'} gap={"5"} mt={"auto"} w='full' alignItems={'center'}>
                                     <Text fontSize={'14px'}>Total Price:</Text>
                                     <Text fontSize={'23px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(detail?.price || 0)}</Text>
@@ -198,7 +199,7 @@ export default function GetReciept() {
                             <Text fontWeight={"600"} >Shipped To :  <span style={{ fontWeight: "500" }} >{detail?.address?.location?.locationDetails}</span></Text>
                             {/* <Text fontWeight={"600"} >State: <span style={{ fontWeight: "500" }} >{detail?.address?.state}</span></Text> */}
                         </Flex>
-                        {((detail?.rental?.createdBy !== userId) && (detail?.approvalStatus !== "PENDING")) && (
+                        {((detail?.rental?.createdBy !== userId) && (detail?.approvalStatus !== "PENDING") && (detail?.approvalStatus !== "ACCEPTED")) && (
                             <Flex gap={"2"} >
                                 <CustomButton isLoading={payForTicket?.isLoading} onClick={() => payForTicket.mutate({
                                     seller: detail?.rental?.createdBy,
@@ -207,6 +208,12 @@ export default function GetReciept() {
                                     orderType: "RECEIPT",
                                     typeID: detail?.id
                                 })} fontSize={"sm"} text={"Make Payment"} borderRadius={"99px"} width={"150px"} />
+                            </Flex>
+                        )}
+
+                        {detail?.approvalStatus === "ACCEPTED" && (
+                            <Flex gap={"2"} >
+                                <CustomButton disable={true} fontSize={"sm"} text={"Completed"} borderRadius={"99px"} width={"150px"} />
                             </Flex>
                         )}
                         {(detail?.approvalStatus === "PENDING" && detail?.rental?.createdBy !== userId) && (

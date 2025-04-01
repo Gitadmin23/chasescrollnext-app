@@ -40,7 +40,7 @@ function CreateBookingModal({
 
     // states
     const [description, setDescription] = React.useState("");
-    const [price, setPrice] = React.useState("");
+    const [price, setPrice] = React.useState(service?.price+"");
     const [date, setDate] = React.useState<string>("")
 
     const { userId } = useDetails((state) => state);
@@ -49,8 +49,7 @@ function CreateBookingModal({
     const router = useRouter();
     const toast = useToast();
 
-    useEffect(() => {
-        setPrice(service?.price + "")
+    useEffect(() => { 
         setDate("")
         setDescription("")
     }, [])

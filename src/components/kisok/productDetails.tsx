@@ -26,7 +26,7 @@ import DescriptionPage from '../sharedComponent/descriptionPage'
 
 export default function ProductDetails({ id }: { id: string }) {
 
-    const { primaryColor, secondaryBackgroundColor } = useCustomTheme()
+    const { primaryColor, borderColor } = useCustomTheme()
 
     const [item, setItem] = useState({} as IProduct)
 
@@ -81,8 +81,8 @@ export default function ProductDetails({ id }: { id: string }) {
                             <Text fontSize={"14px"} fontWeight={"500"} >{item?.name}</Text>
                         </Flex>
                         {item?.images?.length > 0 && (
-                            <Flex w={"full"} h={["340px", "340px", "620px"]} pos={"relative"}  >
-                                <Image src={IMAGE_URL + item?.images[0]} alt='logo' w={"full"} rounded={"8px"} height={"full"} objectFit={"cover"} />
+                            <Flex w={"full"} h={["340px", "340px", "620px"]} pos={"relative"} rounded={"8px"} borderWidth={"1px"} p={"1"} borderColor={borderColor}  >
+                                <Image src={IMAGE_URL + item?.images[0]} alt='logo' rounded={"8px"} height={"full"} objectFit={"contain"} />
                                 <Grid templateColumns={["repeat(3, 1fr)"]} pos={"absolute"} gap={"3"} insetX={"4"} bottom={"4"} >
                                     {item?.images?.map((subitem: string, index: number) => {
                                         if (index !== 0 && index <= 3) {

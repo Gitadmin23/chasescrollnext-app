@@ -46,11 +46,8 @@ export default function RentalDetail({ id }: { id: string }) {
         }
     }
     );
-
-
-    const [reviewData, setData] = useState<Array<IReview>>([])
-
-
+    
+    const [reviewData, setData] = useState<Array<IReview>>([]) 
 
     return (
         <LoadingAnimation loading={isLoading} >

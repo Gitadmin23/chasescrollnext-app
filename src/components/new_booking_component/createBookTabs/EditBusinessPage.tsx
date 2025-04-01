@@ -21,6 +21,9 @@ import { CustomTextArea } from '@/components/Form/CustomTextarea'
 import SubmitButton from '@/components/Form/SubmitButton'
 import { IBuisness } from '@/models/Business'
 import { IDayOfTheWeek } from '../createServices'
+import ProductImagePicker from '@/components/kisok/productImagePicker'
+import useProductStore from '@/global-state/useCreateProduct'
+import ProductMap from '@/components/kisok/productMap'
 
 interface ISocialMediaTypes {
     socialMediaHandle: string;
@@ -44,20 +47,18 @@ export default function EditBusinessPage() {
         primaryColor,
         bodyTextColor,
         headerTextColor,
+        mainBackgroundColor
     } = useCustomTheme()
 
     const [open, setOpen] = useState(false)
     const [modal, setModal] = useState(false)
-    const [isOnline, setIsOnline] = useState<'physical'|'online'|'both'|null>(null);
-    const [imageUrl, setImageUrl] = useState<string|null>('');
-    const [image, setImage] = useState<File|null>(null)
+    const [isOnline, setIsOnline] = useState<'physical' | 'online' | 'both' | null>(null);
+    const [files, setFiles] = useState<File[]>([]);
     const [both, setBoth] = React.useState(false);
     const [showModal, setShowModal] = useState(false);
     const [description, setDescription] = useState("")
-    const [business, setBusiness] = useState<IBuisness|null>(null);
-
-
-
+    const [business, setBusiness] = useState<IBuisness | null>(null);
+    const { imagePreview, updateImagePreview, rentaldata, updateRental, image } = useProductStore((state) => state);
 
     const inputRef = useRef<HTMLInputElement>(null);
     let fileReader = React.useRef<FileReader | null>(null);
@@ -117,6 +118,9 @@ export default function EditBusinessPage() {
         }
     ]);
 
+    console.log(image);
+
+
 
     const getDay = (day: number) => {
         switch (day) {
@@ -144,46 +148,33 @@ export default function EditBusinessPage() {
         }
     }
 
-
     const { renderForm, values, watch, setValue } = useForm({
         defaultValues: {
             description: business?.description ?? '',
             phone: business?.phone ?? '',
             email: business?.email ?? '',
-            address: business?.address ?? '',
             website: business?.website ?? '',
         },
         validationSchema: createBusinessValidation,
         submit: (data) => {
-            const activeDays = days.filter((item) => item.checked);
+            // const activeDays = days.filter((item) => item.checked);
 
-            if (activeDays.length < 1) {
-                toast({
-                    title: 'Warning',
-                    description: 'You have to select your opening hours for at least 3 days of the week',
-                    status: 'error',
-                    position: 'top-right',
-                    duration: 5000,
-                    isClosable: true,
-                });
-                return;
-            }
-            if (imageUrl === '' || image === null) {
-                toast({
-                    title: 'Warning',
-                    description: 'You have to pick a banner image to continue',
-                    status: 'error',
-                    position: 'top-right',
-                    duration: 5000,
-                    isClosable: true,
-                });
-                return;
-            }
+            // if (activeDays.length < 1) {
+            //     toast({
+            //         title: 'Warning',
+            //         description: 'You have to select your opening hours for at least 3 days of the week',
+            //         status: 'error',
+            //         position: 'top-right',
+            //         duration: 5000,
+            //         isClosable: true,
+            //     });
+            //     return;
+            // } 
 
-            if (isOnline === null) {
+            if (!rentaldata?.location?.state) {
                 toast({
                     title: 'Warning',
-                    description: 'You have to select a location type',
+                    description: 'You have to pick a location to continue',
                     status: 'error',
                     position: 'top-right',
                     duration: 5000,
@@ -192,31 +183,37 @@ export default function EditBusinessPage() {
                 return;
             }
 
-            if (image === null) {
+            if (image?.length === 0) {
                 const obj = {
                     ...values,
                     isOnline: isOnline === 'online' ? true : false,
-                    bannerImage: imageUrl,
+                    bannerImage: imagePreview,
                     socialMediaHandles: handles,
-                    openingHours: days.filter((item) => { if (item.checked) { return item; } }).map((item) => ({
-                        startTime: parseInt(item.startTime.replace(':', '')),
-                        endTime: parseInt(item.endTime.replace(':', '')),
-                        availabilityDayOfWeek: item?.dayOFTheWeek
-                    })),
+                    // openingHours: days.filter((item) => { if (item.checked) { return item; } }).map((item) => ({
+                    //     startTime: parseInt(item.startTime.replace(':', '')),
+                    //     endTime: parseInt(item.endTime.replace(':', '')),
+                    //     availabilityDayOfWeek: item?.dayOFTheWeek
+                    // })),
                     description,
+                    "state": rentaldata?.location?.state,
+                    "location": rentaldata?.location,
                 }
                 createBusinessMutation.mutate(obj);
             } else {
                 const formdata = new FormData()
-                formdata.append('file', image);
+                image.forEach((file) => {
+                    formdata.append('files[]', file);
+                });
                 uploadImageMutation.mutate(formdata);
             }
-           
+
         }
     });
 
-    
-    const { isLoading, data } = useQuery([`get-business-by-id-${id}`, id], () => httpService.get(`/business/search`, {
+    console.log(rentaldata?.location?.state);
+
+
+    const { isLoading, data } = useQuery([`get-business-by-id-${id}`, id], () => httpService.get(`/business-service/search`, {
         params: {
             id,
         }
@@ -229,10 +226,9 @@ export default function EditBusinessPage() {
             setValue("phone", data?.data?.content[0]?.phone);
             setValue("address", data?.data?.content[0]?.address);
             setValue("website", data?.data?.content[0]?.website);
-            setIsOnline(data?.data?.content[0]?.isOnline ? 'online' :  data?.data?.content[0]?.address !== '' ? 'physical':'both');
-            setImageUrl(data?.data?.content[0]?.bannerImage);
-
-           
+            setIsOnline(data?.data?.content[0]?.isOnline ? 'online' : data?.data?.content[0]?.address !== '' ? 'physical' : 'both');
+            updateImagePreview(data?.data?.content[0]?.images);
+            updateRental({ ...rentaldata, location: data?.data?.content[0]?.location })
         },
         onError: (error: any) => {
             toast({
@@ -243,7 +239,8 @@ export default function EditBusinessPage() {
                 duration: 5000,
                 isClosable: true,
             })
-        }
+        },
+        enabled: business?.businessName ? false : true
     });
 
     React.useEffect(() => {
@@ -252,11 +249,9 @@ export default function EditBusinessPage() {
         }
     }, [both])
 
-
-
     // mutations
     const createBusinessMutation = useMutation({
-        mutationFn: (data: any) => httpService.post(`/business/edit`, data),
+        mutationFn: (data: any) => httpService.put(`/business-service/edit/${id}`, data),
         onSuccess: (data) => {
             console.log('-----BUSINESS DETAILS------');
             toast({
@@ -267,7 +262,7 @@ export default function EditBusinessPage() {
                 duration: 5000,
                 isClosable: true,
             })
-            router.back();
+            setModal(true)
         },
         onError: (error: any) => {
             toast({
@@ -281,19 +276,75 @@ export default function EditBusinessPage() {
         }
     });
 
+    // const uploadImageMutation = useMutation({
+    //     mutationFn: (data: FormData) => httpService.post(`${URLS.UPLOAD_IMAGE}/update`, data, {
+    //         headers: {
+    //             'Content-Type': 'multipart/form-data'
+    //         }
+    //     }),
+    //     onSuccess: (data) => {
+    //         console.log(data.data)
+    //         const fileName = data?.data?.fileName;
+    //         const obj = {
+    //             ...values,
+    //             isOnline: isOnline === 'online' ? true : false,
+    //             bannerImage: [...fileName, ...imagePreview],
+    //             socialMediaHandles: handles,
+    //             openingHours: days.filter((item) => { if (item.checked) { return item; } }).map((item) => ({
+    //                 startTime: parseInt(item.startTime.replace(':', '')),
+    //                 endTime: parseInt(item.endTime.replace(':', '')),
+    //                 availabilityDayOfWeek: item?.dayOFTheWeek
+    //             })),
+    //             description,
+    //         }
+    //         createBusinessMutation.mutate(obj);
+    //     },
+    //     onError: (error) => { }
+    // });
+
     const uploadImageMutation = useMutation({
-        mutationFn: (data: FormData) => httpService.post(`${URLS.UPLOAD_IMAGE}/update`, data, {
+        mutationFn: (data: FormData) => httpService.post(`${URLS.UPLOAD_IMAGE_ARRAY}/service`, data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         }),
         onSuccess: (data) => {
-            console.log(data.data)
-            const fileName = data?.data?.fileName;
+            const images: string[] = [];
+            const data_obj = data?.data; 
+
+            // Loop through the object values and add to images array
+            if (data_obj && typeof data_obj === 'object') {
+                Object.values(data_obj).forEach(value => {
+                    if (typeof value === 'string') {
+                        images.push(value);
+                    }
+                });
+            }
+            // const obj = {
+            //     vendorID: id,
+            //     category: !cat ? categories[0] : cat,
+            //     images,
+            //     price,
+            //     hasFixedPrice,
+            //     discount,
+            //     description,
+            //     ...values,
+            //     isOnline: isOnline === 'online' ? true : false,
+            //     socialMediaHandles: handles,
+            //     openingHours: days.filter((item) => { if (item.checked) { return item; } }).map((item) => ({
+            //         startTime: parseInt(item.startTime.replace(':', '')),
+            //         endTime: parseInt(item.endTime.replace(':', '')),
+            //         availabilityDayOfWeek: item?.dayOFTheWeek
+            //     })),
+            //     "state": rentaldata?.location?.state,
+            //     "location": rentaldata?.location,
+            //     name,
+            // }
+ 
             const obj = {
                 ...values,
                 isOnline: isOnline === 'online' ? true : false,
-                bannerImage: fileName,
+                images: [...images, ...imagePreview],
                 socialMediaHandles: handles,
                 openingHours: days.filter((item) => { if (item.checked) { return item; } }).map((item) => ({
                     startTime: parseInt(item.startTime.replace(':', '')),
@@ -302,48 +353,33 @@ export default function EditBusinessPage() {
                 })),
                 description,
             }
-            createBusinessMutation.mutate(obj);
+            createBusinessMutation.mutate(obj); 
         },
-        onError: (error) => {}
+        onError: (error) => {
+            toast({
+                title: 'Warning',
+                description: 'An error occured while uploading images',
+                status: 'warning',
+                duration: 5000,
+                position: 'top-right',
+
+            });
+        }
     });
 
-    // effects
-    React.useEffect(() => {
-        fileReader.current = new FileReader();
-    }, []);
-
-    React.useEffect(() => {
-        if (fileReader !== null) {
-            (fileReader.current as FileReader).onload = () => {
-                setImageUrl(fileReader?.current?.result as string);
-                console.log(`URL -> ${fileReader?.current?.result}`)
-            }
-        }
-    }, [fileReader])
 
     // functions
     const onSocialMediaHandlePress = () => {
         const obj = {
             socialMediaHandle: handle,
             details: handle,
-            platform: !platform ? 'facebook':platform,
+            platform: !platform ? 'facebook' : platform,
         }
 
         setHandles((prev) => uniq([...prev, obj]));
         setHandle("");
         setPlatform("");
     }
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        const formdata = new FormData();
-        const objectUrl = file ? URL.createObjectURL(file) : null;
-        if (file) {
-            console.log(objectUrl?.split("blob:")[1] as string);
-            setImage(file);
-            fileReader?.current?.readAsDataURL(file); 
-        }
-    };
 
     const handleDayChange = ({ index, type, isChecked, value }: { index: number, type: 'startTime' | 'endTime' | 'dayOfTheWeek' | 'checked', isChecked: boolean, value: string }) => {
         setDays(days.map((day, i) => {
@@ -383,7 +419,6 @@ export default function EditBusinessPage() {
 
     return renderForm(
         <Flex w={"full"} h={"full"} >
-            <input type='file' accept='image/*' hidden onChange={(e) => {handleFileChange(e)}} ref={inputRef} />
             <Flex w={"full"} h={"full"} display={['none', 'flex']} flexDir={"column"} justifyContent={"center"} alignItems={"center"} borderRightWidth={"1.03px"} borderColor={borderColor} >
                 <Flex maxW={"402px"} w={"full"} flexDir={"column"} gap={"3"} >
                     <Text fontWeight={"bold"} fontSize={"18px"} >Hello,  <span style={{ color: primaryColor }} >{details?.firstName}</span></Text>
@@ -397,53 +432,38 @@ export default function EditBusinessPage() {
                         <Text fontSize={"24px"} fontWeight={"600"} >{`Let’s get you started`}</Text>
                         <Text fontSize={"14px"} fontWeight={"400"} >{`You can change some basic details of your business`}</Text>
                     </Flex>
-                    {imageUrl === '' && image === null && (
-                         <Flex w={"full"} py={"8"} flexDirection={"column"} rounded={"16px"} borderStyle={"dotted"} borderWidth={"0.38px"} borderColor={borderColor} justifyContent={"center"} alignItems={"center"}
-                         onClick={() => inputRef?.current?.click()} cursor={'pointer'}  >
-                             <GallaryIcon />
-                             <Text mt={"4"} fontSize={"14px"} fontWeight={"medium"} >Click here to upload</Text>
-                             <Text fontSize={"10px"} w={"225px"} textAlign={"center"} >File Format: JPG, JPEG, PNG and picture shouldn’t be more than 10 MB</Text>
-                         </Flex>
-                    )}
-                    {imageUrl !== '' && image !== null &&(
-                        <Flex w={"full"}  flexDirection={"column"} rounded={"16px"} borderStyle={"dotted"} borderWidth={"0.38px"} borderColor={borderColor} 
-                        onClick={() => inputRef?.current?.click()} cursor={'pointer'}  >
-                            <Image src={imageUrl as string} alt="banner image" width="100%" height='200px' rounded='16px' objectFit='cover' />
-                        </Flex>
-                    )}
+                    <ProductImagePicker />
 
-                    {imageUrl !== '' && image === null &&(
-                        <Flex w={"full"}  flexDirection={"column"} rounded={"16px"} borderStyle={"dotted"} borderWidth={"0.38px"} borderColor={borderColor} 
-                        onClick={() => inputRef?.current?.click()} cursor={'pointer'}  >
-                            <Image src={IMAGE_URL + imageUrl as string} alt="banner image" width="100%" height='200px' rounded='16px' objectFit='cover' />
-                        </Flex>
-                    )}
-                   
+
+                    {/* <Flex flexDir={"column"} w={"full"} gap={"2"} >
+                        <Text fontWeight={"600"} >Business Name <span style={{ color: 'red', fontSize: '12px' }}>*</span></Text>
+                        <Input
+                            bgColor={mainBackgroundColor}
+                            type='text'
+                            value={name}
+                            onChange={(e) => {
+                                setName(e.target.value)
+                            }}
+                            h={"44px"}
+                            borderWidth={"1px"}
+                            borderColor={borderColor}
+                            rounded={"16px"}
+                            placeholder='Enter your business name'
+
+                        />
+                    </Flex> */}
                     <Flex flexDir={"column"} w={"full"} gap={"2"} >
                         <Text fontWeight={"400"} fontSize={"14px"} >Business Description <sup style={{ color: 'red' }}>*</sup></Text>
-                        <Textarea value={description} onChange={(e) => {
-                            if(description.length < 300) {
+                        <Textarea bgColor={mainBackgroundColor} value={description} onChange={(e) => {
+                            if (description.length < 300) {
                                 setDescription(e.target.value)
                             }
                         }} h={"84px"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} />
                         <Text>{description.length}/300</Text>
                     </Flex>
-                    <RadioGroup >
-                        <Flex direction='row' gap={"4"}>
-                            <Radio value='1' isChecked={isOnline === 'physical'} onChange={() => setIsOnline('physical')}>Physical Venue</Radio>
-                            <Radio value='2' isChecked={isOnline === 'online'} onChange={() => setIsOnline('online')}>Online</Radio>
-                            <Radio value='3' isChecked={isOnline === 'both'} onChange={() => setIsOnline('physical')}>Both</Radio>
-                           {/* <HStack>
-                                <Checkbox isChecked={both} onChange={() => setBoth((prev) => !prev)} aria-label='Both' />
-                                <Text>Has both</Text>
-                           </HStack> */}
-                        </Flex>
-                    </RadioGroup>
-                    {isOnline !== 'online' && (
-                        <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                            <CustomInput name="address" placeholder='' label='Business Address' isPassword={false} type='text' required={false} />
-                        </Flex>
-                    )}
+                    <Flex flexDirection={"column"} w={"full"} h={"40px"} gap={"3px"} >
+                        <ProductMap location={rentaldata?.location} />
+                    </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="phone" placeholder='' label='Business Phone Number' isPassword={false} type='phone' required />
                     </Flex>
@@ -453,13 +473,8 @@ export default function EditBusinessPage() {
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="website" placeholder='' label='Business Website (optional)' isPassword={false} type='text' hint="The link must start with https://" />
 
-                        
-                    </Flex>
 
-                    {/* <Flex gap={"2"} mt={"2"} as={"button"} alignItems={"center"} onClick={() => setShowModal(true)} >
-                        <IoAdd size={"25px"} color={primaryColor} />
-                        <Text>Operating Hours and time  <sup style={{ color: 'red' }}>*</sup></Text>
-                    </Flex> */}
+                    </Flex>
 
                     <Flex overflowX="auto" w="full" css={{
                         '&::-webkit-scrollbar': {
@@ -474,12 +489,12 @@ export default function EditBusinessPage() {
                             <HStack key={index} minW="fit-content" mr={4} justifyContent={'space-between'} alignItems={'center'} rounded={'full'} borderWidth={'1px'} py='5px' px='8px' borderColor={borderColor}>
                                 <Text color={bodyTextColor}>{getDay(day.dayOFTheWeek)}</Text>
                                 <Text color={bodyTextColor}>{new Date(`2000-01-01T${day.startTime}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })} - </Text>
-                                
+
                                 <Text color={bodyTextColor}>{new Date(`2000-01-01T${day.endTime}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}</Text>
                             </HStack>
                         ))}
                     </Flex>
-                   
+
                     <Flex gap={"2"} >
                         <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                             <Text>Select your socials type</Text>
@@ -491,9 +506,9 @@ export default function EditBusinessPage() {
                         </Flex>
                         <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                             <Text>Social Media handle</Text>
-                            <Input 
-                                h={"44px"} 
-                                value={handle} 
+                            <Input
+                                h={"44px"}
+                                value={handle}
                                 onChange={(e) => setHandle(e.target.value)}
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter') {
@@ -508,30 +523,30 @@ export default function EditBusinessPage() {
                     </Flex>
 
                     <Flex flexDir="column" gap={2} mt="2px">
-                            {handles.length > 0 && (
-                                <Flex overflowX="auto" gap={2} pb={2}>
-                                    {handles.map((handle, index) => (
-                                        <Flex 
-                                            key={index}
-                                            px={3}
-                                            py={1}
-                                            borderWidth={1}
-                                            borderRadius="full"
-                                            alignItems="center"
-                                            minW="fit-content"
-                                        >
-                                            <Text fontSize="sm" fontWeight="SemiBold" mr={"6px"}>{handle.platform}: {handle.socialMediaHandle}</Text>
-                                            <FiX size={'20px'} color={bodyTextColor} onClick={() => handleRemoveHandles(index)} />
-                                        </Flex>
-                                    ))}
-                                </Flex>
-                            )}
-                         
-                        </Flex>
-                    
+                        {handles.length > 0 && (
+                            <Flex overflowX="auto" gap={2} pb={2}>
+                                {handles.map((handle, index) => (
+                                    <Flex
+                                        key={index}
+                                        px={3}
+                                        py={1}
+                                        borderWidth={1}
+                                        borderRadius="full"
+                                        alignItems="center"
+                                        minW="fit-content"
+                                    >
+                                        <Text fontSize="sm" fontWeight="SemiBold" mr={"6px"}>{handle.platform}: {handle.socialMediaHandle}</Text>
+                                        <FiX size={'20px'} color={bodyTextColor} onClick={() => handleRemoveHandles(index)} />
+                                    </Flex>
+                                ))}
+                            </Flex>
+                        )}
+
+                    </Flex>
+
                     <Flex w={"full"} h={"100px"} pb={"9"} >
                         {/* <SubmitButton isDisabled={false} title='Create Business' isLoading={uploadImageMutation.isLoading ?? createBusinessMutation.isLoading} /> */}
-                        <Button type='submit' isLoading={uploadImageMutation.isLoading ?? createBusinessMutation.isLoading} onClick={() => setOpen(true)} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"49px"} _hover={{ backgroundColor: primaryColor }} >
+                        <Button type='submit' isLoading={uploadImageMutation.isLoading || createBusinessMutation.isLoading} onClick={() => setOpen(true)} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"49px"} _hover={{ backgroundColor: primaryColor }} >
                             Save
                         </Button>
                     </Flex>
@@ -546,8 +561,8 @@ export default function EditBusinessPage() {
                 <Flex w={"full"} flexDir={"column"} alignItems={"center"} py={"5"} >
                     <IoIosCheckmarkCircle size={"100px"} color={"#46CC6B"} />
                     <Text fontWeight={"600"} fontSize={"24px"} >Congratulations {details?.firstName}!</Text>
-                    <Text textAlign={"center"} maxW={"350px"} fontWeight={"400"} >{`You’ve successfully Create your Business. Kindly click on the create services to get started.`}</Text>
-                    <Button onClick={()=> router?.push(`/dashboard/newbooking/create/${business?.id}/services`)} height={"50px"} mt={"4"} borderWidth={"1px"} w={"200px"} rounded={"full"} borderColor={primaryColor} bgColor={primaryColor} color={"white"} _hover={{ backgroundColor: primaryColor }} >Create services </Button>
+                    <Text textAlign={"center"} maxW={"350px"} fontWeight={"400"} >{`You’ve successfully Edited your Business.`}</Text>
+                    <Button onClick={() => router?.push(`/dashboard/kisok?type=myservice`)} height={"50px"} mt={"4"} borderWidth={"1px"} w={"200px"} rounded={"full"} borderColor={primaryColor} bgColor={primaryColor} color={"white"} _hover={{ backgroundColor: primaryColor }} >View services </Button>
                 </Flex>
             </ModalLayout>
         </Flex>

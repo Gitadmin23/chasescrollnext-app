@@ -52,23 +52,10 @@ function MyBusiness({ name, state, category }: { name?: string, state?: string, 
                 {!isLoading && results.length > 0 && (
                     <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["2", "2", "6"]} >
                         {results.map((item: any, index: number) => (
-                            <BusinessCard key={index.toString()} business={item} />
+                            <BusinessCard key={index.toString()} business={item} mybusiness={true} />
                         ))}
                     </Grid>
-                )}
-
-                {/* {!isLoading && businesses.length < 1 && (
-                <VStack w='full' h='40px' borderRadius={'20px'} justifyContent={'center'} >
-                    <Text>There are currently no business, you can start by creating one!</Text>
-                </VStack>
-            )}
-
-            {isLoading && (
-                <VStack w='full' h='80px' borderRadius={'20px'} justifyContent={'center'} >
-                    <Spinner />
-                    <Text>Loading Businesses</Text>
-                </VStack>
-            )} */}
+                )} 
             </Box>
         </LoadingAnimation>
     )

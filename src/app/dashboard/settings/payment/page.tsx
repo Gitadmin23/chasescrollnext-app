@@ -33,7 +33,7 @@ function PaymentPage(props: Props) {
     ]
 
     return (
-        <Flex  px={"20px"} py={"30px"} overflowY={"auto"} width={"full"} flexDirection={"column"} bg={mainBackgroundColor} > 
+        <Flex  px={"20px"} py={"30px"} overflowY={"auto"} width={"full"} flexDirection={"column"} > 
             <Flex onClick={() => router.back()} as={"button"} alignItems={"center"} fontWeight={"700"} fontSize={"20px"} gap={"3"} color={bodyTextColor} >
                 <IoIosArrowBack size="24px" />
                 Payments

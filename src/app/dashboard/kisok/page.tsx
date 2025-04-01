@@ -143,7 +143,7 @@ export default function KisokPage() {
             frequency: "DAILY",
         } as any)
         updateImage([] as any)
-        push(type === "kisok" ? "/dashboard/kisok/create" : type === "rental" ? "/dashboard/kisok/create-rental" : (type === "service" || type === "myservice" || type === "mybooking") ? "/dashboard/kisok/create-service" : "/dashboard/kisok/create")
+        push((type === null || type === "mykisok" || type === "myorder") ? "/dashboard/kisok/create" : (type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "/dashboard/kisok/create-rental" : (type === "service" || type === "myservice" || type === "mybooking") ? "/dashboard/kisok/create-service" : "/dashboard/kisok/create")
     }
 
     const submitHandler = () => {
@@ -199,22 +199,43 @@ export default function KisokPage() {
                     <Select h={"80px"} bgColor={mainBackgroundColor} value={initialFilter?.category} onChange={(e) => setInitialFilter({ ...initialFilter, category: e.target?.value })} w={"200px"} outlineColor={"transparent"} outline={"none"} textAlign={"center"} placeholder='Select Category' roundedLeft={"full"} borderWidth={"0px"} borderRightWidth={"1px"} borderRightColor={borderColor} >
                         {(type === null || type === "mykisok" || type === "myorder") && (
                             <>
-                                {data?.data?.map((item: string, index: number) => (
-                                    <option key={index} >{item}</option>
+                                {data?.data?.sort((a: string, b: string) => {
+                                        if (a > b) {
+                                            return 1
+                                        } else {
+                                            return -1;
+                                        }
+                                        return 0;
+                                    })?.map((item: string, index: number) => (
+                                    <option key={index} >{item?.replaceAll("_", " ")}</option>
                                 ))}
                             </>
                         )}
                         {(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") && (
                             <>
-                                {datarental?.data?.map((item: string, index: number) => (
-                                    <option key={index} >{item}</option>
+                                {datarental?.data?.sort((a: string, b: string) => {
+                                        if (a > b) {
+                                            return 1
+                                        } else {
+                                            return -1;
+                                        }
+                                        return 0;
+                                    })?.map((item: string, index: number) => (
+                                    <option key={index} >{item?.replaceAll("_", " ")}</option>
                                 ))}
                             </>
                         )}
                         {(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") && (
                             <>
-                                {serviceCategories?.data?.map((item: string, index: number) => (
-                                    <option key={index} >{item}</option>
+                                {serviceCategories?.data?.sort((a: string, b: string) => {
+                                        if (a > b) {
+                                            return 1
+                                        } else {
+                                            return -1;
+                                        }
+                                        return 0;
+                                    })?.map((item: string, index: number) => (
+                                    <option key={index} >{item?.replaceAll("_", " ")}</option>
                                 ))}
                             </>
                         )}
@@ -295,7 +316,7 @@ export default function KisokPage() {
                     <Flex display={["flex", "flex", "flex"]} >
                         <CustomButton onClick={createProduct} text={
                             <Flex alignItems={"center"} gap={"2"} >
-                                <Text>Create {type === "rental" ? "Rental" : (type === "service" || type === "myservice" || type === "mybooking") ? "Service" : "Item"}</Text>
+                                <Text>Create {(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "Rental" : (type === "service" || type === "myservice" || type === "mybooking") ? "Service" : "Item"}</Text>
                             </Flex>
                         } px={"15px"} height={"40px"} fontSize={"sm"} borderRadius={"32px"} fontWeight={"600"} width={"fit-content"} />
                     </Flex>
@@ -341,22 +362,43 @@ export default function KisokPage() {
                         <Select h={"48px"} value={initialFilter?.category} onChange={(e) => setInitialFilter({ ...initialFilter, category: e.target?.value })} rounded={"full"} placeholder='Select Category' w={"full"} >
                             {(type === null || type === "mykisok" || type === "myorder") && (
                                 <>
-                                    {data?.data?.map((item: string, index: number) => (
-                                        <option key={index} >{item}</option>
+                                    {data?.data?.sort((a: string, b: string) => {
+                                        if (a > b) {
+                                            return 1
+                                        } else {
+                                            return -1;
+                                        }
+                                        return 0;
+                                    })?.map((item: string, index: number) => (
+                                        <option key={index} >{item?.replaceAll("_", "")}</option>
                                     ))}
                                 </>
                             )}
                             {(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") && (
                                 <>
-                                    {datarental?.data?.map((item: string, index: number) => (
-                                        <option key={index} >{item}</option>
+                                    {datarental?.data?.sort((a: string, b: string) => {
+                                        if (a > b) {
+                                            return 1
+                                        } else {
+                                            return -1;
+                                        }
+                                        return 0;
+                                    })?.map((item: string, index: number) => (
+                                        <option key={index} >{item?.replaceAll("_", "")}</option>
                                     ))}
                                 </>
                             )}
                             {(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") && (
                                 <>
-                                    {serviceCategories?.data?.map((item: string, index: number) => (
-                                        <option key={index} >{item}</option>
+                                    {serviceCategories?.data?.sort((a: string, b: string) => {
+                                        if (a > b) {
+                                            return 1
+                                        } else {
+                                            return -1;
+                                        }
+                                        return 0;
+                                    })?.map((item: string, index: number) => (
+                                        <option key={index} >{item?.replaceAll("_", "")}</option>
                                     ))}
                                 </>
                             )}

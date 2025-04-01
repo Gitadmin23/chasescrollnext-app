@@ -85,7 +85,7 @@ function GetEventData(props: Props) {
     } = useCustomTheme();
 
     return (
-        <Box width={"full"} bgColor={mainBackgroundColor}  >
+        <Box width={"full"} >
             <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data !== null} >
                 <EventDetail {...data} />
             </LoadingAnimation>
