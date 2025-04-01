@@ -271,7 +271,7 @@ export default function EventDetail(props: IEventType) {
                                 )}
                                 {isAdmin && (
                                     <OrganizeBtn {...props} />
-                                )} 
+                                )}
                                 {isOrganizer && (
                                     <VolunteerBtn {...props} />
                                 )}
@@ -321,9 +321,12 @@ export default function EventDetail(props: IEventType) {
                 <Flex w={"full"} flexDir={"column"} gap={"4"} >
                     <Flex w={"full"} maxW={"500px"} gap={"3"} flexDir={["column", "column", "row"]} >
                         <EventDonation item={props} />
-                        <Flex w={"fit-content"} mt={"auto"} height={["auto", "auto", "130px"]} >
-                            <ViewRequest />
-                        </Flex>
+
+                        {isOrganizer && (
+                            <Flex w={"fit-content"} mt={"auto"} height={["auto", "auto", "130px"]} >
+                                <ViewRequest />
+                            </Flex>
+                        )}
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} gap={"2"} >
                         <Flex maxW={["400px"]} w={"full"} >
