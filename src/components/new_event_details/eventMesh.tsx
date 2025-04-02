@@ -57,7 +57,7 @@ export default function EventMesh({ data, setMeshSize }: { data: IEventType, set
     return (
         <Flex position={"relative"} display={eventData?.length === 0 ? "none" : "flex"} flexDir={"column"} w={"full"} mb={"6"} gap={"3"} >
             <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
-                <Text fontSize={["14px", "14px", "20px"]} fontWeight={"bold"} >Shop the {data?.eventName} kisok</Text>
+                <Text fontSize={["14px", "14px", "20px"]} fontWeight={"bold"} >Shop the {data?.eventName} kiosk</Text>
                 {/* <Text fontSize={"12px"} color={primaryColor} as={"button"} >See all</Text> */}
             </Flex>
             <Flex w={"full"} height={"180px"} />
