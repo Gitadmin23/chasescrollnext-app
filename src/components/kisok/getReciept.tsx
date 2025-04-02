@@ -21,23 +21,31 @@ import Fundpaystack from '../settings_component/payment_component/card_tabs/fund
 import { FiMinus, FiPlus } from 'react-icons/fi';
 import ProductImageScroller from '../sharedComponent/productImageScroller';
 
+interface IAction {
+    value: number;
+    type: 'ADDITION' | 'SUBSTRACTION',
+}
+
 export default function GetReciept() {
 
     const { primaryColor, borderColor, bodyTextColor, secondaryBackgroundColor, mainBackgroundColor } = useCustomTheme()
     const { push } = useRouter()
     const userId = localStorage.getItem('user_id') + "";
     const [textSize, setTextSize] = useState(40)
+    const [percentage, setPercentage] = useState(0)
+    const [price, setPrice] = useState("")
 
     const [status, setStatus] = useState("")
 
     const [detail, setDetails] = useState({} as IReceipt)
 
-    const { updateRecipt: reject, updateRecipt, configPaystack, dataID, message, setPaystackConfig, payForTicket, open, setOpen } = useProduct(null, true)
+    const { updateRecipt: reject, updateRecipt, configPaystack, dataID, message, setPaystackConfig, payForTicket, open, setOpen, updateReciptPrice } = useProduct(null, true)
 
     const { results, isLoading, ref } = InfiniteScrollerComponent({ url: `/reciept/search?userId=${userId}`, limit: 20, filter: "id", name: "getreciept" })
 
     const clickHander = (item: IReceipt) => {
         setDetails(item)
+        setPrice(item?.price+"")
         setOpen(true)
     }
 
@@ -55,6 +63,22 @@ export default function GetReciept() {
             setStatus("")
         }
     }, [updateRecipt?.isLoading])
+
+
+    const handlePriceChange = (itemData: IAction) => {
+        if (itemData.type === 'ADDITION') {
+            // calculate 5% fo the inital price
+            const Percentage = Number(price) * (percentage + 0.05);
+            const newPrice = Number(price) + Percentage;
+            setPrice((newPrice).toString());
+            setPercentage(percentage + 0.05)
+        } else {
+            const Percentage = Number(price) * (percentage - 0.05);
+            const newPrice = Number(price) + Percentage;
+            setPrice((newPrice).toString());
+            setPercentage(percentage - 0.05)
+        }
+    }
 
 
     return (
@@ -152,7 +176,7 @@ export default function GetReciept() {
                             </Flex>
                         </Flex>
                         <Flex w={"full"} mt={"2"} gap={"4"} >
-                            <Flex w={"fit-content"} >  
+                            <Flex w={"fit-content"} >
                                 <Flex flexDir={"column"} gap={"1"} w={"218px"} >
                                     <Flex justifyContent={["start", "start", "space-between"]} w={"full"} p={"5px"} rounded={"8px"} bgColor={secondaryBackgroundColor} flexDir={["column", "column", "column"]} >
                                         <Text fontWeight={400} fontSize={'12px'}>Rental Details:</Text>
@@ -165,10 +189,14 @@ export default function GetReciept() {
                                     <Flex justifyContent={["start", "start", "start"]} alignItems={"center"} w={"full"} flexDir={["row", "row", "row"]} gap={"1"} >
                                         <Text fontWeight={400} fontSize={'12px'}>Rental Initial Price:</Text>
                                         <Flex pos={"relative"}  >
-                                            <Flex w={"full"} h={"1.5px"} pos={"absolute"} top={"11px"} bgColor={"black"} />
+                                            {((((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price) !== 0) && (
+                                                <Flex w={"full"} h={"1.5px"} pos={"absolute"} top={"11px"} bgColor={"black"} />
+                                            )}
                                             <Text fontSize={"14px"} fontWeight={"600"} textDecor={""} >{formatNumber(detail?.rental?.price)}</Text>
                                         </Flex>
-                                        <Text fontSize={"12px"} fontWeight={"500"}  >by {(((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price)?.toFixed(0)}%</Text>
+                                        {((((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price) !== 0) && (
+                                            <Text fontSize={"12px"} fontWeight={"500"}  >by {(((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price)?.toFixed(0)}%</Text>
+                                        )}
                                     </Flex>
                                 </Flex>
                             </Flex>
@@ -178,20 +206,25 @@ export default function GetReciept() {
                                         <Text fontSize={'14px'}>You can neogiate this price by 5%</Text>
                                         <Flex w={"full"} mt='10px' justifyContent={"space-between"} alignItems="center">
                                             <HStack width={'120px'} height={'35px'} borderRadius={'50px'} overflow={'hidden'} backgroundColor={'#DDE2E6'}>
-                                                <Flex cursor={'pointer'} flex={1} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
+                                                <Flex  onClick={() => handlePriceChange({ type: 'SUBSTRACTION', value: 0 })} cursor={'pointer'} w={"full"} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
                                                     <FiMinus size={12} color='black' />
                                                 </Flex>
-                                                <Flex cursor={'pointer'} flex={1} justifyContent={'center'} alignItems={'center'}>
+                                                <Flex  onClick={() => handlePriceChange({ type: 'ADDITION', value: 0 })} cursor={'pointer'} w={"full"} height={'100%'} justifyContent={'center'} alignItems={'center'}>
                                                     <FiPlus size={12} color='black' />
                                                 </Flex>
                                             </HStack>
-                                            <CustomButton fontSize={"sm"} isLoading={updateRecipt?.isLoading && status === "ACCEPTED"} onClick={() => updateHandler("ACCEPTED")} text={"Update Price"} borderRadius={"99px"} width={"150px"} />
+                                            <CustomButton fontSize={"sm"} disable={detail?.price === Number(price)} isLoading={updateReciptPrice?.isLoading} onClick={() => updateReciptPrice.mutate({
+                                                payload: {
+                                                    price: price
+                                                },
+                                                id: detail?.id
+                                            })} text={"Update Price"} borderRadius={"99px"} width={"150px"} />
                                         </Flex>
                                     </Flex>
                                 )}
                                 <Flex flexDir={["row", "row"]} justifyContent={'end'} gap={"5"} mt={"auto"} w='full' alignItems={'center'}>
                                     <Text fontSize={'14px'}>Total Price:</Text>
-                                    <Text fontSize={'23px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(detail?.price || 0)}</Text>
+                                    <Text fontSize={'23px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format((Number(price)) || 0)}</Text>
                                 </Flex>
                             </Flex>
                         </Flex>

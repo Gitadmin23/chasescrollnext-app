@@ -9,7 +9,7 @@ import { IProduct } from '@/models/product'
 
 export default function ProductCheckout({item, qty, setQty} : {item: IProduct, qty: number, setQty: any}) {
 
-    const { secondaryBackgroundColor, borderColor } = useCustomTheme() 
+    const { secondaryBackgroundColor, borderColor, mainBackgroundColor } = useCustomTheme() 
     const { push } = useRouter()
 
     return (
@@ -21,12 +21,12 @@ export default function ProductCheckout({item, qty, setQty} : {item: IProduct, q
                     </Flex>
                 </Flex> */}
                 <Text fontWeight={"500"} >QTY</Text>
-                <Flex rounded={"39px"} alignItems={"center"} justifyContent={"center"} padding={"12px"} borderWidth={"1px"} gap={"3"} >
+                <Flex bgColor={mainBackgroundColor} rounded={"39px"} alignItems={"center"} justifyContent={"center"} padding={"12px"} borderWidth={"1px"} gap={"3"} >
                     <Flex type='button' as={"button"} onClick={() => setQty((prev: any) => prev === 1 ? 1 : prev - 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
                         <IoIosRemove />
                     </Flex>
                     <Text fontSize={"18px"} >{qty}</Text>
-                    <Flex type='button' as={"button"} onClick={() => setQty((prev: any) => prev + 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
+                    <Flex type='button' disabled={qty === item?.quantity} as={"button"} onClick={() => setQty((prev: any) => prev + 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
                         <IoIosAdd />
                     </Flex>
                 </Flex>

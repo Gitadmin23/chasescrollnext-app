@@ -36,6 +36,10 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
         setPrice((item?.price * qty) + "")
     }, [qty])
 
+    useEffect(()=> {
+        setPercentage(0)
+    }, [open])
+
     const CustomInput = ({ value, onClick }: any) => {
         return (
             <Flex onClick={onClick} as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"full"} fontSize={"12"} h={"50px"}  >
