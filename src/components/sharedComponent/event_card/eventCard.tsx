@@ -89,8 +89,37 @@ export default function EventCardNew({
                             </Text>
                         </Flex>
                     </Flex>
-                    <Text fontSize={"12px"} fontWeight={"700"} >{textLimit(event?.eventName, 20)}</Text>
-
+                    <Flex flexDirection={"column"} alignItems={"start"} >
+                        <Text fontSize={"12px"} fontWeight={"700"} >{textLimit(event?.eventName, 20)}</Text>
+                        <Flex display={["none", "none", "flex"]} >
+                            <EventLocationDetail
+                                // landingcolor={landingcolor}
+                                iconsize={"17px"}
+                                fontWeight={"medium"}
+                                fontsize={"14px"}
+                                height="auto"
+                                color={headerTextColor}
+                                location={event?.location}
+                                locationType={event?.locationType}
+                                isLimited={true}
+                                length={25}
+                            />
+                        </Flex>
+                        <Flex display={["flex", "flex", "none"]} >
+                            <EventLocationDetail
+                                // landingcolor={landingcolor}
+                                iconsize={"17px"}
+                                fontWeight={"medium"}
+                                fontsize={"12px"}
+                                height="auto"
+                                color={headerTextColor}
+                                location={event?.location}
+                                locationType={event?.locationType}
+                                isLimited={true}
+                                length={15}
+                            />
+                        </Flex>
+                    </Flex>
                 </Flex>
             </Flex>
             <Flex borderTopWidth={"1px"} w={"full"} mt={["1", "2", "2"]} h={["50px", "50px", "50px"]} px={["2", "2", "3"]} alignItems={"center"} >
