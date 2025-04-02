@@ -5,6 +5,7 @@ import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Grid, GridItem, Skeleton, Text } from '@chakra-ui/react'
 import HomeEventCard from '../sharedComponent/event_card/homeEventCard'
 import { useRouter } from 'next/navigation'
+import EventCardNew from '../sharedComponent/event_card/eventCard'
 
 interface Props {
     mobile?: boolean,
@@ -65,32 +66,32 @@ function UpcomingEvent(props: Props) {
                                         if (results.length === i + 1) {
                                             return (
                                                 <Flex key={i} w={["80vw", "350px", "350px", "full", "full"]} ref={ref} >
-                                                    <HomeEventCard upcoming={true} eventdashboard={true} mobile={mobile} date={true} page={true} event={event} />
+                                                    <EventCardNew event={event} />
                                                 </Flex>
                                             )
                                         } else {
                                             return (
                                                 <Flex key={i + "last"} w={["80vw", "350px", "350px", "full", "full"]}  >
-                                                    <HomeEventCard upcoming={true} eventdashboard={true} mobile={mobile} date={true} page={true} event={event} />
+                                                    <EventCardNew event={event} />
                                                 </Flex>
                                             )
                                         }
                                     })}
                                 </Grid>
-                            )} 
+                            )}
                             {mobile && (
                                 <Flex gap={4} width={"auto"} h={"fit-content"} px={["0px", "0px", "6"]} flexDir={["row"]}>
                                     {results?.map((event: any, i: number) => {
                                         if (results.length === i + 1) {
                                             return (
                                                 <Flex key={i} w={["90vw", "350px", "350px", "full", "full"]} ref={ref} >
-                                                    <HomeEventCard upcoming={true} eventdashboard={true} mobile={mobile} date={true} page={true} event={event} />
+                                                    <EventCardNew event={event} />
                                                 </Flex>
                                             )
                                         } else {
                                             return (
                                                 <Flex key={i + "last"} w={["90vw", "350px", "350px", "full", "full"]}  >
-                                                    <HomeEventCard upcoming={true} eventdashboard={true} mobile={mobile} date={true} page={true} event={event} />
+                                                    <EventCardNew event={event} />
                                                 </Flex>
                                             )
                                         }
