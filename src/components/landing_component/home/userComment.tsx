@@ -41,7 +41,7 @@ export default function UserComment() {
         } = props
 
         return (
-            <Flex w={"399px"} h={"330px"} pb={"6"} pt={"4"} flexDir={"column"} pos={"relative"} rounded={"14px"} borderWidth={"1px"} borderColor={"#E2E8F0"} >
+            <Flex w={"399px"} h={"330px"} pb={"6"} bgColor={"white"} pt={"4"} flexDir={"column"} pos={"relative"} rounded={"14px"} borderWidth={"1px"} borderColor={"#E2E8F0"} >
                 <Flex px={"6"} pt={"2"} w={"full"} h={"200px"} justifyContent={"center"} alignItems={"center"} overflowY={"auto"} >
                     <Text fontSize={"17.3px"} lineHeight={"28px"} letterSpacing={"-0.18px"} >{detail}</Text>
                 </Flex>
