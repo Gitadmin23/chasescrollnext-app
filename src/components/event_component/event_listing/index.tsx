@@ -17,7 +17,7 @@ interface Props {
     eventdashboard?: boolean
 }
 
-function  EventListing(props: Props) {
+function EventListing(props: Props) {
     const {
         limit, 
         landing,

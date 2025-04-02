@@ -14,6 +14,8 @@ import ExploreEventCard from "../sharedComponent/event_card";
 import Link from "next/link";
 import { IEvent } from "@/models/Events";
 import EventCard from "@/components/home/EventCard";
+import EventCardNew from "../sharedComponent/event_card/eventCard";
+import { IEventType } from "@/models/Event";
 
 export default function UpcomingEvents() {
   const [limit, setLimit] = React.useState(true);
@@ -76,7 +78,7 @@ export default function UpcomingEvents() {
         }}
       >
         <Flex gap={"9"} width={"fit-content"}>
-          {results?.map((event: IEvent, i: number) => {
+          {results?.map((event: IEventType, i: number) => {
             return (
               <Box
                 key={i}
@@ -85,7 +87,7 @@ export default function UpcomingEvents() {
                 height={"300px"}
                 bg="transparent"
               >
-                <EventCard event={event} />
+                <EventCardNew event={event} />
               </Box>
             );
           })}
@@ -101,12 +103,7 @@ export default function UpcomingEvents() {
           {results?.map((event: any, i: number) => {
             return (
               <GridItem key={i} maxWidth={"full"}>
-                <ExploreEventCard
-                  landing={limit}
-                  date={true}
-                  page={true}
-                  event={event}
-                />
+                <EventCardNew event={event} />
               </GridItem>
             );
           })}

@@ -24,6 +24,7 @@ function OrganizeBtn(props: IEventType) {
 
     const {
         borderColor,
+        primaryColor,
         mainBackgroundColor
     } = useCustomTheme()
 
@@ -76,7 +77,7 @@ function OrganizeBtn(props: IEventType) {
                     <Text fontSize={"12px"} fontWeight={"500"} >Scan Ticket</Text>
                 </Flex>
             </Flex> */}
-            <Flex rounded={"12px"} maxW={["350px"]} w={"full"} flexDir={"column"} borderWidth={"1px"} borderColor={borderColor} >
+            <Flex rounded={"12px"} bgColor={mainBackgroundColor} maxW={["350px"]} w={"full"} flexDir={"column"} borderWidth={"1px"} borderColor={borderColor} >
                 <Flex w={"full"} borderBottomWidth={"1px"} borderColor={borderColor} >
                     <Flex w={"full"} gap={"2"} h={"55px"} as={"button"} alignItems={"center"} justifyContent={"center"} borderRightWidth={"1px"} borderColor={borderColor} disabled={eventMemberRole === "COLLABORATOR" ? true : false} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} onClick={() => router.push("/dashboard/settings/event-dashboard/" + props?.id)} >
                         <DashboardOrganizerIcon />
@@ -85,11 +86,7 @@ function OrganizeBtn(props: IEventType) {
                     <Flex w={"full"} gap={"2"} h={"55px"} alignItems={"center"} justifyContent={"center"} as={"button"} disabled={(pathname?.includes("pastdetails") || eventMemberRole === "COLLABORATOR") ? true : false} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} onClick={() => clickHandler()} >
                         <DashboardEditIcon />
                         <Text fontSize={"14px"} fontWeight={"500"} >Edit Event</Text>
-                    </Flex>
-                    {/* <Flex w={"full"} gap={"2"} h={"55px"} display={["flex", "flex", "none"]} alignItems={"center"} borderLeftWidth={"1px"} borderColor={borderColor} justifyContent={"center"} as={"button"} disabled={(new Date() <= new Date(startDate)) && (new Date() < new Date(endDate))} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} onClick={() => setShowScanner(true)} >
-                        <DashboardScannerIcon />
-                        <Text fontSize={"14px"} fontWeight={"500"} >Scan Ticket</Text>
-                    </Flex> */}
+                    </Flex> 
                 </Flex>
                 <Flex> 
                     <PrBtn data={props} /> 
