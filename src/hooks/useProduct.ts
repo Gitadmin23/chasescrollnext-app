@@ -591,7 +591,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean) => {
             id: string
         }) =>
             httpService.put(
-                `/reciept/update-price/${data?.id}`, data?.payload
+                `/reciept/update-price/${data?.id}?price=${data?.payload?.price}`
             ),
         onSuccess: (data: any) => {
             console.log(data?.data);

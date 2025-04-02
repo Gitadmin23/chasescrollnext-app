@@ -377,6 +377,9 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
 
     const [textSize, setTextSize] = useState(40)
 
+    console.log(bookingState);
+    
+
     return (
         <Flex as={"button"} flexDir={"column"} onClick={() => setOpen(true)} borderWidth={"1px"} bgColor={mainBackgroundColor} rounded={"10px"} w={"full"} >
             <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
@@ -400,7 +403,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                 </Flex>
                 <CustomButton onClick={() => setOpen(true)} text={"View Request"} backgroundColor={"white"} color={primaryColor} fontSize={"sm"} h={"56px"} borderRadius={"32px"} />
             </Flex> */}
-            <ProductImageScroller images={business?.images} createdDate={moment(business?.createdDate)?.fromNow()} userData={business?.vendor} />
+            <ProductImageScroller images={bookingState?.service?.images} createdDate={moment(bookingState?.createdDate)?.fromNow()} userData={bookingState?.businessOwner} />
             <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]}  >
                 <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(bookingState?.service?.name), 20)}</Text>
                 <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(bookingState?.service?.name), 16)}</Text>

@@ -6,7 +6,7 @@ import ProductRating from "@/components/kisok/productRating";
 import RentalCheckout from "@/components/kisok/rentalCheckout";
 import CreateBookingModal from "@/components/modals/booking/CreateBookingModal";
 import DescriptionPage from "@/components/sharedComponent/descriptionPage";
-import LoadingAnimation from "@/components/sharedComponent/loading_animation"; 
+import LoadingAnimation from "@/components/sharedComponent/loading_animation";
 import { CalendarIcon } from "@/components/svg";
 import { useDetails } from "@/global-state/useUserDetails";
 import useCustomTheme from "@/hooks/useTheme";
@@ -29,7 +29,7 @@ export default function ServiceDetailsPage() {
     const [service, setService] = React.useState<IService | null>(null);
     const [show, setShow] = React.useState(false);
     const { userId } = useDetails((state) => state);
-    const [vendor, setVendor] = React.useState<IUser | null>(null); 
+    const [vendor, setVendor] = React.useState<IUser | null>(null);
 
     const param = useParams();
     const { back, push } = useRouter();
@@ -43,7 +43,7 @@ export default function ServiceDetailsPage() {
         secondaryBackgroundColor,
         headerTextColor,
         bodyTextColor
-    } = useCustomTheme(); 
+    } = useCustomTheme();
 
     const { mutate, isLoading: friendRequestLoading } = useMutation({
         mutationFn: (data: { toUserID: string }) => httpService.post(`${URLS.SEND_FRIEND_REQUEST}`, data),
@@ -71,7 +71,7 @@ export default function ServiceDetailsPage() {
     })
 
 
-    const [reviewData, setData] = useState<Array<IReview>>([])  
+    const [reviewData, setData] = useState<Array<IReview>>([])
 
     // query
     const getUserProfile = useQuery(['get-public-profile', service?.vendor?.userId], () => httpService.get(`/user/publicprofile/${service?.vendor?.userId}`), {
@@ -86,7 +86,7 @@ export default function ServiceDetailsPage() {
         }
     }), {
         refetchOnMount: true,
-        onSuccess: (data) => { 
+        onSuccess: (data) => {
             if (data?.data?.content?.length < 1) {
                 toast({
                     title: 'No service found',
@@ -116,7 +116,7 @@ export default function ServiceDetailsPage() {
     });
 
     console.log(service);
-    
+
 
 
     return (
@@ -131,7 +131,7 @@ export default function ServiceDetailsPage() {
                     <Text fontSize={"14px"} fontWeight={"500"} >{service?.name}</Text>
                 </Flex>
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
-                    <Flex w={"full"} h={["340px", "340px", "620px"]} pos={"relative"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"8px"} >
+                    <Flex w={"full"} h={["340px", "340px", "620px"]} bgColor={secondaryBackgroundColor} pos={"relative"} rounded={"8px"} borderWidth={"1px"} p={"1"} justifyContent={"center"} alignItems={"center"} borderColor={borderColor}  >
                         <Image src={IMAGE_URL + service?.images[0]} alt='logo' rounded={"8px"} height={"full"} objectFit={"cover"} />
                         <Grid templateColumns={["repeat(3, 1fr)"]} pos={"absolute"} gap={"3"} insetX={"4"} bottom={"4"} >
                             {service?.images?.map((subitem: string, index: number) => {
@@ -151,7 +151,7 @@ export default function ServiceDetailsPage() {
 
                         <GetCreatorData reviewdata={reviewData} userData={service?.vendor} /> */}
                         <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
-                            <DescriptionPage limit={200} label='Rental Details' description={service?.description+""} />
+                            <DescriptionPage limit={200} label='Rental Details' description={service?.description + ""} />
                             <Flex w={"full"} gap={"2"}>
                                 <Flex w={["fit-content", "fit-content", "full"]} >
                                     <GetCreatorData reviewdata={reviewData} userData={service?.vendor} item={service?.rating} />
