@@ -2,7 +2,7 @@
 import { Flex, Grid, Image, useColorMode } from '@chakra-ui/react'
 import React from 'react'
 
-export default function LandingLayout({ children }: { children: React.ReactNode }) {
+export default function LandingLayout({ children }: any) {
 
     const { colorMode, toggleColorMode } = useColorMode();
     return (
