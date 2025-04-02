@@ -29,10 +29,10 @@ export default function OurPartner() {
                     <Image src="/images/unilag.png" alt="unilag" w={"60px"} />
                 </Flex>
                 <Box display={["block", "block", "none"]} position={"absolute"} bottom={"20"} left={"3"} bgColor={"white"} onClick={() => scroll(-400)} as="button" w={"40px"} h={"40px"} rounded={"full"} >
-                    <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
+                    <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" alt="arrow" />
                 </Box>
                 <Box display={["block", "block", "none"]} position={"absolute"} bottom={"20"} right={"3"} bgColor={"white"} onClick={() => scroll(400)} transform={"rotate(180deg)"} as="button" w={"40px"} h={"40px"} rounded={"full"} >
-                    <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
+                    <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" alt="arrow" />
                 </Box>
             </Flex>
             <Flex width={"full"} alignItems={"center"} flexDir={"column"} gap={"6"} justifyContent={"center"} height={["136px", "146px", "345px"]} >

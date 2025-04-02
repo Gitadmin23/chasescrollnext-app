@@ -184,10 +184,10 @@ function DashboardDetail(props: Props) {
                         </Flex>
                     </Flex>
                     <Box zIndex={"10"} display={["block", "block", "none"]} position={"absolute"} bottom={"10"} left={"0px"} bgColor={"white"} onClick={() => scroll(-400)} as="button" w={"40px"} h={"40px"} rounded={"full"} >
-                        <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
+                        <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" alt='arrow' />
                     </Box>
                     <Box zIndex={"10"} display={["block", "block", "none"]} position={"absolute"} bottom={"10"} right={"0px"} bgColor={"white"} onClick={() => scroll(400)} transform={"rotate(180deg)"} as="button" w={"40px"} h={"40px"} rounded={"full"} >
-                        <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
+                        <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" alt='arrow' />
                     </Box>
                 </Box>
             </Flex>
@@ -201,7 +201,7 @@ function DashboardDetail(props: Props) {
                             right: 30,
                             left: 20,
                             bottom: 5,
-                        }}
+                        }} 
                         data={historyTickets ?? []}
                     >
                         <XAxis tickFormatter={DataFormater} dataKey="ticketType" />

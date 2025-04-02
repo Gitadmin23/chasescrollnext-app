@@ -52,7 +52,9 @@ export default async function RootLayout({
       <body style={{ fontFamily: "Raleway" }}>
         <GoogleAuthProvider>
           <Providers session={session}>
-            <LandingLayout children={children} />
+            <LandingLayout >
+              {children}
+            </LandingLayout>
           </Providers>
         </GoogleAuthProvider>
       </body>
