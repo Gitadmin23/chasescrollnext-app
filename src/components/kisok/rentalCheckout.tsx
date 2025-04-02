@@ -28,11 +28,11 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
     const [startDate, setStartDate] = useState("" as any)
     const [open, setOpen] = useState(false)
     const [percentage, setPercentage] = useState(0)
-    const [price, setPrice] = useState((item?.price*qty)+"")
+    const [price, setPrice] = useState((item?.price * qty) + "")
 
-    const [tab, setTab] = useState(true) 
+    const [tab, setTab] = useState(true)
 
-    useEffect(()=> {
+    useEffect(() => {
         setPrice((item?.price * qty) + "")
     }, [qty])
 
@@ -61,26 +61,17 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
     const handlePriceChange = (itemData: IAction) => {
         if (itemData.type === 'ADDITION') {
             // calculate 5% fo the inital price
-            const Percentage = (Number(item?.price) * qty) * (percentage+0.05);
-            const newPrice = (Number(item?.price) * qty) + Percentage;
-            setPrice(newPrice.toString());
-            setPercentage(percentage+0.05)
+            const Percentage = Number(item?.price) * (percentage + 0.05);
+            const newPrice = Number(item?.price) + Percentage;
+            setPrice((newPrice * qty).toString());
+            setPercentage(percentage + 0.05)
         } else {
-            if (((Number(item?.price) * qty) * percentage) > 0) { 
-                if((percentage) > 0) {
-                    const Percentage = (Number(item?.price) * qty) * percentage + 0.05;
-                    const newPrice = (Number(item?.price) * qty) + Percentage;
-                    setPrice(newPrice.toString());
-                    setPercentage(percentage-0.05)
-                } else {
-                    const Percentage = (Number(item?.price) * qty) * ((percentage - 0.05) * -1);
-                    const newPrice = (Number(item?.price) * qty) - Percentage;
-                    setPrice(newPrice.toString());
-                    setPercentage(percentage-0.05)
-                }
-            }
+            const Percentage = Number(item?.price) * (percentage - 0.05);
+            const newPrice = Number(item?.price) + Percentage;
+            setPrice((newPrice * qty).toString());
+            setPercentage(percentage - 0.05)
         }
-    } 
+    }
 
     return (
         <Flex w={"full"} bgColor={"white"} rounded={"16px"} flexDirection={"column"} borderWidth={"1px"} p={["3", "3", "24px"]} gap={"1"} borderColor={borderColor} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
@@ -88,7 +79,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                 <Text fontSize={"14px"} >Starting Price</Text>
                 <Text fontSize={"14px"} ><span style={{ fontSize: "22px", fontWeight: "600" }} >{formatNumber(item?.price)}</span>{item?.frequency !== "HOURLY" ? "/Per day" : "/Per hour"}</Text>
             </Flex>
-            <Flex alignItems={["start", "start","center"]} flexDir={["column", "column", "row"]} gap={["1", "1", "3"]} >
+            <Flex alignItems={["start", "start", "center"]} flexDir={["column", "column", "row"]} gap={["1", "1", "3"]} >
                 <Text fontSize={["12px", "12px", "14px"]} fontWeight={"500"} >Number of {item?.frequency !== "HOURLY" ? "days" : "hrs"}</Text>
                 <Flex rounded={"39px"} alignItems={"center"} padding={"12px"} gap={"3"} >
                     <Flex as={"button"} onClick={() => setQty((prev: any) => prev === 1 ? 1 : prev - 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
@@ -103,7 +94,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
             <CustomButton onClick={() => setOpen(true)} text={`NGN ${formatNumber(Number(item?.price) * Number(qty))}`} borderRadius={"999px"} height={["45px", "45px", "55px"]} />
             <ModalLayout open={open} close={setOpen} size={tab ? ["full", "full", "4xl"] : ["full", "full", "4xl"]} >
                 {!tab &&
-                    <Flex w={"full"} flexDir={["column", "column", "row"]}  position={"relative"} >
+                    <Flex w={"full"} flexDir={["column", "column", "row"]} position={"relative"} >
                         <Flex w={"35px"} h={"35px"} zIndex={"30"} bgColor={["#D8D8D880", "#D8D8D880", "transparent"]} pos={"absolute"} rounded={"full"} top={"2"} right={"2"} shadow={["md", "md", "none"]} justifyContent={"center"} alignItems={"center"} >
                             <IoIosClose onClick={() => setOpen(false)} size={"25px"} />
                         </Flex>
@@ -115,7 +106,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                             </Flex>
                             <Flex flexDir={"column"} >
                                 <Text fontSize={"14px"} color={bodyTextColor} >Category</Text>
-                                <Text fontSize={["16px", "16px", "20px"]} lineHeight={["17px", "17px","25px"]} fontWeight={"700"}  >{item?.category}</Text>
+                                <Text fontSize={["16px", "16px", "20px"]} lineHeight={["17px", "17px", "25px"]} fontWeight={"700"}  >{item?.category?.replaceAll("_", " ")}</Text>
                             </Flex>
                             <Flex flexDir={"column"} >
                                 <Text fontSize={"14px"} color={bodyTextColor} >Location</Text>
@@ -174,10 +165,10 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                             <Text fontWeight={"500"} fontSize={"14px"} >You can negotiate this price by 5%</Text>
                             <Flex w={"full"} justifyContent={"center"} >
                                 <HStack width={'180px'} height={'54px'} borderRadius={'50px'} overflow={'hidden'} backgroundColor={'#DDE2E6'}>
-                                    <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'SUBSTRACTION', value: 0 })} flex={1} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
+                                    <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'SUBSTRACTION', value: 0 })} flex={1} w={"full"} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
                                         <FiMinus size={12} color='black' />
                                     </Flex>
-                                    <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'ADDITION', value: 0 })} flex={1} justifyContent={'center'} alignItems={'center'}>
+                                    <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'ADDITION', value: 0 })} flex={1} w={"full"} justifyContent={'center'} alignItems={'center'}>
                                         <FiPlus size={12} color='black' />
                                     </Flex>
                                 </HStack>
