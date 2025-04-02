@@ -12,6 +12,7 @@ import InterestedUsers from '../interested_users'
 import { usePathname, useRouter } from 'next/navigation'
 import ShareEvent from '../share_event'
 import { IoClose } from 'react-icons/io5'
+import useCustomTheme from '@/hooks/useTheme'
 
 export default function MobileCard(props: IEventType) {
 
@@ -28,6 +29,8 @@ export default function MobileCard(props: IEventType) {
     const router = useRouter()
     const pathname = usePathname()
 
+    const { mainBackgroundColor } = useCustomTheme()
+
     const clickHandler = () => {
         if (pathname?.includes("draft")) {
             router?.push(`/dashboard/event/edit_draft/${id}`)
@@ -39,7 +42,7 @@ export default function MobileCard(props: IEventType) {
     }
 
     return (
-        <Flex as={"button"} onClick={clickHandler} borderWidth={"1px"} pos={"relative"} rounded={"16px"} p={"5px"} w={"full"} gap={"2"} >
+        <Flex as={"button"} onClick={clickHandler} borderWidth={"1px"} pos={"relative"} rounded={"16px"} p={"5px"} w={"full"} gap={"2"} bgColor={mainBackgroundColor} >
             {props?.interestedUsers?.length === 0 && (
                 <Flex w={"6"} h={"6"} justifyContent={"center"} alignItems={"center"} pos={"absolute"} top={"-14px"} right={"-8px"} zIndex={"50"} bg={"#F2A09B66"} color={"#F50A0A"} rounded={"full"} >
                     <IoClose size={"14px"} />

@@ -81,7 +81,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
 
     return (
         <>
-            <Flex pos={["relative"]} w={"full"} flexDir={"column"} rounded={"16px"} gap={"3"} >
+            <Flex pos={["relative"]} w={"full"} bgColor={primaryColor} color={"white"} flexDir={"column"} roundedBottomRight={["0px", "0px", "12px"]} roundedBottomLeft={"12px"} gap={"3"} >
                 {data?.isOrganizer && (
                     <Flex onClick={() => setOpen(true)} as={"button"} w={"full"} gap={"2"} h={"55px"} px={"1"} alignItems={"center"} justifyContent={"center"} >
                         <Text fontSize={"14px"} fontWeight={"500"} >My Support Center</Text>
