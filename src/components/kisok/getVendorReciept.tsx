@@ -67,18 +67,17 @@ export default function GetVendorReciept() {
     const handlePriceChange = (itemData: IAction) => {
         if (itemData.type === 'ADDITION') {
             // calculate 5% fo the inital price
-            const Percentage = Number(price) * (percentage + 0.05);
-            const newPrice = Number(price) + Percentage;
+            const Percentage = detail?.price * Number((percentage + 0.05)?.toFixed(2));
+            const newPrice = detail?.price + Percentage;
             setPrice((newPrice).toString());
-            setPercentage(percentage + 0.05)
+            setPercentage(Number((percentage + 0.05)?.toFixed(2)))
         } else {
-            const Percentage = Number(price) * (percentage - 0.05);
-            const newPrice = Number(price) + Percentage;
+            const Percentage = detail?.price * Number((percentage - 0.05)?.toFixed(2));
+            const newPrice = detail?.price + Percentage;
             setPrice((newPrice).toString());
-            setPercentage(percentage - 0.05)
+            setPercentage(Number((percentage - 0.05)?.toFixed(2)))
         }
-    }
-
+    } 
 
     return (
         <LoadingAnimation loading={isLoading} length={results?.length} >
