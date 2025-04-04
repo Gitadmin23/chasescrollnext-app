@@ -44,7 +44,7 @@ export default function GetVendorReciept() {
 
     const clickHander = (item: IReceipt) => {
         setDetails(item)
-        setPrice(item?.price + "")
+        setPrice((item?.price / item?.frequency) + "")
         setOpen(true)
     }
 
@@ -67,13 +67,13 @@ export default function GetVendorReciept() {
     const handlePriceChange = (itemData: IAction) => {
         if (itemData.type === 'ADDITION') {
             // calculate 5% fo the inital price
-            const Percentage = detail?.price * Number((percentage + 0.05)?.toFixed(2));
-            const newPrice = detail?.price + Percentage;
+            const Percentage = (detail?.price / detail?.frequency) * Number((percentage + 0.05)?.toFixed(2));
+            const newPrice = (detail?.price / detail?.frequency) + Percentage;
             setPrice((newPrice).toString());
             setPercentage(Number((percentage + 0.05)?.toFixed(2)))
         } else {
-            const Percentage = detail?.price * Number((percentage - 0.05)?.toFixed(2));
-            const newPrice = detail?.price + Percentage;
+            const Percentage = (detail?.price / detail?.frequency) * Number((percentage - 0.05)?.toFixed(2));
+            const newPrice = (detail?.price / detail?.frequency) + Percentage;
             setPrice((newPrice).toString());
             setPercentage(Number((percentage - 0.05)?.toFixed(2)))
         }
@@ -199,7 +199,7 @@ export default function GetVendorReciept() {
                                             <Text fontSize={"14px"} fontWeight={"600"} textDecor={""} >{formatNumber(detail?.price/detail?.frequency)}</Text>
                                         </Flex>
                                         {((((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price) !== 0) && (
-                                            <Text fontSize={"12px"} fontWeight={"500"}  >by {(((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price)?.toFixed(0)}%</Text>
+                                            <Text fontSize={"12px"} fontWeight={"500"}  >by {Math.abs(((((detail?.rental?.price - (detail?.price / detail?.frequency) )) / 100)))?.toFixed(0)}%</Text>
                                         )}
                                     </Flex>
                                 </Flex>
@@ -219,7 +219,7 @@ export default function GetVendorReciept() {
                                             </HStack>
                                             <CustomButton fontSize={"sm"} disable={detail?.price === Number(price)} isLoading={updateReciptPrice?.isLoading} onClick={() => updateReciptPrice.mutate({
                                                 payload: {
-                                                    price: price
+                                                    price: Number(price) * Number(detail?.frequency)
                                                 },
                                                 id: detail?.id
                                             })} text={"Update Price"} borderRadius={"99px"} width={"150px"} />
@@ -228,7 +228,7 @@ export default function GetVendorReciept() {
                                 )}
                                 <Flex flexDir={["row", "row"]} justifyContent={'end'} gap={"5"} mt={"auto"} w='full' alignItems={'center'}>
                                     <Text fontSize={'14px'}>Total Price:</Text>
-                                    <Text fontSize={'23px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format((Number(price)) || 0)}</Text>
+                                    <Text fontSize={'23px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format((Number(price) * Number(detail?.frequency)) || 0)}</Text>
                                 </Flex>
                             </Flex>
                         </Flex>
