@@ -28,13 +28,15 @@ export default function RentalCreate() {
     const clickHandler = () => {}
 
     const handleChangeLimit = (e: any, limit: any, type: "Name" | "Description") => {
+        let clone = { ...rentaldata }
         if ((e.target.value).length <= limit) {
             if(type === "Name") {
-                updateRental({ ...rentaldata, name: e.target.value })
+                clone = { ...rentaldata, name: e.target.value }
             } else {
-                updateRental({ ...rentaldata, description: e.target.value })
+                clone = { ...rentaldata, description: e.target.value } 
             }
         }
+        updateRental(clone)
     }
     
 

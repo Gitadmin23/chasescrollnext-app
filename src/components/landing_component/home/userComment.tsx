@@ -221,10 +221,10 @@ export default function UserComment() {
             </Flex>
             <Flex w={"full"} justifyContent={"end"} gap={"4"} px={"12"} >
                 <Box onClick={() => scroll(-400)} as="button" w={"40px"} h={"40px"} rounded={"full"} >
-                    <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
+                    <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" alt="arrow" />
                 </Box>
                 <Box onClick={() => scroll(400)} transform={"rotate(180deg)"} as="button" w={"40px"} h={"40px"} rounded={"full"} >
-                    <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
+                    <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" alt="arrowrigth" />
                 </Box>
             </Flex>
         </Flex>
