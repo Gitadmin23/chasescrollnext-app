@@ -6,10 +6,10 @@ import { capitalizeFLetter } from '@/utils/capitalLetter';
 import httpService from '@/utils/httpService';
 import { useToast, Flex, Checkbox, Select, Input, Textarea, Text } from '@chakra-ui/react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaCheckCircle, FaEdit } from 'react-icons/fa';
 import { IoIosAdd } from 'react-icons/io';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import CustomButton from '../general/Button';
 import LoadingAnimation from '../sharedComponent/loading_animation';
 import ModalLayout from '../sharedComponent/modal_layout';
@@ -54,6 +54,7 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
     // const startDate = query?.get('startDate');
     // const endDate = query?.get('endDate');
     const { push } = useRouter()
+    const check = useQueryClient()
 
     const { location, updateAddress: setNewAddress } = useProductStore((state) => state);
 
@@ -70,29 +71,24 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
         () => httpService.get(`/addresses/user/${userId}`), {
         onSuccess(data) {
             setAddress(data?.data)
-            data?.data?.map((item: IProps) => {
-                if (item?.isDefault) {
-                    setAddressDefault(item?.id)
-                }
-            })
+            if(data?.data?.length === 0 ){
+                setAddressDefault("")
+            } else {
+                data?.data?.map((item: IProps) => {
+                    if (item?.isDefault) {
+                        setAddressDefault(item?.id)
+                    }
+                })
+            }
         },
     }
     );
 
-    const clickHandler = () => {
-        if (!payload?.state) {
+
+    const clickHandler = () => { 
+        if (payload?.phone?.length !== 11) {
             toast({
-                title: "Select State",
-                description: "",
-                status: "error",
-                isClosable: true,
-                duration: 5000,
-                position: "top-right",
-            });
-            return
-        } else if (!payload?.phone) {
-            toast({
-                title: "Enter Your Phone Number",
+                title: "Enter A Valid Phone Number",
                 description: "",
                 status: "error",
                 isClosable: true,
@@ -111,9 +107,9 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
             });
         } else {
             if (addressId) {
-                editAddress?.mutate({ ...payload, location: location })
+                editAddress?.mutate({ ...payload, state: location?.state, location: location })
             } else {
-                createAddress?.mutate({ ...payload, location: location })
+                createAddress?.mutate({ ...payload, state: location?.state,location: location })
             }
         }
     }
@@ -146,54 +142,58 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
         updateAddress?.mutate(
             {
                 id: item?.id, payload: {
-                    state: item?.state,
+                    state: location?.state,
                     location: location,
                     isDefault: true,
                     userId: userId,
                 }
             }
         )
+    } 
+
+    const submitHandler = () => {
+
+        console.log(addressDefault);
+        
+        if(!addressDefault){toast({
+            title: "Select An Address",
+            description: "",
+            status: "error",
+            isClosable: true,
+            duration: 5000,
+            position: "top-right",
+        });
+        } else {
+            createRentalRecipt?.mutate(
+                { 
+                    userID: userId + "",
+                    rentalID: id,
+                    startDate: startDate,
+                    endDate: endDate,
+                    addressedId: addressDefault,
+                    price: newPrice, 
+                    approvalStatus: 'PENDING',
+                    frequency: Number(qty) 
+                }
+            )
+        }
     }
 
-    const statesInNigeria = [
-        "Abia",
-        "Adamawa",
-        "Akwa Ibom",
-        "Anambra",
-        "Bauchi",
-        "Bayelsa",
-        "Benue",
-        "Borno",
-        "Cross River",
-        "Delta",
-        "Ebonyi",
-        "Edo",
-        "Ekiti",
-        "Enugu",
-        "Gombe",
-        "Imo",
-        "Jigawa",
-        "Kaduna",
-        "Kano",
-        "Katsina",
-        "Kebbi",
-        "Kogi",
-        "Kwara",
-        "Lagos",
-        "Nasarawa",
-        "Niger",
-        "Ogun",
-        "Ondo",
-        "Osun",
-        "Oyo",
-        "Plateau",
-        "Rivers",
-        "Sokoto",
-        "Taraba",
-        "Yobe",
-        "Zamfara"
-    ];
-
+    useEffect(()=> {
+        setNewAddress({
+            link: "",
+            address: "",
+            country: "",
+            street: "",
+            city: "",
+            zipcode: "",
+            state: "",
+            locationDetails: "",
+            latlng: "",
+            placeIds: "",
+            toBeAnnounced: false,
+        } as any)
+    }, [open])
 
     return (
         <Flex w={"full"} px={["0px", "0px", "6"]} pt={["6", "6", "6", "6"]} pb={"12"} flexDir={"column"} gap={"6"} overflowY={"auto"} overflowX={"hidden"} >
@@ -204,7 +204,7 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
                 {/* <Text fontSize={"14px"} >Customer Address </Text> */}
             </Flex>
             <Flex flexDir={"column"} w={"full"} gap={"6"} >
-                <LoadingAnimation loading={isLoading} >
+                <LoadingAnimation loading={isLoading} length={address?.length} >
                     {address?.map((item, index) => {
                         return (
                             <Flex key={index} w={"full"} pos={"relative"} p={["4", "4", "6"]} gap={"4"} rounded={"8px"} borderWidth={"1px"} flexDir={"column"} >
@@ -251,17 +251,7 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
                     <Flex flexDir={"column"} w={"full"} gap={"1"} >
                         <Text>Address</Text>
                         <ProductMap height='45px' location={location} />
-                    </Flex>
-                    <Flex flexDir={"column"} w={"full"} gap={"1"} >
-                        <Text>State</Text>
-                        <Select value={payload?.state} placeholder='Select State' onChange={(e) => setPayload({ ...payload, state: e.target.value })} >
-                            {statesInNigeria?.map((state) => {
-                                return (
-                                    <option key={state} >{state}</option>
-                                )
-                            })}
-                        </Select>
-                    </Flex>
+                    </Flex> 
                     <Flex flexDir={"column"} w={"full"} gap={"1"} >
                         <Text>Phone Number</Text>
                         <Input value={payload?.phone} type='number' placeholder='Enter Phone Number' onChange={(e) => setPayload({ ...payload, phone: e.target.value })} />
@@ -297,18 +287,7 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
                 {/* </LoadingAnimation> */}
             </ModalLayout>
             <Flex w={"200px"} justifyContent={"end"} >
-                <CustomButton disable={addressDefault ? false : true} _disabled={{ cursor: "not-allowed" }} mt={"4"} isLoading={createRentalRecipt?.isLoading} onClick={() => createRentalRecipt?.mutate(
-                    { 
-                        userID: userId + "",
-                        rentalID: id,
-                        startDate: startDate,
-                        endDate: endDate,
-                        addressedId: addressDefault,
-                        price: newPrice, 
-                        approvalStatus: 'PENDING',
-                        frequency: Number(qty) 
-                    }
-                )} text={`Request Availability`} borderRadius={"999px"} w={"200px"} height={"55px"} />
+                <CustomButton mt={"4"} isLoading={createRentalRecipt?.isLoading} disable={createRentalRecipt?.isLoading} onClick={() => submitHandler()} text={`Request Availability`} borderRadius={"999px"} w={"200px"} height={"55px"} />
             </Flex>
         </Flex>
     )

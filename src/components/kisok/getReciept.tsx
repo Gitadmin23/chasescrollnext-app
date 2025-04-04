@@ -41,7 +41,7 @@ export default function GetReciept() {
 
     const { updateRecipt: reject, updateRecipt, configPaystack, dataID, message, setPaystackConfig, payForTicket, open, setOpen, updateReciptPrice } = useProduct(null, true)
 
-    const { results, isLoading, ref } = InfiniteScrollerComponent({ url: `/reciept/search?userId=${userId}`, limit: 20, filter: "id", name: "getreciept" })
+    const { results, isLoading, ref } = InfiniteScrollerComponent({ url: `/reciept/search?userID=${userId}`, limit: 20, filter: "id", name: "getreciept" })
 
     const clickHander = (item: IReceipt) => {
         setDetails(item)

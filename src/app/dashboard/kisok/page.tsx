@@ -4,6 +4,7 @@ import GetOrder from '@/components/kisok/getOrder'
 import GetProduce from '@/components/kisok/getProduce'
 import GetReciept from '@/components/kisok/getReciept'
 import GetRental from '@/components/kisok/getRental'
+import GetRequest from '@/components/kisok/getRequest'
 import GetVendorReciept from '@/components/kisok/getVendorReciept'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { GlassIcon, LocationPin, LocationStroke, RentalIcon, ServiceIcon, StoreIcon } from '@/components/svg'
@@ -339,7 +340,7 @@ export default function KisokPage() {
             )}
             {type === "myreciept" && (
                 <GetReciept />
-            )}
+            )} 
             {type === "vendorreciept" && (
                 <GetVendorReciept />
             )}
