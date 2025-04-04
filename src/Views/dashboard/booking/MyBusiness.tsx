@@ -37,7 +37,7 @@ function MyBusiness({ name, state, category }: { name?: string, state?: string, 
 
 
     const { results, isLoading, isRefetching: refetchingList } = InfiniteScrollerComponent({
-        url: `/business-service/search`, limit: 20, filter: "id", name: "getProduct", paramsObj: cleanup({
+        url: `/business-service/search`, limit: 20, filter: "id", name: "mybusinessservice", paramsObj: cleanup({
             name: name,
             vendorID: userId,
             category: category,

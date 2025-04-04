@@ -43,7 +43,8 @@ function Bookings({ name, state, category }: { name?: string, state?: string, ca
         url: `/booking/search`, limit: 20, filter: "id", name: "getProduct", paramsObj: cleanup({
             name: name,
             category: category,
-            state: state
+            state: state, 
+            userID: userId,
         })
     })
 
@@ -57,20 +58,7 @@ function Bookings({ name, state, category }: { name?: string, state?: string, ca
                             <BookingCard key={index} booking={item} business={item?.vendor} isVendor={false} />
                         ))}
                     </Grid>
-                )}
-
-                {/* {!isLoading && businesses.length < 1 && (
-                <VStack w='full' h='40px' borderRadius={'20px'} justifyContent={'center'} >
-                    <Text>There are currently no bookings, you can start by creating one!</Text>
-                </VStack>
-            )}
-
-            {isLoading && (
-                <VStack w='full' h='80px' borderRadius={'20px'} justifyContent={'center'} >
-                    <Spinner />
-                    <Text>Loading Your Booking</Text>
-                </VStack>
-            )}  */}
+                )} 
                 <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
             </Flex>
         </LoadingAnimation>

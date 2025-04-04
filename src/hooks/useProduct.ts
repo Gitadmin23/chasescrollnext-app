@@ -37,8 +37,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean) => {
     const { configPaystack, setPaystackConfig, message, setMessage, setDataID, dataID } = usePaystackStore((state) => state);
 
     const query = useQueryClient()
-    const [payload, setPayload] = useState<any>({
-        "state": "",
+    const [payload, setPayload] = useState<any>({ 
         "lga": "",
         "phone": "",
         "landmark": "",
@@ -141,7 +140,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean) => {
         if (image.length === 0) {
             toast({
                 title: "error",
-                description: "Please Select An Image For Your Rental",
+                description: "Please Select An Image For Your Product",
                 status: "error",
                 isClosable: true,
                 duration: 5000,
@@ -578,6 +577,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean) => {
                 duration: 5000,
                 position: "top-right",
             });
+            setOpen(false)
         },
         onError: () => { },
     });
@@ -604,6 +604,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean) => {
                 duration: 5000,
                 position: "top-right",
             });
+            setOpen(false)
         },
         onError: () => { },
     });

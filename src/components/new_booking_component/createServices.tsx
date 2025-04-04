@@ -19,6 +19,9 @@ import { useForm } from '@/hooks/useForm'
 import { CustomInput } from '../Form/CustomInput'
 import useProductStore from '@/global-state/useCreateProduct'
 import ProductMap from '../kisok/productMap'
+import PhoneInput from 'react-phone-input-2'
+import "react-phone-input-2/lib/style.css";
+import ProductImagePicker from '../kisok/productImagePicker'
 
 
 export interface IDayOfTheWeek {
@@ -54,9 +57,7 @@ export default function CreateServices({ id }: { id: string }) {
 
     // states
     const [selectedCategory, setSelectedCategory] = useState("");
-    const [categories, setCategories] = useState<string[]>([]);
-    const [files, setFiles] = useState<File[]>([]);
-    const [images, setImages] = useState<string[]>([]);
+    const [categories, setCategories] = useState<string[]>([]); 
     const [discount, setDiscount] = useState(0);
     const [hasFixedPrice, setHasFixedPrice] = useState(true);
     const [price, setPrice] = useState("")
@@ -64,8 +65,9 @@ export default function CreateServices({ id }: { id: string }) {
     const [open, setOpen] = useState(false);
     const [showModal, setShowModal] = useState(false)
     const [serviceId, setServiceId] = useState<string | null>(null)
-    const { rentaldata, updateRental } = useProductStore((state) => state);
+    const { rentaldata, updateRental, image } = useProductStore((state) => state);
     const [description, setDescription] = useState("")
+    const [website, setWebsite] = useState("")
     const [isOnline, setIsOnline] = useState<'physical' | 'online' | 'both' | null>(null);
 
 
@@ -151,16 +153,14 @@ export default function CreateServices({ id }: { id: string }) {
         }
     }
 
-    const { renderForm, values, watch } = useForm({
+    const { renderForm, values, watch, setValue } = useForm({
         defaultValues: {
             phone: '',
             email: '',
-            address: '',
-            website: '',
         },
         validationSchema: createBusinessValidation,
         submit: (data) => {
-            if (files.length < 1) {
+            if (image.length < 1) {
                 toast({
                     title: 'Warning',
                     description: 'You must select at least one Image',
@@ -183,6 +183,18 @@ export default function CreateServices({ id }: { id: string }) {
                 return;
             }
 
+            if (values.phone?.length !== 11) {
+                toast({
+                    title: 'Warning',
+                    description: 'Please Enter a Valid Phone',
+                    status: 'warning',
+                    duration: 5000,
+                    position: 'top-right',
+
+                });
+                return;
+            }
+
             if (description === "") {
                 toast({
                     title: 'Warning',
@@ -197,7 +209,7 @@ export default function CreateServices({ id }: { id: string }) {
 
 
             const formdata = new FormData();
-            files.forEach((file) => {
+            image.forEach((file) => {
                 formdata.append('files[]', file);
             });
 
@@ -253,14 +265,10 @@ export default function CreateServices({ id }: { id: string }) {
                 hasFixedPrice,
                 discount,
                 description,
+                website: website ? website?.includes("https://") ? website : "https://"+website : "",
                 ...values,
                 isOnline: isOnline === 'online' ? true : false,
-                socialMediaHandles: handles,
-                openingHours: days.filter((item) => { if (item.checked) { return item; } }).map((item) => ({
-                    startTime: parseInt(item.startTime.replace(':', '')),
-                    endTime: parseInt(item.endTime.replace(':', '')),
-                    availabilityDayOfWeek: item?.dayOFTheWeek
-                })),
+                socialMediaHandles: handles, 
                 "state": rentaldata?.location?.state,
                 "location": rentaldata?.location,
                 name,
@@ -281,7 +289,7 @@ export default function CreateServices({ id }: { id: string }) {
     });
 
     console.log(rentaldata?.location?.state);
-    
+
 
     const { isLoading, data } = useQuery(['get-business-categories'], () => httpService.get('/business-service/categories'), {
         refetchOnMount: true,
@@ -297,43 +305,18 @@ export default function CreateServices({ id }: { id: string }) {
         fileReader.current = new FileReader();
     }, []);
 
-    React.useEffect(() => {
-        const handleBeforeUnload = (event: any) => {
-            event.preventDefault();
-            event.returnValue = ''; // This is required for Chrome to show the prompt
-        };
+    // React.useEffect(() => {
+    //     const handleBeforeUnload = (event: any) => {
+    //         event.preventDefault();
+    //         event.returnValue = ''; // This is required for Chrome to show the prompt
+    //     };
 
-        window.addEventListener('beforeunload', handleBeforeUnload);
+    //     window.addEventListener('beforeunload', handleBeforeUnload);
 
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, []);
-
-    React.useEffect(() => {
-        if (fileReader?.current) {
-            fileReader.current.onload = () => {
-                setImages((prev) => [...prev, fileReader?.current?.result as string])
-                console.log(`URL -> ${fileReader?.current?.result}`)
-            }
-        }
-    }, [fileReader?.current?.result])
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        console.log(file);
-        if (file) {
-            setFiles((prev) => [...prev, file]);
-            fileReader?.current?.readAsDataURL(file);
-        }
-    };
-
-
-    const removeImage = (index: number) => {
-        setImages((prev) => {
-            return prev.filter((_, indx) => index != indx);
-        })
-    }
+    //     return () => {
+    //         window.removeEventListener('beforeunload', handleBeforeUnload);
+    //     };
+    // }, []);  
 
     const handleDayChange = ({ index, type, isChecked, value }: { index: number, type: 'startTime' | 'endTime' | 'dayOfTheWeek' | 'checked', isChecked: boolean, value: string }) => {
         setDays(days.map((day, i) => {
@@ -375,45 +358,22 @@ export default function CreateServices({ id }: { id: string }) {
 
     const clickHandler = () => { }
 
+    console.log(values.phone);
+
+
     return renderForm(
-        <Flex w={"full"} h={"full"} >
-            <input type='file' accept="image/*" hidden onChange={(e) => { handleFileChange(e) }} ref={inputRef} />
-            <Flex w={"full"} h={"full"} display={['none', 'flex']} flexDir={"column"} alignItems={"center"} py={"8"} borderRightWidth={"1.03px"} borderColor={borderColor} overflowY={"auto"} >
+        <Flex w={"full"} h={"full"} > 
+            <Flex w={"full"} h={"full"} display={['none', 'none', 'flex']} flexDir={"column"} alignItems={"center"} py={"8"} borderRightWidth={"1.03px"} borderColor={borderColor} overflowY={"auto"} >
                 <Flex px={"14"} w={"full"} flexDir={"column"} gap={"3"} >
                     <Flex alignItems={"center"} gap={"3"} >
                         <IoArrowBack size={"30px"} onClick={() => router.back()} />
                         <Text fontSize={"20px"} fontWeight={"500"} >Back</Text>
                     </Flex>
                     <Text fontSize={"24px"} fontWeight={"600"} >Upload clear photos of your Services </Text>
-                    <Text fontWeight={"500"} >Upload upto 5 clear images that describe your service</Text>
+                    <Text fontWeight={"500"} mb={"8"} >Upload upto 5 clear images that describe your service</Text>
 
-                    <Flex mt={"8"} bgColor={mainBackgroundColor}  gap={"4"} w={"full"} flexDirection={"column"} p={"8"} borderWidth={"1.03px"} borderColor={borderColor} rounded={"16px"} >
-
-                        <Flex w={"full"} gap={"4"} overflowX={"auto"} css={{
-                            '&::-webkit-scrollbar': {
-                                display: 'block'
-                            }
-                        }}>
-                            {images.length > 0 && images.map((item, index) => (
-                                <Flex w='200px' height='200px' key={index.toString()} cursor='pointer' flexDirection={"column"} rounded={"16px"} borderStyle={"dotted"} borderWidth={"0.38px"} borderColor={borderColor} justifyContent={"center"} alignItems={"center"} flexShrink={0} position={'relative'}>
-                                    <Box onClick={() => removeImage(index)} width="25px" height={"25px"} backgroundColor={"red"} borderRadius={"20px"} position={"absolute"} zIndex={3} display="flex" justifyContent="center" alignItems={'center'} top="0px" right={"0px"}>
-                                        <FiX color="white" size={"15px"} />
-                                    </Box>
-                                    <Image src={item} w='100%' h='100%' alt='service image' objectFit={'cover'} rounded='16px' />
-                                </Flex>
-                            ))}
-                            {images.length < 5 && (
-                                <Flex onClick={() => inputRef?.current?.click()} cursor='pointer' w={"200px"} py={"8"} px={"2"} flexDirection={"column"} rounded={"16px"} borderStyle={"dotted"} borderWidth={"0.38px"} borderColor={borderColor} justifyContent={"center"} alignItems={"center"} flexShrink={0}>
-                                    {/* <GallaryIcon /> */}
-                                    <Add size={30} variant='Outline' color={primaryColor} />
-                                    <Text fontSize={"10px"} w={"225px"} textAlign={"center"} >File Format: JPG, JPEG, PNG</Text>
-                                    <Text fontSize={"10px"} w={"225px"} textAlign={"center"} >Picture shouldn't be more than 10 MB</Text>
-                                </Flex>
-                            )}
-
-                        </Flex>
-
-                    </Flex>
+                    
+                    <ProductImagePicker />
 
                 </Flex>
             </Flex>
@@ -426,41 +386,15 @@ export default function CreateServices({ id }: { id: string }) {
 
                     {/* SMALL SCREEN IMAGE PICKER */}
 
-                    <Flex px={"10px"} w={"full"} flexDir={"column"} gap={"3"} display={['flex', 'none']} >
+                    <Flex px={"10px"} w={"full"} flexDir={"column"} gap={"3"} display={['flex', 'flex','none']} >
                         <Flex alignItems={"center"} gap={"3"} >
                             <IoArrowBack size={"30px"} />
                             <Text fontSize={"20px"} fontWeight={"500"} >Back</Text>
                         </Flex>
                         <Text fontSize={"24px"} fontWeight={"600"} >Upload clear photos of your Services </Text>
-                        <Text fontWeight={"500"} >you can upload upto 5 clear images that describe your service</Text>
-
-                        <Flex mt={"8"} bgColor={mainBackgroundColor} gap={"4"} w={"full"} flexDirection={"column"} p={"8"} borderWidth={"1.03px"} borderColor={borderColor} rounded={"16px"} >
-
-                            <Flex w={"full"} gap={"4"} overflowX={"auto"} css={{
-                                '&::-webkit-scrollbar': {
-                                    display: 'block'
-                                }
-                            }}>
-                                {images.length > 0 && images.map((item, index) => (
-                                    <Flex w='200px' height='200px' key={index.toString()} cursor='pointer' flexDirection={"column"} rounded={"16px"} borderStyle={"dotted"} borderWidth={"0.38px"} borderColor={borderColor} justifyContent={"center"} alignItems={"center"} flexShrink={0} position={'relative'}>
-                                        <Box onClick={() => removeImage(index)} width="25px" height={"25px"} backgroundColor={"red"} borderRadius={"20px"} position={"absolute"} zIndex={3} display="flex" justifyContent="center" alignItems={'center'} top="0px" right={"0px"}>
-                                            <FiX color="white" size={"15px"} />
-                                        </Box>
-                                        <Image src={item} w='100%' h='100%' alt='service image' objectFit={'cover'} rounded='16px' />
-                                    </Flex>
-                                ))}
-                                {images.length < 5 && (
-                                    <Flex onClick={() => inputRef?.current?.click()} cursor='pointer' w={"200px"} py={"8"} px={"2"} flexDirection={"column"} rounded={"16px"} borderStyle={"dotted"} borderWidth={"0.38px"} borderColor={borderColor} justifyContent={"center"} alignItems={"center"} flexShrink={0}>
-                                        {/* <GallaryIcon /> */}
-                                        <Add size={30} variant='Outline' color={primaryColor} />
-                                        <Text fontSize={"10px"} w={"225px"} textAlign={"center"} >File Format: JPG, JPEG, PNG and picture shouldn't be more than 10 MB</Text>
-                                        <Text fontSize={"12px"} textDecoration={"underline"} mt={"2"} >Upload from your device</Text>
-                                    </Flex>
-                                )}
-
-                            </Flex>
-
-                        </Flex>
+                        <Text fontWeight={"500"} mb={"8"} >you can upload upto 5 clear images that describe your service</Text>
+ 
+                        <ProductImagePicker />
 
                     </Flex>
 
@@ -488,7 +422,7 @@ export default function CreateServices({ id }: { id: string }) {
                         <Text fontWeight={"400"} fontSize={"14px"} >You are free to make adjustment anytime</Text>
                         <Select bgColor={mainBackgroundColor} value={selectedCategory} placeholder='Select Categories' onChange={(e) => setSelectedCategory(e.target.value)} h={"44px"} borderWidth={"1px"} borderColor={primaryColor} rounded={"16px"}  >
                             {!isLoading && categories.length > 0 && categories.map((item, index) => (
-                                <option key={index.toString()} selected={index === 0} value={item} >{item}</option>
+                                <option key={index.toString()} selected={index === 0} value={item} >{item?.replaceAll("_", " ")}</option>
                             ))}
                         </Select>
                         {/* <SearchableDropdown options={categories} id='' label='category' handleChange={(e) => console.log(e)} selectedVal={''}  /> */}
@@ -502,8 +436,8 @@ export default function CreateServices({ id }: { id: string }) {
                         }} h={"100px"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} />
                         <Text>{description.length}/300</Text>
                     </Flex>
-                    {hasFixedPrice && (
-                        <>
+                    {/* {hasFixedPrice && (
+                        <> */}
 
                             <Flex flexDir={"column"} w={"full"} gap={"2"} >
                                 <Text fontWeight={"600"} >{`Let’s set your Price`} <span style={{ color: 'red', fontSize: '12px' }}>*</span></Text>
@@ -529,57 +463,44 @@ export default function CreateServices({ id }: { id: string }) {
                                     }}
                                 />
                             </Flex>
-                        </>
-                    )}
+                        {/* </>
+                    )} */}
                     {/* <Flex gap={"2"} alignItems={"center"} >
                         <MdEdit size={"25px"} color={primaryColor} />
                         <Text textDecoration={"underline"} color={primaryColor} >Edit</Text>
                     </Flex> */}
-                    <Flex flexDirection={"column"} gap={"2"} >
-                        <Text fontWeight={"600"} >Offer a discount</Text>
-                        <Text fontWeight={"400"} fontSize={"14px"} >This will make your place to stand out and get booked faster</Text>
-                        <Flex gap={"3"} mt={"3"} alignItems={"center"} >
-                            <Checkbox isChecked={discount === 20} onChange={() => setDiscount(20)} />
-                            <Text >25%  I  For frequent customers</Text>
-                        </Flex>
-                        <Flex gap={"3"} mt={"3"} alignItems={"center"} >
-                            <Checkbox isChecked={discount === 10} onChange={() => setDiscount(10)} />
-                            <Text >10%  I  Weekly discount</Text>
-                        </Flex>
-                        <Flex gap={"3"} mt={"3"} alignItems={"center"} >
-                            <Checkbox isChecked={discount === 15} onChange={() => setDiscount(15)} />
-                            <Text >15%  I  Monthly discount</Text>
-                        </Flex>
-                        <Flex gap={"3"} mt={"30px"} alignItems={"center"}  >
+                    <Flex flexDirection={"column"} gap={"2"} > 
+                        <Flex gap={"3"} alignItems={"center"}  >
                             <Checkbox isChecked={!hasFixedPrice} onChange={() => setHasFixedPrice((prev) => !prev)} />
-                            <Text color={primaryColor} >{`I don’t have fix price let client contact me`}</Text>
+                            <Text color={primaryColor} >{`Negotiation`}</Text>
                         </Flex>
                     </Flex>
-
-                    {/* <RadioGroup >
-                        <Flex direction='row' gap={"4"}>
-                            <Radio value='1' isChecked={isOnline === 'physical'} onChange={() => setIsOnline('physical')}>Physical Venue</Radio>
-                            <Radio value='2' isChecked={isOnline === 'online'} onChange={() => setIsOnline('online')}>Online</Radio>
-                            <Radio value='3' isChecked={isOnline === 'both'} onChange={() => setIsOnline('physical')}>Both</Radio>
-                            <HStack>
-                                <Checkbox isChecked={both} onChange={() => setBoth((prev) => !prev)} aria-label='Both' />
-                                <Text>Has both</Text>
-                           </HStack>
-                        </Flex>
-                    </RadioGroup> */}
-                    {/* {isOnline !== 'online' && ( */}
-                        <Flex flexDirection={"column"} w={"full"} h={"40px"} gap={"3px"} >
-                            <ProductMap location={rentaldata?.location} />
-                        </Flex>
+ 
+                    <Flex flexDirection={"column"} w={"full"} h={"45px"} gap={"3px"} >
+                        <ProductMap location={rentaldata?.location} />
+                    </Flex>
                     {/* )} */}
-                    <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                        <CustomInput name="phone" placeholder='' label='Business Phone Number' isPassword={false} type='phone' required />
+                    <Flex id='business' flexDir={"column"} gap={"1"} w={"full"} >
+                        <CustomInput name="phone" placeholder='' label='Phone Number' isPassword={false} type='phone' required />
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="email" placeholder='' label='Business Email Address' isPassword={false} type='email' required />
-                    </Flex>
-                    <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                        <CustomInput name="website" placeholder='' label='Business Website (optional)' isPassword={false} type='text' hint="The link must start with https://" />
+                    </Flex> 
+                    <Flex flexDir={"column"} w={"full"} gap={"2"} >
+                        <Text fontWeight={"600"} >Business Website (optional)</Text>
+                        <Input
+                            bgColor={mainBackgroundColor}
+                            type='text'
+                            value={website}
+                            onChange={(e) => {
+                                setWebsite(e.target.value)
+                            }}
+                            h={"44px"}
+                            borderWidth={"1px"}
+                            borderColor={borderColor}
+                            rounded={"16px"}
+                            placeholder='Enter your business Website' 
+                        />
                     </Flex>
 
                     <Flex overflowX="auto" w="full" css={{
@@ -650,10 +571,11 @@ export default function CreateServices({ id }: { id: string }) {
                         )}
                     </Flex>
 
-                    <Box w="full" h="50px" mb='20px'>
-                        <Button type='submit' isLoading={uploadImageMutation.isLoading ?? createBusinessMutation.isLoading} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"full"} mt={"6"} _hover={{ backgroundColor: primaryColor }} >
+                    <Box w="full" h="fit-content" pb='20px'>
+                        <Button type='submit' isDisabled={!name || !description || !price || !rentaldata?.location?.state || uploadImageMutation.isLoading || createBusinessMutation.isLoading ? true : false} _disabled={{ opacity:"30%", cursor: "not-allowed" }} isLoading={uploadImageMutation.isLoading || createBusinessMutation.isLoading} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"45px"} mt={"6"} _hover={{ backgroundColor: primaryColor }} >
                             Submit
                         </Button>
+                        <Flex w={"full"} h={"50px"} />
                     </Box>
                 </Flex>
             </Flex>

@@ -37,7 +37,7 @@ export default function ProductImageScroller({ images, userData, createdDate, he
                     <UserImage image={userData?.data?.imgMain?.value} font={"16px"} data={userData} border={"1px"} size={"32px"} />
                     <Flex flexDir={"column"} alignItems={"start"} pr={"3"} >
                         <Text display={["none", "none", "block"]} fontSize={"12px"} fontWeight={"600"} color={"white"} >
-                            {capitalizeFLetter(userData?.firstName) + " " + capitalizeFLetter(userData?.lastName)}
+                            {textLimit(capitalizeFLetter(userData?.firstName) + " " + capitalizeFLetter(userData?.lastName), 15)}
                         </Text>
                         <Text display={["block", "block", "none"]} fontSize={"12px"} fontWeight={"600"} color={"white"} >
                             {textLimit(capitalizeFLetter(userData?.firstName) + " " + capitalizeFLetter(userData?.lastName), 10)}

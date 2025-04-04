@@ -26,6 +26,16 @@ export default function RentalCreate() {
     const { handleSubmitRental, createProduct, loading, openRental, setOpenRental } = useProduct(rentaldata, true)
 
     const clickHandler = () => {}
+
+    const handleChangeLimit = (e: any, limit: any, type: "Name" | "Description") => {
+        if ((e.target.value).length <= limit) {
+            if(type === "Name") {
+                updateRental({ ...rentaldata, name: e.target.value })
+            } else {
+                updateRental({ ...rentaldata, description: e.target.value })
+            }
+        }
+    }
     
 
     return (
@@ -45,11 +55,13 @@ export default function RentalCreate() {
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Name of the item</Text>
-                            <Input bgColor={mainBackgroundColor} h={"45px"} onChange={(e) => updateRental({ ...rentaldata, name: e.target.value })} />
+                            <Input bgColor={mainBackgroundColor} h={"45px"} onChange={(e) => handleChangeLimit(e, 150, "Name")} />
+                            <Text fontSize={"sm"} >{rentaldata?.name?.length ? rentaldata?.name?.length : "0"} {"/ 150"}</Text>
                         </Flex>
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
-                            <Text fontWeight={"500"} >Description (optional)</Text>
-                            <Textarea bgColor={mainBackgroundColor} onChange={(e) => updateRental({ ...rentaldata, description: e.target.value })} />
+                            <Text fontWeight={"500"} >Description</Text>
+                            <Textarea bgColor={mainBackgroundColor} onChange={(e) => handleChangeLimit(e, 1500, "Description")} />
+                            <Text fontSize={"sm"} >{rentaldata?.description?.length ? rentaldata?.description?.length : "0"} {"/ 1500"}</Text>
                         </Flex>
                         <SelectCategories rental={true} />
                     </Flex>
@@ -99,7 +111,7 @@ export default function RentalCreate() {
                     <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
                         <SuccessIcon />
                         <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{"Congratulations"}</Text>
-                        <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your product has been listed successfully`}</Text>
+                        <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your rental product has been listed successfully.`}</Text>
 
                         <CustomButton onClick={() => push("/dashboard/kisok?type=myrental")} color={"#FFF"} text={'Done'} w={"full"} backgroundColor={"#3EC259"} />
                     </Flex>

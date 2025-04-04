@@ -76,7 +76,7 @@ function DeleteAccoutModal({ isOpen, onClose }: Props) {
                     <VStack width='100%' justifyContent={'center'} height='100%' alignItems={'center'} spacing={3}>
                         <Image alt='delete' src='/assets/images/deleteaccount.svg' />
                         <CustomText fontFamily='DM-Bold' textAlign={'center'} fontSize={'20px'}>Delete Account</CustomText>
-                        <CustomText fontFamily={'DM-Regular'} textAlign={'center'} fontSize={'16px'} color='grey'>Are you sure you want  to delete this account ? this action cannot be undone.</CustomText>
+                        <CustomText fontFamily={'DM-Regular'} textAlign={'center'} fontSize={'16px'} color='grey'>Are you sure you want to delete this account ? this action cannot be undone.</CustomText>
 
                         <Button isLoading={isLoading} onClick={() => mutate()} width='100%' height='42px' bg='red' color="white" variant='solid'>Delete</Button>
                         <Button onClick={() => onClose()} width='100%' height='42px' borderWidth={'0px'} color="grey" variant='outline' outlineColor={'lightgrey'}>Cancel</Button>

@@ -16,33 +16,48 @@ import { IoArrowBack } from 'react-icons/io5'
 
 export default function KisokCreate() {
 
-    const { primaryColor, secondaryBackgroundColor, headerTextColor, bodyTextColor, mainBackgroundColor} = useCustomTheme()
+    const { primaryColor, secondaryBackgroundColor, headerTextColor, bodyTextColor, mainBackgroundColor } = useCustomTheme()
     const { push, back } = useRouter()
-    const query = useSearchParams(); 
+    const query = useSearchParams();
 
-    const [selected, setSelected] = useState("")
     const type = query?.get('type');
     const { productdata, updateProduct } = useProductStore((state) => state);
 
     const { handleSubmitProduce, createProduct, loading, openProduct, setOpenProduct } = useProduct(productdata, false)
 
-    const clickHandler = () => {}
+    const clickHandler = () => { }
+
+    const handleChangeLimit = (e: any, limit: any, type: "Name" | "Description") => {
+        if ((e.target.value).length <= limit) {
+            if (type === "Name") {
+                useProduct({ ...productdata, name: e.target.value })
+            } else {
+                useProduct({ ...productdata, description: e.target.value })
+            }
+        }
+    }
 
     return (
         <Flex w={"full"} px={"6"} pos={"relative"} pb={"12"} alignItems={"center"} flexDir={"column"} overflowY={"auto"} >
             <Flex w={"full"} h={"6px"} pos={"absolute"} top={"0px"} zIndex={"10"} insetX={"0px"} rounded={"6px"} bgColor={"#F6F6F6"} >
                 <Flex w={!type ? "50%" : "100%"} bgColor={primaryColor} rounded={"6px"} />
             </Flex>
-            <Flex onClick={()=> back()} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} position={"absolute"} top={"4"} zIndex={"30"} left={"4"}  >
+            <Flex onClick={() => back()} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} position={"absolute"} top={"4"} zIndex={"30"} left={"4"}  >
                 <IoArrowBack size={"20px"} />
             </Flex>
 
-            <form style={{ maxWidth: "550px" ,width: "100%", display:"flex" }} onSubmit={handleSubmitProduce}>
+            <form style={{ maxWidth: "550px", width: "100%", display: "flex" }} onSubmit={handleSubmitProduce}>
                 <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={type ? "none" : "flex"} flexDir={"column"}  >
-                    <Text fontSize={"24px"} fontWeight={"600"} >Give your product a name</Text>
-                    <Input bgColor={mainBackgroundColor} onChange={(e) => updateProduct({ ...productdata, name: e.target.value })} h={"45px"} />
-                    <Text fontSize={"24px"} fontWeight={"500"} >Describe your place to make it stand out</Text>
-                    <Textarea bgColor={mainBackgroundColor} onChange={(e) => updateProduct({ ...productdata, description: e.target.value })} h={"120px"} />
+                    <Flex gap={"2"} w={"full"} flexDir={"column"} >
+                        <Text fontSize={"24px"} fontWeight={"600"} >Give your product a name</Text>
+                        <Input bgColor={mainBackgroundColor} onChange={(e) => handleChangeLimit(e, 150, "Name")} h={"45px"} />
+                        <Text fontSize={"sm"} >{productdata?.name?.length ? productdata?.name?.length : "0"} {"/ 150"}</Text>
+                    </Flex>
+                    <Flex gap={"2"} w={"full"} flexDir={"column"} >
+                        <Text fontSize={"24px"} fontWeight={"500"} >Describe your place to make it stand out</Text>
+                        <Textarea bgColor={mainBackgroundColor} onChange={(e) => handleChangeLimit(e, 1500, "Description")} h={"120px"} />
+                        <Text fontSize={"sm"} >{productdata?.description?.length ? productdata?.description?.length : "0"} {"/ 1500"}</Text>
+                    </Flex>
                     <Text fontSize={"24px"} fontWeight={"500"} >Set your pricing </Text>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Quantity</Text>
@@ -57,7 +72,7 @@ export default function KisokCreate() {
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Price per unit</Text>
                         <Input type="number" bgColor={mainBackgroundColor} onChange={(e) => updateProduct({ ...productdata, price: e.target.value })} h={"45px"} />
-                    </Flex> 
+                    </Flex>
                     <CustomButton type='button' _disabled={{ opacity: "0.5", cursor: "not-allowed" }} disable={(!productdata?.name || !productdata?.description || !productdata?.quantity || !productdata?.price) ? true : false} onClick={() => push("/dashboard/kisok/create?type=true")} height={"60px"} borderRadius={"999px"} mt={"4"} text={"Continue"} />
                 </Flex>
 
@@ -67,13 +82,13 @@ export default function KisokCreate() {
                     <Text fontSize={"24px"} fontWeight={"600"} >Delivery Plans</Text>
                     <Text fontWeight={"500"} >Note:  You are responsible for your product  delivery</Text>
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
-                        <Flex as={"button"} onClick={() => setSelected((prev) => prev === "1" ? "" : "1")} p={"6"} w={"full"} rounded={"16px"} justifyContent={"space-between"} bgColor={"#FCFCFC"} alignItems={"center"} borderWidth={"1px"} borderColor={selected === "1" ? primaryColor : "#EAEBEDCC"} >
+                        <Flex p={"6"} w={"full"} rounded={"16px"} justifyContent={"space-between"} bgColor={"#FCFCFC"} alignItems={"center"} borderWidth={"1px"} borderColor={"#EAEBEDCC"} >
                             <Flex flexDir={"column"} gap={"2"} alignItems={"start"} >
                                 <Text fontWeight={"500"} >Mandatory product delivery Timeline</Text>
                                 <Text fontSize={"14px"} >Within 3-5 Days inside lagos</Text>
                             </Flex>
                             <TruckIcon />
-                        </Flex> 
+                        </Flex>
                     </Flex>
                     <CustomButton isLoading={createProduct?.isLoading || loading} disable={createProduct?.isLoading || loading} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
                 </Flex>
@@ -84,9 +99,9 @@ export default function KisokCreate() {
                     <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
                         <SuccessIcon />
                         <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{"Congratulations"}</Text>
-                        <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your product has been listed on chasescroll kiosk pending approval`}</Text>
-                         
-                            <CustomButton onClick={()=> push("/dashboard/kisok?type=mykisok")} color={"#FFF"} text={'Done'} w={"full"} backgroundColor={"#3EC259"} /> 
+                        <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your product has been listed successfully`}</Text>
+
+                        <CustomButton onClick={() => push("/dashboard/kisok?type=mykisok")} color={"#FFF"} text={'Done'} w={"full"} backgroundColor={"#3EC259"} />
                     </Flex>
                 </LoadingAnimation>
             </ModalLayout>

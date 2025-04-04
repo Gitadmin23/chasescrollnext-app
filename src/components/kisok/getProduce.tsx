@@ -19,6 +19,7 @@ import { IMAGE_URL } from '@/services/urls'
 import useProductStore from '@/global-state/useCreateProduct'
 import ProductImageScroller from '../sharedComponent/productImageScroller'
 import { cleanup } from '@/utils/cleanupObj'
+import DeleteEvent from '../sharedComponent/delete_event'
 
 export default function GetProduct({ myproduct, name, category, state }: { myproduct?: boolean, name?: string, state?: string, category?: string }) {
 
@@ -28,7 +29,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     const userId = localStorage.getItem('user_id') + "";
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
-        url: `/products/search${myproduct ? `?creatorID=${userId}` : ""}`, limit: 20, filter: "id", name: "getProduct", paramsObj: cleanup({
+        url: `/products/search${myproduct ? `?creatorID=${userId}` : ""}`, limit: 20, filter: "id", name: "getMyProduct", paramsObj: cleanup({
             name: name,
             category: category,
             state: state
@@ -55,17 +56,20 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
         }
     }
 
+    let newResult = results?.filter((item: IProduct) => item?.createdBy?.userId !== userId)
+
     return (
-        <LoadingAnimation loading={isLoading} length={results?.length} >
+        <LoadingAnimation loading={isLoading} length={(myproduct ? results : newResult)?.length} >
             <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["2", "2", "6"]} >
-                {results?.map((item: IProduct, index: number) => {
-                    if (results?.length === index + 1) {
-                        return ( 
-                            <Flex ref={ref} as={"button"} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} >
+                {(myproduct ? results : newResult)?.map((item: IProduct, index: number) => {
+                    if ((myproduct ? results : newResult)?.length === index + 1) {
+                        return (
+                            <Flex ref={ref} as={"button"} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} pos={"relative"} >
+                                <DeleteEvent id={item?.id} isProduct={true} name={item?.name + " Product"} isOrganizer={myproduct ? true : false} />
                                 <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
-                                    <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text> 
+                                    <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>
                                     <Flex alignItems={"center"} >
                                         <Text fontSize={["14px", "14px", "14px"]} fontWeight={"700"} >{formatNumber(item?.price)}</Text>
                                         <Text display={["none", "none", "flex"]} fontSize={"10px"} ml={"auto"} >{item?.quantity} Available</Text>
@@ -82,8 +86,9 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                             </Flex>
                         )
                     } else {
-                        return ( 
-                            <Flex as={"button"} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} >
+                        return (
+                            <Flex as={"button"} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} pos={"relative"} >
+                                <DeleteEvent id={item?.id} isProduct={true} name={item?.name + " Product"} isOrganizer={myproduct ? true : false} />
                                 <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>

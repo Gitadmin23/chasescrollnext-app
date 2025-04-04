@@ -45,7 +45,7 @@ export default function GetReciept() {
 
     const clickHander = (item: IReceipt) => {
         setDetails(item)
-        setPrice(item?.price+"")
+        setPrice(item?.price + "")
         setOpen(true)
     }
 
@@ -206,10 +206,10 @@ export default function GetReciept() {
                                         <Text fontSize={'14px'}>You can neogiate this price by 5%</Text>
                                         <Flex w={"full"} mt='10px' justifyContent={"space-between"} alignItems="center">
                                             <HStack width={'120px'} height={'35px'} borderRadius={'50px'} overflow={'hidden'} backgroundColor={'#DDE2E6'}>
-                                                <Flex  onClick={() => handlePriceChange({ type: 'SUBSTRACTION', value: 0 })} cursor={'pointer'} w={"full"} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
+                                                <Flex onClick={() => handlePriceChange({ type: 'SUBSTRACTION', value: 0 })} cursor={'pointer'} w={"full"} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
                                                     <FiMinus size={12} color='black' />
                                                 </Flex>
-                                                <Flex  onClick={() => handlePriceChange({ type: 'ADDITION', value: 0 })} cursor={'pointer'} w={"full"} height={'100%'} justifyContent={'center'} alignItems={'center'}>
+                                                <Flex onClick={() => handlePriceChange({ type: 'ADDITION', value: 0 })} cursor={'pointer'} w={"full"} height={'100%'} justifyContent={'center'} alignItems={'center'}>
                                                     <FiPlus size={12} color='black' />
                                                 </Flex>
                                             </HStack>
@@ -232,7 +232,7 @@ export default function GetReciept() {
                             <Text fontWeight={"600"} >Shipped To :  <span style={{ fontWeight: "500" }} >{detail?.address?.location?.locationDetails}</span></Text>
                             {/* <Text fontWeight={"600"} >State: <span style={{ fontWeight: "500" }} >{detail?.address?.state}</span></Text> */}
                         </Flex>
-                        {((detail?.rental?.createdBy !== userId) && (detail?.approvalStatus !== "PENDING") && (detail?.approvalStatus !== "ACCEPTED")) && (
+                        {((detail?.rental?.createdBy !== userId) && (detail?.approvalStatus !== "PENDING") && (detail?.approvalStatus !== "ACCEPTED") && (detail?.approvalStatus !== "CANCELLED")) && (
                             <Flex gap={"2"} >
                                 <CustomButton isLoading={payForTicket?.isLoading} onClick={() => payForTicket.mutate({
                                     seller: detail?.rental?.createdBy,
@@ -251,14 +251,18 @@ export default function GetReciept() {
                         )}
                         {(detail?.approvalStatus === "PENDING" && detail?.rental?.createdBy !== userId) && (
                             <Flex gap={"2"} >
+                                <CustomButton fontSize={"sm"} isLoading={reject?.isLoading && status === "CANCELLED"} onClick={() => updateHandler("CANCELLED")} text={"Cancel"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={mainBackgroundColor} color={"#FE0909"} width={"150px"} />
                                 <CustomButton fontSize={"sm"} text={"Pending Approval"} borderRadius={"99px"} width={"150px"} backgroundColor={"#FF9500"} />
                             </Flex>
                         )}
-                        {(detail?.rental?.createdBy === userId && detail?.approvalStatus !== "ACCEPTED") && (
+                        {(detail?.rental?.createdBy === userId && detail?.approvalStatus !== "ACCEPTED" && detail?.approvalStatus !== "CANCELLED") && (
                             <Flex gap={"2"} >
                                 <CustomButton fontSize={"sm"} isLoading={updateRecipt?.isLoading && status === "ACCEPTED"} onClick={() => updateHandler("ACCEPTED")} text={"Accept"} borderRadius={"99px"} width={"150px"} />
-                                <CustomButton fontSize={"sm"} isLoading={reject?.isLoading && status === "CANCELLED"} onClick={() => updateHandler("CANCELLED")} text={"Decline"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={mainBackgroundColor} color={"#FE0909"} width={"150px"} />
+                                <CustomButton fontSize={"sm"} isLoading={reject?.isLoading && status === "CANCELLED"} onClick={() => updateHandler("CANCELLED")} text={"Cancel"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={mainBackgroundColor} color={"#FE0909"} width={"150px"} />
                             </Flex>
+                        )}
+                        {detail?.approvalStatus === "CANCELLED" && (
+                            <CustomButton fontSize={"sm"} disable={true} onClick={() => updateHandler("CANCELLED")} text={"Cancelled"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={"#FE0909"} color={"#FFF"} width={"250px"} />
                         )}
                     </Flex>
                 </Flex>

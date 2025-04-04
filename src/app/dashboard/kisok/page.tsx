@@ -302,7 +302,7 @@ export default function KisokPage() {
                             onChange={(e) => routeHandler(e.target.value)}
                             width={["auto", "auto", "auto"]}
                             textAlign={"center"} >
-                            {[{ name: "All Rental", value: "rental" }, { name: "My Rental", value: "myrental" }, { name: "My Reciept", value: "myreciept" }, { name: "My Rental Reciept", value: "vendorreciept" }]?.map((type: any, index: number) => (
+                            {[{ name: "All Rental", value: "rental" }, { name: "My Rental", value: "myrental" }, { name: "My Reciept", value: "myreciept" }, { name: "My Request", value: "vendorreciept" }]?.map((type: any, index: number) => (
                                 <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
                                     {type?.name}
                                 </option>

@@ -13,6 +13,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import ShareEvent from '../share_event'
 import { IoClose } from 'react-icons/io5'
 import useCustomTheme from '@/hooks/useTheme'
+import DeleteEvent from '../delete_event'
 
 export default function MobileCard(props: IEventType) {
 
@@ -43,11 +44,7 @@ export default function MobileCard(props: IEventType) {
 
     return (
         <Flex as={"button"} onClick={clickHandler} borderWidth={"1px"} pos={"relative"} rounded={"16px"} p={"5px"} w={"full"} gap={"2"} bgColor={mainBackgroundColor} >
-            {props?.interestedUsers?.length === 0 && (
-                <Flex w={"6"} h={"6"} justifyContent={"center"} alignItems={"center"} pos={"absolute"} top={"-14px"} right={"-8px"} zIndex={"50"} bg={"#F2A09B66"} color={"#F50A0A"} rounded={"full"} >
-                    <IoClose size={"14px"} />
-                </Flex>
-            )}
+            <DeleteEvent id={props?.id} name={props?.eventName+ " Event"} isEvent={pathname?.includes("draft") ? false : true} draft={pathname?.includes("draft") ? true : false} isOrganizer={props?.isOrganizer} />
             <Flex width={"fit-content"} >
                 <Flex w={"120px"} h={"104px"} rounded={"16px"} roundedTopRight={"0px"} >
                     <EventImage data={props} width={["120px"]} borderWidth='2px' height={["104px"]} />

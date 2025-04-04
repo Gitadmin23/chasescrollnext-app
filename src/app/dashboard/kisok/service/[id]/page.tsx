@@ -113,11 +113,7 @@ export default function ServiceDetailsPage() {
             });
             // router.back();
         }
-    });
-
-    console.log(service);
-
-
+    }); 
 
     return (
         <LoadingAnimation loading={isLoading} >
