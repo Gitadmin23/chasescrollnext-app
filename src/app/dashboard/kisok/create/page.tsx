@@ -36,7 +36,7 @@ export default function KisokCreate() {
                 clone = { ...productdata, description: e.target.value } 
             }
         }
-        useProduct(clone)
+        updateProduct(clone)
     }
 
     return (
