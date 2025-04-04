@@ -11,7 +11,7 @@ import { formatNumber } from '@/utils/numberFormat'
 import { Flex, Text, VStack, HStack, Textarea, useToast, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
 import moment from 'moment'
 import { useRouter } from 'next/navigation'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FiCalendar, FiPlus, FiMinus } from 'react-icons/fi'
 import { IoIosClose } from 'react-icons/io'
 import { useMutation } from 'react-query'
@@ -38,6 +38,7 @@ function CreateBookingModal({
     // states
     const [description, setDescription] = React.useState("");
     const [price, setPrice] = React.useState(service?.price+"");
+    const [percentage, setPercentage] = useState(0)
     const [date, setDate] = React.useState<string>("")
 
     const { userId } = useDetails((state) => state);
@@ -54,15 +55,16 @@ function CreateBookingModal({
     const handlePriceChange = (item: IAction) => {
         if (item.type === 'ADDITION') {
             // calculate 5% fo the inital price
-            const Percentage = parseInt(price) * 0.05;
-            const newPrice = parseInt(price) + Percentage;
+            const Percentage = service?.price * (percentage + 0.05)
+            const newPrice = service?.price + Percentage;
             setPrice(newPrice.toString());
+            setPercentage(percentage + 0.05)
         } else {
-            if (parseInt(price) > 0) {
-                const Percentage = parseInt(price) * 0.05;
-                const newPrice = parseInt(price) - Percentage;
-                setPrice(newPrice.toString());
-            }
+            // calculate 5% fo the inital price
+            const Percentage = service?.price * (percentage - 0.05);
+            const newPrice = service?.price + Percentage;
+            setPrice(newPrice.toString());
+            setPercentage(percentage - 0.05)
         }
     }
 
@@ -84,8 +86,8 @@ function CreateBookingModal({
         },
         onError: (error: any) => {
             toast({
-                title: 'Success',
-                description: error?.message ?? 'An error occured while booking this service',
+                title: 'Error',
+                description: error?.response?.data?.message ?? 'An error occured while booking this service',
                 status: 'error',
                 duration: 5000,
                 position: 'top-right',
@@ -133,6 +135,9 @@ function CreateBookingModal({
         mutate(obj);
     }, [description, service, userId, toast, mutate, price]);
 
+    useEffect(()=> {
+        setPercentage(0)
+    }, [open])
 
     return (
         <ModalLayout open={show} close={onClose} size={['full', "full", '4xl']}>
@@ -166,10 +171,10 @@ function CreateBookingModal({
                             <Text fontWeight={"500"} fontSize={"14px"} >You can negotiate this price by 5%</Text>
                             <Flex w={"full"} justifyContent={"center"} >
                                 <HStack width={'180px'} height={'54px'} borderRadius={'50px'} overflow={'hidden'} backgroundColor={'#DDE2E6'}>
-                                    <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'SUBSTRACTION', value: 0 })} flex={1} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
+                                    <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'SUBSTRACTION', value: 0 })} w={"full"} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
                                         <FiMinus size={12} color='black' />
                                     </Flex>
-                                    <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'ADDITION', value: 0 })} flex={1} justifyContent={'center'} alignItems={'center'}>
+                                    <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'ADDITION', value: 0 })} w={"full"} height={'100%'} justifyContent={'center'} alignItems={'center'}>
                                         <FiPlus size={12} color='black' />
                                     </Flex>
                                 </HStack>

@@ -259,6 +259,9 @@ export default function Layout({ children }: {
                         <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
                         <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} /> 
                         <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} /> 
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} /> 
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} /> 
                 </Grid>
             </Flex>
             <HStack paddingX='20px' zIndex={"100"} position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg={mainBackgroundColor} borderTopWidth={1} borderTopColor={borderColor} display={['flex', 'flex', 'flex', 'none']}>

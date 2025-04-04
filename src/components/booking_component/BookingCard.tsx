@@ -10,7 +10,7 @@ import httpService from '@/utils/httpService'
 import { VStack, HStack, Box, Text, Image, Flex, useToast, Button, Input, InputGroup, InputLeftElement, Divider } from '@chakra-ui/react'
 import moment from 'moment'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import BlurredImage from '../sharedComponent/blurred_image'
 import { PaginatedResponse } from '@/models/PaginatedResponse';
@@ -63,6 +63,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
     const [open, setOpen] = useState(false)
 
     const [bookingState, setBookingState] = React.useState(booking);
+    const [percentage, setPercentage] = useState(0)
     const [price, setPrice] = React.useState(bookingState?.price.toString());
     const [updatedPrice, setUpdatedPrice] = React.useState(bookingState?.price.toString());
     const [service, setService] = React.useState<IService | null>(null);
@@ -166,6 +167,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
             queryClient.invalidateQueries([`get-booking-${booking?.id}`]);
 
             setLoading(false)
+            setOpen(false)
             setLoadingReject(false)
         }
     });
@@ -361,54 +363,36 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
     }
 
     const handlePriceChange = (item: IAction) => {
-        if (item.type === 'ADDITION') {
-            // calculate 5% fo the inital price
-            const Percentage = parseInt(price) * 0.05;
-            const newPrice = parseInt(price) + Percentage;
+        // calculate 5% fo the inital price
+        if(item?.type === "ADDITION") {
+            const Percentage = bookingState?.price * (percentage + 0.05);
+            const newPrice = bookingState?.price + Percentage;
             setPrice(newPrice.toString());
+            setPercentage(percentage + 0.05)
         } else {
-            if (parseInt(price) > 0) {
-                const Percentage = parseInt(price) * 0.05;
-                const newPrice = parseInt(price) - Percentage;
-                setPrice(newPrice.toString());
-            }
-        }
+            const Percentage = bookingState?.price * (percentage - 0.05);
+            const newPrice = bookingState?.price + Percentage;
+            setPrice(newPrice.toString());
+            setPercentage(percentage - 0.05)
+        } 
     }
 
     const [textSize, setTextSize] = useState(40)
 
-    console.log(bookingState);
-    
+
+    useEffect(()=> {
+        setPercentage(0)
+    }, [open])
 
     return (
         <Flex as={"button"} flexDir={"column"} onClick={() => setOpen(true)} borderWidth={"1px"} bgColor={mainBackgroundColor} rounded={"10px"} w={"full"} >
             <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
-            {/* <ProductImageScroller images={service?.images ?? []} createdDate={moment(bookingState?.createdDate)?.fromNow()} userData={bookingState?.createdBy} />
-
-            <Flex flexDir={"column"} px={"3"} gap={"3"} borderBottomWidth='0.5px' borderBottomColor={borderColor} pb='20px' w={"full"}>
-                <Flex flexDir={"column"} >
-                    <Text fontWeight={400} fontSize={'12px'}>Business Name</Text>
-                    <Text fontWeight={600} fontSize={'16px'}>{bookingState?.service?.name}</Text>
-                </Flex>
-                <Flex gap={"1"} flexDir={"column"} >
-                    <HStack w='full' justifyContent={'flex-start'} >
-                        <Text w={"50px"} fontSize={'12px'}>Email:</Text>
-                        <Text fontSize={'12px'}>{bookingState?.service?.email}</Text>
-                    </HStack>
-
-                    <HStack w='full' justifyContent={'flex-start'} >
-                        <Text w={"50px"} fontSize={'12px'}>Phone:</Text>
-                        <Text fontSize={'12px'}>{bookingState?.service?.phone ?? 'None'}</Text>
-                    </HStack>
-                </Flex>
-                <CustomButton onClick={() => setOpen(true)} text={"View Request"} backgroundColor={"white"} color={primaryColor} fontSize={"sm"} h={"56px"} borderRadius={"32px"} />
-            </Flex> */}
             <ProductImageScroller images={bookingState?.service?.images} createdDate={moment(bookingState?.createdDate)?.fromNow()} userData={bookingState?.businessOwner} />
             <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]}  >
                 <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(bookingState?.service?.name), 20)}</Text>
                 <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(bookingState?.service?.name), 16)}</Text>
                 <Flex w='full' >
-                    <Text w={"50px"} textAlign={"left"} display={"flex"} justifyContent={"start"}  fontSize={'14px'}>Email:</Text>
+                    <Text w={"50px"} textAlign={"left"} display={"flex"} justifyContent={"start"} fontSize={'14px'}>Email:</Text>
                     <Text fontSize={'14px'}>{bookingState?.service?.email}</Text>
                 </Flex>
                 <Flex w='full' >
@@ -444,7 +428,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                             </Flex>
                                         </Flex>
                                         <Flex pos={"absolute"} inset={"0px"} bgColor={"black"} opacity={"20%"} zIndex={"10"} rounded={"8px"} />
-                                        <Image borderColor={"#D0D4EB"} objectFit={"cover"} alt={service?.images[0]} w={["full", "full", "300px"]} h={"157px"} src={service?.images[0].startsWith('https://') ? service?.images[0] : (IMAGE_URL as string) + service?.images[0]} />
+                                        <Image borderColor={"#D0D4EB"} objectFit={"cover"} alt={bookingState?.service?.images[0]} w={["full", "full", "300px"]} h={"157px"} src={bookingState?.service?.images[0].startsWith('https://') ? bookingState?.service?.images[0] : (IMAGE_URL as string) + bookingState?.service?.images[0]} />
                                     </Flex>
                                     <Flex flexDir={"column"} gap={"1"} w={"full"} >
                                         <Flex justifyContent={["start", "start", "space-between"]} w={"full"} p={"5px"} bgColor={secondaryBackgroundColor} flexDir={["column", "column", "column"]} >
@@ -494,10 +478,10 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                         <VStack spacing={5} mt='10px' alignItems="center">
                                             <Text fontSize={'14px'}>You can neogiate this price by 5%</Text>
                                             <HStack width={'120px'} height={'35px'} borderRadius={'50px'} overflow={'hidden'} backgroundColor={'#DDE2E6'}>
-                                                <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'SUBSTRACTION', value: 0 })} flex={1} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
+                                                <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'SUBSTRACTION', value: 0 })} w={"full"} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
                                                     <FiMinus size={12} color='black' />
                                                 </Flex>
-                                                <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'ADDITION', value: 0 })} flex={1} justifyContent={'center'} alignItems={'center'}>
+                                                <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'ADDITION', value: 0 })} w={"full"} height={'100%'} justifyContent={'center'} alignItems={'center'}>
                                                     <FiPlus size={12} color='black' />
                                                 </Flex>
                                             </HStack>

@@ -106,19 +106,9 @@ export default function ShippingAddress(props: Props) {
     const clickHandler = () => {
         console.log(location);
 
-        if (!payload?.state) {
+        if (payload?.phone?.length !== 11) {
             toast({
-                title: "Select State",
-                description: "",
-                status: "error",
-                isClosable: true,
-                duration: 5000,
-                position: "top-right",
-            });
-            return
-        } else if (!payload?.phone) {
-            toast({
-                title: "Enter Your Phone Number",
+                title: "Enter A Valid Phone Number",
                 description: "",
                 status: "error",
                 isClosable: true,
@@ -137,9 +127,9 @@ export default function ShippingAddress(props: Props) {
             });
         } else {
             if (addressId) {
-                editAddress?.mutate({ ...payload, location: location })
+                editAddress?.mutate({ ...payload, state: location?.state, location: location })
             } else {
-                createAddress?.mutate({ ...payload, location: location })
+                createAddress?.mutate({ ...payload, state: location?.state, location: location })
             }
         }
     }
@@ -171,7 +161,7 @@ export default function ShippingAddress(props: Props) {
         updateAddress?.mutate(
             {
                 id: item?.id, payload: {
-                    state: item?.state,
+                    state: location?.state,
                     phone: item?.phone,
                     isDefault: true,
                     userId: userId,
@@ -297,16 +287,6 @@ export default function ShippingAddress(props: Props) {
             </Flex>
             <ModalLayout open={open} close={setOpen} title={"Add a new Address"} >
                 <Flex w={"full"} gap={"4"} flexDir={"column"} p={"4"} >
-                    <Flex flexDir={"column"} w={"full"} gap={"1"} >
-                        <Text>State</Text>
-                        <Select value={payload?.state} placeholder='Select State' onChange={(e) => setPayload({ ...payload, state: e.target.value })} >
-                            {statesInNigeria?.map((state) => {
-                                return (
-                                    <option key={state} >{state}</option>
-                                )
-                            })}
-                        </Select>
-                    </Flex>
                     <Flex flexDir={"column"} w={"full"} gap={"1"} >
                         <Text>Map Location</Text>
                         <ProductMap height='45px' location={location} />

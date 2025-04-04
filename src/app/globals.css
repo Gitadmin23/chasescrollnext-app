@@ -45,9 +45,16 @@ body {
   /* Inherit box-sizing to all elements */
 }
 
+.react-tel-input .flag-dropdown #business {
+  border-top-left-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+}
+
 .react-tel-input .flag-dropdown {
   border-top-left-radius: 32px !important;
   border-bottom-left-radius: 32px !important;
+  background-color: transparent !important;
+  border-width: 0px !important;
 }
 
 #img_blur {

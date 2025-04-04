@@ -37,7 +37,7 @@ export default function GetOrder() {
                     if (results?.length === index + 1) {
                         return (
                             <Flex as={"button"} ref={ref} flexDir={"column"} onClick={() => clickHandler(item?.id)} borderWidth={"1px"} rounded={"10px"} bgColor={mainBackgroundColor} key={index} w={"full"} >
-                                <ProductImageScroller images={item?.product?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
+                                <ProductImageScroller images={item?.product?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.user} />
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.product?.name), 20)}</Text>
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.product?.name), 16)}</Text> 

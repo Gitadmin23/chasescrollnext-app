@@ -125,9 +125,7 @@ const changePasswordSchema = z.object({
 
 const createBusinessValidation = z.object({
     phone: z.string().min(11, 'invalid phone number'),
-    email: z.string().email().min(6, 'invalid email'), 
-    website: z.string(),
-
+    email: z.string().email().min(6, 'invalid email'),  
 });
 
 const editBusinessValidation = z.object({

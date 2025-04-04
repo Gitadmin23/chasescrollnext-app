@@ -9,11 +9,10 @@ interface IProps {
 }
 
 
-function CustomText({children, fontFamily = 'Satoshi-Regular', isHeader = false, ...rest}: IProps & TextProps) {
+function CustomText({children, isHeader = false, ...rest}: IProps & TextProps) {
     if (isHeader) {
         return (
-            <Heading
-                fontFamily={fontFamily}
+            <Heading 
                 {...rest}
             >
                 {children}
@@ -21,8 +20,7 @@ function CustomText({children, fontFamily = 'Satoshi-Regular', isHeader = false,
         )
     }
   return (
-   <Text
-    fontFamily={fontFamily}
+   <Text 
     {...rest}
    >
     {children}

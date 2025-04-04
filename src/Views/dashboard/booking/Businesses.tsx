@@ -13,27 +13,8 @@ import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 
 
 function Businesses({ name, state, category }: { name?: string, state?: string, category?: string }) {
-    const [businesses, setBusinesses] = React.useState<IService[]>([]);
-    const [page, setPage] = React.useState(0);
-    const [hasMore, setHasMore] = React.useState(true);
-
-    // const { isLoading, } = useQuery(['get-businesses', page], () => httpService.get('/business-service/search', {
-    //     params: {
-    //         page,
-    //         size: 50,
-    //     }
-    // }), {
-    //     onSuccess: (data) => {
-    //         console.log(data?.data?.content)
-    //         const item: PaginatedResponse<IService> = data.data;
-    //         const reversed = uniqBy([...businesses, ...item.content], 'id');
-    //         setBusinesses(reversed);
-    //         if (item?.last) {
-    //             setHasMore(false);
-    //         }
-    //     }
-    // });
-
+    
+    const userId = localStorage.getItem('user_id') + "";
 
     const { results, isLoading, isRefetching: refetchingList } = InfiniteScrollerComponent({
         url: `/business-service/search`, limit: 20, filter: "id", name: "getProduct", paramsObj: cleanup({
@@ -44,30 +25,18 @@ function Businesses({ name, state, category }: { name?: string, state?: string, 
     })
 
 
-    return (
-        <LoadingAnimation loading={isLoading} refeching={refetchingList} length={results?.length} >
+    let newResult = results?.filter((item: IService) => item?.vendor?.userId !== userId)
 
+    return (
+        <LoadingAnimation loading={isLoading} refeching={refetchingList} length={newResult?.length} > 
             <Flex flexDirection={"column"} w='full' h='full' pt='8'>
-                {!isLoading && results.length > 0 && (
+                {!isLoading && newResult.length > 0 && (
                     <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["4", "4", "6"]} >
-                        {results.map((item: any, index: number) => (
+                        {newResult.map((item: any, index: number) => (
                             <BusinessCard key={index.toString()} business={item} />
                         ))}
                     </Grid>
-                )}
-
-                {/* {!isLoading && businesses.length < 1 && (
-                <VStack w='full' h='40px' borderRadius={'20px'} justifyContent={'center'} >
-                    <Text>There are currently no business, you can start by creating one!</Text>
-                </VStack>
-            )}
-
-            {isLoading && (
-                <VStack w='full' h='80px' borderRadius={'20px'} justifyContent={'center'} >
-                    <Spinner size={'sm'} />
-                    <Text>Loading Businesses</Text>
-                </VStack>
-            )} */}
+                )} 
             </Flex>
         </LoadingAnimation>
     )

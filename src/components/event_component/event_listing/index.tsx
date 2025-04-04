@@ -112,7 +112,7 @@ function EventListing(props: Props) {
                     </Grid>
                 } refeching={isRefetching} length={results?.length} >
                     <>
-                        <Grid width={["full", "full", "full", "full", "full"]} templateColumns={['repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)']} gap={5}>
+                        <Grid width={["full", "full", "full", "full", "full"]} templateColumns={['repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)']} gap={[2,2,5]}>
                             {results?.map((event: any, i: number) => {
                                 if (results.length === i + 1) {
                                     if ((i + 1) >= 30) {

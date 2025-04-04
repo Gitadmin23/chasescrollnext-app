@@ -2,7 +2,7 @@ import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { GallaryIcon } from '@/components/svg'
 import useCustomTheme from '@/hooks/useTheme'
 import { Button, Flex, Input, Radio, RadioGroup, Select, Text, Textarea, Image, Box, useToast, Checkbox, HStack, Spinner } from '@chakra-ui/react'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { FiX } from 'react-icons/fi'
 import { DayAvaliable } from '.'
@@ -53,10 +53,13 @@ export default function EditBusinessPage() {
     const [open, setOpen] = useState(false)
     const [modal, setModal] = useState(false)
     const [isOnline, setIsOnline] = useState<'physical' | 'online' | 'both' | null>(null);
-    const [files, setFiles] = useState<File[]>([]);
+    const [index, setIndex] = useState("");
     const [both, setBoth] = React.useState(false);
     const [showModal, setShowModal] = useState(false);
-    const [description, setDescription] = useState("")
+    const [hasFixedPrice, setHasFixedPrice] = useState(true);
+    const [price, setPrice] = useState("")
+    const [description, setDescription] = useState("") 
+    const [name, setName] = useState("")
     const [business, setBusiness] = useState<IBuisness | null>(null);
     const { imagePreview, updateImagePreview, rentaldata, updateRental, image } = useProductStore((state) => state);
 
@@ -208,10 +211,7 @@ export default function EditBusinessPage() {
             }
 
         }
-    });
-
-    console.log(rentaldata?.location?.state);
-
+    }); 
 
     const { isLoading, data } = useQuery([`get-business-by-id-${id}`, id], () => httpService.get(`/business-service/search`, {
         params: {
@@ -219,16 +219,20 @@ export default function EditBusinessPage() {
         }
     }), {
         onSuccess: (data) => {
-            console.log(data?.data);
-            setBusiness(data?.data?.content[0]);
-            setDescription(data?.data?.content[0]?.description)
-            setValue("email", data?.data?.content[0]?.email);
-            setValue("phone", data?.data?.content[0]?.phone);
-            setValue("address", data?.data?.content[0]?.address);
-            setValue("website", data?.data?.content[0]?.website);
-            setIsOnline(data?.data?.content[0]?.isOnline ? 'online' : data?.data?.content[0]?.address !== '' ? 'physical' : 'both');
-            updateImagePreview(data?.data?.content[0]?.images);
-            updateRental({ ...rentaldata, location: data?.data?.content[0]?.location })
+                console.log(data?.data);
+                setBusiness(data?.data?.content[0]);
+                setDescription(data?.data?.content[0]?.description)
+                setHasFixedPrice(data?.data?.content[0]?.hasFixedPrice)
+                setPrice(data?.data?.content[0]?.price + "")
+                setName(data?.data?.content[0]?.name)
+                setIndex(data?.data?.content[0]?.id)
+                setValue("email", data?.data?.content[0]?.email);
+                setValue("phone", data?.data?.content[0]?.phone);
+                setValue("address", data?.data?.content[0]?.address);
+                setValue("website", data?.data?.content[0]?.website);
+                setIsOnline(data?.data?.content[0]?.isOnline ? 'online' : data?.data?.content[0]?.address !== '' ? 'physical' : 'both');
+                updateImagePreview(data?.data?.content[0]?.images);
+                updateRental({ ...rentaldata, location: data?.data?.content[0]?.location })
         },
         onError: (error: any) => {
             toast({
@@ -240,8 +244,25 @@ export default function EditBusinessPage() {
                 isClosable: true,
             })
         },
-        enabled: business?.businessName ? false : true
+        enabled: index ? false : true
     });
+
+    // useEffect(()=> { 
+    //     if()
+    //     console.log(data?.data);
+    //     setBusiness(data?.data?.content[0]);
+    //     setDescription(data?.data?.content[0]?.description)
+    //     setHaseFixedPrice(data?.data?.content[0]?.hasFixedPrice)
+    //     setPrice(data?.data?.content[0]?.price + "")
+    //     setName(data?.data?.content[0]?.name)
+    //     setValue("email", data?.data?.content[0]?.email);
+    //     setValue("phone", data?.data?.content[0]?.phone);
+    //     setValue("address", data?.data?.content[0]?.address);
+    //     setValue("website", data?.data?.content[0]?.website);
+    //     setIsOnline(data?.data?.content[0]?.isOnline ? 'online' : data?.data?.content[0]?.address !== '' ? 'physical' : 'both');
+    //     updateImagePreview(data?.data?.content[0]?.images);
+    //     updateRental({ ...rentaldata, location: data?.data?.content[0]?.location })
+    // }, [data])
 
     React.useEffect(() => {
         if (both) {
@@ -274,33 +295,7 @@ export default function EditBusinessPage() {
                 isClosable: true,
             })
         }
-    });
-
-    // const uploadImageMutation = useMutation({
-    //     mutationFn: (data: FormData) => httpService.post(`${URLS.UPLOAD_IMAGE}/update`, data, {
-    //         headers: {
-    //             'Content-Type': 'multipart/form-data'
-    //         }
-    //     }),
-    //     onSuccess: (data) => {
-    //         console.log(data.data)
-    //         const fileName = data?.data?.fileName;
-    //         const obj = {
-    //             ...values,
-    //             isOnline: isOnline === 'online' ? true : false,
-    //             bannerImage: [...fileName, ...imagePreview],
-    //             socialMediaHandles: handles,
-    //             openingHours: days.filter((item) => { if (item.checked) { return item; } }).map((item) => ({
-    //                 startTime: parseInt(item.startTime.replace(':', '')),
-    //                 endTime: parseInt(item.endTime.replace(':', '')),
-    //                 availabilityDayOfWeek: item?.dayOFTheWeek
-    //             })),
-    //             description,
-    //         }
-    //         createBusinessMutation.mutate(obj);
-    //     },
-    //     onError: (error) => { }
-    // });
+    }); 
 
     const uploadImageMutation = useMutation({
         mutationFn: (data: FormData) => httpService.post(`${URLS.UPLOAD_IMAGE_ARRAY}/service`, data, {
@@ -310,7 +305,7 @@ export default function EditBusinessPage() {
         }),
         onSuccess: (data) => {
             const images: string[] = [];
-            const data_obj = data?.data; 
+            const data_obj = data?.data;
 
             // Loop through the object values and add to images array
             if (data_obj && typeof data_obj === 'object') {
@@ -319,28 +314,7 @@ export default function EditBusinessPage() {
                         images.push(value);
                     }
                 });
-            }
-            // const obj = {
-            //     vendorID: id,
-            //     category: !cat ? categories[0] : cat,
-            //     images,
-            //     price,
-            //     hasFixedPrice,
-            //     discount,
-            //     description,
-            //     ...values,
-            //     isOnline: isOnline === 'online' ? true : false,
-            //     socialMediaHandles: handles,
-            //     openingHours: days.filter((item) => { if (item.checked) { return item; } }).map((item) => ({
-            //         startTime: parseInt(item.startTime.replace(':', '')),
-            //         endTime: parseInt(item.endTime.replace(':', '')),
-            //         availabilityDayOfWeek: item?.dayOFTheWeek
-            //     })),
-            //     "state": rentaldata?.location?.state,
-            //     "location": rentaldata?.location,
-            //     name,
-            // }
- 
+            } 
             const obj = {
                 ...values,
                 isOnline: isOnline === 'online' ? true : false,
@@ -353,7 +327,7 @@ export default function EditBusinessPage() {
                 })),
                 description,
             }
-            createBusinessMutation.mutate(obj); 
+            createBusinessMutation.mutate(obj);
         },
         onError: (error) => {
             toast({
@@ -435,8 +409,8 @@ export default function EditBusinessPage() {
                     <ProductImagePicker />
 
 
-                    {/* <Flex flexDir={"column"} w={"full"} gap={"2"} >
-                        <Text fontWeight={"600"} >Business Name <span style={{ color: 'red', fontSize: '12px' }}>*</span></Text>
+                    <Flex flexDir={"column"} w={"full"} gap={"2"} >
+                        <Text fontSize={"14px"} >Business Name <span style={{ color: 'red', fontSize: '12px' }}>*</span></Text>
                         <Input
                             bgColor={mainBackgroundColor}
                             type='text'
@@ -451,7 +425,7 @@ export default function EditBusinessPage() {
                             placeholder='Enter your business name'
 
                         />
-                    </Flex> */}
+                    </Flex>
                     <Flex flexDir={"column"} w={"full"} gap={"2"} >
                         <Text fontWeight={"400"} fontSize={"14px"} >Business Description <sup style={{ color: 'red' }}>*</sup></Text>
                         <Textarea bgColor={mainBackgroundColor} value={description} onChange={(e) => {
@@ -461,17 +435,53 @@ export default function EditBusinessPage() {
                         }} h={"84px"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} />
                         <Text>{description.length}/300</Text>
                     </Flex>
-                    <Flex flexDirection={"column"} w={"full"} h={"40px"} gap={"3px"} >
-                        <ProductMap location={rentaldata?.location} />
+                    {hasFixedPrice && (
+                        <>
+
+                            <Flex flexDir={"column"} w={"full"} gap={"2"} >
+                                <Text  fontSize={"14px"} >{`Let’s set your Price`} <span style={{ color: 'red', fontSize: '12px' }}>*</span></Text>
+                                <Text fontWeight={"400"} fontSize={"12px"} >You are free to make adjustment anytime</Text>
+                                <Input
+                                    bgColor={mainBackgroundColor}
+                                    value={price}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        if (/^\d*$/.test(value)) {
+                                            setPrice(value);
+                                        }
+                                    }}
+                                    h={"44px"}
+                                    borderWidth={"1px"}
+                                    borderColor={borderColor}
+                                    rounded={"16px"}
+                                    placeholder='₦ 232,435'
+                                    onKeyPress={(e) => {
+                                        if (!/[0-9]/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
+                            </Flex>
+                        </>
+                    )}
+                    <Flex gap={"3"} alignItems={"center"}  >
+                        <Checkbox isChecked={hasFixedPrice ? false : true} onChange={() => setHasFixedPrice((prev) => !prev)} />
+                        <Text color={primaryColor} >{`I don’t have fix price let client contact me`}</Text>
+                    </Flex>
+                    <Flex flexDir={"column"} gap={"3px"} >
+                        <Text fontSize={"14px"} >{"Location"}</Text>
+                        <Flex flexDirection={"column"} w={"full"} h={"45px"} gap={"3px"} >
+                            <ProductMap location={rentaldata?.location} />
+                        </Flex>
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                        <CustomInput name="phone" placeholder='' label='Business Phone Number' isPassword={false} type='phone' required />
+                        <CustomInput name="phone" placeholder='' labelTextSize='14px' label='Business Phone Number' isPassword={false} type='phone' required />
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                        <CustomInput name="email" placeholder='' label='Business Email Address' isPassword={false} type='email' required />
+                        <CustomInput name="email" placeholder='' labelTextSize='14px' label='Business Email Address' isPassword={false} type='email' required />
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                        <CustomInput name="website" placeholder='' label='Business Website (optional)' isPassword={false} type='text' hint="The link must start with https://" />
+                        <CustomInput name="website" placeholder='' labelTextSize='14px' label='Business Website (optional)' isPassword={false} type='text' hint="The link must start with https://" />
 
 
                     </Flex>
@@ -497,7 +507,7 @@ export default function EditBusinessPage() {
 
                     <Flex gap={"2"} >
                         <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                            <Text>Select your socials type</Text>
+                            <Text  fontSize={"14px"} >Select your socials type</Text>
                             <Select h={"44px"} value={platform} onChange={(e) => setPlatform(e.target.value)} >
                                 {SOCIAL_MEDIA_PLATFORMS.map((media, index) => (
                                     <option selected={index === 0} value={media} key={index.toString()}>{media}</option>
@@ -505,7 +515,7 @@ export default function EditBusinessPage() {
                             </Select>
                         </Flex>
                         <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                            <Text>Social Media handle</Text>
+                            <Text  fontSize={"14px"} >Social Media handle</Text>
                             <Input
                                 h={"44px"}
                                 value={handle}

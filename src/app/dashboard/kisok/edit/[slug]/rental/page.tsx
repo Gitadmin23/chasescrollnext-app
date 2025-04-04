@@ -12,7 +12,7 @@ import useCustomTheme from '@/hooks/useTheme'
 import httpService from '@/utils/httpService'
 import { Flex, Input, Radio, RadioGroup, Stack, Text, Textarea } from '@chakra-ui/react'
 import { useSearchParams, useRouter, useParams } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 import { IoIosAdd, IoIosRemove } from 'react-icons/io'
 import { IoArrowBack } from 'react-icons/io5'
 import { useQuery } from 'react-query'
@@ -22,6 +22,7 @@ export default function RentalCreate() {
     const { primaryColor, secondaryBackgroundColor, headerTextColor, bodyTextColor, mainBackgroundColor } = useCustomTheme()
     const { push, back } = useRouter()
     const query = useSearchParams();
+    const [index, setIndex] = useState("")
     const type = query?.get('type');
     const { rentaldata, updateRental, image } = useProductStore((state) => state);
 
@@ -40,6 +41,7 @@ export default function RentalCreate() {
             }
         }), {
         onSuccess(data) {
+            setIndex(data?.data?.content[0]?.id)
             updateRental({
                 ...rentaldata,
                 name: data?.data?.content[0]?.name,
@@ -52,7 +54,8 @@ export default function RentalCreate() {
                 frequency: data?.data?.content[0]?.frequency,
                 state: data?.data?.content[0]?.location?.state
             })
-        }
+        },
+        enabled: index ? false : true
     });
 
     console.log(rentaldata);

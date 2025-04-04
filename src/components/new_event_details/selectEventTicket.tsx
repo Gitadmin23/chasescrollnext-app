@@ -81,12 +81,7 @@ function SelectTicket(props: Props) {
             clickHandler(ticket[0])
         }
     }, [ticket]) 
-
-    console.log(ticket[0]?.endDate);
-    console.log(Date.now());
     
-    console.log((ticket[0]?.totalNumberOfTickets === ticket[0]?.ticketsSold)  || (Date.now() >= ticket[0]?.endDate));
- 
     return (
         <Flex gap={"3"} position={"relative"} flexDir={"column"} alignItems={"center"} justifyContent={"end"}  >
             {ticket?.length > 1 ? (
