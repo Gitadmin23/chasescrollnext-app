@@ -244,8 +244,7 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
                         <IoIosAdd size={"20px"} />
                         <Text fontSize={"14px"} fontWeight={"500"} >Add Address</Text>
                     </Flex>
-                </Flex>
-                <Text as={"button"} fontSize={"14px"} color={primaryColor} fontWeight={"500"} mr={"auto"} >Go back & Continue buying</Text>
+                </Flex> 
             </Flex>
             <ModalLayout open={open} close={setOpen} title={"Add Address"} >
                 <Flex w={"full"} gap={"4"} flexDir={"column"} p={"4"} >
@@ -298,7 +297,7 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
                 {/* </LoadingAnimation> */}
             </ModalLayout>
             <Flex w={"200px"} justifyContent={"end"} >
-                <CustomButton disable={addressDefault ? false : true} mt={"4"} isLoading={createRentalRecipt?.isLoading} onClick={() => createRentalRecipt?.mutate(
+                <CustomButton disable={addressDefault ? false : true} _disabled={{ cursor: "not-allowed" }} mt={"4"} isLoading={createRentalRecipt?.isLoading} onClick={() => createRentalRecipt?.mutate(
                     { 
                         userID: userId + "",
                         rentalID: id,
@@ -309,7 +308,7 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
                         approvalStatus: 'PENDING',
                         frequency: Number(qty) 
                     }
-                )} text={`Request Avaliablity`} borderRadius={"999px"} w={"200px"} height={"55px"} />
+                )} text={`Request Availability`} borderRadius={"999px"} w={"200px"} height={"55px"} />
             </Flex>
         </Flex>
     )
