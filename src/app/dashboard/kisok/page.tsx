@@ -1,5 +1,6 @@
 "use client"
 import CustomButton from '@/components/general/Button'
+import GetMySale from '@/components/kisok/getMySale'
 import GetOrder from '@/components/kisok/getOrder'
 import GetProduce from '@/components/kisok/getProduce'
 import GetReciept from '@/components/kisok/getReciept'
@@ -256,7 +257,7 @@ export default function KisokPage() {
             </Flex>
             <Flex w={"full"} justifyContent={"center"} >
                 <Flex py={"6"} maxWidth={"745px"} w={"full"} justifyContent={"start"} alignItems={"center"} gap={"4"} >
-                    {(type === null || type === "mykisok" || type === "myorder") && (
+                    {(type === null || type === "mykisok" || type === "myorder" || type === "mySales") && (
                         <Select
                             color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
                             focusBorderColor={"#5465E0"}
@@ -267,7 +268,7 @@ export default function KisokPage() {
                             onChange={(e) => routeHandler(e.target.value)}
                             width={["auto", "auto", "auto"]}
                             textAlign={"center"} >
-                            {[{ name: "All", value: "" }, { name: "My Kiosk", value: "mykisok" }, { name: "My Orders", value: "myorder" }]?.map((type: any, index: number) => (
+                            {[{ name: "All", value: "" }, { name: "My Kiosk", value: "mykisok" }, { name: "My Orders", value: "myorder" }, { name: "My Sales", value: "mySales" }]?.map((type: any, index: number) => (
                                 <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
                                     {type?.name}
                                 </option>
@@ -337,6 +338,9 @@ export default function KisokPage() {
             )}
             {type === "myorder" && (
                 <GetOrder />
+            )}
+            {type === "mySales" && (
+                <GetMySale />
             )}
             {type === "myreciept" && (
                 <GetReciept />
