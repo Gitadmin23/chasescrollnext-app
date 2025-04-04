@@ -27,14 +27,16 @@ export default function KisokCreate() {
 
     const clickHandler = () => { }
 
-    const handleChangeLimit = (e: any, limit: any, type: "Name" | "Description") => {
+    const HandleChangeLimit = (e: any, limit: any, type: "Name" | "Description") => {
+        let clone = {...productdata}
         if ((e.target.value).length <= limit) {
             if (type === "Name") {
-                useProduct({ ...productdata, name: e.target.value })
+                clone = { ...productdata, name: e.target.value }
             } else {
-                useProduct({ ...productdata, description: e.target.value })
+                clone = { ...productdata, description: e.target.value } 
             }
         }
+        useProduct(clone)
     }
 
     return (
@@ -50,12 +52,12 @@ export default function KisokCreate() {
                 <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={type ? "none" : "flex"} flexDir={"column"}  >
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontSize={"24px"} fontWeight={"600"} >Give your product a name</Text>
-                        <Input bgColor={mainBackgroundColor} onChange={(e) => handleChangeLimit(e, 150, "Name")} h={"45px"} />
+                        <Input bgColor={mainBackgroundColor} onChange={(e) => HandleChangeLimit(e, 150, "Name")} h={"45px"} />
                         <Text fontSize={"sm"} >{productdata?.name?.length ? productdata?.name?.length : "0"} {"/ 150"}</Text>
                     </Flex>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontSize={"24px"} fontWeight={"500"} >Describe your place to make it stand out</Text>
-                        <Textarea bgColor={mainBackgroundColor} onChange={(e) => handleChangeLimit(e, 1500, "Description")} h={"120px"} />
+                        <Textarea bgColor={mainBackgroundColor} onChange={(e) => HandleChangeLimit(e, 1500, "Description")} h={"120px"} />
                         <Text fontSize={"sm"} >{productdata?.description?.length ? productdata?.description?.length : "0"} {"/ 1500"}</Text>
                     </Flex>
                     <Text fontSize={"24px"} fontWeight={"500"} >Set your pricing </Text>
