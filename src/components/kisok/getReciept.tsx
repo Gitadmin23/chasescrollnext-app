@@ -68,17 +68,20 @@ export default function GetReciept() {
     const handlePriceChange = (itemData: IAction) => {
         if (itemData.type === 'ADDITION') {
             // calculate 5% fo the inital price
-            const Percentage = Number(price) * (percentage + 0.05);
-            const newPrice = Number(price) + Percentage;
+            const Percentage = detail?.price * (percentage + 0.05);
+            const newPrice = detail?.price + Percentage;
             setPrice((newPrice).toString());
             setPercentage(percentage + 0.05)
         } else {
-            const Percentage = Number(price) * (percentage - 0.05);
-            const newPrice = Number(price) + Percentage;
+            const Percentage = detail?.price * (percentage - 0.05);
+            const newPrice = detail?.price + Percentage;
             setPrice((newPrice).toString());
             setPercentage(percentage - 0.05)
         }
     }
+
+    console.log(percentage);
+    
 
 
     return (
@@ -189,13 +192,13 @@ export default function GetReciept() {
                                     <Flex justifyContent={["start", "start", "start"]} alignItems={"center"} w={"full"} flexDir={["row", "row", "row"]} gap={"1"} >
                                         <Text fontWeight={400} fontSize={'12px'}>Rental Initial Price:</Text>
                                         <Flex pos={"relative"}  >
-                                            {((((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price) !== 0) && (
+                                            {(((((detail?.rental?.price - detail?.price) / detail?.frequency) * 100) / detail?.rental?.price) !== 0) && (
                                                 <Flex w={"full"} h={"1.5px"} pos={"absolute"} top={"11px"} bgColor={"black"} />
                                             )}
                                             <Text fontSize={"14px"} fontWeight={"600"} textDecor={""} >{formatNumber(detail?.rental?.price)}</Text>
                                         </Flex>
                                         {((((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price) !== 0) && (
-                                            <Text fontSize={"12px"} fontWeight={"500"}  >by {(((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price)?.toFixed(0)}%</Text>
+                                            <Text fontSize={"12px"} fontWeight={"500"}  >by {((((detail?.rental?.price - detail?.price) / detail?.frequency) * 100) / detail?.rental?.price)?.toFixed(0)}%</Text>
                                         )}
                                     </Flex>
                                 </Flex>
