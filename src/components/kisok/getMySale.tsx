@@ -16,15 +16,13 @@ import { IMAGE_URL } from '@/services/urls';
 import { dateFormat } from '@/utils/dateFormat';
 import ProductImageScroller from '../sharedComponent/productImageScroller';
 
-export default function GetOrder() {
+export default function GetMySale() {
 
     const { primaryColor, mainBackgroundColor } = useCustomTheme()
     const { push } = useRouter()
     const userId = localStorage.getItem('user_id') + "";
 
-    const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/orders/search?userId=${userId}`, limit: 20, filter: "id", name: "getOrder" })
-
-    console.log(results);
+    const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/orders/search?vendorId=${userId}`, limit: 20, filter: "id", name: "getOrder" })
 
     const clickHandler = (item: string) => {
         push("/dashboard/kisok/details-order/" + item)
