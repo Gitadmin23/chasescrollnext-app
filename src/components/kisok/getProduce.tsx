@@ -1,3 +1,4 @@
+"use client"
 import { Grid, Flex, Text, Image } from '@chakra-ui/react'
 import React from 'react'
 import CustomButton from '../general/Button'
@@ -60,7 +61,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
 
     return (
         <LoadingAnimation loading={isLoading} length={(myproduct ? results : newResult)?.length} >
-            <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["2", "2", "6"]} >
+            <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["2", "2", "4"]} >
                 {(myproduct ? results : newResult)?.map((item: IProduct, index: number) => {
                     if ((myproduct ? results : newResult)?.length === index + 1) {
                         return (

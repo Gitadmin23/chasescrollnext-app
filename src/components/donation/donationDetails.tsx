@@ -118,7 +118,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                         <Text fontWeight={"700"} fontSize={"24px"} >{capitalizeFLetter(item?.name)}</Text>
 
                         <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
-                            <DescriptionPage limit={200} label='Rental Details' description={item?.description + ""} />
+                            <DescriptionPage limit={200} label='Fundraiser Details' description={item?.description + ""} />
                             <Flex w={"full"} gap={"2"}>
                                 <Flex w={["fit-content", "fit-content", "full"]} >
                                     <GetCreatorData userData={item?.createdBy} data={item} donation={true} />

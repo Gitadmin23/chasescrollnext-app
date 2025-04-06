@@ -15,9 +15,7 @@ function Community(props: { params: Promise<{ slug: string }> }) {
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.GET_JOINED_GROUPS + "?userID=" + params?.slug, limit: 10, filter: "id" })
 
     return (
-        <HStack height={"fit-content"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"}  >
-            {/* <Box width={["full", "full", "fit-content"]} px={"6"} position={"relative"} py={"6"} > */}
-
+        <HStack height={"fit-content"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"}  > 
             <Grid width={"fit-content"} templateColumns={['repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)', 'repeat(3, 1fr)']} gap={6} >
                 <LoadingAnimation  withimg={true} loading={isLoading} refeching={isRefetching} length={results?.length} >
                     {results?.map((community: any, i: number) => {

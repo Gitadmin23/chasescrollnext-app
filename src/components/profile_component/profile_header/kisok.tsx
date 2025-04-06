@@ -11,21 +11,21 @@ interface Props {
     user_index: string
 }
 
-function CommunityHeader(props: Props) {
+function KisokHeader(props: Props) {
     const {
         user_index
     } = props
 
     const toast = useToast()
     const [data, setData] = React.useState("" as any)
-    const router = useRouter()
+    const router = useRouter() 
 
     // react query
-    const {  } = useQuery(['get-joined-community'], () => httpService.get(URLS.GET_JOINED_GROUPS+ "?userID=" +user_index), {
+    const {  } = useQuery(['products', user_index], () => httpService.get("/products/search"+ "?creatorID=" +user_index), {
         onError: (error: any) => { 
         },
         onSuccess: (data) => {  
-            console.log(data);
+            console.log(data.data);
             
             if(data){ 
                 setData(data.data); 
@@ -34,8 +34,8 @@ function CommunityHeader(props: Props) {
     }) 
 
     return (
-        <HeaderLayout name='Community' count={data?.totalElements} icon={<CommunitiesIcon />} link={`/dashboard/profile/${user_index}/community`} />
+        <HeaderLayout name='Kiosk' count={data?.totalElements} icon={<CommunitiesIcon />} link={`/dashboard/profile/${user_index}/kiosk`} />
     )
 }
 
-export default CommunityHeader
+export default KisokHeader
