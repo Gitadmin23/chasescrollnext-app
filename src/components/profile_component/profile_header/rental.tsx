@@ -11,7 +11,7 @@ interface Props {
     user_index: string
 }
 
-function CommunityHeader(props: Props) {
+function RentalHeader(props: Props) {
     const {
         user_index
     } = props
@@ -21,7 +21,7 @@ function CommunityHeader(props: Props) {
     const router = useRouter()
 
     // react query
-    const {  } = useQuery(['get-joined-community'], () => httpService.get(URLS.GET_JOINED_GROUPS+ "?userID=" +user_index), {
+    const {  } = useQuery(['rental', user_index], () => httpService.get("/rental/search"+ "?userId=" +user_index), {
         onError: (error: any) => { 
         },
         onSuccess: (data) => {  
@@ -34,8 +34,8 @@ function CommunityHeader(props: Props) {
     }) 
 
     return (
-        <HeaderLayout name='Community' count={data?.totalElements} icon={<CommunitiesIcon />} link={`/dashboard/profile/${user_index}/community`} />
+        <HeaderLayout name='Rentals' count={data?.totalElements} icon={<CommunitiesIcon />} link={`/dashboard/profile/${user_index}/rentals`} />
     )
 }
 
-export default CommunityHeader
+export default RentalHeader

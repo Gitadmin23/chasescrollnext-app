@@ -122,7 +122,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                             <Flex w={"full"} >
                                                 <Flex w={"full"} alignItems={"start"} flexDir={"column"} >
                                                     <Text fontSize={"12px"} color={bodyTextColor} >Fundraising Title</Text>
-                                                    <Text fontWeight={"700"} fontSize={"14px"} >{textLimit(capitalizeFLetter(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.name), 35)}</Text>
+                                                    <Text fontWeight={"700"} fontSize={"14px"} >{textLimit(capitalizeFLetter(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.name), 15)}</Text>
                                                 </Flex>
                                                 <Flex w={"full"} alignItems={"end"} flexDir={"column"} >
                                                     <Text fontSize={"12px"} color={bodyTextColor} >Target </Text>
@@ -159,7 +159,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                             <Flex w={"full"} >
                                                 <Flex w={"full"} alignItems={"start"} flexDir={"column"} >
                                                     <Text fontSize={"12px"} color={bodyTextColor} >Fundraising Title</Text>
-                                                    <Text fontWeight={"700"} fontSize={"14px"} >{textLimit(capitalizeFLetter(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.name), 35)}</Text>
+                                                    <Text fontWeight={"700"} fontSize={"14px"} >{textLimit(capitalizeFLetter(item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.name), 15)}</Text>
                                                 </Flex>
                                                 <Flex w={"full"} alignItems={"end"} flexDir={"column"} >
                                                     <Text fontSize={"12px"} color={bodyTextColor} >Target </Text>

@@ -1,5 +1,4 @@
-import useGetDonationList from '@/hooks/useGetDonationList'
-import { IMAGE_URL } from '@/services/urls'
+"use client"
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import { textLimit } from '@/utils/textlimit'
 import { Grid, GridItem, Flex, Text, Image } from '@chakra-ui/react'
@@ -73,7 +72,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                 return (
                                     <Flex as={"button"} ref={ref} flexDir={"column"} pos={"relative"} bgColor={mainBackgroundColor} onClick={() => clickHander(item, item?.id)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} >
                                         {(item?.user?.userId === userId && item?.total === 0) && (
-                                            <DeleteEvent donation={true} event={item} />
+                                            <DeleteEvent donation={true} id={item?.id} isOrganizer={item?.user?.userId === userId} name={item?.name}  />
                                         )}
                                         <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                                             <ProductImageScroller images={[item?.bannerImage]} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
@@ -85,7 +84,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                             <Flex w={"full"} >
                                                 <Flex w={"full"} alignItems={"start"} flexDir={"column"} >
                                                     <Text fontSize={"12px"} color={bodyTextColor} >Fundraising Title</Text>
-                                                    <Text fontWeight={"700"} fontSize={"14px"} >{textLimit(capitalizeFLetter(item?.name), 35)}</Text>
+                                                    <Text fontWeight={"700"} fontSize={"14px"} >{textLimit(capitalizeFLetter(item?.name), 15)}</Text>
                                                 </Flex>
                                                 <Flex w={"full"} alignItems={"end"} flexDir={"column"} >
                                                     <Text fontSize={"12px"} color={bodyTextColor} >Target </Text>
@@ -114,7 +113,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                 return (
                                     <Flex as={"button"} flexDir={"column"} pos={"relative"} bgColor={mainBackgroundColor} onClick={() => clickHander(item, item?.id)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} >
                                         {(item?.user?.userId === userId && item?.total === 0) && (
-                                            <DeleteEvent donation={true} event={item} />
+                                            <DeleteEvent donation={true} id={item?.id} isOrganizer={item?.user?.userId === userId} name={item?.name}  />
                                         )}
                                         <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                                             <ProductImageScroller images={[item?.bannerImage]} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
@@ -126,7 +125,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                             <Flex w={"full"} >
                                                 <Flex w={"full"} alignItems={"start"} flexDir={"column"} >
                                                     <Text fontSize={"12px"} color={bodyTextColor} >Fundraising Title</Text>
-                                                    <Text fontWeight={"700"} fontSize={"14px"} >{textLimit(capitalizeFLetter(item?.name), 35)}</Text>
+                                                    <Text fontWeight={"700"} fontSize={"14px"} >{textLimit(capitalizeFLetter(item?.name), 15)}</Text>
                                                 </Flex>
                                                 <Flex w={"full"} alignItems={"end"} flexDir={"column"} >
                                                     <Text fontSize={"12px"} color={bodyTextColor} >Target </Text>

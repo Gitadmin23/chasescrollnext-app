@@ -20,8 +20,8 @@ function HeaderLayout(props: Props) {
         index
     } = props
 
-    const router = useRouter() 
-    const pathname = usePathname(); 
+    const router = useRouter()
+    const pathname = usePathname();
 
     const {
         bodyTextColor,
@@ -31,15 +31,19 @@ function HeaderLayout(props: Props) {
         borderColor,
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
- 
+
     return (
-        <Flex as={"button"} onClick={()=> router.push(link)} color={(pathname?.includes(name.toLocaleLowerCase()) || (pathname === "/dashboard/profile/"+index)) ? "brand.chasescrollBlue" : bodyTextColor} justifyContent={"center"} alignItems={"center"} flexDirection={"column"} >
-            <Text fontSize={["160x", "20px"]} fontWeight={"medium"} color={(pathname?.includes(name.toLocaleLowerCase()) || (pathname === "/dashboard/profile/"+index)) ? "brand.chasescrollBlue" : bodyTextColor} >{count ? count : 0}</Text>
-            <Box display={"flex"} justifyContent={"center"} alignItems={"center"} width={"24px"} height={"24px"} >
-                {icon}
-            </Box>
-            <Text fontSize={["12px", "16px"]} >{name}</Text>
-        </Flex>
+        <Flex as={"button"} onClick={()=> router.push(link)} alignItems={"center"} gap={"2"} >
+            <Flex borderBottom={"0px"} pos={"relative"} flexDir={"column"} borderColor={(pathname?.includes(name.toLocaleLowerCase()) || (pathname === "/dashboard/profile/" + index)) ? "brand.chasescrollBlue" : "transparent"} >
+                <Flex px={"2"} >
+                    <Text fontSize={"14px"} fontWeight={"600"} >{name}</Text>
+                </Flex>
+                <Flex w={"full"} h={"2px"} bgColor={(pathname?.includes(name.toLocaleLowerCase()) || (pathname === "/dashboard/profile/" + index)) ? "brand.chasescrollBlue" : "transparent"} />
+            </Flex>
+            <Flex w={"28px"} h={"19px"} mt={"-1px"} rounded={"full"} bgColor={secondaryBackgroundColor} justifyContent={"center"} alignItems={"center"} fontSize={"12px"} fontWeight={"700"} color={primaryColor} >
+                {count ? count : 0}
+            </Flex>
+        </Flex> 
     )
 }
 

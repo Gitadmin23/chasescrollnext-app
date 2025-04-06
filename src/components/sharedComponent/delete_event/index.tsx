@@ -116,11 +116,11 @@ function DeleteEvent(props: Props) {
                     <IoClose size={"14px"} />
                 </Flex>
             )}
-            <ModalLayout open={open} close={setOpen} size={"sm"} >
+            <ModalLayout open={open} close={setOpen} size={"xs"} >
                 <VStack width='100%' justifyContent={'center'} p={"4"} height='100%' alignItems={'center'} spacing={3}>
                     <Image alt='delete' src='/assets/images/deleteaccount.svg' />
                     <CustomText fontWeight={"700"} textAlign={'center'} fontSize={'20px'}>Delete {pathname?.includes("mydonation") ? "Fundraising" : isServices ? "Business" : isProduct ? "Product" : isRental ? "Rental" : "Event"}</CustomText>
-                    <CustomText textAlign={'center'} fontSize={'16px'} color='grey'>Are you sure you want to delete <span style={{ fontWeight: "bold" }} >{capitalizeFLetter(name)}</span>, this action cannot be undone.</CustomText>
+                    <CustomText textAlign={'center'} fontSize={'14px'} >Are you sure you want to delete <span style={{ fontWeight: "bold" }} >{capitalizeFLetter(name)}</span>, this action cannot be undone.</CustomText>
                     <Button isDisabled={deleteEvent.isLoading} onClick={handleDelete} isLoading={deleteEvent.isLoading} fontSize={"14px"} width='100%' height='42px' bg='red' color="white" variant='solid'>Delete</Button>
                     <Button onClick={() => setOpen(false)} width='100%' height='42px' borderWidth={'0px'} color="grey">Cancel</Button>
                 </VStack>

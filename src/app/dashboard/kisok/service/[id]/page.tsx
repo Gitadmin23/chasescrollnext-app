@@ -147,7 +147,7 @@ export default function ServiceDetailsPage() {
 
                         <GetCreatorData reviewdata={reviewData} userData={service?.vendor} /> */}
                         <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
-                            <DescriptionPage limit={200} label='Rental Details' description={service?.description + ""} />
+                            <DescriptionPage limit={200} label='Service Details' description={service?.description + ""} />
                             <Flex w={"full"} gap={"2"}>
                                 <Flex w={["fit-content", "fit-content", "full"]} >
                                     <GetCreatorData reviewdata={reviewData} userData={service?.vendor} item={service?.rating} />
@@ -162,7 +162,7 @@ export default function ServiceDetailsPage() {
 
                                             {userId !== service?.vendor?.userId && (
                                                 <Button onClick={() => setShow(true)} w='full' h='54px' borderRadius={'full'} bgColor={primaryColor} mt='40px'>
-                                                    <Text fontWeight={500} color='white'>Get Qoute</Text>
+                                                    <Text fontWeight={500} color='white'>Get Quote</Text>
                                                 </Button>
                                             )}
                                         </Flex>
@@ -185,7 +185,7 @@ export default function ServiceDetailsPage() {
 
                                     {userId !== service?.vendor?.userId && (
                                         <Button onClick={() => setShow(true)} w='full' h='54px' borderRadius={'full'} bgColor={primaryColor} mt='40px'>
-                                            <Text fontWeight={500} color='white'>Get Qoute</Text>
+                                            <Text fontWeight={500} color='white'>Get Quote</Text>
                                         </Button>
                                     )}
                                 </Flex>

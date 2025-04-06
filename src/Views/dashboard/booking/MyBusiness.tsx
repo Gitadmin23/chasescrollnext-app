@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import { Box, Grid, SimpleGrid, Spinner, Text, VStack } from '@chakra-ui/react'
 import { IBuisness } from '@/models/Business'
@@ -46,11 +47,10 @@ function MyBusiness({ name, state, category }: { name?: string, state?: string, 
     })
 
     return (
-        <LoadingAnimation loading={isLoading} refeching={refetchingList} length={results?.length} >
-
-            <Box w='full' h='full' pt='30px'>
+        <LoadingAnimation loading={isLoading} refeching={refetchingList} length={results?.length} > 
+            <Box w='full' h='full' >
                 {!isLoading && results.length > 0 && (
-                    <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["2", "2", "6"]} >
+                    <Grid w={"full"} templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["2", "2", "6"]} >
                         {results.map((item: any, index: number) => (
                             <BusinessCard key={index.toString()} business={item} mybusiness={true} />
                         ))}

@@ -11,7 +11,7 @@ interface Props {
     user_index: string
 }
 
-function CommunityHeader(props: Props) {
+function FundrasierHeader(props: Props) {
     const {
         user_index
     } = props
@@ -21,7 +21,7 @@ function CommunityHeader(props: Props) {
     const router = useRouter()
 
     // react query
-    const {  } = useQuery(['get-joined-community'], () => httpService.get(URLS.GET_JOINED_GROUPS+ "?userID=" +user_index), {
+    const {  } = useQuery(['user-fund-raisers', user_index], () => httpService.get("/fund-raiser/user-fund-raisers"), {
         onError: (error: any) => { 
         },
         onSuccess: (data) => {  
@@ -34,8 +34,8 @@ function CommunityHeader(props: Props) {
     }) 
 
     return (
-        <HeaderLayout name='Community' count={data?.totalElements} icon={<CommunitiesIcon />} link={`/dashboard/profile/${user_index}/community`} />
+        <HeaderLayout name='Fundraising' count={data?.totalElements} icon={<CommunitiesIcon />} link={`/dashboard/profile/${user_index}/fundraising`} />
     )
 }
 
-export default CommunityHeader
+export default FundrasierHeader
