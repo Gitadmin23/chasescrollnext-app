@@ -90,6 +90,8 @@ function DeleteEvent(props: Props) {
             queryClient.refetchQueries("mybusinessservice")
             queryClient.refetchQueries("getMyProduct")
             queryClient.refetchQueries("getMyrental")
+            queryClient.refetchQueries("donationlistmy")
+            
 
             queryClient.refetchQueries(URLS.JOINED_EVENT + user_index)
             setOpen(false)

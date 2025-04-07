@@ -53,8 +53,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
 
     React.useEffect(() => {
         if (!isLoading) {
-            if (!data[0]?.name) {
-
+            if (!data[0]?.name) { 
                 const clone = [{
                     bannerImage: item?.bannerImage,
                     creatorID: item?.createdBy?.userId,
@@ -96,14 +95,15 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
     return (
         <LoadingAnimation loading={isLoading} >
             <Flex w={"full"} flexDir={"column"} pos={"relative"} gap={"3"} overflowY={"auto"} h={"full"} px={["4", "4", "6"]} pb={["400px", "400px", "6"]} py={"6"} >
-
-                <Flex gap={"1"} alignItems={"center"} pb={"3"} >
-                    <Text role='button' onClick={() => back()} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Back</Text>
-                    <IoIosArrowForward />
-                    <Text fontSize={"14px"} fontWeight={"500"} >Fundraiser details</Text>
-                    <IoIosArrowForward />
-                    <Text fontSize={"14px"} fontWeight={"500"} >{item?.name}</Text>
-                </Flex>
+                {/* <Flex w={"full"} overflowX={"auto"} > */}
+                    <Flex w={"auto"} gap={"1"} alignItems={"center"} pb={"3"} >
+                        <Text role='button' onClick={() => back()} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Back</Text>
+                        <IoIosArrowForward />
+                        <Text fontSize={"14px"} fontWeight={"500"} >details</Text>
+                        <IoIosArrowForward />
+                        <Text fontSize={"14px"} fontWeight={"500"} >{textLimit(item?.name, 13)}</Text>
+                    </Flex>
+                {/* </Flex> */}
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
 
                     {item?.bannerImage?.length > 0 && (
@@ -115,8 +115,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                         </Flex>
                     )}
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
-                        <Text fontWeight={"700"} fontSize={"24px"} >{capitalizeFLetter(item?.name)}</Text>
-
+                        <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{textLimit(capitalizeFLetter(item?.name+" Lorem Ipsum is simply dummy text of the printing"), 70)}</Text> 
                         <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
                             <DescriptionPage limit={200} label='Fundraiser Details' description={item?.description + ""} />
                             <Flex w={"full"} gap={"2"}>

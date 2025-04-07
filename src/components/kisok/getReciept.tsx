@@ -248,7 +248,7 @@ export default function GetReciept() {
                             </Flex>
                         )}
 
-                        {(detail?.approvalStatus === "ACCEPTED" && detail?.hasPaid !== null) && (
+                        {(detail?.approvalStatus === "ACCEPTED" && (detail?.hasPaid !== null || detail?.hasPaid !== false)) && (
                             <Flex gap={"2"} >
                                 <CustomButton disable={true} fontSize={"sm"} text={"Completed"} borderRadius={"99px"} width={"150px"} />
                             </Flex>
@@ -259,7 +259,7 @@ export default function GetReciept() {
                                 <CustomButton fontSize={"sm"} text={"Pending Approval"} borderRadius={"99px"} width={"150px"} backgroundColor={"#FF9500"} />
                             </Flex>
                         )}
-                        {(detail?.approvalStatus === "ACCEPTED" && detail?.hasPaid !== null && detail?.rental?.createdBy === userId) && (
+                        {(detail?.approvalStatus === "ACCEPTED" && (detail?.hasPaid !== null || detail?.hasPaid !== false) && detail?.rental?.createdBy === userId) && (
                             <Flex gap={"2"} >
                                 <CustomButton fontSize={"sm"} isLoading={reject?.isLoading && status === "CANCELLED"} onClick={() => updateHandler("CANCELLED")} text={"Cancel"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={mainBackgroundColor} color={"#FE0909"} width={"150px"} />
                                 <CustomButton fontSize={"sm"} text={"Pending Approval"} borderRadius={"99px"} width={"150px"} backgroundColor={"#FF9500"} />

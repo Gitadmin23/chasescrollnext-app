@@ -61,7 +61,7 @@ export default function Donation() {
                     <FundraisingIcon />
                     <Text fontSize={"24px"} fontWeight={"700"} >Fundraising</Text>
                 </Flex>
-                <Box display={["flex", "flex", "none", "none"]} >
+                <Box w={"full"} px={"4"} display={["flex", "flex", "none", "none"]} >
                     <InputGroup width={["full", "full", "361px"]} zIndex={"20"} position={"relative"} >
                         <InputLeftElement pointerEvents='none'>
                             <IoSearchOutline size={"25px"} />
@@ -69,9 +69,9 @@ export default function Donation() {
                         <Input width={["full", "full", "361px"]} value={search} onChange={(e) => setSearchValue(e.target.value)} type="search" borderColor={borderColor} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} _placeholder={{ color: bodyTextColor }} bgColor={secondaryBackgroundColor} placeholder={'Search for fundraising'} />
                     </InputGroup>
                 </Box>
-                <CustomButton onClick={() => router?.push("/dashboard/donation/create")} text={"Create Fundraising"} px={"4"} height={"45px"} fontSize={"sm"} borderRadius={"32px"} fontWeight={"600"} width={"fit-content"} />
+                <CustomButton ml={"auto"} mr={"4"} onClick={() => router?.push("/dashboard/donation/create")} text={"Create Fundraising"} px={"4"} height={"45px"} fontSize={"sm"} borderRadius={"32px"} fontWeight={"600"} width={"fit-content"} />
             </Flex>
-            <Flex py={"4"} pb={"8"} gap={["4", "4", "6", "6"]} flexDir={["column", "row", "row", "row"]} alignItems={["start", "center", "center", "center"]} >
+            <Flex py={"4"} px={"4"} pb={"8"} gap={["4", "4", "6", "6"]} flexDir={["column", "row", "row", "row"]} alignItems={["start", "center", "center", "center"]} >
                 <Flex mt={["2", "0px", "0px", "0px"]} flexDir={["row", "row", "row", "row"]} alignItems={"center"} gap={["4", "4", "6", "6"]}>
                     {/* <CustomButton text={"All Fundraising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={"#F6F7FA"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"fit-content"} />
                     <CustomButton onClick={() => router?.push("/dashboard/donation/mydonation")} text={"My Fundraising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={secondaryBackgroundColor} borderRadius={"32px"} fontWeight={"600"} color={headerTextColor} width={"fit-content"} /> */}

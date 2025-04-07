@@ -106,9 +106,9 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
     }
 
     return (
-        <Flex bgColor={mainBackgroundColor} w={["full", "full", "full", fullWidth ? "full" : "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} p={"5"}  >
+        <Flex w={["full", "full", "full", fullWidth ? "full" : "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} p={["3", "3", "5"]}  >
             <Text fontSize={"18px"} fontWeight={"600"} >Enter the Amount</Text>
-            <Text fontSize={"14px"} >Enter the amount you wish to donate </Text>
+            {/* <Text fontSize={"14px"} >Enter the amount you wish to donate </Text> */}
 
             <Flex w={"fit-content"} flexWrap={"wrap"} gap={"2"}>
                 {donate?.map((item) => (
