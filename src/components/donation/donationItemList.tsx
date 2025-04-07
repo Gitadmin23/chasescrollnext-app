@@ -63,7 +63,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
     }
 
     return (
-        (<Flex w={"full"} flexDir={"column"} gap={"5"} >
+        (<Flex w={"full"} flexDir={"column"} gap={"5"} px={"4"} >
             {!details && (
                 <LoadingAnimation loading={loadingList} refeching={refetchingList} length={results?.length} withimg={true} >
                     <Grid w={"full"} templateColumns={['repeat(1, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)']} gap={["2", "2", "3"]} >

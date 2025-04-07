@@ -237,7 +237,7 @@ export default function GetVendorReciept() {
                             {/* <Text fontWeight={"600"} >State: <span style={{ fontWeight: "500" }} >{detail?.address?.state}</span></Text> */}
                         </Flex> 
 
-                        {((detail?.rental?.createdBy !== userId) && (detail?.approvalStatus !== "PENDING") && (detail?.hasPaid === null) && (detail?.approvalStatus !== "CANCELLED")) && (
+                        {((detail?.rental?.createdBy !== userId) && (detail?.approvalStatus !== "PENDING") && ((detail?.hasPaid === true)) && (detail?.approvalStatus !== "CANCELLED")) && (
                             <Flex gap={"2"} >
                                 <CustomButton fontSize={"sm"} isLoading={reject?.isLoading && status === "CANCELLED"} onClick={() => updateHandler("CANCELLED")} text={"Cancel"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={mainBackgroundColor} color={"#FE0909"} width={"150px"} />
                                 <CustomButton isLoading={payForTicket?.isLoading} onClick={() => payForTicket.mutate({
@@ -250,7 +250,7 @@ export default function GetVendorReciept() {
                             </Flex>
                         )}
 
-                        {(detail?.approvalStatus === "ACCEPTED" && detail?.hasPaid !== null) && (
+                        {(detail?.approvalStatus === "ACCEPTED" && (detail?.hasPaid !== null || detail?.hasPaid !== false)) && (
                             <Flex gap={"2"} >
                                 <CustomButton disable={true} fontSize={"sm"} text={"Completed"} borderRadius={"99px"} width={"150px"} />
                             </Flex>
@@ -261,7 +261,7 @@ export default function GetVendorReciept() {
                                 <CustomButton fontSize={"sm"} text={"Pending Approval"} borderRadius={"99px"} width={"150px"} backgroundColor={"#FF9500"} />
                             </Flex>
                         )}
-                        {(detail?.approvalStatus === "ACCEPTED" && detail?.hasPaid === null && detail?.rental?.createdBy === userId) && (
+                        {(detail?.approvalStatus === "ACCEPTED" && (detail?.hasPaid === true) && detail?.rental?.createdBy === userId) && (
                             <Flex gap={"2"} >
                                 <CustomButton fontSize={"sm"} isLoading={reject?.isLoading && status === "CANCELLED"} onClick={() => updateHandler("CANCELLED")} text={"Cancel"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={mainBackgroundColor} color={"#FE0909"} width={"150px"} />
                                 <CustomButton fontSize={"sm"} text={"Awaiting Payment"} borderRadius={"99px"} width={"150px"} backgroundColor={"#FF9500"} />

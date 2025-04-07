@@ -12,21 +12,22 @@ import useCustomTheme from "@/hooks/useTheme";
 import useStripeStore from '@/global-state/useStripeState';
 import useModalStore from '@/global-state/useModalSwitch';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
+import usePaystackStore from '@/global-state/usePaystack';
 
 interface IMessage {
     donation: boolean,
     booking: boolean,
     product: boolean,
     rental: boolean,
-    service: boolean, 
+    service: boolean,
 }
 
 interface Props {
     config: any,
     setConfig: any,
     fund?: boolean,
-    id?: any, 
-    message: IMessage 
+    id?: any,
+    message: IMessage
 }
 
 function Fundpaystack(props: Props) {
@@ -55,6 +56,8 @@ function Fundpaystack(props: Props) {
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
 
     const { push } = useRouter()
+
+    const { setMessage } = usePaystackStore((state) => state);
 
     // const [orderCode, setOrderCode] = React.useStates("")
     // mutations 
@@ -96,7 +99,7 @@ function Fundpaystack(props: Props) {
 
     const payStackMutation = useMutation({
         mutationFn: (data: any) => httpService.post(`/payments/verifyWebPaystackTx?orderCode=${data}`),
-        onSuccess: (data: any) => { 
+        onSuccess: (data: any) => {
             toast({
                 title: 'Success',
                 description: "Payment verified",
@@ -107,11 +110,11 @@ function Fundpaystack(props: Props) {
             });
 
             queryClient.invalidateQueries(['event_ticket'])
-            queryClient.invalidateQueries(['all-events-details']) 
-            queryClient.invalidateQueries(['donationlist']) 
-            queryClient.invalidateQueries(['donationlistmy']) 
-            queryClient.invalidateQueries(['getDonationsingleList']) 
-            setLoading(false) 
+            queryClient.invalidateQueries(['all-events-details'])
+            queryClient.invalidateQueries(['donationlist'])
+            queryClient.invalidateQueries(['donationlistmy'])
+            queryClient.invalidateQueries(['getDonationsingleList'])
+            setLoading(false)
         },
         onError: () => {
             toast({
@@ -143,14 +146,14 @@ function Fundpaystack(props: Props) {
             amount: 0,
             reference: "",
             publicKey: PAYSTACK_KEY,
-        }) 
+        })
     }
 
     React.useEffect(() => {
         if (config?.reference?.length !== 0) {
             initializePayment(onSuccess, onClose)
         }
-    }, [config?.reference]) 
+    }, [config?.reference])
 
     const { setModalTab } = useStripeStore((state: any) => state);
     const { setShowModal } = useModalStore((state) => state);
@@ -159,13 +162,20 @@ function Fundpaystack(props: Props) {
         setOpen(false)
         setModalTab(5)
         setShowModal(true)
-    } 
+    }
 
     const closeHandler = () => {
-        if(message?.product) {
+        if (message?.product) {
             setOpen(true)
-        } else  {
+        } else {
             setOpen(false)
+            setMessage({
+                donation: false,
+                product: false,
+                rental: false,
+                service: false,
+                booking: false
+            })
         }
     }
 
@@ -177,18 +187,18 @@ function Fundpaystack(props: Props) {
                         <SuccessIcon />
                         <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{message?.service ? "Booking Successful" : message?.rental ? "Rental Purchase Successful" : message?.product ? "Product Purchase Successful" : message?.donation ? "Donated Successful" : "Ticket Purchase Successful"}</Text>
                         <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{(message?.product || message?.service || message?.rental) ? "Thank you!" : message?.donation ? `Thank you! Your generous donation makes a real difference. We’re so grateful for your support!` : `Congratulations! you can also find your ticket on the Chasescroll app, on the details page click on the view ticket button.`}</Text>
-                        {(!message?.donation && !message?.product  && !message?.service && !message?.rental) && (
-                            <CustomButton onClick={() => clickHandler()} color={primaryColor} text={'View Order'} w={"full"} backgroundColor={"#F7F8FE"}  />
+                        {(!message?.product && !message?.service && !message?.rental) && (
+                            <CustomButton onClick={() => clickHandler()} color={primaryColor} text={'Close'} w={"full"} backgroundColor={"#F7F8FE"} />
                         )}
                         {(message?.product) && (
                             <CustomButton onClick={() => push(`/dashboard/kisok/details-order/${id}`)} color={primaryColor} text={'View Order'} w={"full"} backgroundColor={"#F7F8FE"} />
                         )}
                         {(message?.rental) && (
-                            <CustomButton onClick={() => setOpen(false)} color={primaryColor} text={'Close'} w={"full"} backgroundColor={"#F7F8FE"} />
+                            <CustomButton onClick={() => clickHandler()} color={primaryColor} text={'Close'} w={"full"} backgroundColor={"#F7F8FE"} />
                         )}
                     </Flex>
                 </LoadingAnimation>
-            </ModalLayout> 
+            </ModalLayout>
         </>
     )
 }

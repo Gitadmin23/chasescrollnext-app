@@ -32,7 +32,7 @@ function ProfileHeader(props: Props) {
 
     return (
         <Flex w={"full"} pb={"3"} >
-            <Flex bgColor={"transparent"} justifyContent={"space-between"} borderBottomWidth={"2px"} borderBottomColor={borderColor} pt={"3"} px={["4", "4"]} w={"full"} overflowX={"auto"} >
+            <Flex bgColor={mainBackgroundColor} justifyContent={"space-between"} borderBottomWidth={"2px"} borderBottomColor={borderColor} pt={"3"} px={["4", "4"]} w={"full"} overflowX={"auto"} >
                 {/* <HeaderLayout name='Posts' count='230' icon={<PostGridIcon />} link='' />  */}
                 <Flex w={"auto"} gap={"3"} alignItems={"center"} >
                     <PostHeader user_index={user_index} />

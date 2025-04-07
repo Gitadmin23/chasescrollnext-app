@@ -1,18 +1,19 @@
 import CommunityImage from '@/components/sharedComponent/community_image'
 import JoinOrLeaveCommunityBtn from '@/components/sharedComponent/join_leave_community_btn'
 import useSearchStore from '@/global-state/useSearchData'
-import {Box, Flex, Text, useColorMode} from '@chakra-ui/react'
+import { Box, Flex, Text, useColorMode } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import useCustomTheme from "@/hooks/useTheme";
 import { textLimit } from '@/utils/textlimit'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
+import ProductImageScroller from '@/components/sharedComponent/productImageScroller'
 
 interface Props {
     data: any,
     searchbar?: boolean,
     profile?: boolean,
-    create?:boolean
+    create?: boolean
 }
 
 function CommunityCard(props: Props) {
@@ -24,18 +25,19 @@ function CommunityCard(props: Props) {
     } = props
 
     const {
-        bodyTextColor, 
+        bodyTextColor,
+        mainBackgroundColor
     } = useCustomTheme();
     const { colorMode } = useColorMode();
 
     const router = useRouter()
-    
+
     const { setSearchValue } = useSearchStore((state) => state);
-    const submit =()=> {
+    const submit = () => {
         setSearchValue("")
         router.push("/dashboard/profile/")
-    } 
-    
+    }
+
     return (
         <Flex width={"full"} role='button' borderBottomWidth={searchbar ? "1px" : "0px"} roundedBottom={"2xl"} roundedTopLeft={"2xl"} justifyContent={"space-between"} alignItems={"center"} py={"2"} gap={"2"} >
             <Flex gap={searchbar ? "3": "3"} width={"full"}   >
@@ -53,7 +55,7 @@ function CommunityCard(props: Props) {
             {(!profile && !create) && (
                 <JoinOrLeaveCommunityBtn width={searchbar ? "120px" : "120px"} height={searchbar ? "30px" : "34px"} data={data} />
             )}
-        </Flex>
+        </Flex> 
     )
 }
 

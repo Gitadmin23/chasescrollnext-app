@@ -20,7 +20,8 @@ export default function DonationGroupModal({ selectedData, notAuth }: { selected
 
     const {
         bodyTextColor,
-        borderColor
+        borderColor,
+        mainBackgroundColor
     } = useCustomTheme() 
 
 
@@ -29,7 +30,7 @@ export default function DonationGroupModal({ selectedData, notAuth }: { selected
         <LoadingAnimation loading={isLoading} >
             {data?.filter((item)=> isDateInPast(item?.endDate))?.map((items, index) => {
                 return (
-                    <Flex role="button" flexDir={["column", "column", "row"]} onClick={() => router?.push(notAuth ?`/donation/${items?.id}` : `/dashboard/donation/group/${items?.id}`)} key={index} w={"full"} rounded={"16px"} gap={"4"} borderWidth={"1px"} borderColor={borderColor} p={"4"} alignItems={"center"} >
+                    <Flex bgColor={mainBackgroundColor} role="button" flexDir={["column", "column", "row"]} onClick={() => router?.push(notAuth ?`/donation/${items?.id}` : `/dashboard/donation/group/${items?.id}`)} key={index} w={"full"} rounded={"16px"} gap={"4"} borderWidth={"1px"} borderColor={borderColor} p={"4"} alignItems={"center"} >
                         <Flex w={"fit-content"} >
                             <Flex w={["full", "full", "183px"]} height={"150px"} rounded={"8px"} borderWidth={"1px"} borderColor={borderColor} >
                                 <Image rounded={"8px"} objectFit="cover" alt={items?.name} width={"full"} height={"150px"} src={IMAGE_URL + items?.bannerImage} />
