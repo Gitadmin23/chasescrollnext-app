@@ -2,45 +2,66 @@
 import { useDetails } from '@/global-state/useUserDetails';
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent';
 import { URLS } from '@/services/urls';
-import { HStack, Flex, Box } from '@chakra-ui/react'; 
+import { HStack, Flex, Box, Grid, GridItem, Skeleton } from '@chakra-ui/react';
 import React from 'react'
 import ExploreEventCard from '../event_card';
 import LoadingAnimation from '../loading_animation';
 import { boolean } from 'zod';
-import NewEventCard from '../event_card/newEventCard'; 
+import NewEventCard from '../event_card/newEventCard';
+import EventCardNew from '../event_card/eventCard';
 
 function PastEventById() {
-    
+
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.PAST_EVENT, limit: 10, filter: "id" })
 
     return (
-        <HStack height={"fit-content"} display={"flex"} width={"full"} overflowY={"auto"} justifyContent={"center"}  >
-            <Box width={["full", "full", "full", "70%", "70%"]} px={"6"} position={"relative"} >
-                <Box width={"full"}  >
-                    <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
-                        <Flex gap={"4"} flexDirection={"column"} >
-                            {results?.map((event: any, i: number) => {
-                                if (results.length === i + 1) {
-                                    return (
-                                        <Box key={event?.userId} width={"full"} ref={ref} >
-                                            {/* <ExploreEventCard my_event={myevent} profile={profile} event={event} /> */}
-                                            <NewEventCard  {...event}/>
-                                        </Box>
-                                    )
-                                } else {
-                                    return (
-                                        <Box key={event?.userId} width={"full"}  >
-                                            {/* <ExploreEventCard my_event={myevent} profile={profile} event={event} /> */}
-                                            <NewEventCard  {...event}/>
-                                        </Box>
-                                    )
-                                }
-                            })}
-                        </Flex>
-                    </LoadingAnimation>
-                </Box>
-            </Box>
-        </HStack>
+        <LoadingAnimation loading={isLoading} customLoader={
+            <Grid width={["full", "full", "full", "full", "full"]} templateColumns={['repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)']} gap={5}>
+                <GridItem maxWidth={["full", "full", "full", "full", "full"]}  >
+                    <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
+                </GridItem>
+                <GridItem maxWidth={["full", "full", "full", "full", "full"]}  >
+                    <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
+                </GridItem>
+                <GridItem maxWidth={["full", "full", "full", "full", "full"]}  >
+                    <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
+                </GridItem>
+                <GridItem maxWidth={["full", "full", "full", "full", "full"]}  >
+                    <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
+                </GridItem>
+                <GridItem maxWidth={["full", "full", "full", "full", "full"]}  >
+                    <Skeleton w={"full"} roundedBottom={["32px", "32px", "32px", "32px", "32px"]} roundedTopLeft={"32px"} height={"400px"} />
+                </GridItem>
+            </Grid>
+        } refeching={isRefetching} length={results?.length} >
+            <>
+                <Grid width={["full", "full", "full", "full", "full"]} templateColumns={['repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)']} gap={[2, 2, 4]}>
+                    {results?.map((event: any, i: number) => {
+                        if (results.length === i + 1) {
+                            if ((i + 1) >= 30) {
+                                return (
+                                    <GridItem key={i + "last"} w={["full", "full", "full", "full", "full"]}  >
+                                        <EventCardNew event={event} />
+                                    </GridItem>
+                                )
+                            } else {
+                                return (
+                                    <GridItem ref={ref} key={i + "last"} w={["full", "full", "full", "full", "full"]}  >
+                                        <EventCardNew event={event} />
+                                    </GridItem>
+                                )
+                            }
+                        } else {
+                            return (
+                                <GridItem key={i + "last"} w={["full", "full", "full", "full", "full"]}  >
+                                    <EventCardNew event={event} />
+                                </GridItem>
+                            )
+                        }
+                    })}
+                </Grid>
+            </>
+        </LoadingAnimation>
     )
 }
 

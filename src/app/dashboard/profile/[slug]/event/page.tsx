@@ -20,15 +20,15 @@ function Network(props: { params: Promise<{ slug: string }> }) {
     const [tab, setTab] = useState(false)
 
     return (
-        <Flex width={"full"} flexDir={"column"} gap={"4"} >
-            <Flex w={"full"} pb={"10"} >
-                <Flex w={"70%"} mx={"auto"} pos={"relative"} >
+        <Flex width={"full"} flexDir={"column"} gap={"4"} px={"4"} >
+            <Flex w={"full"} pb={"4"} justifyContent={["start", "start", "center"]} >
+                <Flex w={["full", "full", "fit-content"]} pos={"relative"} >
                     {/* < */}
-                    <Flex bg={secondaryBackgroundColor} p={"1"} mx={"auto"} rounded={"md"} >
-                        <Button onClick={() => setTab(false)} _hover={{}} width={["150px", "200px", "200px"]} height={"43px"} bgColor={!tab ? mainBackgroundColor : secondaryBackgroundColor} color={!tab ? "brand.chasescrollBlue" : bodyTextColor} >
+                    <Flex bg={secondaryBackgroundColor} p={"1"} w={["full", "fit-content", "fit-content"]} rounded={"md"} >
+                        <Button onClick={() => setTab(false)} _hover={{}} fontSize={["14px", "14px", "16px"]} width={["full", "200px", "200px"]} height={"43px"} bgColor={!tab ? mainBackgroundColor : secondaryBackgroundColor} color={!tab ? "brand.chasescrollBlue" : bodyTextColor} >
                             My Event
                         </Button>
-                        <Button onClick={() => setTab(true)} _hover={{}} width={["150px", "200px", "200px"]} height={"43px"} bgColor={tab ? mainBackgroundColor : secondaryBackgroundColor} color={tab ? "brand.chasescrollBlue" : bodyTextColor} >
+                        <Button onClick={() => setTab(true)} _hover={{}} fontSize={["14px", "14px", "16px"]} width={["full", "200px", "200px"]} height={"43px"} bgColor={tab ? mainBackgroundColor : secondaryBackgroundColor} color={tab ? "brand.chasescrollBlue" : bodyTextColor} >
                             Past Event
                         </Button>
                     </Flex>

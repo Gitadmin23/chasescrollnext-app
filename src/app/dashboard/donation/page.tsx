@@ -79,8 +79,7 @@ export default function Donation() {
 
                 </Flex>
             </Flex>
-            <DonationItemGroup publicData={true} />
-            {/* <DonationItemList publicData={true} /> */}
+            <DonationItemGroup publicData={true} /> 
             <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
         </Flex>
     )
