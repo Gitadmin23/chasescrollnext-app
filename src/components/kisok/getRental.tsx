@@ -21,8 +21,9 @@ import ProductImageScroller from '../sharedComponent/productImageScroller'
 import { cleanup } from '@/utils/cleanupObj'
 import useProductStore from '@/global-state/useCreateProduct'
 import DeleteEvent from '../sharedComponent/delete_event'
+import { IoMdCheckmark } from 'react-icons/io'
 
-export default function GetRental({ myrental, name, state, category }: { myrental?: boolean, name?: string, state?: string, category?: string }) {
+export default function GetRental({ myrental, name, state, category, isSelect, selected, setSelected }: { myrental?: boolean, name?: string, state?: string, category?: string, isSelect?: boolean, selected?: any, setSelected?: any }) {
 
     const { primaryColor, bodyTextColor, borderColor, mainBackgroundColor } = useCustomTheme()
     const { push } = useRouter()
@@ -39,23 +40,34 @@ export default function GetRental({ myrental, name, state, category }: { myrenta
     })
 
     const clickHandler = (item: IRental) => {
+        if (isSelect) {
+            let clone = [...selected]
 
-        if (myrental) {
-            updateRental({
-                ...rentaldata,
-                name: item?.name,
-                description: item?.description,
-                images: item?.images,
-                price: item?.price,
-                category: item?.category,
-                location: item?.location as any,
-                maximiumNumberOfDays: item?.maximiumNumberOfDays,
-                frequency: item?.frequency + "",
-                state: item?.location?.state
-            })
-            push("/dashboard/kisok/edit/" + item?.id + "/rental")
+            if (selected?.includes(item?.id)) {
+                clone = clone?.filter((subitem: string) => subitem !== item?.id)
+                setSelected(clone)
+            } else {
+                clone = [...clone, item?.id]
+                setSelected(clone)
+            }
         } else {
-            push("/dashboard/kisok/details-rental/" + item?.id)
+            if (myrental) {
+                updateRental({
+                    ...rentaldata,
+                    name: item?.name,
+                    description: item?.description,
+                    images: item?.images,
+                    price: item?.price,
+                    category: item?.category,
+                    location: item?.location as any,
+                    maximiumNumberOfDays: item?.maximiumNumberOfDays,
+                    frequency: item?.frequency + "",
+                    state: item?.location?.state
+                })
+                push("/dashboard/kisok/edit/" + item?.id + "/rental")
+            } else {
+                push("/dashboard/kisok/details-rental/" + item?.id)
+            }
         }
     }
 
@@ -68,7 +80,14 @@ export default function GetRental({ myrental, name, state, category }: { myrenta
                     if ((myrental ? results : newResult)?.length === index + 1) {
                         return (
                             <Flex ref={ref} as={"button"} flexDir={"column"} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} bgColor={mainBackgroundColor} key={index} w={"full"} pos={"relative"} >
-                                <DeleteEvent id={item?.id} isRental={true} name={item?.name + " Rental"} isOrganizer={myrental ? true : false} />
+                                {!isSelect && (
+                                    <DeleteEvent id={item?.id} isRental={true} name={item?.name + " Rental"} isOrganizer={myrental ? true : false} />
+                                )}
+                                {isSelect && (
+                                    <Flex pos={"absolute"} zIndex={"30"} top={"3"} right={"3"} w={"5"} h={"5"} justifyContent={"center"} alignItems={"center"} bgColor={selected?.includes(item?.id) ? primaryColor : "white"} rounded={"6px"} >
+                                        <IoMdCheckmark size={"15px"} color='white' />
+                                    </Flex>
+                                )}
                                 <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.creator} />
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
@@ -98,7 +117,14 @@ export default function GetRental({ myrental, name, state, category }: { myrenta
                     } else {
                         return (
                             <Flex as={"button"} flexDir={"column"} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} bgColor={mainBackgroundColor} key={index} w={"full"} pos={"relative"} >
-                                <DeleteEvent id={item?.id} isRental={true} name={item?.name + " Rental"} isOrganizer={myrental ? true : false} />
+                                {!isSelect && (
+                                    <DeleteEvent id={item?.id} isRental={true} name={item?.name + " Rental"} isOrganizer={myrental ? true : false} />
+                                )}
+                                {isSelect && (
+                                    <Flex pos={"absolute"} zIndex={"30"} top={"3"} right={"3"} w={"5"} h={"5"} justifyContent={"center"} alignItems={"center"} bgColor={selected?.includes(item?.id) ? primaryColor : "white"} rounded={"6px"} >
+                                        <IoMdCheckmark size={"15px"} color='white' />
+                                    </Flex>
+                                )}
                                 <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.creator} />
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>

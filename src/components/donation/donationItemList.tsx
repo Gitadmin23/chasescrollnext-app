@@ -72,13 +72,15 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                 return (
                                     <Flex as={"button"} ref={ref} flexDir={"column"} pos={"relative"} bgColor={mainBackgroundColor} onClick={() => clickHander(item, item?.id)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} >
                                         {(item?.user?.userId === userId && item?.total === 0) && (
-                                            <DeleteEvent donation={true} id={item?.id} isOrganizer={item?.user?.userId === userId} name={item?.name}  />
+                                            <DeleteEvent donation={true} id={item?.id} isOrganizer={item?.user?.userId === userId} name={item?.name} />
                                         )}
                                         <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                                             <ProductImageScroller images={[item?.bannerImage]} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
-                                            <Flex w={"8"} zIndex={"40"} justifyContent={"center"} alignItems={"center"} h={"8"} bgColor={mainBackgroundColor} rounded={"full"} pos={"absolute"} bottom={"3"} right={"3"} >
-                                                <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
-                                            </Flex>
+                                            {!pasted && (
+                                                <Flex w={"8"} zIndex={"40"} justifyContent={"center"} alignItems={"center"} h={"8"} bgColor={mainBackgroundColor} rounded={"full"} pos={"absolute"} bottom={"3"} right={"3"} >
+                                                    <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                                </Flex>
+                                            )}
                                         </Flex>
                                         <Flex w={"full"} flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"2"} pb={["2", "2", userId !== item?.createdBy?.userId && !pasted ? "0px" : "3"]} >
                                             <Flex w={"full"} >
@@ -113,13 +115,15 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                 return (
                                     <Flex as={"button"} flexDir={"column"} pos={"relative"} bgColor={mainBackgroundColor} onClick={() => clickHander(item, item?.id)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} >
                                         {(item?.user?.userId === userId && item?.total === 0) && (
-                                            <DeleteEvent donation={true} id={item?.id} isOrganizer={item?.user?.userId === userId} name={item?.name}  />
+                                            <DeleteEvent donation={true} id={item?.id} isOrganizer={item?.user?.userId === userId} name={item?.name} />
                                         )}
                                         <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                                             <ProductImageScroller images={[item?.bannerImage]} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
-                                            <Flex w={"8"} zIndex={"40"} justifyContent={"center"} alignItems={"center"} h={"8"} bgColor={mainBackgroundColor} rounded={"full"} pos={"absolute"} bottom={"3"} right={"3"} >
-                                                <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
-                                            </Flex>
+                                            {!pasted && (
+                                                <Flex w={"8"} zIndex={"40"} justifyContent={"center"} alignItems={"center"} h={"8"} bgColor={mainBackgroundColor} rounded={"full"} pos={"absolute"} bottom={"3"} right={"3"} >
+                                                    <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                                </Flex>
+                                            )}
                                         </Flex>
                                         <Flex w={"full"} flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"2"} pb={["2", "2", userId !== item?.createdBy?.userId && !pasted ? "0px" : "3"]} >
                                             <Flex w={"full"} >

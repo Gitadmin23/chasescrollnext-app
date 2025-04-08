@@ -1,3 +1,4 @@
+import { ITag } from "@/models/product";
 import httpService from "@/utils/httpService";
 import { useToast } from "@chakra-ui/react";
 import { AxiosError, AxiosResponse } from "axios";
@@ -35,8 +36,8 @@ const usePr = () => {
     // Create Event From Draft
     const tagServiceAndRental = useMutation({
         mutationFn: (data: {
-            "serviceCategories": Array<string>,
-            "rentalCategories": Array<string>,
+            "serviceCategories": Array<ITag>,
+            "rentalCategories": Array<ITag>,
             "eventID": string,
             "state": string
         }) => httpService.post("/tags/create-request", data),

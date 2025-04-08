@@ -42,7 +42,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
 
     const CustomInput = ({ value, onClick }: any) => {
         return (
-            <Flex onClick={onClick} as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"full"} fontSize={"12"} h={"50px"}  >
+            <Flex onClick={onClick} as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"full"} fontSize={"12px"} h={"50px"}  >
                 <CalendarIcon />
                 {startDate ? dateFormat(startDate) : "Select Date And Time"}
                 {" "}
@@ -120,7 +120,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                                 </Flex>
                             </Flex>
                             <Flex gap={"4"} >
-                                <Text fontSize={["12px", "12px", "14px"]} fontWeight={"500"} >Days selected</Text>
+                                <Text fontSize={["12px", "12px", "14px"]} fontWeight={"500"} >{item?.frequency !== "HOURLY" ? "Days" : "Hours"} selected</Text>
                                 <Flex borderWidth={"1px"} rounded={"39px"} alignItems={"center"} padding={"12px"} gap={"3"} >
                                     <Flex as={"button"} onClick={() => setQty((prev: any) => prev === 1 ? 1 : prev - 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
                                         <IoIosRemove />
@@ -153,10 +153,10 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                                         <Flex as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"full"} fontSize={"sm"} h={"50px"}  >
                                             <CalendarIcon />
                                             {item?.frequency !== "HOURLY" && (
-                                                <Text>{dateFormat(new Date(startDate?.getTime() + qty * 24 * 60 * 60 * 1000))}</Text>
+                                                <Text fontSize={"12px"} >{dateFormat(new Date(startDate?.getTime() + qty * 24 * 60 * 60 * 1000))}</Text>
                                             )}
                                             {item?.frequency === "HOURLY" && (
-                                                <Text>{dateFormat(new Date(startDate).setHours(new Date(startDate).getHours() + qty)) + " " + timeFormat(new Date(startDate).setHours(new Date(startDate).getHours() + qty))}</Text>
+                                                <Text fontSize={"12px"} >{dateFormat(new Date(startDate).setHours(new Date(startDate).getHours() + qty)) + " " + timeFormat(new Date(startDate).setHours(new Date(startDate).getHours() + qty))}</Text>
                                             )}
                                         </Flex>
                                     </Flex>

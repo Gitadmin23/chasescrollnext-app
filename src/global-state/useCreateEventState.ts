@@ -1,4 +1,5 @@
 import { IEventType } from '@/models/Event';
+import { ITag } from '@/models/product';
 import { IUser } from '@/models/User';
 import { create } from 'zustand';
 
@@ -68,8 +69,8 @@ export type CreateEvent = {
 
 type State = {
     eventdata: CreateEvent,
-    service: Array<string>,
-    rental: Array<string>,
+    service: Array<ITag>,
+    rental: Array<ITag>,
     state: string
 }
 

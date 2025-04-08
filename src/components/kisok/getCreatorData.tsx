@@ -17,10 +17,10 @@ import DonateUsers from '../sharedComponent/donateUser'
 import useCustomTheme from '@/hooks/useTheme'
 import { IService } from '@/models/Service'
 
-export default function GetCreatorData({ userData, donation, data: donationData, item: rating }: { userData: IUser | any, reviewdata?: Array<IReview>, data?: any, donation?: boolean, item?: any }) {
+export default function GetCreatorData({ userData, donation, data: donationData, item: rating }: { userData: IUser, reviewdata?: Array<IReview>, data?: any, donation?: boolean, item?: any }) {
 
     const { userId: user_index } = useDetails((state) => state);
-    const  { secondaryBackgroundColor } = useCustomTheme()
+    const { secondaryBackgroundColor } = useCustomTheme()
     const router = useRouter();
 
     const clickHandler = () => {
@@ -29,7 +29,7 @@ export default function GetCreatorData({ userData, donation, data: donationData,
         } else {
             router.push("/dashboard/profile/" + userData?.userId)
         }
-    } 
+    }
 
     const { isLoading, isRefetching, refetch, data } = useQuery(
         ["rental", userData?.userId],
@@ -79,7 +79,9 @@ export default function GetCreatorData({ userData, donation, data: donationData,
                 </Flex>
             </Flex>
             <Flex gap={"4"} alignItems={"center"} flexDir={["column", "column", "row"]} >
-                <CustomButton text={"Message"} onClick={() => mutate()} isLoading={chatCreationLoading} height={"30px"} fontSize={"12px"} width={"100px"} borderRadius={"999px"} />
+                {userData?.userId !== user_index && (
+                    <CustomButton text={"Message"} onClick={() => mutate()} isLoading={chatCreationLoading} height={"30px"} fontSize={"12px"} width={"100px"} borderRadius={"999px"} />
+                )}
                 {!donation && (
                     <Flex flexDir={"column"} alignItems={"center"} >
                         <Flex flexDir={"row"} gap={"1"} >

@@ -32,15 +32,6 @@ export default function VolunteerBtn(props: IEventType) {
                 <Flex w={"fit-content"} bgColor={mainBackgroundColor} rounded={"16px"} p={"3"} gap={"4"} borderWidth={"1px"} borderColor={borderColor} alignItems={"center"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
 
                     <CollaboratorBtn update={true} collaborate={acceptedCollaborators?.length !== 0 || acceptedAdmins?.length !== 0} btn={true} data={props} />
-                    {/* {(acceptedCollaborators || acceptedAdmins) && (
-                        <>
-                            {(acceptedCollaborators?.length !== 0 || acceptedAdmins?.length !== 0) && (
-                                <Box role='button' onClick={() => setOpen(true)} top={"0px"} roundedBottom={"64px"} border={"2px solid #5D70F9"} width={"50px"} fontWeight={"bold"} height={"50px"} fontSize={"15px"} pr={"-3px"} pb={"-2px"} roundedTopLeft={"64px"} ml={"-20px"} display={'flex'} bgColor={mainBackgroundColor} color={"#5D70F9"} justifyContent={"center"} alignItems={"center"} >
-                                    {"+" + formatNumberWithK(((acceptedAdmins ? acceptedAdmins?.length : 0) + (acceptedCollaborators ? acceptedCollaborators?.length : 0)))}
-                                </Box>
-                            )}
-                        </>
-                    )} */}
                     <Flex alignItems={"center"} >
                         {acceptedAdmins?.map((item, index) => {
                             if (index <= 3) {

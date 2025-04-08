@@ -141,6 +141,12 @@ export interface IRental {
     frequency: string
 }
 
+export interface ITag { 
+    "category": string,
+    "description": string,
+    "type": "RENTAL" | "SERVICE"
+} 
+
 export interface IOrder {
     "id": string,
     "createdDate": number,

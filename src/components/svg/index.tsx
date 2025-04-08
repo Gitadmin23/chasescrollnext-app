@@ -14,7 +14,7 @@ export const NewPhotoIcon = () => (
   </svg>
 )
 
-export const GlassIcon = ({ size }: {size?: string}) => (
+export const GlassIcon = ({ size }: { size?: string }) => (
   <svg width={size ? size : "45"} viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M18.75 32.8125H26.25M3.75 32.8125V14.0625C3.75 6.5625 5.625 4.6875 13.125 4.6875M41.25 32.8125V14.0625C41.25 6.5625 39.375 4.6875 31.875 4.6875" stroke="#5465E0" stroke-width="2.8125" stroke-linecap="round" stroke-linejoin="round" />
     <path d="M18.75 29.832V36.0008C18.75 39.7508 17.25 41.2508 13.5 41.2508H9C5.25 41.2508 3.75 39.7508 3.75 36.0008V29.832C3.75 26.082 5.25 24.582 9 24.582H13.5C17.25 24.582 18.75 26.082 18.75 29.832ZM41.25 29.832V36.0008C41.25 39.7508 39.75 41.2508 36 41.2508H31.5C27.75 41.2508 26.25 39.7508 26.25 36.0008V29.832C26.25 26.082 27.75 24.582 31.5 24.582H36C39.75 24.582 41.25 26.082 41.25 29.832Z" stroke="#5465E0" stroke-width="2.8125" stroke-linecap="round" stroke-linejoin="round" />
@@ -183,6 +183,69 @@ export const AddIconWithBorder = () => (
     />
   </svg>
 );
+
+export const QRcode = () => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g id="vuesax/linear/scan">
+      <g id="scan">
+        <path
+          id="Vector"
+          d="M2 9V6.5C2 4.01 4.01 2 6.5 2H9"
+          stroke={"#3C41F0"}
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          id="Vector_2"
+          d="M15 2H17.5C19.99 2 22 4.01 22 6.5V9"
+          stroke={"#3C41F0"}
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          id="Vector_3"
+          d="M22 16V17.5C22 19.99 19.99 22 17.5 22H16"
+          stroke={"#3C41F0"}
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          id="Vector_4"
+          d="M9 22H6.5C4.01 22 2 19.99 2 17.5V15"
+          stroke={"#3C41F0"}
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          id="Vector_5"
+          d="M17 9.5V14.5C17 16.5 16 17.5 14 17.5H10C8 17.5 7 16.5 7 14.5V9.5C7 7.5 8 6.5 10 6.5H14C16 6.5 17 7.5 17 9.5Z"
+          stroke={"#3C41F0"}
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          id="Vector_6"
+          d="M19 12H5"
+          stroke={"#3C41F0"}
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </g>
+    </g>
+  </svg>
+)
 
 export const CategoryRightIcon = () => (
   <svg
