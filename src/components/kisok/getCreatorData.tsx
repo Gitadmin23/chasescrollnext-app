@@ -88,7 +88,7 @@ export default function GetCreatorData({ userData, donation, data: donationData,
                             {[1, 2, 3, 4, 5]?.map((itemNumb) => {
                                 return (
                                     <Flex key={itemNumb} >
-                                        {(itemNumb > rating) ? (
+                                        {(itemNumb > 0) ? (
                                             <FaStar color="#D5D6DE" size={"15px"} />
                                         ) : (
                                             <FaStar color='#FBBD08' size={"15px"} />
