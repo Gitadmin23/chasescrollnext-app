@@ -34,7 +34,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
 
     useEffect(() => {
         setPrice((item?.price * qty) + "")
-    }, [qty])
+    }, [qty, open])
 
     useEffect(()=> {
         setPercentage(0)
