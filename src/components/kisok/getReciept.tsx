@@ -178,7 +178,7 @@ export default function GetReciept() {
                                 </Flex>
                             </Flex>
                         </Flex>
-                        <Flex w={"full"} mt={"2"} gap={"4"} >
+                        <Flex w={"full"} mt={"2"} flexDir={["column", "column", "row"]} gap={"4"} >
                             <Flex w={"fit-content"} >
                                 <Flex flexDir={"column"} gap={"1"} w={"218px"} >
                                     <Flex justifyContent={["start", "start", "space-between"]} w={"full"} p={"5px"} rounded={"8px"} bgColor={secondaryBackgroundColor} flexDir={["column", "column", "column"]} >
@@ -225,7 +225,7 @@ export default function GetReciept() {
                                         </Flex>
                                     </Flex>
                                 )}
-                                <Flex flexDir={["row", "row"]} justifyContent={'end'} gap={"5"} mt={"auto"} w='full' alignItems={'center'}>
+                                <Flex flexDir={["row", "row"]} justifyContent={["start", "start", 'end']} gap={"5"} mt={"auto"} w='full' alignItems={'center'}>
                                     <Text fontSize={'14px'}>Total Price:</Text>
                                     <Text fontSize={'23px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format((Number(price)) || 0)}</Text>
                                 </Flex>
@@ -235,7 +235,7 @@ export default function GetReciept() {
                             <Text fontWeight={"600"} >Shipped To :  <span style={{ fontWeight: "500" }} >{detail?.address?.location?.locationDetails}</span></Text>
                             {/* <Text fontWeight={"600"} >State: <span style={{ fontWeight: "500" }} >{detail?.address?.state}</span></Text> */}
                         </Flex>
-                        {((detail?.rental?.createdBy !== userId) && (detail?.approvalStatus !== "PENDING") && (detail?.hasPaid === null) && (detail?.approvalStatus !== "CANCELLED")) && (
+                        {((detail?.rental?.createdBy !== userId) && (detail?.approvalStatus  === "ACCEPTED") && (!detail?.hasPaid)) && (
                             <Flex gap={"2"} >
                                 <CustomButton fontSize={"sm"} isLoading={reject?.isLoading && status === "CANCELLED"} onClick={() => updateHandler("CANCELLED")} text={"Cancel"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={mainBackgroundColor} color={"#FE0909"} width={"150px"} />
                                 <CustomButton isLoading={payForTicket?.isLoading} onClick={() => payForTicket.mutate({
@@ -248,7 +248,7 @@ export default function GetReciept() {
                             </Flex>
                         )}
 
-                        {(detail?.approvalStatus === "ACCEPTED" && (detail?.hasPaid !== null || detail?.hasPaid !== false)) && (
+                        {(detail?.approvalStatus === "ACCEPTED" && (detail?.hasPaid)) && (
                             <Flex gap={"2"} >
                                 <CustomButton disable={true} fontSize={"sm"} text={"Completed"} borderRadius={"99px"} width={"150px"} />
                             </Flex>
@@ -259,7 +259,7 @@ export default function GetReciept() {
                                 <CustomButton fontSize={"sm"} text={"Pending Approval"} borderRadius={"99px"} width={"150px"} backgroundColor={"#FF9500"} />
                             </Flex>
                         )}
-                        {(detail?.approvalStatus === "ACCEPTED" && (detail?.hasPaid !== null || detail?.hasPaid !== false) && detail?.rental?.createdBy === userId) && (
+                        {(detail?.approvalStatus === "ACCEPTED" && (!detail?.hasPaid) && detail?.rental?.createdBy === userId) && (
                             <Flex gap={"2"} >
                                 <CustomButton fontSize={"sm"} isLoading={reject?.isLoading && status === "CANCELLED"} onClick={() => updateHandler("CANCELLED")} text={"Cancel"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={mainBackgroundColor} color={"#FE0909"} width={"150px"} />
                                 <CustomButton fontSize={"sm"} text={"Pending Approval"} borderRadius={"99px"} width={"150px"} backgroundColor={"#FF9500"} />

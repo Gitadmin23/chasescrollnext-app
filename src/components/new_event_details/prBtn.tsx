@@ -18,7 +18,9 @@ import { useQuery } from 'react-query'
 import httpService from '@/utils/httpService'
 import ListService from './listService'
 import ListRental from './listRental'
-import { IoIosArrowDown } from 'react-icons/io'
+import { IoIosArrowBack, IoIosArrowDown } from 'react-icons/io'
+import { ITag } from '@/models/product'
+ 
 
 export default function PrBtn({ data }: { data: IEventType }) {
 
@@ -37,8 +39,8 @@ export default function PrBtn({ data }: { data: IEventType }) {
     const [index, setIndex] = useState(1)
 
     const [selectProduct, setSelectProduct] = useState<Array<IPinned>>([])
-    const [selectService, setSelectService] = useState<Array<string>>([])
-    const [selectRental, setSelectRental] = useState<Array<string>>([])
+    const [selectService, setSelectService] = useState<Array<ITag>>([])
+    const [selectRental, setSelectRental] = useState<Array<ITag>>([])
     const [selectDonation, setSelectDonation] = useState("")
 
     const { createPr, tagServiceAndRental, createFundraising } = usePr()
@@ -90,15 +92,22 @@ export default function PrBtn({ data }: { data: IEventType }) {
                 )}
                 {!data?.isOrganizer && (
                     <Flex disabled={createPr?.isLoading} onClick={clickHander} as={"button"} w={"full"} gap={"2"} h={"55px"} px={"4"} alignItems={"center"} justifyContent={"center"} >
-                        {createPr?.isLoading ? 
-                        <Text fontSize={"14px"} fontWeight={"500"} >{"Loading..."}</Text> :
-                        <Text fontSize={"14px"} fontWeight={"500"} >{data?.prStatus === "PENDING" ? "Pending" : "Apply to be a PR"}</Text> } 
+                        {createPr?.isLoading ?
+                            <Text fontSize={"14px"} fontWeight={"500"} >{"Loading..."}</Text> :
+                            <Text fontSize={"14px"} fontWeight={"500"} >{data?.prStatus === "PENDING" ? "Pending" : "Apply to be a PR"}</Text>}
                     </Flex>
                     // <CustomButton onClick={clickHander} disable={data?.prStatus === "PENDING" ? true : false} text={data?.prStatus === "PENDING" ? "Pending" : "Apply to be a PR"} backgroundColor={["#EEEEFF", "#EEEEFF", primaryColor]} color={[primaryColor, primaryColor, "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]} width={["120px", "120px", "160px"]} />
                 )}
                 <ModalLayout open={open} size={"md"} close={setOpen} closeIcon={true} >
                     <Flex flexDir={"column"} gap={"4"} w={"full"} px={"4"} mb={"4"} >
-                        <Text fontWeight={"500"}  >My support center</Text>
+                        <Flex gap={"2"} alignItems={"center"} >
+                            {tab && (
+                                <Flex as={"button"} onClick={() => setTab(false)} >
+                                    <IoIosArrowBack size={"20px"} />
+                                </Flex>
+                            )}
+                            <Text fontWeight={"500"}  >My support center</Text>
+                        </Flex>
                         {!tab && (
                             <Flex bgColor={secondaryBackgroundColor} w={"full"} flexDir={"column"} rounded={"16px"} >
                                 <Flex w={"full"} justifyContent={"space-between"} borderBottomWidth={data?.isOrganizer ? "1px" : "0px"} h={"50px"} px={"3"} alignItems={"center"} >
@@ -112,16 +121,16 @@ export default function PrBtn({ data }: { data: IEventType }) {
                                 </Flex>
                                 {data?.isOrganizer && (
                                     <Flex flexDirection={"column"} >
-                                        <Flex w={"full"} onClick={() => setTab(true)} as={"button"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
+                                        <Flex w={"full"} onClick={() => { setTab(true), setIndex(1) }} as={"button"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
                                             <Text fontSize={["10px", "14px", "14px"]}  >Add fundraising </Text>
                                         </Flex>
-                                        <Flex w={"full"} onClick={() => setTab(true)} as={"button"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
+                                        <Flex w={"full"} onClick={() => { setTab(true), setIndex(2) }} as={"button"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
                                             <Text fontSize={["10px", "14px", "14px"]}  >Add kiosk</Text>
                                         </Flex>
-                                        <Flex w={"full"} onClick={() => setTab(true)} as={"button"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
+                                        <Flex w={"full"} onClick={() => { setTab(true), setIndex(3) }} as={"button"} justifyContent={"space-between"} borderBottomWidth={"1px"} h={"50px"} px={"3"} alignItems={"center"} >
                                             <Text fontSize={["10px", "14px", "14px"]}  >Request Service - Photographer, makeup Artist...</Text>
                                         </Flex>
-                                        <Flex w={"full"} onClick={() => setTab(true)} as={"button"} justifyContent={"space-between"} h={"50px"} px={"3"} alignItems={"center"} >
+                                        <Flex w={"full"} onClick={() => { setTab(true), setIndex(4) }} as={"button"} justifyContent={"space-between"} h={"50px"} px={"3"} alignItems={"center"} >
                                             <Text fontSize={["10px", "14px", "14px"]}  >Rent an item(s)</Text>
                                         </Flex>
                                     </Flex>
@@ -144,7 +153,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
                                         Rental
                                     </Flex>
                                 </Flex>
-                                <Flex w={"full"} py={"4"} gap={"4"} bgColor={(index === 1 || index === 2) ? "transparent" : "transparent"} rounded={"16px"} flexDir={"column"} >
+                                <Flex w={"full"} pb={"4"} gap={"4"} bgColor={(index === 1 || index === 2) ? "transparent" : "transparent"} rounded={"16px"} flexDir={"column"} >
 
                                     {index === 1 && (
                                         <ListDonation selectDonation={selectDonation} setSelectDonation={setSelectDonation} />

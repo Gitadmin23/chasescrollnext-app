@@ -11,15 +11,17 @@ import { exportComponentAsJPEG } from "react-component-export-image";
 import CopyRightText from "@/components/sharedComponent/CopyRightText";
 import useCustomTheme from "@/hooks/useTheme";
 import { textLimit } from "@/utils/textlimit";
+import { capitalizeFLetter } from "@/utils/capitalLetter";
 
 interface Props {
   id: string | number;
   close: any;
   data?: any;
+  type?: string
 }
 
 function Qr_code(props: Props) {
-  const { id, close, data } = props;
+  const { id, close, data, type } = props;
 
   const {
     bodyTextColor,
@@ -30,7 +32,8 @@ function Qr_code(props: Props) {
   } = useCustomTheme();
   const { colorMode } = useColorMode();
 
-  const componentRef: any = React.useRef();
+  const componentRef: any = React.useRef("");
+
 
   return (
     <Flex flexDir={"column"} roundedTop={"6px"} alignItems={"center"} pb={"8"}>
@@ -75,14 +78,13 @@ function Qr_code(props: Props) {
           <Flex pt={"4"} zIndex={20}>
             <HStack justifyContent={"center"}>
               {/* <Image src='/assets/images/chasescroll-logo.png' width={30} height={30} alt='logo' /> */}
-              <CustomText
+              <Text
                 fontWeight={"bold"}
                 fontSize={"24px"}
-                fontFamily={"Satoshi-Regular"}
                 color="#FFF"
               >
                 Chasescroll
-              </CustomText>
+              </Text>
             </HStack>
           </Flex>
           <Flex
@@ -94,7 +96,13 @@ function Qr_code(props: Props) {
             color={"white"}
             width={"full"}
           >
-            <Text fontSize={"14px"}>{data?.eventName ? "Event" : "Fundraising"} Name</Text>
+            {type && (
+              <Text fontSize={"14px"}>{capitalizeFLetter(type)} Name</Text>
+            )}
+
+            {!type && (
+              <Text fontSize={"14px"}>{data?.eventName ? "Event" : "Fundraising"} Name</Text>
+            )}
             <Text fontSize={"18px"} fontWeight={"bold"}>
               {textLimit(data?.eventName ? data?.eventName : data?.name, 20)}
             </Text>
@@ -120,9 +128,13 @@ function Qr_code(props: Props) {
               />
             </Box>
           </Flex>
-          <Text mt={"4"} color={bodyTextColor}>
-            Scan here and get Your {data?.eventName ? "Event" : "Fundraising"} Link
-          </Text>
+          {type ? (
+            <Text mt={"4"} color={bodyTextColor}>Scan to Confirm Your Order</Text>
+          ) : (
+            <Text mt={"4"} color={bodyTextColor}>
+              Scan here and get Your {data?.eventName ? "Event" : "Fundraising"} Link
+            </Text>
+          )}
           <Text fontSize={"xs"} textAlign={"center"}>
             <CopyRightText />
           </Text>

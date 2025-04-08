@@ -12,30 +12,9 @@ import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent';
 import { cleanup } from '@/utils/cleanupObj';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 
-function MyBusiness({ name, state, category }: { name?: string, state?: string, category?: string }) {
-    const [businesses, setBusinesses] = React.useState<IBuisness[]>([]);
-    const [page, setPage] = React.useState(0);
-    const [hasMore, setHasMore] = React.useState(true);
+function MyBusiness({ name, state, category, isSelect, selected, setSelected }: { name?: string, state?: string, category?: string, isSelect?: boolean, selected?: Array<string>, setSelected?: any }) {
 
-    const userId = localStorage.getItem('user_id');
-
-    // const { isLoading, } = useQuery(['get-my-businesses', page], () => httpService.get('/business-service/search', {
-    //     params: {
-    //         vendorID: userId,
-    //         page,
-    //         size: 20,
-    //     }
-    // }), {
-    //     onSuccess: (data) => {
-    //         console.log(data?.data?.content)
-    //         const item: PaginatedResponse<IBuisness> = data.data;
-    //         setBusinesses((prev) => uniqBy([...prev, ...item?.content], 'id'));
-    //         if (item?.last) {
-    //             setHasMore(false);
-    //         }
-    //     }
-    // })
-
+    const userId = localStorage.getItem('user_id'); 
 
     const { results, isLoading, isRefetching: refetchingList } = InfiniteScrollerComponent({
         url: `/business-service/search`, limit: 20, filter: "id", name: "mybusinessservice", paramsObj: cleanup({
@@ -50,9 +29,9 @@ function MyBusiness({ name, state, category }: { name?: string, state?: string, 
         <LoadingAnimation loading={isLoading} refeching={refetchingList} length={results?.length} > 
             <Box w='full' h='full' >
                 {!isLoading && results.length > 0 && (
-                    <Grid w={"full"} templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["2", "2", "6"]} >
+                    <Grid w={"full"} templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["2", "2", "2"]} >
                         {results.map((item: any, index: number) => (
-                            <BusinessCard key={index.toString()} business={item} mybusiness={true} />
+                            <BusinessCard key={index.toString()} business={item} mybusiness={true} selected={selected} setSelected={setSelected} isSelect={isSelect} />
                         ))}
                     </Grid>
                 )} 

@@ -71,33 +71,59 @@ export default function RequestServices() {
         updateEvent({ ...clone })
     }
 
-    const selectService = (data: string) => {
-        const clone = [...service]
-        setSelectedItem(data)
-        if (service?.includes(data)) {
-            let index = clone.indexOf(data);
-            clone.splice(index, 1);
+    const selectService = (data: string) => { 
+        let clone = [...service]
+        if (service?.some(item => item.category === data)) {
+
+            clone = clone.filter((item: any) => item.category !== data)
+            // updateService((prevItems: any) => prevItems.filter((item: any) => item.category !== data));// Removes the element at the found index  
             updateService(clone)
             setSelectedItem("")
         } else {
-            updateService([...clone, data])
-            setSelectedItem(data)
+            updateService([...clone, {
+                "category": data,
+                "description": "",
+                "type": "SERVICE"
+            }])
         }
     }
 
 
-    const selectRental = (data: string) => {
-        const clone = [...rental]
-        if (rental?.includes(data)) {
-            let index = clone.indexOf(data); // Find the index of the element 
-            clone.splice(index, 1); // Removes the element at the found index  
-            updateRental(clone)
-            setSelectedItem("")
+    const selectRental = (data: string) => { 
+        let clone = [...rental]
+        if (rental?.some(item => item.category === data)) { 
+            clone = clone.filter((item: any) => item.category !== data)
+            updateRental(clone);// Removes the element at the found index  
+            // updateRental(clone)
         } else {
-            updateRental([...clone, data])
-            setSelectedItem(data)
+            updateRental([...clone, {
+                "category": data,
+                "description": "",
+                "type": "RENTAL"
+            }])
         }
     }
+
+
+
+    const changeHandlerRental = (type: string, value: string) => {
+        const clone = [...rental]
+
+        clone[rental.findIndex((item: any) => item.category === type)] = {...clone[rental.findIndex((item: any) => item.category === type)], description : value}
+        updateRental(clone)
+    }
+
+
+
+    const changeHandlerService = (type: string, value: string) => {
+        const clone = [...service]
+
+        clone[service.findIndex((item: any) => item.category === type)] = {...clone[service.findIndex((item: any) => item.category === type)], description : value}
+        updateService(clone)
+    }
+
+    console.log(service);
+    
 
     return (
         <Flex w={"full"} flexDir={"column"} gap={"6"} >
@@ -112,8 +138,8 @@ export default function RequestServices() {
                         {service?.map((item, index) => (
                             <WrapItem key={index} >
                                 <Flex alignItems={"center"} bgColor={"#F7F8FE"} gap={"3"} h={"40px"} px={"4"} rounded={"8px"} >
-                                    <Text fontSize={"12px"} color={primaryColor} fontWeight={"500"} >{item}</Text>
-                                    <Flex as={"button"} onClick={() => selectService(item)}  >
+                                    <Text fontSize={"12px"} color={primaryColor} fontWeight={"500"} >{item?.category}</Text>
+                                    <Flex as={"button"} onClick={() => selectService(item?.category)}  >
                                         <IoClose size={"20px"} color='#F81F1F' />
                                     </Flex>
                                 </Flex>
@@ -129,8 +155,8 @@ export default function RequestServices() {
                         {rental?.map((item, index) => (
                             <WrapItem key={index} >
                                 <Flex alignItems={"center"} bgColor={"#F7F8FE"} gap={"3"} h={"40px"} px={"4"} rounded={"8px"} >
-                                    <Text fontSize={"12px"} color={primaryColor} fontWeight={"500"} >{item}</Text>
-                                    <Flex as={"button"} onClick={() => selectRental(item)} >
+                                    <Text fontSize={"12px"} color={primaryColor} fontWeight={"500"} >{item?.category?.replaceAll("_", " ")}</Text>
+                                    <Flex as={"button"} onClick={() => selectRental(item?.category)} >
                                         <IoClose size={"20px"} color='#F81F1F' />
                                     </Flex>
                                 </Flex>
@@ -176,8 +202,8 @@ export default function RequestServices() {
                                         return (
                                             <Flex key={index} w={"full"}>
                                                 <Flex alignItems={"center"} bgColor={"#F7F8FE"} justifyContent={"space-between"} gap={"3"} h={"40px"} w={"140px"} px={"4"} rounded={"8px"} >
-                                                    <Text fontSize={"12px"} color={primaryColor} fontWeight={"500"} >{textLimit(item, 10)}</Text>
-                                                    <Flex as={"button"} onClick={() => selectService(item)} >
+                                                    <Text fontSize={"12px"} color={primaryColor} fontWeight={"500"} >{textLimit(item?.category?.replaceAll("_", " "), 10)}</Text>
+                                                    <Flex as={"button"} onClick={() => selectService(item?.category)} >
                                                         <IoClose size={"20px"} color='#F81F1F' />
                                                     </Flex>
                                                 </Flex>
@@ -195,8 +221,8 @@ export default function RequestServices() {
                                         return (
                                             <Flex key={index} w={"fit-content"} >
                                                 <Flex alignItems={"center"} bgColor={"#F7F8FE"} justifyContent={"space-between"} gap={"3"} h={"40px"} w={"140px"} px={"4"} rounded={"8px"} >
-                                                    <Text fontSize={"12px"} color={primaryColor} fontWeight={"500"} >{textLimit(item, 10)}</Text>
-                                                    <Flex as={"button"} onClick={() => selectRental(item)} >
+                                                    <Text fontSize={"12px"} color={primaryColor} fontWeight={"500"} >{textLimit(item?.category?.replaceAll("_", " "), 10)}</Text>
+                                                    <Flex as={"button"} onClick={() => selectRental(item?.category)} >
                                                         <IoClose size={"20px"} color='#F81F1F' />
                                                     </Flex>
                                                 </Flex>
@@ -208,31 +234,24 @@ export default function RequestServices() {
                         )}
                         <Flex maxH={"45vh"} overflowY={"auto"} bgColor={secondaryBackgroundColor} rounded={"16px"} >
                             {!tab && (
-                                <Flex w={"full"} h={"auto"} flexDir={"column"} rounded={"16px"} borderWidth={"1px"} borderColor={"#EAEBEDCC"} >
+                                <Flex w={"full"} h={"auto"} flexDir={"column"} rounded={"16px"}>
                                     {data?.data?.filter((item: string) => item?.toLocaleLowerCase()?.includes(search?.toLocaleLowerCase()))?.map((item: string, index: number) => {
                                         return (
-                                            <Flex key={index} as={"button"} onClick={() => selectService(item)} w={"full"} h={"fit-content"} gap={"2"} flexDir={"column"} >
-                                                <Flex w={"full"} h={"53px"} px={"4"} justifyContent={"space-between"} borderBottomWidth={"1px"} borderColor={"#EAEBEDCC"} alignItems={"center"} >
-                                                    <Text fontSize={"14px"} >{item}</Text>
-                                                    <Checkbox onChange={() => selectService(item)} isChecked={service?.includes(item) ? true : false} />
-                                                </Flex>
-                                            </Flex>
-                                        )
-                                    })}
-                                </Flex>
-                            )}
-                            {tab && (
-                                <Flex w={"full"} h={"auto"} flexDir={"column"} rounded={"16px"} borderWidth={"1px"} borderColor={"#EAEBEDCC"} >
-                                    {datarental?.data?.filter((item: string) => item?.toLocaleLowerCase()?.includes(search?.toLocaleLowerCase()))?.map((item: string, index: number) => {
-                                        return (
+                                            // <Flex key={index} as={"button"} onClick={() => selectService(item)} w={"full"} h={"fit-content"} gap={"2"} flexDir={"column"} >
+                                            //     <Flex w={"full"} h={"53px"} px={"4"} justifyContent={"space-between"} borderBottomWidth={"1px"} borderColor={"#EAEBEDCC"} alignItems={"center"} >
+                                            //         <Text fontSize={"14px"} >{item}</Text>
+                                            //         <Checkbox onChange={() => selectService(item)} isChecked={service?.some((subitem: any) => subitem.category === item) ? true : false} />
+                                            //     </Flex>
+                                            // </Flex>
+
                                             <Flex key={index} as={"button"} w={"full"} h={"fit-content"} gap={"2"} flexDir={"column"} borderBottomWidth={"1px"} borderColor={"#EAEBEDCC"} >
-                                                <Flex flexDir={"column"} h={item === selectedItem  ? "40px" : "53px"} justifyContent={"space-between"} >
-                                                    <Flex onClick={() => selectRental(item)} w={"full"} px={"4"} pt={(item !== selectedItem && rental?.includes(item)) ? "2" : "0px"} h={"full"} justifyContent={"space-between"} alignItems={"center"} >
-                                                        <Text fontSize={"14px"} >{item}</Text>
-                                                        <Checkbox isChecked={rental?.includes(item) ? true : false} />
+                                                <Flex flexDir={"column"} h={item === selectedItem ? "40px" : "53px"} justifyContent={"space-between"} >
+                                                    <Flex onClick={() => selectService(item)} w={"full"} px={"4"} pt={(item !== selectedItem && service?.some((subitem: any) => subitem.category === item) ) ? "2" : "0px"} h={"full"} justifyContent={"space-between"} alignItems={"center"} >
+                                                        <Text fontSize={"14px"} >{textLimit(item?.replaceAll("_", " "), 30)}</Text>
+                                                        <Checkbox isChecked={service?.some((subitem: any) => subitem.category === item)  ? true : false} />
                                                     </Flex>
 
-                                                    {(item !== selectedItem && rental?.includes(item)) && (
+                                                    {(item !== selectedItem && service?.some((subitem: any) => subitem.category === item) ) && (
                                                         <Flex px={"4"} color={primaryColor} as={"button"} pb={"1"} fontSize={"10px"} onClick={() => setSelectedItem(item)} >View requirements</Flex>
                                                     )}
                                                 </Flex>
@@ -240,7 +259,38 @@ export default function RequestServices() {
                                                     <Flex flexDir={"column"} gap={"2"} pb={"2"} justifyContent={"start"} alignItems={"start"} px={"3"} w={"full"} >
                                                         <Text fontSize={"10px"} >{("please ENTER YOUR SERVICE requirements")?.toLocaleLowerCase()}</Text>
                                                         <Flex w={"full"} gap={"2"} >
-                                                            <Textarea h={"55px"} bgColor={mainBackgroundColor} />
+                                                            <Textarea value={service[service.findIndex((subitem: any) => subitem.category === item)]?.description} onChange={(e)=> changeHandlerService(item, e.target?.value)} h={"55px"} bgColor={mainBackgroundColor} />
+                                                            <Flex mt={"auto"} w={"fit-content"} >
+                                                                <Flex px={"2"} color={primaryColor} fontSize={"12px"} h={"35px"} as={"button"} onClick={() => setSelectedItem("")} >Done</Flex>
+                                                            </Flex>
+                                                        </Flex>
+                                                    </Flex>
+                                                )}
+                                            </Flex>
+                                        )
+                                    })}
+                                </Flex>
+                            )}
+                            {tab && (
+                                <Flex w={"full"} h={"auto"} flexDir={"column"} rounded={"16px"}>
+                                    {datarental?.data?.filter((item: string) => item?.toLocaleLowerCase()?.includes(search?.toLocaleLowerCase()))?.map((item: string, index: number) => {
+                                        return (
+                                            <Flex key={index} as={"button"} w={"full"} h={"fit-content"} gap={"2"} flexDir={"column"} borderBottomWidth={"1px"} borderColor={"#EAEBEDCC"} >
+                                                <Flex flexDir={"column"} h={item === selectedItem ? "40px" : "53px"} justifyContent={"space-between"} >
+                                                    <Flex onClick={() => selectRental(item)} w={"full"} px={"4"} pt={(item !== selectedItem && rental?.some((subitem: any) => subitem.category === item) ) ? "2" : "0px"} h={"full"} justifyContent={"space-between"} alignItems={"center"} >
+                                                        <Text fontSize={"14px"} >{textLimit(item?.replaceAll("_", " "), 30)}</Text>
+                                                        <Checkbox isChecked={rental?.some((subitem: any) => subitem.category === item)  ? true : false} />
+                                                    </Flex>
+
+                                                    {(item !== selectedItem && rental?.some((subitem: any) => subitem.category === item) ) && (
+                                                        <Flex px={"4"} color={primaryColor} as={"button"} pb={"1"} fontSize={"10px"} onClick={() => setSelectedItem(item)} >View requirements</Flex>
+                                                    )}
+                                                </Flex>
+                                                {item === selectedItem && (
+                                                    <Flex flexDir={"column"} gap={"2"} pb={"2"} justifyContent={"start"} alignItems={"start"} px={"3"} w={"full"} >
+                                                        <Text fontSize={"10px"} >{("please ENTER YOUR SERVICE requirements")?.toLocaleLowerCase()}</Text>
+                                                        <Flex w={"full"} gap={"2"} >
+                                                            <Textarea value={rental[rental.findIndex((subitem: any) => subitem.category === item)]?.description} onChange={(e)=> changeHandlerRental(item, e.target?.value)} h={"55px"} bgColor={mainBackgroundColor} />
                                                             <Flex mt={"auto"} w={"fit-content"} >
                                                                 <Flex px={"2"} color={primaryColor} fontSize={"12px"} h={"35px"} as={"button"} onClick={() => setSelectedItem("")} >Done</Flex>
                                                             </Flex>

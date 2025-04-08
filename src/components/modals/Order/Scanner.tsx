@@ -13,18 +13,14 @@ import { dateFormat } from '@/utils/dateFormat';
 
 interface IProps {
     isOpen: boolean;
-    onClose: (by?: boolean) => void;
-    eventID: string,
-    startDate: number,
-    endDate: number
+    onClose: any;
+    id: string, 
 }
 
-export default function Scanner({
+export default function OrderScanner({
     isOpen,
     onClose,
-    eventID,
-    startDate,
-    endDate
+    id, 
 }: IProps) {
     const [approved, setApproved] = React.useState(false);
     const [show, setShow] = React.useState(true);
@@ -35,7 +31,7 @@ export default function Scanner({
     const toast = useToast()
 
     const { isLoading, mutate, isError } = useMutation({
-        mutationFn: (data: string) => httpService.get(`${URLS.VALIDATE_TICKET(eventID, data)}`),
+        mutationFn: (data: string) => httpService.get(`${URLS.VALIDATE_TICKET(id, data)}`),
         onSuccess: (data) => {
             setTicket(data?.data?.ticket);
             setApproved(data?.data?.validate);
@@ -69,17 +65,16 @@ export default function Scanner({
         setOpen(false)
     }
 
-    const checkEventDay =(item: any)=> {
-        console.log(new Date(startDate)?.getDate());
+    // const checkEventDay =(item: any)=> {
+    //     console.log(new Date(startDate)?.getDate());
         
-        return (new Date(item)?.getDate() >= new Date(startDate)?.getDate()) && (new Date(item)?.getDate() <= new Date(endDate)?.getDate())
-    }
+    //     return (new Date(item)?.getDate() >= new Date(startDate)?.getDate()) && (new Date(item)?.getDate() <= new Date(endDate)?.getDate())
+    // }
 
     const checkPreviousDate = () => { 
         return (new Date((ticket?.scanTimeStamp) ? (ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 1]) : "")?.getDay() !== new Date((ticket?.scanTimeStamp) ?( ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 2]) : "")?.getDay())
     }  
-
-    console.log(checkEventDay((ticket?.scanTimeStamp) ? (ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 1]) : ""));
+ 
     
     console.log(ticket?.id);
     
@@ -120,9 +115,6 @@ export default function Scanner({
                         <Button onClick={retry} width={'100%'} height={'45px'} color={'white'} bg={'brand.chasescrollButtonBlue'}>Retry</Button>
                     </Box>
                 )}
-                {(!isLoading && !isError) &&
-                    <Ticket close={closeHandler} showQrCode={true} approved={checkEventDay(ticket?.scanTimeStamp ? (ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 1]) : "") && (approved || checkPreviousDate())} ticket={ticket as ITicket} />
-                }
             </ModalLayout>
         </>
     )

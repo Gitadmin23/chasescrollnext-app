@@ -24,6 +24,8 @@ import DonationGroupModal from './donationGroupModal';
 import useGetSingleDonationList from '@/hooks/useGetSingleDonation';
 import DonationCollaborator from '../create_donation/donationCollaborator';
 import { isDateInPast } from '@/utils/isPast';
+import GetCreatorData from '../kisok/getCreatorData';
+import DescriptionPage from '../sharedComponent/descriptionPage';
 
 export default function DonationGroupDetails({ id, notAuth }: { id: string, notAuth?: boolean }) {
 
@@ -118,34 +120,17 @@ export default function DonationGroupDetails({ id, notAuth }: { id: string, notA
                                     <Flex w={"full"} flexDir={"column"} gap={"4"} pb={"6"} pr={["0px", "0px", "0px", "6", "6"]} borderColor={borderColor} >
 
                                         <DonationGraph rounded='64px' item={item} />
-                                        <DonateUsers donationDetail={true} size={"50px"} event={item} fontSize={14} border='1px' />
-                                        {/* </Flex> */}
-                                        <Flex justifyContent={"space-between"} alignItems={"center"} >
-                                            <Flex flexDir={"column"} >
-                                                <Text fontWeight={"500"} >Date Created</Text>
-                                                <Text fontSize={"14px"} >{dateFormat(item?.createdDate)}{" "}{timeFormat(item?.createdDate)}</Text>
-                                            </Flex>
-                                            {(item?.createdBy?.userId === userId && isDateInPast(item?.endDate)) && (
-                                                <DonationCollaborator update={true} singleData={item} index={0} />
-                                            )}
-                                        </Flex>
+
+                                        <GetCreatorData userData={item?.createdBy} data={item} donation={true} />
+                                        <DescriptionPage limit={200} label='Fundraiser Details' description={item?.description + ""} />
                                         <Flex justifyContent={"space-between"} alignItems={"center"} >
                                             <Flex flexDir={"column"} >
                                                 <Text fontWeight={"500"} >End Date</Text>
                                                 <Text fontSize={"14px"} >{dateFormat(item?.endDate)}{" "}{timeFormat(item?.endDate)}</Text>
                                             </Flex>
-                                        </Flex>
-                                        <Flex flexDir={"column"} >
-                                            <Text fontWeight={"500"} >Fundraising Description</Text>
-                                            <Text fontSize={"14px"} color={bodyTextColor} >{item?.description}</Text>
-                                        </Flex>
-
-                                        <Flex as={"button"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.createdBy?.userId}`)} gap={"3"} >
-                                            <UserImage size={"45px"} font={"20px"} data={item?.createdBy} image={item?.createdBy?.data?.imgMain?.value} border={"1px"} />
-                                            <Flex display={["block"]} flexDir={"column"} textAlign={"left"}  >
-                                                <Text color={"#233DF3"} fontSize={"14px"} fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.createdBy?.firstName) + " " + capitalizeFLetter(item?.createdBy?.lastName), 15)}</Text>
-                                                <Text fontSize={"12px"} color={primaryColor} fontWeight={"600"} textDecoration={"underline"} >View Profile</Text>
-                                            </Flex>
+                                            {(item?.createdBy?.userId === userId && isDateInPast(item?.endDate)) && (
+                                                <DonationCollaborator update={true} singleData={item} index={0} />
+                                            )}
                                         </Flex>
                                     </Flex>
                                     {((userId === item?.createdBy?.userId) || item?.isCollaborator) ? (
@@ -199,39 +184,55 @@ export default function DonationGroupDetails({ id, notAuth }: { id: string, notA
                             <Flex w={["full", "full", "full", "full"]} flexDir={["column"]} >
                                 <Flex w={"full"} flexDir={"column"} gap={"4"} pb={"6"} pr={["0px", "0px", "0px", "6", "6"]} borderColor={borderColor} >
 
-                                    <DonationGraph isDonation={true} rounded='64px' item={item} />
-                                    <DonateUsers donationDetail={true} size={"50px"} event={item} fontSize={14} border='1px' />
-                                    {/* </Flex> */}
-                                    <Flex justifyContent={"space-between"} alignItems={"center"} >
-                                        <Flex flexDir={"column"} >
-                                            <Text fontWeight={"500"} >Date Created</Text>
-                                            <Text fontSize={"14px"} >{dateFormat(item?.createdDate)}{" "}{timeFormat(item?.createdDate)}</Text>
-                                        </Flex>
-                                        {(item?.createdBy?.userId === userId && isDateInPast(item?.endDate)) && (
-                                            <DonationCollaborator update={true} singleData={item} index={0} />
-                                        )}
-                                    </Flex>
-                                    <Flex justifyContent={"space-between"} alignItems={"center"} >
-                                        <Flex flexDir={"column"} >
-                                            <Text fontWeight={"500"} >End Date</Text>
-                                            <Text fontSize={"14px"} >{dateFormat(item?.endDate)}{" "}{timeFormat(item?.endDate)}</Text>
-                                        </Flex>
-                                    </Flex>
-                                    <Flex flexDir={"column"} >
-                                        <Text fontWeight={"500"} >Fundraising Description</Text>
-                                        <Text fontSize={"14px"} color={bodyTextColor} >{item?.description}</Text>
-                                    </Flex>
 
-                                    <Flex as={"button"} alignItems={"center"} onClick={() => router?.push(`/dashboard/profile/${item?.createdBy?.userId}`)} gap={"3"} >
-                                        <UserImage size={"45px"} font={"20px"} data={item?.createdBy} image={item?.createdBy?.data?.imgMain?.value} border={"1px"} />
-                                        <Flex display={["block"]} flexDir={"column"} textAlign={"left"}  >
-                                            <Text color={"#233DF3"} fontSize={"14px"} fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.createdBy?.firstName) + " " + capitalizeFLetter(item?.createdBy?.lastName), 15)}</Text>
-                                            <Text fontSize={"12px"} color={primaryColor} fontWeight={"600"} textDecoration={"underline"} >View Profile</Text>
+                                    <Flex display={["none", "none", "flex"]} >
+                                        <DonationGraph rounded='16px' item={item} />
+                                    </Flex>
+                                    <Flex display={["flex", "flex", "none"]} >
+                                        <DonationGraph rounded='16px' isDonation={true} item={item} />
+                                    </Flex><Flex w={"full"} gap={"2"} flexDirection={((userId === item?.createdBy?.userId) || item?.isCollaborator) ? ["column", "column", "row"] : "row"} >
+                                        <Flex w={["fit-content", "fit-content", "full"]} >
+                                            <GetCreatorData userData={item?.createdBy} data={item} donation={true} />
+                                        </Flex>
+                                        <Flex display={["flex", "flex", "none"]} w={"full"}  >
+                                            {((userId === item?.createdBy?.userId) || item?.isCollaborator) ? (
+                                                <Flex bgColor={mainBackgroundColor} borderWidth={"1px"} borderColor={borderColor} rounded={"full"} w={"full"} flexDir={"column"} overflowX={"hidden"} gap={"3"} px={["3", "3", "5", "5"]} h={"fit-content"} justifyContent={"center"} >
+
+                                                    <Flex width={["full"]} justifyContent={"space-between"} alignItems={"center"} gap={"3"}    >
+                                                        <Flex bgColor={mainBackgroundColor} w={"80px"} py={"2"} rounded={"2xl"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} as={"button"} onClick={() => router?.push(`/dashboard/settings/event-dashboard/${item?.id}/donate`)} gap={"4px"} flexDir={"column"} alignItems={"center"} justifyContent={"center"} >
+                                                            <DashboardOrganizerIcon />
+                                                            <Text fontSize={"12px"} fontWeight={"500"} >Dashboard</Text>
+                                                        </Flex>
+                                                        <Flex disabled={item?.isCollaborator || item?.total > 0} bgColor={mainBackgroundColor} w={"80px"} py={"2"} rounded={"2xl"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} as={"button"} onClick={() => router?.push(`/dashboard/donation/edit/${item?.id}`)} gap={"4px"} flexDir={"column"} alignItems={"center"} justifyContent={"center"}>
+                                                            <DashboardEditIcon />
+                                                            <Text fontSize={"12px"} fontWeight={"500"} >Edit</Text>
+                                                        </Flex>
+                                                        <Flex disabled={item?.isCollaborator} bgColor={mainBackgroundColor} w={"80px"} py={"2"} rounded={"2xl"} as={"button"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} onClick={() => router?.push("/dashboard/settings/payment/details")} gap={"4px"} flexDir={"column"} alignItems={"center"} >
+                                                            <WalletIcon color='#5D70F9' />
+                                                            <Text fontSize={"12px"} fontWeight={"500"} >Cash Out</Text>
+                                                        </Flex>
+                                                    </Flex>
+                                                </Flex>
+                                            ) : (
+                                                <DonationPayment data={item} />
+                                            )}
+                                        </Flex>
+                                    </Flex>
+                                    <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
+                                        <DescriptionPage limit={200} label='Fundraiser Details' description={item?.description + ""} />
+                                        <Flex justifyContent={"space-between"} alignItems={"center"} >
+                                            <Flex flexDir={"column"} >
+                                                <Text fontWeight={"500"} >End Date</Text>
+                                                <Text fontSize={"14px"} >{dateFormat(item?.endDate)}{" "}{timeFormat(item?.endDate)}</Text>
+                                            </Flex>
+                                            {(item?.createdBy?.userId === userId && isDateInPast(item?.endDate)) && (
+                                                <DonationCollaborator update={true} singleData={item} index={0} />
+                                            )}
                                         </Flex>
                                     </Flex>
                                 </Flex>
                                 {((userId === item?.createdBy?.userId) || item?.isCollaborator) ? (
-                                    <Flex bg={["transparent", "transparent", mainBackgroundColor, mainBackgroundColor]} insetX={"3"} mt={["0px", "0px", "0px", "0px"]} bottom={[notAuth ? "1" : "14", notAuth ? "1" : "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} mx={"auto"} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
+                                    <Flex display={["none", "none", "flex"]} bg={["transparent", "transparent", mainBackgroundColor, mainBackgroundColor]} insetX={"3"} mt={["0px", "0px", "0px", "0px"]} bottom={[notAuth ? "1" : "14", notAuth ? "1" : "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} mx={"auto"} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
                                         <Flex bgColor={secondaryBackgroundColor} w={["full", "full", "full", "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"64px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} px={["3", "3", "5", "5"]} h={"90px"} justifyContent={"center"} >
 
                                             <Flex width={["full"]} justifyContent={"space-between"} alignItems={"center"} gap={"3"}    >
@@ -252,7 +253,7 @@ export default function DonationGroupDetails({ id, notAuth }: { id: string, notA
 
                                     </Flex>
                                 ) : (
-                                    <Flex w={["auto", "auto", "full", "full"]} flexDir={"column"} gap={"4"} >
+                                    <Flex display={["none", "none", "flex"]} w={["auto", "auto", "full", "full"]} flexDir={"column"} gap={"4"} >
                                         <Flex bgColor={"transparent"} insetX={["6", "6", "0px"]} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "full"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "0px", "0px"]} >
                                             <DonationPayment fullWidth={true} data={item} />
                                         </Flex>
@@ -260,7 +261,6 @@ export default function DonationGroupDetails({ id, notAuth }: { id: string, notA
                                 )}
                                 <Flex w={"full"} gap={"4"} flexDir={"column"} >
                                     <DonationGroupModal notAuth={notAuth} selectedData={item} />
-                                    <Flex w={"full"} h={"100px"} display={["block", "block", "none", "none", "none"]} />
                                 </Flex>
                             </Flex>
                         </Flex>
