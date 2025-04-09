@@ -123,8 +123,9 @@ export default function EventDetail(props: IEventType) {
                             <Flex w={[isAdmin ? "full" : "fit-content", isAdmin ? "full" : "full", "full"]} alignItems={["start", "start", "center"]} flexDir={["column", "column", "row"]} justifyContent={["start", "start", "space-between"]} gap={"3"} >
                                 <Flex gap={"3"} w={[isAdmin ? "full" : "fit-content", isAdmin ? "full" : "full", "full"]} alignItems={[isAdmin ? "center" : "start", isAdmin ? "center" : "start", "center"]} flexDir={[isAdmin ? "row" : "column", isAdmin ? "row" : "column", "row"]} justifyContent={[isAdmin ? "space-between" : "start", isAdmin ? "space-between" : "start", "space-between"]}  >
                                     <EventCreator {...props} />
-                                    <Flex display={["flex", "flex", "none"]} mr={isAdmin ? "auto" : "0px"} >
-                                        <InterestedUsers fontSize={16} event={props} border={"2px"} size={"38px"} refund={true} />
+                                    <Flex display={["flex", "flex", "none"]} flexDir={"column"} gap={"2"} mr={isAdmin ? "auto" : "0px"} >
+                                        <InterestedUsers fontSize={16} event={props} border={"2px"} size={"28px"} refund={true} />
+                                        <PrBtn data={props} />
                                     </Flex>
                                 </Flex>
                             </Flex>
@@ -185,12 +186,15 @@ export default function EventDetail(props: IEventType) {
                             {isOrganizer && (
                                 <VolunteerBtn {...props} />
                             )}
+                            <Flex w={"150px"} > 
+                                <PrBtn data={props} />
+                            </Flex>
                         </Flex>
                     </Flex>
                 </Flex>
             </Flex>
             <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
-                <Flex w={"full"} flexDir={"column"} gap={"3"} > 
+                <Flex w={"full"} flexDir={"column"} gap={"3"} >
                     <Flex display={["flex", "flex", "none"]} w={"full"} gap={"2"} flexDir={"column"} >
                         <Flex maxW={["400px"]} rounded={"32px"} py={"2"} px={"3"} bgColor={secondaryBackgroundColor} w={"full"} gap={"2"} alignItems={"center"} >
                             <LocationStroke />

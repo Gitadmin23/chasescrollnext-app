@@ -1,6 +1,6 @@
 import httpService from "@/utils/httpService";
 import { useToast } from "@chakra-ui/react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 
 
@@ -8,14 +8,16 @@ const useOrderConfirmation = () => {
 
     const toast = useToast()
 
+    const query = useQueryClient()
+
     const rentalConfirm = useMutation({
         mutationFn: (data: any) =>
             httpService.post(
-                `/rental/markAsDone/${data}`, {}
+                `/reciept/markAsReceived/${data}`, {}
             ),
         onSuccess: (data: any) => {
             console.log(data?.data);
-
+            query?.invalidateQueries("order")
             toast({
                 title: "Successful",
                 description: "",
@@ -56,11 +58,11 @@ const useOrderConfirmation = () => {
     const productConfirm = useMutation({
         mutationFn: (data: any) =>
             httpService.post(
-                `/orders/markAsPaid/${data}`, {}
+                `/orders/markAsReceived/${data}`, {}
             ),
         onSuccess: (data: any) => {
             console.log(data?.data);
-
+            query?.invalidateQueries("order")
             toast({
                 title: "Successful",
                 description: "",
