@@ -13,6 +13,7 @@ import { dateFormat, timeFormat } from '@/utils/dateFormat'
 import SignupModal from '@/app/auth/component/signupModal'
 import { IEventType } from '@/models/Event'
 import useModalStore from '@/global-state/useModalSwitch' 
+import { formatNumberWithK } from '@/utils/formatNumberWithK'
 
 interface Props {
     ticket: any,
@@ -27,10 +28,8 @@ function SelectTicket(props: Props) {
         data
     } = props
 
-    const {
-        headerTextColor,
-        primaryColor,
-        secondaryBackgroundColor,
+    const { 
+        primaryColor, 
         mainBackgroundColor,
         borderColor,
     } = useCustomTheme();
@@ -88,9 +87,9 @@ function SelectTicket(props: Props) {
                 <Flex onClick={() => setShowModal((prev) => !prev)} as={"button"} w={"full"} borderWidth={"1px"} justifyContent={"space-between"} alignItems={"center"} borderColor={"#EAEBEDCC"} rounded={"12px"} p={"5"} >
                     <Flex flexDir={"column"} textAlign={"left"} gap={"1"}  >
                         <Text fontSize={"14px"} >Ticket Type</Text>
-                        <Text fontWeight={"bold"} color={primaryColor}>
+                        <Text fontWeight={"bold"} fontSize={["14px", "14px", "16px"]} color={primaryColor}>
                             {ticketType?.ticketType ? ticketType?.ticketType : "Select Ticket"}{" "}
-                            {ticketType?.ticketType ? formatNumber(ticketType?.ticketPrice, currency === "USD" ? "$" : "₦") : ""}
+                            {ticketType?.ticketType ? formatNumberWithK(ticketType?.ticketPrice) : ""}
                         </Text>
                     </Flex>
                     <Flex transform={showModal ? "rotate(180deg)" : "rotate(0deg)"} > 
@@ -106,7 +105,7 @@ function SelectTicket(props: Props) {
                                     <Button color={primaryColor} isDisabled={(item?.totalNumberOfTickets === item?.ticketsSold) || !(new Date() <= new Date(item?.endDate))} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                         {item?.totalNumberOfTickets === item?.ticketsSold ?
                                             "Sold Out" :
-                                            item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
+                                            item?.ticketType + " " + formatNumberWithK(item?.ticketPrice)
                                         }
                                     </Button>
                                     <Text color={"white"} px={"2"} rounded={"4px"} bg={"red"} textAlign={"center"} fontSize={"12px"} >Ends: {dateFormat(item?.endDate)} {timeFormat(item?.endDate)}</Text>
@@ -117,7 +116,7 @@ function SelectTicket(props: Props) {
                                 (<Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                     {item?.totalNumberOfTickets === item?.ticketsSold ?
                                         "Sold Out" :
-                                        item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
+                                        item?.ticketType + " " + formatNumberWithK(item?.ticketPrice)
                                     }
                                 </Button>)
                             );
@@ -138,7 +137,7 @@ function SelectTicket(props: Props) {
                                         <Button color={primaryColor} isDisabled={(item?.totalNumberOfTickets === item?.ticketsSold) || !(new Date() <= new Date(item?.endDate))} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                             {(item?.totalNumberOfTickets === item?.ticketsSold) ?
                                                 "Sold Out" :
-                                                item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
+                                                item?.ticketType + " " + formatNumberWithK(item?.ticketPrice)
                                             }
                                         </Button>
                                         <Text color={"white"} px={"2"} rounded={"4px"} bg={"red"} textAlign={"center"} fontSize={"12px"} >Ends: {dateFormat(item?.endDate)} {timeFormat(item?.endDate)}</Text>
@@ -150,7 +149,7 @@ function SelectTicket(props: Props) {
                                     (<Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                         {item?.totalNumberOfTickets === item?.ticketsSold ?
                                             "Sold Out" :
-                                            item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
+                                            item?.ticketType + " " + formatNumberWithK(item?.ticketPrice)
                                         }
                                     </Button>)
                                 );

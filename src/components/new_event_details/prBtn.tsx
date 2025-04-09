@@ -69,7 +69,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
                 serviceCategories: selectService,
                 rentalCategories: [],
                 eventID: data?.id,
-                state: ""
+                state: "rivers"
             })
         } else if (index === 1) {
             createFundraising?.mutate({
@@ -83,7 +83,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
 
     return (
         <>
-            <Flex pos={["relative"]} w={"full"} bgColor={primaryColor} color={"white"} flexDir={"column"} roundedBottomRight={["0px", "0px", "12px"]} roundedBottomLeft={"12px"} gap={"3"} >
+            <Flex pos={["relative"]} w={"full"} bgColor={data?.isOrganizer ? primaryColor : "#EEEEFF"} color={!data?.isOrganizer ? primaryColor : "white"} flexDir={"column"} roundedTop={data?.isOrganizer ? ["0px"] : "32px"} roundedBottomRight={data?.isOrganizer ? ["0px", "0px", "12px"] : "32px"} roundedBottomLeft={data?.isOrganizer ? "12px": "32px"} gap={"3"} >
                 {data?.isOrganizer && (
                     <Flex onClick={() => setOpen(true)} as={"button"} w={"full"} gap={"2"} h={"55px"} px={"1"} alignItems={"center"} justifyContent={"center"} >
                         <Text fontSize={"14px"} fontWeight={"500"} >My Support Center</Text>
@@ -91,10 +91,10 @@ export default function PrBtn({ data }: { data: IEventType }) {
                     </Flex>
                 )}
                 {!data?.isOrganizer && (
-                    <Flex disabled={createPr?.isLoading} onClick={clickHander} as={"button"} w={"full"} gap={"2"} h={"55px"} px={"4"} alignItems={"center"} justifyContent={"center"} >
+                    <Flex disabled={createPr?.isLoading} onClick={clickHander} as={"button"} w={"full"} gap={"2"} h={["40px", "40px", "50px"]} px={"4"} alignItems={"center"} justifyContent={"center"} >
                         {createPr?.isLoading ?
-                            <Text fontSize={"14px"} fontWeight={"500"} >{"Loading..."}</Text> :
-                            <Text fontSize={"14px"} fontWeight={"500"} >{data?.prStatus === "PENDING" ? "Pending" : "Apply to be a PR"}</Text>}
+                            <Text fontSize={["10px", "10px", "14px"]} fontWeight={"500"} >{"Loading..."}</Text> :
+                            <Text fontSize={["10px", "10px", "14px"]} fontWeight={"700"} >{data?.prStatus === "PENDING" ? "Pending" : "Apply to be a PR"}</Text>}
                     </Flex>
                     // <CustomButton onClick={clickHander} disable={data?.prStatus === "PENDING" ? true : false} text={data?.prStatus === "PENDING" ? "Pending" : "Apply to be a PR"} backgroundColor={["#EEEEFF", "#EEEEFF", primaryColor]} color={[primaryColor, primaryColor, "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]} width={["120px", "120px", "160px"]} />
                 )}

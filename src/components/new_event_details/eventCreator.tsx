@@ -14,6 +14,7 @@ import AddOrRemoveUserBtn from '../sharedComponent/add_remove_user_btn'
 import CollaboratorBtn from '../create_event_component/event_ticket/collaborators'
 import useCustomTheme from '@/hooks/useTheme'
 import InterestedUsers from '../sharedComponent/interested_users'
+import PrBtn from './prBtn'
 
 export default function EventCreator(props: IEventType) {
 
@@ -78,28 +79,28 @@ export default function EventCreator(props: IEventType) {
                     <Text textAlign={"left"} mt={"-2px"} fontSize={["13px", "13px", "sm"]} >{createdBy?.username?.includes("@gmail") ? textLimit(createdBy?.username, 4) : textLimit(createdBy?.username, 10)}</Text>
                 </Box>
             </Flex>
-            <Flex  display={["none", "none", "flex"]}  ml={["0px", "0px", "auto"]} alignContent={"center"} gap={"3"} >
+            <Flex display={["none", "none", "flex"]} ml={["0px", "0px", "auto"]} alignContent={"center"} gap={"3"} >
 
-            <Flex rounded={"64px"} display={["none", "none", createdBy?.userId !== user_index ? "flex" : "none"]} h={"47px"} bgColor={mainBackgroundColor} px={["3", "3", "5", "5"]} py={"12px"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
-                {createdBy?.userId !== user_index ? (
-                    <Flex color={"#5465E0"} rounded={"32px"} justifyContent={"center"} alignItems={"center"} gap={["3", "3", "3", "3"]} py={"8px"} >
-                        <ChatBtn userId={createdBy?.userId ?? ""} />
-                        <AddOrRemoveUserBtn icon={true} name={(isFriend === "FRIEND_REQUEST_RECIEVED" || isFriend === "FRIEND_REQUEST_SENT" || isFriend === "CONNECTED" || isFriend === "CONNECTFriend") ? isFriend === "FRIEND_REQUEST_SENT" ? "Pending" : isFriend === "CONNECTFriend" ? "Disconnect" : "Disconnect" : "Connect"} setJoinStatus={setisFriend} user_index={createdBy?.userId} />
-                        {/* <Flex> */}
-                        {/* </Flex> */}
-                    </Flex>
-                ) :
-                    (
-                        <>
-                            {/* {((collaborators || admins) && !pathname?.includes("pastdetails")) && (
+                <Flex rounded={"64px"} display={["none", "none", createdBy?.userId !== user_index ? "flex" : "none"]} h={"47px"} bgColor={mainBackgroundColor} px={["3", "3", "5", "5"]} py={"12px"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
+                    {createdBy?.userId !== user_index ? (
+                        <Flex color={"#5465E0"} rounded={"32px"} justifyContent={"center"} alignItems={"center"} gap={["3", "3", "3", "3"]} py={"8px"} >
+                            <ChatBtn userId={createdBy?.userId ?? ""} />
+                            <AddOrRemoveUserBtn icon={true} name={(isFriend === "FRIEND_REQUEST_RECIEVED" || isFriend === "FRIEND_REQUEST_SENT" || isFriend === "CONNECTED" || isFriend === "CONNECTFriend") ? isFriend === "FRIEND_REQUEST_SENT" ? "Pending" : isFriend === "CONNECTFriend" ? "Disconnect" : "Disconnect" : "Connect"} setJoinStatus={setisFriend} user_index={createdBy?.userId} />
+                            {/* <Flex> */}
+                            {/* </Flex> */}
+                        </Flex>
+                    ) :
+                        (
+                            <>
+                                {/* {((collaborators || admins) && !pathname?.includes("pastdetails")) && (
                                 <CollaboratorBtn update={true} collaborate={acceptedCollaborators?.length !== 0 || acceptedAdmins?.length !== 0} btn={true} data={props} />
                             )} */}
-                        </>
-                    )
-                } 
-            </Flex>
+                            </>
+                        )
+                    }
+                </Flex>
 
-            <InterestedUsers fontSize={16} event={props} border={"2px"} size={"38px"} refund={true} />
+                <InterestedUsers fontSize={16} event={props} border={"2px"} size={"38px"} refund={true} /> 
             </Flex>
 
             <ModalLayout open={open} close={setOpen} title='Event Organizers' >
