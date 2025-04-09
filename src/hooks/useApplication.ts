@@ -43,11 +43,11 @@ const useApplication = () => {
                 `/event-application/markAsViewed/${data}`, {}
             ),
         onSuccess: (data: any) => {
-            console.log(data?.data);
+            console.log(data?.data?.message);
             invalidateQueries("event-application")
             toast({
                 title: "Successful",
-                description: "",
+                description: data?.data?.message,
                 status: "success",
                 isClosable: true,
                 duration: 5000,

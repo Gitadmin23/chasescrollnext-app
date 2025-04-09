@@ -62,14 +62,14 @@ export default function PrBtn({ data }: { data: IEventType }) {
                 serviceCategories: [],
                 rentalCategories: selectRental,
                 eventID: data?.id,
-                state: ""
+                state: "Rivers"
             })
         } else if (index === 4) {
             tagServiceAndRental?.mutate({
                 serviceCategories: selectService,
                 rentalCategories: [],
                 eventID: data?.id,
-                state: "rivers"
+                state: "Rivers"
             })
         } else if (index === 1) {
             createFundraising?.mutate({

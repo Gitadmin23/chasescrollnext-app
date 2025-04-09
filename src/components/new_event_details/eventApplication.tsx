@@ -55,7 +55,6 @@ export default function EventApplication({ results, loading, type }: { type?: "S
         }
     }
 
-
     return (
         <LoadingAnimation loading={loading} length={results?.length} >
             <>
@@ -103,24 +102,24 @@ export default function EventApplication({ results, loading, type }: { type?: "S
                 )}
                 {type === "RENTAL" && (
                     <Flex flexDir={"column"} w={"full"} gap={"4"} >
-                        {results?.map((item: IApplication, index: number) => {
+                        {results?.filter((item: IApplication)=> !item?.rental)?.map((item: IApplication, index: number) => {
                             return (
-                                <Flex key={index} flexDir={"column"} gap={"1"} > 
+                                <Flex key={index} flexDir={"column"} gap={"1"} >
                                     <Flex w={"full"} alignItems={"center"} justifyContent={"space-between"} >
                                         <Flex as={"button"} onClick={() => push(`/dashboard/profile/${item?.vendor?.userId}`)} gap={"2"} alignItems={"center"} >
                                             <UserImage image={item?.vendor?.data?.imgMain?.value} data={item?.vendor} size={"30px"} font={"12px"} />
                                             <Text color={primaryColor} fontSize={"14px"} fontWeight={"600"} >{capitalizeFLetter(item?.vendor?.firstName + " " + item?.vendor?.lastName)}</Text>
                                         </Flex>
                                         <Flex gap={"2"} display={["none", "none", "flex"]} flexDir={"row"} alignItems={"center"} >
-                                            <Text fontSize={"12px"} fontWeight={"700"} >Location: <span style={{ color: primaryColor, fontWeight: "700", fontSize: "14px" }} >{capitalizeFLetter(item?.service?.state)}</span></Text>
+                                            <Text fontSize={"12px"} fontWeight={"700"} >Location: <span style={{ color: primaryColor, fontWeight: "700", fontSize: "14px" }} >{capitalizeFLetter(item?.rental?.location?.state)}</span></Text>
                                         </Flex>
                                         <Flex alignContent={"center"} gap={"2"} >
-                                            <Text fontSize={"14px"} mb={"2px"} fontWeight={"700"} >{item?.service?.rating}</Text>
-                                            <StarRating rate={Number(item?.service?.rating)} />
+                                            <Text fontSize={"14px"} mb={"2px"} fontWeight={"700"} >{item?.rental?.rating}</Text>
+                                            <StarRating rate={Number(item?.rental?.rating)} />
                                         </Flex>
                                     </Flex>
                                     <Flex gap={"2"} display={["flex", "flex", "none"]} flexDir={"row"} alignItems={"center"} >
-                                        <Text fontSize={"12px"} fontWeight={"700"} >Location: <span style={{ color: primaryColor, fontWeight: "700", fontSize: "12px" }} >{capitalizeFLetter(item?.service?.state)}</span></Text>
+                                        <Text fontSize={"12px"} fontWeight={"700"} >Location: <span style={{ color: primaryColor, fontWeight: "700", fontSize: "12px" }} >{capitalizeFLetter(item?.rental?.location?.state)}</span></Text>
                                     </Flex>
                                     <Flex w={"full"} pl={"3"} bgColor={primaryColor} rounded={"16px"} h={"fit-content"} borderWidth={"1px"} borderColor={borderColor} >
                                         <Flex w={"full"} bgColor={mainBackgroundColor} justifyContent={"space-between"} h={"117px"} alignItems={"center"} px={"5"} roundedLeft={"0px"} roundedRight={"16px"} >
@@ -130,7 +129,12 @@ export default function EventApplication({ results, loading, type }: { type?: "S
                                                 <Text fontSize={"10px"} >{moment(item?.createdDate)?.fromNow()}</Text>
                                                 <Text fontWeight={"500"} >{formatNumber(item?.rental?.price)}</Text>
                                             </Flex>
-                                            <CustomButton text={"Book Now"} onClick={() => clickHandler(item?.rental?.id, item)} width={"120px"} borderRadius={"32px"} borderWidth={"1px"} fontSize={"14px"} borderColor={borderColor} height={"40px"} color={headerTextColor} backgroundColor={mainBackgroundColor} />
+                                            <Flex h={"full"} justifyContent={"center"} alignItems={"center"} pos={"relative"} >
+                                                {item?.hasViewed && (
+                                                    <Text pos={"absolute"} color={"red"} top={"2"} right={"2"} fontWeight={"700"} fontSize={"12px"} >Viewed</Text>
+                                                )}
+                                                <CustomButton text={"Book Now"} onClick={() => clickHandler(item?.rental?.id, item)} width={"120px"} borderRadius={"32px"} borderWidth={"1px"} fontSize={"14px"} borderColor={borderColor} height={"40px"} color={headerTextColor} backgroundColor={mainBackgroundColor} />
+                                            </Flex>
                                         </Flex>
                                     </Flex>
                                 </Flex>

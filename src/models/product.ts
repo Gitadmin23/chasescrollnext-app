@@ -121,6 +121,7 @@ export interface IRental {
     hasBought :  false;
     hasReviewed: false;
     "category": string,
+    rating: number
     "location": {
         "link": string,
         "address": string,

@@ -125,7 +125,10 @@ export default function EventDetail(props: IEventType) {
                                     <EventCreator {...props} />
                                     <Flex display={["flex", "flex", "none"]} flexDir={"column"} gap={"2"} mr={isAdmin ? "auto" : "0px"} >
                                         <InterestedUsers fontSize={16} event={props} border={"2px"} size={"28px"} refund={true} />
-                                        <PrBtn data={props} />
+
+                                        {(!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && (
+                                            <PrBtn data={props} />
+                                        )}
                                     </Flex>
                                 </Flex>
                             </Flex>
@@ -186,9 +189,11 @@ export default function EventDetail(props: IEventType) {
                             {isOrganizer && (
                                 <VolunteerBtn {...props} />
                             )}
-                            <Flex w={"150px"} > 
-                                <PrBtn data={props} />
-                            </Flex>
+                            {(!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && (
+                                <Flex w={"150px"} >
+                                    <PrBtn data={props} />
+                                </Flex>
+                            )}
                         </Flex>
                     </Flex>
                 </Flex>
