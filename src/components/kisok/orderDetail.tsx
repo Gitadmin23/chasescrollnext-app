@@ -120,7 +120,7 @@ export default function OrderDetail({ id }: { id: string }) {
                             </Flex>
                             {item?.hasReceived && (
                                 <Flex w={"150px"} >
-                                    <CustomButton bgColor={"#0CC23A"} borderRadius={"999px"} text={"Delivered"} />
+                                    <CustomButton backgroundColor={"#0CC23A"} borderRadius={"999px"} text={"Delivered"} />
                                 </Flex>
                             )}
 
