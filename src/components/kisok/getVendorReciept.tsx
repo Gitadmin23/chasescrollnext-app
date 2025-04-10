@@ -48,7 +48,7 @@ export default function GetVendorReciept() {
         setDetails(item)
         setPrice((item?.price) + "")
         setOpen(true)
-    }
+    } 
 
     const updateHandler = (item: "PENDING" | "ACCEPTED" | "CANCELLED") => {
         setStatus(item)
@@ -67,16 +67,20 @@ export default function GetVendorReciept() {
 
 
     const handlePriceChange = (itemData: IAction) => {
+
+        let prevPer = detail?.price - (detail?.rental?.price * detail?.frequency)
+
+        console.log();
         if (itemData.type === 'ADDITION') {
             // calculate 5% fo the inital price
-            const Percentage = (detail?.price / detail?.frequency) * Number((percentage + 0.05)?.toFixed(2));
-            const newPrice = (detail?.price / detail?.frequency) + Percentage;
-            setPrice((newPrice * detail?.frequency).toString());
+            const Percentage = ((detail?.price - prevPer) / detail?.frequency) * Number((percentage + 0.05)?.toFixed(2));
+            const newPrice = ((detail?.price - prevPer) / detail?.frequency) + Percentage;
+            setPrice(((newPrice * detail?.frequency)  + prevPer ).toString());
             setPercentage(Number((percentage + 0.05)?.toFixed(2)))
         } else {
-            const Percentage = (detail?.price / detail?.frequency) * Number((percentage - 0.05)?.toFixed(2));
-            const newPrice = (detail?.price / detail?.frequency) + Percentage;
-            setPrice((newPrice * detail?.frequency).toString());
+            const Percentage = ((detail?.price - prevPer ) / detail?.frequency) * Number((percentage - 0.05)?.toFixed(2));
+            const newPrice = ((detail?.price - prevPer ) / detail?.frequency) + Percentage;
+            setPrice(((newPrice * detail?.frequency) + prevPer ).toString());
             setPercentage(Number((percentage - 0.05)?.toFixed(2)))
         }
     }
