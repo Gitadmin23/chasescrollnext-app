@@ -45,7 +45,7 @@ export default function GetVendorReciept() {
 
     const clickHander = (item: IReceipt) => {
         setDetails(item)
-        setPrice((item?.price / item?.frequency) + "")
+        setPrice((item?.price) + "")
         setOpen(true)
     }
 
@@ -184,17 +184,17 @@ export default function GetVendorReciept() {
                                     <Flex justifyContent={["start", "start", "start"]} alignItems={"center"} w={"full"} flexDir={["row", "row", "row"]} gap={"1"} >
                                         <Text fontWeight={400} fontSize={'12px'}>Duration Of Rental:</Text>
                                         <Text fontSize={"14px"} fontWeight={"600"} >{detail?.frequency} <span style={{ fontSize: "12px", fontWeight: "500" }} >{detail?.rental?.frequency === "DAILY" ? (detail?.frequency > 1 ? "days" : "day") : (detail?.frequency > 1 ? "hours" : "hour")}</span></Text>
-                                    </Flex>
+                                    </Flex> 
                                     <Flex justifyContent={["start", "start", "start"]} alignItems={"center"} w={"full"} flexDir={["row", "row", "row"]} gap={"1"} >
                                         <Text fontWeight={400} fontSize={'12px'}>Rental Initial Price:</Text>
                                         <Flex pos={"relative"}  >
-                                            {(((((detail?.rental?.price - detail?.price) / detail?.frequency) * 100) / detail?.rental?.price) !== 0) && (
+                                            {((detail?.rental?.price * detail?.frequency) !== detail?.rental?.price) && (
                                                 <Flex w={"full"} h={"1.5px"} pos={"absolute"} top={"11px"} bgColor={"black"} />
                                             )}
-                                            <Text fontSize={"14px"} fontWeight={"600"} textDecor={""} >{formatNumber(detail?.rental?.price)}</Text>
+                                            <Text fontSize={"14px"} fontWeight={"600"} textDecor={""} >{formatNumber(detail?.rental?.price * detail?.frequency)}</Text>
                                         </Flex>
-                                        {((((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price) !== 0) && (
-                                            <Text fontSize={"12px"} fontWeight={"500"}  >by {((((detail?.rental?.price - detail?.price) / detail?.frequency) * 100) / detail?.rental?.price)?.toFixed(0)}%</Text>
+                                        {((detail?.rental?.price * detail?.frequency) !== detail?.rental?.price) && (
+                                            <Text fontSize={"12px"} fontWeight={"500"}  >{(detail?.rental?.price * detail?.frequency) > detail?.rental?.price ? "by" : "discount of" } {((((detail?.rental?.price) - (detail?.price / detail?.frequency)) * 100) / detail?.rental?.price)?.toFixed(0)?.replaceAll("-", "")}%</Text>
                                         )}
                                     </Flex>
                                 </Flex>

@@ -69,8 +69,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
     const [service, setService] = React.useState<IService | null>(null);
 
     const [loading, setLoading] = useState(false)
-    const [loadingReject, setLoadingReject] = useState(false);
-    const [type, setType] = useState("");
+    const [loadingReject, setLoadingReject] = useState(false); 
 
     React.useEffect(() => {
         if (bookingState?.price !== parseInt(updatedPrice)) {
