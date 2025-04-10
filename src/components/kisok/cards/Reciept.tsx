@@ -132,7 +132,7 @@ export default function Reciept({ detail, setOpen, userId, price, handlePriceCha
                         </Flex>
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
-                        {detail?.approvalStatus === "PENDING" && (
+                        {(!detail?.hasPaid) && (
                             <Flex w={"full"} flexDir={"column"} gap={"2"} >
                                 <Text fontSize={'14px'}>You can neogiate this price by 5%</Text>
                                 <Flex w={"full"} mt='10px' justifyContent={"space-between"} alignItems="center">

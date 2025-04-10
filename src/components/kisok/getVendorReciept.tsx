@@ -70,7 +70,6 @@ export default function GetVendorReciept() {
 
         let prevPer = detail?.price - (detail?.rental?.price * detail?.frequency)
 
-        console.log();
         if (itemData.type === 'ADDITION') {
             // calculate 5% fo the inital price
             const Percentage = ((detail?.price - prevPer) / detail?.frequency) * Number((percentage + 0.05)?.toFixed(2));
