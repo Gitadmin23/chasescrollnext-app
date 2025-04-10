@@ -95,7 +95,7 @@ export default function ConfirmPayment({
                                 <QRcode />
                                 <Text fontSize={"12px"} color={bodyTextColor} >Get  QR Code</Text>
                             </Flex>
-                            <CustomButton onClick={clickHandler} text={"Confirm"} height={"47px"} fontSize={"14px"} borderRadius={"999px"} />
+                            <CustomButton isLoading={productConfirm?.isLoading || rentalConfirm?.isLoading} onClick={clickHandler} text={"Confirm"} height={"47px"} fontSize={"14px"} borderRadius={"999px"} />
                         </Flex>
                     )}
                     {tab === 2 && (
