@@ -72,7 +72,7 @@ export default function Reciept({ detail, setOpen, userId, price, handlePriceCha
 
                                     <HStack w='full' justifyContent={'flex-start'} >
                                         <Text w={"80px"} fontSize={'14px'}>Phone:</Text>
-                                        <Text fontSize={'14px'}>{detail?.vendor?.data?.mobilePhone?.value ?? 'None'}</Text>
+                                        <Text fontSize={'14px'}>{detail?.vendor?.data?.mobilePhone?.value ? detail?.vendor?.data?.mobilePhone?.value : 'None'}</Text>
                                     </HStack>
                                     <HStack w='full' justifyContent={'flex-start'} >
                                         <Text w={"80px"} fontSize={'14px'}>Start Date:</Text>
@@ -95,7 +95,7 @@ export default function Reciept({ detail, setOpen, userId, price, handlePriceCha
 
                                     <HStack w='full' justifyContent={'flex-start'} >
                                         <Text w={"80px"} fontSize={'14px'}>Phone:</Text>
-                                        <Text fontSize={'14px'}>{detail?.createdBy?.data?.mobilePhone?.value ?? 'None'}</Text>
+                                        <Text fontSize={'14px'}>{detail?.createdBy?.data?.mobilePhone?.value ? detail?.createdBy?.data?.mobilePhone?.value : 'None'}</Text>
                                     </HStack>
                                     <HStack w='full' justifyContent={'flex-start'} >
                                         <Text w={"80px"} fontSize={'14px'}>Start Date:</Text>
