@@ -95,11 +95,15 @@ export default function ShippingAddress(props: Props) {
         () => httpService.get(`/addresses/user/${userId}`), {
         onSuccess(data) {
             setAddress(data?.data)
-            data?.data?.map((item: IProps) => {
-                if (item?.isDefault) {
-                    setAddressDefault(item?.id)
-                }
-            })
+            if (data?.data?.length === 0) {
+                setAddressDefault("")
+            } else {
+                data?.data?.map((item: IProps) => {
+                    if (item?.isDefault) {
+                        setAddressDefault(item?.id)
+                    }
+                })
+            }
         },
     }
     );
@@ -263,7 +267,6 @@ export default function ShippingAddress(props: Props) {
                             <Text fontSize={"14px"} fontWeight={"500"} color={primaryColor} >Add Address</Text>
                         </Flex>
                     </Flex>
-                    <Text as={"button"} fontSize={"14px"} color={primaryColor} fontWeight={"500"} mr={"auto"} >Go back & Continue buying</Text>
                 </Flex>
                 <Flex w={"fit-content"} h={"fit-content"} >
                     <Flex w={"292px"} rounded={"8px"} flexDir={"column"} gap={"4"} p={"6"} bgColor={"white"} >
@@ -281,8 +284,8 @@ export default function ShippingAddress(props: Props) {
                             <Text fontWeight={"500"} >{formatNumber(item?.price * Number(type))}</Text>
                         </Flex>
                         <Flex mt={"4"} flexDir={"column"} alignItems={"center"} gap={"2"} >
-                            <CustomButton isLoading={createProductOrder?.isLoading} onClick={() => createProductOrder?.mutate({ productId: item?.id, quantity: Number(type), total: Number(item?.price * Number(type)), userId: userId + "", vendorId: item?.creator?.userId, addressId: addressDefault + "" })} text={"Confirm order"} borderRadius={"999px"} />
-                                <KisokTermAndCondition />
+                            <CustomButton isLoading={createProductOrder?.isLoading} disable={addressDefault ? false : true} onClick={() => createProductOrder?.mutate({ productId: item?.id, quantity: Number(type), total: Number(item?.price * Number(type)), userId: userId + "", vendorId: item?.creator?.userId, addressId: addressDefault + "" })} text={"Confirm order"} borderRadius={"999px"} />
+                            <KisokTermAndCondition />
                         </Flex>
                     </Flex>
                 </Flex>

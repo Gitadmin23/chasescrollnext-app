@@ -165,6 +165,7 @@ export interface IOrder {
     "quantity": number,
     "total": number,
     "orderStatus": string,
+    hasReceived: boolean,
     "address": {
         "id": string,
         "createdDate": number,

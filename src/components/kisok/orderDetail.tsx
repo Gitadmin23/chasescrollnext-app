@@ -18,6 +18,7 @@ import { textLimit } from '@/utils/textlimit';
 import useCustomTheme from '@/hooks/useTheme';
 import EventMap from '../event_details_component/event_map_info';
 import ConfirmPayment from './confirmPayment';
+import CustomButton from '../general/Button';
 
 export default function OrderDetail({ id }: { id: string }) {
     const [item, setItem] = useState({} as IOrder)
@@ -42,7 +43,7 @@ export default function OrderDetail({ id }: { id: string }) {
     const [size, setSize] = useState(100)
 
     console.log(item);
-    
+
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -116,8 +117,16 @@ export default function OrderDetail({ id }: { id: string }) {
                                 <Text fontSize={"14px"} fontWeight={"500"} >{`Seller-Fulfilled Shipping - The seller handles the entire shipping process and not Chasescroll.`}</Text>
                                 <Text fontSize={"14px"} fontWeight={"500"} >Verify that items are in good condition and meet the expected quality standards before authorizing payment.</Text>
                                 <Text fontSize={"14px"} fontWeight={"500"} >Please inform us if you encounter any issues at support@chasescroll.com</Text>
-                            </Flex> 
-                            <ConfirmPayment vendor={item?.vendor} id={item?.id} image={IMAGE_URL + item?.product?.images[0]} type={"PRODUCT"} name={item?.product?.name} />
+                            </Flex>
+                            {item?.hasReceived && (
+                                <Flex w={"150px"} >
+                                    <CustomButton bgColor={"#0CC23A"} borderRadius={"999px"} text={"Delivered"} />
+                                </Flex>
+                            )}
+
+                            {!item?.hasReceived && (
+                                <ConfirmPayment vendor={item?.vendor} id={item?.id} image={IMAGE_URL + item?.product?.images[0]} type={"PRODUCT"} name={item?.product?.name} />
+                            )}
                         </Flex>
                     </Flex>
                 </Flex>
