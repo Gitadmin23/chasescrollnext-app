@@ -217,6 +217,7 @@ export interface IReceipt {
     "address": IAddress,
     hasReceived: boolean,
     frequency: any
+    vendor: IUser
 }
 
 export interface IReview {

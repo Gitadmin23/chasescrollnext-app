@@ -269,7 +269,7 @@ export default function ShippingAddress(props: Props) {
                     </Flex>
                 </Flex>
                 <Flex w={"fit-content"} h={"fit-content"} >
-                    <Flex w={"292px"} rounded={"8px"} flexDir={"column"} gap={"4"} p={"6"} bgColor={"white"} >
+                    <Flex w={"292px"} rounded={"8px"} flexDir={"column"} gap={"4"} p={"6"} bgColor={mainBackgroundColor} >
                         <Text fontWeight={"700"} >Order Summary</Text>
                         <Flex w={"full"} justifyContent={"space-between"} >
                             <Text fontSize={"14px"} fontWeight={"500"} >Item total</Text>
