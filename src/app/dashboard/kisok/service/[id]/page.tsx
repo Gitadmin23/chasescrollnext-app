@@ -4,6 +4,7 @@ import CustomButton from "@/components/general/Button";
 import GetCreatorData from "@/components/kisok/getCreatorData";
 import ProductRating from "@/components/kisok/productRating";
 import RentalCheckout from "@/components/kisok/rentalCheckout";
+import ServiceTermAndCondition from "@/components/kisok/ServiceTermAndCondition";
 import CreateBookingModal from "@/components/modals/booking/CreateBookingModal";
 import DescriptionPage from "@/components/sharedComponent/descriptionPage";
 import LoadingAnimation from "@/components/sharedComponent/loading_animation";
@@ -113,7 +114,7 @@ export default function ServiceDetailsPage() {
             });
             // router.back();
         }
-    }); 
+    });
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -150,7 +151,7 @@ export default function ServiceDetailsPage() {
                             <DescriptionPage limit={200} label='Service Details' description={service?.description + ""} />
                             <Flex w={"full"} gap={"2"}>
                                 <Flex w={["fit-content", "fit-content", "full"]} >
-                                    <GetCreatorData reviewdata={reviewData} userData={service?.vendor} item={service?.rating} />
+                                    <GetCreatorData reviewdata={reviewData} userData={service?.vendor as any} item={service?.rating} />
                                 </Flex>
                                 <Flex bgColor={mainBackgroundColor} display={["flex", "flex", "none"]} w={"full"}  >
                                     <Flex w={"full"} >
@@ -161,9 +162,12 @@ export default function ServiceDetailsPage() {
                                             </Flex>
 
                                             {userId !== service?.vendor?.userId && (
-                                                <Button onClick={() => setShow(true)} w='full' h='54px' borderRadius={'full'} bgColor={primaryColor} mt='40px'>
-                                                    <Text fontWeight={500} color='white'>Get Quote</Text>
-                                                </Button>
+                                                <Flex flexDir={"column"} gap={"2"} alignItems={"center"} >
+                                                    <Button onClick={() => setShow(true)} w='full' h='54px' borderRadius={'full'} bgColor={primaryColor} mt='40px'>
+                                                        <Text fontWeight={500} color='white'>Get Quote</Text>
+                                                    </Button>
+                                                    <ServiceTermAndCondition />
+                                                </Flex>
                                             )}
                                         </Flex>
                                     </Flex>
@@ -184,9 +188,12 @@ export default function ServiceDetailsPage() {
                                     </HStack>
 
                                     {userId !== service?.vendor?.userId && (
-                                        <Button onClick={() => setShow(true)} w='full' h='54px' borderRadius={'full'} bgColor={primaryColor} mt='40px'>
-                                            <Text fontWeight={500} color='white'>Get Quote</Text>
-                                        </Button>
+                                        <Flex flexDir={"column"} gap={"2"} alignItems={"center"} >
+                                            <Button onClick={() => setShow(true)} w='full' h='54px' borderRadius={'full'} bgColor={primaryColor} mt='40px'>
+                                                <Text fontWeight={500} color='white'>Get Quote</Text>
+                                            </Button>
+                                            <ServiceTermAndCondition />
+                                        </Flex>
                                     )}
                                 </Flex>
                             </Flex>

@@ -109,6 +109,13 @@ function NotificationCard({ notification }: { notification: INotification }) {
         setOpen(true)
         break;
       }
+      case "RENTAL_REQUEST": {
+        // router.push(`/dashboard/community?activeID=${notification.typeID}`);
+        markAsRead.mutate([notification.id]);
+        // setNotifyModal(false)
+        setShow(true)
+        break;
+      }
       default: {
         markAsRead.mutate([notification.id]); 
         break;
@@ -119,8 +126,9 @@ function NotificationCard({ notification }: { notification: INotification }) {
   console.log(selectService);
 
   useEffect(() => {
-    if (!applyForService?.isSuccess) {
+    if (applyForService?.isSuccess) {
       setOpen(false)
+      setShow(false)
     }
   }, [applyForService?.isSuccess])
 
@@ -182,6 +190,11 @@ function NotificationCard({ notification }: { notification: INotification }) {
           {(notification?.type === "SERVICE_REQUEST") && (
             <Flex gap={"3"} >
               <Button onClick={()=> setOpen(true)} h={"30px"} rounded={"64px"} fontSize={"12px"} w={"fit-content"} outline={"none"} _hover={{ backgroundColor: primaryColor }} color={"white"} bgColor={primaryColor} borderWidth={"1px"} borderColor={primaryColor} px={"6"} >Provide Service</Button>
+            </Flex>
+          )}
+          {(notification?.type === "RENTAL_REQUEST") && (
+            <Flex gap={"3"} >
+              <Button onClick={()=> setShow(true)} h={"30px"} rounded={"64px"} fontSize={"12px"} w={"fit-content"} outline={"none"} _hover={{ backgroundColor: primaryColor }} color={"white"} bgColor={primaryColor} borderWidth={"1px"} borderColor={primaryColor} px={"6"} >Provide Service</Button>
             </Flex>
           )}
           <CustomText fontSize={"10px"} >

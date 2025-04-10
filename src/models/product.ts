@@ -121,6 +121,7 @@ export interface IRental {
     hasBought :  false;
     hasReviewed: false;
     "category": string,
+    rating: number
     "location": {
         "link": string,
         "address": string,
@@ -213,6 +214,7 @@ export interface IReceipt {
     "price": number,
     "hasPaid": any,
     "address": IAddress,
+    hasReceived: boolean,
     frequency: any
 }
 

@@ -19,6 +19,7 @@ import { FiMinus, FiPlus } from 'react-icons/fi';
 import { IoIosClose } from 'react-icons/io';
 import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
 import ModalLayout from '../sharedComponent/modal_layout';
+import ConfirmPayment from './confirmPayment';
 
 interface IAction {
     value: number;
@@ -173,7 +174,7 @@ export default function GetVendorReciept() {
                                 </Flex>
                             </Flex>
                         </Flex>
-                        <Flex w={"full"} mt={"2"} gap={"4"} >
+                        <Flex w={"full"} mt={"2"} flexDir={["column", "column", "row"]} gap={"4"} >
                             <Flex w={"fit-content"} >
                                 <Flex flexDir={"column"} gap={"1"} w={"218px"} >
                                     <Flex justifyContent={["start", "start", "space-between"]} w={"full"} p={"5px"} rounded={"8px"} bgColor={secondaryBackgroundColor} flexDir={["column", "column", "column"]} >
@@ -185,21 +186,15 @@ export default function GetVendorReciept() {
                                         <Text fontSize={"14px"} fontWeight={"600"} >{detail?.frequency} <span style={{ fontSize: "12px", fontWeight: "500" }} >{detail?.rental?.frequency === "DAILY" ? (detail?.frequency > 1 ? "days" : "day") : (detail?.frequency > 1 ? "hours" : "hour")}</span></Text>
                                     </Flex>
                                     <Flex justifyContent={["start", "start", "start"]} alignItems={"center"} w={"full"} flexDir={["row", "row", "row"]} gap={"1"} >
-                                        <Text fontWeight={400} fontSize={'12px'}>Initial Price:</Text>
-                                        <Flex pos={"relative"}  > 
-                                            <Text fontSize={"14px"} fontWeight={"600"} textDecor={""} >{formatNumber(detail?.rental?.price)}</Text>
-                                        </Flex> 
-                                    </Flex>
-                                    <Flex justifyContent={["start", "start", "start"]} alignItems={"center"} w={"full"} flexDir={["row", "row", "row"]} gap={"1"} >
-                                        <Text fontWeight={400} fontSize={'12px'}>Final Price:</Text>
+                                        <Text fontWeight={400} fontSize={'12px'}>Rental Initial Price:</Text>
                                         <Flex pos={"relative"}  >
-                                            {((((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price) !== 0) && (
+                                            {(((((detail?.rental?.price - detail?.price) / detail?.frequency) * 100) / detail?.rental?.price) !== 0) && (
                                                 <Flex w={"full"} h={"1.5px"} pos={"absolute"} top={"11px"} bgColor={"black"} />
                                             )}
-                                            <Text fontSize={"14px"} fontWeight={"600"} textDecor={""} >{formatNumber(detail?.price/detail?.frequency)}</Text>
+                                            <Text fontSize={"14px"} fontWeight={"600"} textDecor={""} >{formatNumber(detail?.rental?.price)}</Text>
                                         </Flex>
                                         {((((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price) !== 0) && (
-                                            <Text fontSize={"12px"} fontWeight={"500"}  >by {Math.abs(((((detail?.rental?.price - (detail?.price / detail?.frequency) )) / 100)))?.toFixed(0)}%</Text>
+                                            <Text fontSize={"12px"} fontWeight={"500"}  >by {((((detail?.rental?.price - detail?.price) / detail?.frequency) * 100) / detail?.rental?.price)?.toFixed(0)}%</Text>
                                         )}
                                     </Flex>
                                 </Flex>
@@ -219,16 +214,16 @@ export default function GetVendorReciept() {
                                             </HStack>
                                             <CustomButton fontSize={"sm"} disable={detail?.price === Number(price)} isLoading={updateReciptPrice?.isLoading} onClick={() => updateReciptPrice.mutate({
                                                 payload: {
-                                                    price: Number(price) * Number(detail?.frequency)
+                                                    price: price
                                                 },
                                                 id: detail?.id
                                             })} text={"Update Price"} borderRadius={"99px"} width={"150px"} />
                                         </Flex>
                                     </Flex>
                                 )}
-                                <Flex flexDir={["row", "row"]} justifyContent={'end'} gap={"5"} mt={"auto"} w='full' alignItems={'center'}>
+                                <Flex flexDir={["row", "row"]} justifyContent={["start", "start", 'end']} gap={"5"} mt={"auto"} w='full' alignItems={'center'}>
                                     <Text fontSize={'14px'}>Total Price:</Text>
-                                    <Text fontSize={'23px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format((Number(price) * Number(detail?.frequency)) || 0)}</Text>
+                                    <Text fontSize={'23px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format((Number(price)) || 0)}</Text>
                                 </Flex>
                             </Flex>
                         </Flex>
@@ -249,8 +244,12 @@ export default function GetVendorReciept() {
                                 })} fontSize={"sm"} text={"Make Payment"} borderRadius={"99px"} width={"150px"} />
                             </Flex>
                         )}
-
-                        {(detail?.approvalStatus === "ACCEPTED" && (detail?.hasPaid)) && (
+                        {(detail?.approvalStatus === "ACCEPTED" && (detail?.hasPaid) && (!detail?.hasReceived)) && (
+                            <Flex gap={"2"} >
+                                <ConfirmPayment id={detail?.id} type={"RENTAL"} name={detail?.rental?.name} image={IMAGE_URL+ detail?.rental?.images[0]} vendor={detail?.rental?.creator} />
+                            </Flex>     
+                        )}
+                        {(detail?.approvalStatus === "ACCEPTED" && (detail?.hasPaid) && (detail?.hasReceived)) && (
                             <Flex gap={"2"} >
                                 <CustomButton disable={true} fontSize={"sm"} text={"Completed"} borderRadius={"99px"} width={"150px"} />
                             </Flex>
@@ -261,10 +260,10 @@ export default function GetVendorReciept() {
                                 <CustomButton fontSize={"sm"} text={"Pending Approval"} borderRadius={"99px"} width={"150px"} backgroundColor={"#FF9500"} />
                             </Flex>
                         )}
-                        {(detail?.approvalStatus === "ACCEPTED" && (!detail?.hasPaid) && detail?.rental?.createdBy === userId) && (
+                        {(detail?.approvalStatus === "ACCEPTED" && (!detail?.hasPaid || !detail?.hasReceived) && detail?.rental?.createdBy === userId) && (
                             <Flex gap={"2"} >
                                 <CustomButton fontSize={"sm"} isLoading={reject?.isLoading && status === "CANCELLED"} onClick={() => updateHandler("CANCELLED")} text={"Cancel"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={mainBackgroundColor} color={"#FE0909"} width={"150px"} />
-                                <CustomButton fontSize={"sm"} text={"Pending Approval"} borderRadius={"99px"} width={"150px"} backgroundColor={"#FF9500"} />
+                                <CustomButton fontSize={"sm"} text={"Pending Confirmation "} borderRadius={"99px"} width={"200px"} backgroundColor={"#FF9500"} />
                             </Flex>
                         )}
                         {(detail?.rental?.createdBy === userId && detail?.approvalStatus !== "ACCEPTED" && detail?.approvalStatus !== "CANCELLED") && (

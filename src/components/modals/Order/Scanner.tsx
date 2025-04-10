@@ -10,17 +10,20 @@ import { ITicket } from "@/models/Ticket";
 import ModalLayout from '@/components/sharedComponent/modal_layout';
 import { AxiosError } from 'axios';
 import { dateFormat } from '@/utils/dateFormat';
+import useOrderConfirmation from '@/hooks/useOrderConfirmation';
 
 interface IProps {
     isOpen: boolean;
     onClose: any;
     id: string, 
+    type?: string
 }
 
 export default function OrderScanner({
     isOpen,
     onClose,
     id, 
+    type
 }: IProps) {
     const [approved, setApproved] = React.useState(false);
     const [show, setShow] = React.useState(true);
@@ -28,90 +31,63 @@ export default function OrderScanner({
     const [ticket, setTicket] = React.useState<ITicket | null>(null);
     const [scanned, setScanned] = React.useState(false);
 
+    const userId = localStorage.getItem('user_id') + "";
     const toast = useToast()
 
-    const { isLoading, mutate, isError } = useMutation({
-        mutationFn: (data: string) => httpService.get(`${URLS.VALIDATE_TICKET(id, data)}`),
-        onSuccess: (data) => {
-            setTicket(data?.data?.ticket);
-            setApproved(data?.data?.validate);
-            onClose(false)
-            setOpen(true)
-        },
-        onError: (error: any) => {
+    const { productConfirm, serviceConfirm, rentalConfirm } = useOrderConfirmation()
 
-            toast({
-                status: "error",
-                title: error.response?.data?.message,
-                position: "top-right"
-            });
-
-            onClose(false)
+    const clickHandler = (index: string) => {
+        if (type === "PRODUCT") {
+            productConfirm?.mutate(index)
+        } else if (type === "RENTAL") {
+            rentalConfirm?.mutate(index)
+        } else {
+            serviceConfirm?.mutate({
+                bookingID: index,
+                completedWithIssues: false,
+                userID: userId
+            })
         }
-    })
-
-    const handleScanner = (str: string) => {
-        setShow(false);
-        mutate(str);
-    }
+    } 
 
     const retry = () => {
         setShow(true);
         onClose(true)
         setScanned(false);
     }
-
-    const closeHandler = () => {
-        setOpen(false)
-    }
-
-    // const checkEventDay =(item: any)=> {
-    //     console.log(new Date(startDate)?.getDate());
-        
-    //     return (new Date(item)?.getDate() >= new Date(startDate)?.getDate()) && (new Date(item)?.getDate() <= new Date(endDate)?.getDate())
-    // }
-
-    const checkPreviousDate = () => { 
-        return (new Date((ticket?.scanTimeStamp) ? (ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 1]) : "")?.getDay() !== new Date((ticket?.scanTimeStamp) ?( ticket?.scanTimeStamp[ticket?.scanTimeStamp?.length - 2]) : "")?.getDay())
-    }  
- 
-    
-    console.log(ticket?.id);
-    
-    
-
+     
     return (
         <>
-            <Modal isOpen={isOpen} isCentered={true} onClose={() => onClose(false)} size={scanned && !isLoading && !isError ? 'full' : 'full'}>
+            <Modal isOpen={isOpen} isCentered={true} onClose={() => onClose(false)} size={scanned && (!productConfirm?.isLoading || !serviceConfirm?.isLoading || !rentalConfirm?.isLoading) && (!productConfirm?.isError || !serviceConfirm?.isError || !rentalConfirm?.isError) ? 'full' : 'full'}>
                 <ModalContent bg={'grey'}>
-                    {!isLoading && !scanned && (
+                    {(!productConfirm?.isLoading || !serviceConfirm?.isLoading || !rentalConfirm?.isLoading) && !scanned && (
                         <ModalCloseButton size={'large'} onClick={() => onClose(false)} />
                     )}
                     <ModalBody width={'100%'} height={'400px'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
-                        {!isLoading && !scanned && (
+                        {(!productConfirm?.isLoading || !serviceConfirm?.isLoading || !rentalConfirm?.isLoading) && !scanned && (
                             <Box width={'300px'} height={'300px'} bg={'black'}>
                                 <Box width={'100%'} height={'100%'}>
                                     <QrcodeScanner
                                         enabled={true}
-                                        onResult={(text, result) => handleScanner(text)}
+                                        onResult={(text, result) => clickHandler(text)}
                                         onError={(error) => console.log(error?.message)}
                                     />
                                 </Box>
                             </Box>
                         )}
-                        {isLoading && (
+                        {(!productConfirm?.isLoading || !serviceConfirm?.isLoading || !rentalConfirm?.isLoading) && (
                             <VStack justifyContent={'center'} w={'100%'} h={'100%'}>
                                 <Spinner />
-                                <CustomText>Verifing Ticket...</CustomText>
+                                <CustomText>Confirming Order...</CustomText>
                             </VStack>
                         )} 
                     </ModalBody>
                 </ModalContent>
             </Modal>
             <ModalLayout size={"full"} open={open} close={setOpen} >
-                {(!isLoading && isError) && (
+                {((!productConfirm?.isLoading || !serviceConfirm?.isLoading || !rentalConfirm?.isLoading) && (!productConfirm?.isError || !serviceConfirm?.isError || !rentalConfirm?.isError)) && (
                     <Box flex={1}>
-                        <CustomText fontFamily={'DM-Bold'} fontSize={'18px'} textAlign={'center'}>An error occured while scanning the ticket</CustomText>
+                        <CustomText fontFamily={'DM-Bold'} fontSize={'18px'} textAlign={'center'}>An error occured while scanning the Order</CustomText>
                         <Button onClick={retry} width={'100%'} height={'45px'} color={'white'} bg={'brand.chasescrollButtonBlue'}>Retry</Button>
                     </Box>
                 )}

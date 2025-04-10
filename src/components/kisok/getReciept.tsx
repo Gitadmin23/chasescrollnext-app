@@ -20,6 +20,7 @@ import useProduct from '@/hooks/useProduct';
 import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
 import { FiMinus, FiPlus } from 'react-icons/fi';
 import ProductImageScroller from '../sharedComponent/productImageScroller';
+import ConfirmPayment from './confirmPayment';
 
 interface IAction {
     value: number;
@@ -81,7 +82,7 @@ export default function GetReciept() {
     }
 
     console.log(percentage);
-    
+
 
 
     return (
@@ -235,7 +236,7 @@ export default function GetReciept() {
                             <Text fontWeight={"600"} >Shipped To :  <span style={{ fontWeight: "500" }} >{detail?.address?.location?.locationDetails}</span></Text>
                             {/* <Text fontWeight={"600"} >State: <span style={{ fontWeight: "500" }} >{detail?.address?.state}</span></Text> */}
                         </Flex>
-                        {((detail?.rental?.createdBy !== userId) && (detail?.approvalStatus  === "ACCEPTED") && (!detail?.hasPaid)) && (
+                        {((detail?.rental?.createdBy !== userId) && (detail?.approvalStatus === "ACCEPTED") && (!detail?.hasPaid)) && (
                             <Flex gap={"2"} >
                                 <CustomButton fontSize={"sm"} isLoading={reject?.isLoading && status === "CANCELLED"} onClick={() => updateHandler("CANCELLED")} text={"Cancel"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={mainBackgroundColor} color={"#FE0909"} width={"150px"} />
                                 <CustomButton isLoading={payForTicket?.isLoading} onClick={() => payForTicket.mutate({
@@ -248,10 +249,15 @@ export default function GetReciept() {
                             </Flex>
                         )}
 
-                        {(detail?.approvalStatus === "ACCEPTED" && (detail?.hasPaid)) && (
+                        {(detail?.approvalStatus === "ACCEPTED" && (detail?.hasPaid) && (detail?.hasReceived)) && (
                             <Flex gap={"2"} >
                                 <CustomButton disable={true} fontSize={"sm"} text={"Completed"} borderRadius={"99px"} width={"150px"} />
                             </Flex>
+                        )}
+                        {(detail?.approvalStatus === "ACCEPTED" && (detail?.hasPaid) && (!detail?.hasReceived)) && (
+                            <Flex gap={"2"} >
+                                <ConfirmPayment id={detail?.id} type={"RENTAL"} name={detail?.rental?.name} image={IMAGE_URL+ detail?.rental?.images[0]} vendor={detail?.rental?.creator} />
+                            </Flex>     
                         )}
                         {(detail?.approvalStatus === "PENDING" && detail?.rental?.createdBy !== userId) && (
                             <Flex gap={"2"} >
@@ -259,10 +265,10 @@ export default function GetReciept() {
                                 <CustomButton fontSize={"sm"} text={"Pending Approval"} borderRadius={"99px"} width={"150px"} backgroundColor={"#FF9500"} />
                             </Flex>
                         )}
-                        {(detail?.approvalStatus === "ACCEPTED" && (!detail?.hasPaid) && detail?.rental?.createdBy === userId) && (
+                        {(detail?.approvalStatus === "ACCEPTED" && (!detail?.hasPaid || !detail?.hasReceived) && detail?.rental?.createdBy === userId) && (
                             <Flex gap={"2"} >
                                 <CustomButton fontSize={"sm"} isLoading={reject?.isLoading && status === "CANCELLED"} onClick={() => updateHandler("CANCELLED")} text={"Cancel"} borderRadius={"99px"} borderWidth={"1px"} borderColor={borderColor} backgroundColor={mainBackgroundColor} color={"#FE0909"} width={"150px"} />
-                                <CustomButton fontSize={"sm"} text={"Pending Approval"} borderRadius={"99px"} width={"150px"} backgroundColor={"#FF9500"} />
+                                <CustomButton fontSize={"sm"} text={"Pending Confirmation "} borderRadius={"99px"} width={"200px"} backgroundColor={"#FF9500"} />
                             </Flex>
                         )}
                         {(detail?.rental?.createdBy === userId && detail?.approvalStatus !== "ACCEPTED" && detail?.approvalStatus !== "CANCELLED") && (

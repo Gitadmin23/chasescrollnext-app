@@ -175,7 +175,7 @@ export default function GetRequest() {
                                 </Flex>
                             </Flex>
                         </Flex>
-                        <Flex w={"full"} mt={"2"} gap={"4"} >
+                        <Flex w={"full"} mt={"2"} flexDir={["column", "column", "row"]} gap={"4"} >
                             <Flex w={"fit-content"} >
                                 <Flex flexDir={"column"} gap={"1"} w={"218px"} >
                                     <Flex justifyContent={["start", "start", "space-between"]} w={"full"} p={"5px"} rounded={"8px"} bgColor={secondaryBackgroundColor} flexDir={["column", "column", "column"]} >
@@ -189,13 +189,13 @@ export default function GetRequest() {
                                     <Flex justifyContent={["start", "start", "start"]} alignItems={"center"} w={"full"} flexDir={["row", "row", "row"]} gap={"1"} >
                                         <Text fontWeight={400} fontSize={'12px'}>Rental Initial Price:</Text>
                                         <Flex pos={"relative"}  >
-                                            {((((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price) !== 0) && (
+                                            {(((((detail?.rental?.price - detail?.price) / detail?.frequency) * 100) / detail?.rental?.price) !== 0) && (
                                                 <Flex w={"full"} h={"1.5px"} pos={"absolute"} top={"11px"} bgColor={"black"} />
                                             )}
                                             <Text fontSize={"14px"} fontWeight={"600"} textDecor={""} >{formatNumber(detail?.rental?.price)}</Text>
                                         </Flex>
                                         {((((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price) !== 0) && (
-                                            <Text fontSize={"12px"} fontWeight={"500"}  >by {(((detail?.rental?.price - detail?.price / detail?.frequency) * 100) / detail?.rental?.price)?.toFixed(0)}%</Text>
+                                            <Text fontSize={"12px"} fontWeight={"500"}  >by {((((detail?.rental?.price - detail?.price) / detail?.frequency) * 100) / detail?.rental?.price)?.toFixed(0)}%</Text>
                                         )}
                                     </Flex>
                                 </Flex>
@@ -222,7 +222,7 @@ export default function GetRequest() {
                                         </Flex>
                                     </Flex>
                                 )}
-                                <Flex flexDir={["row", "row"]} justifyContent={'end'} gap={"5"} mt={"auto"} w='full' alignItems={'center'}>
+                                <Flex flexDir={["row", "row"]} justifyContent={["start", "start", 'end']} gap={"5"} mt={"auto"} w='full' alignItems={'center'}>
                                     <Text fontSize={'14px'}>Total Price:</Text>
                                     <Text fontSize={'23px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format((Number(price)) || 0)}</Text>
                                 </Flex>

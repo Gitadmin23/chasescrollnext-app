@@ -1,6 +1,7 @@
 "use client"
 import CustomButton from '@/components/general/Button'
 import ProductMap from '@/components/kisok/productMap'
+import KisokTermAndCondition from '@/components/kisok/ProductTermAndCondition'
 import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
@@ -279,8 +280,9 @@ export default function ShippingAddress(props: Props) {
                             <Text fontSize={"14px"} fontWeight={"500"} >Total</Text>
                             <Text fontWeight={"500"} >{formatNumber(item?.price * Number(type))}</Text>
                         </Flex>
-                        <Flex mt={"4"} >
+                        <Flex mt={"4"} flexDir={"column"} alignItems={"center"} gap={"2"} >
                             <CustomButton isLoading={createProductOrder?.isLoading} onClick={() => createProductOrder?.mutate({ productId: item?.id, quantity: Number(type), total: Number(item?.price * Number(type)), userId: userId + "", vendorId: item?.creator?.userId, addressId: addressDefault + "" })} text={"Confirm order"} borderRadius={"999px"} />
+                                <KisokTermAndCondition />
                         </Flex>
                     </Flex>
                 </Flex>
