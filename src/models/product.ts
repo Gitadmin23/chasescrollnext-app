@@ -214,6 +214,7 @@ export interface IReceipt {
     "price": number,
     "hasPaid": any,
     "address": IAddress,
+    hasReceived: boolean,
     frequency: any
 }
 

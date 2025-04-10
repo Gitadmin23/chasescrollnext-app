@@ -15,6 +15,7 @@ import SelectAddress from './selectAddress'
 import ProductImageScroller from '../sharedComponent/productImageScroller'
 import moment from 'moment'
 import { FiMinus, FiPlus } from 'react-icons/fi'
+import RentalTermAndCondition from './RentalTermAndCondition'
 
 interface IAction {
     value: number;
@@ -95,7 +96,10 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                     </Flex>
                 </Flex>
             </Flex>
+            <Flex flexDir={"column"} gap={"2"} alignItems={"center"} > 
             <CustomButton onClick={() => setOpen(true)} text={`NGN ${formatNumber(Number(item?.price) * Number(qty))}`} borderRadius={"999px"} height={["45px", "45px", "55px"]} />
+                <RentalTermAndCondition />
+            </Flex>
             <ModalLayout open={open} close={setOpen} size={tab ? ["full", "full", "4xl"] : ["full", "full", "4xl"]} >
                 {!tab &&
                     <Flex w={"full"} flexDir={["column", "column", "row"]} position={"relative"} >

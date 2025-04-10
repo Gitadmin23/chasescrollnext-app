@@ -102,7 +102,7 @@ export default function EventApplication({ results, loading, type }: { type?: "S
                 )}
                 {type === "RENTAL" && (
                     <Flex flexDir={"column"} w={"full"} gap={"4"} >
-                        {results?.filter((item: IApplication)=> !item?.rental)?.map((item: IApplication, index: number) => {
+                        {results?.filter((item: IApplication)=> item?.rental)?.map((item: IApplication, index: number) => {
                             return (
                                 <Flex key={index} flexDir={"column"} gap={"1"} >
                                     <Flex w={"full"} alignItems={"center"} justifyContent={"space-between"} >
