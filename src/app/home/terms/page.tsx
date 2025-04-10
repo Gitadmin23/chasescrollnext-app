@@ -6,7 +6,7 @@ import { Flex, Text, Box } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
-export default function page() {
+export default function Page() {
 
 
     const router = useRouter()
