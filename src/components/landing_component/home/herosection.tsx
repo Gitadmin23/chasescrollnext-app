@@ -1,18 +1,79 @@
 import { THEME } from "@/theme";
 import { Button, Flex, Image, Text } from "@chakra-ui/react";
-import MobileAppLink from "../mobileapplink";
-import AnimatedText from "@/components/sharedComponent/animated_text";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
 
 
-export default function HeroSection() { 
+export default function HeroSection() {
+
+
+    const ref: any = useRef(null);
+    const isInView = useInView(ref, { once: true });
+    const reftwo: any = useRef(null);
+    const isInViewtwo = useInView(ref, { once: true });
 
     return (
-        <Flex px={["6", "6", "8"]} gap={["8"]} background={"linear-gradient(0deg, #5465E0, #5465E0), linear-gradient(180deg, #5465E0 0%, #0F1292 100%)"} w={"full"} flexDir={"column"} alignItems={"center"} pt={"12"} >
-            <Text className="rotate" fontSize={["24px", "24px", "60px"]} fontWeight={"bold"} maxW={"1300"} textAlign={"center"} lineHeight={["33.89px", "33.89px", "72.61px"]} color={"white"} >{"Redefining Experiences for Effortless Event  Management."}</Text>
-            <Text className="rotate" fontSize={["12px", "12px", "18px"]} maxW={"888px"} lineHeight={["22px", "22px", "26.1px"]} fontWeight={"medium"} color={"white"} mt={["0px", "0px", "3"]} textAlign={"center"} >Experience a new age of event management as we transform how you design, interact with your attendees, and manage your free or paid events.</Text>
-            <MobileAppLink />
-            <Flex className="animated-text-two" w={["full", "full", "637px"]} roundedTop={["45.93px", "45.93px", "92px"]} justifyContent={"center"} background={"#4e5dce"} mt={"5"} pt={"10"} >
-                <Image w={["65%", "65%", "365.65px"]} src="/images/iphone.png" alt="apple" rounded={"8px"} />
+        // <Flex px={["6", "6", "8"]} gap={["8"]} background={"linear-gradient(0deg, #5465E0, #5465E0), linear-gradient(180deg, #5465E0 0%, #0F1292 100%)"} w={"full"} flexDir={"column"} alignItems={"center"} pt={"12"} >
+        //     <Text className="rotate" fontSize={["24px", "24px", "60px"]} fontWeight={"bold"} maxW={"1300"} textAlign={"center"} lineHeight={["33.89px", "33.89px", "72.61px"]} color={"white"} >{"Redefining Experiences for Effortless Event  Management."}</Text>
+        //     <Text className="rotate" fontSize={["12px", "12px", "18px"]} maxW={"888px"} lineHeight={["22px", "22px", "26.1px"]} fontWeight={"medium"} color={"white"} mt={["0px", "0px", "3"]} textAlign={"center"} >Experience a new age of event management as we transform how you design, interact with your attendees, and manage your free or paid events.</Text>
+        //     <MobileAppLink />
+        //     <Flex className="animated-text-two" w={["full", "full", "637px"]} roundedTop={["45.93px", "45.93px", "92px"]} justifyContent={"center"} background={"#4e5dce"} mt={"5"} pt={"10"} >
+        //         <Image w={["65%", "65%", "365.65px"]} src="/images/iphone.png" alt="apple" rounded={"8px"} />
+        //     </Flex>
+        // </Flex>
+        <Flex w={"full"} h={"full"} pos={"relative"} >
+            <Image pos={["absolute"]} objectFit={["cover", "cover", "cover"]} inset={"0px"} w={"full"} h={"full"} src="/images/hero/bg.png" />
+            <Flex w={"full"} display={["none", "none", "flex"]} pos={["relative"]} flexDir={["column", "column", "row"]} zIndex={"20"} py={"14"}  >
+                <Flex ref={ref}
+                    style={{
+                        transform: isInView ? "none" : "translateX(-200px)",
+                        opacity: isInView ? 1 : 0,
+                        transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
+                    }} w={"full"} flexDir={"column"} gap={"6"} alignItems={"center"} >
+                    <Image alt="heading" objectFit={"contain"} h={["200px", "200px", "300px"]} src="/images/hero/heading.png" />
+                    <Image alt="exciting" objectFit={"contain"} h={["80px", "100px", "150px"]} src="/images/hero/exciting.png" />
+                </Flex>
+                <Flex ref={reftwo}
+                    style={{
+                        transform: isInViewtwo ? "none" : "translateX(+200px)",
+                        opacity: isInViewtwo ? 1 : 0,
+                        transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
+                    }} w={"full"} flexDir={"column"} gap={"2"} h={"full"} alignItems={"center"} >
+                    <Flex height={""} >
+                        <Image alt="desktopicons" objectFit={"contain"} w={"fit-content"} h={"400px"} src="/images/hero/desktopicons.png" />
+                    </Flex>
+                    <Image alt="comingsoon" position={"absolute"} right={"8"} bottom={"8"} objectFit={"contain"} h={["20px", "20px", "30px"]} src="/images/hero/comingsoon.png" />
+                </Flex>
+            </Flex>
+            <Flex display={["flex", "flex", "none"]} pos={["relative", "relative", "absolute"]} inset={"0px"} flexDir={["column", "column", "row"]} zIndex={"20"} >
+                <Flex w={"full"} flexDir={"column"} gap={"6"} alignItems={"center"} py={"8"} px={"4"} >
+                    <Image ref={ref}
+                        style={{
+                            transform: isInView ? "none" : "translateX(-200px)",
+                            opacity: isInView ? 1 : 0,
+                            transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
+                        }} alt="heading" objectFit={"contain"} w={"70%"} src="/images/hero/heading.png" />
+                    <Image ref={reftwo}
+                        style={{
+                            transform: isInViewtwo ? "none" : "translateX(+200px)",
+                            opacity: isInViewtwo ? 1 : 0,
+                            transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
+                        }} alt="desktopicons" objectFit={"contain"} w={["80%"]} src="/images/hero/desktopicons.png" />
+                    <Flex>
+                        <Image ref={ref}
+                            style={{
+                                transform: isInView ? "none" : "translateX(-200px)",
+                                opacity: isInView ? 1 : 0,
+                                transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
+                            }} alt="exciting" objectFit={"contain"} w={["full", "full", "150px"]} src="/images/hero/exciting.png" />
+                    </Flex>
+                    <Image ref={reftwo}
+                        style={{
+                            transform: isInViewtwo ? "none" : "translateX(+200px)",
+                            opacity: isInViewtwo ? 1 : 0,
+                            transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
+                        }} alt="comingsoon" ml={"auto"} objectFit={"contain"} w={"80%"} src="/images/hero/comingsoon.png" />
+                </Flex>
             </Flex>
         </Flex>
     )
