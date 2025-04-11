@@ -189,14 +189,10 @@ export default function EditBusinessPage() {
             if (image?.length === 0) {
                 const obj = {
                     ...values,
+                    name: name,
                     isOnline: isOnline === 'online' ? true : false,
                     bannerImage: imagePreview,
-                    socialMediaHandles: handles,
-                    // openingHours: days.filter((item) => { if (item.checked) { return item; } }).map((item) => ({
-                    //     startTime: parseInt(item.startTime.replace(':', '')),
-                    //     endTime: parseInt(item.endTime.replace(':', '')),
-                    //     availabilityDayOfWeek: item?.dayOFTheWeek
-                    // })),
+                    socialMediaHandles: handles, 
                     description,
                     "state": rentaldata?.location?.state,
                     "location": rentaldata?.location,
@@ -317,6 +313,7 @@ export default function EditBusinessPage() {
             } 
             const obj = {
                 ...values,
+                name: name,
                 isOnline: isOnline === 'online' ? true : false,
                 images: [...images, ...imagePreview],
                 socialMediaHandles: handles,

@@ -12,30 +12,30 @@ export default function ServiceTermAndCondition() {
         mainBackgroundColor
     } = useCustomTheme()
     const termsAndConditions = `
-4.0. Hiring Services
+4.0. Hiring Services
 	•	You may browse and hire services offered by vendors.
-	•	Payment for services will be held in escrow and released to the vendor upon confirmation of service completion.
+	•	Payment for services will be held in escrow and released to the vendor upon your confirmation of service completion.
 	•	It is your responsibility to review vendor profiles, reviews, and service descriptions before making a hiring decision.
 
-4.1. Payments and Refunds
-	•	Payments must be made using the platform’s secure payment system.
+4.1. Payments and Refunds
+	•	Payments must be made using the platform's secure payment system.
 	•	Refunds may be issued in cases of non-delivery, poor service, or breach of agreement by the vendor, subject to investigation.
 	•	Disputes will be handled according to our dispute resolution process.
 
-4.2. User Conduct
+4.2. User Conduct
 You agree not to:
 	•	Use the platform for any unlawful or fraudulent activity.
 	•	Post false, misleading, or defamatory content.
 	•	Engage in abusive or threatening behavior towards vendors, customers, or platform staff.
 
-4.3. Cancellations and Modifications
+4.3. Cancellations and Modifications
 	•	You may cancel a service request before the vendor begins work.
 	•	Modifications to service agreements must be communicated through the platform.
 
-4.4. Dispute Resolution
+4.4. Dispute Resolution
 In case of disputes, we encourage amicable resolution between you and the vendor. If no resolution is reached, you may submit a dispute through our platform for mediation or arbitration.
 
-4.5. Limitation of Liability
+4.5. Limitation of Liability
 Chasescroll shall not be held liable for any damages, losses, or injuries resulting from the services provided by vendors. Our liability is limited to the amount paid by you for the disputed service.
 `;
 

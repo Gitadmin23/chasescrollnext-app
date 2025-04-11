@@ -12,7 +12,7 @@ export default function PictureAndText({
     imageUrl: string
 }) {
 
-    const ref = useRef(null);
+    const ref: any = useRef(null);
     const isInView = useInView(ref, { once: true });
 
     return (
