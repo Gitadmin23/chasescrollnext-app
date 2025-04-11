@@ -3,6 +3,7 @@ import CustomButton from '@/components/general/Button'
 import ProductImagePicker from '@/components/kisok/productImagePicker'
 import ProductMap from '@/components/kisok/productMap'
 import SelectCategories from '@/components/kisok/selectCategories'
+import VendorTermAndCondition from '@/components/kisok/VendorTermAndCondition'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { SuccessIcon, TruckIcon } from '@/components/svg'
@@ -19,6 +20,7 @@ export default function KisokCreate() {
     const { primaryColor, secondaryBackgroundColor, headerTextColor, bodyTextColor, mainBackgroundColor } = useCustomTheme()
     const { push, back } = useRouter()
     const query = useSearchParams();
+    const [checked, setChecked] = useState(false)
 
     const type = query?.get('type');
     const { productdata, updateProduct } = useProductStore((state) => state);
@@ -28,12 +30,12 @@ export default function KisokCreate() {
     const clickHandler = () => { }
 
     const HandleChangeLimit = (e: any, limit: any, type: "Name" | "Description") => {
-        let clone = {...productdata}
+        let clone = { ...productdata }
         if ((e.target.value).length <= limit) {
             if (type === "Name") {
                 clone = { ...productdata, name: e.target.value }
             } else {
-                clone = { ...productdata, description: e.target.value } 
+                clone = { ...productdata, description: e.target.value }
             }
         }
         updateProduct(clone)
@@ -92,7 +94,10 @@ export default function KisokCreate() {
                             <TruckIcon />
                         </Flex>
                     </Flex>
-                    <CustomButton isLoading={createProduct?.isLoading || loading} disable={createProduct?.isLoading || loading} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
+                    <Flex w={"full"} justifyContent={"start"} flexDir={"column"} gap={"3"} mt={"6"} >
+                        <VendorTermAndCondition checked={checked} setChecked={setChecked} type="PRODUCT" />
+                        <CustomButton isLoading={createProduct?.isLoading || loading} disable={createProduct?.isLoading || loading || !checked} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
+                    </Flex>
                 </Flex>
             </form>
 

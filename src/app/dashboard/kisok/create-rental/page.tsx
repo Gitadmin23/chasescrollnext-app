@@ -3,6 +3,7 @@ import CustomButton from '@/components/general/Button'
 import ProductImagePicker from '@/components/kisok/productImagePicker'
 import ProductMap from '@/components/kisok/productMap'
 import SelectCategories from '@/components/kisok/selectCategories'
+import VendorTermAndCondition from '@/components/kisok/VendorTermAndCondition'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { SuccessIcon } from '@/components/svg'
@@ -11,7 +12,7 @@ import useProduct from '@/hooks/useProduct'
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Input, Radio, RadioGroup, Stack, Text, Textarea } from '@chakra-ui/react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 import { IoIosAdd, IoIosRemove } from 'react-icons/io'
 import { IoArrowBack } from 'react-icons/io5'
 
@@ -21,6 +22,7 @@ export default function RentalCreate() {
     const { push, back } = useRouter()
     const query = useSearchParams();
     const type = query?.get('type');
+    const [checked, setChecked] = useState(false)
     const { rentaldata, updateRental, image } = useProductStore((state) => state);
 
     const { handleSubmitRental, createProduct, loading, openRental, setOpenRental } = useProduct(rentaldata, true)
@@ -104,7 +106,8 @@ export default function RentalCreate() {
                             <Input bgColor={mainBackgroundColor} h={"45px"} onChange={(e) => updateRental({ ...rentaldata, price: e.target.value })} />
                         </Flex>
                     </Flex>
-                    <CustomButton isLoading={createProduct?.isLoading || loading} disable={createProduct?.isLoading || loading} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
+                    <VendorTermAndCondition checked={checked} setChecked={setChecked} type="RENTAL" />
+                    <CustomButton isLoading={createProduct?.isLoading || loading} disable={createProduct?.isLoading || loading || !checked} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
                 </Flex>
             </form>
 

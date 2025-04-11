@@ -22,6 +22,7 @@ import ProductMap from '../kisok/productMap'
 import PhoneInput from 'react-phone-input-2'
 import "react-phone-input-2/lib/style.css";
 import ProductImagePicker from '../kisok/productImagePicker'
+import VendorTermAndCondition from '../kisok/VendorTermAndCondition'
 
 
 export interface IDayOfTheWeek {
@@ -57,7 +58,7 @@ export default function CreateServices({ id }: { id: string }) {
 
     // states
     const [selectedCategory, setSelectedCategory] = useState("");
-    const [categories, setCategories] = useState<string[]>([]); 
+    const [categories, setCategories] = useState<string[]>([]);
     const [discount, setDiscount] = useState(0);
     const [hasFixedPrice, setHasFixedPrice] = useState(true);
     const [price, setPrice] = useState("")
@@ -80,6 +81,7 @@ export default function CreateServices({ id }: { id: string }) {
     const [platform, setPlatform] = useState("");
     const [handle, setHandle] = useState("");
     const [handles, setHandles] = useState<ISocialMediaTypes[]>([])
+    const [checked, setChecked] = useState(false)
 
     const [days, setDays] = useState<IDayOfTheWeek[]>([
         {
@@ -265,10 +267,10 @@ export default function CreateServices({ id }: { id: string }) {
                 hasFixedPrice,
                 discount,
                 description,
-                website: website ? website?.includes("https://") ? website : "https://"+website : "",
+                website: website ? website?.includes("https://") ? website : "https://" + website : "",
                 ...values,
                 isOnline: isOnline === 'online' ? true : false,
-                socialMediaHandles: handles, 
+                socialMediaHandles: handles,
                 "state": rentaldata?.location?.state,
                 "location": rentaldata?.location,
                 name,
@@ -362,7 +364,7 @@ export default function CreateServices({ id }: { id: string }) {
 
 
     return renderForm(
-        <Flex w={"full"} h={"full"} > 
+        <Flex w={"full"} h={"full"} >
             <Flex w={"full"} h={"full"} display={['none', 'none', 'flex']} flexDir={"column"} alignItems={"center"} py={"8"} borderRightWidth={"1.03px"} borderColor={borderColor} overflowY={"auto"} >
                 <Flex px={"14"} w={"full"} flexDir={"column"} gap={"3"} >
                     <Flex alignItems={"center"} gap={"3"} >
@@ -372,7 +374,7 @@ export default function CreateServices({ id }: { id: string }) {
                     <Text fontSize={"24px"} fontWeight={"600"} >Upload clear photos of your Services </Text>
                     <Text fontWeight={"500"} mb={"8"} >Upload upto 5 clear images that describe your service</Text>
 
-                    
+
                     <ProductImagePicker />
 
                 </Flex>
@@ -386,14 +388,14 @@ export default function CreateServices({ id }: { id: string }) {
 
                     {/* SMALL SCREEN IMAGE PICKER */}
 
-                    <Flex px={"10px"} w={"full"} flexDir={"column"} gap={"3"} display={['flex', 'flex','none']} >
+                    <Flex px={"10px"} w={"full"} flexDir={"column"} gap={"3"} display={['flex', 'flex', 'none']} >
                         <Flex alignItems={"center"} gap={"3"} >
                             <IoArrowBack size={"30px"} />
                             <Text fontSize={"20px"} fontWeight={"500"} >Back</Text>
                         </Flex>
                         <Text fontSize={"24px"} fontWeight={"600"} >Upload clear photos of your Services </Text>
                         <Text fontWeight={"500"} mb={"8"} >you can upload upto 5 clear images that describe your service</Text>
- 
+
                         <ProductImagePicker />
 
                     </Flex>
@@ -439,31 +441,31 @@ export default function CreateServices({ id }: { id: string }) {
                     {/* {hasFixedPrice && (
                         <> */}
 
-                            <Flex flexDir={"column"} w={"full"} gap={"2"} >
-                                <Text fontWeight={"600"} >{`Let’s set your Price`} <span style={{ color: 'red', fontSize: '12px' }}>*</span></Text>
-                                <Text fontWeight={"400"} fontSize={"14px"} >You are free to make adjustment anytime</Text>
-                                <Input
-                                    bgColor={mainBackgroundColor}
-                                    value={price}
-                                    onChange={(e) => {
-                                        const value = e.target.value;
-                                        if (/^\d*$/.test(value)) {
-                                            setPrice(value);
-                                        }
-                                    }}
-                                    h={"44px"}
-                                    borderWidth={"1px"}
-                                    borderColor={borderColor}
-                                    rounded={"16px"}
-                                    placeholder='₦ 232,435'
-                                    onKeyPress={(e) => {
-                                        if (!/[0-9]/.test(e.key)) {
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                />
-                            </Flex>
-                        {/* </>
+                    <Flex flexDir={"column"} w={"full"} gap={"2"} >
+                        <Text fontWeight={"600"} >{`Let’s set your Price`} <span style={{ color: 'red', fontSize: '12px' }}>*</span></Text>
+                        <Text fontWeight={"400"} fontSize={"14px"} >You are free to make adjustment anytime</Text>
+                        <Input
+                            bgColor={mainBackgroundColor}
+                            value={price}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^\d*$/.test(value)) {
+                                    setPrice(value);
+                                }
+                            }}
+                            h={"44px"}
+                            borderWidth={"1px"}
+                            borderColor={borderColor}
+                            rounded={"16px"}
+                            placeholder='₦ 232,435'
+                            onKeyPress={(e) => {
+                                if (!/[0-9]/.test(e.key)) {
+                                    e.preventDefault();
+                                }
+                            }}
+                        />
+                    </Flex>
+                    {/* </>
                     )} */}
                     {/* <Flex gap={"2"} alignItems={"center"} >
                         <MdEdit size={"25px"} color={primaryColor} />
@@ -475,7 +477,7 @@ export default function CreateServices({ id }: { id: string }) {
                             <Text color={primaryColor} >{`Negotiation`}</Text>
                         </Flex>
                     </Flex> */}
- 
+
                     <Flex flexDirection={"column"} w={"full"} h={"45px"} gap={"3px"} >
                         <ProductMap location={rentaldata?.location} />
                     </Flex>
@@ -485,7 +487,7 @@ export default function CreateServices({ id }: { id: string }) {
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="email" placeholder='' label='Business Email Address' isPassword={false} type='email' required />
-                    </Flex> 
+                    </Flex>
                     <Flex flexDir={"column"} w={"full"} gap={"2"} >
                         <Text fontWeight={"600"} >Business Website (optional)</Text>
                         <Input
@@ -499,7 +501,7 @@ export default function CreateServices({ id }: { id: string }) {
                             borderWidth={"1px"}
                             borderColor={borderColor}
                             rounded={"16px"}
-                            placeholder='Enter your business Website' 
+                            placeholder='Enter your business Website'
                         />
                     </Flex>
 
@@ -571,12 +573,13 @@ export default function CreateServices({ id }: { id: string }) {
                         )}
                     </Flex>
 
-                    <Box w="full" h="fit-content" pb='20px'>
-                        <Button type='submit' isDisabled={!name || !description || !price || !rentaldata?.location?.state || uploadImageMutation.isLoading || createBusinessMutation.isLoading ? true : false} _disabled={{ opacity:"30%", cursor: "not-allowed" }} isLoading={uploadImageMutation.isLoading || createBusinessMutation.isLoading} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"45px"} mt={"6"} _hover={{ backgroundColor: primaryColor }} >
+                    <Flex w="full" flexDir={"column"} gap={"4"} h="fit-content" mt={"6"} pb='20px'>
+                        <VendorTermAndCondition checked={checked} setChecked={setChecked} type="SERVICE" />
+                        <Button type='submit' isDisabled={!name || !description || !price || !rentaldata?.location?.state || uploadImageMutation.isLoading || createBusinessMutation.isLoading || !checked ? true : false} _disabled={{ opacity: "30%", cursor: "not-allowed" }} isLoading={uploadImageMutation.isLoading || createBusinessMutation.isLoading} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"45px"} _hover={{ backgroundColor: primaryColor }} >
                             Submit
                         </Button>
                         <Flex w={"full"} h={"50px"} />
-                    </Box>
+                    </Flex>
                 </Flex>
             </Flex>
 

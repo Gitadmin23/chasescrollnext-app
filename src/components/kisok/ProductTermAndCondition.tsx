@@ -49,7 +49,7 @@ Chasescroll shall not be held liable for any damages, losses, or claims related 
 
     return (
         (<Flex  >
-            <Text onClick={() => setOpen(true)} as={"button"} textDecor={"underline"} fontWeight={"bold"} fontSize={"12px"} color={primaryColor} >Kisok Terms And Conditions</Text>
+            <Text onClick={() => setOpen(true)} as={"button"} textDecor={"underline"} fontWeight={"bold"} fontSize={"12px"} color={primaryColor} >Kiosk Terms And Conditions</Text>
 
             <ModalLayout size={["full", "full", "2xl"]} open={open} close={setOpen} >
                 <Box width={"full"} h={["100vh", "100vh", "full"]} bg={mainBackgroundColor} px={["0px", "4", "4"]} pt={"3"} pb={"4"} >
