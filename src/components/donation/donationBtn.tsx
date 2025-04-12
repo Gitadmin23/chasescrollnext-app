@@ -19,18 +19,22 @@ import DonationTermAndCondition from './donationTermAndCondition'
 export default function DonationBtn(props: any) {
 
     const {
-        createdBy,
-        name
+        user,
+        item,
+        event
     } = props
 
     const [open, setOpen] = useState(false)
 
     const [value, setValue] = useState("")
 
+    console.log(user?.userId);
+
+
     const {
         primaryColor,
         borderColor,
-        headerTextColor, 
+        headerTextColor,
         mainBackgroundColor
     } = useCustomTheme()
 
@@ -49,7 +53,7 @@ export default function DonationBtn(props: any) {
 
     const userId = localStorage.getItem('user_id') + "";
 
-    const { setDataID, setPaystackConfig, setDonation } = usePaystackStore((state) => state);
+    const { setDataID, setPaystackConfig, setMessage, message } = usePaystackStore((state) => state);
 
     const payForTicket = useMutation({
         mutationFn: (data: {
@@ -66,10 +70,10 @@ export default function DonationBtn(props: any) {
                 amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
                 reference: data?.data?.content?.orderCode
             });
-            setDonation(true)
+            setMessage({...message, donation: true})
             setOpen(false)
             setValue("")
-            setDataID(props?.id)
+            setDataID(item?.id)
 
         },
         onError: (error) => {
@@ -86,31 +90,44 @@ export default function DonationBtn(props: any) {
     });
 
 
-    const clickHandler = React.useCallback(() => {
+    const clickHandler = React.useCallback((e: any) => {
         payForTicket.mutate({
-            seller: userId,
+            seller: user?.userId,
             price: Number(value),
             currency: "NGN",
             orderType: "DONATION",
-            typeID: props?.id
+            typeID: item?.id
         })
-    }, [props?.id, value])
+    }, [item?.id, value])
+
+    const openHandler = (e: any) => {
+        e.stopPropagation()
+        setOpen(true)
+    }
 
     return (
-        <Flex w={"full"} flexDir={"column"} gap={"6"} >
+        < >
 
-            {userId !== props?.createdBy?.userId && (
-                <CustomButton onClick={() => setOpen(true)} text={"Donate now"} height={"50px"} backgroundColor={"#F6F7FA"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
+            {(userId !== props?.user?.userId && !event) && (
+                <CustomButton onClick={(e) => openHandler(e)} text={"Donate now"} height={"40px"} fontSize={"14px"} backgroundColor={"#F4F5FF"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
             )}
+
+            {event &&
+                <Box w={["45px", "45px", "70px"]} pos={"relative"} >
+                    <Box w={["fit-content"]} position={"relative"} top={"0px"} >
+                        <CustomButton onClick={(e) => openHandler(e)} text={"Donate now"} transform={["rotate(-90deg)"]} backgroundColor={"#5D70F9"} left={["-32px", "-32px", "-37px"]} top={["-20px"]} zIndex={"50"} position={["absolute"]} height={["35px", "35px", "45px"]} fontSize={["10px", "10px", "xs"]} width={["80px", "80px", "100px"]} borderRadius={"full"} />
+                    </Box>
+                </Box>
+            }
 
             <ModalLayout open={open} close={setOpen} >
                 <Flex flexDir={"column"} bg={mainBackgroundColor} gap={"5"} px={"4"} >
                     <Flex alignItems={"center"} rounded={"16px"} px={"8px"} pt={"12px"} >
                         <Box w={"fit-content"} >
-                            <EventImage borderWidth='2px' rounded='16px' width={"153px"} height={"127px"} data={props} />
+                            <EventImage borderWidth='2px' rounded='16px' width={"153px"} height={"127px"} data={item} />
                         </Box>
                         <Flex height={"fit-content"} ml={"3"} flexDir={"column"} gap={"2px"} >
-                            <Text fontSize={"16px"} fontWeight={"bold"} >{`You're supporting `} {createdBy?.firstName + " " + createdBy?.lastName} on {textLimit(name, 20)} Event</Text>
+                            <Text fontSize={"16px"} fontWeight={"bold"} >{`You're supporting `} {user?.firstName + " " + user?.lastName} on {textLimit(item?.name, 20)} Event</Text>
                         </Flex>
                     </Flex>
                     <Flex flexDir={"column"} w={"full"} overflowX={"hidden"} gap={"3"} pb={"5"}  >
@@ -143,6 +160,6 @@ export default function DonationBtn(props: any) {
                     </Flex>
                 </Flex>
             </ModalLayout>
-        </Flex>
+        </>
     )
 }

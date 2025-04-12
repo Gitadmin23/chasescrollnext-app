@@ -1,19 +1,26 @@
 import { create } from 'zustand';
 
-const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY; 
+const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
+
+interface message {
+    donation: boolean,
+    booking: boolean,
+    product: boolean,
+    rental: boolean,
+    service: boolean, 
+    event: boolean
+}
 
 type State = {
     configPaystack: any,
-    donation: boolean,
-    booking: boolean,
-    dataID: string
+    dataID: string,
+    message: message,
 } 
 
 type Action = {
     setPaystackConfig: (data: State['configPaystack']) => void  
     setDataID: (data: State['dataID']) => void  
-    setDonation: (data: State['donation']) => void  
-    setBooking: (data: State['booking']) => void  
+    setMessage: (data: State['message']) => void     
 }
 
 const usePaystackStore = create<State & Action>((set) => ({
@@ -23,13 +30,18 @@ const usePaystackStore = create<State & Action>((set) => ({
         reference: "",
         publicKey: PAYSTACK_KEY,
     }, 
-    donation: false,
-    booking: false,
+    message: {
+        donation: false,
+        booking: false,
+        product: false,
+        rental: false,
+        service: false,
+        event: false 
+    },
     dataID: "",
     setPaystackConfig: (data) => set(() => ({ configPaystack: data })), 
-    setDataID: (data) => set(() => ({ dataID: data })), 
-    setDonation: (data) => set(() => ({ donation: data })), 
-    setBooking: (data) => set(() => ({ booking: data })), 
+    setDataID: (data) => set(() => ({ dataID: data })),  
+    setMessage: (data) => set(() => ({ message: data })), 
 }));
 
 

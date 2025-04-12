@@ -82,7 +82,7 @@ const Eventpage = () => {
 
   return (
     <LandingPageLayout>
-      <Flex flexDir={"column"} w={"full"}  >
+      <Flex flexDir={"column"} w={"full"} bg={"transparent"}  >
         <Flex display={["flex", "flex", "none"]} pt={"4"} px={"6"} >
           <SearchBar landing={true} home={true} />
         </Flex>
@@ -95,7 +95,7 @@ const Eventpage = () => {
         {!event_category && (
           <HomeLandingPageCarousel />
         )}
-        <Flex bg={"white"} py={["4", "4", "9"]} gap={"8"} flexDir={"column"} px={["6", "12"]} >
+        <Flex py={["4", "4", "9"]} gap={"8"} flexDir={"column"} px={["0px", "12"]} >
           <EventListing limit={true} landing={true}/>
         </Flex>
         <OurPartner />

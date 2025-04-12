@@ -4,9 +4,10 @@ import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent';
 import { URLS } from '@/services/urls';
 import { Box, Grid, HStack } from '@chakra-ui/react'
-import React from 'react'
+import React, { use } from 'react';
 
-function Community({ params }: { params: { slug: string } }) {
+function Community(props: { params: Promise<{ slug: string }> }) {
+    const params = use(props.params);
 
 
     // const { search, setSearchValue } = useSearchStore((state) => state); 

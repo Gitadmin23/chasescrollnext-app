@@ -9,7 +9,7 @@ import { URLS } from '@/services/urls'
 import { capitalizeFLetter } from '@/utils/capitalLetter'
 import httpService from '@/utils/httpService'
 import { Box, Button, Flex, Text, useToast } from '@chakra-ui/react'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useQuery, focusManager } from 'react-query'
 import { IEventType } from "@/models/Event";
@@ -31,17 +31,20 @@ function GetEventData(props: Props) {
     } = props
     const toast = useToast()
     const { userId } = useDetails((state) => state);
-    const [data, setData] = React.useState<IEventType | any>(null);
+    const [data, setData] = React.useState<IEventType | any >();
     const [show, setShow] = useState(false);
     const pathname = usePathname()
     const [isCollaborator, setIsCollaborator] = React.useState(false);
-    const [isAdmin, setIsAdmin] = React.useState(false); 
+    const [isAdmin, setIsAdmin] = React.useState(false);
 
-    const { configPaystack, setPaystackConfig, donation } = usePaystackStore((state) => state);
+    const query = useSearchParams();
+    const type = query?.get('type');
+
+    const { configPaystack, setPaystackConfig, message } = usePaystackStore((state) => state);
 
     focusManager.setFocused(false)
     // react query
-    const { isLoading, isRefetching } = useQuery(['all-events-details', event_index], () => httpService.get(URLS.All_EVENT + "?id=" + event_index), {
+    const { isLoading, isRefetching } = useQuery(['all-events-details', event_index], () => httpService.get(URLS.All_EVENT + "?id=" + event_index+ `${type ? "&affiliate=PR" : ""}`), {
         onError: (error: any) => {
             toast({
                 status: "error",
@@ -82,11 +85,11 @@ function GetEventData(props: Props) {
     } = useCustomTheme();
 
     return (
-        <Box width={"full"} bgColor={mainBackgroundColor}  >
+        <Box width={"full"} >
             <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data !== null} >
                 <EventDetail {...data} />
             </LoadingAnimation>
-            <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} donation={donation} />
+            <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} message={message} />
 
             <ModalLayout open={show} close={setShow} >
                 <Flex py={"6"} width={"full"} flexDir={"column"} px={"6"} alignItems={"center"} >

@@ -15,7 +15,7 @@ function PaymentDetails(props: Props) {
     } = useCustomTheme(); 
 
     return ( 
-        <Box width={"full"} bg={mainBackgroundColor} pb={'6px'} borderRadius={'10px'} >
+        <Box width={"full"} pb={'6px'} borderRadius={'10px'} >
             <DetailCard />
         </Box>
     )

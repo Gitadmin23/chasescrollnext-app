@@ -1,21 +1,14 @@
-import React, { useState } from 'react'
-
-import { Upload } from "@aws-sdk/lib-storage";
-import { S3Client } from "@aws-sdk/client-s3";
+import { useState } from 'react' 
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import { AxiosError } from 'axios';
 import image from 'next/image';
 import { useMutation } from 'react-query';
-import { useToast } from '@chakra-ui/react';
-
-const cred = {
-    accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY as string,
-    secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_KEY as string
-}
+import { useToast } from '@chakra-ui/react';  
 
 const AWSHook = () => {
     const [loading, setLoading] = useState(false)
+    const [loadingCompress, setLoadingCompress] = useState(false)
     const [uploadedFile, setUploadedFile] = useState<Array<any>>([]);
     const [uploadProgress, setUploadProgress] = useState(0);
 
@@ -40,7 +33,7 @@ const AWSHook = () => {
                     setUploadProgress(percentage); // Update progress
                 },
             }
-            ),
+        ),
         onError: (error: AxiosError<any, any>) => {
             toast({
                 title: 'Error',
@@ -57,71 +50,116 @@ const AWSHook = () => {
             const fileArray = Object.values(data?.data);
 
             console.log(fileArray);
-            
+
             // let urls = fileArraymap((r: any) => ({ file: r.Key, url: r.Location }));
             // results.
             setUploadedFile([...fileArray]);
         }
     });
 
-    const fileUploadHandler = (files: any) => {
-        console.log(files);
+    const compressVideo = async (file: File): Promise<File> => {
+        return new Promise((resolve, reject) => {
+            const video = document.createElement('video');
+            video.preload = 'metadata';
+            video.playsInline = true;
+            video.muted = false;
+            video.controls = true;
+
+            const url = URL.createObjectURL(file);
+            video.src = url;
+
+            video.onloadedmetadata = () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d')!;
+                
+                const audioCtx = new AudioContext();
+                const audioDestination = audioCtx.createMediaStreamDestination();
+                const audioSource = audioCtx.createMediaElementSource(video);
+                audioSource.connect(audioDestination);
+                audioSource.connect(audioCtx.destination);
+
+                const stream = canvas.captureStream();
+                stream.addTrack(audioDestination.stream.getAudioTracks()[0]);
+
+                canvas.width = (video.videoWidth * 720) / video.videoHeight;
+                canvas.height = 720;
+
+                const mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: 'video/webm;codecs=vp8,opus',
+                    videoBitsPerSecond: 2500000
+                });
+
+                const chunks: Blob[] = [];
+                mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(chunks, { type: 'video/webm' });
+                    const compressedFile = new File([blob], file.name, { type: 'video/webm' });
+                    URL.revokeObjectURL(url);
+                    resolve(compressedFile);
+                };
+
+                mediaRecorder.start();
+                video.play();
+                video.muted = true;
+
+                const processFrame = () => {
+                    if (video.ended) {
+                        mediaRecorder.stop();
+                        return;
+                    }
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    requestAnimationFrame(processFrame);
+                };
+
+                video.onplay = () => requestAnimationFrame(processFrame);
+            };
+
+            video.onerror = () => {
+                URL.revokeObjectURL(url);
+                reject(new Error('Video load failed'));
+            };
+        });
+    };
+
+    const fileUploadHandler = async (files: any) => {
         setLoading(true);
-        console.time('upload');
+        setLoadingCompress(true);
+        const processedFiles = [];
 
+        try {
+            for (const item of files) {
+                if (item.type.startsWith('video')) {
+                    const compressedVideo = await compressVideo(item);
+                    processedFiles.push(compressedVideo);
+                } else {
+                    processedFiles.push(item);
+                }
+            }
 
-        const fd = new FormData();
-        Array.from(files).map((file: any) => {
-            fd.append("files[]", file);
-        })
-        uploadImage.mutate({
-            file: files,
-            payload: fd
-        })
+            const fd = new FormData();
+            processedFiles.forEach((file) => {
+                fd.append("files[]", file);
+            });
+            
+            uploadImage.mutate({
+                file: processedFiles,
+                payload: fd
+            });
 
-        // Array.from(files).map((file) => {
-
-
-
-        // const params = {
-        //     Bucket: 'chasescroll-videos',
-        //     Key: file.name,
-        //     Body: file,
-        //     ContentType: 'application/octet-stream',
-        // };
-
-        // return new Promise((resolve, reject) => {
-        //     const upload = new Upload({
-        //         client: new S3Client({
-        //             region: 'eu-west-2',
-        //             credentials: cred,
-        //         },),
-        //         leavePartsOnError: false,
-        //         params: params,
-        //     });
-
-        //     // upload.on("httpUploadProgress", (progres) => console.log(progres))
-
-        //     upload.done()
-        //         .then(
-        //             (data) => resolve(data),
-        //             (error) => reject(error)
-        //         );
-        // });
-        // });
-
-        // Promise.all(uploadPromises)
-        //     .then((results) => {
-        //         let urls = results.map((r: any) => ({ file: r.Key, url: r.Location }));
-
-        //         setUploadedFile([...urls, ...uploadedFile]);
-        //         setLoading(false);
-        //         console.timeEnd('upload');
-        //     })
-        //     .catch((error) => {
-        //         console.error('Error uploading files:', error);
-        //         setLoading(false);
-        //     });
+        } catch (error) {
+            console.error("Error:", error);
+            toast({
+                title: 'Error',
+                description: 'File processing failed: ' + (error as Error).message,
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        } finally {
+            setLoadingCompress(false);
+        }
     };
 
     const reset = () => {
@@ -133,7 +171,7 @@ const AWSHook = () => {
     }
 
 
-    return ({ loading, uploadedFile, fileUploadHandler, reset, deleteFile, uploadProgress, setUploadProgress })
+    return ({ loadingCompress, loading, uploadedFile, fileUploadHandler, reset, deleteFile, uploadProgress, setUploadProgress })
 }
 
-export default AWSHook
+export default AWSHook 

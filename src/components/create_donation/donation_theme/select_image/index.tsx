@@ -8,14 +8,14 @@ import React from 'react'
 interface Props {
     donation?: boolean,
     index: number
- }
+}
 
 function SelectImage(props: Props) {
-    const { 
+    const {
         donation,
         index
     } = props
- 
+
     const [selectedImageFile, setSelectedImageFile] = React.useState('');
     const { image, updateImage, data } = useDonationStore((state) => state)
 
@@ -23,10 +23,10 @@ function SelectImage(props: Props) {
 
     const handleImageChange = (e: any) => {
 
-        const selected = e.target.files[0]; 
-        
+        const selected = e.target.files[0];
+
         const TYPES = ["image/png", "image/jpg", "image/jpeg", "image/webp", "image/svg+xml"];
-        if(selected?.size > 800000) {
+        if (selected?.size > 800000) {
 
             toast({
                 title: 'Error',
@@ -47,10 +47,10 @@ function SelectImage(props: Props) {
                     setSelectedImageFile(reader.result)
                 }
                 reader.readAsDataURL(selected)
-            } else { 
+            } else {
             }
         }
-    } 
+    }
 
     return (
         <Flex width={"full"} flexDirection={"column"} gap={"4"} alignItems={"center"} >
@@ -73,7 +73,11 @@ function SelectImage(props: Props) {
                 )}
                 {(selectedImageFile || data[index]?.bannerImage) && (
                     <label role='button' style={{ width: "100%", display: "grid", height: "228px", placeItems: "center", gap: "16px" }} >
-                        <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={"eventimage"} width={"full"} height={"228px"} src={data[index]?.bannerImage ? IMAGE_URL + data[index]?.bannerImage : selectedImageFile } />
+                        {image[index] &&
+                            <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={"eventimage"} width={"full"} height={"228px"} src={selectedImageFile} />
+                        }
+                        {(!image[index] && data[index]?.bannerImage) &&
+                            <Image style={{ borderBottomLeftRadius: "32px", borderBottomRightRadius: "32px", borderTopLeftRadius: "32px" }} objectFit="cover" alt={"eventimage"} width={"full"} height={"228px"} src={IMAGE_URL + data[index]?.bannerImage} />}
                         <input
                             type="file"
                             id="image"
@@ -96,7 +100,7 @@ function SelectImage(props: Props) {
                     <Text>Image type:</Text>
                     <Text>JPEG/PNG</Text>
                 </Box>
-            </Flex> 
+            </Flex>
         </Flex>
     )
 }

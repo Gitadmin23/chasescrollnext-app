@@ -104,7 +104,7 @@ export default function NewGoogleButton(props : Props) {
         //     </div>
         // </>
 
-        <>
+        (<>
             {newbtn && (
                 <Button onClick={()=> login()} as={"button"} mt={"4"} h={"50px"} w={"full"} bgColor={"#F7F7F7"} rounded={"32px"} gap={"3"} justifyContent={"center"} alignItems={"center"} >
                     <GoogleIcon />
@@ -117,8 +117,7 @@ export default function NewGoogleButton(props : Props) {
                     <CustomText marginLeft={'20px'} fontFamily={'DM-Medium'} fontSize={'16px'} color={'grey'} fontWeight={'700'}>{title} with Google</CustomText>
                 </Button>
             )}
-
             {/* <PageLoader show={googlesign || localStorage.getItem('google') === "true"} /> */}
-        </>
-    )
+        </>)
+    );
 }

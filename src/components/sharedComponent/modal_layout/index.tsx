@@ -64,9 +64,9 @@ export default function ModalLayout({
         zIndex={10}
         backgroundColor={bg ? bg : mainBackgroundColor}
         maxHeight={"90vh"}
-        rounded={rounded ? rounded : "6px"}
+        rounded={rounded ? rounded : "16px"}
         padding="0px"
-        margin="16px"
+        margin={["0px", "0px", "16px"]}
         w={"full"}
 
         h={scrollBehavior ? "full" : "auto"}
@@ -88,8 +88,8 @@ export default function ModalLayout({
         )}
         <ModalBody
           overflowX={"hidden"}
-          backgroundColor={bg ? bg : "#fff"}
-          borderRadius={rounded ? rounded : "8px"}
+          backgroundColor={bg ? bg : mainBackgroundColor}
+          borderRadius={rounded ? rounded : "16px"}
           margin="0px"
           padding="0px"
           h={scrollBehavior ? "full" : "auto"}

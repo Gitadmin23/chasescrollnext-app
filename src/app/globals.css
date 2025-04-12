@@ -1,78 +1,4 @@
-@font-face {
-  font-family: 'DM-Bold';
-  src: url(../../public/assets/fonts/Raleway-Bold.ttf);
-}
-
-@font-face {
-  font-family: 'DM-Medium';
-  src: url(../../public/assets/fonts/Raleway-Medium.ttf);
-}
-
-@font-face {
-  font-family: 'DM-Light';
-  src: url(../../public/assets/fonts/Raleway-Light.ttf);
-}
-
-@font-face {
-  font-family: 'DM-Regular';
-  src: url(../../public/assets/fonts/Raleway-Regular.ttf);
-}
-
-@font-face {
-  font-family: 'Rubik-Regular';
-  src: url(../../public/assets/fonts/Raleway-Regular.ttf);
-}
-
-@font-face {
-  font-family: 'Rubik-Nedium';
-  src: url(../../public/assets/fonts/Raleway-SemiBold.ttf);
-}
-
-@font-face {
-  font-family: 'Rubik-Light';
-  src: url(../../public/assets/fonts/Raleway-Light.ttf);
-}
-
-@font-face {
-  font-family: 'Satoshi-bold';
-  src: url(../../public/assets/fonts/Raleway-Bold.ttf);
-}
-
-@font-face {
-  font-family: 'Satoshi-Medium';
-  src: url(../../public/assets/fonts/Raleway-Medium.ttf);
-}
-
-@font-face {
-  font-family: 'Satoshi-Regular';
-  src: url(../../public/assets/fonts/Raleway-Regular.ttf);
-}
-
-@font-face {
-  font-family: 'Satoshi-Light';
-  src: url(../../public/assets/fonts/Raleway-Light.ttf);
-}
-
-@font-face {
-  font-family: 'Raleway-Light';
-  src: url('/public/assets/fonts/Raleway-Light.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Raleway-Medium';
-  src: url('/public/assets/fonts/Raleway-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Raleway-SemiBold';
-  src: url('/public/assets/fonts/Raleway-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900');
 
 @font-face {
   font-family: 'Raleway-Bold';
@@ -85,7 +11,6 @@
   color: black;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900');
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities; */
@@ -103,7 +28,8 @@ body {
   scroll-behavior: smooth !important;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: border-box; 
+  font-family: "Raleway", serif !important;
   /* background-color: black;  */
   /* Include padding and border in the element's total width and height */
 }
@@ -119,9 +45,16 @@ body {
   /* Inherit box-sizing to all elements */
 }
 
+.react-tel-input .flag-dropdown #business {
+  border-top-left-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+}
+
 .react-tel-input .flag-dropdown {
   border-top-left-radius: 32px !important;
   border-bottom-left-radius: 32px !important;
+  background-color: transparent !important;
+  border-width: 0px !important;
 }
 
 #img_blur {

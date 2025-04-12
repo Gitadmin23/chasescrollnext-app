@@ -80,7 +80,7 @@ export default function CommentSection(props: IProps) {
 
                 <Flex w={"full"} h={"fit-content"} zIndex={"60"} mt={"auto"} bg={mainBackgroundColor} position={"sticky"} borderTopColor={borderColor} borderTopWidth={"1px"} bottom={"0px"} pt={"2"} pb={"3"} flexDir={"column"} gap={"0px"} alignItems={"start"} >
 
-                    <CommentInput setShow={setShow} replyData={replyData} setReplyData={setReplyData} data={content} user={user} />
+                    <CommentInput setShow={setShow} replyData={replyData} setReplyData={setReplyData} data={content} user={user} open={false} />
 
                 </Flex>
             </Flex>

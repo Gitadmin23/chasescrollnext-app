@@ -135,8 +135,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
         setShow(true)
     }
     return (
-        <HStack id={id} display={deleteMutation?.isSuccess ? "none" : "flex"} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.createdBy.userId === myId ? 'flex-end' : 'flex-start'} flexDirection={self ? 'row' : 'row-reverse'} borderRadius='10px'>
-
+        (<HStack id={id} display={deleteMutation?.isSuccess ? "none" : "flex"} ref={ref} justifyContent={'flex-start'} onMouseOver={() => setShowSubmenu(true)} onMouseOut={() => setShowSubmenu(false)} alignItems={'flex-start'} alignSelf={post?.createdBy.userId === myId ? 'flex-end' : 'flex-start'} flexDirection={self ? 'row' : 'row-reverse'} borderRadius='10px'>
             <HStack onMouseOver={() => setShowDelete(true)} onMouseOut={() => setShowDelete(false)} position={'relative'} width='100%' justifyContent={'space-between'} alignItems={'flex-start'} flexDirection={self ? 'row' : 'row-reverse'}>
 
                 {showDelete && self && (
@@ -176,7 +175,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                                     //         <CustomText width='80%' color="brand.chasescrollButtonBlue" fontFamily={'DM-Bold'} fontSize={'16px'}>{FileExtentions(post.media)}</CustomText>
                                     //     </Box>
                                     // </HStack>
-                                    <Flex w={"full"} maxW={"250px"} alignItems={"center"} px={"2"} h={"full"}  >
+                                    (<Flex w={"full"} maxW={"250px"} alignItems={"center"} px={"2"} h={"full"}  >
                                         <Flex flexDir={"column"} alignItems={"center"} flex='0.2' as='button' onClick={() => downloadFile(post?.media?.startsWith('https://') ? post?.media : IMAGE_URL + post?.media)}>
                                             <IoMdCloudDownload color={THEME.COLORS.chasescrollButtonBlue} fontSize='40px' />
                                             <CustomText textAlign={"center"} mt={"-2px"} width='80%' color="brand.chasescrollButtonBlue" fontFamily={'DM-Bold'} fontSize={'16px'}>{FileExtentions(post.media)}</CustomText>
@@ -185,7 +184,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                                             <CustomText fontSize={"14px"} fontWeight={"semibold"} >{(post.media)?.replace("https://chasescroll-videos.s3.eu-west-2.amazonaws.com/", "")?.replaceAll(/%20|\+/g, " ")}</CustomText>
 
                                         </Flex>
-                                    </Flex>
+                                    </Flex>)
                                 )
                             }
 
@@ -262,9 +261,8 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
 
 
             </HStack>
-
-        </HStack>
-    )
+        </HStack>)
+    );
 });
 
 export default ChatBubble

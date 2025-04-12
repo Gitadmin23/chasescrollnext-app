@@ -53,8 +53,8 @@ export default function NewEventCard(props: IEventType) {
     return (
         <Flex as={"button"} onClick={clickHandler} w={"full"} flexDir={["row"]} rounded={"16px"} pos={"relative"} >
 
-            <DeleteEvent draft={pathname?.includes("draft") ? true : false} event={props} />
-            <Flex width={["full", "full", "full", "full"]} borderWidth={"1px"} rounded={"16px"} borderColor={borderColor} gap={"3"} flexDirection={["column", "column", "row", "row"]} pos={"relative"} p={"4"} >
+            {/* <DeleteEvent draft={pathname?.includes("draft") ? true : false} event={props} /> */}
+            <Flex width={["full", "full", "full", "full"]} borderWidth={"1px"} rounded={"16px"} borderColor={borderColor} gap={"3"} flexDirection={["row", "row", "row", "row"]} pos={"relative"} p={"4"} >
                 <Flex w={["full", "full", "fit-content", "fit-content"]} >
                     <EventImage data={props} width={["full", "full", "247px", "247px"]} borderWidth='2px' height={["150px", "300px", "170px", "170px"]} />
                 </Flex>

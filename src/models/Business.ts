@@ -20,6 +20,11 @@ export interface IBuisness {
     isRegistered: boolean;
     CACDocument: string;
     socialMediaHandles: Array<ISocialMediaHandles>;
+    openingHours: Array<{
+        "startTime": number,
+        "endTime": number,
+        "availabilityDayOfWeek": number
+    }>;
 }
 
 export interface ISocialMediaHandles {

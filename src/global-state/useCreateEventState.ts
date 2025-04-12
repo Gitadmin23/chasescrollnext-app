@@ -1,4 +1,5 @@
 import { IEventType } from '@/models/Event';
+import { ITag } from '@/models/product';
 import { IUser } from '@/models/User';
 import { create } from 'zustand';
 
@@ -9,7 +10,7 @@ type ticket = {
     minTicketBuy: string | number,
     maxTicketBuy: string | number,
     rerouteURL?: string
-    ticketsSold?: 0, 
+    ticketsSold?: 0,
     endDate?: string | number,
     endTime?: string | number,
     startDate?: string | number,
@@ -20,8 +21,8 @@ export type CreateEvent = {
     id?: string
     picUrls: Array<any>,
     collaborators: Array<any>,
-    acceptedAdmins:  Array<any>,
-    acceptedCollaborators:  Array<any>,
+    acceptedAdmins: Array<any>,
+    acceptedCollaborators: Array<any>,
     admins: Array<any>,
     eventType: string,
     eventName: string,
@@ -57,11 +58,20 @@ export type CreateEvent = {
     createdBy?: IUser,
     donationName?: string,
     donationTargetAmount?: string,
-    donationEnabled?: boolean
-} 
+    donationEnabled?: boolean,
+    affiliates: [
+        {
+            affiliateType: string,
+            percent: number | any
+        }
+    ]
+}
 
 type State = {
-    eventdata: CreateEvent
+    eventdata: CreateEvent,
+    service: Array<ITag>,
+    rental: Array<ITag>,
+    state: string
 }
 
 type Image = {
@@ -73,8 +83,11 @@ type Navigate = {
 }
 
 type Action = {
-    updateEvent: (data: State['eventdata']) => void 
+    updateEvent: (data: State['eventdata']) => void
+    updateService: (data: State['service']) => void
+    updateRental: (data: State['rental']) => void
     updateImage: (data: Image['image']) => void
+    addState: (data: State['state']) => void
     changeTab: (data: Navigate['tab']) => void
 }
 
@@ -85,6 +98,9 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
         admins: [
         ],
     },
+    state: "",
+    rental: [],
+    service: [],
     eventdata: {
         picUrls: [
             ""
@@ -93,8 +109,8 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
         ],
         admins: [
         ],
-        acceptedAdmins:  [],
-        acceptedCollaborators:  [],
+        acceptedAdmins: [],
+        acceptedCollaborators: [],
         eventType: "",
         eventName: "",
         eventDescription: "",
@@ -130,14 +146,23 @@ const useEventStore = create<State & Image & Navigate & Action>((set) => ({
                 ticketType: "Regular",
                 minTicketBuy: "1",
                 maxTicketBuy: "",
-                rerouteURL: "",  
+                rerouteURL: "",
             },
         ],
+        "affiliates": [
+            {
+                "affiliateType": "",
+                "percent": null
+            }
+        ]
     },
     image: null,
-    tab: 0, 
+    tab: 0,
     updateEvent: (data) => set(() => ({ eventdata: data })),
+    updateService: (data) => set(() => ({ service: data })),
+    updateRental: (data) => set(() => ({ rental: data })),
     updateImage: (data) => set(() => ({ image: data })),
+    addState: (data) => set(() => ({ state: data })),
     changeTab: (data) => set(() => ({ tab: data })),
 }));
 

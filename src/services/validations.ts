@@ -19,27 +19,27 @@ const signUpValidation = z.object({
     message: 'password do not match',
     path: ['confirmPassword'],
 })
-// .refine(({ dob }) => {
-//     const ageLimit = moment().subtract(18, 'years');
-//     if (moment(dob).isAfter(ageLimit)) {
-//         return false;
-//     } else {
-//         return true;
-//     }
-// }, {
-//     message: 'You must be upto 18 to register',
-//     path: ['dob']
-// })
-.refine(({ username }) => {
-    if (username.includes(' ')) {
-        return false;
-    } else {
-        return true;
-    }
-}, {
-    message: 'Username cannot contain spaces',
-    path: ['username'],
-})
+    // .refine(({ dob }) => {
+    //     const ageLimit = moment().subtract(18, 'years');
+    //     if (moment(dob).isAfter(ageLimit)) {
+    //         return false;
+    //     } else {
+    //         return true;
+    //     }
+    // }, {
+    //     message: 'You must be upto 18 to register',
+    //     path: ['dob']
+    // })
+    .refine(({ username }) => {
+        if (username.includes(' ')) {
+            return false;
+        } else {
+            return true;
+        }
+    }, {
+        message: 'Username cannot contain spaces',
+        path: ['username'],
+    })
 
 const signInValidation = z.object({
     username: z.string().nonempty('username cannot be empty').min(3, 'must contain at least 3 characters'),
@@ -47,9 +47,9 @@ const signInValidation = z.object({
 })
 
 const signInTemporaryValidation = z.object({
-    email: z.string().email().nonempty(), 
-    firstName: z.string().nonempty('firstName cannot be empty').min(3, 'must contain at least 3 characters'), 
-    lastName: z.string().nonempty('lastName cannot be empty').min(3, 'must contain at least 3 characters'), 
+    email: z.string().email().nonempty(),
+    firstName: z.string().nonempty('firstName cannot be empty').min(3, 'must contain at least 3 characters'),
+    lastName: z.string().nonempty('lastName cannot be empty').min(3, 'must contain at least 3 characters'),
 })
 
 const personinforSchema = z.object({
@@ -124,13 +124,15 @@ const changePasswordSchema = z.object({
 
 
 const createBusinessValidation = z.object({
-    businessName: z.string().min(3, 'Invalid business name'),
-    description: z.string().min(3, 'Invalid description'),
     phone: z.string().min(11, 'invalid phone number'),
-    email: z.string().email().min(6, 'invalid email'),
-    address: z.string().min(3, 'Invalid address'),
-    website: z.string().url('Please enter a valid website URL'),
-    
+    email: z.string().email().min(6, 'invalid email'),  
+});
+
+const editBusinessValidation = z.object({
+    phone: z.string().min(11, 'invalid phone number'),
+    email: z.string().email().min(6, 'invalid email'), 
+    website: z.string(),
+
 });
 
 export {
@@ -145,6 +147,7 @@ export {
     editProfileSchema,
     editPersonalInfoSchema,
     changePasswordSchema,
-    createBusinessValidation, 
-    signInTemporaryValidation
+    createBusinessValidation,
+    signInTemporaryValidation,
+    editBusinessValidation,
 };

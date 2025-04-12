@@ -101,7 +101,7 @@ function Layout({ children }: { children: ReactNode }) {
     //   </Box>
     // </>
 
-    <>
+    (<>
       <Flex width={"full"} display={["none", "none", "none", "none", "flex"]} flexDir={"column"} h={"full"} position={"relative"} overflow={"hidden"} bg={mainBackgroundColor} >
         <Box width={"full"} height={"74px"} top={"0px"} zIndex={"50"} position={"fixed"} bg={mainBackgroundColor} >
           <Flex style={{ boxShadow: "0px 1px 1px 0px #00000040" }} height={"74px"} width={"full"} alignItems={"center"} px={"6"} justifyContent={"start"} position={"relative"} >
@@ -125,7 +125,7 @@ function Layout({ children }: { children: ReactNode }) {
           {children}
         </Box>
       </Box>
-    </>
+    </>)
   );
 }
 

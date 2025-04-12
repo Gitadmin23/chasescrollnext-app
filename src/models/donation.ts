@@ -45,11 +45,40 @@ export type IDonationList = {
     isCollaborator: boolean
 }
 
+export type IDonationGroup ={
+    "id": string,
+    "createdDate": 1732026328019,
+    "lastModifiedBy": string | any,
+    "createdBy": string | any,
+    "lastModifiedDate": number,
+    "isDeleted": boolean,
+    "status": number,
+    "statusCode": number,
+    "returnMessage": string,
+    "user": IUser,
+    "name": string,
+    "description": string,
+    "bannerImage": string,
+    "fundRaisers": Array<IDonationList>,
+    "expirationDate": string | any,
+    "fundRasingGroupId": string | any,
+    "goal": string | any,
+    "total": string | any,
+    "visibility": string | any,
+    "collaborators": string | any,
+    "purpose": string | any,
+    "funnelID": string | any,
+    "funnelType": string | any,
+    "endDate": string | any,
+    "isCollaborator": string | any,
+    "totalInGroup": string | any
+  }
+
 export type IDonationGroupData = {
     id: string,
     createdDate: any,
     createdAt: any,
-    lastModifiedBy: null,
+    lastModifiedBy: string | any,
     createdBy: string,
     lastModifiedDate: any,
     isDeleted: boolean,

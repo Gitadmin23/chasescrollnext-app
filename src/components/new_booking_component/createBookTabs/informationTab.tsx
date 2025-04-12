@@ -4,6 +4,7 @@ import useCustomTheme from '@/hooks/useTheme'
 import { Button, Flex, Input, Radio, RadioGroup, Select, Text, Textarea, Image, Box, useToast, Checkbox, HStack } from '@chakra-ui/react'
 import React, { useRef, useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
+import { FiX } from 'react-icons/fi'
 import { DayAvaliable } from '.'
 import { IoIosCheckmarkCircle } from 'react-icons/io'
 import { useRouter } from 'next/navigation'
@@ -19,6 +20,7 @@ import { useDetails } from '@/global-state/useUserDetails'
 import { CustomTextArea } from '@/components/Form/CustomTextarea'
 import SubmitButton from '@/components/Form/SubmitButton'
 import { IBuisness } from '@/models/Business'
+import { IDayOfTheWeek } from '../createServices'
 
 interface ISocialMediaTypes {
     socialMediaHandle: string;
@@ -39,16 +41,22 @@ export default function InformationTab() {
 
     const {
         borderColor,
-        primaryColor
+        primaryColor,
+        bodyTextColor,
+        headerTextColor,
     } = useCustomTheme()
 
     const [open, setOpen] = useState(false)
     const [modal, setModal] = useState(false)
-    const [isOnline, setIsOnline] = useState(false);
+    const [isOnline, setIsOnline] = useState<'physical'|'online'|'both'|null>(null);
     const [imageUrl, setImageUrl] = useState<string|null>('');
     const [image, setImage] = useState<File|null>(null)
     const [business, setBusiness] = useState<IBuisness|null>(null);
     const [both, setBoth] = React.useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [description, setDescription] = useState("")
+
+
 
     const inputRef = useRef<HTMLInputElement>(null);
     let fileReader = React.useRef<FileReader | null>(null);
@@ -61,6 +69,78 @@ export default function InformationTab() {
     const [handle, setHandle] = useState("");
     const [handles, setHandles] = useState<ISocialMediaTypes[]>([])
 
+    const [days, setDays] = useState<IDayOfTheWeek[]>([
+        {
+            dayOFTheWeek: 0,
+            startTime: '',
+            endTime: '',
+            checked: false,
+        },
+        {
+            dayOFTheWeek: 1,
+            startTime: '',
+            endTime: '',
+            checked: false,
+        },
+        {
+            dayOFTheWeek: 2,
+            startTime: '',
+            endTime: '',
+            checked: false,
+        },
+        {
+            dayOFTheWeek: 3,
+            startTime: '',
+            endTime: '',
+            checked: false,
+        },
+        {
+            dayOFTheWeek: 4,
+            startTime: '',
+            endTime: '',
+            checked: false,
+        },
+        {
+            dayOFTheWeek: 5,
+            startTime: '',
+            endTime: '',
+            checked: false,
+        },
+        {
+            dayOFTheWeek: 6,
+            startTime: '',
+            endTime: '',
+            checked: false,
+        }
+    ]);
+
+
+    const getDay = (day: number) => {
+        switch (day) {
+            case 0: {
+                return 'Sunday';
+            }
+            case 1: {
+                return 'Monday';
+            }
+            case 2: {
+                return 'Tuesday';
+            }
+            case 3: {
+                return 'Wednesday';
+            }
+            case 4: {
+                return 'Thursday';
+            }
+            case 5: {
+                return 'Friday';
+            }
+            case 6: {
+                return 'Saturday';
+            }
+        }
+    }
+
     const { renderForm, values, watch } = useForm({
         defaultValues: {
             businessName: '',
@@ -72,10 +152,35 @@ export default function InformationTab() {
         },
         validationSchema: createBusinessValidation,
         submit: (data) => {
+            const activeDays = days.filter((item) => item.checked);
+
+            if (activeDays.length < 1) {
+                toast({
+                    title: 'Warning',
+                    description: 'You have to select your opening hours for at least 3 days of the week',
+                    status: 'error',
+                    position: 'top-right',
+                    duration: 5000,
+                    isClosable: true,
+                });
+                return;
+            }
             if (imageUrl === '' || image === null) {
                 toast({
                     title: 'Warning',
                     description: 'You have to pick a banner image to continue',
+                    status: 'error',
+                    position: 'top-right',
+                    duration: 5000,
+                    isClosable: true,
+                });
+                return;
+            }
+
+            if (isOnline === null) {
+                toast({
+                    title: 'Warning',
+                    description: 'You have to select a location type',
                     status: 'error',
                     position: 'top-right',
                     duration: 5000,
@@ -89,7 +194,12 @@ export default function InformationTab() {
         }
     });
 
-        // watch values
+    React.useEffect(() => {
+        if (both) {
+            setIsOnline(null);
+        }
+    }, [both])
+
 
 
     // mutations
@@ -124,9 +234,15 @@ export default function InformationTab() {
             const fileName = data?.data?.fileName;
             const obj = {
                 ...values,
-                isOnline: both ? false : isOnline,
+                isOnline: isOnline === 'online' ? true : false,
                 bannerImage: fileName,
                 socialMediaHandles: handles,
+                openingHours: days.filter((item) => { if (item.checked) { return item; } }).map((item) => ({
+                    startTime: parseInt(item.startTime.replace(':', '')),
+                    endTime: parseInt(item.endTime.replace(':', '')),
+                    availabilityDayOfWeek: item?.dayOFTheWeek
+                })),
+                description,
             }
             createBusinessMutation.mutate(obj);
         },
@@ -148,17 +264,11 @@ export default function InformationTab() {
     }, [fileReader])
 
     // functions
-
-    const clickHander = (item: boolean) => {
-        setOpen(item)
-        setModal(!item)
-    }
-
     const onSocialMediaHandlePress = () => {
         const obj = {
             socialMediaHandle: handle,
             details: handle,
-            platform: platform,
+            platform: !platform ? 'facebook':platform,
         }
 
         setHandles((prev) => uniq([...prev, obj]));
@@ -173,10 +283,35 @@ export default function InformationTab() {
         if (file) {
             console.log(objectUrl?.split("blob:")[1] as string);
             setImage(file);
-            fileReader?.current?.readAsDataURL(file);
-           
+            fileReader?.current?.readAsDataURL(file); 
         }
     };
+
+    const handleDayChange = ({ index, type, isChecked, value }: { index: number, type: 'startTime' | 'endTime' | 'dayOfTheWeek' | 'checked', isChecked: boolean, value: string }) => {
+        setDays(days.map((day, i) => {
+            if (i === index) {
+                if (type === 'checked') {
+                    return {
+                        ...day,
+                        checked: isChecked,
+                    }
+                } else {
+                    return {
+                        ...day,
+                        [type]: value
+                    }
+                }
+
+            }
+            return day;
+        }));
+    }
+
+    const handleRemoveHandles = (index: number) => {
+        setHandles((prev) => {
+            return prev.filter((_, indx) => index != indx)
+        })
+    }
 
 
     return renderForm(
@@ -212,22 +347,31 @@ export default function InformationTab() {
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="businessName" placeholder="" label="Business Name" isPassword={false} type='text' required />
                     </Flex>
-                    <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                        <CustomTextArea name="description" placeholder="Give a short description about your business" label="Business Description" />
+                    <Flex flexDir={"column"} w={"full"} gap={"2"} >
+                        <Text fontWeight={"400"} fontSize={"14px"} >Business Description <sup style={{ color: 'red' }}>*</sup></Text>
+                        <Textarea value={description} onChange={(e) => {
+                            if(description.length < 300) {
+                                setDescription(e.target.value)
+                            }
+                        }} h={"84px"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} />
+                        <Text>{description.length}/300</Text>
                     </Flex>
                     <RadioGroup >
                         <Flex direction='row' gap={"4"}>
-                            <Radio value='1' isChecked={!isOnline} onChange={() => setIsOnline(false)}>Physical Venue</Radio>
-                            <Radio value='2' isChecked={isOnline} onChange={() => setIsOnline(true)}>Online</Radio>
-                           <HStack>
+                            <Radio value='1' isChecked={isOnline === 'physical'} onChange={() => setIsOnline('physical')}>Physical Venue</Radio>
+                            <Radio value='2' isChecked={isOnline === 'online'} onChange={() => setIsOnline('online')}>Online</Radio>
+                            <Radio value='3' isChecked={isOnline === 'both'} onChange={() => setIsOnline('physical')}>Both</Radio>
+                           {/* <HStack>
                                 <Checkbox isChecked={both} onChange={() => setBoth((prev) => !prev)} aria-label='Both' />
                                 <Text>Has both</Text>
-                           </HStack>
+                           </HStack> */}
                         </Flex>
                     </RadioGroup>
-                    <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                        <CustomInput name="address" placeholder='' label='Business Address' isPassword={false} type='text' required />
-                    </Flex>
+                    {isOnline !== 'online' && (
+                        <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
+                            <CustomInput name="address" placeholder='' label='Business Address' isPassword={false} type='text' required={false} />
+                        </Flex>
+                    )}
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="phone" placeholder='' label='Business Phone Number' isPassword={false} type='phone' required />
                     </Flex>
@@ -237,36 +381,39 @@ export default function InformationTab() {
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="website" placeholder='' label='Business Website (optional)' isPassword={false} type='text' hint="The link must start with https://" />
 
-                        <Flex flexDir="column" gap={2} mt="10px">
-                            {handles.length > 0 && (
-                                <Flex overflowX="auto" gap={2} pb={2}>
-                                    {handles.map((handle, index) => (
-                                        <Flex 
-                                            key={index}
-                                            px={3}
-                                            py={1}
-                                            borderWidth={1}
-                                            borderRadius="full"
-                                            alignItems="center"
-                                            minW="fit-content"
-                                        >
-                                            <Text fontSize="sm" fontWeight="SemiBold">{handle.platform}: {handle.socialMediaHandle}</Text>
-                                        </Flex>
-                                    ))}
-                                </Flex>
-                            )}
-                            {/* <Flex gap={"2"} mt={"2"} as={"button"} alignItems={"center"} >
-                                <IoAdd size={"25px"} color={primaryColor} />
-                                <Text>Add social Handle </Text>
-                            </Flex> */}
-                        </Flex>
+                        
                     </Flex>
-                    <Flex gap={"4"} >
+
+                    <Flex gap={"2"} mt={"2"} as={"button"} alignItems={"center"} onClick={() => setShowModal(true)} >
+                        <IoAdd size={"25px"} color={primaryColor} />
+                        <Text>Operating Hours and time  <sup style={{ color: 'red' }}>*</sup></Text>
+                    </Flex>
+
+                    <Flex overflowX="auto" w="full" css={{
+                        '&::-webkit-scrollbar': {
+                            display: 'none'
+                        }
+                    }}>
+                        {days.filter((item) => {
+                            if (item?.checked) {
+                                return item;
+                            }
+                        }).map((day, index) => (
+                            <HStack key={index} minW="fit-content" mr={4} justifyContent={'space-between'} alignItems={'center'} rounded={'full'} borderWidth={'1px'} py='5px' px='8px' borderColor={borderColor}>
+                                <Text color={bodyTextColor}>{getDay(day.dayOFTheWeek)}</Text>
+                                <Text color={bodyTextColor}>{new Date(`2000-01-01T${day.startTime}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })} - </Text>
+                                
+                                <Text color={bodyTextColor}>{new Date(`2000-01-01T${day.endTime}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}</Text>
+                            </HStack>
+                        ))}
+                    </Flex>
+                   
+                    <Flex gap={"2"} >
                         <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                             <Text>Select your socials type</Text>
                             <Select h={"44px"} value={platform} onChange={(e) => setPlatform(e.target.value)} >
                                 {SOCIAL_MEDIA_PLATFORMS.map((media, index) => (
-                                    <option value={media} key={index.toString()}>{media}</option>
+                                    <option selected={index === 0} value={media} key={index.toString()}>{media}</option>
                                 ))}
                             </Select>
                         </Flex>
@@ -284,23 +431,44 @@ export default function InformationTab() {
                                     }
                                 }}
                             />
+                            <Text color={primaryColor} fontSize='14px'>Press enter to add to list</Text>
                         </Flex>
                     </Flex>
-                    {/* <Flex gap={"2"} mt={"2"} as={"button"} alignItems={"center"} onClick={() => setOpen(true)} >
-                        <IoAdd size={"25px"} color={primaryColor} />
-                        <Text>Business Hours and time </Text>
-                    </Flex> */}
+
+                    <Flex flexDir="column" gap={2} mt="2px">
+                            {handles.length > 0 && (
+                                <Flex overflowX="auto" gap={2} pb={2}>
+                                    {handles.map((handle, index) => (
+                                        <Flex 
+                                            key={index}
+                                            px={3}
+                                            py={1}
+                                            borderWidth={1}
+                                            borderRadius="full"
+                                            alignItems="center"
+                                            minW="fit-content"
+                                        >
+                                            <Text fontSize="sm" fontWeight="SemiBold" mr={"6px"}>{handle.platform}: {handle.socialMediaHandle}</Text>
+                                            <FiX size={'20px'} color={bodyTextColor} onClick={() => handleRemoveHandles(index)} />
+                                        </Flex>
+                                    ))}
+                                </Flex>
+                            )}
+                         
+                        </Flex>
+                    
                     <Flex w={"full"} h={"100px"} pb={"9"} >
-                        <SubmitButton isDisabled={false} title='Create Business' isLoading={uploadImageMutation.isLoading ?? createBusinessMutation.isLoading} />
-                        {/* <Button onClick={() => setOpen(true)} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"49px"} _hover={{ backgroundColor: primaryColor }} >
+                        {/* <SubmitButton isDisabled={false} title='Create Business' isLoading={uploadImageMutation.isLoading ?? createBusinessMutation.isLoading} /> */}
+                        <Button type='submit' isLoading={uploadImageMutation.isLoading ?? createBusinessMutation.isLoading} onClick={() => setOpen(true)} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"49px"} _hover={{ backgroundColor: primaryColor }} >
                             Create Business
-                        </Button> */}
+                        </Button>
                     </Flex>
                 </Flex>
             </Flex>
-            {/* <ModalLayout size={"xl"} open={open} close={setOpen} >
-                <DayAvaliable close={setOpen} setTab={clickHander} />
-            </ModalLayout> */}
+
+            <ModalLayout size={["md", "xl"]} open={showModal} close={setShowModal}>
+                <DayAvaliable close={setShowModal} setTab={setShowModal} days={days} handleCheck={handleDayChange} />
+            </ModalLayout>
 
             <ModalLayout open={modal} close={setModal} closeIcon={true} onOverLay={false}>
                 <Flex w={"full"} flexDir={"column"} alignItems={"center"} py={"5"} >

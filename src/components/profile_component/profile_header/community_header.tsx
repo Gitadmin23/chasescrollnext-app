@@ -22,13 +22,7 @@ function CommunityHeader(props: Props) {
 
     // react query
     const {  } = useQuery(['get-joined-community'], () => httpService.get(URLS.GET_JOINED_GROUPS+ "?userID=" +user_index), {
-        onError: (error: any) => {
-            console.log(error);
-            
-            // toast({
-            //     status: "error",
-            //     title: error.response?.data,
-            // });
+        onError: (error: any) => { 
         },
         onSuccess: (data) => {  
             console.log(data);

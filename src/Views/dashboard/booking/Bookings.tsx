@@ -1,64 +1,57 @@
 import React from 'react'
-import { Box, SimpleGrid, Spinner, Text, VStack } from '@chakra-ui/react'
-import { IBuisness } from '@/models/Business'
-import httpService from '@/utils/httpService';
-import { useQuery } from 'react-query';
-import BusinessCard from '@/components/booking_component/BusinessCard';
-import { PaginatedResponse } from '@/models/PaginatedResponse';
-import { uniqBy } from 'lodash';
-import { useDetails } from '@/global-state/useUserDetails';
+import { Flex, Grid } from '@chakra-ui/react' 
 import { IBooking } from '@/models/Booking';
 import BookingCard from '@/components/booking_component/BookingCard';
 import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
 import usePaystackStore from '@/global-state/usePaystack';
+import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent';
+import { cleanup } from '@/utils/cleanupObj';
+import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 
-function Bookings() {
-    const [businesses, setBusinesses] = React.useState<IBooking[]>([]);
-    const [page, setPage] = React.useState(0);
-    const [hasMore, setHasMore] = React.useState(true);
-    const { userId } = useDetails((state) => state);
-    const { configPaystack, setPaystackConfig, donation, dataID, booking } = usePaystackStore((state) => state);
+function Bookings({ name, state, category }: { name?: string, state?: string, category?: string }) {
+    
+    const userId = localStorage.getItem('user_id');
+    const { configPaystack, setPaystackConfig, dataID, message } = usePaystackStore((state) => state);
 
-    const { isLoading, } = useQuery(['get-my-bookings', page], () => httpService.get('/booking/search', {
-        params: {
+    // const { isLoading, } = useQuery(['get-my-bookings', page], () => httpService.get('/booking/search', {
+    //     params: {
+    //         userID: userId,
+    //         page,
+    //         size: 20,
+    //     }
+    // }), {
+    //     onSuccess: (data) => {
+    //         console.log(data?.data?.content)
+    //         const item: PaginatedResponse<IBooking> = data.data;
+    //         setBusinesses((prev) => uniqBy([...prev, ...item?.content], 'id'));
+    //         if (item?.last) {
+    //             setHasMore(false);
+    //         }
+    //     }
+    // }) 
+
+    const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
+        url: `/booking/search`, limit: 20, filter: "id", name: "getProduct", paramsObj: cleanup({
+            name: name,
+            category: category,
+            state: state, 
             userID: userId,
-            page,
-            size: 20,
-        }
-    }), {
-        onSuccess: (data) => {
-            console.log(data?.data?.content)
-            const item: PaginatedResponse<IBooking> = data.data;
-            setBusinesses((prev) => uniqBy([...prev, ...item?.content], 'id'));
-            if (item?.last) {
-                setHasMore(false);
-            }
-        }
+        })
     })
+
     return (
-        <Box w='full' h='full' pt='30px'>
-            {!isLoading && businesses.length > 0 && (
-                <SimpleGrid columns={[1, 3]} gap={[2, 4]}>
-                    {businesses.map((item, index) => (
-                        <BookingCard key={index} booking={item} business={item?.vendor} isVendor={false} />
-                    ))}
-                </SimpleGrid>
-            )}
-
-            {!isLoading && businesses.length < 1 && (
-                <VStack w='full' h='40px' borderRadius={'20px'} justifyContent={'center'} >
-                    <Text>There are currently no bookings, you can start by creating one!</Text>
-                </VStack>
-            )}
-
-            {isLoading && (
-                <VStack w='full' h='80px' borderRadius={'20px'} justifyContent={'center'} >
-                    <Spinner />
-                    <Text>Loading Your Booking</Text>
-                </VStack>
-            )} 
-            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} booking={booking} donation={donation} />
-        </Box>
+        <LoadingAnimation loading={isLoading} refeching={refetchingList} length={results?.length} > 
+            <Flex w='full' h='full' flexDir={"column"} pos={"relative"} >
+                {!isLoading && results.length > 0 && (
+                    <Grid templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["4", "4", "6"]} pb={"10"} >
+                        {results.map((item: any, index: number) => (
+                            <BookingCard key={index} booking={item} business={item?.vendor} isVendor={false} />
+                        ))}
+                    </Grid>
+                )} 
+            </Flex>
+            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
+        </LoadingAnimation>
     )
 }
 

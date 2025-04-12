@@ -54,7 +54,7 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
 
 
   return (
-    <VStack alignItems={'flex-start'} width='100%'>
+    (<VStack alignItems={'flex-start'} width='100%'>
       {label && (
         <HStack>
           <Text fontSize={labelTextSize}>{label}
@@ -88,13 +88,12 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
             data-date="DD MMMM YYYY"
             lang='pt_BR'
             value={newValue ?? value}
-            disabled={disable}
-            fontFamily={'Satoshi-Light'}
+            disabled={disable} 
             height={"45px"}
             rounded={newbtn ? "32px" : "8px"}
             borderColor={borderColor}
-            color={textColor ?? 'black'}
-            bgColor={'transparent'}
+            color={textColor ?? 'black'}  
+            bgColor={mainBackgroundColor}
             // value={value? value: ""}
             type={isPassword ? (showPassword ? 'text' : 'password') : type}
           /> :
@@ -104,15 +103,14 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
               required: true,
               pattern: /^[A-Za-z]+$/i
             })}
+            bgColor={mainBackgroundColor}
             placeholder={placeholder}
             borderColor={borderColor}
             height={"45px"}
             data-date="DD MMMM YYYY"
-            lang='pt_BR'
-            bgColor={inputColor}
+            lang='pt_BR' 
             rounded={newbtn ? "32px" : "8px"}
-            disabled={disable}
-            fontFamily={'Satoshi-Light'}
+            disabled={disable} 
             color={textColor ?? 'black'}
             value={newdata}
             type={isPassword ? (showPassword ? 'text' : 'password') : type}
@@ -121,6 +119,6 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
       </InputGroup>
       {hint && <small>{hint}</small>}
       {errors[name] && <CustomText textAlign={'left'} color='red' fontSize={'sm'}>{errors[name]?.message as string}</CustomText>}
-    </VStack>
-  )
+    </VStack>)
+  );
 }

@@ -8,15 +8,22 @@ import httpService from '@/utils/httpService'
 import {Box, Flex, Text, useColorMode, useToast} from '@chakra-ui/react'
 import { AxiosError, AxiosResponse } from 'axios'
 import { usePathname, useRouter } from 'next/navigation'
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useState, use } from 'react';
 import { BsChevronLeft } from 'react-icons/bs'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import useCustomTheme from "@/hooks/useTheme";
 
-function Layout({ children, params }: {
-    children: ReactNode,
-    params: { slug: string }
-}) {
+function Layout(
+    props: {
+        children: ReactNode,
+        params: Promise<{ slug: string }>
+    }
+) {
+    const params = use(props.params);
+
+    const {
+        children
+    } = props;
 
     const {
         bodyTextColor,
@@ -45,7 +52,8 @@ function Layout({ children, params }: {
         },
         onSuccess: (data: any) => {
             setData(data?.data?.content[0]);
-        }
+        },
+        enabled: pathname?.includes("donate") ? false : true
     })
 
     const refundallUser = useMutation({

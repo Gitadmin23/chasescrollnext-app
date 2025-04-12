@@ -1,21 +1,23 @@
 "use client"
-import { Button, Flex, Spinner, Text, useToast, Image, VStack } from '@chakra-ui/react'
+import { Button, Flex, Spinner, Text, useToast, Image, VStack, Avatar } from '@chakra-ui/react'
 import React, { ReactNode, useState } from 'react'
 import useCustomTheme from '@/hooks/useTheme';
 import { AiOutlineMore } from 'react-icons/ai';
 import { BsChevronLeft } from 'react-icons/bs';
 import { IoBookmarkOutline } from 'react-icons/io5';
 import { LuShare } from 'react-icons/lu';
+import { FiAlertOctagon, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import { useParams, usePathname } from 'next/navigation'
 import { IBuisness } from '@/models/Business';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import httpService from '@/utils/httpService';
 import { IMAGE_URL, RESOURCE_BASE_URL } from '@/services/urls';
 import { Calendar, Location } from 'iconsax-react';
 import ShareEvent from '@/components/sharedComponent/share_event';
 import { useDetails } from '@/global-state/useUserDetails';
 import BlurredImage from '@/components/sharedComponent/blurred_image';
+import ModalLayout from '@/components/sharedComponent/modal_layout';
 
 
 
@@ -36,10 +38,13 @@ export default function Layout({ children }: {
     const path = usePathname();
     const id = param?.id;
     const { userId } = useDetails((state) => state);
+    const queryClient = useQueryClient();
 
     const [tab, setTab] = useState(0)
 
     const [business, setBusiness] = useState<IBuisness|null>(null);
+    const [modal, setModal] = useState(false)
+
 
     React.useEffect(() => {
         if ((path as string)?.split("/")[5]) {
@@ -95,6 +100,32 @@ export default function Layout({ children }: {
 
             })
         }
+    });
+
+    const deleteBusiness = useMutation({
+        mutationFn: (data: string) => httpService.delete(`/business/delete/${data}`),
+        onSuccess: (data) => {
+            toast({
+                title: 'Success',
+                description: data?.data?.message,
+                position: 'top-right',
+                status: 'success',
+                isClosable: true,
+            });
+            queryClient.invalidateQueries(['get-businesses']);
+            queryClient.invalidateQueries(['get-my-businesses'])
+            router.push(`/dashboard/newbooking`);
+        },
+        onError: (error:any) => {
+            toast({
+                title: 'Error',
+                description: error?.message,
+                position: 'top-right',
+                status: 'error',
+                isClosable: true,
+
+            })
+        }
     })
 
     const router = useRouter();
@@ -110,13 +141,20 @@ export default function Layout({ children }: {
 
     return (
         <Flex w={"full"} h={"full"} flexDir={"column"} px={["10px", "8"]} pt='15px' gap={"8"} overflowY={"auto"} >
-            <Flex w={"full"} h={"fit-content"} justifyContent={"space-between"} >
+            <Flex w={"full"} h={"fit-content"} justifyContent={"space-between"} alignItems={"center"} >
                 {/* <IoArrowBack size="25px" /> */}
                 <Flex as={"button"} onClick={() => router?.back()} >
                     <BsChevronLeft size="25px" />
                 </Flex>
                 <Text fontSize={"24px"} fontWeight={"600"} >{business?.businessName}</Text>
-                <Text></Text>
+                { !isLoading && userId === business?.createdBy?.userId ? (
+                   <>
+                    {!deleteBusiness.isLoading &&  <FiTrash2 size='25px' color='red' onClick={() => setModal(true)} cursor={'pointer'}  />}
+                    {deleteBusiness.isLoading && <Spinner colorScheme='blue' /> }
+                   </>
+                ): (
+                    <Text></Text>
+                )}
             </Flex>
             <Flex w={"full"} h={"fit-content"} > 
                 <Flex w={"full"} h={"340px"} bgColor={"lightgrey"} rounded={"8px"} overflow='hidden' >
@@ -142,7 +180,7 @@ export default function Layout({ children }: {
                                 <Flex w={"10"} h={"10"} rounded={"8px"} bg={"#F7FBFE"} alignItems={'center'} justifyContent={'center'} >
                                     <Calendar size={'20px'} color={primaryColor} variant='Linear' />
                                 </Flex>
-                                <Text fontWeight={"600"} fontSize={"14px"} color={primaryColor} >Mon-Fri 7am-6pm Daily</Text>
+                                <Text fontWeight={"600"} fontSize={"14px"} color={primaryColor} >View Oppening Hours</Text>
                             </Flex>
                         </Flex>
                         <Flex flexDir={"column"} gap={"2"} >
@@ -159,6 +197,7 @@ export default function Layout({ children }: {
                 <Flex w={"full"} flexDirection={"column"} gap={"8"} >
                     <Flex justifyContent={["flex-start", "end"]} gap={"4"} >
                         {/* <IoBookmarkOutline size={"25px"} /> */}
+                        {!isLoading && business && userId === business?.createdBy?.userId && <FiEdit2 size={'25px'} color={primaryColor} onClick={() => router.push(`/dashboard/newbooking/edit/${id}`)} /> }
                         <ShareEvent type='BUSINESS' newbtn id={business?.id} data={business} showText={false}  />
                     </Flex>
                     {business?.socialMediaHandles && (
@@ -177,7 +216,7 @@ export default function Layout({ children }: {
                     <Flex w={"full"} bgColor={secondaryBackgroundColor} rounded={"64px"} px={"21px"} py={"19px"} >
                         <Flex alignItems={"center"} w={"full"} gap={"3"} >
                             <Flex w={"48px"} h={"48px"} rounded={"36px"} roundedTopRight={"0px"} bg={"purple"} overflow='hidden' >
-                                <Image onClick={() => router.push(`/dashboard/profile/${business?.createdBy?.userId}`)}  src={business?.createdBy?.data?.imgMain?.value ? (business?.createdBy?.data?.imgMain?.value?.startsWith('https://') ? business?.createdBy?.data?.imgMain?.value : `${RESOURCE_BASE_URL}${business?.createdBy?.data?.imgMain?.value}`) : 'https://ui-avatars.com/api/?background=random'} w='full' h='full' alt='image' />
+                                <Avatar color={"white"} name={`${business?.createdBy.firstName} ${business?.createdBy.lastName}`} onClick={() => router.push(`/dashboard/profile/${business?.createdBy?.userId}`)}  src={business?.createdBy?.data?.imgMain?.value ? (business?.createdBy?.data?.imgMain?.value?.startsWith('https://') ? business?.createdBy?.data?.imgMain?.value : `${RESOURCE_BASE_URL}${business?.createdBy?.data?.imgMain?.value}`) : null} w='full' h='full' />
                             </Flex>
                             <Flex flexDir={"column"} >
                                 <Text fontSize={"12px"} fontWeight={"500"} >Business Owner</Text>
@@ -208,6 +247,18 @@ export default function Layout({ children }: {
             <Flex w={"full"} h={"fit-content"}  >
                 {children}
             </Flex>
+
+            <ModalLayout open={modal} close={setModal} closeIcon={true} onOverLay={false}>
+                <Flex w={"full"} flexDir={"column"} alignItems={"center"} py={"5"} >
+                    <FiAlertOctagon size={"100px"} color={"red"} />
+                    <Text fontWeight={"600"} fontSize={"24px"} >Confirm your action</Text>
+                    <Text textAlign={"center"} maxW={"350px"} fontWeight={"400"} >Are you sure you want to delete this business</Text>
+
+                    <Button onClick={()=> deleteBusiness.mutate(id as string)} isLoading={deleteBusiness.isLoading} height={"50px"} mt={"4"} borderWidth={"1px"} w={"90%"} rounded={"full"} borderColor={"red"} bgColor={'red'} color={"white"} >Delete Business</Button>
+
+                    <Button onClick={()=> setModal(false)} height={"50px"} mt={"4"} borderWidth={"1px"} w={"90%"} rounded={"full"} borderColor={primaryColor} bgColor={mainBackgroundColor} color={primaryColor} _hover={{ backgroundColor: primaryColor, color: 'white' }} >Cancel</Button>
+                </Flex>
+            </ModalLayout>
         </Flex>
     )
 }

@@ -1,14 +1,25 @@
+import CustomButton from '@/components/general/Button'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
+import ProductImageScroller from '@/components/sharedComponent/productImageScroller'
+import { CalendarIcon, LocationIcon_2 } from '@/components/svg'
 import { useDetails } from '@/global-state/useUserDetails'
 import useCustomTheme from '@/hooks/useTheme'
 import { IService } from '@/models/Service'
 import { IMAGE_URL } from '@/services/urls'
 import httpService from '@/utils/httpService'
-import { Flex, Text, Box, VStack, HStack, Textarea, Image, Divider, Button, useToast, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
+import { formatNumber } from '@/utils/numberFormat'
+import { Flex, Text, VStack, HStack, Textarea, useToast, Input, InputLeftElement, InputGroup } from '@chakra-ui/react'
 import moment from 'moment'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { FiCalendar, FiPlus, FiMinus } from 'react-icons/fi'
+import { IoIosClose } from 'react-icons/io'
 import { useMutation } from 'react-query'
+
+interface IAction {
+    value: number;
+    type: 'ADDITION' | 'SUBSTRACTION',
+}
 
 function CreateBookingModal({
     show,
@@ -19,23 +30,43 @@ function CreateBookingModal({
     onClose: () => void,
     service: IService,
 }) {
-    const {
-        primaryColor,
-        borderColor,
-        headerTextColor,
-        bodyTextColor,
-        mainBackgroundColor
+    const { 
+        borderColor, 
+        bodyTextColor, 
     } = useCustomTheme();
 
     // states
     const [description, setDescription] = React.useState("");
-    const [price, setPrice] = React.useState("0");
+    const [price, setPrice] = React.useState(service?.price+"");
+    const [percentage, setPercentage] = useState(0)
+    const [date, setDate] = React.useState<string>("")
 
     const { userId } = useDetails((state) => state);
 
     // utils
     const router = useRouter();
     const toast = useToast();
+
+    useEffect(() => { 
+        setDate("")
+        setDescription("")
+    }, [])
+
+    const handlePriceChange = (item: IAction) => {
+        if (item.type === 'ADDITION') {
+            // calculate 5% fo the inital price
+            const Percentage = service?.price * (percentage + 0.05)
+            const newPrice = service?.price + Percentage;
+            setPrice(newPrice.toString());
+            setPercentage(percentage + 0.05)
+        } else {
+            // calculate 5% fo the inital price
+            const Percentage = service?.price * (percentage - 0.05);
+            const newPrice = service?.price + Percentage;
+            setPrice(newPrice.toString());
+            setPercentage(percentage - 0.05)
+        }
+    }
 
     // mutations
     const { isLoading, mutate } = useMutation({
@@ -50,13 +81,13 @@ function CreateBookingModal({
                 isClosable: true,
             });
             console.log(data?.data);
-            router.push(`/dashboard/newbooking/booking/${data?.data?.id}`);
+            router.push(`/dashboard/kisok?type=mybooking`);
             onClose();
         },
         onError: (error: any) => {
             toast({
-                title: 'Success',
-                description: error?.message ?? 'An error occured while booking this service',
+                title: 'Error',
+                description: error?.response?.data?.message ?? 'An error occured while booking this service',
                 status: 'error',
                 duration: 5000,
                 position: 'top-right',
@@ -69,7 +100,7 @@ function CreateBookingModal({
     const handleCreation = React.useCallback(() => {
         if (description === '') {
             toast({
-                title:'Warning',
+                title: 'Warning',
                 description: 'You have to give a short description of what you expect from the vendor',
                 status: 'warning',
                 isClosable: true,
@@ -79,9 +110,9 @@ function CreateBookingModal({
             return;
         }
 
-        if(service?.hasFixedPrice && price === "0") {
+        if (!service?.hasFixedPrice && price === "0") {
             toast({
-                title:'Warning',
+                title: 'Warning',
                 description: 'You have to enter a valid price',
                 status: 'warning',
                 isClosable: true,
@@ -94,134 +125,209 @@ function CreateBookingModal({
         const obj = {
             description,
             userID: userId,
-            vendorID: service?.vendor?.id,
-            serviceIDS: [service?.id],
+            vendorID: service?.vendor?.userId,
+            serviceID: service?.id,
             bookingType: "Busy",
-            price: service?.hasFixedPrice ? service?.price + (service?.price * 0.02) : parseInt(price),
-            date: new Date().toISOString(),
+            price: parseInt(price),
+            date: new Date(date).toISOString(),
         }
 
         mutate(obj);
     }, [description, service, userId, toast, mutate, price]);
 
- 
+    useEffect(()=> {
+        setPercentage(0)
+    }, [open])
+
     return (
-        <ModalLayout open={show} close={onClose} closeIcon size={['md', '3xl']}>
-            <Flex flexDir={['column', 'row']} pb='20px' px={['20px', '20px']} gap={8} bg={mainBackgroundColor}>
-                <VStack w='full' h='full' px={'10px'} alignItems={'flex-start'}>
-                    <Text fontSize="12px" color={'grey'}>List your order</Text>
-
-                    <VStack w='full' py='10px' alignItems="flex-start" borderBottomWidth={'1px'} borderBottomColor={borderColor}>
-                        <Text fontWeight="600" fontSize={'14px'}>Business Name</Text>
-                        <Text>{service?.vendor?.businessName}</Text>
-
-                    </VStack>
-
-                
-                    <Box w='full' py='10px' borderBottomWidth={'1px'} borderBottomColor={borderColor}>
-                        <Text fontWeight="600" fontSize={'14px'}>Service Type</Text>
-                        <Text color={headerTextColor}>{service?.service?.category.toUpperCase()}</Text>
-                    </Box>
-
-                    <Box w='full' py='10px' borderBottomWidth={'1px'} borderBottomColor={borderColor}>
-                        <Text  fontWeight="600" fontSize={'14px'}>Date</Text>
-                        <Text fontSize={16} color={headerTextColor}>{moment().format('MMMM Do, YYYY')}</Text>
-                    </Box>
-
-                    {service?.hasFixedPrice && (
-                        <HStack justifyContent={'space-between'} w='full' alignItems={'center'}>
-                            <Text fontSize={'14px'}>Service Payment</Text>
-                            <Text fontSize={'16px'} fontWeight={600} color={primaryColor}>NGN {service?.price?.toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
-                        </HStack>
-                    )}
-
-                    <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
-                        <Text fontSize={'14px'}>Add a Description</Text>
-                        <Textarea value={description} onChange={(e) => setDescription(e.target.value)} w='full' h='80px' placeholder='Enter a description of what you want' />
-                    </VStack>
-
-                </VStack>
-                <Flex w='full' h='full' p='15px' flexDir='column'>
-                    <Box w='full' h='full' borderWidth={'1.5px'} borderColor={borderColor} borderRadius={'10px'} p='20px'>
-                        <Flex gap={3} pb='10px' borderBottomWidth={'1px'} borderBottomColor={borderColor} alignItems='center'>
-                            <Box w='30%' h='100px' borderRadius={'15px'} overflow={'hidden'} py='5px'>
-                                <Image src={service?.vendor?.bannerImage.startsWith('http') ? service?.vendor?.bannerImage : IMAGE_URL + service?.vendor?.bannerImage} alt='banner image' w='100%' h='full' />
-                            </Box>
-                            <VStack alignItems='flex-start' spacing={-2}>
-                                <Text fontWeight={700}>{service?.vendor?.businessName}</Text>
-                                <Text fontSize={'12px'} color="grey">{service?.vendor?.address}</Text>
-                            </VStack>
+        <ModalLayout open={show} close={onClose} size={['full', "full", '4xl']}>
+            <Flex w={"full"} flexDir={["column", "column", "row"]} position={"relative"} >
+                <Flex as={"button"} onClick={() => onClose()} w={"35px"} h={"35px"} zIndex={"30"} bgColor={["#D8D8D880", "#D8D8D880", "transparent"]} pos={"absolute"} rounded={"full"} top={"2"} right={"2"} shadow={["md", "md", "none"]} justifyContent={"center"} alignItems={"center"} >
+                    <IoIosClose size={"25px"} />
+                </Flex>
+                <ProductImageScroller images={service?.images} createdDate={moment(service?.createdDate)?.fromNow()} rounded='0px' height={["206px", "206px", "680px"]} userData={service?.vendor} />
+                <Flex w={"full"} flexDir={"column"} p={"4"} gap={"3"} >
+                    <Flex flexDir={"column"} >
+                        <Text fontSize={"14px"} color={bodyTextColor} >Business Name</Text>
+                        <Text fontSize={["16px", "16px", "20px"]} fontWeight={"700"} >{service?.name}</Text>
+                    </Flex>
+                    <Flex flexDir={"column"} >
+                        <Text fontSize={"14px"} color={bodyTextColor} >Category</Text>
+                        <Text fontSize={["16px", "16px", "20px"]} lineHeight={["17px", "17px", "25px"]} fontWeight={"700"}  >{service?.category}</Text>
+                    </Flex>
+                    <Flex flexDir={"column"} >
+                        <Text fontSize={"14px"} color={bodyTextColor} >Location</Text>
+                        <Flex gap={"2"} alignItems={"center"}>
+                            <LocationIcon_2 />
+                            <Text fontSize={["12px", "12px", "14px"]} >{service?.location?.locationDetails}</Text>
                         </Flex>
-
-                       {service?.hasFixedPrice && (
-                         <Flex flexDir='column' mt='30xp'>
-                            <Text fontWeight={500} fontSize={'14px'} color={headerTextColor} mt='10px' >Total price for the  order</Text>
-
-                            <HStack justifyContent={'space-between'} h='40px'>
-                                <Text color={bodyTextColor} fontSize="12px">{service?.service?.category}</Text>
-                                <Text fontSize={'14px'} color={bodyTextColor}>NGN {service?.price?.toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
-                            </HStack>
-
-                            <HStack justifyContent={'space-between'} h='40px'>
-                                <Text color={bodyTextColor} fontSize='12px'>Taxes(2%)</Text>
-                                <Text color={bodyTextColor} fontSize={'14px'}>NGN {(service?.price * 0.02)?.toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
-                            </HStack>
-
-                            <Divider />
-
-                            <HStack justifyContent={'flex-end'} h='40px'>
-                                <Text color={bodyTextColor} fontSize='12px'>Taxes</Text>
-                                <Text color={bodyTextColor} fontSize={'14px'}>NGN {(service?.price + (service?.price * 0.02)).toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
-                            </HStack>
-                        </Flex> 
-                       )}
-
-                        {!service?.hasFixedPrice && (
-                         <Flex flexDir='column' mt='30xp'>
-                            <Text fontWeight={500} fontSize={'14px'} color={headerTextColor} mt='10px' >Make An Offer</Text>
-
-                            <HStack justifyContent={'space-between'} h='40px' w='full'>
-                                <Text color={bodyTextColor} fontSize='14px'>Enter Price</Text>
-                                <InputGroup width='150px'>
-                                    <InputLeftElement>NGN</InputLeftElement>
-                                    <Input 
-                                    type='number'
-                                    value={price}
-                                    onChange={(e) => {
-                                        const value = e.target.value;
-                                        if (/^\d*$/.test(value)) { // Only allow digits
-                                            setPrice(value);
-                                        }
-                                    }}
-                                    onKeyPress={(e) => {
-                                        if (!/\d/.test(e.key)) { // Prevent non-digit keys
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                    
-                                    borderBottomWidth={'1px'}
-                                    borderLeftWidth={'0px'}
-                                    borderRightWidth={'0px'} 
-                                    borderTopWidth={'0px'}
-                                    borderRadius={'0px'}
-                                    borderBottomColor={borderColor}
-                                    placeholder='Enter price'
-                                    fontSize={'14px'}
-                                    fontWeight={600}
-                                />
-                                </InputGroup>
-                            </HStack>
-                        </Flex> 
-                       )}
-                    </Box>
-
-                    <Button onClick={handleCreation} isLoading={isLoading} w='full' h='42px' backgroundColor={primaryColor}  borderRadius={'full'} mt='20px'>
-                        <Text fontWeight={600} fontSize={'14px'} color='white'>{service?.hasFixedPrice ? 'Create Booking': 'Create Offer'}</Text>
-                    </Button>
+                    </Flex>
+                    <Flex w={"full"} gap={"4"} justifyContent={"space-between"} alignItems={"center"} >
+                        <Text fontWeight={"500"} >Total Price</Text>
+                        <Text fontWeight={"600"} fontSize={["20px", "20px", "20px"]} >{formatNumber(Number(price))}</Text>
+                    </Flex>
+                    {service?.hasFixedPrice && (
+                        <Flex w={"full"} flexDir={"column"} gap={"3"} >
+                            <Text fontWeight={"500"} fontSize={"14px"} >You can negotiate this price by 5%</Text>
+                            <Flex w={"full"} justifyContent={"center"} >
+                                <HStack width={'180px'} height={'54px'} borderRadius={'50px'} overflow={'hidden'} backgroundColor={'#DDE2E6'}>
+                                    <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'SUBSTRACTION', value: 0 })} w={"full"} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
+                                        <FiMinus size={12} color='black' />
+                                    </Flex>
+                                    <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'ADDITION', value: 0 })} w={"full"} height={'100%'} justifyContent={'center'} alignItems={'center'}>
+                                        <FiPlus size={12} color='black' />
+                                    </Flex>
+                                </HStack>
+                            </Flex>
+                        </Flex>
+                    )}
+                    <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
+                        <Text fontWeight="600" fontSize={'14px'}>Book a date</Text>
+                        <InputGroup width='100%'>
+                            <InputLeftElement pt={"1"} >
+                                <CalendarIcon />
+                            </InputLeftElement>
+                            <Input
+                                type='date'
+                                value={date}
+                                onChange={(e) => {
+                                    console.log(e.target.value)
+                                    setDate(e.target.value)
+                                }}
+                                borderWidth={'1px'}
+                                height="45px"
+                                borderRadius={'12px'}
+                                borderBottomColor={borderColor}
+                                placeholder='Pick Date'
+                                fontSize={'14px'}
+                                fontWeight={400}
+                            />
+                        </InputGroup>
+                    </VStack>
+                    <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
+                        <Text fontWeight="600" fontSize={'14px'}>Description</Text>
+                        <Textarea
+                            value={description}
+                            onChange={(e) => {
+                                setDescription(e.target.value)
+                            }}
+                            borderWidth={'1px'}
+                            borderRadius={'12px'}
+                            borderBottomColor={borderColor}
+                            fontSize={'14px'}
+                            fontWeight={400}
+                        />
+                    </VStack>
+                    <Flex w={"full"} justifyContent={"end"} pt={"4"} mt={"auto"} gap={"4"} >
+                        <CustomButton disable={date ? false : true} onClick={handleCreation} isLoading={isLoading} text={`Create Booking`} borderRadius={"999px"} height={"45px"} width={"150px"} fontSize={"14px"} />
+                    </Flex>
                 </Flex>
             </Flex>
         </ModalLayout>
-    )
+    );
 }
 
 export default CreateBookingModal
+
+
+// {/* <Flex flexDir={["column-reverse", 'row-reverse']} pb='20px' px={['3px', '20px']} gap={["1", "1", "6"]} bg={mainBackgroundColor}>
+//                 <VStack w='full' h='full' px={'10px'} alignItems={'flex-start'}>
+//                     {/* <Text fontSize="12px" color={'grey'}>List your order</Text> */}
+
+//                     {/* <VStack w='full' py='10px' alignItems="flex-start" borderBottomWidth={'1px'} borderBottomColor={borderColor}>
+//                         <Text fontWeight="600" fontSize={'14px'}>Business Name</Text>
+//                         <Text>{service?.name}</Text>
+
+//                     </VStack> */}
+
+
+//                     <Box w='full' py='10px' borderBottomWidth={'1px'} borderBottomColor={borderColor}>
+//                         <Text fontWeight="600" fontSize={'14px'}>Service Type</Text>
+//                         <Text color={headerTextColor} fontSize={"14px"} >{service?.category.toUpperCase()}</Text>
+//                     </Box>
+
+//                     {/* <Box w='full' py='10px' borderBottomWidth={'1px'} borderBottomColor={borderColor}>
+//                         <Text fontWeight="600" fontSize={'14px'}>Date</Text>
+//                         <Text fontSize={16} color={headerTextColor}>{moment().format('MMMM Do, YYYY')}</Text>
+//                     </Box> */}
+
+//                     {/* {service?.hasFixedPrice && (
+//                         <HStack justifyContent={'space-between'} w='full' alignItems={'center'}>
+//                             <Text fontSize={'14px'}>Service Price</Text>
+//                             <Text fontSize={'16px'} fontWeight={600} color={primaryColor}>NGN {service?.price?.toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
+//                         </HStack>
+//                     )} */}
+
+//                     <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
+//                         <Text fontWeight="600" fontSize={'14px'}>Service Description</Text>
+//                         <Textarea value={description} onChange={(e) => setDescription(e.target.value)} w='full' h='80px' fontSize={"14px"} placeholder='Tell us how we can serve you' />
+//                     </VStack>
+
+//                     <Button onClick={handleCreation} isLoading={isLoading} w='full' h='42px' backgroundColor={primaryColor} borderRadius={'full'} mt='20px'>
+//                         <Text fontWeight={600} fontSize={'14px'} color='white'>{'Create Booking'}</Text>
+//                     </Button>
+//                 </VStack>
+//                 <Flex w='full' h='full' p={["6px", "6px", '15px']} flexDir='column'>
+//                     <Box w='full' h='full' borderWidth={'1.5px'} borderColor={borderColor} borderRadius={'10px'} py={["6px", "6px", "20px"]} p={['12px', "12px", '20px']}>
+//                         <Flex gap={3} pb='10px' borderBottomWidth={'1px'} borderBottomColor={borderColor} alignItems='center'>
+//                             <Box w='100px' h='100px' borderRadius={'15px'} overflow={'hidden'} py='5px'>
+//                                 <Image src={service?.images[0].startsWith('http') ? service?.images[0] : IMAGE_URL + service?.images[0]} alt='banner image' w='100%' h='full' objectFit={'cover'} />
+//                             </Box>
+//                             <VStack alignItems='flex-start' spacing={-2}>
+//                                 <Text fontWeight={700}>{service?.name}</Text>
+//                                 <Text fontSize={'12px'} color="grey">{service?.address}</Text>
+//                             </VStack>
+//                         </Flex>
+
+//                         {service?.hasFixedPrice && (
+//                             <Flex flexDir='row' justifyContent={"space-between"} mt='30xp' py={""} >
+//                                 <Text fontWeight={500} fontSize={'14px'} color={headerTextColor}  >Starting price:</Text>
+//                                 <Text fontSize={'14px'} fontWeight={"600"} >NGN {service?.price?.toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
+
+//                                 {/* <HStack justifyContent={'space-between'} h='40px'>
+//                                     <Text color={bodyTextColor} fontSize="12px">{service?.service?.category}</Text>
+//                                 </HStack> */}
+
+//                                 {/* <HStack justifyContent={'space-between'} h='40px'>
+//                                     <Text fontSize='12px'>Service Fee:</Text>
+//                                     <Text fontSize={'14px'}>NGN {(service?.price * 0.02)?.toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
+//                                 </HStack>
+
+
+//                                 <HStack justifyContent={'flex-end'} h='40px'>
+//                                     <Text fontSize='12px'>Total Price</Text>
+//                                     <Text fontSize={'14px'}>NGN {(service?.price + (service?.price * 0.02)).toLocaleString('en-NG', { maximumFractionDigits: 2 })}</Text>
+//                                 </HStack> */}
+//                             </Flex>
+//                         )}
+
+
+// <Divider />
+//                         <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
+//                             <Text fontWeight="600" fontSize={'14px'}>Book a date</Text>
+//                             <InputGroup width='100%'>
+//                                 <InputLeftElement>
+//                                     <CalendarIcon />
+//                                 </InputLeftElement>
+//                                 <Input
+//                                     type='date'
+//                                     value={date}
+//                                     onChange={(e) => {
+//                                         console.log(e.target.value)
+//                                         setDate(e.target.value)
+//                                     }}
+//                                     borderWidth={'1px'}
+//                                     height="45px"
+//                                     borderRadius={'8px'}
+//                                     borderBottomColor={borderColor}
+//                                     placeholder='Pick Date'
+//                                     fontSize={'14px'}
+//                                     fontWeight={400}
+//                                 />
+//                             </InputGroup>
+//                         </VStack>
+
+//                     </Box>
+
+//                 </Flex>
+//             </Flex> */}

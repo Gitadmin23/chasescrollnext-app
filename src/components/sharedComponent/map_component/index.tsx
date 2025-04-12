@@ -15,6 +15,7 @@ import useEventStore from '@/global-state/useCreateEventState';
 import LoadingAnimation from '../loading_animation';
 import EventDirection from './event_direction';
 import useCustomTheme from '@/hooks/useTheme';
+import useProductStore from '@/global-state/useCreateProduct';
 
 interface Props {
   close?: any,
@@ -45,6 +46,7 @@ function MapComponent(props: Props) {
 
 
   const { eventdata, updateEvent } = useEventStore((state) => state);
+  const { updateProduct, productdata, updateRental, rentaldata, updateAddress, location } = useProductStore((state) => state);
   const toast = useToast()
   const [directionsResponse, setDirectionsResponse] = React.useState(null);
 
@@ -71,7 +73,7 @@ function MapComponent(props: Props) {
 
   const [map, setMap] = React.useState(null)
 
-  const mapRef: any = React.useRef();
+  const mapRef: any = React.useRef(null);
   const onMapLoad = React.useCallback((map: any) => {
     mapRef.current = map;
   }, []);
@@ -94,15 +96,48 @@ function MapComponent(props: Props) {
           if (status === 'OK' && results[0]) {
 
             let address = results[0].formatted_address
- 
 
+
+            // if (results[0]?.address_components[results[0]?.address_components?.length - 1]?.types[0] === "country") {
+            //   console.log(results[0]?.address_components[results[0]?.address_components?.length - 2]?.long_name);
+            //   console.log(results[0]?.address_components);
+            // } else {
+            //   console.log(results[0]?.address_components[results[0]?.address_components?.length - 3]?.long_name);
+            //   console.log(results[0]?.address_components);
+            // }
+
+            let newState = results[0]?.address_components[results[0]?.address_components?.length - 1]?.types[0] === "country" ? results[0]?.address_components[results[0]?.address_components?.length - 2]?.long_name : results[0]?.address_components[results[0]?.address_components?.length - 3]?.long_name
+ 
             updateEvent({
               ...eventdata,
               location: {
                 ...eventdata.location,
                 locationDetails: address,
+                placeIds: newState,
                 latlng: e.latLng.lat() + " " + e.latLng.lng()
               }
+            })
+            updateProduct({
+              ...productdata, location: {
+                locationDetails: address,
+                latlng: e.latLng.lat() + " " + e.latLng.lng(),
+                state: newState
+              },
+              state: newState
+            })
+            updateAddress({
+              ...location,
+              locationDetails: address,
+              latlng: e.latLng.lat() + " " + e.latLng.lng(),
+              state: newState
+            })
+            updateRental({
+              ...rentaldata, location: {
+                locationDetails: address,
+                latlng: e.latLng.lat() + " " + e.latLng.lng(),
+                state: newState
+              },
+              state: newState
             })
 
           } else {
@@ -162,7 +197,7 @@ function MapComponent(props: Props) {
   }, [])
 
   const clickHandler = () => {
-    if(eventdata.location.latlng) {
+    if (eventdata.location.latlng) {
       close(false)
     } else {
       toast({
@@ -175,9 +210,9 @@ function MapComponent(props: Props) {
       });
     }
   }
-  
-  const { 
-    mainBackgroundColor, 
+
+  const {
+    mainBackgroundColor,
   } = useCustomTheme();
 
   return (

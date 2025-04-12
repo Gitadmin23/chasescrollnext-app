@@ -76,7 +76,7 @@ function SelectTicket(props: Props) {
     }
 
     return (
-        <Flex gap={"3"} position={"relative"} alignItems={"center"} justifyContent={"end"} pl={"5"}  >
+        (<Flex gap={"3"} position={"relative"} alignItems={"center"} justifyContent={"end"} pl={"5"}  >
             <Flex onClick={() => setShowModal(true)} as={"button"} borderColor={"brand.chasescrollBlue"} rounded={"lg"} borderWidth={"1px"} height={"49px"} width={"full"} justifyContent={"center"} alignItems={"center"} >
                 <Text fontSize={"sm"} color={"brand.chasescrollBlue"} >
                     {selectedticket?.ticketType ? selectedticket?.ticketType : "Select Ticket"}{" "}
@@ -113,14 +113,14 @@ function SelectTicket(props: Props) {
                             } else {
                                 return (
                                     // <Flex w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
-                                    <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                    // {/* </Flex> */}
+                                    (<Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} width={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                         {item?.totalNumberOfTickets === item?.ticketsSold ?
                                             "Sold Out" :
                                             item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
                                         }
-                                    </Button>
-                                    // {/* </Flex> */}
-                                )
+                                    </Button>)
+                                );
                             }
                         })}
                     </Flex>
@@ -157,8 +157,8 @@ function SelectTicket(props: Props) {
             {openSignUp && (
                 <SignupModal hide={true} index={data?.id} open={openSignUp} setOpen={signUpHandler} />
             )}
-        </Flex>
-    )
+        </Flex>)
+    );
 }
 
 export default SelectTicket

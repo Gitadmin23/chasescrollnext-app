@@ -49,11 +49,11 @@ function DonateUsers(props: Props) {
 
     return (
         <LoadingAnimation loading={isLoading} >
-            <Flex w={donationDetail ? "full" : "fit-content"} justifyContent={"space-between"} alignItems={"center"} >
+            <Flex w={donationDetail ? "full" : "fit-content"} flexDir={"column"} alignItems={"center"} >
                 {donationDetail && (
                     <Flex flexDir={"column"} >
-                        <Text fontWeight={"600"} >People who donated</Text>
-                        <Text fontSize={"12px"} color={bodyTextColor} >{formatNumber(data?.data?.totalElements, "")} users donated already</Text>
+                        <Text fontWeight={"600"} fontSize={"11px"} >People who donated</Text>
+                        {/* <Text fontSize={"12px"} color={bodyTextColor} >{formatNumber(data?.data?.totalElements, "")} users donated already</Text> */}
                     </Flex>
                 )}
 
@@ -63,7 +63,7 @@ function DonateUsers(props: Props) {
                     }, index: number) => {
                         if (index <= 2) {
                             return (
-                                <Box key={index} ml={index === 0 ? "0px" : "-35px"} >
+                                <Box key={index} ml={index === 0 ? "0px" : "-20px"} >
                                     <UserImage data={item?.buyer} size={size} image={item?.buyer?.data?.imgMain?.value} font={fontSize + "px"} border={border} />
                                 </Box>
                             )

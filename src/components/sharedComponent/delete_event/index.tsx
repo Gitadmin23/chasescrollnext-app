@@ -4,23 +4,39 @@ import { IEventType } from '@/models/Event';
 import { IDonationList } from '@/models/donation';
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Box, Button, Flex, Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverTrigger, Spinner, useToast } from '@chakra-ui/react';
+import { Box, Button, Flex, Image, Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverTrigger, Spinner, useToast, VStack } from '@chakra-ui/react';
 import { AxiosError, AxiosResponse } from 'axios';
 import { usePathname } from 'next/navigation';
 import React, { useState } from 'react'
-import { IoIosMore } from 'react-icons/io';
+import { IoIosClose, IoIosMore } from 'react-icons/io';
 import { useMutation, useQueryClient } from 'react-query';
+import ModalLayout from '../modal_layout';
+import CustomText from '@/components/general/Text';
+import { IoClose } from 'react-icons/io5';
+import { capitalizeFLetter } from '@/utils/capitalLetter';
 
 interface Props {
-    event: IEventType | IDonationList | any,
+    isOrganizer: boolean,
+    id: string,
     draft?: boolean,
-    donation?: boolean
+    isEvent?: boolean,
+    donation?: boolean,
+    isProduct?: boolean,
+    isRental?: boolean,
+    isServices?: boolean,
+    name: string
 }
 
 function DeleteEvent(props: Props) {
     const {
-        event,
+        id,
+        isOrganizer,
+        isProduct,
+        isRental,
+        isServices, 
         draft,
+        isEvent,
+        name,
         donation
     } = props
 
@@ -29,14 +45,14 @@ function DeleteEvent(props: Props) {
     const queryClient = useQueryClient()
     const { userId: user_index } = useDetails((state) => state);
 
-    const {  
+    const {
         secondaryBackgroundColor,
         mainBackgroundColor
     } = useCustomTheme();
 
     // detete event
     const deleteEvent = useMutation({
-        mutationFn: () => httpService.delete((draft ? `/events/delete-draft/${event.id}` : donation ? `/fund-raiser/${event?.id}?id=${event?.id}` : `/events/delete-event/${event.id}`)),
+        mutationFn: () => httpService.delete((draft ? `/events/delete-draft/${id}` : donation ? `/fund-raiser/${id}?id=${id}` : isEvent  ? `/events/delete-event/${id}` : isServices ?  `/business-service/delete/${id}` : isRental ? `/rental/delete/${id}` : isProduct ? `/products/${id}` : "")),
         onError: (error: AxiosError<any, any>) => {
             toast({
                 title: 'Error',
@@ -56,7 +72,7 @@ function DeleteEvent(props: Props) {
                     isClosable: true,
                     duration: 5000,
                     position: 'top-right',
-                }); 
+                });
             } else {
 
                 toast({
@@ -71,6 +87,11 @@ function DeleteEvent(props: Props) {
             queryClient.refetchQueries(URLS.GET_DRAFT + "?createdBy=" + user_index)
             queryClient.refetchQueries("/events/drafts")
             queryClient.refetchQueries("donationlist")
+            queryClient.refetchQueries("mybusinessservice")
+            queryClient.refetchQueries("getMyProduct")
+            queryClient.refetchQueries("getMyrental")
+            queryClient.refetchQueries("donationlistmy")
+            
 
             queryClient.refetchQueries(URLS.JOINED_EVENT + user_index)
             setOpen(false)
@@ -89,39 +110,25 @@ function DeleteEvent(props: Props) {
         setOpen(true)
     }
 
-    console.log(event);
-    
 
     return (
-        // <Box as='button' onClick={handleDelete} color={"brand.chasescrollRed"} borderWidth={"1px"} borderColor={"brand.chasescrollRed"} fontWeight={"semibold"} width={"fit-content"} display={"flex"} justifyContent={"center"} fontSize={"xs"} px="3" rounded={"full"} alignItems={"center"} disabled={deleteEvent.isLoading} >
-        //     {(deleteEvent.isLoading) && <Spinner size='sm' color="brand.chasesccrollButtonBlue" />}
-        //     {(!deleteEvent.isLoading) && (
-        //         "delete"
-        //     )}
-        // </Box>
         <>
-
-            {((event?.isOrganizer && !pathname?.includes("past")) || pathname?.includes("draft") || pathname?.includes("mydonation")) && (
-                <Flex pos={pathname?.includes("mydonation") ? "relative" : "absolute"} right={pathname?.includes("mydonation") ? "0px" : ["6", "6", "20", "20"]}  zIndex={"100"} top={["6", "6", "1", "1"]} >
-                    <Box>
-                        <Popover isOpen={open} onClose={() => setOpen(false)} >
-                            <PopoverTrigger >
-                                <Button onClick={openHandler} bg={mainBackgroundColor} _hover={{backgroundColor: mainBackgroundColor}}  >
-                                    <IoIosMore size={"30px"} />
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent w={"fit-content"} >
-                                <PopoverArrow />
-                                {/* <PopoverCloseButton />
-                                <PopoverHeader>Confirmation!</PopoverHeader> */}
-                                <PopoverBody w={"fit-content"} pos={"relative"} zIndex={"100"} >
-                                    <Button onClick={handleDelete} fontSize={pathname?.includes("mydonation") ? "12px" : "14px"} isLoading={deleteEvent.isLoading} color={"red"} isDisabled={deleteEvent.isLoading} bg={"transparent"} px={pathname?.includes("mydonation") ? "3" : "6"} >Delete  {pathname?.includes("mydonation") ? "Fundraising" : "Event"}</Button>
-                                </PopoverBody>
-                            </PopoverContent>
-                        </Popover>
-                    </Box>
+            {((isOrganizer && !pathname?.includes("past")) || pathname?.includes("draft") || pathname?.includes("mydonation")) && (
+                <Flex w={"6"} h={"6"} onClick={openHandler} justifyContent={"center"} alignItems={"center"} pos={"absolute"} top={"-14px"} right={"-8px"} zIndex={"50"} bg={"#F2A09B66"} color={"#F50A0A"} rounded={"full"} >
+                    <IoClose size={"14px"} />
                 </Flex>
             )}
+            <ModalLayout open={open} close={setOpen} size={"xs"} >
+                <VStack width='100%' justifyContent={'center'} p={"4"} height='100%' alignItems={'center'} spacing={3}>
+                    <Image alt='delete' src='/assets/images/deleteaccount.svg' />
+                    <CustomText fontWeight={"700"} textAlign={'center'} fontSize={'20px'}>Delete {pathname?.includes("mydonation") ? "Fundraising" : isServices ? "Business" : isProduct ? "Product" : isRental ? "Rental" : "Event"}</CustomText>
+                    <CustomText textAlign={'center'} fontSize={'14px'} >Are you sure you want to delete <span style={{ fontWeight: "bold" }} >{capitalizeFLetter(name)}</span>, this action cannot be undone.</CustomText>
+                    <Button isDisabled={deleteEvent.isLoading} onClick={handleDelete} isLoading={deleteEvent.isLoading} fontSize={"14px"} width='100%' height='42px' bg='red' color="white" variant='solid'>Delete</Button>
+                    <Button onClick={() => setOpen(false)} width='100%' height='42px' borderWidth={'0px'} color="grey">Cancel</Button>
+                </VStack>
+            </ModalLayout>
+
+            {/* <Button onClick={handleDelete} fontSize={pathname?.includes("mydonation") ? "12px" : "14px"} isLoading={deleteEvent.isLoading} color={"red"} isDisabled={deleteEvent.isLoading} bg={"transparent"} px={pathname?.includes("mydonation") ? "3" : "6"} >Delete  {pathname?.includes("mydonation") ? "Fundraising" : "Event"}</Button> */}
         </>
     )
 }

@@ -1,3 +1,4 @@
+"use client"
 import { AddChatIcon, SearchTwoIcon } from '@/components/svg'
 import useCustomTheme from '@/hooks/useTheme'
 import { Box, Button, Flex, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, Portal, Text, useDisclosure } from '@chakra-ui/react'

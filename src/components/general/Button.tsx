@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react'
 import { ButtonProps, Button as ChakraButton, Box } from '@chakra-ui/react' 
+import useCustomTheme from '@/hooks/useTheme';
 
 interface IProps {
   type?: 'button' | 'submit';
@@ -8,8 +9,11 @@ interface IProps {
   color?: string | Array<string>;
   borderRadius?: string;
   width?: any;
-  fontSize?: "9px" | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  height?: string;
+  fontSize?: any;
+  borderTopRadius?: any;
+  borderBottomLeftRadius?: any;
+  borderBottomRightRadiusborderBottomRightRadius?: any;
+  height?: any;
   shadow?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none';
   isLoading?: boolean;
   variant?: 'solid' | 'outline' | 'ghost' | 'link';
@@ -23,6 +27,9 @@ function CustomButton({
   backgroundColor,
   color = 'white',
   borderRadius = '12px',
+  borderTopRadius,
+  borderBottomLeftRadius,
+  borderBottomRightRadius,
   width = 'full',
   height = '45px',
   shadow = 'none',
@@ -34,6 +41,7 @@ function CustomButton({
   ...rest
 }: IProps & ButtonProps) { 
   
+  const { primaryColor } = useCustomTheme()
 
   return (
     <ChakraButton
@@ -45,16 +53,18 @@ function CustomButton({
       height={height}
       color={color}
       fontSize={fontSize}
-      borderRadius={borderRadius}
+      // borderRadius={borderRadius}
+      borderTopRadius={borderTopRadius ? borderTopRadius : borderRadius}
+      borderBottomLeftRadius={borderBottomLeftRadius ? borderBottomLeftRadius : borderRadius}
+      borderBottomRightRadius={borderBottomRightRadius ? borderBottomRightRadius : borderRadius}
       type={type}
       isLoading={isLoading}
       shadow={shadow}
       variant={variant}
-      bgColor={backgroundColor ? backgroundColor : "brand.chasescrollButtonBlue"}
+      bgColor={backgroundColor ? backgroundColor : primaryColor}
       _hover={{
         backgroundColor: backgroundColor
-      }}
-      fontFamily={'DM-Regular'}
+      }} 
     >
       {icon && (
         <>

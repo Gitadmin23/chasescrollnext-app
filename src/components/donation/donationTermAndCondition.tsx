@@ -110,32 +110,51 @@ If you have questions or concerns about these Terms and Conditions, please conta
 us at: support@chasescroll.com
 `;
 
+    const termsAndConditionsNew = `
+Donating to a Fundraising Campaign on Chasescroll
+
+7.0. Making Donations
+•	All donations are voluntary and non-refundable unless explicitly stated otherwise.
+•	Donations are processed securely through our payment partners.
+•	You acknowledge that donations do not guarantee any goods, services, or tax benefits unless otherwise specified.
+
+7.1. Use of Funds
+•	Campaign organizers are responsible for the appropriate use of the funds raised.
+•	Chasescroll does not guarantee the accuracy of campaign statements or the intended use of funds.
+
+7.2. Refund Policy
+•	Refund requests are subject to approval and must be submitted within 24hrs from the date of donation.
+•	Refunds may be granted in cases of fraudulent campaigns or if the campaign is canceled by the campaign organizer. Chasescroll is not responsible for refunds.
+
+7.3. Prohibited Activities
+You agree not to:
+•	Make donations using fraudulent methods or stolen payment information.
+•	Use the platform to launder money or engage in illegal activities.
+•	Misrepresent the purpose of a donation.
+
+7.4. Dispute Resolution
+•	In case of disputes, we encourage donors and campaign organizers to resolve issues directly.
+•	If no resolution is reached, you may submit a dispute through our platform for mediation.
+
+7.5. Limitation of Liability
+Chasescroll is not liable for any misuse of funds, fraudulent campaigns, or losses incurred as a result of donations. Our liability is limited to the amount of fees collected for processing the donation
+`
+
 
     return (
-        <Flex  >
+        (<Flex  >
             {refund && (
-                <Text onClick={() => setOpen(true)} as={"button"} textDecor={"underline"} fontWeight={"bold"} fontSize={"12px"} color={primaryColor} >Fundraising refund policy</Text>
+                <Text onClick={() => setOpen(true)} as={"button"} textDecor={"underline"} fontWeight={"bold"} fontSize={"12px"} color={primaryColor} >Fundraising Terms And Conditions</Text>
             )}
             {!refund && (
                 <Text onClick={() => setOpen(true)} as={"button"} textDecor={"underline"} fontWeight={"bold"} fontSize={"12px"} color={primaryColor} >Fundraising Terms And Conditions</Text>
             )}
-            <ModalLayout size={refund ? "md" : "2xl"} open={open} close={setOpen} >
-                <Box width={"full"} bg={mainBackgroundColor} px={["0px", "8", "8"]} pt={"3"} pb={"4"} >
+            <ModalLayout size={["full", "full", "2xl"]} open={open} close={setOpen} >
+                <Box width={"full"} h={["100vh", "100vh", "full"]} bg={mainBackgroundColor} px={["0px", "8", "8"]} pt={"3"} pb={"4"} >
                     <Box display={"flex"} fontWeight={"medium"} flexDirection={"column"} fontSize={"sm"} px={"3"} py={"5"} >
 
-                        <Text fontSize={["18px", "24px", "24px"]} fontWeight={"bold"} lineHeight={"28.8px"} textAlign={"center"} >{refund ? "Fundraising refund policy" : "Fundraising Terms And Conditions"}</Text>
+                        <Text fontSize={["18px", "24px", "24px"]} fontWeight={"bold"} lineHeight={"28.8px"} textAlign={"center"} >{refund ? "Fundraising Terms And Conditions" : "Fundraising Terms And Conditions"}</Text>
                         {refund && (
-                            <Text my={"3"} lineHeight={"22px"} >
-                                Donors Responsibilities <br />
-                                5.1. Contributions are voluntary, and donors should ensure they understand the campaign details before donating.<br />
-                                5.2. Donations may not be refundable unless explicitly stated or required by the organizer.<br />
-                                5.3. Donors should report suspected fraudulent campaigns to the platform.<br />
-                                5.4. The platform is not responsible for cancellations, postponements, or inaccuracies in fundraising listings.<br />
-                                5.5. The platform is not liable for donation disputes between organizers and donors.<br />
-                            </Text>
-                        )}
-                        {!refund && (
-
                             <Box
                                 my={"3"} lineHeight={"22px"}
                                 whiteSpace="pre-wrap"
@@ -143,7 +162,21 @@ us at: support@chasescroll.com
                                 borderWidth="1px"
                                 borderRadius="md"
                                 overflowY="auto"
-                                maxH={"65vh"}
+                                maxH={["75vh", "75vh", "60vh"]}
+                                fontSize="sm"
+                            >
+                                {termsAndConditionsNew}
+                            </Box>
+                        )}
+                        {!refund && ( 
+                            <Box
+                                my={"3"} lineHeight={"22px"}
+                                whiteSpace="pre-wrap"
+                                p={[2, 4, 4]}
+                                borderWidth="1px"
+                                borderRadius="md"
+                                overflowY="auto"
+                                maxH={["75vh", "75vh", "60vh"]}
                                 fontSize="sm"
                             >
                                 {termsAndConditions}
@@ -237,6 +270,6 @@ us at: support@chasescroll.com
                     </Box>
                 </Box>
             </ModalLayout>
-        </Flex>
-    )
+        </Flex>)
+    );
 }

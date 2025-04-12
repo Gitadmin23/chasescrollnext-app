@@ -41,7 +41,7 @@ export default function UserComment() {
         } = props
 
         return (
-            <Flex w={"399px"} h={"330px"} pb={"6"} pt={"4"} flexDir={"column"} pos={"relative"} rounded={"14px"} borderWidth={"1px"} borderColor={"#E2E8F0"} >
+            <Flex w={"399px"} h={"330px"} pb={"6"} bgColor={"white"} pt={"4"} flexDir={"column"} pos={"relative"} rounded={"14px"} borderWidth={"1px"} borderColor={"#E2E8F0"} >
                 <Flex px={"6"} pt={"2"} w={"full"} h={"200px"} justifyContent={"center"} alignItems={"center"} overflowY={"auto"} >
                     <Text fontSize={"17.3px"} lineHeight={"28px"} letterSpacing={"-0.18px"} >{detail}</Text>
                 </Flex>
@@ -221,10 +221,10 @@ export default function UserComment() {
             </Flex>
             <Flex w={"full"} justifyContent={"end"} gap={"4"} px={"12"} >
                 <Box onClick={() => scroll(-400)} as="button" w={"40px"} h={"40px"} rounded={"full"} >
-                    <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
+                    <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" alt="arrow" />
                 </Box>
                 <Box onClick={() => scroll(400)} transform={"rotate(180deg)"} as="button" w={"40px"} h={"40px"} rounded={"full"} >
-                    <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
+                    <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" alt="arrowrigth" />
                 </Box>
             </Flex>
         </Flex>

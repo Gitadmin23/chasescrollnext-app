@@ -4,7 +4,8 @@ import EventCategory from '@/components/event_component/event_category';
 import EventListing from '@/components/event_component/event_listing';
 import useEventStore from '@/global-state/useCreateEventState';
 import useSearchStore from '@/global-state/useSearchData';
-import { Box } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
+import { useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react'
 
 function EventComponent() {
@@ -64,20 +65,18 @@ function EventComponent() {
       collaborators: [],
       admins: [],
       acceptedAdmins: [],
-      acceptedCollaborators: []
+      acceptedCollaborators: [],
+      affiliates: [] as any
     });
   }, [])
 
   return (
-    <Box width={"full"}>
-      {/* <Box w={"full"} h={"100px"} bgColor={"orange"} > */}
-        <EventCategory eventpage={true} />
-      {/* </Box> */}
+    <Flex width={"full"} flexDir={"column"} >
       {!event_category && (
         <EventCarousel />
       )}
       <EventListing landing={true} eventdashboard={true} />
-    </Box>
+    </Flex>
   )
 }
 

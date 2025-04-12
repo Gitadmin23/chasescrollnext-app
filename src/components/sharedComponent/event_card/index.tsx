@@ -442,14 +442,7 @@ function ExploreEventCard(props: Props) {
                                         locationType={event?.locationType}
                                         isLimited={true}
                                     />
-                                </Text>
-                                {/* <Text color={primaryColor} display={["none", "none", "none", "block", "block"]} fontWeight={"600"} fontSize={"14px"} >
-                                    <EventPrice
-                                        minPrice={event?.minPrice}
-                                        maxPrice={event?.maxPrice}
-                                        currency={event?.currency}
-                                    />
-                                </Text> */}
+                                </Text> 
                             </Flex>
                             {eventdashboard && (
                                 <Box width={"fit-content"} >

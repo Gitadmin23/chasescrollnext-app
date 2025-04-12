@@ -3,11 +3,12 @@ import ConnectedUser from '@/components/profile_component/connected_user'
 import RequestUser from '@/components/profile_component/request_user'
 import { useDetails } from '@/global-state/useUserDetails'
 import { Box, Button, Flex, useColorMode } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useState, use } from 'react';
 import { useSearchParams } from 'next/navigation';
 import useCustomTheme from '@/hooks/useTheme'
 
-function Network({ params }: { params: { slug: string } }) {
+function Network(props: { params: Promise<{ slug: string }> }) {
+    const params = use(props.params);
 
     const [tab, setTab] = useState(false)
     const { userId } = useDetails((state) => state);

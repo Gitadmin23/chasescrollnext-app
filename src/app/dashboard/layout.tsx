@@ -1,8 +1,8 @@
 "use client"
 import { useDetails } from '@/global-state/useUserDetails'
-import { Box, Button, Flex, HStack, Image, Link, Switch, Tooltip, VStack, useColorMode } from '@chakra-ui/react'
+import { Box, Button, Flex, Grid, HStack, Image, Link, Switch, Text, Tooltip, VStack, useColorMode } from '@chakra-ui/react'
 import React, { ReactNode, useState } from 'react'
-import { NewChatIcon, NewWalletIcon, NotificationIcon, SidebarCalendarIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarSearchIcon, SidebarWalletIcon } from '@/components/svg/sidebarIcons';
+import { KisokIcon, NewChatIcon, NewWalletIcon, NotificationIcon, SidebarCalendarIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarSearchIcon, SidebarWalletIcon } from '@/components/svg/sidebarIcons';
 import { usePathname, useRouter } from 'next/navigation';
 import SearchBar from '@/components/explore_component/searchbar';
 import { signOut, useSession } from 'next-auth/react';
@@ -60,6 +60,11 @@ export default function Layout({ children }: {
             text: 'Chats'
         },
         {
+            route: '/dashboard/kisok',
+            icon: <KisokIcon color={pathname?.includes('kisok') ? true : false} />,
+            text: 'Business'
+        },
+        {
             route: '/dashboard/community',
             icon: <SidebarEventIcon color={pathname === "/dashboard/community" ? true : false} />,
             text: 'Community'
@@ -115,11 +120,10 @@ export default function Layout({ children }: {
         }
     }, [STATUS, router]);
 
-    const { count } = useNotificationHook()
-
+    const { count } = useNotificationHook() 
 
     return (
-        <Flex w={"full"} h={"100vh"} overflowY={"hidden"} bg={mainBackgroundColor} >
+        (<Flex w={"full"} h={"100vh"} overflowY={"hidden"} bg={mainBackgroundColor} >
             {(pathname !== ("/dashboard/donation/create") && !pathname?.includes("/donation/edit") && pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) && (
                 <Flex w={"fit-content"} h={"screen"} display={["none", "none", "none", "flex", "flex"]} >
                     <Flex w={"110px"} h={"screen"} gap={"4"} overflowY={"auto"} flexDir={"column"} py={"4"} alignItems={"center"} justifyContent={"space-between"} borderRightColor={borderColor} borderRightWidth={"1px"} >
@@ -129,7 +133,7 @@ export default function Layout({ children }: {
                         <Flex flexDir={"column"} alignItems={"center"} gap={"3"} >
 
                             {routes?.map((item, index) => (
-                                <>
+                                <Flex key={index}>
                                     {item?.text !== "Notification" && (
                                         <Flex as={"button"} onClick={() => router?.push(item?.route)} key={index} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
                                             <Tooltip label={item?.text} fontSize='sm'>
@@ -153,7 +157,7 @@ export default function Layout({ children }: {
                                             )}
                                         </Flex>
                                     )}
-                                </>
+                                </Flex>
                             ))}
 
                         </Flex>
@@ -189,10 +193,13 @@ export default function Layout({ children }: {
             <Flex w={"full"} height={"100vh"} pos={"relative"} flexDirection={"column"} >
                 {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion") && !pathname?.includes("/donation/create") && !pathname?.includes("/donation/edit")) && (
                     <Flex w={"full"} h={"76px"} pos={['fixed', 'fixed', 'fixed', "sticky", "sticky"]} bgColor={mainBackgroundColor} zIndex={"100"} insetX={"0px"} top={"0px"} borderBottomColor={borderColor} borderBottomWidth={"1px"} alignItems={"center"} px={"6"} justifyContent={"space-between"}  >
-                        {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft") && (
+                        {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft" && !pathname?.includes("kisok")) && (
                             <Box display={["none", "none", "none", "flex", "flex"]} >
-                                <SearchBar fundraising={pathname?.includes("/donation")} change={pathname?.includes("/donation")? true: false} />
+                                <SearchBar fundraising={pathname?.includes("/donation")} change={pathname?.includes("/donation") ? true : false} />
                             </Box>
+                        )}
+                        {pathname?.includes("kiso") && (
+                            <Text display={["none", "none", "none", "flex", "flex"]} fontSize={"24px"} fontWeight={"700"} >Chasescroll <span style={{ color: primaryColor }} >Business</span></Text>
                         )}
                         <Flex as={"button"} onClick={() => router?.push("/dashboard")} display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"2"} >
                             <Image alt='logo' src='/images/logo.png' w={"35.36px"} />
@@ -201,17 +208,17 @@ export default function Layout({ children }: {
                         <Flex ml={"auto"} gap={"3"} display={["none", "none", "none", "flex", "flex"]} >
                             <CreateEventBtn btn={true} />
 
-                            {/* <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} pos={"relative"} height={"45px"} zIndex={"20"} width={"180px"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor :headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
+                            <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} pos={"relative"} height={"45px"} zIndex={"20"} width={"180px"} bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor : headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
                                 Fundraising
-                            </Flex> */}
+                            </Flex>
                             {/* <CustomButton onClick={() => router.push('/dashboard/donation')} pos={"relative"} zIndex={"20"} width={"180px"} backgroundColor={secondaryBackgroundColor} color={headerTextColor} text={"Fundraising"} borderRadius={"full"} /> */}
                         </Flex>
                         <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"3"} >
                             <CreateEventBtn mobile={true} />
 
-                            {/* <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} fontSize={"xs"} pos={"relative"} height={"35px"} zIndex={"20"} width={"fit-content"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor : headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
+                            <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} fontSize={"xs"} pos={"relative"} height={"35px"} zIndex={"20"} width={"fit-content"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor : headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
                                 Fundraising
-                            </Flex> */}
+                            </Flex>
                             {/* <Flex zIndex={20} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
 
                                 <Flex onClick={() => router?.push("/dashboard/chats")} h={"20px"} alignItems={"center"} as='button' >
@@ -234,16 +241,29 @@ export default function Layout({ children }: {
                 {(pathname !== ("/dashboard/donation/create") && !pathname?.includes("/donation/edit") && pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? (
                     // <Flex w={"full"} h={"full"} pb={["70px", "70px", "70px", "0px", "0px"]} top={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" :["76px", "76px", "76px", "0px", "0px"]} overflowY={"hidden"} >
 
-                    <Flex w={"full"} h={"auto"} bottom={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"76px"} insetX={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" : "0px"} overflowY={"hidden"} >
+                    (<Flex w={"full"} h={"auto"} zIndex={"20"} bottom={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"72px"} insetX={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" : "0px"} overflowY={"hidden"} >
                         {children}
-                    </Flex>
+                    </Flex>)
                 ) : (
-                    <Flex w={"full"} h={["100vh"]} pb={["70px", "70px", "70px", "0px", "0px"]} overflowY={"hidden"} >
+                    <Flex w={"full"} h={["100vh"]} zIndex={"20"} pb={["70px", "70px", "70px", "0px", "0px"]} overflowY={"hidden"} >
                         {children}
                     </Flex>
                 )}
+                <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} bgColor={colorMode !== "dark" ?  "transparent" : "#000"} opacity={colorMode !== "dark" ? "100%" : "15%"} pos={"absolute"} inset={"0px"} w={"full"} h={"full"} overflow={"hidden"} > 
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} /> 
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} /> 
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} /> 
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} /> 
+                        <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} /> 
+                </Grid>
             </Flex>
-
             <HStack paddingX='20px' zIndex={"100"} position={"fixed"} bottom={"0px"} justifyContent={'space-evenly'} width='100%' height='70px' bg={mainBackgroundColor} borderTopWidth={1} borderTopColor={borderColor} display={['flex', 'flex', 'flex', 'none']}>
                 <Link href='/dashboard'>
                     <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname === "/dashboard" ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname === "/dashboard" ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
@@ -251,15 +271,15 @@ export default function Layout({ children }: {
                     </VStack>
                 </Link>
 
-                <Link href='/dashboard/explore'>
-                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('explore') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('explore') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                        <SearchNormal1 size='20px' />
+                <Link href='/dashboard/kisok'>
+                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('kisok') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('explore') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+                        <KisokIcon size='20px' color={pathname?.includes('kisok') ? true : false} />
                     </VStack>
                 </Link>
 
                 <Link href='/dashboard/event'>
                     <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('event') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('event') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                        <Calendar size='20px' />
+                        <SidebarCalendarIcon size='20px' color={pathname?.includes("event") ? true : false} />
                     </VStack>
                 </Link>
 
@@ -328,10 +348,9 @@ export default function Layout({ children }: {
                     </VStack>
                 </VStack>
             </ModalLayout>
-
             <ModalLayout open={notifyModal} size={["full", "xl", "xl"]} title={"Notification"} close={setNotifyModal} >
                 <NotificationBar />
             </ModalLayout>
-        </Flex>
-    )
+        </Flex>)
+    );
 }

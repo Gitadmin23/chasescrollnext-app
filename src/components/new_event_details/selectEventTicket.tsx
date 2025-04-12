@@ -4,16 +4,16 @@ import GoogleBtn from '@/components/sharedComponent/googlebtn'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { useDetails } from '@/global-state/useUserDetails'
 import { formatNumber } from '@/utils/numberFormat'
-import { Box, Button, Flex, Text, useColorMode, useToast } from '@chakra-ui/react'
-import { useRouter } from 'next/navigation'
+import { Box, Button, Flex, Text, useToast } from '@chakra-ui/react'
+import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { LiaAngleDownSolid } from 'react-icons/lia'
 import useCustomTheme from "@/hooks/useTheme";
 import { dateFormat, timeFormat } from '@/utils/dateFormat'
 import SignupModal from '@/app/auth/component/signupModal'
 import { IEventType } from '@/models/Event'
-import useModalStore from '@/global-state/useModalSwitch'
-import { IoClose } from 'react-icons/io5'
+import useModalStore from '@/global-state/useModalSwitch' 
+import { formatNumberWithK } from '@/utils/formatNumberWithK'
 
 interface Props {
     ticket: any,
@@ -28,14 +28,17 @@ function SelectTicket(props: Props) {
         data
     } = props
 
-    const {
-        headerTextColor,
-        primaryColor,
-        secondaryBackgroundColor,
+    const { 
+        primaryColor, 
         mainBackgroundColor,
         borderColor,
     } = useCustomTheme();
-    // const { colorMode, toggleColorMode } = useColorMode();
+    // const { colorMode, toggleColorMode } = useColorMode(); 
+    const param = useParams();
+    const id = param?.slug
+
+    console.log(id);
+    
 
     const [showModal, setShowModal] = React.useState(false)
 
@@ -82,16 +85,16 @@ function SelectTicket(props: Props) {
             clickHandler(ticket[0])
         }
     }, [ticket]) 
- 
+    
     return (
         <Flex gap={"3"} position={"relative"} flexDir={"column"} alignItems={"center"} justifyContent={"end"}  >
             {ticket?.length > 1 ? (
                 <Flex onClick={() => setShowModal((prev) => !prev)} as={"button"} w={"full"} borderWidth={"1px"} justifyContent={"space-between"} alignItems={"center"} borderColor={"#EAEBEDCC"} rounded={"12px"} p={"5"} >
                     <Flex flexDir={"column"} textAlign={"left"} gap={"1"}  >
                         <Text fontSize={"14px"} >Ticket Type</Text>
-                        <Text fontWeight={"bold"} color={primaryColor}>
+                        <Text fontWeight={"bold"} fontSize={["14px", "14px", "16px"]} color={primaryColor}>
                             {ticketType?.ticketType ? ticketType?.ticketType : "Select Ticket"}{" "}
-                            {ticketType?.ticketType ? formatNumber(ticketType?.ticketPrice, currency === "USD" ? "$" : "₦") : ""}
+                            {ticketType?.ticketType ? formatNumberWithK(ticketType?.ticketPrice) : ""}
                         </Text>
                     </Flex>
                     <Flex transform={showModal ? "rotate(180deg)" : "rotate(0deg)"} > 
@@ -100,31 +103,29 @@ function SelectTicket(props: Props) {
                 </Flex>
             ) : (
                 <Flex w={"full"} flexDir={"column"} >
-                    {ticket?.map((item: any, index: number) => {
-                        if (item?.ticketType === "Early Bird") {
-                            // if ((new Date() >= new Date(item?.startDate)) && new Date() <= new Date(item?.endDate)) {
-                            return ( 
+                    {ticket?.map((item: any, index: number) => { 
+                        if (item?.ticketType === "Early Bird") { 
+                            return (
+
                                 <Flex key={index} w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
                                     <Button color={primaryColor} isDisabled={(item?.totalNumberOfTickets === item?.ticketsSold) || !(new Date() <= new Date(item?.endDate))} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                         {item?.totalNumberOfTickets === item?.ticketsSold ?
                                             "Sold Out" :
-                                            item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
+                                            item?.ticketType + " " + formatNumberWithK(item?.ticketPrice)
                                         }
                                     </Button>
                                     <Text color={"white"} px={"2"} rounded={"4px"} bg={"red"} textAlign={"center"} fontSize={"12px"} >Ends: {dateFormat(item?.endDate)} {timeFormat(item?.endDate)}</Text>
                                 </Flex>
-                            )
-                            // }
+                            ) 
                         } else {
-                            return (
-                                // <Flex w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
-                                <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                            return ( 
+                                (<Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                     {item?.totalNumberOfTickets === item?.ticketsSold ?
                                         "Sold Out" :
-                                        item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
+                                        item?.ticketType + " " + formatNumberWithK(item?.ticketPrice)
                                     }
-                                </Button>
-                            )
+                                </Button>)
+                            );
                         }
                     })}
                 </Flex>
@@ -142,7 +143,7 @@ function SelectTicket(props: Props) {
                                         <Button color={primaryColor} isDisabled={(item?.totalNumberOfTickets === item?.ticketsSold) || !(new Date() <= new Date(item?.endDate))} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                             {(item?.totalNumberOfTickets === item?.ticketsSold) ?
                                                 "Sold Out" :
-                                                item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
+                                                item?.ticketType + " " + formatNumberWithK(item?.ticketPrice)
                                             }
                                         </Button>
                                         <Text color={"white"} px={"2"} rounded={"4px"} bg={"red"} textAlign={"center"} fontSize={"12px"} >Ends: {dateFormat(item?.endDate)} {timeFormat(item?.endDate)}</Text>
@@ -151,13 +152,13 @@ function SelectTicket(props: Props) {
                             } else {
                                 return (
                                     // <Flex w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
-                                    <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                    (<Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                         {item?.totalNumberOfTickets === item?.ticketsSold ?
                                             "Sold Out" :
-                                            item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
+                                            item?.ticketType + " " + formatNumberWithK(item?.ticketPrice)
                                         }
-                                    </Button>
-                                )
+                                    </Button>)
+                                );
                             }
                         })}
                     </Flex>
@@ -172,11 +173,11 @@ function SelectTicket(props: Props) {
                         <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"32px"} >Get Ticket</Text>
                         <Text color={"#626262"} textAlign={"center"}>Please choose your option and proceed with Chasescroll.</Text>
                     </Flex>
-                    <GoogleBtn newbtn title='Sign in' id={data?.id ? true : false} index={data?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' />
+                    <GoogleBtn affiliate={data?.affiliateID} newbtn title='Sign in' id={data?.id ? true : false} index={data?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' />
                     <Flex justifyContent={"center"} gap={"2px"} alignItems={"center"} >
                         <Text color={"#BCBCBC"} fontSize={"14px"} lineHeight={"19.6px"} >OR</Text>
                     </Flex>
-                    <Button onClick={() => router.push("/share/auth/temporary-account/?type=EVENT&typeID=" + data?.id)} backgroundColor={"#EDEFFF"} color={"#5465E0"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#EDEFFF"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#EDEFFF" }} justifyContent={"center"} alignItems={"center"} >
+                    <Button onClick={() => router.push("/share/auth/temporary-account/?type=EVENT&typeID=" + data?.id+(data?.affiliateID? "&affiliate="+data?.affiliateID : ""))} backgroundColor={"#EDEFFF"} color={"#5465E0"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#EDEFFF"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#EDEFFF" }} justifyContent={"center"} alignItems={"center"} >
                         <Text textAlign={"center"} fontWeight={"600"} >Get Temporary Account</Text>
                     </Button>
                     <Button onClick={() => signUpHandler(true)} color={"white"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
@@ -187,7 +188,7 @@ function SelectTicket(props: Props) {
                         <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'} marginLeft='0px'>
                             Already have an account?
                         </CustomText>
-                        <CustomText onClick={() => router.push("/share/auth/login/?type=EVENT&typeID=" + data?.id)} fontWeight={"700"} ml={"4px"} fontSize={'sm'} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} cursor='pointer'>Log in</CustomText>
+                        <CustomText onClick={() => router.push("/share/auth/login/?type=EVENT&typeID=" + data?.id+(data?.affiliateID? "&affiliate="+data?.affiliateID : ""))} fontWeight={"700"} ml={"4px"} fontSize={'sm'} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} cursor='pointer'>Log in</CustomText>
                     </Flex>
                 </Flex>
             </ModalLayout>
@@ -195,7 +196,7 @@ function SelectTicket(props: Props) {
                 <SignupModal hide={true} index={data?.id} open={openSignUp} setOpen={signUpHandler} />
             )}
         </Flex>
-    )
+    );
 }
 
 export default SelectTicket

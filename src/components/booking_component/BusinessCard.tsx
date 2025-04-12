@@ -1,16 +1,25 @@
 import useCustomTheme from '@/hooks/useTheme'
-import { IBuisness } from '@/models/Business'
 import { IService } from '@/models/Service'
 import { IMAGE_URL, RESOURCE_BASE_URL } from '@/services/urls'
-import httpService from '@/utils/httpService'
 import { VStack, HStack, Box, Text, Image, Flex, useToast, Button } from '@chakra-ui/react'
 import moment from 'moment'
 import { useRouter, usePathname } from 'next/navigation'
 import React from 'react'
-import { useQuery } from 'react-query'
 import BlurredImage from '../sharedComponent/blurred_image'
+import { FiMapPin } from 'react-icons/fi'
+import { ArrowLeft2, Star1 } from "iconsax-react";
+import { TiTick } from "react-icons/ti";
+import { formatNumber } from '@/utils/numberFormat'
+import UserImage from '../sharedComponent/userimage'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
+import { textLimit } from '@/utils/textlimit'
+import ProductImageScroller from '../sharedComponent/productImageScroller'
+import { LocationStroke } from '../svg'
+import DeleteEvent from '../sharedComponent/delete_event'
+import { IoMdCheckmark } from 'react-icons/io'
 
-function BusinessCard({ business }: { business: IBuisness }) {
+function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }: { business: IService, mybusiness?: boolean, isSelect?: boolean, selected?: any, setSelected?: any }) {
+    const [activeImageIndex, setActiveImageIndex] = React.useState(0);
 
     const [services, setServices] = React.useState<IService[]>([]);
 
@@ -18,44 +27,22 @@ function BusinessCard({ business }: { business: IBuisness }) {
     const router = useRouter();
     const path = usePathname();
 
-    // query
-
-    const getOtherService = useQuery([`get-vendorService-${business?.id}`, business], () => httpService.get(`/business-service/search`, {
-        params: {
-            vendorID: business?.id,
-        }
-    }), {
-        enabled: business !== null,
-        refetchOnMount: true,
-        onSuccess: (data) => {
-            console.log(data?.data);
-            if (data?.data?.content?.length < 1) {
-                toast({
-                    title: 'No service found',
-                    description: 'Service not found',
-                    status: 'warning',
-                    position: 'top-right',
-                    isClosable: true,
+    React.useEffect(() => {
+        if (business?.images?.length > 1) {
+            const interval = setInterval(() => {
+                setActiveImageIndex((prev) => {
+                    if (prev === business?.images.length - 1) {
+                        return 0;
+                    }
+                    return prev + 1;
                 });
-
-                // router.back();
-                return;
-            }
-            const content: Array<IService> = data?.data?.content;
-            setServices(content);
-        },
-        onError: (error: any) => {
-            toast({
-                title: 'Error',
-                description: error?.message,
-                status: 'error',
-                position: 'top-right',
-                duration: 5000,
-                isClosable: true,
-            });
-            // router.back();
+            }, 8000);
+            return () => clearInterval(interval);
         }
-    });
+    }, [])
+
+    // query
+    console.log(business);
 
 
     const {
@@ -66,56 +53,82 @@ function BusinessCard({ business }: { business: IBuisness }) {
         borderColor
     } = useCustomTheme()
 
+    const clickHandler = () => {
+        if (isSelect) {
+            let clone = [...selected]
+
+            if (selected?.includes(business?.id)) {
+                clone = clone?.filter((item: string) => item !== business?.id)
+                setSelected(clone)
+            } else {
+                clone = [...clone, business?.id]
+                setSelected(clone)
+            }
+        } else {
+            if (mybusiness) {
+                router.push(`/dashboard/kisok/service/${business?.id}/edit`)
+            } else {
+                router.push(`/dashboard/kisok/service/${business?.id}`)
+            }
+        }
+    }
+
+
     return (
-        <VStack style={{boxShadow: "0px 4px 4px 0px #0000000D"}} w='full' h='auto' borderWidth={'0.5px'} borderColor={borderColor} borderRadius={'15px'} p='10px' alignItems={'flex-start'} overflowX={'hidden'}>
-            <HStack w='full'>
-                <Box w='30px' h='30px' borderBottomLeftRadius={'50px'} borderTopLeftRadius={'50px'} borderBottomRightRadius={'50px'} overflow={'hidden'} bg={secondaryBackgroundColor}>
-                <Image onClick={() => router.push(`/dashboard/profile/${business?.createdBy?.userId}`)} src={business?.createdBy?.data?.imgMain?.value ? (business?.createdBy?.data?.imgMain?.value?.startsWith('https://') ? business?.createdBy?.data?.imgMain?.value : `${IMAGE_URL}${business?.createdBy?.data?.imgMain?.value}`) : 'https://ui-avatars.com/api/?background=random'} w='full' h='full' alt='image' />
-                </Box>
-                <VStack spacing={-5} alignItems={'flex-start'}>
-                    <Text onClick={() => router.push(`/dashboard/profile/${business?.createdBy?.userId}`)} cursor='pointer' fontWeight={600} fontSize={'14px'} color={primaryColor}>{business?.createdBy?.firstName} {business?.createdBy?.lastName}</Text>
-                    <Text fontSize={'12px'} color={bodyTextColor}>{moment(business?.createdDate as number).fromNow()}</Text>
-                </VStack>
-            </HStack>
-
-            <Box onClick={() => router.push(`/dashboard/newbooking/details/${business?.id}`)} cursor='pointer'  w='full' h='200px' borderRadius={'10px'} overflow={'hidden'}>
-                <BlurredImage forEvent={false} image={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage}  height={'100%'}/>
-            
-                {/* <Image onClick={() => router.push(`/dashboard/newbooking/details/${business?.id}`)} cursor='pointer' src={business?.bannerImage.startsWith('https://') ? business?.bannerImage : (IMAGE_URL as string) + business?.bannerImage} alt="banner image" w='full' h='full' objectFit={'cover'} /> */}
-            </Box>
-
-            <VStack spacing={-3} alignItems={'flex-start'}>
-                <Text fontWeight={400} fontSize={'12px'}>Business Name</Text>
-                <Text fontWeight={600} fontSize={'14px'}>{business?.businessName}</Text>
-
-            </VStack>
-
-            <Box pb='5px' borderBottomWidth={'0.5px'} borderBottomColor={borderColor} w='full'>
-                <Text fontWeight={400} fontSize={'12px'}>{business?.description}</Text>
-            </Box>
-
-            <VStack spacing={-5} alignItems={'flex-start'} w='full'>
-                <Text fontWeight={400} fontSize={'12px'}>Services</Text>
-                <Flex w='full' h='auto' overflowX={'auto'} gap={3} mt='10px' css={{
-                    '&::-webkit-scrollbar': {
-                        display: 'none'
-                    },
-                    scrollbarWidth: 'none',
-                    '-ms-overflow-style': 'none',
-                    whiteSpace: 'nowrap'
-                }}>
-                    {services?.length > 0 && services?.map((item, index) => (
-                        <VStack key={index} w='auto' h='25px' px='10px' borderRadius={'full'} borderWidth={'1px'} borderColor={borderColor} justifyContent={'center'} alignItems={'center'} flexShrink={0}>
-                            <Text fontWeight={300} fontSize='12px'>{item?.service?.category}</Text>
-                        </VStack>
-                    ))}
+        <Flex as={"button"} flexDir={"column"} pos={"relative"} onClick={() => clickHandler()} borderWidth={"1px"} bgColor={mainBackgroundColor} rounded={"10px"} w={"full"} >
+            {!isSelect && (
+                <DeleteEvent id={business?.id} isServices={true} name={business?.name + " Services"} isOrganizer={mybusiness ? true : false} />
+            )}
+            {isSelect && (
+                <Flex pos={"absolute"} zIndex={"30"} top={"3"} right={"3"} w={"5"} h={"5"} justifyContent={"center"} alignItems={"center"} bgColor={selected?.includes(business?.id) ? primaryColor : "white"} rounded={"6px"} >
+                    <IoMdCheckmark size={"15px"} color='white' />
                 </Flex>
-            </VStack>
-            <Box h='10px' />
-            <Button onClick={() => router.push(`/dashboard/newbooking/details/${business?.id}`)} w='full' h='45px' borderRadius='full' borderWidth={'1px'} borderColor={primaryColor} bg={"#F7FBFE"} _hover={{ backgroundColor: "#F7FBFE" }}>
-                <Text fontSize={'14px'} color={primaryColor}>View Business</Text>
-            </Button>
-        </VStack>
+            )}
+            <ProductImageScroller images={business?.images} createdDate={isSelect ? "" : moment(business?.createdDate)?.fromNow()} userData={business?.vendor} />
+            <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", isSelect ? "2" : "0px"]}  >
+                <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(business?.name), 20)}</Text>
+                <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(business?.name), 16)}</Text>
+                <Flex gap={"1"} w={"full"} flexDir={["column", "column", "row"]} justifyContent={"space-between"} alignItems={["start", "start", "center"]} >
+                    <Flex flexDir={"column"} alignItems={'flex-start'}>
+                        <Text fontWeight={400} fontSize={'12px'}>Service offering</Text>
+                        <Text fontWeight={600} textAlign={"left"} fontSize={'12px'}>{textLimit(business?.category, 15)}</Text>
+                    </Flex>
+                    {!isSelect && (
+                        <Flex gap={"2"} display={["none", "none", "flex"]} >
+                            <Flex alignItems={'center'} px={"2"} h={"27px"} w={"fit-content"} rounded={"13px"} borderWidth={"0.86px"} >
+                                {business.totalBooking > 0 && <Text fontWeight={400} fontSize={'8px'} >{business?.totalBooking === 0 ? 0 : business?.totalBooking} clients served</Text>}
+                                {business.totalBooking === 0 && <Text fontWeight={400} color={primaryColor} fontSize={'8px'} >Ready to serve</Text>}
+                            </Flex>
+                            <Flex rounded={"13px"} px={"1"} h={"23px"} gap={"1"} alignItems={"center"} borderWidth={"0.86px"} >
+                                <Star1 size={20} color='gold' variant="Bold" />
+                                <Text fontSize={'16px'} fontWeight={600}>{business?.rating}</Text>
+                            </Flex>
+                        </Flex>
+                    )}
+                </Flex>
+                {!isSelect && (
+
+                    <Flex w={"full"} gap={["2px", "2px", "1"]} mt={["1", "1", "0px"]} alignItems={"center"} >
+                        <LocationStroke />
+                        <Text fontSize={["12px"]} fontWeight={"500"} color={bodyTextColor} display={["none", "none", "block"]} >{textLimit(business?.location?.locationDetails, 40)}</Text>
+                        <Text fontSize={["10px"]} fontWeight={"500"} color={bodyTextColor} display={["block", "block", "none"]} >{textLimit(business?.location?.locationDetails, 15)}</Text>
+                    </Flex>
+                )}
+                <Flex w={"full"} justifyContent={"end"} >
+                    <Text fontSize={"14px"} fontWeight={"600"} >{formatNumber(business?.price)}</Text>
+                </Flex>
+            </Flex>
+            {(mybusiness && !isSelect) && (
+                <Flex as={"button"} onClick={() => clickHandler()} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                    Edit Service
+                </Flex>
+            )}
+            {(!mybusiness && !isSelect) && (
+                <Flex as={"button"} onClick={() => clickHandler()} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                    View Service
+                </Flex>
+            )}
+        </Flex>
     )
 }
 

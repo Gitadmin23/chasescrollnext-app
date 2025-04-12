@@ -109,13 +109,7 @@ export default function Scanner({
                                 <Spinner />
                                 <CustomText>Verifing Ticket...</CustomText>
                             </VStack>
-                        )}
-                        {/* {!isLoading && isError && !show && (
-                            <Box flex={1}>
-                                <CustomText fontFamily={'DM-Bold'} fontSize={'18px'} textAlign={'center'}>An error occured while scanning the ticket</CustomText>
-                                <Button onClick={retry} width={'100%'} height={'45px'} color={'white'} bg={'brand.chasescrollButtonBlue'}>Retry</Button>
-                            </Box>
-                        )} */}
+                        )} 
                     </ModalBody>
                 </ModalContent>
             </Modal>

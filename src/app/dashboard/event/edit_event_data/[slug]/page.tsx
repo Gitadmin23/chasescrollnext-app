@@ -10,12 +10,13 @@ import { IUser } from '@/models/User'
 import { URLS } from '@/services/urls'
 import httpService from '@/utils/httpService'
 import { Box, Flex, useColorMode, useToast } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useState, use } from 'react';
 import { focusManager, useQuery } from 'react-query'
 
 interface Props { }
 
-function EditEvent({ params }: { params: { slug: string } }) {
+function EditEvent(props: { params: Promise<{ slug: string }> }) {
+    const params = use(props.params);
 
 
     const {
@@ -68,7 +69,8 @@ function EditEvent({ params }: { params: { slug: string } }) {
                 collaborators: data?.data?.content[0]?.collaborators,
                 acceptedAdmins: data?.data?.content[0]?.acceptedAdmins,
                 acceptedCollaborators: data?.data?.content[0]?.acceptedCollaborators,
-                admins: data?.data?.content[0]?.admins
+                admins: data?.data?.content[0]?.admins,
+                affiliates: data?.data?.content[0]?.affiliates
             }
  
             const admin: any = []

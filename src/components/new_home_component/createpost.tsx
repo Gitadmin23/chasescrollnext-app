@@ -14,7 +14,7 @@ import useCustomTheme from '@/hooks/useTheme';
 export default function Createpost() {
 
     const { user } = getUser()
-    const inputRef = React.useRef<HTMLInputElement>();
+    const inputRef = React.useRef<HTMLInputElement>(null);
 
     // const [open, setOpen] = useState(false)
     const [fileIndex, setFileIndex] = useState(0)
@@ -23,7 +23,7 @@ export default function Createpost() {
 
     const { bodyTextColor, inputColor, secondaryBackgroundColor, mainBackgroundColor, borderColor, inputBorderColor, headerTextColor, inputtextColor } = useCustomTheme();
 
-    const { createPost, isLoading, post, setPost, handleImagePicked, files, removeFile, emptyFiles, createPostWithFiles, uploadingfile, open, setOpen, setFiles, uploadProgress } = useHome()
+    const { createPost, loadingCompress, isLoading, post, setPost, handleImagePicked, files, removeFile, emptyFiles, createPostWithFiles, uploadingfile, open, setOpen, setFiles, uploadProgress } = useHome()
 
     const handlePick = React.useCallback((data: FileList) => {
         handleImagePicked(data);
@@ -61,7 +61,7 @@ export default function Createpost() {
     const { user: userdata, } = useDetails((state) => state);
 
     return (
-        <Flex bg={mainBackgroundColor} w={["full", "full", "full", "full", "619px"]} pt={["4", "4", "4", "4", "8"]} px={["4", "4", "4", "4", "8"]} >
+        <Flex w={["full", "full", "full", "full", "619px"]} pt={["4", "4", "4", "4", "8"]} px={["4", "4", "4", "4", "8"]} roundedBottom={"16px"} >
             <Flex w={"full"} p={"4"} gap={"2"} rounded={"12px"} flexDir={"column"} style={{ boxShadow: "0px 2px 2px 0px #00000008" }} bgColor={mainBackgroundColor} h={"fit-content"} >
                 <Flex pos={"relative"} w={"full"} bgColor={inputColor} gap={"1"} h={"fit-content"} alignItems={"center"} p={"2"} rounded={"12px"} >
                     <Box as={"button"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} w={"fit-content"} >
@@ -85,7 +85,9 @@ export default function Createpost() {
                     {(uploadingfile) && (
                         <Flex position={"absolute"} justifyContent={"center"} px={"4"} gap={"2"} alignItems={"center"} zIndex={"30"} inset={"0px"} bgColor={"#000000c3"} >
                             <Progress w={"full"} hasStripe value={uploadProgress} h={"35px"} rounded={"2xl"} />
-                            <Text color={"white"} >{uploadProgress}%</Text>
+                            {loadingCompress ? 
+                            <Text position={"absolute"} inset={"auto"} zIndex={"20"} color={"black"} >Compressing...</Text>
+                                : <Text color={"white"} >{uploadProgress}%</Text>}
                         </Flex>
                     )}
                     <Box as='button' onClick={closeHandler} >

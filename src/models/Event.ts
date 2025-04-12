@@ -52,11 +52,17 @@ export interface IEventType {
     collaborators: IUser[]
     admins: IUser[];
     acceptedAdmins: IUser[]
-    acceptedCollaborators: IUser[] 
+    acceptedCollaborators: IUser[]
     donationName: string,
     donationTargetAmount: string,
     donationEnabled: boolean,
-    totalDonated: string
+    totalDonated: string,
+    prStatus: string,
+    affiliateID: string,
+    affiliates: Array<{
+        "affiliateType": string,
+        "percent": number
+    }>
 }
 
 export interface IProductTypeData {

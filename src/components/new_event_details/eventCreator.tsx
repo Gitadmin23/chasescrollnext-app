@@ -13,6 +13,8 @@ import ChatBtn from '../sharedComponent/chat_btn'
 import AddOrRemoveUserBtn from '../sharedComponent/add_remove_user_btn'
 import CollaboratorBtn from '../create_event_component/event_ticket/collaborators'
 import useCustomTheme from '@/hooks/useTheme'
+import InterestedUsers from '../sharedComponent/interested_users'
+import PrBtn from './prBtn'
 
 export default function EventCreator(props: IEventType) {
 
@@ -30,9 +32,11 @@ export default function EventCreator(props: IEventType) {
     const [open, setOpen] = useState(false)
 
     const router = useRouter()
-    const { userId: user_index } = useDetails((state) => state);
 
     const pathname = usePathname();
+
+    const isAdmin = props?.isOrganizer || props?.eventMemberRole === "ADMIN" || props?.eventMemberRole === "COLLABORATOR"
+    const { userId: user_index } = useDetails((state) => state);
 
     const clickHandler = () => {
         if (!user_index) {
@@ -41,20 +45,25 @@ export default function EventCreator(props: IEventType) {
             router.push("/dashboard/profile/" + createdBy?.userId)
         }
     }
-    
+
     const {
         headerTextColor,
         primaryColor,
         mainBackgroundColor,
         secondaryBackgroundColor
-    } = useCustomTheme(); 
+    } = useCustomTheme();
 
     return (
-        <Flex w={"full"} bgColor={secondaryBackgroundColor} rounded={"64px"} alignItems={"center"} h={"86px"} px={"4"} py={"3"} >
-            <Flex position={"relative"} border={"0px solid #CDD3FD"} rounded={"full"} alignItems={"center"} gap={"3"} >
+        <Flex w={["130px", "fit-content", isAdmin ? "full" : "full"]} gap={"6"} bgColor={[mainBackgroundColor, mainBackgroundColor, secondaryBackgroundColor]} rounded={"64px"} alignItems={["center"]} h={["fit-content", "fit-content", "86px"]} px={["0px", "0px", "4"]} py={["0px", "0px", "3"]} >
+            <Flex as={"button"} onClick={clickHandler} position={"relative"} border={"0px solid #CDD3FD"} rounded={"full"} alignItems={"center"} gap={"3"} >
                 <Flex width={"fit-content"} position={"relative"} >
-                    <UserImage border={"1px"} size={"50px"} font={"16px"} image={createdBy?.data?.imgMain?.value} data={createdBy} />
-                    {(acceptedCollaborators || acceptedAdmins ) && (
+                    <Flex display={["none", "flex", "flex"]} >
+                        <UserImage border={"1px"} size={"50px"} font={"16px"} image={createdBy?.data?.imgMain?.value} data={createdBy} />
+                    </Flex>
+                    <Flex display={["flex", "none", "none"]} >
+                        <UserImage border={"1px"} size={"32px"} font={"14px"} image={createdBy?.data?.imgMain?.value} data={createdBy} />
+                    </Flex>
+                    {/* {(acceptedCollaborators || acceptedAdmins ) && (
                         <>
                             {(acceptedCollaborators?.length !== 0 || acceptedAdmins?.length !== 0) && (
                                 <Box role='button' onClick={() => setOpen(true)} top={"0px"} roundedBottom={"64px"} border={"2px solid #5D70F9"} width={"50px"} fontWeight={"bold"} height={"50px"} fontSize={"15px"} pr={"-3px"} pb={"-2px"} roundedTopLeft={"64px"} ml={"-20px"} display={'flex'} bgColor={mainBackgroundColor} color={"#5D70F9"} justifyContent={"center"} alignItems={"center"} >
@@ -62,30 +71,36 @@ export default function EventCreator(props: IEventType) {
                                 </Box>
                             )}
                         </>
-                    )}
+                    )} */}
                 </Flex>
-                <Box as={"button"} onClick={clickHandler} >
+                <Box >
                     <Text textAlign={"left"} display={["none", "block"]} fontWeight={"medium"} >{capitalizeFLetter(createdBy?.firstName) + " " + capitalizeFLetter(createdBy?.lastName)}</Text>
-                    <Text textAlign={"left"} display={["block", "none"]} fontWeight={"medium"} fontSize={"14px"} >{textLimit(capitalizeFLetter(createdBy?.firstName) + " " + capitalizeFLetter(createdBy?.lastName), 10)}</Text>
+                    <Text textAlign={"left"} display={["block", "none"]} fontWeight={"medium"} fontSize={"12px"} >{textLimit(capitalizeFLetter(createdBy?.firstName) + " " + capitalizeFLetter(createdBy?.lastName), 10)}</Text>
                     <Text textAlign={"left"} mt={"-2px"} fontSize={["13px", "13px", "sm"]} >{createdBy?.username?.includes("@gmail") ? textLimit(createdBy?.username, 4) : textLimit(createdBy?.username, 10)}</Text>
                 </Box>
             </Flex>
-            <Flex rounded={"64px"} h={"47px"} ml={"auto"} bgColor={mainBackgroundColor} px={["3", "3", "5", "5"]} py={"12px"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
-                {createdBy?.userId !== user_index ? (
-                    <Flex color={"#5465E0"} rounded={"32px"} justifyContent={"center"} alignItems={"center"} gap={["4", "4", "5", "5"]} py={"8px"} >
-                        <ChatBtn userId={createdBy?.userId ?? ""} />
-                        <AddOrRemoveUserBtn icon={true} name={(isFriend === "FRIEND_REQUEST_RECIEVED" || isFriend === "FRIEND_REQUEST_SENT" || isFriend === "CONNECTED" || isFriend === "CONNECTFriend") ? isFriend === "FRIEND_REQUEST_SENT" ? "Pending" : isFriend === "CONNECTFriend" ? "Disconnect" : "Disconnect" : "Connect"} setJoinStatus={setisFriend} user_index={createdBy?.userId} />
-                    </Flex>
-                ) :
-                    (
-                        <>
+            <Flex display={["none", "none", "flex"]} ml={["0px", "0px", "auto"]} alignContent={"center"} gap={"3"} >
 
-                            {((collaborators || admins) && !pathname?.includes("pastdetails")) && (
+                <Flex rounded={"64px"} display={["none", "none", createdBy?.userId !== user_index ? "flex" : "none"]} h={"47px"} bgColor={mainBackgroundColor} px={["3", "3", "5", "5"]} py={"12px"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
+                    {createdBy?.userId !== user_index ? (
+                        <Flex color={"#5465E0"} rounded={"32px"} justifyContent={"center"} alignItems={"center"} gap={["3", "3", "3", "3"]} py={"8px"} >
+                            <ChatBtn userId={createdBy?.userId ?? ""} />
+                            <AddOrRemoveUserBtn icon={true} name={(isFriend === "FRIEND_REQUEST_RECIEVED" || isFriend === "FRIEND_REQUEST_SENT" || isFriend === "CONNECTED" || isFriend === "CONNECTFriend") ? isFriend === "FRIEND_REQUEST_SENT" ? "Pending" : isFriend === "CONNECTFriend" ? "Disconnect" : "Disconnect" : "Connect"} setJoinStatus={setisFriend} user_index={createdBy?.userId} />
+                            {/* <Flex> */}
+                            {/* </Flex> */}
+                        </Flex>
+                    ) :
+                        (
+                            <>
+                                {/* {((collaborators || admins) && !pathname?.includes("pastdetails")) && (
                                 <CollaboratorBtn update={true} collaborate={acceptedCollaborators?.length !== 0 || acceptedAdmins?.length !== 0} btn={true} data={props} />
-                            )}
-                        </>
-                    )
-                }
+                            )} */}
+                            </>
+                        )
+                    }
+                </Flex>
+
+                <InterestedUsers fontSize={16} event={props} border={"2px"} size={"38px"} refund={true} /> 
             </Flex>
 
             <ModalLayout open={open} close={setOpen} title='Event Organizers' >

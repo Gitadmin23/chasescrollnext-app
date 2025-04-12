@@ -10,13 +10,14 @@ import CustomButton from '@/components/general/Button';
 import useDonationStore from '@/global-state/useDonationState';
 import SelectDonationDate from '../select_date';
 import FunnelBtn from '../funnel';
-import CollaboratorBtn from '../collaborators';
 import GetCommunity from '../funnel/get_community';
 import DonationCollaborator from '../donationCollaborator';
+import { usePathname } from 'next/navigation';
 
 function DonationTheme({ id }: { id?: string }) {
 
     const { data, updateDontion, image, updateImage } = useDonationStore((state) => state)
+    const pathname = usePathname();
 
     const handleChangeLimit = (e: any, limit: any, index: number) => {
         if ((e.target.value).length <= limit) {
@@ -32,16 +33,17 @@ function DonationTheme({ id }: { id?: string }) {
             bannerImage: "",
             description: "",
             goal: "",
-            visibility: "PRIVATE",
+            visibility: data[0]?.visibility,
             purpose: "",
-            endDate: ""
+            endDate: "",
+            collaborators: []
         }
         updateDontion(myArr)
     }
 
     const user_id = localStorage.getItem("user_id") + ""
 
-    const handleChange = (name: string, value: string, index: number) => {
+    const handleChange = (name: string, value: any, index: number) => {
         let clone: any = [...data]
         clone[index] = {
             ...clone[index],
@@ -61,7 +63,7 @@ function DonationTheme({ id }: { id?: string }) {
 
         updateImage(imgArr)
         updateDontion(myArr)
-    } 
+    }
 
     return (
         <Flex px={"4"} justifyContent={"center"} pt={"10"} >
@@ -102,7 +104,7 @@ function DonationTheme({ id }: { id?: string }) {
                                             focusBorderColor={"#E2E8F0"}
                                             placeholder='₦0.00'
                                             value={item?.goal}
-                                            onChange={(e) => handleChange(e.target.name, e.target.value, index)}
+                                            onChange={(e) => handleChange(e.target.name, Number(e.target.value), index)}
                                             onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                                             rounded={"full"}
                                             name="goal"
@@ -111,7 +113,7 @@ function DonationTheme({ id }: { id?: string }) {
                                 </Box>
                                 <Box width={"full"} >
                                     <label className="block text-gray-700 font-medium mb-2">
-                                        Purpose for Fundraising
+                                        Fundraising Category
                                     </label>
                                     <Flex gap={"2"} >
                                         <Input
@@ -131,7 +133,7 @@ function DonationTheme({ id }: { id?: string }) {
                             </Flex>
                             <SelectDonationDate index={index} />
                             <Flex width={"full"} gap={"1"} flexDirection={"column"} >
-                                <Text color={"brand.chasescrollTextGrey"} > Fundraising Description<span style={{ color: "#F04F4F" }} > *</span></Text>
+                                <Text color={"brand.chasescrollTextGrey"} > Fundraising Purpose<span style={{ color: "#F04F4F" }} > *</span></Text>
                                 <Textarea
                                     id="description"
                                     name="description"
@@ -146,7 +148,7 @@ function DonationTheme({ id }: { id?: string }) {
                             </Flex>
                         </Flex>
                         <Flex flexDirection={"column"} h={"full"} width={"full"} gap={"6"} >
-                            {index === 0 && (
+                            {(index === 0 && !pathname?.includes("edit")) && (
                                 <Flex flexDirection={"column"} gap={"2"} >
                                     <Text fontWeight={"600"} >Fundraising Visibility</Text>
                                     <label htmlFor="publicVisibility" style={{ display: "flex", justifyContent: "space-between", borderBottomWidth: "1px", fontSize: "14px", padding: "8px" }} role='button' >
@@ -177,22 +179,25 @@ function DonationTheme({ id }: { id?: string }) {
                                     </label>
                                 </Flex>
                             )}
-                            {index > 0 && (
+                            {(index > 0 && !pathname?.includes("edit")) && (
                                 <CustomButton onClick={() => HandleDeleteTicket(index)} backgroundColor={"brand.chasescrollRed"} width={"fit-content"} text='Remove Fundraising' />
                             )}
-                            <Flex flexDir={["column", "column", "row"]} justifyContent={"space-between"} mt={"5"} gap={["4", "4", "4"]} >
-                                <FunnelBtn index={index} />
-                                <Text color={"gray"} fontWeight={"800"} >|</Text>
-                                <DonationCollaborator btn={true} index={index} />
-                            </Flex>
+                            {!pathname?.includes("edit") && (
+                                <Flex flexDir={["column", "column", "row"]} justifyContent={"space-between"} mt={"5"} gap={["4", "4", "4"]} >
+                                    {/* <FunnelBtn index={index} />
+                                    <Text color={"gray"} fontWeight={"800"} >|</Text> */}
+                                    <DonationCollaborator btn={true} index={index} />
+                                </Flex>
+                            )}
                             <GetCommunity index={index} />
                         </Flex>
                     </Flex>
                 ))}
-
-                <Flex w={"full"} gap={"4"} mb={6} >
-                    <CustomButton onClick={() => HandleAddTicket(data?.length - 1)} borderRadius={"full"} text='+ Add New Fundraising' color={"#5465E0"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
-                </Flex>
+                {!pathname?.includes("edit") && (
+                    <Flex w={"full"} gap={"4"} mb={6} >
+                        <CustomButton onClick={() => HandleAddTicket(data?.length - 1)} borderRadius={"full"} text='+ Add New Fundraising' color={"#5465E0"} backgroundColor={"#EFF1FE"} fontWeight={"bold"} px={"6"} rounded={"8px"} width={"fit-content"} />
+                    </Flex>
+                )}
                 <Flex w={"full"} gap={"4"} mb={12} >
                     <SubmitTheme id={id} type={""} />
                 </Flex>

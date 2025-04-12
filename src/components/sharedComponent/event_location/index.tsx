@@ -9,7 +9,7 @@ import { textLimit } from "@/utils/textlimit";
 interface Props {
   location: any;
   locationType?: any;
-  fontsize?: string;
+  fontsize?: any;
   length?: number;
   isLimited?: boolean,
   color?: string;
@@ -57,7 +57,7 @@ function EventLocationDetail(props: Props) {
   return (
     <>
       {!indetail && (
-        <Flex gap={"1"} height={height ? height : "50px"} alignItems={"center"}>
+        <Flex w={"full"} gap={"1"} height={height ? height : "50px"} alignItems={"center"}>
           {!noicon && (
             <Box width={"fit-content"}>
               <Box
@@ -82,7 +82,7 @@ function EventLocationDetail(props: Props) {
             color={
               landingcolor ? "black" : color ? color : colorMode === "light" ? "brand.chasescrollBlue" : headerTextColor
             }
-            fontSize={["13px", "14px", "14px"]}
+            fontSize={fontsize ? fontsize : ["13px", "14px", "14px"]}
           >
             {location?.locationDetails && (
               <>
@@ -93,7 +93,7 @@ function EventLocationDetail(props: Props) {
                 ) : (
                   <>
                     <Text display={["block", "block", "none"]} >
-                      {textLimit(location?.locationDetails, 20)}
+                      {textLimit(location?.locationDetails, length ?? 20)}
                     </Text>
                     <Text display={["none", "none", "block"]} >
                       {textLimit(location?.locationDetails, length ?? 35)}
@@ -148,7 +148,7 @@ function EventLocationDetail(props: Props) {
                 textAlign={"left"}
                 fontWeight={["medium", "semibold", "semibold"]}
                 color={color ? color : bodyTextColor}
-                fontSize={["13px", "14px", "14px"]}
+                fontSize={fontsize ? fontsize : ["13px", "14px", "14px"]}
               >
                 {location?.locationDetails && (
                   <>
@@ -158,10 +158,10 @@ function EventLocationDetail(props: Props) {
                       </Text>
                     ) : (
                       <>
-                        <Text fontSize={["13px", "14px", "14px"]} display={["block", "block", "none"]} >
-                          {textLimit(location?.locationDetails, 20)}
+                        <Text fontSize={fontsize ? fontsize : ["13px", "14px", "14px"]} display={["block", "block", "none"]} >
+                          {textLimit(location?.locationDetails, length ?? 20)}
                         </Text>
-                        <Text fontSize={["13px", "14px", "14px"]} display={["none", "none", "block"]} >
+                        <Text fontSize={fontsize ? fontsize : ["13px", "14px", "14px"]} display={["none", "none", "block"]} >
                           {textLimit(location?.locationDetails, length ?? 35)}
                         </Text>
                       </>

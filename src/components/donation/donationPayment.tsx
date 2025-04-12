@@ -26,16 +26,15 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
     const {
         primaryColor,
         borderColor,
-        headerTextColor
+        headerTextColor,
+        mainBackgroundColor
     } = useCustomTheme()
 
     const donate = [
         "NGN 1000",
         "NGN 1500",
         "NGN 2000",
-        "NGN 5000",
-        "NGN 10000",
-        "NGN 15000",
+        "NGN 5000", 
     ]
 
     const toast = useToast()
@@ -47,7 +46,7 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
     const token = sessionStorage.getItem('tp_token')   
     const tokendata = localStorage.getItem('token');
 
-    const { setPaystackConfig, setDonation } = usePaystackStore((state) => state);
+    const { setPaystackConfig, setMessage, message } = usePaystackStore((state) => state);
 
     const payForTicket = useMutation({
         mutationFn: (data: {
@@ -64,7 +63,7 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
                 amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
                 reference: data?.data?.content?.orderCode
             });
-            setDonation(true)
+            setMessage({...message, donation: true})
             setOpen(false)
             setValue("")
 
@@ -107,8 +106,9 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
     }
 
     return (
-        <Flex w={["full", "full", "full", fullWidth ? "full" : "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} p={"5"}  >
+        <Flex w={["full", "full", "full", fullWidth ? "full" : "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} shadow={"lg"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} flexDir={"column"} overflowX={"hidden"} gap={"3"} p={["3", "3", "5"]}  >
             <Text fontSize={"18px"} fontWeight={"600"} >Enter the Amount</Text>
+            {/* <Text fontSize={"14px"} >Enter the amount you wish to donate </Text> */}
 
             <Flex w={"fit-content"} flexWrap={"wrap"} gap={"2"}>
                 {donate?.map((item) => (

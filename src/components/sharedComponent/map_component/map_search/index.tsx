@@ -15,6 +15,7 @@ import usePlacesAutocomplete, {
 import { IoSearchOutline } from 'react-icons/io5';
 import useEventStore from '@/global-state/useCreateEventState';
 import useCustomTheme from '@/hooks/useTheme';
+import useProductStore from '@/global-state/useCreateProduct';
 
 interface Props {
     center: any,
@@ -43,6 +44,7 @@ function MapSearch(props: Props) {
     const [show, setShow] = React.useState(false)
 
     const { eventdata, updateEvent } = useEventStore((state) => state);
+    const { updateProduct, productdata, updateRental, rentaldata, updateAddress, location } = useProductStore((state) => state);
 
     const {
         ready,
@@ -54,7 +56,7 @@ function MapSearch(props: Props) {
         requestOptions: {
             location: new google.maps.LatLng(center),
             radius: 100 * 1000,
-        }, 
+        },
     });
 
     // https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
@@ -77,21 +79,48 @@ function MapSearch(props: Props) {
             const { lat, lng } = await getLatLng(results[0]);
             panTo({ lat, lng });
 
+            let newState = results[0]?.address_components[results[0]?.address_components?.length - 1]?.types[0] === "country" ? results[0]?.address_components[results[0]?.address_components?.length - 2]?.long_name : results[0]?.address_components[results[0]?.address_components?.length - 3]?.long_name
+ 
+
             updateEvent({
                 ...eventdata,
                 location: {
                     ...eventdata.location,
                     locationDetails: address,
+                    placeIds: newState,
                     latlng: lat + " " + lng
                 }
             })
+            updateProduct({
+                ...productdata, location: {
+                    locationDetails: address,
+                    latlng: lat + " " + lng,
+                    state: newState
+                },
+                state: newState
+            })
+            updateAddress({
+                ...location,
+                locationDetails: address,
+                latlng: lat + " " + lng,
+                state: newState
+            })
+            updateRental({
+                ...rentaldata, location: {
+                    locationDetails: address,
+                    latlng: lat + " " + lng,
+                    state: newState
+                },
+                state: newState
+            })
+
 
             setMarker({
                 lat: Number(lat),
                 lng: Number(lng),
             })
             SetMap({ lat: lat, lng: lng })
-            SetZoom(9) 
+            SetZoom(9)
         } catch (error) {
             console.log("😱 Error: ", error);
         }
@@ -106,9 +135,9 @@ function MapSearch(props: Props) {
             location_address = value
         }
     })
-  
-    const { 
-      mainBackgroundColor, 
+
+    const {
+        mainBackgroundColor,
     } = useCustomTheme();
 
     return (

@@ -4,6 +4,7 @@ import { AxiosError } from 'axios';
 // import { toast } from 'react-toastify';
 import lodash from 'lodash'; 
 import httpService from '@/utils/httpService';
+import { cleanup } from '@/utils/cleanupObj';
 
 interface Props {
     url: string,
@@ -13,7 +14,8 @@ interface Props {
     array?: any,
     name?: any,
     search?: string,
-    refetchInterval?: number
+    refetchInterval?: number,
+    paramsObj?: any
 }
 
 function InfiniteScrollerComponent(props: Props) {
@@ -24,17 +26,31 @@ function InfiniteScrollerComponent(props: Props) {
         array, 
         name,
         search,
-        refetchInterval
+        refetchInterval, 
+        paramsObj = {}
     } = props
 
     const [size, setSize] = React.useState(limit)
     const [hasNextPage, setHasNextPage] = React.useState(false);
     const [results, setResults] = React.useState([] as any) 
-    const intObserver = React.useRef<IntersectionObserver>();
+    const intObserver = React.useRef<IntersectionObserver>(null); 
+ 
+    const check = () => {
+      if(paramsObj !== null || paramsObj !== undefined) {
+        return Object?.keys(cleanup(paramsObj)).length === 0 ? [] : Object?.values(cleanup(paramsObj))
+      } else {
+        return []
+      }
+    }
 
-    const { data, isLoading, refetch, isRefetching, isError } = useQuery(name ? [name, url, search] : [url], () => httpService.get(`${url}`, {
+    console.log(...check());
+    
+    
+
+    const { data, isLoading, refetch, isRefetching, isError } = useQuery(name ? [name, url, search, ...check()] : [url, ...check() ], () => httpService.get(`${url}`, {
         params: {
           size: size, 
+          ...paramsObj
         }
       }), {
         onError: (error: AxiosError<any, any>) => {

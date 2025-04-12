@@ -1,3 +1,4 @@
+"use client"
 import CustomButton from '@/components/general/Button'
 import { AddIconWithBorder } from '@/components/svg'
 import { Box, Flex, Text } from '@chakra-ui/react'

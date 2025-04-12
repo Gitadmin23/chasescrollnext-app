@@ -20,7 +20,7 @@ import { IHistoryData, IHistoryDataTicket } from '@/models/HistoryData'
 
 interface Props {
     index: any
-}
+} 
 
 function DashboardDetail(props: Props) {
     const {
@@ -36,7 +36,7 @@ function DashboardDetail(props: Props) {
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
 
-    const toast = useToast() 
+    const toast = useToast()
 
     const [history, setHistory] = React.useState([] as any)
     const [historyData, setHistoryData] = React.useState<IHistoryData | null>(null)
@@ -44,7 +44,7 @@ function DashboardDetail(props: Props) {
     const [eventData, setEventData] = React.useState<IEventType>({} as IEventType);
     const [tickets, setTickets] = React.useState<IProductTypeData[]>([]);
     const [activeTicketName, setActiveTicketName] = React.useState('All');
-;    const router = useRouter()
+    ; const router = useRouter()
 
     React.useEffect(() => {
         if (activeTicketName === 'All') {
@@ -106,7 +106,7 @@ function DashboardDetail(props: Props) {
 
     const scroll = (scrolloffset: number) => {
         ref.current.scrollLeft += scrolloffset
-    };  
+    };
 
     return (
         <Flex width={"full"} flexDirection={"column"} overflowX={"hidden"} >
@@ -123,26 +123,26 @@ function DashboardDetail(props: Props) {
             <Flex width={"full"} borderTopWidth={"1px"} borderBottomWidth={"1px"} borderColor={colorMode === 'light' ? "#D0D4EB" : borderColor} justifyContent={"center"} mt={"8"} py={"7"} >
                 <Box position={"relative"} rounded={"36px"} maxW={["full", "full", "700px"]} px={["4", "4", "8"]} py={"6"} width={"full"} bgColor={colorMode === 'light' ? "#D0F2D9" : secondaryBackgroundColor} >
                     <HStack justifyContent={'space-between'} alignItems={'center'}>
-                    <Flex alignItems={"center"} gap={"2"} w={"full"} justifyContent={"space-between"}>
-                        <Flex width={"10"} height={"10"} bgColor={"#101828"} rounded={"full"} justifyContent={"center"} alignItems={"center"} >
-                            <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g id="vuesax/linear/ticket">
-                                    <g id="ticket">
-                                        <path id="Vector" d="M20 12.5C20 11.12 21.12 10 22.5 10V9C22.5 5 21.5 4 17.5 4H7.5C3.5 4 2.5 5 2.5 9V9.5C3.88 9.5 5 10.62 5 12C5 13.38 3.88 14.5 2.5 14.5V15C2.5 19 3.5 20 7.5 20H17.5C21.5 20 22.5 19 22.5 15C21.12 15 20 13.88 20 12.5Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path id="Vector_2" d="M10.5 4L10.5 20" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 5" />
+                        <Flex alignItems={"center"} gap={"2"} w={"full"} justifyContent={"space-between"}>
+                            <Flex width={"10"} height={"10"} bgColor={"#101828"} rounded={"full"} justifyContent={"center"} alignItems={"center"} >
+                                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g id="vuesax/linear/ticket">
+                                        <g id="ticket">
+                                            <path id="Vector" d="M20 12.5C20 11.12 21.12 10 22.5 10V9C22.5 5 21.5 4 17.5 4H7.5C3.5 4 2.5 5 2.5 9V9.5C3.88 9.5 5 10.62 5 12C5 13.38 3.88 14.5 2.5 14.5V15C2.5 19 3.5 20 7.5 20H17.5C21.5 20 22.5 19 22.5 15C21.12 15 20 13.88 20 12.5Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path id="Vector_2" d="M10.5 4L10.5 20" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 5" />
+                                        </g>
                                     </g>
-                                </g>
-                            </svg>
+                                </svg>
+                            </Flex>
+                            <Text fontSize={"15px"} fontWeight={"medium"} >Tickets</Text>
                         </Flex>
-                        <Text fontSize={"15px"} fontWeight={"medium"} >Tickets</Text>
-                    </Flex>
 
-                    <Select onChange={(e) => setActiveTicketName(e.target.value)} value={activeTicketName} minWidth={'124px'} maxWidth={'160px'} height={'38px'} borderRadius={'32px'} borderWidth={'0.4px'} borderColor={'#878B93'}>
-                        <option key={index.toString()} value={'All'} selected>All</option>
-                        {tickets.map((ticket, index) => (
-                            <option key={index.toString()} value={ticket.ticketType}>{ticket.ticketType}</option>
-                        ))}
-                    </Select>
+                        <Select onChange={(e) => setActiveTicketName(e.target.value)} value={activeTicketName} minWidth={'124px'} maxWidth={'160px'} height={'38px'} borderRadius={'32px'} borderWidth={'0.4px'} borderColor={'#878B93'}>
+                            <option key={index.toString()} value={'All'} selected>All</option>
+                            {tickets.map((ticket, index) => (
+                                <option key={index.toString()} value={ticket.ticketType}>{ticket.ticketType}</option>
+                            ))}
+                        </Select>
 
                     </HStack>
                     <Flex ref={ref} pt={"7"} px={"4"} w={"full"} scrollBehavior={"smooth"} overflowX={"auto"} alignItems={"center"} sx={
@@ -167,7 +167,7 @@ function DashboardDetail(props: Props) {
                             </Box>
                             <Box pt={"3px"} w={"120px"} px={"1"} borderRight={"1px"} borderColor={borderColor}  >
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >{eventData?.donationEnabled ? "Donated(₦)" : "Revenue(₦)"}</Text>
-                                <Text fontWeight={"medium"} fontSize={["24px", "30px", "30px"]} textAlign={"center"} className=" font-medium text-center " >{"₦"}{eventData.donationEnabled ? formatNumberWithK(eventData?.totalDonated):formatNumberWithK(history?.totalActiveSales)}</Text>
+                                <Text fontWeight={"medium"} fontSize={["24px", "30px", "30px"]} textAlign={"center"} className=" font-medium text-center " >{"₦"}{eventData.donationEnabled ? formatNumberWithK(eventData?.totalDonated) : formatNumberWithK(history?.totalActiveSales)}</Text>
                             </Box>
                             <Box pt={"3px"} px={"4"} borderColor={borderColor}  >
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >Available</Text>
@@ -184,14 +184,14 @@ function DashboardDetail(props: Props) {
                         </Flex>
                     </Flex>
                     <Box zIndex={"10"} display={["block", "block", "none"]} position={"absolute"} bottom={"10"} left={"0px"} bgColor={"white"} onClick={() => scroll(-400)} as="button" w={"40px"} h={"40px"} rounded={"full"} >
-                        <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
+                        <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" alt='arrow' />
                     </Box>
                     <Box zIndex={"10"} display={["block", "block", "none"]} position={"absolute"} bottom={"10"} right={"0px"} bgColor={"white"} onClick={() => scroll(400)} transform={"rotate(180deg)"} as="button" w={"40px"} h={"40px"} rounded={"full"} >
-                        <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" />
+                        <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" alt='arrow' />
                     </Box>
                 </Box>
             </Flex>
-            <Box width={"full"} borderBottomWidth={"1px"} borderBottomColor={"#D0D4EB"} mt={"8"} py={"7"} px={"4"} >
+            {/* <Box width={"full"} borderBottomWidth={"1px"} borderBottomColor={"#D0D4EB"} mt={"8"} py={"7"} px={"4"} >
 
                 <ResponsiveContainer width="100%" height={500}>
                     <BarChart
@@ -201,7 +201,7 @@ function DashboardDetail(props: Props) {
                             right: 30,
                             left: 20,
                             bottom: 5,
-                        }}
+                        }} 
                         data={historyTickets ?? []}
                     >
                         <XAxis tickFormatter={DataFormater} dataKey="ticketType" />
@@ -213,13 +213,9 @@ function DashboardDetail(props: Props) {
                         <Bar name='Active Ticket Sold' dataKey="qtyActiveSold" stackId="a" fill="#B7B00E" />
                         <Bar name='Pending Ticket Sold' dataKey="qtyPendingSold" stackId="a" fill="#ffc658" />
                         <Bar name='Available Tickets' dataKey="totalNumberOfAvailableTickets" fill="#5D70F9" />
-                        {/* <Bar dataKey="totalRefund" stackId="a" fill="#E90303" /> */}
-                        {/* <Bar dataKey="totalActiveSales" fill="#B7B00E" background={{ fill: '#eee' }} />
-                                    <Bar dataKey="totalRefund" fill="#E90303" background={{ fill: '#eee' }} />
-                                    <Bar dataKey="totalPendingSales" fill="#DB9E00" background={{ fill: '#eee' }} /> */}
                     </BarChart>
                 </ResponsiveContainer>
-            </Box>
+            </Box> */}
         </Flex>
     )
 }

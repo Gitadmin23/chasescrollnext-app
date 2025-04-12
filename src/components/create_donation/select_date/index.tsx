@@ -19,6 +19,8 @@ function SelectDonationDate(props: Props) {
     const { data, updateDontion } = useDonationStore((state) => state);
     const toast = useToast()
 
+    console.log(data)
+
     const handleDateSelect = (date: any) => {
         // updateDontion({
         //     ...data,
@@ -45,7 +47,7 @@ function SelectDonationDate(props: Props) {
     } 
 
     return (
-        <Flex width={"full"} flexDirection={"column"} gap={"2"} py={"2"} >
+        <Flex width={"full"} pos={"relative"}  flexDirection={"column"} gap={"2"} py={"2"} >
             <Text fontSize={"sm"} >
                 End Date <span style={{ color: "#F04F4F" }}>*</span>
             </Text>

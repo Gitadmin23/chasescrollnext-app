@@ -10,7 +10,7 @@ const withPWA = require("@ducanh2912/next-pwa").default({
   // workboxOptions: {
   //   disableDevLogs: true,
   // },
-  
+
   // ... other options you like
 });
 
@@ -18,14 +18,11 @@ const withPWA = require("@ducanh2912/next-pwa").default({
 const nextConfig = {
   images: {
     domains: ['s3.eu-west-2.amazonaws.com'],
-  }, 
-    // Enable production optimizations in development
-    swcMinify: true,
-    // Disable unnecessary features in development
-    typescript: {
-      ignoreBuildErrors: true, // During development only
-    },
-  // ... other options you like
+  },
+  // Disable unnecessary features in development
+  typescript: {
+    ignoreBuildErrors: true, // During development only
+  },
 };
 
 module.exports = nextConfig;

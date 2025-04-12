@@ -8,6 +8,7 @@ import SelectLocation from './select_location'
 import CustomButton from '@/components/general/Button'
 import SubmitEvent from '../submit_event'
 import SelectMap from './select_map'
+import RequestServices from './request_Services'
 
 function EventInformation() {
 
@@ -28,15 +29,14 @@ function EventInformation() {
     }
 
     return (
-        <Flex width={"full"} display={"flex"} flexDirection={"column"} alignItems={"center"} pt={"10"} px={"6"} >
-            <Flex width={"full"} maxWidth={["full", "full", "600px"]} flexDirection={"column"} justifyContent={"space-between"} gap={"4"} py={"6"} >
-                <Flex width={"full"} flexDirection={["column", "column", "column", "row"]} gap={"4"} >
-                    <SelectDate data={eventdata?.startDate} name={"Start"} />
-                    <SelectDate data={eventdata?.endDate} name={"End"} />
+        <Flex width={"full"} display={"flex"} h={"full"} flexDirection={"column"} alignItems={"center"} pt={"10"} px={"6"} >
+            <Flex width={"full"} maxWidth={["full", "full", "full"]} flexDirection={"column"} justifyContent={"space-between"} gap={"4"} py={"6"} >
+                <Flex w={"full"} gap={"4"} flexDir={["column-reverse", "column-reverse", "row"]} >
+                    <SelectLocation />
+                    <RequestServices />
                 </Flex>
-                <SelectLocation />
-                <Flex w={"full"} gap={"4"}  my={"4"} >
-                    <CustomButton onClick={()=> changeTab(0)} text={"Back"} width={"full"} borderRadius={"999px"} backgroundColor={"#EFF1FE80"} color={"#5465E0"} />
+                <Flex w={"full"} gap={"4"} my={"4"} >
+                    <CustomButton onClick={() => changeTab(0)} text={"Back"} width={"full"} borderRadius={"999px"} backgroundColor={"#EFF1FE80"} color={"#5465E0"} />
                     <SubmitEvent type={""} />
                 </Flex>
             </Flex>

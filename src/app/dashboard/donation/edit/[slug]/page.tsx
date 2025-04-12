@@ -9,14 +9,15 @@ import useGetSingleDonationList from '@/hooks/useGetSingleDonation';
 import useCustomTheme from '@/hooks/useTheme';
 import { IUser } from '@/models/User';
 import { Box, Flex, useColorMode } from '@chakra-ui/react'
-import React from 'react'
+import React, { use } from 'react';
 
 type Props = {
-    params: { slug: string }
-    searchParams?: { [key: string]: string | string[] | undefined }
+    params: Promise<{ slug: string }>
+    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export default function CreateDonation({ params }: Props) {
+export default function CreateDonation(props: Props) {
+    const params = use(props.params);
 
     const id = params.slug
 
@@ -60,10 +61,10 @@ export default function CreateDonation({ params }: Props) {
             }
         }
     }, [isLoading, item])
-    
+
     console.log(data);
-    
-    
+
+
 
     return (
         <LoadingAnimation loading={isLoading} > 

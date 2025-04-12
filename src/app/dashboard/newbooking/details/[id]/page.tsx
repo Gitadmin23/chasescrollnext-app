@@ -27,10 +27,10 @@ const ServiceListCard = ({ service }: { service: IService }) => {
         <HStack w={['100%', '50%']} justifyContent={'space-between'} marginBottom={'20px'} minH={'100px'} maxH={'150px'} alignItems={'center'} borderWidth={'0.4px'} borderColor={'#EAEBEDCC'} px={['10px']} borderBottomLeftRadius={'10px'} borderBottomRightRadius={'10px'}>
             <CreateBookingModal show={show} onClose={() => setShow(false)} service={service} />
             <VStack alignItems={'flex-start'}>
-                <HStack>
+                <Flex flexDirection={['column', 'row']}>
                     <Text fontSize={'18px'} fontWeight={600}>{service?.service?.category.toUpperCase() ?? 'DJ'} - </Text>
-                     <Text color={primaryColor} fontSize={'16px'} fontWeight={600}> NGN {service?.price?.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? 'Contact Vendor'}</Text>
-                </HStack>
+                     <Text color={primaryColor} fontSize={'16px'} fontWeight={600}> {service?.price && 'NGN'} {service?.price?.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? 'Contact Vendor'}</Text>
+                </Flex>
                 <Text cursor={'pointer'} color={primaryColor} fontSize={'14px'} fontWeight={600} onClick={() => router.push(`/dashboard/newbooking/details/service/${service?.id}`)}>View Service</Text>
             </VStack>
 

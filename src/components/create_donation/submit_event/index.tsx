@@ -37,7 +37,6 @@ function SubmitEvent(props: Iprops) {
 
     // const { image } = useEventStore((state) => state);
     const { data, image, updateDontion } = useDonationStore((state) => state);
-    const { userId: user_index } = useDetails((state) => state);
     const pathname = usePathname();
 
     const { fileUploadHandler, loading, uploadedFile, reset, deleteFile } = AWSHook();
@@ -48,6 +47,21 @@ function SubmitEvent(props: Iprops) {
     const [uploadedImage, setUploadedImage] = useState<Array<string>>([])
 
     const [payload, setPayload] = useState([] as any)
+
+    const findLatestExpiration = (items: any) => {
+        if (!Array.isArray(items) || items.length === 0) {
+            throw new Error("Please provide a non-empty array of objects.");
+        }
+
+        // Use reduce to find the object with the latest endDate
+        const latestItem = items.reduce((latest, current) => {
+            return current.endDate > latest.endDate ? current : latest;
+        });
+
+        return latestItem;
+    };
+
+    const latestExpiration = findLatestExpiration(data)
 
     // const []
     const toast = useToast()
@@ -169,7 +183,8 @@ function SubmitEvent(props: Iprops) {
             creatorID: string,
             name: string,
             bannerImage: string,
-            description: string
+            description: string,
+            expirationDate: number
         }) => httpService.post("/fund-raiser-group/create", data),
         onError: (error: AxiosError<any, any>) => {
             toast({
@@ -208,7 +223,7 @@ function SubmitEvent(props: Iprops) {
         onSuccess: (data: AxiosResponse<any>) => {
             toast({
                 title: 'Success',
-                description: "Fundraisier Created",
+                description: "Fundraiser Created",
                 status: 'success',
                 isClosable: true,
                 duration: 5000,
@@ -216,6 +231,8 @@ function SubmitEvent(props: Iprops) {
             });
 
             router?.push("/dashboard/donation")
+
+            reset()
         }
     });
 
@@ -238,20 +255,17 @@ function SubmitEvent(props: Iprops) {
         onSuccess: () => {
             toast({
                 title: 'Success',
-                description: "Updated Fundraisier",
+                description: "Updated Fundraiser",
                 status: 'success',
                 isClosable: true,
                 duration: 5000,
                 position: 'top-right',
             });
 
+            reset()
             router?.push("/dashboard/donation/" + id)
         }
     });
-
-    // const handleClick = React.useCallback(() => {
-    //     getValidationTheme()
-    // }, [])
 
     const createFundraisingData = () => {
         if (!pathname?.includes("edit")) {
@@ -260,9 +274,9 @@ function SubmitEvent(props: Iprops) {
             if (image?.length > 0) {
                 fileUploadHandler(image)
             } else {
-                console.log(data[0]);
-                
-                editDonation?.mutate({ ...data[0] })
+                if (pathname?.includes("edit")) {
+                    editDonation?.mutate({ ...data[0] })
+                }
             }
         }
     }
@@ -272,27 +286,49 @@ function SubmitEvent(props: Iprops) {
     }, [data])
 
     useEffect(() => {
-        if (uploadedFile?.length > 1) {
-            createGroupDonation.mutateAsync({
-                creatorID: data[0]?.creatorID,
-                name: data[0]?.name,
-                bannerImage: uploadedImage[0],
-                description: data[0].description
-            })
-        } else if (uploadedFile?.length === 1) {
-            let newObj: any = [...data]
-            newObj[0] = { ...data[0], bannerImage: uploadedFile[0] }
-            
-            if (!pathname?.includes("edit")) {
-                createDonation.mutate({ items: newObj })
 
-            } else { 
-                delete newObj[0].collaborators;
-                editDonation?.mutate({ ...newObj[0] })
+        console.log(uploadedFile);
+
+
+        let newObj: any = [...data]
+        newObj[0] = { ...data[0], bannerImage: uploadedFile[0] }
+
+        let newGroup = {creatorID: data[0]?.creatorID,name: data[0]?.name,bannerImage: uploadedFile[0],description: data[0].description,expirationDate: Number(latestExpiration.endDate)}
+
+        if (uploadedFile?.length > 0) {
+            if ((uploadedFile?.length === 1)) {
+                if (!pathname?.includes("edit")) {
+                    createGroupDonation.mutate(newGroup)
+                } else {
+                    editDonation?.mutate({ ...newObj[0] })
+                }
+            } else if (uploadedFile?.length > 1) {
+                createGroupDonation.mutate(newGroup)
             }
-            reset()
         }
+
     }, [uploadedFile])
+
+    const closeHandle = () => { }
+
+
+
+
+    function clean(obj: any) {
+        for (var propName in obj) {
+            if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+                delete obj[propName];
+            }
+            if (obj[propName] === "location") {
+                for (var propName in obj?.location) {
+                    if (obj?.location[propName] === null || obj?.location[propName] === undefined || obj?.location[propName] === "") {
+                        delete obj?.location[propName];
+                    }
+                }
+            }
+        }
+        return obj
+    }
 
     return (
         <Flex w={"full"} alignItems={"center"} justifyContent={"center"} fontSize={["md", "lg"]} fontWeight={"bold"} >
@@ -304,7 +340,7 @@ function SubmitEvent(props: Iprops) {
                     text={'Update'} />
             )}
 
-            <ModalLayout close={setOpen} open={open} bg={secondaryBackgroundColor} >
+            <ModalLayout close={closeHandle} open={open} bg={secondaryBackgroundColor} >
                 <SuccessMessageCreateEvent update={(pathname?.includes("edit_event_data") || pathname?.includes("edit_event")) ? true : false} />
             </ModalLayout>
         </Flex>

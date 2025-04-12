@@ -5,6 +5,7 @@ import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Grid, GridItem, Skeleton, Text } from '@chakra-ui/react'
 import HomeEventCard from '../sharedComponent/event_card/homeEventCard'
 import { useRouter } from 'next/navigation'
+import EventCardNew from '../sharedComponent/event_card/eventCard'
 
 interface Props {
     mobile?: boolean,
@@ -28,7 +29,7 @@ function UpcomingEvent(props: Props) {
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/events/events`, limit: 20, filter: "id", name: "listofevent" })
 
     return (
-        <Flex bg={mainBackgroundColor} justifyContent={"center"} gap={["4", "4", "6"]} w={"full"} pt={["4", "4", "8"]} h={"full"} flexDirection={"column"} >
+        <Flex justifyContent={"center"} gap={["4", "4", "6"]} w={"full"} pt={["4", "4", "8"]} h={"full"} flexDirection={"column"} >
             <Flex w={"full"} justifyContent={"space-between"} px={["0xp", "0px", "6"]} alignItems={"center"} >
                 <Text fontWeight={"semibold"} fontSize={"16px"} >{"Upcoming Event"}</Text>
                 <Text onClick={() => router.push("/dashboard/event")} as={"button"} fontWeight={"500"} fontSize={"12px"} color={primaryColor} >{"See More"}</Text>
@@ -65,32 +66,32 @@ function UpcomingEvent(props: Props) {
                                         if (results.length === i + 1) {
                                             return (
                                                 <Flex key={i} w={["80vw", "350px", "350px", "full", "full"]} ref={ref} >
-                                                    <HomeEventCard upcoming={true} eventdashboard={true} mobile={mobile} date={true} page={true} event={event} />
+                                                    <EventCardNew event={event} />
                                                 </Flex>
                                             )
                                         } else {
                                             return (
                                                 <Flex key={i + "last"} w={["80vw", "350px", "350px", "full", "full"]}  >
-                                                    <HomeEventCard upcoming={true} eventdashboard={true} mobile={mobile} date={true} page={true} event={event} />
+                                                    <EventCardNew event={event} />
                                                 </Flex>
                                             )
                                         }
                                     })}
                                 </Grid>
-                            )} 
+                            )}
                             {mobile && (
                                 <Flex gap={4} width={"auto"} h={"fit-content"} px={["0px", "0px", "6"]} flexDir={["row"]}>
                                     {results?.map((event: any, i: number) => {
                                         if (results.length === i + 1) {
                                             return (
                                                 <Flex key={i} w={["90vw", "350px", "350px", "full", "full"]} ref={ref} >
-                                                    <HomeEventCard upcoming={true} eventdashboard={true} mobile={mobile} date={true} page={true} event={event} />
+                                                    <EventCardNew event={event} />
                                                 </Flex>
                                             )
                                         } else {
                                             return (
                                                 <Flex key={i + "last"} w={["90vw", "350px", "350px", "full", "full"]}  >
-                                                    <HomeEventCard upcoming={true} eventdashboard={true} mobile={mobile} date={true} page={true} event={event} />
+                                                    <EventCardNew event={event} />
                                                 </Flex>
                                             )
                                         }

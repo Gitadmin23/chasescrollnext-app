@@ -157,7 +157,7 @@ const useNotificationHook = () => {
         },
         onError: () => { },
     });
-
+ 
     return {
         results,
         isLoading,

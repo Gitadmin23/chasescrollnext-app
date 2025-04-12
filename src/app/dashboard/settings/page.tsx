@@ -136,7 +136,7 @@ function Settings(props: Props) {
     }
 
     return (
-        <Box px={"20px"} py={"30px"} height={"auto"} overflowY={"auto"} width={"full"} bg={mainBackgroundColor} >
+        <Box px={"20px"} py={"30px"} height={"auto"} overflowY={"auto"} width={"full"} >
 
             {/* MODALS */}
             <DeleteAccountModal isOpen={showModal} onClose={() => setShowModal(false)} />

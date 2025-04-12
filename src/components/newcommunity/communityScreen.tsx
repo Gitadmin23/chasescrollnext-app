@@ -53,12 +53,12 @@ export default function Mainscreen() {
 
 
     return (
-        <Flex w={"full"} h={"full"} bgColor={mainBackgroundColor}  >
+        <Flex w={"full"} h={"full"}  >
             <Flex width={["full", "full", "350px", "350px", "350px"]} display={[show ? "none" : "flex", show ? "none" : "flex", "flex", "flex", "flex"]} minHeight={"full"} borderRightWidth={"1px"} borderRightColor={borderColor} >
                 <CommunityList tab={activeTab} setTab={setActiveTab} setShow={setShow} />
             </Flex>
             <Flex width={["full", "full", "full"]} display={[!show ? "none" : "full", !show ? "none" : "full", "flex", "flex", "flex"]} flex={"1"} flexDir={"column"} minHeight={"full"} >
-                <Flex display={["none", "none", "flex", "flex", "flex"]} w={"full"} h={"fit-content"}  >
+                <Flex display={["none", "none", "flex", "flex", "flex"]} w={"full"}  bgColor={mainBackgroundColor} h={"fit-content"}  >
                     <Flex w={"full"} h={"72px"} px={"6"} gap={"6"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"}  >
                         <CommunityTab activeTab={activeTab} setActiveTab={handleTabChange} />
                     </Flex>
