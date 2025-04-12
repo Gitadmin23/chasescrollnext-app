@@ -44,8 +44,8 @@ function TextArea() {
   const { username } = useDetails((state) => state)
 
   const { fileUploadHandler, loading, uploadedFile, reset, deleteFile } = AWSHook();
-  const ref = React.useRef<HTMLInputElement>();
-  const containerRef = React.useRef<HTMLDivElement>();
+  const ref = React.useRef<HTMLInputElement>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
   const { activeChat } = useChatPageState((state) => state);
   const { userId } = useDetails((state) => state);
@@ -235,11 +235,11 @@ function TextArea() {
                     <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
                       <HStack width='100%' bg='whitesmoke' borderRadius={'10px'} padding='5px'>
                         <VStack cursor={'pointer'} width={'60px'} height={'60px'} borderRadius={'8px'} justifyContent={'center'} alignItems={'center'} bg='lightgrey'>
-                          <CustomText fontFamily={'DM-Bold'} fontSize={'20px'}>{format.toUpperCase()}</CustomText>
+                          <CustomText fontSize={'20px'}>{format.toUpperCase()}</CustomText>
                         </VStack>
                         <VStack alignItems={'flex-start'}>
-                          <CustomText fontFamily={'DM-Regular'} color='brand.chasescrollButtonBlue'>{item.length > 10 ? item.substring(0, 10) + '...' : item}</CustomText>
-                          <CustomText fontFamily={'DM-Bold'} fontSize='14px' color='grey'>{format.toUpperCase()}</CustomText>
+                          <CustomText color='brand.chasescrollButtonBlue'>{item.length > 10 ? item.substring(0, 10) + '...' : item}</CustomText>
+                          <CustomText fontSize='14px' color='grey'>{format.toUpperCase()}</CustomText>
                         </VStack>
                       </HStack>
                     </MediaBox>
@@ -249,11 +249,11 @@ function TextArea() {
                   <MediaBox key={index.toString()} onClose={() => deleteFile(index)}>
                     <HStack width='100%' bg='whitesmoke' borderRadius={'10px'} padding='5px'>
                       <VStack cursor={'pointer'} width={'60px'} height={'60px'} borderRadius={'8px'} justifyContent={'center'} alignItems={'center'} bg='lightgrey'>
-                        <CustomText fontFamily={'DM-Bold'} fontSize={'20px'}>{format.toUpperCase()}</CustomText>
+                        <CustomText fontSize={'20px'}>{format.toUpperCase()}</CustomText>
                       </VStack>
                       <VStack alignItems={'flex-start'}>
-                        <CustomText fontFamily={'DM-Regular'} color='brand.chasescrollButtonBlue'>{item?.file?.length > 10 ? item?.file?.substring(0, 10) + '...' : item?.file}</CustomText>
-                        <CustomText fontFamily={'DM-Bold'} fontSize='14px' color='grey'>{format.toUpperCase()}</CustomText>
+                        <CustomText color='brand.chasescrollButtonBlue'>{item?.file?.length > 10 ? item?.file?.substring(0, 10) + '...' : item?.file}</CustomText>
+                        <CustomText fontSize='14px' color='grey'>{format.toUpperCase()}</CustomText>
                       </VStack>
                     </HStack>
                   </MediaBox>

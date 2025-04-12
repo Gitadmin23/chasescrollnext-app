@@ -115,7 +115,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                         </Flex>
                     )}
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
-                        <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{textLimit(capitalizeFLetter(item?.name + " Lorem Ipsum is simply dummy text of the printing"), 70)}</Text>
+                        <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{textLimit(capitalizeFLetter(item?.name), 70)}</Text>
                         <Flex display={["none", "none", "flex"]} >
                             <DonationGraph rounded='16px' item={item} />
                         </Flex>

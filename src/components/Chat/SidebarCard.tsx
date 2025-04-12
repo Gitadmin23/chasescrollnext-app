@@ -64,16 +64,16 @@ const SidebarCard = React.forwardRef<HTMLDivElement, IProps>(({ chat }, ref) => 
                 </Box>
 
                 <Flex flexDirection={"column"} >
-                    <CustomText fontFamily={'DM-Medium'} fontSize={['12px', '14px']}>{textLimit(capitalizeFLetter(`${chat?.otherUser?.firstName} ${chat?.otherUser?.lastName}`), 12)}</CustomText>
-                    <CustomText fontFamily={'Satoshi-Light'} fontSize={'14px'}>{chat?.lastMessage && chat?.lastMessage?.length > 10 ? chat?.lastMessage?.substring(0, 10) + '...' : chat?.lastMessage}</CustomText>
+                    <CustomText fontSize={['12px', '14px']}>{textLimit(capitalizeFLetter(`${chat?.otherUser?.firstName} ${chat?.otherUser?.lastName}`), 12)}</CustomText>
+                    <CustomText fontSize={'14px'}>{chat?.lastMessage && chat?.lastMessage?.length > 10 ? chat?.lastMessage?.substring(0, 10) + '...' : chat?.lastMessage}</CustomText>
                 </Flex>
             </HStack>
 
             <VStack alignItems={'flex-end'}>
-                <CustomText fontFamily={'Satoshi-Light'} fontSize={'12px'}>{moment(chat?.lastModifiedDate).fromNow()}</CustomText>
+                <CustomText fontSize={'12px'}>{moment(chat?.lastModifiedDate).fromNow()}</CustomText>
                 {isLoading && count > 0 && (
                     <VStack width='20px' height='20px' borderRadius={'10px'} justifyContent={'center'} alignItems={'center'} bg='brand.chasescrollButtonBlue' color='white'>
-                        <CustomText fontSize={'10px'} color='white' fontFamily={'Satoshi-Regular'}>5</CustomText>
+                        <CustomText fontSize={'10px'} color='white' >5</CustomText>
                     </VStack>
                 )}
             </VStack>
