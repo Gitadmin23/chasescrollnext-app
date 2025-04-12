@@ -38,8 +38,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
 
     const [tab, setTab] = useState(false)
     const [index, setIndex] = useState(1)
-    const [prCheck, setPrCheck] = useState(false)
-    const [prRemove, setPrRemove] = useState(false)
+    const [prCheck, setPrCheck] = useState(false) 
     const [percent, setPercentage] = useState("")
 
     const [selectProduct, setSelectProduct] = useState<Array<IPinned>>([])
