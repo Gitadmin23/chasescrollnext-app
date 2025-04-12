@@ -4,8 +4,7 @@ import GetMySale from '@/components/kisok/getMySale'
 import GetOrder from '@/components/kisok/getOrder'
 import GetProduce from '@/components/kisok/getProduce'
 import GetReciept from '@/components/kisok/getReciept'
-import GetRental from '@/components/kisok/getRental'
-import GetRequest from '@/components/kisok/getRequest'
+import GetRental from '@/components/kisok/getRental' 
 import GetVendorReciept from '@/components/kisok/getVendorReciept'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { GlassIcon, LocationPin, LocationStroke, RentalIcon, ServiceIcon, StoreIcon } from '@/components/svg'
@@ -29,6 +28,7 @@ export default function KisokPage() {
     const [tab, setTab] = useState<"kiosk" | "service" | "rental">("kiosk")
     const { colorMode, toggleColorMode } = useColorMode();
     const query = useSearchParams();
+    const type = query?.get('type');
 
     const [initialFilter, setInitialFilter] = useState({
         state: "",
@@ -43,7 +43,6 @@ export default function KisokPage() {
     })
 
     const [open, setOpen] = useState(false)
-    const type = query?.get('type');
     const { updateProduct, updateImage, updateRental } = useProductStore((state) => state);
 
     const { push } = useRouter()

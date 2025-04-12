@@ -8,6 +8,7 @@ interface message {
     product: boolean,
     rental: boolean,
     service: boolean, 
+    event: boolean
 }
 
 type State = {
@@ -34,7 +35,8 @@ const usePaystackStore = create<State & Action>((set) => ({
         booking: false,
         product: false,
         rental: false,
-        service: false, 
+        service: false,
+        event: false 
     },
     dataID: "",
     setPaystackConfig: (data) => set(() => ({ configPaystack: data })), 

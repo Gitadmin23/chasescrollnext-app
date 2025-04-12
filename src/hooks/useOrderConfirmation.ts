@@ -1,14 +1,21 @@
 import httpService from "@/utils/httpService";
 import { useToast } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 
 
 
-const useOrderConfirmation = () => {
+const useOrderConfirmation = (productId?: string) => {
 
     const toast = useToast()
 
     const query = useQueryClient()
+    const [open, setOpen] = useState(false)
+    const [openMesage, setOpenMesage] = useState(false)
+    const [show, setShow] = useState(false)
+    const [tab, setTab] = useState(1)
+    const { push } = useRouter()
 
     const rentalConfirm = useMutation({
         mutationFn: (data: any) =>
@@ -17,7 +24,12 @@ const useOrderConfirmation = () => {
             ),
         onSuccess: (data: any) => {
             console.log(data?.data);
-            query?.invalidateQueries("order")
+            setOpen(false)
+            setShow(false)
+            setOpenMesage(true)
+            // setTab(3)
+            // push(`/dashboard/kisok/details-order/${productId}?type=true`)
+            // query?.invalidateQueries("order")
             toast({
                 title: "Successful",
                 description: "",
@@ -42,6 +54,9 @@ const useOrderConfirmation = () => {
             ),
         onSuccess: (data: any) => {
             console.log(data?.data);
+            setOpen(false)
+            setShow(false)
+            setOpenMesage(true)
 
             toast({
                 title: "Successful",
@@ -62,6 +77,11 @@ const useOrderConfirmation = () => {
             ),
         onSuccess: (data: any) => {
             console.log(data?.data);
+            setOpen(false)
+            setShow(false)
+            setOpenMesage(true)
+
+            push(`/dashboard/kisok/details-order/${productId}?type=true`)
             query?.invalidateQueries("order")
             toast({
                 title: "Successful",
@@ -79,6 +99,14 @@ const useOrderConfirmation = () => {
         rentalConfirm,
         serviceConfirm,
         productConfirm,
+        open, 
+        setOpen,
+        show, 
+        setShow,
+        tab, 
+        setTab,
+        openMesage, 
+        setOpenMesage
     };
 }
 

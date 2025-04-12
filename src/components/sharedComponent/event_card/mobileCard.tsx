@@ -44,7 +44,7 @@ export default function MobileCard(props: IEventType) {
 
     return (
         <Flex as={"button"} onClick={clickHandler} borderWidth={"1px"} pos={"relative"} rounded={"16px"} p={"5px"} w={"full"} gap={"2"} bgColor={mainBackgroundColor} >
-            <DeleteEvent id={props?.id} name={props?.eventName+ " Event"} isEvent={pathname?.includes("draft") ? false : true} draft={pathname?.includes("draft") ? true : false} isOrganizer={props?.isOrganizer} />
+            <DeleteEvent id={props?.id} name={props?.eventName + " Event"} isEvent={pathname?.includes("draft") ? false : true} draft={pathname?.includes("draft") ? true : false} isOrganizer={props?.isOrganizer} />
             <Flex width={"fit-content"} >
                 <Flex w={"120px"} h={"104px"} rounded={"16px"} roundedTopRight={"0px"} >
                     <EventImage data={props} width={["120px"]} borderWidth='2px' height={["104px"]} />
@@ -64,9 +64,13 @@ export default function MobileCard(props: IEventType) {
                         </Text>
                         <Flex gap={"3"} alignItems={"center"} justifyContent={"end"} >
                             {pathname?.includes("my_event") && (
-                                <Flex h={"21px"} w={"48px"} rounded={"8px"} bgColor={"#EFF1FE"} color={"#5D70F9"} fontSize={"8px"} justifyContent={"center"} alignItems={"center"} >
-                                    <Text fontWeight={"700"} >organizer</Text>
-                                </Flex>
+                                <>
+                                    {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR" || props?.prStatus === "ACTIVE" || props.isBought) && (
+                                        <Flex h={"21px"} w={"48px"} rounded={"8px"} bgColor={"#EFF1FE"} color={"#5D70F9"} fontSize={"8px"} justifyContent={"center"} alignItems={"center"} >
+                                            <Text fontWeight={"700"} >{isOrganizer ? "organizer" : eventMemberRole === "ADMIN" ? "admin" : eventMemberRole === "COLLABORATOR" ? "volunteer" : "affiliate"}</Text>
+                                        </Flex>
+                                    )}
+                                </>
                             )}
                             {pathname?.includes("past_event") && (
                                 <Flex h={"21px"} w={"48px"} rounded={"8px"} bgColor={"#D0D4EB40"} color={"#F04F4F"} fontSize={"8px"} justifyContent={"center"} alignItems={"center"} >
@@ -89,7 +93,7 @@ export default function MobileCard(props: IEventType) {
                                     size='14px'
                                     type="EVENT"
                                     showText={false}
-                                    id={props?.id}
+                                    id={props.prStatus === "ACTIVE" ? props.affiliateID + "?type=affiliate" : props?.id}
                                 />
                             )}
                         </Flex>

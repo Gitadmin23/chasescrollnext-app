@@ -1,5 +1,5 @@
 import useCustomTheme from '@/hooks/useTheme'
-import { Box, Flex, Image, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Text, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import DonationGraph from '../donation/donationGraph'
 import { IDonation, IDonationList } from '@/models/donation'
@@ -12,10 +12,14 @@ import httpService from '@/utils/httpService'
 import { IMAGE_URL } from '@/services/urls'
 import ShareEvent from '../sharedComponent/share_event'
 import DonationBtn from '../donation/donationBtn'
+import usePr from '@/hooks/usePr'
+import ModalLayout from '../sharedComponent/modal_layout'
+import CustomText from '../general/Text'
+import { IoClose } from 'react-icons/io5'
 
 export default function EventDonation({ checkbox, item }: { checkbox?: boolean, item: IEventType }) {
 
-    const { borderColor, bodyTextColor, secondaryBackgroundColor } = useCustomTheme()
+    const { borderColor, bodyTextColor, secondaryBackgroundColor, mainBackgroundColor } = useCustomTheme()
 
     const [eventData, setEventData] = useState({} as {
         "id": string,
@@ -32,9 +36,11 @@ export default function EventDonation({ checkbox, item }: { checkbox?: boolean, 
         "eventID": string
     })
 
+    const { createPr, tagServiceAndRental, deleteFundraising, open, setOpen } = usePr()
+
 
     // react query
-    const { isLoading, isRefetching } = useQuery(['all-donation', item?.id], () => httpService.get(`/pinned-fundraisers/get-pinned-event-fundraising/${item?.id}`, {
+    const { isLoading, isRefetching } = useQuery(['all-donation', item?.id, open], () => httpService.get(`/pinned-fundraisers/get-pinned-event-fundraising/${item?.id}`, {
         params: {
             id: item?.id
         }
@@ -42,18 +48,34 @@ export default function EventDonation({ checkbox, item }: { checkbox?: boolean, 
         onError: (error: any) => {
         },
         onSuccess: (data: any) => {
-            setEventData(data?.data[0])
-
-            console.log(data);
-
+            if (data?.data?.length > 0) {
+                setEventData(data?.data[0])
+            } else {
+                setEventData({} as any)
+            }
         }
     })
+
+    const removeHandler = () => {
+        deleteFundraising?.mutate(eventData?.id + "")
+    }
+
+    const openHandler = (e: any) => {
+        e.stopPropagation()
+        setOpen(true)
+    }
 
 
     return (
         <Flex flexDir={"column"} w={"full"} gap={"2"} display={eventData?.fundRaiser?.name ? "flex" : "none"} >
+
             <Text fontSize={"14px"} fontWeight={"500"} >Fundraising available</Text>
-            <Flex role="button" display={eventData?.fundRaiser?.name ? "flex" : "none"} flexDir={["row"]} w={"full"} rounded={"8px"} gap={["2", "2", "2"]} borderWidth={"1px"} borderColor={borderColor} px={["2", "2", "3"]} h={["auto", "auto", "130px"]} py={"2"} alignItems={"center"} >
+            <Flex bgColor={mainBackgroundColor} pos={"relative"} role="button" display={eventData?.fundRaiser?.name ? "flex" : "none"} flexDir={["row"]} w={"full"} rounded={"8px"} gap={["2", "2", "2"]} borderWidth={"1px"} borderColor={borderColor} px={["2", "2", "3"]} h={["auto", "auto", "130px"]} py={"2"} alignItems={"center"} >
+                {item?.isOrganizer && (
+                    <Flex w={"6"} h={"6"} onClick={(e) => openHandler(e)} justifyContent={"center"} alignItems={"center"} pos={"absolute"} top={"-14px"} right={"-8px"} zIndex={"50"} bg={"#F2A09B66"} color={"#F50A0A"} rounded={"full"} >
+                        <IoClose size={"14px"} />
+                    </Flex>
+                )}
                 <Flex w={"fit-content"} >
                     <Flex w={["80px", "80px", "150px"]} height={["80px", "80px", "100px"]} bgColor={secondaryBackgroundColor} rounded={"8px"} borderWidth={"1px"} borderColor={borderColor} >
                         <Image rounded={"8px"} objectFit="cover" alt={eventData?.fundRaiser?.name} width={"full"} height={["80px", "80px", "100px"]} src={IMAGE_URL + eventData?.fundRaiser?.bannerImage} />
@@ -73,6 +95,15 @@ export default function EventDonation({ checkbox, item }: { checkbox?: boolean, 
                     <DonationBtn item={eventData?.fundRaiser} user={eventData?.fundRaiser?.createdBy} event={true} />
                 )}
             </Flex>
+            <ModalLayout open={open} close={setOpen} size={"xs"} >
+                <VStack width='100%' justifyContent={'center'} p={"4"} height='100%' alignItems={'center'} spacing={3}>
+                    <Image alt='delete' src='/assets/images/deleteaccount.svg' />
+                    <CustomText fontWeight={"700"} textAlign={'center'} fontSize={'20px'}>Remove Fundraising </CustomText>
+                    <CustomText textAlign={'center'} fontSize={'14px'} >Are you sure you want to remove <span style={{ fontWeight: "bold" }} >{capitalizeFLetter(eventData?.fundRaiser?.name)}</span>, this action cannot be undone.</CustomText>
+                    <Button isDisabled={deleteFundraising.isLoading} onClick={removeHandler} isLoading={deleteFundraising.isLoading} fontSize={"14px"} width='100%' height='42px' bg='red' color="white" variant='solid'>Remove</Button>
+                    <Button onClick={() => setOpen(false)} width='100%' height='42px' borderWidth={'0px'} color="grey">Cancel</Button>
+                </VStack>
+            </ModalLayout>
         </Flex>
     )
 }

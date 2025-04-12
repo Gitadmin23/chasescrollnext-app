@@ -10,7 +10,7 @@ export default function LandingLayout({ children }: any) {
             <Flex pos={"relative"} w={"full"} h={"100vh"} zIndex={"10"} bgColor={"transparent"} >
                 {children}
             </Flex>
-            <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} bgColor={colorMode !== "dark" ? "transparent" : "#000"} opacity={colorMode !== "dark" ? "100%" : "15%"} pos={"absolute"} inset={"0px"} w={"full"} h={"full"} overflow={"hidden"} >
+            <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} bgColor={colorMode !== "dark" ? "transparent" : "#000"} opacity={colorMode !== "dark" ? "100%" : "15%"} pos={"fixed"} inset={"0px"} w={"full"} h={"full"} overflow={"hidden"} >
                 <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
                 <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />
                 <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"contain"} />

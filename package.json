@@ -50,6 +50,7 @@
     "firebase": "^10.5.2",
     "format-number": "^3.0.0",
     "framer-motion": "^10.16.4",
+    "html2canvas": "^1.4.1",
     "iconsax-react": "^0.0.8",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",

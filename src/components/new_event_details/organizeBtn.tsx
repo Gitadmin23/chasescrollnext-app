@@ -88,9 +88,9 @@ function OrganizeBtn(props: IEventType) {
                         <Text fontSize={"14px"} fontWeight={"500"} >Edit Event</Text>
                     </Flex> 
                 </Flex>
-                <Flex> 
+                <Flex w={"full"} > 
                     <PrBtn data={props} /> 
-                    <Flex w={"full"} gap={"2"} h={"55px"} display={["flex", "flex", "none"]} borderLeftWidth={"1px"} alignItems={"center"} justifyContent={"center"} as={"button"} disabled={(pathname?.includes("pastdetails") || eventMemberRole === "COLLABORATOR") ? true : false} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} onClick={() => clickHandler()} >
+                    <Flex w={"full"} gap={"2"} h={"55px"} display={["flex", "flex", "none"]} borderLeftWidth={"1px"} alignItems={"center"} justifyContent={"center"} as={"button"} disabled={(pathname?.includes("pastdetails")) ? true : false} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} onClick={() => clickHandler()} >
                         <DashboardScannerIcon />
                         <Text fontSize={"14px"} fontWeight={"500"} >Scan Ticket</Text>
                     </Flex>

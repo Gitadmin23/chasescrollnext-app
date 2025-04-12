@@ -8,12 +8,15 @@ import CustomButton from '../general/Button'
 import useProduct from '@/hooks/useProduct'
 import { IProduct } from '@/models/product'
 import { useQueryClient } from 'react-query'
+import { useSearchParams } from 'next/navigation'
 
 export default function ReviewData({item, reviewType}: {item: string, reviewType: string}) {
 
     const { primaryColor } = useCustomTheme()
     const toast = useToast()
     const [open, setOpen] = useState(false)  
+    const query = useSearchParams();
+    const type = query?.get('type');
 
     const { createReview, reviewPayload, setReviewPayload } = useProduct()
 
@@ -41,6 +44,12 @@ export default function ReviewData({item, reviewType}: {item: string, reviewType
             setOpen(false)
         }
     }, [createReview?.isSuccess])
+
+    useEffect(()=> {
+        if(type) {
+            setOpen(true)
+        }
+    }, [])
 
     return (
         <div>

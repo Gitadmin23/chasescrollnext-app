@@ -1,7 +1,7 @@
 import CustomButton from '@/components/general/Button'
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import {Flex, Input, Text, useColorMode, useToast} from '@chakra-ui/react'
+import { Flex, Input, Text, useColorMode, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { loadStripe } from "@stripe/stripe-js";
 import { useMutation } from 'react-query';
@@ -12,6 +12,7 @@ import Fundpaystack from './fundpaystack';
 import useModalStore from '@/global-state/useModalSwitch';
 import useSettingsStore from '@/global-state/useSettingsState';
 import useCustomTheme from "@/hooks/useTheme";
+import usePaystackStore from '@/global-state/usePaystack';
 
 interface Props {
     currency: string
@@ -39,34 +40,35 @@ function FundWallet(props: Props) {
 
     const stripePromise = loadStripe(STRIPE_KEY);
 
-    const { amount, setAmount } = useSettingsStore((state) => state); 
+    const { amount, setAmount } = useSettingsStore((state) => state);
+    const { message } = usePaystackStore((state) => state);
     const [clientSecret, setClientSecret] = React.useState("");
     // const [open, setOpen] = React.useState(false)
     const [configData, setconfigData] = React.useState({} as any);
     const toast = useToast()
-    const [config, setConfig] = React.useState({} as any)  
+    const [config, setConfig,] = React.useState({} as any)
     const [displayValue, setDisplayValue] = useState(""); // Store the formatted value with commas
 
     // Format number with commas
     const formatNumberData = (num: string) => {
-      const number = num.replace(/,/g, ""); // Remove existing commas
-      if (isNaN(Number(number))) return ""; // Return empty for non-numeric inputs
-      return Number(number).toLocaleString(); // Format with commas
+        const number = num.replace(/,/g, ""); // Remove existing commas
+        if (isNaN(Number(number))) return ""; // Return empty for non-numeric inputs
+        return Number(number).toLocaleString(); // Format with commas
     };
-  
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const inputValue = e.target.value.replace(/,/g, ""); // Remove commas from the input
-      if (!isNaN(Number(inputValue))) {
-        setAmount(inputValue); // Store raw number without commas
-        setDisplayValue(formatNumberData(inputValue)); // Format and update display value
-      }
-    }; 
+        const inputValue = e.target.value.replace(/,/g, ""); // Remove commas from the input
+        if (!isNaN(Number(inputValue))) {
+            setAmount(inputValue); // Store raw number without commas
+            setDisplayValue(formatNumberData(inputValue)); // Format and update display value
+        }
+    };
 
     const createTicket = useMutation({
         mutationFn: (data: any) => httpService.post(URLS.FUND_WALLET, data),
         onSuccess: (data: any) => {
             console.log(data);
-            
+
             if (currency === "USD") {
                 setconfigData({
                     reference: data?.data?.transactionID,
@@ -107,12 +109,12 @@ function FundWallet(props: Props) {
         <Flex width={"full"} pt={"8"} gap={"4"} flexDirection={"column"} alignItems={"center"} >
             <Text fontWeight={"semibold"} >Enter Amount</Text>
             <Input value={displayValue} onChange={handleChange} width={"full"} textAlign={"center"} borderColor={"transparent"} focusBorderColor="transparent" placeholder={currency === "USD" ? '$0.00' : "₦0.00"} _placeholder={{ color: bodyTextColor }} fontSize={"20px"} _hover={{ color: bodyTextColor }} />
-            <CustomButton isLoading={createTicket.isLoading} disable={createTicket.isLoading} onClick={() => clickHandler()} text='Fund' marginTop={"4"} 
-          backgroundColor={"#5465E0"}
-          borderRadius={"32px"}
-          height={"54px"}/>
+            <CustomButton isLoading={createTicket.isLoading} disable={createTicket.isLoading} onClick={() => clickHandler()} text='Fund' marginTop={"4"}
+                backgroundColor={"#5465E0"}
+                borderRadius={"32px"}
+                height={"54px"} />
 
-            <Fundpaystack fund={true} config={config} setConfig={setConfig} />
+            <Fundpaystack message={message} fund={true} config={config} setConfig={setConfig} />
             <ModalLayout open={open} close={setOpen} title='Fund Wallet' >
                 <StripePopup fund={true} stripePromise={stripePromise} clientSecret={clientSecret} configData={configData} />
             </ModalLayout>

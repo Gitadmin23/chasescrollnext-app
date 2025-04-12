@@ -51,7 +51,7 @@ export default function DonationBtn(props: IEventType) {
     const toast = useToast()
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
 
-    const { setPaystackConfig, setDonation } = usePaystackStore((state) => state);
+    const { setPaystackConfig, setMessage, message } = usePaystackStore((state) => state);
 
     const payForTicket = useMutation({
         mutationFn: (data: any) => httpService.get(`/payments/createDonationOrder?typeID=${props?.id}&donationAmount=${value}`),
@@ -62,7 +62,7 @@ export default function DonationBtn(props: IEventType) {
                 amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
                 reference: data?.data?.content?.orderCode
             });
-            setDonation(true)
+            setMessage({...message, donation: true})
             setOpen(false)
             setValue("")
 

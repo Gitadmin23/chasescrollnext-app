@@ -12,6 +12,8 @@ import CopyRightText from "@/components/sharedComponent/CopyRightText";
 import useCustomTheme from "@/hooks/useTheme";
 import { textLimit } from "@/utils/textlimit";
 import { capitalizeFLetter } from "@/utils/capitalLetter";
+import { IEventType } from "@/models/Event";
+import html2canvas from "html2canvas";
 
 interface Props {
   id: string | number;
@@ -33,6 +35,17 @@ function Qr_code(props: Props) {
   const { colorMode } = useColorMode();
 
   const componentRef: any = React.useRef("");
+
+  function downloadComponentAsPNG() {
+    if (!componentRef.current) return;
+  
+    html2canvas(componentRef.current).then((canvas: any) => {
+      const link = document.createElement('a');
+      link.download = data?.eventName ? data?.eventName : data?.name+" QRcode";
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+  }
 
 
   return (
@@ -143,7 +156,7 @@ function Qr_code(props: Props) {
       <CustomButton
         maxWidth={"300px"}
         backgroundColor={primaryColor}
-        onClick={() => exportComponentAsJPEG(componentRef)}
+        onClick={() => downloadComponentAsPNG()}
         text="Download QR-Code"
       />
     </Flex>

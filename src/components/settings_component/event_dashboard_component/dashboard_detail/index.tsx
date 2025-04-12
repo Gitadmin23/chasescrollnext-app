@@ -191,7 +191,7 @@ function DashboardDetail(props: Props) {
                     </Box>
                 </Box>
             </Flex>
-            <Box width={"full"} borderBottomWidth={"1px"} borderBottomColor={"#D0D4EB"} mt={"8"} py={"7"} px={"4"} >
+            {/* <Box width={"full"} borderBottomWidth={"1px"} borderBottomColor={"#D0D4EB"} mt={"8"} py={"7"} px={"4"} >
 
                 <ResponsiveContainer width="100%" height={500}>
                     <BarChart
@@ -215,7 +215,7 @@ function DashboardDetail(props: Props) {
                         <Bar name='Available Tickets' dataKey="totalNumberOfAvailableTickets" fill="#5D70F9" />
                     </BarChart>
                 </ResponsiveContainer>
-            </Box>
+            </Box> */}
         </Flex>
     )
 }

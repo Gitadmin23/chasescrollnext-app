@@ -10,6 +10,9 @@ interface IProps {
   borderRadius?: string;
   width?: any;
   fontSize?: any;
+  borderTopRadius?: any;
+  borderBottomLeftRadius?: any;
+  borderBottomRightRadiusborderBottomRightRadius?: any;
   height?: any;
   shadow?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none';
   isLoading?: boolean;
@@ -24,6 +27,9 @@ function CustomButton({
   backgroundColor,
   color = 'white',
   borderRadius = '12px',
+  borderTopRadius,
+  borderBottomLeftRadius,
+  borderBottomRightRadius,
   width = 'full',
   height = '45px',
   shadow = 'none',
@@ -47,7 +53,10 @@ function CustomButton({
       height={height}
       color={color}
       fontSize={fontSize}
-      borderRadius={borderRadius}
+      // borderRadius={borderRadius}
+      borderTopRadius={borderTopRadius ? borderTopRadius : borderRadius}
+      borderBottomLeftRadius={borderBottomLeftRadius ? borderBottomLeftRadius : borderRadius}
+      borderBottomRightRadius={borderBottomRightRadius ? borderBottomRightRadius : borderRadius}
       type={type}
       isLoading={isLoading}
       shadow={shadow}

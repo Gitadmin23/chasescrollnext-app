@@ -159,7 +159,7 @@ function NotificationCard({ notification }: { notification: INotification }) {
           </Text>
         ) : (
           <Text textAlign={"left"} fontSize={"12px"} lineHeight={"17px"} whiteSpace="break-spaces">
-            {textLimit((notification.message)?.replaceAll("New message on chat " + notification?.createdBy?.firstName + " " + notification.createdBy?.lastName, ""), 70)}
+            {textLimit((notification.message)?.replaceAll("New message on chat " + notification?.createdBy?.firstName + " " + notification.createdBy?.lastName, "")?.replaceAll("a pr for", "a PR for"), 70)}
           </Text>
         )}
         <Flex gap={["2", "4", "8"]} mt={"1"} flexDirection={["column", "row", "row"]} alignItems={["start", "start", "center"]} >
