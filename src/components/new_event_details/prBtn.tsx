@@ -38,6 +38,8 @@ export default function PrBtn({ data }: { data: IEventType }) {
 
     const [tab, setTab] = useState(false)
     const [index, setIndex] = useState(1)
+    const [prCheck, setPrCheck] = useState(false)
+    const [prRemove, setPrRemove] = useState(false)
     const [percent, setPercentage] = useState("")
 
     const [selectProduct, setSelectProduct] = useState<Array<IPinned>>([])
@@ -55,7 +57,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
             eventID: data?.id,
             affiliateType: data?.affiliates[0]?.affiliateType,
             percent: data?.affiliates[0]?.percent
-        }) 
+        })
     }
 
     const submitHandler = () => {
@@ -78,7 +80,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
                 state: "Rivers"
             })
         } else if (index === 1) {
-            if(selectDonation === selectDonationInitial) {
+            if (selectDonation === selectDonationInitial) {
                 toast({
                     status: "warning",
                     title: "This Fundraising is Pinned",
@@ -87,7 +89,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
                     position: "top-right",
                 })
             } else {
-                if(selectDonation) {
+                if (selectDonation) {
                     createFundraising?.mutate({
                         fundRaiserID: selectDonation,
                         eventID: data?.id,
@@ -96,13 +98,15 @@ export default function PrBtn({ data }: { data: IEventType }) {
                 }
             }
         }
-    }  
+    }
 
-    useEffect(()=> {
-        if(data?.affiliates?.length > 0) {
-            setPercentage(data?.affiliates[0]?.percent+"")
+    useEffect(() => {
+        if (data?.affiliates?.length > 0) {
+            setPercentage(data?.affiliates[0]?.percent + "")
+            setPrCheck(true)
         }
     }, [open])
+
 
     return (
         <>
@@ -144,24 +148,33 @@ export default function PrBtn({ data }: { data: IEventType }) {
                             <Flex w={"full"} flexDirection={"column"} >
                                 <Flex w={"full"} justifyContent={"space-between"} borderBottomWidth={data?.isOrganizer ? "1px" : "0px"} h={"50px"} px={"3"} alignItems={"center"} >
                                     <Text fontSize={"14px"} >Request PR Service</Text>
-                                    {data?.isOrganizer && (
-                                        <Switch isChecked={data?.affiliates?.length > 0} />
-                                    )}
+                                    <Flex gap={"2"} alignItems={"center"} >
+                                        {data?.isOrganizer && (
+                                            <Switch isChecked={prCheck} onChange={(e) => setPrCheck(e.target.checked)} />
+                                        )}
+                                        {!prCheck && (
+                                            <CustomButton backgroundColor={"red"} disable={updateUserEvent?.isLoading} isLoading={updateUserEvent?.isLoading} onClick={() => updateUserEvent?.mutate({
+                                                affiliates: []
+                                            })} width={"80px"} height={"30px"} fontSize={"12px"} text={"Stop Pr"} rounded={"full"} />
+                                        )}
+                                    </Flex>
                                     {!data?.isOrganizer && (
                                         <CustomButton isLoading={createPr?.isLoading} disable={createPr?.isLoading} onClick={clickHander} width={"80px"} height={"30px"} fontSize={"12px"} text={"Join"} rounded={"full"} />
                                     )}
                                 </Flex>
-                                <Flex justifyContent={["space-between"]} alignItems={"center"}  h={"50px"} px={"4"} borderBottomWidth={data?.isOrganizer ? "1px" : "0px"} gap={"3"} >
-                                    <Input w={"full"} type="number" value={percent} onChange={(e)=> setPercentage(e.target.value+"")} height={"35px"} />
-                                    <CustomButton width={"50%"} isLoading={updateUserEvent?.isLoading} onClick={()=> updateUserEvent?.mutate({
-                                        affiliates : [
-                                            {
-                                                affiliateType: data?.affiliates[0]?.affiliateType, 
-                                                percent: Number(percent)
-                                            }
-                                        ]
-                                    })} text={"Update"} fontSize={"12px"} height={"35px"} />
-                                </Flex>
+                                {prCheck && (
+                                    <Flex justifyContent={["space-between"]} alignItems={"center"} h={"50px"} px={"4"} borderBottomWidth={data?.isOrganizer ? "1px" : "0px"} gap={"3"} >
+                                        <Input w={"full"} type="number" value={percent} onChange={(e) => setPercentage(e.target.value + "")} height={"35px"} />
+                                        <CustomButton width={"50%"} isLoading={updateUserEvent?.isLoading} onClick={() => updateUserEvent?.mutate({
+                                            affiliates: [
+                                                {
+                                                    affiliateType: data?.affiliates[0]?.affiliateType ? data?.affiliates[0]?.affiliateType : "pr",
+                                                    percent: Number(percent)
+                                                }
+                                            ]
+                                        })} text={"Update"} fontSize={"12px"} height={"35px"} />
+                                    </Flex>
+                                )}
                             </Flex>
                             {data?.isOrganizer && (
                                 <Flex flexDirection={"column"} >

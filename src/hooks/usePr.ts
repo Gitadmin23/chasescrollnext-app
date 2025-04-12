@@ -149,7 +149,7 @@ const usePr = () => {
 
             toast({
                 title: 'Success',
-                description: "Event Role Updated",
+                description: "Event Updated",
                 status: 'success',
                 isClosable: true,
                 duration: 5000,
