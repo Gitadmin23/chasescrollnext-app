@@ -48,7 +48,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
     const [selectDonation, setSelectDonation] = useState("")
     const [selectDonationInitial, setSelectDonationInitial] = useState("")
 
-    const { createPr, tagServiceAndRental, createFundraising, open, setOpen, updateUserEvent } = usePr()
+    const { createPr, tagServiceAndRental, createFundraising, open, setOpen, updateUserEvent, updateEvent } = usePr()
 
     const toast = useToast()
 
@@ -108,8 +108,31 @@ export default function PrBtn({ data }: { data: IEventType }) {
         if (data?.affiliates?.length > 0) {
             setPercentage(data?.affiliates[0]?.percent + "")
             setPrCheck(true)
+        } else {
+            setPercentage("")
+            setPrCheck(false)
         }
     }, [open])
+
+    const updatePrPercent = (item: boolean) =>{ 
+        // const obj: any = {
+        //     "affiliateType": null,
+        //     "eventID": data?.id,
+        //     "percent": Number(percent),
+        //     "remove": item
+        //   }
+        // updateUserEvent?.mutate({...obj})
+
+        updateEvent?.mutate({
+            id: data?.id,
+            affiliates: item ? [] : [
+                {
+                    affiliateType: data?.affiliates[0]?.affiliateType ? data?.affiliates[0]?.affiliateType : "pr",
+                    percent: Number(percent)
+                }
+            ]
+        })
+    }
 
 
     return (
@@ -156,10 +179,8 @@ export default function PrBtn({ data }: { data: IEventType }) {
                                         {data?.isOrganizer && (
                                             <Switch isChecked={prCheck} onChange={(e) => setPrCheck(e.target.checked)} />
                                         )}
-                                        {!prCheck && (
-                                            <CustomButton backgroundColor={"red"} disable={updateUserEvent?.isLoading} isLoading={updateUserEvent?.isLoading} onClick={() => updateUserEvent?.mutate({
-                                                affiliates: []
-                                            })} width={"80px"} height={"30px"} fontSize={"12px"} text={"Stop Pr"} rounded={"full"} />
+                                        {data?.affiliates?.length > 0 && (
+                                            <CustomButton backgroundColor={"red"} disable={updateEvent?.isLoading} isLoading={updateEvent?.isLoading} onClick={() => updatePrPercent(true)} width={"80px"} height={"30px"} fontSize={"12px"} text={"Stop Pr"} rounded={"full"} />
                                         )}
                                     </Flex>
                                     {!data?.isOrganizer && (
@@ -169,14 +190,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
                                 {prCheck && (
                                     <Flex justifyContent={["space-between"]} alignItems={"center"} h={"50px"} px={"4"} borderBottomWidth={data?.isOrganizer ? "1px" : "0px"} gap={"3"} >
                                         <Input w={"full"} type="number" value={percent} onChange={(e) => setPercentage(e.target.value + "")} height={"35px"} />
-                                        <CustomButton width={"50%"} isLoading={updateUserEvent?.isLoading} onClick={() => updateUserEvent?.mutate({
-                                            affiliates: [
-                                                {
-                                                    affiliateType: data?.affiliates[0]?.affiliateType ? data?.affiliates[0]?.affiliateType : "pr",
-                                                    percent: Number(percent)
-                                                }
-                                            ]
-                                        })} text={"Update"} fontSize={"12px"} height={"35px"} />
+                                        <CustomButton width={"50%"} isLoading={updateEvent?.isLoading} disable={updateEvent?.isLoading} onClick={() => updatePrPercent(false)} text={"Update"} fontSize={"12px"} height={"35px"} />
                                     </Flex>
                                 )}
                             </Flex>
