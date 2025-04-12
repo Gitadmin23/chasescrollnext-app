@@ -57,7 +57,9 @@ export default function RequestServices() {
         if(eventdata.affiliates?.length > 0){
             setPr(true)
         }
-    }, [])
+    }, [eventdata.affiliates])
+    console.log(eventdata);
+    
 
     const clickHander = () => {
         setPr((prev) => !prev)

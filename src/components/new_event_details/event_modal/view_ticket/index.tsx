@@ -54,21 +54,7 @@ function ViewTicket(props: Props) {
     const componentRef: any = React.useRef(null);
     const handlePrint = useReactToPrint({
         content: () => componentRef.current
-    });
-
-
-    // userName={ticketDetails?.createdBy?.firstName + " " + ticketDetails?.createdBy?.lastName}
-    // date={ticketDetails?.event?.startDate}
-    // time={ticketDetails?.event?.startDate}
-    // ticketFee={ticketDetails?.ticketType === "Free"
-    //     ? "Free"
-    //     : ticketDetails?.boughtPrice
-    // }
-    // orderId={ticketDetails?.id}
-    // length={ticketLenght}
-    // currency={ticketDetails?.event?.currency}
-    // location={ticketDetails?.event?.locationDetails} 
-
+    }); 
     const [datainfo, setTicketDetails] = useState({} as any)
     const [dataMultiple, setDataMultiple] = useState([] as any)
     const [length, setTicketLenght] = useState("" as any)
