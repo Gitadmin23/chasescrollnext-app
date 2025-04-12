@@ -27,7 +27,7 @@ function CreateChat() {
     const { userId, email, } = useDetails((state) => state);
     const queryClient = useQueryClient();
     let fileReader = React.useRef<FileReader|null>(null);
-    const inputRef = useRef<HTMLInputElement>();
+    const inputRef = useRef<HTMLInputElement>(null);
     const toast = useToast();
     const router = useRouter();
 
@@ -174,7 +174,7 @@ function CreateChat() {
                     {url === '' && file === null && (
                         <VStack width='100%' height='100%' justifyContent={'center'} alignItems={'center'}>
                             <Image src='/assets/svg/folder-cloud.svg' alt='icon' width={50} height={50} />
-                            <CustomText fontFamily={'Satoshi-Regular'} color='white' fontSize={'md'}>Upload image here</CustomText>
+                            <CustomText color='white' fontSize={'md'}>Upload image here</CustomText>
                         </VStack>
                     )}
                     {
