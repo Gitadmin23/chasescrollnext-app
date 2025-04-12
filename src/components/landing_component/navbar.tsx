@@ -42,7 +42,7 @@ function HomeNavbar() {
         }
     ]
 
-    const [token, setToken]  = React.useState<string|null>(() => localStorage.getItem("token"));
+    const [token, setToken] = React.useState<string | null>(() => localStorage.getItem("token"));
     const [refresh_token, setRefreshToken] = React.useState(() => localStorage.getItem("refresh_token"))
 
     console.log(`TOEkEN => ${token}`);
@@ -85,9 +85,12 @@ function HomeNavbar() {
 
     return (
         <Flex w={"full"} color={"black"} height={["64px", "64px", "101.03px"]} px={["6", "6", "12"]} bgColor={"white"} justifyContent={"space-between"} alignItems={"center"} >
-            <Flex onClick={()=> router.push("/")} as={"button"} alignItems={"center"} gap={"1"} >
+            <Flex onClick={() => router.push("/")} as={"button"} alignItems={"center"} gap={"1"} >
                 <Image width={["32px", "32px", "60px"]} src={"/assets/logo.png"} alt="logo" />
-                <Text fontWeight={"bold"} fontSize={["14px", "14px", "16px"]} color={THEME.COLORS.chasescrollBlue} >Chasescroll</Text>
+                <Flex flexDir={"column"} alignItems={"start"} >
+                    <Text fontWeight={"bold"} fontSize={["14px", "14px", "16px"]} color={THEME.COLORS.chasescrollBlue} >Chasescroll</Text>
+                    <Text fontWeight={"medium"} fontStyle={"italic"} fontSize={["12px", "12px", "14px"]}>We build mermories...</Text>
+                </Flex>
             </Flex>
             <Flex display={["none", "none", "flex"]}>
                 {pathname?.includes("event") && (
@@ -100,7 +103,7 @@ function HomeNavbar() {
                     link: string
                 }) => {
                     return (
-                        <Box onClick={() => router?.push(item?.link)} key={item?.label+item?.link} as="button" _hover={{ color: THEME?.COLORS?.chasescrollBlue }} >
+                        <Box onClick={() => router?.push(item?.link)} key={item?.label + item?.link} as="button" _hover={{ color: THEME?.COLORS?.chasescrollBlue }} >
                             <Text color={pathname === item?.link ? THEME?.COLORS?.chasescrollBlue : "#000"} lineHeight={"22.5px"} fontWeight={"semibold"} >{item?.label}</Text>
                         </Box>
                     )
@@ -149,7 +152,7 @@ function HomeNavbar() {
                                     link: string
                                 }) => {
                                     return (
-                                        <Box onClick={() => clickHander(item?.link)} key={item?.label+item?.link} as="button" _hover={{ color: THEME?.COLORS?.chasescrollBlue }} >
+                                        <Box onClick={() => clickHander(item?.link)} key={item?.label + item?.link} as="button" _hover={{ color: THEME?.COLORS?.chasescrollBlue }} >
                                             <Text color={pathname === item?.link ? THEME?.COLORS?.chasescrollBlue : "black"} lineHeight={"22.5px"} fontWeight={"semibold"} >{item?.label}</Text>
                                         </Box>
                                     )
