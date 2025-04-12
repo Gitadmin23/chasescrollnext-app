@@ -10,6 +10,7 @@ import PhoneInput from 'react-phone-input-2'
 import "react-phone-input-2/lib/style.css";
 import CustomText from '@/components/general/Text'
 import { THEME } from '@/theme'
+import { useParams } from 'next/navigation'
 
 interface IProps {
     tab: boolean,
@@ -21,7 +22,6 @@ export default function SignForm({ tab, setTab, setShowVerify }: IProps) {
 
     const toast = useToast()
     const { signupForm, signupLoading, formatDate, year, monthNumber, day, signupValue, dob, setPhone, phone, signupSuccess, terms, setTerms } = useAuth()
-
 
     const isNotEmail = (str: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

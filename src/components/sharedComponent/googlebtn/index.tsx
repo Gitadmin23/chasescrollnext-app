@@ -30,6 +30,7 @@ interface Props {
     border?: string,
     newbtn?: boolean,
     type?: "DONATION"
+    affiliate?: string
 }
 
 interface UserDetail {
@@ -39,7 +40,7 @@ interface UserDetail {
     username?: string;
     phone?: string;
 }
-
+// +(data?.affiliateID? "&affiliate=true" : "")
 function GoogleBtn(props: Props) {
     const {
         title,
@@ -50,7 +51,8 @@ function GoogleBtn(props: Props) {
         index,
         border,
         newbtn,
-        type
+        type,
+        affiliate,
     } = props
 
     const [checkData, setCheckData] = React.useState<UserDetail>({} as UserDetail);
@@ -129,7 +131,7 @@ function GoogleBtn(props: Props) {
                     if (type === "DONATION") {
                         router.push(`/dashboard/donation/${index}`);
                     } else {
-                        router.push(`/dashboard/event/details/${index}`);
+                        router.push(`/dashboard/event/details/${affiliate ? affiliate : index}?type=affiliate`);
                     }
                 } else {
                     router.push('/dashboard/event')
@@ -199,7 +201,7 @@ function GoogleBtn(props: Props) {
                 if (type === "DONATION") {
                     router.push(`/dashboard/donation/${index}`);
                 } else {
-                    router.push(`/dashboard/event/details/${index}`);
+                    router.push(`/dashboard/event/details/${affiliate ? affiliate : index}?type=affiliate`);
                 }
             } else {
                 router.push('/dashboard/event')

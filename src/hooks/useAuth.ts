@@ -7,7 +7,7 @@ import { useToast } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { useMutation } from "react-query";
 import { useForm } from "./useForm";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import httpService, { unsecureHttpService } from "@/utils/httpService";
 import moment from "moment";
 
@@ -30,10 +30,11 @@ const useAuth = () => {
     const type = query?.get('type');
     const typeID = query?.get('typeID');
     const pathname = usePathname()
+    const param = useParams();
+    const id = query?.get('affiliate');
 
     let email = localStorage.getItem('email')?.toString();
-
-
+ 
     const { mutate, isLoading, isSuccess } = useMutation({
         mutationFn: (info) => httpServiceGoogle.post(`${URLS.LOGIN}`, info),
         onError: (error) => {
@@ -74,7 +75,7 @@ const useAuth = () => {
 
                 if (pathname?.includes("share")) {
                     if (type === "EVENT") {
-                        router.push(`/dashboard/event/details/${typeID}`);
+                        router.push(`/dashboard/event/details/${id ? `${id}?type=affiliate` : typeID}`);
                     } else if (type === "DONATION") {
                         router.push(`/dashboard/donation/${typeID}`);
                     } else {

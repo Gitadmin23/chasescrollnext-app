@@ -1,7 +1,7 @@
 import useCustomTheme from '@/hooks/useTheme'
 import { IEventType } from '@/models/Event'
 import { Checkbox, Flex, Input, Switch, Text, useToast } from '@chakra-ui/react'
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import CustomButton from '../general/Button'
 import ModalLayout from '../sharedComponent/modal_layout'
@@ -47,6 +47,10 @@ export default function PrBtn({ data }: { data: IEventType }) {
     const [selectRental, setSelectRental] = useState<Array<ITag>>([])
     const [selectDonation, setSelectDonation] = useState("")
     const [selectDonationInitial, setSelectDonationInitial] = useState("")
+    const param = useParams();
+    const id = param?.slug
+
+    console.log(id);
 
     const { createPr, tagServiceAndRental, createFundraising, open, setOpen, updateUserEvent, updateEvent } = usePr()
 

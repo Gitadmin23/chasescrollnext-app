@@ -5,7 +5,7 @@ import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { useDetails } from '@/global-state/useUserDetails'
 import { formatNumber } from '@/utils/numberFormat'
 import { Box, Button, Flex, Text, useToast } from '@chakra-ui/react'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { LiaAngleDownSolid } from 'react-icons/lia'
 import useCustomTheme from "@/hooks/useTheme";
@@ -33,7 +33,12 @@ function SelectTicket(props: Props) {
         mainBackgroundColor,
         borderColor,
     } = useCustomTheme();
-    // const { colorMode, toggleColorMode } = useColorMode();
+    // const { colorMode, toggleColorMode } = useColorMode(); 
+    const param = useParams();
+    const id = param?.slug
+
+    console.log(id);
+    
 
     const [showModal, setShowModal] = React.useState(false)
 
@@ -167,11 +172,11 @@ function SelectTicket(props: Props) {
                         <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"32px"} >Get Ticket</Text>
                         <Text color={"#626262"} textAlign={"center"}>Please choose your option and proceed with Chasescroll.</Text>
                     </Flex>
-                    <GoogleBtn newbtn title='Sign in' id={data?.id ? true : false} index={data?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' />
+                    <GoogleBtn affiliate={data?.affiliateID} newbtn title='Sign in' id={data?.id ? true : false} index={data?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' />
                     <Flex justifyContent={"center"} gap={"2px"} alignItems={"center"} >
                         <Text color={"#BCBCBC"} fontSize={"14px"} lineHeight={"19.6px"} >OR</Text>
                     </Flex>
-                    <Button onClick={() => router.push("/share/auth/temporary-account/?type=EVENT&typeID=" + data?.id)} backgroundColor={"#EDEFFF"} color={"#5465E0"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#EDEFFF"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#EDEFFF" }} justifyContent={"center"} alignItems={"center"} >
+                    <Button onClick={() => router.push("/share/auth/temporary-account/?type=EVENT&typeID=" + data?.id+(data?.affiliateID? "&affiliate="+data?.affiliateID : ""))} backgroundColor={"#EDEFFF"} color={"#5465E0"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#EDEFFF"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#EDEFFF" }} justifyContent={"center"} alignItems={"center"} >
                         <Text textAlign={"center"} fontWeight={"600"} >Get Temporary Account</Text>
                     </Button>
                     <Button onClick={() => signUpHandler(true)} color={"white"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
@@ -182,7 +187,7 @@ function SelectTicket(props: Props) {
                         <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'} marginLeft='0px'>
                             Already have an account?
                         </CustomText>
-                        <CustomText onClick={() => router.push("/share/auth/login/?type=EVENT&typeID=" + data?.id)} fontWeight={"700"} ml={"4px"} fontSize={'sm'} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} cursor='pointer'>Log in</CustomText>
+                        <CustomText onClick={() => router.push("/share/auth/login/?type=EVENT&typeID=" + data?.id+(data?.affiliateID? "&affiliate="+data?.affiliateID : ""))} fontWeight={"700"} ml={"4px"} fontSize={'sm'} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} cursor='pointer'>Log in</CustomText>
                     </Flex>
                 </Flex>
             </ModalLayout>
