@@ -133,7 +133,7 @@ const usePr = () => {
 
     // Edit Event
     const updateUserEvent = useMutation({
-        mutationFn: (newdata: any) => httpService.put(URLS.UPDATE_EVENT, newdata),
+        mutationFn: (newdata:  any) => httpService.put("/events/update-pr", newdata),
         onError: (error: AxiosError<any, any>) => {
             toast({
                 title: 'Error',
@@ -158,6 +158,33 @@ const usePr = () => {
             setOpen(false)
         }
     });
+    // / Edit Event
+    const updateEvent = useMutation({
+        mutationFn: (newdata: any) => httpService.put(URLS.UPDATE_EVENT, newdata),
+        onError: (error: AxiosError<any, any>) => {
+            toast({
+                title: 'Error',
+                description: error?.response?.data?.message,
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        },
+        onSuccess: (message: AxiosResponse<any>) => {
+            query.invalidateQueries(['all-events-details'])
+
+            toast({
+                title: 'Success',
+                description: "Event Role Updated",
+                status: 'success',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+            setOpen(false)
+        }
+    });
 
     return {
         createPr,
@@ -166,7 +193,8 @@ const usePr = () => {
         open, 
         setOpen,
         deleteFundraising,
-        updateUserEvent
+        updateUserEvent,
+        updateEvent
     };
 }
 
