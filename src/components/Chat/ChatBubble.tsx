@@ -178,7 +178,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                                     (<Flex w={"full"} maxW={"250px"} alignItems={"center"} px={"2"} h={"full"}  >
                                         <Flex flexDir={"column"} alignItems={"center"} flex='0.2' as='button' onClick={() => downloadFile(post?.media?.startsWith('https://') ? post?.media : IMAGE_URL + post?.media)}>
                                             <IoMdCloudDownload color={THEME.COLORS.chasescrollButtonBlue} fontSize='40px' />
-                                            <CustomText textAlign={"center"} mt={"-2px"} width='80%' color="brand.chasescrollButtonBlue" fontFamily={'DM-Bold'} fontSize={'16px'}>{FileExtentions(post.media)}</CustomText>
+                                            <CustomText textAlign={"center"} mt={"-2px"} width='80%' color="brand.chasescrollButtonBlue" fontSize={'16px'}>{FileExtentions(post.media)}</CustomText>
                                         </Flex>
                                         <Flex w={"full"} flexDir={"column"} pl={"4"} >
                                             <CustomText fontSize={"14px"} fontWeight={"semibold"} >{(post.media)?.replace("https://chasescroll-videos.s3.eu-west-2.amazonaws.com/", "")?.replaceAll(/%20|\+/g, " ")}</CustomText>
@@ -192,7 +192,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                     )}
 
                     <Box padding='5px' width="100%" borderRadius={'12px 12px 12px 0px'}>
-                        <CustomText color={self ? bodyTextColor : 'white'} fontFamily={'DM-Regular'} fontSize={'14px'} >
+                        <CustomText color={self ? bodyTextColor : 'white'} fontSize={'14px'} >
                             {/* {(post?.message)?.includes('http') || (post?.message)?.includes("www.") && (
                                 handleLinks(post?.message)
                             )}
@@ -206,7 +206,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                                 <>
                                     {showAll ? (post?.message) : textLimit(post?.message, 500)}
                                     {post?.message?.length > 500 && (
-                                        <span style={{ fontFamily: 'DM-Bold', fontSize: '12px', cursor: 'pointer' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
+                                        <span style={{ fontSize: '12px', cursor: 'pointer' }} onClick={() => setShowAll(!showAll)} >{showAll ? 'Show Less' : 'Show More'}</span>
                                     )}
                                 </>
                             )}
@@ -216,7 +216,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, IProps>(({ message, id = und
                         {/* { !self && (
                         <CustomText fontFamily={'DM-Medium'} fontSize={'14px'} color='brand.chasescrollButtonBlue'>{post?.createdBy?.username[0]?.toUpperCase()}{post?.createdBy?.username.substring(1, post?.createdBy?.username.length)}</CustomText>
                     )} */}
-                        <CustomText color={self ? bodyTextColor : 'lightgrey'} fontFamily={'DM-Medium'} fontSize={'10px'}>{formatTimeAgo(post?.createdDate)}</CustomText>
+                        <CustomText color={self ? bodyTextColor : 'lightgrey'} fontSize={'10px'}>{formatTimeAgo(post?.createdDate)}</CustomText>
                         {!self && (
                             <HStack spacing={0}>
                                 <IoCheckmarkDoneSharp fontSize='16px' />

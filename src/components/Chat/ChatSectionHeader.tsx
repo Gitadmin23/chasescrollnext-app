@@ -108,7 +108,7 @@ const { colorMode, toggleColorMode } = useColorMode();
           <Box width='45px' height='45px' borderRadius={'36px 0px 36px 36px'} borderWidth={'2px'} borderColor={'brand.chasescrollBlue'} overflow={'hidden'}>
             {activeChat?.image === null && (
               <VStack width={'100%'} height='100%' justifyContent={'center'} alignItems={'center'}>
-                <CustomText fontFamily={'DM-Regular'} color={bodyTextColor}>{activeChat.name.toUpperCase()}</CustomText>
+                <CustomText color={bodyTextColor}>{activeChat.name.toUpperCase()}</CustomText>
               </VStack>
             )}
             {
@@ -124,13 +124,13 @@ const { colorMode, toggleColorMode } = useColorMode();
         <VStack alignItems={'flex-start'} spacing={0}>
           {activeChat?.type === 'ONE_TO_ONE' && (
             <Link href={`/dashboard/profile/${activeChat?.otherUser?.userId}`}>
-              <CustomText fontFamily={'DM-Medium'} fontSize={'16px'} color={colorMode === 'light' ? 'brand.chasescrollButtonBlue':bodyTextColor}>{activeChat?.otherUser.firstName} {activeChat?.otherUser?.lastName}</CustomText>
+              <CustomText fontSize={'16px'} color={colorMode === 'light' ? 'brand.chasescrollButtonBlue':bodyTextColor}>{activeChat?.otherUser.firstName} {activeChat?.otherUser?.lastName}</CustomText>
             </Link>
           )}
           {activeChat?.type === 'GROUP' && (
-            <CustomText fontFamily={'DM-Medium'} fontSize={'16px'} color='brand.chasescrollButtonBlue'>{activeChat?.name}</CustomText>
+            <CustomText fontSize={'16px'} color='brand.chasescrollButtonBlue'>{activeChat?.name}</CustomText>
           )}
-          <CustomText fontFamily={'DM-Regular'} fontSize={'11px'}>Active {moment(activeChat?.lastModifiedDate).fromNow()}</CustomText>
+          <CustomText fontSize={'11px'}>Active {moment(activeChat?.lastModifiedDate).fromNow()}</CustomText>
         </VStack>
       </HStack>
 

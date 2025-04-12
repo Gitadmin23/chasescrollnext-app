@@ -75,7 +75,7 @@ function Sidebar() {
     const [last, setLast] = React.useState(false);
     const [page, setPage] = React.useState(0);
 
-    const intObserver = React.useRef<IntersectionObserver>();
+    const intObserver = React.useRef<IntersectionObserver>(null);
     const query = useSearchParams();
 
     const router = useRouter();
@@ -113,7 +113,7 @@ function Sidebar() {
                 <HStack width={'100%'} height={'60px'} justifyContent={'space-between'}>
 
                     <HStack alignItems={'center'}>
-                        <CustomText fontFamily={'DM-Medium'} fontSize={'3xl'}>Chats</CustomText>
+                        <CustomText fontSize={'3xl'}>Chats</CustomText>
                     </HStack> 
 
                 </HStack>
