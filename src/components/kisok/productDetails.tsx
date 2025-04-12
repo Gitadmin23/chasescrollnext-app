@@ -1,7 +1,7 @@
 "use client"
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Grid, Image, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoIosArrowForward } from 'react-icons/io'
 import { IoStar } from 'react-icons/io5'
 import CustomButton from '../general/Button'
@@ -16,7 +16,7 @@ import { capitalizeFLetter } from '@/utils/capitalLetter'
 import UserImage from '../sharedComponent/userimage'
 import ProductRating from './productRating'
 import ProductCheckout from './productCheckout'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import useProduct from '@/hooks/useProduct'
 import useProductStore from '@/global-state/useCreateProduct'
 import { textLimit } from '@/utils/textlimit'
@@ -30,10 +30,9 @@ export default function ProductDetails({ id }: { id: string }) {
 
     const [item, setItem] = useState({} as IProduct)
 
-    const { back } = useRouter()
-    const { userId } = useProduct()
-    const { productdata, updateProduct } = useProductStore((state) => state);
     const { push } = useRouter()
+    const { userId } = useProduct()
+    const { productdata, updateProduct } = useProductStore((state) => state); 
     const [qty, setQty] = useState(1)
 
     const [sizeOfText, setSizeOfText] = useState(200)
@@ -67,6 +66,7 @@ export default function ProductDetails({ id }: { id: string }) {
         push("/dashboard/kisok/edit/" + item?.id)
     }
 
+
     return (
         <LoadingAnimation loading={isLoading} >
             <Flex pos={"relative"} w={"full"} px={"6"} pt={["6", "6", "6", "6"]} pb={"12"} gap={"6"} flexDir={"column"} overflowY={"auto"} overflowX={"hidden"} >
@@ -74,7 +74,7 @@ export default function ProductDetails({ id }: { id: string }) {
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
                         <Flex gap={"1"} alignItems={"center"} >
-                            <Text role='button' onClick={() => back()} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Back</Text>
+                            <Text role='button' onClick={() => push("/dashboard/kisok")} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Back</Text>
                             <IoIosArrowForward />
                             <Text fontSize={"14px"} fontWeight={"500"} >Product details</Text>
                             <IoIosArrowForward />

@@ -17,7 +17,7 @@ import DonateUsers from '../sharedComponent/donateUser'
 import useCustomTheme from '@/hooks/useTheme'
 import { IService } from '@/models/Service'
 
-export default function GetCreatorData({ userData, donation, data: donationData, item: rating }: { userData: IUser, reviewdata?: Array<IReview>, data?: any, donation?: boolean, item?: any }) {
+export default function GetCreatorData({ userData, donation, data: donationData, item: rating, reviewdata }: { userData: IUser, reviewdata?: Array<IReview>, data?: any, donation?: boolean, item?: any }) {
 
     const { userId: user_index } = useDetails((state) => state);
     const { secondaryBackgroundColor } = useCustomTheme()
@@ -88,7 +88,7 @@ export default function GetCreatorData({ userData, donation, data: donationData,
                             {[1, 2, 3, 4, 5]?.map((itemNumb) => {
                                 return (
                                     <Flex key={itemNumb} >
-                                        {(itemNumb > 0) ? (
+                                        {(itemNumb > rating) ? (
                                             <FaStar color="#D5D6DE" size={"15px"} />
                                         ) : (
                                             <FaStar color='#FBBD08' size={"15px"} />
@@ -97,7 +97,7 @@ export default function GetCreatorData({ userData, donation, data: donationData,
                                 )
                             })}
                         </Flex>
-                        <Text fontSize={"12px"} fontWeight={"500"} >0 REVIEWS</Text>
+                        <Text fontSize={"12px"} fontWeight={"500"} >{reviewdata?.length} REVIEWS</Text>
                     </Flex>
                 )}
                 {donation && (

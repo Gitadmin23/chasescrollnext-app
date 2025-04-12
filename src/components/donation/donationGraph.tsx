@@ -19,7 +19,7 @@ export default function DonationGraph({ item, rounded, IsEvent, isPicked, isDona
                 <Text fontWeight={"600"} fontSize={isPicked ? "10px" : ["14px", "14px", "14px"]} >{formatNumberWithK(item?.goal, true)}</Text>
             </Flex>
             <Flex flexDirection={"column"} alignItems={"center"} >
-                <Text fontSize={isPicked ? "10px" : ["10px", "12px", "14px"]} color={bodyTextColor} >Amount</Text>
+                <Text fontSize={isPicked ? "10px" : ["10px", "12px", "14px"]} color={bodyTextColor} >Raised</Text>
                 <Text fontWeight={"600"} fontSize={isPicked ? "10px" : ["14px", "14px", "14px"]} >{formatNumberWithK(item?.total, true)}</Text>
             </Flex>
             <Flex display={["none", "none", "flex"]} >

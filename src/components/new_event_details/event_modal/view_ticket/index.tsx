@@ -51,7 +51,7 @@ function ViewTicket(props: Props) {
 
     const toast = useToast()
 
-    const componentRef: any = React.useRef();
+    const componentRef: any = React.useRef(null);
     const handlePrint = useReactToPrint({
         content: () => componentRef.current
     });
@@ -75,10 +75,7 @@ function ViewTicket(props: Props) {
 
     let userId = sessionStorage?.getItem("user_id") + ""
 
-    console.log(dataMultiple);
-
-
-
+    console.log(dataMultiple); 
 
     const { isLoading } = useQuery(['event_ticket', data?.id, userId], () => httpService.get(`/events/get-users-tickets?userID=${user_index ? user_index : userId}&eventID=${data?.id}`), {
         onError: (error: any) => {

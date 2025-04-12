@@ -32,9 +32,7 @@ import LoadingAnimation from '../sharedComponent/loading_animation';
 import { IoIosArrowForward } from 'react-icons/io';
 import { IMAGE_URL } from '@/services/urls';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
-import ViewRequest from './viewRequest';
-import InviteCollaborator from './inviteCollaborator';
-import EventLocationDetail from '../sharedComponent/event_location';
+import ViewRequest from './viewRequest'; 
 
 
 
@@ -87,10 +85,9 @@ export default function EventDetail(props: IEventType) {
         } else {
             back()
         }
-    }
+    } 
 
-
-    const { data: prId } = useGetPr(props?.id)
+    // const { data: prId } = useGetPr(props?.id)
 
     return (
         <Flex w={"full"} flexDir={"column"} pos={"relative"} gap={"4"} px={["0px", "0px", "6"]} pb={["400px", "400px", "6"]} py={"6"} >
@@ -110,7 +107,7 @@ export default function EventDetail(props: IEventType) {
                         {!pathname?.includes("past") && (
                             <Flex pos={"absolute"} bottom={"6"} right={"6"} zIndex={"50"} w={"fit-content"} h={"fit-content"} gap={"4"} p={"5px"} px={"2"} rounded={"full"} bgColor={mainBackgroundColor} >
                                 <SaveOrUnsaveBtn color={headerTextColor} event={props} size='20' />
-                                <ShareEvent newbtn={true} showText={false} data={props} id={prId ? prId + "?type=affiliate" : id} type="EVENT" eventName={textLimit(eventName, 17)} />
+                                <ShareEvent newbtn={true} showText={false} data={props} id={props.prStatus === "ACTIVE" ? props?.affiliateID + "?type=affiliate" : id} type="EVENT" eventName={textLimit(eventName, 17)} />
                             </Flex>
                         )}
                     </Flex>
@@ -123,7 +120,7 @@ export default function EventDetail(props: IEventType) {
                             <Flex w={[isAdmin ? "full" : "fit-content", isAdmin ? "full" : "full", "full"]} alignItems={["start", "start", "center"]} flexDir={["column", "column", "row"]} justifyContent={["start", "start", "space-between"]} gap={"3"} >
                                 <Flex gap={"3"} w={[isAdmin ? "full" : "fit-content", isAdmin ? "full" : "full", "full"]} alignItems={[isAdmin ? "center" : "start", isAdmin ? "center" : "start", "center"]} flexDir={[isAdmin ? "row" : "column", isAdmin ? "row" : "column", "row"]} justifyContent={[isAdmin ? "space-between" : "start", isAdmin ? "space-between" : "start", "space-between"]}  >
                                     <EventCreator {...props} />
-                                    <Flex display={["flex", "flex", "none"]} flexDir={"column"} gap={"2"} mr={isAdmin ? "auto" : "0px"} >
+                                    <Flex display={["flex", "flex", "none"]} w={"full"} flexDir={"column"} gap={"2"} mr={isAdmin ? "auto" : "0px"} >
                                         <InterestedUsers fontSize={16} event={props} border={"2px"} size={"28px"} refund={true} />
 
                                         {(!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && (
@@ -212,7 +209,7 @@ export default function EventDetail(props: IEventType) {
                             </Flex>
                         )}
                     </Flex>
-                    <Flex w={"full"} maxW={"500px"} gap={"2"} flexDir={["column", "column", "row"]} >
+                    <Flex w={"full"} maxW={"500px"} gap={"2"} flexDir={["column", "column", "column", "column","row"]} >
                         <Flex w={"full"} display={["flex", "flex", "none"]} >
                             <EventMesh setMeshSize={setMeshSize} data={props} />
                         </Flex>

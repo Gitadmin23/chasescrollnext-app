@@ -18,12 +18,12 @@ interface IAction {
     type: 'ADDITION' | 'SUBSTRACTION',
 }
 
-export default function Reciept({ detail, setOpen, userId, price, handlePriceChange, updateHandler, updateReciptPrice, payForTicket, reject, updateRecipt }: {detail: IReceipt, setOpen: any, userId: string, price: any, handlePriceChange: any, updateHandler: any, updateReciptPrice: any, payForTicket: any, reject: any, updateRecipt: any}) {
+export default function Reciept({ detail, setOpen, userId, price, handlePriceChange, updateHandler, updateReciptPrice, payForTicket, reject, updateRecipt }: { detail: IReceipt, setOpen: any, userId: string, price: any, handlePriceChange: any, updateHandler: any, updateReciptPrice: any, payForTicket: any, reject: any, updateRecipt: any }) {
 
-    const { mainBackgroundColor, secondaryBackgroundColor, primaryColor, borderColor } = useCustomTheme() 
-    const [textSize, setTextSize] = useState(40) 
+    const { mainBackgroundColor, secondaryBackgroundColor, primaryColor, borderColor } = useCustomTheme()
+    const [textSize, setTextSize] = useState(40)
 
-    const [status, setStatus] = useState("")  
+    const [status, setStatus] = useState("")
 
     return (
         <Flex flexDir={"column"} p={"4"} gap={"4"} fontSize={"14px"}  >
@@ -36,17 +36,34 @@ export default function Reciept({ detail, setOpen, userId, price, handlePriceCha
                     <Flex w={["full", "full", "fit-content"]} >
                         <Flex flexDir={"column"} gap={"2"} w={["full", "full", "218px"]} >
                             <Flex w={["full", "full", "218px"]} h={"157px"} rounded={"8px"} bgColor={"#00000066"} position={"relative"} justifyContent={"center"} alignItems={"center"} >
-                                <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderColor={mainBackgroundColor} borderWidth={"1px"} alignItems={"center"} gap={2} zIndex={"20"} >
-                                    <UserImage image={detail?.createdBy?.data?.imgMain?.value} font={"16px"} data={detail?.createdBy} border={"1px"} size={"32px"} />
-                                    <Flex flexDir={"column"} alignItems={"start"} color={mainBackgroundColor} >
-                                        <Text fontSize={"12px"} fontWeight={"700"} >
-                                            {capitalizeFLetter(detail?.createdBy?.firstName) + " " + capitalizeFLetter(detail?.createdBy?.lastName)}
-                                        </Text>
-                                        <Text fontSize={"10px"} color={mainBackgroundColor} fontWeight={"600"} >
-                                            Client
-                                        </Text>
+
+                                {detail?.createdBy?.userId === userId && (
+                                    <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderColor={mainBackgroundColor} borderWidth={"1px"} alignItems={"center"} gap={2} zIndex={"20"} >
+                                        <UserImage image={detail?.vendor?.data?.imgMain?.value} font={"16px"} data={detail?.vendor} border={"1px"} size={"32px"} />
+                                        <Flex flexDir={"column"} alignItems={"start"} color={mainBackgroundColor} >
+                                            <Text fontSize={"12px"} fontWeight={"700"} >
+                                                {capitalizeFLetter(detail?.vendor?.firstName) + " " + capitalizeFLetter(detail?.vendor?.lastName)}
+                                            </Text>
+                                            <Text fontSize={"10px"} color={mainBackgroundColor} fontWeight={"600"} >
+                                                Vendor
+                                            </Text>
+                                        </Flex>
                                     </Flex>
-                                </Flex>
+                                )}
+
+                                {detail?.createdBy?.userId !== userId && (
+                                    <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderColor={mainBackgroundColor} borderWidth={"1px"} alignItems={"center"} gap={2} zIndex={"20"} >
+                                        <UserImage image={detail?.createdBy?.data?.imgMain?.value} font={"16px"} data={detail?.createdBy} border={"1px"} size={"32px"} />
+                                        <Flex flexDir={"column"} alignItems={"start"} color={mainBackgroundColor} >
+                                            <Text fontSize={"12px"} fontWeight={"700"} >
+                                                {capitalizeFLetter(detail?.createdBy?.firstName) + " " + capitalizeFLetter(detail?.createdBy?.lastName)}
+                                            </Text>
+                                            <Text fontSize={"10px"} color={mainBackgroundColor} fontWeight={"600"} >
+                                                Client
+                                            </Text>
+                                        </Flex>
+                                    </Flex>
+                                )}
                                 <Flex pos={"absolute"} inset={"0px"} bgColor={"black"} opacity={"20%"} zIndex={"10"} rounded={"8px"} />
                                 <Image borderColor={"#D0D4EB"} objectFit={"cover"} alt={detail?.rental?.images[0]} w={["full", "full", "218px"]} h={"157px"} rounded={"8px"} src={detail?.rental?.images[0].startsWith('https://') ? detail?.rental?.images[0] : (IMAGE_URL as string) + detail?.rental?.images[0]} />
                             </Flex>
@@ -183,7 +200,7 @@ export default function Reciept({ detail, setOpen, userId, price, handlePriceCha
                 )}
                 {(detail?.approvalStatus === "ACCEPTED" && (detail?.hasPaid) && (!detail?.hasReceived)) && (
                     <Flex gap={"2"} >
-                        <ConfirmPayment id={detail?.id} type={"RENTAL"} name={detail?.rental?.name} image={IMAGE_URL + detail?.rental?.images[0]} vendor={detail?.vendor} />
+                        <ConfirmPayment productId={detail?.rental?.id} id={detail?.id} type={"RENTAL"} name={detail?.rental?.name} image={IMAGE_URL + detail?.rental?.images[0]} vendor={detail?.vendor} />
                     </Flex>
                 )}
                 {(detail?.approvalStatus === "PENDING" && detail?.rental?.createdBy !== userId) && (

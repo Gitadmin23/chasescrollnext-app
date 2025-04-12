@@ -8,6 +8,7 @@ import usePaystackStore from '@/global-state/usePaystack';
 import useModalStore from '@/global-state/useModalSwitch'
 import CustomButton from '@/components/general/Button';
 import { IEventType } from '@/models/Event';
+import { useSearchParams } from 'next/navigation';
 // import useModalStore from '@/global-state/useModalSwitch';
 // import { useRouter } from 'next/navigation';
 
@@ -30,10 +31,12 @@ function PayStackBtn(props: Props) {
     const { setShowModal } = useModalStore((state) => state);
 
 
-    const { setPaystackConfig } = usePaystackStore((state) => state);
+    const { setPaystackConfig, message, setMessage } = usePaystackStore((state) => state);
+    const query = useSearchParams();
+    const type = query?.get('type');
 
     const payForTicket = useMutation({
-        mutationFn: (data: any) => httpService.post(URLS.CREATE_TICKET, datainfo?.affiliateID ? {...data, affiliateID: datainfo?.affiliateID} : data),
+        mutationFn: (data: any) => httpService.post(URLS.CREATE_TICKET, (datainfo?.affiliateID && type) ? {...data, affiliateID: datainfo?.affiliateID} : data),
         onSuccess: (data: any) => {
             setPaystackConfig({
                 publicKey: PAYSTACK_KEY,
@@ -53,6 +56,7 @@ function PayStackBtn(props: Props) {
                 duration: 5000,
                 position: 'top-right',
             });
+            setMessage({...message, event: true})
         },
     });
 

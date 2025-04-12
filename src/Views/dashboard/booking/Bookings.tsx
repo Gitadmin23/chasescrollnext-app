@@ -1,12 +1,5 @@
 import React from 'react'
-import { Box, Flex, Grid, SimpleGrid, Spinner, Text, VStack } from '@chakra-ui/react'
-import { IBuisness } from '@/models/Business'
-import httpService from '@/utils/httpService';
-import { useQuery } from 'react-query';
-import BusinessCard from '@/components/booking_component/BusinessCard';
-import { PaginatedResponse } from '@/models/PaginatedResponse';
-import { uniqBy } from 'lodash';
-import { useDetails } from '@/global-state/useUserDetails';
+import { Flex, Grid } from '@chakra-ui/react' 
 import { IBooking } from '@/models/Booking';
 import BookingCard from '@/components/booking_component/BookingCard';
 import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
@@ -16,9 +9,7 @@ import { cleanup } from '@/utils/cleanupObj';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 
 function Bookings({ name, state, category }: { name?: string, state?: string, category?: string }) {
-    const [businesses, setBusinesses] = React.useState<IBooking[]>([]);
-    const [page, setPage] = React.useState(0);
-    const [hasMore, setHasMore] = React.useState(true);
+    
     const userId = localStorage.getItem('user_id');
     const { configPaystack, setPaystackConfig, dataID, message } = usePaystackStore((state) => state);
 
@@ -49,8 +40,7 @@ function Bookings({ name, state, category }: { name?: string, state?: string, ca
     })
 
     return (
-        <LoadingAnimation loading={isLoading} refeching={refetchingList} length={results?.length} >
-
+        <LoadingAnimation loading={isLoading} refeching={refetchingList} length={results?.length} > 
             <Flex w='full' h='full' flexDir={"column"} pos={"relative"} >
                 {!isLoading && results.length > 0 && (
                     <Grid templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["4", "4", "6"]} pb={"10"} >
@@ -59,8 +49,8 @@ function Bookings({ name, state, category }: { name?: string, state?: string, ca
                         ))}
                     </Grid>
                 )} 
-                <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
             </Flex>
+            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
         </LoadingAnimation>
     )
 }

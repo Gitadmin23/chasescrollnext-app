@@ -16,7 +16,7 @@ export interface IPinned {
     productId: string
 }
 
-const useProduct = (item?: any, rental?: boolean, edit?: boolean) => {
+const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: boolean) => {
 
     const [openRental, setOpenRental] = useState(false)
     const [openProduct, setOpenProduct] = useState(false)
@@ -465,7 +465,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean) => {
             seller: string,
             price: number,
             currency: string,
-            orderType: "ORDERS" | "RECEIPT",
+            orderType: "ORDERS" | "RECEIPT" | "BOOKING",
             typeID: string
         }) => httpService.post(`/payments/createCustomOrder`, data),
         onSuccess: (data: any) => {
@@ -478,6 +478,8 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean) => {
 
             if (rental) {
                 setMessage({ ...message, rental: true })
+            } else if (service) {
+                setMessage({ ...message, service: true })
             } else {
                 setMessage({ ...message, product: true })
             }
@@ -513,6 +515,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean) => {
 
             console.log(data);
             query?.invalidateQueries("all-events-mesh")
+            setOpen(false)
 
         },
         onError: (error) => {
@@ -568,7 +571,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean) => {
             ),
         onSuccess: (data: any) => {
             console.log(data?.data);
-
+            query?.invalidateQueries("getreciept")
             toast({
                 title: "Successful",
                 description: "",
@@ -595,7 +598,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean) => {
             ),
         onSuccess: (data: any) => {
             console.log(data?.data);
-
+            query?.invalidateQueries("getreciept")
             toast({
                 title: "Successful",
                 description: "",

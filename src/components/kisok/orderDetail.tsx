@@ -118,15 +118,7 @@ export default function OrderDetail({ id }: { id: string }) {
                                 <Text fontSize={"14px"} fontWeight={"500"} >Verify that items are in good condition and meet the expected quality standards before authorizing payment.</Text>
                                 <Text fontSize={"14px"} fontWeight={"500"} >Please inform us if you encounter any issues at support@chasescroll.com</Text>
                             </Flex>
-                            {item?.hasReceived && (
-                                <Flex w={"150px"} >
-                                    <CustomButton backgroundColor={"#0CC23A"} borderRadius={"999px"} text={"Delivered"} />
-                                </Flex>
-                            )}
-
-                            {!item?.hasReceived && (
-                                <ConfirmPayment vendor={item?.vendor} id={item?.id} image={IMAGE_URL + item?.product?.images[0]} type={"PRODUCT"} name={item?.product?.name} />
-                            )}
+                            <ConfirmPayment hasConfirm={item?.hasReceived} productId={item?.product?.id} vendor={item?.vendor} id={item?.id} image={IMAGE_URL + item?.product?.images[0]} type={"PRODUCT"} name={item?.product?.name} />
                         </Flex>
                     </Flex>
                 </Flex>

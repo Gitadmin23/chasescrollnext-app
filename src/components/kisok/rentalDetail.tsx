@@ -31,7 +31,7 @@ export default function RentalDetail({ id }: { id: string }) {
     const [qty, setQty] = useState(1)
     const [item, setItem] = useState({} as IRental)
 
-    const { back } = useRouter()
+    const { push } = useRouter()
 
     const { isLoading, isRefetching, refetch, data } = useQuery(
         ["rental", id],
@@ -54,7 +54,7 @@ export default function RentalDetail({ id }: { id: string }) {
             <Flex w={"full"} flexDir={"column"} pos={"relative"} gap={"3"} overflowY={"auto"} h={"full"} px={["4", "4", "6"]} pb={["400px", "400px", "6"]} py={"6"} >
 
                 <Flex gap={"1"} alignItems={"center"} pb={"3"} >
-                    <Text role='button' onClick={() => back()} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Back</Text>
+                    <Text role='button' onClick={() => push("/dashboard/kisok?type=rental")} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Back</Text>
                     <IoIosArrowForward />
                     <Text fontSize={"14px"} fontWeight={"500"} >Rental details</Text>
                     <IoIosArrowForward />
@@ -84,7 +84,7 @@ export default function RentalDetail({ id }: { id: string }) {
                             <DescriptionPage limit={200} label='Rental Details' description={item?.description} />
                             <Flex w={"full"} gap={"2"}>
                                 <Flex w={["fit-content", "fit-content", "full"]} >
-                                    <GetCreatorData reviewdata={reviewData} userData={item?.creator} />
+                                    <GetCreatorData reviewdata={reviewData} userData={item?.creator} item={item?.rating} />
                                 </Flex>
                                 <Flex display={["flex", "flex", "none"]} w={"full"}  >
                                     <RentalCheckout setQty={setQty} item={item} qty={qty} />

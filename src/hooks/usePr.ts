@@ -1,13 +1,17 @@
 import { ITag } from "@/models/product";
+import { URLS } from "@/services/urls";
 import httpService from "@/utils/httpService";
 import { useToast } from "@chakra-ui/react";
 import { AxiosError, AxiosResponse } from "axios";
+import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 
 const usePr = () => {
 
     const query = useQueryClient()
     const toast = useToast()
+
+    const [open, setOpen] = useState(false)
 
     const createPr = useMutation({
         mutationFn: (data: {
@@ -28,6 +32,7 @@ const usePr = () => {
                 position: "top-right",
             });
             query?.invalidateQueries("all-events-details")
+            setOpen(false)
 
         },
         onError: () => { },
@@ -60,6 +65,7 @@ const usePr = () => {
                 duration: 5000,
                 position: "top-right",
             });
+            setOpen(false)
         }
     });
 
@@ -91,13 +97,76 @@ const usePr = () => {
             });
 
             query?.invalidateQueries("all-donation")
+            setOpen(false)
+        }
+    });
+
+
+    // Create Event From Draft
+    const deleteFundraising = useMutation({
+        mutationFn: (data: string) => httpService.delete(`/pinned-fundraisers/delete/${data}`),
+        onError: (error: AxiosError<any, any>) => {
+            toast({
+                title: 'Error',
+                description: error?.response?.data?.message,
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        },
+        onSuccess: (data: AxiosResponse<any>) => {
+            toast({
+                title: "success",
+                description: data?.data?.message,
+                status: "success",
+                isClosable: true,
+                duration: 5000,
+                position: "top-right",
+            });
+
+            query?.invalidateQueries("all-donation")
+            setOpen(false)
+        }
+    }); 
+
+
+    // Edit Event
+    const updateUserEvent = useMutation({
+        mutationFn: (newdata: any) => httpService.put(URLS.UPDATE_EVENT, newdata),
+        onError: (error: AxiosError<any, any>) => {
+            toast({
+                title: 'Error',
+                description: error?.response?.data?.message,
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        },
+        onSuccess: (message: AxiosResponse<any>) => {
+            query.invalidateQueries(['all-events-details'])
+
+            toast({
+                title: 'Success',
+                description: "Event Role Updated",
+                status: 'success',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+            setOpen(false)
         }
     });
 
     return {
         createPr,
         tagServiceAndRental,
-        createFundraising
+        createFundraising,
+        open, 
+        setOpen,
+        deleteFundraising,
+        updateUserEvent
     };
 }
 

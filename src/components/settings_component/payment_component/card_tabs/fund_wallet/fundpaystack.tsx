@@ -20,6 +20,7 @@ interface IMessage {
     product: boolean,
     rental: boolean,
     service: boolean,
+    event: boolean
 }
 
 interface Props {
@@ -113,6 +114,7 @@ function Fundpaystack(props: Props) {
             queryClient.invalidateQueries(['all-events-details'])
             queryClient.invalidateQueries(['donationlist'])
             queryClient.invalidateQueries(['donationlistmy'])
+            queryClient.invalidateQueries(['all-donation'])
             queryClient.invalidateQueries(['getDonationsingleList'])
             setLoading(false)
         },
@@ -159,9 +161,21 @@ function Fundpaystack(props: Props) {
     const { setShowModal } = useModalStore((state) => state);
 
     const clickHandler = () => {
+        if (message?.product) {
+            push(`/dashboard/kisok/details-order/${id}`)
+        } else if (!message?.event) {
+            setModalTab(5)
+            setShowModal(true)
+        }
         setOpen(false)
-        setModalTab(5)
-        setShowModal(true)
+        setMessage({
+            donation: false,
+            product: false,
+            rental: false,
+            service: false,
+            booking: false,
+            event: false
+        })
     }
 
     const closeHandler = () => {
@@ -174,7 +188,8 @@ function Fundpaystack(props: Props) {
                 product: false,
                 rental: false,
                 service: false,
-                booking: false
+                booking: false,
+                event: false
             })
         }
     }
@@ -185,17 +200,23 @@ function Fundpaystack(props: Props) {
                 <LoadingAnimation loading={loading} >
                     <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
                         <SuccessIcon />
-                        <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{message?.service ? "Booking Successful" : message?.rental ? "Rental Purchase Successful" : message?.product ? "Product Purchase Successful" : message?.donation ? "Donated Successful" : "Ticket Purchase Successful"}</Text>
-                        <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{(message?.product || message?.service || message?.rental) ? "Thank you!" : message?.donation ? `Thank you! Your generous donation makes a real difference. We’re so grateful for your support!` : `Congratulations! you can also find your ticket on the Chasescroll app, on the details page click on the view ticket button.`}</Text>
+                        <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{message?.service ? "Booking Successful" : message?.rental ? "Rental Purchase Successful" : message?.product ? "Product Purchase Successful" : message?.donation ? "Donated Successful" : message?.event ? "Ticket Purchase Successful" : "Transaction Successful"}</Text>
+                        <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{(message?.product || message?.service || message?.rental) ? "Thank you!" : message?.donation ? `Thank you! Your generous donation makes a real difference. We’re so grateful for your support!` : message?.event ? `Congratulations! you can also find your ticket on the Chasescroll app, on the details page click on the view ticket button.` : "Congratulations! Transaction was successfull"}</Text>
                         {(!message?.product && !message?.service && !message?.rental) && (
                             <CustomButton onClick={() => clickHandler()} color={primaryColor} text={'Close'} w={"full"} backgroundColor={"#F7F8FE"} />
                         )}
                         {(message?.product) && (
-                            <CustomButton onClick={() => push(`/dashboard/kisok/details-order/${id}`)} color={primaryColor} text={'View Order'} w={"full"} backgroundColor={"#F7F8FE"} />
+                            <CustomButton onClick={() => clickHandler()} color={primaryColor} text={'View Order'} w={"full"} backgroundColor={"#F7F8FE"} />
+                        )}
+                        {(message?.service) && (
+                            <CustomButton onClick={() => closeHandler()} color={primaryColor} text={'Close'} w={"full"} backgroundColor={"#F7F8FE"} />
                         )}
                         {(message?.rental) && (
                             <CustomButton onClick={() => clickHandler()} color={primaryColor} text={'Close'} w={"full"} backgroundColor={"#F7F8FE"} />
-                        )}
+                        )} 
+                        {(!message?.product && !message?.service && !message?.rental && !message?.booking && !message?.donation && !message.event) && (
+                            <CustomButton onClick={() => clickHandler()} color={primaryColor} text={'Close'} w={"full"} backgroundColor={"#F7F8FE"} />
+                        )} 
                     </Flex>
                 </LoadingAnimation>
             </ModalLayout>

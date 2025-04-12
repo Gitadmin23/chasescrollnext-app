@@ -8,6 +8,23 @@ import React, { useState } from 'react'
 import LoadingAnimation from '../sharedComponent/loading_animation';
 import { IEventType } from '@/models/Event';
 import { IPinned } from '@/hooks/useProduct';
+import { useQuery } from 'react-query';
+import httpService from '@/utils/httpService';
+
+interface IProps {
+    "id": string,
+    "createdDate": number,
+    "lastModifiedBy": string,
+    "createdBy": string,
+    "lastModifiedDate": number,
+    "isDeleted": boolean,
+    "status": string,
+    "statusCode": number,
+    "returnMessage": string,
+    "typeId": string,
+    "pinnedItemType": string,
+    "returnProductDto": IProduct
+}
 
 export default function ListProduct({ setOpen, selectProduct, setSelectProduct, data }: { setOpen?: any, selectProduct: Array<IPinned>, setSelectProduct: any, data?: IEventType }) {
 
@@ -33,6 +50,23 @@ export default function ListProduct({ setOpen, selectProduct, setSelectProduct, 
             }])
         }
     }
+
+    // // react query
+    // const { isRefetching } = useQuery(['all-events-mesh', data?.id], () => httpService.get(`/pin-item/search`, {
+    //     params: {
+    //         typeId: data?.id
+    //     }
+    // }), {
+    //     onError: (error: any) => {
+    //     },
+    //     onSuccess: (data: any) => {
+    //         // setEventData() 
+    //         // setMeshSize(data?.data?.length) 
+    //         {data?.data?.map((item: IProps)=> {
+    //             setSelectProduct()
+    //         })}
+    //     }
+    // })
 
 
     return (

@@ -125,7 +125,7 @@ function GoogleBtn(props: Props) {
                 }
                 setOpen(true)
             } else {
-                if (id) {
+                if (index) {
                     if (type === "DONATION") {
                         router.push(`/dashboard/donation/${index}`);
                     } else {
@@ -195,7 +195,7 @@ function GoogleBtn(props: Props) {
                 isClosable: true,
                 duration: 2000,
             });
-            if (id) {
+            if (index) {
                 if (type === "DONATION") {
                     router.push(`/dashboard/donation/${index}`);
                 } else {

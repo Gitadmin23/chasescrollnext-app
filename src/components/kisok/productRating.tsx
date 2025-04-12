@@ -35,7 +35,6 @@ export default function ProductRating({ item, reviewType, data, setData }: { ite
 
     const { borderColor } = useCustomTheme()
 
-
     const { isLoading } = useQuery(
         ["review", item?.id],
         () => httpService.get(`/reviews/search`, {
@@ -50,6 +49,9 @@ export default function ProductRating({ item, reviewType, data, setData }: { ite
             setData(data?.data?.content)
         }
     });
+
+    console.log(item);
+    
     
     return (
         <Flex flex={"1"} flexDir={"column"} gap={"3"} flexDirection={"column"} >
@@ -73,7 +75,7 @@ export default function ProductRating({ item, reviewType, data, setData }: { ite
                             <Flex key={index} flexDir={"column"} gap={"2"} >
                                 <Flex alignItems={"center"} gap={"2"} >
                                     {/* <Flex rounded={"30px"} roundedTopRight={"0px"} h={"41px"} w={"41px"} bgColor={"blue"} /> */}
-                                    <UserImage border={"1px"} image={item?.user?.data?.imgMain?.value} data={item?.user} size={"41px"} />
+                                    <UserImage border={"1px"} font={"14px"} image={item?.user?.data?.imgMain?.value} data={item?.user} size={"41px"} />
                                     <Flex flexDir={"column"} >
                                         <Text fontWeight={"600"} fontSize={"14px"} >{capitalizeFLetter(item?.user?.firstName) + " " + capitalizeFLetter(item?.user?.lastName)}</Text>
                                         <Flex flexDir={"row"} gap={"1"} >

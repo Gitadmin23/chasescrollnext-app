@@ -1,18 +1,15 @@
-import Booking from '@/app/dashboard/newbooking/page'
 import usePaystackStore from '@/global-state/usePaystack'
 import { useDetails } from '@/global-state/useUserDetails'
 import useCustomTheme from '@/hooks/useTheme'
-import { IBooking } from '@/models/Booking'
-import { IBuisness } from '@/models/Business'
+import { IBooking } from '@/models/Booking' 
 import { IService } from '@/models/Service'
 import { IMAGE_URL } from '@/services/urls'
 import httpService from '@/utils/httpService'
-import { VStack, HStack, Box, Text, Image, Flex, useToast, Button, Input, InputGroup, InputLeftElement, Divider } from '@chakra-ui/react'
+import { VStack, HStack, Box, Text, Image, Flex, useToast, Button } from '@chakra-ui/react'
 import moment from 'moment'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
-import BlurredImage from '../sharedComponent/blurred_image'
+import { useMutation, useQuery, useQueryClient } from 'react-query' 
 import { PaginatedResponse } from '@/models/PaginatedResponse';
 import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
 import { FiMinus, FiPlus } from 'react-icons/fi'
@@ -25,6 +22,8 @@ import CustomButton from '../general/Button'
 import { IoIosClose } from 'react-icons/io'
 import { formatNumber } from '@/utils/numberFormat'
 import ProductImageScroller from '../sharedComponent/productImageScroller'
+import { SuccessIcon } from '../svg'
+import useProduct from '@/hooks/useProduct'
 
 export interface ICategory {
     id: string;
@@ -60,20 +59,23 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
     const toast = useToast()
     const router = useRouter();
     const { userId } = useDetails((state) => state);
-    const [open, setOpen] = useState(false)
+    // const [open, setOpen] = useState(false)
+    const [show, setShow] = useState(false)
 
     const [bookingState, setBookingState] = React.useState(booking);
     const [percentage, setPercentage] = useState(0)
-    const [price, setPrice] = React.useState(bookingState?.price.toString());
-    const [updatedPrice, setUpdatedPrice] = React.useState(bookingState?.price.toString());
+    const [price, setPrice] = React.useState(bookingState?.price+"");
+    const [updatedPrice, setUpdatedPrice] = React.useState(bookingState?.price+"");
     const [service, setService] = React.useState<IService | null>(null);
 
+    const {payForTicket, open, setOpen } = useProduct(null, false, false, true)
+
     const [loading, setLoading] = useState(false)
-    const [loadingReject, setLoadingReject] = useState(false); 
+    const [loadingReject, setLoadingReject] = useState(false);
 
     React.useEffect(() => {
         if (bookingState?.price !== parseInt(updatedPrice)) {
-            setUpdatedPrice(bookingState?.price.toString());
+            setUpdatedPrice(bookingState?.price+"");
         }
     }, [bookingState?.price]);
 
@@ -247,6 +249,8 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                 duration: 5000,
             })
             queryClient.invalidateQueries([`get-booking-${booking?.id}`]);
+            setOpen(false)
+            setShow(true)
 
         }
     });
@@ -313,43 +317,8 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
         vendorAcceptOrDecline.mutate(item)
     }
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
-
-
-    const { setPaystackConfig, message, configPaystack, dataID, setMessage } = usePaystackStore((state) => state);
     const { } = usePaystackStore((state) => state);
-
-
-    const payForTicket = useMutation({
-        mutationFn: (data: {
-            seller: string,
-            price: number,
-            currency: string,
-            orderType: "BOOKING",
-            typeID: string
-        }) => httpService.post(`/payments/createCustomOrder`, data),
-        onSuccess: (data: any) => {
-            setPaystackConfig({
-                publicKey: PAYSTACK_KEY,
-                email: data?.data?.content?.email,
-                amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
-                reference: data?.data?.content?.orderCode
-            });
-            queryClient.invalidateQueries([`get-booking-${booking?.id}`]);
-
-            setMessage({ ...message, service: true })
-        },
-        onError: (error) => {
-            // console.log(error);
-            toast({
-                title: 'Error',
-                description: "Error occured",
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-        },
-    });
+ 
 
     const handlePayment = () => {
         payForTicket.mutate({
@@ -358,34 +327,36 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
             currency: "NGN",
             orderType: "BOOKING",
             typeID: booking?.id + ""
-        })
+        }) 
     }
 
     const handlePriceChange = (item: IAction) => {
         // calculate 5% fo the inital price
-        if(item?.type === "ADDITION") {
-            const Percentage = bookingState?.price * (percentage + 0.05);
-            const newPrice = bookingState?.price + Percentage;
-            setPrice(newPrice.toString());
+
+        const diff = (bookingState?.price - bookingState?.service?.price)
+
+        if (item?.type === "ADDITION") {
+            const Percentage = (bookingState?.price - diff) * (percentage + 0.05);
+            const newPrice = (bookingState?.price - diff) + Percentage;
+            setPrice((newPrice + diff).toString());
             setPercentage(percentage + 0.05)
         } else {
-            const Percentage = bookingState?.price * (percentage - 0.05);
-            const newPrice = bookingState?.price + Percentage;
-            setPrice(newPrice.toString());
+            const Percentage = (bookingState?.price - diff) * (percentage - 0.05);
+            const newPrice = (bookingState?.price - diff) + Percentage;
+            setPrice((newPrice + diff).toString());
             setPercentage(percentage - 0.05)
-        } 
+        }
     }
 
     const [textSize, setTextSize] = useState(40)
 
 
-    useEffect(()=> {
+    useEffect(() => {
         setPercentage(0)
     }, [open])
 
     return (
         <Flex as={"button"} flexDir={"column"} onClick={() => setOpen(true)} borderWidth={"1px"} bgColor={mainBackgroundColor} rounded={"10px"} w={"full"} >
-            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
             <ProductImageScroller images={bookingState?.service?.images} createdDate={moment(bookingState?.createdDate)?.fromNow()} userData={bookingState?.businessOwner} />
             <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]}  >
                 <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(bookingState?.service?.name), 20)}</Text>
@@ -415,17 +386,32 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                             <Flex w={["full", "full", "fit-content"]} >
                                 <Flex flexDir={"column"} gap={"2"} w={["full", "full", "300px"]} >
                                     <Flex w={["full", "full", "300px"]} h={"157px"} rounded={"8px"} bgColor={"#00000066"} position={"relative"} justifyContent={"center"} alignItems={"center"} >
-                                        <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderWidth={"1px"} borderColor={"white"} alignItems={"center"} gap={2} zIndex={"20"} >
-                                            <UserImage image={bookingState?.createdBy?.data?.imgMain?.value} font={"16px"} data={bookingState?.createdBy} border={"1px"} size={"32px"} />
-                                            <Flex flexDir={"column"} alignItems={"start"} color={"white"} >
-                                                <Text fontSize={"12px"} fontWeight={"700"} >
-                                                    {capitalizeFLetter(bookingState?.createdBy?.firstName) + " " + capitalizeFLetter(bookingState?.createdBy?.lastName)}
-                                                </Text>
-                                                <Text fontSize={"10px"} color={"white"} fontWeight={"600"} >
-                                                    Client
-                                                </Text>
+                                        {bookingState?.createdBy?.userId === userId && (
+                                            <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderWidth={"1px"} borderColor={"white"} alignItems={"center"} gap={2} zIndex={"20"} >
+                                                <UserImage image={bookingState?.businessOwner?.data?.imgMain?.value} font={"16px"} data={bookingState?.businessOwner} border={"1px"} size={"32px"} />
+                                                <Flex flexDir={"column"} alignItems={"start"} color={"white"} >
+                                                    <Text fontSize={"12px"} fontWeight={"700"} >
+                                                        {capitalizeFLetter(bookingState?.businessOwner?.firstName) + " " + capitalizeFLetter(bookingState?.businessOwner?.lastName)}
+                                                    </Text>
+                                                    <Text fontSize={"10px"} color={"white"} fontWeight={"600"} >
+                                                        Vendor
+                                                    </Text>
+                                                </Flex>
                                             </Flex>
-                                        </Flex>
+                                        )}
+                                        {bookingState?.createdBy?.userId !== userId && (
+                                            <Flex w={"fit-content"} h={"fit-content"} p={"6px"} pr={"5"} rounded={"24px"} pos={"absolute"} top={"3"} left={"3"} borderWidth={"1px"} borderColor={"white"} alignItems={"center"} gap={2} zIndex={"20"} >
+                                                <UserImage image={bookingState?.createdBy?.data?.imgMain?.value} font={"16px"} data={bookingState?.createdBy} border={"1px"} size={"32px"} />
+                                                <Flex flexDir={"column"} alignItems={"start"} color={"white"} >
+                                                    <Text fontSize={"12px"} fontWeight={"700"} >
+                                                        {capitalizeFLetter(bookingState?.createdBy?.firstName) + " " + capitalizeFLetter(bookingState?.createdBy?.lastName)}
+                                                    </Text>
+                                                    <Text fontSize={"10px"} color={"white"} fontWeight={"600"} >
+                                                        Client
+                                                    </Text>
+                                                </Flex>
+                                            </Flex>
+                                        )}
                                         <Flex pos={"absolute"} inset={"0px"} bgColor={"black"} opacity={"20%"} zIndex={"10"} rounded={"8px"} />
                                         <Image borderColor={"#D0D4EB"} objectFit={"cover"} alt={bookingState?.service?.images[0]} w={["full", "full", "300px"]} h={"157px"} src={bookingState?.service?.images[0].startsWith('https://') ? bookingState?.service?.images[0] : (IMAGE_URL as string) + bookingState?.service?.images[0]} />
                                     </Flex>
@@ -473,7 +459,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                     </Flex>
                                 </Flex>
                                 <Flex flexDir={"column"} px={"3"} gap={"3"} w={"full"} h={"full"} >
-                                    {booking?.bookingStatus === 'PENDING' && (
+                                    {!bookingState?.hasPaid && (
                                         <VStack spacing={5} mt='10px' alignItems="center">
                                             <Text fontSize={'14px'}>You can neogiate this price by 5%</Text>
                                             <HStack width={'120px'} height={'35px'} borderRadius={'50px'} overflow={'hidden'} backgroundColor={'#DDE2E6'}>
@@ -496,38 +482,17 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
 
                         </Flex>
                         <Flex flexDir={"column"} w={'full'} gap={"3"} >
-                            {/* 
-                            <Flex flexDir={"column"} px={"3"} gap={"3"} w={"full"} >
-                                <Flex flexDir={["row", "row", "column"]} justifyContent={'space-between'} w='full' alignItems={'center'}>
-                                    <Text fontSize={'16px'}>Total Price:</Text>
-                                    <Text fontSize={'25px'} fontWeight={700}>{new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(parseInt(price) || 0)}</Text>
-                                </Flex>
-                                {booking?.bookingStatus === 'PENDING' && (
-                                    <VStack spacing={5} mt='10px' alignItems="center">
-                                        <Text fontSize={'14px'}>You can neogiate this price by 5%</Text>
-                                        <HStack width={'150px'} height={'50px'} borderRadius={'50px'} overflow={'hidden'} backgroundColor={'#DDE2E6'}>
-                                            <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'SUBSTRACTION', value: 0 })} flex={1} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
-                                                <FiMinus size={20} color='black' />
-                                            </Flex>
-                                            <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'ADDITION', value: 0 })} flex={1} justifyContent={'center'} alignItems={'center'}>
-                                                <FiPlus size={20} color='black' />
-                                            </Flex>
-                                        </HStack>
-                                    </VStack>
-                                )}
-
-                            </Flex> */}
                             <Flex px={"3"} flexDir={"column"} w={"full"} >
                                 {!isVendor && (
                                     <>
                                         {bookingState.bookingStatus === 'PENDING' && (
                                             <VStack width='100%'>
                                                 <Flex w={"full"} gap={"4"} >
-                                                    <Button onClick={() => userUpdatePrice.mutate()} isLoading={userUpdatePrice.isLoading} w='full' minHeight={'45px'} h='56px' borderRadius='full' borderWidth={'1px'} color={'white'} bg={primaryColor}>
+                                                    <Button _hover={{ backgroundColor: primaryColor }} isDisabled={(bookingState?.price === Number(price)) ? true : false} onClick={() => userUpdatePrice.mutate()} isLoading={userUpdatePrice.isLoading} w='full' minHeight={'45px'} h='50px' borderRadius='full' borderWidth={'1px'} color={'white'} bg={primaryColor}>
                                                         <Text fontSize={'14px'} color={'white'}>Update Price</Text>
                                                     </Button>
 
-                                                    <Button cursor={'not-allowed'} disabled w='full' h='56px' borderRadius='full' _hover={{ backgroundColor: "#FF9500" }} borderWidth={'1px'} borderColor={"#FF9500"} bg={"#FF9500"}>
+                                                    <Button w='full' h='50px' borderRadius='full' _hover={{ backgroundColor: "#FF9500" }} borderWidth={'1px'} borderColor={"#FF9500"} bg={"#FF9500"}>
                                                         <Text fontSize={'14px'} color={"white"}>Pending Approval</Text>
                                                     </Button>
                                                 </Flex>
@@ -545,13 +510,19 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                             </>
                                         )}
                                         {bookingState.bookingStatus === 'APPROVED' && !bookingState?.hasPaid && (
-                                            <Flex gap={"3"} w={"full"} justifyContent={"center"} >
-                                                <Button isLoading={payForTicket?.isLoading} isDisabled={payForTicket?.isLoading} onClick={() => handlePayment()} w='200px' minHeight={'45px'} h='50px' borderRadius='full' borderWidth={'1px'} bg={primaryColor} >
-                                                    <Text fontSize={'14px'} color={'white'}>Make Payment</Text>
-                                                </Button>
+                                            <Flex w={"full"} gap={"4"} flexDirection={"column"} >
+                                                <Flex gap={"3"} w={"full"} justifyContent={"center"} >
+                                                    <Button _hover={{ backgroundColor: primaryColor }} isDisabled={(bookingState?.price === Number(price)) ? true : false} onClick={() => userUpdatePrice.mutate()} isLoading={userUpdatePrice.isLoading} w='200px' minHeight={'45px'} h='50px' borderRadius='full' borderWidth={'1px'} color={'white'} bg={primaryColor}>
+                                                        <Text fontSize={'14px'} color={'white'}>Update Price</Text>
+                                                    </Button>
+                                                    <Button isLoading={payForTicket?.isLoading} isDisabled={payForTicket?.isLoading} onClick={() => handlePayment()} w='200px' minHeight={'45px'} h='50px' borderRadius='full' borderWidth={'1px'} bg={primaryColor} >
+                                                        <Text fontSize={'14px'} color={'white'}>Make Payment</Text>
+                                                    </Button>
 
-                                                <Button onClick={() => cancelBooking.mutate()} isLoading={cancelBooking.isLoading} w='200px' h='50px' borderRadius='full' minHeight={'45px'} borderWidth={'1px'} bg={'red'}>
-                                                    <Text fontSize={'14px'} color={'white'}>Cancel Booking</Text>
+                                                </Flex>
+
+                                                <Button onClick={() => cancelBooking.mutate()} isLoading={cancelBooking.isLoading} w='100%' h='50px' borderRadius='full' borderWidth={'0px'} bg={"transparent"}>
+                                                    <Text fontSize={'14px'} color={'red'}>Cancel Booking</Text>
                                                 </Button>
                                             </Flex>
                                         )}
@@ -596,10 +567,10 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                         {bookingState.bookingStatus === 'PENDING' && (
                                             <VStack width='100%'>
                                                 <HStack width='100%' spacing={10}>
-                                                    <Button onClick={() => vendorUpdatePrice.mutate()} isLoading={vendorUpdatePrice.isLoading} w='full' h='56px' borderRadius='full' borderWidth={'1px'} color={'white'} bg={primaryColor}>
+                                                    <Button _hover={{ backgroundColor: primaryColor }} isDisabled={(bookingState?.price === Number(price)) ? true : false} onClick={() => vendorUpdatePrice.mutate()} isLoading={vendorUpdatePrice.isLoading} w='full' h='50px' borderRadius='full' borderWidth={'1px'} color={'white'} bg={primaryColor}>
                                                         <Text fontSize={'14px'} color={'white'}>Update Price</Text>
                                                     </Button>
-                                                    <Button isLoading={vendorAcceptOrDecline.isLoading || loading} onClick={() => clickHandle(true)} w='full' h='56px' borderRadius='full' borderWidth={'1px'} bg={"#F7FBFE"} _hover={{ backgroundColor: "#F7FBFE" }}>
+                                                    <Button isLoading={vendorAcceptOrDecline.isLoading || loading} onClick={() => clickHandle(true)} w='full' h='50px' borderRadius='full' borderWidth={'1px'} bg={"#F7FBFE"} _hover={{ backgroundColor: "#F7FBFE" }}>
                                                         <Text fontSize={'14px'} color={primaryColor}>Approve</Text>
                                                     </Button>
                                                 </HStack>
@@ -615,9 +586,14 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                             </Button>
                                         )}
                                         {bookingState.bookingStatus === 'APPROVED' && !bookingState?.hasPaid && (
-                                            <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='50px' borderRadius='full' borderWidth={'1px'} bg={primaryColor}>
-                                                <Text fontSize={'14px'} color={'white'}>Awaiting Payment</Text>
-                                            </Button>
+                                            <Flex w={"full"} gap={"4"} >
+                                                {/* <Button _hover={{ backgroundColor: primaryColor }} isDisabled={(bookingState?.price === Number(price)) ? true : false} onClick={() => userUpdatePrice.mutate()} isLoading={userUpdatePrice.isLoading} w='full' minHeight={'45px'} h='50px' borderRadius='full' borderWidth={'1px'} color={'white'} bg={primaryColor}>
+                                                    <Text fontSize={'14px'} color={'white'}>Update Price</Text>
+                                                </Button> */}
+                                                <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='50px' borderRadius='full' borderWidth={'1px'} bg={primaryColor}>
+                                                    <Text fontSize={'14px'} color={'white'}>Awaiting Payment</Text>
+                                                </Button>
+                                            </Flex>
                                         )}
                                         {bookingState.bookingStatus === 'AWAITING_CONFIRMATION' && bookingState.isCompleted && (
                                             <Button cursor={'not-allowed'} opacity={0.4} disabled w='full' h='50px' borderRadius='full' borderWidth={'1px'} bg={primaryColor}>
@@ -651,6 +627,16 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                         </Flex>
                     </Flex>
                 </Flex>
+            </ModalLayout>
+            <ModalLayout open={show} size={"xs"  } close={setShow} >
+                <> <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
+                    <SuccessIcon />
+                    <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"2"} mb={"4"} >{"Thank you"}</Text>
+                    {/* <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`You can rate this product.`}</Text> */}
+
+                    <CustomButton onClick={() => router.push(`/dashboard/kisok/service/${bookingState?.service?.id}?type=true`)} color={"#FFF"} text={'Leave a review'} w={"full"} borderRadius={"99px"} />
+                </Flex>
+                </>
             </ModalLayout>
         </Flex>
     )
