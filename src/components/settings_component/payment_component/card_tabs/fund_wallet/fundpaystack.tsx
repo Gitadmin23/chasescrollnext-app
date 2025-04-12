@@ -202,21 +202,8 @@ function Fundpaystack(props: Props) {
                         <SuccessIcon />
                         <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{message?.service ? "Booking Successful" : message?.rental ? "Rental Purchase Successful" : message?.product ? "Product Purchase Successful" : message?.donation ? "Donated Successful" : message?.event ? "Ticket Purchase Successful" : "Transaction Successful"}</Text>
                         <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{(message?.product || message?.service || message?.rental) ? "Thank you!" : message?.donation ? `Thank you! Your generous donation makes a real difference. We’re so grateful for your support!` : message?.event ? `Congratulations! you can also find your ticket on the Chasescroll app, on the details page click on the view ticket button.` : "Congratulations! Transaction was successfull"}</Text>
-                        {(!message?.product && !message?.service && !message?.rental) && (
-                            <CustomButton onClick={() => clickHandler()} color={primaryColor} text={'Close'} w={"full"} backgroundColor={"#F7F8FE"} />
-                        )}
-                        {(message?.product) && (
-                            <CustomButton onClick={() => clickHandler()} color={primaryColor} text={'View Order'} w={"full"} backgroundColor={"#F7F8FE"} />
-                        )}
-                        {(message?.service) && (
-                            <CustomButton onClick={() => closeHandler()} color={primaryColor} text={'Close'} w={"full"} backgroundColor={"#F7F8FE"} />
-                        )}
-                        {(message?.rental) && (
-                            <CustomButton onClick={() => clickHandler()} color={primaryColor} text={'Close'} w={"full"} backgroundColor={"#F7F8FE"} />
-                        )} 
-                        {(!message?.product && !message?.service && !message?.rental && !message?.booking && !message?.donation && !message.event) && (
-                            <CustomButton onClick={() => clickHandler()} color={primaryColor} text={'Close'} w={"full"} backgroundColor={"#F7F8FE"} />
-                        )} 
+
+                        <CustomButton onClick={() => clickHandler()} color={primaryColor} text={'Close'} w={"full"} backgroundColor={"#F7F8FE"} />
                     </Flex>
                 </LoadingAnimation>
             </ModalLayout>

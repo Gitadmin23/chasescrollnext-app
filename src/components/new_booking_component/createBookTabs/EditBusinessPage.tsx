@@ -67,8 +67,8 @@ export default function EditBusinessPage() {
     let fileReader = React.useRef<FileReader | null>(null);
     const router = useRouter();
     const details = useDetails((state) => state);
-    const param = useParams();
     const toast = useToast();
+    const param = useParams();
     const id = param?.id;
 
     // social media state

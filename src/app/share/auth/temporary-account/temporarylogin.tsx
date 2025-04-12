@@ -18,6 +18,7 @@ export default function Temporarylogin() {
   const { setAll } = useDetails((state) => state);
   const router = useRouter()
   const query = useSearchParams();
+  const id = query?.get('affiliate');
 
 
   React.useEffect(() => {
@@ -78,7 +79,7 @@ export default function Temporarylogin() {
         if(type  === "DONATION"){
           router.push(`/donation/${typeID}`);
         } else {
-          router.push(`/event/${typeID}`);
+          router.push(`/dashboard/event/details/${id ? `${id}?type=affiliate` : typeID}`);
         }
       }
     }

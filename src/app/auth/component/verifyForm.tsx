@@ -1,7 +1,7 @@
 import useAuth from '@/hooks/useAuth'
 import { Flex, HStack, PinInput, PinInputField, Button, Text } from '@chakra-ui/react'
 import email from 'next-auth/providers/email'
-import { useRouter } from 'next/navigation';
+import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react'
 
@@ -19,6 +19,9 @@ export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMess
     const { code, setCode, hanldeSubmit, verifySuccess, loadingVerify, email, sendingVerify, sendSuccess, sendVerify, initialTime, setInitialTime, startTimer, setStartTimer } = useAuth() 
     
     const pathname = usePathname()
+    const query = useSearchParams(); 
+    const param = useParams();
+    const id = param?.slug
 
     const router = useRouter()
 
@@ -29,7 +32,7 @@ export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMess
     useEffect(() => {
         if (verifySuccess) {
             if(pathname?.includes("event")){
-                router.push(`/share/auth/login?type=EVENT&typeID=${index}`);
+                router.push(`/share/auth/login?type=EVENT&typeID=${index+(id ? "&affiliate="+id : "")}`);
             } else {
                 setOpen(false)
                 setTab(false)
