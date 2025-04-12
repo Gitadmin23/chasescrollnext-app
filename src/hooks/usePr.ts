@@ -20,7 +20,7 @@ const usePr = () => {
             percent: number
         }) =>
             httpService.put(
-                `/events/create-pr-request?eventID=${data?.eventID}&affiliateType=&${data?.affiliateType}&percent=${data?.percent}`, {}
+                `/events/create-pr-request?eventID=${data?.eventID}&affiliateType=${data?.affiliateType}&percent=${data?.percent}`, {}
             ),
         onSuccess: (data: any) => {
             toast({
