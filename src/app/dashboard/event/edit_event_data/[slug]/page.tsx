@@ -69,7 +69,8 @@ function EditEvent(props: { params: Promise<{ slug: string }> }) {
                 collaborators: data?.data?.content[0]?.collaborators,
                 acceptedAdmins: data?.data?.content[0]?.acceptedAdmins,
                 acceptedCollaborators: data?.data?.content[0]?.acceptedCollaborators,
-                admins: data?.data?.content[0]?.admins
+                admins: data?.data?.content[0]?.admins,
+                affiliates: data?.data?.content[0]?.affiliates
             }
  
             const admin: any = []

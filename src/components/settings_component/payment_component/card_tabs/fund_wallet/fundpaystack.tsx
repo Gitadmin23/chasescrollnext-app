@@ -163,7 +163,7 @@ function Fundpaystack(props: Props) {
     const clickHandler = () => {
         if (message?.product) {
             push(`/dashboard/kisok/details-order/${id}`)
-        } else if (!message?.event) {
+        } else if (message?.event) {
             setModalTab(5)
             setShowModal(true)
         }
