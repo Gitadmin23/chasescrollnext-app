@@ -237,20 +237,7 @@ function SelectLocation(props: Props) {
                                     <IoAdd size="20px" color={primaryColor} />
                                     <Text color={primaryColor} fontWeight={"600"} >Add New Meeting link</Text>
                                 </Flex>
-                            )}
-                            <Box width={"full"} mt={"4"} >
-                                <Flex>
-                                    <Text fontWeight={"600"} >State </Text>
-                                    <span style={{ color: "#F04F4F", fontSize: "20px" }} > *</span>
-                                </Flex>
-                                <Select value={newState} rounded={"full"} placeholder='Select State' onChange={(e) => addState(e.target.value)} >
-                                    {statesInNigeria?.map((state) => {
-                                        return (
-                                            <option key={state} >{state}</option>
-                                        )
-                                    })}
-                                </Select>
-                            </Box>
+                            )} 
                         </Box>
                     </Box>
                 )}

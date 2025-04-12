@@ -85,10 +85,8 @@ export default function EventDetail(props: IEventType) {
         } else {
             back()
         }
-    } 
-
-    // const { data: prId } = useGetPr(props?.id)
-
+    }  
+    
     return (
         <Flex w={"full"} flexDir={"column"} pos={"relative"} gap={"4"} px={["0px", "0px", "6"]} pb={["400px", "400px", "6"]} py={"6"} >
 
