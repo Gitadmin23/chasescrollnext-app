@@ -54,7 +54,9 @@ export default function RequestServices() {
     }
 
     useEffect(() => {
-
+        if(eventdata.affiliates?.length > 0){
+            setPr(true)
+        }
     }, [])
 
     const clickHander = () => {

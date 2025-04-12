@@ -87,6 +87,7 @@ function MapSearch(props: Props) {
                 location: {
                     ...eventdata.location,
                     locationDetails: address,
+                    placeIds: newState,
                     latlng: lat + " " + lng
                 }
             })

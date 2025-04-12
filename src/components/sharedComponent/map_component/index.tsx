@@ -113,6 +113,7 @@ function MapComponent(props: Props) {
               location: {
                 ...eventdata.location,
                 locationDetails: address,
+                placeIds: newState,
                 latlng: e.latLng.lat() + " " + e.latLng.lng()
               }
             })

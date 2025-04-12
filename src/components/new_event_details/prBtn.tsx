@@ -70,14 +70,14 @@ export default function PrBtn({ data }: { data: IEventType }) {
                 serviceCategories: [],
                 rentalCategories: selectRental,
                 eventID: data?.id,
-                state: "Rivers"
+                state: data?.location?.placeIds ? data?.location?.placeIds : "Rivers"
             })
         } else if (index === 4) {
             tagServiceAndRental?.mutate({
                 serviceCategories: selectService,
                 rentalCategories: [],
                 eventID: data?.id,
-                state: "Rivers"
+                state: data?.location?.placeIds ? data?.location?.placeIds : "Rivers"
             })
         } else if (index === 1) {
             if (selectDonation === selectDonationInitial) {
