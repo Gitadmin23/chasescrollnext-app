@@ -38,7 +38,14 @@ export default function SelectCategories({ rental }: { rental: boolean }) {
             {!rental && (
                 <LoadingAnimation loading={isLoading} >
                     <Select bgColor={mainBackgroundColor} onChange={(e) => changeHandler(e.target.value)} value={productdata?.category} h={"45px"} placeholder={productdata?.category ? productdata?.category : 'Select Product Type'} >
-                        {data?.data?.map((item: string, index: number) => (
+                        {data?.data?.sort((a: string, b: string) => {
+                            if (a > b) {
+                                return 1
+                            } else {
+                                return -1;
+                            }
+                            return 0;
+                        })?.map((item: string, index: number) => (
                             <option key={index} value={item} >{item?.replaceAll("_", " ")}</option>
                         ))}
                     </Select>
@@ -47,7 +54,14 @@ export default function SelectCategories({ rental }: { rental: boolean }) {
 
             {rental && (
                 <Select bgColor={mainBackgroundColor} onChange={(e) => changeHandler(e.target.value)} value={rentaldata?.category} h={"45px"} placeholder={rentaldata?.category ? rentaldata?.category : 'Select Rental Type'} >
-                    {datarental?.data?.map((item: string, index: number) => (
+                    {datarental?.data?.sort((a: string, b: string) => {
+                        if (a > b) {
+                            return 1
+                        } else {
+                            return -1;
+                        }
+                        return 0;
+                    })?.map((item: string, index: number) => (
                         <option key={index} value={item} >{item?.replaceAll("_", " ")}</option>
                     ))}
                 </Select>
