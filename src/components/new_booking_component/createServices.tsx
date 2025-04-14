@@ -423,7 +423,14 @@ export default function CreateServices({ id }: { id: string }) {
                         <Text fontWeight={"600"} >Select from the list of services</Text>
                         <Text fontWeight={"400"} fontSize={"14px"} >You are free to make adjustment anytime</Text>
                         <Select bgColor={mainBackgroundColor} value={selectedCategory} placeholder='Select Categories' onChange={(e) => setSelectedCategory(e.target.value)} h={"44px"} borderWidth={"1px"} borderColor={primaryColor} rounded={"16px"}  >
-                            {!isLoading && categories.length > 0 && categories.map((item, index) => (
+                            {!isLoading && categories.length > 0 && categories?.sort((a: string, b: string) => {
+                                if (a > b) {
+                                    return 1
+                                } else {
+                                    return -1;
+                                }
+                                return 0;
+                            })?.map((item, index) => (
                                 <option key={index.toString()} selected={index === 0} value={item} >{item?.replaceAll("_", " ")}</option>
                             ))}
                         </Select>
