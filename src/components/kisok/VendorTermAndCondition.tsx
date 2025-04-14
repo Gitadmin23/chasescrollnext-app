@@ -5,13 +5,14 @@ import ModalLayout from '../sharedComponent/modal_layout'
 
 export default function VendorTermAndCondition({ type, checked, setChecked }: { checked: boolean; setChecked: any, type?: "SERVICE" | "RENTAL" | "PRODUCT" }) {
 
-    const [open, setOpen] = useState(false)
+	const [open, setOpen] = useState(false)
 
-    const {
-        primaryColor,
-        mainBackgroundColor
-    } = useCustomTheme()
-    const rentaltermsAndConditions = `
+	const {
+		primaryColor,
+		mainBackgroundColor,
+		headerTextColor
+	} = useCustomTheme()
+	const rentaltermsAndConditions = `
 1. Introduction
 Welcome to Chasescroll (“Rental System”). By registering as a vendor and listing rental items on our platform, you (“Vendor”) agree to comply with the following terms and conditions.
 
@@ -64,7 +65,7 @@ By registering and listing rental items on Chasescroll, you acknowledge that you
 
 `;
 
-    const servicetermsAndConditions = `  
+	const servicetermsAndConditions = `  
 1. Introduction
 Welcome to Chasescroll ("Platform"). By registering as a vendor and offering services through our platform, you ("Vendor") agree to the following terms and conditions.
 
@@ -125,7 +126,7 @@ By registering as a vendor and offering services on [Chasescroll], you acknowled
 
 `;
 
-const productTermAndCondition = `
+	const productTermAndCondition = `
 Terms and Conditions for Sellers
 Welcome to Chasescroll. By listing and selling products on our platform, you (“Seller”) agree to the following Terms and Conditions. Please read them carefully.
 
@@ -187,37 +188,39 @@ If you have questions, please contact us at support@chasescroll.com.
 `
 
 
-    return (
-        (<Flex  >
-            <Flex alignItems={"center"} gap={"2"} >
-                <Checkbox isChecked={checked} onChange={(e)=> setChecked(e.target.checked)} /> 
-                <Text type="button" onClick={() => setOpen(true)} as={"button"} textDecor={"underline"} fontWeight={"bold"} fontSize={"12px"} color={primaryColor} >{type === "PRODUCT" ? "Kiosk Terms And Conditions" : type === "RENTAL" ? "Rental Terms And Conditions" : type === "SERVICE" ? "Services Terms And Conditions" : ""}</Text>
-            </Flex>
-            <ModalLayout size={["full", "full", "2xl"]} open={open} close={setOpen} >
-                <Box width={"full"} h={["100vh", "100vh", "full"]} bg={mainBackgroundColor} px={["0px", "4", "4"]} pt={"3"} pb={"4"} >
-                    <Box display={"flex"} fontWeight={"medium"} flexDirection={"column"} fontSize={"sm"} px={"3"} py={"5"} >
+	return (
+		(<Flex w={"full"}  >
+			<Flex w={"full"} justifyContent={"center"} > 
+				<Flex alignItems={"center"} gap={"2"} w={"fit-content"} px={"3"} rounded={"md"} py={"3"} bgColor={mainBackgroundColor} >
+					<Checkbox borderColor={headerTextColor} isChecked={checked} onChange={(e) => setChecked(e.target.checked)} />
+					<Text type="button" onClick={() => setOpen(true)} as={"button"} textDecor={"underline"} fontWeight={"bold"} fontSize={"12px"} color={primaryColor} >Accept {type === "PRODUCT" ? "Kiosk Terms And Conditions" : type === "RENTAL" ? "Rental Terms And Conditions" : type === "SERVICE" ? "Services Terms And Conditions" : ""}</Text>
+				</Flex>
+			</Flex>
+			<ModalLayout size={["full", "full", "2xl"]} open={open} close={setOpen} >
+				<Box width={"full"} h={["100vh", "100vh", "full"]} bg={mainBackgroundColor} px={["0px", "4", "4"]} pt={"3"} pb={"4"} >
+					<Box display={"flex"} fontWeight={"medium"} flexDirection={"column"} fontSize={"sm"} px={"3"} py={"5"} >
 
-                        <Text fontSize={["18px", "24px", "24px"]} fontWeight={"bold"} lineHeight={"28.8px"} textAlign={"center"} >{type === "PRODUCT" ? "Kiosk Terms And Conditions" : type === "RENTAL" ? "Rental Terms And Conditions" : type === "SERVICE" ? "Services Terms And Conditions" : ""}</Text>
-                        <Box
-                            my={"3"} lineHeight={"22px"}
-                            whiteSpace="pre-wrap"
-                            p={[2, 4, 4]}
-                            borderWidth="1px"
-                            borderRadius="md"
-                            overflowY="auto"
-                            maxH={["75vh", "75vh", "60vh"]}
-                            fontSize="sm"
-                        > 
-                            {type === "SERVICE" ? servicetermsAndConditions : type === "RENTAL" ? rentaltermsAndConditions : type === "PRODUCT" ? productTermAndCondition : ""}
-                        </Box>
-                        <Flex pt={"3"} position={["relative"]} >
-                            <Button onClick={() => setOpen(false)} w={["full", "300px", "300px"]} mx={"auto"} h={"42px"} borderWidth={"1px"} color={"#5465E0"} borderColor={"#5465E0"} rounded={"8px"} bgColor={"white"} _hover={{ backgroundColor: "white" }} >
-                                Done
-                            </Button>
-                        </Flex>
-                    </Box>
-                </Box>
-            </ModalLayout>
-        </Flex>)
-    );
+						<Text fontSize={["18px", "24px", "24px"]} fontWeight={"bold"} lineHeight={"28.8px"} textAlign={"center"} >{type === "PRODUCT" ? "Kiosk Terms And Conditions" : type === "RENTAL" ? "Rental Terms And Conditions" : type === "SERVICE" ? "Services Terms And Conditions" : ""}</Text>
+						<Box
+							my={"3"} lineHeight={"22px"}
+							whiteSpace="pre-wrap"
+							p={[2, 4, 4]}
+							borderWidth="1px"
+							borderRadius="md"
+							overflowY="auto"
+							maxH={["75vh", "75vh", "60vh"]}
+							fontSize="sm"
+						>
+							{type === "SERVICE" ? servicetermsAndConditions : type === "RENTAL" ? rentaltermsAndConditions : type === "PRODUCT" ? productTermAndCondition : ""}
+						</Box>
+						<Flex pt={"3"} position={["relative"]} >
+							<Button onClick={() => setOpen(false)} w={["full", "300px", "300px"]} mx={"auto"} h={"42px"} borderWidth={"1px"} color={"#5465E0"} borderColor={"#5465E0"} rounded={"8px"} bgColor={"white"} _hover={{ backgroundColor: "white" }} >
+								Done
+							</Button>
+						</Flex>
+					</Box>
+				</Box>
+			</ModalLayout>
+		</Flex>)
+	);
 }
