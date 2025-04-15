@@ -14,7 +14,10 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { FiCalendar, FiPlus, FiMinus } from 'react-icons/fi'
 import { IoIosClose } from 'react-icons/io'
+import DatePicker from "react-datepicker";
 import { useMutation } from 'react-query'
+import { dateFormat, timeFormat } from '@/utils/dateFormat'
+import "react-datepicker/dist/react-datepicker.css";
 
 interface IAction {
     value: number;
@@ -30,14 +33,14 @@ function CreateBookingModal({
     onClose: () => void,
     service: IService,
 }) {
-    const { 
-        borderColor, 
-        bodyTextColor, 
+    const {
+        borderColor,
+        bodyTextColor,
     } = useCustomTheme();
 
     // states
     const [description, setDescription] = React.useState("");
-    const [price, setPrice] = React.useState(service?.price+"");
+    const [price, setPrice] = React.useState(service?.price + "");
     const [percentage, setPercentage] = useState(0)
     const [date, setDate] = React.useState<string>("")
 
@@ -45,12 +48,26 @@ function CreateBookingModal({
 
     // utils
     const router = useRouter();
-    const toast = useToast();
+    const toast = useToast()
 
-    useEffect(() => { 
+    useEffect(() => {
         setDate("")
         setDescription("")
     }, [])
+
+    const handleDateSelect = (date: any) => {
+        setDate(date)
+    }
+    const CustomInput = ({ value, onClick }: any) => {
+        return (
+            <Flex onClick={onClick} as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"full"} fontSize={"12px"} h={"50px"}  >
+                <CalendarIcon />
+                {date ? dateFormat(date) : "Select Date And Time"}
+                {" "}
+                {date ? timeFormat(date) : ""}
+            </Flex>
+        )
+    }
 
     const handlePriceChange = (item: IAction) => {
         if (item.type === 'ADDITION') {
@@ -135,7 +152,7 @@ function CreateBookingModal({
         mutate(obj);
     }, [description, service, userId, toast, mutate, price]);
 
-    useEffect(()=> {
+    useEffect(() => {
         setPercentage(0)
     }, [open])
 
@@ -181,7 +198,7 @@ function CreateBookingModal({
                             </Flex>
                         </Flex>
                     )}
-                    <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
+                    {/* <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
                         <Text fontWeight="600" fontSize={'14px'}>Book a date</Text>
                         <InputGroup width='100%'>
                             <InputLeftElement pt={"1"} >
@@ -203,7 +220,20 @@ function CreateBookingModal({
                                 fontWeight={400}
                             />
                         </InputGroup>
-                    </VStack>
+                    </VStack> */}
+                    <Flex flexDirection={"column"} w={"full"} gap={"1"}  >
+                        <Text fontSize={"14px"} >Book a date</Text>
+                        <DatePicker
+                            // value={}
+                            // disabled={name === "End" && !eventdata.startDate}
+                            selected={date ? new Date(date) : new Date()}
+                            dateFormat="MMM d, yyyy h:mm aa"
+                            showTimeSelect
+                            minDate={new Date()}
+                            onChange={handleDateSelect}
+                            customInput={<CustomInput />}
+                        />
+                    </Flex>
                     <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
                         <Text fontWeight="600" fontSize={'14px'}>Description</Text>
                         <Textarea

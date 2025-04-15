@@ -4,7 +4,7 @@ import GetMySale from '@/components/kisok/getMySale'
 import GetOrder from '@/components/kisok/getOrder'
 import GetProduce from '@/components/kisok/getProduce'
 import GetReciept from '@/components/kisok/getReciept'
-import GetRental from '@/components/kisok/getRental' 
+import GetRental from '@/components/kisok/getRental'
 import GetVendorReciept from '@/components/kisok/getVendorReciept'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { GlassIcon, LocationPin, LocationStroke, RentalIcon, ServiceIcon, StoreIcon } from '@/components/svg'
@@ -174,12 +174,6 @@ export default function KisokPage() {
                 <Flex fontSize={["20px", "20px", "56px"]} alignItems={"end"} display={["flex", "flex", "none"]} fontWeight={"700"} >what are you l<Flex mb={"1"} ><GlassIcon size='17' /></Flex>king for?</Flex>
                 <Flex fontSize={["16px", "16px", "56px"]} alignItems={"end"} display={["none", "none", "flex"]} fontWeight={"700"} >what are you l<Flex mb={"3"} ><GlassIcon size='45' /></Flex>king for?</Flex>
                 <Flex w={"fit-content"} gap={"1"} alignItems={"center"} bgColor={secondaryBackgroundColor} p={"6px"} rounded={"full"} >
-                    <CustomButton onClick={() => clickHandler("kiosk")} text={
-                        <Flex alignItems={"center"} gap={"2"} >
-                            <StoreIcon color={(type === null || type === "mykisok" || type === "myorder") ? "white" : headerTextColor} />
-                            <Text>Kiosk</Text>
-                        </Flex>
-                    } height={["38px", "38px", "48px"]} fontSize={"sm"} backgroundColor={(type === null || type === "mykisok" || type === "myorder") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === null || type === "mykisok" || type === "myorder") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === null || type === "mykisok" || type === "myorder") ? "white" : headerTextColor} width={["107px", "107px", "175px"]} />
                     <CustomButton onClick={() => clickHandler("service")} text={
                         <Flex alignItems={"center"} gap={"2"} >
                             <ServiceIcon color={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "white" : headerTextColor} />
@@ -192,6 +186,12 @@ export default function KisokPage() {
                             <Text>Rental</Text>
                         </Flex>
                     } height={["38px", "38px", "48px"]} fontSize={"sm"} backgroundColor={(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "white" : headerTextColor} width={["107px", "107px", "175px"]} />
+                    <CustomButton onClick={() => clickHandler("kiosk")} text={
+                        <Flex alignItems={"center"} gap={"2"} >
+                            <StoreIcon color={(type === null || type === "mykisok" || type === "myorder") ? "white" : headerTextColor} />
+                            <Text>Kiosk</Text>
+                        </Flex>
+                    } height={["38px", "38px", "48px"]} fontSize={"sm"} backgroundColor={(type === null || type === "mykisok" || type === "myorder") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === null || type === "mykisok" || type === "myorder") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === null || type === "mykisok" || type === "myorder") ? "white" : headerTextColor} width={["107px", "107px", "175px"]} />
                 </Flex>
                 <Flex display={["flex", "flex", "none"]} w={"full"} gap={"3"} alignItems={"center"} >
                     <CustomButton onClick={() => setOpen(true)} text={`Filter ${(type === null || type === "mykisok" || type === "myorder") ? "Product" : (type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "Service" : "Rental"} `} color={headerTextColor} fontSize={"14px"} backgroundColor={"White"} borderWidth={"1px"} borderRadius={"999px"} />
@@ -201,13 +201,13 @@ export default function KisokPage() {
                         {(type === null || type === "mykisok" || type === "myorder") && (
                             <>
                                 {data?.data?.sort((a: string, b: string) => {
-                                        if (a > b) {
-                                            return 1
-                                        } else {
-                                            return -1;
-                                        }
-                                        return 0;
-                                    })?.map((item: string, index: number) => (
+                                    if (a > b) {
+                                        return 1
+                                    } else {
+                                        return -1;
+                                    }
+                                    return 0;
+                                })?.map((item: string, index: number) => (
                                     <option key={index} >{item?.replaceAll("_", " ")}</option>
                                 ))}
                             </>
@@ -215,13 +215,13 @@ export default function KisokPage() {
                         {(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") && (
                             <>
                                 {datarental?.data?.sort((a: string, b: string) => {
-                                        if (a > b) {
-                                            return 1
-                                        } else {
-                                            return -1;
-                                        }
-                                        return 0;
-                                    })?.map((item: string, index: number) => (
+                                    if (a > b) {
+                                        return 1
+                                    } else {
+                                        return -1;
+                                    }
+                                    return 0;
+                                })?.map((item: string, index: number) => (
                                     <option key={index} >{item?.replaceAll("_", " ")}</option>
                                 ))}
                             </>
@@ -229,13 +229,13 @@ export default function KisokPage() {
                         {(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") && (
                             <>
                                 {serviceCategories?.data?.sort((a: string, b: string) => {
-                                        if (a > b) {
-                                            return 1
-                                        } else {
-                                            return -1;
-                                        }
-                                        return 0;
-                                    })?.map((item: string, index: number) => (
+                                    if (a > b) {
+                                        return 1
+                                    } else {
+                                        return -1;
+                                    }
+                                    return 0;
+                                })?.map((item: string, index: number) => (
                                     <option key={index} >{item?.replaceAll("_", " ")}</option>
                                 ))}
                             </>
@@ -343,7 +343,7 @@ export default function KisokPage() {
             )}
             {type === "myreciept" && (
                 <GetReciept />
-            )} 
+            )}
             {type === "vendorreciept" && (
                 <GetVendorReciept />
             )}
