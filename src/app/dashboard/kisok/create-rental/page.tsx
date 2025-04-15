@@ -40,6 +40,15 @@ export default function RentalCreate() {
         }
         updateRental(clone)
     }
+
+
+    const backHandler = () => {
+        if(type){
+            push("/dashboard/kisok/create-rental")
+        } else {
+            push("/dashboard/kisok?type=rental")
+        } 
+    }
     
 
     return (
@@ -47,15 +56,15 @@ export default function RentalCreate() {
             <Flex w={"full"} h={"6px"} pos={"absolute"} top={"0px"} zIndex={"10"} insetX={"0px"} rounded={"6px"} bgColor={"#F6F6F6"} >
                 <Flex w={"50%"} bgColor={primaryColor} rounded={"6px"} />
             </Flex>
-            <Flex onClick={() => back()} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} position={"absolute"} top={"4"} zIndex={"30"} left={"4"}  >
+            <Flex as={"button"} onClick={() => backHandler()} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} position={"absolute"} top={"4"} zIndex={"30"} left={"4"}  >
                 <IoArrowBack size={"20px"} />
             </Flex>
 
             <form style={{ maxWidth: "550px", width: "100%", display: "flex" }} onSubmit={handleSubmitRental}>
                 <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={type ? "none" : "flex"} flexDir={"column"}  >
-                    <Text fontSize={"24px"} fontWeight={"600"} >List your Property</Text>
+                    <Text fontSize={["16px", "16px", "24px"]} fontWeight={"600"} >List the item for rent</Text>
                     <ProductImagePicker />
-                    <Text fontSize={"24px"} fontWeight={"600"} >Delivery Plans</Text>
+                    {/* <Text fontSize={["16px", "16px", "24px"]} fontWeight={"600"} >Delivery Plans</Text> */}
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Name of the item</Text>
@@ -73,7 +82,7 @@ export default function RentalCreate() {
                 </Flex>
 
                 <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={!type ? "none" : "flex"} flexDir={"column"}  >
-                    <Text fontSize={"24px"} fontWeight={"600"} >List your Property</Text>
+                    <Text fontSize={["16px", "16px", "24px"]} fontWeight={"600"} >List your Property</Text>
                     <Flex w={"full"} flexDir={"column"} gap={"3"} > 
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Location</Text>
