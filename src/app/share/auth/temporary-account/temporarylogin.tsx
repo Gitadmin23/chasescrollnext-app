@@ -79,7 +79,7 @@ export default function Temporarylogin() {
         if(type  === "DONATION"){
           router.push(`/donation/${typeID}`);
         } else {
-          router.push(`/dashboard/event/details/${id ? `${id}?type=affiliate` : typeID}`);
+          router.push(`/event/${id ? `${id}?type=affiliate` : typeID}`);
         }
       }
     }
