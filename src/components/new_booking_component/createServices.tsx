@@ -219,9 +219,7 @@ export default function CreateServices({ id }: { id: string }) {
         }
     });
 
-
-    //mutation
-
+    //mutation 
     const createBusinessMutation = useMutation({
         mutationFn: (data: any) => httpService.post(`/business-service/create`, data),
         onSuccess: (data) => {
@@ -290,9 +288,6 @@ export default function CreateServices({ id }: { id: string }) {
         }
     });
 
-    console.log(rentaldata?.location?.state);
-
-
     const { isLoading, data } = useQuery(['get-business-categories'], () => httpService.get('/business-service/categories'), {
         refetchOnMount: true,
         onSuccess: (data) => {
@@ -306,19 +301,6 @@ export default function CreateServices({ id }: { id: string }) {
     React.useEffect(() => {
         fileReader.current = new FileReader();
     }, []);
-
-    // React.useEffect(() => {
-    //     const handleBeforeUnload = (event: any) => {
-    //         event.preventDefault();
-    //         event.returnValue = ''; // This is required for Chrome to show the prompt
-    //     };
-
-    //     window.addEventListener('beforeunload', handleBeforeUnload);
-
-    //     return () => {
-    //         window.removeEventListener('beforeunload', handleBeforeUnload);
-    //     };
-    // }, []);  
 
     const handleDayChange = ({ index, type, isChecked, value }: { index: number, type: 'startTime' | 'endTime' | 'dayOfTheWeek' | 'checked', isChecked: boolean, value: string }) => {
         setDays(days.map((day, i) => {
@@ -367,16 +349,12 @@ export default function CreateServices({ id }: { id: string }) {
         <Flex w={"full"} h={"full"} >
             <Flex w={"full"} h={"full"} display={['none', 'none', 'flex']} flexDir={"column"} alignItems={"center"} py={"8"} borderRightWidth={"1.03px"} borderColor={borderColor} overflowY={"auto"} >
                 <Flex px={"14"} w={"full"} flexDir={"column"} gap={"3"} >
-                    <Flex alignItems={"center"} gap={"3"} >
-                        <IoArrowBack size={"30px"} onClick={() => router.back()} />
-                        <Text fontSize={"20px"} fontWeight={"500"} >Back</Text>
+                    <Flex as={"button"} onClick={() => router.back()} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} top={"4"} zIndex={"30"} left={"4"}  >
+                        <IoArrowBack size={"20px"} />
                     </Flex>
-                    <Text fontSize={"24px"} fontWeight={"600"} >Upload clear photos of your Services </Text>
-                    <Text fontWeight={"500"} mb={"8"} >Upload upto 5 clear images that describe your service</Text>
-
-
+                    <Text fontSize={["16px", "16px", "24px"]} fontWeight={"600"} >Upload clear photos of your Services </Text>
+                    <Text fontWeight={"500"} mb={"5"} >Upload upto 5 clear images that describe your service</Text>
                     <ProductImagePicker />
-
                 </Flex>
             </Flex>
 
@@ -384,20 +362,17 @@ export default function CreateServices({ id }: { id: string }) {
 
             <Flex w={"full"} h={"auto"} justifyContent={"center"} pb={'30px'} pt={'20px'} overflowY={"auto"} >
 
-                <Flex px={["20px", "14"]} w={"full"} flexDir={"column"} gap={"5"} >
+                <Flex px={["3", "14"]} w={"full"} flexDir={"column"} gap={"5"} >
 
                     {/* SMALL SCREEN IMAGE PICKER */}
 
-                    <Flex px={"10px"} w={"full"} flexDir={"column"} gap={"3"} display={['flex', 'flex', 'none']} >
-                        <Flex alignItems={"center"} gap={"3"} >
-                            <IoArrowBack size={"30px"} />
-                            <Text fontSize={"20px"} fontWeight={"500"} >Back</Text>
+                    <Flex px={"0px"} w={"full"} flexDir={"column"} gap={"3"} display={['flex', 'flex', 'none']} >
+                        <Flex as={"button"} onClick={() => router.back()} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} top={"4"} zIndex={"30"} left={"4"}  >
+                            <IoArrowBack size={"20px"} />
                         </Flex>
-                        <Text fontSize={"24px"} fontWeight={"600"} >Upload clear photos of your Services </Text>
-                        <Text fontWeight={"500"} mb={"8"} >you can upload upto 5 clear images that describe your service</Text>
-
-                        <ProductImagePicker />
-
+                        <Text fontSize={["16px", "16px", "24px"]} fontWeight={"600"} >Upload clear photos of your Services </Text>
+                        <Text fontSize={["14px", "14px", "16px"]} fontWeight={"500"} >you can upload upto 5 clear images that describe your service</Text>
+                        <ProductImagePicker /> 
                     </Flex>
 
                     <Flex flexDir={"column"} w={"full"} gap={"2"} >
