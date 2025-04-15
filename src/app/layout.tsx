@@ -3,19 +3,18 @@ import { Providers } from './Provider'
 import './globals.css';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import { GoogleAuthProvider } from '@/utils/GoogleProvider';
-import { Flex, Grid, Image, useColorMode } from '@chakra-ui/react';
+import { GoogleAuthProvider } from '@/utils/GoogleProvider'; 
 import LandingLayout from '@/components/landingLayout';
 
 const APP_NAME = "Chasescroll";
-const APP_DEFAULT_TITLE = "Creating Unforgetable Memories";
+const APP_DEFAULT_TITLE = "We build memories";
 const APP_TITLE_TEMPLATE = "%s - Chasescroll App";
 const APP_DESCRIPTION = "Creating Unforgetable Memories";
 
 
 export const metadata: Metadata = {
   title: APP_DEFAULT_TITLE,
-  description: 'Creating Unforgetable Memories',
+  description: 'We build memories',
   manifest: '/manifest.json',
   applicationName: 'Chasescroll'
 }

@@ -31,7 +31,7 @@ function ProductMap(props: Props) {
             <Input
                 type="text"
                 h={height ? height : "60px"}
-                placeholder="Enter Event Location"
+                placeholder="Enter Location"
                 mt={"sm"}
                 fontSize={"sm"} 
                 // disabled={true} 
