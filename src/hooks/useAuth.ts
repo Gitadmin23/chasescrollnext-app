@@ -27,11 +27,11 @@ const useAuth = () => {
     const [initialTime, setInitialTime] = useState(0);
     const [startTimer, setStartTimer] = useState(false);
     const query = useSearchParams();
+    const id = query?.get('affiliate');
     const type = query?.get('type');
     const typeID = query?.get('typeID');
     const pathname = usePathname()
     const param = useParams();
-    const id = query?.get('affiliate');
 
     let email = localStorage.getItem('email')?.toString();
  

@@ -62,6 +62,8 @@ function GoogleBtn(props: Props) {
     const [open, setOpen] = useState(false)
     const [terms, setTerms] = useState(false)
     const [tokenData, setTokenData] = useState("")
+    const query = useSearchParams();
+    const affiliateID = query?.get('affiliate');
     const [userNameCheck, setUserNameCheck] = useState("")
 
     const {
@@ -131,7 +133,7 @@ function GoogleBtn(props: Props) {
                     if (type === "DONATION") {
                         router.push(`/dashboard/donation/${index}`);
                     } else {
-                        router.push(`/dashboard/event/details/${affiliate ? affiliate : index}?type=affiliate`);
+                        router.push(`/dashboard/event/details/${affiliateID ? affiliate : index}${affiliateID ? "?type=affiliate" : ""}`);
                     }
                 } else {
                     router.push('/dashboard/event')
@@ -163,6 +165,15 @@ function GoogleBtn(props: Props) {
 
             // if(data?.data?.user_name ===)
             console.log(data?.data);
+            if (index) {
+                if (type === "DONATION") {
+                    router.push(`/dashboard/donation/${index}`);
+                } else {
+                    router.push(`/dashboard/event/details/${affiliateID ? affiliate : index}${affiliateID ? "?type=affiliate" : ""}`);
+                }
+            } else {
+                router.push('/dashboard/event')
+            }
 
             // setCheckData(data?.data)
         },

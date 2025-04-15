@@ -60,7 +60,7 @@ export default function Layout({ children }: {
             text: 'Chats'
         },
         {
-            route: '/dashboard/kisok',
+            route: '/dashboard/kisok?type=service',
             icon: <KisokIcon color={pathname?.includes('kisok') ? true : false} />,
             text: 'Business'
         },
@@ -271,7 +271,7 @@ export default function Layout({ children }: {
                     </VStack>
                 </Link>
 
-                <Link href='/dashboard/kisok'>
+                <Link href='/dashboard/kisok?type=service'>
                     <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('kisok') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('explore') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
                         <KisokIcon size='20px' color={pathname?.includes('kisok') ? true : false} />
                     </VStack>
@@ -315,7 +315,7 @@ export default function Layout({ children }: {
                     >
                         <Warning2 color="red" size="30px" variant="Outline" />
                     </VStack>
-                    <CustomText fontFamily={"DM-Medium"} fontSize={"18px"}>
+                    <CustomText fontSize={"18px"}>
                         Are you sure you want to logout?
                     </CustomText>
                     <VStack justifyContent={"center"} width={"100%"}>

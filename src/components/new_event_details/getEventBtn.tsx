@@ -1,6 +1,6 @@
 import ModalLayout from "@/components/sharedComponent/modal_layout";
 import { Box, Button, Flex, Text, useColorMode, useToast } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PaymentMethod from "./event_modal/payment_method";
 import SelectTicketNumber from "./event_modal/select_ticket_number";
 import RefundPolicy from "./event_modal/refund_policy";
@@ -13,7 +13,7 @@ import ViewTicket from "./event_modal/view_ticket";
 import SelectTicketType from "./event_modal/select_ticket_type";
 import useStripeStore from "@/global-state/useStripeState";
 import useModalStore from "@/global-state/useModalSwitch";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { SuccessIcon } from "@/components/svg";
 import useCustomTheme from "@/hooks/useTheme";
 import { IEventType } from "@/models/Event";
@@ -23,17 +23,24 @@ import GoogleBtn from "../sharedComponent/googlebtn";
 import SignupModal from "@/app/auth/component/signupModal";
 import CustomText from "../general/Text";
 
-function GetEventTicket(props: IEventType) {
+interface IProps {
+    data: IEventType
+    open: boolean,
+    setOpen: any
+}
+
+function GetEventTicket(props: IProps) {
     const {
-        isBought,
-        isFree,
-        productTypeData,
-        id
+        data,
+        setOpen,
+        open
     } = props;
 
     const { primaryColor, borderColor } = useCustomTheme();
-    const [openSignUp, setOpenSignUp] = useState(false)
-    const [open, setOpen] = React.useState(false)
+    const [openSignUp, setOpenSignUp] = useState(false) 
+    const query = useSearchParams();
+    const affiliate = query?.get('affiliate'); 
+    const type = query?.get('open');
     // const [stripePromise, setStripePromise] = React?.useState(() => loadStripe(STRIPE_KEY))
 
     const { showModal, setShowModal } = useModalStore((state) => state);
@@ -50,8 +57,8 @@ function GetEventTicket(props: IEventType) {
 
     const clickHandler = (event: any) => {
         event.stopPropagation();
-        if (isBought) {
-            setModalTab(isBought ? 5 : 1);
+        if (data?.isBought) {
+            setModalTab(data?.isBought ? 5 : 1);
             setShowModal(true);
         } else if (!ticketType?.ticketType) {
             toast({
@@ -61,13 +68,18 @@ function GetEventTicket(props: IEventType) {
             });
         } else {
             if (token) {
-                setModalTab(isBought ? 5 : 1);
+                setModalTab(data?.isBought ? 5 : 1);
                 setShowModal(true);
             } else if (!user_index) {
+                if (affiliate) {
+                    router.push("/event/" + data?.id + "?type=affiliate&open=true")
+                } else {
+                    router.push("/event/" + data?.id + "?open=true")
+                } 
                 // router.push("/share/auth/login?type=EVENT&typeID=" + id);
                 setOpen(true)
             } else {
-                setModalTab(isBought ? 5 : 1);
+                setModalTab(data?.isBought ? 5 : 1);
                 setShowModal(true);
             }
         }
@@ -85,16 +97,16 @@ function GetEventTicket(props: IEventType) {
     const signUpHandler = (item: boolean) => {
         setOpen(false)
         setOpenSignUp(item)
-    } 
+    }  
 
     return (
         <> 
-            <Flex w={"full"} display={[isBought ? "block" : "block", "block", "block", "block"]} >
-                <CustomButton backgroundColor={"#233DF3"} borderRadius={"32px"} opacity={(!ticketType?.ticketType && !isBought && ticketType?.ticketType) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(((ticketType?.totalNumberOfTickets === ticketType?.ticketsSold) && !isBought && ticketType?.ticketType)) ? true : (ticketType?.ticketType || isBought) ? false : true} text={(((ticketType?.totalNumberOfTickets === ticketType?.ticketsSold) && !isBought && ticketType?.ticketType) ? "Ticket Sold Out" : (isBought) ? "View Ticket" : isFree ? "Register" : "Check out ")} width={["full"]} height={["37px", " 37px", "57px"]} fontSize={"sm"} fontWeight={"semibold"} />
+            <Flex w={"full"} display={[data?.isBought ? "block" : "block", "block", "block", "block"]} >
+                <CustomButton backgroundColor={"#233DF3"} borderRadius={"32px"} opacity={(!ticketType?.ticketType && !data?.isBought && ticketType?.ticketType) ? "30%" : ""} my={"auto"} onClick={clickHandler} disable={(((ticketType?.totalNumberOfTickets === ticketType?.ticketsSold) && !data?.isBought && ticketType?.ticketType)) ? true : (ticketType?.ticketType || data?.isBought) ? false : true} text={(((ticketType?.totalNumberOfTickets === ticketType?.ticketsSold) && !data?.isBought && ticketType?.ticketType) ? "Ticket Sold Out" : (data?.isBought) ? "View Ticket" : data?.isFree ? "Register" : "Check out ")} width={["full"]} height={["37px", " 37px", "57px"]} fontSize={"sm"} fontWeight={"semibold"} />
             </Flex>  
             <ModalLayout size={modalTab === 5 ? ["full", "md", "3xl"] : "md"} title={modalTab === 6 ? "Ticket available for this event" : ""} open={showModal} close={setShowModal} >
                 {modalTab === 1 && (
-                    <SelectTicketNumber close={setShowModal} numbOfTicket={numbOfTicket} setNumberOfTicket={setNumberOfTicket} next={setModalTab} selectedTicket={ticketType} data={props} />
+                    <SelectTicketNumber close={setShowModal} numbOfTicket={numbOfTicket} setNumberOfTicket={setNumberOfTicket} next={setModalTab} selectedTicket={ticketType} data={data} />
                 )}
                 {modalTab === 2 && (
                     <RefundPolicy data={props} />
@@ -103,7 +115,7 @@ function GetEventTicket(props: IEventType) {
                     <PaymentMethod />
                 )}
                 {modalTab === 4 && (
-                    <PaymentType data={props} ticketCount={numbOfTicket} currency={props?.currency} selectedCategory={ticketType?.ticketType} click={setModalTab} />
+                    <PaymentType data={data} ticketCount={numbOfTicket} currency={data?.currency} selectedCategory={ticketType?.ticketType} click={setModalTab} />
                 )}
                 {modalTab === 5 && (
                     <ViewTicket
@@ -112,7 +124,7 @@ function GetEventTicket(props: IEventType) {
                         data={props} />
                 )}
                 {modalTab === 6 && (
-                    <SelectTicketType ticket={productTypeData} setSelectedTicket={setTicketType} currency={props?.currency} click={setModalTab} />
+                    <SelectTicketType ticket={data?.productTypeData} setSelectedTicket={setTicketType} currency={data?.currency} click={setModalTab} />
                 )}
                 {modalTab === 7 && (
                     <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
@@ -122,36 +134,7 @@ function GetEventTicket(props: IEventType) {
                         <CustomButton onClick={() => setModalTab(5)} color={"#FFF"} text='View Ticket' w={"full"} backgroundColor={"#3EC259"} />
                     </Flex>
                 )}
-            </ModalLayout>
-
-            <ModalLayout open={open} close={setOpen} title='' closeIcon={true} >
-                <Flex w={"full"} flexDir={"column"} gap={"4"} p={"6"} >
-                    <Flex flexDir={"column"} justifyContent={"center"} >
-                        <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"32px"} >Get Ticket</Text>
-                        <Text color={"#626262"} textAlign={"center"}>Please choose your option and proceed with Chasescroll.</Text>
-                    </Flex>
-                    <GoogleBtn newbtn title='Sign in' id={props?.id ? true : false} index={props?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' />
-                    <Flex justifyContent={"center"} gap={"2px"} alignItems={"center"} >
-                        <Text color={"#BCBCBC"} fontSize={"14px"} lineHeight={"19.6px"} >OR</Text>
-                    </Flex>
-                    <Button onClick={() => router.push("/share/auth/temporary-account/?type=EVENT&typeID=" + props?.id)} backgroundColor={"#EDEFFF"} color={"#5465E0"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#EDEFFF"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#EDEFFF" }} justifyContent={"center"} alignItems={"center"} >
-                        <Text textAlign={"center"} fontWeight={"600"} >Get Temporary Account</Text>
-                    </Button>
-                    <Button onClick={() => signUpHandler(true)} color={"white"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
-                        <Text textAlign={"center"} fontWeight={"600"} >Sign up</Text>
-                    </Button>
-                    {/* <SignupModal index={props?.id} open={openSignUp} setOpen={signUpHandler} /> */}
-                    <Flex>
-                        <CustomText fontSize={'sm'} fontFamily={'Satoshi-Regular'} marginLeft='0px'>
-                            Already have an account?
-                        </CustomText>
-                        <CustomText onClick={() => router.push("/share/auth/login/?type=EVENT&typeID=" + props?.id)} fontWeight={"700"} ml={"4px"} fontSize={'sm'} color='brand.chasescrollButtonBlue' fontFamily={'Satoshi-Regular'} cursor='pointer'>Log in</CustomText>
-                    </Flex>
-                </Flex>
-            </ModalLayout>
-            {openSignUp && (
-                <SignupModal hide={true} index={props?.id} open={openSignUp} setOpen={signUpHandler} />
-            )}
+            </ModalLayout> 
         </>
     )
 }
