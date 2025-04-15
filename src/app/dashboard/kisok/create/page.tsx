@@ -41,28 +41,36 @@ export default function KisokCreate() {
         updateProduct(clone)
     }
 
+    const backHandler = () => {
+        if(type){
+            push("/dashboard/kisok/create")
+        } else {
+            push("/dashboard/kisok")
+        } 
+    }
+
     return (
         <Flex w={"full"} px={"6"} pos={"relative"} pb={"12"} alignItems={"center"} flexDir={"column"} overflowY={"auto"} >
             <Flex w={"full"} h={"6px"} pos={"absolute"} top={"0px"} zIndex={"10"} insetX={"0px"} rounded={"6px"} bgColor={"#F6F6F6"} >
                 <Flex w={!type ? "50%" : "100%"} bgColor={primaryColor} rounded={"6px"} />
             </Flex>
-            <Flex onClick={() => back()} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} position={"absolute"} top={"4"} zIndex={"30"} left={"4"}  >
+            <Flex as={"button"} onClick={() => backHandler()} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} position={"absolute"} top={"4"} zIndex={"30"} left={"4"}  >
                 <IoArrowBack size={"20px"} />
             </Flex>
 
             <form style={{ maxWidth: "550px", width: "100%", display: "flex" }} onSubmit={handleSubmitProduce}>
                 <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={type ? "none" : "flex"} flexDir={"column"}  >
-                    <Flex gap={"2"} w={"full"} flexDir={"column"} >
-                        <Text fontSize={"24px"} fontWeight={"600"} >Give your product a name</Text>
+                    <Flex gap={"2"} w={"full"} flexDir={"column"} mt={["12", "12", "4"]} >
+                        <Text fontSize={["14px", "16px", "24px"]} textAlign={"center"} fontWeight={"600"} >Product Title</Text>
                         <Input bgColor={mainBackgroundColor} onChange={(e) => HandleChangeLimit(e, 150, "Name")} h={"45px"} />
                         <Text fontSize={"sm"} >{productdata?.name?.length ? productdata?.name?.length : "0"} {"/ 150"}</Text>
                     </Flex>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
-                        <Text fontSize={"24px"} fontWeight={"500"} >Describe your place to make it stand out</Text>
+                        <Text fontSize={["14px", "16px", "24px"]} fontWeight={"500"} textAlign={"center"} >Describe your product to make it stand out</Text>
                         <Textarea bgColor={mainBackgroundColor} onChange={(e) => HandleChangeLimit(e, 1500, "Description")} h={"120px"} />
                         <Text fontSize={"sm"} >{productdata?.description?.length ? productdata?.description?.length : "0"} {"/ 1500"}</Text>
                     </Flex>
-                    <Text fontSize={"24px"} fontWeight={"500"} >Set your pricing </Text>
+                    <Text fontSize={["14px", "16px", "24px"]} fontWeight={"500"} >Set your pricing </Text>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Quantity</Text>
                         <Input bgColor={mainBackgroundColor} type="number" onChange={(e) => updateProduct({ ...productdata, quantity: e.target.value })} h={"45px"} />
