@@ -4,7 +4,7 @@ import React from 'react'
 import CustomButton from '../general/Button'
 import { LocationStroke } from '../svg'
 import useCustomTheme from '@/hooks/useTheme'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useQuery } from 'react-query'
 import httpService from '@/utils/httpService'
 import LoadingAnimation from '../sharedComponent/loading_animation'
@@ -28,9 +28,11 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     const { productdata, updateProduct } = useProductStore((state) => state);
     const { push } = useRouter()
     const userId = localStorage.getItem('user_id') + "";
+    const param = useParams();
+    const id = param?.slug;
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
-        url: `/products/search${myproduct ? `?creatorID=${userId}` : ""}`, limit: 20, filter: "id", name: "getMyProduct", paramsObj: cleanup({
+        url: `/products/search${myproduct ? `?creatorID=${id ? id : userId}` : ""}`, limit: 20, filter: "id", name: "getMyProduct", paramsObj: cleanup({
             name: name,
             category: category,
             state: state

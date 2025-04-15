@@ -4,7 +4,7 @@ import React from 'react'
 import CustomButton from '../general/Button'
 import { LocationStroke } from '../svg'
 import useCustomTheme from '@/hooks/useTheme'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useQuery } from 'react-query'
 import httpService from '@/utils/httpService'
 import LoadingAnimation from '../sharedComponent/loading_animation'
@@ -30,9 +30,11 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
     const { rentaldata, updateRental } = useProductStore((state) => state);
 
     const userId = localStorage.getItem('user_id') + "";
+    const param = useParams();
+    const id = param?.slug;
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
-        url: `/rental/search${myrental ? `?userId=${userId}` : ""}`, limit: 20, filter: "id", name: "getMyrental", paramsObj: cleanup({
+        url: `/rental/search${myrental ? `?userId=${id ? id : userId}` : ""}`, limit: 20, filter: "id", name: "getMyrental", paramsObj: cleanup({
             name: name,
             category: category,
             state: state

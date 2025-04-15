@@ -8,11 +8,13 @@ import moment from 'moment';
 import React from 'react'
 import UserImage from './userimage';
 import { IUser } from '@/models/User';
+import { useRouter } from 'next/navigation';
 
 export default function ProductImageScroller({ images, userData, createdDate, height, rounded }: { images: Array<string>, userData?: IUser, createdDate?: string, height?: any, rounded?: string }) {
 
 
     const [activeImageIndex, setActiveImageIndex] = React.useState(0);
+    const { push } = useRouter()
 
     const { secondaryBackgroundColor, primaryColor, bodyTextColor } = useCustomTheme()
 
@@ -30,10 +32,15 @@ export default function ProductImageScroller({ images, userData, createdDate, he
         }
     }, []) 
 
+    const clickHandler =(e: any)=> {
+        e.stopPropagation()
+        push(`/dashboard/profile/${userData?.userId}`)
+    }
+
     return (
         <Flex cursor='pointer' w='full' h={height ? height : ["144px", "174px", "174px"]} bgColor={secondaryBackgroundColor} p={["3px", "3px", "2"]} borderTopRadius={rounded ?? '10px'} borderBottomRadius={rounded ?? "0px"} overflow={'hidden'} justifyContent={"center"} alignItems={"center"} position={'relative'} >
             {createdDate && (
-                <Flex position={"absolute"} zIndex={"10"} left={"2"} top={"2"} bgColor={"#C4C4C499"} p={"1"} rounded={"full"} w={"fit-content"} alignItems={"center"} gap={2} >
+                <Flex as={"button"} onClick={(e)=> clickHandler(e)}  position={"absolute"} zIndex={"10"} left={"2"} top={"2"} bgColor={"#C4C4C499"} p={"1"} rounded={"full"} w={"fit-content"} alignItems={"center"} gap={2} >
                     <UserImage image={userData?.data?.imgMain?.value} font={"16px"} data={userData} border={"1px"} size={"32px"} />
                     <Flex flexDir={"column"} alignItems={"start"} pr={"3"} >
                         <Text display={["none", "none", "block"]} fontSize={"12px"} fontWeight={"600"} color={"white"} >
