@@ -113,10 +113,11 @@ function SelectTicket(props: Props) {
                     </Flex>
                 </Flex>
             ) : (
-                <Flex w={"full"} flexDir={"column"} >
+                <Flex w={"full"} flexDir={"column"} > 
                     {ticket?.map((item: any, index: number) => {
-                        if (item?.ticketType === "Early Bird") {
+                        if (item?.ticketType === "Early Bird") { 
                             return (
+
                                 <Flex key={index} w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
                                     <Button color={primaryColor} isDisabled={(item?.totalNumberOfTickets === item?.ticketsSold) || !(new Date() <= new Date(item?.endDate))} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                         {item?.totalNumberOfTickets === item?.ticketsSold ?
@@ -148,7 +149,7 @@ function SelectTicket(props: Props) {
                         </Flex> */}
                         {ticket?.filter((item: any) => item?.ticketType)?.map((item: any, index: number) => {
                             if (item?.ticketType === "Early Bird") {
-                                return (
+                                return ( 
                                     <Flex key={index} w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
                                         <Button color={primaryColor} isDisabled={(item?.totalNumberOfTickets === item?.ticketsSold) || !(new Date() <= new Date(item?.endDate))} key={index} onClick={() => clickHandler(item)} w={"full"} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                             {(item?.totalNumberOfTickets === item?.ticketsSold) ?
