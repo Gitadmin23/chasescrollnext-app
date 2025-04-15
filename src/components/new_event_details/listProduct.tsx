@@ -10,6 +10,8 @@ import { IEventType } from '@/models/Event';
 import { IPinned } from '@/hooks/useProduct';
 import { useQuery } from 'react-query';
 import httpService from '@/utils/httpService';
+import { FaCheckSquare } from 'react-icons/fa';
+import useCustomTheme from '@/hooks/useTheme';
 
 interface IProps {
     "id": string,
@@ -29,6 +31,8 @@ interface IProps {
 export default function ListProduct({ setOpen, selectProduct, setSelectProduct, data }: { setOpen?: any, selectProduct: Array<IPinned>, setSelectProduct: any, data?: IEventType }) {
 
     const userId = localStorage.getItem('user_id') + "";
+
+    const { primaryColor } = useCustomTheme()
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/products/search?creatorID=${userId}`, limit: 20, filter: "id", name: "getProduct" })
 
@@ -75,7 +79,7 @@ export default function ListProduct({ setOpen, selectProduct, setSelectProduct, 
                 {results?.map((item: IProduct, index: number) => {
                     if (results?.length === index + 1) {
                         return (
-                            <Flex ref={ref} key={index} onClick={() => selectProductHandler(item?.id)} w={"full"} borderWidth={"1px"} alignItems={"center"} borderColor={"#EBEDF0"} gap={"2"} p={"4"} rounded={"16px"} >
+                            <Flex ref={ref} as={"button"} key={index} onClick={() => selectProductHandler(item?.id)} w={"full"} borderWidth={"1px"} alignItems={"center"} borderColor={"#EBEDF0"} gap={"2"} p={"4"} rounded={"16px"} >
                                 <Flex width={"fit-content"} >
                                     <Flex w={"79px"} h={["79px"]} bgColor={"gray"} rounded={"8px"} >
                                         <Image alt='prod' src={IMAGE_URL + item?.images[0]} rounded={"8px"} />
@@ -87,13 +91,18 @@ export default function ListProduct({ setOpen, selectProduct, setSelectProduct, 
                                     <Text fontSize={"12px"} fontWeight={"700"} >{numberFormatNaire(item?.price)}</Text>
                                 </Flex>
                                 <Flex ml={"auto"} >
-                                    <Checkbox size={"lg"} onChange={() => selectProductHandler(item?.id)} isChecked={selectProduct.some((items) => items.productId === item?.id)} />
+                                    {selectProduct.some((items) => items.productId === item?.id) ? (
+                                        <FaCheckSquare color={primaryColor} size={"20px"} />
+                                    ) : (
+                                        <Flex w={"5"} h={"5"} rounded={"5px"} borderWidth={"2px"} />
+                                    )}
+                                    {/* <Checkbox size={"lg"} onChange={() => selectProductHandler(item?.id)} isChecked={selectProduct.some((items) => items.productId === item?.id)} /> */}
                                 </Flex>
                             </Flex>
                         )
                     } else {
                         return (
-                            <Flex key={index} onClick={() => selectProductHandler(item?.id)} w={"full"} borderWidth={"1px"} alignItems={"center"} borderColor={"#EBEDF0"} gap={"2"} p={"4"} rounded={"16px"} >
+                            <Flex as={"button"} key={index} onClick={() => selectProductHandler(item?.id)} w={"full"} borderWidth={"1px"} alignItems={"center"} borderColor={"#EBEDF0"} gap={"2"} p={"4"} rounded={"16px"} >
                                 <Flex width={"fit-content"} >
                                     <Flex w={"79px"} h={["79px"]} bgColor={"gray"} rounded={"8px"} >
                                         <Image alt='prod' src={IMAGE_URL + item?.images[0]} rounded={"8px"} />
@@ -105,7 +114,12 @@ export default function ListProduct({ setOpen, selectProduct, setSelectProduct, 
                                     <Text fontSize={"12px"} fontWeight={"700"} >{numberFormatNaire(item?.price)}</Text>
                                 </Flex>
                                 <Flex ml={"auto"} >
-                                    <Checkbox size={"lg"} onChange={() => selectProductHandler(item?.id)} isChecked={selectProduct.some((items) => items.productId === item?.id)} />
+                                    {selectProduct.some((items) => items.productId === item?.id) ? (
+                                        <FaCheckSquare color={primaryColor} size={"20px"} />
+                                    ) : (
+                                        <Flex w={"5"} h={"5"} rounded={"5px"} borderWidth={"2px"} />
+                                    )}
+                                    {/* <Checkbox size={"lg"} onChange={() => selectProductHandler(item?.id)} isChecked={selectProduct.some((items) => items.productId === item?.id)} /> */}
                                 </Flex>
                             </Flex>
                         )
