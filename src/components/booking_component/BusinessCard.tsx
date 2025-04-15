@@ -91,7 +91,7 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
                 <Flex gap={"1"} w={"full"} flexDir={["column", "column", "row"]} justifyContent={"space-between"} alignItems={["start", "start", "center"]} >
                     <Flex flexDir={"column"} alignItems={'flex-start'}>
                         <Text fontWeight={400} fontSize={'12px'}>Service offering</Text>
-                        <Text fontWeight={600} textAlign={"left"} fontSize={'12px'}>{textLimit(business?.category, 15)}</Text>
+                        <Text fontWeight={600} textAlign={"left"} fontSize={'12px'}>{textLimit(business?.category?.replaceAll("_", " "), 15)}</Text>
                     </Flex>
                     {!isSelect && (
                         <Flex gap={"2"} display={["none", "none", "flex"]} >
