@@ -79,7 +79,7 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
 
     return (
         <Flex as={"button"} flexDir={"column"} pos={"relative"} onClick={() => clickHandler()} borderWidth={"1px"} bgColor={mainBackgroundColor} rounded={"10px"} w={"full"} >
-            {(!isSelect && (id === userId)) && (
+            {(!isSelect && (business?.vendor?.userId === userId)) && (
                 <DeleteEvent id={business?.id} isServices={true} name={business?.name + " Services"} isOrganizer={mybusiness ? true : false} />
             )}
             {isSelect && (
@@ -121,12 +121,12 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
                     <Text fontSize={"14px"} fontWeight={"600"} >{formatNumber(business?.price)}</Text>
                 </Flex>
             </Flex>
-            {(mybusiness && !isSelect) && (
+            {(mybusiness && !isSelect && (business?.vendor?.userId === userId)) && (
                 <Flex as={"button"} onClick={() => clickHandler()} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                     Edit Service
                 </Flex>
             )}
-            {(!mybusiness && !isSelect) && (
+            {(!mybusiness && !isSelect && (business?.vendor?.userId !== userId)) && (
                 <Flex as={"button"} onClick={() => clickHandler()} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                     View Service
                 </Flex>

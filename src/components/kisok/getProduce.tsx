@@ -68,7 +68,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                     if ((myproduct ? results : newResult)?.length === index + 1) {
                         return (
                             <Flex ref={ref} as={"button"} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} pos={"relative"} >
-                                {id === userId && (
+                                {item?.createdBy?.userId === userId && (
                                     <DeleteEvent id={item?.id} isProduct={true} name={item?.name + " Product"} isOrganizer={myproduct ? true : false} />
                                 )}
                                 <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
@@ -86,7 +86,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                                     </Flex>
                                 </Flex>
                                 <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
-                                    {myproduct ? "Edit Product" : "Order Now"}
+                                    {(myproduct && (item?.createdBy?.userId === userId)) ? "Edit Product" : "Order Now"}
                                 </Flex>
                             </Flex>
                         )
@@ -110,7 +110,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                                     </Flex>
                                 </Flex>
                                 <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
-                                    {myproduct ? "Edit Product" : "Order Now"}
+                                    {(myproduct && (item?.createdBy?.userId === userId)) ? "Edit Product" : "Order Now"}
                                 </Flex>
                             </Flex>
                         )
