@@ -3,7 +3,7 @@ import { IService } from '@/models/Service'
 import { IMAGE_URL, RESOURCE_BASE_URL } from '@/services/urls'
 import { VStack, HStack, Box, Text, Image, Flex, useToast, Button } from '@chakra-ui/react'
 import moment from 'moment'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter, usePathname, useParams } from 'next/navigation'
 import React from 'react'
 import BlurredImage from '../sharedComponent/blurred_image'
 import { FiMapPin } from 'react-icons/fi'
@@ -22,6 +22,9 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
     const [activeImageIndex, setActiveImageIndex] = React.useState(0);
 
     const [services, setServices] = React.useState<IService[]>([]);
+    const userId = localStorage.getItem('user_id'); 
+    const param = useParams();
+    const id = param?.slug;
 
     const toast = useToast()
     const router = useRouter();
@@ -76,7 +79,7 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
 
     return (
         <Flex as={"button"} flexDir={"column"} pos={"relative"} onClick={() => clickHandler()} borderWidth={"1px"} bgColor={mainBackgroundColor} rounded={"10px"} w={"full"} >
-            {!isSelect && (
+            {(!isSelect && (id === userId)) && (
                 <DeleteEvent id={business?.id} isServices={true} name={business?.name + " Services"} isOrganizer={mybusiness ? true : false} />
             )}
             {isSelect && (
