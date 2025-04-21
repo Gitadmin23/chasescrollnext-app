@@ -67,7 +67,7 @@ function SelectTicket(props: Props) {
             if (!user_index) {
                 if (ticket?.length > 1) {
                     if (affiliate) {
-                        router.push("/event/" + data?.id + "?type=affiliate&open=true")
+                        router.push("/event/" + data?.affiliateID + "?type=affiliate&open=true")
                     } else {
                         router.push("/event/" + data?.id + "?open=true")
                     } 
