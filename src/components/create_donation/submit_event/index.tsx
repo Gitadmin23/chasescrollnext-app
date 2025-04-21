@@ -230,7 +230,7 @@ function SubmitEvent(props: Iprops) {
                 position: 'top-right',
             });
 
-            router?.push("/dashboard/donation")
+            router?.push("/dashboard/product/fundraising?type=mydonation")
 
             reset()
         }
