@@ -22,9 +22,16 @@ export default function EventCardNew({
 
     const { primaryColor, headerTextColor, mainBackgroundColor } = useCustomTheme()
 
+
+    let token = localStorage.getItem("token")
+
     const clickHandler = () => {
-        router.push("/dashboard/event/details/" + event?.id);
-    };
+        if (token) {
+            router.push("/dashboard/event/details/" + event?.id);
+        } else {
+            router.push("/event/" + event?.id);
+        }
+    }
 
     return (
         <Flex as={"button"} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHandler()} borderWidth={"1px"} rounded={"10px"} w={"full"} >
