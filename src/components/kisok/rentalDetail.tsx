@@ -54,7 +54,7 @@ export default function RentalDetail({ id }: { id: string }) {
             <Flex w={"full"} flexDir={"column"} pos={"relative"} gap={"3"} overflowY={"auto"} h={"full"} px={["4", "4", "6"]} pb={["400px", "400px", "6"]} py={"6"} >
 
                 <Flex gap={"1"} alignItems={"center"} pb={"3"} >
-                    <Text role='button' onClick={() => push("/dashboard/kisok?type=rental")} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Back</Text>
+                    <Text role='button' onClick={() => push("/dashboard/product/kiosk?type=rental")} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Back</Text>
                     <IoIosArrowForward />
                     <Text fontSize={"14px"} fontWeight={"500"} >Rental details</Text>
                     <IoIosArrowForward />

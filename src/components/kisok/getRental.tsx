@@ -82,7 +82,7 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                     if ((myrental ? results : newResult)?.length === index + 1) {
                         return (
                             <Flex ref={ref} as={"button"} flexDir={"column"} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} bgColor={mainBackgroundColor} key={index} w={"full"} pos={"relative"} >
-                                {!isSelect && (
+                                {(!isSelect && (item?.creator?.userId === userId)) && (
                                     <DeleteEvent id={item?.id} isRental={true} name={item?.name + " Rental"} isOrganizer={myrental ? true : false} />
                                 )}
                                 {isSelect && (
@@ -104,12 +104,12 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                                         <Text fontWeight={"600"} fontSize={"14px"} >{formatNumber(item?.price)} <span style={{ color: bodyTextColor, fontSize: "12px", fontWeight: "normal" }} >{item?.frequency !== "HOURLY" ? "Per day" : "Per hour"}</span></Text>
                                     </Flex>
                                 </Flex>
-                                {myrental && (
+                                {(myrental && (item?.creator?.userId === userId)) && (
                                     <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                                         Edit Service
                                     </Flex>
                                 )}
-                                {!myrental && (
+                                {(!myrental && (item?.creator?.userId !== userId)) && (
                                     <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                                         View Service
                                     </Flex>
@@ -119,7 +119,7 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                     } else {
                         return (
                             <Flex as={"button"} flexDir={"column"} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} bgColor={mainBackgroundColor} key={index} w={"full"} pos={"relative"} >
-                                {!isSelect && (
+                                {(!isSelect && (item?.creator?.userId === userId)) && (
                                     <DeleteEvent id={item?.id} isRental={true} name={item?.name + " Rental"} isOrganizer={myrental ? true : false} />
                                 )}
                                 {isSelect && (
@@ -141,12 +141,12 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                                         <Text fontWeight={"600"} fontSize={"14px"} >{formatNumber(item?.price)} <span style={{ color: bodyTextColor, fontSize: "12px", fontWeight: "normal" }} >{item?.frequency !== "HOURLY" ? "Per day" : "Per hour"}</span></Text>
                                     </Flex>
                                 </Flex>
-                                {myrental && (
+                                {(myrental && (item?.creator?.userId === userId)) && (
                                     <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                                         Edit Service
                                     </Flex>
                                 )}
-                                {!myrental && (
+                                {(!myrental && (item?.creator?.userId !== userId)) && (
                                     <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                                         View Service
                                     </Flex>

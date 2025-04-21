@@ -98,7 +98,7 @@ function CreateBookingModal({
                 isClosable: true,
             });
             console.log(data?.data);
-            router.push(`/dashboard/kisok?type=mybooking`);
+            router.push(`/dashboard/product/kiosk?type=mybooking`);
             onClose();
         },
         onError: (error: any) => {

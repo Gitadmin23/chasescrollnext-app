@@ -17,7 +17,7 @@ function SelectEventPage(props: Props) {
         return [
             {
                 name: "All Event",
-                route: "/dashboard/event"
+                route: "/dashboard/product"
             },
             {
                 name: "My Events",
