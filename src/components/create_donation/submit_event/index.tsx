@@ -230,7 +230,7 @@ function SubmitEvent(props: Iprops) {
                 position: 'top-right',
             });
 
-            router?.push("/dashboard/donation")
+            router?.push("/dashboard/product/fundraising?type=mydonation")
 
             reset()
         }
@@ -285,11 +285,8 @@ function SubmitEvent(props: Iprops) {
         setPayload(data)
     }, [data])
 
-    useEffect(() => {
-
-        console.log(uploadedFile);
-
-
+    useEffect(() => { 
+        
         let newObj: any = [...data]
         newObj[0] = { ...data[0], bannerImage: uploadedFile[0] }
 
