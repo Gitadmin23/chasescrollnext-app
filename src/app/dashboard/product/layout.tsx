@@ -68,7 +68,7 @@ function Layout({ children }: {
     }
 
     const routeHandler = (item: string) => {
-        push(`/dashboard/kiosk${item ? `?type=${item}` : ""}`)
+        push(`/dashboard/product/kiosk${item ? `?type=${item}` : ""}`)
     }
 
 
