@@ -63,7 +63,7 @@ function GoogleBtn(props: Props) {
     const [terms, setTerms] = useState(false)
     const [tokenData, setTokenData] = useState("")
     const query = useSearchParams();
-    const affiliateID = query?.get('affiliate');
+    const affiliateID = query?.get('type');
     const [userNameCheck, setUserNameCheck] = useState("")
 
     const {
