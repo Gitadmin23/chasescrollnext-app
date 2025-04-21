@@ -193,49 +193,33 @@ export default function Layout({ children }: {
             <Flex w={"full"} height={"100vh"} pos={"relative"} flexDirection={"column"} >
                 {(pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion") && !pathname?.includes("/donation/create") && !pathname?.includes("/donation/edit")) && (
                     <Flex w={"full"} h={"76px"} pos={['fixed', 'fixed', 'fixed', "sticky", "sticky"]} bgColor={mainBackgroundColor} zIndex={"100"} insetX={"0px"} top={"0px"} borderBottomColor={borderColor} borderBottomWidth={"1px"} alignItems={"center"} px={"6"} justifyContent={"space-between"}  >
-                        {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft" && !pathname?.includes("kisok")) && (
+                        {(pathname !== "/dashboard/event/my_event" && pathname !== "/dashboard/event/past_event" && pathname !== "/dashboard/event/saved_event" && pathname !== "/dashboard/event/draft" && !pathname?.includes("kiosk")) && (
                             <Box display={["none", "none", "none", "flex", "flex"]} >
                                 <SearchBar fundraising={pathname?.includes("/donation")} change={pathname?.includes("/donation") ? true : false} />
                             </Box>
                         )}
-                        {pathname?.includes("kiso") && (
+                        {pathname?.includes("kiosk") && (
                             <Text display={["none", "none", "none", "flex", "flex"]} fontSize={"24px"} fontWeight={"700"} >Chasescroll <span style={{ color: primaryColor }} >Business</span></Text>
                         )}
                         <Flex as={"button"} onClick={() => router?.push("/dashboard")} display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"2"} >
                             <Image alt='logo' src='/images/logo.png' w={"35.36px"} />
                             {/* <Text fontSize={"17px"} fontWeight={"700"} color={primaryColor} >Chasescroll</Text> */}
                         </Flex>
-                        <Flex ml={"auto"} gap={"3"} display={["none", "none", "none", "flex", "flex"]} >
+                        {/* <Flex ml={"auto"} gap={"3"} display={["none", "none", "none", "flex", "flex"]} >
                             <CreateEventBtn btn={true} />
 
                             <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} pos={"relative"} height={"45px"} zIndex={"20"} width={"180px"} bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor : headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
                                 Fundraising
                             </Flex>
-                            {/* <CustomButton onClick={() => router.push('/dashboard/donation')} pos={"relative"} zIndex={"20"} width={"180px"} backgroundColor={secondaryBackgroundColor} color={headerTextColor} text={"Fundraising"} borderRadius={"full"} /> */}
-                        </Flex>
+                        </Flex> */}
                         <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"3"} >
-                            <CreateEventBtn mobile={true} />
+                            {/* <CreateEventBtn mobile={true} />
 
                             <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} fontSize={"xs"} pos={"relative"} height={"35px"} zIndex={"20"} width={"fit-content"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor : headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
                                 Fundraising
-                            </Flex>
-                            {/* <Flex zIndex={20} alignItems={"center"} justifyContent={"center"} borderWidth={"0.5px"} borderColor={"#ACACB080"} rounded={"32px"} p={"8px"} gap={"3"} px={"3"} >
-
-                                <Flex onClick={() => router?.push("/dashboard/chats")} h={"20px"} alignItems={"center"} as='button' >
-                                    <NewChatIcon />
-                                </Flex>
-                                <Flex onClick={() => router?.push("/dashboard/settings/payment/details")} h={"20px"} alignItems={"center"} as='button' >
-                                    <NewWalletIcon />
-                                </Flex>
-                                <Flex>
-                                    <LogoutCurve onClick={() => setOpen(true)} color='red' size={'20px'} variant='Outline' />
-                                </Flex>
-                            </Flex> */}
+                            </Flex>  */}
                             <DashboardMenuBtn count={count} />
-                        </Flex>
-                        {/* <Flex display={["flex", "flex", "flex", "none", "none"]}  >
-                            <DashboardMenuBtn />
-                        </Flex> */}
+                        </Flex> 
                     </Flex>
                 )}
                 {(pathname !== ("/dashboard/donation/create") && !pathname?.includes("/donation/edit") && pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? (
