@@ -50,19 +50,19 @@ export default function Layout({ children }: {
             text: 'Explore'
         },
         {
-            route: '/dashboard/event',
-            icon: <SidebarCalendarIcon color={pathname?.includes("event") ? true : false} />,
-            text: 'Events'
+            route: '/dashboard/product',
+            icon: <KisokIcon color={(pathname?.includes('product') || pathname?.includes('kiosk') || pathname?.includes('donation')  || pathname?.includes('event')) ? true : false} />,
+            text: 'Business'
         },
+        // {
+        //     route: '/dashboard/event',
+        //     icon: <SidebarCalendarIcon color={pathname?.includes("event") ? true : false} />,
+        //     text: 'Events'
+        // },
         {
             route: '/dashboard/chats',
             icon: <SidebarMessageIcon color={pathname === "/dashboard/chats" ? true : false} />,
             text: 'Chats'
-        },
-        {
-            route: '/dashboard/kisok?type=service',
-            icon: <KisokIcon color={pathname?.includes('kisok') ? true : false} />,
-            text: 'Business'
         },
         {
             route: '/dashboard/community',
@@ -271,18 +271,11 @@ export default function Layout({ children }: {
                     </VStack>
                 </Link>
 
-                <Link href='/dashboard/kisok?type=service'>
+                <Link href='/dashboard/product'>
                     <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('kisok') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('explore') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                        <KisokIcon size='20px' color={pathname?.includes('kisok') ? true : false} />
+                        <KisokIcon size='20px' color={(pathname?.includes('product') || pathname?.includes('kiosk') || pathname?.includes('donation')  || pathname?.includes('event')) ? true : false} />
                     </VStack>
-                </Link>
-
-                <Link href='/dashboard/event'>
-                    <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('event') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('event') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                        <SidebarCalendarIcon size='20px' color={pathname?.includes("event") ? true : false} />
-                    </VStack>
-                </Link>
-
+                </Link> 
                 <Link href='/dashboard/community'>
                     <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname?.includes('community') ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('community') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
                         {/* <People size='20px' /> */}

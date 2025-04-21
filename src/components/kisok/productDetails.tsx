@@ -74,7 +74,7 @@ export default function ProductDetails({ id }: { id: string }) {
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
                         <Flex gap={"1"} alignItems={"center"} >
-                            <Text role='button' onClick={() => push("/dashboard/kisok")} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Back</Text>
+                            <Text role='button' onClick={() => push("/dashboard/product/kisok")} fontSize={"14px"} color={primaryColor} fontWeight={"500"} >Back</Text>
                             <IoIosArrowForward />
                             <Text fontSize={"14px"} fontWeight={"500"} >Product details</Text>
                             <IoIosArrowForward />

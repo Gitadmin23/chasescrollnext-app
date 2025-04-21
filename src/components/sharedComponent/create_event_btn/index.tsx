@@ -88,7 +88,8 @@ function CreateEventBtn(props: Props) {
                     },
                 ],
                 acceptedAdmins: [],
-                acceptedCollaborators: []
+                acceptedCollaborators: [],
+                affiliates: [] as any
             })
             // router.push("/dashboard/event/create_event")
         } else {
@@ -104,12 +105,12 @@ function CreateEventBtn(props: Props) {
     return (
         (<Box w={"fit-content"} h={"fit-content"} >
             {!btn && !mobile && ( 
-                <Flex onClick={() => clickHander()} as={"button"} w={["full", "full", "152px"]} ml={["0px", "0px", "auto"]} fontWeight={"medium"} border={"1px solid #3C41F0"} justifyContent={"center"} color={"brand.chasescrollBlue"} fontSize={"14px"} lineHeight={"20px"} height={"44px"} rounded={"8px"} alignItems={"center"} gap={"2"} >
+                <Flex onClick={() => openHandler()} as={"button"} w={["full", "full", "152px"]} ml={["0px", "0px", "auto"]} fontWeight={"medium"} border={"1px solid #3C41F0"} justifyContent={"center"} color={"brand.chasescrollBlue"} fontSize={"14px"} lineHeight={"20px"} height={"44px"} rounded={"8px"} alignItems={"center"} gap={"2"} >
                     Create Event
                 </Flex>
             )}
             {btn && !mobile && (  
-                <CustomButton onClick={() => clickHander()} pos={"relative"} zIndex={"20"} width={"180px"} text={"Create Event"} borderRadius={"full"} />
+                <CustomButton onClick={() => openHandler()} pos={"relative"} zIndex={"20"} width={"180px"} text={"Create Event"} borderRadius={"full"} />
             )}
             {!btn && mobile && (  
                 // <Flex h={"20px"} alignItems={"center"} onClick={() => clickHander()} as={"button"} >
@@ -134,18 +135,11 @@ function CreateEventBtn(props: Props) {
                             <IoArrowForward size={"18px"} color={bodyTextColor} />
                         </Flex>
                         <Text textAlign={"left"} color={bodyTextColor} mt={"2"} fontSize={"12px"} >As the event owner, you play a crucial role in decision making and receiving payments from attendees who buy tickets for this event.</Text>
-                    </Flex>
-                    {/* <Flex as={"button"} onClick={()=> router.push("/dashboard/event/create_event_promotion")} w={"full"} py={"4"} mt={"5"} px={"2"} flexDir={"column"} rounded={"8px"} _hover={{borderColor: "#5D70F9"}} border={"1px"} borderColor={"transparent"}>
-                        <Flex gap={"1"} >
-                            <Text color={colorMode === 'light' ? "#5465E0":headerTextColor} fontWeight={"bold"} fontSize={"sm"} >{`I'm just promoting this event. `}</Text>
-                            <IoArrowForward size={"18px"} color={bodyTextColor} />
-                        </Flex>
-                        <Text textAlign={"left"} color={bodyTextColor} mt={"2"} fontSize={"12px"} >You serve as the promoter but you are not responsible for any significant decision making or major changes regarding the event.</Text>
-                    </Flex> */}
+                    </Flex> 
                 </Flex>
             )}
             {open && (
-                <Box position={"fixed"} onClick={() => setOpen(false)} inset={'0px'} zIndex={"100"} bg={"black"} opacity={"50%"} />
+                <Box position={"fixed"} onClick={() => setOpen(false)} inset={'0px'} zIndex={"1000"} bg={"black"} opacity={"90%"} />
             )}
         </Box>)
     );
