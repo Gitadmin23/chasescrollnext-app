@@ -201,11 +201,11 @@ function Layout({ children }: {
                     <CustomButton onClick={() => clickHandler("kiosk")} text={
                         <Flex alignItems={"center"} gap={"2"} >
                             <Flex display={["none", "none", "flex"]} >
-                                <StoreIcon color={(type === "kiosk" || type === "mykiosk" || type === "myorder") ? "white" : headerTextColor} />
+                                <StoreIcon color={(type === "kiosk" || type === "mykiosk" || type === "myorder"  || type === "mysales") ? "white" : headerTextColor} />
                             </Flex>
                             <Text fontSize={["8px","12px", "14px"]} >Kiosk</Text>
                         </Flex>
-                    } height={["30px", "38px", "48px"]} fontSize={"sm"} backgroundColor={(type === "kiosk" || type === "mykiosk" || type === "myorder") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "kiosk" || type === "mykiosk" || type === "myorder") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "kiosk" || type === "mykisok" || type === "myorder") ? "white" : headerTextColor} width={["fit-content", "107px", "175px"]} />
+                    } height={["30px", "38px", "48px"]} fontSize={"sm"} backgroundColor={(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "kiosk" || type === "mykiosk" || type === "myorder"  || type === "mysales") ? "white" : headerTextColor} width={["fit-content", "107px", "175px"]} />
                     <CustomButton onClick={() => clickHandler("donation")} text={
                         <Flex alignItems={"center"} gap={"2"} >
                             <Flex display={["none", "none", "flex"]} >
@@ -216,12 +216,12 @@ function Layout({ children }: {
                     } height={["30px", "38px", "48px"]} fontSize={"sm"} backgroundColor={pathname?.includes("/dashboard/product/fundraising") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={pathname?.includes("/dashboard/product/fundraising") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={pathname?.includes("/dashboard/product/fundraising") ? "white" : headerTextColor} width={["fit-content", "107px", "175px"]} />
                 </Flex>
                 <Flex display={["flex", "flex", "none"]} w={"full"} gap={"3"} alignItems={"center"} >
-                    <CustomButton onClick={() => setOpen(true)} text={`Filter ${(type === null || type === "mykisok" || type === "myorder") ? "Product" : (type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "Service" : "Rental"} `} color={headerTextColor} fontSize={"14px"} backgroundColor={"White"} borderWidth={"1px"} borderRadius={"999px"} />
+                    <CustomButton onClick={() => setOpen(true)} text={`Filter ${(type === null || type === "mykisok" || type === "myorder" || type === "mysales") ? "Product" : (type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "Service" : "Rental"} `} color={headerTextColor} fontSize={"14px"} backgroundColor={"White"} borderWidth={"1px"} borderRadius={"999px"} />
                 </Flex>
                 {(pathname !== "/dashboard/product" && !pathname?.includes("fundraising")) && (
                     <Flex display={["none", "none", "flex"]} w={"fit-content"} borderWidth={"1px"} borderColor={borderColor} rounded={"full"} h={"fit-content"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
                         <Select h={"80px"} bgColor={mainBackgroundColor} value={initialFilter?.category} onChange={(e) => setInitialFilter({ ...initialFilter, category: e.target?.value })} w={"200px"} outlineColor={"transparent"} outline={"none"} textAlign={"center"} placeholder='Select Category' roundedLeft={"full"} borderWidth={"0px"} borderRightWidth={"1px"} borderRightColor={borderColor} >
-                            {(type === "kiosk" || type === "mykiosk" || type === "myorder") && (
+                            {(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") && (
                                 <>
                                     {data?.data?.sort((a: string, b: string) => {
                                         if (a > b) {
@@ -281,7 +281,7 @@ function Layout({ children }: {
             <Flex w={"full"} justifyContent={"center"} >
                 {pathname !== "/dashboard/product" && (
                     <Flex py={"6"} maxWidth={"745px"} w={"full"} justifyContent={"start"} alignItems={"center"} gap={"4"} >
-                        {(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mySales") && (
+                        {(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") && (
                             <Select
                                 color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
                                 focusBorderColor={"#5465E0"}
@@ -292,7 +292,7 @@ function Layout({ children }: {
                                 onChange={(e) => routeHandler(e.target.value)}
                                 width={["auto", "auto", "auto"]}
                                 textAlign={"center"} >
-                                {[{ name: "All", value: "" }, { name: "My Kiosk", value: "mykisok" }, { name: "My Orders", value: "myorder" }, { name: "My Sales", value: "mySales" }]?.map((type: any, index: number) => (
+                                {[{ name: "All", value: "" }, { name: "My Kiosk", value: "mykiosk" }, { name: "My Orders", value: "myorder" }, { name: "My Sales", value: "mysales" }]?.map((type: any, index: number) => (
                                     <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
                                         {type?.name}
                                     </option>

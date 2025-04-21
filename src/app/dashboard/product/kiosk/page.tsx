@@ -23,10 +23,10 @@ export default function KioskPage() {
 
     return (
         <Flex w={"full"} flexDir={"column"} >
-            {!type && (
+            {type === "kiosk" && (
                 <GetProduce name={selectedFilter?.name} state={selectedFilter?.state} category={selectedFilter?.category} />
             )}
-            {type === "mykisok" && (
+            {type === "mykiosk" && (
                 <GetProduce name={selectedFilter?.name} state={selectedFilter?.state} category={selectedFilter?.category} myproduct={true} />
             )}
             {type === "rental" && (
@@ -38,7 +38,7 @@ export default function KioskPage() {
             {type === "myorder" && (
                 <GetOrder />
             )}
-            {type === "mySales" && (
+            {type === "mysales" && (
                 <GetMySale />
             )}
             {type === "myreciept" && (
