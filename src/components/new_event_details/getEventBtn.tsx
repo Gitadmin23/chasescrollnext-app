@@ -72,7 +72,7 @@ function GetEventTicket(props: IProps) {
                 setShowModal(true);
             } else if (!user_index) {
                 if (affiliate) {
-                    router.push("/event/" + data?.id + "?type=affiliate&open=true")
+                    router.push("/event/" + data?.affiliateID + "?type=affiliate&open=true")
                 } else {
                     router.push("/event/" + data?.id + "?open=true")
                 } 
