@@ -45,7 +45,7 @@ export default function KisokCreate() {
         if(type){
             push("/dashboard/kisok/create")
         } else {
-            push("/dashboard/kisok")
+            push("/dashboard/product/kiosk")
         } 
     }
 
@@ -94,7 +94,7 @@ export default function KisokCreate() {
                     <Text fontSize={"24px"} fontWeight={"600"} >Delivery Plans</Text>
                     <Text fontWeight={"500"} >Note:  You are responsible for your product  delivery</Text>
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
-                        <Flex p={"6"} w={"full"} rounded={"16px"} justifyContent={"space-between"} bgColor={"#FCFCFC"} alignItems={"center"} borderWidth={"1px"} borderColor={"#EAEBEDCC"} >
+                        <Flex p={"6"} w={"full"} rounded={"16px"} justifyContent={"space-between"} bgColor={mainBackgroundColor} alignItems={"center"} borderWidth={"1px"} borderColor={"#EAEBEDCC"} >
                             <Flex flexDir={"column"} gap={"2"} alignItems={"start"} >
                                 <Text fontWeight={"500"} >Mandatory product delivery Timeline</Text>
                                 <Text fontSize={"14px"} >Within 3-5 Days inside lagos</Text>
@@ -116,7 +116,7 @@ export default function KisokCreate() {
                         <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{"Congratulations"}</Text>
                         <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your product has been listed successfully`}</Text>
 
-                        <CustomButton onClick={() => push("/dashboard/kisok?type=mykisok")} color={"#FFF"} text={'Done'} w={"full"} backgroundColor={"#3EC259"} />
+                        <CustomButton onClick={() => push("/dashboard/product/kiosk?type=mykiosk")} color={"#FFF"} text={'Done'} w={"full"} backgroundColor={"#3EC259"} />
                     </Flex>
                 </LoadingAnimation>
             </ModalLayout>

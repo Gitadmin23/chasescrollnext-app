@@ -79,7 +79,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
     }
 
     return (
-        <Flex w={"full"} bgColor={"white"} rounded={"16px"} flexDirection={"column"} borderWidth={"1px"} p={["3", "3", "24px"]} gap={"1"} borderColor={borderColor} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
+        <Flex w={"full"} bgColor={mainBackgroundColor} rounded={"16px"} flexDirection={"column"} borderWidth={"1px"} p={["3", "3", "24px"]} gap={"1"} borderColor={borderColor} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
             <Flex gap={"1"} flexDir={["column", "column", "row"]} >
                 <Text fontSize={"14px"} >Starting Price</Text>
                 <Text fontSize={"14px"} ><span style={{ fontSize: "22px", fontWeight: "600" }} >{formatNumber(item?.price)}</span>{item?.frequency !== "HOURLY" ? "/Per day" : "/Per hour"}</Text>

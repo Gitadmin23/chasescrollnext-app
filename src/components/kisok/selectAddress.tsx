@@ -196,7 +196,7 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
     }, [open])
 
     return (
-        <Flex w={"full"} px={["0px", "0px", "6"]} pt={["6", "6", "6", "6"]} pb={"12"} flexDir={"column"} gap={"6"} overflowY={"auto"} overflowX={"hidden"} >
+        <Flex w={"full"} px={["4", "4", "6"]} pt={["6", "6", "6", "6"]} pb={"12"} flexDir={"column"} gap={"6"} overflowY={"auto"} overflowX={"hidden"} >
             <Flex alignItems={"center"} gap={"1"} >
                 <FaCheckCircle size={"15px"} color='#34C759' />
 
