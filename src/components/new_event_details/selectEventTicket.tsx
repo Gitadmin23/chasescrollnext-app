@@ -40,7 +40,7 @@ function SelectTicket(props: Props) {
     // const { colorMode, toggleColorMode } = useColorMode(); 
     const param = useParams();
     const query = useSearchParams();
-    const affiliate = query?.get('affiliate');
+    const affiliate = query?.get('type');
     const id = param?.slug
     const type = query?.get('open');
 
@@ -73,8 +73,7 @@ function SelectTicket(props: Props) {
                     } 
                     setOpen(true)
                 }
-                setTicketType(item)
-                // router.push("/share/auth/?type=EVENT&typeID=" + data?.id)
+                setTicketType(item) 
             } else {
                 setTicketType(item)
                 setShowModal(false)
