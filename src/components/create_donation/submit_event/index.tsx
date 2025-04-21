@@ -285,11 +285,8 @@ function SubmitEvent(props: Iprops) {
         setPayload(data)
     }, [data])
 
-    useEffect(() => {
-
-        console.log(uploadedFile);
-
-
+    useEffect(() => { 
+        
         let newObj: any = [...data]
         newObj[0] = { ...data[0], bannerImage: uploadedFile[0] }
 
