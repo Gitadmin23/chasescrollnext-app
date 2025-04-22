@@ -370,7 +370,7 @@ function Layout({ children }: {
                     </Flex>
                 )}
                 {pathname === "/dashboard/product" && (
-                    <Flex py={"6"} maxWidth={"745px"} position={"relative"} width={"full"} gap={"4"} flexDir={["row"]} alignItems={["start", "start", "center"]} flexDirection={["column", "column", "row"]} >
+                    <Flex pt={["6", "6", "6"]} pb={["0px", "6", "6"]} maxWidth={"745px"} position={"relative"} width={"full"} gap={"4"} flexDir={["row"]} alignItems={["start", "start", "center"]} flexDirection={["column", "column", "row"]} >
                         <EventCategory eventpage={true} />
                         <Flex gap={"4"} >
                             <SelectEventPage />
