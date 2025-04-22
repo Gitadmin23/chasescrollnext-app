@@ -128,7 +128,7 @@ export default function EventDetail(props: IEventType) {
                 <IoIosArrowForward />
                 <Text fontSize={"14px"} fontWeight={"500"} >Event details</Text>
                 <IoIosArrowForward />
-                <Text fontSize={"14px"} fontWeight={"500"} >{eventName}</Text>
+                <Text fontSize={"14px"} fontWeight={"500"} >{textLimit(eventName, 20)}</Text>
             </Flex>
             <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                 <Flex w={"full"} flexDir={"column"} gap={"4"} >
