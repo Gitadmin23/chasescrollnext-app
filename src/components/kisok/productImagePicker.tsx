@@ -24,6 +24,17 @@ export default function ProductImagePicker() {
     }, [])
 
     const handleImagePicked = (Files: any) => {
+        if ((fileData?.length + Files?.length) > 5) {
+            toast({
+                title: 'Error',
+                description: 'you can only upload 5 images',
+                position: 'top-right',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
+            return;
+        }
         const file = Files[0];
         if (file.size > 800000) {
             toast({

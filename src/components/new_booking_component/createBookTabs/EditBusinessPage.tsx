@@ -159,20 +159,7 @@ export default function EditBusinessPage() {
             website: business?.website ?? '',
         },
         validationSchema: createBusinessValidation,
-        submit: (data) => {
-            // const activeDays = days.filter((item) => item.checked);
-
-            // if (activeDays.length < 1) {
-            //     toast({
-            //         title: 'Warning',
-            //         description: 'You have to select your opening hours for at least 3 days of the week',
-            //         status: 'error',
-            //         position: 'top-right',
-            //         duration: 5000,
-            //         isClosable: true,
-            //     });
-            //     return;
-            // } 
+        submit: (data) => { 
 
             if (!rentaldata?.location?.state) {
                 toast({
