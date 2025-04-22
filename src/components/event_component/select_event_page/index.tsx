@@ -66,12 +66,12 @@ function SelectEventPage(props: Props) {
     return (
         <Box position={"relative"} w={"full"} >
             <Box onClick={() => setShowSelector((prev) => !prev)} as='button'
-                height={"50px"}
+                height={["40px", "50px", "50px"]}
                 width={["full", "full", "fit-content"]}
                 display={"flex"} gap={"2"} alignItems={"center"} justifyContent={"space-between"} borderWidth={"1px"} backgroundColor={"#F2F4FF"}
                 borderColor={"#DDE6EB"}
                 color={primaryColor}
-                fontSize={"sm"}
+                fontSize={"14px"}
                 fontWeight={"bold"} px={"6"} rounded={"full"} position={"relative"} >
                 <Text>{showPage}</Text>
                 <IoIosArrowDown />
