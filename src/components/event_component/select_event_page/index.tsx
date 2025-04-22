@@ -16,7 +16,7 @@ function SelectEventPage(props: Props) {
     const tablist = React.useCallback(() => {
         return [
             {
-                name: "All Event",
+                name: "All Events",
                 route: "/dashboard/product"
             },
             {
