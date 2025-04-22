@@ -12,8 +12,7 @@ import GoogleBtn from '../sharedComponent/googlebtn'
 import ModalLayout from '../sharedComponent/modal_layout'
 import { useDetails } from '@/global-state/useUserDetails'
 import DonationTermAndCondition from './donationTermAndCondition'
-import { useRouter, useSearchParams } from 'next/navigation'
-import useModalStore from '@/global-state/useModalSwitch'
+import { useRouter, useSearchParams } from 'next/navigation' 
 
 export default function DonationPayment({ data, fullWidth }: { data?: IDonationList, fullWidth?: boolean }) {
 
