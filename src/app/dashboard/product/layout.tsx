@@ -173,47 +173,49 @@ function Layout({ children }: {
             <Flex w={"full"} alignItems={"center"} flexDirection={"column"} gap={"3"} >
                 <Flex fontSize={["20px", "20px", "56px"]} alignItems={"end"} display={["flex", "flex", "none"]} fontWeight={"700"} >what are you l<Flex mb={"1"} ><GlassIcon size='17' /></Flex>king for?</Flex>
                 <Flex fontSize={["16px", "16px", "56px"]} alignItems={"end"} display={["none", "none", "flex"]} fontWeight={"700"} >what are you l<Flex mb={"3"} ><GlassIcon size='45' /></Flex>king for?</Flex>
-                <Flex w={"fit-content"} gap={"1"} alignItems={"center"} bgColor={secondaryBackgroundColor} p={"6px"} rounded={"full"} >
+                <Flex w={["full", "fit-content", "fit-content"]} gap={"0px"} alignItems={"center"} bgColor={secondaryBackgroundColor} p={"6px"} rounded={"full"} >
                     <CustomButton onClick={() => clickHandler("event")} text={
                         <Flex alignItems={"center"} gap={"2"} >
                             <Flex display={["none", "none", "flex"]} >
                                 <NewEventIcon color={pathname === "/dashboard/product" ? "white" : headerTextColor} />
                             </Flex>
-                            <Text fontSize={["8px","12px", "14px"]} >Event</Text>
+                            <Text fontSize={["10px", "12px", "14px"]} >Event</Text>
                         </Flex>
-                    } height={["30px", "38px", "48px"]} fontSize={"sm"} backgroundColor={pathname === "/dashboard/product" ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={pathname === "/dashboard/product" ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={pathname === "/dashboard/product" ? "white" : headerTextColor} width={["fit-content", "107px", "175px"]} />
+                    } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={pathname === "/dashboard/product" ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={pathname === "/dashboard/product" ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={pathname === "/dashboard/product" ? "white" : headerTextColor} width={["100%", "107px", "175px"]} />
                     <CustomButton onClick={() => clickHandler("service")} text={
                         <Flex alignItems={"center"} gap={"2"} >
                             <Flex display={["none", "none", "flex"]} >
                                 <ServiceIcon color={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "white" : headerTextColor} />
                             </Flex>
-                            <Text fontSize={["8px","12px", "14px"]} >Service</Text>
+                            <Text fontSize={["10px", "12px", "14px"]} >Service</Text>
                         </Flex>
-                    } height={["30px", "38px", "48px"]} fontSize={"sm"} backgroundColor={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "white" : headerTextColor} width={["fit-content", "107px", "175px"]} />
+                    } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "white" : headerTextColor} width={["100%", "107px", "175px"]} />
                     <CustomButton onClick={() => clickHandler("rental")} text={
                         <Flex alignItems={"center"} gap={"2"} >
                             <Flex display={["none", "none", "flex"]} >
                                 <RentalIcon color={(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "white" : headerTextColor} />
                             </Flex>
-                            <Text fontSize={["8px","12px", "14px"]} >Rental</Text>
+                            <Text fontSize={["10px", "12px", "14px"]} >Rental</Text>
                         </Flex>
-                    } height={["30px", "38px", "48px"]} fontSize={"sm"} backgroundColor={(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "white" : headerTextColor} width={["fit-content", "107px", "175px"]} />
+                    } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "white" : headerTextColor} width={["100%", "107px", "175px"]} />
                     <CustomButton onClick={() => clickHandler("kiosk")} text={
                         <Flex alignItems={"center"} gap={"2"} >
                             <Flex display={["none", "none", "flex"]} >
-                                <StoreIcon color={(type === "kiosk" || type === "mykiosk" || type === "myorder"  || type === "mysales") ? "white" : headerTextColor} />
+                                <StoreIcon color={(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") ? "white" : headerTextColor} />
                             </Flex>
-                            <Text fontSize={["8px","12px", "14px"]} >Kiosk</Text>
+                            <Text fontSize={["10px", "12px", "14px"]} >Kiosk</Text>
                         </Flex>
-                    } height={["30px", "38px", "48px"]} fontSize={"sm"} backgroundColor={(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "kiosk" || type === "mykiosk" || type === "myorder"  || type === "mysales") ? "white" : headerTextColor} width={["fit-content", "107px", "175px"]} />
-                    <CustomButton onClick={() => clickHandler("donation")} text={
-                        <Flex alignItems={"center"} gap={"2"} >
-                            <Flex display={["none", "none", "flex"]} >
-                                <NewDonationIcon color={pathname?.includes("/dashboard/product/fundraising") ? "white" : headerTextColor} />
+                    } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") ? "white" : headerTextColor} width={["100%", "107px", "175px"]} />
+                    <Flex w="fit-content" >
+                        <CustomButton onClick={() => clickHandler("donation")} text={
+                            <Flex alignItems={"center"} gap={"2"} >
+                                <Flex display={["none", "none", "flex"]} >
+                                    <NewDonationIcon color={pathname?.includes("/dashboard/product/fundraising") ? "white" : headerTextColor} />
+                                </Flex>
+                                <Text fontSize={["10px", "12px", "14px"]} >Fundraising</Text>
                             </Flex>
-                            <Text fontSize={["8px","12px", "14px"]} >Fundraising</Text>
-                        </Flex>
-                    } height={["30px", "38px", "48px"]} fontSize={"sm"} backgroundColor={pathname?.includes("/dashboard/product/fundraising") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={pathname?.includes("/dashboard/product/fundraising") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={pathname?.includes("/dashboard/product/fundraising") ? "white" : headerTextColor} width={["fit-content", "107px", "175px"]} />
+                        } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={pathname?.includes("/dashboard/product/fundraising") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={pathname?.includes("/dashboard/product/fundraising") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={pathname?.includes("/dashboard/product/fundraising") ? "white" : headerTextColor} width={["80px", "107px", "175px"]} />
+                    </Flex>
                 </Flex>
                 <Flex display={["flex", "flex", "none"]} w={"full"} gap={"3"} alignItems={"center"} >
                     <CustomButton onClick={() => setOpen(true)} text={`Filter ${(type === null || type === "mykisok" || type === "myorder" || type === "mysales") ? "Product" : (type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "Service" : "Rental"} `} color={headerTextColor} fontSize={"14px"} backgroundColor={"White"} borderWidth={"1px"} borderRadius={"999px"} />
@@ -368,14 +370,12 @@ function Layout({ children }: {
                     </Flex>
                 )}
                 {pathname === "/dashboard/product" && (
-                    <Flex py={"6"} maxWidth={"745px"} position={"relative"} width={"full"} gap={"4"} flexDir={["row"]} alignItems={["start", "start", "center"]} flexDirection={["column", "column", "row"]} >
-                        <Flex  >
-                            <EventCategory eventpage={true} />
-                        </Flex>
-                        <Flex  >
+                    <Flex pt={["6", "6", "6"]} pb={["0px", "6", "6"]} maxWidth={"745px"} position={"relative"} width={"full"} gap={"4"} flexDir={["row"]} alignItems={["start", "start", "center"]} flexDirection={["column", "column", "row"]} >
+                        <EventCategory eventpage={true} />
+                        <Flex gap={"4"} >
                             <SelectEventPage />
+                            <CreateEventBtn btn={true} />
                         </Flex>
-                        <CreateEventBtn btn={true} />
                     </Flex>
                 )}
             </Flex>

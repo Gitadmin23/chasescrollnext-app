@@ -71,8 +71,8 @@ function EventCategory(props: Props) {
             focusBorderColor={"#DDE6EB"}
             borderWidth={"1px"}
             borderColor={"#DDE6EB"}
-            height={"50px"}
-            fontSize={"sm"}
+            height={["40px", "50px", "50px"]}
+            fontSize={"14px"}
             rounded={"50px"}
             width={["250px", "250px", "250px"]}
             onChange={(e) => handleChange(e.target.value)}
