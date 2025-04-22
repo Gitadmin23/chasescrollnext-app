@@ -72,12 +72,12 @@ export default function DashboardMenuBtn({ count }: { count?: any }) {
                             </Flex>
                             <Text fontSize={"12px"} >Explore</Text>
                         </Flex>
-                        <Flex onClick={() => handleClick("/dashboard/settings/payment/details")} h={"20px"} gap={"2"} alignItems={"center"} as='button' >
+                        {/* <Flex onClick={() => handleClick("/dashboard/settings/payment/details")} h={"20px"} gap={"2"} alignItems={"center"} as='button' >
                             <Flex justifyContent={"center"} w={"20px"} >
                                 <NewWalletIcon />
                             </Flex>
                             <Text fontSize={"12px"} >Wallet</Text>
-                        </Flex>
+                        </Flex> */}
                         <Flex onClick={() => clickHandler()} h={"20px"} gap={"2"} alignItems={"center"} as='button' >
                             <Flex justifyContent={"center"} w={"20px"} >
                                 <NotificationIcon />

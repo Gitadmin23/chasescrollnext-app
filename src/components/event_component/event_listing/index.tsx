@@ -33,9 +33,9 @@ function EventListing(props: Props) {
         const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/events/events${event_category ? "?eventType=" + event_category : ""}`, limit: 20, filter: "id", newdata: event_category })
 
         return (
-            <Flex width={"full"} justifyContent={"center"} mt={!event_category ? !limit ? "8" : "" : ""} py={"8"} px={"0px"} flexDirection={"column"} alignItems={"center"} >
+            <Flex width={"full"} justifyContent={"center"} mt={!event_category ? !limit ? "0px" : "" : ""} py={["6", "8", "8"]} px={"0px"} flexDirection={"column"} alignItems={"center"} >
                 {!limit && (
-                    <Text fontWeight={"semibold"} textAlign={!event_category ? "left" : "center"} fontSize={"20px"} mt={"15px"} mb={"10px"} mr={!event_category ? "auto" : ""} ml={!event_category ? "12px" : ""} >{!event_category ? "Trending" : event_category?.split("_")?.join(" ")}</Text>
+                    <Text fontWeight={"semibold"} textAlign={!event_category ? "left" : "center"} fontSize={"20px"} mb={"10px"} mr={!event_category ? "auto" : ""} ml={!event_category ? "12px" : ""} >{!event_category ? "Trending" : event_category?.split("_")?.join(" ")}</Text>
                 )}
                 <LoadingAnimation loading={isLoading} customLoader={
                     <Grid width={["full", "full", "full", "full", "full"]} templateColumns={['repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(3, 1fr)', 'repeat(4, 1fr)']} gap={["2", "2", "4"]}>
