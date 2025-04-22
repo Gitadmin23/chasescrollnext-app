@@ -202,32 +202,18 @@ export default function Layout({ children }: {
                             <Text display={["none", "none", "none", "flex", "flex"]} fontSize={"24px"} fontWeight={"700"} >Chasescroll <span style={{ color: primaryColor }} >Business</span></Text>
                         )}
                         <Flex as={"button"} onClick={() => router?.push("/dashboard")} display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"2"} >
-                            <Image alt='logo' src='/images/logo.png' w={"35.36px"} />
-                            {/* <Text fontSize={"17px"} fontWeight={"700"} color={primaryColor} >Chasescroll</Text> */}
-                        </Flex>
-                        {/* <Flex ml={"auto"} gap={"3"} display={["none", "none", "none", "flex", "flex"]} >
-                            <CreateEventBtn btn={true} />
-
-                            <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} pos={"relative"} height={"45px"} zIndex={"20"} width={"180px"} bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor : headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
-                                Fundraising
-                            </Flex>
-                        </Flex> */}
-                        <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"3"} >
-                            {/* <CreateEventBtn mobile={true} />
-
-                            <Flex onClick={() => router.push('/dashboard/donation')} fontWeight={"600"} as={"button"} fontSize={"xs"} pos={"relative"} height={"35px"} zIndex={"20"} width={"fit-content"}  bg={secondaryBackgroundColor} justifyContent={"center"} color={pathname?.includes("/dashboard/donation") ? primaryColor : headerTextColor} px={"3"} rounded={"full"} alignItems={"center"} gap={"2"} >
-                                Fundraising
-                            </Flex>  */}
+                            <Image alt='logo' src='/images/logo.png' w={"35.36px"} /> 
+                        </Flex> 
+                        <Flex display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"3"} > 
                             <DashboardMenuBtn count={count} />
                         </Flex>
                     </Flex>
                 )}
                 {(pathname !== ("/dashboard/donation/create") && !pathname?.includes("/donation/edit") && pathname !== ("/dashboard/event/create_event") && !pathname?.includes("edit_event") && !pathname?.includes("edit_draft") && pathname !== ("/dashboard/event/create_event_promotion")) ? (
                     // <Flex w={"full"} h={"full"} pb={["70px", "70px", "70px", "0px", "0px"]} top={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" :["76px", "76px", "76px", "0px", "0px"]} overflowY={"hidden"} >
-
-                    (<Flex w={"full"} h={"auto"} zIndex={"20"} bottom={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"72px"} insetX={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" : "0px"} overflowY={"hidden"} >
+                    <Flex w={"full"} h={"auto"} zIndex={"20"} bottom={["70px", "70px", "70px", "0px", "0px"]} pos={"absolute"} top={"72px"} insetX={"0px"} pt={pathname === ("/dashboard/donation/create") ? "0px" : "0px"} overflowY={"hidden"} >
                         {children}
-                    </Flex>)
+                    </Flex>
                 ) : (
                     <Flex w={"full"} h={["100vh"]} zIndex={"20"} pb={["70px", "70px", "70px", "0px", "0px"]} overflowY={"hidden"} >
                         {children}
