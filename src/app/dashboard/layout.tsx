@@ -241,9 +241,9 @@ export default function Layout({ children }: {
                     </VStack>
                 </Link>
 
-                <Link href='/dashboard/product'>
+                <Link href='/dashboard/settings/payment/details'>
                     <VStack width={'40px'} height='40px' borderBottomLeftRadius={'20px'} borderTopLeftRadius={'20px'} borderBottomRightRadius={'20px'} bg={pathname === "/dashboard/settings/payment/details" ? 'brand.chasescrollBlue' : secondaryBackgroundColor} color={pathname?.includes('explore') ? 'white' : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
-                        <SidebarWalletIcon size={"20px"} color={pathname === "/dashboard/settings/payment/details" ? true : false} />
+                        <SidebarWalletIcon mobile={true} size={"20px"} color={pathname === "/dashboard/settings/payment/details" ? true : false} />
                     </VStack>
                 </Link>
 

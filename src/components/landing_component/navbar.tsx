@@ -117,7 +117,7 @@ function HomeNavbar() {
             )}
             {token && (
                 <Flex display={["none", "none", "none", "flex"]} gap={"4"} >
-                    <CustomButton onClick={() => clickHander("/dashboard/event")} text={"Dashboard"} width={"152px"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
+                    <CustomButton onClick={() => clickHander("/dashboard/product")} text={"Dashboard"} width={"152px"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
                 </Flex>
             )}
             <Flex display={["flex", "flex", "flex", "none"]} >
@@ -166,7 +166,7 @@ function HomeNavbar() {
                             )}
                             {token && (
                                 <Flex gap={"3"} width={"full"} my={"auto"} flexDir={"column"} justifyContent={"center"}  >
-                                    <CustomButton onClick={() => clickHander("/dashboard/event")} text={"Dashboard"} width={"full"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
+                                    <CustomButton onClick={() => clickHander("/dashboard/product")} text={"Dashboard"} width={"full"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
                                 </Flex>
                             )}
                             {/* )} */}
