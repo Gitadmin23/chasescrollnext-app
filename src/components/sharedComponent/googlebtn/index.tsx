@@ -63,7 +63,7 @@ function GoogleBtn(props: Props) {
     const [terms, setTerms] = useState(false)
     const [tokenData, setTokenData] = useState("")
     const query = useSearchParams();
-    const affiliateID = query?.get('affiliate');
+    const affiliateID = query?.get('type');
     const [userNameCheck, setUserNameCheck] = useState("")
 
     const {
@@ -136,7 +136,7 @@ function GoogleBtn(props: Props) {
                         router.push(`/dashboard/event/details/${affiliateID ? affiliate : index}${affiliateID ? "?type=affiliate" : ""}`);
                     }
                 } else {
-                    router.push('/dashboard/event')
+                    router.push('/dashboard/product')
                 }
             }
         }
@@ -172,7 +172,7 @@ function GoogleBtn(props: Props) {
                     router.push(`/dashboard/event/details/${affiliateID ? affiliate : index}${affiliateID ? "?type=affiliate" : ""}`);
                 }
             } else {
-                router.push('/dashboard/event')
+                router.push('/dashboard/product')
             }
 
             // setCheckData(data?.data)
@@ -215,7 +215,7 @@ function GoogleBtn(props: Props) {
                     router.push(`/dashboard/event/details/${affiliate ? affiliate : index}?type=affiliate`);
                 }
             } else {
-                router.push('/dashboard/event')
+                router.push('/dashboard/product')
             }
         },
         onError: (error: any) => {

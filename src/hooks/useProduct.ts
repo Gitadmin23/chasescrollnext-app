@@ -629,6 +629,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
         onSuccess: (data: any) => {
             console.log(data);
             setOpenSucces(true)
+            router?.push("/dashboard/product/kiosk?type=myreciept")
         },
         onError: () => { },
     });

@@ -82,7 +82,7 @@ const useAuth = () => {
                         router.push(`/share?type=${type}&typeID=${typeID}`);
                     }
                 } else {
-                    router.push('/dashboard/event')
+                    router.push('/dashboard/product')
                 }
             }
 

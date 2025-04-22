@@ -196,7 +196,7 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
     }, [open])
 
     return (
-        <Flex w={"full"} px={["0px", "0px", "6"]} pt={["6", "6", "6", "6"]} pb={"12"} flexDir={"column"} gap={"6"} overflowY={"auto"} overflowX={"hidden"} >
+        <Flex w={"full"} px={["4", "4", "6"]} pt={["6", "6", "6", "6"]} pb={"12"} flexDir={"column"} gap={"6"} overflowY={"auto"} overflowX={"hidden"} >
             <Flex alignItems={"center"} gap={"1"} >
                 <FaCheckCircle size={"15px"} color='#34C759' />
 
@@ -282,7 +282,7 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
                     <SuccessIcon />
                     <Text fontSize={["18px", "20px", "24px"]} fontWeight={"600"} mt={"4"} >{"Receipt created Successful"}</Text>
                     <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your reciept has reach the vendor `}</Text>
-                    <CustomButton onClick={() => push("/dashboard/kisok?type=myreciept")} color={"#FFF"} text={'View Receipt'} w={"full"} backgroundColor={"#3EC259"} />
+                    <CustomButton onClick={() => push("/dashboard/product/kiosk?type=myreciept")} color={"#FFF"} text={'View Receipt'} w={"full"} backgroundColor={"#3EC259"} />
                 </Flex>
                 {/* </LoadingAnimation> */}
             </ModalLayout>
