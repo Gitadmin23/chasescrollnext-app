@@ -294,7 +294,7 @@ function Layout({ children }: {
                                 onChange={(e) => routeHandler(e.target.value)}
                                 width={["auto", "auto", "auto"]}
                                 textAlign={"center"} >
-                                {[{ name: "All", value: "" }, { name: "My Kiosk", value: "mykiosk" }, { name: "My Orders", value: "myorder" }, { name: "My Sales", value: "mysales" }]?.map((type: any, index: number) => (
+                                {[{ name: "All Kiosks", value: "" }, { name: "My Kiosk", value: "mykiosk" }, { name: "My Orders", value: "myorder" }, { name: "My Sales", value: "mysales" }]?.map((type: any, index: number) => (
                                     <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
                                         {type?.name}
                                     </option>
@@ -330,7 +330,7 @@ function Layout({ children }: {
                                 onChange={(e) => routeHandler(e.target.value)}
                                 width={["auto", "auto", "auto"]}
                                 textAlign={"center"} >
-                                {[{ name: "All Rental", value: "rental" }, { name: "My Rental", value: "myrental" }, { name: "My Reciept", value: "myreciept" }, { name: "My Request", value: "vendorreciept" }]?.map((type: any, index: number) => (
+                                {[{ name: "All Rentals", value: "rental" }, { name: "My Rental", value: "myrental" }, { name: "My Reciept", value: "myreciept" }, { name: "My Request", value: "vendorreciept" }]?.map((type: any, index: number) => (
                                     <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
                                         {type?.name}
                                     </option>
@@ -348,7 +348,7 @@ function Layout({ children }: {
                                 onChange={(e) => donationHandler(e.target.value)}
                                 width={["auto", "auto", "auto"]}
                                 textAlign={"center"} >
-                                {[{ name: "All Fundraising", value: "" }, { name: "My Fundraising", value: "mydonation" }, { name: "Past Fundraising", value: "past" }]?.map((type: any, index: number) => (
+                                {[{ name: "All Fundraisings", value: "" }, { name: "My Fundraising", value: "mydonation" }, { name: "Past Fundraising", value: "past" }]?.map((type: any, index: number) => (
                                     <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
                                         {type?.name}
                                     </option>
