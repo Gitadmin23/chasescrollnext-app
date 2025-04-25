@@ -1,7 +1,7 @@
 "use client"
 import ModalLayout from '@/components/sharedComponent/modal_layout'
 import { Bluetick, CloseIcon } from '@/components/svg'
-import { Box, Button, Flex, HStack, Image, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, HStack, Image, Text, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { IoArrowBack } from 'react-icons/io5'
 import SignForm from './signForm'
@@ -19,6 +19,8 @@ export default function SignupModal({ open, setOpen, index, hide, type }: { open
 
     const router = useRouter()
 
+    const toast = useToast()
+
     const clickHandler =()=> {
         if(pathname?.includes("event")) {
             if(type === "DONATION"){
@@ -31,10 +33,21 @@ export default function SignupModal({ open, setOpen, index, hide, type }: { open
         }
     }
 
+    const openHandler =() => { 
+        toast({
+            title: "Attention!",
+            description: "For now, please use Google to sign up.",
+            status: "warning",
+            isClosable: true,
+            duration: 5000,
+            position: "top-right",
+        });
+    }
+
     return (
         <Flex w={hide ? " auto ": "full"} >
             {!hide && (
-                <Button onClick={() => setOpen(true)} mt={"4"} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
+                <Button onClick={() => openHandler()} mt={"4"} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
                     <Text color={"white"} textAlign={"center"} fontWeight={"600"} >Create Account</Text>
                 </Button>
             )}

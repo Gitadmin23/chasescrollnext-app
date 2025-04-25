@@ -268,7 +268,7 @@ const CommentBox = React.forwardRef<
     const router = useRouter()
 
     const toast = useToast();
-    const intObserver = React.useRef<IntersectionObserver>();
+    const intObserver = React.useRef<IntersectionObserver>(null);
 
     const {
       bodyTextColor,

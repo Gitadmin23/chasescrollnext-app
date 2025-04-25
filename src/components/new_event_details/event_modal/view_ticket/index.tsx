@@ -39,6 +39,9 @@ function ViewTicket(props: Props) {
         user_index
     } = props
 
+    console.log(data);
+    
+
     const {
         bodyTextColor,
         primaryColor,

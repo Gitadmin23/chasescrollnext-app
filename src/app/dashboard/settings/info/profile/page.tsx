@@ -90,12 +90,7 @@ function EditProfile() {
 
     // watching variables
     const website = watch('website');
-    const about = watch('aboutme');
-    // const firstname = watch('firstName');
-
-    // useEffect(() => { 
-    //     s
-    // }, [firstname])
+    const about = watch('aboutme'); 
 
     const { isLoading, isError, refetch } = useQuery(['getUserDetails', userId], () => httpService.get(`${URLS.GET_USER_PRIVATE_PROFILE}`), {
         onSuccess: (data) => {
@@ -167,7 +162,7 @@ function EditProfile() {
         return (
             <VStack width='100%' height='100%' justifyContent={'center'} alignItems={'center'} bg={mainBackgroundColor}>
                 <Spinner />
-                <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Loading Details</CustomText>
+                <CustomText fontSize={'18px'}>Loading Details</CustomText>
             </VStack>
         )
     }
@@ -187,7 +182,7 @@ function EditProfile() {
                         {/* HEADER */}
                         <HStack width={'100%'} height={'50px'} justifyContent={'space-between'}>
                             <ArrowLeft2 role='button' size={'30px'} color={bodyTextColor} onClick={() => router.back()} />
-                            <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Edit Profile</CustomText>
+                            <CustomText fontSize={'18px'}>Edit Profile</CustomText>
                             <Box></Box>
                         </HStack>
 
@@ -213,33 +208,33 @@ function EditProfile() {
                             </Box>
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
-                                <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>FirstName</CustomText>
+                                <CustomText fontSize={'16px'}>FirstName</CustomText>
                                 <CustomInput name='firstName' value={values?.firstName ?? firstName} isPassword={false} type='text' placeholder='' />
                             </VStack>
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
-                                <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>LastName</CustomText>
+                                <CustomText fontSize={'16px'}>LastName</CustomText>
                                 <CustomInput name='lastName' value={values?.lastName ?? lastName} isPassword={false} type='text' placeholder='' />
                             </VStack>
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
-                                <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Username</CustomText>
+                                <CustomText fontSize={'16px'}>Username</CustomText>
                                 <CustomInput name='username' isPassword={false} type='text' placeholder='' />
                             </VStack>
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
-                                <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Website</CustomText>
+                                <CustomText fontSize={'16px'}>Website</CustomText>
                                 <CustomInput name='website' isPassword={false} type='text' placeholder={website === null ? 'www.example.com' : ''} />
                             </VStack>
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
-                                <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>About me</CustomText>
+                                <CustomText fontSize={'16px'}>About me</CustomText>
                                 <CustomInput name='aboutme' isPassword={false} type='text' placeholder={about === null ? 'A short description about me' : ''} />
                             </VStack>
 
                             <Link href='/dashboard/settings/info/personalinfo' style={{ width: '100%', marginTop: '20px' }}>
                                 <HStack width={'100%'} justifyContent={'space-between'}>
-                                    <CustomText fontFamily={'DM-Bold'} color='brand.chasescrollButtonBlue'>Personal Information</CustomText>
+                                    <CustomText color='brand.chasescrollButtonBlue'>Personal Information</CustomText>
                                     <ArrowRight2 size={'25px'} color={THEME.COLORS.chasescrollButtonBlue} variant='Outline' />
                                 </HStack>
                             </Link>
