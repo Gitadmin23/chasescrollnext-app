@@ -35,8 +35,7 @@ function GetEventTicket(props: IProps) {
         setOpen,
         open
     } = props;
-
-    const { primaryColor, borderColor } = useCustomTheme();
+    
     const [openSignUp, setOpenSignUp] = useState(false) 
     const query = useSearchParams();
     const affiliate = query?.get('affiliate'); 
@@ -121,7 +120,7 @@ function GetEventTicket(props: IProps) {
                     <ViewTicket
                         user_index={user_index}
                         click={goback}
-                        data={props} />
+                        data={data} />
                 )}
                 {modalTab === 6 && (
                     <SelectTicketType ticket={data?.productTypeData} setSelectedTicket={setTicketType} currency={data?.currency} click={setModalTab} />

@@ -19,11 +19,10 @@ interface IProps {
     },
     setShow: any;
     setReplyData: any
-    open: boolean, 
-    handleFocus: any
+    open: boolean,  
 }
 
-export default function CommentInput({ user, data, replyData, setShow, setReplyData, open, handleFocus }: IProps) {
+export default function CommentInput({ user, data, replyData, setShow, setReplyData, open }: IProps) {
 
     const { addComment, addCommentHandler, commentsInput, setCommentsInput, setPostID, addSubCommentHandler, subCommentsInput, setSubCommentsInput, createSubComment } = useComment()
 
@@ -53,6 +52,8 @@ export default function CommentInput({ user, data, replyData, setShow, setReplyD
     }, [inputRef]);
 
     const changeHandler = (item: string) => {
+        console.log(item);
+        
         if(replyData?.data?.id){
             setSubCommentsInput(item)
         } else {
@@ -61,7 +62,7 @@ export default function CommentInput({ user, data, replyData, setShow, setReplyD
     }
 
     const handle = (e: any) => {
-        handleFocus(e)
+        // handleFocus(e)
         changeHandler(e.target.value)
     }
 
@@ -97,8 +98,7 @@ export default function CommentInput({ user, data, replyData, setShow, setReplyD
                     <UserImage size={"36px"} fontWeight={"500"} font={"14px"} border={"1.5px"} image={userdata?.data?.imgMain?.value ?? user?.data?.imgMain?.value} data={userdata ?? user} />
                 </Box> */}
                 <Input
-                fontSize={"14px"}
-                ref={inputRef}
+                fontSize={"14px"} 
                     value={replyData?.data?.id ? subCommentsInput : commentsInput} onChange={(e) => handle(e)}
                     h={"45px"} w={"full"} bgColor={"#F2F3FB"} borderWidth={"0px"} _hover={{ borderWidth: "0px" }} focusBorderColor='transparent' color={"black"} placeholder={!replyData?.data?.id ? 'Comment' : "Reply"} _placeholder={{ color: "#00000033" }}
                     style={{
