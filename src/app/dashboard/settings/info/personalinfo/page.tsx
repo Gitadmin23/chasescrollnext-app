@@ -1,5 +1,5 @@
 'use client';
-import { Box, Button, Checkbox, HStack, Select, Spinner, Switch, VStack, useColorMode, useToast } from '@chakra-ui/react'
+import { Box, Button, Checkbox, HStack, Select, Spinner, Switch, Text, VStack, useColorMode, useToast } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { ArrowLeft2 } from 'iconsax-react'
 import CustomText from '@/components/general/Text'
@@ -168,7 +168,7 @@ function EditProfile() {
         return (
             <VStack width='100%' height='100%' justifyContent={'center'} alignItems={'center'}>
                 <Spinner />
-                <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Loading Details</CustomText>
+                <CustomText fontSize={'18px'}>Loading Details</CustomText>
             </VStack>
         )
     }
@@ -212,7 +212,7 @@ function EditProfile() {
                         {/* HEADER */}
                         <HStack width={'100%'} height={'50px'} justifyContent={'space-between'}>
                             <ArrowLeft2 size={'30px'} color={bodyTextColor} onClick={() => router.back()} />
-                            <CustomText fontFamily={'DM-Regular'} fontSize={'18px'}>Edit Personal Information</CustomText>
+                            <CustomText fontSize={'18px'}>Edit Personal Information</CustomText>
                             <Box></Box>
                         </HStack>
 
@@ -220,17 +220,17 @@ function EditProfile() {
                         <VStack width={'100%'} height={'100%'} alignItems={'center'} spacing={6}>
 
                             <VStack mt={"6"} alignItems={'flex-start'} width={'100%'} spacing={0}>
-                                <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Email</CustomText>
+                                <CustomText fontSize={'16px'}>Email</CustomText>
                                 <CustomInput name='email' isPassword={false} type='text' placeholder='' />
                             </VStack>
 
                             <HStack width={'100%'} justifyContent={'space-between'}>
-                                <CustomText fontFamily={'DM-Regular'} fontSize={'12px'} color='brand.chasescrollButtonBlue'>Show Email</CustomText>
+                                <CustomText fontSize={'12px'} color='brand.chasescrollButtonBlue'>Show Email</CustomText>
                                 <Switch isChecked={showEmail} onChange={() => setShowEmail(prev => !prev)} />
                             </HStack>
 
                             <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
-                                <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Phone</CustomText>
+                                <CustomText fontSize={'16px'}>Phone</CustomText>
                                 <PhoneInput
                                     country={'us'}
                                     enableSearch
@@ -247,12 +247,12 @@ function EditProfile() {
                             </VStack>
 
                             <VStack alignItems={'flex-start'} width={'100%'} spacing={0}>
-                                <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Gender</CustomText>
+                                <CustomText fontSize={'16px'}>Gender</CustomText>
                                 <CustomSelect name='gender' option={['Male', 'Female']} isPassword={false} type='text' placeholder='' />
                             </VStack>
 
-                            <VStack alignItems={'flex-start'} color={"black"} width={'100%'} spacing={0}>
-                                <CustomText fontFamily={'DM-Regular'} fontSize={'16px'}>Date of birth</CustomText>
+                            <VStack alignItems={'flex-start'} width={'100%'} spacing={1}>
+                                <Text fontSize={'16px'}>Date of birth</Text>
                                 <DropdownDate
                                     onMonthChange={(month: any) => {
                                         // optional
