@@ -121,7 +121,9 @@ function HomeLandingPageCarousel(props: Props) {
                                         </motion.p>
                                         <Flex zIndex={"0"} mt={["5", "5", "5", "0px"]} color={"black"} left={"0px"} w={"full"} flexDir={['column', 'column', 'column', 'row', 'row']} alignItems={["", "", "start", "center", "center"]} gap={"5"} >
                                             <CustomButton onClick={() => clickHander(item)} fontSize={"sm"} borderColor={"brand.chasescrollBlue"} color={"white"} borderWidth={"0px"} px={"4"} text={"View Event"} width={["172px"]} />
-                                            <InterestedUsers fontSize={16} color={["white", "white", "white", "white", "white"]} event={item} border={"2px"} size={"32px"} />
+                                            {item?.attendeesVisibility && (
+                                                <InterestedUsers fontSize={16} color={["white", "white", "white", "white", "white"]} event={item} border={"2px"} size={"32px"} />
+                                            )}
                                         </Flex>
                                     </Flex>
                                 )
