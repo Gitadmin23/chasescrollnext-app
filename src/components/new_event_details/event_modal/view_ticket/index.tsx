@@ -14,7 +14,7 @@ import httpService from '@/utils/httpService'
 import { formatNumber } from '@/utils/numberFormat'
 import { textLimit } from '@/utils/textlimit'
 import { Box, Flex, Image, Text, useColorMode, useToast } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Barcode from "react-barcode"
 import { BsChevronLeft } from 'react-icons/bs'
 import { IoArrowBack, IoClose } from 'react-icons/io5'
@@ -40,7 +40,7 @@ function ViewTicket(props: Props) {
     } = props
 
     console.log(data);
-    
+
 
     const {
         bodyTextColor,
@@ -54,17 +54,15 @@ function ViewTicket(props: Props) {
 
     const toast = useToast()
 
-    const componentRef: any = React.useRef(null);
-    const handlePrint = useReactToPrint({
-        content: () => componentRef.current
-    }); 
+    const contentRef = useRef<HTMLDivElement>(null);
+    const reactToPrintFn = useReactToPrint({ contentRef });
     const [datainfo, setTicketDetails] = useState({} as any)
     const [dataMultiple, setDataMultiple] = useState([] as any)
     const [length, setTicketLenght] = useState("" as any)
 
     let userId = sessionStorage?.getItem("user_id") + ""
 
-    console.log(dataMultiple); 
+    console.log(dataMultiple);
 
     const { isLoading } = useQuery(['event_ticket', data?.id, userId], () => httpService.get(`/events/get-users-tickets?userID=${user_index ? user_index : userId}&eventID=${data?.id}`), {
         onError: (error: any) => {
@@ -114,14 +112,14 @@ function ViewTicket(props: Props) {
                         <DownloadTwoIcon />
                     </Box> */}
                     <Box display={["none", "none", "block"]} >
-                        <CustomButton width={"fit-content"} backgroundColor={"#3EC259"} color={"#FFF"} borderRadius={"full"} onClick={handlePrint} text='Download Ticket' />
+                        <CustomButton width={"fit-content"} backgroundColor={"#3EC259"} color={"#FFF"} borderRadius={"full"} onClick={()=> reactToPrintFn()} text='Download Ticket' />
                     </Box>
                 </Flex>
                 <Box pos={"absolute"} top={"2"} left={"2"} p={"1"} bgColor={mainBackgroundColor} rounded={"full"} display={["flex", "flex", "none"]} zIndex={"10"} onClick={click} as='button' >
                     <IoClose size={"25px"} />
                 </Box>
                 <Box bg={mainBackgroundColor} display={["none", "none", "block"]} >
-                    <Flex ref={componentRef} width={"full"} flexDirection={"column"} alignItems={"center"} gap={"4"} px={["4", "4", "0px"]} >
+                    <Flex ref={contentRef} width={"full"} flexDirection={"column"} alignItems={"center"} gap={"4"} px={["4", "4", "0px"]} >
 
                         {dataMultiple?.map((item: { id: string, scanTimeStamp: any }, index: number) => {
 
@@ -199,7 +197,7 @@ function ViewTicket(props: Props) {
                 </Box>
 
                 {dataMultiple?.length > 1 && (
-                    <Flex w={"full"} top={"200px"} position={"absolute"}  display={["flex", "flex", "none"]} zIndex={"1000"} justifyContent={"space-between"} gap={"4"} px={"2"} >
+                    <Flex w={"full"} top={"200px"} position={"absolute"} display={["flex", "flex", "none"]} zIndex={"1000"} justifyContent={"space-between"} gap={"4"} px={"2"} >
                         <Flex onClick={() => scroll(-400)} as="button" position={"relative"} bgColor={mainBackgroundColor} w={"40px"} h={"40px"} borderWidth={"1px"} borderColor={bodyTextColor} justifyContent={"center"} alignItems={"center"} rounded={"full"} >
                             <FaChevronLeft color={bodyTextColor} />
                         </Flex>
@@ -225,7 +223,7 @@ function ViewTicket(props: Props) {
                                         <Flex pos={"absolute"} width={"full"} pr={"6"} justifyContent={"center"} >
                                             <Text fontSize={"16px"} fontWeight={"bold"} textAlign={"center"} >Ticket Details</Text>
                                         </Flex>
-                                        <Box ml={"auto"} as='button' pos={"relative"} zIndex={"10"} onClick={handlePrint} display={["block", "block", "none"]}>
+                                        <Box ml={"auto"} as='button' pos={"relative"} zIndex={"10"} onClick={()=> reactToPrintFn()} display={["block", "block", "none"]}>
                                             <DownloadTwoIcon />
                                         </Box>
                                     </Flex>
