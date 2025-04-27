@@ -38,7 +38,7 @@ import {
     MenuDivider,
 } from '@chakra-ui/react'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { FcApproval, FcRight } from "react-icons/fc";
 import { useReactToPrint } from 'react-to-print'
@@ -322,25 +322,36 @@ function DashboardRefund(props: Props) {
     })
 
 
-    const componentRef: any = React.useRef(null);
+    // const componentRef: any = React.useRef(null);
 
     const tableRef: any = React.useRef(null);
-    const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
+
+
+    const contentRef = useRef<HTMLDivElement>(null);
+    const reactToPrintFn = useReactToPrint({ contentRef, 
         documentTitle: capitalizeFLetter(eventData?.eventName),
         pageStyle: `
           @page {
             size: Legal landscape
           }   
-        `,
-    });
+        `, });
+
+    // const handlePrint = useReactToPrint({
+    //     content: () => componentRef.current,
+    //     documentTitle: capitalizeFLetter(eventData?.eventName),
+    //     pageStyle: `
+    //       @page {
+    //         size: Legal landscape
+    //       }   
+    //     `,
+    // });
 
     const downloadCSV = () => {
         refetch()
     }
 
     return (
-        <Flex ref={componentRef} width={"full"} flexDirection={"column"} >
+        <Flex ref={contentRef} width={"full"} flexDirection={"column"} >
             <LoadingAnimation loading={loadingData} >
                 {/* {!getEvent.isLoading && !event?.eventFunnelGroupID && (
                     <Flex width='full' height='70px' marginBottom={'20px'} justifyContent={'center'} direction='column' alignItems={'center'}>
@@ -701,14 +712,12 @@ function DashboardRefund(props: Props) {
 
             <ModalLayout open={open} close={setOpen}>
                 <Flex py={"8"} px={"6"} flexDirection={"column"} gap={"4"} width={"full"} justifyContent={"center"} alignItems={"center"} >
-                    <CustomButton fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#FF6F61"} onClick={handlePrint} text='PDF' />
+                    <CustomButton fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#FF6F61"} onClick={()=> reactToPrintFn()} text='PDF' />
                     <Flex width={"full"} height={"1px"} bgColor={"#DDE6EB"} />
                     <CSVLink style={{ width: "100%" }} data={filteredData[0]?.name ? filteredData : newData[0]?.name ? newData : []}
                         filename={data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length) + ".csv"} >
                         <CustomButton onClick={downloadCSV} fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#5D70F9"} text='CSV' />
-                    </CSVLink>
-
-
+                    </CSVLink> 
                 </Flex>
             </ModalLayout>
         </Flex >

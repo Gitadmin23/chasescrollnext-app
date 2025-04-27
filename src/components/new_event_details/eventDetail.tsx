@@ -152,7 +152,9 @@ export default function EventDetail(props: IEventType) {
                                 <Flex gap={"3"} w={[isAdmin ? "full" : "fit-content", isAdmin ? "full" : "full", "full"]} alignItems={[isAdmin ? "center" : "start", isAdmin ? "center" : "start", "center"]} flexDir={[isAdmin ? "row" : "column", isAdmin ? "row" : "column", "row"]} justifyContent={[isAdmin ? "space-between" : "start", isAdmin ? "space-between" : "start", "space-between"]}  >
                                     <EventCreator {...props} />
                                     <Flex display={["flex", "flex", "none"]} w={"full"} flexDir={"column"} gap={"2"} mr={isAdmin ? "auto" : "0px"} >
-                                        <InterestedUsers fontSize={16} event={props} border={"2px"} size={"28px"} refund={true} />
+                                        {props?.attendeesVisibility && (
+                                            <InterestedUsers fontSize={16} event={props} border={"2px"} size={"28px"} refund={true} />
+                                        )}
 
                                         {(!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && (
                                             <PrBtn data={props} />
