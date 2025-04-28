@@ -434,7 +434,8 @@ export default function CreateServices({ id }: { id: string }) {
                                 if (/^\d*$/.test(value)) {
                                     setPrice(value);
                                 }
-                            }}
+                            }} 
+                            onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                             h={"44px"}
                             borderWidth={"1px"}
                             borderColor={borderColor}
