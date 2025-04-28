@@ -40,10 +40,10 @@ function SelectDate(props: Props) {
                         duration: 2000,
                         position: 'top-right',
                     });
-                } else if (date <= new Date(eventdata?.startDate)) {
+                } else if (new Date(date) < new Date(eventdata?.startDate)) {
                     toast({
                         title: 'Error',
-                        description: "Please valid end date",
+                        description: "Please enter a valid end date",
                         status: 'error',
                         isClosable: true,
                         duration: 2000,
@@ -63,9 +63,9 @@ function SelectDate(props: Props) {
 
     const CustomInput = ({ value, onClick }: any) => {
         return (
-            <Flex onClick={onClick} as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"full"} fontSize={"sm"} h={"50px"}  >
+            <Flex onClick={onClick} as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"full"} fontSize={"12px"} h={"50px"}  >
                 <CalendarIcon />
-                {data ? dateFormat(data) : "DD/MM/YY"}
+                {data ? dateFormat(data, "DD/MM/YY") : "DD/MM/YY"}
                 {" "}
                 {data ? timeFormat(data) : ""}
             </Flex>
