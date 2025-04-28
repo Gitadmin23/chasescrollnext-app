@@ -20,9 +20,19 @@ function SelectDate(props: Props) {
     const { eventdata, updateEvent } = useEventStore((state) => state);
     const toast = useToast()
 
+    // Parse to Date object
+    const dateInti = new Date(eventdata?.startDate);
+
+    // Add 1 day (in milliseconds)
+    dateInti.setDate(dateInti.getDate() + 1);
+
+    console.log(new Date(dateInti));
+    
+
+    // Format back to string (YYYY-MM-DD) 
+
     const handleDateSelect = (date: any) => {
 
-        console.log(Date.parse(new Date(date).toJSON()));
         if (date) {
             if (name === "Start") {
                 updateEvent({
@@ -40,15 +50,15 @@ function SelectDate(props: Props) {
                         duration: 2000,
                         position: 'top-right',
                     });
-                } else if (date <= new Date(eventdata?.startDate)) {
+                } else if (new Date(date) < new Date(eventdata?.startDate)) {
                     toast({
                         title: 'Error',
-                        description: "Please valid end date",
+                        description: "Please enter a valid end date",
                         status: 'error',
                         isClosable: true,
                         duration: 2000,
                         position: 'top-right',
-                    }); 
+                    });
 
                 } else {
                     updateEvent({
@@ -63,9 +73,9 @@ function SelectDate(props: Props) {
 
     const CustomInput = ({ value, onClick }: any) => {
         return (
-            <Flex onClick={onClick} as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"full"} fontSize={"sm"} h={"50px"}  >
+            <Flex onClick={onClick} as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"full"} fontSize={"12px"} h={"50px"}  >
                 <CalendarIcon />
-                {data ? dateFormat(data) : "DD/MM/YY"}
+                {data ? dateFormat(data, "DD/MM/YY") : "DD/MM/YY"}
                 {" "}
                 {data ? timeFormat(data) : ""}
             </Flex>
@@ -81,10 +91,10 @@ function SelectDate(props: Props) {
                 id={name}
                 // value={}
                 // disabled={name === "End" && !eventdata.startDate}
-                selected={name === "End" ? eventdata.startDate ? new Date(eventdata.startDate) : new Date() : data ? new Date(data) : new Date()}
+                selected={(name === "End" && eventdata.endDate) ? new Date(eventdata.endDate) : (name === "Start" && eventdata.startDate ) ? new Date(eventdata.startDate) : new Date()}
                 // dateFormat="MMM d, yyyy h:mm aa"
                 showTimeSelect
-                minDate={(name === "End") ? (eventdata.startDate ? new Date(eventdata.startDate) : new Date()) : new Date()}
+                minDate={(name === "End") ? (eventdata.startDate ? new Date(dateInti) : new Date()) : new Date()}
                 onChange={handleDateSelect}
                 customInput={<CustomInput />}
             />

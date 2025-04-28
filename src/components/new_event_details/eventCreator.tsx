@@ -99,8 +99,9 @@ export default function EventCreator(props: IEventType) {
                         )
                     }
                 </Flex>
-
-                <InterestedUsers fontSize={16} event={props} border={"2px"} size={"38px"} refund={true} /> 
+                {props?.attendeesVisibility && (
+                    <InterestedUsers fontSize={16} event={props} border={"2px"} size={"38px"} refund={true} />
+                )}
             </Flex>
 
             <ModalLayout open={open} close={setOpen} title='Event Organizers' >

@@ -56,24 +56,33 @@ export default function RequestServices() {
 
     useEffect(() => {
         if (eventdata.affiliates?.length > 0) {
-            setPr(true)
+            if (eventdata.affiliates[0]?.affiliateType) {
+                setPr(true)
+            }
         }
     }, [eventdata.affiliates])
     console.log(eventdata);
 
 
     const clickHander = () => {
-        setPr((prev) => !prev)
         const clone = { ...eventdata }
 
-        let data = {
-            affiliateType: "pr",
-            percent: null
+        if(eventdata.affiliates[0]?.affiliateType){ 
+            clone?.affiliates.pop()
+            updateEvent({ ...clone })
+            setPr((prev) => !prev)
+        } else {
+            setPr((prev) => !prev)
+    
+            let data = {
+                affiliateType: "pr",
+                percent: null
+            }
+    
+            clone.affiliates = [data]
+    
+            updateEvent({ ...clone })
         }
-
-        clone.affiliates = [data]
-
-        updateEvent({ ...clone })
     }
 
     const selectService = (data: string) => {
@@ -172,7 +181,7 @@ export default function RequestServices() {
             )}
             <Flex w={"full"} borderWidth={"1px"} rounded={"16px"} p={"4"} flexDir={"column"} gap={"3"} >
                 <Text fontSize={"14px"} fontWeight={"500"} >Do you wish to accept PR requests for your event?</Text>
-                <Switch isChecked={isPr} onChange={clickHander} />
+                <Switch isChecked={eventdata.affiliates[0]?.affiliateType ? true : false} onChange={clickHander} />
                 {isPr && (
                     <Flex flexDir={"column"} gap={"3"} >
                         <Text fontSize={"14px"} fontWeight={"500"} >Add Percentage</Text>

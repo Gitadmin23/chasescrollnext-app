@@ -53,7 +53,7 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                 setSelected(clone)
             }
         } else {
-            if (myrental) {
+            if (myrental && (item?.creator?.userId === userId)) {
                 updateRental({
                     ...rentaldata,
                     name: item?.name,
@@ -106,12 +106,12 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                                 </Flex>
                                 {(myrental && (item?.creator?.userId === userId)) && (
                                     <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
-                                        Edit Service
+                                        Edit Rental
                                     </Flex>
                                 )}
-                                {(!myrental && (item?.creator?.userId !== userId)) && (
+                                {((item?.creator?.userId !== userId)) && (
                                     <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
-                                        View Service
+                                        View Rental
                                     </Flex>
                                 )}
                             </Flex>
@@ -143,12 +143,12 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                                 </Flex>
                                 {(myrental && (item?.creator?.userId === userId)) && (
                                     <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
-                                        Edit Service
+                                        Edit Rental
                                     </Flex>
                                 )}
-                                {(!myrental && (item?.creator?.userId !== userId)) && (
+                                {((item?.creator?.userId !== userId)) && (
                                     <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
-                                        View Service
+                                        View Rental
                                     </Flex>
                                 )}
                             </Flex>

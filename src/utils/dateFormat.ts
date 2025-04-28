@@ -1,7 +1,7 @@
 import moment from "moment"
 
-export function dateFormat(date: any) {
-  return moment(date).format("ddd, MMMM Do YYYY")
+export function dateFormat(date: any, format?: string) {
+  return moment(date).format(format ?? "ddd, MMMM Do YYYY")
 } 
 
 export function dateFormatDashboad(date: any) {
