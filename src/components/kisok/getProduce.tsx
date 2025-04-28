@@ -42,7 +42,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     const clickHandler = (item: IProduct) => {
         console.log(item);
 
-        if (myproduct) {
+        if (myproduct && item?.createdBy?.userId === userId) {
             updateProduct({
                 ...productdata,
                 name: item?.name,
@@ -93,7 +93,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                     } else {
                         return (
                             <Flex as={"button"} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} pos={"relative"} >
-                                 {id === userId && (
+                                {item?.createdBy?.userId === userId && (
                                     <DeleteEvent id={item?.id} isProduct={true} name={item?.name + " Product"} isOrganizer={myproduct ? true : false} />
                                 )}
                                 <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />

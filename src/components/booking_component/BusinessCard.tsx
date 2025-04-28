@@ -68,7 +68,7 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
                 setSelected(clone)
             }
         } else {
-            if (mybusiness) {
+            if (mybusiness && (business?.vendor?.userId === userId)) {
                 router.push(`/dashboard/kisok/service/${business?.id}/edit`)
             } else {
                 router.push(`/dashboard/kisok/service/${business?.id}`)
@@ -126,7 +126,7 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
                     Edit Service
                 </Flex>
             )}
-            {(!mybusiness && !isSelect && (business?.vendor?.userId !== userId)) && (
+            {(!isSelect && (business?.vendor?.userId !== userId)) && (
                 <Flex as={"button"} onClick={() => clickHandler()} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                     View Service
                 </Flex>
