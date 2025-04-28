@@ -52,7 +52,7 @@ export default function Layout({ children }: {
         {
             route: '/dashboard/product',
             icon: <KisokIcon color={(pathname?.includes('product') || pathname?.includes('kiosk') || pathname?.includes('donation') || pathname?.includes('event')) ? true : false} />,
-            text: 'Business'
+            text: 'Versax'
         },
         // {
         //     route: '/dashboard/event',
@@ -199,7 +199,7 @@ export default function Layout({ children }: {
                             </Box>
                         )}
                         {pathname?.includes("kiosk") && (
-                            <Text display={["none", "none", "none", "flex", "flex"]} fontSize={"24px"} fontWeight={"700"} >Chasescroll <span style={{ color: primaryColor }} >Business</span></Text>
+                            <Text display={["none", "none", "none", "flex", "flex"]} fontSize={"24px"} fontWeight={"700"} >Chasescroll  <span style={{ color: primaryColor, marginLeft: "2px" }} >Versax</span></Text>
                         )}
                         <Flex as={"button"} onClick={() => router?.push("/dashboard")} display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"2"} >
                             <Image alt='logo' src='/images/logo.png' w={"35.36px"} /> 

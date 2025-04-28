@@ -20,9 +20,19 @@ function SelectDate(props: Props) {
     const { eventdata, updateEvent } = useEventStore((state) => state);
     const toast = useToast()
 
+    // Parse to Date object
+    const dateInti = new Date(eventdata?.startDate);
+
+    // Add 1 day (in milliseconds)
+    dateInti.setDate(dateInti.getDate() + 1);
+
+    console.log(new Date(dateInti));
+    
+
+    // Format back to string (YYYY-MM-DD) 
+
     const handleDateSelect = (date: any) => {
 
-        console.log(Date.parse(new Date(date).toJSON()));
         if (date) {
             if (name === "Start") {
                 updateEvent({
@@ -48,7 +58,7 @@ function SelectDate(props: Props) {
                         isClosable: true,
                         duration: 2000,
                         position: 'top-right',
-                    }); 
+                    });
 
                 } else {
                     updateEvent({
@@ -81,10 +91,10 @@ function SelectDate(props: Props) {
                 id={name}
                 // value={}
                 // disabled={name === "End" && !eventdata.startDate}
-                selected={name === "End" ? eventdata.startDate ? new Date(eventdata.startDate) : new Date() : data ? new Date(data) : new Date()}
+                selected={(name === "End" && eventdata.endDate) ? new Date(eventdata.endDate) : (name === "Start" && eventdata.startDate ) ? new Date(eventdata.startDate) : new Date()}
                 // dateFormat="MMM d, yyyy h:mm aa"
                 showTimeSelect
-                minDate={(name === "End") ? (eventdata.startDate ? new Date(eventdata.startDate) : new Date()) : new Date()}
+                minDate={(name === "End") ? (eventdata.startDate ? new Date(dateInti) : new Date()) : new Date()}
                 onChange={handleDateSelect}
                 customInput={<CustomInput />}
             />

@@ -73,7 +73,7 @@ export default function KisokCreate() {
                     <Text fontSize={["14px", "16px", "24px"]} fontWeight={"500"} >Set your pricing </Text>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Quantity</Text>
-                        <Input bgColor={mainBackgroundColor} type="number" onChange={(e) => updateProduct({ ...productdata, quantity: e.target.value })} h={"45px"} />
+                        <Input bgColor={mainBackgroundColor} type="number" onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })} onChange={(e) => updateProduct({ ...productdata, quantity: e.target.value })} h={"45px"} />
                     </Flex>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Location</Text>
@@ -83,7 +83,7 @@ export default function KisokCreate() {
                     <SelectCategories rental={false} />
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Price per unit</Text>
-                        <Input type="number" bgColor={mainBackgroundColor} onChange={(e) => updateProduct({ ...productdata, price: e.target.value })} h={"45px"} />
+                        <Input type="number" onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })} bgColor={mainBackgroundColor} onChange={(e) => updateProduct({ ...productdata, price: e.target.value })} h={"45px"} />
                     </Flex>
                     <CustomButton type='button' _disabled={{ opacity: "0.5", cursor: "not-allowed" }} disable={(!productdata?.name || !productdata?.description || !productdata?.quantity || !productdata?.price) ? true : false} onClick={() => push("/dashboard/kisok/create?type=true")} height={"60px"} borderRadius={"999px"} mt={"4"} text={"Continue"} />
                 </Flex>
