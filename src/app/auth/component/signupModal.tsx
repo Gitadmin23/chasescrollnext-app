@@ -34,14 +34,15 @@ export default function SignupModal({ open, setOpen, index, hide, type }: { open
     }
 
     const openHandler =() => { 
-        toast({
-            title: "Attention!",
-            description: "For now, please use Google to sign up.",
-            status: "warning",
-            isClosable: true,
-            duration: 5000,
-            position: "top-right",
-        });
+        setOpen(true)
+        // toast({
+        //     title: "Attention!",
+        //     description: "For now, please use Google to sign up.",
+        //     status: "warning",
+        //     isClosable: true,
+        //     duration: 5000,
+        //     position: "top-right",
+        // });
     }
 
     return (
