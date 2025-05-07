@@ -28,10 +28,10 @@ export default function DayDatePicker({ month, year, formatDate, day } : IProps)
     
 
     return (
-        <Select
-            fontFamily={'Satoshi-Light'}
+        <Select 
             value={day}
             rounded={"32px"}
+            fontSize={"12px"}
             onChange={(e)=> changeHandler(e.target?.value)}
             disabled={month > -1 ? false : true}
             height={"45px"} placeholder='select day' >

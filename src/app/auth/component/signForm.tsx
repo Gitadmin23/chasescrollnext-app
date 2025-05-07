@@ -61,7 +61,7 @@ export default function SignForm({ tab, setTab, setShowVerify }: IProps) {
     return signupForm(
         <Flex w={"full"} justifyContent={"center"} >
             {!tab && (
-                <Flex overflowY={"auto"} overflowX={"hidden"} alignItems={"center"} maxW={"375px"} w={"full"} flexDir={"column"}  >
+                <Flex overflowY={"auto"} overflowX={"hidden"} fontSize={"14px"} alignItems={"center"} maxW={"375px"} w={"full"} flexDir={"column"}  >
                     <Text fontSize={["20px", "20px", "32px"]} color={"#1F1F1F"} textAlign={"center"} fontWeight={"500"} >Create your account</Text>
                     <Flex flexDir={"column"} gap={"1"} mt={"4"} w={"full"} >
                         <Text color={"#1F1F1F"} ml={"1"} >First Name</Text>
@@ -179,8 +179,7 @@ export default function SignForm({ tab, setTab, setShowVerify }: IProps) {
                         />
 
                         <CustomText
-                            fontSize={"xs"}
-                            fontFamily={"Satoshi-Regular"}
+                            fontSize={"xs"} 
                             marginLeft="0px"
                             color='black'
                         >
@@ -200,7 +199,7 @@ export default function SignForm({ tab, setTab, setShowVerify }: IProps) {
                             </Link>
                         </CustomText>
                     </HStack>
-                    <Button type='submit' isLoading={signupLoading} mt={"6"} isDisabled={!terms || phone?.length <= 12 ? true : false} _disabled={{ backgroundColor: "#233DF380" }} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={["32px", "32px", "32px"]} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
+                    <Button type='submit' isLoading={signupLoading} mt={"6"} isDisabled={!terms || phone?.length <= 12 ? true : false} _disabled={{ backgroundColor: "#233DF380", cursor: "not-allowed" }} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={["32px", "32px", "32px"]} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
                         <Text color={"white"} textAlign={"center"} fontWeight={"600"} >Finish</Text>
                     </Button>
                 </Flex>
