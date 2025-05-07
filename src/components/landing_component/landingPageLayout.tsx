@@ -72,10 +72,10 @@ export default function LandingPageLayout({ children }: IProps) {
     return (
         <Box overflow={"hidden"} w={"full"} > 
             <Grid h="100vh" w={"full"} overflow={"hidden"} >
-                <Flex w={"full"} position={"fixed"} zIndex={"100"} top={"0px"} >
+                {/* <Flex w={"full"} position={"fixed"} zIndex={"100"} top={"0px"} > */}
                     <HomeNavbar />
-                </Flex>
-                <Flex w="full" h="full" pt={["64px", "64px", "101.03px"]} overflow={"hidden"}> 
+                {/* </Flex> */}
+                <Flex w="full" h="full" overflow={"hidden"}> 
                     <Flex w={"full"} h={"full"} flexDirection={"column"} overflowX={"hidden"} overflowY={"auto"} >
                         {children}
                         <FooterLandingPage />

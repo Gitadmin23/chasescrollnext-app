@@ -67,7 +67,7 @@ export default function MobileCard(props: IEventType) {
                                 <>
                                     {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR" || props?.prStatus === "ACTIVE" || props.isBought) && (
                                         <Flex h={"21px"} w={"48px"} rounded={"8px"} bgColor={"#EFF1FE"} color={"#5D70F9"} fontSize={"8px"} justifyContent={"center"} alignItems={"center"} >
-                                            <Text fontWeight={"700"} >{isOrganizer ? "organizer" : eventMemberRole === "ADMIN" ? "admin" : eventMemberRole === "COLLABORATOR" ? "volunteer" : "affiliate"}</Text>
+                                            <Text fontWeight={"700"} >{isOrganizer ? "organizer" : eventMemberRole === "ADMIN" ? "admin" : eventMemberRole === "COLLABORATOR" ? "volunteer" : props?.prStatus === "ACTIVE" ? "affiliate" : "attending"}</Text>
                                         </Flex>
                                     )}
                                 </>

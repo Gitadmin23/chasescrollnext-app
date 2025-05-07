@@ -51,7 +51,7 @@ export default function OrderDetail({ id }: { id: string }) {
 
                 <Flex w={"full"} gap={"2"} flexDir={["column"]} >
                     <Flex gap={"3"} alignItems={"center"} >
-                        <Flex as={"button"} onClick={() => push("/dashboard/product/kisok")} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} zIndex={"30"} left={"4"}  >
+                        <Flex as={"button"} onClick={() => push("/dashboard/product/kiosk?type=kiosk")} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} zIndex={"30"} left={"4"}  >
                             <IoArrowBack size={"20px"} />
                         </Flex>
                         <Text fontWeight={"500"} >Order Details</Text>

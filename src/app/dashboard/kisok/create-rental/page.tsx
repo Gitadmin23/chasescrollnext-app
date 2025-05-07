@@ -112,7 +112,19 @@ export default function RentalCreate() {
                         </Flex>
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Price</Text>
-                            <Input bgColor={mainBackgroundColor} h={"45px"} type="number" onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })} onChange={(e) => updateRental({ ...rentaldata, price: e.target.value })} />
+                            <Input bgColor={mainBackgroundColor} h={"45px"}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^\d*$/.test(value)) {
+                                        updateRental({ ...rentaldata, price: value })
+                                    }
+                                }} 
+                                onKeyPress={(e) => {
+                                    if (!/[0-9]/.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}  
+                            />
                         </Flex>
                     </Flex>
                     <VendorTermAndCondition checked={checked} setChecked={setChecked} type="RENTAL" />
