@@ -154,10 +154,11 @@ export default function PrBtn({ data }: { data: IEventType }) {
                 <CustomButton
                     isLoading={createPr?.isLoading} onClick={clickHander}
                     disable={(data?.prStatus === "PENDING" || data?.prStatus === "ACTIVE" || createPr?.isLoading) ? true : false}
-                    text={data?.prStatus === "PENDING" ? "Pending" : data?.prStatus === "ACTIVE" ? "Already a PR" : "Apply to be a PR"}
+                    text={data?.prStatus === "PENDING" ? "Pending" : data?.prStatus === "ACTIVE" ? "Already a PR" : `Apply to be a PR - ${data?.affiliates[0]?.percent}%`}
                     backgroundColor={[data?.prStatus === "PENDING" ? "#FF9500" : primaryColor, data?.prStatus === "PENDING" ? "#FF9500" : primaryColor, data?.prStatus === "PENDING" ? "#FF9500" : primaryColor]}
                     color={["white", "white", "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]}
-                    width={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["90%", "90%", "full", "full"] : ["120px", "120px", "160px"]}
+                    px={"3"}
+                    width={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["90%", "90%", "full", "full"] : ["120px", "120px", "fit-content"]}
                     height={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? "55px" : " 45px "}
                     borderTopRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["0px"] : "32px"}
                     borderBottomRightRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["0px", "0px", "12px"] : "32px"}

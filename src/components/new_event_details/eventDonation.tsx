@@ -16,10 +16,13 @@ import usePr from '@/hooks/usePr'
 import ModalLayout from '../sharedComponent/modal_layout'
 import CustomText from '../general/Text'
 import { IoClose } from 'react-icons/io5'
+import { useRouter } from 'next/navigation'
+import { isDateInPast } from '@/utils/isPast'
 
 export default function EventDonation({ checkbox, item }: { checkbox?: boolean, item: IEventType }) {
 
     const { borderColor, bodyTextColor, secondaryBackgroundColor, mainBackgroundColor } = useCustomTheme()
+    const router = useRouter()
 
     const [eventData, setEventData] = useState({} as {
         "id": string,
@@ -65,12 +68,20 @@ export default function EventDonation({ checkbox, item }: { checkbox?: boolean, 
         setOpen(true)
     }
 
+    const clickHandler =(item: any)=> {
+        // if (item?.fundRaisers?.length > 1) {
+        //     // setSelected(item)
+        //     router?.push("/dashboard/donation/group/" + index)
+        // } else {
+            router?.push("/dashboard/donation/" + item)
+        // }
+    }
+
 
     return (
         <Flex flexDir={"column"} w={"full"} gap={"2"} display={eventData?.fundRaiser?.name ? "flex" : "none"} >
-
             <Text fontSize={"14px"} fontWeight={"500"} >Fundraising available</Text>
-            <Flex bgColor={mainBackgroundColor} pos={"relative"} role="button" display={eventData?.fundRaiser?.name ? "flex" : "none"} flexDir={["row"]} w={"full"} rounded={"8px"} gap={["2", "2", "2"]} borderWidth={"1px"} borderColor={borderColor} px={["2", "2", "3"]} h={["auto", "auto", "130px"]} py={"2"} alignItems={"center"} >
+            <Flex onClick={()=> clickHandler(eventData?.fundRaiser?.id)} bgColor={mainBackgroundColor} pos={"relative"} role="button" display={eventData?.fundRaiser?.name ? "flex" : "none"} flexDir={["row"]} w={"full"} rounded={"8px"} gap={["2", "2", "2"]} borderWidth={"1px"} borderColor={borderColor} px={["2", "2", "3"]} h={["auto", "auto", "130px"]} py={"2"} alignItems={"center"} >
                 {item?.isOrganizer && (
                     <Flex w={"6"} h={"6"} onClick={(e) => openHandler(e)} justifyContent={"center"} alignItems={"center"} pos={"absolute"} top={"-14px"} right={"-8px"} zIndex={"50"} bg={"#F2A09B66"} color={"#F50A0A"} rounded={"full"} >
                         <IoClose size={"14px"} />

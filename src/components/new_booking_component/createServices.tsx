@@ -435,17 +435,17 @@ export default function CreateServices({ id }: { id: string }) {
                                     setPrice(value);
                                 }
                             }} 
+                            onKeyPress={(e) => {
+                                if (!/[0-9]/.test(e.key)) {
+                                    e.preventDefault();
+                                }
+                            }}
                             onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                             h={"44px"}
                             borderWidth={"1px"}
                             borderColor={borderColor}
                             rounded={"16px"}
                             placeholder='₦ 232,435'
-                            onKeyPress={(e) => {
-                                if (!/[0-9]/.test(e.key)) {
-                                    e.preventDefault();
-                                }
-                            }}
                         />
                     </Flex>
                     {/* </>

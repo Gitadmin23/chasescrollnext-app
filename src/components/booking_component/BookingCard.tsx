@@ -1,7 +1,7 @@
 import usePaystackStore from '@/global-state/usePaystack'
 import { useDetails } from '@/global-state/useUserDetails'
 import useCustomTheme from '@/hooks/useTheme'
-import { IBooking } from '@/models/Booking' 
+import { IBooking } from '@/models/Booking'
 import { IService } from '@/models/Service'
 import { IMAGE_URL } from '@/services/urls'
 import httpService from '@/utils/httpService'
@@ -9,7 +9,7 @@ import { VStack, HStack, Box, Text, Image, Flex, useToast, Button } from '@chakr
 import moment from 'moment'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query' 
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { PaginatedResponse } from '@/models/PaginatedResponse';
 import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
 import { FiMinus, FiPlus } from 'react-icons/fi'
@@ -64,18 +64,18 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
 
     const [bookingState, setBookingState] = React.useState(booking);
     const [percentage, setPercentage] = useState(0)
-    const [price, setPrice] = React.useState(bookingState?.price+"");
-    const [updatedPrice, setUpdatedPrice] = React.useState(bookingState?.price+"");
+    const [price, setPrice] = React.useState(bookingState?.price + "");
+    const [updatedPrice, setUpdatedPrice] = React.useState(bookingState?.price + "");
     const [service, setService] = React.useState<IService | null>(null);
 
-    const {payForTicket, open, setOpen } = useProduct(null, false, false, true)
+    const { payForTicket, open, setOpen } = useProduct(null, false, false, true)
 
     const [loading, setLoading] = useState(false)
     const [loadingReject, setLoadingReject] = useState(false);
 
     React.useEffect(() => {
         if (bookingState?.price !== parseInt(updatedPrice)) {
-            setUpdatedPrice(bookingState?.price+"");
+            setUpdatedPrice(bookingState?.price + "");
         }
     }, [bookingState?.price]);
 
@@ -318,7 +318,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
     }
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
     const { } = usePaystackStore((state) => state);
- 
+
 
     const handlePayment = () => {
         payForTicket.mutate({
@@ -327,7 +327,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
             currency: "NGN",
             orderType: "BOOKING",
             typeID: booking?.id + ""
-        }) 
+        })
     }
 
     const handlePriceChange = (item: IAction) => {
@@ -357,7 +357,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
 
     return (
         <Flex as={"button"} flexDir={"column"} onClick={() => setOpen(true)} borderWidth={"1px"} bgColor={mainBackgroundColor} rounded={"10px"} w={"full"} >
-            <ProductImageScroller images={bookingState?.service?.images} createdDate={moment(bookingState?.createdDate)?.fromNow()} userData={bookingState?.businessOwner} />
+            <ProductImageScroller images={bookingState?.service?.images} createdDate={moment(bookingState?.createdDate)?.fromNow()} userData={bookingState?.createdBy?.userId === userId ? bookingState?.businessOwner: bookingState?.createdBy} />
             <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]}  >
                 <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(bookingState?.service?.name), 20)}</Text>
                 <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(bookingState?.service?.name), 16)}</Text>
@@ -437,27 +437,52 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                 </Flex>
                             </Flex>
                             <Flex w={"full"} flexDir={"column"} gap={"2"} >
-                                <Flex w={"full"} h={"157px"} flexDir={"column"} gap={"1"} >
-                                    <Flex flexDir={"row"} gap={"1"} w={"fit-content"} alignItems={"center"} >
-                                        <Text fontWeight={400} fontSize={'12px'}>Reciept ID:</Text>
-                                        <Text fontWeight={400} fontSize={'12px'} bgColor={secondaryBackgroundColor} p={"2px"} rounded={"8px"} px={"4px"} >{bookingState?.service?.id}</Text>
-                                    </Flex>
-                                    <Flex flexDir={"column"} >
-                                        <Text fontWeight={400} fontSize={'12px'}>Business Name</Text>
-                                        <Text fontWeight={600} fontSize={'16px'}>{bookingState?.service?.name}</Text>
-                                    </Flex>
-                                    <Flex gap={"1"} flexDir={"column"} >
-                                        <HStack w='full' justifyContent={'flex-start'} >
-                                            <Text w={"50px"} fontSize={'14px'}>Email:</Text>
-                                            <Text fontSize={'14px'}>{bookingState?.service?.email}</Text>
-                                        </HStack>
+                                {isVendor && (
+                                    <Flex w={"full"} h={"157px"} flexDir={"column"} gap={"1"} >
+                                        <Flex flexDir={"row"} gap={"1"} w={"fit-content"} alignItems={"center"} >
+                                            <Text fontWeight={400} fontSize={'12px'}>Reciept ID:</Text>
+                                            <Text fontWeight={400} fontSize={'12px'} bgColor={secondaryBackgroundColor} p={"2px"} rounded={"8px"} px={"4px"} >{bookingState?.service?.id}</Text>
+                                        </Flex>
+                                        <Flex flexDir={"column"} >
+                                            <Text fontWeight={400} fontSize={'12px'}>Client Name</Text>
+                                            <Text fontWeight={600} fontSize={'16px'}>{bookingState?.createdBy?.firstName+" "+bookingState?.createdBy?.lastName}</Text>
+                                        </Flex>
+                                        <Flex gap={"1"} flexDir={"column"} >
+                                            <HStack w='full' justifyContent={'flex-start'} >
+                                                <Text w={"50px"} fontSize={'14px'}>Email:</Text>
+                                                <Text fontSize={'14px'}>{bookingState?.createdBy?.email}</Text>
+                                            </HStack>
 
-                                        <HStack w='full' justifyContent={'flex-start'} >
-                                            <Text w={"50px"} fontSize={'14px'}>Phone:</Text>
-                                            <Text fontSize={'14px'}>{bookingState?.service?.phone ?? 'None'}</Text>
-                                        </HStack>
+                                            <HStack w='full' justifyContent={'flex-start'} >
+                                                <Text w={"50px"} fontSize={'14px'}>Phone:</Text>
+                                                <Text fontSize={'14px'}>{bookingState?.createdBy?.data?.mobilePhone?.value ?? 'None'}</Text>
+                                            </HStack>
+                                        </Flex>
                                     </Flex>
-                                </Flex>
+                                )}
+                                {!isVendor && ( 
+                                    <Flex w={"full"} h={"157px"} flexDir={"column"} gap={"1"} >
+                                        <Flex flexDir={"row"} gap={"1"} w={"fit-content"} alignItems={"center"} >
+                                            <Text fontWeight={400} fontSize={'12px'}>Reciept ID:</Text>
+                                            <Text fontWeight={400} fontSize={'12px'} bgColor={secondaryBackgroundColor} p={"2px"} rounded={"8px"} px={"4px"} >{bookingState?.service?.id}</Text>
+                                        </Flex>
+                                        <Flex flexDir={"column"} >
+                                            <Text fontWeight={400} fontSize={'12px'}>Business Name</Text>
+                                            <Text fontWeight={600} fontSize={'16px'}>{bookingState?.service?.name}</Text>
+                                        </Flex>
+                                        <Flex gap={"1"} flexDir={"column"} >
+                                            <HStack w='full' justifyContent={'flex-start'} >
+                                                <Text w={"50px"} fontSize={'14px'}>Email:</Text>
+                                                <Text fontSize={'14px'}>{bookingState?.service?.email}</Text>
+                                            </HStack>
+
+                                            <HStack w='full' justifyContent={'flex-start'} >
+                                                <Text w={"50px"} fontSize={'14px'}>Phone:</Text>
+                                                <Text fontSize={'14px'}>{bookingState?.service?.phone ?? 'None'}</Text>
+                                            </HStack>
+                                        </Flex>
+                                    </Flex>
+                                )}
                                 <Flex flexDir={"column"} px={"3"} gap={"3"} w={"full"} h={"full"} >
                                     {!bookingState?.hasPaid && (
                                         <VStack spacing={5} mt='10px' alignItems="center">
@@ -628,7 +653,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                     </Flex>
                 </Flex>
             </ModalLayout>
-            <ModalLayout open={show} size={"xs"  } close={setShow} >
+            <ModalLayout open={show} size={"xs"} close={setShow} >
                 <> <Flex flexDir={"column"} alignItems={"center"} py={"8"} px={"14"} >
                     <SuccessIcon />
                     <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"2"} mb={"4"} >{"Thank you"}</Text>

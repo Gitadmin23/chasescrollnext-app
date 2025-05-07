@@ -59,21 +59,21 @@ function Layout({ children }: {
 
     const clickHandler = (item: "kiosk" | "service" | "rental" | "event" | "donation") => {
         if (item === "event") {
-            push(`/dashboard/product`)
+            push(`/product`)
         } else if (item === "donation") {
-            push(`/dashboard/product/fundraising`)
+            push(`/product/fundraising`)
         } else {
-            push(`/dashboard/product/kiosk${`?type=${item}`}`)
+            push(`/product/kiosk${`?type=${item}`}`)
         }
     }
 
     const routeHandler = (item: string) => {
-        push(`/dashboard/product/kiosk${item ? `?type=${item}` : ""}`)
+        push(`/product/kiosk${item ? `?type=${item}` : ""}`)
     }
 
 
     const donationHandler = (item: string) => {
-        push(`/dashboard/product/fundraising${item ? `?type=${item}` : ""}`)
+        push(`/product/fundraising${item ? `?type=${item}` : ""}`)
     }
 
     let stateList = [
@@ -169,7 +169,7 @@ function Layout({ children }: {
     }, [type])
 
     return (
-        <Flex w={"full"} px={["4", "4", "6"]} pt={["6", "6", "12", "12"]} pb={"12"} flexDir={"column"} overflowY={"auto"} >
+        <Flex w={"full"} px={["4", "4", "6"]} pt={["6", "6", "12", "12"]} pb={"12"} gap={"6"} flexDir={"column"} overflowY={"auto"} >
             <Flex w={"full"} alignItems={"center"} flexDirection={"column"} gap={"3"} >
                 <Flex fontSize={["20px", "20px", "56px"]} alignItems={"end"} display={["flex", "flex", "none"]} fontWeight={"700"} >what are you l<Flex mb={"1"} ><GlassIcon size='17' /></Flex>king for?</Flex>
                 <Flex fontSize={["16px", "16px", "56px"]} alignItems={"end"} display={["none", "none", "flex"]} fontWeight={"700"} >what are you l<Flex mb={"3"} ><GlassIcon size='45' /></Flex>king for?</Flex>
@@ -280,7 +280,7 @@ function Layout({ children }: {
                     </Flex>
                 )}
             </Flex>
-            <Flex w={"full"} justifyContent={"center"} >
+            {/* <Flex w={"full"} justifyContent={"center"} >
                 {pathname !== "/dashboard/product" && (
                     <Flex py={"6"} maxWidth={"745px"} w={"full"} justifyContent={"start"} alignItems={"center"} gap={"4"} >
                         {(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") && (
@@ -294,7 +294,7 @@ function Layout({ children }: {
                                 onChange={(e) => routeHandler(e.target.value)}
                                 width={["auto", "auto", "auto"]}
                                 textAlign={"center"} >
-                                {[{ name: "All Kiosks", value: "kiosk" }, { name: "My Kiosk", value: "mykiosk" }, { name: "My Orders", value: "myorder" }, { name: "My Sales", value: "mysales" }]?.map((type: any, index: number) => (
+                                {[{ name: "All Kiosks", value: "" }, { name: "My Kiosk", value: "mykiosk" }, { name: "My Orders", value: "myorder" }, { name: "My Sales", value: "mysales" }]?.map((type: any, index: number) => (
                                     <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
                                         {type?.name}
                                     </option>
@@ -378,7 +378,7 @@ function Layout({ children }: {
                         </Flex>
                     </Flex>
                 )}
-            </Flex>
+            </Flex> */}
             {children}
             <ModalLayout open={open} close={setOpen} rounded='16px' closeIcon={true} >
                 <Flex w={"full"} flexDir={"column"} gap={"3"} p={6} >
