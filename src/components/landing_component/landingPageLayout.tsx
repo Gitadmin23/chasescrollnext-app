@@ -8,6 +8,7 @@ import { jwtDecode } from "jwt-decode"
 import { useMutation } from 'react-query'
 import httpService from '@/utils/httpService'
 import { URLS } from '@/services/urls'
+import { useElementScroll } from 'framer-motion'
 
 
 interface IProps {
@@ -27,56 +28,34 @@ export default function LandingPageLayout({ children }: IProps) {
         onError: (error) => {
 
         }
-    })
+    }) 
 
-    // React.useEffect(() => {
-    //     // Add token verification
-    //     const verifyToken = () => {
-    //         try {
-    //             if (!token) return;
+    const router = useRouter(); 
 
-    //             const decoded = jwtDecode(token);
+    const reftwo: any = React.useRef(null)
+    const { scrollX, scrollY } = useElementScroll(reftwo)
 
-    //             console.log('---------DECODED TOKEN----------');
-    //             console.log(decoded);
-    //             const refreshToken = localStorage.getItem("refresh_token");
-                
-    //             // Check if token is expired
-    //             if (decoded.exp && decoded.exp * 1000 < Date.now()) {
-    //                 localStorage.removeItem('token');
-    //                 localStorage.removeItem('refresh_token');
-    //                 router.push('/auth'); // or wherever you want to redirect
-    //             } else {
-    //                 router.push('/dashboard');
-    //             }
-    //         } catch (error) {
-    //             console.error('Token verification failed:', error);
-    //             localStorage.removeItem('token');
-    //             router.push('/auth');
-    //         }
-    //     }
+    const [ yaxis, setYaxis ] = useState(0)
+    
+    React.useEffect(() => {
+      const unsubscribeY = scrollY.onChange((latest) => {
+        console.log("Scroll Y position:", latest)
+        setYaxis(latest)
+      })
+      
+      return () => unsubscribeY()
+    }, [scrollY])
 
-    //     if (token) {
-    //         verifyToken();
-    //     }
-
-    //     window.scrollTo(0, 0);
-    // }, [token])
-
-    const router = useRouter();
-
-    // useEffect(() => {
-    //     window.scrollTo(0, 0)
-    // }, [router])
+    console.log(scrollY);
 
     return (
         <Box overflow={"hidden"} w={"full"} > 
             <Grid h="100vh" w={"full"} overflow={"hidden"} >
                 {/* <Flex w={"full"} position={"fixed"} zIndex={"100"} top={"0px"} > */}
-                    <HomeNavbar />
+                    <HomeNavbar yaxis={yaxis} />
                 {/* </Flex> */}
                 <Flex w="full" h="full" overflow={"hidden"}> 
-                    <Flex w={"full"} h={"full"} flexDirection={"column"} overflowX={"hidden"} overflowY={"auto"} >
+                    <Flex ref={reftwo} w={"full"} h={"full"} flexDirection={"column"} overflowX={"hidden"} overflowY={"auto"} >
                         {children}
                         <FooterLandingPage />
                     </Flex>

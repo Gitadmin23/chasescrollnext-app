@@ -21,10 +21,10 @@ export default function YearDatePicker({ year, formatDate } : IProps) {
     }
   
     return (
-        <Select
-            fontFamily={'Satoshi-Light'}
+        <Select 
             value={year}
             rounded={"32px"}
+            fontSize={"12px"}
             onChange={(e)=> changeHandler(e.target?.value)}
             height={"45px"} placeholder='select year' >
                 {years?.map((item, index) => (

@@ -31,7 +31,7 @@ export default function EventOrganiser() {
                         </Flex>
                         <Flex flexDir={"column"} > 
                             <Text fontSize={"24px"} fontWeight={"600"} lineHeight={"120%"} >Proof of quality</Text>
-                            <Text fontSize={"14px"} >Check any pro's work samples, client reviews, and account profile.</Text>
+                            <Text fontSize={"14px"} >{`Check any pro's work samples, client reviews, and account profile.`}</Text>
                         </Flex>
                     </Flex>
                     <Flex gap={"3"}>
@@ -42,7 +42,7 @@ export default function EventOrganiser() {
                         </Flex>
                         <Flex flexDir={"column"} > 
                             <Text fontSize={"24px"} fontWeight={"600"} lineHeight={"120%"} >No cost, only 3% service fee</Text>
-                            <Text fontSize={"14px"} >Check any pro's work samples, client reviews, and account profile.</Text>
+                            <Text fontSize={"14px"} >{`Check any pro's work samples, client reviews, and account profile.`}</Text>
                         </Flex>
                     </Flex>
                     <Flex gap={"3"}>
@@ -53,7 +53,7 @@ export default function EventOrganiser() {
                         </Flex>
                         <Flex flexDir={"column"} > 
                             <Text fontSize={"24px"} fontWeight={"600"} lineHeight={"120%"} >Safe and secure</Text>
-                            <Text fontSize={"14px"} >Focus on your guests knowing we help protect your logistics and payments are secured with Paystack payment processing system. We're here with 24/7 support if you need it.</Text>
+                            <Text fontSize={"14px"} >{`Focus on your guests knowing we help protect your logistics and payments are secured with Paystack payment processing system. We're here with 24/7 support if you need it.`}</Text>
                         </Flex>
                     </Flex>
                 </Flex>

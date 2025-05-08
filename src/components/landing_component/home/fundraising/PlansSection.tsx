@@ -16,7 +16,7 @@ export default function PlansSection() {
 
                         </Flex>
                         <Text maxW={"311px"} fontSize={["24px", "24px", "32px"]} fontWeight={"700"} lineHeight={"120%"} >Move events across the finish line</Text>
-                        <Text maxW={"311px"} fontSize={"14px"} >Finding professionals doesn't have to be a task. Request a service while creating your event or you can search from the tabs</Text>
+                        <Text maxW={"311px"} fontSize={"14px"} >{`Finding professionals doesn't have to be a task. Request a service while creating your event or you can search from the tabs`}</Text>
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} gap={"2"} >
                         <Flex w={"44px"} h={"44px"} rounded={"full"} borderWidth={"1px"} borderColor={"white"} >

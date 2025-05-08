@@ -7,10 +7,14 @@ import { usePathname, useRouter } from "next/navigation";
 import SearchBar from "../explore_component/searchbar";
 import { jwtDecode } from "jwt-decode"
 import { IoChevronDown } from "react-icons/io5";
-import { useInView } from "framer-motion";
+import { useElementScroll, useInView } from "framer-motion";
 
 
-function HomeNavbar() {
+function HomeNavbar(
+    { yaxis }: {
+        yaxis: any
+    }
+) {
 
     const homelink = [
         {
@@ -111,25 +115,15 @@ function HomeNavbar() {
 
     const changeNavBg = () => {
         window.scrollY >= 800 ? setNavBg(true) : setNavBg(false);
-    }
-
-    useEffect(() => {
-        window.addEventListener('scroll', changeNavBg);
-        return () => {
-            window.removeEventListener('scroll', changeNavBg);
-        }
-    }, [])
-
-    console.log(navBg);
+    } 
 
     return (
         <> 
             <Flex ref={ref} position={"absolute"} top={"0px"} />
             <Flex 
                 style={{
-                    backgroundColor: isInView ? "transparent" : "white",
-                    transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
-                }} w={"full"} position={"fixed"} zIndex={"100"} top={"0px"} color={"white"} height={["64px", "64px", "101.03px"]} px={["6", "6", "12"]} justifyContent={"space-between"} alignItems={"center"}  >
+                    backgroundColor: yaxis === 0 ? "transparent" : "white", 
+                }} w={"full"} position={"fixed"} zIndex={"100"} top={"0px"} color={yaxis === 0 ? "white" : "black"} height={["64px", "64px", "101.03px"]} px={["6", "6", "12"]} justifyContent={"space-between"} alignItems={"center"}  >
                 <Flex onClick={() => router.push("/")} as={"button"} alignItems={"center"} gap={"1"} >
                     <Image width={["32px", "32px", "60px"]} src={"/assets/logo.png"} alt="logo" />
                     <Flex flexDir={"column"} alignItems={"start"} >
@@ -137,7 +131,7 @@ function HomeNavbar() {
                         <Text fontWeight={"medium"} fontStyle={"italic"} fontSize={["12px", "12px", "14px"]}>We build memories.</Text>
                     </Flex>
                 </Flex>
-                <Flex h={"56px"} display={["none", "none", "flex"]} alignItems={"center"} px={"6"} rounded={"full"} style={{ background: "linear-gradient(265.89deg, rgba(0, 0, 0, 0) 18.07%, rgba(0, 0, 0, 0.1) 86.4%)" }} gap={"8"} >
+                <Flex h={"56px"} display={["none", "none", "flex"]} alignItems={"center"} px={"6"} rounded={"full"} style={{ background: yaxis === 0 ? "linear-gradient(265.89deg, rgba(0, 0, 0, 0) 18.07%, rgba(0, 0, 0, 0.1) 86.4%)" : "white" }} gap={"8"} >
                     {homelink?.map((item: {
                         label: string,
                         link: string,
@@ -147,11 +141,8 @@ function HomeNavbar() {
                         }>
                     }) => {
                         if (item?.label === "Versax") {
-                            return (
-                                // <Box onClick={() => clickHander(item?.link)} key={item?.label + item?.link} as="button" _hover={{ color: THEME?.COLORS?.chasescrollBlue }} >
-                                //     <Text lineHeight={"22.5px"} fontWeight={"semibold"} >{item?.label}</Text>
-                                // </Box>
-                                <Menu  >
+                            return ( 
+                                <Menu key={item?.label}  >
                                     <MenuButton
                                         px={4}
                                         py={2}
@@ -162,7 +153,7 @@ function HomeNavbar() {
                                         _expanded={{ bg: 'transparent' }}
                                         cursor={"pointer"}
                                     >
-                                        <Flex gap={"3"} alignItems={"center"} >
+                                        <Flex gap={"3"}  lineHeight={"22.5px"} fontWeight={"semibold"} alignItems={"center"} >
                                             {item?.label} <IoChevronDown />
                                         </Flex>
                                     </MenuButton>

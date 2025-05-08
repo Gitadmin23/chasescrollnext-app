@@ -21,8 +21,8 @@ function VideoPlayer({
   const [wiidth, setWidth] = React.useState(0);
   const [inView, setInView] = React.useState(false);
 
-  const videoRef = useRef<HTMLVideoElement>();
-  const boxRef = useRef<HTMLDivElement>();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {

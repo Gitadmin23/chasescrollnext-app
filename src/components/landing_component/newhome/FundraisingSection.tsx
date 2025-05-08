@@ -32,7 +32,7 @@ export default function FundraisingSection() {
                     </Flex>
                     <Flex flexDirection={"column"} gap={"1"} >
                         <Text fontSize={"24px"} fontWeight={"600"} >Expanded Reach & Marketing:</Text>
-                        <Text fontSize={"14px"} fontWeight={"500"} >Fundraising efforts often attract sponsors, donors, and community interest. These supporters can help amplify the event's visibility through their own networks.</Text>
+                        <Text fontSize={"14px"} fontWeight={"500"} >{`Fundraising efforts often attract sponsors, donors, and community interest. These supporters can help amplify the event's visibility through their own networks.`}</Text>
                     </Flex>
                     <CustomButton text={"Learn More"} px={"12"} mt={"3"} backgroundColor={"white"} color={primaryColor} width={"fit-content"} borderRadius={"999px"} />
                 </Flex>

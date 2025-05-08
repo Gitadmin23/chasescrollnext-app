@@ -29,10 +29,10 @@ export default function MonthDatePicker({formatDate, month}: IProps) {
     }
 
     return (
-        <Select
-            fontFamily={'Satoshi-Light'}
+        <Select 
             value={listofmonth[month - 1]}
             rounded={"32px"}
+            fontSize={"12px"}
             onChange={(e)=> changeHandler(e.target?.value)}
             height={"45px"} placeholder='select month' >
             {listofmonth?.map((item, index) => (
