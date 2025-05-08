@@ -56,7 +56,7 @@ export default function ServiceSection() {
                     </Flex>
                     <Flex flexDir={"column"} gap={"1"} >
                         <Text fontSize={"24px"} fontWeight={"600"} >Nationwide Reach</Text>
-                        <Text fontSize={"14px"} fontWeight={"500"}>You're not limited to your immediate area—Chasescroll gives you access to a broader pool of event professionals, including local pros in other cities or specialists for destination events.</Text>
+                        <Text fontSize={"14px"} fontWeight={"500"}>{`You're not limited to your immediate area—Chasescroll gives you access to a broader pool of event professionals, including local pros in other cities or specialists for destination events.`}</Text>
                     </Flex>
                     <CustomButton text={"Learn More"} px={"12"} mt={"3"} backgroundColor={"white"} color={"#01041A"} width={"fit-content"} borderRadius={"999px"} />
                 </Flex>

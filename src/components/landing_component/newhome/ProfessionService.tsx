@@ -38,7 +38,7 @@ export default function ProfessionService() {
                         }} flexDir={"column"} w={"full"} gap={"4"} pt={"6"} px={"6"} >
                         <Text fontSize={"24px"} fontWeight={"700"} >For professionals</Text>
                         <Text fontSize={["32px", "32px", "48px"]} lineHeight={"120%"} fontWeight={"700"} >Find great work</Text>
-                        <Text maxW={"376px"} fontWeight={"500"} >Meet customers you're excited to work with and take your career or business to new heights.</Text>
+                        <Text maxW={"376px"} fontWeight={"500"} >{`Meet customers you're excited to work with and take your career or business to new heights.`}</Text>
                         <Grid templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", 'repeat(3, 1fr)']} gap={4} py={"3"} borderTopWidth={"1px"} borderBottomWidth={"1px"} >
                             <Flex flexDir={"column"} w={"full"} gap={"1"} >
                                 <Text fontSize={"32px"} fontWeight={"600"} color={primaryColor} >1</Text>
@@ -69,8 +69,8 @@ export default function ProfessionService() {
                     <Text fontSize={["32px", "32px", "48px"]} lineHeight={"120%"} fontWeight={"700"} >How Payments Work for <span style={{ color: primaryColor }} >Service</span> Providers</Text>
                     <Grid templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", 'repeat(2, 1fr)']} gap={4} pb={"5"} >
                         <Text fontWeight={"500"} >upfront into your secure escrow system. Once the service is successfully completed, they must approve the release of funds to your wallet so you can cash out.</Text>
-                        <Text fontWeight={"500"} >If a customer is disrespectful, acts irresponsibly, or significantly delays the event without prior notice, we've got your back—we'll release your full payment to you, hassle-free.</Text>
-                        <Text fontWeight={"500"} >To ensure a smooth resolution, be sure to take photos or videos as evidence. With us, you don't have to worry about losing your money or dealing with subpar customers.</Text>
+                        <Text fontWeight={"500"} >{`If a customer is disrespectful, acts irresponsibly, or significantly delays the event without prior notice, we've got your back—we'll release your full payment to you, hassle-free.`}</Text>
+                        <Text fontWeight={"500"} >{`To ensure a smooth resolution, be sure to take photos or videos as evidence. With us, you don't have to worry about losing your money or dealing with subpar customers.`}</Text>
                         <Flex justifyContent={"end"} >
                             <CustomButton text={"Find Opportunities"} px={"5"} width={"fit-content"} fontSize={"14px"} mt={"3"} borderRadius={"999px"} />
                         </Flex>

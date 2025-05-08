@@ -14,7 +14,7 @@ export default function HeroSection() {
 
     return ( 
         <Flex  ref={ref} w={"full"} h={["full", "full", "full", "full", "90vh", "80vh"]} pos={"relative"} >
-            <Image pos={["absolute"]} objectFit={["cover", "cover", "cover"]} inset={"0px"} w={"full"} h={"full"} src="/images/hero/bg.png" />
+            <Image pos={["absolute"]} alt="test" objectFit={["cover", "cover", "cover"]} inset={"0px"} w={"full"} h={"full"} src="/images/hero/bg.png" />
             <Flex  w={"full"} display={["none", "none", "flex"]} pos={["relative"]} flexDir={["column", "column", "row"]} zIndex={"20"} py={"14"}  >
                 <Flex w={"full"} flexDir={"column"} gap={"6"} alignItems={"center"} >
                     <Image

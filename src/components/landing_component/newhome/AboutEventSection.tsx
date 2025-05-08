@@ -37,7 +37,7 @@ export default function AboutEventSection() {
                     transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
                 }} 
                 w={"full"} flexDir={"column"} gap={"4"} >
-                <Text fontSize={["32px", "32px", "48px"]} lineHeight={"150%"} fontWeight={"700"} >Up your <span style={{ color: primaryColor }} >event</span> game, it's easy</Text>
+                <Text fontSize={["32px", "32px", "48px"]} lineHeight={"150%"} fontWeight={"700"} >Up your <span style={{ color: primaryColor }} >event</span> {`game, it's easy`}</Text>
                 <Flex flexDir={"column"} gap={"3"} mt={"2"} >
                     <Flex gap={"3"}>
                         <Flex w={"fit-content"} >
@@ -58,7 +58,7 @@ export default function AboutEventSection() {
                         </Flex>
                         <Flex flexDir={"column"} > 
                             <Text fontSize={"24px"} fontWeight={"600"} lineHeight={"120%"} >Request a service and hire top professionals</Text>
-                            <Text fontSize={"14px"} >Finding professionals doesn't have to be a task. Request a service while creating your event or you can search from the tabs!</Text>
+                            <Text fontSize={"14px"} >{`Finding professionals doesn't have to be a task. Request a service while creating your event or you can search from the tabs!`}</Text>
                         </Flex>
                     </Flex>
                     <Flex gap={"3"}>
