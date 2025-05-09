@@ -372,8 +372,33 @@ function GoogleBtn(props: Props) {
                             </Link>
                         </CustomText>
                     </Flex>
-                    <Button type="button" color={"white"} isLoading={editProfile?.isLoading} isDisabled={editProfile?.isLoading || (terms === true ? false : true) || !checkData?.username || userNameCheck?.includes("exists") || !checkData?.firstName || !checkData?.lastName || !checkData?.phone} onClick={submitHandler} mt={"4"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
-                        <Text textAlign={"center"} fontWeight={"600"} >Save</Text>
+                    <Button 
+                        type="button" 
+                        color="white"
+                        isLoading={editProfile?.isLoading}
+                        isDisabled={
+                            editProfile?.isLoading || 
+                            !terms ||
+                            !checkData?.username ||
+                            userNameCheck?.includes("exists") ||
+                            !checkData?.firstName ||
+                            !checkData?.lastName ||
+                            (checkData?.phone ? checkData?.phone?.toString() : "")?.length <= 12
+                        }
+                        onClick={submitHandler}
+                        mt="4"
+                        h="50px"
+                        w="full"
+                        borderWidth="0.5px"
+                        borderColor="#233DF3"
+                        bgColor="#233DF3"
+                        rounded="32px"
+                        gap="3"
+                        _hover={{ backgroundColor: "#233DF3" }}
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        <Text textAlign="center" fontWeight="600">Save</Text>
                     </Button>
                 </Flex>
             </ModalLayout>
