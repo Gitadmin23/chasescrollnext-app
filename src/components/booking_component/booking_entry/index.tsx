@@ -15,16 +15,7 @@ function BookingEntry() {
     <Box width={'70px'} height={'70px'} bg='lightgrey' borderRadius={'10px'}></Box>
 
     <VStack alignItems={'flex-start'} spacing={0}>
-        <CustomText fontSize={'18px'} fontFamily={'DM-Medium'} color='black'>Flod&apos;s 99 barbershop</CustomText>
-        {/* <ReactStars
-            count={5}
-            onChange={ratingChanged}
-            size={14}
-            activeColor="#ffd700"
-            value={3.6}
-            edit={false}
-            isHalf
-        />  */}
+        <CustomText fontSize={'18px'} fontFamily={'DM-Medium'} color='black'>Flod&apos;s 99 barbershop</CustomText> 
         <CustomText fontFamily={'DM-Light'} fontSize={'14px'} color='grey'>143 Histoeric Town square, Lancaster, 75146</CustomText>
     </VStack>
    </HStack>
