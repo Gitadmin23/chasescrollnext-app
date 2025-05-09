@@ -26,7 +26,7 @@ import {
     useColorMode,
     useToast
 } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 import { FcApproval, FcRight } from "react-icons/fc";
 import { useReactToPrint } from 'react-to-print'
@@ -109,22 +109,31 @@ function DashboardDonation(props: Props) {
     // const { singleData: item, isLoading: loading } = useGetDonationList(index)  
 
 
-    const componentRef: any = React.useRef(null);
+    const componentRef: any = useRef<HTMLDivElement>(null);
 
     const tableRef: any = React.useRef(null);
 
-    const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
+    // const handlePrint = useReactToPrint({
+    //     content: () => componentRef.current,
+    //     documentTitle: capitalizeFLetter(item?.name),
+    //     pageStyle: `
+    //       @page {
+    //         size: Legal landscape
+    //       }   
+    //     `,
+    // });  
+
+    const contentRef = useRef<HTMLDivElement>(null);
+    const handlePrint = useReactToPrint({ contentRef, 
         documentTitle: capitalizeFLetter(item?.name),
         pageStyle: `
           @page {
             size: Legal landscape
           }   
-        `,
-    });  
+        `, });
 
     return (
-        <Flex ref={componentRef} width={"full"} flexDirection={"column"} >
+        <Flex ref={contentRef} width={"full"} flexDirection={"column"} >
             <Text fontSize={"24px"} fontWeight={"600"} >Donation</Text>
             <LoadingAnimation loading={loading} >
                 <Flex pos={"relative"} maxW={["500px", "full", "full", "full"]} width={"full"} rounded={"8px"} my={"6"} borderWidth={"1px"} borderColor={borderColor} p={["2", "2", "4", "6"]} alignItems={["start", "start", "center", "center"]} flexDir={["column", "column", "row"]} gap={["2", "2", "6", "6"]} >
@@ -188,7 +197,7 @@ function DashboardDonation(props: Props) {
                                     </Text>
                                 </Box>
                             </TableCaption>
-                            <Thead bgColor={"#FAFAFB"} >
+                            <Thead >
                                 <Tr>
                                     <Th borderRightWidth={"1px"} borderBottomWidth={"1px"} >
                                         <Flex gap={"3"}>
@@ -285,7 +294,7 @@ function DashboardDonation(props: Props) {
 
             <ModalLayout open={open} close={setOpen}>
                 <Flex py={"8"} px={"6"} flexDirection={"column"} gap={"4"} width={"full"} justifyContent={"center"} alignItems={"center"} >
-                    <CustomButton fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#FF6F61"} onClick={handlePrint} text='PDF' />
+                    <CustomButton fontSize={"lg"} width={"full"} backgroundColor={"transparent"} color={"#FF6F61"} onClick={()=> handlePrint()} text='PDF' />
                     {/* <Flex width={"full"} height={"1px"} bgColor={"#DDE6EB"} /> */}
                     {/* <CSVLink style={{ width: "100%" }} data={filteredData[0]?.name ? filteredData : newData[0]?.name ? newData : []}
                         filename={data?.data?.content[0]?.event?.eventName?.slice(0, 1)?.toUpperCase() + data?.data?.content[0]?.event?.eventName?.slice(1, data?.data?.content[0]?.event?.eventName?.length) + ".csv"} >
