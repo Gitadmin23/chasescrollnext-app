@@ -466,7 +466,7 @@ export default function CreateServices({ id }: { id: string }) {
                     </Flex>
                     {/* )} */}
                     <Flex id='business' flexDir={"column"} gap={"1"} w={"full"} >
-                        <CustomInput name="phone" placeholder='' label='Phone Number' isPassword={false} type='phone' required />
+                        <CustomInput name="phone" placeholder='' label='Phone Number' isPassword={false} type='tel' required />
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="email" placeholder='' label='Business Email Address' isPassword={false} type='email' required />
