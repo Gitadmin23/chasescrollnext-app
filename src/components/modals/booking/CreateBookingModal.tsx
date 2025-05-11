@@ -170,7 +170,7 @@ function CreateBookingModal({
                     </Flex>
                     <Flex flexDir={"column"} >
                         <Text fontSize={"14px"} color={bodyTextColor} >Category</Text>
-                        <Text fontSize={["16px", "16px", "20px"]} lineHeight={["17px", "17px", "25px"]} fontWeight={"700"}  >{service?.category}</Text>
+                        <Text fontSize={["16px", "16px", "20px"]} lineHeight={["17px", "17px", "25px"]} fontWeight={"700"}  >{service?.category?.replaceAll("_", " ")}</Text>
                     </Flex>
                     <Flex flexDir={"column"} >
                         <Text fontSize={"14px"} color={bodyTextColor} >Location</Text>

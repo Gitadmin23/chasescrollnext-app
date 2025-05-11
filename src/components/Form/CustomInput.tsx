@@ -12,7 +12,7 @@ interface IProps {
   labelTextSize?: string;
   required?: boolean;
   name: string;
-  type: 'text' | 'phone' | 'email' | 'date' | 'password'
+  type: 'text' | 'tel' | 'email' | 'date' | 'password' | "phone"
   placeholder: string,
   disable?: boolean
   value?: any,
@@ -39,7 +39,17 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
 
     // Regex pattern to only allow letters
     const regex = /^[a-zA-Z]*$/;
-    if (regex.test(value)) {
+
+    console.log(value);
+    
+    if(name === "phone"){
+
+      const value = e.target.value;
+      if (/^\d*$/.test(value)) {
+        setValue(name, value);
+        setNewValue(value)
+      }
+    } else if (regex.test(value)) {
       setValue(name, value);
       setNewValue(value)
     }
@@ -75,7 +85,7 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
             )}
           </InputRightElement>
         )}
-        {name === "firstName" || name === "lastName" ?
+        {name === "firstName" || name === "lastName "|| name === "phone" ?
           <Input
             width={'100%'}
             onChange={handleChangeName}
@@ -89,8 +99,9 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
             borderColor={borderColor} 
             bgColor={mainBackgroundColor}
             // value={value? value: ""}
-            type={isPassword ? (showPassword ? 'text' : 'password') : type}
-          /> :
+            type={isPassword ? (showPassword ? 'text' : 'password') : type === "phone" ? "tel" : type}
+          /> 
+          :
           <Input
             width={'100%'}
             {...register(name, {
@@ -106,7 +117,7 @@ export const CustomInput = ({ isPassword = false, name, type, placeholder, disab
             rounded={newbtn ? "32px" : "8px"}
             disabled={disable}  
             value={newdata}
-            type={isPassword ? (showPassword ? 'text' : 'password') : type}
+            type={isPassword ? (showPassword ? 'text' : 'password') : type === "phone" ? "tel" : type}
           />
         }
       </InputGroup>

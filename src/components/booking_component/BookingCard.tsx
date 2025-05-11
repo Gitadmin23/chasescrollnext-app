@@ -484,9 +484,9 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                     </Flex>
                                 )}
                                 <Flex flexDir={"column"} px={"3"} gap={"3"} w={"full"} h={"full"} >
-                                    {!bookingState?.hasPaid && (
+                                    {(!bookingState?.hasPaid && bookingState?.bookingStatus !== "CANCELLED" && bookingState?.bookingStatus !== "COMPLETED") && (
                                         <VStack spacing={5} mt='10px' alignItems="center">
-                                            <Text fontSize={'14px'}>You can neogiate this price by 5%</Text>
+                                            <Text fontSize={'14px'}>You can negotiate this price by 5%</Text>
                                             <HStack width={'120px'} height={'35px'} borderRadius={'50px'} overflow={'hidden'} backgroundColor={'#DDE2E6'}>
                                                 <Flex cursor={'pointer'} onClick={() => handlePriceChange({ type: 'SUBSTRACTION', value: 0 })} w={"full"} height={'100%'} borderRightWidth={'1px'} borderRightColor={'gray'} justifyContent={'center'} alignItems={'center'}>
                                                     <FiMinus size={12} color='black' />
@@ -595,18 +595,18 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                                     <Button _hover={{ backgroundColor: primaryColor }} isDisabled={(bookingState?.price === Number(price)) ? true : false} onClick={() => vendorUpdatePrice.mutate()} isLoading={vendorUpdatePrice.isLoading} w='full' h='50px' borderRadius='full' borderWidth={'1px'} color={'white'} bg={primaryColor}>
                                                         <Text fontSize={'14px'} color={'white'}>Update Price</Text>
                                                     </Button>
-                                                    <Button isLoading={vendorAcceptOrDecline.isLoading || loading} onClick={() => clickHandle(true)} w='full' h='50px' borderRadius='full' borderWidth={'1px'} bg={"#F7FBFE"} _hover={{ backgroundColor: "#F7FBFE" }}>
+                                                    <Button isLoading={vendorAcceptOrDecline.isLoading || loading} onClick={() => {clickHandle(true), setOpen(false)}} w='full' h='50px' borderRadius='full' borderWidth={'1px'} bg={"#F7FBFE"} _hover={{ backgroundColor: "#F7FBFE" }}>
                                                         <Text fontSize={'14px'} color={primaryColor}>Approve</Text>
                                                     </Button>
                                                 </HStack>
 
-                                                <Button isLoading={vendorAcceptOrDecline.isLoading || loadingReject} onClick={() => clickHandle(false)} w='full' h='50px' borderRadius='full' borderWidth={'0px'} borderColor={'red'} bg={mainBackgroundColor} _hover={{ backgroundColor: mainBackgroundColor }} >
+                                                <Button isLoading={vendorAcceptOrDecline.isLoading || loadingReject} onClick={() => {clickHandle(false), setOpen(false)}} w='full' h='50px' borderRadius='full' borderWidth={'0px'} borderColor={'red'} bg={mainBackgroundColor} _hover={{ backgroundColor: mainBackgroundColor }} >
                                                     <Text fontSize={'14px'} color={'red'}>Decline</Text>
                                                 </Button>
                                             </VStack>
                                         )}
                                         {bookingState.bookingStatus === 'IN_PROGRESS' && bookingState.hasPaid && (
-                                            <Button isLoading={vendorMarkAsDone.isLoading} onClick={() => vendorMarkAsDone.mutate()} w='full' h='50px' borderRadius='full' borderWidth={'1px'} bg={primaryColor}>
+                                            <Button isLoading={vendorMarkAsDone.isLoading} onClick={() => {vendorMarkAsDone.mutate(), setOpen(false)}} w='full' h='50px' borderRadius='full' borderWidth={'1px'} bg={primaryColor}>
                                                 <Text fontSize={'14px'} color={'white'}>Mark As Done</Text>
                                             </Button>
                                         )}
