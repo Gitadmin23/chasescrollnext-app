@@ -40,22 +40,20 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
         mainBackgroundColor
     } = useCustomTheme()
 
-
     const { search } = useSearchStore((state) => state);
-
 
     const userId = localStorage.getItem('user_id') + "";
     const [selected, setSelected] = useState({} as IDonationList)
     // const { data: groupData, isLoading: loading, isRefetching } = useGetDonationGroup(singleData?.fundRasingGroupId?.id)
     const [open, setOpen] = useState(false)
-    const { email } = useDetails((state) => state);
+    let token = localStorage.getItem("token")
 
     const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/fund-raiser-group/search${search ? `?name=${search.toLowerCase()}` : ``}`, limit: 20, filter: "id", name: "donationlist", search: search })
 
     const router = useRouter()
 
     const clickHander = (item: IDonationGroup, index: string) => {
-        if (email) {
+        if (token) {
             if (creator || pasted) {
                 router?.push("/dashboard/donation/" + index)
             } else if (item?.fundRaisers?.length > 1) {

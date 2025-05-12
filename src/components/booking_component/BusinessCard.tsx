@@ -26,7 +26,7 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
     const userId = localStorage.getItem('user_id');
     const param = useParams();
     const id = param?.slug;
-    const { email } = useDetails((state) => state);
+    let token = localStorage.getItem("token")
 
     const toast = useToast()
     const router = useRouter();
@@ -46,10 +46,6 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
         }
     }, [])
 
-    // query
-    console.log(business);
-
-
     const {
         primaryColor, secondaryBackgroundColor,
         headerTextColor,
@@ -59,7 +55,7 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
     } = useCustomTheme()
 
     const clickHandler = () => {
-        if (email) {
+        if (token) {
             if (isSelect) {
                 let clone = [...selected]
 

@@ -5,16 +5,18 @@ import CustomButton from "@/components/general/Button";
 import Fundpaystack from "@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack";
 import CreateEventBtn from "@/components/sharedComponent/create_event_btn";
 import ModalLayout from "@/components/sharedComponent/modal_layout";
-import { GlassIcon, ServiceIcon, RentalIcon, StoreIcon, NewEventIcon, NewDonationIcon } from "@/components/svg";
+import { GlassIcon, ServiceIcon, RentalIcon, StoreIcon, NewEventIcon, NewDonationIcon, FundraisingIcon } from "@/components/svg";
 import useProductStore from "@/global-state/useCreateProduct";
 import useKioskStore from "@/global-state/useKioskFilter";
 import usePaystackStore from "@/global-state/usePaystack";
 import useCustomTheme from "@/hooks/useTheme";
+import { THEME } from "@/theme";
 import { capitalizeFLetter } from "@/utils/capitalLetter";
 import httpService from "@/utils/httpService";
-import { Button, Flex, Input, Select, Text, useColorMode } from "@chakra-ui/react";
+import { Button, Flex, Image, Input, Select, Text, useColorMode } from "@chakra-ui/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
+import { IoArrowBack } from "react-icons/io5";
 import { useQuery } from "react-query";
 
 
@@ -169,19 +171,37 @@ function Layout({ children }: {
     }, [type])
 
     return (
-        <Flex w={"full"} px={["4", "4", "6"]} pt={["6", "6", "12", "12"]} pb={"12"} gap={"6"} flexDir={"column"} overflowY={"auto"} >
-            <Flex w={"full"} alignItems={"center"} flexDirection={"column"} gap={"3"} >
+        <Flex w={"full"} pos={"relative"} pb={"12"} gap={"6"} flexDir={"column"} overflowY={"auto"}  >
+            <Flex w={"full"} position={"sticky"} top={"0px"} bgColor={mainBackgroundColor} py={"4"} zIndex={"40"} px={["6", "6", "12"]} alignItems={"center"} >
+                <Flex alignItems={"center"} gap={"1"} >
+                    <Flex as={"button"} onClick={() => push("/")} >
+                        <IoArrowBack size={"30px"} />
+                    </Flex>
+                    <Image onClick={() => push("/")} width={["32px", "32px", "60px"]} ml={"4"} src={"/assets/logo.png"} alt="logo" />
+                    {pathname === "/product/fundraising" ?
+                        <Flex alignItems={"center"} gap="2" >
+                            <FundraisingIcon />
+                            <Text fontSize={"24px"} fontWeight={"700"} >Fundraising</Text>
+                        </Flex> :
+                        <Flex flexDir={"column"} alignItems={"start"} >
+                            <Text fontWeight={"bold"} fontSize={["14px", "14px", "16px"]} color={THEME.COLORS.chasescrollBlue} >Chasescroll</Text>
+                            <Text fontWeight={"medium"} fontStyle={"italic"} fontSize={["12px", "12px", "14px"]}>We build memories.</Text>
+                        </Flex>
+                    } 
+                </Flex>
+            </Flex>
+            <Flex w={"full"} alignItems={"center"} pt={["6"]}  px={["4", "4", "6"]} flexDirection={"column"} gap={"3"} >
                 <Flex fontSize={["20px", "20px", "56px"]} alignItems={"end"} display={["flex", "flex", "none"]} fontWeight={"700"} >what are you l<Flex mb={"1"} ><GlassIcon size='17' /></Flex>king for?</Flex>
                 <Flex fontSize={["16px", "16px", "56px"]} alignItems={"end"} display={["none", "none", "flex"]} fontWeight={"700"} >what are you l<Flex mb={"3"} ><GlassIcon size='45' /></Flex>king for?</Flex>
                 <Flex w={["full", "fit-content", "fit-content"]} gap={"0px"} alignItems={"center"} bgColor={secondaryBackgroundColor} p={"6px"} rounded={"full"} >
                     <CustomButton onClick={() => clickHandler("event")} text={
                         <Flex alignItems={"center"} gap={"2"} >
                             <Flex display={["none", "none", "flex"]} >
-                                <NewEventIcon color={pathname === "/dashboard/product" ? "white" : headerTextColor} />
+                                <NewEventIcon color={pathname === "/product" ? "white" : headerTextColor} />
                             </Flex>
                             <Text fontSize={["10px", "12px", "14px"]} >Event</Text>
                         </Flex>
-                    } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={pathname === "/dashboard/product" ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={pathname === "/dashboard/product" ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={pathname === "/dashboard/product" ? "white" : headerTextColor} width={["100%", "107px", "175px"]} />
+                    } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={pathname === "/product" ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={pathname === "/product" ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={pathname === "/product" ? "white" : headerTextColor} width={["100%", "107px", "175px"]} />
                     <CustomButton onClick={() => clickHandler("service")} text={
                         <Flex alignItems={"center"} gap={"2"} >
                             <Flex display={["none", "none", "flex"]} >
@@ -210,11 +230,11 @@ function Layout({ children }: {
                         <CustomButton onClick={() => clickHandler("donation")} text={
                             <Flex alignItems={"center"} gap={"2"} >
                                 <Flex display={["none", "none", "flex"]} >
-                                    <NewDonationIcon color={pathname?.includes("/dashboard/product/fundraising") ? "white" : headerTextColor} />
+                                    <NewDonationIcon color={pathname?.includes("/product/fundraising") ? "white" : headerTextColor} />
                                 </Flex>
                                 <Text fontSize={["10px", "12px", "14px"]} >Fundraising</Text>
                             </Flex>
-                        } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={pathname?.includes("/dashboard/product/fundraising") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={pathname?.includes("/dashboard/product/fundraising") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={pathname?.includes("/dashboard/product/fundraising") ? "white" : headerTextColor} width={["80px", "107px", "175px"]} />
+                        } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={pathname?.includes("/product/fundraising") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={pathname?.includes("/product/fundraising") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={pathname?.includes("/product/fundraising") ? "white" : headerTextColor} width={["80px", "107px", "175px"]} />
                     </Flex>
                 </Flex>
                 <Flex display={["flex", "flex", "none"]} w={"full"} gap={"3"} alignItems={"center"} >
@@ -379,7 +399,9 @@ function Layout({ children }: {
                     </Flex>
                 )}
             </Flex> */}
-            {children}
+            <Flex  px={["4", "4", "6"]} w={"full"} flexDir={"column"} >
+                {children}
+            </Flex>
             <ModalLayout open={open} close={setOpen} rounded='16px' closeIcon={true} >
                 <Flex w={"full"} flexDir={"column"} gap={"3"} p={6} >
                     <Input h={"48px"} placeholder={`Search by ${(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "Business" : (type === "service" || type === "myservice" || type === "mybooking") ? "Business" : "Product"} Name`} rounded={"full"} />

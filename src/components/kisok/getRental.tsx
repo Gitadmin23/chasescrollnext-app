@@ -33,7 +33,7 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
     const userId = localStorage.getItem('user_id') + "";
     const param = useParams();
     const id = param?.slug;
-    const { email } = useDetails((state) => state);
+    let token = localStorage.getItem("token")
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
         url: `/rental/search${myrental ? `?userId=${id ? id : userId}` : ""}`, limit: 20, filter: "id", name: "getMyrental", paramsObj: cleanup({
@@ -44,7 +44,7 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
     })
 
     const clickHandler = (item: IRental) => {
-        if (email) {
+        if (token) {
             if (isSelect) {
                 let clone = [...selected]
 

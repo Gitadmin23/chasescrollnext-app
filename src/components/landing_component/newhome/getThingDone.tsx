@@ -1,5 +1,7 @@
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
-import React from "react";
+import useCustomTheme from "@/hooks/useTheme";
+import { Box, Flex, Image, Text } from "@chakra-ui/react"; 
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 
 export default function GetThingDone() {
@@ -10,11 +12,16 @@ export default function GetThingDone() {
         ref.current.scrollLeft += scrolloffset
     };
 
+    const [active, setActive] = useState("")
+
+    const { primaryColor } = useCustomTheme()
+    const { push } = useRouter()
+
 
     const data = [
         {
-            "name": "Fundraiser →",
-            "detail": "Start a fundraiser and bring your dream event to life.",
+            "name": "create event →",
+            "detail": "Explore Events and Purchase Ticket on Chasescroll",
         },
         {
             "name": "Aso Ebi & product Hub→ ",
@@ -37,7 +44,7 @@ export default function GetThingDone() {
     return (
         <Flex w={"full"} zIndex={"20"} flexDir={"column"} color={"white"} gap={["4", "4", "8"]} pl={["6", "6", "16"]} py={["6", "6", "14"]} pos={"relative"} >
             <Flex w={"full"} h={"full"} pos={"absolute"} inset={"0px"} >
-                <Image src="/images/hero/getthings.jpg" alt="getthing" w={"full"} objectFit={"cover"} />
+                <Image src="/images/hero/getthings.jpg" alt="getthing" w={"full"} objectFit={"cover"} objectPosition={"top"} />
             </Flex>
             <Flex pos={"absolute"} inset={"0px"} zIndex={"10"} bgColor={"#00000080"} />
             <Flex flexDir={"column"} zIndex={"20"} gap={"2"} pr={["6", "6", "16"]} >
@@ -52,14 +59,14 @@ export default function GetThingDone() {
                 }
             }>
                 <Flex w={"auto"} gap={"3"} >
-                {data?.map((item) => {
-                    return (
-                        <Flex key={item?.name} bgColor={"#5465E0B2"} w={"400px"} h={"full"} py={"8"} px={"3"} flexDirection={"column"} justifyContent={"space-between"} >
-                            <Text fontSize={"32px"} lineHeight={"120%"} fontWeight={"700"} color={"white"} >{item?.detail}</Text>
-                            <Text fontWeight={"600"} mt={"7"} >{item?.name}</Text>
-                        </Flex>
-                    )
-                })}
+                    {data?.map((item) => {
+                        return (
+                            <Flex onClick={()=> push("/auth")} onMouseOver={()=> setActive(item?.name)} onMouseOut={()=> setActive("")} cursor={"pointer"} color={active === item?.name ? primaryColor :"white"}  key={item?.name} bgColor={active === item?.name ? "white" : "#5465E0B2"} rounded={"8px"} w={"400px"} h={"full"} py={"8"} px={"3"} flexDirection={"column"} justifyContent={"space-between"} >
+                                <Text fontSize={"32px"} lineHeight={"120%"} fontWeight={"700"} >{item?.detail}</Text>
+                                <Text fontWeight={"600"} mt={"7"} >{item?.name}</Text>
+                            </Flex>
+                        )
+                    })}
                 </Flex>
             </Flex>
 

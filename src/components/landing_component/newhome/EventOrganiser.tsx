@@ -41,7 +41,7 @@ export default function EventOrganiser() {
                         </Flex>
                         </Flex>
                         <Flex flexDir={"column"} > 
-                            <Text fontSize={"24px"} fontWeight={"600"} lineHeight={"120%"} >No cost, only 3% service fee</Text>
+                            <Text fontSize={"24px"} fontWeight={"600"} lineHeight={"120%"} >No cost</Text>
                             <Text fontSize={"14px"} >{`Check any pro's work samples, client reviews, and account profile.`}</Text>
                         </Flex>
                     </Flex>
