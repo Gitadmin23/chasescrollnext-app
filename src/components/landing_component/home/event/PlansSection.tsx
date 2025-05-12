@@ -11,7 +11,7 @@ export default function PlansSection() {
 
     return (
         <Flex color={"white"} w={"full"} gap={["4", "4", "6"]} px={["6", "6", "20"]} py={["6", "6", "24"]} >
-            <Flex pos={"relative"} w={"full"} flexDirection={"column"} gap={["4", "6", "6"]} bgColor={"#C68241"} rounded={["12px", "12px", "32px"]} px={["3", "3", "6"]} pb={["8", "8", "28"]} pt={["8", "8", "10"]} >
+            <Flex pos={"relative"} w={"full"} flexDirection={"column"} gap={["4", "6", "6"]} bgColor={"#BA09C4"} rounded={["12px", "12px", "32px"]} px={["3", "3", "6"]} pb={["8", "8", "28"]} pt={["8", "8", "10"]} >
                 <Flex pos={"absolute"} inset={"0px"} >
                     <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"cover"} opacity={"10%"} />
                 </Flex>

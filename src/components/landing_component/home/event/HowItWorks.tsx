@@ -14,7 +14,7 @@ export default function HowItWorks() {
         <Flex w={"full"} gap={["4", "4", "6"]} px={["6", "6", "16"]} py={["6", "6", "14"]} flexDir={["column", "column", "row"]} bg={"white"} alignItems={"center"} >
             <Flex w={["full", "full", "fit-content"]} >
                 <Flex w={["full", "full", "553px"]} h={["322px", "322px", "464px"]} rounded={"2xl"}  >
-                    <Image src='/images/hero/eventhow.jpg' alt='rent' w={"full"} h={["full"]} objectFit={"cover"} rounded={["12px", "12px", "32px"]} objectPosition={["center"]} />
+                    <Image src='/images/plan/eventhow.jpg' alt='rent' w={"full"} h={["full"]} objectFit={"cover"} rounded={["12px", "12px", "32px"]} objectPosition={["center"]} />
                 </Flex>
             </Flex>
             <Flex w={"full"} flexDir={"column"} gap={"4"} > 
