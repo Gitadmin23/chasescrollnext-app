@@ -22,22 +22,27 @@ export default function GetThingDone() {
         {
             "name": "create event →",
             "detail": "Explore Events and Purchase Ticket on Chasescroll",
+            link: "/home/event"
         },
         {
             "name": "Aso Ebi & product Hub→ ",
             "detail": "Browse and buy from our Kiosk",
+            link: "/home/event"
         },
         {
             "name": "Rental space → ",
             "detail": "Rent venues, apartments, and event essentials all in one place.",
+            link: "/home/rental"
         },
         {
             "name": "Fundraiser →",
             "detail": "Start a fundraiser and bring your dream event to life.",
+            link: "/home/fundraising"
         },
         {
             "name": "Talent marketplace→ ",
             "detail": "Create an event and hire a pro",
+            link: "/home/service"
         },
     ]
 
@@ -61,7 +66,7 @@ export default function GetThingDone() {
                 <Flex w={"auto"} gap={"3"} >
                     {data?.map((item) => {
                         return (
-                            <Flex onClick={()=> push("/auth")} onMouseOver={()=> setActive(item?.name)} onMouseOut={()=> setActive("")} cursor={"pointer"} color={active === item?.name ? primaryColor :"white"}  key={item?.name} bgColor={active === item?.name ? "white" : "#5465E0B2"} rounded={"8px"} w={"400px"} h={"full"} py={"8"} px={"3"} flexDirection={"column"} justifyContent={"space-between"} >
+                            <Flex onClick={()=> push(item?.link)} onMouseOver={()=> setActive(item?.name)} onMouseOut={()=> setActive("")} cursor={"pointer"} color={active === item?.name ? primaryColor :"white"}  key={item?.name} bgColor={active === item?.name ? "white" : "#5465E0B2"} rounded={"8px"} w={"400px"} h={"full"} py={"8"} px={"3"} flexDirection={"column"} justifyContent={"space-between"} >
                                 <Text fontSize={"32px"} lineHeight={"120%"} fontWeight={"700"} >{item?.detail}</Text>
                                 <Text fontWeight={"600"} mt={"7"} >{item?.name}</Text>
                             </Flex>

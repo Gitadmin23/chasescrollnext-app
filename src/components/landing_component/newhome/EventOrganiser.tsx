@@ -1,3 +1,4 @@
+import { GreenTickTwo } from '@/components/svg';
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Image, Text } from '@chakra-ui/react'
 import { useInView } from 'framer-motion';
@@ -14,7 +15,7 @@ export default function EventOrganiser() {
 
     return (
         <Flex w={"full"} gap={["4", "4", "6"]} px={["6", "6", "16"]} py={["6", "6", "14"]} flexDir={["column-reverse", "column-reverse", "row"]} bg={"white"} alignItems={"center"} >
-            <Flex 
+            <Flex
                 ref={ref}
                 style={{
                     transform: isInView ? "none" : "translateX(-150px)",
@@ -23,37 +24,60 @@ export default function EventOrganiser() {
                 }} w={"full"} flexDir={"column"} gap={"4"} >
                 <Text fontSize={["32px", "32px", "48px"]} lineHeight={"120%"} fontWeight={"700"} >Why event organizers turn to <span style={{ color: primaryColor }} >Chasescroll...</span></Text>
                 <Flex flexDir={"column"} gap={"5"} mt={"2"} >
-                    <Flex gap={"3"}>
+                    {/* <Flex gap={"3"}>
                         <Flex w={"fit-content"} >
-                            <Flex w={"44px"} h={"44px"} rounded={"full"} bgColor={primaryColor} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex>
+                            <GreenTickTwo />
                         </Flex>
                         <Flex flexDir={"column"} > 
                             <Text fontSize={"24px"} fontWeight={"600"} lineHeight={"120%"} >Proof of quality</Text>
                             <Text fontSize={"14px"} >{`Check any pro's work samples, client reviews, and account profile.`}</Text>
                         </Flex>
+                    </Flex> */}
+
+                    <Flex gap={"3"}>
+                        <Flex w={"fit-content"} >
+                            <GreenTickTwo />
+                        </Flex>
+                        <Flex flexDir={"column"} >
+                            <Text fontSize={"24px"} fontWeight={"600"} lineHeight={"120%"} >Proof of quality</Text>
+                            <Text fontSize={"14px"} >{`Chasescroll has achieved an ALL TIME 98% success rate across over 3,000+ transactions on Paystack—with zero site crashes or reported bugs. Consistently delivers with 100% transaction success rate every month.`}</Text>
+                        </Flex>
                     </Flex>
                     <Flex gap={"3"}>
                         <Flex w={"fit-content"} >
-                            <Flex w={"44px"} h={"44px"} rounded={"full"} bgColor={primaryColor} justifyContent={"center"} alignItems={"center"} >
-
+                            <GreenTickTwo />
                         </Flex>
-                        </Flex>
-                        <Flex flexDir={"column"} > 
+                        <Flex flexDir={"column"} >
                             <Text fontSize={"24px"} fontWeight={"600"} lineHeight={"120%"} >No cost</Text>
                             <Text fontSize={"14px"} >{`Check any pro's work samples, client reviews, and account profile.`}</Text>
                         </Flex>
                     </Flex>
                     <Flex gap={"3"}>
                         <Flex w={"fit-content"} >
-                            <Flex w={"44px"} h={"44px"} rounded={"full"} bgColor={primaryColor} justifyContent={"center"} alignItems={"center"} >
-
+                            <GreenTickTwo />
                         </Flex>
-                        </Flex>
-                        <Flex flexDir={"column"} > 
+                        <Flex flexDir={"column"} >
                             <Text fontSize={"24px"} fontWeight={"600"} lineHeight={"120%"} >Safe and secure</Text>
                             <Text fontSize={"14px"} >{`Focus on your guests knowing we help protect your logistics and payments are secured with Paystack payment processing system. We're here with 24/7 support if you need it.`}</Text>
+                        </Flex>
+                    </Flex>
+
+                    <Flex gap={"3"}>
+                        <Flex w={"fit-content"} >
+                            <GreenTickTwo />
+                        </Flex>
+                        <Flex flexDir={"column"} >
+                            <Text fontSize={"24px"} fontWeight={"600"} lineHeight={"120%"} >Price</Text>
+                            <Text fontSize={"14px"} >{`No hidden fees, only pay 3% service fee when withdrawing funds from your Chasescroll wallet.`}</Text>
+                        </Flex>
+                    </Flex>
+                    <Flex gap={"3"}>
+                        <Flex w={"fit-content"} >
+                            <GreenTickTwo />
+                        </Flex>
+                        <Flex flexDir={"column"} >
+                            <Text fontSize={"24px"} fontWeight={"600"} lineHeight={"120%"} >Innovative</Text>
+                            <Text fontSize={"14px"} >{`We're not your average event platform. Chasescroll is uniquely positioned to handle the tricky stuff others won't touch—so your event goes off without a hitch.`}</Text>
                         </Flex>
                     </Flex>
                 </Flex>
