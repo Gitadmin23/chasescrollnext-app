@@ -54,7 +54,7 @@ export default function GetThingDone() {
                 <Flex w={"auto"} gap={"3"} >
                 {data?.map((item) => {
                     return (
-                        <Flex bgColor={"#5465E0B2"} w={"400px"} h={"full"} py={"8"} px={"3"} flexDirection={"column"} justifyContent={"space-between"} >
+                        <Flex key={item?.name} bgColor={"#5465E0B2"} w={"400px"} h={"full"} py={"8"} px={"3"} flexDirection={"column"} justifyContent={"space-between"} >
                             <Text fontSize={"32px"} lineHeight={"120%"} fontWeight={"700"} color={"white"} >{item?.detail}</Text>
                             <Text fontWeight={"600"} mt={"7"} >{item?.name}</Text>
                         </Flex>
