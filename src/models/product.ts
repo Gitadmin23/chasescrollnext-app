@@ -87,6 +87,8 @@ export interface IProduct {
     "hasDiscount": boolean,
     "discountPrice": number,
     "published": boolean, 
+    color: Array<string>,
+    size: Array<string>,
     hasBought :  false;
     hasReviewed: false;
     rating: number

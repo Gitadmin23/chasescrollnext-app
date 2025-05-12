@@ -233,5 +233,9 @@ input[type="number"]::-webkit-outer-spin-button {
   color: gold;
 }
 
+.customsheight {
+  height: 45px;
+}
+
 
 /* Continue this pattern for more letters */

@@ -11,6 +11,8 @@ export type CreateProduct = {
     hasDiscount: boolean,
     discountPrice: number | any,
     publish: boolean;
+    color?: Array<string>,
+    size?: Array<string>,
     location?: {
         link?: string,
         address?: string,
@@ -52,7 +54,7 @@ export type CreateRental = {
     maximiumNumberOfDays: number | any,
     price: number | any,
     images: Array<string>,
-    frequency: "HOURLY" | "DAILY" |  any,
+    frequency: "HOURLY" | "DAILY" | any,
     state: string
 }
 
