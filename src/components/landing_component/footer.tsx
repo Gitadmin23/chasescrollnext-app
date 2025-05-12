@@ -17,7 +17,7 @@ export default function FooterLandingPage() {
                     <SocialMedia top="0px" />
                 </Flex>
                 <Flex gap={["1", "1", "1"]} flexDir={"column"} >
-                    <Text fontSize={"15.38px"} mt={"8"} mb={"2"} lineHeight={"24px"} >Download Our App</Text>
+                    <Text fontSize={"15.38px"} mt={"8"} mb={"2"} lineHeight={"24px"} >Coming Soon</Text>
                     <MobileAppLink width="113.14px" height="36px" />
                 </Flex>
             </Flex>

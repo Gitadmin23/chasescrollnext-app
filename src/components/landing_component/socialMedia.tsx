@@ -36,7 +36,7 @@ function SocialMedia(props: IProps) {
                     // color={color ?? "white"}  
                 />
             </a>
-            <a target="_blank" href="  https://www.instagram.com/chasescroll_/  ">
+            <a target="_blank" href="  https://www.instagram.com/chasescrollapp">
                 <Icon
                     fontSize={"30px"}
                     icon="ri:instagram-fill"
