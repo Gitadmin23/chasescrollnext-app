@@ -26,7 +26,7 @@ import DescriptionPage from '../sharedComponent/descriptionPage'
 
 export default function ProductDetails({ id }: { id: string }) {
 
-    const { primaryColor, borderColor, secondaryBackgroundColor } = useCustomTheme()
+    const { primaryColor, borderColor, secondaryBackgroundColor, mainBackgroundColor } = useCustomTheme()
 
     const [item, setItem] = useState({} as IProduct)
 
@@ -39,6 +39,9 @@ export default function ProductDetails({ id }: { id: string }) {
 
 
     const [reviewData, setData] = useState<Array<IReview>>([])
+
+    const [ size, setSize ] = useState("")
+    const [ color, setColor ] = useState("")
 
     const { isLoading } = useQuery(
         ["products", id],
@@ -65,7 +68,6 @@ export default function ProductDetails({ id }: { id: string }) {
         })
         push("/dashboard/kisok/edit/" + item?.id)
     }
-
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -121,7 +123,7 @@ export default function ProductDetails({ id }: { id: string }) {
                                 </Flex>
                                 <Flex display={["flex", "flex", "none"]} w={"full"}  >
                                     {userId !== item?.creator?.userId && ( 
-                                        <ProductCheckout qty={qty} setQty={setQty} item={item} /> 
+                                        <ProductCheckout qty={qty} setQty={setQty} item={item} color={color} size={size} /> 
                                     )}
                                 </Flex>
                             </Flex>
@@ -129,9 +131,36 @@ export default function ProductDetails({ id }: { id: string }) {
                         {/* <GetCreatorData reviewdata={reviewData} userData={item?.creator} /> */}
                         {userId !== item?.creator?.userId && (
                             <Flex display={["none", "none", "flex"]} >
-                                <ProductCheckout qty={qty} setQty={setQty} item={item} />
+                                <ProductCheckout qty={qty} setQty={setQty} item={item} color={color} size={size} />
                             </Flex>
                         )} 
+
+                        <Flex w={"full"} gap={"3"} >
+                            <Flex w={"full"} flexDir={"column"} gap={"3"} >
+                                <Text fontWeight={"600"} >Sizes</Text>
+                                <Flex gap={"2"} flexWrap={"wrap"} >
+                                    {item?.size?.map((item) => {
+                                        return(  
+                                            <Flex key={item} w={"fit-content"} px={"3"} borderWidth={"1px"} cursor={"pointer"} onClick={()=> setSize((prev)=> prev === item ? "" : item)} h={"10"} justifyContent={"center"} alignItems={"center"} rounded={"lg"} bgColor={size === item ? secondaryBackgroundColor : mainBackgroundColor} >
+                                                {item}
+                                            </Flex>
+                                        )
+                                    })}
+                                </Flex>
+                            </Flex>
+                            <Flex w={"full"} flexDir={"column"} gap={"3"} >
+                                <Text fontWeight={"600"} >Colors</Text>
+                                <Flex gap={"2"} flexWrap={"wrap"} >
+                                    {item?.color?.map((item) => {
+                                        return(  
+                                            <Flex key={item} w={"fit-content"} px={"3"} borderWidth={"1px"} cursor={"pointer"} onClick={()=> setColor((prev)=> prev === item ? "" : item)} h={"10"} justifyContent={"center"} alignItems={"center"} rounded={"lg"} bgColor={color === item ? secondaryBackgroundColor : mainBackgroundColor} >
+                                                {item}
+                                            </Flex>
+                                        )
+                                    })}
+                                </Flex>
+                            </Flex>
+                        </Flex>
 
                         <Flex gap={"3"} mt={"4"} >
                             <Flex w={"28px"} h={"28px"} justifyContent={"center"} alignItems={"center"} >

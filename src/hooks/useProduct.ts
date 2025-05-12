@@ -538,7 +538,9 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
             "total": any,
             "userId": string,
             "vendorId": string,
-            "addressId": string
+            "addressId": string,
+            "color"?: string,
+            "size"?: string
         }) =>
             httpService.post(
                 `/orders/create`, data

@@ -121,10 +121,6 @@ export default function EditBusinessPage() {
         }
     ]);
 
-    console.log(image);
-
-
-
     const getDay = (day: number) => {
         switch (day) {
             case 0: {
@@ -154,7 +150,7 @@ export default function EditBusinessPage() {
     const { renderForm, values, watch, setValue } = useForm({
         defaultValues: {
             description: business?.description ?? '',
-            phone: business?.phone ?? '',
+            phone: business?.phone?.toString() ?? '',
             email: business?.email ?? '',
             website: business?.website ?? '',
         },
@@ -169,6 +165,18 @@ export default function EditBusinessPage() {
                     position: 'top-right',
                     duration: 5000,
                     isClosable: true,
+                });
+                return;
+            } 
+
+            if (values.phone?.length !== 11) {
+                toast({
+                    title: 'Warning',
+                    description: 'Please Enter a Valid Phone',
+                    status: 'warning',
+                    duration: 5000,
+                    position: 'top-right',
+
                 });
                 return;
             }
@@ -202,20 +210,20 @@ export default function EditBusinessPage() {
         }
     }), {
         onSuccess: (data) => {
-                console.log(data?.data);
-                setBusiness(data?.data?.content[0]);
-                setDescription(data?.data?.content[0]?.description)
-                setHasFixedPrice(data?.data?.content[0]?.hasFixedPrice)
-                setPrice(data?.data?.content[0]?.price + "")
-                setName(data?.data?.content[0]?.name)
-                setIndex(data?.data?.content[0]?.id)
-                setValue("email", data?.data?.content[0]?.email);
-                setValue("phone", data?.data?.content[0]?.phone);
-                setValue("address", data?.data?.content[0]?.address);
-                setValue("website", data?.data?.content[0]?.website);
-                setIsOnline(data?.data?.content[0]?.isOnline ? 'online' : data?.data?.content[0]?.address !== '' ? 'physical' : 'both');
-                updateImagePreview(data?.data?.content[0]?.images);
-                updateRental({ ...rentaldata, location: data?.data?.content[0]?.location })
+            console.log(data?.data);
+            setBusiness(data?.data?.content[0]);
+            setDescription(data?.data?.content[0]?.description)
+            setHasFixedPrice(data?.data?.content[0]?.hasFixedPrice)
+            setPrice(data?.data?.content[0]?.price + "")
+            setName(data?.data?.content[0]?.name)
+            setIndex(data?.data?.content[0]?.id)
+            setValue("email", data?.data?.content[0]?.email);
+            setValue("phone", data?.data?.content[0]?.phone);
+            setValue("address", data?.data?.content[0]?.address);
+            setValue("website", data?.data?.content[0]?.website);
+            setIsOnline(data?.data?.content[0]?.isOnline ? 'online' : data?.data?.content[0]?.address !== '' ? 'physical' : 'both');
+            updateImagePreview(data?.data?.content[0]?.images);
+            updateRental({ ...rentaldata, location: data?.data?.content[0]?.location })
         },
         onError: (error: any) => {
             toast({
@@ -246,6 +254,8 @@ export default function EditBusinessPage() {
     //     updateImagePreview(data?.data?.content[0]?.images);
     //     updateRental({ ...rentaldata, location: data?.data?.content[0]?.location })
     // }, [data])
+
+    console.log(values?.phone);
 
     React.useEffect(() => {
         if (both) {
@@ -448,10 +458,10 @@ export default function EditBusinessPage() {
                             </Flex>
                         </>
                     )}
-                    <Flex gap={"3"} alignItems={"center"}  >
+                    {/* <Flex gap={"3"} alignItems={"center"}  >
                         <Checkbox isChecked={hasFixedPrice ? false : true} onChange={() => setHasFixedPrice((prev) => !prev)} />
                         <Text color={primaryColor} >{`I don’t have fix price let client contact me`}</Text>
-                    </Flex>
+                    </Flex> */}
                     <Flex flexDir={"column"} gap={"3px"} >
                         <Text fontSize={"14px"} >{"Location"}</Text>
                         <Flex flexDirection={"column"} w={"full"} h={"45px"} gap={"3px"} >
@@ -459,7 +469,7 @@ export default function EditBusinessPage() {
                         </Flex>
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                        <CustomInput name="phone" placeholder='' labelTextSize='14px' label='Business Phone Number' isPassword={false} type='phone' required />
+                        <CustomInput name="phone" value={values?.phone ? values?.phone : business?.phone} placeholder='' labelTextSize='14px' label='Business Phone Number' isPassword={false} type='phone' required />
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="email" placeholder='' labelTextSize='14px' label='Business Email Address' isPassword={false} type='email' required />
@@ -540,7 +550,7 @@ export default function EditBusinessPage() {
 
                     <Flex w={"full"} h={"100px"} pb={"9"} >
                         {/* <SubmitButton isDisabled={false} title='Create Business' isLoading={uploadImageMutation.isLoading ?? createBusinessMutation.isLoading} /> */}
-                        <Button type='submit' isLoading={uploadImageMutation.isLoading || createBusinessMutation.isLoading} onClick={() => setOpen(true)} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"49px"} _hover={{ backgroundColor: primaryColor }} >
+                        <Button type='submit' isLoading={uploadImageMutation.isLoading || createBusinessMutation.isLoading} isDisabled={!name || !description || !price || !rentaldata?.location?.state || uploadImageMutation.isLoading || createBusinessMutation.isLoading || !values?.email ? true : false} _disabled={{ opacity: "30%", cursor: "not-allowed" }}  onClick={() => setOpen(true)} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"49px"} _hover={{ backgroundColor: primaryColor }} >
                             Save
                         </Button>
                     </Flex>

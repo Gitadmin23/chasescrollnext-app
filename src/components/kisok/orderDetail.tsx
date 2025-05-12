@@ -19,14 +19,20 @@ import useCustomTheme from '@/hooks/useTheme';
 import EventMap from '../event_details_component/event_map_info';
 import ConfirmPayment from './confirmPayment';
 import CustomButton from '../general/Button';
+import useProduct from '@/hooks/useProduct';
+import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
 
 export default function OrderDetail({ id }: { id: string }) {
     const [item, setItem] = useState({} as IOrder)
 
     const { push } = useRouter()
 
-    const { secondaryBackgroundColor } = useCustomTheme()
+    const userId = localStorage.getItem('user_id') + "";
+    const { secondaryBackgroundColor, headerTextColor } = useCustomTheme()
     const [sizeOfText, setSizeOfText] = useState(200)
+
+    const { payForTicket, dataID, message, configPaystack, setPaystackConfig } = useProduct()
+
 
     const { isLoading } = useQuery(
         ["order", id],
@@ -44,6 +50,16 @@ export default function OrderDetail({ id }: { id: string }) {
 
     console.log(item);
 
+    const clickHandler = () => {
+        payForTicket?.mutate({
+            seller: item?.vendor?.userId,
+            price: Number(item?.total),
+            currency: "NGN",
+            orderType: "ORDERS",
+            typeID: item?.id
+        })
+    }
+
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -51,8 +67,8 @@ export default function OrderDetail({ id }: { id: string }) {
 
                 <Flex w={"full"} gap={"2"} flexDir={["column"]} >
                     <Flex gap={"3"} alignItems={"center"} >
-                        <Flex as={"button"} onClick={() => push("/dashboard/product/kisok")} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} zIndex={"30"} left={"4"}  >
-                            <IoArrowBack size={"20px"} />
+                        <Flex as={"button"} onClick={() => push("/dashboard/product/kiosk?type=kiosk")} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} zIndex={"30"} left={"4"}  >
+                            <IoArrowBack size={"20px"} color={headerTextColor} />
                         </Flex>
                         <Text fontWeight={"500"} >Order Details</Text>
                     </Flex>
@@ -92,10 +108,18 @@ export default function OrderDetail({ id }: { id: string }) {
                             <Text fontSize={"14px"} fontWeight={"700"} >Product  Description</Text>
                             <Text fontSize={"12px"} >{textLimit(item?.product?.description, sizeOfText)} {item?.product?.description?.length > sizeOfText && (<span style={{ fontWeight: "700" }} role='button' onClick={() => setSizeOfText((prev) => prev === item?.product?.description?.length ? 200 : item?.product?.description?.length)} >{item?.product?.description?.length === sizeOfText ? "less" : "more"}</span>)}</Text>
                         </Flex>
-                        <Text fontSize={["14px"]} fontWeight={"600"} >Payment Method</Text>
-                        <Text fontWeight={"500"} fontSize={"14px"} >Items total: {formatNumber(item?.total)}</Text>
-                        <Text fontWeight={"500"} fontSize={"14px"} >Service Fees: {formatNumber(item?.total * 0.03)}</Text>
-                        <Text fontWeight={"600"} fontSize={"16px"} >Total: {formatNumber(item?.total + (item?.total * 0.03))}</Text>
+                        <Flex flexDir={"column"} gap={"2"} display={item?.paymentStatus === "PENDING" ? "none" : "flex"} >
+                            <Text fontSize={["14px"]} fontWeight={"600"} >Payment Method</Text>
+                            <Text fontWeight={"500"} fontSize={"14px"} >Items total: {formatNumber(item?.total)}</Text>
+                            <Text fontWeight={"500"} fontSize={"14px"} >Service Fees: {formatNumber(item?.total * 0.03)}</Text>
+                            <Text fontWeight={"600"} fontSize={"16px"} >Total: {formatNumber(item?.total + (item?.total * 0.03))}</Text>
+                        </Flex>
+                        {(item?.paymentStatus === "PENDING" && item?.vendor?.userId !== userId) && (
+                            <CustomButton onClick={clickHandler} borderRadius={"999px"} mt={"3"} fontSize={"14px"} text={"Make Payment"} px={"4"} width={"fit-content"} />
+                        )}
+                        {(item?.paymentStatus === "PENDING" && item?.vendor?.userId === userId) && ( 
+                            <CustomButton fontSize={"sm"} text={"Awaiting Payment"} borderRadius={"99px"} width={"200px"} backgroundColor={"#FF9500"} />
+                        )}
                     </Flex>
                 </Flex>
                 <Flex w={"full"} flexDirection={"column"} gap={"4"} py={["0px", "0px", "4"]} >
@@ -118,11 +142,15 @@ export default function OrderDetail({ id }: { id: string }) {
                                 <Text fontSize={"14px"} fontWeight={"500"} >Verify that items are in good condition and meet the expected quality standards before authorizing payment.</Text>
                                 <Text fontSize={"14px"} fontWeight={"500"} >Please inform us if you encounter any issues at support@chasescroll.com</Text>
                             </Flex>
-                            <ConfirmPayment hasConfirm={item?.hasReceived} productId={item?.product?.id} vendor={item?.vendor} id={item?.id} image={IMAGE_URL + item?.product?.images[0]} type={"PRODUCT"} name={item?.product?.name} />
+                            {item?.paymentStatus !== "PENDING" && (
+                                <ConfirmPayment hasConfirm={item?.hasReceived} productId={item?.product?.id} vendor={item?.vendor} id={item?.id} image={IMAGE_URL + item?.product?.images[0]} type={"PRODUCT"} name={item?.product?.name} />
+                            )}
                         </Flex>
                     </Flex>
                 </Flex>
             </Flex>
+
+            <Fundpaystack id={item?.id} config={configPaystack} setConfig={setPaystackConfig} message={message} />
         </LoadingAnimation>
     )
 }

@@ -41,7 +41,7 @@ export default function UserComment() {
         } = props
 
         return (
-            <Flex w={"399px"} h={"330px"} pb={"6"} bgColor={"white"} pt={"4"} flexDir={"column"} pos={"relative"} rounded={"14px"} borderWidth={"1px"} borderColor={"#E2E8F0"} >
+            <Flex w={["320px", "320px", "399px"]} h={["220px", "220px", "330px"]} pb={"6"} bgColor={"white"} pt={"4"} flexDir={"column"} pos={"relative"} rounded={"14px"} borderWidth={"1px"} borderColor={"#E2E8F0"} >
                 <Flex px={"6"} pt={"2"} w={"full"} h={"200px"} justifyContent={"center"} alignItems={"center"} overflowY={"auto"} >
                     <Text fontSize={"17.3px"} lineHeight={"28px"} letterSpacing={"-0.18px"} >{detail}</Text>
                 </Flex>
@@ -66,8 +66,13 @@ export default function UserComment() {
         } = props
 
         return (
-            <Flex w={"512px"} h={"330px"} bgColor={"red.300"} justifyContent={"center"} rounded={"14px"} alignItems={"center"}  >
-                <YouTube className=" videoborder " videoId={url} opts={opts} />
+            <Flex w={["420px", "420px", "512px"]} h={["220px", "220px", "330px"]} bgColor={"white"} justifyContent={"center"} rounded={"14px"} alignItems={"center"}  >
+                <Flex display={["none", "none", "flex"]} >
+                    <YouTube className=" videoborder " videoId={url} opts={opts} />
+                </Flex>
+                <Flex display={["flex", "flex", "none"]} >
+                    <YouTube className=" videoborder " videoId={url} opts={optsmobile} />
+                </Flex>
             </Flex>
         )
     }
@@ -80,14 +85,24 @@ export default function UserComment() {
             autoplay: 0,
         },
     };
-    // https://youtu.be/f8gJriFJE5k
 
-    const data = [
+    const optsmobile = {
+        height: '220',
+        width: '420',
+        playerVars: {
+            // https://developers.google.com/youtube/player_parameters
+            autoplay: 0,
+        },
+    };
+    // https://youtu.be/f8gJriFJE5k
+    
+
+    const data = [ 
         {
             "name": "",
             "detail": "",
             "video": true,
-            "url": "rZpcP499EPY",
+            "url": "bghyODXzp08",
         },
         {
             "name": "Egwake Jc - Abuja",
@@ -98,6 +113,12 @@ export default function UserComment() {
             "name": "Osuntade Brian - Lagos",
             "detail": "My experience with Chasescroll was nice.",
             "video": false,
+        },
+        {
+            "name": "",
+            "detail": "",
+            "video": true,
+            "url": "rZpcP499EPY",
         },
         {
             "name": "",
@@ -186,8 +207,8 @@ export default function UserComment() {
 
 
     return (
-        <Flex w={"full"} flexDir={"column"} pt={["0px", "0px", "12"]} pb={["4", "4", "12"]} gap={"9"} >
-            <Flex ref={ref} w={"full"} overflowX={"auto"} px={"12"} scrollBehavior={"smooth"} sx={
+        <Flex w={"full"} flexDir={"column"} pt={["8", "8", "12"]} pb={["4", "4", "12"]} gap={"9"} >
+            <Flex ref={ref} w={"full"} overflowX={"auto"} h={"fit-content"} px={["3", "3", "12"]} scrollBehavior={"smooth"} sx={
                 {
                     '::-webkit-scrollbar': {
                         display: 'none'
@@ -205,18 +226,7 @@ export default function UserComment() {
                                 <Card key={index} {...item} />
                             )
                         }
-                    })}
-                    {/* <Card />
-                    <Card />
-                    <Video />
-                    <Card />
-                    <Card />
-                    <Video />
-                    <Card />
-                    <Video />
-                    <Card />
-                    <Card />
-                    <Card /> */}
+                    })} 
                 </Flex>
             </Flex>
             <Flex w={"full"} justifyContent={"end"} gap={"4"} px={"12"} >

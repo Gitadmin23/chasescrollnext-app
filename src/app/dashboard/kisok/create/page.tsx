@@ -1,5 +1,7 @@
 "use client"
 import CustomButton from '@/components/general/Button'
+import ColorSelector from '@/components/kisok/productCustoms/colorSelector'
+import SizeSelector from '@/components/kisok/productCustoms/sizeSelector'
 import ProductImagePicker from '@/components/kisok/productImagePicker'
 import ProductMap from '@/components/kisok/productMap'
 import SelectCategories from '@/components/kisok/selectCategories'
@@ -14,13 +16,14 @@ import { Flex, Input, Switch, Text, Textarea } from '@chakra-ui/react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { IoArrowBack } from 'react-icons/io5'
+import Select from 'react-select';
 
 export default function KisokCreate() {
 
     const { primaryColor, secondaryBackgroundColor, headerTextColor, bodyTextColor, mainBackgroundColor } = useCustomTheme()
     const { push, back } = useRouter()
     const query = useSearchParams();
-    const [checked, setChecked] = useState(false)
+    const [checked, setChecked] = useState(false) 
 
     const type = query?.get('type');
     const { productdata, updateProduct } = useProductStore((state) => state);
@@ -42,11 +45,11 @@ export default function KisokCreate() {
     }
 
     const backHandler = () => {
-        if(type){
+        if (type) {
             push("/dashboard/kisok/create")
         } else {
-            push("/dashboard/product/kiosk")
-        } 
+            push("/dashboard/product/kiosk?type=kiosk")
+        }
     }
 
     return (
@@ -73,7 +76,20 @@ export default function KisokCreate() {
                     <Text fontSize={["14px", "16px", "24px"]} fontWeight={"500"} >Set your pricing </Text>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Quantity</Text>
-                        <Input bgColor={mainBackgroundColor} type="number" onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })} onChange={(e) => updateProduct({ ...productdata, quantity: e.target.value })} h={"45px"} />
+                        <Input bgColor={mainBackgroundColor}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^\d*$/.test(value)) {
+                                    updateProduct({ ...productdata, quantity: value })
+                                }
+                            }}
+                            onKeyPress={(e) => {
+                                if (!/[0-9]/.test(e.key)) {
+                                    e.preventDefault();
+                                }
+                            }}
+                            h={"45px"}
+                        />
                     </Flex>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Location</Text>
@@ -81,11 +97,25 @@ export default function KisokCreate() {
                         <ProductMap height='45px' location={productdata?.location} />
                     </Flex>
                     <SelectCategories rental={false} />
+                    <ColorSelector />
+                    <SizeSelector />
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Price per unit</Text>
-                        <Input type="number" onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })} bgColor={mainBackgroundColor} onChange={(e) => updateProduct({ ...productdata, price: e.target.value })} h={"45px"} />
+                        <Input
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^\d*$/.test(value)) {
+                                    updateProduct({ ...productdata, price: value })
+                                }
+                            }}
+                            onKeyPress={(e) => {
+                                if (!/[0-9]/.test(e.key)) {
+                                    e.preventDefault();
+                                }
+                            }}
+                            bgColor={mainBackgroundColor} h={"45px"} />
                     </Flex>
-                    <CustomButton type='button' _disabled={{ opacity: "0.5", cursor: "not-allowed" }} disable={(!productdata?.name || !productdata?.description || !productdata?.quantity || !productdata?.price) ? true : false} onClick={() => push("/dashboard/kisok/create?type=true")} height={"60px"} borderRadius={"999px"} mt={"4"} text={"Continue"} />
+                    <CustomButton type='button' _disabled={{ opacity: "0.5", cursor: "not-allowed" }} disable={(!productdata?.name || !productdata?.description || (!productdata?.quantity || Number(productdata?.quantity) === 0) || (!productdata?.price || Number(productdata?.price) === 0)) ? true : false} onClick={() => push("/dashboard/kisok/create?type=true")} height={"60px"} borderRadius={"999px"} mt={"4"} text={"Continue"} />
                 </Flex>
 
                 <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={!type ? "none" : "flex"} flexDir={"column"}  >

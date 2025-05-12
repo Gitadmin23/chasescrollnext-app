@@ -17,14 +17,16 @@ import ProductImageScroller from '../sharedComponent/productImageScroller'
 import { LocationStroke } from '../svg'
 import DeleteEvent from '../sharedComponent/delete_event'
 import { IoMdCheckmark } from 'react-icons/io'
+import { useDetails } from '@/global-state/useUserDetails'
 
 function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }: { business: IService, mybusiness?: boolean, isSelect?: boolean, selected?: any, setSelected?: any }) {
     const [activeImageIndex, setActiveImageIndex] = React.useState(0);
 
     const [services, setServices] = React.useState<IService[]>([]);
-    const userId = localStorage.getItem('user_id'); 
+    const userId = localStorage.getItem('user_id');
     const param = useParams();
     const id = param?.slug;
+    let token = localStorage.getItem("token")
 
     const toast = useToast()
     const router = useRouter();
@@ -44,10 +46,6 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
         }
     }, [])
 
-    // query
-    console.log(business);
-
-
     const {
         primaryColor, secondaryBackgroundColor,
         headerTextColor,
@@ -57,22 +55,26 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
     } = useCustomTheme()
 
     const clickHandler = () => {
-        if (isSelect) {
-            let clone = [...selected]
+        if (token) {
+            if (isSelect) {
+                let clone = [...selected]
 
-            if (selected?.includes(business?.id)) {
-                clone = clone?.filter((item: string) => item !== business?.id)
-                setSelected(clone)
+                if (selected?.includes(business?.id)) {
+                    clone = clone?.filter((item: string) => item !== business?.id)
+                    setSelected(clone)
+                } else {
+                    clone = [...clone, business?.id]
+                    setSelected(clone)
+                }
             } else {
-                clone = [...clone, business?.id]
-                setSelected(clone)
+                if (mybusiness && (business?.vendor?.userId === userId)) {
+                    router.push(`/dashboard/kisok/service/${business?.id}/edit`)
+                } else {
+                    router.push(`/dashboard/kisok/service/${business?.id}`)
+                }
             }
-        } else {
-            if (mybusiness && (business?.vendor?.userId === userId)) {
-                router.push(`/dashboard/kisok/service/${business?.id}/edit`)
-            } else {
-                router.push(`/dashboard/kisok/service/${business?.id}`)
-            }
+        } else {  
+            router.push(`/auth`)
         }
     }
 

@@ -147,8 +147,7 @@ function DonationTheme({ id }: { id?: string }) {
                                 <Text fontSize={"sm"} >{item?.description?.length ? item?.description?.length : "0"} {"/ 1500"}</Text>
                             </Flex>
                         </Flex>
-                        <Flex flexDirection={"column"} h={"full"} width={"full"} gap={"6"} >
-                            {(index === 0 && !pathname?.includes("edit")) && (
+                        <Flex flexDirection={"column"} h={"full"} width={"full"} gap={"6"} > 
                                 <Flex flexDirection={"column"} gap={"2"} >
                                     <Text fontWeight={"600"} >Fundraising Visibility</Text>
                                     <label htmlFor="publicVisibility" style={{ display: "flex", justifyContent: "space-between", borderBottomWidth: "1px", fontSize: "14px", padding: "8px" }} role='button' >
@@ -177,8 +176,7 @@ function DonationTheme({ id }: { id?: string }) {
                                             isChecked={item?.visibility === "PRIVATE"}
                                         />
                                     </label>
-                                </Flex>
-                            )}
+                                </Flex> 
                             {(index > 0 && !pathname?.includes("edit")) && (
                                 <CustomButton onClick={() => HandleDeleteTicket(index)} backgroundColor={"brand.chasescrollRed"} width={"fit-content"} text='Remove Fundraising' />
                             )}

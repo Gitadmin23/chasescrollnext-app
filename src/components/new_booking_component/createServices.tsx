@@ -435,17 +435,17 @@ export default function CreateServices({ id }: { id: string }) {
                                     setPrice(value);
                                 }
                             }} 
+                            onKeyPress={(e) => {
+                                if (!/[0-9]/.test(e.key)) {
+                                    e.preventDefault();
+                                }
+                            }}
                             onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                             h={"44px"}
                             borderWidth={"1px"}
                             borderColor={borderColor}
                             rounded={"16px"}
                             placeholder='₦ 232,435'
-                            onKeyPress={(e) => {
-                                if (!/[0-9]/.test(e.key)) {
-                                    e.preventDefault();
-                                }
-                            }}
                         />
                     </Flex>
                     {/* </>
@@ -466,7 +466,7 @@ export default function CreateServices({ id }: { id: string }) {
                     </Flex>
                     {/* )} */}
                     <Flex id='business' flexDir={"column"} gap={"1"} w={"full"} >
-                        <CustomInput name="phone" placeholder='' label='Phone Number' isPassword={false} type='phone' required />
+                        <CustomInput name="phone" placeholder='' label='Phone Number' isPassword={false} type='tel' required />
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="email" placeholder='' label='Business Email Address' isPassword={false} type='email' required />

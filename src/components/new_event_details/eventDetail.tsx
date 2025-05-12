@@ -218,7 +218,7 @@ export default function EventDetail(props: IEventType) {
                                 <VolunteerBtn {...props} />
                             )}
                             {(!isOrganizer && eventMemberRole !== "ADMIN" && eventMemberRole !== "COLLABORATOR") && (
-                                <Flex w={"150px"} >
+                                <Flex w={"fit-content"} >
                                     <PrBtn data={props} />
                                 </Flex>
                             )}

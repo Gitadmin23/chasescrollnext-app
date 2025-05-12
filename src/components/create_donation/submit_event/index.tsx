@@ -8,7 +8,7 @@ import { Button, Flex, VStack, useColorMode, useToast } from '@chakra-ui/react'
 import { AxiosError, AxiosResponse } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import SuccessMessageCreateEvent from '../success_message';
 import { IUser } from '@/models/User';
 import useCustomTheme from "@/hooks/useTheme";
@@ -37,6 +37,7 @@ function SubmitEvent(props: Iprops) {
 
     // const { image } = useEventStore((state) => state);
     const { data, image, updateDontion } = useDonationStore((state) => state);
+    const query = useQueryClient()
     const pathname = usePathname();
 
     const { fileUploadHandler, loading, uploadedFile, reset, deleteFile } = AWSHook();
@@ -231,6 +232,9 @@ function SubmitEvent(props: Iprops) {
             });
 
             router?.push("/dashboard/product/fundraising?type=mydonation")
+            query?.invalidateQueries("getDonationsingleList")
+            query?.invalidateQueries("donationlist") 
+            query?.invalidateQueries("donationlistmy")
 
             reset()
         }
@@ -263,7 +267,11 @@ function SubmitEvent(props: Iprops) {
             });
 
             reset()
+            query?.invalidateQueries("getDonationsingleList")
+            query?.invalidateQueries("donationlist") 
+            query?.invalidateQueries("donationlistmy")
             router?.push("/dashboard/donation/" + id)
+
         }
     });
 

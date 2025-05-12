@@ -22,8 +22,8 @@ function AddressSection() {
             call: true,
             title: "Phone",
             date: "Mon-Fri 9am to 5pm.",
-            location: "+1 619-720-2791",
-            locationtwo: "+2349116934251"
+            location: "(WhatsApp)",
+            locationtwo: "+16195198014"
         },
     ]
 

@@ -42,7 +42,7 @@ function WalletTransaction(props: Props) {
                     return (
                         <Flex key={index} gap={"2"} py={"3"} >
                             <Box width={"fit-content"} >
-                                {item?.purpose === 'PAY_FOR_TICKET' ? (
+                                {(item?.purpose === 'PAY_FOR_TICKET' || item?.purpose === "BUY_PRODUCT"  ||  item?.purpose === 'DONATION') ? (
                                     <TicketPurchase />
                                 ) : item?.purpose === 'FUND_WALLET' ? (
                                     <CreditWallet />
@@ -63,7 +63,10 @@ function WalletTransaction(props: Props) {
                                                 : item?.purpose === 'DONATION' ? "Fundraising"
                                                 : item?.purpose === 'FUND_WALLET'
                                                     ? 'Fund Wallet'
-                                                    : 'CASHOUT' && 'Withdrawal'
+                                                    : item?.purpose === 'CASHOUT'
+                                                        ? 'Withdrawal':
+                                                        item?.purpose === "BUY_PRODUCT" ? "Order Payment"
+                                                        : ''
                                         }
                                     </Text>
                                     <Text fontSize={"12px"} fontWeight={"medium"} color={colorMode === 'light' ? "#777E90":bodyTextColor} >{dateFormat(item?.timestamp * 1000)}</Text>
@@ -74,7 +77,7 @@ function WalletTransaction(props: Props) {
                                             item?.purpose === 'PAY_FOR_TICKET'
                                             ? "+ "
                                             : item?.purpose === 'CASHOUT' && "- "}
-                                        {formatNumber(item?.payableAmount / 100 ?? item?.value / 100, item?.currency === "USD" ? "$" : "₦")}
+                                        {formatNumber(item?.payableAmount ? (item?.payableAmount / 100) : item?.value / 100, item?.currency === "USD" ? "$" : "₦")}
                                     </Text>
                                     <Box width={"fit-content"} textAlign={"right"} fontWeight={"bold"} fontSize={"11px"} >
                                         {item?.status === 'PAID' && <Text bgColor={"green.2001"} rounded={"lg"} px={"0px"} py={"0px"} textColor={"green.400"} >Successful</Text>}

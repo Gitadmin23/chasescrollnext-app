@@ -109,13 +109,18 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                     {item?.bannerImage?.length > 0 && (
                         <Flex w={"full"} h={["340px", "340px", "620px"]} pos={"relative"} borderWidth={"1px"} borderColor={borderColor} p={"1"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"8px"} >
                             <Image src={IMAGE_URL + item?.bannerImage} alt='logo' height={"full"} w={"auto"} objectFit={"contain"} rounded={"8px"} />
-                            <Flex w={"8"} zIndex={"40"} justifyContent={"center"} alignItems={"center"} h={"8"} bgColor={mainBackgroundColor} rounded={"full"} pos={"absolute"} bottom={"3"} right={"3"} >
-                                <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
-                            </Flex>
+                            
                         </Flex>
                     )}
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
-                        <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{textLimit(capitalizeFLetter(item?.name), 70)}</Text>
+                        <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
+                            <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{textLimit(capitalizeFLetter(item?.name), 70)}</Text>
+                            {isDateInPast(item?.endDate) && (
+                                <Flex w={"8"} zIndex={"40"} justifyContent={"center"} alignItems={"center"} h={"8"} bgColor={mainBackgroundColor} rounded={"full"} >
+                                    <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                </Flex>
+                            )}
+                        </Flex>
                         <Flex display={["none", "none", "flex"]} >
                             <DonationGraph rounded='16px' item={item} />
                         </Flex>
