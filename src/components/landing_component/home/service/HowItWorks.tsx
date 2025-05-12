@@ -2,11 +2,13 @@ import CustomButton from '@/components/general/Button'
 import { GreenTickTwo } from '@/components/svg'
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Image, Text } from '@chakra-ui/react'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 export default function HowItWorks() {
 
     const { primaryColor } = useCustomTheme()
+    const { push } = useRouter()
 
     return (
         <Flex w={"full"} gap={["4", "4", "6"]} px={["6", "6", "16"]} py={["6", "6", "14"]} flexDir={["column", "column", "row"]} bg={"white"} alignItems={"center"} >
@@ -68,7 +70,7 @@ export default function HowItWorks() {
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >{`Click the "Approve" button to confirm the service is complete—this will automatically release the funds from escrow to the vendor’s wallet for withdrawal.`}</Text> 
                 </Flex>  
-                <CustomButton text={"Hire a Pro"} px={"5"} width={"fit-content"} fontSize={"14px"} mt={"3"} borderRadius={"999px"} />
+                <CustomButton onClick={()=> push("/auth")} text={"Hire a Pro"} px={"5"} width={"fit-content"} fontSize={"14px"} mt={"3"} borderRadius={"999px"} />
             </Flex>
         </Flex>
     )

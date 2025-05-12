@@ -2,6 +2,7 @@ import CustomButton from "@/components/general/Button";
 import useCustomTheme from "@/hooks/useTheme";
 import { Flex, Grid, Image, Text } from "@chakra-ui/react";
 import { useInView } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
 
@@ -10,7 +11,7 @@ export default function ServiceProvider() {
     const refthree: any = useRef(null);
     const isInViewthree = useInView(refthree, { once: true });
 
-    const { primaryColor } = useCustomTheme()
+    const { push } = useRouter()
 
     return (
         <Flex w={"full"} gap={["4", "4", "6"]} pos={"relative"} px={["6", "6", "16"]} py={["6", "6", "14"]} flexDir={["column", "column", "row"]} bg={"#F8FBF8"} alignItems={"center"} >
@@ -31,7 +32,7 @@ export default function ServiceProvider() {
                     <Text fontWeight={"500"} >{`To ensure a smooth resolution, be sure to take photos or videos as evidence. With us, you don't have to worry about losing your money or dealing with subpar customers.`}</Text>
                     <Text fontWeight={"500"} >{`If a customer is disrespectful, acts irresponsibly, or intentionally delays the project without prior notice, we've got your back—we'll release your full payment to you, hassle-free.`}</Text>
                     <Flex justifyContent={"end"} >
-                        <CustomButton text={"Find Opportunities"} px={"5"} width={"fit-content"} fontSize={"14px"} mt={"3"} borderRadius={"999px"} />
+                        <CustomButton onClick={()=> push("/auth")} text={"Find Opportunities"} px={"5"} width={"fit-content"} fontSize={"14px"} mt={"3"} borderRadius={"999px"} />
                     </Flex>
                 </Grid>
             </Flex>

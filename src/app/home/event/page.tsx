@@ -17,7 +17,7 @@ const Eventpage = () => {
     const { event_category } = useSearchStore((state) => state);
 
     return (
-        <Flex flexDir={"column"} w={"full"} color={"black"}  >
+        <Flex flexDir={"column"} w={"full"} color={"black"} pt={["74px", "74px", "101.03px"]}  >
             <Flex display={["flex", "flex", "none"]} pt={"4"} px={"6"} >
                 <SearchBar home={true} />
             </Flex>

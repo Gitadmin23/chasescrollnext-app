@@ -1,9 +1,13 @@
 "use client"
 import CustomButton from '@/components/general/Button'
 import { Flex, Image, Text } from '@chakra-ui/react'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 export default function FundHeroSection() {
+
+    const { push } = useRouter()
+
     return ( 
         <Flex w={"full"} h={["auto", "fit-content", "100vh"]} color={"white"} pos={"relative"} >
             <Flex pos={"absolute"} inset={"0px"} zIndex={"20"} style={{ background: "linear-gradient(116.54deg, rgba(84, 101, 224, 0) -7.35%, rgba(35, 61, 243, 0.2) 41.22%), linear-gradient(228.39deg, rgba(0, 0, 0, 0) -57.53%, rgba(0, 0, 0, 0.4) 90.44%), linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3))" }} />
@@ -13,7 +17,7 @@ export default function FundHeroSection() {
                     <Text fontWeight={"500"} >Fundraiser</Text>
                     <Text maxW={"481px"} fontSize={["42px", "42px", "60px"]} lineHeight={["120%", "120%", "75px"]} fontWeight={"700"} >Make your event dream a reality.</Text>
                     <Text maxW={"481px"} fontWeight={"500"} >Plan your dream event, bridge financial gaps, and scale effortlessly with our intuitive fundraising platform.</Text>
-                    <CustomButton text={"Start a fundraiser"} px={"5"} width={"fit-content"} fontSize={"14px"} mt={"3"} borderRadius={"999px"} />
+                    <CustomButton onClick={()=> push("/auth")} text={"Start a fundraiser"} px={"5"} width={"fit-content"} fontSize={"14px"} mt={"3"} borderRadius={"999px"} />
                 </Flex>
                 <Flex maxW={"751px"} h={"fit-content"} mt={["0px", "0px", "6"]} position={"relative"} >
                     <Image src='/images/plan/donation.png' alt='hero2' objectFit={"contain"} w={"full"} />
