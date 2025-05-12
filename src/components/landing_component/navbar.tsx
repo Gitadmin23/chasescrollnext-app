@@ -127,7 +127,7 @@ function HomeNavbar(
                 <Flex onClick={() => router.push("/")} as={"button"} alignItems={"center"} gap={"1"} >
                     <Image width={["32px", "32px", "60px"]} src={"/assets/logo.png"} alt="logo" />
                     <Flex flexDir={"column"} alignItems={"start"} >
-                        <Text fontWeight={"bold"} fontSize={["14px", "14px", "16px"]} color={THEME.COLORS.chasescrollBlue} >Chasescroll</Text>
+                        <Text fontWeight={"bold"} fontSize={["14px", "14px", "16px"]} color={THEME?.COLORS?.chasescrollButtonBlue} >Chasescroll</Text>
                         <Text fontWeight={"medium"} fontStyle={"italic"} fontSize={["12px", "12px", "14px"]}>We build memories.</Text>
                     </Flex>
                 </Flex>
