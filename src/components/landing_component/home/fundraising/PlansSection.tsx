@@ -1,3 +1,4 @@
+import { LandOneIcon, LandThreeIcon, LandTwoIcon } from '@/components/svg'
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Text } from '@chakra-ui/react'
 import React from 'react'
@@ -12,23 +13,17 @@ export default function PlansSection() {
                 <Text maxW={"1000px"} fontWeight={"700"} fontSize={["32px", "32px", "46px"]} lineHeight={"120%"} >From wedding events to complex initiatives, we can help</Text>
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} flexDir={"column"} gap={"2"} >
-                        <Flex w={"44px"} h={"44px"} rounded={"full"} borderWidth={"1px"} borderColor={"white"} >
-
-                        </Flex>
+                        <LandOneIcon />
                         <Text maxW={"311px"} fontSize={["24px", "24px", "32px"]} fontWeight={"700"} lineHeight={"120%"} >Move events across the finish line</Text>
                         <Text maxW={"311px"} fontSize={"14px"} >{`Finding professionals doesn't have to be a task. Request a service while creating your event or you can search from the tabs`}</Text>
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} gap={"2"} >
-                        <Flex w={"44px"} h={"44px"} rounded={"full"} borderWidth={"1px"} borderColor={"white"} >
-
-                        </Flex>
+                        <LandTwoIcon />
                         <Text maxW={"311px"} fontSize={["24px", "24px", "32px"]} fontWeight={"700"} lineHeight={"120%"} >Grow Your Event Team with Ease</Text>
                         <Text maxW={"311px"} fontSize={"14px"} >Get the extra hands you need to manage multi-layered event projects—from planning to execution—on your schedule.</Text>
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} gap={"2"} >
-                        <Flex w={"44px"} h={"44px"} rounded={"full"} borderWidth={"1px"} borderColor={"white"} >
-
-                        </Flex>
+                        <LandThreeIcon />
                         <Text maxW={"311px"} fontSize={["24px", "24px", "32px"]} fontWeight={"700"} lineHeight={"120%"} >Improved Event Quality</Text>
                         <Text maxW={"311px"} fontSize={"14px"} >More funds mean better resources—entertainment, technology, food, décor—enhancing the overall experience for attendees.</Text>
                     </Flex>

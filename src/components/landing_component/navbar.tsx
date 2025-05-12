@@ -19,7 +19,7 @@ function HomeNavbar(
     const homelink = [
         {
             label: "Home",
-            link: "/home"
+            link: "/"
         },
         {
             label: "Versax",

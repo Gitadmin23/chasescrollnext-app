@@ -113,10 +113,12 @@ import LandingPageLayout from '@/components/landing_component/landingPageLayout'
 import AboutEventSection from '@/components/landing_component/newhome/AboutEventSection';
 import EventOrganiser from '@/components/landing_component/newhome/EventOrganiser';
 import FundraisingSection from '@/components/landing_component/newhome/FundraisingSection';
+import GetThingDone from '@/components/landing_component/newhome/getThingDone';
 import HeroSection from '@/components/landing_component/newhome/HeroSection';
 import KioskSection from '@/components/landing_component/newhome/KioskSection';
 import ProfessionService from '@/components/landing_component/newhome/ProfessionService';
 import RentalSection from '@/components/landing_component/newhome/RentalSection';
+import ServiceProvider from '@/components/landing_component/newhome/serviceProvider';
 import ServiceSection from '@/components/landing_component/newhome/ServiceSection';
 import { Flex } from '@chakra-ui/react'
 import { useEffect, useState } from 'react';
@@ -128,12 +130,14 @@ export default function NewHome() {
       <Flex flexDir={"column"} color={"black"} w={"full"} >
         <HeroSection />
         <AboutEventSection />
-        <FundraisingSection />
-        <ServiceSection />
+        <GetThingDone />
+        {/* <FundraisingSection />
+        <ServiceSection /> */}
         <KioskSection />
         <EventOrganiser />
         <ProfessionService />
-        <RentalSection />
+        <ServiceProvider/>
+        {/* <RentalSection /> */}
         <UserComment />
         <Faq />
       </Flex>

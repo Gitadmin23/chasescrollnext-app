@@ -1,4 +1,5 @@
 import CustomButton from '@/components/general/Button'
+import { GreenTickTwo } from '@/components/svg'
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Image, Text } from '@chakra-ui/react'
 import React from 'react'
@@ -21,65 +22,49 @@ export default function HowItWorks() {
                 </Flex>
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >{`Click on the Service tab→ Browse and select the relevant service category and location.`}</Text> 
                 </Flex>
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >{`Select a vendor → click on Get quote`}</Text> 
                 </Flex>
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >{`Choose the date you need the service, and use the description box to detail your requirements and preferences.`}</Text> 
                 </Flex> 
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >{`Once completed, click the “Create booking” button and the vendor will revert back to you`}</Text> 
                 </Flex> 
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >{`Go to “All Services” drop-down list and select “My Request” to view your request status.`}</Text> 
                 </Flex>  
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >{`After the vendor accepts your request, proceed with payment through the platform to ensure secure and protected transactions.`}</Text> 
                 </Flex>  
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >{`Your payment remains in the vendor's escrow until the service is fully delivered as agreed.`}</Text> 
                 </Flex>  
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >{`Click the "Approve" button to confirm the service is complete—this will automatically release the funds from escrow to the vendor’s wallet for withdrawal.`}</Text> 
                 </Flex>  
