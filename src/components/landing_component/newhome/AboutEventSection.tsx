@@ -1,4 +1,5 @@
 import CustomButton from '@/components/general/Button'
+import { GreenTickTwo } from '@/components/svg'
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Image, Text } from '@chakra-ui/react'
 import { useInView } from 'framer-motion'
@@ -42,10 +43,8 @@ export default function AboutEventSection() {
                 <Text fontSize={["32px", "32px", "48px"]} lineHeight={"150%"} fontWeight={"700"} >Up your <span style={{ color: primaryColor }} >event</span> {`game, it's easy`}</Text>
                 <Flex flexDir={"column"} gap={"3"} mt={"2"} >
                     <Flex gap={"3"}>
-                        <Flex w={"fit-content"} >
-                            <Flex w={"44px"} h={"44px"} rounded={"full"} bgColor={primaryColor} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex>
+                        <Flex w={"fit-content"} mt={"1"} >
+                            <GreenTickTwo />
                         </Flex>
                         <Flex flexDir={"column"} > 
                             <Text fontSize={"24px"} fontWeight={"600"} lineHeight={"120%"} >No cost to join</Text>
@@ -53,10 +52,8 @@ export default function AboutEventSection() {
                         </Flex>
                     </Flex>
                     <Flex gap={"3"}>
-                        <Flex w={"fit-content"} >
-                            <Flex w={"44px"} h={"44px"} rounded={"full"} bgColor={primaryColor} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex>
+                        <Flex w={"fit-content"} mt={"1"} >
+                            <GreenTickTwo />
                         </Flex>
                         <Flex flexDir={"column"} > 
                             <Text fontSize={"24px"} fontWeight={"600"} lineHeight={"120%"} >Request a service and hire top professionals</Text>
@@ -64,10 +61,8 @@ export default function AboutEventSection() {
                         </Flex>
                     </Flex>
                     <Flex gap={"3"}>
-                        <Flex w={"fit-content"} >
-                            <Flex w={"44px"} h={"44px"} rounded={"full"} bgColor={primaryColor} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex>
+                        <Flex w={"fit-content"} mt={"1"} >
+                            <GreenTickTwo />
                         </Flex>
                         <Flex flexDir={"column"} > 
                             <Text fontSize={"24px"} fontWeight={"600"} lineHeight={"120%"} >Work with the best—without breaking the bank</Text>

@@ -25,7 +25,7 @@ export default function EventOrganiser() {
                 <Text fontSize={["32px", "32px", "48px"]} lineHeight={"120%"} fontWeight={"700"} >Why event organizers turn to <span style={{ color: primaryColor }} >Chasescroll...</span></Text>
                 <Flex flexDir={"column"} gap={"5"} mt={"2"} >
                     {/* <Flex gap={"3"}>
-                        <Flex w={"fit-content"} >
+                        <Flex mt={"1"} w={"fit-content"} >
                             <GreenTickTwo />
                         </Flex>
                         <Flex flexDir={"column"} > 
@@ -35,7 +35,7 @@ export default function EventOrganiser() {
                     </Flex> */}
 
                     <Flex gap={"3"}>
-                        <Flex w={"fit-content"} >
+                        <Flex mt={"1"} w={"fit-content"} >
                             <GreenTickTwo />
                         </Flex>
                         <Flex flexDir={"column"} >
@@ -44,7 +44,7 @@ export default function EventOrganiser() {
                         </Flex>
                     </Flex>
                     <Flex gap={"3"}>
-                        <Flex w={"fit-content"} >
+                        <Flex mt={"1"} w={"fit-content"} >
                             <GreenTickTwo />
                         </Flex>
                         <Flex flexDir={"column"} >
@@ -53,7 +53,7 @@ export default function EventOrganiser() {
                         </Flex>
                     </Flex>
                     <Flex gap={"3"}>
-                        <Flex w={"fit-content"} >
+                        <Flex mt={"1"} w={"fit-content"} >
                             <GreenTickTwo />
                         </Flex>
                         <Flex flexDir={"column"} >
@@ -63,7 +63,7 @@ export default function EventOrganiser() {
                     </Flex>
 
                     <Flex gap={"3"}>
-                        <Flex w={"fit-content"} >
+                        <Flex mt={"1"} w={"fit-content"} >
                             <GreenTickTwo />
                         </Flex>
                         <Flex flexDir={"column"} >
@@ -72,7 +72,7 @@ export default function EventOrganiser() {
                         </Flex>
                     </Flex>
                     <Flex gap={"3"}>
-                        <Flex w={"fit-content"} >
+                        <Flex mt={"1"} w={"fit-content"} >
                             <GreenTickTwo />
                         </Flex>
                         <Flex flexDir={"column"} >
