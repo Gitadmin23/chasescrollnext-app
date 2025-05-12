@@ -4,7 +4,7 @@ import useCustomTheme from '@/hooks/useTheme';
 import { Button, Flex,Select, Input,  Image, Text } from '@chakra-ui/react';
 import { useInView } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 
 export default function HeroSection() {
 
@@ -13,6 +13,8 @@ export default function HeroSection() {
     const isInView = useInView(ref, { once: true });
     const reftwo: any = useRef(null);
     const isInViewtwo = useInView(ref, { once: true });
+
+    const [active, setActive] = useState("")
 
     const { primaryColor, headerTextColor, secondaryBackgroundColor, borderColor, mainBackgroundColor } = useCustomTheme()
     const { push } = useRouter()
@@ -48,47 +50,47 @@ export default function HeroSection() {
                         background: "linear-gradient(115.13deg, rgba(35, 61, 243, 0.2) 20.26%, rgba(21, 35, 141, 0.2) 65.99%), linear-gradient(265.89deg, rgba(0, 0, 0, 0) 18.07%, rgba(0, 0, 0, 0.6) 86.4%)"
                     }} maxW={"833px"} px={["3", "3", "10"]} py={["6", "6", "10"]} rounded={"32px"} flexDir={"column"} alignItems={"center"} gap={"8"} >
                     <Flex w={["full", "fit-content", "fit-content"]} gap={["3", "3", "0px"]} alignItems={"center"} bgColor={secondaryBackgroundColor} p={"6px"} rounded={"full"} >
-                        <CustomButton onClick={() => clickHandler("event")} text={
+                        <CustomButton onMouseOver={()=> setActive("event")} onMouseOut={()=> setActive("")} onClick={() => clickHandler("event")} text={
                             <Flex alignItems={"center"} gap={"2"} >
                                 <Flex display={["none", "none", "flex"]} >
-                                    <NewEventIcon color={"white"} />
+                                    <NewEventIcon color={active === "event" ? "white" : headerTextColor} />
                                 </Flex>
                                 <Text fontSize={["10px", "12px", "14px"]} >Event</Text>
                             </Flex>
-                        } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={primaryColor} border={"0px"} borderColor={"transparent"} borderRadius={"32px"} fontWeight={"600"} color={"white"} width={["100%", "107px", "140px"]} />
-                        <CustomButton onClick={() => clickHandler("service")} text={
+                        } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={active === "event" ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={borderColor} borderRadius={"32px"} fontWeight={"600"} color={active === "event" ? "white" : headerTextColor} width={["100%", "107px", "140px"]} />
+                        <CustomButton onMouseOver={()=> setActive("service")} onMouseOut={()=> setActive("")} onClick={() => clickHandler("service")} text={
                             <Flex alignItems={"center"} gap={"2"} >
                                 <Flex display={["none", "none", "flex"]} >
-                                    <ServiceIcon color={headerTextColor} />
+                                    <ServiceIcon color={active === "service" ? "white" : headerTextColor} />
                                 </Flex>
                                 <Text fontSize={["10px", "12px", "14px"]} >Service</Text>
                             </Flex>
-                        } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={secondaryBackgroundColor} border={"0px"} borderColor={borderColor} borderRadius={"32px"} fontWeight={"600"} color={headerTextColor} width={["100%", "107px", "140px"]} />
-                        <CustomButton onClick={() => clickHandler("rental")} text={
+                        } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={active === "service" ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={borderColor} borderRadius={"32px"} fontWeight={"600"} color={active === "service" ? "white" : headerTextColor} width={["100%", "107px", "140px"]} />
+                        <CustomButton onMouseOver={()=> setActive("rental")} onMouseOut={()=> setActive("")} onClick={() => clickHandler("rental")} text={
                             <Flex alignItems={"center"} gap={"2"} >
                                 <Flex display={["none", "none", "flex"]} >
-                                    <RentalIcon color={headerTextColor} />
+                                    <RentalIcon color={active === "rental" ? "white" : headerTextColor} />
                                 </Flex>
                                 <Text fontSize={["10px", "12px", "14px"]} >Rental</Text>
                             </Flex>
-                        } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={secondaryBackgroundColor} border={"0px"} borderColor={borderColor} borderRadius={"32px"} fontWeight={"600"} color={headerTextColor} width={["100%", "107px", "140px"]} />
-                        <CustomButton onClick={() => clickHandler("kiosk")} text={
+                        } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={active === "rental" ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={borderColor} borderRadius={"32px"} fontWeight={"600"} color={active === "rental" ? "white" : headerTextColor} width={["100%", "107px", "140px"]} />
+                        <CustomButton onMouseOver={()=> setActive("kiosk")} onMouseOut={()=> setActive("")} onClick={() => clickHandler("kiosk")} text={
                             <Flex alignItems={"center"} gap={"2"} >
                                 <Flex display={["none", "none", "flex"]} >
-                                    <StoreIcon color={headerTextColor} />
+                                    <StoreIcon color={active === "kiosk" ? "white" : headerTextColor} />
                                 </Flex>
                                 <Text fontSize={["10px", "12px", "14px"]} >Kiosk</Text>
                             </Flex>
-                        } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={secondaryBackgroundColor} border={"0px"} borderColor={borderColor} borderRadius={"32px"} fontWeight={"600"} color={headerTextColor} width={["100%", "107px", "140px"]} />
+                        } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={active === "kiosk" ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={borderColor} borderRadius={"32px"} fontWeight={"600"} color={active === "kiosk" ? "white" : headerTextColor} width={["100%", "107px", "140px"]} />
                         <Flex w="fit-content" display={["none", "none", "flex"]} >
-                            <CustomButton onClick={() => clickHandler("donation")} text={
+                            <CustomButton onMouseOver={()=> setActive("fundraising")} onMouseOut={()=> setActive("")} onClick={() => clickHandler("donation")} text={
                                 <Flex alignItems={"center"} gap={"2"} >
                                     <Flex display={["none", "none", "flex"]} >
-                                        <NewDonationIcon color={headerTextColor} />
+                                        <NewDonationIcon color={active === "fundraising" ? "white" : headerTextColor} />
                                     </Flex>
                                     <Text fontSize={["10px", "12px", "14px"]} >Fundraising</Text>
                                 </Flex>
-                            } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={secondaryBackgroundColor} border={"0px"} borderColor={borderColor} borderRadius={"32px"} fontWeight={"600"} color={headerTextColor} width={["107px", "107px", "140px"]} />
+                            } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={active === "fundraising" ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={borderColor} borderRadius={"32px"} fontWeight={"600"} color={active === "fundraising" ? "white" : headerTextColor} width={["107px", "107px", "140px"]} />
                         </Flex>
                     </Flex>
                     {/* <Image src='/images/hero/filter.png' alt='filter' /> */}

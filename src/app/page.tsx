@@ -133,7 +133,7 @@ export default function NewHome() {
         <GetThingDone />
         {/* <FundraisingSection />
         <ServiceSection /> */}
-        <KioskSection />
+        {/* <KioskSection /> */}
         <EventOrganiser />
         <ProfessionService />
         <ServiceProvider/>

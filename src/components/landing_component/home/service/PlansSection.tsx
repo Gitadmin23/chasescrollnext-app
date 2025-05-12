@@ -1,6 +1,6 @@
 import { LandOneIcon, LandThreeIcon, LandTwoIcon } from '@/components/svg'
 import useCustomTheme from '@/hooks/useTheme'
-import { Flex, Text } from '@chakra-ui/react'
+import { Flex, Image, Text } from '@chakra-ui/react'
 import React from 'react'
 
 export default function PlansSection() {
@@ -9,7 +9,10 @@ export default function PlansSection() {
 
     return (
         <Flex color={"white"} w={"full"} gap={["4", "4", "6"]} px={["6", "6", "20"]}  py={["6", "6", "24"]} >
-            <Flex w={"full"} flexDirection={"column"} gap={["4", "6", "6"]} bgColor={"#E92424"} rounded={["12px", "12px", "32px"]} px={["3", "3", "6"]} pb={["6", "6", "24"]} pt={["8", "8", "10"]} >
+            <Flex w={"full"} position={"relative"} flexDirection={"column"} gap={["4", "6", "6"]} bgColor={"#E92424"} rounded={["12px", "12px", "32px"]} px={["3", "3", "6"]} pb={["6", "6", "24"]} pt={["8", "8", "10"]} >
+                <Flex pos={"absolute"} inset={"0px"} >
+                    <Image src='/images/bg.png' alt='bg' w={"full"} h={"full"} objectFit={"cover"} opacity={"10%"} />
+                </Flex>
                 <Text maxW={"1000px"} fontWeight={"700"} fontSize={["32px", "32px", "46px"]} lineHeight={"120%"} >{`You're safe with us`}</Text>
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} flexDir={"column"} gap={"2"} >

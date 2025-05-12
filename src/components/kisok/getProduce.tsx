@@ -31,7 +31,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     const userId = localStorage.getItem('user_id') + "";
     const param = useParams();
 
-    const { email } = useDetails((state) => state);
+    let token = localStorage.getItem("token")
     const id = param?.slug;
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
@@ -45,7 +45,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     const clickHandler = (item: IProduct) => {
         console.log(item);
 
-        if (email) { 
+        if (token) { 
             if (myproduct && item?.createdBy?.userId === userId) {
                 updateProduct({
                     ...productdata,
