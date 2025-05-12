@@ -58,7 +58,7 @@ export default function HowItWorks() {
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >{`You will find all your events and tickets here`}</Text> 
                 </Flex>    
-                <CustomButton onClick={()=> push("/auth")} text={"Create Rental"} px={"5"} width={"fit-content"} fontSize={"14px"} mt={"3"} borderRadius={"999px"} />
+                <CustomButton onClick={()=> push("/auth")} text={"Browse events"} px={"5"} width={"fit-content"} fontSize={"14px"} mt={"3"} borderRadius={"999px"} />
             </Flex>
         </Flex>
     )
