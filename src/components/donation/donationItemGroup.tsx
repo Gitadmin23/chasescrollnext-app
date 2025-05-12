@@ -28,6 +28,7 @@ import { isDateInPast } from '@/utils/isPast'
 import ProductImageScroller from '../sharedComponent/productImageScroller'
 import { formatNumber } from '@/utils/numberFormat'
 import CircularProgressBar from '../sharedComponent/circleGraph'
+import { useDetails } from '@/global-state/useUserDetails'
 
 
 
@@ -47,19 +48,24 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
     const [selected, setSelected] = useState({} as IDonationList)
     // const { data: groupData, isLoading: loading, isRefetching } = useGetDonationGroup(singleData?.fundRasingGroupId?.id)
     const [open, setOpen] = useState(false)
+    const { email } = useDetails((state) => state);
 
     const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/fund-raiser-group/search${search ? `?name=${search.toLowerCase()}` : ``}`, limit: 20, filter: "id", name: "donationlist", search: search })
 
     const router = useRouter()
 
     const clickHander = (item: IDonationGroup, index: string) => {
-        if (creator || pasted) {
-            router?.push("/dashboard/donation/" + index)
-        } else if (item?.fundRaisers?.length > 1) {
-            // setSelected(item)
-            router?.push("/dashboard/donation/group/" + index)
+        if (email) {
+            if (creator || pasted) {
+                router?.push("/dashboard/donation/" + index)
+            } else if (item?.fundRaisers?.length > 1) {
+                // setSelected(item)
+                router?.push("/dashboard/donation/group/" + index)
+            } else {
+                router?.push("/dashboard/donation/" + item?.fundRaisers[0]?.id)
+            }
         } else {
-            router?.push("/dashboard/donation/" + item?.fundRaisers[0]?.id)
+            router?.push("/auth")
         }
     }
 
