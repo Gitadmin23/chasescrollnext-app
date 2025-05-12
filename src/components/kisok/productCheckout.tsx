@@ -54,7 +54,7 @@ export default function ProductCheckout({item, qty, setQty, color, size} : {item
                     </Flex>
                 </Flex>
             </Flex>
-            <CustomButton onClick={clickHandler} text={"Check out"} height={"68px"} fontSize={"sm"} borderRadius={"9999px"} />
+            <CustomButton onClick={clickHandler} disable={item?.quantity === 0 ? true : false} text={"Check out"} height={"68px"} fontSize={"sm"} borderRadius={"9999px"} />
         </Flex>
     )
 }

@@ -1,6 +1,6 @@
 import CustomButton from '@/components/general/Button'
 import useCustomTheme from '@/hooks/useTheme'
-import { Flex, Text } from '@chakra-ui/react'
+import { Flex, Image, Text } from '@chakra-ui/react'
 import { useInView } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import React, { useRef } from 'react'
@@ -25,9 +25,9 @@ export default function AboutEventSection() {
                     transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
                 }} 
                 w={["full", "full", "fit-content"]} >
-                <Flex w={["full", "full", "503px"]} h={"440px"} rounded={"2xl"} bgColor={"#F2F7F2"} >
+                <Flex w={["full", "full", "503px"]} h={"440px"} rounded={"2xl"} >
                     <Flex w={"full"} h={"full"} rounded={"2xl"} >
-
+                        <Image src="/images/hometwo.png" alt='hometo' />
                     </Flex>
                 </Flex>
             </Flex>
