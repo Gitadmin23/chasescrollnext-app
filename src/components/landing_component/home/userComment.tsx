@@ -219,18 +219,7 @@ export default function UserComment() {
                                 <Card key={index} {...item} />
                             )
                         }
-                    })}
-                    {/* <Card />
-                    <Card />
-                    <Video />
-                    <Card />
-                    <Card />
-                    <Video />
-                    <Card />
-                    <Video />
-                    <Card />
-                    <Card />
-                    <Card /> */}
+                    })} 
                 </Flex>
             </Flex>
             <Flex w={"full"} justifyContent={"end"} gap={"4"} px={"12"} >

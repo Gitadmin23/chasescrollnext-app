@@ -1,3 +1,4 @@
+import { LandOneIcon, LandThreeIcon, LandTwoIcon } from '@/components/svg'
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Text } from '@chakra-ui/react'
 import React from 'react'
@@ -12,23 +13,17 @@ export default function PlansSection() {
                 <Text maxW={"1000px"} fontWeight={"700"} fontSize={["32px", "32px", "46px"]} lineHeight={"120%"} >{`You're safe with us`}</Text>
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} flexDir={"column"} gap={"2"} >
-                        <Flex w={"44px"} h={"44px"} rounded={"full"} borderWidth={"1px"} borderColor={"white"} >
-
-                        </Flex>
+                        <LandOneIcon />
                         <Text maxW={"311px"} fontSize={["24px", "24px", "32px"]} fontWeight={"700"} lineHeight={"120%"} >Easy Access to event professionals</Text>
                         <Text maxW={"311px"} fontSize={"14px"} >{`You can quickly connect with experienced, reviewed professionals who specialize in everything from planning and logistics to decor, catering, and entertainment.`}</Text>
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} gap={"2"} >
-                        <Flex w={"44px"} h={"44px"} rounded={"full"} borderWidth={"1px"} borderColor={"white"} >
-
-                        </Flex>
+                        <LandTwoIcon />
                         <Text maxW={"311px"} fontSize={["24px", "24px", "32px"]} fontWeight={"700"} lineHeight={"120%"} >Nationwide Reach</Text>
                         <Text maxW={"311px"} fontSize={"14px"} >{`You're not limited to your immediate area—Chasescroll gives you access to a broader pool of event professionals, including local pros in other cities or specialists for destination events.`}</Text>
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} gap={"2"} >
-                        <Flex w={"44px"} h={"44px"} rounded={"full"} borderWidth={"1px"} borderColor={"white"} >
-
-                        </Flex>
+                        <LandThreeIcon />
                         <Text maxW={"311px"} fontSize={["24px", "24px", "32px"]} fontWeight={"700"} lineHeight={"120%"} >Built-in Tools & Support</Text>
                         <Text maxW={"311px"} fontSize={"14px"} >{`Chasescroll offer built-in messaging, scheduling, contracts, and payment processing—streamlining the hiring and collaboration process.`}</Text>
                     </Flex>

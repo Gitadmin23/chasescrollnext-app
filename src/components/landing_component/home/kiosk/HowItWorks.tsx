@@ -1,4 +1,5 @@
 import CustomButton from '@/components/general/Button'
+import { GreenTickTwo } from '@/components/svg'
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Image, Text } from '@chakra-ui/react'
 import React from 'react'
@@ -21,41 +22,31 @@ export default function HowItWorks() {
                 </Flex>
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >{`Click on the Kiosk tab → Create your items`}</Text> 
                 </Flex>
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >{`Go to event tab → Select your event from  “My Event” drop-down list`}</Text> 
                 </Flex>
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >{`In the event details page, click the “My support center” button`}</Text> 
                 </Flex> 
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >{`Select “Kiosk” from the list, then choose the items you want to display with your event.`}</Text> 
                 </Flex> 
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >{`When your friends and family register through the event link, they'll see items for sale and purchase it.`}</Text> 
                 </Flex>  

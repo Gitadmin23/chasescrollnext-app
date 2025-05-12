@@ -15,7 +15,7 @@ export default function ProfessionService() {
     const isInViewthree = useInView(ref, { once: true });
 
     return (
-        <Flex w={"full"} gap={["4", "4", "6"]} px={["6", "6", "16"]} py={["6", "6", "14"]} flexDir={["column", "column", "row"]} bg={"white"} alignItems={"center"} >
+        <Flex w={"full"} gap={["4", "4", "6"]} px={["6", "6", "16"]} py={["6", "6", "14"]} flexDir={["column", "column", "row"]} bg={"#F8FBF8"} alignItems={"center"} >
             <Flex w={"full"} bgColor={"#F8FBF8"} rounded={"32px"} gap={"6"} flexDirection={["column"]} >
                 <Flex w={"full"} flexDir={["column", "column", "row"]} >
                     <Flex 
@@ -36,7 +36,7 @@ export default function ProfessionService() {
                             opacity: isInViewtwo ? 1 : 0,
                             transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
                         }} flexDir={"column"} w={"full"} gap={"4"} pt={"6"} px={"6"} >
-                        <Text fontSize={"24px"} fontWeight={"700"} >For professionals</Text>
+                        <Text fontSize={"24px"} color={primaryColor} fontWeight={"700"} >For professionals</Text>
                         <Text fontSize={["32px", "32px", "48px"]} lineHeight={"120%"} fontWeight={"700"} >Find great work</Text>
                         <Text maxW={"376px"} fontWeight={"500"} >{`Meet customers you're excited to work with and take your career or business to new heights.`}</Text>
                         <Grid templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", 'repeat(3, 1fr)']} gap={4} py={"3"} borderTopWidth={"1px"} borderBottomWidth={"1px"} >
@@ -59,7 +59,7 @@ export default function ProfessionService() {
                         </Grid>
                     </Flex>
                 </Flex>
-                <Flex 
+                {/* <Flex 
                     ref={refthree}
                     style={{
                         transform: isInViewthree ? "none" : "translateY(+70px)",
@@ -75,7 +75,7 @@ export default function ProfessionService() {
                             <CustomButton text={"Find Opportunities"} px={"5"} width={"fit-content"} fontSize={"14px"} mt={"3"} borderRadius={"999px"} />
                         </Flex>
                     </Grid>
-                </Flex>
+                </Flex> */}
             </Flex>
         </Flex>
     )

@@ -1,4 +1,5 @@
 import CustomButton from '@/components/general/Button'
+import { GreenTickTwo } from '@/components/svg'
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Image, Text } from '@chakra-ui/react'
 import React from 'react'
@@ -21,25 +22,19 @@ export default function HowItWorks() {
                 </Flex>
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >Click on fundraising</Text> 
                 </Flex>
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >Let us know about your fundraising goals and how much you aim to raise.</Text> 
                 </Flex>
                 <Flex alignItems={"center"} gap={"2"} >
                     <Flex w={"fit-content"} >
-                        <Flex w={"24px"} h={"24px"} rounded={"full"} bgColor={"#12BC42"} justifyContent={"center"} alignItems={"center"} >
-
-                        </Flex> 
+                        <GreenTickTwo />
                     </Flex>
                     <Text fontSize={["16px", "16px", "20px"]} fontWeight={"600"} >Share your fundraising link with friends and family to start collecting donations</Text> 
                 </Flex> 

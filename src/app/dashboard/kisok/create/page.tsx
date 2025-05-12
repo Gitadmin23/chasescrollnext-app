@@ -48,7 +48,7 @@ export default function KisokCreate() {
         if (type) {
             push("/dashboard/kisok/create")
         } else {
-            push("/dashboard/product/kiosk")
+            push("/dashboard/product/kiosk?type=kiosk")
         }
     }
 
