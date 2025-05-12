@@ -122,8 +122,8 @@ function HomeNavbar(
             <Flex ref={ref} position={"absolute"} top={"0px"} />
             <Flex 
                 style={{
-                    backgroundColor: (yaxis === 0 && pathname !== "/home/event") ? "transparent" : "white", 
-                }} w={"full"} position={"fixed"} zIndex={"100"} top={"0px"} color={(yaxis === 0 && pathname !== "/home/event") ? "white" : "black"} height={["64px", "64px", "101.03px"]} px={["6", "6", "12"]} justifyContent={"space-between"} alignItems={"center"}  >
+                    backgroundColor: (yaxis === 0) ? "transparent" : "white", 
+                }} w={"full"} position={"fixed"} zIndex={"100"} top={"0px"} color={(yaxis === 0) ? "white" : "black"} height={["64px", "64px", "101.03px"]} px={["6", "6", "12"]} justifyContent={"space-between"} alignItems={"center"}  >
                 <Flex onClick={() => router.push("/")} as={"button"} alignItems={"center"} gap={"1"} >
                     <Image width={["32px", "32px", "60px"]} src={"/assets/logo.png"} alt="logo" />
                     <Flex flexDir={"column"} alignItems={"start"} >
