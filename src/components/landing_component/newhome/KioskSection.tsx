@@ -2,6 +2,7 @@ import CustomButton from '@/components/general/Button'
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Image, Text } from '@chakra-ui/react'
 import { useInView } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import React, { useRef } from 'react'
 
 export default function KioskSection() {
@@ -11,6 +12,7 @@ export default function KioskSection() {
     const isInView = useInView(ref, { once: true });
     const reftwo: any = useRef(null);
     const isInViewtwo = useInView(ref, { once: true });
+    const { push } = useRouter()
 
     return (
         <Flex w={"full"} gap={["4", "4", "6"]} px={["6", "6", "16"]} py={["6", "6", "14"]} flexDir={["column", "column", "row"]} bg={"white"} alignItems={"center"} >
@@ -56,7 +58,7 @@ export default function KioskSection() {
                 <Flex flexDir={"column"}>
                     <Text fontWeight={"600"} color={primaryColor} >From decor to equipment, buying for your event has never been easier.</Text>
                 </Flex>
-                <CustomButton text={"How it works"} px={"5"} width={"fit-content"} fontSize={"14px"} mt={"3"} borderRadius={"999px"} />
+                <CustomButton onClick={()=> push("/home/kiosk")} text={"How it works"} px={"5"} width={"fit-content"} fontSize={"14px"} mt={"3"} borderRadius={"999px"} />
             </Flex>
         </Flex>
     )

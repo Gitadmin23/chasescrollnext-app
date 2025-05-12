@@ -2,6 +2,7 @@ import CustomButton from '@/components/general/Button'
 import useCustomTheme from '@/hooks/useTheme'
 import { Flex, Text } from '@chakra-ui/react'
 import { useInView } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import React, { useRef } from 'react'
 
 export default function AboutEventSection() {
@@ -12,6 +13,7 @@ export default function AboutEventSection() {
     const isInView = useInView(ref, { once: true });
     const reftwo: any = useRef(null);
     const isInViewtwo = useInView(ref, { once: true }); 
+    const { push } = useRouter()
 
     return (
         <Flex w={"full"} gap={"6"} px={["6", "6", "16"]} py={["6", "6", "14"]} flexDir={["column", "column", "row"]} bg={"white"} alignItems={"center"} >
@@ -73,7 +75,7 @@ export default function AboutEventSection() {
                         </Flex>
                     </Flex>
                 </Flex>
-                <CustomButton text={"Sign Up now for free"} px={"5"} width={"fit-content"} fontSize={"14px"} mt={"3"} borderRadius={"999px"} />
+                <CustomButton onClick={()=> push("/auth/signup")} text={"Sign Up now for free"} px={"5"} width={"fit-content"} fontSize={"14px"} mt={"3"} borderRadius={"999px"} />
             </Flex>
         </Flex>
     )
