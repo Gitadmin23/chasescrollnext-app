@@ -22,6 +22,7 @@ import { cleanup } from '@/utils/cleanupObj'
 import useProductStore from '@/global-state/useCreateProduct'
 import DeleteEvent from '../sharedComponent/delete_event'
 import { IoMdCheckmark } from 'react-icons/io'
+import { useDetails } from '@/global-state/useUserDetails'
 
 export default function GetRental({ myrental, name, state, category, isSelect, selected, setSelected }: { myrental?: boolean, name?: string, state?: string, category?: string, isSelect?: boolean, selected?: any, setSelected?: any }) {
 
@@ -32,6 +33,7 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
     const userId = localStorage.getItem('user_id') + "";
     const param = useParams();
     const id = param?.slug;
+    const { email } = useDetails((state) => state);
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
         url: `/rental/search${myrental ? `?userId=${id ? id : userId}` : ""}`, limit: 20, filter: "id", name: "getMyrental", paramsObj: cleanup({
@@ -42,34 +44,38 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
     })
 
     const clickHandler = (item: IRental) => {
-        if (isSelect) {
-            let clone = [...selected]
+        if (email) {
+            if (isSelect) {
+                let clone = [...selected]
 
-            if (selected?.includes(item?.id)) {
-                clone = clone?.filter((subitem: string) => subitem !== item?.id)
-                setSelected(clone)
+                if (selected?.includes(item?.id)) {
+                    clone = clone?.filter((subitem: string) => subitem !== item?.id)
+                    setSelected(clone)
+                } else {
+                    clone = [...clone, item?.id]
+                    setSelected(clone)
+                }
             } else {
-                clone = [...clone, item?.id]
-                setSelected(clone)
+                if (myrental && (item?.creator?.userId === userId)) {
+                    updateRental({
+                        ...rentaldata,
+                        name: item?.name,
+                        description: item?.description,
+                        images: item?.images,
+                        price: item?.price,
+                        category: item?.category,
+                        location: item?.location as any,
+                        maximiumNumberOfDays: item?.maximiumNumberOfDays,
+                        frequency: item?.frequency + "",
+                        state: item?.location?.state
+                    })
+                    push("/dashboard/kisok/edit/" + item?.id + "/rental")
+                } else {
+                    push("/dashboard/kisok/details-rental/" + item?.id)
+                }
             }
         } else {
-            if (myrental && (item?.creator?.userId === userId)) {
-                updateRental({
-                    ...rentaldata,
-                    name: item?.name,
-                    description: item?.description,
-                    images: item?.images,
-                    price: item?.price,
-                    category: item?.category,
-                    location: item?.location as any,
-                    maximiumNumberOfDays: item?.maximiumNumberOfDays,
-                    frequency: item?.frequency + "",
-                    state: item?.location?.state
-                })
-                push("/dashboard/kisok/edit/" + item?.id + "/rental")
-            } else {
-                push("/dashboard/kisok/details-rental/" + item?.id)
-            }
+            push(`/auth`)
         }
     }
 

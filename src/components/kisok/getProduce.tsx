@@ -21,6 +21,7 @@ import useProductStore from '@/global-state/useCreateProduct'
 import ProductImageScroller from '../sharedComponent/productImageScroller'
 import { cleanup } from '@/utils/cleanupObj'
 import DeleteEvent from '../sharedComponent/delete_event'
+import { useDetails } from '@/global-state/useUserDetails'
 
 export default function GetProduct({ myproduct, name, category, state }: { myproduct?: boolean, name?: string, state?: string, category?: string }) {
 
@@ -29,6 +30,8 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     const { push } = useRouter()
     const userId = localStorage.getItem('user_id') + "";
     const param = useParams();
+
+    const { email } = useDetails((state) => state);
     const id = param?.slug;
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
@@ -42,21 +45,27 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     const clickHandler = (item: IProduct) => {
         console.log(item);
 
-        if (myproduct && item?.createdBy?.userId === userId) {
-            updateProduct({
-                ...productdata,
-                name: item?.name,
-                description: item?.description,
-                images: item?.images,
-                price: item?.price,
-                category: item?.category,
-                location: item?.location as any,
-                quantity: item?.quantity,
-            })
-            push("/dashboard/kisok/edit/" + item?.id)
+        if (email) { 
+            if (myproduct && item?.createdBy?.userId === userId) {
+                updateProduct({
+                    ...productdata,
+                    name: item?.name,
+                    description: item?.description,
+                    images: item?.images,
+                    price: item?.price,
+                    category: item?.category,
+                    location: item?.location as any,
+                    quantity: item?.quantity,
+                })
+                push("/dashboard/kisok/edit/" + item?.id)
+            } else {
+                push("/dashboard/kisok/details/" + item?.id)
+            }
         } else {
-            push("/dashboard/kisok/details/" + item?.id)
+            push(`/auth`)
         }
+
+
     }
 
     let newResult = results?.filter((item: IProduct) => item?.createdBy?.userId !== userId)
