@@ -1,5 +1,7 @@
 "use client"
 import CustomButton from '@/components/general/Button'
+import ColorSelector from '@/components/kisok/productCustoms/colorSelector'
+import SizeSelector from '@/components/kisok/productCustoms/sizeSelector'
 import ProductImagePicker from '@/components/kisok/productImagePicker'
 import ProductMap from '@/components/kisok/productMap'
 import SelectCategories from '@/components/kisok/selectCategories'
@@ -14,13 +16,14 @@ import { Flex, Input, Switch, Text, Textarea } from '@chakra-ui/react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { IoArrowBack } from 'react-icons/io5'
+import Select from 'react-select';
 
 export default function KisokCreate() {
 
     const { primaryColor, secondaryBackgroundColor, headerTextColor, bodyTextColor, mainBackgroundColor } = useCustomTheme()
     const { push, back } = useRouter()
     const query = useSearchParams();
-    const [checked, setChecked] = useState(false)
+    const [checked, setChecked] = useState(false) 
 
     const type = query?.get('type');
     const { productdata, updateProduct } = useProductStore((state) => state);
@@ -85,7 +88,7 @@ export default function KisokCreate() {
                                     e.preventDefault();
                                 }
                             }}
-                            h={"45px"} 
+                            h={"45px"}
                         />
                     </Flex>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
@@ -94,6 +97,8 @@ export default function KisokCreate() {
                         <ProductMap height='45px' location={productdata?.location} />
                     </Flex>
                     <SelectCategories rental={false} />
+                    <ColorSelector />
+                    <SizeSelector />
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontWeight={"500"} >Price per unit</Text>
                         <Input

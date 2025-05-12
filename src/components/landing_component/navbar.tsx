@@ -27,23 +27,23 @@ function HomeNavbar(
             sublink: [
                 {
                     label: "Find event",
-                    link: "/"
+                    link: "/home/event"
                 },
                 {
                     label: "Find rental",
-                    link: "/"
+                    link: "/home/rental"
                 },
                 {
                     label: "Find fundraising",
-                    link: "/"
+                    link: "/home/fundraising"
                 },
                 {
                     label: "Find Service",
-                    link: "/"
+                    link: "/home/service"
                 },
                 {
                     label: "Find kiosk",
-                    link: "/"
+                    link: "/home/kiosk"
                 }
             ]
         },
@@ -160,7 +160,7 @@ function HomeNavbar(
                                     <MenuList>
                                         {item?.sublink?.map((subitem, subindex) => {
                                             return (
-                                                <MenuItem key={subindex} color={"black"} >{subitem?.label}</MenuItem>
+                                                <MenuItem key={subindex} onClick={()=> router?.push(subitem?.link)} color={"black"} >{subitem?.label}</MenuItem>
                                             )
                                         })}
                                     </MenuList>

@@ -64,6 +64,8 @@ export default function ShippingAddress(props: Props) {
     const { primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
     const query = useSearchParams();
     const type = query?.get('qty');
+    const color = query?.get('color');
+    const size = query?.get('size');
     const { back } = useRouter()
 
     const { dataID, message, createAddress, setOpen, open, payload, setPayload, userId, editAddress, setAddressId, addressId, openDelete, setOpenDelete, deleteAddress, addressDefault, setAddressDefault, createProductOrder, configPaystack, setPaystackConfig, updateAddress, singleProductData: item, setSingleProductData } = useProduct()
@@ -284,7 +286,7 @@ export default function ShippingAddress(props: Props) {
                             <Text fontWeight={"500"} >{formatNumber(item?.price * Number(type))}</Text>
                         </Flex>
                         <Flex mt={"4"} flexDir={"column"} alignItems={"center"} gap={"2"} >
-                            <CustomButton isLoading={createProductOrder?.isLoading} disable={addressDefault ? false : true} onClick={() => createProductOrder?.mutate({ productId: item?.id, quantity: Number(type), total: Number(item?.price * Number(type)), userId: userId + "", vendorId: item?.creator?.userId, addressId: addressDefault + "" })} text={"Confirm order"} borderRadius={"999px"} />
+                            <CustomButton isLoading={createProductOrder?.isLoading} disable={addressDefault ? false : true} onClick={() => createProductOrder?.mutate({ productId: item?.id, quantity: Number(type), total: Number(item?.price * Number(type)), userId: userId + "", vendorId: item?.creator?.userId, addressId: addressDefault + "", size: size+"", color: color+"" })} text={"Confirm order"} borderRadius={"999px"} />
                             <KisokTermAndCondition />
                         </Flex>
                     </Flex>
