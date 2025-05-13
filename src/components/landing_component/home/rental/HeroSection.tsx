@@ -9,7 +9,7 @@ export default function HeroSection() {
     const { push } = useRouter()
 
     return ( 
-        <Flex w={"full"} h={["auto", "fit-content", "100vh"]} color={"white"} pos={"relative"} >
+        <Flex w={"full"} h={["auto", "auto", "100vh"]} color={"white"} pos={"relative"} >
             <Flex pos={"absolute"} inset={"0px"} zIndex={"20"} style={{ background: "linear-gradient(116.54deg, rgba(84, 101, 224, 0) -7.35%, rgba(35, 61, 243, 0.2) 41.22%), linear-gradient(228.39deg, rgba(0, 0, 0, 0) -57.53%, rgba(0, 0, 0, 0.4) 90.44%), linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3))" }} />
             <Image pos={["absolute", "relative", "relative"]} zIndex={"10"}  src='/images/hero/rental.jpg' alt='rental' w={"full"} objectFit={"cover"} />
             <Flex pos={["relative", "relative", "absolute"]} insetX={"0px"} bottom={"0px"} pb={["6", "6", "0px"]} pt={["74px", "74px", "0px"]} top={["0px", "0px", "101.03px"]} gap={"8"} px={["6", "6", "16"]} flexDirection={["column", "column", "row"]} justifyContent={["center", "center", "space-between"]} alignItems={["start", "start", "center"]} zIndex={"30"} >

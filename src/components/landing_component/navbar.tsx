@@ -128,11 +128,11 @@ function HomeNavbar(
                 <Flex onClick={() => router.push("/")} as={"button"} alignItems={"center"} gap={"1"} >
                     <Image width={["32px", "32px", "60px"]} src={"/assets/logo.png"} alt="logo" />
                     <Flex flexDir={"column"} alignItems={"start"} >
-                        <Text fontWeight={"bold"} fontSize={["14px", "14px", "16px"]} color={THEME?.COLORS?.chasescrollButtonBlue} >Chasescroll</Text>
+                        <Text fontWeight={"bold"} fontSize={["14px", "14px", "16px"]} color={(yaxis === 0) ? "white" : THEME?.COLORS?.chasescrollButtonBlue} >Chasescroll</Text>
                         <Text fontWeight={"medium"} fontStyle={"italic"} fontSize={["12px", "12px", "14px"]}>We build memories.</Text>
                     </Flex>
                 </Flex>
-                <Flex h={"56px"} display={["none", "none", "flex"]} alignItems={"center"} px={"6"} rounded={"full"} style={{ background: yaxis === 0 ? "linear-gradient(265.89deg, rgba(0, 0, 0, 0) 18.07%, rgba(0, 0, 0, 0.1) 86.4%)" : "white" }} gap={"8"} >
+                <Flex h={"56px"} display={["none", "none", "none", "none", "flex"]} alignItems={"center"} px={"6"} rounded={"full"} style={{ background: yaxis === 0 ? "linear-gradient(265.89deg, rgba(0, 0, 0, 0) 18.07%, rgba(0, 0, 0, 0.1) 86.4%)" : "white" }} gap={"8"} >
                     {homelink?.map((item: {
                         label: string,
                         link: string,
@@ -177,24 +177,24 @@ function HomeNavbar(
                     })}
                 </Flex>
                 {!token && (
-                    <Flex display={["none", "none", "none", "flex"]} gap={"4"} >
+                    <Flex display={["none", "none", "none", "none", "flex"]} gap={"4"} >
                         <CustomButton onClick={() => clickHandler("/auth")} text={"Login"} width={"152px"} backgroundColor={"white"} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={THEME?.COLORS?.chasescrollBlue} borderRadius={"999px"} />
                         <CustomButton onClick={() => clickHandler("/auth/signup")} text={"Get Started"} width={"152px"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"999px"} />
                     </Flex>
                 )}
                 {token && (
-                    <Flex display={["none", "none", "none", "flex"]} gap={"4"} >
+                    <Flex display={["none", "none", "none", "none", "flex"]} gap={"4"} >
                         <CustomButton onClick={() => clickHandler("/dashboard/product")} text={"Dashboard"} width={"152px"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"999px"} />
                     </Flex>
                 )}
-                <Flex display={["flex", "flex", "flex", "none"]} >
+                <Flex display={["flex", "flex", "flex", "flex", "none"]} >
                     <button
                         onClick={onOpen}
                         className="p-3 z-50 focus:outline-none"
                     >
                         <HambergerMenu
                             size="30"
-                            color={THEME?.COLORS?.chasescrollButtonBlue}
+                            color={(yaxis === 0) ? "white" : THEME?.COLORS?.chasescrollButtonBlue}
                         />
                     </button>
                 </Flex>
