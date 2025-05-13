@@ -28,7 +28,7 @@ export default function NewPage() {
                 </Flex>
             </Flex>
             <Flex justifyContent={"center"} alignItems={"center"} bgColor={"#FCFCFC"} h={"full"} w={"full"} position={"relative"} >
-                <Flex as={"button"} display={["flex", "flex", "flex", "none"]} type='button' onClick={() => router?.push("/home")} pos={"absolute"} top={"6"} color={"black"} fontSize={"16px"} fontWeight={"600"} zIndex={"5"} gap={"1"} alignItems={"center"} left={"6"} >
+                <Flex as={"button"} display={["flex", "flex", "flex", "none"]} type='button' onClick={() => router?.push("/")} pos={"absolute"} top={"6"} color={"black"} fontSize={"16px"} fontWeight={"600"} zIndex={"5"} gap={"1"} alignItems={"center"} left={"6"} >
                     <IoIosArrowBack size={"20px"} />
                     Home
                 </Flex>
