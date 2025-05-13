@@ -27,7 +27,7 @@ export default function GetThingDone() {
         {
             "name": "Aso Ebi & product Hub→ ",
             "detail": "Browse and buy from our Kiosk",
-            link: "/home/event"
+            link: "/home/kiosk"
         },
         {
             "name": "Rental space → ",

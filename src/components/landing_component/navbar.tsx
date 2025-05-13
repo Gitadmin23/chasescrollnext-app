@@ -8,6 +8,7 @@ import SearchBar from "../explore_component/searchbar";
 import { jwtDecode } from "jwt-decode"
 import { IoChevronDown } from "react-icons/io5";
 import { useElementScroll, useInView } from "framer-motion";
+import { HambergerMenu } from "iconsax-react";
 
 
 function HomeNavbar(
@@ -106,7 +107,7 @@ function HomeNavbar(
         window.scrollTo(0, 0);
     }, [token])
 
-    const clickHander = (item: string) => {
+    const clickHandler = (item: string) => {
         router?.push(item)
         onClose()
     }
@@ -115,14 +116,14 @@ function HomeNavbar(
 
     const changeNavBg = () => {
         window.scrollY >= 800 ? setNavBg(true) : setNavBg(false);
-    } 
+    }
 
     return (
-        <> 
+        <>
             <Flex ref={ref} position={"absolute"} top={"0px"} />
-            <Flex 
+            <Flex
                 style={{
-                    backgroundColor: (yaxis === 0) ? "transparent" : "white", 
+                    backgroundColor: (yaxis === 0) ? "transparent" : "white",
                 }} w={"full"} position={"fixed"} zIndex={"100"} top={"0px"} color={(yaxis === 0) ? "white" : "black"} height={["64px", "64px", "101.03px"]} px={["6", "6", "12"]} justifyContent={"space-between"} alignItems={"center"}  >
                 <Flex onClick={() => router.push("/")} as={"button"} alignItems={"center"} gap={"1"} >
                     <Image width={["32px", "32px", "60px"]} src={"/assets/logo.png"} alt="logo" />
@@ -131,7 +132,7 @@ function HomeNavbar(
                         <Text fontWeight={"medium"} fontStyle={"italic"} fontSize={["12px", "12px", "14px"]}>We build memories.</Text>
                     </Flex>
                 </Flex>
-                <Flex h={"56px"} display={["none", "none", "flex"]} alignItems={"center"} px={"6"} rounded={"full"} style={{ background: yaxis === 0 ? "linear-gradient(265.89deg, rgba(0, 0, 0, 0) 18.07%, rgba(0, 0, 0, 0.1) 86.4%)" : "white" }} gap={"8"} >
+                <Flex h={"56px"} display={["none", "none", "none", "none", "flex"]} alignItems={"center"} px={"6"} rounded={"full"} style={{ background: yaxis === 0 ? "linear-gradient(265.89deg, rgba(0, 0, 0, 0) 18.07%, rgba(0, 0, 0, 0.1) 86.4%)" : "white" }} gap={"8"} >
                     {homelink?.map((item: {
                         label: string,
                         link: string,
@@ -141,7 +142,7 @@ function HomeNavbar(
                         }>
                     }) => {
                         if (item?.label === "Versax") {
-                            return ( 
+                            return (
                                 <Menu key={item?.label}  >
                                     <MenuButton
                                         px={4}
@@ -153,14 +154,14 @@ function HomeNavbar(
                                         _expanded={{ bg: 'transparent' }}
                                         cursor={"pointer"}
                                     >
-                                        <Flex gap={"3"}  lineHeight={"22.5px"} fontWeight={"semibold"} alignItems={"center"} >
+                                        <Flex gap={"3"} lineHeight={"22.5px"} fontWeight={"semibold"} alignItems={"center"} >
                                             {item?.label} <IoChevronDown />
                                         </Flex>
                                     </MenuButton>
                                     <MenuList>
                                         {item?.sublink?.map((subitem, subindex) => {
                                             return (
-                                                <MenuItem key={subindex} onClick={()=> router?.push(subitem?.link)} color={"black"} >{subitem?.label}</MenuItem>
+                                                <MenuItem key={subindex} onClick={() => router?.push(subitem?.link)} color={"black"} >{subitem?.label}</MenuItem>
                                             )
                                         })}
                                     </MenuList>
@@ -168,7 +169,7 @@ function HomeNavbar(
                             )
                         } else {
                             return (
-                                <Box onClick={() => clickHander(item?.link)} key={item?.label + item?.link} as="button" _hover={{ color: THEME?.COLORS?.chasescrollBlue }} >
+                                <Box onClick={() => clickHandler(item?.link)} key={item?.label + item?.link} as="button" _hover={{ color: THEME?.COLORS?.chasescrollBlue }} >
                                     <Text lineHeight={"22.5px"} fontWeight={"semibold"} >{item?.label}</Text>
                                 </Box>
                             )
@@ -176,16 +177,90 @@ function HomeNavbar(
                     })}
                 </Flex>
                 {!token && (
-                    <Flex display={["none", "none", "none", "flex"]} gap={"4"} >
-                        <CustomButton onClick={() => clickHander("/auth")} text={"Login"} width={"152px"} backgroundColor={"white"} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={THEME?.COLORS?.chasescrollBlue} borderRadius={"999px"} />
-                        <CustomButton onClick={() => clickHander("/auth/signup")} text={"Get Started"} width={"152px"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"999px"} />
+                    <Flex display={["none", "none", "none", "none", "flex"]} gap={"4"} >
+                        <CustomButton onClick={() => clickHandler("/auth")} text={"Login"} width={"152px"} backgroundColor={"white"} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={THEME?.COLORS?.chasescrollBlue} borderRadius={"999px"} />
+                        <CustomButton onClick={() => clickHandler("/auth/signup")} text={"Get Started"} width={"152px"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"999px"} />
                     </Flex>
                 )}
                 {token && (
-                    <Flex display={["none", "none", "none", "flex"]} gap={"4"} >
-                        <CustomButton onClick={() => clickHander("/dashboard/product")} text={"Dashboard"} width={"152px"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"999px"} />
+                    <Flex display={["none", "none", "none", "none", "flex"]} gap={"4"} >
+                        <CustomButton onClick={() => clickHandler("/dashboard/product")} text={"Dashboard"} width={"152px"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"999px"} />
                     </Flex>
                 )}
+                <Flex display={["flex", "flex", "flex", "flex", "none"]} >
+                    <button
+                        onClick={onOpen}
+                        className="p-3 z-50 focus:outline-none"
+                    >
+                        <HambergerMenu
+                            size="30"
+                            color={THEME?.COLORS?.chasescrollButtonBlue}
+                        />
+                    </button>
+                </Flex>
+
+                <Drawer
+                    isOpen={isOpen}
+                    placement='right'
+                    size={"xs"}
+                    onClose={onClose}
+                >
+                    <DrawerOverlay />
+                    <DrawerContent bg={"white"} >
+                        <DrawerCloseButton />
+
+                        <DrawerBody >
+
+                            <Flex width={"full"} h={"full"} pt={"20"} flexDir={"column"} alignItems={"center"} justifyContent={"start"} gap={"8"} fontSize={"lg"} >
+
+                                <Flex flexDir={"column"} gap={"8"} >
+                                    {homelink?.map((item: {
+                                        label: string,
+                                        link: string,
+                                        sublink?: Array<{
+                                            label: string,
+                                            link: string
+                                        }>
+                                    }) => {
+
+                                        if (item?.label === "Versax") {
+                                            return (
+                                                <Flex flexDir={"column"} gap={"8"} key={item?.label} >
+                                                        {item?.sublink?.map((subitem, subindex) => {
+                                                            return ( 
+                                                                <Box key={subindex} onClick={() => clickHandler(subitem?.link)} as="button" _hover={{ color: THEME?.COLORS?.chasescrollBlue }} >
+                                                                    <Text color={pathname === subitem?.link ? THEME?.COLORS?.chasescrollBlue : "black"} lineHeight={"22.5px"} fontWeight={"semibold"} >{subitem?.label}</Text>
+                                                                </Box>
+                                                            )
+                                                        })}
+                                                </Flex>
+                                            )
+                                        } else {
+                                            return (
+                                                <Box onClick={() => clickHandler(item?.link)} key={item?.label + item?.link} as="button" _hover={{ color: THEME?.COLORS?.chasescrollBlue }} >
+                                                    <Text color={pathname === item?.link ? THEME?.COLORS?.chasescrollBlue : "black"} lineHeight={"22.5px"} fontWeight={"semibold"} >{item?.label}</Text>
+                                                </Box>
+                                            )
+                                        }
+                                    })}
+                                </Flex>
+                                {!token && (
+                                    <Flex gap={"3"} width={"full"} my={"auto"} flexDir={"column"} justifyContent={"center"}  >
+                                        <CustomButton onClick={() => clickHandler("/auth")} text={"Login"} width={"full"} backgroundColor={"white"} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={THEME?.COLORS?.chasescrollBlue} borderRadius={"8px"} />
+                                        <CustomButton onClick={() => clickHandler("/auth")} text={"Get Started"} width={"full"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
+                                    </Flex>
+                                )}
+                                {token && (
+                                    <Flex gap={"3"} width={"full"} my={"auto"} flexDir={"column"} justifyContent={"center"}  >
+                                        <CustomButton onClick={() => clickHandler("/dashboard/event")} text={"Dashboard"} width={"full"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
+                                    </Flex>
+                                )}
+                                {/* )} */}
+                            </Flex>
+                        </DrawerBody>
+                    </DrawerContent>
+                </Drawer>
+
             </Flex>
         </>
     )

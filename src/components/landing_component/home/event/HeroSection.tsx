@@ -21,7 +21,7 @@ export default function HeroSection() {
                 </Flex>
                 <Flex maxW={"751px"} h={"fit-content"} mt={["0px", "0px", "6"]} position={"relative"} >
                     <Image src='/images/plan/eventpaper.png' alt='hero2' objectFit={"contain"} w={"full"} />
-                    <Image src='/images/plan/eventcard.jpeg' alt='hero2' pos={"absolute"} left={"0px"} bottom={["0px", "0px", "0px"]} height={"50%"} objectFit={"contain"} />
+                    <Image src='/images/plan/eventcard.png' alt='hero2' pos={"absolute"} left={"0px"} bottom={["0px", "0px", "0px"]} height={"50%"} objectFit={"contain"} />
                 </Flex>
             </Flex>
         </Flex>
