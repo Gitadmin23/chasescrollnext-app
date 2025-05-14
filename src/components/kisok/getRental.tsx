@@ -38,7 +38,7 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
         url: `/rental/search${myrental ? `?userId=${id ? id : userId}` : ""}`, limit: 20, filter: "id", name: "getMyrental", paramsObj: cleanup({
             name: name,
-            category: category,
+            category: category?.replaceAll(" ", "_"),
             state: state
         })
     })

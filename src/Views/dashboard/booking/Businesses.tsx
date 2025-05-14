@@ -19,7 +19,7 @@ function Businesses({ name, state, category }: { name?: string, state?: string, 
     const { results, isLoading, isRefetching: refetchingList } = InfiniteScrollerComponent({
         url: `/business-service/search`, limit: 20, filter: "id", name: "getProduct", paramsObj: cleanup({
             name: name,
-            category: category,
+            category: category?.replaceAll(" ", "_"),
             state: state
         })
     })

@@ -35,9 +35,9 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     const id = param?.slug;
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
-        url: `/products/search${myproduct ? `?creatorID=${id ? id : userId}` : ""}`, limit: 20, filter: "id", name: "getMyProduct", paramsObj: cleanup({
+        url: `/products/search${myproduct ? `?creatorID=${id ? id : userId}` : ""}`, limit: 20, filter: "id", name: "getMyProduct"+name+category+state, paramsObj: cleanup({
             name: name,
-            category: category,
+            category: category?.replaceAll(" ", "_"),
             state: state
         })
     })

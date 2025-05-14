@@ -153,6 +153,7 @@ function Layout({ children }: {
             category: initialFilter?.category,
             state: initialFilter?.state
         })
+        setOpen(false)
     }
 
     useEffect(() => {
@@ -167,6 +168,9 @@ function Layout({ children }: {
             state: ""
         })
     }, [type])
+
+    console.log();
+    
 
     return (
         <Flex w={"full"} px={["4", "4", "6"]} pt={["6", "6", "12", "12"]} pb={"12"} flexDir={"column"} overflowY={"auto"} >
@@ -395,7 +399,7 @@ function Layout({ children }: {
                                         }
                                         return 0;
                                     })?.map((item: string, index: number) => (
-                                        <option key={index} >{item?.replaceAll("_", "")}</option>
+                                        <option key={index} value={item?.replaceAll("_", " ")} >{item?.replaceAll("_", " ")}</option>
                                     ))}
                                 </>
                             )}
@@ -409,7 +413,7 @@ function Layout({ children }: {
                                         }
                                         return 0;
                                     })?.map((item: string, index: number) => (
-                                        <option key={index} >{item?.replaceAll("_", "")}</option>
+                                        <option key={index} value={item?.replaceAll("_", " ")}>{item?.replaceAll("_", "")}</option>
                                     ))}
                                 </>
                             )}
@@ -423,7 +427,7 @@ function Layout({ children }: {
                                         }
                                         return 0;
                                     })?.map((item: string, index: number) => (
-                                        <option key={index} >{item?.replaceAll("_", "")}</option>
+                                        <option key={index} value={item?.replaceAll("_", " ")}>{item?.replaceAll("_", "")}</option>
                                     ))}
                                 </>
                             )}
@@ -436,7 +440,7 @@ function Layout({ children }: {
                             })}
                         </Select>
                     </Flex>
-                    <CustomButton text={"Search"} borderRadius={"999px"} height={"58px"} />
+                    <CustomButton onClick={submitHandler} text={"Search"} borderRadius={"999px"} height={"58px"} />
                 </Flex>
             </ModalLayout>
             <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
