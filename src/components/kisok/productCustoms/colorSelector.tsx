@@ -35,9 +35,20 @@ export default function ColorSelector() {
 
         const hexValues = selected.map((color: any) => color.label);
 
-        setSelectedOptions(selected);
+        const transformedData = selected.map((item: any) => ({
+            color: item.value,
+            label: item.label
+        }));
+        const clone = selectedOptions
 
-        updateProduct({ ...productdata, color: [...hexValues] })
+        clone.push(transformedData)
+
+        setSelectedOptions(selected); 
+
+        console.log(transformedData);
+        
+
+        updateProduct({ ...productdata, color: transformedData })
     };
 
     const clickHandler = () => {

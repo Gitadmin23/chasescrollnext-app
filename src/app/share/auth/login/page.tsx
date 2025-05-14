@@ -12,6 +12,9 @@ function LoginPage() {
   const router = useRouter()
 
   const { renderForm, isLoading, isSuccess } = useAuth()
+  const query = useSearchParams();
+  const affiliateID = query?.get('affiliate');
+  const typeID = query?.get('typeID');
 
   return renderForm(
     <Flex w={"full"} height={"100vh"} >
@@ -38,7 +41,7 @@ function LoginPage() {
                       <GoogleIcon />
                       <Text fontSize={"14px"} color={"#111111"} textAlign={"center"} fontWeight={"500"} >Signup with Google</Text>
                   </Button>  */}
-          <GoogleBtn title="Sign in" newbtn={true} />
+          <GoogleBtn affiliate={affiliateID+""} title='Sign in' id={typeID ? true : false} index={typeID+""} newbtn={true} />
           <Flex mt={"2"} flexDirection={"column"} pos={"relative"} alignItems={"center"} >
             <Box maxW={"400px"} w={"70vw"} height={"1px"} pos={"absolute"} top={"3"} bgColor={"#BCBCBC"} />
             <Text px={"2"} bg={"white"} pos={"relative"} color={"#BCBCBC"} zIndex={"10"} >OR</Text>

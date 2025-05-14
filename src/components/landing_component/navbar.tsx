@@ -9,6 +9,8 @@ import { jwtDecode } from "jwt-decode"
 import { IoChevronDown } from "react-icons/io5";
 import { useElementScroll, useInView } from "framer-motion";
 import { HambergerMenu } from "iconsax-react";
+import { NewDonationIcon, NewEventIcon, RentalIcon, ServiceIcon, StoreIcon } from "../svg";
+import { SidebarHomeIcon } from "../svg/sidebarIcons";
 
 
 function HomeNavbar(
@@ -27,25 +29,25 @@ function HomeNavbar(
             link: "/",
             sublink: [
                 {
-                    label: "Find event",
+                    label: "Find Event",
                     link: "/home/event"
-                },
-                {
-                    label: "Find rental",
-                    link: "/home/rental"
-                },
-                {
-                    label: "Find fundraising",
-                    link: "/home/fundraising"
                 },
                 {
                     label: "Find Service",
                     link: "/home/service"
                 },
                 {
-                    label: "Find kiosk",
+                    label: "Find Kiosk",
                     link: "/home/kiosk"
-                }
+                },
+                {
+                    label: "Find Rental",
+                    link: "/home/rental"
+                },
+                {
+                    label: "Find Fundraising",
+                    link: "/home/fundraising"
+                },
             ]
         },
         {
@@ -125,7 +127,7 @@ function HomeNavbar(
                 style={{
                     backgroundColor: (yaxis === 0) ? "transparent" : "white",
                 }} w={"full"} position={"fixed"} zIndex={"100"} top={"0px"} color={(yaxis === 0) ? "white" : "black"} height={["64px", "64px", "101.03px"]} px={["6", "6", "12"]} justifyContent={"space-between"} alignItems={"center"}  >
-                <Flex onClick={() => router.push("/")} as={"button"} alignItems={"center"} gap={"1"} >
+                <Flex onClick={() => router.push("/")} as={"button"} alignItems={"center"} gap={"2"} >
                     <Image width={["32px", "32px", "60px"]} src={"/assets/logo.png"} alt="logo" />
                     <Flex flexDir={"column"} alignItems={"start"} >
                         <Text fontWeight={"bold"} fontSize={["14px", "14px", "16px"]} color={(yaxis === 0) ? "white" : THEME?.COLORS?.chasescrollButtonBlue} >Chasescroll</Text>
@@ -211,9 +213,9 @@ function HomeNavbar(
 
                         <DrawerBody >
 
-                            <Flex width={"full"} h={"full"} pt={"20"} flexDir={"column"} alignItems={"center"} justifyContent={"start"} gap={"8"} fontSize={"lg"} >
+                            <Flex width={"full"} h={"full"} pt={"20"} flexDir={"column"} justifyContent={"start"} gap={"8"} fontSize={"lg"} >
 
-                                <Flex flexDir={"column"} gap={"8"} >
+                                <Flex flexDir={"column"} gap={"5"} >
                                     {homelink?.map((item: {
                                         label: string,
                                         link: string,
@@ -225,29 +227,52 @@ function HomeNavbar(
 
                                         if (item?.label === "Versax") {
                                             return (
-                                                <Flex flexDir={"column"} gap={"8"} key={item?.label} >
+                                                <Flex key={item?.label} flexDirection={"column"} gap={"5"} >
+                                                    <Box key={item?.label + item?.link} cursor={"pointer"} _hover={{ color: THEME?.COLORS?.chasescrollBlue }} >
+                                                        <Text color={pathname === item?.link ? THEME?.COLORS?.chasescrollBlue : "black"} fontSize={"14px"} fontWeight={"bold"} >{item?.label}</Text>
+                                                    </Box>
+                                                    <Flex flexDir={"column"} gap={"5"} >
                                                         {item?.sublink?.map((subitem, subindex) => {
-                                                            return ( 
-                                                                <Box key={subindex} onClick={() => clickHandler(subitem?.link)} as="button" _hover={{ color: THEME?.COLORS?.chasescrollBlue }} >
-                                                                    <Text color={pathname === subitem?.link ? THEME?.COLORS?.chasescrollBlue : "black"} lineHeight={"22.5px"} fontWeight={"semibold"} >{subitem?.label}</Text>
-                                                                </Box>
+                                                            return (
+                                                                <Flex key={subindex} gap={"2"} onClick={() => clickHandler(subitem?.link)} cursor={"pointer"} _hover={{ color: THEME?.COLORS?.chasescrollBlue }} alignItems={"center"} >
+                                                                    {subitem?.label === "Find Event" &&
+                                                                        <NewEventIcon color={pathname === subitem?.link ? THEME?.COLORS?.chasescrollBlue : "black"} />
+                                                                    }
+                                                                    {subitem?.label === "Find Service" &&
+                                                                        <ServiceIcon color={pathname === subitem?.link ? THEME?.COLORS?.chasescrollBlue : "black"} />
+                                                                    }
+                                                                    {subitem?.label === "Find Kiosk" &&
+                                                                        <StoreIcon color={pathname === subitem?.link ? THEME?.COLORS?.chasescrollBlue : "black"} />
+                                                                    }
+                                                                    {subitem?.label === "Find Rental" &&
+                                                                        <RentalIcon color={pathname === subitem?.link ? THEME?.COLORS?.chasescrollBlue : "black"} />
+                                                                    }
+                                                                    {subitem?.label === "Find Fundraising" &&
+                                                                        <NewDonationIcon color={pathname === subitem?.link ? THEME?.COLORS?.chasescrollBlue : "black"} />
+                                                                    }
+                                                                    <Text color={pathname === subitem?.link ? THEME?.COLORS?.chasescrollBlue : "black"} fontSize={"14px"} fontWeight={"medium"} >{subitem?.label}</Text>
+                                                                </Flex>
                                                             )
                                                         })}
+                                                    </Flex>
                                                 </Flex>
                                             )
                                         } else {
                                             return (
-                                                <Box onClick={() => clickHandler(item?.link)} key={item?.label + item?.link} as="button" _hover={{ color: THEME?.COLORS?.chasescrollBlue }} >
-                                                    <Text color={pathname === item?.link ? THEME?.COLORS?.chasescrollBlue : "black"} lineHeight={"22.5px"} fontWeight={"semibold"} >{item?.label}</Text>
-                                                </Box>
+                                                <Flex gap={"2"} onClick={() => clickHandler(item?.link)} key={item?.label + item?.link} cursor={"pointer"} _hover={{ color: THEME?.COLORS?.chasescrollBlue }} alignItems={"center"} >
+                                                    {item?.label === "Home" && (
+                                                        <SidebarHomeIcon size="19px" color={pathname === "/" ? true : false} />
+                                                    )}
+                                                    <Text color={pathname === item?.link ? THEME?.COLORS?.chasescrollBlue : "black"} fontSize={"14px"} fontWeight={"bold"} >{item?.label}</Text>
+                                                </Flex>
                                             )
                                         }
                                     })}
                                 </Flex>
                                 {!token && (
                                     <Flex gap={"3"} width={"full"} my={"auto"} flexDir={"column"} justifyContent={"center"}  >
-                                        <CustomButton onClick={() => clickHandler("/auth")} text={"Login"} width={"full"} backgroundColor={"white"} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={THEME?.COLORS?.chasescrollBlue} borderRadius={"8px"} />
-                                        <CustomButton onClick={() => clickHandler("/auth")} text={"Get Started"} width={"full"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
+                                        <CustomButton onClick={() => clickHandler("/auth")} text={"Login"} width={"full"} backgroundColor={"white"} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={THEME?.COLORS?.chasescrollBlue} borderRadius={"999px"} />
+                                        <CustomButton onClick={() => clickHandler("/auth")} text={"Get Started"} width={"full"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"999px"} />
                                     </Flex>
                                 )}
                                 {token && (
