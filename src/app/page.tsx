@@ -130,14 +130,10 @@ export default function NewHome() {
       <Flex flexDir={"column"} color={"black"} w={"full"} >
         <HeroSection />
         <AboutEventSection />
-        <GetThingDone />
-        {/* <FundraisingSection />
-        <ServiceSection /> */}
-        {/* <KioskSection /> */}
+        <GetThingDone /> 
         <EventOrganiser />
         <ProfessionService />
-        <ServiceProvider/>
-        {/* <RentalSection /> */}
+        <ServiceProvider/> 
         <UserComment />
         <Faq />
       </Flex>
