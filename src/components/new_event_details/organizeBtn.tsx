@@ -45,8 +45,7 @@ function OrganizeBtn(props: IEventType) {
 
     useEffect(() => {
         props?.productTypeData?.map((item: any) => {
-            let count = item?.clickThroughCount + listOfClicks
-
+            let count = item?.clickThroughCount + listOfClicks 
             setListOfClicks(count)
         })
     }, [])
@@ -90,7 +89,7 @@ function OrganizeBtn(props: IEventType) {
                 </Flex>
                 <Flex w={"full"} > 
                     <PrBtn data={props} /> 
-                    <Flex w={"full"} gap={"2"} h={"55px"} display={["flex", "flex", "none"]} borderLeftWidth={"1px"} alignItems={"center"} justifyContent={"center"} as={"button"} disabled={(pathname?.includes("pastdetails")) ? true : false} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} onClick={() => clickHandler()} >
+                    <Flex w={"full"} gap={"2"} h={"55px"} display={["flex", "flex", "none"]} borderLeftWidth={"1px"} alignItems={"center"} justifyContent={"center"} as={"button"} disabled={(pathname?.includes("pastdetails")) ? true : false} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} onClick={() => setShowScanner(true)} >
                         <DashboardScannerIcon />
                         <Text fontSize={"14px"} fontWeight={"500"} >Scan Ticket</Text>
                     </Flex>
