@@ -14,11 +14,7 @@ function OtherEventInfo(props: Props) {
      } = props
 
     const {
-        bodyTextColor,
-        primaryColor,
-        secondaryBackgroundColor,
-        mainBackgroundColor,
-        borderColor,
+        bodyTextColor, 
         headerTextColor
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
