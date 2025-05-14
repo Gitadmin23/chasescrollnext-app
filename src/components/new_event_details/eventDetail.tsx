@@ -33,8 +33,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 import { IMAGE_URL } from '@/services/urls';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
 import ViewRequest from './viewRequest'; 
-import SignupModal from '@/app/auth/component/signupModal';
-import router from 'next/router';
+import SignupModal from '@/app/auth/component/signupModal'; 
 import CustomText from '../general/Text';
 import GoogleBtn from '../sharedComponent/googlebtn';
 import ModalLayout from '../sharedComponent/modal_layout';
@@ -288,7 +287,7 @@ export default function EventDetail(props: IEventType) {
                     <Flex justifyContent={"center"} gap={"2px"} alignItems={"center"} >
                         <Text color={"#BCBCBC"} fontSize={"14px"} lineHeight={"19.6px"} >OR</Text>
                     </Flex>
-                    <Button onClick={() => router.push("/share/auth/temporary-account/?type=EVENT&typeID=" + id + (affiliate ? "&affiliate=" + affiliateID : ""))} backgroundColor={"#EDEFFF"} color={"#5465E0"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#EDEFFF"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#EDEFFF" }} justifyContent={"center"} alignItems={"center"} >
+                    <Button onClick={() => push("/share/auth/temporary-account/?type=EVENT&typeID=" + id + (affiliate ? "&affiliate=" + affiliateID : ""))} backgroundColor={"#EDEFFF"} color={"#5465E0"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#EDEFFF"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#EDEFFF" }} justifyContent={"center"} alignItems={"center"} >
                         <Text textAlign={"center"} fontWeight={"600"} >Get Temporary Account</Text>
                     </Button>
                     <Button onClick={() => signUpHandler(true)} color={"white"} h={"50px"} w={"full"} borderWidth={"0.5px"} borderColor={"#233DF3"} bgColor={"#233DF3"} rounded={"32px"} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
@@ -299,7 +298,7 @@ export default function EventDetail(props: IEventType) {
                         <CustomText fontSize={'sm'} marginLeft='0px'>
                             Already have an account?
                         </CustomText>
-                        <CustomText onClick={() => router.push("/share/auth/login/?type=EVENT&typeID=" + id + (affiliate ? "&affiliate=" + affiliateID : ""))} fontWeight={"700"} ml={"4px"} fontSize={'sm'} color='brand.chasescrollButtonBlue' cursor='pointer'>Log in</CustomText>
+                        <CustomText onClick={() => push("/share/auth/login/?type=EVENT&typeID=" + id + (affiliate ? "&affiliate=" + affiliateID : ""))} fontWeight={"700"} ml={"4px"} fontSize={'sm'} color='brand.chasescrollButtonBlue' cursor='pointer'>Log in</CustomText>
                     </Flex>
                 </Flex>
             </ModalLayout>
