@@ -39,9 +39,7 @@ export default function DonationBtn(props: any) {
         "NGN 100000",
         "NGN 150000",
         "NGN 200000",
-        "NGN 500000",
-        "NGN 1000000",
-        "NGN 1500000",
+        "NGN 500000", 
     ]
 
     const toast = useToast()
@@ -113,7 +111,7 @@ export default function DonationBtn(props: any) {
             {(userId !== props?.user?.userId && !event) && (
                 <CustomButton onClick={(e) => openHandler(e)} text={"Donate now"} height={"40px"} fontSize={"14px"} backgroundColor={"#F4F5FF"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
             )}
-            
+
             {event &&
                 <Box w={["45px", "45px", "70px"]} pos={"relative"} >
                     <Box w={["fit-content"]} position={"relative"} top={"0px"} >
