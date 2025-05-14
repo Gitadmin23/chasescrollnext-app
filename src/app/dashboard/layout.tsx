@@ -8,7 +8,7 @@ import SearchBar from '@/components/explore_component/searchbar';
 import { signOut, useSession } from 'next-auth/react';
 import UserImage from '@/components/sharedComponent/userimage';
 import CustomText from '@/components/general/Text';
-import { DashboardMenuIcon, HomeIcon, UsersIcon } from '@/components/svg';
+import { DashboardMenuIcon, FundraisingIcon, HomeIcon, UsersIcon } from '@/components/svg';
 import { SearchNormal1, Calendar, Warning2, LogoutCurve } from 'iconsax-react';
 import useCustomTheme from '@/hooks/useTheme';
 import getUser from '@/hooks/useGetUser';
@@ -201,6 +201,12 @@ export default function Layout({ children }: {
                         {pathname?.includes("kiosk") && (
                             <Text display={["none", "none", "none", "flex", "flex"]} fontSize={"24px"} fontWeight={"700"} >Chasescroll  <span style={{ color: primaryColor, marginLeft: "2px" }} >Versax</span></Text>
                         )}
+                        {pathname?.includes("fundraising") &&
+                            <Flex alignItems={"center"} gap="2" >
+                                <FundraisingIcon />
+                                <Text fontSize={"24px"} fontWeight={"700"} >Fundraising</Text>
+                            </Flex>  
+                        }
                         <Flex as={"button"} onClick={() => router?.push("/dashboard")} display={["flex", "flex", "flex", "none", "none"]} alignItems={"center"} gap={"2"} >
                             <Image alt='logo' src='/images/logo.png' w={"35.36px"} /> 
                         </Flex> 

@@ -2,19 +2,14 @@ import { Box, Button, Flex, Input, Text, useToast } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import ModalLayout from '../sharedComponent/modal_layout'
 import useCustomTheme from '@/hooks/useTheme'
-import EventImage from '../sharedComponent/eventimage'
-import { IEventType } from '@/models/Event'
+import EventImage from '../sharedComponent/eventimage' 
 import { textLimit } from '@/utils/textlimit'
 import usePaystackStore from '@/global-state/usePaystack'
 import httpService from '@/utils/httpService'
-import { useMutation } from 'react-query'
-import CircularProgressBar from '../sharedComponent/circleGraph'
-import { formatNumber } from '@/utils/numberFormat'
-import DonateUsers from '../sharedComponent/donateUser'
-import { IDonationList } from '@/models/donation'
-import CustomButton from '../general/Button'
-import Fundpaystack from '../settings_component/payment_component/card_tabs/fund_wallet/fundpaystack'
-import DonationTermAndCondition from './donationTermAndCondition'
+import { useMutation } from 'react-query' 
+import CustomButton from '../general/Button' 
+import DonationTermAndCondition from './donationTermAndCondition' 
+import { useRouter } from 'next/navigation'
 
 export default function DonationBtn(props: any) {
 
@@ -29,6 +24,7 @@ export default function DonationBtn(props: any) {
     const [value, setValue] = useState("")
 
     console.log(user?.userId);
+    let token = localStorage.getItem("token")
 
 
     const {
@@ -39,19 +35,21 @@ export default function DonationBtn(props: any) {
     } = useCustomTheme()
 
     const donate = [
-        "NGN 500",
-        "NGN 1000",
-        "NGN 1500",
-        "NGN 2000",
-        "NGN 5000",
-        "NGN 10000",
-        "NGN 15000",
+        "NGN 50000",
+        "NGN 100000",
+        "NGN 150000",
+        "NGN 200000",
+        "NGN 500000",
+        "NGN 1000000",
+        "NGN 1500000",
     ]
 
     const toast = useToast()
     const PAYSTACK_KEY: any = process.env.NEXT_PUBLIC_PAYSTACK_KEY;
 
     const userId = localStorage.getItem('user_id') + "";
+
+    const  router =  useRouter()
 
     const { setDataID, setPaystackConfig, setMessage, message } = usePaystackStore((state) => state);
 
@@ -101,17 +99,21 @@ export default function DonationBtn(props: any) {
     }, [item?.id, value])
 
     const openHandler = (e: any) => {
-        e.stopPropagation()
-        setOpen(true)
+        if(token) {
+            e.stopPropagation()
+            setOpen(true)
+        } else { 
+            router?.push("/auth")
+        }
     }
 
     return (
-        < >
+        <>
 
             {(userId !== props?.user?.userId && !event) && (
                 <CustomButton onClick={(e) => openHandler(e)} text={"Donate now"} height={"40px"} fontSize={"14px"} backgroundColor={"#F4F5FF"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"full"} />
             )}
-
+            
             {event &&
                 <Box w={["45px", "45px", "70px"]} pos={"relative"} >
                     <Box w={["fit-content"]} position={"relative"} top={"0px"} >

@@ -158,7 +158,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                             </Flex>
                         </Flex>
                         <Flex gap={"2"} alignItems={"center"}>
-                            <Text fontWeight={"600"} w={"80px"} >EndDate</Text>
+                            <Text fontWeight={"600"} w={"80px"} >End Date</Text>
                             <CalendarIcon color={primaryColor} />
                             <Text fontSize={["12px", "12px", "14px"]} >{dateFormat(item?.endDate)} {timeFormat(item?.endDate)}</Text>
                         </Flex>
