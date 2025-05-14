@@ -78,6 +78,7 @@ export default function EventDetail(props: IEventType) {
 
     const isAdmin = isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR"
     const isUser = !isOrganizer && eventMemberRole !== "ADMIN" || eventMemberRole !== "COLLABORATOR"
+    let token = localStorage.getItem("token")
 
     const [show, setShow] = useState(false)
     const [meshSize, setMeshSize] = useState(0)
@@ -114,7 +115,7 @@ export default function EventDetail(props: IEventType) {
 
 
     useEffect(() => {
-        if (type) {
+        if (type && !token) {
             setOpen(true)
         }
     }, [type])
