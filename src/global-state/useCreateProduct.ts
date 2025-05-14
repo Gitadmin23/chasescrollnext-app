@@ -11,7 +11,7 @@ export type CreateProduct = {
     hasDiscount: boolean,
     discountPrice: number | any,
     publish: boolean;
-    color?: Array<string>,
+    color?: Array<any>,
     size?: Array<string>,
     location?: {
         link?: string,

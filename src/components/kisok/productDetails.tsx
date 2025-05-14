@@ -153,8 +153,8 @@ export default function ProductDetails({ id }: { id: string }) {
                                 <Flex gap={"2"} flexWrap={"wrap"} >
                                     {item?.color?.map((item) => {
                                         return(  
-                                            <Flex key={item} w={"fit-content"} px={"3"} borderWidth={"1px"} cursor={"pointer"} onClick={()=> setColor((prev)=> prev === item ? "" : item)} h={"10"} justifyContent={"center"} alignItems={"center"} rounded={"lg"} bgColor={color === item ? secondaryBackgroundColor : mainBackgroundColor} >
-                                                {item}
+                                            <Flex key={item?.label} w={"fit-content"} gap={"1"} px={"3"} borderWidth={"1px"} cursor={"pointer"} onClick={()=> setColor((prev)=> prev === item?.label ? "" : item?.label)} h={"10"} justifyContent={"center"} alignItems={"center"} rounded={"lg"} bgColor={color === item?.label ? secondaryBackgroundColor : mainBackgroundColor} >
+                                                <Flex w={"7"} h={"7"} rounded={"full"} borderWidth={"1px"} bgColor={item?.color} />{item?.label}
                                             </Flex>
                                         )
                                     })}

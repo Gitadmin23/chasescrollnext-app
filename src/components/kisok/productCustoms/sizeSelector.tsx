@@ -32,7 +32,7 @@ export default function SizeSelector() {
     const handleChange = (selected: any) => {
 
 
-        const hexValues = selected.map((color: any) => color.label);
+        const hexValues = selected.map((color: any) => color.value);
 
         setSelectedOptions(selected);
 
