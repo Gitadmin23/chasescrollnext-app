@@ -227,11 +227,11 @@ function HomeNavbar(
 
                                         if (item?.label === "Versax") {
                                             return (
-                                                <Flex flexDirection={"column"} gap={"5"} >
+                                                <Flex key={item?.label} flexDirection={"column"} gap={"5"} >
                                                     <Box key={item?.label + item?.link} cursor={"pointer"} _hover={{ color: THEME?.COLORS?.chasescrollBlue }} >
                                                         <Text color={pathname === item?.link ? THEME?.COLORS?.chasescrollBlue : "black"} fontSize={"14px"} fontWeight={"bold"} >{item?.label}</Text>
                                                     </Box>
-                                                    <Flex flexDir={"column"} gap={"5"} key={item?.label} >
+                                                    <Flex flexDir={"column"} gap={"5"} >
                                                         {item?.sublink?.map((subitem, subindex) => {
                                                             return (
                                                                 <Flex key={subindex} gap={"2"} onClick={() => clickHandler(subitem?.link)} cursor={"pointer"} _hover={{ color: THEME?.COLORS?.chasescrollBlue }} alignItems={"center"} >
