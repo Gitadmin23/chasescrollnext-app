@@ -30,10 +30,11 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
     } = useCustomTheme()
 
     const donate = [
-        "NGN 1000",
-        "NGN 1500",
-        "NGN 2000",
-        "NGN 5000", 
+        "NGN 50000",
+        "NGN 100000",
+        "NGN 150000",
+        "NGN 200000",
+        "NGN 500000", 
     ]
 
     const toast = useToast()
