@@ -43,9 +43,7 @@ function InfiniteScrollerComponent(props: Props) {
       }
     }
 
-    console.log(...check());
-    
-    
+    console.log(...check());  
 
     const { data, isLoading, refetch, isRefetching, isError } = useQuery(name ? [name, url, search, ...check()] : [url, ...check() ], () => httpService.get(`${url}`, {
         params: {
