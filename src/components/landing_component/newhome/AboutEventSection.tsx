@@ -26,9 +26,9 @@ export default function AboutEventSection() {
                     transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
                 }} 
                 w={["full", "full", "fit-content"]} >
-                <Flex w={["full", "full", "503px"]} h={"440px"} rounded={"2xl"} >
-                    <Flex w={"full"} h={"full"} rounded={"2xl"} >
-                        <Image src="/images/hometwo.png" alt='hometo' />
+                <Flex w={["full", "full", "503px"]} h={["300px", "440px", "440px"]} rounded={"2xl"} >
+                    <Flex w={"full"} h={"full"} rounded={"2xl"} justifyContent={"center"} alignItems={"center"} >
+                        <Image src="/images/aboutplatform.png" alt='hometo' objectFit={"cover"} h={["full", "full"]} />
                     </Flex>
                 </Flex>
             </Flex>
