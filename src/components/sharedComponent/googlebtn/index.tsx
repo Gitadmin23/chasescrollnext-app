@@ -29,7 +29,7 @@ interface Props {
     index?: string,
     border?: string,
     newbtn?: boolean,
-    type?: "DONATION"
+    type?: "DONATION" | "EVENT" | "RENTAL" | "SERVICE" | "KIOSK"
     affiliate?: string
 }
 
@@ -132,7 +132,13 @@ function GoogleBtn(props: Props) {
                 if (index) {
                     if (type === "DONATION") {
                         router.push(`/dashboard/donation/${index}`);
-                    } else {
+                    } else if (type === "RENTAL") {
+                        router.push(`/dashboard/kisok/details-rental/${index}`);
+                    } else if (type === "SERVICE") {
+                        router.push(`/dashboard/kisok/service/${index}`);
+                    } else if (type === "KIOSK") {
+                        router.push(`/dashboard/kisok/details/${index}`);
+                    }  else {
                         router.push(`/dashboard/event/details/${affiliateID ? affiliate : index}${affiliateID ? "?type=affiliate" : ""}`);
                     }
                 } else {
@@ -168,9 +174,15 @@ function GoogleBtn(props: Props) {
             if (index) {
                 if (type === "DONATION") {
                     router.push(`/dashboard/donation/${index}`);
-                } else {
-                    router.push(`/dashboard/event/details/${affiliateID ? affiliate : index}${affiliateID ? "?type=affiliate" : ""}`);
-                }
+                } else if (type === "RENTAL") {
+                    router.push(`/dashboard/kisok/details-rental/${index}`);
+                } else if (type === "SERVICE") {
+                    router.push(`/dashboard/kisok/service/${index}`);
+                } else if (type === "KIOSK") {
+                    router.push(`/dashboard/kisok/details/${index}`);
+                }  else {
+                  router.push(`/dashboard/event/details/${affiliateID ? affiliate : index}${affiliateID ? "?type=affiliate" : ""}`);
+                } 
             } else {
                 router.push('/dashboard/product')
             }

@@ -47,7 +47,7 @@ function ProfileComponent(props: Props) {
     }
     const clickHandler = (item: any) => {
         console.log(item);
-        // setAll({ typeID: item?.id, open: true });
+        setAll({ typeID: item?.id, open: true });
         setOpen(item?.id)
     }
 

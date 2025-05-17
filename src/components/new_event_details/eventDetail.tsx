@@ -113,9 +113,8 @@ export default function EventDetail(props: IEventType) {
         setOpen(false)
     }
 
-
     useEffect(() => {
-        if (type && !token) {
+        if (type) {
             setOpen(true)
         }
     }, [type])

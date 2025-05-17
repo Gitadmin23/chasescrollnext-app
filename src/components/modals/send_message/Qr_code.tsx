@@ -5,21 +5,20 @@ import { Box, Flex, HStack, Image, Text, useColorMode } from "@chakra-ui/react";
 import router from "next/router";
 import React from "react";
 import { IoClose } from "react-icons/io5";
-import QRCode from "react-qr-code";
-import { useReactToPrint } from "react-to-print";
-import { exportComponentAsJPEG } from "react-component-export-image";
+import QRCode from "react-qr-code"; 
 import CopyRightText from "@/components/sharedComponent/CopyRightText";
 import useCustomTheme from "@/hooks/useTheme";
 import { textLimit } from "@/utils/textlimit";
 import { capitalizeFLetter } from "@/utils/capitalLetter";
 import { IEventType } from "@/models/Event";
 import html2canvas from "html2canvas";
+import { ShareType } from "@/app/share/page";
 
 interface Props {
   id: string | number;
   close: any;
   data?: any;
-  type?: string
+  type?: ShareType
 }
 
 function Qr_code(props: Props) {

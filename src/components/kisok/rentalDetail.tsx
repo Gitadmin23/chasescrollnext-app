@@ -22,6 +22,8 @@ import EventMap from '../event_details_component/event_map_info'
 import { IoIosArrowForward } from 'react-icons/io'
 import { useRouter } from 'next/navigation'
 import GetCreatorData from './getCreatorData'
+import ShareEvent from '../sharedComponent/share_event'
+import { textLimit } from '@/utils/textlimit'
 
 
 export default function RentalDetail({ id }: { id: string }) {
@@ -79,7 +81,10 @@ export default function RentalDetail({ id }: { id: string }) {
                         </Flex>
                     )}
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
-                        <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{capitalizeFLetter(item?.name)}</Text>
+                        <Flex w={"full"} alignItems={"-moz-initial"} justifyContent={"space-between"} >
+                            <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{capitalizeFLetter(item?.name)}</Text>
+                            <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                        </Flex>
                         <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
                             <DescriptionPage limit={200} label='Rental Details' description={item?.description} />
                             <Flex w={"full"} gap={"2"}>
