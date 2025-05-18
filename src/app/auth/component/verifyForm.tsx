@@ -10,10 +10,11 @@ interface IProps {
     setTab: (by: boolean) => void;
     setShowVerify: (by: boolean) => void;
     setShowMessage: (by: boolean) => void,
-    index?: string
+    index?: string,
+    type?: "DONATION" | "EVENT" | "RENTAL" | "SERVICE" | "KIOSK" 
 }
 
-export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMessage, index }: IProps) {
+export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMessage, index, type }: IProps) {
 
 
     const { code, setCode, hanldeSubmit, verifySuccess, loadingVerify, email, sendingVerify, sendSuccess, sendVerify, initialTime, setInitialTime, startTimer, setStartTimer } = useAuth() 
@@ -31,7 +32,9 @@ export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMess
 
     useEffect(() => {
         if (verifySuccess) {
-            if(pathname?.includes("event")){
+            if(type){
+                router.push(`/share/auth/login?type=${type}&typeID=${index}`);
+            } else if(pathname?.includes("event")){
                 router.push(`/share/auth/login?type=EVENT&typeID=${index+(id ? "&affiliate="+id : "")}`);
             } else {
                 setOpen(false)

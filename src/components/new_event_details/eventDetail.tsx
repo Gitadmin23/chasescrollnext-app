@@ -50,11 +50,9 @@ export default function EventDetail(props: IEventType) {
         location,
         id,
         currency,
-        productTypeData,
-        eventType,
+        productTypeData,  
         isBought,
-        isOrganizer,
-        maxPrice,
+        isOrganizer, 
         eventMemberRole,
         affiliateID
     } = props
@@ -113,9 +111,8 @@ export default function EventDetail(props: IEventType) {
         setOpen(false)
     }
 
-
     useEffect(() => {
-        if (type && !token) {
+        if (type) {
             setOpen(true)
         }
     }, [type])

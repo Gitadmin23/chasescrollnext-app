@@ -36,7 +36,8 @@ interface Props {
   notext?: boolean;
   community?: boolean;
   color?: string;
-  newbtn?: boolean
+  newbtn?: boolean,
+  name?: string
 }
 
 function ShareEvent(props: Props) {
@@ -52,7 +53,8 @@ function ShareEvent(props: Props) {
     notext,
     community,
     color,
-    newbtn
+    newbtn,
+    name
   } = props;
 
   const [open, setOpen] = useState(false);

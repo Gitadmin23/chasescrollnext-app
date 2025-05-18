@@ -38,28 +38,27 @@ function SendMessage(props: Props) {
 
   const url_link =
     type === "EVENT"
-      ? `${WEBSITE_URL}${data?.eventName ? "/event/" : "/donation/"}${id}`
-      : `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`;
+      ? `${WEBSITE_URL}${"/donation/"}${id}` :
+        type === "RENTAL" ? `${WEBSITE_URL}${"/rental/"}${id}`:
+        type === "SERVICE" ? `${WEBSITE_URL}${"/service/"}${id}`:
+        type === "KIOSK" ? `${WEBSITE_URL}${"/kiosk/"}${id}`:
+        type === "DONATION" ? `${WEBSITE_URL}${"/donation/"}${id}`
+        : `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`;
 
   const getUrl = () => {
-    switch(type) {
-      case "EVENT": {
-       if (data?.eventName) {
-        return `${WEBSITE_URL}/event/${id}`;
-       } else {
-        return `${WEBSITE_URL}/donation/${id}`;
-       }
-      }
-      case "DONATION": {
-        return `${WEBSITE_URL}/donation/${id}`;
-      }
-      case 'BUSINESS': {
-        return `${WEBSITE_URL}/business/${id}`
-      }
-      default: {
-        return `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`
-      }
-    }
+    if(type === "EVENT"){
+      return `${WEBSITE_URL}/event/${id}`;
+    } else if(type === "DONATION"){
+          return `${WEBSITE_URL}/donation/${id}`;
+    } else if(type === "RENTAL"){
+      return `${WEBSITE_URL}/rental/${id}`;
+    } else if(type === "SERVICE"){
+      return `${WEBSITE_URL}/service/${id}`;
+    } else if(type === "KIOSK"){
+      return `${WEBSITE_URL}/kiosk/${id}`;
+    } else {
+      return `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`
+    }  
   }
 
   const handleType = () => {
@@ -69,6 +68,18 @@ function SendMessage(props: Props) {
       }
       case "POST": {
         return "Share post";
+      }
+      case "RENTAL": {
+        return "Share rental";
+      }
+      case "SERVICE": {
+        return "Share service";
+      }
+      case "KIOSK": {
+        return "Share kiosk";
+      }
+      case "DONATION": {
+        return "Share fundraising";
       }
       case "PROFILE": {
         return "Share profile";
@@ -89,6 +100,18 @@ function SendMessage(props: Props) {
       }
       case "POST": {
         return "Share post";
+      }
+      case "RENTAL": {
+        return "Share rental";
+      }
+      case "SERVICE": {
+        return "Share service";
+      }
+      case "KIOSK": {
+        return "Share kiosk";
+      }
+      case "DONATION": {
+        return "Share fundraising";
       }
       case "PROFILE": {
         return "Share profile";
