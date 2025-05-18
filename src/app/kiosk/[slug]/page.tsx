@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 import GetEventData from '@/app/dashboard/event/details/get_event_data';
 import { Box, Flex } from '@chakra-ui/react';
 import RentalDetail from '@/components/kisok/rentalDetail';
+import ProductDetails from '@/components/kisok/productDetails';
 // import GetEventData from '@/app/olddashboard/event/details/get_event_data'; 
 
 type Props = {
@@ -22,7 +23,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   // fetch data
   let product: any
   try {
-    product = await fetch(url + "/rental/search?id=" + id, {
+    product = await fetch(url + "/products/search?id=" + id, {
       // headers: myHeaders,
       method: 'GET'
     }).then((res) => res.json())
@@ -31,7 +32,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   } catch (error) {
     console.log(error);
 
-  } 
+  }
+
+  console.log(product);
+  
 
   // optionally access and extend (rather than replace) parent metadata
   // const previousImages = (await parent).openGraph?.images || [] 
@@ -57,7 +61,7 @@ async function ShareEvent(props: Props) {
     const id = params.slug
 
     return (
-      <RentalDetail id={id} />
+      <ProductDetails id={id} />
     )
 }
 

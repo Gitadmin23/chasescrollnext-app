@@ -50,11 +50,9 @@ export default function EventDetail(props: IEventType) {
         location,
         id,
         currency,
-        productTypeData,
-        eventType,
+        productTypeData,  
         isBought,
-        isOrganizer,
-        maxPrice,
+        isOrganizer, 
         eventMemberRole,
         affiliateID
     } = props

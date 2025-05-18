@@ -32,6 +32,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
     const [price, setPrice] = useState((item?.price * qty) + "")
 
     const [tab, setTab] = useState(true)
+    const { push } = useRouter()
 
     useEffect(() => {
         setPrice((item?.price * qty) + "")
@@ -77,9 +78,15 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
             setPercentage(percentage - 0.05)
         }
     }
+    
+    let token = localStorage.getItem("token")
 
-    const ClickHandler = () => {
-        
+    const clickHandler = () => {
+        if(!token){
+            push("?open=true")
+        } else {
+            setOpen(true)
+        }
     }
 
     return (
@@ -101,7 +108,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                 </Flex>
             </Flex>
             <Flex flexDir={"column"} gap={"2"} alignItems={"center"} > 
-            <CustomButton onClick={() => setOpen(true)} text={`NGN ${formatNumber(Number(item?.price) * Number(qty))}`} borderRadius={"999px"} height={["45px", "45px", "55px"]} />
+            <CustomButton onClick={clickHandler} text={`NGN ${formatNumber(Number(item?.price) * Number(qty))}`} borderRadius={"999px"} height={["45px", "45px", "55px"]} />
                 <RentalTermAndCondition />
             </Flex>
             <ModalLayout open={open} close={setOpen} size={tab ? ["full", "full", "4xl"] : ["full", "full", "4xl"]} >

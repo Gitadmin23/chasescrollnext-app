@@ -23,6 +23,8 @@ import { textLimit } from '@/utils/textlimit'
 import EventMap from '../event_details_component/event_map_info'
 import GetCreatorData from './getCreatorData'
 import DescriptionPage from '../sharedComponent/descriptionPage'
+import ShareEvent from '../sharedComponent/share_event'
+import ShareLoginModal from '../sharedComponent/shareLoginModal'
 
 export default function ProductDetails({ id }: { id: string }) {
 
@@ -32,7 +34,7 @@ export default function ProductDetails({ id }: { id: string }) {
 
     const { push } = useRouter()
     const { userId } = useProduct()
-    const { productdata, updateProduct } = useProductStore((state) => state); 
+    const { productdata, updateProduct } = useProductStore((state) => state);
     const [qty, setQty] = useState(1)
 
     const [sizeOfText, setSizeOfText] = useState(200)
@@ -40,8 +42,8 @@ export default function ProductDetails({ id }: { id: string }) {
 
     const [reviewData, setData] = useState<Array<IReview>>([])
 
-    const [ size, setSize ] = useState("")
-    const [ color, setColor ] = useState("")
+    const [size, setSize] = useState("")
+    const [color, setColor] = useState("")
 
     const { isLoading } = useQuery(
         ["products", id],
@@ -104,7 +106,10 @@ export default function ProductDetails({ id }: { id: string }) {
                         </Flex>
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
-                        <Text fontSize={["24px", "24px", "32px"]} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
+                        <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
+                            <Text fontSize={["24px", "24px", "32px"]} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
+                            <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="KIOSK" eventName={textLimit(item?.name, 17)} />
+                        </Flex>
                         <Flex flexDir={["column-reverse", "column-reverse", "column"]} gap={"4"} >
                             <Flex display={["none", "none", "flex"]} >
                                 <DescriptionPage limit={200} label='Product Details' description={item?.description} />
@@ -122,8 +127,8 @@ export default function ProductDetails({ id }: { id: string }) {
                                     <GetCreatorData reviewdata={reviewData} userData={item?.creator} item={item?.rating} />
                                 </Flex>
                                 <Flex display={["flex", "flex", "none"]} w={"full"}  >
-                                    {userId !== item?.creator?.userId && ( 
-                                        <ProductCheckout qty={qty} setQty={setQty} item={item} color={color} size={size} /> 
+                                    {userId !== item?.creator?.userId && (
+                                        <ProductCheckout qty={qty} setQty={setQty} item={item} color={color} size={size} />
                                     )}
                                 </Flex>
                             </Flex>
@@ -133,33 +138,37 @@ export default function ProductDetails({ id }: { id: string }) {
                             <Flex display={["none", "none", "flex"]} >
                                 <ProductCheckout qty={qty} setQty={setQty} item={item} color={color} size={size} />
                             </Flex>
-                        )} 
+                        )}
 
                         <Flex w={"full"} gap={"3"} >
-                            <Flex w={"full"} flexDir={"column"} gap={"3"} >
-                                <Text fontWeight={"600"} >Sizes</Text>
-                                <Flex gap={"2"} flexWrap={"wrap"} >
-                                    {item?.size?.map((item) => {
-                                        return(  
-                                            <Flex key={item} w={"fit-content"} px={"3"} borderWidth={"1px"} cursor={"pointer"} onClick={()=> setSize((prev)=> prev === item ? "" : item)} h={"10"} justifyContent={"center"} alignItems={"center"} rounded={"lg"} bgColor={size === item ? secondaryBackgroundColor : mainBackgroundColor} >
-                                                {item}
-                                            </Flex>
-                                        )
-                                    })}
+                            {item?.size?.length > 0 && (
+                                <Flex w={"full"} flexDir={"column"} gap={"3"} >
+                                    <Text fontWeight={"600"} >Sizes</Text>
+                                    <Flex gap={"2"} flexWrap={"wrap"} >
+                                        {item?.size?.map((item) => {
+                                            return (
+                                                <Flex key={item} w={"fit-content"} px={"3"} borderWidth={"1px"} cursor={"pointer"} onClick={() => setSize((prev) => prev === item ? "" : item)} h={"10"} justifyContent={"center"} alignItems={"center"} rounded={"lg"} bgColor={size === item ? secondaryBackgroundColor : mainBackgroundColor} >
+                                                    {item}
+                                                </Flex>
+                                            )
+                                        })}
+                                    </Flex>
                                 </Flex>
-                            </Flex>
-                            <Flex w={"full"} flexDir={"column"} gap={"3"} >
-                                <Text fontWeight={"600"} >Colors</Text>
-                                <Flex gap={"2"} flexWrap={"wrap"} >
-                                    {item?.color?.map((item) => {
-                                        return(  
-                                            <Flex key={item?.label} w={"fit-content"} gap={"1"} px={"3"} borderWidth={"1px"} cursor={"pointer"} onClick={()=> setColor((prev)=> prev === item?.label ? "" : item?.label)} h={"10"} justifyContent={"center"} alignItems={"center"} rounded={"lg"} bgColor={color === item?.label ? secondaryBackgroundColor : mainBackgroundColor} >
-                                                <Flex w={"7"} h={"7"} rounded={"full"} borderWidth={"1px"} bgColor={item?.color} />{item?.label}
-                                            </Flex>
-                                        )
-                                    })}
+                            )}
+                            {item?.color?.length > 0 &&
+                                <Flex w={"full"} flexDir={"column"} gap={"3"} >
+                                    <Text fontWeight={"600"} >Colors</Text>
+                                    <Flex gap={"2"} flexWrap={"wrap"} >
+                                        {item?.color?.map((item) => {
+                                            return (
+                                                <Flex key={item?.label} w={"fit-content"} gap={"1"} px={"3"} borderWidth={"1px"} cursor={"pointer"} onClick={() => setColor((prev) => prev === item?.label ? "" : item?.label)} h={"10"} justifyContent={"center"} alignItems={"center"} rounded={"lg"} bgColor={color === item?.label ? secondaryBackgroundColor : mainBackgroundColor} >
+                                                    <Flex w={"7"} h={"7"} rounded={"full"} borderWidth={"1px"} bgColor={item?.color} />{item?.label}
+                                                </Flex>
+                                            )
+                                        })}
+                                    </Flex>
                                 </Flex>
-                            </Flex>
+                            }
                         </Flex>
 
                         <Flex gap={"3"} mt={"4"} >
@@ -175,13 +184,14 @@ export default function ProductDetails({ id }: { id: string }) {
                         </Flex>
                         <Flex display={["flex", "flex", "flex"]} >
                             <ProductRating setData={setData} data={reviewData} item={item} reviewType="PRODUCT" />
-                        </Flex> 
+                        </Flex>
                         <Flex w={"full"} display={["flex", "flex", "none"]} >
                             <EventMap height={"212px"} latlng={item?.location?.latlng ?? ""} />
                             {/* <ProductRating item={item} reviewType="PRODUCT" /> */}
                         </Flex>
                     </Flex>
                 </Flex>
+                <ShareLoginModal id={item?.id} type="KIOSK" />
             </Flex>
         </LoadingAnimation>
     )

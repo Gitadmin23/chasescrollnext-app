@@ -24,6 +24,7 @@ import { useRouter } from 'next/navigation'
 import GetCreatorData from './getCreatorData'
 import ShareEvent from '../sharedComponent/share_event'
 import { textLimit } from '@/utils/textlimit'
+import ShareLoginModal from '../sharedComponent/shareLoginModal'
 
 
 export default function RentalDetail({ id }: { id: string }) {
@@ -50,6 +51,8 @@ export default function RentalDetail({ id }: { id: string }) {
     );
     
     const [reviewData, setData] = useState<Array<IReview>>([]) 
+    
+    let token = localStorage.getItem("token")
 
     return (
         <LoadingAnimation loading={isLoading} >
@@ -83,7 +86,7 @@ export default function RentalDetail({ id }: { id: string }) {
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
                         <Flex w={"full"} alignItems={"-moz-initial"} justifyContent={"space-between"} >
                             <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{capitalizeFLetter(item?.name)}</Text>
-                            <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                            <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="RENTAL" eventName={textLimit(item?.name, 17)} />
                         </Flex>
                         <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
                             <DescriptionPage limit={200} label='Rental Details' description={item?.description} />
@@ -114,10 +117,13 @@ export default function RentalDetail({ id }: { id: string }) {
                         <EventMap latlng={item?.location?.latlng} />
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} >
-                        <ProductRating data={reviewData} setData={setData} item={item} reviewType="RENTAL" />
+                        {token && (
+                            <ProductRating data={reviewData} setData={setData} item={item} reviewType="RENTAL" />
+                        )}
                         <Flex display={["flex", "flex", "none"]} w={"full"} h={"200px"} />
                     </Flex>
                 </Flex>
+                <ShareLoginModal id={item?.id} type="RENTAL" />
             </Flex>
         </LoadingAnimation>
     )

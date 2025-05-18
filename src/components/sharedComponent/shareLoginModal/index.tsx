@@ -9,7 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 
 export default function ShareLoginModal(
     { affiliateID, affiliate, id, type }: {
-        affiliateID: any, affiliate: any, id: any, type: "DONATION" | "EVENT" | "RENTAL" | "SERVICE" | "KIOSK"
+        affiliateID?: any, affiliate?: any, id: any, type: "DONATION" | "EVENT" | "RENTAL" | "SERVICE" | "KIOSK"
     }
 ) {
 
