@@ -151,21 +151,38 @@ export default function PrBtn({ data }: { data: IEventType }) {
             )}
 
             {(!data?.isOrganizer && data?.affiliates?.length > 0 && data?.affiliates[0]?.percent) && (
-                <Flex flexDirection={"column"} gap={"1"} >
-                    <Text>Apply to be a PR</Text>
-                    <CustomButton
-                        isLoading={createPr?.isLoading} onClick={clickHander}
-                        disable={(data?.prStatus === "PENDING" || data?.prStatus === "ACTIVE" || createPr?.isLoading) ? true : false}
-                        text={data?.prStatus === "PENDING" ? "Pending" : data?.prStatus === "ACTIVE" ? "Already a PR" : `At ${data?.affiliates[0]?.percent}%`}
-                        backgroundColor={[data?.prStatus === "PENDING" ? "#FF9500" : primaryColor, data?.prStatus === "PENDING" ? "#FF9500" : primaryColor, data?.prStatus === "PENDING" ? "#FF9500" : primaryColor]}
-                        color={["white", "white", "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]}
-                        px={"4"}
-                        width={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["90%", "90%", "full", "full"] : ["120px", "120px", "fit-content"]}
-                        height={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? "55px" : " 45px "}
-                        borderTopRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["0px"] : "32px"}
-                        borderBottomRightRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["0px", "0px", "12px"] : "32px"}
-                        borderBottomLeftRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? "12px" : "32px"} />
-                    
+                <Flex flexDirection={"column"} gap={"1"} w={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? "full" : "fit-content"}  >
+                    {data.eventMemberRole !== "ADMIN" && data.eventMemberRole !== "COLLABORATOR" && (
+                        <Text fontSize={["14px", "14px", "16px"]} fontWeight={"600"} >Apply to be a PR</Text>
+                    )}
+                    {data.eventMemberRole !== "ADMIN" && data.eventMemberRole !== "COLLABORATOR" ? (
+                        <CustomButton
+                            isLoading={createPr?.isLoading} onClick={clickHander}
+                            disable={(data?.prStatus === "PENDING" || data?.prStatus === "ACTIVE" || createPr?.isLoading) ? true : false}
+                            text={data?.prStatus === "PENDING" ? "Pending" : data?.prStatus === "ACTIVE" ? "Already a PR" : `Earn ${data?.affiliates[0]?.percent}%`}
+                            backgroundColor={[data?.prStatus === "PENDING" ? "#FF9500" : primaryColor, data?.prStatus === "PENDING" ? "#FF9500" : primaryColor, data?.prStatus === "PENDING" ? "#FF9500" : primaryColor]}
+                            color={["white", "white", "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]}
+                            px={"4"}
+                            width={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["90%", "90%", "full", "full"] : ["120px", "120px", "fit-content"]}
+                            height={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? "55px" : " 45px "}
+                            borderTopRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["0px"] : "32px"}
+                            borderBottomRightRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["0px", "0px", "12px"] : "32px"}
+                            borderBottomLeftRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? "12px" : "32px"} />
+                    ) : (
+                        <CustomButton
+                            isLoading={createPr?.isLoading} onClick={clickHander}
+                            disable={(data?.prStatus === "PENDING" || data?.prStatus === "ACTIVE" || createPr?.isLoading) ? true : false}
+                            text={data?.prStatus === "PENDING" ? "Pending" : data?.prStatus === "ACTIVE" ? "Already a PR" : `Apply to be a PR - ${data?.affiliates[0]?.percent}%`}
+                            backgroundColor={[data?.prStatus === "PENDING" ? "#FF9500" : primaryColor, data?.prStatus === "PENDING" ? "#FF9500" : primaryColor, data?.prStatus === "PENDING" ? "#FF9500" : primaryColor]}
+                            color={["white", "white", "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]}
+                            px={"4"}
+                            width={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["90%", "90%", "full", "full"] : ["120px", "120px", "fit-content"]}
+                            height={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? "55px" : " 45px "}
+                            borderTopRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["0px"] : "32px"}
+                            borderBottomRightRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["0px", "0px", "12px"] : "32px"}
+                            borderBottomLeftRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? "12px" : "32px"} />
+                    )} 
+
                 </Flex>
                 // <Flex
                 //     as={"button"}
