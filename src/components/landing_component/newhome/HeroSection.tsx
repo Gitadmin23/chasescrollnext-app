@@ -97,12 +97,12 @@ export default function HeroSection() {
                         </Flex>
                         <Flex w={"fit-content"} position={"relative"} >
 
-                            <Flex w={"35px"} onClick={() => setOpen((prev) => !prev)} rounded={"16px"} borderWidth={"1px"} borderColor={"black"}  h={"35px"} pt={!open ? "2px" : "0px"} justifyContent={"center"} alignItems={"center"} display={["flex", "flex", "none"]}  >
+                            <Flex w={"30px"} onClick={() => setOpen((prev) => !prev)} rounded={"16px"} borderWidth={"1px"} borderColor={"black"}  h={"30px"} pt={!open ? "2px" : "0px"} justifyContent={"center"} alignItems={"center"} display={["flex", "flex", "none"]}  >
                                 {open && (
-                                    <IoChevronUp size={"20px"} color='black' />
+                                    <IoChevronUp size={"15px"} color='black' />
                                 )}
                                 {!open && (
-                                    <IoChevronDown size={"20px"} color='black' />
+                                    <IoChevronDown size={"15px"} color='black' />
                                 )}
                             </Flex>
                             {open && (
