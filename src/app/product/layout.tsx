@@ -179,18 +179,24 @@ function Layout({ children }: {
                     </Flex>
                     <Image onClick={() => push("/")} width={["32px", "32px", "60px"]} ml={"4"} src={"/assets/logo.png"} alt="logo" />
                     {pathname === "/product/fundraising" ?
-                        <Flex alignItems={"center"} gap="2" >
-                            <FundraisingIcon />
-                            <Text fontSize={"24px"} fontWeight={"700"} >Fundraising</Text>
-                        </Flex> :
+                        <>
+                            <Flex display={["none", "none", "flex"]} alignItems={"center"} gap="2" >
+                                <FundraisingIcon />
+                                <Text fontSize={["16px", "16px", "24px"]} fontWeight={"700"} >Fundraising</Text>
+                            </Flex>
+                            <Flex display={["flex", "flex", "flnoneex"]} alignItems={"center"} gap="2" >
+                                <FundraisingIcon height='19' />
+                                <Text fontSize={["16px", "16px", "24px"]} fontWeight={"700"} >Fundraising</Text>
+                            </Flex>
+                        </> :
                         <Flex flexDir={"column"} alignItems={"start"} >
                             <Text fontWeight={"bold"} fontSize={["14px", "14px", "16px"]} color={THEME.COLORS.chasescrollBlue} >Chasescroll</Text>
                             <Text fontWeight={"medium"} fontStyle={"italic"} fontSize={["12px", "12px", "14px"]}>We build memories.</Text>
                         </Flex>
-                    } 
+                    }
                 </Flex>
             </Flex>
-            <Flex w={"full"} alignItems={"center"} pt={["6"]}  px={["4", "4", "6"]} flexDirection={"column"} gap={"3"} >
+            <Flex w={"full"} alignItems={"center"} pt={["6"]} px={["4", "4", "6"]} flexDirection={"column"} gap={"3"} >
                 <Flex fontSize={["20px", "20px", "56px"]} alignItems={"end"} display={["flex", "flex", "none"]} fontWeight={"700"} >what are you l<Flex mb={"1"} ><GlassIcon size='17' /></Flex>king for?</Flex>
                 <Flex fontSize={["16px", "16px", "56px"]} alignItems={"end"} display={["none", "none", "flex"]} fontWeight={"700"} >what are you l<Flex mb={"3"} ><GlassIcon size='45' /></Flex>king for?</Flex>
                 <Flex w={["full", "fit-content", "fit-content"]} gap={"0px"} alignItems={"center"} bgColor={secondaryBackgroundColor} p={"6px"} rounded={"full"} >
@@ -399,7 +405,7 @@ function Layout({ children }: {
                     </Flex>
                 )}
             </Flex> */}
-            <Flex  px={["4", "4", "6"]} w={"full"} flexDir={"column"} >
+            <Flex px={["4", "4", "6"]} w={"full"} flexDir={"column"} >
                 {children}
             </Flex>
             <ModalLayout open={open} close={setOpen} rounded='16px' closeIcon={true} >
