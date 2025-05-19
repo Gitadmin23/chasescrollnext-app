@@ -77,7 +77,7 @@ function DeleteEvent(props: Props) {
 
                 toast({
                     title: 'Success',
-                    description: data.data?.message,
+                    description: "Fundraiser Deleted",
                     status: 'success',
                     isClosable: true,
                     duration: 5000,

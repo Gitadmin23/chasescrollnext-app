@@ -42,7 +42,7 @@ function ProfileHeader(props: Props) {
                     <KisokHeader user_index={user_index} />
                     <RentalHeader user_index={user_index} />
                     <ServicesHeader user_index={user_index} />
-                    {/* <FundrasierHeader user_index={user_index} /> */}
+                    <FundrasierHeader user_index={user_index} />
                 </Flex>
             </Flex>
         </Flex>
