@@ -38,7 +38,7 @@ export default function ServiceDetail() {
     const param = useParams();
     const { back, push } = useRouter();
     const toast = useToast();
-    const id = param?.slug ? param?.slug : param?.id;
+    const id = param?.id;
 
     const {
         primaryColor,

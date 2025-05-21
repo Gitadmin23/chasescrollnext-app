@@ -23,7 +23,7 @@ import useProductStore from '@/global-state/useCreateProduct'
 import DeleteEvent from '../sharedComponent/delete_event'
 import { IoMdCheckmark } from 'react-icons/io'
 import { useDetails } from '@/global-state/useUserDetails'
-
+import ShareEvent from '../sharedComponent/share_event'
 export default function GetRental({ myrental, name, state, category, isSelect, selected, setSelected }: { myrental?: boolean, name?: string, state?: string, category?: string, isSelect?: boolean, selected?: any, setSelected?: any }) {
 
     const { primaryColor, bodyTextColor, borderColor, mainBackgroundColor } = useCustomTheme()
@@ -96,7 +96,13 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                                         <IoMdCheckmark size={"15px"} color='white' />
                                     </Flex>
                                 )}
-                                <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.creator} />
+
+                                <Flex w={"full"} h={"fit-content"} pos={"relative"} > 
+                                    <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.creator} />
+                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={"white"} rounded={"full"} right={"3"} > 
+                                        <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="RENTAL" eventName={textLimit(item?.name+"", 17)} />
+                                    </Flex>
+                                </Flex>
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>
@@ -133,7 +139,12 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                                         <IoMdCheckmark size={"15px"} color='white' />
                                     </Flex>
                                 )}
-                                <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.creator} />
+                                <Flex w={"full"} h={"fit-content"} pos={"relative"} > 
+                                    <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.creator} />
+                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={"white"} rounded={"full"} right={"3"} > 
+                                        <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="RENTAL" eventName={textLimit(item?.name+"", 17)} />
+                                    </Flex>
+                                </Flex>
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>

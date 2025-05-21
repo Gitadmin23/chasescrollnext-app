@@ -205,16 +205,7 @@ export default function PostCard(props: IMediaContent) {
                                 )}
                                 {liked === "LIKED" && <HomeHeartFillIcon size='20px' />}
                             </Flex>
-                        </Flex>
-                        {/* :
-                            <Flex
-                                width={"24px"}
-                                h={"30px"}
-                                justifyContent={"center"}
-                                alignItems={"center"}>
-                                <Spinner size={"sm"} />
-                            </Flex>
-                        } */}
+                        </Flex> 
                         <Text fontSize={"12px"} fontWeight={"bold"} >{count}</Text>
                     </Flex>
                     <Flex as={"button"}

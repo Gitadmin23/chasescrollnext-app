@@ -1,10 +1,11 @@
-import { useState } from 'react' 
+import { useState } from 'react'
 import { URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import { AxiosError } from 'axios';
 import image from 'next/image';
 import { useMutation } from 'react-query';
-import { useToast } from '@chakra-ui/react';  
+import { useToast } from '@chakra-ui/react';
+import Resizer from 'react-image-file-resizer';
 
 const AWSHook = () => {
     const [loading, setLoading] = useState(false)
@@ -71,7 +72,7 @@ const AWSHook = () => {
             video.onloadedmetadata = () => {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d')!;
-                
+
                 const audioCtx = new AudioContext();
                 const audioDestination = audioCtx.createMediaStreamDestination();
                 const audioSource = audioCtx.createMediaElementSource(video);
@@ -122,26 +123,52 @@ const AWSHook = () => {
         });
     };
 
+    const resizeImage = (file: any): void => {
+        const maxWidth = 1920; // adjust based on image use case
+        const maxHeight = 1920;
+        const quality = 80; // Try 100 for best quality, lower for smaller size
+
+        Resizer.imageFileResizer(
+            file,
+            maxWidth,
+            maxHeight,
+            'JPEG',
+            quality,
+            0,
+            (uri: File | Blob | any) => {
+                const resizedFile = uri as File;
+
+                // Check file size
+                if (resizedFile.size / 1024 <= 800) {
+                    //   setResizedImage(resizedFile);
+                    return resizedFile
+                } else {
+                    console.warn('Still larger than 800KB. Try reducing quality or dimensions.');
+                }
+            },
+            'file' // returns a File object
+        );
+    };
+
     const fileUploadHandler = async (files: any) => {
         setLoading(true);
         setLoadingCompress(true);
         const processedFiles = [];
-
         try {
             for (const item of files) {
                 if (item.type.startsWith('video')) {
                     const compressedVideo = await compressVideo(item);
                     processedFiles.push(compressedVideo);
                 } else {
+                    
                     processedFiles.push(item);
                 }
             }
-
             const fd = new FormData();
             processedFiles.forEach((file) => {
                 fd.append("files[]", file);
             });
-            
+
             uploadImage.mutate({
                 file: processedFiles,
                 payload: fd

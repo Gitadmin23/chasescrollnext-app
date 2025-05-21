@@ -74,15 +74,10 @@ export default function ProductImagePicker() {
         }
     }
 
-    console.log(image);
-
-
-
 
     return (
         <Flex px={["0px", "0px", "10px"]} mt={"5"} w={"full"} flexDir={"column"} gap={"3"} display={['flex', 'flex']} >
             <Flex gap={"4"} bgColor={mainBackgroundColor} w={"full"} flexDirection={"column"} p={"8"} borderWidth={"1.03px"} borderColor={borderColor} rounded={"16px"} >
-
                 <Flex w={"full"} gap={"4"} overflowX={"auto"} css={{
                     '&::-webkit-scrollbar': {
                         display: 'block'
