@@ -104,7 +104,7 @@ function VideoPlayer({
   };
 
   return (
-    <Box ref={boxRef as any} bgColor={"black"} onClick={handleDoubleClick} onMouseOver={() => setShowControl(true)} onMouseOut={() => setShowControl(false)} width={'100%'} height={'100%'} maxH={'full'} overflow={'hidden'} rounded={rounded} position={'relative'}>
+    <Box ref={boxRef as any} bgColor={"black"} onMouseOver={() => setShowControl(true)} onMouseOut={() => setShowControl(false)} width={'100%'} height={'100%'} maxH={'full'} overflow={'hidden'} rounded={rounded} position={'relative'}>
       <video ref={videoRef as any} style={{ width: '100%', height: '100%', zIndex: 1, }} onEnded={() => {
         setIsPlaying(false);
         videoRef?.current?.pause();
