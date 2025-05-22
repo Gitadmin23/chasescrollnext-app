@@ -273,7 +273,7 @@ function Layout({ children }: {
                         <Select h={"80px"} bgColor={mainBackgroundColor} value={initialFilter?.state} onChange={(e) => setInitialFilter({ ...initialFilter, state: e.target?.value })} w={"200px"} rounded={"0px"} textAlign={"center"} placeholder='Select State' borderRightWidth={"1px"} borderWidth={"0px"} borderRightColor={borderColor} >
                             {stateList?.map((item) => {
                                 return (
-                                    <option value={item} key={item} >{capitalizeFLetter(item)}</option>
+                                    <option value={capitalizeFLetter(item)} key={item} >{capitalizeFLetter(item)}</option>
                                 )
                             })}
                         </Select>
@@ -435,7 +435,7 @@ function Layout({ children }: {
                         <Select h={"48px"} value={initialFilter?.state} onChange={(e) => setInitialFilter({ ...initialFilter, state: e.target?.value })} rounded={"full"} placeholder='Select State' w={"full"} >
                             {stateList?.map((item) => {
                                 return (
-                                    <option value={item} key={item} >{capitalizeFLetter(item)}</option>
+                                    <option value={capitalizeFLetter(item)} key={item} >{capitalizeFLetter(item)}</option>
                                 )
                             })}
                         </Select>
