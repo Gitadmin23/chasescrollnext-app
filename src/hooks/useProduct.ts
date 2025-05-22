@@ -283,7 +283,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
                 position: "top-right",
             });
             reset()
-            router?.push("/dashboard/kisok?type=mykisok")
+            router?.push("/dashboard/product/kiosk?type=mykiosk")
         },
         onError: () => { },
     });
