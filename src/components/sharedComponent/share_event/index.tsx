@@ -50,6 +50,7 @@ function ShareEvent(props: Props) {
     data,
     showText = true,
     home,
+    type,
     notext,
     community,
     color,

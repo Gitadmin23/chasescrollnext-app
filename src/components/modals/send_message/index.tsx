@@ -38,7 +38,7 @@ function SendMessage(props: Props) {
 
   const url_link =
     type === "EVENT"
-      ? `${WEBSITE_URL}${"/donation/"}${id}` :
+      ? `${WEBSITE_URL}${"/event/"}${id}` :
         type === "RENTAL" ? `${WEBSITE_URL}${"/rental/"}${id}`:
         type === "SERVICE" ? `${WEBSITE_URL}${"/service/"}${id}`:
         type === "KIOSK" ? `${WEBSITE_URL}${"/kiosk/"}${id}`:
