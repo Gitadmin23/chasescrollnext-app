@@ -64,6 +64,7 @@ function GoogleBtn(props: Props) {
     const [tokenData, setTokenData] = useState("")
     const query = useSearchParams();
     const affiliateID = query?.get('type');
+    const affiliateIDtwo = query?.get('affiliate');
     const [userNameCheck, setUserNameCheck] = useState("")
 
     const {
@@ -139,7 +140,7 @@ function GoogleBtn(props: Props) {
                     } else if (type === "KIOSK") {
                         router.push(`/dashboard/kisok/details/${index}`);
                     }  else {
-                        router.push(`/dashboard/event/details/${affiliateID ? affiliate : index}${affiliateID ? "?type=affiliate" : ""}`);
+                        router.push(`/dashboard/event/details/${(affiliateID === "affiliate" || affiliateIDtwo) ? affiliate ? affiliate : affiliateIDtwo : index}${(affiliateID === "affiliate" || affiliateIDtwo) ? "?type=affiliate" : ""}`);
                     }
                 } else {
                     router.push('/dashboard/product')
@@ -181,7 +182,7 @@ function GoogleBtn(props: Props) {
                 } else if (type === "KIOSK") {
                     router.push(`/dashboard/kisok/details/${index}`);
                 }  else {
-                  router.push(`/dashboard/event/details/${affiliateID ? affiliate : index}${affiliateID ? "?type=affiliate" : ""}`);
+                    router.push(`/dashboard/event/details/${(affiliateID === "affiliate" || affiliateIDtwo) ? affiliate ? affiliate : affiliateIDtwo : index}${(affiliateID === "affiliate" || affiliateIDtwo) ? "?type=affiliate" : ""}`);
                 } 
             } else {
                 router.push('/dashboard/product')
@@ -223,8 +224,14 @@ function GoogleBtn(props: Props) {
             if (index) {
                 if (type === "DONATION") {
                     router.push(`/dashboard/donation/${index}`);
-                } else {
-                    router.push(`/dashboard/event/details/${affiliate ? affiliate : index}?type=affiliate`);
+                } else if (type === "RENTAL") {
+                    router.push(`/dashboard/kisok/details-rental/${index}`);
+                } else if (type === "SERVICE") {
+                    router.push(`/dashboard/kisok/service/${index}`);
+                } else if (type === "KIOSK") {
+                    router.push(`/dashboard/kisok/details/${index}`);
+                }  else {
+                    router.push(`/dashboard/event/details/${(affiliateID === "affiliate" || affiliateIDtwo) ? affiliate ? affiliate : affiliateIDtwo : index}${(affiliateID === "affiliate" || affiliateIDtwo) ? "?type=affiliate" : ""}`);
                 }
             } else {
                 router.push('/dashboard/product')
