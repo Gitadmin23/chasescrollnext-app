@@ -70,11 +70,8 @@ export default function ServiceDetail() {
 
                 // router.back();
                 return;
-            }
-            const content: Array<IService> = data?.data?.content;
-            setService(content.filter((item) => item.id === id)[0]);
-            console.log(content);
-            
+            } 
+            setService(data?.data?.content[0]); 
         },
         onError: (error: any) => {
             toast({
