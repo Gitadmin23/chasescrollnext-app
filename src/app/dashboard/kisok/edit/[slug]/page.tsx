@@ -40,6 +40,7 @@ export default function KisokCreate(props: Props) {
             "description": productdata?.description,
             "images": productdata?.images,
             "price": productdata?.price,
+            "quantity": productdata?.quantity,
             "category": productdata?.category,
             "location": productdata?.location
         }, id: id
@@ -79,7 +80,7 @@ export default function KisokCreate(props: Props) {
 
                 <form style={{ maxWidth: "550px", width: "100%", display: "flex" }} onSubmit={handleEditSubmitProduce}>
                     <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={type ? "none" : "flex"} flexDir={"column"}  >
-                        <Text fontSize={"24px"} fontWeight={"600"} >Give your product a name</Text>
+                        <Text fontSize={["16px", "16px", "24px"]} fontWeight={"600"} >Give your product a name</Text>
                         <Input bgColor={mainBackgroundColor} value={productdata?.name} onChange={(e) => updateProduct({ ...productdata, name: e.target.value })} h={"60px"} />
                         <Text fontSize={"24px"} fontWeight={"500"} >Describe your place to make it stand out</Text>
                         <Input bgColor={mainBackgroundColor} value={productdata?.description} onChange={(e) => updateProduct({ ...productdata, description: e.target.value })} h={"60px"} />
@@ -87,7 +88,19 @@ export default function KisokCreate(props: Props) {
 
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Quantity</Text>
-                            <Input bgColor={mainBackgroundColor} value={productdata?.quantity} type="number" onChange={(e) => updateProduct({ ...productdata, quantity: e.target.value })} h={"60px"} />
+                            <Input bgColor={mainBackgroundColor} value={productdata?.quantity}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^\d*$/.test(value)) {
+                                        updateProduct({ ...productdata, quantity: value })
+                                    }
+                                }}
+                                onKeyPress={(e) => {
+                                    if (!/[0-9]/.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                h={"60px"} />
                         </Flex>
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Location</Text>
@@ -97,7 +110,20 @@ export default function KisokCreate(props: Props) {
                         <SelectCategories rental={false} />
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Price per unit</Text>
-                            <Input bgColor={mainBackgroundColor} value={productdata?.price} type="number" onChange={(e) => updateProduct({ ...productdata, price: e.target.value })} h={"60px"} />
+                            <Input bgColor={mainBackgroundColor} value={productdata?.price}
+                                type="number"
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^\d*$/.test(value)) {
+                                        updateProduct({ ...productdata, quantity: value })
+                                    }
+                                }}
+                                onKeyPress={(e) => {
+                                    if (!/[0-9]/.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                h={"60px"} />
                         </Flex>
                         {/* <Text color={primaryColor} ml={"auto"} >Add More Product</Text>
                     <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
@@ -108,7 +134,7 @@ export default function KisokCreate(props: Props) {
                     </Flex>
 
                     <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={!type ? "none" : "flex"} flexDir={"column"}  >
-                        <Text fontSize={"24px"} fontWeight={"600"} >Share pictures of your place</Text>
+                        <Text fontSize={["16px", "16px", "24px"]} fontWeight={"600"} >Share pictures of your place</Text>
                         <ProductImagePicker />
                         <Text fontSize={"24px"} fontWeight={"600"} >Delivery Plans</Text>
                         <Flex w={"full"} flexDir={"column"} gap={"3"} >

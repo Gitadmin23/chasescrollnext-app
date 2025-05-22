@@ -641,7 +641,6 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
             if (!rental) {
                 if (edit) {
                     editProduct?.mutate(removeEmptyValues({ ...item, payload: {...item?.payload, images: [...productdata?.images, ...uploadedFile]} })) 
-                    
                 } else {
                     createProduct?.mutate(removeEmptyValues({ ...item, images: uploadedFile }))
                 }
