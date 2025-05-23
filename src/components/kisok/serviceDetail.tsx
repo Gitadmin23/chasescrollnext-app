@@ -26,7 +26,7 @@ import ShareEvent from "../sharedComponent/share_event"
 import ShareLoginModal from "../sharedComponent/shareLoginModal"
 
 
-export default function ServiceDetail() {
+export default function ServiceDetail(props: { id: string }) {
 
     const [service, setService] = React.useState<IService | null>(null);
     const [show, setShow] = React.useState(false);
@@ -38,7 +38,7 @@ export default function ServiceDetail() {
     const param = useParams();
     const { back, push } = useRouter();
     const toast = useToast();
-    const id = param?.id;
+    const id = props?.id;
 
     const {
         primaryColor,

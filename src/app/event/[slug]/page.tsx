@@ -32,6 +32,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   }
 
+
+  const imageUrl = product?.content[0]?.currentPicUrl 
+  ? new URL(IMAGE_URL + product.content[0].currentPicUrl, url).toString()
+  : null;
   // optionally access and extend (rather than replace) parent metadata
   // const previousImages = (await parent).openGraph?.images || [] 
 
@@ -42,10 +46,19 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       title: product?.content[0]?.eventName,
       description: product?.content[0]?.eventDescription,
       images: [{
-        url: IMAGE_URL + product?.content[0]?.currentPicUrl,
+        url: imageUrl+"",
+        width: 1200,  // Recommended: 1200x630 for OG
+        height: 630,
+        alt: product?.content[0]?.eventName || 'Product Image',
       }],
     },
-  }
+    twitter: {  // For Twitter Card (optional)
+      card: 'summary_large_image',
+      title: product?.content[0]?.eventName || 'Default Title',
+      description: product?.content[0]?.eventDescription || 'Default Description',
+      images: imageUrl ? [imageUrl] : [],
+    },
+  } 
 }
 
 

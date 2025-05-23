@@ -33,6 +33,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   } 
 
+
+  const imageUrl = product?.content[0]?.images[0] 
+  ? new URL(IMAGE_URL + product.content[0].images[0], url).toString()
+  : null;
   // optionally access and extend (rather than replace) parent metadata
   // const previousImages = (await parent).openGraph?.images || [] 
 
@@ -43,12 +47,20 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       title: product?.content[0]?.name,
       description: product?.content[0]?.description,
       images: [{
-        url: IMAGE_URL + product?.content[0]?.images[0],
+        url: imageUrl+"",
+        width: 1200,  // Recommended: 1200x630 for OG
+        height: 630,
+        alt: product?.content[0]?.name || 'Product Image',
       }],
     },
-  }
+    twitter: {  // For Twitter Card (optional)
+      card: 'summary_large_image',
+      title: product?.content[0]?.name || 'Default Title',
+      description: product?.content[0]?.description || 'Default Description',
+      images: imageUrl ? [imageUrl] : [],
+    },
+  } 
 }
-
 
 
 async function ShareEvent(props: Props) {
