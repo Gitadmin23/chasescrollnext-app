@@ -115,7 +115,7 @@ export default function KisokCreate(props: Props) {
                                 onChange={(e) => {
                                     const value = e.target.value;
                                     if (/^\d*$/.test(value)) {
-                                        updateProduct({ ...productdata, quantity: value })
+                                        updateProduct({ ...productdata, price: value })
                                     }
                                 }}
                                 onKeyPress={(e) => {
