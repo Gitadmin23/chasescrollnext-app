@@ -402,7 +402,7 @@ function GoogleBtn(props: Props) {
                             userNameCheck?.includes("exists") ||
                             !checkData?.firstName ||
                             !checkData?.lastName ||
-                            (checkData?.phone ? checkData?.phone?.toString() : "")?.length <= 12
+                            (checkData?.phone ? checkData?.phone?.toString() : "")?.length >= 12
                         }
                         onClick={submitHandler}
                         mt="4"
