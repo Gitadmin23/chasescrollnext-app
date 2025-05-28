@@ -47,17 +47,13 @@ export default function ServiceDetail(props: { id: string }) {
         secondaryBackgroundColor,
         headerTextColor,
         bodyTextColor
-    } = useCustomTheme();
-
-    console.log(id);
-    
+    } = useCustomTheme(); 
 
     const { isLoading } = useQuery([`get-service-by-id-${id}`, id], () => httpService.get(`/business-service/search`, {
         params: {
             id: id
         }
-    }), {
-        refetchOnMount: true,
+    }), { 
         onSuccess: (data) => {
             if (data?.data?.content?.length < 1) {
                 toast({
