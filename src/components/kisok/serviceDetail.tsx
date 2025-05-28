@@ -28,7 +28,7 @@ import ShareLoginModal from "../sharedComponent/shareLoginModal"
 
 export default function ServiceDetail(props: { id: string }) {
 
-    const [service, setService] = React.useState<IService | null>(null);
+    const [service, setService] = React.useState({} as IService);
     const [show, setShow] = React.useState(false);
     const { userId } = useDetails((state) => state);
     const [vendor, setVendor] = React.useState<IUser | null>(null);
@@ -49,38 +49,51 @@ export default function ServiceDetail(props: { id: string }) {
         bodyTextColor
     } = useCustomTheme(); 
 
-    const { isLoading } = useQuery([`get-service-by-id-${id}`, id], () => httpService.get(`/business-service/search`, {
-        params: {
-            id: id
-        }
-    }), { 
-        onSuccess: (data) => {
-            if (data?.data?.content?.length < 1) {
-                toast({
-                    title: 'No service found',
-                    description: 'Service not found',
-                    status: 'warning',
-                    position: 'top-right',
-                    isClosable: true,
-                });
+    // const { isLoading } = useQuery([`get-service-by-id-${id}`, id], () => httpService.get(`/business-service/search`, {
+    //     params: {
+    //         id: id
+    //     }
+    // }), { 
+    //     onSuccess: (data) => {
+    //         if (data?.data?.content?.length < 1) {
+    //             toast({
+    //                 title: 'No service found',
+    //                 description: 'Service not found',
+    //                 status: 'warning',
+    //                 position: 'top-right',
+    //                 isClosable: true,
+    //             });
 
-                // router.back();
-                return;
-            } 
-            setService(data?.data?.content[0]); 
-        },
-        onError: (error: any) => {
-            toast({
-                title: 'Error',
-                description: error?.message,
-                status: 'error',
-                position: 'top-right',
-                duration: 5000,
-                isClosable: true,
-            });
-            // router.back();
+    //             // router.back();
+    //             return;
+    //         } 
+    //         setService(data?.data?.content[0]); 
+    //     },
+    //     onError: (error: any) => {
+    //         toast({
+    //             title: 'Error',
+    //             description: error?.message,
+    //             status: 'error',
+    //             position: 'top-right',
+    //             duration: 5000,
+    //             isClosable: true,
+    //         });
+    //         // router.back();
+    //     }
+    // }); 
+
+
+    const { isLoading } = useQuery(
+        ["service", id],
+        () => httpService.get(`/business-service/search`, {
+            params: {
+                id: id
+            }
+        }), {
+        onSuccess(data) {
+            setService(data?.data?.content[0])
         }
-    }); 
+    });
     
     let token = localStorage.getItem("token")
 
