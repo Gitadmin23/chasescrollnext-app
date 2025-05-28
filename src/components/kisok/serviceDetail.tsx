@@ -91,7 +91,12 @@ export default function ServiceDetail(props: { id: string }) {
             }
         }), {
         onSuccess(data) {
-            setService(data?.data?.content[0])
+            console.log();
+
+            if(data?.data?.content?.length > 0){
+                setService(data?.data?.content[0])
+            }
+            
         }
     });
     
@@ -119,7 +124,9 @@ export default function ServiceDetail(props: { id: string }) {
                 </Flex>
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} h={["340px", "340px", "620px"]} bgColor={secondaryBackgroundColor} pos={"relative"} rounded={"8px"} borderWidth={"1px"} p={"1"} justifyContent={"center"} alignItems={"center"} borderColor={borderColor}  >
-                        <Image src={IMAGE_URL + service?.images[0]} alt='logo' rounded={"8px"} height={"full"} objectFit={"cover"} />
+                        {service?.images?.length > 0 && (
+                            <Image src={IMAGE_URL + service?.images[0]} alt='logo' rounded={"8px"} height={"full"} objectFit={"cover"} />
+                        )}
                         <Grid templateColumns={["repeat(3, 1fr)"]} pos={"absolute"} gap={"3"} insetX={"4"} bottom={"4"} >
                             {service?.images?.map((subitem: string, index: number) => {
                                 if (index !== 0 && index <= 3) {
