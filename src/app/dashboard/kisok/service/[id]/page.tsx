@@ -1,4 +1,5 @@
-import ServiceDetail from "@/components/kisok/serviceDetail"; 
+
+import { ServiceDetail } from '@/components/kisok/services/serviceDetail';
 import { IMAGE_URL } from "@/services/urls";
 import { Metadata } from "next";
 import React from "react"; 

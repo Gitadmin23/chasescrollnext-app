@@ -139,15 +139,11 @@ export default function ServiceDetail(props: { id: string }) {
                             })}
                         </Grid>
                     </Flex>
-                    <Flex w={"full"} flexDir={"column"} gap={"3"} >
-                        {/* <Text fontWeight={"700"} fontSize={"24px"} >{capitalizeFLetter(service?.name)}</Text> */}
+                    <Flex w={"full"} flexDir={"column"} gap={"3"} > 
                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                             <Text fontSize={["24px", "24px", "32px"]} fontWeight={"700"} >{capitalizeFLetter(service?.name)}</Text>
                             <ShareEvent newbtn={true} showText={false} data={service} name={service?.name} id={service?.id} type="SERVICE" eventName={textLimit(service?.name+"", 17)} />
-                        </Flex>
-                        {/* <DescriptionPage limit={100} label='Service Details' description={service?.description + ""} />
-
-                        <GetCreatorData reviewdata={reviewData} userData={service?.vendor} /> */}
+                        </Flex> 
                         <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
                             <DescriptionPage limit={200} label='Service Details' description={service?.description + ""} />
                             <Flex w={"full"} gap={"2"}>
@@ -203,14 +199,14 @@ export default function ServiceDetail(props: { id: string }) {
                 </Flex>
                 <Flex w={"full"} gap={"3"} flexDir={["column", "column", "row"]} justifyContent={"start"} alignItems={"start"} >
                     <Flex w={"full"}  >
-                        <EventMap latlng={service?.location?.latlng + ""} />
+                        <EventMap latlng={service?.location?.latlng} />
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} >
                         <ProductRating setData={setData} data={reviewData} item={service} reviewType="SERVICE" />
                         <Flex display={["flex", "flex", "none"]} w={"full"} h={"200px"} />
                     </Flex>
                 </Flex>
-                <CreateBookingModal show={show} onClose={() => setShow(false)} service={service as IService} />
+                <CreateBookingModal show={show} onClose={() => setShow(false)} service={service} />
                 <ShareLoginModal id={service?.id} type="SERVICE" />
             </Flex>
         </LoadingAnimation>
