@@ -59,66 +59,66 @@ export function ServiceDetail({ id }: { id: string }) {
                     <IoIosArrowForward />
                     <Text fontSize={"14px"} fontWeight={"500"} >{data?.name}</Text>
                 </Flex>
-            <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
-                <Flex w={"full"} h={["340px", "340px", "620px"]} bgColor={secondaryBackgroundColor} pos={"relative"} rounded={"8px"} borderWidth={"1px"} p={"1"} justifyContent={"center"} alignItems={"center"} borderColor={borderColor}  >
-                    {data?.images?.length > 0 && (
-                        <Image src={IMAGE_URL + data?.images[0]} alt='logo' rounded={"8px"} height={"full"} objectFit={"cover"} />
-                    )}
-                    <Grid templateColumns={["repeat(3, 1fr)"]} pos={"absolute"} gap={"3"} insetX={"4"} bottom={"4"} >
-                        {data?.images?.map((subitem: string, index: number) => {
-                            if (index !== 0 && index <= 3) {
-                                return (
-                                    <Flex key={index} w={"full"} h={["100px", "150px"]} bgColor={secondaryBackgroundColor} rounded={"8px"} shadow={"md"} >
-                                        <Image src={IMAGE_URL + subitem} alt='logo' w={"full"} rounded={"8px"} height={"full"} objectFit={"cover"} />
-                                    </Flex>
-                                )
-                            }
-                        })}
-                    </Grid>
-                </Flex>
-                <Flex w={"full"} flexDir={"column"} gap={"3"} >
-                    <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
-                        <Text fontSize={["24px", "24px", "32px"]} fontWeight={"700"} >{capitalizeFLetter(data?.name)}</Text>
-                        <ShareEvent newbtn={true} showText={false} data={data} name={data?.name} id={data?.id} type="SERVICE" eventName={textLimit(data?.name + "", 17)} />
+                <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
+                    <Flex w={"full"} h={["340px", "340px", "620px"]} bgColor={secondaryBackgroundColor} pos={"relative"} rounded={"8px"} borderWidth={"1px"} p={"1"} justifyContent={"center"} alignItems={"center"} borderColor={borderColor}  >
+                        {data?.images?.length > 0 && (
+                            <Image src={IMAGE_URL + data?.images[0]} alt='logo' rounded={"8px"} height={"full"} objectFit={"cover"} />
+                        )}
+                        <Grid templateColumns={["repeat(3, 1fr)"]} pos={"absolute"} gap={"3"} insetX={"4"} bottom={"4"} >
+                            {data?.images?.map((subitem: string, index: number) => {
+                                if (index !== 0 && index <= 3) {
+                                    return (
+                                        <Flex key={index} w={"full"} h={["100px", "150px"]} bgColor={secondaryBackgroundColor} rounded={"8px"} shadow={"md"} >
+                                            <Image src={IMAGE_URL + subitem} alt='logo' w={"full"} rounded={"8px"} height={"full"} objectFit={"cover"} />
+                                        </Flex>
+                                    )
+                                }
+                            })}
+                        </Grid>
                     </Flex>
-                    <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
-                        <DescriptionPage limit={200} label='Service Details' description={data?.description + ""} />
-                        <Flex w={"full"} gap={"2"}>
-                            <Flex w={["fit-content", "fit-content", "full"]} >
-                                <GetCreatorData reviewdata={reviewData} userData={data?.vendor as any} item={data?.rating} />
+                    <Flex w={"full"} flexDir={"column"} gap={"3"} >
+                        <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
+                            <Text fontSize={["24px", "24px", "32px"]} fontWeight={"700"} >{capitalizeFLetter(data?.name)}</Text>
+                            <ShareEvent newbtn={true} showText={false} data={data} name={data?.name} id={data?.id} type="SERVICE" eventName={textLimit(data?.name + "", 17)} />
+                        </Flex>
+                        <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
+                            <DescriptionPage limit={200} label='Service Details' description={data?.description + ""} />
+                            <Flex w={"full"} gap={"2"}>
+                                <Flex w={["fit-content", "fit-content", "full"]} >
+                                    <GetCreatorData reviewdata={reviewData} userData={data?.vendor as any} item={data?.rating} />
+                                </Flex>
+                                <Flex bgColor={mainBackgroundColor} display={["flex", "flex", "none"]} w={"full"}  >
+                                    <Flex w={"full"} >
+                                        <Flex w={"full"} flexDir={'column'} p={["3", "3", '30px']} justifyContent={'center'} borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
+                                            <Flex flexDir={"column"} >
+                                                <Text fontWeight={600} fontSize={"14px"} color={bodyTextColor}>Starting price</Text>
+                                                <Text fontSize={'24px'} fontWeight={600} color={headerTextColor}>NGN {(data?.discount) && data?.discount > 0 ? data?.discount.toLocaleString() : data?.price?.toLocaleString()}</Text>
+                                            </Flex>
+                                            <CheckoutBtn data={data} />
+                                        </Flex>
+                                    </Flex>
+                                </Flex>
                             </Flex>
-                            <Flex bgColor={mainBackgroundColor} display={["flex", "flex", "none"]} w={"full"}  >
-                                <Flex w={"full"} >
-                                    <Flex w={"full"} flexDir={'column'} p={["3", "3", '30px']} justifyContent={'center'} borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
-                                        <Flex flexDir={"column"} >
+                            <Flex gap={"2"} alignItems={"center"}>
+                                <Text fontWeight={"600"} fontSize={"14px"} w={"60px"} >Joined</Text>
+                                <CalendarIcon color={primaryColor} />
+                                <Text fontSize={["12px", "12px", "14px"]} >{dateFormat(data?.createdDate)} {timeFormat(data?.createdDate)}</Text>
+                            </Flex>
+                            <Flex w={"full"} justifyContent={"end"} >
+                                <Flex bgColor={mainBackgroundColor} maxW={"413px"} display={["none", "none", "flex"]}  >
+                                    <Flex flexDir={'column'} p='30px' justifyContent={'center'} borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
+                                        <HStack justifyContent={'flex-start'}>
                                             <Text fontWeight={600} fontSize={"14px"} color={bodyTextColor}>Starting price</Text>
                                             <Text fontSize={'24px'} fontWeight={600} color={headerTextColor}>NGN {(data?.discount) && data?.discount > 0 ? data?.discount.toLocaleString() : data?.price?.toLocaleString()}</Text>
-                                        </Flex>
+                                        </HStack>
                                         <CheckoutBtn data={data} />
                                     </Flex>
                                 </Flex>
                             </Flex>
                         </Flex>
-                        <Flex gap={"2"} alignItems={"center"}>
-                            <Text fontWeight={"600"} fontSize={"14px"} w={"60px"} >Joined</Text>
-                            <CalendarIcon color={primaryColor} />
-                            <Text fontSize={["12px", "12px", "14px"]} >{dateFormat(data?.createdDate)} {timeFormat(data?.createdDate)}</Text>
-                        </Flex>
-                        <Flex w={"full"} justifyContent={"end"} >
-                            <Flex bgColor={mainBackgroundColor} maxW={"413px"} display={["none", "none", "flex"]}  >
-                                <Flex flexDir={'column'} p='30px' justifyContent={'center'} borderRadius={'10px'} borderWidth={'1px'} borderColor={borderColor}>
-                                    <HStack justifyContent={'flex-start'}>
-                                        <Text fontWeight={600} fontSize={"14px"} color={bodyTextColor}>Starting price</Text>
-                                        <Text fontSize={'24px'} fontWeight={600} color={headerTextColor}>NGN {(data?.discount) && data?.discount > 0 ? data?.discount.toLocaleString() : data?.price?.toLocaleString()}</Text>
-                                    </HStack>
-                                    <CheckoutBtn data={data} />
-                                </Flex>
-                            </Flex>
-                        </Flex>
                     </Flex>
+                    <ShareLoginModal id={data?.id} type="SERVICE" />
                 </Flex>
-                <ShareLoginModal id={data?.id} type="SERVICE" />
-            </Flex>
             </Flex>
         </LoadingAnimation>
     )
