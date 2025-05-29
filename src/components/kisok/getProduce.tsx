@@ -83,7 +83,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                                 )}
                                 <Flex w={"full"} h={"fit-content"} pos={"relative"} > 
                                     <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
-                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={"white"} rounded={"full"} right={"3"} > 
+                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={mainBackgroundColor} rounded={"full"} right={"3"} > 
                                         <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="KIOSK" eventName={textLimit(item?.name+"", 17)} />
                                     </Flex>
                                 </Flex>
@@ -114,7 +114,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                                 )}
                                 <Flex w={"full"} h={"fit-content"} pos={"relative"} > 
                                     <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
-                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={"white"} rounded={"full"} right={"3"} > 
+                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={mainBackgroundColor} rounded={"full"} right={"3"} > 
                                         <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="KIOSK" eventName={textLimit(item?.name+"", 17)} />
                                     </Flex>
                                 </Flex>

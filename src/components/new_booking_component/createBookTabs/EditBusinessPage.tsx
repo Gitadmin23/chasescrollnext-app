@@ -147,6 +147,9 @@ export default function EditBusinessPage() {
         }
     }
 
+    console.log(name);
+    
+
     const { renderForm, values, watch, setValue } = useForm({
         defaultValues: {
             description: business?.description ?? '',
@@ -167,8 +170,7 @@ export default function EditBusinessPage() {
                     isClosable: true,
                 });
                 return;
-            } 
-
+            }  
             if (values.phone?.length !== 11) {
                 toast({
                     title: 'Warning',
@@ -192,7 +194,10 @@ export default function EditBusinessPage() {
                     "state": rentaldata?.location?.state,
                     "location": rentaldata?.location,
                 }
-                createBusinessMutation.mutate(obj);
+
+                console.log(obj);
+                
+                // createBusinessMutation.mutate(obj);
             } else {
                 const formdata = new FormData()
                 image.forEach((file) => {
@@ -210,20 +215,21 @@ export default function EditBusinessPage() {
         }
     }), {
         onSuccess: (data) => {
-            console.log(data?.data);
-            setBusiness(data?.data?.content[0]);
-            setDescription(data?.data?.content[0]?.description)
-            setHasFixedPrice(data?.data?.content[0]?.hasFixedPrice)
-            setPrice(data?.data?.content[0]?.price + "")
-            setName(data?.data?.content[0]?.name)
-            setIndex(data?.data?.content[0]?.id)
-            setValue("email", data?.data?.content[0]?.email);
-            setValue("phone", data?.data?.content[0]?.phone);
-            setValue("address", data?.data?.content[0]?.address);
-            setValue("website", data?.data?.content[0]?.website);
-            setIsOnline(data?.data?.content[0]?.isOnline ? 'online' : data?.data?.content[0]?.address !== '' ? 'physical' : 'both');
-            updateImagePreview(data?.data?.content[0]?.images);
-            updateRental({ ...rentaldata, location: data?.data?.content[0]?.location })
+            if(!name) {
+                setBusiness(data?.data?.content[0]);
+                setDescription(data?.data?.content[0]?.description)
+                setHasFixedPrice(data?.data?.content[0]?.hasFixedPrice)
+                setPrice(data?.data?.content[0]?.price + "")
+                setName(data?.data?.content[0]?.name)
+                setIndex(data?.data?.content[0]?.id)
+                setValue("email", data?.data?.content[0]?.email);
+                setValue("phone", data?.data?.content[0]?.phone);
+                setValue("address", data?.data?.content[0]?.address);
+                setValue("website", data?.data?.content[0]?.website);
+                setIsOnline(data?.data?.content[0]?.isOnline ? 'online' : data?.data?.content[0]?.address !== '' ? 'physical' : 'both');
+                updateImagePreview(data?.data?.content[0]?.images);
+                updateRental({ ...rentaldata, location: data?.data?.content[0]?.location })
+            }
         },
         onError: (error: any) => {
             toast({
@@ -236,24 +242,7 @@ export default function EditBusinessPage() {
             })
         },
         enabled: index ? false : true
-    });
-
-    // useEffect(()=> { 
-    //     if()
-    //     console.log(data?.data);
-    //     setBusiness(data?.data?.content[0]);
-    //     setDescription(data?.data?.content[0]?.description)
-    //     setHaseFixedPrice(data?.data?.content[0]?.hasFixedPrice)
-    //     setPrice(data?.data?.content[0]?.price + "")
-    //     setName(data?.data?.content[0]?.name)
-    //     setValue("email", data?.data?.content[0]?.email);
-    //     setValue("phone", data?.data?.content[0]?.phone);
-    //     setValue("address", data?.data?.content[0]?.address);
-    //     setValue("website", data?.data?.content[0]?.website);
-    //     setIsOnline(data?.data?.content[0]?.isOnline ? 'online' : data?.data?.content[0]?.address !== '' ? 'physical' : 'both');
-    //     updateImagePreview(data?.data?.content[0]?.images);
-    //     updateRental({ ...rentaldata, location: data?.data?.content[0]?.location })
-    // }, [data])
+    }); 
 
     console.log(values?.phone);
 
@@ -400,9 +389,7 @@ export default function EditBusinessPage() {
                         <Text fontSize={"24px"} fontWeight={"600"} >{`Let’s get you started`}</Text>
                         <Text fontSize={"14px"} fontWeight={"400"} >{`You can change some basic details of your business`}</Text>
                     </Flex>
-                    <ProductImagePicker />
-
-
+                    <ProductImagePicker /> 
                     <Flex flexDir={"column"} w={"full"} gap={"2"} >
                         <Text fontSize={"14px"} >Business Name <span style={{ color: 'red', fontSize: '12px' }}>*</span></Text>
                         <Input
@@ -430,8 +417,7 @@ export default function EditBusinessPage() {
                         <Text>{description.length}/300</Text>
                     </Flex>
                     {hasFixedPrice && (
-                        <>
-
+                        <> 
                             <Flex flexDir={"column"} w={"full"} gap={"2"} >
                                 <Text  fontSize={"14px"} >{`Let’s set your Price`} <span style={{ color: 'red', fontSize: '12px' }}>*</span></Text>
                                 <Text fontWeight={"400"} fontSize={"12px"} >You are free to make adjustment anytime</Text>
@@ -457,11 +443,7 @@ export default function EditBusinessPage() {
                                 />
                             </Flex>
                         </>
-                    )}
-                    {/* <Flex gap={"3"} alignItems={"center"}  >
-                        <Checkbox isChecked={hasFixedPrice ? false : true} onChange={() => setHasFixedPrice((prev) => !prev)} />
-                        <Text color={primaryColor} >{`I don’t have fix price let client contact me`}</Text>
-                    </Flex> */}
+                    )} 
                     <Flex flexDir={"column"} gap={"3px"} >
                         <Text fontSize={"14px"} >{"Location"}</Text>
                         <Flex flexDirection={"column"} w={"full"} h={"45px"} gap={"3px"} >
@@ -476,8 +458,6 @@ export default function EditBusinessPage() {
                     </Flex>
                     <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                         <CustomInput name="website" placeholder='' labelTextSize='14px' label='Business Website (optional)' isPassword={false} type='text' hint="The link must start with https://" />
-
-
                     </Flex>
 
                     <Flex overflowX="auto" w="full" css={{

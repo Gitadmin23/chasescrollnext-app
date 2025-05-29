@@ -3,7 +3,7 @@ import ModalLayout from "@/components/sharedComponent/modal_layout";
 import useProductStore from "@/global-state/useCreateProduct";
 import useCustomTheme from "@/hooks/useTheme";
 import { Flex, Input, Text, useToast } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Select from 'react-select';
 
 
@@ -30,6 +30,14 @@ export default function ColorSelector() {
         label: "",
         value: ""
     })
+
+    useEffect(()=> { 
+        const transformedData: any = productdata?.color?.map((item: any) => ({
+            value: item.color,
+            label: item.label
+        }));
+        setSelectedOptions(transformedData)
+    }, [])
 
     const handleChange = (selected: any) => {
 
@@ -120,7 +128,7 @@ export default function ColorSelector() {
                             ...customColor, value: e.target.value
                         })} w={"full"} rounded={"lg"} fontSize={"14px"} placeholder="hex code eg #055696 " />
                     </Flex>
-                    <CustomButton onClick={clickHandler} text="Add Color" mt={"3"} borderRadius={"999px"} />
+                    <CustomButton onClick={clickHandler} type="button" text="Add Color" mt={"3"} borderRadius={"999px"} />
                 </Flex>
             </ModalLayout>
         </Flex>

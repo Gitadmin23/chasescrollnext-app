@@ -92,7 +92,7 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
             )}
             <Flex w={"full"} h={"fit-content"} pos={"relative"} > 
                 <ProductImageScroller images={business?.images} createdDate={isSelect ? "" : moment(business?.createdDate)?.fromNow()} userData={business?.vendor} />
-                <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={"white"} rounded={"full"} right={"3"} > 
+                <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={mainBackgroundColor} rounded={"full"} right={"3"} > 
                     <ShareEvent newbtn={true} showText={false} data={business} name={business?.name} id={business?.id} type="SERVICE" eventName={textLimit(business?.name+"", 17)} />
                 </Flex>
             </Flex>

@@ -58,6 +58,7 @@ export default function CheckoutBtn({ data }: { data: IService }) {
     useEffect(() => {
         setDate("")
         setDescription("")
+        setPrice(data?.price+"")
     }, [])
 
     const handleDateSelect = (date: any) => {

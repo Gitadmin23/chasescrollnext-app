@@ -142,7 +142,9 @@ export default function ServiceDetail(props: { id: string }) {
                     <Flex w={"full"} flexDir={"column"} gap={"3"} > 
                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                             <Text fontSize={["24px", "24px", "32px"]} fontWeight={"700"} >{capitalizeFLetter(service?.name)}</Text>
-                            <ShareEvent newbtn={true} showText={false} data={service} name={service?.name} id={service?.id} type="SERVICE" eventName={textLimit(service?.name+"", 17)} />
+                            <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"full"} > 
+                                <ShareEvent newbtn={true} showText={false} data={service} name={service?.name} id={service?.id} type="SERVICE" eventName={textLimit(service?.name+"", 17)} />
+                            </Flex>
                         </Flex> 
                         <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
                             <DescriptionPage limit={200} label='Service Details' description={service?.description + ""} />
