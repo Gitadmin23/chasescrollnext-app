@@ -108,7 +108,7 @@ export default function ProductDetails({ id }: { id: string }) {
                     <Flex w={"full"} flexDir={"column"} gap={"4"} >
                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                             <Text fontSize={["24px", "24px", "32px"]} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
-                            <Flex w={"fit-content"} h={"fit-content"} p={"1"} bgColor={secondaryBackgroundColor} rounded={"full"} > 
+                            <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"full"} > 
                                 <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="KIOSK" eventName={textLimit(item?.name, 17)} />
                             </Flex>
                         </Flex>
