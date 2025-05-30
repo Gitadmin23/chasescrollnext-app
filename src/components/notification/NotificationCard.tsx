@@ -214,7 +214,7 @@ function NotificationCard({ notification }: { notification: INotification }) {
             <MyBusiness isSelect={true} selected={selectService} setSelected={setSelectService} />
           </Flex>
           <Flex mt={"auto"}  >
-            <CustomButton borderRadius={"999px"} width={"130px"} text={"Apply"} isLoading={applyForService?.isLoading} onClick={() => applyForService?.mutate({
+            <CustomButton borderRadius={"999px"} width={"130px"} disable={selectService?.length > 0 ? false : true} text={"Apply"} isLoading={applyForService?.isLoading} onClick={() => applyForService?.mutate({
               eventCreatorID: notification?.createdBy?.userId,
               creatorID: userId,
               services: selectService,
@@ -238,7 +238,7 @@ function NotificationCard({ notification }: { notification: INotification }) {
             <GetRental myrental={true} isSelect={true} selected={selectRental} setSelected={setSelectRental} />
           </Flex>
           <Flex mt={"auto"}  >
-            <CustomButton borderRadius={"999px"} width={"130px"} text={"Apply"} isLoading={applyForService?.isLoading} onClick={() => applyForService?.mutate({
+            <CustomButton borderRadius={"999px"} width={"130px"} disable={selectService?.length > 0 ? false : true} text={"Apply"} isLoading={applyForService?.isLoading} onClick={() => applyForService?.mutate({
               eventCreatorID: notification?.createdBy?.userId,
               creatorID: userId,
               services: [],
