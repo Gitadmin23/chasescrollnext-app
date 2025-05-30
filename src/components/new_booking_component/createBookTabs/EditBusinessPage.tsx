@@ -193,11 +193,12 @@ export default function EditBusinessPage() {
                     description,
                     "state": rentaldata?.location?.state,
                     "location": rentaldata?.location,
+                    price: price
                 }
 
                 console.log(obj);
                 
-                // createBusinessMutation.mutate(obj);
+                createBusinessMutation.mutate(obj);
             } else {
                 const formdata = new FormData()
                 image.forEach((file) => {

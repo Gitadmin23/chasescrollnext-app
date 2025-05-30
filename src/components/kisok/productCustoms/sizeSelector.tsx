@@ -23,6 +23,8 @@ export default function SizeSelector() {
     const { primaryColor } = useCustomTheme()
     const { productdata, updateProduct } = useProductStore((state) => state);
 
+    const { headerTextColor } = useCustomTheme()
+
     const toast = useToast()
     const [customColor, setCustomColor] = useState({
         label: "",
@@ -83,8 +85,8 @@ export default function SizeSelector() {
     }
 
     return (
-        <Flex gap={"2"} w={"full"} flexDir={"column"} >
-            <Text fontWeight={"500"} >Size</Text>
+        <Flex gap={"2"} w={"full"} color={"black"} flexDir={"column"} >
+            <Text fontWeight={"500"} color={headerTextColor} >Size</Text>
             <Select
                 isMulti
                 name="tags"
