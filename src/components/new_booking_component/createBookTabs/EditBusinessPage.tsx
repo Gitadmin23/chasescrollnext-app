@@ -197,7 +197,7 @@ export default function EditBusinessPage() {
 
                 console.log(obj);
                 
-                // createBusinessMutation.mutate(obj);
+                createBusinessMutation.mutate(obj);
             } else {
                 const formdata = new FormData()
                 image.forEach((file) => {

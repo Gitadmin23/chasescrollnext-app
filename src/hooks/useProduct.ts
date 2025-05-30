@@ -259,9 +259,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
         mutationFn: (data: {
                 "name": "",
                 "description": "",
-                "images": [
-                    ""
-                ],
+                "images": [],
                 "price": null,
                 "category": "",
                 "quantity": null,
