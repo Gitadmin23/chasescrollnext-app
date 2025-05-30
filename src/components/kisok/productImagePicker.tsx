@@ -36,17 +36,17 @@ export default function ProductImagePicker() {
             return;
         }
         const file = Files[0];
-        if (file.size > 800000) {
-            toast({
-                title: 'Error',
-                description: 'File size too large',
-                position: 'top-right',
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-            });
-            return;
-        }
+        // if (file.size > 800000) {
+        //     toast({
+        //         title: 'Error',
+        //         description: 'File size too large',
+        //         position: 'top-right',
+        //         status: 'error',
+        //         duration: 5000,
+        //         isClosable: true,
+        //     });
+        //     return;
+        // }
         const filename = [...Files];
         const arr = [...fileData];
 
