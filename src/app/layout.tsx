@@ -36,6 +36,20 @@ export default async function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png" />
         <link rel="manifest" href="/favicon_io/site.webmanifest" />
         <meta name="viewport" content="minimum-scale=1" />
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=G-8113MST9DM`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-8113MST9DM');
+            `,
+          }}
+        />
         <meta name="viewport" content="height=device-height,
                       width=device-width, initial-scale=1.0,
                       viewport-fit=cover

@@ -173,7 +173,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
     const handleEditSubmitProduce = (e: any) => {
         e.preventDefault();
         if (image.length === 0) {
-            editProduct?.mutate(removeEmptyValues(item))
+            editProduct?.mutate(removeEmptyValues(item?.payload))
         } else {
             console.log("Item is valid. Submitting...");
             fileUploadHandler(image)
@@ -637,7 +637,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
             if (!rental) { 
                 
                 if (edit) {
-                    editProduct?.mutate(removeEmptyValues({ ...item, images: [...productdata?.images, ...uploadedFile]})) 
+                    editProduct?.mutate(removeEmptyValues({ ...item?.payload, images: [...productdata?.images, ...uploadedFile]})) 
                 } else {
                     createProduct?.mutate(removeEmptyValues({ ...item, images: uploadedFile }))
                 }
