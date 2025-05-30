@@ -70,7 +70,8 @@ export default function KisokCreate(props: Props) {
                 color: productdata?.color?.length ? productdata?.color : data?.data?.content[0]?.color,
                 size: productdata?.size?.length ? productdata?.size : data?.data?.content[0]?.size,
             })
-        }
+        },
+        enabled: productdata?.name ? false : true
     });
 
 

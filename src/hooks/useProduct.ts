@@ -257,7 +257,6 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
 
     const editProduct = useMutation({
         mutationFn: (data: {
-            payload: {
                 "name": "",
                 "description": "",
                 "images": [
@@ -268,10 +267,9 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
                 "quantity": null,
                 "hasDiscount": true,
                 "discountPrice": null,
-            }, id: string
         }) =>
             httpService.patch(
-                `/products/${data?.id}`, data?.payload
+                `/products/${id}`, data
             ),
         onSuccess: (data: any) => {
             toast({
@@ -638,9 +636,10 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
 
     useEffect(() => {
         if (uploadedFile?.length > 0) {
-            if (!rental) {
+            if (!rental) { 
+                
                 if (edit) {
-                    editProduct?.mutate(removeEmptyValues({ ...item, payload: {...item?.payload, images: [...productdata?.images, ...uploadedFile]} })) 
+                    editProduct?.mutate(removeEmptyValues({ ...item, images: [...productdata?.images, ...uploadedFile]})) 
                 } else {
                     createProduct?.mutate(removeEmptyValues({ ...item, images: uploadedFile }))
                 }
