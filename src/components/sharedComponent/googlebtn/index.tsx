@@ -118,7 +118,10 @@ function GoogleBtn(props: Props) {
 
     useEffect(() => {
         if (tokenData && user?.email) {
-            if (user?.username === user?.email || !user?.data?.mobilePhone?.value) {
+
+            console.log(user);
+            
+            if (!user?.data?.mobilePhone?.value) {
 
                 if (!checkData?.email) {
                     setCheckData({
@@ -415,7 +418,7 @@ function GoogleBtn(props: Props) {
                             userNameCheck?.includes("exists") ||
                             !checkData?.firstName ||
                             !checkData?.lastName ||
-                            (checkData?.phone ? checkData?.phone?.toString() : "")?.length >= 12
+                            (checkData?.phone ? checkData?.phone?.toString() : "")?.length <= 12
                         }
                         onClick={submitHandler}
                         mt="4"
