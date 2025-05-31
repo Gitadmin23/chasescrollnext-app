@@ -571,8 +571,8 @@ function SubmitEvent(props: Iprops) {
     // Create Event From Draft
     const tagServiceAndRental = useMutation({
         mutationFn: (data: {
-            "serviceCategories":  Array<string>,
-            "rentalCategories": Array<string>,
+            "serviceCategories":  Array<any>,
+            "rentalCategories": Array<any>,
             "eventID": string,
             "state": string
         }) => httpService.post("/tags/create-request", data),
