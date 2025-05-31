@@ -155,14 +155,8 @@ const AWSHook = () => {
         setLoadingCompress(true);
         const processedFiles = [];
         try {
-            for (const item of files) {
-                if (item.type.startsWith('video')) {
-                    const compressedVideo = await compressVideo(item);
-                    processedFiles.push(compressedVideo);
-                } else {
-                    
-                    processedFiles.push(item);
-                }
+            for (const item of files) {  
+                processedFiles.push(item); 
             }
             const fd = new FormData();
             processedFiles.forEach((file) => {

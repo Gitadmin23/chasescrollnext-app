@@ -42,20 +42,14 @@ export default function ColorSelector() {
     }, [])
 
     const handleChange = (selected: any) => {
+ 
 
-        const hexValues = selected.map((color: any) => color.label);
+        setSelectedOptions(selected);
 
         const transformedData = selected.map((item: any) => ({
             color: item.value,
             label: item.label
-        }));
-        const clone = selectedOptions
-
-        clone.push(transformedData)
-
-        setSelectedOptions(selected); 
-
-        console.log(transformedData);
+        })); 
         
 
         updateProduct({ ...productdata, color: transformedData })
@@ -103,12 +97,12 @@ export default function ColorSelector() {
                 value={selectedOptions}
             />
             {selectedOptions?.length > 0 && (
-                <Flex w={"full"} wrap={"wrap"} gap={"2"} >
+                <Flex w={"fit"} wrap={"wrap"} gap={"1"} >
                     {selectedOptions?.map((item) => {
                         return ( 
                             <Flex key={item?.label} py={"2"} alignItems={"center"} rounded={"12px"} gap={"1"} >
                                 <Flex w={"7"} h={"7"} rounded={"full"} bgColor={item?.value} />
-                                <Text fontSize={"14px"} >{item?.label}</Text>
+                                <Text fontSize={"14px"} color={headerTextColor} >{item?.label}</Text>
                             </Flex> 
                         )
                     })}

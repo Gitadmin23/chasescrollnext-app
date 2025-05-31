@@ -19,7 +19,7 @@ interface ICreatePost {
 
 const useHome = () => {
 
-    const intObserver = React.useRef<IntersectionObserver>();
+    const intObserver = React.useRef<IntersectionObserver>(null);
     // const [uploadProgress, setUploadProgress] = useState(0);
     const toast = useToast();
     const queryClient = useQueryClient();
