@@ -94,7 +94,7 @@ function SelectDate(props: Props) {
                 selected={(name === "End" && eventdata.endDate) ? new Date(eventdata.endDate) : (name === "Start" && eventdata.startDate ) ? new Date(eventdata.startDate) : new Date()}
                 // dateFormat="MMM d, yyyy h:mm aa"
                 showTimeSelect
-                minDate={(name === "End") ? (eventdata.startDate ? new Date(dateInti) : new Date()) : new Date()}
+                minDate={(name === "End") ? (eventdata.startDate ? new Date(eventdata.startDate) : new Date()) : new Date()}
                 onChange={handleDateSelect}
                 customInput={<CustomInput />}
             />

@@ -1,12 +1,14 @@
 "use client"
 import CustomButton from '@/components/general/Button'
+import ColorSelector from '@/components/kisok/productCustoms/colorSelector'
+import SizeSelector from '@/components/kisok/productCustoms/sizeSelector'
 import ProductImagePicker from '@/components/kisok/productImagePicker'
 import ProductMap from '@/components/kisok/productMap'
 import SelectCategories from '@/components/kisok/selectCategories'
 import LoadingAnimation from '@/components/sharedComponent/loading_animation'
 import ModalLayout from '@/components/sharedComponent/modal_layout'
-import { GallaryIcon, PhotoIcon, SuccessIcon, TruckIcon } from '@/components/svg'
-import useProductStore, { CreateProduct } from '@/global-state/useCreateProduct'
+import { SuccessIcon, TruckIcon } from '@/components/svg'
+import useProductStore from '@/global-state/useCreateProduct'
 import useProduct from '@/hooks/useProduct'
 import useCustomTheme from '@/hooks/useTheme'
 import httpService from '@/utils/httpService'
@@ -40,8 +42,11 @@ export default function KisokCreate(props: Props) {
             "description": productdata?.description,
             "images": productdata?.images,
             "price": productdata?.price,
+            "quantity": productdata?.quantity,
             "category": productdata?.category,
-            "location": productdata?.location
+            "location": productdata?.location, 
+            color: productdata?.color,
+            size: productdata?.size,
         }, id: id
     }, false, true)
 
@@ -62,8 +67,11 @@ export default function KisokCreate(props: Props) {
                 category: productdata?.category ? productdata?.category : data?.data?.content[0]?.category,
                 location: productdata?.location ? productdata?.location : data?.data?.content[0]?.location as any,
                 quantity: productdata?.quantity ? productdata?.quantity : data?.data?.content[0]?.quantity,
+                color: productdata?.color?.length ? productdata?.color : data?.data?.content[0]?.color,
+                size: productdata?.size?.length ? productdata?.size : data?.data?.content[0]?.size,
             })
-        }
+        },
+        enabled: productdata?.name ? false : true
     });
 
 
@@ -79,7 +87,7 @@ export default function KisokCreate(props: Props) {
 
                 <form style={{ maxWidth: "550px", width: "100%", display: "flex" }} onSubmit={handleEditSubmitProduce}>
                     <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={type ? "none" : "flex"} flexDir={"column"}  >
-                        <Text fontSize={"24px"} fontWeight={"600"} >Give your product a name</Text>
+                        <Text fontSize={["16px", "16px", "24px"]} fontWeight={"600"} >Give your product a name</Text>
                         <Input bgColor={mainBackgroundColor} value={productdata?.name} onChange={(e) => updateProduct({ ...productdata, name: e.target.value })} h={"60px"} />
                         <Text fontSize={"24px"} fontWeight={"500"} >Describe your place to make it stand out</Text>
                         <Input bgColor={mainBackgroundColor} value={productdata?.description} onChange={(e) => updateProduct({ ...productdata, description: e.target.value })} h={"60px"} />
@@ -87,7 +95,19 @@ export default function KisokCreate(props: Props) {
 
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Quantity</Text>
-                            <Input bgColor={mainBackgroundColor} value={productdata?.quantity} type="number" onChange={(e) => updateProduct({ ...productdata, quantity: e.target.value })} h={"60px"} />
+                            <Input bgColor={mainBackgroundColor} value={productdata?.quantity}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^\d*$/.test(value)) {
+                                        updateProduct({ ...productdata, quantity: value })
+                                    }
+                                }}
+                                onKeyPress={(e) => {
+                                    if (!/[0-9]/.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                h={"60px"} />
                         </Flex>
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Location</Text>
@@ -95,34 +115,37 @@ export default function KisokCreate(props: Props) {
                             <ProductMap location={productdata?.location} />
                         </Flex>
                         <SelectCategories rental={false} />
+                        <ColorSelector />
+                        <SizeSelector />
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Price per unit</Text>
-                            <Input bgColor={mainBackgroundColor} value={productdata?.price} type="number" onChange={(e) => updateProduct({ ...productdata, price: e.target.value })} h={"60px"} />
-                        </Flex>
-                        {/* <Text color={primaryColor} ml={"auto"} >Add More Product</Text>
-                    <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
-                        <Text fontWeight={"500"} >Allowed Customers Review</Text>
-                        <Switch />
-                    </Flex> */}
+                            <Input bgColor={mainBackgroundColor} value={productdata?.price}
+                                type="number"
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^\d*$/.test(value)) {
+                                        updateProduct({ ...productdata, price: value })
+                                    }
+                                }}
+                                onKeyPress={(e) => {
+                                    if (!/[0-9]/.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                h={"60px"} />
+                        </Flex> 
                         <CustomButton type='button' _disabled={{ opacity: "0.5", cursor: "not-allowed" }} disable={(!productdata?.name || !productdata?.description || !productdata?.quantity || !productdata?.price) ? true : false} onClick={() => push(`/dashboard/kisok/edit/${id}?type=true`)} height={"60px"} borderRadius={"999px"} mt={"4"} text={"Continue"} />
                     </Flex>
 
                     <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={!type ? "none" : "flex"} flexDir={"column"}  >
-                        <Text fontSize={"24px"} fontWeight={"600"} >Share pictures of your place</Text>
-                        <ProductImagePicker />
-                        <Text fontSize={"24px"} fontWeight={"600"} >Delivery Plans</Text>
+                        <Text fontSize={["16px", "16px", "24px"]} fontWeight={"600"} >Share pictures of your place</Text>
+                        <ProductImagePicker /><Text fontSize={"24px"} fontWeight={"600"} >Delivery Plans</Text>
+                        <Text fontWeight={"500"} >Note: You are responsible for your product  delivery</Text>
                         <Flex w={"full"} flexDir={"column"} gap={"3"} >
-                            <Flex as={"button"} onClick={() => setSelected((prev) => prev === "1" ? "" : "1")} p={"6"} w={"full"} rounded={"16px"} justifyContent={"space-between"} bgColor={"#FCFCFC"} alignItems={"center"} borderWidth={"1px"} borderColor={selected === "1" ? primaryColor : "#EAEBEDCC"} >
+                            <Flex p={"6"} w={"full"} rounded={"16px"} justifyContent={"space-between"} bgColor={mainBackgroundColor} alignItems={"center"} borderWidth={"1px"} borderColor={"#EAEBEDCC"} >
                                 <Flex flexDir={"column"} gap={"2"} alignItems={"start"} >
-                                    <Text fontWeight={"500"} >Short-term</Text>
+                                    <Text fontWeight={"500"} >Mandatory product delivery Timeline</Text>
                                     <Text fontSize={"14px"} >Within 3-5 Days inside lagos</Text>
-                                </Flex>
-                                <TruckIcon />
-                            </Flex>
-                            <Flex as={"button"} onClick={() => setSelected((prev) => prev === "2" ? "" : "2")} p={"6"} w={"full"} rounded={"16px"} justifyContent={"space-between"} bgColor={"#FCFCFC"} alignItems={"center"} borderWidth={"1px"} borderColor={selected === "2" ? primaryColor : "#EAEBEDCC"} >
-                                <Flex flexDir={"column"} gap={"2"} alignItems={"start"} >
-                                    <Text fontWeight={"500"} >Long-term</Text>
-                                    <Text fontSize={"14px"} >Within 2-3 Weeks outside Lagos</Text>
                                 </Flex>
                                 <TruckIcon />
                             </Flex>

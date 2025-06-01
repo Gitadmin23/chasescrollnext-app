@@ -32,17 +32,47 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   // optionally access and extend (rather than replace) parent metadata
   // const previousImages = (await parent).openGraph?.images || [] 
 
+  // return {
+  //   title: product?.content?.length > 0 ? product?.content[0]?.name : "",
+  //   description: product?.content?.length > 0 ? product?.content[0]?.description : "",
+  //   openGraph: {
+  //     title: product?.content?.length > 0 ? product?.content[0]?.name : "",
+  //     description: product?.content?.length > 0 ? product?.content[0]?.description : "",
+  //     images: [{
+  //       url: IMAGE_URL + (product?.content?.length > 0 ? product?.content[0]?.bannerImage : ""),
+  //     }],
+  //   },
+  // }
+
+
+
+  const imageUrl = product?.content[0]?.bannerImage 
+  ? new URL(IMAGE_URL + product.content[0].bannerImage, url).toString()
+  : null;
+  // optionally access and extend (rather than replace) parent metadata
+  // const previousImages = (await parent).openGraph?.images || [] 
+
   return {
-    title: product?.content?.length > 0 ? product?.content[0]?.name : "",
-    description: product?.content?.length > 0 ? product?.content[0]?.description : "",
+    title: product?.content[0]?.name,
+    description: product?.content[0]?.description,
     openGraph: {
-      title: product?.content?.length > 0 ? product?.content[0]?.name : "",
-      description: product?.content?.length > 0 ? product?.content[0]?.description : "",
+      title: product?.content[0]?.name,
+      description: product?.content[0]?.description,
       images: [{
-        url: IMAGE_URL + (product?.content?.length > 0 ? product?.content[0]?.bannerImage : ""),
+        url: imageUrl+"",
+        width: 1200,  // Recommended: 1200x630 for OG
+        height: 630,
+        alt: product?.content[0]?.name || 'Product Image',
       }],
     },
+    twitter: {  // For Twitter Card (optional)
+      card: 'summary_large_image',
+      title: product?.content[0]?.name || 'Default Title',
+      description: product?.content[0]?.description || 'Default Description',
+      images: imageUrl ? [imageUrl] : [],
+    },
   }
+
 }
 
 export default async function DonationDetail(props: Props) {

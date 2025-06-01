@@ -1,10 +1,13 @@
-import RentalDetail from '@/components/kisok/rentalDetail'
+
+import React from 'react'
 import { IMAGE_URL } from '@/services/urls';
-import { Metadata } from 'next';
+import type { Metadata } from 'next' 
+import ProductDetails from '@/components/kisok/productDetails';
+// import GetEventData from '@/app/olddashboard/event/details/get_event_data'; 
 
 type Props = {
-    params: Promise<{ slug: string }>
-    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
+  params: Promise<{ slug: string }>
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
@@ -17,7 +20,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   // fetch data
   let product: any
   try {
-    product = await fetch(url + "/rental/search?id=" + id, {
+    product = await fetch(url + "/products/search?id=" + id, {
       // headers: myHeaders,
       method: 'GET'
     }).then((res) => res.json())
@@ -31,8 +34,6 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const imageUrl = product?.content[0]?.images[0] 
   ? new URL(IMAGE_URL + product.content[0].images[0], url).toString()
   : null;
-
-
   // optionally access and extend (rather than replace) parent metadata
   // const previousImages = (await parent).openGraph?.images || [] 
 
@@ -59,12 +60,15 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 }
 
 
-export default async function KisokDetails(props: Props) {
-    const params = await props.params;
+
+async function ShareEvent(props: Props) {
+  const params = await props.params;
     // read route params
     const id = params.slug
 
     return (
-        <RentalDetail id={id} />
+      <ProductDetails id={id} />
     )
 }
+
+export default ShareEvent

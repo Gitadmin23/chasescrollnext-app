@@ -277,7 +277,7 @@ function HomeNavbar(
                                 )}
                                 {token && (
                                     <Flex gap={"3"} width={"full"} my={"auto"} flexDir={"column"} justifyContent={"center"}  >
-                                        <CustomButton onClick={() => clickHandler("/dashboard/event")} text={"Dashboard"} width={"full"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
+                                        <CustomButton onClick={() => clickHandler("/dashboard/product")} text={"Dashboard"} width={"full"} backgroundColor={THEME?.COLORS?.chasescrollButtonBlue} height={"48px"} borderWidth={"1px"} borderColor={THEME?.COLORS?.chasescrollBlue} color={"white"} borderRadius={"8px"} />
                                     </Flex>
                                 )}
                                 {/* )} */}

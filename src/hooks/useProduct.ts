@@ -173,7 +173,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
     const handleEditSubmitProduce = (e: any) => {
         e.preventDefault();
         if (image.length === 0) {
-            editProduct?.mutate(removeEmptyValues(item))
+            editProduct?.mutate(removeEmptyValues(item?.payload))
         } else {
             console.log("Item is valid. Submitting...");
             fileUploadHandler(image)
@@ -257,21 +257,17 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
 
     const editProduct = useMutation({
         mutationFn: (data: {
-            payload: {
                 "name": "",
                 "description": "",
-                "images": [
-                    ""
-                ],
+                "images": [],
                 "price": null,
                 "category": "",
                 "quantity": null,
                 "hasDiscount": true,
                 "discountPrice": null,
-            }, id: string
         }) =>
             httpService.patch(
-                `/products/${data?.id}`, data?.payload
+                `/products/${id}`, data
             ),
         onSuccess: (data: any) => {
             toast({
@@ -283,7 +279,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
                 position: "top-right",
             });
             reset()
-            router?.push("/dashboard/kisok?type=mykisok")
+            router?.push("/dashboard/product/kiosk?type=mykiosk")
         },
         onError: () => { },
     });
@@ -638,10 +634,10 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
 
     useEffect(() => {
         if (uploadedFile?.length > 0) {
-            if (!rental) {
+            if (!rental) { 
+                
                 if (edit) {
-                    editProduct?.mutate(removeEmptyValues({ ...item, payload: {...item?.payload, images: [...productdata?.images, ...uploadedFile]} })) 
-                    
+                    editProduct?.mutate(removeEmptyValues({ ...item?.payload, images: [...productdata?.images, ...uploadedFile]})) 
                 } else {
                     createProduct?.mutate(removeEmptyValues({ ...item, images: uploadedFile }))
                 }

@@ -136,7 +136,7 @@ export default function RentalCreate() {
                             <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{"Congratulations"}</Text>
                             <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your product has been edited successfully`}</Text>
 
-                            <CustomButton onClick={() => push("/dashboard/kisok?type=myrental")} color={"#FFF"} text={'Done'} w={"full"} backgroundColor={"#3EC259"} />
+                            <CustomButton onClick={() => push("/dashboard/product/kiosk?type=myrental")} color={"#FFF"} text={'Done'} w={"full"} backgroundColor={"#3EC259"} />
                         </Flex>
                     </LoadingAnimation>
                 </ModalLayout>

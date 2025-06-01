@@ -44,6 +44,9 @@ export default function KisokCreate() {
         updateProduct(clone)
     }
 
+    console.log(productdata);
+    
+
     const backHandler = () => {
         if (type) {
             push("/dashboard/kisok/create")

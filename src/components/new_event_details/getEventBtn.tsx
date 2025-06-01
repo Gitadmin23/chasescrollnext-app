@@ -1,27 +1,19 @@
 import ModalLayout from "@/components/sharedComponent/modal_layout";
-import { Box, Button, Flex, Text, useColorMode, useToast } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { Flex, Text, useToast } from "@chakra-ui/react";
+import React, { useState } from "react";
 import PaymentMethod from "./event_modal/payment_method";
 import SelectTicketNumber from "./event_modal/select_ticket_number";
 import RefundPolicy from "./event_modal/refund_policy";
 import CustomButton from "@/components/general/Button";
-import PaymentType from "./event_modal/payment_type";
-import httpService from "@/utils/httpService";
-import { useMutation, useQuery } from "react-query";
+import PaymentType from "./event_modal/payment_type"; 
 import { useDetails } from "@/global-state/useUserDetails";
 import ViewTicket from "./event_modal/view_ticket";
 import SelectTicketType from "./event_modal/select_ticket_type";
 import useStripeStore from "@/global-state/useStripeState";
 import useModalStore from "@/global-state/useModalSwitch";
 import { useRouter, useSearchParams } from "next/navigation";
-import { SuccessIcon } from "@/components/svg";
-import useCustomTheme from "@/hooks/useTheme";
-import { IEventType } from "@/models/Event";
-import { ImTicket } from "react-icons/im";
-import { HiOutlineTicket } from "react-icons/hi";
-import GoogleBtn from "../sharedComponent/googlebtn";
-import SignupModal from "@/app/auth/component/signupModal";
-import CustomText from "../general/Text";
+import { SuccessIcon } from "@/components/svg"; 
+import { IEventType } from "@/models/Event"; 
 
 interface IProps {
     data: IEventType
@@ -32,8 +24,7 @@ interface IProps {
 function GetEventTicket(props: IProps) {
     const {
         data,
-        setOpen,
-        open
+        setOpen
     } = props;
     
     const [openSignUp, setOpenSignUp] = useState(false) 

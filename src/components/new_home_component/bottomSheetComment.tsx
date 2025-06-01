@@ -7,6 +7,7 @@ import CommentInput from './commentInput'
 import CommentList from './commentList'
 import { IMediaContent } from '@/models/MediaPost'
 import useGetUser from '@/hooks/useGetUser'
+import { useDetails } from '@/global-state/useUserDetails'
 
 export default function BottomSheetComment({ open, setOpen, content, liked, loadingLikes, count, likesHandle, numberComments }: {
     open: boolean, 
@@ -24,9 +25,8 @@ export default function BottomSheetComment({ open, setOpen, content, liked, load
         mainBackgroundColor,
         borderColor,
     } = useCustomTheme();
-
-
-    const { user } = useGetUser()
+ 
+    const { user } = useDetails((state) => state);
     const [show, setShow] = useState(true)
     const [replyData, setReplyData] = useState({} as any)
 

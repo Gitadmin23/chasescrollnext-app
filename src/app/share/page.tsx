@@ -13,7 +13,7 @@ type queryTypes = {
 }
 
 
-export type ShareType = 'PROFILE'|'POST'|'COMMUNITY'|'EVENT'|'BUSINESS'|'DONATION';
+export type ShareType = 'PROFILE'|'POST'|'COMMUNITY'|'EVENT'|'BUSINESS'|'DONATION'|'RENTAL'|'SERVICE'|'KIOSK';
 
 function Share() {
 

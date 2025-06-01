@@ -36,17 +36,17 @@ export default function ProductImagePicker() {
             return;
         }
         const file = Files[0];
-        if (file.size > 800000) {
-            toast({
-                title: 'Error',
-                description: 'File size too large',
-                position: 'top-right',
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-            });
-            return;
-        }
+        // if (file.size > 800000) {
+        //     toast({
+        //         title: 'Error',
+        //         description: 'File size too large',
+        //         position: 'top-right',
+        //         status: 'error',
+        //         duration: 5000,
+        //         isClosable: true,
+        //     });
+        //     return;
+        // }
         const filename = [...Files];
         const arr = [...fileData];
 
@@ -74,15 +74,10 @@ export default function ProductImagePicker() {
         }
     }
 
-    console.log(image);
-
-
-
 
     return (
         <Flex px={["0px", "0px", "10px"]} mt={"5"} w={"full"} flexDir={"column"} gap={"3"} display={['flex', 'flex']} >
             <Flex gap={"4"} bgColor={mainBackgroundColor} w={"full"} flexDirection={"column"} p={"8"} borderWidth={"1.03px"} borderColor={borderColor} rounded={"16px"} >
-
                 <Flex w={"full"} gap={"4"} overflowX={"auto"} css={{
                     '&::-webkit-scrollbar': {
                         display: 'block'

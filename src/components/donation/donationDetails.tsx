@@ -162,12 +162,14 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                             <CalendarIcon color={primaryColor} />
                             <Text fontSize={["12px", "12px", "14px"]} >{dateFormat(item?.endDate)} {timeFormat(item?.endDate)}</Text>
                         </Flex>
+                        {item?.createdBy?.userId === userId && (
+                            <DonationCollaborator update={true} singleData={item} index={0} />
+                        )}
                         <Flex w={"full"} justifyContent={"end"} >
                             <Flex maxW={"600px"} display={["none", "none", "flex"]}  >
                                 {((userId === item?.createdBy?.userId) || item?.isCollaborator) ? (
                                     <Flex insetX={"3"} mt={["0px", "0px", "0px", "0px"]} bottom={["14", "14", "0px", "0px", "0px"]} pos={["fixed", "fixed", "relative", "relative"]} w={["auto", "auto", "full", "fit-content"]} zIndex={"50"} flexDir={"column"} gap={"4"} pb={"6"} px={["0px", "0px", "6", "6"]} >
                                         <Flex bgColor={mainBackgroundColor} w={["full", "full", "full", "450px"]} minW={["200px", "200px", "200px", "200px"]} maxW={["full", "full", "450px", "full"]} borderWidth={"1px"} borderColor={borderColor} rounded={"full"} flexDir={"column"} overflowX={"hidden"} gap={"3"} px={["3", "3", "5", "5"]} h={"90px"} justifyContent={"center"} >
-
                                             <Flex width={["full"]} justifyContent={"space-between"} alignItems={"center"} gap={"3"}    >
                                                 <Flex bgColor={mainBackgroundColor} w={"80px"} py={"2"} rounded={"2xl"} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} as={"button"} onClick={() => push(`/dashboard/settings/event-dashboard/${item?.id}/donate`)} gap={"4px"} flexDir={"column"} alignItems={"center"} justifyContent={"center"} >
                                                     <DashboardOrganizerIcon />

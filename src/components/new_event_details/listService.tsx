@@ -68,11 +68,13 @@ export default function ListService({ selectService, service }: { selectService:
                                 <Flex flexDir={"column"} h={item === selectedItem ? "40px" : "53px"} justifyContent={"space-between"} >
                                     <Flex onClick={() => selectServiceHandle(item)} w={"full"} px={"4"} pt={(item !== selectedItem && service?.some((subitem: any) => subitem.category === item)) ? "2" : "0px"} h={"full"} justifyContent={"space-between"} alignItems={"center"} >
                                         <Text fontSize={"14px"} >{textLimit(item?.replaceAll("_", " "), 30)}</Text>
-                                        {service?.some((subitem: any) => subitem.category === item) ? (
-                                            <FaCheckSquare color={primaryColor} size={"20px"} />
-                                        ) : (
-                                            <Flex w={"5"} h={"5"} rounded={"5px"} borderWidth={"2px"} />
-                                        )}
+                                        <Flex ml={"auto"} >
+                                            {service?.some((subitem: any) => subitem.category === item) ? (
+                                                <FaCheckSquare color={primaryColor} size={"20px"} />
+                                            ) : (
+                                                <Flex w={"5"} h={"5"} rounded={"5px"} borderWidth={"2px"} />
+                                            )}
+                                        </Flex>
                                         {/* <Checkbox isChecked={service?.some((subitem: any) => subitem.category === item) ? true : false} onChange={() => selectServiceHandle(item)} /> */}
                                     </Flex>
 

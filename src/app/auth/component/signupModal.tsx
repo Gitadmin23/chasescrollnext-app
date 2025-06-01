@@ -9,7 +9,7 @@ import useAuth from '@/hooks/useAuth'
 import VerifyForm from './verifyForm'
 import { usePathname, useRouter } from 'next/navigation'
 
-export default function SignupModal({ open, setOpen, index, hide, type }: { open: boolean, setOpen: (by: boolean) => void, index?: string, hide?: boolean, type?: "DONATION"}) {
+export default function SignupModal({ open, setOpen, index, hide, type }: { open: boolean, setOpen: (by: boolean) => void, index?: string, hide?: boolean, type?: "DONATION" | "EVENT" | "RENTAL" | "SERVICE" | "KIOSK"}) {
 
     const [tab, setTab] = useState(false)
     const [showMessage, setShowMessage] = useState(false)
@@ -22,14 +22,14 @@ export default function SignupModal({ open, setOpen, index, hide, type }: { open
     const toast = useToast()
 
     const clickHandler =()=> {
-        if(pathname?.includes("event")) {
-            if(type === "DONATION"){
-                router?.push(("/share/auth/login/?type=DONATION&typeID=" + index))
-            } else {
-                router?.push(("/share/auth/login/?type=EVENT&typeID=" + index))
-            }
+        if(type){
+            router?.push((`/share/auth/login/?type=${type}&typeID=` + index))
         } else {
-            router?.push(("/auth"))
+            if(pathname?.includes("event")){
+                router?.push(("/share/auth/login/?type=EVENT&typeID=" + index))
+            } else {
+                router?.push(("/auth"))
+            }
         }
     }
 
@@ -71,7 +71,7 @@ export default function SignupModal({ open, setOpen, index, hide, type }: { open
                             <SignForm tab={tab} setTab={setTab} setShowVerify={setShowVerify} />
                         )}
                         {showVerify && (
-                            <VerifyForm index={index} setOpen={setOpen} setShowMessage={setShowMessage} setShowVerify={setShowVerify} setTab={setTab} />
+                            <VerifyForm type={type} index={index} setOpen={setOpen} setShowMessage={setShowMessage} setShowVerify={setShowVerify} setTab={setTab} />
                         )}
                     </Flex>
                 </Flex>

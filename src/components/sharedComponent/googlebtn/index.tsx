@@ -29,7 +29,7 @@ interface Props {
     index?: string,
     border?: string,
     newbtn?: boolean,
-    type?: "DONATION"
+    type?: "DONATION" | "EVENT" | "RENTAL" | "SERVICE" | "KIOSK"
     affiliate?: string
 }
 
@@ -60,10 +60,12 @@ function GoogleBtn(props: Props) {
     const toast = useToast();
     const router = useRouter();
     const [open, setOpen] = useState(false)
+    const [checkToken, setCheckToken] = useState("")
     const [terms, setTerms] = useState(false)
     const [tokenData, setTokenData] = useState("")
     const query = useSearchParams();
     const affiliateID = query?.get('type');
+    const affiliateIDtwo = query?.get('affiliate');
     const [userNameCheck, setUserNameCheck] = useState("")
 
     const {
@@ -87,9 +89,7 @@ function GoogleBtn(props: Props) {
         }
     }, [status]);
 
-    const { user } = useGetUser()
-
-    console.log(tokenData);
+    const { user } = useGetUser() 
 
 
     useEffect(() => {
@@ -105,12 +105,12 @@ function GoogleBtn(props: Props) {
 
         // Regex pattern to only allow letters
         const regex = /^[a-zA-Z]*$/;
-        if(name === "firstName"){
-            if (regex.test(value)) { 
+        if (name === "firstName") {
+            if (regex.test(value)) {
                 setCheckData({ ...checkData, firstName: e.target?.value })
             }
-        } else if(name === "lastName"){
-            if (regex.test(value)) { 
+        } else if (name === "lastName") {
+            if (regex.test(value)) {
                 setCheckData({ ...checkData, lastName: e.target?.value })
             }
         }
@@ -118,7 +118,10 @@ function GoogleBtn(props: Props) {
 
     useEffect(() => {
         if (tokenData && user?.email) {
-            if (user?.username === user?.email || !user?.data?.mobilePhone?.value) {
+
+            console.log(user);
+            
+            if (!user?.data?.mobilePhone?.value) {
 
                 if (!checkData?.email) {
                     setCheckData({
@@ -132,15 +135,21 @@ function GoogleBtn(props: Props) {
                 if (index) {
                     if (type === "DONATION") {
                         router.push(`/dashboard/donation/${index}`);
+                    } else if (type === "RENTAL") {
+                        router.push(`/dashboard/kisok/details-rental/${index}`);
+                    } else if (type === "SERVICE") {
+                        router.push(`/dashboard/kisok/service/${index}`);
+                    } else if (type === "KIOSK") {
+                        router.push(`/dashboard/kisok/details/${index}`);
                     } else {
-                        router.push(`/dashboard/event/details/${affiliateID ? affiliate : index}${affiliateID ? "?type=affiliate" : ""}`);
+                        router.push(`/dashboard/event/details/${(affiliateID === "affiliate" || affiliateIDtwo) ? affiliate ? affiliate : affiliateIDtwo : index}${(affiliateID === "affiliate" || affiliateIDtwo) ? "?type=affiliate" : ""}`);
                     }
                 } else {
                     router.push('/dashboard/product')
                 }
             }
         }
-    }, [user]);
+    }, [user, checkToken]);
 
     const signinWithGoogle = useMutation({
 
@@ -165,15 +174,35 @@ function GoogleBtn(props: Props) {
 
             // if(data?.data?.user_name ===)
             console.log(data?.data);
-            if (index) {
-                if (type === "DONATION") {
-                    router.push(`/dashboard/donation/${index}`);
-                } else {
-                    router.push(`/dashboard/event/details/${affiliateID ? affiliate : index}${affiliateID ? "?type=affiliate" : ""}`);
-                }
-            } else {
-                router.push('/dashboard/product')
-            }
+            setCheckToken(data?.data?.access_token)
+
+            // if (user?.username === user?.email || !user?.data?.mobilePhone?.value) {
+
+            //     if (!checkData?.email) {
+            //         setCheckData({
+            //             email: user?.email+"",
+            //             firstName: "",
+            //             lastName: "",
+            //         })
+            //     }
+            //     setOpen(true)
+            // } else {
+            //     if (index) {
+            //         if (type === "DONATION") {
+            //             router.push(`/dashboard/donation/${index}`);
+            //         } else if (type === "RENTAL") {
+            //             router.push(`/dashboard/kisok/details-rental/${index}`);
+            //         } else if (type === "SERVICE") {
+            //             router.push(`/dashboard/kisok/service/${index}`);
+            //         } else if (type === "KIOSK") {
+            //             router.push(`/dashboard/kisok/details/${index}`);
+            //         } else {
+            //             router.push(`/dashboard/event/details/${(affiliateID === "affiliate" || affiliateIDtwo) ? affiliate ? affiliate : affiliateIDtwo : index}${(affiliateID === "affiliate" || affiliateIDtwo) ? "?type=affiliate" : ""}`);
+            //         }
+            //     } else {
+            //         router.push('/dashboard/product')
+            //     }
+            // }
 
             // setCheckData(data?.data)
         },
@@ -211,8 +240,14 @@ function GoogleBtn(props: Props) {
             if (index) {
                 if (type === "DONATION") {
                     router.push(`/dashboard/donation/${index}`);
+                } else if (type === "RENTAL") {
+                    router.push(`/dashboard/kisok/details-rental/${index}`);
+                } else if (type === "SERVICE") {
+                    router.push(`/dashboard/kisok/service/${index}`);
+                } else if (type === "KIOSK") {
+                    router.push(`/dashboard/kisok/details/${index}`);
                 } else {
-                    router.push(`/dashboard/event/details/${affiliate ? affiliate : index}?type=affiliate`);
+                    router.push(`/dashboard/event/details/${(affiliateID === "affiliate" || affiliateIDtwo) ? affiliate ? affiliate : affiliateIDtwo : index}${(affiliateID === "affiliate" || affiliateIDtwo) ? "?type=affiliate" : ""}`);
                 }
             } else {
                 router.push('/dashboard/product')
@@ -290,7 +325,7 @@ function GoogleBtn(props: Props) {
                                 rounded={"32px"}
                                 // color={textColor ?? 'black'}
                                 bgColor={'transparent'}
-                                
+
                             />
                         </Flex>
                         <Flex flexDir={"column"} gap={"1"} w={"full"} >
@@ -372,12 +407,12 @@ function GoogleBtn(props: Props) {
                             </Link>
                         </CustomText>
                     </Flex>
-                    <Button 
-                        type="button" 
+                    <Button
+                        type="button"
                         color="white"
                         isLoading={editProfile?.isLoading}
                         isDisabled={
-                            editProfile?.isLoading || 
+                            editProfile?.isLoading ||
                             !terms ||
                             !checkData?.username ||
                             userNameCheck?.includes("exists") ||

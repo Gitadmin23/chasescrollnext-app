@@ -65,7 +65,7 @@ function SendMesageModal({ onClose, id, isprofile, type }: {
         onSuccess: (data) => {
             const chat = data?.data as Chat;
             const obj = {
-                message: type === "EVENT" ? `${WEBSITE_URL}/share/event/${id}` : `${WEBSITE_URL}/share?type=${type}&typeID=${id}`,
+                message: type === "EVENT" ? `${WEBSITE_URL}/event/${id}` : type === "DONATION" ? `${WEBSITE_URL}/donation/${id}` : type === "RENTAL" ? `${WEBSITE_URL}/rental/${id}` : type === "SERVICE" ? `${WEBSITE_URL}/service/${id}` : type === "KIOSK" ? `${WEBSITE_URL}/kiosk/${id}` :  `${WEBSITE_URL}/share?type=${type}&typeID=${id}`,
                 chatID: chat?.id,
             }
             sendMessage.mutate(obj)

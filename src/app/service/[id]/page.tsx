@@ -1,38 +1,38 @@
-import RentalDetail from '@/components/kisok/rentalDetail'
+
+import React from 'react'
 import { IMAGE_URL } from '@/services/urls';
-import { Metadata } from 'next';
+import type { Metadata } from 'next' 
+import { ServiceDetail } from '@/components/kisok/services/serviceDetail';
+// import GetEventData from '@/app/olddashboard/event/details/get_event_data'; 
 
 type Props = {
-    params: Promise<{ slug: string }>
-    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
+  params: Promise<{ id: string }>
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
   // read route params
 
-  const id = params.slug
+  const id = params.id
   const url = process.env.NEXT_PUBLIC_BASE_URL as string
 
   // fetch data
   let product: any
   try {
-    product = await fetch(url + "/rental/search?id=" + id, {
+    product = await fetch(url + "/business-service/search?id=" + id, {
       // headers: myHeaders,
       method: 'GET'
     }).then((res) => res.json())
 
     // console.log(product);
   } catch (error) {
-    console.log(error);
-
+    console.log(error); 
   } 
   
   const imageUrl = product?.content[0]?.images[0] 
   ? new URL(IMAGE_URL + product.content[0].images[0], url).toString()
   : null;
-
-
   // optionally access and extend (rather than replace) parent metadata
   // const previousImages = (await parent).openGraph?.images || [] 
 
@@ -59,12 +59,14 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 }
 
 
-export default async function KisokDetails(props: Props) {
-    const params = await props.params;
-    // read route params
-    const id = params.slug
 
+async function ShareEvent(props: Props) { 
+  const params = await props.params;
+  // read route params
+  const id = params.id
     return (
-        <RentalDetail id={id} />
+      <ServiceDetail id={id} />
     )
 }
+
+export default ShareEvent

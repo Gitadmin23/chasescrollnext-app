@@ -82,7 +82,7 @@ function OrganizeBtn(props: IEventType) {
                         <DashboardOrganizerIcon />
                         <Text fontSize={"14px"} fontWeight={"500"} >Dashboard</Text>
                     </Flex>
-                    <Flex w={"full"} gap={"2"} h={"55px"} alignItems={"center"} justifyContent={"center"} as={"button"} disabled={(pathname?.includes("pastdetails") || eventMemberRole === "COLLABORATOR") ? true : false} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} onClick={() => clickHandler()} >
+                    <Flex w={"full"} gap={"2"} h={"55px"} alignItems={"center"} justifyContent={"center"} as={"button"} disabled={(pathname?.includes("pastdetails") || eventMemberRole === "COLLABORATOR" || eventMemberRole === "ADMIN") ? true : false} _disabled={{ opacity: "0.4", cursor: "not-allowed" }} onClick={() => clickHandler()} >
                         <DashboardEditIcon />
                         <Text fontSize={"14px"} fontWeight={"500"} >Edit Event</Text>
                     </Flex> 

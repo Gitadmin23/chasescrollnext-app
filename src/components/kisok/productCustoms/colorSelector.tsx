@@ -3,7 +3,7 @@ import ModalLayout from "@/components/sharedComponent/modal_layout";
 import useProductStore from "@/global-state/useCreateProduct";
 import useCustomTheme from "@/hooks/useTheme";
 import { Flex, Input, Text, useToast } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Select from 'react-select';
 
 
@@ -25,27 +25,31 @@ export default function ColorSelector() {
     const { primaryColor } = useCustomTheme()
     const { productdata, updateProduct } = useProductStore((state) => state);
 
+    const { headerTextColor } = useCustomTheme()
+
     const toast = useToast()
     const [customColor, setCustomColor] = useState({
         label: "",
         value: ""
     })
 
-    const handleChange = (selected: any) => {
+    useEffect(()=> { 
+        const transformedData: any = productdata?.color?.map((item: any) => ({
+            value: item.color,
+            label: item.label
+        }));
+        setSelectedOptions(transformedData)
+    }, [])
 
-        const hexValues = selected.map((color: any) => color.label);
+    const handleChange = (selected: any) => {
+ 
+
+        setSelectedOptions(selected);
 
         const transformedData = selected.map((item: any) => ({
             color: item.value,
             label: item.label
-        }));
-        const clone = selectedOptions
-
-        clone.push(transformedData)
-
-        setSelectedOptions(selected); 
-
-        console.log(transformedData);
+        })); 
         
 
         updateProduct({ ...productdata, color: transformedData })
@@ -80,8 +84,8 @@ export default function ColorSelector() {
     }
 
     return (
-        <Flex gap={"2"} w={"full"} flexDir={"column"} >
-            <Text fontWeight={"500"} >Color</Text>
+        <Flex gap={"2"} w={"full"} color={"black"} flexDir={"column"} >
+            <Text fontWeight={"500"} color={headerTextColor} >Color</Text>
             <Select
                 isMulti
                 name="tags"
@@ -93,12 +97,12 @@ export default function ColorSelector() {
                 value={selectedOptions}
             />
             {selectedOptions?.length > 0 && (
-                <Flex w={"full"} wrap={"wrap"} gap={"2"} >
+                <Flex w={"fit"} wrap={"wrap"} gap={"1"} >
                     {selectedOptions?.map((item) => {
                         return ( 
                             <Flex key={item?.label} py={"2"} alignItems={"center"} rounded={"12px"} gap={"1"} >
                                 <Flex w={"7"} h={"7"} rounded={"full"} bgColor={item?.value} />
-                                <Text fontSize={"14px"} >{item?.label}</Text>
+                                <Text fontSize={"14px"} color={headerTextColor} >{item?.label}</Text>
                             </Flex> 
                         )
                     })}
@@ -120,7 +124,7 @@ export default function ColorSelector() {
                             ...customColor, value: e.target.value
                         })} w={"full"} rounded={"lg"} fontSize={"14px"} placeholder="hex code eg #055696 " />
                     </Flex>
-                    <CustomButton onClick={clickHandler} text="Add Color" mt={"3"} borderRadius={"999px"} />
+                    <CustomButton onClick={clickHandler} type="button" text="Add Color" mt={"3"} borderRadius={"999px"} />
                 </Flex>
             </ModalLayout>
         </Flex>

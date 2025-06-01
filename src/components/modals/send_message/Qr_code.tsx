@@ -5,25 +5,25 @@ import { Box, Flex, HStack, Image, Text, useColorMode } from "@chakra-ui/react";
 import router from "next/router";
 import React from "react";
 import { IoClose } from "react-icons/io5";
-import QRCode from "react-qr-code";
-import { useReactToPrint } from "react-to-print";
-import { exportComponentAsJPEG } from "react-component-export-image";
+import QRCode from "react-qr-code"; 
 import CopyRightText from "@/components/sharedComponent/CopyRightText";
 import useCustomTheme from "@/hooks/useTheme";
 import { textLimit } from "@/utils/textlimit";
 import { capitalizeFLetter } from "@/utils/capitalLetter";
 import { IEventType } from "@/models/Event";
 import html2canvas from "html2canvas";
+import { ShareType } from "@/app/share/page";
 
 interface Props {
   id: string | number;
   close: any;
   data?: any;
-  type?: string
+  name?: string;
+  type?: ShareType
 }
 
 function Qr_code(props: Props) {
-  const { id, close, data, type } = props;
+  const { id, close, data, type, name } = props;
 
   const {
     bodyTextColor,
@@ -46,6 +46,15 @@ function Qr_code(props: Props) {
       link.click();
     });
   }
+
+  const url_link =
+    type === "EVENT"
+      ? `${WEBSITE_URL}${"/donation/"}${id}` :
+        type === "RENTAL" ? `${WEBSITE_URL}${"/rental/"}${id}`:
+        type === "SERVICE" ? `${WEBSITE_URL}${"/service/"}${id}`:
+        type === "KIOSK" ? `${WEBSITE_URL}${"/kiosk/"}${id}`:
+        type === "DONATION" ? `${WEBSITE_URL}${"/donation/"}${id}`
+        : `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`;
 
 
   return (
@@ -114,10 +123,10 @@ function Qr_code(props: Props) {
             )}
 
             {!type && (
-              <Text fontSize={"14px"}>{data?.eventName ? "Event" : "Fundraising"} Name</Text>
+              <Text fontSize={"14px"}>{type === "EVENT" ? "Event" : type === "RENTAL" ? "Rental" : type === "SERVICE" ? "Service" : type === "KIOSK" ? "Kiosk" : "Fundraising"} Name</Text>
             )}
             <Text fontSize={"18px"} fontWeight={"bold"}>
-              {textLimit(data?.eventName ? data?.eventName : data?.name, 20)}
+              {textLimit(name ? name : data?.eventName ? data?.eventName : data?.name, 20)}
             </Text>
           </Flex>
           <Flex justifyContent={"center"} flex={1} width={"full"} pt={"6"}>
@@ -136,7 +145,7 @@ function Qr_code(props: Props) {
                   width: "100%",
                   zIndex: 20,
                 }}
-                value={`${WEBSITE_URL}${data?.eventName ? "/event/" : "/donation/"}${id}`}
+                value={url_link}
                 viewBox={`0 0 256 256`}
               />
             </Box>
@@ -145,7 +154,7 @@ function Qr_code(props: Props) {
             <Text mt={"4"} color={bodyTextColor}>Scan to Confirm Your Order</Text>
           ) : (
             <Text mt={"4"} color={bodyTextColor}>
-              Scan here and get Your {data?.eventName ? "Event" : "Fundraising"} Link
+              Scan here and get Your {type === "EVENT" ? "Event" : type === "RENTAL" ? "Rental" : type === "SERVICE" ? "Service" : type === "KIOSK" ? "Kiosk" : "Fundraising"} Link
             </Text>
           )}
           <Text fontSize={"xs"} textAlign={"center"}>

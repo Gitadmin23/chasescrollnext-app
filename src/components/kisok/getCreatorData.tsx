@@ -22,6 +22,8 @@ export default function GetCreatorData({ userData, donation, data: donationData,
     const { userId: user_index } = useDetails((state) => state);
     const { secondaryBackgroundColor } = useCustomTheme()
     const router = useRouter();
+    
+    let token = localStorage.getItem("token")
 
     const clickHandler = () => {
         if (!user_index) {
@@ -79,10 +81,10 @@ export default function GetCreatorData({ userData, donation, data: donationData,
                 </Flex>
             </Flex>
             <Flex gap={"4"} alignItems={"center"} flexDir={["column", "column", "row"]} >
-                {userData?.userId !== user_index && (
+                {(userData?.userId !== user_index && token)&& (
                     <CustomButton text={"Message"} onClick={() => mutate()} isLoading={chatCreationLoading} height={"30px"} fontSize={"12px"} width={"100px"} borderRadius={"999px"} />
                 )}
-                {!donation && (
+                {(!donation && token) && (
                     <Flex flexDir={"column"} alignItems={"center"} >
                         <Flex flexDir={"row"} gap={"1"} >
                             {[1, 2, 3, 4, 5]?.map((itemNumb) => {

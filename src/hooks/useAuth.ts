@@ -78,9 +78,15 @@ const useAuth = () => {
                         router.push(`/dashboard/event/details/${id ? `${id}?type=affiliate` : typeID}`);
                     } else if (type === "DONATION") {
                         router.push(`/dashboard/donation/${typeID}`);
+                    } else if (type === "RENTAL") {
+                        router.push(`/dashboard/kisok/details-rental/${typeID}`);
+                    } else if (type === "SERVICE") {
+                        router.push(`/dashboard/kisok/service/${typeID}`);
+                    } else if (type === "KIOSK") {
+                        router.push(`/dashboard/kisok/details/${typeID}`);
                     } else {
                         router.push(`/share?type=${type}&typeID=${typeID}`);
-                    }
+                    }  
                 } else {
                     router.push('/dashboard/product')
                 }
