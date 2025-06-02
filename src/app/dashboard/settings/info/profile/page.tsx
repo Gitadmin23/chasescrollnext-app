@@ -67,7 +67,7 @@ function EditProfile() {
                     "showEmail": showEmail,
                     "lastName": data.lastName,
                     "publicProfile": true,
-                    "username": data.username,
+                    // "username": data.username,
                     "data": {
                         "imgMain": {
                             objectPublic: true,
@@ -219,7 +219,7 @@ function EditProfile() {
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
                                 <CustomText fontSize={'16px'}>Username</CustomText>
-                                <CustomInput name='username' isPassword={false} type='text' placeholder='' />
+                                <CustomInput name='username' disable={true} isPassword={false} type='text' placeholder='' />
                             </VStack>
 
                             <VStack marginTop={'20px'} alignItems={'flex-start'} width={'100%'} spacing={0}>
