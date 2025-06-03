@@ -64,7 +64,7 @@ function SelectImage(props: Props) {
                             </Flex>
                         </Box>
                         <input
-                            type="image"
+                            type="file"
                             id="image"
                             accept="image/*"
                             style={{ display: "none" }}
