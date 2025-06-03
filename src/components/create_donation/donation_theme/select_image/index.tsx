@@ -64,8 +64,9 @@ function SelectImage(props: Props) {
                             </Flex>
                         </Box>
                         <input
-                            type="file"
+                            type="image"
                             id="image"
+                            accept="image/*"
                             style={{ display: "none" }}
                             onChange={handleImageChange}
                         />
