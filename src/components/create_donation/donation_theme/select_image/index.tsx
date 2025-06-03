@@ -26,17 +26,17 @@ function SelectImage(props: Props) {
         const selected = e.target.files[0];
 
         const TYPES = ["image/png", "image/jpg", "image/jpeg", "image/webp", "image/svg+xml"];
-        if (selected?.size > 800000) {
+        // if (selected?.size > 800000) {
 
-            toast({
-                title: 'Error',
-                description: 'Image size should be less than 800KB',
-                status: 'error',
-                isClosable: true,
-                duration: 5000,
-                position: 'top-right',
-            });
-        } else {
+        //     toast({
+        //         title: 'Error',
+        //         description: 'Image size should be less than 800KB',
+        //         status: 'error',
+        //         isClosable: true,
+        //         duration: 5000,
+        //         position: 'top-right',
+        //     });
+        // } else {
             if (selected && TYPES.includes(selected.type)) {
                 const clone = [...image]
                 clone[index] = selected
@@ -49,7 +49,7 @@ function SelectImage(props: Props) {
                 reader.readAsDataURL(selected)
             } else {
             }
-        }
+        // }
     }
 
     return (
