@@ -114,7 +114,7 @@ export default function DonationGroupDetails({ id, notAuth }: { id: string, notA
                                         <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
                                         <Text fontSize={"24px"} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
                                     </Flex>
-                                    <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                    <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="DONATION" eventName={textLimit(item?.name, 17)} />
                                 </Flex>
                                 <Flex w={["full", "full", "full", "full"]} flexDir={["column"]} >
                                     <Flex w={"full"} flexDir={"column"} gap={"4"} pb={"6"} pr={["0px", "0px", "0px", "6", "6"]} borderColor={borderColor} >
@@ -179,7 +179,7 @@ export default function DonationGroupDetails({ id, notAuth }: { id: string, notA
                                     <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
                                     <Text fontSize={"24px"} fontWeight={"700"} >{capitalizeFLetter(item?.name)}</Text>
                                 </Flex>
-                                <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="DONATION" eventName={textLimit(item?.name, 17)} />
                             </Flex>
                             <Flex w={["full", "full", "full", "full"]} flexDir={["column"]} >
                                 <Flex w={"full"} flexDir={"column"} gap={"4"} pb={"6"} pr={["0px", "0px", "0px", "6", "6"]} borderColor={borderColor} >
