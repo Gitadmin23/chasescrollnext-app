@@ -117,7 +117,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                             <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{textLimit(capitalizeFLetter(item?.name), 70)}</Text>
                             {isDateInPast(item?.endDate) && (
                                 <Flex w={"8"} zIndex={"40"} justifyContent={"center"} alignItems={"center"} h={"8"} bgColor={mainBackgroundColor} rounded={"full"} >
-                                    <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                    <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="DONATION" eventName={textLimit(item?.name, 17)} />
                                 </Flex>
                             )}
                         </Flex>

@@ -119,7 +119,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                         <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                                             <ProductImageScroller images={[item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.bannerImage]} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.user} />
                                             <Flex w={"8"} zIndex={"40"} justifyContent={"center"} alignItems={"center"} h={"8"} bgColor={mainBackgroundColor} rounded={"full"} pos={"absolute"} bottom={"3"} right={"3"} >
-                                                <ShareEvent newbtn={true} showText={false} data={item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]} id={item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                                <ShareEvent newbtn={true} showText={false} data={item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]} id={item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.id} type="DONATION" eventName={textLimit(item?.name, 17)} />
                                             </Flex>
                                         </Flex>
                                         <Flex w={"full"} flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"2"} pb={["2", "2", userId !== item?.user?.userId && !pasted ? "0px" : "3"]} >
@@ -156,7 +156,7 @@ export default function DonationItemGroup({ details, singleData, creator, pasted
                                         <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                                             <ProductImageScroller images={[item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.bannerImage]} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.user} />
                                             <Flex w={"8"} zIndex={"40"} justifyContent={"center"} alignItems={"center"} h={"8"} bgColor={mainBackgroundColor} rounded={"full"} pos={"absolute"} bottom={"3"} right={"3"} >
-                                                <ShareEvent newbtn={true} showText={false} data={item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]} id={item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                                <ShareEvent newbtn={true} showText={false} data={item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]} id={item?.fundRaisers?.filter((item) => isDateInPast(item?.endDate))[0]?.id} type="DONATION" eventName={textLimit(item?.name, 17)} />
                                             </Flex>
                                         </Flex>
                                         <Flex w={"full"} flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"2"} pb={["2", "2", userId !== item?.user?.userId && !pasted ? "0px" : "3"]} >
