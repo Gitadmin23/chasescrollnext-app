@@ -66,6 +66,7 @@ function SelectImage(props: Props) {
                         <input
                             type="file"
                             id="image"
+                            accept="image/*"
                             style={{ display: "none" }}
                             onChange={handleImageChange}
                         />
