@@ -6,17 +6,14 @@ import moment from 'moment'
 import React, { useState } from 'react'
 import { IoClose, IoInformationCircleOutline } from 'react-icons/io5'
 import CustomButton from '../general/Button'
-import LoadingAnimation from '../sharedComponent/loading_animation'
-import UserImage from '../sharedComponent/userimage'
+import LoadingAnimation from '../sharedComponent/loading_animation' 
 import DonationGraph from './donationGraph'
 import useCustomTheme from '@/hooks/useTheme'
 import { IDonationList } from '@/models/donation'
 import useGetDonationGroup from '@/hooks/useGetDonationGroup'
 import ModalLayout from '../sharedComponent/modal_layout'
 import { useParams, useRouter } from 'next/navigation'
-import DonationGroupModal from './donationGroupModal'
-import { dateFormat } from '@/utils/dateFormat'
-import DonationPayment from './donationPayment'
+import DonationGroupModal from './donationGroupModal' 
 import DonationBtn from './donationBtn'
 import ShareEvent from '../sharedComponent/share_event'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
@@ -79,7 +76,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                             <ProductImageScroller images={[item?.bannerImage]} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
                                             {!pasted && (
                                                 <Flex w={"8"} zIndex={"40"} justifyContent={"center"} alignItems={"center"} h={"8"} bgColor={mainBackgroundColor} rounded={"full"} pos={"absolute"} bottom={"3"} right={"3"} >
-                                                    <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                                    <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="DONATION" eventName={textLimit(item?.name, 17)} />
                                                 </Flex>
                                             )}
                                         </Flex>
@@ -122,7 +119,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                             <ProductImageScroller images={[item?.bannerImage]} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
                                             {!pasted && (
                                                 <Flex w={"8"} zIndex={"40"} justifyContent={"center"} alignItems={"center"} h={"8"} bgColor={mainBackgroundColor} rounded={"full"} pos={"absolute"} bottom={"3"} right={"3"} >
-                                                    <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                                    <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="DONATION" eventName={textLimit(item?.name, 17)} />
                                                 </Flex>
                                             )}
                                         </Flex>
@@ -180,7 +177,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                                 <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
                                                 <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.name), 35)}</Text>
                                             </Flex>
-                                            <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="EVENT" eventName={textLimit(item?.name, 17)} />
+                                            <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="DONATION" eventName={textLimit(item?.name, 17)} />
                                         </Flex>
                                         <Flex w={"full"} borderWidth={item?.fundRasingGroupId?.id ? "1px" : "0px"} borderColor={borderColor} rounded={"8px"} py={"7px"} px={"8px"} justifyContent={"space-between"} >
                                             {item?.fundRasingGroupId?.id && (
