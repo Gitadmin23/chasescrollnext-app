@@ -389,7 +389,7 @@ function Layout({ children }: {
                     <Input h={"48px"} type="search" value={initialFilter?.name} onChange={(e) => setInitialFilter({ ...initialFilter, name: e.target?.value })} placeholder={`Search by ${(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "Business" : (type === "service" || type === "myservice" || type === "mybooking") ? "Business" : "Product"} Name`} rounded={"full"} />
                     <Flex w={"full"} gap={"3"} >
                         <Select h={"48px"} value={initialFilter?.category} onChange={(e) => setInitialFilter({ ...initialFilter, category: e.target?.value })} rounded={"full"} placeholder='Select Category' w={"full"} >
-                            {(type === null || type === "mykisok" || type === "myorder") && (
+                            {(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") && (
                                 <>
                                     {data?.data?.sort((a: string, b: string) => {
                                         if (a > b) {
@@ -399,7 +399,7 @@ function Layout({ children }: {
                                         }
                                         return 0;
                                     })?.map((item: string, index: number) => (
-                                        <option key={index} value={item?.replaceAll("_", " ")} >{item?.replaceAll("_", " ")}</option>
+                                        <option key={index} >{item?.replaceAll("_", " ")}</option>
                                     ))}
                                 </>
                             )}
