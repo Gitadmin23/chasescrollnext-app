@@ -169,7 +169,7 @@ function Layout({ children }: {
         })
     }, [type])
 
-    console.log();
+    console.log(initialFilter);
     
 
     return (
@@ -222,7 +222,7 @@ function Layout({ children }: {
                     </Flex>
                 </Flex>
                 <Flex display={["flex", "flex", "none"]} w={"full"} gap={"3"} alignItems={"center"} >
-                    <CustomButton onClick={() => setOpen(true)} text={`Filter ${(type === null || type === "mykisok" || type === "myorder" || type === "mysales") ? "Product" : (type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "Service" : "Rental"} `} color={headerTextColor} fontSize={"14px"} backgroundColor={"White"} borderWidth={"1px"} borderRadius={"999px"} />
+                    <CustomButton onClick={() => setOpen(true)} text={`Filter ${(type === null || type === "mykisok" || type === "myorder" || type === "mysales") ? "Product" : (type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "Service" : "Rental"} `} color={headerTextColor} fontSize={"14px"} backgroundColor={mainBackgroundColor} borderWidth={"1px"} borderRadius={"999px"} />
                 </Flex>
                 {(pathname !== "/dashboard/product" && !pathname?.includes("fundraising")) && (
                     <Flex display={["none", "none", "flex"]} w={"fit-content"} borderWidth={"1px"} borderColor={borderColor} rounded={"full"} h={"fit-content"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
@@ -277,7 +277,7 @@ function Layout({ children }: {
                                 )
                             })}
                         </Select>
-                        <Input bgColor={mainBackgroundColor} placeholder={"Search business name"} onChange={(e) => setInitialFilter({ ...initialFilter, name: e.target?.value })} h={"80px"} w={"200px"} outline={"none"} rounded={"0px"} borderWidth={"0px"} borderLeftWidth={"1px"} borderRightColor={borderColor} />
+                        <Input bgColor={mainBackgroundColor} type="search" value={initialFilter?.name} placeholder={"Search business name"} onChange={(e) => setInitialFilter({ ...initialFilter, name: e.target?.value })} h={"80px"} w={"200px"} outline={"none"} rounded={"0px"} borderWidth={"0px"} borderLeftWidth={"1px"} borderRightColor={borderColor} />
                         <Button onClick={submitHandler} h={"80px"} w={"140px"} color={"white"} outline={"none"} bgColor={primaryColor} roundedRight={"full"} borderRightWidth={"1px"} borderWidth={"0px"} borderRightColor={borderColor} >
                             Search
                         </Button>
@@ -386,7 +386,7 @@ function Layout({ children }: {
             {children}
             <ModalLayout open={open} close={setOpen} rounded='16px' closeIcon={true} >
                 <Flex w={"full"} flexDir={"column"} gap={"3"} p={6} >
-                    <Input h={"48px"} placeholder={`Search by ${(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "Business" : (type === "service" || type === "myservice" || type === "mybooking") ? "Business" : "Product"} Name`} rounded={"full"} />
+                    <Input h={"48px"} type="search" value={initialFilter?.name} onChange={(e) => setInitialFilter({ ...initialFilter, name: e.target?.value })} placeholder={`Search by ${(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "Business" : (type === "service" || type === "myservice" || type === "mybooking") ? "Business" : "Product"} Name`} rounded={"full"} />
                     <Flex w={"full"} gap={"3"} >
                         <Select h={"48px"} value={initialFilter?.category} onChange={(e) => setInitialFilter({ ...initialFilter, category: e.target?.value })} rounded={"full"} placeholder='Select Category' w={"full"} >
                             {(type === null || type === "mykisok" || type === "myorder") && (
@@ -413,7 +413,7 @@ function Layout({ children }: {
                                         }
                                         return 0;
                                     })?.map((item: string, index: number) => (
-                                        <option key={index} value={item?.replaceAll("_", " ")}>{item?.replaceAll("_", "")}</option>
+                                        <option key={index} value={item?.replaceAll("_", " ")}>{item?.replaceAll("_", " ")}</option>
                                     ))}
                                 </>
                             )}
@@ -427,7 +427,7 @@ function Layout({ children }: {
                                         }
                                         return 0;
                                     })?.map((item: string, index: number) => (
-                                        <option key={index} value={item?.replaceAll("_", " ")}>{item?.replaceAll("_", "")}</option>
+                                        <option key={index} value={item?.replaceAll("_", " ")}>{item?.replaceAll("_", " ")}</option>
                                     ))}
                                 </>
                             )}
