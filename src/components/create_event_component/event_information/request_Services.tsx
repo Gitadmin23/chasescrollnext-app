@@ -60,19 +60,23 @@ export default function RequestServices() {
                 setPr(true)
             }
         }
-    }, [eventdata.affiliates])
-    console.log(eventdata);
-
+    }, [eventdata.affiliates]) 
 
     const clickHander = () => {
         const clone = { ...eventdata }
 
-        if(eventdata.affiliates[0]?.affiliateType){ 
+        console.log(eventdata?.affiliates?.length > 1);
+        
+
+        if(eventdata?.affiliates?.length >= 1){ 
             clone?.affiliates.pop()
             updateEvent({ ...clone })
-            setPr((prev) => !prev)
+            setPr(false)
+
+            console.log(clone);
+            
         } else {
-            setPr((prev) => !prev)
+            setPr(true)
     
             let data = {
                 affiliateType: "pr",
@@ -82,6 +86,7 @@ export default function RequestServices() {
             clone.affiliates = [data]
     
             updateEvent({ ...clone })
+            console.log(clone);
         }
     }
 
@@ -136,8 +141,6 @@ export default function RequestServices() {
         updateService(clone)
     }
 
-    console.log(service);
-
 
     return (
         <Flex w={"full"} flexDir={"column"} gap={"6"} >
@@ -181,12 +184,15 @@ export default function RequestServices() {
             )}
             <Flex w={"full"} borderWidth={"1px"} rounded={"16px"} p={"4"} flexDir={"column"} gap={"3"} >
                 <Text fontSize={"14px"} fontWeight={"500"} >Do you wish to accept PR requests for your event?</Text>
-                <Switch isChecked={eventdata.affiliates[0]?.affiliateType ? true : false} onChange={clickHander} />
+                <Switch isChecked={isPr ? true : false} onChange={clickHander} />
                 {isPr && (
                     <Flex flexDir={"column"} gap={"3"} >
                         <Text fontSize={"14px"} fontWeight={"500"} >Add Percentage</Text>
                         {eventdata?.affiliates?.length > 0 && (
-                            <Input value={eventdata?.affiliates[0]?.percent} onChange={(item) => changeHandler(item?.target?.value)} w={"full"} type="number" />
+                            <Flex alignItems={"center"} gap={"2"} > 
+                                <Input px={"2"} value={eventdata?.affiliates[0]?.percent} onChange={(item) => changeHandler(item?.target?.value)} w={"50px"} type="number" />
+                                <Text fontWeight={"800"} >%</Text>
+                            </Flex>
                         )}
                     </Flex>
                 )}
