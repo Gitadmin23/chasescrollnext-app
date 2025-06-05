@@ -183,29 +183,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
                             borderBottomLeftRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? "12px" : "32px"} />
                     )} 
 
-                </Flex>
-                // <Flex
-                //     as={"button"}
-                //     onClick={clickHander}
-                //     disabled={(data?.prStatus === "PENDING" || data?.prStatus === "ACTIVE" || createPr?.isLoading) ? true : false}
-                //     // text={data?.prStatus === "PENDING" ? "Pending" : data?.prStatus === "ACTIVE" ? "Already a PR" : `Apply to be a PR`}
-                //     backgroundColor={[data?.prStatus === "PENDING" ? "#FF9500" : primaryColor, data?.prStatus === "PENDING" ? "#FF9500" : primaryColor, data?.prStatus === "PENDING" ? "#FF9500" : primaryColor]}
-                //     color={["white", "white", "white"]} borderRadius={"999px"} fontSize={["xs", "xs", "sm"]}
-                //     px={"4"}
-                //     py={"4"}
-                //     width={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["90%", "90%", "full", "full"] : ["120px", "120px", "fit-content"]}
-                //     height={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? "55px" : "fit-content"}
-                //     borderTopRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["0px"] : "32px"}
-                //     borderBottomRightRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["0px", "0px", "12px"] : "32px"}
-                //     borderBottomLeftRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? "12px" : "32px"}
-                // >
-                //     {createPr?.isLoading ? "Loading" : 
-                //         <Flex flexDir={"column"} fontWeight={"500"} >
-                //             <Text>{data?.prStatus === "PENDING" ? "Pending" : data?.prStatus === "ACTIVE" ? "Already a PR" : `Apply to be a PR`}</Text>
-                //             <Text>{data?.prStatus === "PENDING" ? "Pending" : data?.prStatus === "ACTIVE" ? "Already a PR" : `${data?.affiliates[0]?.percent}%`}</Text>
-                //         </Flex>
-                //     }
-                // </Flex>
+                </Flex> 
             )}
             <ModalLayout open={open} size={"md"} close={setOpen} closeIcon={true} >
                 <Flex flexDir={"column"} gap={"4"} w={"full"} px={"4"} mb={"4"} >
