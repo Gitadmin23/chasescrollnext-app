@@ -138,6 +138,14 @@ export default function PrBtn({ data }: { data: IEventType }) {
     }
 
 
+    const changeHandler = (item: string) => {
+
+        if(item?.toString()?.length <= 2){
+            setPercentage(item)
+        }
+    }
+
+
     return (
         <>
             {data?.isOrganizer && (
@@ -215,7 +223,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
                                 {prCheck && (
                                     <Flex justifyContent={["space-between"]} alignItems={"center"} h={"50px"} px={"4"} borderBottomWidth={data?.isOrganizer ? "1px" : "0px"} gap={"3"} >
                                         <Flex alignItems={"center"} gap={"1"} >
-                                            <Input w={"50px"} type="number" fontSize={"14px"} px={"2"} value={percent} onChange={(e) => setPercentage(e.target.value + "")} height={"35px"} />
+                                            <Input w={"50px"} type="number" fontSize={"14px"} px={"2"} value={percent} onChange={(e) => changeHandler(e.target.value + "")} height={"35px"} />
                                             <Text fontWeight={"800"} >%</Text>
                                         </Flex>
                                         <CustomButton width={"100px"} isLoading={updateEvent?.isLoading} disable={updateEvent?.isLoading} onClick={() => updatePrPercent(false)} text={"Update"} fontSize={"12px"} height={"35px"} />
