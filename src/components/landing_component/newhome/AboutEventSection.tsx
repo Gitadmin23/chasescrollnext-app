@@ -54,7 +54,7 @@ export default function AboutEventSection() {
 
     const optsmobile = {
         height: '220',
-        width: '420',
+        width: '320',
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
             autoplay: 0,
