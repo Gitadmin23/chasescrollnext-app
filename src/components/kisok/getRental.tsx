@@ -106,7 +106,7 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>
-                                    <Text display={["none", "none", "flex"]} fontSize={"12px"} color={bodyTextColor} fontWeight={"600"} >{textLimit(item?.category?.replaceAll("_", " "), 30)}</Text>
+                                    <Text display={["flex"]} fontSize={"12px"} color={bodyTextColor} fontWeight={"600"} >{textLimit(item?.category?.replaceAll("_", " "), 30)}</Text>
                                     <Flex w={"full"} gap={["2px", "2px", "1"]} alignItems={"center"} >
                                         <LocationStroke />
                                         <Text fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={bodyTextColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 40)}</Text>
@@ -148,7 +148,7 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>
-                                    <Text display={["none", "none", "flex"]} fontSize={"12px"} color={bodyTextColor} fontWeight={"600"} >{textLimit(item?.category?.replaceAll("_", " "), 30)}</Text>
+                                    <Text display={["flex"]} fontSize={"12px"} color={bodyTextColor} fontWeight={"600"} >{textLimit(item?.category?.replaceAll("_", " "), 30)}</Text>
                                     <Flex w={"full"} gap={["2px", "2px", "1"]} alignItems={"center"} >
                                         <LocationStroke />
                                         <Text fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={bodyTextColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 40)}</Text>
