@@ -63,17 +63,14 @@ export default function RequestServices() {
     }, [eventdata.affiliates]) 
 
     const clickHander = () => {
-        const clone = { ...eventdata }
-
-        console.log(eventdata?.affiliates?.length > 1);
+        const clone = { ...eventdata } 
         
 
         if(eventdata?.affiliates?.length >= 1){ 
             clone?.affiliates.pop()
             updateEvent({ ...clone })
             setPr(false)
-
-            console.log(clone);
+ 
             
         } else {
             setPr(true)
@@ -85,8 +82,7 @@ export default function RequestServices() {
     
             clone.affiliates = [data]
     
-            updateEvent({ ...clone })
-            console.log(clone);
+            updateEvent({ ...clone }) 
         }
     }
 
