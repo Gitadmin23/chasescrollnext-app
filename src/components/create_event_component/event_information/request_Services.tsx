@@ -42,16 +42,18 @@ export default function RequestServices() {
 
     const changeHandler = (item: string) => {
 
-        const clone = { ...eventdata }
-
-        let data = {
-            affiliateType: "pr",
-            percent: item
+        if(item?.toString()?.length <= 2){
+            const clone = { ...eventdata }
+    
+            let data = {
+                affiliateType: "pr",
+                percent: item
+            }
+    
+            clone.affiliates = [data]
+    
+            updateEvent({ ...clone })
         }
-
-        clone.affiliates = [data]
-
-        updateEvent({ ...clone })
     }
 
     useEffect(() => {
