@@ -244,9 +244,9 @@ function Layout({ children }: {
                     </Flex>
                 </Flex>
                 {(pathname !== "/dashboard/product" && !pathname?.includes("fundraising")) && (
-                <Flex display={["flex", "flex", "none"]} w={"full"} gap={"3"} alignItems={"center"} >
-                    <CustomButton onClick={() => setOpen(true)} text={`Filter ${(type === null || type === "mykisok" || type === "myorder" || type === "mysales") ? "Product" : (type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "Service" : "Rental"} `} color={headerTextColor} fontSize={"14px"} backgroundColor={"White"} borderWidth={"1px"} borderRadius={"999px"} />
-                </Flex>
+                    <Flex display={["flex", "flex", "none"]} w={"full"} gap={"3"} alignItems={"center"} >
+                        <CustomButton onClick={() => setOpen(true)} text={`Filter ${(type === null || type === "mykisok" || type === "myorder" || type === "mysales") ? "Product" : (type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "Service" : "Rental"} `} color={headerTextColor} fontSize={"14px"} backgroundColor={"White"} borderWidth={"1px"} borderRadius={"999px"} />
+                    </Flex>
                 )}
                 {(pathname !== "/dashboard/product" && !pathname?.includes("fundraising")) && (
                     <Flex display={["none", "none", "flex"]} w={"fit-content"} borderWidth={"1px"} borderColor={borderColor} rounded={"full"} h={"fit-content"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
