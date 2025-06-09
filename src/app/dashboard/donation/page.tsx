@@ -24,7 +24,7 @@ export default function Donation() {
         bodyTextColor
     } = useCustomTheme()
 
-    const { configPaystack, setPaystackConfig, dataID, message } = usePaystackStore((state) => state);
+    const { configPaystack, setPaystackConfig, dataID, message, amount, setAmount } = usePaystackStore((state) => state);
     const router = useRouter()
 
     const { search, setSearchValue } = useSearchStore((state) => state);
@@ -80,7 +80,7 @@ export default function Donation() {
                 </Flex>
             </Flex>
             <DonationItemGroup publicData={true} /> 
-            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
+            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} amount={amount} setAmount={setAmount} />
         </Flex>
     )
 }
