@@ -49,7 +49,7 @@ export default function DonationBtn(props: any) {
 
     const  router =  useRouter()
 
-    const { setDataID, setPaystackConfig, setMessage, message } = usePaystackStore((state) => state);
+    const { setDataID, setPaystackConfig, setMessage, message, setAmount } = usePaystackStore((state) => state);
 
     const payForTicket = useMutation({
         mutationFn: (data: {
@@ -70,6 +70,8 @@ export default function DonationBtn(props: any) {
             setOpen(false)
             setValue("")
             setDataID(item?.id)
+
+            setAmount(Number(data?.data?.content?.orderTotal))
 
         },
         onError: (error) => {
