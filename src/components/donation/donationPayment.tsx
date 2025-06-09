@@ -67,8 +67,6 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
             setMessage({...message, donation: true})
             setOpen(false)
             setValue("")
-
-            setAmount(Number(data?.data?.content?.orderTotal))
  
         },
         onError: (error) => {
@@ -87,6 +85,8 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
     const clickHandler = () => {
 
         setDataID(data?.id+"")
+
+        setAmount(Number(value))
 
         if(user_index || token || tokendata) {
             payForTicket.mutate({

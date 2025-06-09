@@ -81,7 +81,6 @@ export default function DonationBtn(props: {
             setOpen(false)
             setValue("")
 
-            setAmount(Number(data?.data?.content?.orderTotal))
  
         },
         onError: (error) => {
@@ -106,6 +105,7 @@ export default function DonationBtn(props: {
             orderType: "DONATION",
             typeID: item?.id
         }) 
+        setAmount(Number(value))
 
         setDataID(item?.id)
 
