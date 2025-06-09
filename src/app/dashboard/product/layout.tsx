@@ -23,7 +23,7 @@ function Layout({ children }: {
 }) {
     const { primaryColor, borderColor, bodyTextColor, secondaryBackgroundColor, headerTextColor, mainBackgroundColor } = useCustomTheme()
 
-    const { configPaystack, setPaystackConfig, dataID, message } = usePaystackStore((state) => state);
+    const { configPaystack, setPaystackConfig, dataID, message, amount, setAmount } = usePaystackStore((state) => state);
     const { colorMode, toggleColorMode } = useColorMode();
     const query = useSearchParams();
     const type = query?.get('type');
@@ -443,7 +443,7 @@ function Layout({ children }: {
                     <CustomButton onClick={submitHandler} text={"Search"} borderRadius={"999px"} height={"58px"} />
                 </Flex>
             </ModalLayout>
-            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
+            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} amount={amount} setAmount={setAmount} />
         </Flex>
     )
 }
