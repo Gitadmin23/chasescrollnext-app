@@ -40,7 +40,7 @@ function GetEventData(props: Props) {
     const query = useSearchParams();
     const type = query?.get('type');
 
-    const { configPaystack, setPaystackConfig, message } = usePaystackStore((state) => state);
+    const { configPaystack, setPaystackConfig, message, amount, setAmount } = usePaystackStore((state) => state);
 
     focusManager.setFocused(false)
     // react query
@@ -89,7 +89,7 @@ function GetEventData(props: Props) {
             <LoadingAnimation loading={isLoading} refeching={isRefetching} length={data !== null} >
                 <EventDetail {...data} />
             </LoadingAnimation>
-            <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} message={message} />
+            <Fundpaystack id={data?.id} config={configPaystack} setConfig={setPaystackConfig} amount={amount} setAmount={setAmount} message={message} />
 
             <ModalLayout open={show} close={setShow} >
                 <Flex py={"6"} width={"full"} flexDir={"column"} px={"6"} alignItems={"center"} >

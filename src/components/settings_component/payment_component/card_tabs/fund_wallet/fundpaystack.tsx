@@ -28,11 +28,13 @@ interface Props {
     setConfig: any,
     fund?: boolean,
     id?: any,
-    message: IMessage
+    message: IMessage,
+    amount?: number,
+    setAmount?: any
 }
 
 function Fundpaystack(props: Props) {
-    const { config, setConfig, fund, id, message } = props;
+    const { config, setConfig, fund, id, message, amount, setAmount: setAm } = props;
 
     const {
         bodyTextColor,
@@ -60,6 +62,11 @@ function Fundpaystack(props: Props) {
 
     const { setMessage } = usePaystackStore((state) => state);
 
+    const userId = localStorage.getItem('user_id') + "";
+
+    console.log(amount);
+    
+
     // const [orderCode, setOrderCode] = React.useStates("")
     // mutations 
     const payStackFundMutation = useMutation({
@@ -85,6 +92,15 @@ function Fundpaystack(props: Props) {
                 reference: "",
                 publicKey: PAYSTACK_KEY,
             })
+
+            if(message?.donation) {
+                donateEmail?.mutate({
+                    userID: userId,
+                    fundRaiserID: id,
+                    amount: Number(amount)
+                })
+                setAm(0)
+            }
         },
         onError: (error: any) => {
             toast({
@@ -118,6 +134,39 @@ function Fundpaystack(props: Props) {
             queryClient.invalidateQueries(['all-donation'])
             queryClient.invalidateQueries(['getDonationsingleList'])
             setLoading(false)
+
+
+            if(message?.donation) {
+                donateEmail?.mutate({
+                    userID: userId,
+                    fundRaiserID: id,
+                    amount: Number(amount)
+                })
+                setAm(0)
+            }
+        },
+        onError: () => {
+            toast({
+                title: 'Error',
+                description: "Error Occured",
+                status: 'error',
+                isClosable: true,
+                duration: 5000,
+                position: 'top-right',
+            });
+        },
+    });
+
+    const donateEmail = useMutation({
+        mutationFn: (data: {
+            "userID": string,
+            "fundRaiserID": string,
+            "amount": number
+        }) => httpService.post(`/donation/create-donation`, data),
+        onSuccess: (data: any) => {  
+
+            console.log(data);
+            
         },
         onError: () => {
             toast({

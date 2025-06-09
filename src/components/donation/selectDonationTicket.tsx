@@ -149,14 +149,13 @@ function SelectTicket(props: Props) {
                                     </Flex>
                                 )
                             } else {
-                                return (
-                                    // <Flex w={"full"} flexDir={"column"} gap={"2px"} pb={"2"} borderBottomWidth={"1px"} borderBottomColor={borderColor} alignItems={"center"} >
-                                    (<Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
+                                return ( 
+                                    <Button isDisabled={item?.totalNumberOfTickets === item?.ticketsSold} key={index} onClick={() => clickHandler(item)} py={"14px"} borderBottomColor={"#D0D4EB"} rounded={"lg"} borderBottomWidth={"1px"} >
                                         {item?.totalNumberOfTickets === item?.ticketsSold ?
                                             "Sold Out" :
                                             item?.ticketType + " " + formatNumber(item?.ticketPrice, currency === "USD" ? "$" : "₦")
                                         }
-                                    </Button>)
+                                    </Button>
                                 );
                             }
                         })}

@@ -18,7 +18,7 @@ export default function MyDonation() {
         headerTextColor,
     } = useCustomTheme()
 
-    const { configPaystack, setPaystackConfig, message, dataID } = usePaystackStore((state) => state);
+    const { configPaystack, setPaystackConfig, message, dataID, setAmount, amount } = usePaystackStore((state) => state);
     const router = useRouter()
 
     return (
@@ -34,7 +34,7 @@ export default function MyDonation() {
                 {/* <CustomButton text={" My Fundraising"} px={"15px"} height={"40px"} fontSize={"sm"} backgroundColor={"#F6F7FA"} borderRadius={"32px"} fontWeight={"600"} color={primaryColor} width={"fit-content"} /> */}
             </Flex>
             <DonationItemList creator={true} />
-            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
+            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} amount={amount} setAmount={setAmount} message={message} />
         </Flex>
     )
 }
