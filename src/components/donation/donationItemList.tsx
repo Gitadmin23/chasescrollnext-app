@@ -190,7 +190,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                         </Flex>
                                         <DonationGraph item={item} />
                                         {(userId !== singleData?.createdBy?.userId && !pasted) && (
-                                            <DonationBtn {...item} />
+                                            <DonationBtn item={item} user={item?.user} />
                                         )}
                                     </Flex>
                                 )

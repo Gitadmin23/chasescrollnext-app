@@ -10,8 +10,13 @@ import { useMutation } from 'react-query'
 import CustomButton from '../general/Button' 
 import DonationTermAndCondition from './donationTermAndCondition' 
 import { useRouter } from 'next/navigation'
+import { IDonationList } from '@/models/donation'
 
-export default function DonationBtn(props: any) {
+export default function DonationBtn(props: {
+    item: IDonationList,
+    user: any;
+    event?: any;
+}) {
 
     const {
         user,
@@ -50,6 +55,7 @@ export default function DonationBtn(props: any) {
     const  router =  useRouter()
 
     const { setDataID, setPaystackConfig, setMessage, message, setAmount } = usePaystackStore((state) => state);
+ 
 
     const payForTicket = useMutation({
         mutationFn: (data: {
@@ -60,19 +66,23 @@ export default function DonationBtn(props: any) {
             typeID: string
         }) => httpService.post(`/payments/createCustomOrder`, data),
         onSuccess: (data: any) => {
+
+            console.log(data);
+            
+
             setPaystackConfig({
                 publicKey: PAYSTACK_KEY,
                 email: data?.data?.content?.email,
                 amount: (Number(data?.data?.content?.orderTotal) * 100), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
                 reference: data?.data?.content?.orderCode
-            });
+            }); 
+
             setMessage({...message, donation: true})
             setOpen(false)
             setValue("")
-            setDataID(item?.id)
 
             setAmount(Number(data?.data?.content?.orderTotal))
-
+ 
         },
         onError: (error) => {
             // console.log(error);
@@ -88,15 +98,20 @@ export default function DonationBtn(props: any) {
     });
 
 
-    const clickHandler = React.useCallback((e: any) => {
+    const clickHandler = () => {
         payForTicket.mutate({
-            seller: user?.userId,
+            seller: item?.createdBy?.userId,
             price: Number(value),
             currency: "NGN",
             orderType: "DONATION",
             typeID: item?.id
-        })
-    }, [item?.id, value])
+        }) 
+
+        setDataID(item?.id)
+
+    }
+
+ 
 
     const openHandler = (e: any) => {
         if(token) {
@@ -153,7 +168,7 @@ export default function DonationBtn(props: any) {
                                 ₦
                             </Flex>
                         </Flex>
-                        <Button isLoading={payForTicket?.isLoading} onClick={clickHandler} isDisabled={value ? false : true} w={"full"} h={"50px"} rounded={"32px"} color={"white"} fontWeight={"600"} bgColor={"brand.chasescrollBlue"} _hover={{ backgroundColor: "brand.chasescrollBlue" }} >
+                        <Button isLoading={payForTicket?.isLoading} onClick={()=> clickHandler()} isDisabled={value ? false : true} w={"full"} h={"50px"} rounded={"32px"} color={"white"} fontWeight={"600"} bgColor={"brand.chasescrollBlue"} _hover={{ backgroundColor: "brand.chasescrollBlue" }} >
                             Donate
                         </Button>
                         <Flex w={"full"} justifyContent={"center"} >

@@ -64,6 +64,9 @@ function Fundpaystack(props: Props) {
 
     const userId = localStorage.getItem('user_id') + "";
 
+    console.log(amount);
+    
+
     // const [orderCode, setOrderCode] = React.useStates("")
     // mutations 
     const payStackFundMutation = useMutation({
