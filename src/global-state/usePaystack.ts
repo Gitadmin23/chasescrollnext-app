@@ -15,12 +15,14 @@ type State = {
     configPaystack: any,
     dataID: string,
     message: message,
+    amount: number,
 } 
 
 type Action = {
     setPaystackConfig: (data: State['configPaystack']) => void  
     setDataID: (data: State['dataID']) => void  
-    setMessage: (data: State['message']) => void     
+    setMessage: (data: State['message']) => void    
+    setAmount: (data: State['amount']) => void     
 }
 
 const usePaystackStore = create<State & Action>((set) => ({
@@ -39,9 +41,11 @@ const usePaystackStore = create<State & Action>((set) => ({
         event: false 
     },
     dataID: "",
+    amount: 0,
     setPaystackConfig: (data) => set(() => ({ configPaystack: data })), 
     setDataID: (data) => set(() => ({ dataID: data })),  
     setMessage: (data) => set(() => ({ message: data })), 
+    setAmount: (data) => set(() => ({ amount: data })), 
 }));
 
 

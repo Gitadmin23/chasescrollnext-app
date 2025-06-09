@@ -44,7 +44,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
     } = useCustomTheme()
 
     const { back, push } = useRouter()
-    const { configPaystack, setPaystackConfig, dataID, message } = usePaystackStore((state) => state);
+    const { configPaystack, setPaystackConfig, dataID, message, amount, setAmount } = usePaystackStore((state) => state);
     const [isCollaborator, setCollaborate] = useState<Array<any>>([])
 
     const userId = localStorage.getItem('user_id') + "";
@@ -197,7 +197,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                     </Flex>
                 </Flex>
             </Flex>
-            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
+            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} setAmount={setAmount} amount={amount} message={message} />
         </LoadingAnimation>
     )
 }

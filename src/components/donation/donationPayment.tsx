@@ -46,7 +46,7 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
     const token = sessionStorage.getItem('tp_token')   
     const tokendata = localStorage.getItem('token');
 
-    const { setPaystackConfig, setMessage, message } = usePaystackStore((state) => state);
+    const { setPaystackConfig, setMessage, message, setDataID, setAmount } = usePaystackStore((state) => state);
 
     const payForTicket = useMutation({
         mutationFn: (data: {
@@ -57,6 +57,7 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
             typeID: string
         }) => httpService.post(`/payments/createCustomOrder`, data),
         onSuccess: (data: any) => {
+
             setPaystackConfig({
                 publicKey: PAYSTACK_KEY,
                 email: data?.data?.content?.email,
@@ -67,8 +68,8 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
             setOpen(false)
             setValue("")
 
-            console.log(data);
-
+            setAmount(Number(data?.data?.content?.orderTotal))
+ 
         },
         onError: (error) => {
             // console.log(error);
@@ -84,6 +85,9 @@ export default function DonationPayment({ data, fullWidth }: { data?: IDonationL
     });
 
     const clickHandler = () => {
+
+        setDataID(data?.id+"")
+
         if(user_index || token || tokendata) {
             payForTicket.mutate({
                 seller: data?.createdBy?.userId+"",
