@@ -98,7 +98,7 @@ export default function EventDonation({ checkbox, item }: { checkbox?: boolean, 
                             <Text fontSize={["10px", "10px", "12px"]} color={bodyTextColor} >Fundraising</Text>
                             <Text fontWeight={"600"} fontSize={["12px", "12px", "14px"]} >{textLimit(capitalizeFLetter(eventData?.fundRaiser?.name), 30)}</Text>
                         </Flex>
-                        <ShareEvent newbtn={true} showText={false} size='20px' data={eventData?.fundRaiser} id={eventData?.fundRaiser?.id} type="EVENT" eventName={textLimit(eventData?.fundRaiser?.name, 17)} />
+                        <ShareEvent newbtn={true} showText={false} size='20px' data={eventData?.fundRaiser} id={eventData?.fundRaiser?.id} type="DONATION" eventName={textLimit(eventData?.fundRaiser?.name, 17)} />
                     </Flex>
                     <DonationGraph item={eventData?.fundRaiser} IsEvent={true} />
                 </Flex>
