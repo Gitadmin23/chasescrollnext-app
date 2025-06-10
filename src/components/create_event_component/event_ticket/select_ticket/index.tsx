@@ -288,10 +288,22 @@ function SelectTicket(props: Props) {
                                             border={"1px solid #E2E8F0"}
                                             focusBorderColor={"#E2E8F0"}
                                             placeholder="Enter amount"
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                if (/^\d*$/.test(value)) {
+                                                    handleChange(index, "ticketPrice", value)
+                                                    // updateProduct({ ...productdata, price: value })
+                                                }
+                                            }} 
+                                            onKeyPress={(e) => {
+                                                if (!/[0-9]/.test(e.key)) {
+                                                    e.preventDefault();
+                                                }
+                                            }}
                                             value={eventdata.productTypeData[index]?.ticketPrice ?? ""}
                                             // disabled={(type === "Free" || pathname?.includes("edit_event_data"))? true : false}
                                             name="ticketPrice"
-                                            onChange={e => handleChange(index, "ticketPrice", e.target.value)}
+                                            // onChange={e => handleChange(index, "ticketPrice", e.target.value)}
                                         />
                                     </Flex>
                                 </Box>

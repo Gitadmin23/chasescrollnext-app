@@ -175,7 +175,19 @@ export default function EarlyBird({ data, index }: IProps) {
                                         value={eventdata.productTypeData[0]?.ticketPrice ?? ""}
                                         disabled={false}
                                         name="ticketPrice"
-                                        onChange={e => handleChangeInput(0, "ticketPrice", e.target.value)}
+                                        // onChange={e => handleChangeInput(0, "ticketPrice", e.target.value)}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            if (/^\d*$/.test(value)) {
+                                                handleChangeInput(0, "ticketPrice", value)
+                                                // updateProduct({ ...productdata, price: value })
+                                            }
+                                        }} 
+                                        onKeyPress={(e) => {
+                                            if (!/[0-9]/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                     />
                                 </Flex>
                             </Box>
