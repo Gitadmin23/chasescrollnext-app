@@ -21,19 +21,19 @@ function SelectEventPage(props: Props) {
             },
             {
                 name: "My Events",
-                route: "/dashboard/event/my_event"
+                route: "/dashboard/product?type=my_event"
             },
             {
                 name: "Past Events",
-                route: "/dashboard/event/past_event"
+                route: "/dashboard/product?type=past_event"
             },
             {
                 name: "Saved Events",
-                route: "/dashboard/event/saved_event"
+                route: "/dashboard/product?type=saved_event"
             },
             {
                 name: "Draft",
-                route: "/dashboard/event/draft"
+                route: "/dashboard/product?type=draft"
             }
         ]
     }, [])
