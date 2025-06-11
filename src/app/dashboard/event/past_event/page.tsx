@@ -21,9 +21,9 @@ function PastEvent(props: Props) {
 
     return (
         <Flex w={"full"} flexDir={"column"} h={"full"} >
-            <Flex w={"full"} justifyContent={"center"} >
+            {/* <Flex w={"full"} justifyContent={"center"} >
                 <SearchBar change={true} event={true} />
-            </Flex>
+            </Flex> */}
             <Box width={["full", "full", "full"]} px={["0px", "0px","4"]} position={"relative"} pt={"6"} >
                 <Box width={"full"}  >
                     <LoadingAnimation withimg={true} loading={isLoading} refeching={isRefetching} length={results?.length} >

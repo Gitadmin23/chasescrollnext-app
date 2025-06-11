@@ -14,7 +14,7 @@ export default function EventPage() {
   const type = query?.get('type');
 
   return (
-    <>
+    <Flex w={"full"} flexDir={"column"}  py={["6", "8", "8"]} >
       {!type && ( 
         <EventListing landing={true} eventdashboard={true} />
       )}
@@ -30,6 +30,6 @@ export default function EventPage() {
       {type === "draft" && (
         <Draft />
       )}
-    </>
+    </Flex>
   )
 }
