@@ -115,7 +115,7 @@ function Layout({ children }: { children: ReactNode }) {
       <Box width={"full"} display={["block", "block", "block", "block", "none"]} position={"relative"} overflowY={"auto"} bg={mainBackgroundColor} >
         <Box width={"full"} top={"0px"} zIndex={"50"} py={"2"} position={"sticky"} bg={mainBackgroundColor} >
           <Flex height={"30px"} width={"full"} alignItems={"center"} justifyContent={"center"} position={"relative"} >
-            <Link href={'/dashboard/event'} display={"flex"} px={"3"} height={"full"} left={"0px"} justifyContent={"center"} alignItems={"center"} position={"absolute"} zIndex={"10"} >
+            <Link href={'/dashboard/product'} display={"flex"} px={"3"} height={"full"} left={"0px"} justifyContent={"center"} alignItems={"center"} position={"absolute"} zIndex={"10"} >
               <BsChevronLeft size={"25px"} />
             </Link>
             <Text fontWeight={"bold"} fontSize={"20px"} color={bodyTextColor} >Edit Events Draft</Text>
