@@ -46,89 +46,7 @@ export default function MobileCard(props: IEventType) {
         }
     }
 
-    return (
-        // <Flex as={"button"} onClick={clickHandler} borderWidth={"1px"} pos={"relative"} rounded={"16px"} p={"5px"} w={"full"} gap={"2"} bgColor={mainBackgroundColor} >
-        //     <DeleteEvent id={props?.id} name={props?.eventName + " Event"} isEvent={pathname?.includes("draft") ? false : true} draft={pathname?.includes("draft") ? true : false} isOrganizer={props?.isOrganizer} />
-        //     <Flex width={"fit-content"} >
-        //         <Flex w={"120px"} h={"104px"} rounded={"16px"} roundedTopRight={"0px"} >
-        //             <EventImage data={props} width={["120px"]} borderWidth='2px' height={["104px"]} />
-        //         </Flex>
-        //     </Flex>
-        //     <Flex w={"full"} flexDir={"column"} >
-        //         <Flex pb={"2"} borderBottomWidth={"1px"} w={"full"} justifyContent={"space-between"} gap={"2"} >
-        //             <Text w={"50%"} textAlign={"start"} fontSize={"14px"} fontWeight={"600"} >{textLimit(capitalizeFLetter(props?.eventName), 20)}</Text>
-        //             <Flex flexDir={"column"} w={"fit-content"} pr={"2"} >
-        //                 <Text fontSize={"14px"} fontWeight={"600"} >
-        //                     <EventPrice
-        //                         font={["13px", "13px", "14px"]}
-        //                         minPrice={props?.minPrice}
-        //                         maxPrice={props?.maxPrice}
-        //                         currency={props?.currency}
-        //                     />
-        //                 </Text>
-        //                 <Flex gap={"3"} alignItems={"center"} justifyContent={"end"} >
-        //                     {pathname?.includes("my_event") && (
-        //                         <>
-        //                             {(isOrganizer || eventMemberRole === "ADMIN" || eventMemberRole === "COLLABORATOR" || props?.prStatus === "ACTIVE" || props.isBought) && (
-        //                                 <Flex h={"21px"} w={"48px"} rounded={"8px"} bgColor={"#EFF1FE"} color={"#5D70F9"} fontSize={"8px"} justifyContent={"center"} alignItems={"center"} >
-        //                                     <Text fontWeight={"700"} >{isOrganizer ? "organizer" : eventMemberRole === "ADMIN" ? "admin" : eventMemberRole === "COLLABORATOR" ? "volunteer" : props?.prStatus === "ACTIVE" ? "affiliate" : "attending"}</Text>
-        //                                 </Flex>
-        //                             )}
-        //                         </>
-        //                     )}
-        //                     {pathname?.includes("past_event") && (
-        //                         <Flex h={"21px"} w={"48px"} rounded={"8px"} bgColor={"#D0D4EB40"} color={"#F04F4F"} fontSize={"8px"} justifyContent={"center"} alignItems={"center"} >
-        //                             <Text fontWeight={"700"} >attended</Text>
-        //                         </Flex>
-        //                     )}
-        //                     {pathname?.includes("saved_event") && (
-        //                         <Flex h={"21px"} w={"48px"} rounded={"8px"} bgColor={"#EFF1FE"} color={"#5D70F9"} fontSize={"8px"} justifyContent={"center"} alignItems={"center"} >
-        //                             <Text fontWeight={"700"} >saved</Text>
-        //                         </Flex>
-        //                     )}
-        //                     {pathname?.includes("draft") && (
-        //                         <Flex h={"21px"} w={"48px"} rounded={"8px"} bgColor={"#EFF1FE"} color={"#5D70F9"} fontSize={"8px"} justifyContent={"center"} alignItems={"center"} >
-        //                             <Text fontWeight={"700"} >draft</Text>
-        //                         </Flex>
-        //                     )}
-        //                     {(!pathname?.includes("past_event") && !pathname?.includes("draft")) && (
-        //                         <ShareEvent
-        //                             data={props}
-        //                             size='14px'
-        //                             type="EVENT"
-        //                             showText={false}
-        //                             id={props.prStatus === "ACTIVE" ? props.affiliateID + "?type=affiliate" : props?.id}
-        //                         />
-        //                     )}
-        //                 </Flex>
-        //             </Flex>
-        //         </Flex>
-        //         <Flex w={"full"} gap={"2"} pt={"1"} justifyContent={"space-between"} >
-        //             <Flex flexDir={"column"} gap={"2px"} >
-        //                 <Flex alignItems={"center"} gap={"1"} >
-        //                     <CalendarIcon width='13' />
-        //                     <Text fontSize={"12px"} >{textLimit(dateFormat(props?.startDate) + "" + timeFormat(props?.startDate), 16)}</Text>
-        //                 </Flex>
-        //                 <Text fontSize={"14px"}>
-        //                     <EventLocationDetail
-        //                         // landingcolor={landingcolor}
-        //                         iconsize={"13px"}
-        //                         fontWeight={"medium"}
-        //                         fontsize={"13px"}
-        //                         height="auto"
-        //                         location={props?.location}
-        //                         locationType={props?.locationType}
-        //                         isLimited={true}
-        //                         length={20}
-        //                     />
-        //                 </Text>
-        //             </Flex>
-        //             <Flex pr={"2"} >
-        //                 <InterestedUsers fontSize={12} event={props} border={"2px"} size={"28px"} refund={true} />
-        //             </Flex>
-        //         </Flex>
-        //     </Flex>
-        // </Flex>
+    return ( 
         <Flex as={"button"} onClick={clickHandler} w={"full"} pos={"relative"} flexDir={"column"} bg={mainBackgroundColor} rounded={"16px"} shadow={"xl"} >
             {(type !== "past_event") && (
                 <DeleteEvent id={props?.id} name={props?.eventName + " Event"} isEvent={pathname?.includes("draft") ? false : true} draft={pathname?.includes("draft") ? true : false} isOrganizer={props?.isOrganizer} />
@@ -203,12 +121,8 @@ export default function MobileCard(props: IEventType) {
                     <Flex w={"full"} borderTopWidth={"1px"} justifyContent={"center"} h={"50px"} px={"2"} alignItems={"center"} roundedBottom={"16px"} >
                         <Text fontWeight={"600"} fontSize={"14px"} color={primaryColor} >Saved</Text>
                     </Flex>
-                )}
-                {(type === "saved_event") && ( 
-                    <Flex w={"full"} borderTopWidth={"1px"} justifyContent={"center"} h={"50px"} px={"2"} alignItems={"center"} roundedBottom={"16px"} >
-                        <Text fontWeight={"600"} fontSize={"14px"} color={primaryColor} >Saved</Text>
-                    </Flex>
-                )}
+                )} 
+        
                 {(type === "draft") && ( 
                     <Flex w={"full"} borderTopWidth={"1px"} justifyContent={"center"} h={"50px"} px={"2"} alignItems={"center"} roundedBottom={"16px"} >
                         <Text fontWeight={"600"} fontSize={"14px"} color={primaryColor} >Draft</Text>
