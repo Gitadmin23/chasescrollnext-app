@@ -83,13 +83,14 @@ function GoogleBtn(props: Props) {
     }
 
     useEffect(() => {
-        if (status === "authenticated" && !user?.username) {
+        if (status === "authenticated") {
             // Redirect to another page once authenticate
             setTokenData(token.token?.token.token.idToken)
         }
     }, [status]);
 
-    const { user } = useGetUser() 
+    // const { user } = useGetUser() 
+    const { email, username, setAll } = useDetails((state) => state);
 
     useEffect(() => {
         if (tokenData) {
@@ -115,15 +116,13 @@ function GoogleBtn(props: Props) {
     };
 
     useEffect(() => {
-        if (tokenData && user?.email) {
+        if (tokenData && email) { 
 
-            console.log(user);
-            
-            if (!user?.data?.mobilePhone?.value) {
+            if (username === email) {
 
                 if (!checkData?.email) {
                     setCheckData({
-                        email: user?.email,
+                        email: email,
                         firstName: "",
                         lastName: "",
                     })
@@ -147,7 +146,60 @@ function GoogleBtn(props: Props) {
                 }
             }
         }
-    }, [user, checkToken]);
+    }, [email, username, checkToken]);
+
+
+    const checkUserInfo = useMutation({
+
+        mutationFn: (data: string) => httpServiceGoogle.get(`${URLS.GET_USER_PRIVATE_PROFILE}`, {
+            headers: {
+                Authorization: `Bearer ${data}`,
+            }
+        }),
+        onSuccess: (data) => {
+ 
+            if (data?.data?.username === data?.data?.email) { 
+
+                setAll({
+                    user: data?.data,
+                    userId: data?.data?.userId,
+                    firstName: data?.data?.firstName,
+                    lastName: data?.data?.lastName,
+                    email: data?.data?.email,
+                    dob: data?.data?.dob,
+                    username: data?.data?.username,
+                });
+ 
+                setCheckData({
+                    email: data?.data?.email,
+                    firstName: "",
+                    lastName: "",
+                })
+                
+                setOpen(true)
+            } else {  
+                if (index) {
+                    if (type === "DONATION") {
+                        router.push(`/dashboard/donation/${index}`);
+                    } else if (type === "RENTAL") {
+                        router.push(`/dashboard/kisok/details-rental/${index}`);
+                    } else if (type === "SERVICE") {
+                        router.push(`/dashboard/kisok/service/${index}`);
+                    } else if (type === "KIOSK") {
+                        router.push(`/dashboard/kisok/details/${index}`);
+                    } else {
+                        router.push(`/dashboard/event/details/${(affiliateID === "affiliate" || affiliateIDtwo) ? affiliate ? affiliate : affiliateIDtwo : index}${(affiliateID === "affiliate" || affiliateIDtwo) ? "?type=affiliate" : ""}`);
+                    }
+                } else {
+                    router.push('/dashboard/product')
+                }
+            }
+
+        },
+        onError: (error: any) => {
+            console.log("error");
+        }
+    })
 
     const signinWithGoogle = useMutation({
 
@@ -169,38 +221,38 @@ function GoogleBtn(props: Props) {
             localStorage.setItem('refresh_token', data?.data?.refresh_token);
             localStorage.setItem('user_id', data?.data?.user_id);
             localStorage.setItem('expires_in', data?.data?.expires_in);
-
-            // if(data?.data?.user_name ===)
-            console.log(data?.data);
+ 
             setCheckToken(data?.data?.access_token)
 
-            if (user?.username === user?.email || !user?.data?.mobilePhone?.value) {
+            checkUserInfo?.mutate(data?.data?.access_token)
 
-                if (!checkData?.email) {
-                    setCheckData({
-                        email: user?.email+"",
-                        firstName: "",
-                        lastName: "",
-                    })
-                }
-                setOpen(true)
-            } else {
-                if (index) {
-                    if (type === "DONATION") {
-                        router.push(`/dashboard/donation/${index}`);
-                    } else if (type === "RENTAL") {
-                        router.push(`/dashboard/kisok/details-rental/${index}`);
-                    } else if (type === "SERVICE") {
-                        router.push(`/dashboard/kisok/service/${index}`);
-                    } else if (type === "KIOSK") {
-                        router.push(`/dashboard/kisok/details/${index}`);
-                    } else {
-                        router.push(`/dashboard/event/details/${(affiliateID === "affiliate" || affiliateIDtwo) ? affiliate ? affiliate : affiliateIDtwo : index}${(affiliateID === "affiliate" || affiliateIDtwo) ? "?type=affiliate" : ""}`);
-                    }
-                } else {
-                    router.push('/dashboard/product')
-                }
-            }
+            // if (user?.username === user?.email) {
+
+            //     if (!checkData?.email) {
+            //         setCheckData({
+            //             email: user?.email+"",
+            //             firstName: "",
+            //             lastName: "",
+            //         })
+            //     }
+            //     setOpen(true)
+            // } else {
+            //     if (index) {
+            //         if (type === "DONATION") {
+            //             router.push(`/dashboard/donation/${index}`);
+            //         } else if (type === "RENTAL") {
+            //             router.push(`/dashboard/kisok/details-rental/${index}`);
+            //         } else if (type === "SERVICE") {
+            //             router.push(`/dashboard/kisok/service/${index}`);
+            //         } else if (type === "KIOSK") {
+            //             router.push(`/dashboard/kisok/details/${index}`);
+            //         } else {
+            //             router.push(`/dashboard/event/details/${(affiliateID === "affiliate" || affiliateIDtwo) ? affiliate ? affiliate : affiliateIDtwo : index}${(affiliateID === "affiliate" || affiliateIDtwo) ? "?type=affiliate" : ""}`);
+            //         }
+            //     } else {
+            //         router.push('/dashboard/product')
+            //     }
+            // }
 
             setCheckData(data?.data)
         },
@@ -344,7 +396,7 @@ function GoogleBtn(props: Props) {
                             width={'100%'}
                             onChange={(e) => setCheckData({ ...checkData, username: e.target?.value })}
                             placeholder={'UserName'}
-                            value={checkData?.username} 
+                            value={checkData?.username}
                             height={"45px"}
                             rounded={"32px"}
                             // color={textColor ?? 'black'}
@@ -380,7 +432,7 @@ function GoogleBtn(props: Props) {
                         />
 
                         <CustomText
-                            fontSize={"xs"} 
+                            fontSize={"xs"}
                             marginLeft="0px"
                             color='black'
                         >
