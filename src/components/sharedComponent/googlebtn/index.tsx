@@ -91,14 +91,12 @@ function GoogleBtn(props: Props) {
 
     const { user } = useGetUser() 
 
-
     useEffect(() => {
         if (tokenData) {
             // Redirect to another page once authenticated
             signinWithGoogle.mutate(tokenData)
         }
     }, [tokenData]);
-
 
     const handleChangeName = (e: any, name: string) => {
         const value = e.target.value;
@@ -224,7 +222,6 @@ function GoogleBtn(props: Props) {
 
         }
     })
-
 
     const editProfile = useMutation({
         mutationFn: (data: any) => httpService.put(`${URLS.UPDATE_PROFILE}`, data),
@@ -418,7 +415,7 @@ function GoogleBtn(props: Props) {
                             userNameCheck?.includes("exists") ||
                             !checkData?.firstName ||
                             !checkData?.lastName ||
-                            (checkData?.phone ? checkData?.phone?.toString() : "")?.length <= 12
+                            (checkData?.phone ? checkData?.phone?.toString() : "")?.length <= 11
                         }
                         onClick={submitHandler}
                         mt="4"
