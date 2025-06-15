@@ -605,7 +605,8 @@ function SubmitEvent(props: Iprops) {
             });
         },
         onSuccess: (data: AxiosResponse<any>) => {
-            router.push("/dashboard/event")
+            
+            router.push("/dashboard/product")
 
             toast({
                 title: 'Success',

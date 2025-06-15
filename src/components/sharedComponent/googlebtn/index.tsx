@@ -91,14 +91,12 @@ function GoogleBtn(props: Props) {
 
     const { user } = useGetUser() 
 
-
     useEffect(() => {
         if (tokenData) {
             // Redirect to another page once authenticated
             signinWithGoogle.mutate(tokenData)
         }
     }, [tokenData]);
-
 
     const handleChangeName = (e: any, name: string) => {
         const value = e.target.value;
@@ -176,35 +174,35 @@ function GoogleBtn(props: Props) {
             console.log(data?.data);
             setCheckToken(data?.data?.access_token)
 
-            // if (user?.username === user?.email || !user?.data?.mobilePhone?.value) {
+            if (user?.username === user?.email || !user?.data?.mobilePhone?.value) {
 
-            //     if (!checkData?.email) {
-            //         setCheckData({
-            //             email: user?.email+"",
-            //             firstName: "",
-            //             lastName: "",
-            //         })
-            //     }
-            //     setOpen(true)
-            // } else {
-            //     if (index) {
-            //         if (type === "DONATION") {
-            //             router.push(`/dashboard/donation/${index}`);
-            //         } else if (type === "RENTAL") {
-            //             router.push(`/dashboard/kisok/details-rental/${index}`);
-            //         } else if (type === "SERVICE") {
-            //             router.push(`/dashboard/kisok/service/${index}`);
-            //         } else if (type === "KIOSK") {
-            //             router.push(`/dashboard/kisok/details/${index}`);
-            //         } else {
-            //             router.push(`/dashboard/event/details/${(affiliateID === "affiliate" || affiliateIDtwo) ? affiliate ? affiliate : affiliateIDtwo : index}${(affiliateID === "affiliate" || affiliateIDtwo) ? "?type=affiliate" : ""}`);
-            //         }
-            //     } else {
-            //         router.push('/dashboard/product')
-            //     }
-            // }
+                if (!checkData?.email) {
+                    setCheckData({
+                        email: user?.email+"",
+                        firstName: "",
+                        lastName: "",
+                    })
+                }
+                setOpen(true)
+            } else {
+                if (index) {
+                    if (type === "DONATION") {
+                        router.push(`/dashboard/donation/${index}`);
+                    } else if (type === "RENTAL") {
+                        router.push(`/dashboard/kisok/details-rental/${index}`);
+                    } else if (type === "SERVICE") {
+                        router.push(`/dashboard/kisok/service/${index}`);
+                    } else if (type === "KIOSK") {
+                        router.push(`/dashboard/kisok/details/${index}`);
+                    } else {
+                        router.push(`/dashboard/event/details/${(affiliateID === "affiliate" || affiliateIDtwo) ? affiliate ? affiliate : affiliateIDtwo : index}${(affiliateID === "affiliate" || affiliateIDtwo) ? "?type=affiliate" : ""}`);
+                    }
+                } else {
+                    router.push('/dashboard/product')
+                }
+            }
 
-            // setCheckData(data?.data)
+            setCheckData(data?.data)
         },
         onError: (error: any) => {
             console.log("error");
@@ -224,7 +222,6 @@ function GoogleBtn(props: Props) {
 
         }
     })
-
 
     const editProfile = useMutation({
         mutationFn: (data: any) => httpService.put(`${URLS.UPDATE_PROFILE}`, data),
@@ -311,7 +308,7 @@ function GoogleBtn(props: Props) {
 
             <ModalLayout open={open} close={closeHandler} closeIcon={false} >
                 <Flex w={"full"} flexDir={"column"} gap={"4"} p={"5"} >
-                    <Text textAlign={"center"} fontWeight={"700"} fontSize={"24px"} >Set Up Account Information</Text>
+                    <Text textAlign={"center"} fontWeight={"700"} fontSize={"24px"} >SetUp Account Information</Text>
                     <Flex gap={"4"} width={"full"} mt={"3"} >
                         <Flex flexDir={"column"} gap={"1"} w={"full"} >
                             <Text color={"#1F1F1F"} ml={"1"} >First Name</Text>
@@ -320,7 +317,6 @@ function GoogleBtn(props: Props) {
                                 onChange={(e) => handleChangeName(e, "firstName")}
                                 placeholder={'FirstName'}
                                 value={checkData?.firstName}
-                                fontFamily={'Satoshi-Light'}
                                 height={"45px"}
                                 rounded={"32px"}
                                 // color={textColor ?? 'black'}
@@ -335,7 +331,6 @@ function GoogleBtn(props: Props) {
                                 onChange={(e) => handleChangeName(e, "lastName")}
                                 placeholder={'LastName'}
                                 value={checkData?.lastName}
-                                fontFamily={'Satoshi-Light'}
                                 height={"45px"}
                                 rounded={"32px"}
                                 // color={textColor ?? 'black'}
@@ -349,8 +344,7 @@ function GoogleBtn(props: Props) {
                             width={'100%'}
                             onChange={(e) => setCheckData({ ...checkData, username: e.target?.value })}
                             placeholder={'UserName'}
-                            value={checkData?.username}
-                            fontFamily={'Satoshi-Light'}
+                            value={checkData?.username} 
                             height={"45px"}
                             rounded={"32px"}
                             // color={textColor ?? 'black'}
@@ -386,8 +380,7 @@ function GoogleBtn(props: Props) {
                         />
 
                         <CustomText
-                            fontSize={"xs"}
-                            fontFamily={"Satoshi-Regular"}
+                            fontSize={"xs"} 
                             marginLeft="0px"
                             color='black'
                         >
@@ -418,7 +411,7 @@ function GoogleBtn(props: Props) {
                             userNameCheck?.includes("exists") ||
                             !checkData?.firstName ||
                             !checkData?.lastName ||
-                            (checkData?.phone ? checkData?.phone?.toString() : "")?.length <= 12
+                            (checkData?.phone ? checkData?.phone?.toString() : "")?.length <= 10
                         }
                         onClick={submitHandler}
                         mt="4"
