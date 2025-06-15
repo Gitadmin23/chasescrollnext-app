@@ -203,12 +203,7 @@ export default function MobileCard(props: IEventType) {
                     <Flex w={"full"} borderTopWidth={"1px"} justifyContent={"center"} h={"50px"} px={"2"} alignItems={"center"} roundedBottom={"16px"} >
                         <Text fontWeight={"600"} fontSize={"14px"} color={primaryColor} >Saved</Text>
                     </Flex>
-                )}
-                {(type === "saved_event") && ( 
-                    <Flex w={"full"} borderTopWidth={"1px"} justifyContent={"center"} h={"50px"} px={"2"} alignItems={"center"} roundedBottom={"16px"} >
-                        <Text fontWeight={"600"} fontSize={"14px"} color={primaryColor} >Saved</Text>
-                    </Flex>
-                )}
+                )} 
                 {(type === "draft") && ( 
                     <Flex w={"full"} borderTopWidth={"1px"} justifyContent={"center"} h={"50px"} px={"2"} alignItems={"center"} roundedBottom={"16px"} >
                         <Text fontWeight={"600"} fontSize={"14px"} color={primaryColor} >Draft</Text>
