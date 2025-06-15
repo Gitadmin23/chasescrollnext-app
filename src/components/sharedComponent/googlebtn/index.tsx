@@ -308,7 +308,7 @@ function GoogleBtn(props: Props) {
 
             <ModalLayout open={open} close={closeHandler} closeIcon={false} >
                 <Flex w={"full"} flexDir={"column"} gap={"4"} p={"5"} >
-                    <Text textAlign={"center"} fontWeight={"700"} fontSize={"24px"} >Set Up Account Information</Text>
+                    <Text textAlign={"center"} fontWeight={"700"} fontSize={"24px"} >SetUp Account Information</Text>
                     <Flex gap={"4"} width={"full"} mt={"3"} >
                         <Flex flexDir={"column"} gap={"1"} w={"full"} >
                             <Text color={"#1F1F1F"} ml={"1"} >First Name</Text>
@@ -317,7 +317,6 @@ function GoogleBtn(props: Props) {
                                 onChange={(e) => handleChangeName(e, "firstName")}
                                 placeholder={'FirstName'}
                                 value={checkData?.firstName}
-                                fontFamily={'Satoshi-Light'}
                                 height={"45px"}
                                 rounded={"32px"}
                                 // color={textColor ?? 'black'}
@@ -332,7 +331,6 @@ function GoogleBtn(props: Props) {
                                 onChange={(e) => handleChangeName(e, "lastName")}
                                 placeholder={'LastName'}
                                 value={checkData?.lastName}
-                                fontFamily={'Satoshi-Light'}
                                 height={"45px"}
                                 rounded={"32px"}
                                 // color={textColor ?? 'black'}
@@ -346,8 +344,7 @@ function GoogleBtn(props: Props) {
                             width={'100%'}
                             onChange={(e) => setCheckData({ ...checkData, username: e.target?.value })}
                             placeholder={'UserName'}
-                            value={checkData?.username}
-                            fontFamily={'Satoshi-Light'}
+                            value={checkData?.username} 
                             height={"45px"}
                             rounded={"32px"}
                             // color={textColor ?? 'black'}
@@ -383,8 +380,7 @@ function GoogleBtn(props: Props) {
                         />
 
                         <CustomText
-                            fontSize={"xs"}
-                            fontFamily={"Satoshi-Regular"}
+                            fontSize={"xs"} 
                             marginLeft="0px"
                             color='black'
                         >
@@ -415,7 +411,7 @@ function GoogleBtn(props: Props) {
                             userNameCheck?.includes("exists") ||
                             !checkData?.firstName ||
                             !checkData?.lastName ||
-                            (checkData?.phone ? checkData?.phone?.toString() : "")?.length <= 11
+                            (checkData?.phone ? checkData?.phone?.toString() : "")?.length <= 10
                         }
                         onClick={submitHandler}
                         mt="4"
