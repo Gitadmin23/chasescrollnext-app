@@ -174,7 +174,7 @@ function GoogleBtn(props: Props) {
             console.log(data?.data);
             setCheckToken(data?.data?.access_token)
 
-            if (user?.username === user?.email || !user?.data?.mobilePhone?.value) {
+            if (!user?.data?.mobilePhone?.value) {
 
                 if (!checkData?.email) {
                     setCheckData({
