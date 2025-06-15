@@ -176,35 +176,35 @@ function GoogleBtn(props: Props) {
             console.log(data?.data);
             setCheckToken(data?.data?.access_token)
 
-            // if (user?.username === user?.email || !user?.data?.mobilePhone?.value) {
+            if (user?.username === user?.email || !user?.data?.mobilePhone?.value) {
 
-            //     if (!checkData?.email) {
-            //         setCheckData({
-            //             email: user?.email+"",
-            //             firstName: "",
-            //             lastName: "",
-            //         })
-            //     }
-            //     setOpen(true)
-            // } else {
-            //     if (index) {
-            //         if (type === "DONATION") {
-            //             router.push(`/dashboard/donation/${index}`);
-            //         } else if (type === "RENTAL") {
-            //             router.push(`/dashboard/kisok/details-rental/${index}`);
-            //         } else if (type === "SERVICE") {
-            //             router.push(`/dashboard/kisok/service/${index}`);
-            //         } else if (type === "KIOSK") {
-            //             router.push(`/dashboard/kisok/details/${index}`);
-            //         } else {
-            //             router.push(`/dashboard/event/details/${(affiliateID === "affiliate" || affiliateIDtwo) ? affiliate ? affiliate : affiliateIDtwo : index}${(affiliateID === "affiliate" || affiliateIDtwo) ? "?type=affiliate" : ""}`);
-            //         }
-            //     } else {
-            //         router.push('/dashboard/product')
-            //     }
-            // }
+                if (!checkData?.email) {
+                    setCheckData({
+                        email: user?.email+"",
+                        firstName: "",
+                        lastName: "",
+                    })
+                }
+                setOpen(true)
+            } else {
+                if (index) {
+                    if (type === "DONATION") {
+                        router.push(`/dashboard/donation/${index}`);
+                    } else if (type === "RENTAL") {
+                        router.push(`/dashboard/kisok/details-rental/${index}`);
+                    } else if (type === "SERVICE") {
+                        router.push(`/dashboard/kisok/service/${index}`);
+                    } else if (type === "KIOSK") {
+                        router.push(`/dashboard/kisok/details/${index}`);
+                    } else {
+                        router.push(`/dashboard/event/details/${(affiliateID === "affiliate" || affiliateIDtwo) ? affiliate ? affiliate : affiliateIDtwo : index}${(affiliateID === "affiliate" || affiliateIDtwo) ? "?type=affiliate" : ""}`);
+                    }
+                } else {
+                    router.push('/dashboard/product')
+                }
+            }
 
-            // setCheckData(data?.data)
+            setCheckData(data?.data)
         },
         onError: (error: any) => {
             console.log("error");
