@@ -1,6 +1,7 @@
 "use client"
 import EventCategory from "@/components/event_component/event_category";
 import SelectEventPage from "@/components/event_component/select_event_page";
+import SearchBar from "@/components/explore_component/searchbar";
 import CustomButton from "@/components/general/Button";
 import Fundpaystack from "@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack";
 import CreateEventBtn from "@/components/sharedComponent/create_event_btn";
@@ -170,7 +171,7 @@ function Layout({ children }: {
     }, [type])
 
     console.log(initialFilter);
-    
+
 
     return (
         <Flex w={"full"} px={["4", "4", "6"]} pt={["6", "6", "12", "12"]} pb={"12"} flexDir={"column"} overflowY={"auto"} >
@@ -221,8 +222,14 @@ function Layout({ children }: {
                         } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={pathname?.includes("/product/fundraising") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={pathname?.includes("/product/fundraising") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={pathname?.includes("/product/fundraising") ? "white" : headerTextColor} width={["80px", "107px", "175px"]} />
                     </Flex>
                 </Flex>
-                <Flex display={["flex", "flex", "none"]} w={"full"} gap={"3"} alignItems={"center"} >
-                    <CustomButton onClick={() => setOpen(true)} text={`Filter ${(type === null || type === "mykisok" || type === "myorder" || type === "mysales") ? "Product" : (type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "Service" : "Rental"} `} color={headerTextColor} fontSize={"14px"} backgroundColor={mainBackgroundColor} borderWidth={"1px"} borderRadius={"999px"} />
+                <Flex display={["flex", "flex", "none"]} w={"full"} gap={"3"} px={"4"} alignItems={"center"} >
+                    {(type) && (
+                        <CustomButton onClick={() => setOpen(true)} text={`Filter ${(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") ? "Product" : (type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "Service" : "Rental"} `} color={headerTextColor} fontSize={"14px"} backgroundColor={mainBackgroundColor} borderWidth={"1px"} borderRadius={"999px"} />
+                    )}
+                    {(!type) && (
+                        <SearchBar fundraising={pathname?.includes("/fundraising")} change={pathname?.includes("/fundraising") ? true : false} />
+                    )}
+
                 </Flex>
                 {(pathname !== "/dashboard/product" && !pathname?.includes("fundraising")) && (
                     <Flex display={["none", "none", "flex"]} w={"fit-content"} borderWidth={"1px"} borderColor={borderColor} rounded={"full"} h={"fit-content"} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >

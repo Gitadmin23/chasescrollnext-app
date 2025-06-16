@@ -28,7 +28,7 @@ export default function ViewRequest(props: IEventType) {
     })
 
     return (
-        <Flex h={"130px"} justifyContent={"center"} bgColor={mainBackgroundColor} flexDir={"column"} borderWidth={"1px"} rounded={"8px"} p={"3"} gap={"3"}  >
+        <Flex h={"130px"} display={(data?.data?.totalElements+rentalAllData?.data?.totalElements === 0 || !data?.data?.totalElements || !rentalAllData?.data?.totalElements) ? "none" : "flex"} justifyContent={"center"} bgColor={mainBackgroundColor} flexDir={"column"} borderWidth={"1px"} rounded={"8px"} p={"3"} gap={"3"}  >
             <Text fontSize={"14px"} fontWeight={"500"} >Support Request <span style={{ fontWeight: "600" }} >{data?.data?.totalElements+rentalAllData?.data?.totalElements}</span></Text>
             <CustomButton onClick={() => setOpen(true)} text={"View proposal"} fontSize={"14px"} width={"150px"} borderWidth={"1px"} borderColor={primaryColor} color={primaryColor} backgroundColor={mainBackgroundColor} />
             <ModalLayout size={["full", "full", "3xl"]} open={open} close={setOpen} >

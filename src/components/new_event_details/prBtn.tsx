@@ -1,43 +1,32 @@
 import useCustomTheme from '@/hooks/useTheme'
 import { IEventType } from '@/models/Event'
-import { Checkbox, Flex, Input, Switch, Text, useToast } from '@chakra-ui/react'
+import { Flex, Input, Switch, Text, useToast } from '@chakra-ui/react'
 import { useParams, usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import CustomButton from '../general/Button'
 import ModalLayout from '../sharedComponent/modal_layout'
-import UserImage from '../sharedComponent/userimage'
-import { textLimit } from '@/utils/textlimit'
-import { capitalizeFLetter } from '@/utils/capitalLetter'
-import EventDonation from './eventDonation'
-import EventDonationPicker from './eventDonationPicker'
 import usePr from '@/hooks/usePr'
 import ListProduct from './listProduct'
 import useProduct, { IPinned } from '@/hooks/useProduct'
 import ListDonation from './listDonation'
-import { useMutation, useQuery } from 'react-query'
-import httpService from '@/utils/httpService'
 import ListService from './listService'
 import ListRental from './listRental'
-import { IoIosArrowBack, IoIosArrowDown } from 'react-icons/io'
+import { IoIosArrowBack } from 'react-icons/io'
 import { ITag } from '@/models/product'
-import { URLS } from '@/services/urls'
-import { AxiosError, AxiosResponse } from 'axios'
 
 
-export default function PrBtn({ data }: { data: IEventType }) {
+export default function PrBtn({ data, donation, product }: { data: IEventType, donation?: boolean, product?: boolean }) {
 
     const {
         mainBackgroundColor,
         primaryColor,
         secondaryBackgroundColor
-    } = useCustomTheme()
-
-    const pathname = usePathname()
+    } = useCustomTheme() 
 
     const { pinProduct } = useProduct()
 
     const [tab, setTab] = useState(false)
-    const [index, setIndex] = useState(1)
+    const [index, setIndex] = useState(product? 2 : 1)
     const [prCheck, setPrCheck] = useState(false)
     const [percent, setPercentage] = useState("")
 
@@ -64,7 +53,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
     }
 
     useEffect(() => {
-        setTab(false)
+        setTab((donation || product) ? true : false)
     }, [open])
 
     const submitHandler = () => {
@@ -118,14 +107,6 @@ export default function PrBtn({ data }: { data: IEventType }) {
     }, [open])
 
     const updatePrPercent = (item: boolean) => {
-        // const obj: any = {
-        //     "affiliateType": null,
-        //     "eventID": data?.id,
-        //     "percent": Number(percent),
-        //     "remove": item
-        //   }
-        // updateUserEvent?.mutate({...obj})
-
         updateEvent?.mutate({
             id: data?.id,
             affiliates: item ? [] : [
@@ -140,7 +121,7 @@ export default function PrBtn({ data }: { data: IEventType }) {
 
     const changeHandler = (item: string) => {
 
-        if(item?.toString()?.length <= 2){
+        if (item?.toString()?.length <= 2) {
             setPercentage(item)
         }
     }
@@ -148,13 +129,25 @@ export default function PrBtn({ data }: { data: IEventType }) {
 
     return (
         <>
-            {data?.isOrganizer && (
+            {(data?.isOrganizer && !donation && !product) && (
                 <Flex pos={["relative"]} w={"full"} bgColor={data?.isOrganizer ? primaryColor : data?.prStatus === "ACTIVE" ? primaryColor : data?.prStatus === "PENDING" ? "#FF9500" : "#EEEEFF"} color={data?.prStatus ? "white" : !data?.isOrganizer ? primaryColor : "white"} flexDir={"column"} roundedTop={data?.isOrganizer ? ["0px"] : "32px"} roundedBottomRight={data?.isOrganizer ? ["0px", "0px", "12px"] : "32px"} roundedBottomLeft={data?.isOrganizer ? "12px" : "32px"} gap={"3"} >
 
                     <Flex onClick={() => setOpen(true)} as={"button"} w={"full"} gap={"2"} h={"55px"} px={"1"} alignItems={"center"} justifyContent={"center"} >
                         <Text fontSize={"14px"} fontWeight={"500"} >My Support Center</Text>
                         {/* <IoIosArrowDown size={"20px"} /> */}
                     </Flex>
+                </Flex>
+            )}
+
+            {donation && ( 
+                <Flex px={"8"} onClick={() => { setOpen(true), setTab(true), setIndex(1) }} as={"button"} justifyContent={"center"} alignItems={"center"} h={"104px"} rounded={"16px"} w={"fit-content"} bgColor={"#FAFAFA"} >
+                    <Text fontWeight={"600"} color={primaryColor} >+ Add Fundraising</Text>
+                </Flex>
+            )}
+
+            {product && ( 
+                <Flex px={"8"} onClick={() => { setOpen(true), setTab(true), setIndex(2) }} as={"button"} justifyContent={"center"} alignItems={"center"} h={"104px"} rounded={"16px"} w={"fit-content"} bgColor={"#FAFAFA"} >
+                    <Text fontWeight={"600"} color={primaryColor} >+ Add a product</Text>
                 </Flex>
             )}
 
@@ -189,9 +182,9 @@ export default function PrBtn({ data }: { data: IEventType }) {
                             borderTopRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["0px"] : "32px"}
                             borderBottomRightRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? ["0px", "0px", "12px"] : "32px"}
                             borderBottomLeftRadius={(data.eventMemberRole === "ADMIN" || data.eventMemberRole === "COLLABORATOR") ? "12px" : "32px"} />
-                    )} 
+                    )}
 
-                </Flex> 
+                </Flex>
             )}
             <ModalLayout open={open} size={"md"} close={setOpen} closeIcon={true} >
                 <Flex flexDir={"column"} gap={"4"} w={"full"} px={"4"} mb={"4"} >
