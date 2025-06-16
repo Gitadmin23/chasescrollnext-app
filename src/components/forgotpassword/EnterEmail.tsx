@@ -5,7 +5,7 @@ import React from 'react'
 import { CustomInput } from '../Form/CustomInput';
 import CustomButton from '../general/Button';
 import { useMutation } from 'react-query';
-import httpService from '@/utils/httpService';
+import httpService, { unsecureHttpService } from '@/utils/httpService';
 import { URLS } from '@/services/urls';
 
 function EnterEmail({ next }: {
@@ -13,7 +13,7 @@ function EnterEmail({ next }: {
 }) {
     const toast = useToast();
     const { isLoading, mutate } = useMutation({
-        mutationFn: (data: any) => httpService.post(`${URLS.SEND_VERIFICATION_EMAIL}`, data),
+        mutationFn: (data: any) => unsecureHttpService.post(`${URLS.SEND_VERIFICATION_EMAIL}`, data),
         onSuccess: (data) => {
             toast({
                 title: 'Code Sent!',
