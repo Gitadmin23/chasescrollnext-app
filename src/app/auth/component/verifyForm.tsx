@@ -75,9 +75,11 @@ export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMess
                     <PinInputField rounded={"full"} w={["40px", "40px", "62px"]} h={["40px", "40px", "62px"]} />
                 </PinInput>
             </HStack>
-            <Flex alignItems={"center"} gap={"2"} mt={"4"} >
-                <FaCircleInfo color='red' size={"17px"} />
-                <Text fontSize={"14px"} textAlign={"center"} >Please also check your spam or junk mail folder in case the verification code was filtered there.</Text>
+            <Flex alignItems={"center"} justifyContent={"start"} gap={"2"} >
+                <Flex w={"fit-content"} >
+                    <FaCircleInfo color='red' size={"24px"} />
+                </Flex>
+                <Text fontSize={"14px"} textAlign={"left"} lineHeight={"120%"} >Please also check your spam or junk mail folder in case the verification code was filtered there.</Text>
             </Flex>
             {startTimer && (
                 <Text fontSize={"14px"} mt={"4"} textAlign={"center"} mx={"auto"} >Waiting to resend OTP in <span style={{ fontWeight: "500" }} >{0} : {initialTime} secs</span></Text>
