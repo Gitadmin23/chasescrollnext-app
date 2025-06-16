@@ -227,7 +227,7 @@ function Layout({ children }: {
                         <CustomButton onClick={() => setOpen(true)} text={`Filter ${(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") ? "Product" : (type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "Service" : "Rental"} `} color={headerTextColor} fontSize={"14px"} backgroundColor={mainBackgroundColor} borderWidth={"1px"} borderRadius={"999px"} />
                     )}
                     {(!type) && (
-                        <SearchBar fundraising={pathname?.includes("/fundraising")} change={pathname?.includes("/fundraising") ? true : false} />
+                        <SearchBar fundraising={pathname?.includes("/fundraising")} change={true} />
                     )}
 
                 </Flex>
