@@ -46,7 +46,7 @@ export default function MobileCard(props: IEventType) {
         }
     }
 
-    return ( 
+    return (
         <Flex as={"button"} onClick={clickHandler} w={"full"} pos={"relative"} flexDir={"column"} bg={mainBackgroundColor} rounded={"16px"} shadow={"xl"} >
             {(type !== "past_event") && (
                 <DeleteEvent id={props?.id} name={props?.eventName + " Event"} isEvent={pathname?.includes("draft") ? false : true} draft={pathname?.includes("draft") ? true : false} isOrganizer={props?.isOrganizer} />
@@ -54,31 +54,33 @@ export default function MobileCard(props: IEventType) {
             <ProductImageScroller images={[props?.currentPicUrl]} rounded='16px' createdDate={moment(props?.createdDate)?.fromNow()} userData={props?.createdBy} />
             <Flex w={"full"} flexDir={"column"} px={"2"} >
                 <Flex w={"full"} alignItems={"center"} gap={"2"} py={"2"} >
-                    <Flex w={"fit-content"} >
-                        <Flex
-                            width={"50px"}
-                            flexDir={"column"}
-                            h={"49px"}
-                            p={"1"}
-                            justifyContent={"center"}
-                            borderWidth={"1px"}
-                            bgColor={mainBackgroundColor}
-                            alignItems={"center"}
-                            roundedBottom={"12px"}
-                            roundedTopLeft={"12px"}
-                        >
-                            <Text
-                                fontSize={"12px"}
-                                color={primaryColor}
-                                fontWeight={"600"}
+                    {props?.startDate && (
+                        <Flex w={"fit-content"} >
+                            <Flex
+                                width={"50px"}
+                                flexDir={"column"}
+                                h={"49px"}
+                                p={"1"}
+                                justifyContent={"center"}
+                                borderWidth={"1px"}
+                                bgColor={mainBackgroundColor}
+                                alignItems={"center"}
+                                roundedBottom={"12px"}
+                                roundedTopLeft={"12px"}
                             >
-                                {moment(props?.startDate).format("MMM")}
-                            </Text>
-                            <Text fontSize={"16px"} color={headerTextColor} fontWeight={"600"} >
-                                {moment(props?.startDate).format("D")}
-                            </Text>
+                                <Text
+                                    fontSize={"12px"}
+                                    color={primaryColor}
+                                    fontWeight={"600"}
+                                >
+                                    {moment(props?.startDate).format("MMM")}
+                                </Text>
+                                <Text fontSize={"16px"} color={headerTextColor} fontWeight={"600"} >
+                                    {moment(props?.startDate).format("D")}
+                                </Text>
+                            </Flex>
                         </Flex>
-                    </Flex>
+                    )}
                     <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"} >
                         <Flex flexDirection={"column"} justifyContent={"start"} alignItems={"start"} >
                             <Text fontWeight={"600"} >{textLimit(capitalizeFLetter(props?.eventName), 20)}</Text>
@@ -107,8 +109,9 @@ export default function MobileCard(props: IEventType) {
                     </Flex>
                 </Flex>
                 {(type === "past_event") && (
-                    <Flex w={"full"} borderTopWidth={"1px"} justifyContent={"center"} h={"50px"} px={"2"} alignItems={"center"} roundedBottom={"16px"} >
-                        <Text fontWeight={"600"} fontSize={"14px"} color={"#F11317"} >Ended</Text>
+                    <Flex w={"full"} borderTopWidth={"1px"} justifyContent={"space-between"} h={"50px"} px={"2"} alignItems={"center"} roundedBottom={"16px"} >
+                        <InterestedUsers fontSize={12} event={props} border={"2px"} size={"28px"} refund={true} />
+                        <Text fontWeight={"600"} ml={"auto"} fontSize={"14px"} color={"#F11317"} >Ended</Text>
                     </Flex>
                 )}
                 {(type === "my_event") && (
@@ -117,13 +120,14 @@ export default function MobileCard(props: IEventType) {
                         <Text fontWeight={"600"} ml={"auto"} fontSize={"14px"} color={primaryColor} >Edit</Text>
                     </Flex>
                 )}
-                {(type === "saved_event") && ( 
-                    <Flex w={"full"} borderTopWidth={"1px"} justifyContent={"center"} h={"50px"} px={"2"} alignItems={"center"} roundedBottom={"16px"} >
-                        <Text fontWeight={"600"} fontSize={"14px"} color={primaryColor} >Saved</Text>
+                {(type === "saved_event") && (
+                    <Flex w={"full"} borderTopWidth={"1px"} justifyContent={"space-between"} h={"50px"} px={"2"} alignItems={"center"} roundedBottom={"16px"} >
+                        <InterestedUsers fontSize={12} event={props} border={"2px"} size={"28px"} refund={true} />
+                        <Text fontWeight={"600"} ml={"auto"} fontSize={"14px"} color={primaryColor} >Saved</Text>
                     </Flex>
-                )} 
-        
-                {(type === "draft") && ( 
+                )}
+
+                {(type === "draft") && (
                     <Flex w={"full"} borderTopWidth={"1px"} justifyContent={"center"} h={"50px"} px={"2"} alignItems={"center"} roundedBottom={"16px"} >
                         <Text fontWeight={"600"} fontSize={"14px"} color={primaryColor} >Draft</Text>
                     </Flex>

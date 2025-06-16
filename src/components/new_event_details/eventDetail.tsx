@@ -237,13 +237,13 @@ export default function EventDetail(props: IEventType) {
                             </Flex>
                         )}
                     </Flex>
-                    <Flex w={"full"} maxW={"500px"} gap={"2"} flexDir={["column", "column", "column", "column","row"]} >
+                    <Flex w={"full"} maxW={"500px"} gap={"2"} flexDir={["column", "column", "column", "column","row"]} > 
                         <Flex w={"full"} display={["flex", "flex", "none"]} >
                             <EventMesh setMeshSize={setMeshSize} data={props} />
                         </Flex>
                         <EventDonation item={props} />
                         {isOrganizer && (
-                            <Flex w={"fit-content"} mt={"auto"} height={["auto", "auto", "130px"]} >
+                            <Flex w={"fit-content"} mt={"auto"} height={["auto", "auto", "fit-content"]} >
                                 <ViewRequest {...props} />
                             </Flex>
                         )}
@@ -301,7 +301,7 @@ export default function EventDetail(props: IEventType) {
                 </Flex>
             </ModalLayout>
             {openSignUp && (
-                <SignupModal hide={true} index={id} open={openSignUp} setOpen={signUpHandler} />
+                <SignupModal hide={true} type='EVENT' index={affiliateID} open={openSignUp} setOpen={signUpHandler} />
             )}
         </Flex>
     )

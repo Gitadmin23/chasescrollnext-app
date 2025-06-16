@@ -26,11 +26,13 @@ function EventListing(props: Props) {
     const { event_category } = useSearchStore((state) => state);
     const { username } = useDetails((state) => state);
 
+    const { search } = useSearchStore((state) => state);
+
     const router = useRouter()
 
     const InfiniteComponent = () => {
 
-        const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/events/events${event_category ? "?eventType=" + event_category : ""}`, limit: 20, filter: "id", newdata: event_category })
+        const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/events/events${event_category ? "?eventType=" + event_category + search ? `&searchText=${search}` : search ? `&searchText=${search}` : "" : ""}`, limit: 20, filter: "id", newdata: event_category })
 
         return (
             <Flex width={"full"} justifyContent={"center"} mt={!event_category ? !limit ? "0px" : "" : ""} px={"0px"} flexDirection={"column"} alignItems={"center"} >

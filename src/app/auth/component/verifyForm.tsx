@@ -1,6 +1,6 @@
 import useAuth from '@/hooks/useAuth'
 import { Flex, HStack, PinInput, PinInputField, Button, Text } from '@chakra-ui/react'
-import email from 'next-auth/providers/email'
+import { FaCircleInfo } from "react-icons/fa6";
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react'
@@ -11,17 +11,18 @@ interface IProps {
     setShowVerify: (by: boolean) => void;
     setShowMessage: (by: boolean) => void,
     index?: string,
-    type?: "DONATION" | "EVENT" | "RENTAL" | "SERVICE" | "KIOSK" 
+    type?: "DONATION" | "EVENT" | "RENTAL" | "SERVICE" | "KIOSK"
 }
 
 export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMessage, index, type }: IProps) {
 
 
-    const { code, setCode, hanldeSubmit, verifySuccess, loadingVerify, email, sendingVerify, sendSuccess, sendVerify, initialTime, setInitialTime, startTimer, setStartTimer } = useAuth() 
-    
+    const { code, setCode, hanldeSubmit, verifySuccess, loadingVerify, email, sendingVerify, sendSuccess, sendVerify, initialTime, setInitialTime, startTimer, setStartTimer } = useAuth()
+
     const pathname = usePathname()
-    const query = useSearchParams(); 
+    const query = useSearchParams();
     const param = useParams();
+    const test = query?.get('type');
     const id = param?.slug
 
     const router = useRouter()
@@ -32,10 +33,12 @@ export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMess
 
     useEffect(() => {
         if (verifySuccess) {
-            if(type){
-                router.push(`/share/auth/login?type=${type}&typeID=${index}`);
-            } else if(pathname?.includes("event")){
-                router.push(`/share/auth/login?type=EVENT&typeID=${index+(id ? "&affiliate="+id : "")}`);
+            if (pathname?.includes("event")) {
+                if (test) {
+                    router.push(`/share/auth/login?type=EVENT&typeID=${id + (index ? "&affiliate=" + index : "")}`);
+                } else {
+                    router.push(`/share/auth/login?type=${type}&typeID=${id}`);
+                }
             } else {
                 setOpen(false)
                 setTab(false)
@@ -54,9 +57,9 @@ export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMess
 
         if (initialTime === 0 && startTimer) {
             console.log("done");
-            setStartTimer(false); 
+            setStartTimer(false);
         }
-    }, [initialTime, startTimer]); 
+    }, [initialTime, startTimer]);
 
     return (
         <Flex overflowY={"auto"} alignItems={"center"} w={"full"} flexDir={"column"}  >
@@ -72,12 +75,18 @@ export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMess
                     <PinInputField rounded={"full"} w={["40px", "40px", "62px"]} h={["40px", "40px", "62px"]} />
                 </PinInput>
             </HStack>
+            <Flex alignItems={"center"} justifyContent={"start"} mt={"3"} gap={"2"} >
+                <Flex w={"fit-content"} >
+                    <FaCircleInfo color='red' size={"24px"} />
+                </Flex>
+                <Text fontSize={"14px"} textAlign={"left"} lineHeight={"120%"} >Please also check your spam or junk mail folder in case the verification code was filtered there.</Text>
+            </Flex>
             {startTimer && (
                 <Text fontSize={"14px"} mt={"4"} textAlign={"center"} mx={"auto"} >Waiting to resend OTP in <span style={{ fontWeight: "500" }} >{0} : {initialTime} secs</span></Text>
             )}
             {!startTimer && (
                 <Flex justifyContent={"center"} w={"full"} >
-                    <Button isDisabled={sendingVerify} isLoading={sendingVerify} bg={"transparent"} _hover={{backgroundColor: "transparent"}} color={"#233DF3"}  onClick={()=> sendVerify(email as string)}  >Resend</Button >
+                    <Button isDisabled={sendingVerify} isLoading={sendingVerify} bg={"transparent"} _hover={{ backgroundColor: "transparent" }} color={"#233DF3"} onClick={() => sendVerify(email as string)}  >Resend</Button >
                 </Flex>
             )}
             <Button onClick={() => clickHandler()} color={"white"} isLoading={loadingVerify} mt={"6"} isDisabled={loadingVerify} _disabled={{ backgroundColor: "#233DF380" }} h={"50px"} w={"full"} bgColor={"#233DF3"} rounded={["20px", "20px", "32px"]} gap={"3"} _hover={{ backgroundColor: "#233DF3" }} justifyContent={"center"} alignItems={"center"} >
