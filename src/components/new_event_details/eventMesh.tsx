@@ -18,6 +18,7 @@ import { IoClose } from 'react-icons/io5'
 import usePr from '@/hooks/usePr'
 import CustomText from '../general/Text'
 import useProduct, { IPinned } from '@/hooks/useProduct'
+import PrBtn from './prBtn'
 
 interface IProps {
     "id": string,
@@ -83,10 +84,16 @@ export default function EventMesh({ data, setMeshSize }: { data: IEventType, set
 
 
     return (
-        <Flex position={"relative"} display={eventData?.length === 0 ? "none" : "flex"} flexDir={"column"} w={"full"} mb={["0px", "0px", "6"]} gap={"3"} >
+        <Flex position={"relative"} display={(eventData?.length > 0 || data?.isOrganizer) ? "flex" : "none"} flexDir={"column"} w={"full"} mb={["0px", "0px", "6"]} gap={"3"} >
             <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
-                <Text fontSize={["14px", "14px", "20px"]} fontWeight={"bold"} >Shop the {data?.eventName} kiosk</Text>
-                <Text fontSize={"12px"} fontWeight={"600"} onClick={() => push(`/dashboard/profile/${data?.createdBy?.userId}/kiosk`)} color={primaryColor} as={"button"} >See all</Text>
+                {data?.isOrganizer ? (
+                    <Text fontWeight={"500"} >Add  Product to enable your Audience connect to your event</Text>
+                ): (
+                    <Text fontSize={["14px", "14px", "20px"]} fontWeight={"bold"} >Shop the ${data?.eventName} kiosk</Text>
+                )}
+                {!data?.isOrganizer && ( 
+                    <Text fontSize={"12px"} fontWeight={"600"} onClick={() => push(`/dashboard/profile/${data?.createdBy?.userId}/kiosk`)} color={primaryColor} as={"button"} >See all</Text>
+                )}
             </Flex>
             <Flex w={"full"} height={"180px"} />
             <Flex position={"absolute"} top={["9", "9", "12"]} maxW={"full"} overflowX={"auto"} sx={
@@ -126,6 +133,7 @@ export default function EventMesh({ data, setMeshSize }: { data: IEventType, set
                             </Flex>
                         )
                     })}
+                    <PrBtn data={data} product={true} />
                 </Flex>
             </Flex>
         </Flex>

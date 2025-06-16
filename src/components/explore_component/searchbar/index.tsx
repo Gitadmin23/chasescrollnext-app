@@ -40,7 +40,7 @@ function SearchBar(props: Props) {
                 <InputLeftElement pointerEvents='none'>
                     <IoSearchOutline size={"25px"} color={landing? "black":bodyTextColor} />
                 </InputLeftElement>
-                <Input width={["full", "full", "361px"]} value={search} color={landing? "black" :bodyTextColor} onChange={(e) => setSearchValue(e.target.value)} type='text' borderColor={borderColor} rounded={"12px"} focusBorderColor={'brand.chasescrollBlue'} _placeholder={{ color: landing? "black" :bodyTextColor }} bgColor={landing ?  "white":secondaryBackgroundColor} placeholder={fundraising? 'Search for fundraising' : event ? 'Search for events' : 'Search for users, event or...'} />
+                <Input width={["full", "full", "361px"]} value={search} color={landing? "black" :bodyTextColor} onChange={(e) => setSearchValue(e.target.value)} type='text' borderColor={borderColor} rounded={"999px"} focusBorderColor={'brand.chasescrollBlue'} _placeholder={{ color: landing? "black" :bodyTextColor }} bgColor={landing ?  "white":secondaryBackgroundColor} placeholder={fundraising? 'Search for fundraising' : event ? 'Search for events' : 'Search for users, event or...'} />
             </InputGroup>
             {(!change) && (
                 <>

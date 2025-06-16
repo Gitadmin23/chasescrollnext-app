@@ -38,6 +38,7 @@ function SubmitEvent(props: Iprops) {
     const { eventdata, image, tab, updateEvent, changeTab, rental, service, state } = useEventStore((state) => state);
     const { userId: user_index } = useDetails((state) => state);
     const router = useRouter()
+    const [ createdEvent, setCreatedEvent ] = useState({} as any)
     const pathname = usePathname();
 
     const [open, setOpen] = useState(false)
@@ -556,13 +557,16 @@ function SubmitEvent(props: Iprops) {
             });
         },
         onSuccess: (data: AxiosResponse<any>) => {
-            console.log(data); 
-            tagServiceAndRental?.mutate({
-                serviceCategories: service,
-                rentalCategories: rental,
-                state: state,
-                eventID: eventdata?.id+""
-            })
+            console.log(data?.data);
+            setCreatedEvent(data?.data);
+            if(service?.length > 0 && rental?.length > 0) {
+                tagServiceAndRental?.mutate({
+                    serviceCategories: service,
+                    rentalCategories: rental,
+                    state: state,
+                    eventID: eventdata?.id+""
+                })
+            }
 
             setOpen(true)
         }
@@ -663,7 +667,7 @@ function SubmitEvent(props: Iprops) {
                 text={(pathname?.includes("edit_event_data") && tab === 2) ? "Update Event" : pathname?.includes("edit_event") && tab === 2 ? "Update Event" : tab === 2 ? 'Submit' : 'Continue'} />
 
             <ModalLayout close={setOpen} open={open} bg={secondaryBackgroundColor} >
-                <SuccessMessageCreateEvent update={(pathname?.includes("edit_event_data") || pathname?.includes("edit_event")) ? true : false} />
+                <SuccessMessageCreateEvent eventData={createdEvent} update={(pathname?.includes("edit_event_data") || pathname?.includes("edit_event")) ? true : false} />
             </ModalLayout>
             <ModalLayout close={setOpenEarlyBird} open={openEarlyBird} size={"sm"} bg={secondaryBackgroundColor} >
                 <VStack
