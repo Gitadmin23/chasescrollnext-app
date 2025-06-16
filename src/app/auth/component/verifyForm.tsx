@@ -22,6 +22,7 @@ export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMess
     const pathname = usePathname()
     const query = useSearchParams(); 
     const param = useParams();
+    const test = query?.get('type');
     const id = param?.slug
 
     const router = useRouter()
@@ -33,9 +34,12 @@ export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMess
     useEffect(() => {
         if (verifySuccess) {
             if(type){
-                router.push(`/share/auth/login?type=${type}&typeID=${index}`);
+                if(test) { 
+                    router.push(`/share/auth/login?type=EVENT&typeID=${id+(index ? "&affiliate="+index : "")}`);
+                } else {
+                    router.push(`/share/auth/login?type=${type}&typeID=${id}`);
+                }
             } else if(pathname?.includes("event")){
-                router.push(`/share/auth/login?type=EVENT&typeID=${index+(id ? "&affiliate="+id : "")}`);
             } else {
                 setOpen(false)
                 setTab(false)
