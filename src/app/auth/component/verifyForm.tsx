@@ -75,7 +75,7 @@ export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMess
                     <PinInputField rounded={"full"} w={["40px", "40px", "62px"]} h={["40px", "40px", "62px"]} />
                 </PinInput>
             </HStack>
-            <Flex alignItems={"center"} justifyContent={"start"} gap={"2"} >
+            <Flex alignItems={"center"} justifyContent={"start"} mt={"3"} gap={"2"} >
                 <Flex w={"fit-content"} >
                     <FaCircleInfo color='red' size={"24px"} />
                 </Flex>
