@@ -301,7 +301,7 @@ export default function EventDetail(props: IEventType) {
                 </Flex>
             </ModalLayout>
             {openSignUp && (
-                <SignupModal hide={true} index={affiliateID} open={openSignUp} setOpen={signUpHandler} />
+                <SignupModal hide={true} type='EVENT' index={affiliateID} open={openSignUp} setOpen={signUpHandler} />
             )}
         </Flex>
     )
