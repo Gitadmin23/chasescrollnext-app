@@ -33,13 +33,12 @@ export default function VerifyForm({ setOpen, setShowVerify, setTab, setShowMess
 
     useEffect(() => {
         if (verifySuccess) {
-            if(type){
+            if(pathname?.includes("event")){
                 if(test) { 
                     router.push(`/share/auth/login?type=EVENT&typeID=${id+(index ? "&affiliate="+index : "")}`);
                 } else {
                     router.push(`/share/auth/login?type=${type}&typeID=${id}`);
                 }
-            } else if(pathname?.includes("event")){
             } else {
                 setOpen(false)
                 setTab(false)
