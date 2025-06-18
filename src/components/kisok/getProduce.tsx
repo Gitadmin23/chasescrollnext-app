@@ -77,7 +77,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                 {(myproduct ? results : newResult)?.map((item: IProduct, index: number) => {
                     if ((myproduct ? results : newResult)?.length === index + 1) {
                         return (
-                            <Flex ref={ref} as={"button"} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} pos={"relative"} >
+                            <Flex ref={ref} as={"button"} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} pos={"relative"} >
                                 {item?.createdBy?.userId === userId && (
                                     <DeleteEvent id={item?.id} isProduct={true} name={item?.name + " Product"} isOrganizer={myproduct ? true : false} />
                                 )}
@@ -108,7 +108,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                         )
                     } else {
                         return (
-                            <Flex as={"button"} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} pos={"relative"} >
+                            <Flex as={"button"} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} pos={"relative"} >
                                 {item?.createdBy?.userId === userId && (
                                     <DeleteEvent id={item?.id} isProduct={true} name={item?.name + " Product"} isOrganizer={myproduct ? true : false} />
                                 )}
