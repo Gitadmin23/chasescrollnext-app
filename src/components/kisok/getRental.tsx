@@ -2,9 +2,9 @@
 import { Grid, Flex, Text, Image } from '@chakra-ui/react'
 import React from 'react'
 import CustomButton from '../general/Button'
-import { LocationStroke } from '../svg'
+import { LocationStroke, LocationStrokeEx } from '../svg'
 import useCustomTheme from '@/hooks/useTheme'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useQuery } from 'react-query'
 import httpService from '@/utils/httpService'
 import LoadingAnimation from '../sharedComponent/loading_animation'
@@ -32,7 +32,9 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
 
     const userId = localStorage.getItem('user_id') + "";
     const param = useParams();
-    const id = param?.slug;
+    const id = param?.slug ?? param?.id;
+    const query = useSearchParams();
+    const textColor = query?.get('brandColor');
     let token = localStorage.getItem("token")
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
@@ -97,32 +99,34 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                                     </Flex>
                                 )}
 
-                                <Flex w={"full"} h={"fit-content"} pos={"relative"} > 
+                                <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                                     <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.creator} />
-                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={mainBackgroundColor} rounded={"full"} right={"3"} > 
-                                        <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="RENTAL" eventName={textLimit(item?.name+"", 17)} />
+                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={mainBackgroundColor} rounded={"full"} right={"3"} >
+                                        <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="RENTAL" eventName={textLimit(item?.name + "", 17)} />
                                     </Flex>
                                 </Flex>
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>
-                                    <Text display={["flex"]} fontSize={"12px"} color={bodyTextColor} fontWeight={"600"} >{textLimit(item?.category?.replaceAll("_", " "), 30)}</Text>
-                                    <Flex w={"full"} gap={["2px", "2px", "1"]} alignItems={"center"} >
-                                        <LocationStroke />
-                                        <Text fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={bodyTextColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 40)}</Text>
-                                        <Text fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={bodyTextColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
+                                    <Text display={["flex"]} fontSize={"12px"} fontWeight={"600"} >{textLimit(item?.category?.replaceAll("_", " "), 30)}</Text>
+                                    <Flex w={"full"} gap={["2px", "2px", "1"]} alignItems={"center"} justifyContent={"start"} >
+                                        <Flex w={"fit-content"} >
+                                            <LocationStrokeEx size="17px" color={textColor ?? primaryColor} />
+                                        </Flex>
+                                        <Text textAlign={"left"} fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={textColor ?? primaryColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 40)}</Text>
+                                        <Text textAlign={"left"} fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={textColor ?? primaryColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
                                     </Flex>
                                     <Flex justifyContent={"end"} alignItems={"center"} >
-                                        <Text fontWeight={"600"} fontSize={"14px"} >{formatNumber(item?.price)} <span style={{ color: bodyTextColor, fontSize: "12px", fontWeight: "normal" }} >{item?.frequency !== "HOURLY" ? "Per day" : "Per hour"}</span></Text>
+                                        <Text fontWeight={"600"} fontSize={"14px"} >{formatNumber(item?.price)} <span style={{ color: textColor ?? primaryColor, fontSize: "12px", fontWeight: "normal" }} >{item?.frequency !== "HOURLY" ? "Per day" : "Per hour"}</span></Text>
                                     </Flex>
                                 </Flex>
                                 {(myrental && (item?.creator?.userId === userId)) && (
-                                    <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                                    <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={textColor ?? primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                                         Edit Rental
                                     </Flex>
                                 )}
                                 {((item?.creator?.userId !== userId)) && (
-                                    <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                                    <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={textColor ?? primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                                         View Rental
                                     </Flex>
                                 )}
@@ -139,32 +143,33 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                                         <IoMdCheckmark size={"15px"} color='white' />
                                     </Flex>
                                 )}
-                                <Flex w={"full"} h={"fit-content"} pos={"relative"} > 
+                                <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                                     <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.creator} />
-                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={mainBackgroundColor} rounded={"full"} right={"3"} > 
-                                        <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="RENTAL" eventName={textLimit(item?.name+"", 17)} />
+                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={mainBackgroundColor} rounded={"full"} right={"3"} >
+                                        <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="RENTAL" eventName={textLimit(item?.name + "", 17)} />
                                     </Flex>
                                 </Flex>
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>
-                                    <Text display={["flex"]} fontSize={"12px"} color={bodyTextColor} fontWeight={"600"} >{textLimit(item?.category?.replaceAll("_", " "), 30)}</Text>
+                                    <Text display={["flex"]} fontSize={"12px"} fontWeight={"600"} >{textLimit(item?.category?.replaceAll("_", " "), 30)}</Text>
                                     <Flex w={"full"} gap={["2px", "2px", "1"]} alignItems={"center"} >
-                                        <LocationStroke />
-                                        <Text fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={bodyTextColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 40)}</Text>
-                                        <Text fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={bodyTextColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
+                                        <Flex w={"fit-content"} >
+                                            <LocationStrokeEx size="17px" color={textColor ?? primaryColor} /></Flex>
+                                        <Text fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={textColor ?? primaryColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 40)}</Text>
+                                        <Text fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={textColor ?? primaryColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
                                     </Flex>
                                     <Flex justifyContent={"end"} alignItems={"center"} >
                                         <Text fontWeight={"600"} fontSize={"14px"} >{formatNumber(item?.price)} <span style={{ color: bodyTextColor, fontSize: "12px", fontWeight: "normal" }} >{item?.frequency !== "HOURLY" ? "Per day" : "Per hour"}</span></Text>
                                     </Flex>
                                 </Flex>
                                 {(myrental && (item?.creator?.userId === userId)) && (
-                                    <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                                    <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={textColor ?? primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                                         Edit Rental
                                     </Flex>
                                 )}
                                 {((item?.creator?.userId !== userId)) && (
-                                    <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                                    <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={textColor ?? primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                                         View Rental
                                     </Flex>
                                 )}

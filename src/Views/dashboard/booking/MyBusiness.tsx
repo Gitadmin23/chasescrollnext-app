@@ -11,7 +11,7 @@ function MyBusiness({ name, state, category, isSelect, selected, setSelected }: 
 
     const userId = localStorage.getItem('user_id'); 
     const param = useParams();
-    const id = param?.slug;
+    const id = param?.slug ?? param?.id;
 
     const { results, isLoading, isRefetching: refetchingList } = InfiniteScrollerComponent({
         url: `/business-service/search`, limit: 20, filter: "id", name: "mybusinessservice", paramsObj: cleanup({
