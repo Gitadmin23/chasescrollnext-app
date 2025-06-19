@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 
-const TYPES = ["EVENT", "PRODUCT", "RENTAL", "SERVICES", "FUNDRAISING"];
+const TYPES = ["event", "product", "rental", "services", "fundraising"];
 
 export default function DocumentationPage() {
     const [userId, setUserId] = useState("your-user-id-here");
@@ -88,7 +88,7 @@ export default function DocumentationPage() {
                     >
                         {TYPES.map((t) => (
                             <option key={t} value={t}>
-                                {t}
+                                {t.toUpperCase()}
                             </option>
                         ))}
                     </Select>
