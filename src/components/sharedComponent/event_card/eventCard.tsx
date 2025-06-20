@@ -35,8 +35,8 @@ export default function EventCardNew({
     }
 
     const query = useSearchParams();
-    const textColor = query?.get('brandColor'); 
-    
+    const textColor = query?.get('brandColor');
+
 
     return (
         <Flex as={"button"} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHandler()} borderWidth={"1px"} rounded={"10px"} w={"full"} >
@@ -93,7 +93,7 @@ export default function EventCardNew({
                                 fontSize={"12px"}
                                 fontWeight={"700"}
                                 lineHeight={"10px"}
-                                color={textColor ?? primaryColor}
+                                color={textColor?.replace("hex", "#") ?? primaryColor}
                             >
                                 {moment(event?.startDate).format("MMM")}
                             </Text>
@@ -104,13 +104,17 @@ export default function EventCardNew({
                     </Flex>
                     <Flex flexDirection={"column"} alignItems={"start"}  >
                         <Text fontSize={"12px"} fontWeight={"700"} >{textLimit(event?.eventName, 20)}</Text>
-                        <Flex display={["none", "none", "flex"]} w={"full"} alignItems={"center"} gap={"2"} > 
-                            <LocationStrokeEx color={textColor ?? ""} size='17px' />
-                            <Text color={textColor ?? "#5D70F9"} fontSize={"14px"} fontWeight={"500"} >{event?.location?.toBeAnnounced ? "To Be Announced" : event?.location?.locationDetails}</Text>
+                        <Flex display={["none", "none", "flex"]} w={"full"} gap={"1"} >
+                            <Flex w={"fit-content"} mt={"2px"} >
+                                <LocationStrokeEx color={textColor?.replace("hex", "#") ?? primaryColor} size='17px' />
+                            </Flex>
+                            <Text color={textColor?.replace("hex", "#") ?? primaryColor} textAlign={"left"} fontSize={"14px"} fontWeight={"500"} >{event?.location?.toBeAnnounced ? "To Be Announced" : textLimit(event?.location?.locationDetails+"", 25)}</Text>
                         </Flex>
-                        <Flex display={["flex", "flex", "none"]} w={"full"} alignItems={"center"} gap={"2"} > 
-                            <LocationStrokeEx size='17px' />
-                            <Text color={textColor ?? "#5D70F9"} fontSize={"12px"} fontWeight={"500"} >{event?.location?.toBeAnnounced ? "To Be Announced" : event?.location?.locationDetails}</Text>
+                        <Flex display={["flex", "flex", "none"]} w={"full"} gap={"1"} >
+                            <Flex w={"fit-content"} mt={"2px"} >
+                                <LocationStrokeEx color={textColor?.replace("hex", "#") ?? primaryColor} size='17px' />
+                            </Flex>
+                            <Text color={textColor?.replace("hex", "#") ?? primaryColor} textAlign={"left"} fontSize={"12px"} fontWeight={"500"} >{event?.location?.toBeAnnounced ? "To Be Announced" : textLimit(event?.location?.locationDetails+"", 25)}</Text>
                         </Flex>
                     </Flex>
                 </Flex>
@@ -126,7 +130,7 @@ export default function EventCardNew({
                         refund={true}
                     />
                 )}
-                <Text color={textColor ?? primaryColor} display={["block"]} ml={"auto"} fontWeight={"600"} fontSize={"14px"} >
+                <Text color={textColor?.replace("hex", "#") ?? primaryColor} display={["block"]} ml={"auto"} fontWeight={"600"} fontSize={"14px"} >
                     <EventPrice
                         minPrice={event?.minPrice}
                         maxPrice={event?.maxPrice}
