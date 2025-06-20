@@ -33,8 +33,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     const param = useParams();
 
     let token = localStorage.getItem("token")
-    const id = param?.slug 
-    // ?? param?.id;
+    const id = param?.slug ?? param?.id;
 
     const query = useSearchParams();
     const textColor = query?.get('brandColor'); 
