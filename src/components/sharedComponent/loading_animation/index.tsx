@@ -1,5 +1,6 @@
 import useCustomTheme from '@/hooks/useTheme';
 import { Flex, Image, Spinner, Text } from '@chakra-ui/react'
+import { useSearchParams } from 'next/navigation';
 import React from 'react'
 
 interface Props {
@@ -33,7 +34,10 @@ function LoadingAnimation(props: Props) {
     const {
         secondaryBackgroundColor,
         mainBackgroundColor
-    } = useCustomTheme();
+    } = useCustomTheme(); 
+
+    const query = useSearchParams();
+    const bgsColor = query?.get('bgColor'); 
 
     return (
         <>
@@ -41,7 +45,7 @@ function LoadingAnimation(props: Props) {
                 <>
                     {children}
                     {(!loading && refeching) && (
-                        <Flex w={width ? width : "full"} minW={"100px"} bg={bgColor ? bgColor : secondaryBackgroundColor} height={"auto"} >
+                        <Flex w={width ? width : "full"} minW={"100px"} bg={bgsColor ?  bgsColor?.replace("hex", "#") : bgColor ? bgColor : secondaryBackgroundColor} height={"auto"} >
                             {/* {!customLoader && ( */}
                             <Flex width={"full"} justifyContent={"center"} height={fix_height ? "full" : "auto"} fontSize={"20px"} py={fix_height ? "" : "8"}  >
                                 <Spinner size={["md", "sm"]} color={color ? color : 'black'} />
