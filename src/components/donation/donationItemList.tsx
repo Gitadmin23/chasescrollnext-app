@@ -38,14 +38,14 @@ export default function DonationItemList({ details, singleData, creator, pasted 
 
     const { search } = useSearchStore((state) => state);
     const param = useParams();
-    const id = param?.slug;
+    const id = param?.slug ?? param?.id;
 
     const userId = localStorage.getItem('user_id') + "";
     const [selected, setSelected] = useState({} as IDonationList)
     const { data: groupData, isLoading: loading, isRefetching } = useGetDonationGroup(singleData?.fundRasingGroupId?.id)
     const [open, setOpen] = useState(false)
 
-    const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: pasted ? `/fund-raiser/passed?userID=${id ? id : userId}${search ? `&name=${search.toLowerCase()}` : ``}` : (creator && id) ? `/fund-raiser/search?creatorID=${id}` : creator ? `/fund-raiser/user-fund-raisers${search ? `?name=${search.toLowerCase()}` : ``}` : `/fund-raiser/search${search ? `?name=${search.toLowerCase()}` : ``}`, limit: 20, filter: "id", name: "donationlistmy", search: search })
+    const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: pasted ? `/fund-raiser/passed?userID=${id ? id : userId}${search ? `&name=${search.toLowerCase()}` : ``}` : (creator && id) ? `/fund-raiser/search?creatorID=${id}` : creator ? `/fund-raiser/user-fund-raisers${search ? `?name=${search.toLowerCase()}` : ``}` : `/fund-raiser/search${id ? `?creatorID=${id}` : ``}`, limit: 20, filter: "id", name: "donationlistmy", search: search })
 
     const router = useRouter()
 
