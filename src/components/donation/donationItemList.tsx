@@ -12,7 +12,7 @@ import useCustomTheme from '@/hooks/useTheme'
 import { IDonationList } from '@/models/donation'
 import useGetDonationGroup from '@/hooks/useGetDonationGroup'
 import ModalLayout from '../sharedComponent/modal_layout'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import DonationGroupModal from './donationGroupModal' 
 import DonationBtn from './donationBtn'
 import ShareEvent from '../sharedComponent/share_event'
@@ -39,6 +39,10 @@ export default function DonationItemList({ details, singleData, creator, pasted 
     const { search } = useSearchStore((state) => state);
     const param = useParams();
     const id = param?.slug ?? param?.id;
+    const query = useSearchParams();
+    const textColor = query?.get('textColor'); 
+    const brandColor = query?.get('brandColor');
+    const cardColor = query?.get('cardColor'); 
 
     const userId = localStorage.getItem('user_id') + "";
     const [selected, setSelected] = useState({} as IDonationList)
@@ -68,7 +72,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                         {results?.map((item: IDonationList, index: number) => {
                             if (results?.length === index + 1) {
                                 return (
-                                    <Flex as={"button"} ref={ref} flexDir={"column"} pos={"relative"} bgColor={mainBackgroundColor} onClick={() => clickHander(item, item?.id)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} >
+                                    <Flex as={"button"} ref={ref} flexDir={"column"} pos={"relative"} bgColor={cardColor ? cardColor?.replace("hex", "#") : mainBackgroundColor} onClick={() => clickHander(item, item?.id)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} >
                                         {(item?.user?.userId === userId && item?.total === 0) && (
                                             <DeleteEvent donation={true} id={item?.id} isOrganizer={item?.user?.userId === userId} name={item?.name} />
                                         )}
@@ -83,17 +87,17 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                         <Flex w={"full"} flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"2"} pb={["2", "2", userId !== item?.createdBy?.userId && !pasted ? "0px" : "3"]} >
                                             <Flex w={"full"} >
                                                 <Flex w={"full"} alignItems={"start"} flexDir={"column"} >
-                                                    <Text fontSize={"12px"} color={bodyTextColor} >Fundraising Title</Text>
+                                                    <Text fontSize={"12px"} color={textColor ? textColor?.replace("hex", "#") :bodyTextColor} >Fundraising Title</Text>
                                                     <Text fontWeight={"700"} fontSize={"14px"} >{textLimit(capitalizeFLetter(item?.name), 15)}</Text>
                                                 </Flex>
                                                 <Flex w={"full"} alignItems={"end"} flexDir={"column"} >
-                                                    <Text fontSize={"12px"} color={bodyTextColor} >Target </Text>
+                                                    <Text fontSize={"12px"} color={textColor ? textColor?.replace("hex", "#") :bodyTextColor} >Target </Text>
                                                     <Text fontWeight={"700"} fontSize={"14px"} >{formatNumberWithK(item?.goal)}</Text>
                                                 </Flex>
                                             </Flex>
                                             <Flex w={"full"} >
                                                 <Flex w={"full"} alignItems={"start"} flexDir={"column"} >
-                                                    <Text fontSize={"12px"} color={bodyTextColor} >Amount Raised</Text>
+                                                    <Text fontSize={"12px"} color={textColor ? textColor?.replace("hex", "#") :bodyTextColor} >Amount Raised</Text>
                                                     <Text fontWeight={"700"} fontSize={"14px"} >{formatNumber(item?.total)}</Text>
                                                 </Flex>
                                                 <Flex w={"full"} alignItems={"end"} flexDir={"column"}  >
@@ -111,7 +115,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                 );
                             } else {
                                 return (
-                                    <Flex as={"button"} flexDir={"column"} pos={"relative"} bgColor={mainBackgroundColor} onClick={() => clickHander(item, item?.id)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} >
+                                    <Flex as={"button"} flexDir={"column"} pos={"relative"} bgColor={cardColor ? cardColor?.replace("hex", "#") : mainBackgroundColor} onClick={() => clickHander(item, item?.id)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} >
                                         {(item?.user?.userId === userId && item?.total === 0) && (
                                             <DeleteEvent donation={true} id={item?.id} isOrganizer={item?.user?.userId === userId} name={item?.name} />
                                         )}
@@ -126,17 +130,17 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                         <Flex w={"full"} flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"2"} pb={["2", "2", userId !== item?.createdBy?.userId && !pasted ? "0px" : "3"]} >
                                             <Flex w={"full"} >
                                                 <Flex w={"full"} alignItems={"start"} flexDir={"column"} >
-                                                    <Text fontSize={"12px"} color={bodyTextColor} >Fundraising Title</Text>
+                                                    <Text fontSize={"12px"} color={textColor ? textColor?.replace("hex", "#") :bodyTextColor} >Fundraising Title</Text>
                                                     <Text fontWeight={"700"} fontSize={"14px"} >{textLimit(capitalizeFLetter(item?.name), 15)}</Text>
                                                 </Flex>
                                                 <Flex w={"full"} alignItems={"end"} flexDir={"column"} >
-                                                    <Text fontSize={"12px"} color={bodyTextColor} >Target </Text>
+                                                    <Text fontSize={"12px"} color={textColor ? textColor?.replace("hex", "#") :bodyTextColor} >Target </Text>
                                                     <Text fontWeight={"700"} fontSize={"14px"} >{formatNumberWithK(item?.goal)}</Text>
                                                 </Flex>
                                             </Flex>
                                             <Flex w={"full"} >
                                                 <Flex w={"full"} alignItems={"start"} flexDir={"column"} >
-                                                    <Text fontSize={"12px"} color={bodyTextColor} >Amount Raised</Text>
+                                                    <Text fontSize={"12px"} color={textColor ? textColor?.replace("hex", "#") :bodyTextColor} >Amount Raised</Text>
                                                     <Text fontWeight={"700"} fontSize={"14px"} >{formatNumber(item?.total)}</Text>
                                                 </Flex>
                                                 <Flex w={"full"} alignItems={"end"} flexDir={"column"}  >
@@ -174,7 +178,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                         </Flex>
                                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                                             <Flex flexDir={"column"} >
-                                                <Text fontSize={"14px"} color={bodyTextColor} >Fundraising Title</Text>
+                                                <Text fontSize={"14px"} color={textColor ? textColor?.replace("hex", "#") :bodyTextColor} >Fundraising Title</Text>
                                                 <Text fontWeight={"700"} >{textLimit(capitalizeFLetter(item?.name), 35)}</Text>
                                             </Flex>
                                             <ShareEvent newbtn={true} showText={false} data={item} id={item?.id} type="DONATION" eventName={textLimit(item?.name, 17)} />
@@ -203,11 +207,11 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                 <Flex flexDir={"column"} w={"full"} p={"5"} pt={"0px"} pos={"relative"} >
                     <Flex position={"relative"} zIndex={"50"} w={"full"} justifyContent={"space-between"} pt={"5"} pb={"2"} bgColor={mainBackgroundColor} pos={"sticky"} top={"0px"} gap={"3"} alignItems={"center"} >
                         <Flex flexDirection={"column"} >
-                            <Text fontSize={"14px"} color={bodyTextColor} >Chasescroll Fundraising</Text>
+                            <Text fontSize={"14px"} color={textColor ? textColor?.replace("hex", "#") :bodyTextColor} >Chasescroll Fundraising</Text>
                             <Text fontWeight={"600"} >Fundraising Available in {selected?.name}</Text>
                         </Flex>
                         <Flex as={"button"} onClick={() => setOpen(false)} >
-                            <IoClose size="20px" color={bodyTextColor} />
+                            <IoClose size="20px" color={textColor ? textColor?.replace("hex", "#") :bodyTextColor} />
                         </Flex>
                     </Flex>
                     <Flex mt={"6"} flexDirection={"column"} gap={"4"} >
