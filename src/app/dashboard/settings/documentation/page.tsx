@@ -72,8 +72,9 @@ export default function DocumentationPage() {
                     <Box display="flex" gap={2}>
                         <Input
                             value={userId}
-                            onChange={(e) => setUserId(e.target.value)}
+                            // onChange={(e) => setUserId(e.target.value)}
                             placeholder="Enter your user ID"
+                            disabled
                         />
                         <Button
                             onClick={() => {
