@@ -4,6 +4,7 @@ import UserImage from '../userimage'
 import { formatNumberWithK } from '@/utils/formatNumberWithK'
 import useCustomTheme from "@/hooks/useTheme";
 import CustomText from "@/components/general/Text";
+import { useSearchParams } from 'next/navigation';
 
 interface Props {
     event: any,
@@ -25,6 +26,8 @@ function InterestedUsers(props: Props) {
     } = props
 
     const { primaryColor } = useCustomTheme();
+    const query = useSearchParams();
+    const textColor = query?.get('brandColor');
 
     return (
         <>
@@ -40,12 +43,12 @@ function InterestedUsers(props: Props) {
                         }
                     })}
                     {event?.memberCount >= 4 &&
-                        <Box roundedBottom={"64px"} width={size} fontWeight={"bold"} height={size} fontSize={(fontSize - 2) + "px"} pr={"-3px"} pb={"-2px"} roundedTopLeft={"64px"} ml={"-10px"} display={'flex'} bgColor={"#3C41F0"} color={"#fff"} justifyContent={"center"} alignItems={"center"} >
+                        <Box roundedBottom={"64px"} width={size} fontWeight={"bold"} height={size} fontSize={(fontSize - 2) + "px"} pr={"-3px"} pb={"-2px"} roundedTopLeft={"64px"} ml={"-10px"} display={'flex'} bgColor={textColor ?? "#3C41F0"} color={"#fff"} justifyContent={"center"} alignItems={"center"} >
                             {"+" + formatNumberWithK(event?.memberCount - 3)}
                         </Box>
                     }
                     {!refund && (
-                        <CustomText color={primaryColor} ml={"2"} fontSize={(fontSize - 2) + "px"}  fontFamily={'DM-Bold'}>
+                        <CustomText color={textColor ?? primaryColor} ml={"2"} fontSize={(fontSize - 2) + "px"} >
                             Interested
                         </CustomText>
                     )}
