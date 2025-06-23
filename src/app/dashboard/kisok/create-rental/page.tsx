@@ -86,11 +86,56 @@ export default function RentalCreate() {
                             <Text fontSize={"sm"} >{rentaldata?.description?.length ? rentaldata?.description?.length : "0"} {"/ 1500"}</Text>
                         </Flex>
                         <SelectCategories rental={true} />
+                        <Flex gap={"2"} w={"full"} flexDir={"column"} >
+                            <Text fontWeight={"500"} >Location</Text>
+                            <ProductMap height='45px' location={rentaldata?.location} />
+                        </Flex>
+                        <Flex gap={"2"} w={"full"} flexDir={"column"} >
+                            <Text fontWeight={"500"} >Number of Days available for Rent</Text>
+                            <Flex rounded={"39px"} alignItems={"center"} justifyContent={"center"} padding={"12px"} gap={"3"} >
+                                <Flex type='button' as={"button"} onClick={() => updateRental({ ...rentaldata, maximiumNumberOfDays: rentaldata?.maximiumNumberOfDays === 1 ? 1 : rentaldata?.maximiumNumberOfDays - 1 })} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
+                                    <IoIosRemove />
+                                </Flex>
+                                <Text fontSize={"18px"} >{rentaldata?.maximiumNumberOfDays}</Text>
+                                <Flex type='button' as={"button"} onClick={() => updateRental({ ...rentaldata, maximiumNumberOfDays: rentaldata?.maximiumNumberOfDays + 1 })} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
+                                    <IoIosAdd />
+                                </Flex>
+                            </Flex>
+                        </Flex>
+                        <Flex w={"full"} justifyContent={"space-between"} >
+                            <Text fontWeight={"500"} >Rental Timeline</Text>
+
+                            <RadioGroup onChange={(value: any)=> updateRental({...rentaldata, frequency: value})} value={rentaldata?.frequency}>
+                                <Stack direction='row'>
+                                    <Radio value='HOURLY'>Hourly</Radio>
+                                    <Radio value='DAILY'>Daily</Radio> 
+                                </Stack>
+                            </RadioGroup>
+                        </Flex>
+                        <Flex gap={"2"} w={"full"} flexDir={"column"} >
+                            <Text fontWeight={"500"} >Price</Text>
+                            <Input bgColor={mainBackgroundColor} h={"45px"}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^\d*$/.test(value)) {
+                                        updateRental({ ...rentaldata, price: value })
+                                    }
+                                }} 
+                                onKeyPress={(e) => {
+                                    if (!/[0-9]/.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}  
+                            />
+                        </Flex>
                     </Flex>
-                    <CustomButton type='button' _disabled={{ opacity: "0.5", cursor: "not-allowed" }} disable={(!rentaldata?.name || !rentaldata?.description || !rentaldata?.category || image?.length === 0) ? true : false} onClick={() => push("/dashboard/kisok/create-rental?type=true")} height={"60px"} borderRadius={"999px"} mt={"4"} text={"Next"} />
+                    {/* <CustomButton type='button' _disabled={{ opacity: "0.5", cursor: "not-allowed" }} disable={(!rentaldata?.name || !rentaldata?.description || !rentaldata?.category || image?.length === 0) ? true : false} onClick={() => push("/dashboard/kisok/create-rental?type=true")} height={"60px"} borderRadius={"999px"} mt={"4"} text={"Next"} /> */}
+
+                    <VendorTermAndCondition checked={checked} setChecked={setChecked} type="RENTAL" />
+                    <CustomButton isLoading={createProduct?.isLoading || loading} disable={createProduct?.isLoading || loading || !checked || !rentaldata?.location?.latlng || !rentaldata?.price || !rentaldata?.frequency || !rentaldata?.name || !rentaldata?.description || !rentaldata?.category || image?.length === 0} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
                 </Flex>
 
-                <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={!type ? "none" : "flex"} flexDir={"column"}  >
+                {/* <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={!type ? "none" : "flex"} flexDir={"column"}  >
                     <Text fontSize={["16px", "16px", "24px"]} fontWeight={"600"} >List your Property</Text>
                     <Flex w={"full"} flexDir={"column"} gap={"3"} > 
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
@@ -138,7 +183,7 @@ export default function RentalCreate() {
                     </Flex>
                     <VendorTermAndCondition checked={checked} setChecked={setChecked} type="RENTAL" />
                     <CustomButton isLoading={createProduct?.isLoading || loading} disable={createProduct?.isLoading || loading || !checked || !rentaldata?.location?.latlng || !rentaldata?.price || !rentaldata?.frequency} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
-                </Flex>
+                </Flex> */}
             </form>
 
             <ModalLayout open={openRental} close={clickHandler} bg={secondaryBackgroundColor} >
