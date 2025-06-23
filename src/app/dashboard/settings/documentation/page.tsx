@@ -6,6 +6,7 @@ import {
     Button,
     Code,
     Container,
+    Flex,
     FormControl,
     FormLabel,
     Heading,
@@ -16,8 +17,15 @@ import {
     useClipboard,
     useToast,
     VStack,
+    IconButton,
+    InputRightElement,
+    InputGroup,
+    HStack
 } from "@chakra-ui/react";
+import { FiInfo } from 'react-icons/fi'
+import { Copy } from 'iconsax-react';
 import React, { useState } from "react";
+import useCustomTheme from "@/hooks/useTheme";
 
 const TYPES = ["event", "product", "rental", "services", "fundraising"];
 
@@ -30,11 +38,9 @@ export default function DocumentationPage() {
     const [type, setType] = useState("event");
 
     const baseUrl = process.env.NEXT_PUBLIC_WEBSITE_DOMAIN;
-
-
-
     const toast = useToast();
     const details = useDetails();
+    const { primaryColor, mainBackgroundColor } = useCustomTheme();
 
     React.useEffect(() => {
         setUserId(details?.userId);
@@ -54,15 +60,14 @@ export default function DocumentationPage() {
     };
 
     return (
-        <Container maxW="4xl" py={10} overflowY={'auto'} pb='100px'>
+        <Container maxW="4xl" py={10} overflowY={'auto'} pb='100px' backgroundColor={mainBackgroundColor}>
             <VStack spacing={8} align="stretch">
                 <Box>
                     <Heading as="h1" size="xl" mb={2}>
-                        Embed Integration Guide
+                        Chasescroll Snapshot Guide
                     </Heading>
                     <Text color="gray.600">
-                        Learn how to embed your ChaseScroll page using an iframe into your
-                        own website.
+                        allows you to embed your Chasescroll Events, Services, Rentals and Kiosk into your own webiste page without fully integrating or rewriting any code.
                     </Text>
                 </Box>
 
@@ -70,57 +75,85 @@ export default function DocumentationPage() {
                 <FormControl>
                     <FormLabel>User ID</FormLabel>
                     <Box display="flex" gap={2}>
-                        <Input
-                            value={userId}
-                            // onChange={(e) => setUserId(e.target.value)}
-                            placeholder="Enter your user ID"
-                            disabled
-                        />
-                        <Button
-                            onClick={() => {
+                        <InputGroup>
+                            <InputRightElement children={<Copy size={"35px"} color={primaryColor} onClick={() => {
                                 copyUserId();
                                 showToast("User ID copied!");
-                            }}
-                            colorScheme="blue"
-                        >
-                            Copy
-                        </Button>
+                            }} />} paddingTop={'10px'} paddingRight={'20px'} />
+                            <Input
+                                value={userId}
+                                // onChange={(e) => setUserId(e.target.value)}
+                                placeholder="Enter your user ID"
+                                disabled
+                                borderColor={'#EAEBEDCC'}
+                                borderWidth="1px"
+                                borderRadius="16px"
+                                backgroundColor="#FCFCFC"
+                                height="57px"
+                            />
+                        </InputGroup>
                     </Box>
                 </FormControl>
 
-                {/* Color Selectors */}
-                <FormControl>
-                    <FormLabel>Background Color</FormLabel>
-                    <Input
-                        value={bgColor}
-                        onChange={(e) => setBgColor(e.target.value)}
-                        placeholder="Enter background color"
-                    />
-                </FormControl>
-                <FormControl>
-                    <FormLabel>Text Color</FormLabel>
-                    <Input
-                        value={textColor}
-                        onChange={(e) => setTextColor(e.target.value)}
-                        placeholder="Enter text color"
-                    />
-                </FormControl>
-                <FormControl>
-                    <FormLabel>Card Color</FormLabel>
-                    <Input
-                        value={cardColor}
-                        onChange={(e) => setCardColor(e.target.value)}
-                        placeholder="Enter card color"
-                    />
-                </FormControl>
-                <FormControl>
-                    <FormLabel>Brand Color</FormLabel>
-                    <Input
-                        value={brandColor}
-                        onChange={(e) => setBrandColor(e.target.value)}
-                        placeholder="Enter brand color"
-                    />
-                </FormControl>
+                <HStack width='100%' spacing={5}>
+                    {/* Color Selectors */}
+                    <FormControl>
+                        <FormLabel>Background Color</FormLabel>
+                        <Input
+                            value={bgColor}
+                            onChange={(e) => setBgColor(e.target.value)}
+                            placeholder="Enter background color"
+                            borderColor={'#EAEBEDCC'}
+                            borderWidth="1px"
+                            borderRadius="16px"
+                            backgroundColor="#FCFCFC"
+                            height="57px"
+                        />
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>Text Color</FormLabel>
+                        <Input
+                            value={textColor}
+                            onChange={(e) => setTextColor(e.target.value)}
+                            placeholder="Enter text color"
+                            borderColor={'#EAEBEDCC'}
+                            borderWidth="1px"
+                            borderRadius="16px"
+                            backgroundColor="#FCFCFC"
+                            height="57px"
+                        />
+                    </FormControl>
+                </HStack>
+
+                <HStack width='100%' spacing={5}>
+                    <FormControl>
+                        <FormLabel>Card Color</FormLabel>
+                        <Input
+                            value={cardColor}
+                            onChange={(e) => setCardColor(e.target.value)}
+                            placeholder="Enter card color"
+                            borderColor={'#EAEBEDCC'}
+                            borderWidth="1px"
+                            borderRadius="16px"
+                            backgroundColor="#FCFCFC"
+                            height="57px"
+                        />
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>Brand Color</FormLabel>
+                        <Input
+                            value={brandColor}
+                            onChange={(e) => setBrandColor(e.target.value)}
+                            placeholder="Enter brand color"
+                            borderColor={'#EAEBEDCC'}
+                            borderWidth="1px"
+                            borderRadius="16px"
+                            backgroundColor="#FCFCFC"
+                            height="57px"
+                        />
+                    </FormControl>
+                </HStack>
+
                 {/* Type Selector */}
                 <FormControl>
                     <FormLabel>Select Type</FormLabel>
@@ -128,6 +161,11 @@ export default function DocumentationPage() {
                         value={type}
                         onChange={(e) => setType(e.target.value)}
                         placeholder="Select type"
+                        borderColor={'#EAEBEDCC'}
+                        borderWidth="1px"
+                        borderRadius="16px"
+                        backgroundColor="#FCFCFC"
+                        height="57px"
                     >
                         {TYPES.map((t) => (
                             <option key={t} value={t}>
@@ -139,30 +177,58 @@ export default function DocumentationPage() {
 
                 {/* Iframe Code */}
                 <FormControl>
-                    <FormLabel>Iframe Code</FormLabel>
+                    <FormLabel>Snapshot Code</FormLabel>
                     <Textarea
                         readOnly
                         value={iframeCode}
                         fontFamily="mono"
-                        fontSize="sm"
+                        fontSize="md"
                         rows={4}
+                        color="#ACACB0"
+                        borderColor={'#EAEBEDCC'}
+                        borderWidth="1px"
+                        borderRadius="16px"
+                        backgroundColor="#FCFCFC"
+                        height="100px"
                     />
-                    <Button
-                        mt={2}
-                        colorScheme="green"
-                        onClick={() => {
-                            copyIframe();
-                            showToast("Iframe code copied!");
-                        }}
-                    >
-                        Copy iframe Code
-                    </Button>
+                    <Flex alignItems={'çenter'} mt="10px">
+                        <Button
+                            mt={2}
+                            backgroundColor={primaryColor}
+                            color="white"
+                            onClick={() => {
+                                copyIframe();
+                                showToast("Iframe code copied!");
+                            }}
+                            height="44px"
+                            borderRadius="32px"
+                        >
+                            Copy Snapshot code
+                        </Button>
+                        <Box ml='10px' mt='10px'>
+                            <IconButton
+                                aria-label="Info"
+                                icon={<FiInfo size="25px" />}
+                                onClick={() =>
+                                    toast({
+                                        title: "Snapshot Information",
+                                        description: "Copy this code and paste it into your website's HTML to embed your Chasescroll content. You can customize the colors to match your website's theme.",
+                                        status: "info",
+                                        duration: 5000,
+                                        isClosable: true,
+                                        position: "top"
+                                    })
+                                }
+                            />
+                        </Box>
+                    </Flex>
                 </FormControl>
 
                 {/* Preview */}
                 <Box>
                     <FormLabel>Preview</FormLabel>
-                    <Box border="1px solid" borderColor="gray.200" borderRadius="md" overflow="hidden">
+                    <Box border="1px solid" borderColor="gray.200" borderRadius="16px" overflow="hidden" position={'relative'}>
+                        <Box position="absolute" width='100%' height="100%" backgroundColor="transparent"></Box>
                         <iframe
                             src={`${baseUrl}/external/${type}/${userId}?bgColor=${bgColor}&textColor=${textColor}&cardColor=${cardColor}&brandColor=${brandColor}`}
                             width="100%"
