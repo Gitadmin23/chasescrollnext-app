@@ -293,7 +293,7 @@ export default function PrBtn({ data, donation, product }: { data: IEventType, d
                                 {index === 4 && (
                                     <ListService service={selectService} selectService={setSelectService} />
                                 )}
-                                {index !== 1 && (
+                                {(index !== 1 && index !== 2) && (
                                     <Flex w={"full"} py={"1"} bgColor={(index === 1 || index === 2) ? "white" : "white"} position={"sticky"} bottom={"-4px"} >
                                         <CustomButton onClick={submitHandler} isLoading={pinProduct?.isLoading || createFundraising?.isLoading || tagServiceAndRental?.isLoading} text={index === 2 ? "Add to product" : "Add"} width={"150px"} height={"40px"} fontSize={"14px"} borderRadius={"999px"} />
                                     </Flex>
