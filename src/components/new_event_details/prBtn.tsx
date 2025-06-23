@@ -1,7 +1,7 @@
 import useCustomTheme from '@/hooks/useTheme'
 import { IEventType } from '@/models/Event'
 import { Flex, Input, Switch, Text, useToast } from '@chakra-ui/react'
-import { useParams, usePathname } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import CustomButton from '../general/Button'
 import ModalLayout from '../sharedComponent/modal_layout'
@@ -21,14 +21,17 @@ export default function PrBtn({ data, donation, product }: { data: IEventType, d
         mainBackgroundColor,
         primaryColor,
         secondaryBackgroundColor
-    } = useCustomTheme() 
+    } = useCustomTheme()
 
     const { pinProduct } = useProduct()
+    const router = useRouter()
 
     const [tab, setTab] = useState(false)
-    const [index, setIndex] = useState(product? 2 : 1)
+    const [index, setIndex] = useState(product ? 2 : 1)
     const [prCheck, setPrCheck] = useState(false)
     const [percent, setPercentage] = useState("")
+    const [lengthDonation, setLengthDonation] = useState(0)
+    const [lengthProduct, setLengthProduct] = useState(0)
 
     const [selectProduct, setSelectProduct] = useState<Array<IPinned>>([])
     const [selectService, setSelectService] = useState<Array<ITag>>([])
@@ -58,9 +61,21 @@ export default function PrBtn({ data, donation, product }: { data: IEventType, d
 
     const submitHandler = () => {
         if (index === 2) {
-            pinProduct?.mutate({ pinnedItems: selectProduct })
-            setOpen(false)
-            setTab(false)
+            if(lengthProduct === 0) {
+                router?.push(`/dashboard/kisok/create?event=${data?.id}`)
+            } else if (selectProduct?.length > 0) {
+                pinProduct?.mutate({ pinnedItems: selectProduct })
+                setOpen(false)
+                setTab(false)
+            } else {
+                toast({
+                    status: "warning",
+                    title: "Added a product",
+                    isClosable: true,
+                    duration: 5000,
+                    position: "top-right",
+                })
+            }
         } else if (index === 3) {
             tagServiceAndRental?.mutate({
                 serviceCategories: [],
@@ -76,7 +91,17 @@ export default function PrBtn({ data, donation, product }: { data: IEventType, d
                 state: data?.location?.placeIds ? data?.location?.placeIds : "Rivers"
             })
         } else if (index === 1) {
-            if (selectDonation === selectDonationInitial) {
+            if(lengthProduct === 0) {
+                router?.push(`/dashboard/donation/create?event=${data?.id}`)
+            } else if (!selectDonation) {
+                toast({
+                    status: "warning",
+                    title: "Select a Fundraising",
+                    isClosable: true,
+                    duration: 5000,
+                    position: "top-right",
+                })
+            } else if (selectDonation === selectDonationInitial) {
                 toast({
                     status: "warning",
                     title: "This Fundraising is Pinned",
@@ -131,7 +156,6 @@ export default function PrBtn({ data, donation, product }: { data: IEventType, d
         <>
             {(data?.isOrganizer && !donation && !product) && (
                 <Flex pos={["relative"]} w={"full"} bgColor={data?.isOrganizer ? primaryColor : data?.prStatus === "ACTIVE" ? primaryColor : data?.prStatus === "PENDING" ? "#FF9500" : "#EEEEFF"} color={data?.prStatus ? "white" : !data?.isOrganizer ? primaryColor : "white"} flexDir={"column"} roundedTop={data?.isOrganizer ? ["0px"] : "32px"} roundedBottomRight={data?.isOrganizer ? ["0px", "0px", "12px"] : "32px"} roundedBottomLeft={data?.isOrganizer ? "12px" : "32px"} gap={"3"} >
-
                     <Flex onClick={() => setOpen(true)} as={"button"} w={"full"} gap={"2"} h={"55px"} px={"1"} alignItems={"center"} justifyContent={"center"} >
                         <Text fontSize={"14px"} fontWeight={"500"} >My Support Center</Text>
                         {/* <IoIosArrowDown size={"20px"} /> */}
@@ -139,15 +163,14 @@ export default function PrBtn({ data, donation, product }: { data: IEventType, d
                 </Flex>
             )}
 
-            {donation && ( 
-                <Flex px={"8"} onClick={() => { setOpen(true), setTab(true), setIndex(1) }} as={"button"} justifyContent={"center"} alignItems={"center"} h={"104px"} rounded={"16px"} w={"fit-content"} bgColor={"#FAFAFA"} >
-                    <Text fontWeight={"600"} color={primaryColor} >+ Add Fundraising</Text>
+            {donation && (
+                <Flex px={"8"} onClick={() => { setOpen(true), setTab(true), setIndex(1) }} as={"button"} justifyContent={"center"} alignItems={"center"} h={"102px"} rounded={"16px"} w={"full"} bgColor={"#FAFAFA"} >
+                    <Text fontWeight={"500"} fontSize={"14px"} color={primaryColor} >+ Add Fundraising</Text>
                 </Flex>
             )}
-
-            {product && ( 
-                <Flex px={"8"} onClick={() => { setOpen(true), setTab(true), setIndex(2) }} as={"button"} justifyContent={"center"} alignItems={"center"} h={"104px"} rounded={"16px"} w={"fit-content"} bgColor={"#FAFAFA"} >
-                    <Text fontWeight={"600"} color={primaryColor} >+ Add a product</Text>
+            {product && (
+                <Flex px={"8"} onClick={() => { setOpen(true), setTab(true), setIndex(2) }} as={"button"} justifyContent={"center"} alignItems={"center"} h={"219px"} rounded={"16px"} w={"fit-content"} bgColor={"#FAFAFA"} >
+                    <Text fontWeight={"500"} fontSize={"14px"} color={primaryColor} >+ Add a product</Text>
                 </Flex>
             )}
 
@@ -258,12 +281,11 @@ export default function PrBtn({ data, donation, product }: { data: IEventType, d
                                 </Flex>
                             </Flex>
                             <Flex w={"full"} pb={"4"} gap={"4"} bgColor={(index === 1 || index === 2) ? "transparent" : "transparent"} rounded={"16px"} flexDir={"column"} >
-
                                 {index === 1 && (
-                                    <ListDonation item={data} setSelectInitialDonation={setSelectDonationInitial} initialDonation={selectDonationInitial} selectDonation={selectDonation} setSelectDonation={setSelectDonation} />
+                                    <ListDonation length={setLengthDonation} item={data} setSelectInitialDonation={setSelectDonationInitial} initialDonation={selectDonationInitial} selectDonation={selectDonation} setSelectDonation={setSelectDonation} />
                                 )}
                                 {index === 2 && (
-                                    <ListProduct setOpen={setOpen} selectProduct={selectProduct} setSelectProduct={setSelectProduct} data={data} />
+                                    <ListProduct length={setLengthProduct} setOpen={setOpen} selectProduct={selectProduct} setSelectProduct={setSelectProduct} data={data} />
                                 )}
                                 {index === 3 && (
                                     <ListRental item={data} rental={selectRental} updateRental={setSelectRental} />

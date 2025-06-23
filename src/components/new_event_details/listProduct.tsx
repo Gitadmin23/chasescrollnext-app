@@ -4,7 +4,7 @@ import { IMAGE_URL } from '@/services/urls';
 import { numberFormatNaire } from '@/utils/formatNumberWithK';
 import { textLimit } from '@/utils/textlimit';
 import { Flex, Checkbox, Text, Image } from '@chakra-ui/react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import LoadingAnimation from '../sharedComponent/loading_animation';
 import { IEventType } from '@/models/Event';
 import { IPinned } from '@/hooks/useProduct';
@@ -28,7 +28,7 @@ interface IProps {
     "returnProductDto": IProduct
 }
 
-export default function ListProduct({ setOpen, selectProduct, setSelectProduct, data }: { setOpen?: any, selectProduct: Array<IPinned>, setSelectProduct: any, data?: IEventType }) {
+export default function ListProduct({ setOpen, selectProduct, setSelectProduct, data, length }: { setOpen?: any, selectProduct: Array<IPinned>, setSelectProduct: any, data?: IEventType, length: any }) {
 
     const userId = localStorage.getItem('user_id') + "";
 
@@ -54,23 +54,12 @@ export default function ListProduct({ setOpen, selectProduct, setSelectProduct, 
             }])
         }
     }
-
-    // // react query
-    // const { isRefetching } = useQuery(['all-events-mesh', data?.id], () => httpService.get(`/pin-item/search`, {
-    //     params: {
-    //         typeId: data?.id
-    //     }
-    // }), {
-    //     onError: (error: any) => {
-    //     },
-    //     onSuccess: (data: any) => {
-    //         // setEventData() 
-    //         // setMeshSize(data?.data?.length) 
-    //         {data?.data?.map((item: IProps)=> {
-    //             setSelectProduct()
-    //         })}
-    //     }
-    // })
+    
+    useEffect(()=> {
+        if(results){
+            length(results?.length)
+        }
+    }, [isLoading])
 
 
     return (

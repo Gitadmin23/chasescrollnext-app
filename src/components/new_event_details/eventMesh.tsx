@@ -104,6 +104,7 @@ export default function EventMesh({ data, setMeshSize }: { data: IEventType, set
                 }
             } >
                 <Flex w={"fit-content"} gap={"2"} pos={"relative"} >
+                    <PrBtn data={data} product={true} />
                     {eventData?.map((item, index) => {
                         return (
                             <Flex pos={"relative"} bgColor={mainBackgroundColor} key={index} onClick={() => push(`/dashboard/kisok/details/${item?.returnProductDto?.id}`)} w={["170px", "170px", "230px"]} borderWidth={"1px"} borderColor={"#EBEDF0"} flexDir={"column"} gap={"2"} p={"2"} rounded={"16px"} >
@@ -133,7 +134,6 @@ export default function EventMesh({ data, setMeshSize }: { data: IEventType, set
                             </Flex>
                         )
                     })}
-                    <PrBtn data={data} product={true} />
                 </Flex>
             </Flex>
         </Flex>
