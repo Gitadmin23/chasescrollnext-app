@@ -77,7 +77,7 @@ export default function ListDonation({ item, length }: { setSelectDonation: any,
     }
 
     return (
-        <Flex flexDirection={"column"} > 
+        <Flex flexDirection={"column"} gap={"3"} > 
             <LoadingAnimation loading={loadingList || isLoading} length={results?.length} >
                 <Flex w={"full"} maxH={"60vh"} flexDir={"column"} overflowY={"auto"} gap={"3"} >
                     {results?.map((item: IDonationList, index: number) => {

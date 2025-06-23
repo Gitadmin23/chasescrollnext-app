@@ -89,7 +89,7 @@ export default function ListProduct({ setOpen, selectProduct, setSelectProduct, 
 
 
     return (
-        <Flex flexDir={"column"} >
+        <Flex flexDir={"column"} gap={"3"} >
 
             <LoadingAnimation loading={isLoading} length={results?.length} >
                 <Flex w={"full"} maxH={"300px"} flexDir={"column"} gap={"3"} overflowY={"auto"} pos={"relative"} >
