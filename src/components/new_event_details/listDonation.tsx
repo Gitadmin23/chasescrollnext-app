@@ -65,7 +65,7 @@ export default function ListDonation({ item, length }: { setSelectDonation: any,
                 duration: 5000,
                 position: "top-right",
             })
-        }  else {
+        } else {
             if (selectDonation) {
                 createFundraising?.mutate({
                     fundRaiserID: selectDonation,
@@ -77,19 +77,21 @@ export default function ListDonation({ item, length }: { setSelectDonation: any,
     }
 
     return (
-        <LoadingAnimation loading={loadingList || isLoading} length={results?.length} >
-            <Flex w={"full"} maxH={"60vh"} flexDir={"column"} overflowY={"auto"} gap={"3"} >
-                {results?.map((item: IDonationList, index: number) => {
-                    return (
-                        <Flex key={index} >
-                            <EventDonationPicker items={item} selectDonation={selectDonation} setSelectDonation={setSelectDonation} />
-                        </Flex>
-                    )
-                })}
-            </Flex>
+        <Flex flexDirection={"column"} > 
+            <LoadingAnimation loading={loadingList || isLoading} length={results?.length} >
+                <Flex w={"full"} maxH={"60vh"} flexDir={"column"} overflowY={"auto"} gap={"3"} >
+                    {results?.map((item: IDonationList, index: number) => {
+                        return (
+                            <Flex key={index} >
+                                <EventDonationPicker items={item} selectDonation={selectDonation} setSelectDonation={setSelectDonation} />
+                            </Flex>
+                        )
+                    })}
+                </Flex>
+            </LoadingAnimation>
             <Flex w={"full"} py={"1"} position={"sticky"} bottom={"-4px"} >
                 <CustomButton onClick={clickHander} isLoading={createFundraising?.isLoading} text={"Add"} width={"150px"} height={"40px"} fontSize={"14px"} borderRadius={"999px"} />
             </Flex>
-        </LoadingAnimation>
+        </Flex>
     )
 }
