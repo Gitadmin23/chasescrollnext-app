@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react'
+import { Flex, useToast } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import EventDonationPicker from './eventDonationPicker'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
@@ -7,12 +7,21 @@ import { useQuery } from 'react-query'
 import { IEventType } from '@/models/Event'
 import httpService from '@/utils/httpService'
 import LoadingAnimation from '../sharedComponent/loading_animation'
+import usePr from '@/hooks/usePr'
+import { useRouter } from 'next/navigation'
+import CustomButton from '../general/Button'
 
-export default function ListDonation({ selectDonation, setSelectDonation, item, setSelectInitialDonation, length }: { setSelectDonation: any, setSelectInitialDonation: any, selectDonation: string, initialDonation: string, item: IEventType, length: any }) {
+export default function ListDonation({ item, length }: { setSelectDonation: any, setSelectInitialDonation: any, selectDonation: string, initialDonation: string, item: IEventType, length: any }) {
 
 
     const search = ""
 
+    const router = useRouter()
+    const [selectDonation, setSelectDonation] = useState("")
+    const [selectDonationInitial, setSelectDonationInitial] = useState("")
+
+    const toast = useToast()
+    const { createPr, tagServiceAndRental, createFundraising, open, setOpen, updateUserEvent, updateEvent } = usePr()
     const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/fund-raiser/user-fund-raisers${search ? `?name=${search}` : ``}`, limit: 20, filter: "id", name: "donationlist", search: search })
 
 
@@ -27,16 +36,45 @@ export default function ListDonation({ selectDonation, setSelectDonation, item, 
         onSuccess: (data: any) => {
             if (data?.data?.length !== 0) {
                 setSelectDonation(data?.data[0]?.fundRaiser?.id + "")
-                setSelectInitialDonation(data?.data[0]?.fundRaiser?.id + "")
+                setSelectDonationInitial(data?.data[0]?.fundRaiser?.id + "")
             }
         }
     })
 
     useEffect(() => {
-        if (results) {
-            length(results?.length)
-        }
+        length(results?.length)
     }, [loadingList])
+
+    const clickHander = () => {
+
+        if (results?.length === 0) {
+            router?.push(`/dashboard/donation/create?event=${item?.id}`)
+        } else if (!selectDonation) {
+            toast({
+                status: "warning",
+                title: "Select a Fundraising",
+                isClosable: true,
+                duration: 5000,
+                position: "top-right",
+            })
+        } else if (selectDonation === selectDonationInitial) {
+            toast({
+                status: "warning",
+                title: "This Fundraising is Pinned",
+                isClosable: true,
+                duration: 5000,
+                position: "top-right",
+            })
+        }  else {
+            if (selectDonation) {
+                createFundraising?.mutate({
+                    fundRaiserID: selectDonation,
+                    eventID: item?.id,
+                    userID: item?.createdBy?.userId
+                })
+            }
+        }
+    }
 
     return (
         <LoadingAnimation loading={loadingList || isLoading} length={results?.length} >
@@ -48,6 +86,9 @@ export default function ListDonation({ selectDonation, setSelectDonation, item, 
                         </Flex>
                     )
                 })}
+            </Flex>
+            <Flex w={"full"} py={"1"} position={"sticky"} bottom={"-4px"} >
+                <CustomButton onClick={clickHander} isLoading={createFundraising?.isLoading} text={"Add"} width={"150px"} height={"40px"} fontSize={"14px"} borderRadius={"999px"} />
             </Flex>
         </LoadingAnimation>
     )
