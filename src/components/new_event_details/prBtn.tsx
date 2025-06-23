@@ -61,7 +61,7 @@ export default function PrBtn({ data, donation, product }: { data: IEventType, d
 
     const submitHandler = () => {
         if (index === 2) {
-            if(lengthProduct === 0) {
+            if (lengthProduct === 0) {
                 router?.push(`/dashboard/kisok/create?event=${data?.id}`)
             } else if (selectProduct?.length > 0) {
                 pinProduct?.mutate({ pinnedItems: selectProduct })
@@ -91,7 +91,7 @@ export default function PrBtn({ data, donation, product }: { data: IEventType, d
                 state: data?.location?.placeIds ? data?.location?.placeIds : "Rivers"
             })
         } else if (index === 1) {
-            if(lengthProduct === 0) {
+            if (lengthProduct === 0) {
                 router?.push(`/dashboard/donation/create?event=${data?.id}`)
             } else if (!selectDonation) {
                 toast({
@@ -293,9 +293,11 @@ export default function PrBtn({ data, donation, product }: { data: IEventType, d
                                 {index === 4 && (
                                     <ListService service={selectService} selectService={setSelectService} />
                                 )}
-                                <Flex w={"full"} py={"1"} bgColor={(index === 1 || index === 2) ? "white" : "white"} position={"sticky"} bottom={"-4px"} >
-                                    <CustomButton onClick={submitHandler} isLoading={pinProduct?.isLoading || createFundraising?.isLoading || tagServiceAndRental?.isLoading} text={index === 2 ? "Add to product" : "Add"} width={"150px"} height={"40px"} fontSize={"14px"} borderRadius={"999px"} />
-                                </Flex>
+                                {index !== 1 && (
+                                    <Flex w={"full"} py={"1"} bgColor={(index === 1 || index === 2) ? "white" : "white"} position={"sticky"} bottom={"-4px"} >
+                                        <CustomButton onClick={submitHandler} isLoading={pinProduct?.isLoading || createFundraising?.isLoading || tagServiceAndRental?.isLoading} text={index === 2 ? "Add to product" : "Add"} width={"150px"} height={"40px"} fontSize={"14px"} borderRadius={"999px"} />
+                                    </Flex>
+                                )}
                             </Flex>
                         </Flex>
                     )}
