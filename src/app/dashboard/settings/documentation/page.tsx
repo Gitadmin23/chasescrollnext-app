@@ -23,9 +23,11 @@ import {
     HStack
 } from "@chakra-ui/react";
 import { FiInfo } from 'react-icons/fi'
-import { Copy } from 'iconsax-react';
+import { Copy, ArrowLeft2 } from 'iconsax-react';
 import React, { useState } from "react";
 import useCustomTheme from "@/hooks/useTheme";
+import { useRouter } from "next/navigation"
+
 
 const TYPES = ["event", "product", "rental", "services", "fundraising"];
 
@@ -41,6 +43,8 @@ export default function DocumentationPage() {
     const toast = useToast();
     const details = useDetails();
     const { primaryColor, mainBackgroundColor } = useCustomTheme();
+    const router = useRouter()
+
 
     React.useEffect(() => {
         setUserId(details?.userId);
@@ -62,6 +66,7 @@ export default function DocumentationPage() {
     return (
         <Container maxW="4xl" py={10} overflowY={'auto'} pb='100px' backgroundColor={mainBackgroundColor}>
             <VStack spacing={8} align="stretch">
+                <ArrowLeft2 size={'30'} onClick={() => router.back()} style={{ marginBottom: '20px', cursor: 'pointer' }} color="black" />
                 <Box>
                     <Heading as="h1" size="xl" mb={2}>
                         Chasescroll Snapshot Guide
@@ -214,7 +219,7 @@ export default function DocumentationPage() {
                                         title: "Snapshot Information",
                                         description: "Copy this code and paste it into your website's HTML to embed your Chasescroll content. You can customize the colors to match your website's theme.",
                                         status: "info",
-                                        duration: 5000,
+                                        duration: 50000,
                                         isClosable: true,
                                         position: "top"
                                     })
