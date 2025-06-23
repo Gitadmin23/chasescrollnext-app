@@ -108,7 +108,7 @@ function Settings(props: Props) {
             },
             {
                 // id: nanoid(),
-                type: "External Setup Documentation",
+                type: "Snapshot Setup Documentation",
                 route: "/documentation",
                 icon: <ProfileCircle color={bodyTextColor} />,
                 action: null as any,
