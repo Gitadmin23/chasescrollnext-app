@@ -77,7 +77,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
 
     return (
         <LoadingAnimation loading={isLoading} length={(myproduct ? results : newResult)?.length} >
-            <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["2", "2", "4"]} >
+            <Grid w={"full"} templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["2", "2", "4"]} >
                 {(myproduct ? results : newResult)?.map((item: IProduct, index: number) => {
                     if ((myproduct ? results : newResult)?.length === index + 1) {
                         return (
