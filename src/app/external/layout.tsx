@@ -13,8 +13,6 @@ function Layout({ children }: {
     const textColor = query?.get('textColor');
     const bgColor = query?.get('bgColor');
 
-    console.log(bgColor);
-
     return (
         <Flex w={"full"} justifyContent={"center"} color={textColor ? textColor?.replace("hex", "#") : "black"} >
             {/* <Flex pos={"fixed"} zIndex={"10"} inset={"0px"} bgColor={bgColor ?? "white"} />  */}
