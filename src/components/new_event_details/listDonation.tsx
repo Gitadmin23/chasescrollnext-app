@@ -11,7 +11,7 @@ import usePr from '@/hooks/usePr'
 import { useRouter } from 'next/navigation'
 import CustomButton from '../general/Button'
 
-export default function ListDonation({ item, length }: { setSelectDonation: any, setSelectInitialDonation: any, selectDonation: string, initialDonation: string, item: IEventType, length: any }) {
+export default function ListDonation({ item, length, setOpen }: { setSelectDonation: any, setSelectInitialDonation: any, selectDonation: string, initialDonation: string, item: IEventType, length: any, setOpen: any}) {
 
 
     const search = ""
@@ -21,7 +21,7 @@ export default function ListDonation({ item, length }: { setSelectDonation: any,
     const [selectDonationInitial, setSelectDonationInitial] = useState("")
 
     const toast = useToast()
-    const { createPr, tagServiceAndRental, createFundraising, open, setOpen, updateUserEvent, updateEvent } = usePr()
+    const { createPr, tagServiceAndRental, createFundraising, updateUserEvent, updateEvent } = usePr()
     const { results, isLoading: loadingList, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({ url: `/fund-raiser/user-fund-raisers${search ? `?name=${search}` : ``}`, limit: 20, filter: "id", name: "donationlist", search: search })
 
 
@@ -72,6 +72,7 @@ export default function ListDonation({ item, length }: { setSelectDonation: any,
                     eventID: item?.id,
                     userID: item?.createdBy?.userId
                 })
+                setOpen(false)
             }
         }
     }

@@ -164,12 +164,12 @@ export default function PrBtn({ data, donation, product }: { data: IEventType, d
             )}
 
             {donation && (
-                <Flex px={"8"} onClick={() => { setOpen(true), setTab(true), setIndex(1) }} as={"button"} justifyContent={"center"} alignItems={"center"} h={"102px"} rounded={"16px"} w={"full"} bgColor={"#FAFAFA"} >
+                <Flex px={"8"} onClick={() => { setOpen(true), setTab(true), setIndex(1) }} as={"button"} justifyContent={"center"} alignItems={"center"} h={"102px"} rounded={"16px"} w={"full"} bgColor={secondaryBackgroundColor} >
                     <Text fontWeight={"500"} fontSize={"14px"} color={primaryColor} >+ Add Fundraising</Text>
                 </Flex>
             )}
             {product && (
-                <Flex px={"8"} onClick={() => { setOpen(true), setTab(true), setIndex(2) }} as={"button"} justifyContent={"center"} alignItems={"center"} h={"219px"} rounded={"16px"} w={"fit-content"} bgColor={"#FAFAFA"} >
+                <Flex px={"8"} onClick={() => { setOpen(true), setTab(true), setIndex(2) }} as={"button"} justifyContent={"center"} alignItems={"center"} h={"219px"} rounded={"16px"} w={"fit-content"} bgColor={secondaryBackgroundColor}  >
                     <Text fontWeight={"500"} fontSize={"14px"} color={primaryColor} >+ Add a product</Text>
                 </Flex>
             )}
@@ -282,10 +282,10 @@ export default function PrBtn({ data, donation, product }: { data: IEventType, d
                             </Flex>
                             <Flex w={"full"} pb={"4"} gap={"4"} bgColor={(index === 1 || index === 2) ? "transparent" : "transparent"} rounded={"16px"} flexDir={"column"} >
                                 {index === 1 && (
-                                    <ListDonation length={setLengthDonation} item={data} setSelectInitialDonation={setSelectDonationInitial} initialDonation={selectDonationInitial} selectDonation={selectDonation} setSelectDonation={setSelectDonation} />
+                                    <ListDonation length={setLengthDonation} setOpen={setOpen} item={data} setSelectInitialDonation={setSelectDonationInitial} initialDonation={selectDonationInitial} selectDonation={selectDonation} setSelectDonation={setSelectDonation} />
                                 )}
                                 {index === 2 && (
-                                    <ListProduct length={setLengthProduct} setOpen={setOpen} selectProduct={selectProduct} setSelectProduct={setSelectProduct} data={data} />
+                                    <ListProduct length={setLengthProduct} setOpen={setOpen} setTab={setTab} selectProduct={selectProduct} setSelectProduct={setSelectProduct} data={data} />
                                 )}
                                 {index === 3 && (
                                     <ListRental item={data} rental={selectRental} updateRental={setSelectRental} />
