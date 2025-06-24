@@ -81,10 +81,12 @@ export default function DocumentationPage() {
                     <FormLabel>User ID</FormLabel>
                     <Box display="flex" gap={2}>
                         <InputGroup>
-                            <InputRightElement children={<Copy size={"35px"} color={primaryColor} onClick={() => {
-                                copyUserId();
-                                showToast("User ID copied!");
-                            }} />} paddingTop={'10px'} paddingRight={'20px'} />
+                            <InputRightElement paddingTop={'10px'} paddingRight={'20px'} >
+                                <Copy size={"35px"} color={primaryColor} onClick={() => {
+                                    copyUserId();
+                                    showToast("User ID copied!");
+                                }} />
+                            </InputRightElement>
                             <Input
                                 value={userId}
                                 // onChange={(e) => setUserId(e.target.value)}
