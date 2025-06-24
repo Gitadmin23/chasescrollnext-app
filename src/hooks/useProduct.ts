@@ -8,7 +8,7 @@ import useProductStore from "@/global-state/useCreateProduct";
 import usePaystackStore from "@/global-state/usePaystack";
 import { IProduct } from "@/models/product";
 import { AxiosError, AxiosResponse } from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 export interface IPinned {
     pinnedItemType: "EVENT",
@@ -17,7 +17,7 @@ export interface IPinned {
 }
 
 const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: boolean) => {
-
+    
     const [openRental, setOpenRental] = useState(false)
     const [openProduct, setOpenProduct] = useState(false)
     const [open, setOpen] = useState(false)

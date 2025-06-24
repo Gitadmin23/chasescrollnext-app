@@ -106,6 +106,13 @@ function Settings(props: Props) {
                 icon: <RequestEnhancementIcon color={bodyTextColor} />,
                 action: () => setShowEnhancement(true),
             },
+            // {
+            //     // id: nanoid(),
+            //     type: "Snapshot Setup Documentation",
+            //     route: "/documentation",
+            //     icon: <ProfileCircle color={bodyTextColor} />,
+            //     action: null as any,
+            // },
             {
                 // id: nanoid(),
                 type: "Blocked Users",
@@ -166,8 +173,8 @@ function Settings(props: Props) {
                                     {item?.type}
                                 </Flex>
                             }
-                            {item?.type === "Account Settings" && ( 
-                                <Flex gap={"4"} display={["flex", "flex", "flex", "none"]}  width='100%' height='70px' alignItems={'center'}>
+                            {item?.type === "Account Settings" && (
+                                <Flex gap={"4"} display={["flex", "flex", "flex", "none"]} width='100%' height='70px' alignItems={'center'}>
                                     <CustomText color={bodyTextColor} fontFamily={'DM-Bold'}>{'Dark Mode'}</CustomText>
                                     <Switch isChecked={colorMode === 'dark'} size={'md'} onChange={() => toggleColorMode()} />
                                 </Flex>
