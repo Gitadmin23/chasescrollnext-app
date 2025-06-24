@@ -1,10 +1,11 @@
 "use client" 
 import DonationItemList from "@/components/donation/donationItemList";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 
 export default function ExternalFundraising () {
     return(
-        <Flex w={"full"} justifyContent={"start"} alignItems={"start"} p={"6"} > 
+        <Flex w={"full"} justifyContent={"start"} flexDir={"column"} gap={"6"} alignItems={"start"} p={"6"} >
+            <Text fontSize={"20px"} fontWeight={"600"} >Fundraising</Text>
             <DonationItemList />
         </Flex>
     )

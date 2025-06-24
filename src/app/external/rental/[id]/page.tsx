@@ -1,10 +1,11 @@
 "use client"
 import GetRental from "@/components/kisok/getRental";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 
 export default function ExternalRental() {
     return(
-        <Flex w={"full"} flexDirection={"column"} justifyContent={"start"} alignItems={"start"} p={"6"} > 
+        <Flex w={"full"} justifyContent={"start"} flexDir={"column"} gap={"6"} alignItems={"start"} p={"6"} >
+            <Text fontSize={"20px"} fontWeight={"600"} >Rental</Text>
             <GetRental myrental={true} />
         </Flex>
     )
