@@ -106,13 +106,13 @@ function Settings(props: Props) {
                 icon: <RequestEnhancementIcon color={bodyTextColor} />,
                 action: () => setShowEnhancement(true),
             },
-            {
-                // id: nanoid(),
-                type: "Snapshot Setup Documentation",
-                route: "/documentation",
-                icon: <ProfileCircle color={bodyTextColor} />,
-                action: null as any,
-            },
+            // {
+            //     // id: nanoid(),
+            //     type: "Snapshot Setup Documentation",
+            //     route: "/documentation",
+            //     icon: <ProfileCircle color={bodyTextColor} />,
+            //     action: null as any,
+            // },
             {
                 // id: nanoid(),
                 type: "Blocked Users",
